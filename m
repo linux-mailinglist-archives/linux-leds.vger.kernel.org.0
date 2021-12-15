@@ -2,178 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68EFD476300
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C43B4476333
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:26:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232684AbhLOUSE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Dec 2021 15:18:04 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:44876 "EHLO
+        id S234302AbhLOU0X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Dec 2021 15:26:23 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:45734 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235425AbhLOUSE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Dec 2021 15:18:04 -0500
+        with ESMTP id S231725AbhLOU0V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Dec 2021 15:26:21 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1873F1C0B98; Wed, 15 Dec 2021 21:18:02 +0100 (CET)
-Date:   Wed, 15 Dec 2021 21:18:00 +0100
+        id 9CF231C0B9C; Wed, 15 Dec 2021 21:26:20 +0100 (CET)
+Date:   Wed, 15 Dec 2021 21:26:16 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v5 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Message-ID: <20211215201800.GA28336@duo.ucw.cz>
-References: <20211213120502.20661-1-henning.schild@siemens.com>
- <20211213120502.20661-3-henning.schild@siemens.com>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH V2 2/2] leds: bcm63xxx: add support for BCM63138
+ controller
+Message-ID: <20211215202616.GB28336@duo.ucw.cz>
+References: <20211124111952.22419-1-zajec5@gmail.com>
+ <20211124111952.22419-2-zajec5@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+        protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
 Content-Disposition: inline
-In-Reply-To: <20211213120502.20661-3-henning.schild@siemens.com>
+In-Reply-To: <20211124111952.22419-2-zajec5@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---+HP7ph2BbKc20aGI
+--0ntfKIWw70PvrIHh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2021-12-13 13:05:00, Henning Schild wrote:
-> This driver adds initial support for several devices from Siemens. It is
-> based on a platform driver introduced in an earlier commit.
+Hi!
+
+> It's a new controller first introduced in BCM63138 SoC. Later it was
+> also used in BCM4908, some BCM68xx and some BCM63xxx SoCs.
 >=20
-> One of the supported machines has GPIO connected LEDs, here we poke GPIO
-> memory directly because pinctrl does not come up.
->=20
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index ed800f5da7d8..3bde795f0951 100644
+> --- a/drivers/leds/Kconfig
 
-> index c636ec069612..1a719caf14c0 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -105,3 +105,6 @@ obj-$(CONFIG_LEDS_TRIGGERS)		+=3D trigger/
-> =20
->  # LED Blink
->  obj-y					+=3D blink/
-> +
-> +# Simple LED drivers
-> +obj-y					+=3D simple/
-> diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
-> new file mode 100644
-> index 000000000000..9f6a68336659
+Lets put it into drivers/leds/blink/, please.
+
 > --- /dev/null
-> +++ b/drivers/leds/simple/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config LEDS_SIEMENS_SIMATIC_IPC
-> +	tristate "LED driver for Siemens Simatic IPCs"
-> +	depends on LEDS_CLASS
-> +	depends on SIEMENS_SIMATIC_IPC
-> +	help
-> +	  This option enables support for the LEDs of several Industrial PCs
-> +	  from Siemens.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-leds.
-> diff --git a/drivers/leds/simple/Makefile b/drivers/leds/simple/Makefile
-> new file mode 100644
-> index 000000000000..8481f1e9e360
-> --- /dev/null
-> +++ b/drivers/leds/simple/Makefile
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)	+=3D simatic-ipc-leds.o
-> diff --git a/drivers/leds/simple/simatic-ipc-leds.c b/drivers/leds/simple=
-/simatic-ipc-leds.c
-> new file mode 100644
-> index 000000000000..ff2c96e73241
-> --- /dev/null
-> +++ b/drivers/leds/simple/simatic-ipc-leds.c
-> @@ -0,0 +1,202 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Siemens SIMATIC IPC driver for LEDs
-> + *
-> + * Copyright (c) Siemens AG, 2018-2021
-> + *
-> + * Authors:
-> + *  Henning Schild <henning.schild@siemens.com>
-> + *  Jan Kiszka <jan.kiszka@siemens.com>
-> + *  Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-> + */
-> +
-> +#include <linux/ioport.h>
-> +#include <linux/kernel.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_data/x86/simatic-ipc-base.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/sizes.h>
-> +#include <linux/spinlock.h>
-> +
-> +#define SIMATIC_IPC_LED_PORT_BASE	0x404E
-> +
-> +struct simatic_ipc_led {
-> +	unsigned int value; /* mask for io and offset for mem */
-> +	char *name;
-> +	struct led_classdev cdev;
-> +};
-> +
-> +static struct simatic_ipc_led simatic_ipc_leds_io[] =3D {
-> +	{1 << 15, "green:" LED_FUNCTION_STATUS "-1" },
-> +	{1 << 7,  "yellow:" LED_FUNCTION_STATUS "-1" },
-> +	{1 << 14, "red:" LED_FUNCTION_STATUS "-2" },
-> +	{1 << 6,  "yellow:" LED_FUNCTION_STATUS "-2" },
-> +	{1 << 13, "red:" LED_FUNCTION_STATUS "-3" },
-> +	{1 << 5,  "yellow:" LED_FUNCTION_STATUS "-3" },
-> +	{ }
-> +};
-> +
-> +/* the actual start will be discovered with PCI, 0 is a placeholder */
-> +struct resource simatic_ipc_led_mem_res =3D DEFINE_RES_MEM_NAMED(0, SZ_4=
-K, KBUILD_MODNAME);
-> +
-> +static void *simatic_ipc_led_memory;
-> +
-> +static struct simatic_ipc_led simatic_ipc_leds_mem[] =3D {
-> +	{0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
-> +	{0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS "-1"},
-> +	{0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS "-2"},
-> +	{0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS "-2"},
-> +	{0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS "-3"},
-> +	{0x500 + 0x198, "green:" LED_FUNCTION_STATUS "-3"},
-> +	{ }
-> +};
+> +++ b/drivers/leds/leds-bcm63138.c
+> @@ -0,0 +1,314 @@
 
-Would it be possible to get some better naming for leds? status-1 to
-status-3 is not quite useful.
+> +#define BCM63138_LED_BITS				4				/* how many bits control a single LED =
+*/
+> +#define BCM63138_LED_MASK				((1 << BCM63138_LED_BITS) - 1)	/* 0xf */
+> +#define BCM63138_LEDS_PER_REG				(32 / BCM63138_LED_BITS)	/* 8 */
 
-Best regards,
+I'm not sure these kinds of defines are useful.
+
+> +static void bcm63138_leds_create_led(struct bcm63138_leds *leds,
+> +				     struct device_node *np)
+> +{
+> +	struct led_init_data init_data =3D {
+> +		.fwnode =3D of_fwnode_handle(np),
+> +	};
+> +	struct device *dev =3D leds->dev;
+> +	struct bcm63138_led *led;
+> +	struct pinctrl *pinctrl;
+> +	const char *state;
+> +	u32 bit;
+> +	int err;
+> +
+> +	led =3D devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+> +	if (!led)
+> +		return;
+
+At least warn. User wants to know why his leds don't work.
+
+> +	if (!of_property_read_string(np, "default-state", &state)) {
+> +		if (!strcmp(state, "on"))
+> +			led->cdev.brightness =3D LED_FULL;
+> +		else
+> +			led->cdev.brightness =3D LED_OFF;
+> +	} else {
+> +		led->cdev.brightness =3D LED_OFF;
+> +	}
+
+Do you actually need default-state support? Just remove it if not.
+
+You support 4 bit brightness. You should set max_brightness to
+15. LED_FULL is mistake (or very old API) in your case.
+
+Otherwise looks quite sane.
+
+Thank you,
 								Pavel
 --=20
 http://www.livejournal.com/~pavelmachek
 
---+HP7ph2BbKc20aGI
+--0ntfKIWw70PvrIHh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYbpNeAAKCRAw5/Bqldv6
-8uoeAJ4sl3uW+00Q8GOt0tXn49BH4Z1o1wCgvOZQDi8nnAbyEUDsGST+vgva3F4=
-=0S8D
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYbpPaAAKCRAw5/Bqldv6
+8lP/AJ9Jxxu+ZcyW5A4NYHjHu7LAr6i7+wCeM0c6oBeyXVqpGlTNwhykMcCJozM=
+=XETW
 -----END PGP SIGNATURE-----
 
---+HP7ph2BbKc20aGI--
+--0ntfKIWw70PvrIHh--
