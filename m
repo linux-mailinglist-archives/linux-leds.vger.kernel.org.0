@@ -2,85 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1380477083
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Dec 2021 12:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D52C54770F5
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Dec 2021 12:45:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232272AbhLPLmU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233195AbhLPLmS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Dec 2021 06:42:18 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4391CC0617A1
-        for <linux-leds@vger.kernel.org>; Thu, 16 Dec 2021 03:42:17 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id t6so23039573qkg.1
-        for <linux-leds@vger.kernel.org>; Thu, 16 Dec 2021 03:42:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=RYToo8NyNPhlgiHYmZ1ikup312GHYFKKh+SoiQn5DFM08VhX1fCTukNf+Ub7gXZH+R
-         Fdt5I+ZO38LiZ7aX4HrBDtCguvWjGt4+jG/EN+k0G3h02B6emUjwzPzxnL4uWQz6AWTD
-         WqO7wKZcX2hj88TEq1skHq9q03JmZTMsDYFAuzRyTE65aq8YfmTLKW6klN/Aemrjl5Su
-         VOqZm/oCKsPxxvibvSdyBq0qcyBC7yt8asycNVxLymhtuzVbvkdkv8HRw/7WHA5ZhBTe
-         lfMRM7TjowGzvp5BFYZjQfF4jcwfD0Oa7xMNuJL1tGpMndUewyeeM3+DNYanGu61M7GC
-         kNpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=rplY/N7Atws4vg8/B7nsbazXDe+ISva83SJ0+L855M9b/H9HYf9O24yC58mxvUwjEi
-         QdhLVZTnkhwwTOKBkhmF+ObxHJezo3LOeUtbR3kFZUP+t3gT59vDwH9lMMS8R9i/KFuq
-         o37FlsPqb5rT48Kenza2iuKDr9jQJdZceKOEQTC/Lp12fPYEFzAns6uKzsN0omg414I3
-         +xBc2DLiYFv/QAn1cWB3tjQwFxy+Ne0oUhV6AyGdDU7qeajXNbKr8q92osRymlj8aiz/
-         4Avb/jfZ3eQRY/La6pytJ1501y+kKhld1NgP3R3wNYhQjcjMczoYD0Q+atv3wf/gSq67
-         Ns7A==
-X-Gm-Message-State: AOAM530CyHMvbTKfa58vethA+70Cjvx1APyEn6+l/eUXRjLOOSug26Ih
-        Pba5yx+OvlsgP8yCpm2B8sT8gNIYZwaGO7YodFA=
-X-Google-Smtp-Source: ABdhPJxYJ2zBl8EMgF/vH/Si0uACMgpOTf1urUCOAwYb4fXYvwfKJa3PKYFOZBbaDpp9AFOjwJ3sIeVfeVjNcnbyBfg=
-X-Received: by 2002:a05:620a:bc3:: with SMTP id s3mr11727889qki.197.1639654936129;
- Thu, 16 Dec 2021 03:42:16 -0800 (PST)
+        id S232694AbhLPLps (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Dec 2021 06:45:48 -0500
+Received: from mail.wizzup.org ([95.217.97.174]:44530 "EHLO wizzup.org"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231623AbhLPLpr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 16 Dec 2021 06:45:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org;
+        s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+        Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=c0bx/p+6QRyhZntkIlFfi8MtGT/DE6geLRBYvsOnYgA=; b=F9dimIzE4ZmSZ4XsLth4Jd3Hc3
+        cNQSXLdNVvUSCDeHYY4fRwEV4Vn/IGDhYqEGTE4f41fT9f8hSaREVQyq+Ace9fMyJ+3jyd1Zkd+og
+        TQNIoWRg9bG/qsrwBidATIeEma+ajVjWwOrwX3ewzAgrfAnKHhApTfvklAhnHyWuhzgctdCUyimm3
+        jLtbeBWuS46Zwt8YNKHlJznh/blg/PJFopBDqJJgJO47YyYTp1x/w9CJYTD8V5PmVs286uv1K75bS
+        lD3nmcZqagXqTLIkXNiTGlBo3RW0MX9qoGNvpU5J0fKvW+lQ3p12RqD+z2jobnk8OalJ01odk2OXM
+        vQmm8gsg==;
+Received: from [45.83.235.159] (helo=[0.0.0.0])
+        by wizzup.org with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <merlijn@wizzup.org>)
+        id 1mxpCf-0004Nj-MZ; Thu, 16 Dec 2021 11:45:41 +0000
+Subject: Re: [PATCH 0/2] Fix RGB status LED and keyboard backlight LEDs on
+ Nokia N900
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Dev Null <devnull@uvos.xyz>, Tony Lindgren <tony@atomide.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-omap@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        devicetree@vger.kernel.org, Doug Zobel <dougdev334@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>
+References: <20211212224007.10293-1-merlijn@wizzup.org>
+ <20211215203259.GF28336@duo.ucw.cz>
+From:   Merlijn Wajer <merlijn@wizzup.org>
+Message-ID: <fb433210-e0e7-908c-eb0d-e4e58691368a@wizzup.org>
+Date:   Thu, 16 Dec 2021 12:51:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:15
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:15 +0000
-Message-ID: <CAONDhKPUij_8sWOmcDAVKuHSL7avy+Ti7bOVRu6x__3ouvD7kw@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211215203259.GF28336@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
--- 
-Urgent
+Hi Pavel,
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
+On 15/12/2021 21:32, Pavel Machek wrote:
+> Hi!
+> 
+>> The RGB status LED and keyboard backlight LEDs were broken on the Nokia N900
+>> since the conversion to gpiod descriptors and additionally later on with the
+>> addition of multi color support. There was at least one attempt merged to fix
+>> the lp5523 driver since the gpiod conversion, but it doesn't honour the device
+>> tree, which in the case of the Nokia N900 means that the fix doesn't work.
+>>
+>> In this series are two patches fix the problems:
+>>
+>> * One addresses the gpiod change in the device tree as well as the multi
+>>   color support in the device tree;
+>> * The other patch fixes the previous attempt at fixing the driver to honour
+>>   the device tree;
+>>
+>> Please let me know if anything seems off, and I'll be glad to make any
+>> recommended changes, thanks!
+> 
+> Thank you, I took the series. But if it changes the names in
+> /sys/class/leds, we want to do something else.
 
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
+Thanks -- just for the record (I already replied to the other email) -
+the names do not change based on my testing.
 
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
-
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
-
-Remain blessed.
-Mrs Selvia Santiago.
+Regards,
+Merlijn
