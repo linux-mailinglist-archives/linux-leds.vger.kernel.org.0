@@ -2,69 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4C3B4790F4
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Dec 2021 17:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6B147926A
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Dec 2021 18:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238024AbhLQQGs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Dec 2021 11:06:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38312 "EHLO
+        id S239129AbhLQRHU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Dec 2021 12:07:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237584AbhLQQGs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Dec 2021 11:06:48 -0500
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57029C06173E
-        for <linux-leds@vger.kernel.org>; Fri, 17 Dec 2021 08:06:48 -0800 (PST)
-Received: by mail-io1-xd44.google.com with SMTP id x6so3530954iol.13
-        for <linux-leds@vger.kernel.org>; Fri, 17 Dec 2021 08:06:48 -0800 (PST)
+        with ESMTP id S239636AbhLQRHT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Dec 2021 12:07:19 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A77C061574;
+        Fri, 17 Dec 2021 09:07:19 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id bg2-20020a05600c3c8200b0034565c2be15so4543844wmb.0;
+        Fri, 17 Dec 2021 09:07:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=U+wvXPwvhucTVlxnfZp7fdTxV1dqI6RrlYLlpej7n+A=;
-        b=YUNyl6X1aOuNX0Zbv5o0SSJroo2f7qXWhGWhymmXexL8bFmeCHewg7/nbSEn3kGaCp
-         Yon0xvhF/EpQv1UH0R+YxczwOCH1+8GDnrtroJvu3Y2w2mbLAKf92Uu4IAoaMAeaVLeS
-         SxsnUxhj8R4S3m4M6+XYsZZeEQnLesRVOUB+IV/PgYYToEuJ/T25xS586YHoOzmauq94
-         Hw3z+fs9z4hfRC2JmjJM7NknDu1YwsS4X3yuo7TnWpCCuFbFCO6tJhwThr9PR+Fvx6La
-         /wnSswEeASWp2HeZTq41dInej/PH7y0QEVZQUyZqkjhnC51VamLvQjZVgKeH7jIpMmk1
-         rNPg==
+        bh=rj5IyEdB5LfycbzI0ZIjHtZ0iD/3vI9d8AkqKZ9gT38=;
+        b=adHyDt0K5r7da7gXAlO/cl46F93q8YB11ACsGn9ohSPiTWVmEGrZpe0QikzYVTH78z
+         aiJDKCfXGbsebmia2ilp44/EOrdOcVWqUfzZHxwaalhR8nLduf9pLfYkaVS3PkuYqAb4
+         oRZp8ZyUN9uYyyoXvzOC/Utcs6+1U1zwUplvNZ3kKIq7JcFhAMwhs4ybfLAd9V6WGQe6
+         XRRjscRRLnTA+VfxmhwD6p9o2BxVthAR9D6R9/Uq87/Zf/hL4dD7+/00wXk18SPZRGys
+         3KCrSGtBCsf/+wOcRwywCcVwr97gT8p/zrGNvfHgQT/E7MNNgwJZuhFntOp9fKMYhtbN
+         xJ2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=U+wvXPwvhucTVlxnfZp7fdTxV1dqI6RrlYLlpej7n+A=;
-        b=LQzDFeoUDfggWRVmz/2NqsDzDRpGwt6KczK+5UP7zxEF937mFbaAa1OOlYt6xe9sAj
-         NcLJL0+h0Wevie8/hD8fwu3JGrEkERwXqeeRynqp8KNeCFT0YRN2GfkkjGLAYACU9Do6
-         ez5lakA3H8F6Lf7giSUv8/TEz6bupe4OvC9I1dZNtYRSLJOjxWJ3bMTwipuBUe/O2oBR
-         sifvkF1KFeLU/N8/+/r2R37xOayacMdPFK58BMIkLQqc3CVDV1UnbTbBtnNNNyz2z63a
-         7dkVEsNcHovtLhQyp1x11nggBIcG3XE7QLH+/dxrboVnMD7HrpZBtAmBn67opMwD547w
-         z6Rg==
-X-Gm-Message-State: AOAM530cDZn2sBo6ltKN7Ke+9JSlRpggHVh926B+vCZ2f0t3VCCPzvOs
-        NuE3V6vAPEl57cYGEEjweFvAf7sPhf0u46kml4k=
-X-Google-Smtp-Source: ABdhPJwC2IjTLvVz1uHzGQnUbIInTQPb0xl8fiqsDI0S0ktdEOwbBVR0EWxAEzMHFUxd/w2kVL0WFA6l63VUM0bpwFc=
-X-Received: by 2002:a5e:c645:: with SMTP id s5mr1966693ioo.154.1639757207899;
- Fri, 17 Dec 2021 08:06:47 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rj5IyEdB5LfycbzI0ZIjHtZ0iD/3vI9d8AkqKZ9gT38=;
+        b=KbYE1QxjI/mir7ZWjJhbPRYq4VMNnoR1zuSAKYor0i7+CGr4EDFewl6pRan4sXbUHZ
+         T1pQUqyFC2G1/fcnG9q+s016K6zDi3PWJS38PT/DvUyr/1PNqt9NvTChFe/1GvTDGIng
+         8+W0yMCuxyFFMuaTqKTb0+X4GSoc+FVodpIEwosBBa7shI1Mj3WwewirGdaI2x/d1IG/
+         DvrJZ9NXcxsmeKqZDOS5FJhaRP2pcX7fWM1QCuKgXBeN2yfM8GJDSUWA1buRcq1GVbMX
+         Jz0XlgU+9foIzHGURmIL5+FcGSah7aF/TMZmM3GDXtzryoK/DLA5ZH+n4ZwNG1yw2rI3
+         6F0Q==
+X-Gm-Message-State: AOAM5331FKf+9OEnHhc5mmvtt1ArDxFGpSDE+gF9wATo5idd1FmZV3Xh
+        wbPb+/e3zpmNXy6gXndv1Xo=
+X-Google-Smtp-Source: ABdhPJwmvDx62eDbmIAfL5AeTax+2/vdjtBv/diBvtkgm60FDAly3+dkMrD9dNIXOBOkgVaXBkjQbg==
+X-Received: by 2002:a1c:8015:: with SMTP id b21mr10219610wmd.161.1639760837868;
+        Fri, 17 Dec 2021 09:07:17 -0800 (PST)
+Received: from localhost ([193.209.96.43])
+        by smtp.gmail.com with ESMTPSA id l8sm11940149wmc.40.2021.12.17.09.07.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 09:07:16 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Milo Kim <milo.kim@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: leds: Document rfkill* trigger
+Date:   Fri, 17 Dec 2021 18:07:14 +0100
+Message-Id: <20211217170715.2893923-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a5e:c915:0:0:0:0:0 with HTTP; Fri, 17 Dec 2021 08:06:47
- -0800 (PST)
-Reply-To: mauhin13@gmail.com
-From:   Maureen Hinckley <josephinmnyinge70@gmail.com>
-Date:   Fri, 17 Dec 2021 19:06:47 +0300
-Message-ID: <CAEH2Oo=6bnNwbVkjrKBG99wik6g3ZX8sjiT43mYL-pSy7uQZhg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---=20
-Hello,
+From: Thierry Reding <treding@nvidia.com>
 
-I am Maureen Hinckley and my foundation is donating ($2.2 Million.
-Dollars) to you. Contact us via my email at (mauhin13@gmail.com) for
-further details.
+LEDs can use rfkill events as a trigger source, so document these in the
+device tree bindings.
 
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92021 The Maureen Hinckley Foundation All Rights Reserved.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ .../devicetree/bindings/leds/common.yaml        | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index 697102707703..f686907b4907 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -79,24 +79,25 @@ properties:
+       the LED.
+     $ref: /schemas/types.yaml#/definitions/string
+ 
+-    enum:
++    oneOf:
+         # LED will act as a back-light, controlled by the framebuffer system
+-      - backlight
++      - const: backlight
+         # LED will turn on (but for leds-gpio see "default-state" property in
+         # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
+-      - default-on
++      - const: default-on
+         # LED "double" flashes at a load average based rate
+-      - heartbeat
++      - const: heartbeat
+         # LED indicates disk activity
+-      - disk-activity
++      - const: disk-activity
+         # LED indicates IDE disk activity (deprecated), in new implementations
+         # use "disk-activity"
+-      - ide-disk
++      - const: ide-disk
+         # LED flashes at a fixed, configurable rate
+-      - timer
++      - const: timer
+         # LED alters the brightness for the specified duration with one software
+         # timer (requires "led-pattern" property)
+-      - pattern
++      - const: pattern
++      - pattern: "^rfkill[0-9]+$"
+ 
+   led-pattern:
+     description: |
+-- 
+2.34.1
+
