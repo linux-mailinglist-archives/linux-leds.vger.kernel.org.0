@@ -2,69 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A68347D715
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Dec 2021 19:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9DB547E009
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Dec 2021 08:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344859AbhLVSo0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Dec 2021 13:44:26 -0500
-Received: from mail-qk1-f172.google.com ([209.85.222.172]:39668 "EHLO
-        mail-qk1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344858AbhLVSo0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Dec 2021 13:44:26 -0500
-Received: by mail-qk1-f172.google.com with SMTP id 69so3207009qkd.6;
-        Wed, 22 Dec 2021 10:44:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bPspzDuKNB8kofhblEkihV/6ql1mbXnTcOAH4jQ9jqI=;
-        b=FIaCc253WwVsTede94TDF0o24xDW2xtq0ObdfZqkyI+y5QKPlmUgRLHOF31GebHDy5
-         RyyYXPZKVSlNNbSEnkOk0LDwZXNGcYa0/HBLh3Ty/3OEG58GL6m7llJW8isUIveyrhzC
-         LhwETay2GoNXLP0Fk7K8wLD1ZPQsNNnH7hPHKLqGRdTE7aeo19dDW7mEs1QUfzfR3NFG
-         EGTfDRkdA2ft3kEdl9itbEVMb0HbN7F+YD7g42XyIitIq2y+1bG4ys5YoLD8uv0eiSbI
-         QwJBk8dsDXkjqx25DuOyRAOAn71cAsh1bZKsbcK2LgwHSwfdiMyBqXsN7gnF3nFkJloP
-         AQJQ==
-X-Gm-Message-State: AOAM530Vx36dgeQOHPzOFrYMijdP8u/i7nDTke9aOAQvIxuqGWt+MD14
-        B/p5J97mIJLjeGv46HWW5A==
-X-Google-Smtp-Source: ABdhPJzCgS2+9IVk5Tx2uZxt53icJClclYr41+KWs+1MFAWFGah5SuHKlzKkJ0a41MUO3c67G6RZaA==
-X-Received: by 2002:ae9:e649:: with SMTP id x9mr2922653qkl.204.1640198665215;
-        Wed, 22 Dec 2021 10:44:25 -0800 (PST)
-Received: from robh.at.kernel.org ([24.55.105.145])
-        by smtp.gmail.com with ESMTPSA id j13sm2217950qtr.21.2021.12.22.10.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Dec 2021 10:44:24 -0800 (PST)
-Received: (nullmailer pid 2490160 invoked by uid 1000);
-        Wed, 22 Dec 2021 18:44:23 -0000
-Date:   Wed, 22 Dec 2021 14:44:23 -0400
-From:   Rob Herring <robh@kernel.org>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt: bindings: KTD20xx: Introduce the ktd20xx
- family of RGB drivers
-Message-ID: <YcNyBxamNnPqSAt2@robh.at.kernel.org>
-References: <20211221134052.22387-1-fe@dev.tdt.de>
- <20211221134052.22387-3-fe@dev.tdt.de>
+        id S241040AbhLWH4u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Dec 2021 02:56:50 -0500
+Received: from mail.BETTERBIZ.PL ([45.86.209.138]:58380 "EHLO
+        mail.betterbiz.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239426AbhLWH4t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Dec 2021 02:56:49 -0500
+X-Greylist: delayed 398 seconds by postgrey-1.27 at vger.kernel.org; Thu, 23 Dec 2021 02:56:49 EST
+Received: by mail.betterbiz.pl (Postfix, from userid 1001)
+        id A606A8313D; Thu, 23 Dec 2021 02:45:42 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=betterbiz.pl; s=mail;
+        t=1640245811; bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
+        h=Date:From:To:Subject:From;
+        b=01IuA2jMLjTvVj8p1kHbo5IrpkqN5m2Fd4zBexRGbcsIfzao1Z9bqXiTn2jNRzXmT
+         LqR+Iu3kXlIZvwa9LveZf6Cp1cj73BTPO0mMWFxwkts3dJTQiOLBzBhZl2M7QV8x21
+         8IIUshZEz/bhzBJw56iEyboJiBxif2+XAqQRVgiEivQpwy1JXnreymX54d98T7Q8Wn
+         b62lUkUHC/abe60g67vMux9Fr8BpPX7HdbLpcnST/NjISmRbC3lQEmBcT1coyPRcl3
+         wyxHYhFE5ODCsKhomLg8ZWfI9uuz5aOz6evX2cAgfyi+TTKdwOzGKyXJctiGk4Hxir
+         vMIT/nb2yJEEg==
+Received: by mail.betterbiz.pl for <linux-leds@vger.kernel.org>; Thu, 23 Dec 2021 07:45:38 GMT
+Message-ID: <20211223024500-0.1.f.z6r.0.dozvb3lik0@betterbiz.pl>
+Date:   Thu, 23 Dec 2021 07:45:38 GMT
+From:   "Jakub Daroch" <jakub.daroch@betterbiz.pl>
+To:     <linux-leds@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.betterbiz.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211221134052.22387-3-fe@dev.tdt.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 21 Dec 2021 14:40:52 +0100, Florian Eckert wrote:
-> Introduce the bindings for the Kinetic KTD2061/58/59/60RGB LED device
-> driver. The KTD20xx can control RGB LEDs individually. Because of the
-> hardware limitations, only 7 colors and the color black (off) can be set.
-> 
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> ---
->  .../bindings/leds/leds-ktd20xx.yaml           | 130 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 131 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-ktd20xx.yaml
-> 
+Dzie=C5=84 dobry,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
+
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Jakub Daroch
