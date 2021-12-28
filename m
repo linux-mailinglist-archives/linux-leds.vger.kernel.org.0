@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D9AD480B67
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Dec 2021 17:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 809A2480B6C
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Dec 2021 17:39:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236052AbhL1Qjj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Dec 2021 11:39:39 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:49220
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236044AbhL1Qji (ORCPT
+        id S236320AbhL1Qjq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Dec 2021 11:39:46 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:39436
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236058AbhL1Qjl (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 28 Dec 2021 11:39:38 -0500
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com [209.85.208.197])
+        Tue, 28 Dec 2021 11:39:41 -0500
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com [209.85.208.199])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 988973FFDF
-        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 16:39:36 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C8C47402F0
+        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 16:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1640709576;
-        bh=Ky4Nsy7oalY16bNXsSxGbr4iSjVK2d1F92X5y/VROW8=;
+        s=20210705; t=1640709578;
+        bh=EJX+nrdFXv7J+QKJuyadx2drHvWDPpSnJQUjha4GC/A=;
         h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
          MIME-Version;
-        b=GO365K0Ens3Tp9dyB8AXv3os/1eP9l0LI16MdQ9IK9rJ68xYhK9emV60PTBlj+kMT
-         sOxz4R45Vndfx+hNw+khUjXJxBbBVBBQay/NoNBn/IrGwNzqr9cj6QsJ3qpGpj+b54
-         Tqh3F1WzBMEgM7SDxwSnqm1+b/VHyhpxsk3Q8QvNNPl/SgHvcJSJVL25cfv6O3sJqV
-         2/ygY+pxJHSwqzs8Xy362bl9pYfbGHnQLESKjBMPcQclYb9irSW3z4BMrM9vj3JX/A
-         3+tOWKZ1Q87oww0p3U0cRTJCImbxQoU3IuNWJou39tGpdCgTZarJBX8qdZtptBtZhx
-         /FiVIeRHJkXqw==
-Received: by mail-lj1-f197.google.com with SMTP id u9-20020a05651c140900b0022dd165d92bso2658161lje.4
-        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 08:39:36 -0800 (PST)
+        b=Yji2pqcAupDcO/qqsgJcj2cZB1uybNB4qkIGHtdg6wbzp3flqwLVxY/UskiPmlZGP
+         mvtuLHKMeJLm4r7n90PJjBdpLqE7nRJ5/z8Uavt9rQTu6AuiKD7oMLyj/39ypFI1Yc
+         vWOenQRiDaewrcu6nXDya5TnRBs0zLl6JEuEq/+h0DiZKbDg1YvcSgXqyYV/9itSsq
+         GagSIYeXA/StrBaPRcNlhkBiAUbAvEkJTEaeVuKd8fB2gZzEYZP2z64jegaEhjZTEo
+         MZNHlzFMP6F9Y7xDbmwRI1lhEKyy/D8+YXXMoXdIicqblLuS7wAtsVmQrmqic8IZOj
+         P8mguwYDtN1Ag==
+Received: by mail-lj1-f199.google.com with SMTP id b20-20020a2e9894000000b0022dc5a5f841so3198939ljj.2
+        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 08:39:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ky4Nsy7oalY16bNXsSxGbr4iSjVK2d1F92X5y/VROW8=;
-        b=A5TtVm1MGsMosKUZDw146ZbJhKwkLEOt9Ymz3v00H4T58IUoppBwKpRVP6M9St//tz
-         JpNsxuxDbjUXyxIi7WBoGhqCdxQeCBc9ggiRTo+TfGgGyuvhYCGAxSrticGzOKBRXh/u
-         dRV8X7TSbolePbNp09Dvi6khhdCFgBxzLzvPPpdOglx4QuvTpmRj7D8yd/+6x5tCPJom
-         6jwrGbaeb787E8X4qHUAdqU3EjEugX30MIGai8eZ5FhMywciZ8kV+DxaUO8zmJsRQlbo
-         YOVgwfpJ2eSP3IZjaivXNWHetbzhG66UOsFirEzSjYIyhibreklftlDXgi+/vU6tVfFF
-         boTg==
-X-Gm-Message-State: AOAM533hKxccY3hN36leNBHqNbZd6JAFHvu3pbFV5tUa/6HmxYlC63Fc
-        KH9cDuQDFY9l166VekwaddjybktQn4IQpJbbxVZnS5RbuvTRXkinB6W6U14ENQBEMS0jwEHu1Nm
-        CoqykVdQUdbqJcapcq0f8tUdsyrw0RRd6rzkBANk=
-X-Received: by 2002:ac2:4e06:: with SMTP id e6mr19280521lfr.295.1640709575934;
-        Tue, 28 Dec 2021 08:39:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwn49giUa0jb5mjyDBDwC6FHVyt0eQwfiCTQgcQWOInXEW1g5gUzmTg54LYWNpL3GkXApDSFw==
-X-Received: by 2002:ac2:4e06:: with SMTP id e6mr19280485lfr.295.1640709575622;
-        Tue, 28 Dec 2021 08:39:35 -0800 (PST)
+        bh=EJX+nrdFXv7J+QKJuyadx2drHvWDPpSnJQUjha4GC/A=;
+        b=TRcL5ZSGkTqPACsT9wrV//jthbR6zbUa9Dna64n3uOlsXXNEj187tyWP+j9e/0qBQ8
+         wyC/tGn4bWPHTCAwRJxVYctkYPVyZNNbh0nVCo9vTEZMKkWM+On2thAUrZV4HaVruPbA
+         2dxWuO5D+4Jsb6cCxkA+GAt1QPlwe84ZWAI0pUXw6cbs+GJAecERr0qpvmyM0rfMvQnL
+         s1phAQHoVwG8L+57xqu6PhPwRbVZeGKPrK2rxqri+tkugFf5WkCI58AMoZERUKCbC99h
+         nzMuKqkUtlW/Ps6TL7XXwUHGM+Ld0rTqPabn4B5Kn3uzKxGkAx6HGfwk/w4M3wzTGRWg
+         boiA==
+X-Gm-Message-State: AOAM5300U8FmSRiizQaWunRhO+qcpD38oCizkn7EbSBeGTppv+gBb5U2
+        /yS9akp8no2xMnUHvj4hwXhM4+7ew7fA+FND2rqdlMshySa2xnGBw0oCtmR30kZO/7gQzLBz/P8
+        V9kmRAeFIb2VGbVM3+C87ysg3nwWAhAMXDedrJTs=
+X-Received: by 2002:a19:4902:: with SMTP id w2mr20199201lfa.271.1640709577608;
+        Tue, 28 Dec 2021 08:39:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJweglUZNFtDlgKoiaHZUAwkBYFEEXwL9sd2cRj+Y0X/bHe4wR/+2KyUY5tBkfn2JJPeHN3MCw==
+X-Received: by 2002:a19:4902:: with SMTP id w2mr20199185lfa.271.1640709577400;
+        Tue, 28 Dec 2021 08:39:37 -0800 (PST)
 Received: from krzk-bin.lan (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
-        by smtp.gmail.com with ESMTPSA id d3sm1972876lfs.204.2021.12.28.08.39.34
+        by smtp.gmail.com with ESMTPSA id d3sm1972876lfs.204.2021.12.28.08.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 08:39:34 -0800 (PST)
+        Tue, 28 Dec 2021 08:39:36 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To:     Chanwoo Choi <cw00.choi@samsung.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
@@ -65,9 +65,9 @@ To:     Chanwoo Choi <cw00.choi@samsung.com>,
         Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: [PATCH 1/4] dt-bindings: leds: maxim,max77693: convert to dtschema
-Date:   Tue, 28 Dec 2021 17:39:27 +0100
-Message-Id: <20211228163930.35524-2-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 2/4] dt-bindings: power: supply: maxim,max77693: convert to dtschema
+Date:   Tue, 28 Dec 2021 17:39:28 +0100
+Message-Id: <20211228163930.35524-3-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211228163930.35524-1-krzysztof.kozlowski@canonical.com>
 References: <20211228163930.35524-1-krzysztof.kozlowski@canonical.com>
@@ -77,28 +77,29 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the LEDs bindings of Maxim MAX77693 MUIC to DT schema format.
+Convert the Charger bindings of Maxim MAX77693 MUIC to DT schema format.
 The existing bindings were defined in ../bindings/mfd/max77693.txt.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/leds/maxim,max77693.yaml         | 105 ++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/maxim,max77693.yaml
+ .../bindings/power/supply/maxim,max77693.yaml | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml
 
-diff --git a/Documentation/devicetree/bindings/leds/maxim,max77693.yaml b/Documentation/devicetree/bindings/leds/maxim,max77693.yaml
+diff --git a/Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml b/Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml
 new file mode 100644
-index 000000000000..86a0005cf156
+index 000000000000..a21dc1a8890f
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/maxim,max77693.yaml
-@@ -0,0 +1,105 @@
++++ b/Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml
+@@ -0,0 +1,70 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/leds/maxim,max77693.yaml#
++$id: http://devicetree.org/schemas/power/supply/maxim,max77693.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Maxim MAX77693 MicroUSB and Companion Power Management IC LEDs
++title: Maxim MAX77693 MicroUSB and Companion Power Management IC Charger
 +
 +maintainers:
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
@@ -107,96 +108,73 @@ index 000000000000..86a0005cf156
 +  This is a part of device tree bindings for Maxim MAX77693 MicroUSB Integrated
 +  Circuit (MUIC).
 +
-+  There are two LED outputs available - FLED1 and FLED2. Each of them can
-+  control a separate LED or they can be connected together to double the
-+  maximum current for a single connected LED. One LED is represented by one
-+  child node.
-+
 +  See also Documentation/devicetree/bindings/mfd/maxim,max77693.yaml for
 +  additional information and example.
 +
 +properties:
 +  compatible:
-+    const: maxim,max77693-led
++    const: maxim,max77693-charger
 +
-+  maxim,boost-mode:
-+    description:
-+      In boost mode the device can produce up to 1.2A of total current on both
-+      outputs. The maximum current on each output is reduced to 625mA then. If
-+      not enabled explicitly, boost setting defaults to LEDS_BOOST_FIXED in
-+      case both current sources are used.
-+      See LEDS_BOOST_* in include/dt-bindings/leds/common.h.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2]
-+
-+  maxim,boost-mvout:
++  maxim,constant-microvolt:
 +    description: |
-+      Output voltage of the boost module in millivolts.
-+      Valid values: 3300 - 5500, step by 25 (rounded down)
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 3300
-+    maximum: 5500
-+    default: 3300
++      Battery constant voltage in uV. The charger will operate in fast
++      charge constant current mode till battery voltage reaches this level.
++      Then the charger will switch to fast charge constant voltage mode.
++      Also vsys (system voltage) will be set to this value when DC power is
++      supplied but charger is not enabled.
++      Valid values: 3650000 - 4400000, step by 25000 (rounded down)
++    minimum: 3650000
++    maximum: 4400000
++    default: 4200000
 +
-+  maxim,mvsys-min:
++  maxim,min-system-microvolt:
 +    description: |
-+      Low input voltage level in millivolts. Flash is not fired if chip
-+      estimates that system voltage could drop below this level due to flash
-+      power consumption.
-+      Valid values: 2400 - 3400, step by 33 (rounded down)
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 2400
-+    maximum: 3400
-+    default: 2400
++      Minimal system voltage in uV.
++    enum: [3000000, 3100000, 3200000, 3300000, 3400000, 3500000,
++           3600000, 3700000]
++    default: 3600000
 +
-+patternProperties:
-+  "^([a-z]+-)?led[01]?$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
++  maxim,thermal-regulation-celsius:
++    description: |
++      Temperature in Celsius for entering high temperature charging mode.
++      If die temperature exceeds this value the charging current will be
++      reduced by 105 mA/Celsius.
++    enum: [70, 85, 100, 115]
++    default: 100
 +
-+    properties:
-+      led-sources:
-+        allOf:
-+          - minItems: 1
-+            maxItems: 2
-+            items:
-+              minimum: 0
-+              maximum: 1
++  maxim,battery-overcurrent-microamp:
++    description: |
++      Overcurrent protection threshold in uA (current from battery to
++      system).
++      Valid values: 2000000 - 3500000, step by 250000 (rounded down)
++    minimum: 2000000
++    maximum: 3500000
++    default: 3500000
 +
-+      led-max-microamp:
-+        description: |
-+          Valid values for a LED connected to one FLED output:
-+            15625 - 250000, step by 15625 (rounded down)
-+          Valid values for a LED connected to both FLED outputs:
-+            15625 - 500000, step by 15625 (rounded down)
-+
-+      flash-max-microamp:
-+        description: |
-+          Valid values for a single LED connected to one FLED output
-+          (boost mode must be turned off):
-+            15625 - 1000000, step by 15625 (rounded down)
-+          Valid values for a single LED connected to both FLED outputs:
-+            15625 - 1250000, step by 15625 (rounded down)
-+          Valid values for two LEDs case:
-+            15625 - 625000, step by 15625 (rounded down)
-+
-+      flash-max-timeout-us:
-+        description: |
-+          Valid values: 62500 - 1000000, step by 62500 (rounded down)
-+        minimum: 62500
-+        maximum: 1000000
-+
-+    required:
-+      - flash-max-microamp
-+      - flash-max-timeout-us
-+      - led-max-microamp
-+      - led-sources
++  maxim,charge-input-threshold-microvolt:
++    description: |
++      Threshold voltage in uV for triggering input voltage regulation loop.
++      If input voltage decreases below this value, the input current will
++      be reduced to reach the threshold voltage.
++    enum: [4300000, 4700000, 4800000, 4900000]
++    default: 4300000
 +
 +required:
 +  - compatible
 +
 +additionalProperties: false
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b5e4f14f6768..ead08768fb78 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11681,6 +11681,7 @@ M:	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+ M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+ L:	linux-pm@vger.kernel.org
+ S:	Supported
++F:	Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml
+ F:	drivers/power/supply/max14577_charger.c
+ F:	drivers/power/supply/max77693_charger.c
+ 
 -- 
 2.32.0
 
