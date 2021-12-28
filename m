@@ -2,120 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 340004801CB
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Dec 2021 17:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56186480B60
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Dec 2021 17:39:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbhL0QoK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Dec 2021 11:44:10 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54312 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229942AbhL0QoE (ORCPT
+        id S236069AbhL1Qjh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Dec 2021 11:39:37 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:49164
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236040AbhL1Qjh (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 27 Dec 2021 11:44:04 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BRDkFnx013529;
-        Mon, 27 Dec 2021 16:43:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=+ONxYUqDmTWydsEHYwzVI4KXukfxvKFkZCrlI1qaNqk=;
- b=lkPqfRl3TsOECqzgLSqawROZL79oeNF2MwNN918qvgp1nMhpJnmcYZHaQ2TWAXEOhW+S
- bcoF86QjgxB4Ok2ugCyr7+qZ9OFf2DlzR2QzREb0rY7mEhCXFgGfDCYrlfh7zq3V13j6
- lZNvgRLE6lhHR3lXpJPPf7/cQQzgL/BlufsW8hbP25R8+AheHKoHvA13lhIduwU7OldB
- FOBLkqYItEV8A5hWvsJ6T7tw/U/tjCUlrhsWv+3T7N5qgUQB/5G/ul05zTYSrvhF0JSC
- PG0CiwZU8hrliREtIpCDpzyj4Gw0JC/fYMFkUO+BPA6dOifPnW6koZnxdpKehT7upR+4 kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3d7e5d3j6e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Dec 2021 16:43:43 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BRGZErt024316;
-        Mon, 27 Dec 2021 16:43:42 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3d7e5d3j5x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Dec 2021 16:43:42 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BRGbvLU008359;
-        Mon, 27 Dec 2021 16:43:40 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04ams.nl.ibm.com with ESMTP id 3d5txakf8w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Dec 2021 16:43:40 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1BRGhcnb39125338
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Dec 2021 16:43:38 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 44606A405B;
-        Mon, 27 Dec 2021 16:43:38 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B5399A4054;
-        Mon, 27 Dec 2021 16:43:37 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 27 Dec 2021 16:43:37 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        John Garry <john.garry@huawei.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-csky@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [RFC 14/32] leds: Kconfig: add HAS_IOPORT dependencies
-Date:   Mon, 27 Dec 2021 17:42:59 +0100
-Message-Id: <20211227164317.4146918-15-schnelle@linux.ibm.com>
+        Tue, 28 Dec 2021 11:39:37 -0500
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com [209.85.208.199])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 515A03FFD0
+        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 16:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1640709575;
+        bh=HGuU3G/CmacYFKUeANclkwpOH3maXtk12cKoz5IJaT0=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version;
+        b=oxxN6eSWF7AXk4UAgg/175iDP8hmfpEDN1ZnkOItg3GnAAV8mg/Y7D7sOPyrjzRcC
+         6m2XhJuKSYgwRwLLWIf+JbP4BVs/31EIC9Cn1ut+1WkTN6RrtLdfnnASUGcl1omKmN
+         HDGk97b8wIj0V5RoFUY0kipcX61vKZjCnvNU5EAdxH8ErPQxZAX1dB2BZuHK74W18i
+         w3+YVLp9WgODqPwAdS3pemiG25UpeceDqBDmJl2uJ4JkhJhXVwUXaDCuw5yQFB1+FJ
+         4daaf9eTSGy0o9bZd/+fNE+sa+2quqmfuBpMXqbhFphcInc06uPdnUOeKGQr5v2Lwf
+         dfeOkC/jDeElQ==
+Received: by mail-lj1-f199.google.com with SMTP id bd7-20020a05651c168700b0022d71e1839bso6211311ljb.9
+        for <linux-leds@vger.kernel.org>; Tue, 28 Dec 2021 08:39:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HGuU3G/CmacYFKUeANclkwpOH3maXtk12cKoz5IJaT0=;
+        b=0xEs0WkpK5akZCrSQPGgtrrcvGBddly3eX/ePqRSJQyk0Vw6dKJSXiv874tfoQHYa9
+         cy/G01QQvbRQNbXMvkj7jhgqa4HB36+NuYFiSwjvSMDhWcS8idmxfGDhm+WpZQlYttLg
+         DjeDtMRMu/c+min30CURSaUaUTaUKGz5FBTFp3JaN7cFlEXJaM+I3pLXN7EwJ/H3fG9Z
+         J8RHnp25HuVGy3fELJwEvck5lYPPDryhGtd9TcXMQyCXlY2EoHbx4Bjm2UnoNRSAzWIq
+         b4F6/QFV3IK5hr3U6I/GIVQbI5IXEv4sGMO7M6RsVqU/l2WGykzG8E8atUONc4ipYrSS
+         me4g==
+X-Gm-Message-State: AOAM531a6gvxwxmdSwq5Fxo1Qg2WJnlij8ZqbZrTILur6uYS0yfx66wp
+        DKJIGhIP1bm8eDx3oLe8ivAVxLEEENwBCNnCYTCyxzOua0a0kAL5P3XbJL7nLNnyG8552Qg4wsV
+        MZIz15hPlj9vtCZYph//yeFuZD6Up/yeID+/+MxE=
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr12168952ljk.22.1640709574631;
+        Tue, 28 Dec 2021 08:39:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz2R4OjcmDuYU5dFgZyIsJA+br3TJLYbRM0hsPoVHlotH5EqETNcXzL7aQK6WUoOnCtKUrTgQ==
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr12168917ljk.22.1640709574002;
+        Tue, 28 Dec 2021 08:39:34 -0800 (PST)
+Received: from krzk-bin.lan (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
+        by smtp.gmail.com with ESMTPSA id d3sm1972876lfs.204.2021.12.28.08.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Dec 2021 08:39:33 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH 0/4] leds/power/regulator/mfd: dt-bindings: maxim,max77693: convert to dtschema
+Date:   Tue, 28 Dec 2021 17:39:26 +0100
+Message-Id: <20211228163930.35524-1-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211227164317.4146918-1-schnelle@linux.ibm.com>
-References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nyjUhbLqn5eUmw6TWBmvjleK-W6eViSE
-X-Proofpoint-GUID: uQ8p3HfgVpEydi2hNkuJH2oNIBEAcCn_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-27_08,2021-12-24_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 impostorscore=0 mlxscore=0 phishscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=997 bulkscore=0 spamscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112270080
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+Hi,
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/leds/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The final patch - MFD maxim,max77693 bindings conversion - depends on
+all previous. Therefore this could go via Rob's or Lee's trees.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index ed800f5da7d8..7d670fc40865 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -688,7 +688,7 @@ config LEDS_LM355x
- 
- config LEDS_OT200
- 	tristate "LED support for the Bachmann OT200"
--	depends on LEDS_CLASS && HAS_IOMEM && (X86_32 || COMPILE_TEST)
-+	depends on LEDS_CLASS && HAS_IOPORT && (X86_32 || COMPILE_TEST)
- 	help
- 	  This option enables support for the LEDs on the Bachmann OT200.
- 	  Say Y to enable LEDs on the Bachmann OT200.
+Best regards,
+Krzysztof
+
+Krzysztof Kozlowski (4):
+  dt-bindings: leds: maxim,max77693: convert to dtschema
+  dt-bindings: power: supply: maxim,max77693: convert to dtschema
+  regulator: dt-bindings: maxim,max77693: convert to dtschema
+  dt-bindings: mfd: maxim,max77693: convert to dtschema
+
+ .../bindings/leds/maxim,max77693.yaml         | 105 ++++++++++
+ .../devicetree/bindings/mfd/max77693.txt      | 194 ------------------
+ .../bindings/mfd/maxim,max77693.yaml          | 139 +++++++++++++
+ .../bindings/power/supply/maxim,max77693.yaml |  70 +++++++
+ .../bindings/regulator/maxim,max77693.yaml    |  49 +++++
+ MAINTAINERS                                   |   3 +-
+ 6 files changed, 365 insertions(+), 195 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/maxim,max77693.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/max77693.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/maxim,max77693.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/maxim,max77693.yaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+
 -- 
 2.32.0
 
