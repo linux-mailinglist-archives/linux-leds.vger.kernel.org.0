@@ -2,245 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 128C8480D98
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Dec 2021 23:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F66E48158A
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Dec 2021 18:04:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231802AbhL1WHb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Dec 2021 17:07:31 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:57778 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230144AbhL1WHa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Dec 2021 17:07:30 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 5B10C1C0B77; Tue, 28 Dec 2021 23:07:28 +0100 (CET)
-Date:   Tue, 28 Dec 2021 23:07:28 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Alexandre Courbot <gnurou@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2] leds: add NCT6795D driver
-Message-ID: <20211228220727.GA17003@duo.ucw.cz>
-References: <20211212054706.80343-1-gnurou@gmail.com>
+        id S237628AbhL2REc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Dec 2021 12:04:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240913AbhL2REb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Dec 2021 12:04:31 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71B0FC061401
+        for <linux-leds@vger.kernel.org>; Wed, 29 Dec 2021 09:04:31 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id l5so53872115edj.13
+        for <linux-leds@vger.kernel.org>; Wed, 29 Dec 2021 09:04:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ieMbS+0D70pohooVgVjI3yQAHsrI5Yv9aY0un0BvWo=;
+        b=xhe6pIARJ6nLxgaxAop08bsGSZx7Kd1UHcvKv5ZPM0idYz9aF0B/bEfVlj/jBvPEtv
+         EL+qyUCy17ZT5uW1wjT7/JjXHAAC22rkvHyo8Q2cuyrY5hEzFKU2LMuuPt/bEIBXMBcZ
+         tsfJiiDsS97+WiMnMJrXiLSA/kDkYo4uhIiyzdEA4TAXXm+x7BPiFOBCbj5/VlAqsAvE
+         2Mltoe9ZvCTgvetpz3GsLVq+0zFxvjuXZA2zLJaeFXQ4D/LPhmRyDvt4ZbQ8WqyNT3Lo
+         IxkocrOxDq6U1n3AjNJu8e61H14NFTitTuJYG3isHVjxir78T+h2tld3qMIe4PnoIXv3
+         MtWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ieMbS+0D70pohooVgVjI3yQAHsrI5Yv9aY0un0BvWo=;
+        b=fg6gb57szLj2+uCDM7dHbFJ8rcXEz/WZL4JduSj5+ypezHP0QwSLn+O8EuSOO5R7Qf
+         0HOHd6bI39KQ9vmsjQ1FoO7YKotx4dz37Twnf5fStFtvxnzyasfckvWwnVWBAq+EtFv1
+         gbZ33cLf2KVtkbQWKMSQKu50KPdqVJWylcQoyP23YlCCF5U4+012jTmHR4Yln5UZFhSU
+         +bhWIJ0JMTi+RZLSUcAPSchrvV3+h38LjV3VKJRd2fMine4zQeTOuVU3jjHHT0Y+m0GF
+         FjFsDuUatbAz07fQtL877uPVb9rglspxGu23KLB7zYSHowFcQUy9VE0h7UeVDX4Dk+Ut
+         pU5A==
+X-Gm-Message-State: AOAM533jfb86nSYKTZQqpmKAms8X/8Vo0KZuR5qwQHZvnaMsOgXWH/tu
+        mXYThIvc8Wo9myGV1yUdyoi3PA==
+X-Google-Smtp-Source: ABdhPJxEun8C2Rz5QYSsXiRo78geOqzPnu/l72Y9HBWwUVyyAPVjgqYpYhJYTw9hG0hiFAmsYo+q8Q==
+X-Received: by 2002:aa7:c5ca:: with SMTP id h10mr25978582eds.401.1640797469905;
+        Wed, 29 Dec 2021 09:04:29 -0800 (PST)
+Received: from localhost.localdomain ([2a02:a210:20c5:8c80:7d0a:cd68:c339:f426])
+        by smtp.gmail.com with ESMTPSA id w11sm8546153edv.65.2021.12.29.09.04.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Dec 2021 09:04:29 -0800 (PST)
+From:   Luca Weiss <luca.weiss@fairphone.com>
+To:     linux-arm-msm@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Kiran Gunda <kgunda@codeaurora.org>,
+        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH 0/4] Enable display backlight on Fairphone 4
+Date:   Wed, 29 Dec 2021 18:03:54 +0100
+Message-Id: <20211229170358.2457006-1-luca.weiss@fairphone.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
-Content-Disposition: inline
-In-Reply-To: <20211212054706.80343-1-gnurou@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Add and enable PM6150L wled which is used for controlling the display
+backlight on Fairphone 4.
 
---lrZ03NoBR/3+SXJZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series depends on the recent wled series by Marijn Suijten,
+currently applied in the for-backlight-next branch of
+kernel/git/lee/backlight.git (or linux-next).
 
-Hi!
+Luca Weiss (4):
+  dt-bindings: backlight: qcom-wled: Add PM6150L compatible
+  backlight: qcom-wled: Add PM6150L compatible
+  arm64: dts: qcom: pm6150l: Add wled node
+  arm64: dts: qcom: sm7225-fairphone-fp4: Configure WLED
 
-> Add support for the LED feature of the NCT6795D chip found on some
-> motherboards, notably MSI ones. The LEDs are typically used using a
-> RGB connector so this driver takes advantage of the multicolor
-> framework.
+ .../devicetree/bindings/leds/backlight/qcom-wled.yaml  |  1 +
+ arch/arm64/boot/dts/qcom/pm6150l.dtsi                  | 10 ++++++++++
+ arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts      |  9 +++++++++
+ drivers/video/backlight/qcom-wled.c                    |  1 +
+ 4 files changed, 21 insertions(+)
 
-Ok.
+-- 
+2.34.1
 
-> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
-> ---
-> Changes since v1 [1]:
-> - Use the multicolor framework
->=20
-> [1] https://lkml.org/lkml/2020/7/13/674 (sorry, took me some time to
->     come back to this patch)
->=20
->  drivers/leds/Kconfig         |  10 +
->  drivers/leds/Makefile        |   1 +
->  drivers/leds/leds-nct6795d.c | 442 +++++++++++++++++++++++++++++++++++
->  3 files changed, 453 insertions(+)
->  create mode 100644 drivers/leds/leds-nct6795d.c
->=20
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index ed800f5da7d8..0db5986ca967 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -871,6 +871,16 @@ config LEDS_ACER_A500
->  	  This option enables support for the Power Button LED of
->  	  Acer Iconia Tab A500.
-
-Can we put it into drivers/leds/multi/? Lets group multicolor stuff there.
-
-> +config LEDS_NCT6795D
-> +	tristate "LED support for NCT6795D chipsets"
-> +	depends on LEDS_CLASS_MULTICOLOR
-> +	help
-> +	  Enables support for the RGB LED feature of the NCT6795D chips found
-> +	  on some MSI motherboards.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-nct6795d.
-
-=2Eko?
-
-> diff --git a/drivers/leds/leds-nct6795d.c b/drivers/leds/leds-nct6795d.c
-> new file mode 100644
-> index 000000000000..90d5d2a67cfa
-> --- /dev/null
-> +++ b/drivers/leds/leds-nct6795d.c
-> @@ -0,0 +1,442 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * NCT6795D/NCT6797D LED driver
-> + *
-> + * Copyright (c) 2021 Alexandre Courbot <gnurou@gmail.com>
-> + *
-> + * Driver to control the RGB interfaces found on some MSI motherboards.
-> + * This is for the most part a port of the MSI-RGB user-space program
-> + * by Simonas Kazlauskas (https://github.com/nagisa/msi-rgb.git) to the =
-Linux
-> + * kernel LED interface.
-> + *
-> + * It is more limited than the original program due to limitations in th=
-e LED
-> + * interface. For now, only static colors are supported.
-
-Ok. We do have pattern trigger and hardware-accelerated blinking, if
-it helps. But that may be a lot of fun with multicolor.
-
-> +static inline int superio_enter(int ioreg)
-> +{
-> +	if (!request_muxed_region(ioreg, 2, "NCT6795D LED"))
-> +		return -EBUSY;
-> +
-> +	outb(0x87, ioreg);
-> +	outb(0x87, ioreg);
-> +
-> +	return 0;
-> +}
-> +
-> +static inline void superio_exit(int ioreg)
-> +{
-> +	outb(0xaa, ioreg);
-> +	outb(0x02, ioreg);
-> +	outb(0x02, ioreg + 1);
-> +	release_region(ioreg, 2);
-> +}
-
-Are these two too big for inline?
-
-> +static u8 init_vals[NUM_COLORS];
-> +module_param_named(r, init_vals[RED], byte, 0);
-> +MODULE_PARM_DESC(r, "Initial red intensity (default 0)");
-> +module_param_named(g, init_vals[GREEN], byte, 0);
-> +MODULE_PARM_DESC(g, "Initial green intensity (default 0)");
-> +module_param_named(b, init_vals[BLUE], byte, 0);
-> +MODULE_PARM_DESC(b, "Initial blue intensity (default 0)");
-
-Lets... not add parameters for this.
-
-> +/*
-> + * Return the detected chip or an error code. If no chip was detected, -=
-ENXIO
-> + * is returned.
-> + */
-> +static enum nct679x_chip nct6795d_led_detect(u16 base_port)
-> +{
-
-"enum" return type is confusing here, as you also return errors.
-
-> +	val =3D superio_inb(led->base_port, 0x2c);
-> +	if ((val & 0x10) !=3D 0x10)
-> +		superio_outb(led->base_port, 0x2c, val | 0x10);
-> +
-> +	superio_select(led->base_port, NCT6795D_RGB_BANK);
-> +
-> +	/* Check if RGB control enabled */
-> +	val =3D superio_inb(led->base_port, 0xe0);
-> +	if ((val & 0xe0) !=3D 0xe0)
-> +		superio_outb(led->base_port, 0xe0, val | 0xe0);
-
-I'd simply do outbs unconditionally...
-
-> +/*
-> + * Commit all colors to the hardware.
-> + */
-> +static int nct6795d_led_commit(const struct nct6795d_led *led)
-> +{
-> +	const struct mc_subled *subled =3D led->subled;
-> +	int ret;
-> +
-> +	dev_dbg(led->dev, "setting values: R=3D%d G=3D%d B=3D%d\n",
-> +		subled[RED].brightness, subled[GREEN].brightness,
-> +		subled[BLUE].brightness);
-> +
-> +	ret =3D superio_enter(led->base_port);
-> +	if (ret)
-> +		return ret;
-
-Are you sure you want to do superio_enter() each time LED values are
-updated? That sounds... expensive, wrong. You have
-request_muxed_region() call in there.
-
-> +static int __init nct6795d_led_init(void)
-> +{
-> +	static const u16 io_bases[] =3D { 0x4e, 0x2e };
-> +	struct resource io_res =3D {
-> +		.name =3D "io_base",
-> +		.flags =3D IORESOURCE_REG,
-> +	};
-> +	enum nct679x_chip detected_chip;
-> +	int ret;
-> +	int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(io_bases); i++) {
-> +		detected_chip =3D nct6795d_led_detect(io_bases[i]);
-> +		if (detected_chip >=3D 0)
-> +			break;
-> +	}
-
-Are you sure this won't cause problems somewhere? Could compatible
-mainboards be detected using DMI or something like that?
-
-
-> +	if (i =3D=3D ARRAY_SIZE(io_bases)) {
-> +		pr_err(KBUILD_MODNAME ": no supported chip detected\n");
-> +		return -ENXIO;
-> +	}
-
-I don't think ENXIO is normally used like this. -ENODEV? You have this
-elsewhere, too.
-
-> +
-> +	pr_info(KBUILD_MODNAME ": found %s chip at address 0x%x\n",
-> +		chip_names[detected_chip], io_bases[i]);
-> +
-> +	ret =3D platform_driver_register(&nct6795d_led_driver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	nct6795d_led_pdev =3D
-> +		platform_device_alloc(NCT6795D_DEVICE_NAME "_led", 0);
-> +	if (!nct6795d_led_pdev) {
-> +		ret =3D -ENOMEM;
-> +		goto error_pdev_alloc;
-> +	}
-
-Are you sure you are using platform devices in reasonable way? You
-probe, first, then register. That's highly unusual.
-
-Best regards,
-								Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---lrZ03NoBR/3+SXJZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYcuKnwAKCRAw5/Bqldv6
-8mXfAJ9aFEPpX76mJwzVQM6FN8IzJkaQOQCbBAGS5JiF7Jl6XaQvOSekf4sLpko=
-=0J7T
------END PGP SIGNATURE-----
-
---lrZ03NoBR/3+SXJZ--
