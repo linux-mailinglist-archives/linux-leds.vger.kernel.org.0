@@ -2,104 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF5ED484442
-	for <lists+linux-leds@lfdr.de>; Tue,  4 Jan 2022 16:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B79648448A
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Jan 2022 16:29:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234664AbiADPJo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 4 Jan 2022 10:09:44 -0500
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:41933 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232106AbiADPJo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jan 2022 10:09:44 -0500
-Received: by mail-ot1-f44.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so6757395otl.8;
-        Tue, 04 Jan 2022 07:09:43 -0800 (PST)
+        id S234806AbiADP3p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 4 Jan 2022 10:29:45 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:33346 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229957AbiADP3o (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jan 2022 10:29:44 -0500
+Received: by mail-ot1-f53.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso47791576otf.0;
+        Tue, 04 Jan 2022 07:29:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=3fNpTZaUUWS8pNu7Z1i39rMhdF3vva9BPhlRLzG5t3U=;
-        b=M88rwpFApHyVIx+aq26NR3wL+6ZOdojnDeEeq4JwK64YbC9/4XICQNqtBhp0QAoUKZ
-         kDIyRi/ZCXFLaBf3hiX0dBd4zzXKf4ZRjUwtWvbDDixcM3kCJYmf1sXWfxW0hqza36cW
-         Gf9PjkZe2+K0gq33jA6AShr8H7qS8LBOusYXfNu1/0pF1FdCk5TGW6qVj4mQjuH5xZWz
-         rxuc7cEZYbQg8mXivsppaPbkQTT6A7GTxYiQbxQ5hkf9545pOaO2XQyNWdq3wfWmsEl9
-         ySfC7yUxjUA8fxspxfPJM/OGzxsW5de0+uLwYDuIDl9fOVAbmUZKdN20uVxBtH+nUk4C
-         cmEg==
-X-Gm-Message-State: AOAM530AC/odDxz7TqOPEsVePpdzE3sNcwBzXDmfyP9tlUv/sYGrSzU+
-        k1QzP6S1YJF7HlphgsPrNg==
-X-Google-Smtp-Source: ABdhPJxXjg4g63hJgQsj67dfIJjSpRy5lUSjbL2UcU2zKSTRR4cRKv47dMOhfrj6TDa5dpCSeI05/w==
-X-Received: by 2002:a05:6830:4d6:: with SMTP id s22mr36640079otd.270.1641308983233;
-        Tue, 04 Jan 2022 07:09:43 -0800 (PST)
+        bh=xWoBmQ/Xq0c3l218W4If/18Ogxhx6vVmLTRO9/MBVEk=;
+        b=L/PLA48iCsM8zlcRJD+1cdugU7oIoGLkfCbF30P4Yp2V/G9FAn1jE3tMUBEvq0qtob
+         k9fM6aZLnx2RdOr5p8ziK6MJ81BSfzOnpJWX9SL0+mMcTgcymhBO1tJk6cN16Etwryus
+         fnbr9dBdZTc+g3jBSVD1OlMljhp6U1yJk4zbGX97WbYL2mX0ASpPYQi8QpBEbRGStb2V
+         eemfZwkO6Xq+rbT/WKwNDM01iKnw1pAdwEC957gyl2qaVVfGNui6+k0vzamuCZ+tk5Ho
+         I+9SOjDo2De61m2oOWEH+02VZEQS5KQtA13H5CZYrVQxYzmwGcY7uGvFaNemrP6QZntm
+         sE+w==
+X-Gm-Message-State: AOAM533zOAGDUOLM7LkRfiRhz4cOtpKtuZhi+LamgQJpI+6xJQVKGbUJ
+        XfCmRSEgQXjk9JP1LLcqJw==
+X-Google-Smtp-Source: ABdhPJys1YUFCxDtCeyfPt60STEmiPO3oYdgxBYsW9u1PDFxyC2a9WwVQUeMgPmRD4v/QTwGTyyrMg==
+X-Received: by 2002:a9d:6e0a:: with SMTP id e10mr33368896otr.323.1641310183378;
+        Tue, 04 Jan 2022 07:29:43 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id q5sm9981694oiv.2.2022.01.04.07.09.42
+        by smtp.gmail.com with ESMTPSA id n18sm7900663ooj.30.2022.01.04.07.29.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 07:09:42 -0800 (PST)
-Received: (nullmailer pid 840400 invoked by uid 1000);
-        Tue, 04 Jan 2022 15:09:41 -0000
-Date:   Tue, 4 Jan 2022 09:09:41 -0600
+        Tue, 04 Jan 2022 07:29:42 -0800 (PST)
+Received: (nullmailer pid 872552 invoked by uid 1000);
+        Tue, 04 Jan 2022 15:29:41 -0000
+Date:   Tue, 4 Jan 2022 09:29:41 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Lee Jones <lee.jones@linaro.org>,
+Cc:     Chanwoo Choi <cw00.choi@samsung.com>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: leds: maxim,max77693: convert to
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH 3/4] regulator: dt-bindings: maxim,max77693: convert to
  dtschema
-Message-ID: <YdRjNUMht6HjVM7s@robh.at.kernel.org>
+Message-ID: <YdRn5cvksYXK4icV@robh.at.kernel.org>
 References: <20211228163930.35524-1-krzysztof.kozlowski@canonical.com>
- <20211228163930.35524-2-krzysztof.kozlowski@canonical.com>
- <1640799296.482933.824019.nullmailer@robh.at.kernel.org>
- <bedc4126-7536-a7f9-b833-d06f383ec15d@canonical.com>
+ <20211228163930.35524-4-krzysztof.kozlowski@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bedc4126-7536-a7f9-b833-d06f383ec15d@canonical.com>
+In-Reply-To: <20211228163930.35524-4-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Dec 30, 2021 at 11:53:37AM +0100, Krzysztof Kozlowski wrote:
-> On 29/12/2021 18:34, Rob Herring wrote:
-> > On Tue, 28 Dec 2021 17:39:27 +0100, Krzysztof Kozlowski wrote:
-> >> Convert the LEDs bindings of Maxim MAX77693 MUIC to DT schema format.
-> >> The existing bindings were defined in ../bindings/mfd/max77693.txt.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> >> ---
-> >>  .../bindings/leds/maxim,max77693.yaml         | 105 ++++++++++++++++++
-> >>  1 file changed, 105 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/leds/maxim,max77693.yaml
-> >>
-> > 
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/common.example.dt.yaml: led-controller@0: 'reg' does not match any of the regexes: '^([a-z]+-)?led[01]?$', 'pinctrl-[0-9]+'
-> > 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/maxim,max77693.yaml
-> > 
-> > doc reference errors (make refcheckdocs):
-> > Documentation/devicetree/bindings/leds/maxim,max77693.yaml: Documentation/devicetree/bindings/mfd/maxim,max77693.yaml
-> > 
-> > See https://patchwork.ozlabs.org/patch/1573762
-> > 
-> > This check can fail if there are any dependencies. The base for a patch
-> > series is generally the most recent rc1.
-> > 
+On Tue, Dec 28, 2021 at 05:39:29PM +0100, Krzysztof Kozlowski wrote:
+> Convert the regulator bindings of Maxim MAX77693 MUIC to DT schema format.
+> The existing bindings were defined in ../bindings/mfd/max77693.txt.
 > 
-> I updated my yamllint and dtschema, run with DT_CHECKER_FLAGS=-m but
-> still cannot reproduce it. Probably because I based on linux-next, so
-> maybe this was a fixed issue in leds/common.yaml.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  .../bindings/regulator/maxim,max77693.yaml    | 49 +++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml b/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+> new file mode 100644
+> index 000000000000..81242c8cd77c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/maxim,max77693.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim MAX77693 MicroUSB and Companion Power Management IC regulators
+> +
+> +maintainers:
+> +  - Chanwoo Choi <cw00.choi@samsung.com>
+> +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> +
+> +description: |
+> +  This is a part of device tree bindings for Maxim MAX77693 MicroUSB Integrated
+> +  Circuit (MUIC).
+> +
+> +  See also Documentation/devicetree/bindings/mfd/maxim,max77693.yaml for
+> +  additional information and example.
+> +
+> +patternProperties:
+> +  "^ESAFEOUT[12]$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description: |
+> +      Safeout LDO regulator.
+> +
+> +    properties:
+> +      regulator-min-microvolt: true
+> +      regulator-max-microvolt: true
 
-Are you setting DT_SCHEMA_FILES, because the error is in 
-common.yaml but caused by this schema.
+If you want to define which properties are valid from regulator.yaml, 
+then you need to define all of them (regulator-name is missing), and use 
+'additionalProperties: false'. Or you can just drop these. 
 
-Clearly, 'reg' is not defined here. And there is no change to 
-common.yaml in next.
+> +
+> +    required:
+> +      - regulator-name
+> +
+> +  "^CHARGER$":
 
-Rob
+Fixed string, not a pattern. Place under 'properties'.
+
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +    description: |
+> +      Current regulator.
+> +
+> +    properties:
+> +      regulator-min-microamp: true
+> +      regulator-max-microamp: true
+> +
+> +    required:
+> +      - regulator-name
+> +
+> +additionalProperties: false
+> -- 
+> 2.32.0
+> 
+> 
