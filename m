@@ -2,93 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 624C74890B0
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Jan 2022 08:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BD43489967
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Jan 2022 14:11:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239215AbiAJHX1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 Jan 2022 02:23:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47750 "EHLO
+        id S230436AbiAJNLs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 Jan 2022 08:11:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231549AbiAJHXY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jan 2022 02:23:24 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B1BC06173F
-        for <linux-leds@vger.kernel.org>; Sun,  9 Jan 2022 23:23:24 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n6p1W-0004DB-3v; Mon, 10 Jan 2022 08:23:22 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n6p1V-009Tx9-JB; Mon, 10 Jan 2022 08:23:20 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n6p1U-0008WA-Cf; Mon, 10 Jan 2022 08:23:20 +0100
-Date:   Mon, 10 Jan 2022 08:23:17 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v3] leds: pca9532: Make pca9532_destroy_devices() return
- void
-Message-ID: <20220110072317.sysdgvuzvlzzbcsb@pengutronix.de>
-References: <20211021121639.79179-1-u.kleine-koenig@pengutronix.de>
- <20211022101707.1194979-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S230525AbiAJNLq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jan 2022 08:11:46 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EF1C061201
+        for <linux-leds@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id br17so12988816lfb.6
+        for <linux-leds@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=Bgie3w5lZXcUpEJsNUNnYT9D80sz6831OKMgWSWMpAMR4c04HQM1hwHkoZ1AqHgJ5M
+         pQJfhFBsNTGc+jfMsWTuSDXhNBe5XPwJ8/UQZKbYcWTDQ68Eu4MBBVsHf0V3Baa+27Pp
+         IUJW/950IUGNsTto2NnsTW49/Cy4Vf+KfgzDT0+KZ2gcb/QkEKg3LEIj8qPJpiII0Qbk
+         buE3CbPl0T8T6omQLXT3KYJBxN98pPIrfxDam1Qs0diPFN43pWVugWbd8LU8WaIGviK3
+         O/t/NLMKhR03EdE8rMi5c8T5epCw09Yzc4YmAU5QrO9ZaREbayNwAtpm1SWYSR1IiBuY
+         5w9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
+        b=TheMR8YGjIIM+fjMaa/Qw7l8lm/v2WQpnDVlIbbbjwGnoiWQdw6J1RMvF62cLB9sEt
+         6sDO1FU0/F+bmIIxWw1Pc+4rcsk0eHDDHftnNPidjIbSrR5DPuOF6iH0FnNb1dpc4lN/
+         Gy/8ZENbmeEhjSKOjhEPHcvjWWrmCm2b3W6bK1WKLXVeDQvAIFaGB3Fw/OHzeK2dHY/M
+         nI1Z8660ESZKkqePz3eiZpHFCTj9wBLk3lr6koZVTbS7l5CodRUE+hH0SeXXhv+uUHJx
+         4bYJIRORxjUYfpr3RhkSyVNPqCSCsTg5fpC1e/p9v48SafexQxrSIB+CEooGIl5XPQ0O
+         0Ceg==
+X-Gm-Message-State: AOAM531HwMzJa6B29JeR+ft0zOR69RuN26brU0yByXhOAa2il4FiAjQT
+        WC3Af2SqVRbWTh4K/3/E3oGwubtV/CsYWbAuZjlXaBKS1z8=
+X-Google-Smtp-Source: ABdhPJyUuzfRq9+VAp3YIslVsNF7E8r6u+SDvjtiaFw6sfTA9uOxrmlrl9JDay/jDh10uqplhgk07a+YHTpM3Ge0znw=
+X-Received: by 2002:ac2:4c51:: with SMTP id o17mr60639917lfk.558.1641820293776;
+ Mon, 10 Jan 2022 05:11:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4rurkupalcydptow"
-Content-Disposition: inline
-In-Reply-To: <20211022101707.1194979-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Received: by 2002:a05:6504:15d1:0:0:0:0 with HTTP; Mon, 10 Jan 2022 05:11:32
+ -0800 (PST)
+Reply-To: gtbank107@yahoo.com
+From:   Barr Robert Richter <westernunion.benin982@gmail.com>
+Date:   Mon, 10 Jan 2022 14:11:32 +0100
+Message-ID: <CAP=nHBK9zHzp_=-EVswWQiLxEoc+HV4oqddgtnEqf-9qYab_4Q@mail.gmail.com>
+Subject: Contact GT Bank-Benin to receive your transfer amount of $18.5m US Dollars.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Attn,Dear
+I need you to know that the fear of the LORD is
+the beginning of wisdom, and knowledge of the Holy One is
+understanding. As power of God Most High. And This is the confidence
+we have in approaching God, that if we ask anything according to his
+will, he hears us. I will make you know that Slow and steady wins the race.
+It is your turn to receive your overdue compensation funds total
+amount $18.5Milion  USD.
+I actualized that you will receive your transfer today without any more delay
+No More fee OK, Believe me , I am your Attorney standing here on your favor.
+I just concluded conversation with the Gt Bank Director, Mrs Mary Gate
+And She told me that your transfer is ready today
 
---4rurkupalcydptow
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So the Bank Asked you to contact them immediately by re-confirming
+your Bank details asap.
+Because this is the Only thing holding this transfer
+If you did not trust me and Mrs Mary Gate,Who Else will you Trust?
+For we are the ones trying to protect your funds here
+and make sure that your funds is secure.
+So Promisingly, I am here to assure you, that Grate Miracle is coming on
+your way, and this funds total amount of $18.500,000 is your
+compensation, entitlement inheritance overdue funds on your name.
+Which you cannot let anything delay you from receiving your funds now,
 
-On Fri, Oct 22, 2021 at 12:17:07PM +0200, Uwe Kleine-K=F6nig wrote:
-> Up to now pca9532_destroy_devices() returns always zero because it's
-> always called with data !=3D NULL. Remove the never-taken error path and
-> make it return void which makes it easier to see in the callers that
-> there is no error to handle.
->=20
-> Also the return value of i2c remove callbacks is ignored anyway.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Finally i advised you to try your possible best and contact Gt Bank Benin
+once you get this message to receive your transfer $18.5 USD today.
+I know that a journey of thousand miles begins with a single step.
+Always put your best foot forward
+Try as hard as you can, God give you best.
+take my advice and follow the due process of your payment, the
+transfer will be released to
+you smoothly without any hitches or hindrance.
 
-Ping. This patch is part of an effort to make the i2c remove callback a
-void function, too. Are there any concerns, or plans to pick up this
-patch?
+Contact DR.MRS MARY GATE, Director Gt bank-Benin to receive your
+transfer amount of $18.5m US Dollars
+It was deposited and registered to your name this morning.
+Contact the Bank now to know when they will transfer to your
+country today
 
-Best regards
-Uwe
+Email id: gtbank107@yahoo.com
+Tel/mobile, +229 99069872
+Contact person, Mrs Mary Gate,Director Gt bank-Benin.
+Among the blind the one-eyed man is king
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+As you sow, so you shall reap, i want you to receive your funds
+Best things in life are free
+Send to her your Bank Details as i listed here.
 
---4rurkupalcydptow
-Content-Type: application/pgp-signature; name="signature.asc"
+Your account name-------------
+Your Bank Name----------------
+Account Number----------
+your Bank address----------
+Country-----------
+Your private phone number---------
+Routing Numbers-------------
+Swift Code-----------
 
------BEGIN PGP SIGNATURE-----
+Note, Your funds is %100 Percent ready for
+transfer.
+Everything you do remember that Good things come to those who wait.
+I have done this work for you with my personally effort, Honesty is
+the best policy.
+now your transfer is currently deposited with paying bank this morning.
+It is by the grace of God that I received Christ, having known the truth.
+I had no choice than to do what is lawful and justice in the
+sight of God for eternal life and in the sight of man for witness of
+God & His Mercies and glory upon my life.
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHb3uIACgkQwfwUeK3K
-7AldVAgAjTKogAR/SXM6pZocKiqtFKoL5O966QBiqvVFps5hPDChyVvXlfL58dff
-a7p51HLnrKJlxb2F5chJBrEDwzlzdn+iWIak5T9EvpDW2KvnIcl47XsXLk7404Uz
-hzF2SfJB3GvWb9NGI1RhdCGZwVlxPXTvad0zN/QiVeMpK4D0/tpGrmR5AlpwPdfx
-PGZTNldQquoOd5V/8LSunV8WQvUORoJqfaA925aO5pI+/v1Ygv7QtjpU1YJ+jlaX
-gX1x8gDEDrmvRADdO3es7HX2taD+ay2D6tFqp/jUJXXcS0L3YfRCtQpUDxcU7t1h
-zS73vAvET+Zl/rvVUL8tUsKtu0yAeQ==
-=OevM
------END PGP SIGNATURE-----
+send this needed bank details to the bank today, so that you receive
+your transfer today as
+it is available for your confirmation today.
+Please do your best as a serious person and send the fee urgent, Note
+that this transfer of $18.500.000 M USD is a Gift from God to Bless
+you.
 
---4rurkupalcydptow--
+If you did not contact the bank urgent, finally the Bank will release
+your transfer of $18.500.000M USD to  Mr. David Bollen as your
+representative.
+So not allow another to claim your Money.
+Thanks For your Understanding.
+
+Barr Robert Richter, UN Attorney At Law Court-Benin
