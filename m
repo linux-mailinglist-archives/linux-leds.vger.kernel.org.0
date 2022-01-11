@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6013648B4B5
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jan 2022 18:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F2F048B4B8
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jan 2022 18:55:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344889AbiAKRzN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jan 2022 12:55:13 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:33278
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344926AbiAKRzM (ORCPT
+        id S241817AbiAKRzp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jan 2022 12:55:45 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:54358
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344973AbiAKRzP (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 11 Jan 2022 12:55:12 -0500
+        Tue, 11 Jan 2022 12:55:15 -0500
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B4D8F4001D
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 17:55:11 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id AC3D340036
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 17:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1641923711;
-        bh=00nwAyyKUb1y1BKsakD4Pry2fh6sP1JvtjwifpIg4ik=;
-        h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+        s=20210705; t=1641923713;
+        bh=yLkZ3N1YGlON76aOjFtdwlmbLegMSMiHS0/fbiZm/ts=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
          MIME-Version;
-        b=l0V0PkkQf0NjI7ZoJLZqiHGxOuFXBkJE/A+9R536bi3h5PSB07mhmTn1hsSWhsvLz
-         IV1RYNIOCIQWudatSJX39ucznKX2yG6unXeHGSjOsETzd1BH7pUnOI5G827Hil9otx
-         gyTQGrsE0tBwhjNs8/0E5QV9IMoXEtf2CwDIHAdAqZyR/MCNJFU1Qg8q4MgatVzroP
-         bu9mk+hAtELhWW+ykqI4df+liqjLBj6YAJcsCLDdlyr1uX4R7wmdS3NdudubZywpBo
-         s2Qwg4Gz274aeEEVOxDIQD6EKltXIC9jB8mFaIWfLiPh0HCjHAARck6+tuAHgLiUdB
-         Dogqx/L+cX9eQ==
-Received: by mail-ed1-f72.google.com with SMTP id t1-20020a056402524100b003f8500f6e35so14068084edd.8
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 09:55:11 -0800 (PST)
+        b=N1kxdjsWPyNvewboH21gJM9SWvHIh+XjualEATwXqgcIdOVyqVOTmrrdm3Dv0jvBr
+         LB3MxFRVe9b2RMcW3cMyJte9/ise/WJJhMsKdK4YaVHy3IgSIlHncnYXU81aMJ38cA
+         LUT2iCtWudCHKEuMbUC4yIbG7RjzdEINZV78QsZpTWYaM/4qV1qTrVI33QhoH9sWTY
+         lT/8E9q93NvyF8GOyhM7oAX54HUc0iNm6j3MtlaWNJKjVC80gk6G/YBl7vGpHXG+32
+         nM+jt+dxpkVEr8iBrkj37COFUZ9KipkW0Um6Zjn4IcF+p62yIHGV5aXsjznECBIq3l
+         JiF3isVmSsT2Q==
+Received: by mail-ed1-f72.google.com with SMTP id b8-20020a056402350800b003f8f42a883dso13998214edd.16
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 09:55:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=00nwAyyKUb1y1BKsakD4Pry2fh6sP1JvtjwifpIg4ik=;
-        b=X+M50wtlqoY0MG9LbYME9BlQAhRw5mZqvyVlRawkfLXvROwxL5rgQPDrcODbeTAPBJ
-         UULPh01DfSwtQc7iud+w00IE1CLJS9xzZlY/BeriQUSqj9rr8aTzx2bBrCyYH0ytcE30
-         YYSRu0/O5gDEE5Ehd/POsu9D6xhneVDSnCZG+AkC9SmpSgjIIEc2Y2njhTZYXzITKT+U
-         TQtTGmUJgnhzHp3Zlroh9xUJ6ao6i9yVS+xG/rYMxP/XZmcobyeYp0/q9JmNiqrl7WSG
-         vCH2FLI8u5I3HVNpA4+4uyVPYTdcxlb3LW5kx/FGf4akmqjGDD1K/YZY9A0fM7b1VYa1
-         Ij8g==
-X-Gm-Message-State: AOAM530hSzt7CvjTzBCa5o6+23u0mnxpl126JsDM+R46U6zqKFBZtjf9
-        3WqT+D1IrjpZEcE7V3NsH49Qi9RLNvieJuB3cP+fRcxu896TILTWMHIItaUgRsjoofaFiFk7uTv
-        98HrgkvjL4lccEC0eOvxFTuBya+BOpx+PQ4AT/Ao=
-X-Received: by 2002:a05:6402:34c6:: with SMTP id w6mr5155559edc.228.1641923709778;
-        Tue, 11 Jan 2022 09:55:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy6iz+h/3L17VQaGmv4x06QQw3Odv8DjLRkuLfTCsHFYjFDxCI19Lcubysme4JBSoX9Cc62WA==
-X-Received: by 2002:a05:6402:34c6:: with SMTP id w6mr5155542edc.228.1641923709492;
-        Tue, 11 Jan 2022 09:55:09 -0800 (PST)
+        bh=yLkZ3N1YGlON76aOjFtdwlmbLegMSMiHS0/fbiZm/ts=;
+        b=wkIJtp0k5vRyyAYSuYegh2VGU7/JLSSlir4HNmByi1xxwwyukCUcw7Svt5GbA5EQz0
+         mIbr9P6Opu7DkpwYuGTinXk2aWmkDK0ejYZuvYaQT2ViNRo/dugKGkHVsg6AWRU2krWC
+         9XJPrW5iXzNLBHmzJ4wWr9txthkvtCCIlxdoVWgnRDERwOwknwpwpu45D3yapx/kmBwZ
+         nPPixtWZC2GQiJkMGyoyeI00q/3DtcWBzKkC4O495GdfUOzBJnNmr28EVoYt+YF4HxZ3
+         DwRsS68Nkyd04CFWqhWggSM9nBHdeb9LNWJjlKyxWjrMgMGQ2ELhDeYYnC5A1X5PpFpT
+         J41w==
+X-Gm-Message-State: AOAM533V3vfU2BYDPnWf+DLZ1XtCca91EpdWWAgR/7G2gCbnKbEC1HP/
+        Re5B03/p9dvmogho16BEAjAtMFZwGLrFVcO9LpFHMr9NjxwD/8gyexDW7fO0uILGx3rZGcHFuNZ
+        1J04S2sLSslJIzsLaOjx+YL7X6iDKuM/YYDLNzAk=
+X-Received: by 2002:a17:907:8694:: with SMTP id qa20mr4701281ejc.378.1641923713216;
+        Tue, 11 Jan 2022 09:55:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwGwSaoF6MY7oHvtxLZ7PMNUOIa6JgigH0+R24JIzl2v20ITlookaN2yzo30wfbhgVnIsnf5w==
+X-Received: by 2002:a17:907:8694:: with SMTP id qa20mr4701258ejc.378.1641923712931;
+        Tue, 11 Jan 2022 09:55:12 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id 7sm3759949ejh.161.2022.01.11.09.55.07
+        by smtp.gmail.com with ESMTPSA id 7sm3759949ejh.161.2022.01.11.09.55.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 09:55:08 -0800 (PST)
+        Tue, 11 Jan 2022 09:55:10 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
@@ -64,9 +64,10 @@ To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] regulator: dt-bindings: maxim,max77802: convert to dtschema
-Date:   Tue, 11 Jan 2022 18:54:28 +0100
-Message-Id: <20220111175430.224421-2-krzysztof.kozlowski@canonical.com>
+Cc:     Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 2/3] dt-bindings: mfd: maxim,max77802: convert to dtschema
+Date:   Tue, 11 Jan 2022 18:54:29 +0100
+Message-Id: <20220111175430.224421-3-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
 References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
@@ -76,146 +77,64 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the regulators of Maxim MAX77802 PMIC to DT schema format.
+Convert the MFD part of Maxim MAX77802 PMIC to DT schema format.  The
+example DTS was copied from existing DTS (exynos5800-peach-pi.dts), so
+keep the license as GPL-2.0-only.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/regulator/max77802.txt           | 111 ------------------
- .../bindings/regulator/maxim,max77802.yaml    |  97 +++++++++++++++
- 2 files changed, 97 insertions(+), 111 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/regulator/max77802.txt
- create mode 100644 Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
+ .../devicetree/bindings/mfd/max77802.txt      |  25 ---
+ .../bindings/mfd/maxim,max77802.yaml          | 194 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 195 insertions(+), 26 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/max77802.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/maxim,max77802.yaml
 
-diff --git a/Documentation/devicetree/bindings/regulator/max77802.txt b/Documentation/devicetree/bindings/regulator/max77802.txt
+diff --git a/Documentation/devicetree/bindings/mfd/max77802.txt b/Documentation/devicetree/bindings/mfd/max77802.txt
 deleted file mode 100644
-index b82943d83677..000000000000
---- a/Documentation/devicetree/bindings/regulator/max77802.txt
+index 09decac20d91..000000000000
+--- a/Documentation/devicetree/bindings/mfd/max77802.txt
 +++ /dev/null
-@@ -1,111 +0,0 @@
--Binding for Maxim MAX77802 regulators
+@@ -1,25 +0,0 @@
+-Maxim MAX77802 multi-function device
 -
--This is a part of device tree bindings of MAX77802 multi-function device.
--More information can be found in bindings/mfd/max77802.txt file.
+-The Maxim MAX77802 is a Power Management IC (PMIC) that contains 10 high
+-efficiency Buck regulators, 32 Low-DropOut (LDO) regulators used to power
+-up application processors and peripherals, a 2-channel 32kHz clock outputs,
+-a Real-Time-Clock (RTC) and a I2C interface to program the individual
+-regulators, clocks outputs and the RTC.
 -
--The MAX77802 PMIC has 10 high-efficiency Buck and 32 Low-dropout (LDO)
--regulators that can be controlled over I2C.
+-Bindings for the built-in 32k clock generator block and
+-regulators are defined in ../clk/maxim,max77802.txt and
+-../regulator/max77802.txt respectively.
 -
--Following properties should be present in main device node of the MFD chip.
--
--Optional properties:
--- inb1-supply:  The input supply for BUCK1
--- inb2-supply:  The input supply for BUCK2
--- inb3-supply:  The input supply for BUCK3
--- inb4-supply:  The input supply for BUCK4
--- inb5-supply:  The input supply for BUCK5
--- inb6-supply:  The input supply for BUCK6
--- inb7-supply:  The input supply for BUCK7
--- inb8-supply:  The input supply for BUCK8
--- inb9-supply:  The input supply for BUCK9
--- inb10-supply: The input supply for BUCK10
--- inl1-supply:  The input supply for LDO8 and LDO15
--- inl2-supply:  The input supply for LDO17, LDO27, LDO30 and LDO35
--- inl3-supply:  The input supply for LDO3, LDO5, LDO6 and LDO7
--- inl4-supply:  The input supply for LDO10, LDO11, LDO13 and LDO14
--- inl5-supply:  The input supply for LDO9 and LDO19
--- inl6-supply:  The input supply for LDO4, LDO21, LDO24 and LDO33
--- inl7-supply:  The input supply for LDO18, LDO20, LDO28 and LDO29
--- inl9-supply:  The input supply for LDO12, LDO23, LDO25, LDO26, LDO32 and LDO34
--- inl10-supply: The input supply for LDO1 and LDO2
--
--Optional nodes:
--- regulators : The regulators of max77802 have to be instantiated
--  under subnode named "regulators" using the following format.
--
--	regulator-name {
--		standard regulator constraints....
--	};
--	refer Documentation/devicetree/bindings/regulator/regulator.txt
--
--The regulator node name should be initialized with a string to get matched
--with their hardware counterparts as follow. The valid names are:
--
--	-LDOn 	:	for LDOs, where n can lie in ranges 1-15, 17-21, 23-30
--			and 32-35.
--			example: LDO1, LDO2, LDO35.
--	-BUCKn 	:	for BUCKs, where n can lie in range 1 to 10.
--			example: BUCK1, BUCK5, BUCK10.
--
--The max77802 regulator supports two different operating modes: Normal and Low
--Power Mode. Some regulators support the modes to be changed at startup or by
--the consumers during normal operation while others only support to change the
--mode during system suspend. The standard regulator suspend states binding can
--be used to configure the regulator operating mode.
--
--The regulators that support the standard "regulator-initial-mode" property,
--changing their mode during normal operation are: LDOs 1, 3, 20 and 21.
--
--The possible values for "regulator-initial-mode" and "regulator-mode" are:
--	1: Normal regulator voltage output mode.
--	3: Low Power which reduces the quiescent current down to only 1uA
--
--The valid modes list is defined in the dt-bindings/regulator/maxim,max77802.h
--header and can be included by device tree source files.
--
--The standard "regulator-mode" property can only be used for regulators that
--support changing their mode to Low Power Mode during suspend. These regulators
--are: BUCKs 2-4 and LDOs 1-35. Also, it only takes effect if the regulator has
--been enabled for the given suspend state using "regulator-on-in-suspend" and
--has not been disabled for that state using "regulator-off-in-suspend".
+-Required properties:
+-- compatible		: Must be "maxim,max77802"
+-- reg			: Specifies the I2C slave address of PMIC block.
+-- interrupts		: I2C device IRQ line connected to the main SoC.
 -
 -Example:
 -
--	max77802@9 {
+-	max77802: pmic@9 {
 -		compatible = "maxim,max77802";
--		interrupt-parent = <&wakeup_eint>;
--		interrupts = <26 0>;
+-		interrupt-parent = <&intc>;
+-		interrupts = <26 IRQ_TYPE_NONE>;
 -		reg = <0x09>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		inb1-supply = <&parent_reg>;
--
--		regulators {
--			ldo1_reg: LDO1 {
--				regulator-name = "vdd_1v0";
--				regulator-min-microvolt = <1000000>;
--				regulator-max-microvolt = <1000000>;
--				regulator-always-on;
--				regulator-initial-mode = <MAX77802_OPMODE_LP>;
--			};
--
--			ldo11_reg: LDO11 {
--				regulator-name = "vdd_ldo11";
--				regulator-min-microvolt = <1900000>;
--				regulator-max-microvolt = <1900000>;
--				regulator-always-on;
--				regulator-state-mem {
--					regulator-on-in-suspend;
--					regulator-mode = <MAX77802_OPMODE_LP>;
--				};
--			};
--
--			buck1_reg: BUCK1 {
--				regulator-name = "vdd_mif";
--				regulator-min-microvolt = <950000>;
--				regulator-max-microvolt = <1300000>;
--				regulator-always-on;
--				regulator-boot-on;
--			};
 -	};
-diff --git a/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml b/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
+diff --git a/Documentation/devicetree/bindings/mfd/maxim,max77802.yaml b/Documentation/devicetree/bindings/mfd/maxim,max77802.yaml
 new file mode 100644
-index 000000000000..a40c93259a13
+index 000000000000..baa1346ac5d5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/maxim,max77802.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++++ b/Documentation/devicetree/bindings/mfd/maxim,max77802.yaml
+@@ -0,0 +1,194 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/regulator/maxim,max77802.yaml#
++$id: http://devicetree.org/schemas/mfd/maxim,max77802.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Maxim MAX77802 Power Management IC regulators
++title: Maxim MAX77802 Power Management IC
 +
 +maintainers:
 +  - Javier Martinez Canillas <javier@dowhile0.org>
@@ -225,87 +144,197 @@ index 000000000000..a40c93259a13
 +  This is a part of device tree bindings for Maxim MAX77802 Power Management
 +  Integrated Circuit (PMIC).
 +
-+  The Maxim MAX77686 provides 10 high-efficiency Buck and 32 Low-DropOut (LDO)
-+  regulators.
++  The Maxim MAX77802 is a Power Management IC which includes voltage and
++  current regulators (10 high efficiency Buck regulators and 32 Low-DropOut
++  (LDO)), RTC and clock outputs.
 +
-+  See also Documentation/devicetree/bindings/mfd/maxim,max77802.yaml for
-+  additional information and example.
++  The MAX77802 provides two 32.768khz clock outputs that can be controlled
++  (gated/ungated) over I2C.  The clock IDs are defined as preprocessor macros
++  in dt-bindings/clock/maxim,max77802.h.
 +
-+  Certain regulators support "regulator-initial-mode" and "regulator-mode".
-+  The valid modes list is defined in the dt-bindings/regulator/maxim,max77802.h
-+  and their meaning is:
-+    1 - Normal regulator voltage output mode.
-+    3 - Low Power which reduces the quiescent current down to only 1uA
++properties:
++  compatible:
++    const: maxim,max77802
 +
-+  The standard "regulator-mode" property can only be used for regulators that
-+  support changing their mode to Low Power Mode during suspend. These
-+  regulators are: bucks 2-4 and LDOs 1-35. Also, it only takes effect if the
-+  regulator has been enabled for the given suspend state using
-+  "regulator-on-in-suspend" and has not been disabled for that state using
-+  "regulator-off-in-suspend".
++  '#clock-cells':
++    const: 1
 +
-+patternProperties:
-+  # LDO1, LDO3, LDO20, LDO21
-+  "^LDO([13]|2[01])$":
-+    type: object
-+    $ref: regulator.yaml#
-+    unevaluatedProperties: false
++  interrupts:
++    maxItems: 1
++
++  reg:
++    maxItems: 1
++
++  regulators:
++    $ref: /schemas/regulator/maxim,max77802.yaml
 +    description:
-+      LDOs supporting the regulator-initial-mode property and changing their
-+      mode during normal operation.
++      List of child nodes that specify the regulators.
 +
-+    required:
-+      - regulator-name
++  inb1-supply:
++    description: Power supply for buck1
++  inb2-supply:
++    description: Power supply for buck2
++  inb3-supply:
++    description: Power supply for buck3
++  inb4-supply:
++    description: Power supply for buck4
++  inb5-supply:
++    description: Power supply for buck5
++  inb6-supply:
++    description: Power supply for buck6
++  inb7-supply:
++    description: Power supply for buck7
++  inb8-supply:
++    description: Power supply for buck8
++  inb9-supply:
++    description: Power supply for buck9
++  inb10-supply:
++    description: Power supply for buck10
 +
-+  # LDO2, LDO4-15, LDO17-19, LDO23-30, LDO32-35
-+  "^LDO([24-9]|1[0-5789]|2[3-9]|3[02345])$":
-+    type: object
-+    $ref: regulator.yaml#
-+    unevaluatedProperties: false
-+    description:
-+      LDOs supporting the regulator-mode property (changing mode to Low Power
-+      Mode during suspend).
++  inl1-supply:
++    description: Power supply for LDO8, LDO15
++  inl2-supply:
++    description: Power supply for LDO17, LDO27, LDO30, LDO35
++  inl3-supply:
++    description: Power supply for LDO3, LDO5, LDO7, LDO7
++  inl4-supply:
++    description: Power supply for LDO10, LDO11, LDO13, LDO14
++  inl5-supply:
++    description: Power supply for LDO9, LDO19
++  inl6-supply:
++    description: Power supply for LDO4, LDO21, LDO24, LDO33
++  inl7-supply:
++    description: Power supply for LDO18, LDO20, LDO28, LDO29
++  inl9-supply:
++    description: Power supply for LDO12, LDO23, LDO25, LDO26, LDO32, LDO34
++  inl10-supply:
++    description: Power supply for LDO1, LDO2
 +
-+    properties:
-+      regulator-initial-mode: false
++  wakeup-source: true
 +
-+    required:
-+      - regulator-name
-+
-+  # buck2-4
-+  "^BUCK[2-4]$":
-+    type: object
-+    $ref: regulator.yaml#
-+    unevaluatedProperties: false
-+    description:
-+      bucks supporting the regulator-mode property (changing mode to Low Power
-+      Mode during suspend).
-+
-+    properties:
-+      regulator-initial-mode: false
-+
-+    required:
-+      - regulator-name
-+
-+  # buck1, buck5-10
-+  "^BUCK([15-9]|10)$":
-+    type: object
-+    $ref: regulator.yaml#
-+    unevaluatedProperties: false
-+
-+    properties:
-+      regulator-initial-mode: false
-+
-+    patternProperties:
-+      regulator-state-(standby|mem|disk):
-+        type: object
-+        properties:
-+          regulator-mode: false
-+
-+    required:
-+      - regulator-name
++required:
++  - compatible
++  - '#clock-cells'
++  - reg
 +
 +additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/regulator/maxim,max77802.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pmic@9 {
++            compatible = "maxim,max77802";
++            interrupt-parent = <&gpx3>;
++            interrupts = <1 IRQ_TYPE_NONE>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&max77802_irq>, <&pmic_selb>,
++                        <&pmic_dvs_1>, <&pmic_dvs_2>, <&pmic_dvs_3>;
++            wakeup-source;
++            reg = <0x9>;
++            #clock-cells = <1>;
++
++            inb1-supply = <&tps65090_dcdc2>;
++            inb2-supply = <&tps65090_dcdc1>;
++            inb3-supply = <&tps65090_dcdc2>;
++            inb4-supply = <&tps65090_dcdc2>;
++            inb5-supply = <&tps65090_dcdc1>;
++            inb6-supply = <&tps65090_dcdc2>;
++            inb7-supply = <&tps65090_dcdc1>;
++            inb8-supply = <&tps65090_dcdc1>;
++            inb9-supply = <&tps65090_dcdc1>;
++            inb10-supply = <&tps65090_dcdc1>;
++
++            inl1-supply = <&buck5_reg>;
++            inl2-supply = <&buck7_reg>;
++            inl3-supply = <&buck9_reg>;
++            inl4-supply = <&buck9_reg>;
++            inl5-supply = <&buck9_reg>;
++            inl6-supply = <&tps65090_dcdc2>;
++            inl7-supply = <&buck9_reg>;
++            inl9-supply = <&tps65090_dcdc2>;
++            inl10-supply = <&buck7_reg>;
++
++            regulators {
++                BUCK1 {
++                    regulator-name = "vdd_mif";
++                    regulator-min-microvolt = <800000>;
++                    regulator-max-microvolt = <1300000>;
++                    regulator-always-on;
++                    regulator-boot-on;
++                    regulator-ramp-delay = <12500>;
++                    regulator-state-mem {
++                        regulator-off-in-suspend;
++                    };
++                };
++
++                BUCK2 {
++                    regulator-name = "vdd_arm";
++                    regulator-min-microvolt = <800000>;
++                    regulator-max-microvolt = <1500000>;
++                    regulator-always-on;
++                    regulator-boot-on;
++                    regulator-ramp-delay = <12500>;
++                    regulator-coupled-with = <&buck3_reg>;
++                    regulator-coupled-max-spread = <300000>;
++                    regulator-state-mem {
++                        regulator-off-in-suspend;
++                    };
++                };
++
++                // ...
++
++                BUCK10 {
++                    regulator-name = "vdd_1v8";
++                    regulator-min-microvolt = <1800000>;
++                    regulator-max-microvolt = <1800000>;
++                    regulator-always-on;
++                    regulator-boot-on;
++                    regulator-state-mem {
++                        regulator-on-in-suspend;
++                    };
++                };
++
++                LDO1 {
++                    regulator-name = "vdd_1v0";
++                    regulator-min-microvolt = <1000000>;
++                    regulator-max-microvolt = <1000000>;
++                    regulator-always-on;
++                    regulator-initial-mode = <MAX77802_OPMODE_NORMAL>;
++                    regulator-state-mem {
++                        regulator-on-in-suspend;
++                        regulator-mode = <MAX77802_OPMODE_LP>;
++                    };
++                };
++
++                // ...
++
++                LDO35 {
++                    regulator-name = "ldo_35";
++                    regulator-min-microvolt = <1200000>;
++                    regulator-max-microvolt = <1200000>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5ea5655a29c3..b5e4f14f6768 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11666,7 +11666,7 @@ MAXIM MAX77802 PMIC REGULATOR DEVICE DRIVER
+ M:	Javier Martinez Canillas <javier@dowhile0.org>
+ L:	linux-kernel@vger.kernel.org
+ S:	Supported
+-F:	Documentation/devicetree/bindings/*/*max77802.txt
++F:	Documentation/devicetree/bindings/*/*max77802.yaml
+ F:	drivers/regulator/max77802-regulator.c
+ F:	include/dt-bindings/*/*max77802.h
+ 
 -- 
 2.32.0
 
