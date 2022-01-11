@@ -2,133 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A55748B03F
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jan 2022 16:03:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B859048B20E
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jan 2022 17:26:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243306AbiAKPDy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jan 2022 10:03:54 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:45028
+        id S1349893AbiAKQ0P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jan 2022 11:26:15 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:49860
         "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240344AbiAKPDy (ORCPT
+        by vger.kernel.org with ESMTP id S1343721AbiAKQ0P (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 11 Jan 2022 10:03:54 -0500
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+        Tue, 11 Jan 2022 11:26:15 -0500
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 38FB0402F4
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 15:03:53 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C12B63F206
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 16:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1641913433;
-        bh=IYze5jR3qO6DwvRj2WvqsMLmcMVBiBOg+v8HeU+h+As=;
+        s=20210705; t=1641918373;
+        bh=puOvobGfY/I3hOBitRLCMcxZnTzU14JJR6HhloQSBP0=;
         h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
          In-Reply-To:Content-Type;
-        b=gRJEi6cEOs95dkEHS4Wm3VoYdlHeOd+hPMQ0VEgEbklmt3gO3Ld8QMQ3VhUvZEg5K
-         iYYLTDr3fWwGErIn9sdTPB8euT0oyKE332mqt2VlV70+M67Yg2c6v9DzauTq65J/Xy
-         veHFRlD5Boo+YX9kkcRCEEMUry++rGck6hFQbobBUvdzIw8cwvokGlObJdwI5tChHV
-         gEK4wRuVToZ/OBhcKj9nTZesFR9y3lyt581luwoGZ828NEimbeqiaVD35ngzAUsJkf
-         ZSZrpSBKU78GMoWuCfW3Qb7vrLjuiSadSzgW/VM2ATG0GBhIndAJIAB+SF3UmDAoL6
-         NGkrzC3aKb6tw==
-Received: by mail-ed1-f70.google.com with SMTP id h11-20020a05640250cb00b003fa024f87c2so13556690edb.4
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 07:03:53 -0800 (PST)
+        b=e39H7Dw8YsS92DohieevTxyA69xVbUM0TbrXSpONEBvzSsoTnFJeutzTe/xv/RXf/
+         cBwIYrp/k5tb/x0tVTj/UZcmL2SqERVl9FL3l4W5ojpZ13BfupfQfiHuNBSzCe8/Gw
+         wkNFyXwHIGVUxCmPeI9Cc71iM2sIEdP7/uIItDVGd4Fhb0qUrYe2Bx/mcFpeDDYbCe
+         NwDETKOdg6TosX+tem+fJv4pXe7v/ZIWBGFGS0KE8Uksj4hDcpQKduQ1LXbVSSs31K
+         pqG/nrxNAguLEocQJSfrIXSoSWHB5+fzWZX9GEhLNN/Xn/WqZfC7QPzmDWVHHej2sg
+         WwEr2qpJ5BVKQ==
+Received: by mail-ed1-f72.google.com with SMTP id c8-20020a05640227c800b003fdc1684cdeso5771392ede.12
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 08:26:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=IYze5jR3qO6DwvRj2WvqsMLmcMVBiBOg+v8HeU+h+As=;
-        b=UL4VBSfsNasNsvmXhzAysqrkRV0wGdGz96AqYeETi8fud3K0kUkyBa1HoTBFolDC8P
-         +2a636ctEMrDC+27gYYEhCc8F7ITVlITajBTBnPmFvLFmxAJsWNfB64RYj9br5LFuK/z
-         /FlD9DAJOxKyfme2FGH75HLJRKC7rL09dhh1BXsvCNm30+UpXGPm0m6wTsK6HOAl6Q3g
-         +a0cPA4VLeDuJN+OPVPSf852CiBWety5D0tMbd7rsvJ32lba2dDrqlWjqX6u9frL6m/c
-         0gBuxSu3mwQ73b90ynPEQHLTTCEfDUm+RloTEqjkv8IcaM1ZIgPdJ3fWS9xDZ/E9Yuzm
-         Qfag==
-X-Gm-Message-State: AOAM531VwHLAgMu7mOkUyEV9YnOwUbj57++ZSV6L5qcs8sGLAeMqdwZx
-        D0Dc9sgr5k6tAAfPPXdifIE+TOWjjJMme6Q8UHktKqDvNsVj/R+278d1mLcjeFBU783SwmSZVH9
-        kEoFP2mKHO1cEo1fvcAXSN3s8oDzorv5+dxdgb/k=
-X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr4888661eds.240.1641913432713;
-        Tue, 11 Jan 2022 07:03:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwDNRq5OgEYq9q0OcJZ+LftNyARufACeAEd50pZ8N6QddIaIPn7tod2xjmXmdJrlbUyNmrbmQ==
-X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr4888638eds.240.1641913432542;
-        Tue, 11 Jan 2022 07:03:52 -0800 (PST)
+        bh=puOvobGfY/I3hOBitRLCMcxZnTzU14JJR6HhloQSBP0=;
+        b=mSkE4IZ7l+7mpT9tYXd0rEYeDkWtbW99vmMGL/5/wblv6GX9+nzarPxgM+ikFYmfWA
+         sbnueKg70ptl77hmMtpEJCaeCB6M9WnHrfQFhHjdSxOPFq4QvG2AYSaplnYGx9l3LfVy
+         Byosn7gRoaqfzuUc5M2yzoqw1Tea8hYPHOhqveUPFy2Y/TJUf4BT/KK6x1Z+bcEYw+Fp
+         6XroHoHtEUlygjSVSdfkMdPIhE2Q59lBaB1gOymm+YWBEdCd61Jii7SVZFwH5JtJAq1R
+         nGGJLjye+UP/iYMFjIQLXbZdUl8V7vwLMPK/5CUP2n2Z1bW/NRePw3vVTgt/paif5ayF
+         99pQ==
+X-Gm-Message-State: AOAM530OsqXd7nVih0Pk5PXBW8zqfTtfcQ1OUN+SAspojSzZmTb7ZfNw
+        ok2IXBQmGiKV/51UR34ATUEm8ocNzfHZpBBrG0WuLiLAmmpy3WrAjmKaF5A+qsJBDwtJ5xCMYTP
+        r7C/crzk3aM20JvKXZpjo6XWd0gcNZCbTpIN4Ndo=
+X-Received: by 2002:a17:906:70b:: with SMTP id y11mr4245192ejb.364.1641918373512;
+        Tue, 11 Jan 2022 08:26:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0WB7kXHdSOBmqAzj8OY2NGoRe81KUh+8ODpxEz+TNyF7Q2q490El0I+0sV/r9OOnYaBP5zg==
+X-Received: by 2002:a17:906:70b:: with SMTP id y11mr4245172ejb.364.1641918373301;
+        Tue, 11 Jan 2022 08:26:13 -0800 (PST)
 Received: from [192.168.0.25] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id nc29sm3695670ejc.3.2022.01.11.07.03.51
+        by smtp.gmail.com with ESMTPSA id e18sm5155101edq.77.2022.01.11.08.26.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 07:03:51 -0800 (PST)
-Message-ID: <86288708-8024-d981-6900-44e06278c24a@canonical.com>
-Date:   Tue, 11 Jan 2022 16:03:51 +0100
+        Tue, 11 Jan 2022 08:26:12 -0800 (PST)
+Message-ID: <585a7c40-ede2-cadb-6f64-04477b3d93e3@canonical.com>
+Date:   Tue, 11 Jan 2022 17:26:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.1
-Subject: Re: [PATCH 1/4] dt-bindings: leds: maxim,max77693: convert to
+Subject: Re: [PATCH 3/4] regulator: dt-bindings: maxim,max77693: convert to
  dtschema
 Content-Language: en-US
 To:     Rob Herring <robh@kernel.org>
-Cc:     Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Lee Jones <lee.jones@linaro.org>,
+Cc:     Chanwoo Choi <cw00.choi@samsung.com>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pm@vger.kernel.org
 References: <20211228163930.35524-1-krzysztof.kozlowski@canonical.com>
- <20211228163930.35524-2-krzysztof.kozlowski@canonical.com>
- <1640799296.482933.824019.nullmailer@robh.at.kernel.org>
- <bedc4126-7536-a7f9-b833-d06f383ec15d@canonical.com>
- <YdRjNUMht6HjVM7s@robh.at.kernel.org>
+ <20211228163930.35524-4-krzysztof.kozlowski@canonical.com>
+ <YdRn5cvksYXK4icV@robh.at.kernel.org>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <YdRjNUMht6HjVM7s@robh.at.kernel.org>
+In-Reply-To: <YdRn5cvksYXK4icV@robh.at.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 04/01/2022 16:09, Rob Herring wrote:
-> On Thu, Dec 30, 2021 at 11:53:37AM +0100, Krzysztof Kozlowski wrote:
->> On 29/12/2021 18:34, Rob Herring wrote:
->>> On Tue, 28 Dec 2021 17:39:27 +0100, Krzysztof Kozlowski wrote:
->>>> Convert the LEDs bindings of Maxim MAX77693 MUIC to DT schema format.
->>>> The existing bindings were defined in ../bindings/mfd/max77693.txt.
->>>>
->>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->>>> ---
->>>>  .../bindings/leds/maxim,max77693.yaml         | 105 ++++++++++++++++++
->>>>  1 file changed, 105 insertions(+)
->>>>  create mode 100644 Documentation/devicetree/bindings/leds/maxim,max77693.yaml
->>>>
->>>
->>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->>>
->>> yamllint warnings/errors:
->>>
->>> dtschema/dtc warnings/errors:
->>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/common.example.dt.yaml: led-controller@0: 'reg' does not match any of the regexes: '^([a-z]+-)?led[01]?$', 'pinctrl-[0-9]+'
->>> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/maxim,max77693.yaml
->>>
->>> doc reference errors (make refcheckdocs):
->>> Documentation/devicetree/bindings/leds/maxim,max77693.yaml: Documentation/devicetree/bindings/mfd/maxim,max77693.yaml
->>>
->>> See https://patchwork.ozlabs.org/patch/1573762
->>>
->>> This check can fail if there are any dependencies. The base for a patch
->>> series is generally the most recent rc1.
->>>
+On 04/01/2022 16:29, Rob Herring wrote:
+> On Tue, Dec 28, 2021 at 05:39:29PM +0100, Krzysztof Kozlowski wrote:
+>> Convert the regulator bindings of Maxim MAX77693 MUIC to DT schema format.
+>> The existing bindings were defined in ../bindings/mfd/max77693.txt.
 >>
->> I updated my yamllint and dtschema, run with DT_CHECKER_FLAGS=-m but
->> still cannot reproduce it. Probably because I based on linux-next, so
->> maybe this was a fixed issue in leds/common.yaml.
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+>> ---
+>>  .../bindings/regulator/maxim,max77693.yaml    | 49 +++++++++++++++++++
+>>  1 file changed, 49 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml b/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+>> new file mode 100644
+>> index 000000000000..81242c8cd77c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/regulator/maxim,max77693.yaml
+>> @@ -0,0 +1,49 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/regulator/maxim,max77693.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Maxim MAX77693 MicroUSB and Companion Power Management IC regulators
+>> +
+>> +maintainers:
+>> +  - Chanwoo Choi <cw00.choi@samsung.com>
+>> +  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+>> +
+>> +description: |
+>> +  This is a part of device tree bindings for Maxim MAX77693 MicroUSB Integrated
+>> +  Circuit (MUIC).
+>> +
+>> +  See also Documentation/devicetree/bindings/mfd/maxim,max77693.yaml for
+>> +  additional information and example.
+>> +
+>> +patternProperties:
+>> +  "^ESAFEOUT[12]$":
+>> +    type: object
+>> +    $ref: regulator.yaml#
+>> +    unevaluatedProperties: false
+>> +    description: |
+>> +      Safeout LDO regulator.
+>> +
+>> +    properties:
+>> +      regulator-min-microvolt: true
+>> +      regulator-max-microvolt: true
 > 
-> Are you setting DT_SCHEMA_FILES, because the error is in 
-> common.yaml but caused by this schema.
+> If you want to define which properties are valid from regulator.yaml, 
+> then you need to define all of them (regulator-name is missing), and use 
+> 'additionalProperties: false'. Or you can just drop these. 
 > 
-> Clearly, 'reg' is not defined here. And there is no change to 
-> common.yaml in next.
+>> +
+>> +    required:
+>> +      - regulator-name
+>> +
+>> +  "^CHARGER$":
+> 
+> Fixed string, not a pattern. Place under 'properties'.
 > 
 
-Indeed, I'll fix this up.
+Thanks, I'll fix both.
 
 
 Best regards,
