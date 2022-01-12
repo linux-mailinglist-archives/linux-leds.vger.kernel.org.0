@@ -2,73 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E707F48BAD0
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jan 2022 23:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AEBF48BD26
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jan 2022 03:26:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346522AbiAKWbh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jan 2022 17:31:37 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:45672 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243642AbiAKWba (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jan 2022 17:31:30 -0500
-Received: by mail-ot1-f50.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso414823otf.12;
-        Tue, 11 Jan 2022 14:31:30 -0800 (PST)
+        id S1348510AbiALC0W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jan 2022 21:26:22 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:42586 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236094AbiALC0W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jan 2022 21:26:22 -0500
+Received: by mail-ot1-f43.google.com with SMTP id s8-20020a0568301e0800b00590a1c8cc08so959117otr.9;
+        Tue, 11 Jan 2022 18:26:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=dJLOMebdKsEZ/wSKj4+QlW4PGs+CPb7OcliOl7AjxkI=;
-        b=v0Okei/dEiKsI0+iv/2o8wvUQpNwMivqX5wWeChNZeJy2I/m/lAG9QJyhFSwim9O2H
-         oLrqs75tWhhDURqwetaxF/PefgZCoQJxtzl39GNj+Lr8cKzepyDmoSsNKoYxEh7lrr72
-         bTjMOG58HXDooQ1gZxxtwzkjCbyVnDJ2V1IFinqiu6MsaTlQMbYZ9hjC3vLcmTIfGzWP
-         a8j/lMWZGyFvku7PpcEzfMhrAwhuJ6cIHIqR5eHBOB0XYdctgmk+YwjVgCUHpg+I0u8t
-         aJWSrJvHQd2CTUOrsjrqUY18anHE7pMIVuzWHb1K5VjqsL9JckOw1jG+3mJ/udOkAYve
-         DQGg==
-X-Gm-Message-State: AOAM531OhOVpTOFexhTTIM9xjiyn6PzwH8+W8IZk9nMm3JhPOUldbPBf
-        MLS1nkytsZm5aGfbBEll/A==
-X-Google-Smtp-Source: ABdhPJwNQkpF/69Ehm3O0ouMt1uRhpOS2eQpp3bOQviIYnRx4KAjGiUfsUX27SdtuOS908uqPWvp+w==
-X-Received: by 2002:a9d:37a2:: with SMTP id x31mr327281otb.51.1641940290055;
-        Tue, 11 Jan 2022 14:31:30 -0800 (PST)
+        bh=8skE+EhLiCSJlA3FJNIl/gCXTqckmqz6OxsyWaZ9u+M=;
+        b=tmO1oV3GO+vhcsQ8yT8OHaBRZTlH1WcOuKgHtf7r4G3/r6hlpi3Cw5H+5u9plI5R4l
+         CXklbq/MxOoI+f08rDh2KVldq2us/2T6Q+VumxhvbCvV7mborzFG7lvs6+9kZYjXK8hQ
+         Yr++tTWZrTBZfqFXKUGxwLlOfd4tZcKxKSIQOhvbrrmZqnjBI8OIl8gJ0XrjR6c7VSZP
+         R4qA9MagVOhm6LvXRCgK1a5saW9P/pJzreqOyRFQNMzVlwMpjjW8BI0lj11Zpl21z7T1
+         dHxRESRAcBUkJADz0jo7h8OwBuY0ZyMD8oNqQg5ivk4Q9rHNMHayR/PIdXnOyLBAKNBR
+         7tTg==
+X-Gm-Message-State: AOAM530RWrtydGCbbVEJ0JfUBEvgZk3KKI3hZX/GW3wt5QsNpb/peQbW
+        G9Md3IsoGUepMtVlKkvBvA==
+X-Google-Smtp-Source: ABdhPJzXqX8XUOXqjUnZ7YOkTfLPWni4FeR/wl9DtlyO3BTkAIqM2zIPJBqinjkEhYLiTHGtJBr/rA==
+X-Received: by 2002:a9d:6012:: with SMTP id h18mr5410418otj.203.1641954381390;
+        Tue, 11 Jan 2022 18:26:21 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id g22sm2296330otj.0.2022.01.11.14.31.28
+        by smtp.gmail.com with ESMTPSA id s124sm515068ooa.1.2022.01.11.18.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 14:31:29 -0800 (PST)
-Received: (nullmailer pid 3621764 invoked by uid 1000);
-        Tue, 11 Jan 2022 22:31:28 -0000
-Date:   Tue, 11 Jan 2022 16:31:28 -0600
+        Tue, 11 Jan 2022 18:26:20 -0800 (PST)
+Received: (nullmailer pid 3951142 invoked by uid 1000);
+        Wed, 12 Jan 2022 02:26:19 -0000
+Date:   Tue, 11 Jan 2022 20:26:19 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
-        linux-leds@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v2 3/3] dt-bindings: leds: common: fix unit address in
- max77693 example
-Message-ID: <Yd4FQL0mC65LGVgR@robh.at.kernel.org>
-References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
- <20220111175430.224421-4-krzysztof.kozlowski@canonical.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        linux-leds@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] dt-bindings: mfd: maxim,max77693: convert to
+ dtschema
+Message-ID: <Yd48S1shnwqjs75r@robh.at.kernel.org>
+References: <20220111175017.223966-1-krzysztof.kozlowski@canonical.com>
+ <20220111175017.223966-5-krzysztof.kozlowski@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220111175430.224421-4-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220111175017.223966-5-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 11 Jan 2022 18:54:30 +0100, Krzysztof Kozlowski wrote:
-> The max77693 LED device node should not take an unit address, because it
-> is instantiated from a max77693 I2C parent device node.  This also
-> splits all examples to separate DTS examples because they are actually
-> independent.
+On Tue, 11 Jan 2022 18:50:17 +0100, Krzysztof Kozlowski wrote:
+> Convert the MFD part of Maxim MAX77693 MUIC to DT schema format.  The
+> example DTS was copied from existing DTS (exynos4412-midas.dtsi), so
+> keep the license as GPL-2.0-only.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 > ---
->  Documentation/devicetree/bindings/leds/common.yaml | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/mfd/max77693.txt      | 194 ------------------
+>  .../bindings/mfd/maxim,max77693.yaml          | 143 +++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 144 insertions(+), 195 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/max77693.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/maxim,max77693.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
