@@ -2,105 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A5EA48BF2C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jan 2022 08:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F22A48BF8C
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jan 2022 09:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237622AbiALHm4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Jan 2022 02:42:56 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:48858
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231359AbiALHm4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 12 Jan 2022 02:42:56 -0500
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 52F4C402EB
-        for <linux-leds@vger.kernel.org>; Wed, 12 Jan 2022 07:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1641973375;
-        bh=epu2LRZE4ho4WW6edxeyHFTEV0S/nG4S9x7fJoxh1S0=;
-        h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-         In-Reply-To:Content-Type;
-        b=AUbbDMM9n7HXSgC33STLujBHyRbc5bJr7Kgl3e0lXmR9ZL4F5dIqYJ6+IZd7zKnGU
-         lAhfAKq15ZoP5usbS4BX0nRCC/F4WZVxx1etYavO+3WDHi5uWjH6bK56gPt+klyJLq
-         9GO5vnQF4xKyLw6EQUTvjE0/F5gEUFOzavaieT+J+46j2+7etoCVtCUMiDI2qVMHKS
-         nKV8bLfQIHKg0MULhNOqTNw2aTWAxpdoX2+bqCpSek8DN1OM6zsI7Aoc4OnNQF6hhv
-         vL6NdJbLgXDXVtBIJIDrJh0Q9g5qXekndWhcwXwsZbvp6qY27oVkzMrLO7LBSjjcIs
-         aRUBz32/CrS6A==
-Received: by mail-ed1-f69.google.com with SMTP id y18-20020a056402271200b003fa16a5debcso1477091edd.14
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jan 2022 23:42:55 -0800 (PST)
+        id S1349341AbiALIKt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Jan 2022 03:10:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238080AbiALIKs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jan 2022 03:10:48 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8548AC061748
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jan 2022 00:10:48 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id 82so1642456qki.10
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jan 2022 00:10:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ln4Z+utk5t4wG7dSTr+N/vIytSHGiSk5Tc9SQNyOM48=;
+        b=jRXNSagtG+3zCQ/ueepVM/ZM8F+fDU+KYJkYAXte5pXlSXGD9pne8SjP5bzXRhTgTr
+         /LDmH+gdHv7f4ka7Fty9DPzim7kmqkCpYiSN6KQNDQ1L+UPPyG2am2s07g300gsYADGT
+         AJb+btdFlbtttkdtoD0ebAkqEFyeO5ZOGo36O3wC5NiCecrGTlB1idrAmqutPEOfyWam
+         n2rwJW/QZf1zc8D4/iVVtZbcNwIeE6AAM47bc7p45h7cvF0VojA9f3EwrNZAN7Pp7rug
+         7ldZ/AEjhRU4lUkcoA5PoPuAYB5eWOFx3J/E/jDvDoQ4tw6dtRSx+L/Q35l36UtxOMOi
+         uTrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=epu2LRZE4ho4WW6edxeyHFTEV0S/nG4S9x7fJoxh1S0=;
-        b=kE9tZ54EQRGLjXxAdwLbZzt1qh/6tpRsgvCHb+N9TbdrmP2y/hh+AOpR2UtdbWgqnw
-         HmVnUALZCxQxIhZFP+7r0u09OuFJK8ag4dF7XSmgKMBWQ7E3K9MtidIBDJXL5auS3yRU
-         qbzXjVZdAJJ0QM6vY1qlEcOhBrD0ikvoVNDuAeAJuvUbYUPN3P+S5bNIG6WGIuJit7lm
-         ZA9tSTyqgaHFhBi+gKqswMUe+pi6bhEWTniy06InDMNptvL448kHMXmSawXfURmB0RJc
-         lgLg0r7fqr0u9goIEPUe20sJ+MrUhy/oinUkgJkEbcd1nedeGM2Uf76C01iTYqATINj8
-         Z8LQ==
-X-Gm-Message-State: AOAM530RgfAHqmm6BwLrsoWS9cdYuxC3zEK6+VlRpabUr48c21ssbbgO
-        JMAneQvQUunIFUukxaOyyTzZ85YcYBgh1T1dWApxCpV1Kd8SbpI9syVJ570+vvsO/h9OHmcULSR
-        FI7BOcgaf81xdMz/o/X30+lultPuHkKAYG1K4NC4=
-X-Received: by 2002:aa7:df13:: with SMTP id c19mr7689772edy.233.1641973374240;
-        Tue, 11 Jan 2022 23:42:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0NbbWSBowvR9ILzXQnO9GdhgSKLG97/LSzMoBz0Gaauz3kd508ZNjLoLgXl9i652kC+N/dw==
-X-Received: by 2002:aa7:df13:: with SMTP id c19mr7689756edy.233.1641973374107;
-        Tue, 11 Jan 2022 23:42:54 -0800 (PST)
-Received: from [192.168.0.26] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id hq29sm4265184ejc.141.2022.01.11.23.42.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 23:42:53 -0800 (PST)
-Message-ID: <783a67ad-ee7e-c75a-a52c-672cd355bd37@canonical.com>
-Date:   Wed, 12 Jan 2022 08:42:52 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ln4Z+utk5t4wG7dSTr+N/vIytSHGiSk5Tc9SQNyOM48=;
+        b=oqFQOOojNIlDzRX4vCdmiNjLI4EGK/DzfLC3VA0pa9AjcT5UOqDj7NVWHSATHo5Enp
+         YCS9ot5exDhzCJzJvyQJ2ALAkbkLhloFZXPDipUQvVAPHFHHfDq/YYcU9iqyrGQ5FH0+
+         xm4TZNy57Qg0TlzRYnupf7NpRNlOSZ2DLd6Bs8TX7JVoa3O+mZS1RMhoedeLDU0gP2SK
+         6KDN5N0fSV28VpfObXm7R6qMuLNOtDxDRovGyJPJBxAUmzfQR7oOF38FqKv+3UV26uDI
+         O5Yt25HV0EBUZeAF0UtE1ieFGFP6UnymD32uRs8A6ZD8aDtP303kVtKxTAFtVfr9M/sM
+         lf3g==
+X-Gm-Message-State: AOAM532P3JcoL/t0LpcR213DS4rlShJdbR+zQf5Y/ejIsZyHxIu4J1OQ
+        wYbIw/Ix2T1KX/MKG/0wBr4hjbF4R+W2mDD2ZqDpwg==
+X-Google-Smtp-Source: ABdhPJxgw8vuzvGsNpSUXyvXwl1oHkWI75DxxBdrzPmti4gBxsNpCUeqpRI1bGJFhSec2o2EMW1PEEto2AraQlbf+yQ=
+X-Received: by 2002:a37:8045:: with SMTP id b66mr5682021qkd.670.1641975047533;
+ Wed, 12 Jan 2022 00:10:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v2 3/3] dt-bindings: leds: common: fix unit address in
- max77693 example
-Content-Language: en-US
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
+From:   Javier Martinez Canillas <javier@dowhile0.org>
+Date:   Wed, 12 Jan 2022 09:10:36 +0100
+Message-ID: <CABxcv===MQp6Riutw0Cs=CAxX1k9fNZfcL+nDEuRHveXzjMQBw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] regulator/mfd: dt-bindings: maxim,max77802:
+ convert to dtschema
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
- <20220111175430.224421-4-krzysztof.kozlowski@canonical.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220111175430.224421-4-krzysztof.kozlowski@canonical.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/01/2022 18:54, Krzysztof Kozlowski wrote:
-> The max77693 LED device node should not take an unit address, because it
-> is instantiated from a max77693 I2C parent device node.  This also
-> splits all examples to separate DTS examples because they are actually
-> independent.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
+Hello Krzysztof,
 
-This should be part of my max77693 patchset:
-https://lore.kernel.org/lkml/20220111175017.223966-1-krzysztof.kozlowski@canonical.com/
+On Tue, Jan 11, 2022 at 6:55 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@canonical.com> wrote:
+>
+> Hi,
+>
+> Changes since v1
+> ================
+> 1. MFD: Use absolute path to schemas.
+> 2. Regulator: skip properties.
+>
+> Dependencies
+> ============
+> 1. DTS patch: nothing depends on it, sending here so Rob's automatic
+>    checker won't complain about DTS.
+>    I will take it via Samsung SoC tree.
+>
+> 2. Final MFD patch depends on regulator, so the two last patches could
+>    go via Rob's, Mark's or Lee's trees.
+>
+> Best regards,
+> Krzysztof
+>
+> Krzysztof Kozlowski (3):
+>   regulator: dt-bindings: maxim,max77802: convert to dtschema
+>   dt-bindings: mfd: maxim,max77802: convert to dtschema
+>   dt-bindings: leds: common: fix unit address in max77693 example
+>
 
-Nothing actually depends on this patch. It just fixes a warning which
-will be brought to eyes with mentioned max77693 patchset.
+For the three patches:
 
-Pavel, feel free to take it separately via leds tree. Other way is to
-take it with other max77693 patches (probably via MFD tree).
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 Best regards,
-Krzysztof
+Javier
