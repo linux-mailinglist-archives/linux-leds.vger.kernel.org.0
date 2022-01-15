@@ -2,68 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC9BF48CFFC
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jan 2022 02:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E2548F9E3
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Jan 2022 01:06:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230305AbiAMBKa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Jan 2022 20:10:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230226AbiAMBKP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jan 2022 20:10:15 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B9FC06118A;
-        Wed, 12 Jan 2022 17:10:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EF2D61BFD;
-        Thu, 13 Jan 2022 01:10:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 009BEC36AEC;
-        Thu, 13 Jan 2022 01:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642036206;
-        bh=Oi3L6T0Z7c7/LTjIOuBTTR76Edq6/I/nmHwS9okQd2g=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=uku839bOif2qO5qRuxvSjp5bCDhKeAgAZhd/LTZyh5mj0StgWT+Xltvz9FGuX2tHD
-         tjDpBvsfBhWlgOrBmeu2NQE2bCOl1z2WWzwClH6PCoDiFWJMW7zbN0u+YIA7D3W4xF
-         GqMpS1p31DuMtRHBTvYDkXJHDfd36ZHXnCvIqDysLg8e7DZO/Rm+7VR0j0WzwDZSuP
-         hYISKdMyHmibsqRuVP1v8P8K3MPue8JgR2pUzA0w5hryYlNEfXhjdENI463vO52a3H
-         T63lyhVSy2uMIhTjs2nkVK16VzQzLaZB0qMvseSceLXC4pWy8Buk5Q7jc9CmoPqvBh
-         IbRnhMQ/8h+Kw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E000DF60794;
-        Thu, 13 Jan 2022 01:10:05 +0000 (UTC)
-Subject: Re: [GIT PULL] LEDs changes for v5.17-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20220112184611.GA2187@duo.ucw.cz>
-References: <20220112184611.GA2187@duo.ucw.cz>
-X-PR-Tracked-List-Id: <linux-leds.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20220112184611.GA2187@duo.ucw.cz>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.17-rc1
-X-PR-Tracked-Commit-Id: 9e87a8da747bf72365abb79e6f64fcca955b4f56
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d9b5941bb5933932051e315de18a43db7d3c9e13
-Message-Id: <164203620587.494.17294799514865274194.pr-tracker-bot@kernel.org>
-Date:   Thu, 13 Jan 2022 01:10:05 +0000
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+        id S233944AbiAPAGX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Sat, 15 Jan 2022 19:06:23 -0500
+Received: from ec2-13-115-114-132.ap-northeast-1.compute.amazonaws.com ([13.115.114.132]:45118
+        "EHLO mail.gunma-suigai-risk.jp" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231448AbiAPAGW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 15 Jan 2022 19:06:22 -0500
+Received: from Unknown (unknown [103.156.17.62])
+        by mail.gunma-suigai-risk.jp (Postfix) with ESMTPA id EF972209DB61;
+        Sat, 15 Jan 2022 21:22:15 +0000 (UTC)
+Message-ID: <A2A71142499DB370ACA9E05C58CCBE99@oquo>
+Reply-To: "Fredrik Elvebakk" <fcresswell9@gmail.com>
+From:   "Fredrik Elvebakk" <investment@dnb.no>
+Subject: Re:
+Date:   Sat, 15 Jan 2022 13:21:05 -0800
+MIME-Version: 1.0
+Content-Type: text/plain;
+        format=flowed;
+        charset="windows-1251";
+        reply-type=original
+Content-Transfer-Encoding: 8BIT
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Windows Live Mail 16.4.3528.331
+X-MimeOLE: Produced By Microsoft MimeOLE V16.4.3528.331
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Wed, 12 Jan 2022 19:46:11 +0100:
+Hello
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.17-rc1
+Kindly get back to me for an important 
+discussion
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d9b5941bb5933932051e315de18a43db7d3c9e13
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best regards
+Fredrik Elvebakk
