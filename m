@@ -2,24 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E2548F9E3
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Jan 2022 01:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE6848FF19
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Jan 2022 22:26:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233944AbiAPAGX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Sat, 15 Jan 2022 19:06:23 -0500
-Received: from ec2-13-115-114-132.ap-northeast-1.compute.amazonaws.com ([13.115.114.132]:45118
+        id S236195AbiAPV0a convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Sun, 16 Jan 2022 16:26:30 -0500
+Received: from ec2-13-115-114-132.ap-northeast-1.compute.amazonaws.com ([13.115.114.132]:32862
         "EHLO mail.gunma-suigai-risk.jp" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231448AbiAPAGW (ORCPT
+        by vger.kernel.org with ESMTP id S233726AbiAPV0a (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 15 Jan 2022 19:06:22 -0500
+        Sun, 16 Jan 2022 16:26:30 -0500
 Received: from Unknown (unknown [103.156.17.62])
-        by mail.gunma-suigai-risk.jp (Postfix) with ESMTPA id EF972209DB61;
-        Sat, 15 Jan 2022 21:22:15 +0000 (UTC)
-Message-ID: <A2A71142499DB370ACA9E05C58CCBE99@oquo>
+        by mail.gunma-suigai-risk.jp (Postfix) with ESMTPA id 6856B2A9AD74;
+        Sun, 16 Jan 2022 05:38:34 +0000 (UTC)
+Message-ID: <D9DC6A3932E6C80BD7D29B272392F2C6@lbhjxib>
 Reply-To: "Fredrik Elvebakk" <fcresswell9@gmail.com>
 From:   "Fredrik Elvebakk" <investment@dnb.no>
 Subject: Re:
-Date:   Sat, 15 Jan 2022 13:21:05 -0800
+Date:   Sat, 15 Jan 2022 21:38:31 -0800
 MIME-Version: 1.0
 Content-Type: text/plain;
         format=flowed;
