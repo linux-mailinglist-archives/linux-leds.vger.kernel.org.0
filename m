@@ -2,148 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AA2490712
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Jan 2022 12:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7EC64908FD
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Jan 2022 13:48:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239047AbiAQLVU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Jan 2022 06:21:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59291 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236242AbiAQLVT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 17 Jan 2022 06:21:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1642418479;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AyH60sfTvvph6+RX0SU8Ph5zVQEHEPB8dqcptx1BpjU=;
-        b=Pwc+2uH5Dk/fGMCrhs6MrC3EaNYnr9TPx1oFvYQr66Bf8AjE4Iv2SXyNpTwBVXUdHIOuxL
-        bxFV4wVJcFbqzO237BKUAww7Gomqgb0AoY10JwOOnjSntaor0wEyrkq3jG7Bs3ZXAURZbS
-        ovhY1a7y4ZCB470zULij+6wxyrJSfZc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-374-jVrrHo_8Ojixs6ep_Ta8Qg-1; Mon, 17 Jan 2022 06:21:17 -0500
-X-MC-Unique: jVrrHo_8Ojixs6ep_Ta8Qg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24AD1934100;
-        Mon, 17 Jan 2022 11:21:16 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.193.194])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 99FBC752C9;
-        Mon, 17 Jan 2022 11:21:15 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
-        Henning Schild <henning.schild@siemens.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/2] leds: simatic-ipc-leds: Don't directly deref ioremap_resource() returned ptr
-Date:   Mon, 17 Jan 2022 12:21:09 +0100
-Message-Id: <20220117112109.215695-2-hdegoede@redhat.com>
-In-Reply-To: <20220117112109.215695-1-hdegoede@redhat.com>
-References: <20220117112109.215695-1-hdegoede@redhat.com>
+        id S231182AbiAQMsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Jan 2022 07:48:03 -0500
+Received: from mxout70.expurgate.net ([194.37.255.70]:54313 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230169AbiAQMsC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Jan 2022 07:48:02 -0500
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1n9RQM-0002RA-QZ; Mon, 17 Jan 2022 13:47:50 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1n9RQM-0004Sq-0f; Mon, 17 Jan 2022 13:47:50 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id A708424004B;
+        Mon, 17 Jan 2022 13:47:49 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 295D0240049;
+        Mon, 17 Jan 2022 13:47:49 +0100 (CET)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id B822320BBE;
+        Mon, 17 Jan 2022 13:47:48 +0100 (CET)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     pavel@ucw.cz, robh+dt@kernel.org, andy.shevchenko@gmail.com
+Cc:     Eckert.Florian@googlemail.com, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v3 0/2] leds: add ktd20xx LED driver support
+Date:   Mon, 17 Jan 2022 13:47:39 +0100
+Message-ID: <20220117124741.7165-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+        autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.dev.tdt.de
+Content-Transfer-Encoding: quoted-printable
+X-purgate: clean
+X-purgate-ID: 151534::1642423670-00005ED7-CD8F2A4E/0/0
+X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Sparse (rightly) currently gives the following warning:
+Introducing the KTD2061/58/59/60 RGB LED drivers. The difference in
+these are the address numbers on the I2C bus that the device listens to.
 
-drivers/leds/simple/simatic-ipc-leds.c:155:40:
- sparse: sparse: incorrect type in assignment (different address spaces)
- expected void *static [toplevel] simatic_ipc_led_memory
- got void [noderef] __iomem *
+Due to the hardware limitation, we can only set 7 colors and the color
+black (LED off) for each LED independently and not the full RGB range.
 
-Fix this by changing the type of simatic_ipc_led_memory to void __iomem *
-and use readl()/writel() to access it.
+v1: Initial send
+v2: Remove variant 1 from source
+v3: Changes requested by Andy Shevchenko added. Thanks for reviewing
+  - Removing OF dependency
+  - Add missing includes
+  - Use device_property_read_u32() instead of fwnode_property_read_u32()
+  - Use one liner function pattern <test> ? <value-true> : <value-false>
+  - Remove switch case call for intensity color selection use BIT()
+    instead
+  - Remove not needed fwnode_handle_put() in ktd200xx_probe_dt() function
+  - Use dev_get_drvdata() instead of i2c_get_clientdata() function call
+  - Use sysfs_emit() function call
+  - Use kstrtobool() function call
+  - Remove not needed comma after last array element
+  - Use dev_err_probe() instead of dev_error() in driver probe function
+  - Do not use dev_group registration function set .dev_groups directly
+    into ktd20xx_driver struct.
 
-Cc: Henning Schild <henning.schild@siemens.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Note this is not tested on actual hw, since I do not have the hw in question
----
- drivers/leds/simple/simatic-ipc-leds.c | 32 +++++++++++++++-----------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+Florian Eckert (2):
+  leds: ktd20xx: Extension of the KTD20xx family of LED drivers from
+    Kinetic
+  dt: bindings: KTD20xx: Introduce the ktd20xx family of RGB drivers
 
-diff --git a/drivers/leds/simple/simatic-ipc-leds.c b/drivers/leds/simple/simatic-ipc-leds.c
-index 179110448659..078d43f5ba38 100644
---- a/drivers/leds/simple/simatic-ipc-leds.c
-+++ b/drivers/leds/simple/simatic-ipc-leds.c
-@@ -41,7 +41,7 @@ static struct simatic_ipc_led simatic_ipc_leds_io[] = {
- /* the actual start will be discovered with PCI, 0 is a placeholder */
- static struct resource simatic_ipc_led_mem_res = DEFINE_RES_MEM_NAMED(0, SZ_4K, KBUILD_MODNAME);
- 
--static void *simatic_ipc_led_memory;
-+static void __iomem *simatic_ipc_led_memory;
- 
- static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
- 	{0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
-@@ -92,21 +92,22 @@ static void simatic_ipc_led_set_mem(struct led_classdev *led_cd,
- 				    enum led_brightness brightness)
- {
- 	struct simatic_ipc_led *led = cdev_to_led(led_cd);
-+	void __iomem *reg = simatic_ipc_led_memory + led->value;
-+	u32 val;
- 
--	u32 *p;
--
--	p = simatic_ipc_led_memory + led->value;
--	*p = (*p & ~1) | (brightness == LED_OFF);
-+	val = readl(reg);
-+	val = (val & ~1) | (brightness == LED_OFF);
-+	writel(val, reg);
- }
- 
- static enum led_brightness simatic_ipc_led_get_mem(struct led_classdev *led_cd)
- {
- 	struct simatic_ipc_led *led = cdev_to_led(led_cd);
-+	void __iomem *reg = simatic_ipc_led_memory + led->value;
-+	u32 val;
- 
--	u32 *p;
--
--	p = simatic_ipc_led_memory + led->value;
--	return (*p & 1) ? LED_OFF : led_cd->max_brightness;
-+	val = readl(reg);
-+	return (val & 1) ? LED_OFF : led_cd->max_brightness;
- }
- 
- static int simatic_ipc_leds_probe(struct platform_device *pdev)
-@@ -116,8 +117,9 @@ static int simatic_ipc_leds_probe(struct platform_device *pdev)
- 	struct simatic_ipc_led *ipcled;
- 	struct led_classdev *cdev;
- 	struct resource *res;
-+	void __iomem *reg;
- 	int err, type;
--	u32 *p;
-+	u32 val;
- 
- 	switch (plat->devmode) {
- 	case SIMATIC_IPC_DEVICE_227D:
-@@ -157,11 +159,13 @@ static int simatic_ipc_leds_probe(struct platform_device *pdev)
- 			return PTR_ERR(simatic_ipc_led_memory);
- 
- 		/* initialize power/watchdog LED */
--		p = simatic_ipc_led_memory + 0x500 + 0x1D8; /* PM_WDT_OUT */
--		*p = (*p & ~1);
--		p = simatic_ipc_led_memory + 0x500 + 0x1C0; /* PM_BIOS_BOOT_N */
--		*p = (*p | 1);
-+		reg = simatic_ipc_led_memory + 0x500 + 0x1D8; /* PM_WDT_OUT */
-+		val = readl(reg);
-+		writel(val & ~1, reg);
- 
-+		reg = simatic_ipc_led_memory + 0x500 + 0x1C0; /* PM_BIOS_BOOT_N */
-+		val = readl(reg);
-+		writel(val | 1, reg);
- 		break;
- 	default:
- 		return -ENODEV;
--- 
-2.33.1
+ .../bindings/leds/leds-ktd20xx.yaml           | 130 ++++
+ MAINTAINERS                                   |   7 +
+ drivers/leds/Kconfig                          |  12 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-ktd20xx.c                   | 580 ++++++++++++++++++
+ 5 files changed, 730 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-ktd20xx.y=
+aml
+ create mode 100644 drivers/leds/leds-ktd20xx.c
+
+--=20
+2.20.1
 
