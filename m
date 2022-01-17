@@ -2,32 +2,35 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DAD2490DF9
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Jan 2022 18:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBCD490EA2
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Jan 2022 18:11:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242190AbiAQRGh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Jan 2022 12:06:37 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:51154 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241455AbiAQRD1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Jan 2022 12:03:27 -0500
+        id S242766AbiAQRLZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Jan 2022 12:11:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242424AbiAQRI0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Jan 2022 12:08:26 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05764C061771;
+        Mon, 17 Jan 2022 09:04:54 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DD443B8115E;
-        Mon, 17 Jan 2022 17:03:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC6A0C36AE7;
-        Mon, 17 Jan 2022 17:03:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9921961275;
+        Mon, 17 Jan 2022 17:04:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148F8C36AE3;
+        Mon, 17 Jan 2022 17:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642439003;
-        bh=+8LHjSnLU29NpUoAB6JDaqx9NRAtjYj88z2wYDGDZ98=;
+        s=k20201202; t=1642439093;
+        bh=wAaY7O2kmNWRZb62fU6nWsGv4pfNsV5Wc/+l40sfUwg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ubneuKGySr44UXq1zsXhZhNHIRpgQ1Bu+9eEVxmOp1DjNSZzz34+kofOj0IQCyT9K
-         xHW80jQI7w4Zj1XWTdBoGSU0Lgln6AuaaJvPR+WvR5bowwag3eZ1aKJAGo6NHHh4Ei
-         yTqecMQTtJppCRK06daSCxui2qweKW6i2yTBUkRgbtD6gdIMkqRidO1PIclFGMiL2w
-         2jZkm+E+V6sxsMaAlgGWkUbDFyPhvBs+09bqcLpIOpA0+eaRiUGRaQVb5arJcV9hfj
-         FscqdscURXWFljZEXq0AjmCvGd+L1/ZdQ5NGk+4uR+DeA+iLQB7J8S+caMNUyrgLHz
-         DEwpPobOnp09w==
+        b=gjDT+FyuYTfIesl3vzW8Y/XvY0Aro7ZU8NnJTBUbznPkJxC35JU7DN8xprltjK8zu
+         DyCkCjNRw22khf9fKgWy7YEAdXK9NBctqUE1+w5sMLZx2NtjYurahgvFg0igLaWRpN
+         zev4p2uWXK5AxdnGELVVqHMmTSd5OppIx7p3V9p93j28L3rOPIxkjyEXDM5uKVePuk
+         QtTa2tWo5J/X5piWGqLoyvjwaeR9d6mrwBiZjlxpD1G1hqKtWEjbRfmPd1jCwSJAvI
+         +TsW11nRtYAL7VVltt8gT8egmHi4IsZMcUu6UXxvZaPmQKPcUuXXMvYTduycgTH8c4
+         tJdy3/VihCAOw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
@@ -35,12 +38,12 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
         Rod Whitby <rod@whitby.id.au>, Pavel Machek <pavel@ucw.cz>,
         Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 44/44] leds: leds-fsg: Drop FSG3 LED driver
-Date:   Mon, 17 Jan 2022 12:01:27 -0500
-Message-Id: <20220117170127.1471115-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 34/34] leds: leds-fsg: Drop FSG3 LED driver
+Date:   Mon, 17 Jan 2022 12:03:24 -0500
+Message-Id: <20220117170326.1471712-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220117170127.1471115-1-sashal@kernel.org>
-References: <20220117170127.1471115-1-sashal@kernel.org>
+In-Reply-To: <20220117170326.1471712-1-sashal@kernel.org>
+References: <20220117170326.1471712-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -73,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  delete mode 100644 drivers/leds/leds-fsg.c
 
 diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index ed800f5da7d88..c262ee4453494 100644
+index 56e8198e13d10..aea7c07f8a2bc 100644
 --- a/drivers/leds/Kconfig
 +++ b/drivers/leds/Kconfig
-@@ -260,13 +260,6 @@ config LEDS_NET48XX
+@@ -288,13 +288,6 @@ config LEDS_NET48XX
  	  This option enables support for the Soekris net4801 and net4826 error
  	  LED.
  
@@ -91,10 +94,10 @@ index ed800f5da7d88..c262ee4453494 100644
  	tristate "LED Support for the WRAP series LEDs"
  	depends on LEDS_CLASS
 diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index c636ec069612d..36506bddcc303 100644
+index 73e603e1727e7..c9711a7d21c16 100644
 --- a/drivers/leds/Makefile
 +++ b/drivers/leds/Makefile
-@@ -26,7 +26,6 @@ obj-$(CONFIG_LEDS_COBALT_RAQ)		+= leds-cobalt-raq.o
+@@ -28,7 +28,6 @@ obj-$(CONFIG_LEDS_COBALT_RAQ)		+= leds-cobalt-raq.o
  obj-$(CONFIG_LEDS_CPCAP)		+= leds-cpcap.o
  obj-$(CONFIG_LEDS_DA903X)		+= leds-da903x.o
  obj-$(CONFIG_LEDS_DA9052)		+= leds-da9052.o
