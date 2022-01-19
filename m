@@ -2,124 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 647BC493A0F
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Jan 2022 13:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB260493C29
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Jan 2022 15:47:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349080AbiASMJV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Jan 2022 07:09:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234677AbiASMJU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Jan 2022 07:09:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A51C061574;
-        Wed, 19 Jan 2022 04:09:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5C30661659;
-        Wed, 19 Jan 2022 12:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C899C004E1;
-        Wed, 19 Jan 2022 12:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642594158;
-        bh=jTL1kOllWwNpAyRghJtzBJcKTv5b3vqCwXM1meqTpw0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=EAM3BRW+CbiGfMCjMaveMIE0YyZKBv4YGXrhRLSxa7sz3YBI0QQEuz2LrLupXBm6Y
-         R889FqqDBLJRbmysGVMQsKr1+BPa+yDJxTjvvCiMdGOmw3WRnNeHLu+nDQzZ0VrcIg
-         537D4y6llCDYE69wujlX8OZOzzDzuUv4TZj1s79d9eFb+RXQG9+f7bhJe+cQ9hqXOs
-         UzplFSvX38xneJW3n6U2ZW+ZGtGaC4rD9CUZ5eJbXp53b/2qOgmJO8dTGx52wnNROz
-         mMWxGEVBV5Zu24UiKq2KQXFZoJvf1AB0QizfrxdUr/IZ5hnV98uHFEwvu8cGlN1QiB
-         De5JfwgYpTzOg==
-Message-ID: <07adcd47-79c9-ae37-80c6-d1204c6cfea4@kernel.org>
-Date:   Wed, 19 Jan 2022 14:09:01 +0200
+        id S1355235AbiASOrH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Jan 2022 09:47:07 -0500
+Received: from mail-ot1-f44.google.com ([209.85.210.44]:33714 "EHLO
+        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355269AbiASOrH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Jan 2022 09:47:07 -0500
+Received: by mail-ot1-f44.google.com with SMTP id y11-20020a0568302a0b00b0059a54d66106so3462069otu.0;
+        Wed, 19 Jan 2022 06:47:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=By8MCaOUBXm4JFsoFgchXDiBCHq73b/VK8JwUra9Jqg=;
+        b=n22PQpmiTDIAzaJYMEPL7jrd3ES9QPCcygW9DJkrEx9ugspQd4D2VLURVe2R1K6ZJr
+         XiZ7UX+1Oh6iqoXcRXHNWdeoixEFuf4zR8BIYLAWaZxRVLeGdl1P+8MDaFWe7irbHyqz
+         10No200JR9TaNJVUAPxg+AXWUp86XA4u0sQzBr0bCLeqS804QhvoFlY77LZWh8cEowFw
+         KTgnyBhF+2PO95b/8LWeTd70x7FUzPck78HF97hj+sdHFNjMDFPipqSZc80iBHaGEPWI
+         3ZmNwYMmjDMyIqpFdBxrsMBApnIVEXfNDwU9KO8QsOt3ZigYw8ACqSAuRZxe2v1AHrks
+         VZLw==
+X-Gm-Message-State: AOAM5308sS/pFNP/LKnL+20yBssb+gPBeqHH8DV6nsaB8QLEyt4Vrq3N
+        WiJNR3zcWZ++16jIgELL8A==
+X-Google-Smtp-Source: ABdhPJxp9A2YTb4rIod/BHhcjrN+GmXr5oaQ5Ihbp3C5qD7s5hWwFzjwRycYR3w87G4fUPsDUSaq9g==
+X-Received: by 2002:a9d:6e16:: with SMTP id e22mr19236753otr.259.1642603626375;
+        Wed, 19 Jan 2022 06:47:06 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id ay40sm10264392oib.1.2022.01.19.06.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jan 2022 06:47:05 -0800 (PST)
+Received: (nullmailer pid 3537590 invoked by uid 1000);
+        Wed, 19 Jan 2022 14:47:04 -0000
+Date:   Wed, 19 Jan 2022 08:47:04 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     linux-kernel@vger.kernel.org, andy.shevchenko@gmail.com,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        Eckert.Florian@googlemail.com, robh+dt@kernel.org, pavel@ucw.cz
+Subject: Re: [PATCH v3 2/2] dt: bindings: KTD20xx: Introduce the ktd20xx
+ family of RGB drivers
+Message-ID: <YegkaA49xZONJcrx@robh.at.kernel.org>
+References: <20220117124741.7165-1-fe@dev.tdt.de>
+ <20220117124741.7165-3-fe@dev.tdt.de>
 MIME-Version: 1.0
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-References: <20220119015038.2433585-1-robh@kernel.org>
-From:   Georgi Djakov <djakov@kernel.org>
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220117124741.7165-3-fe@dev.tdt.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, 17 Jan 2022 13:47:41 +0100, Florian Eckert wrote:
+> Introduce the bindings for the Kinetic KTD2061/58/59/60RGB LED device
+> driver. The KTD20xx can control RGB LEDs individually. Because of the
+> hardware limitations, only 7 colors and the color black (off) can be set.
+> 
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>  .../bindings/leds/leds-ktd20xx.yaml           | 130 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 131 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-ktd20xx.yaml
+> 
 
-On 19.01.22 3:50, Rob Herring wrote:
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
-> 
-> The array of phandles case boils down to needing:
-> 
-> items:
->    maxItems: 1
-> 
-> The phandle plus args cases should typically take this form:
-> 
-> items:
->    - items:
->        - description: A phandle
->        - description: 1st arg cell
->        - description: 2nd arg cell
-> 
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
-> 
-[..]
->   .../bindings/interconnect/qcom,rpmh.yaml      |  2 +
 
-Acked-by: Georgi Djakov <djakov@kernel.org>
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
