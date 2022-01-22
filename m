@@ -2,87 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6212449634D
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Jan 2022 17:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 168B3496D69
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Jan 2022 19:45:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380549AbiAUQ5U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Jan 2022 11:57:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50054 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380315AbiAUQ45 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Jan 2022 11:56:57 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13ED6C061772;
-        Fri, 21 Jan 2022 08:55:45 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id e81so14365960oia.6;
-        Fri, 21 Jan 2022 08:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lfG5LLChWvRNdV9wVnldjwvOnVKmO3qiE7tQP9HKM08=;
-        b=aW+lLvcniNVbrserfJPdMCLN+pjYIGdCJyovb01N9B356oX9NqLNjrEKpWRJypyk3G
-         dhj4n3KX5qWKuXWdzY3XY1jKasWd4F6312ewviRlgL18S0j6Y+7LI4UwnLQqRGULGS1s
-         dKrLEncGyDf5b/5ZQn81LzlEutk3qyhaYpInHqTzuJpyrdjtujD28LGSCfuVQXBz0nw/
-         3j4OTSnLnUHGb8KX7UIDr4KG2raMwMNoJ4smKXRLBmNNuuyUiY/ifk58w5lDAX3ok+j1
-         P0WmbqetCG/0NkSLF5hUPg2XjJ0lX/oS9w0N3UtacNfcmxnakpE4vG9VDgfVwsIraKOB
-         iT8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lfG5LLChWvRNdV9wVnldjwvOnVKmO3qiE7tQP9HKM08=;
-        b=QB8aCx2K55ZfBqRo9Yev6JyM225d3phdGjyUydmFsDfhpY+Vg6AAFJkrgYymUzhF8F
-         Fsi6/eao0wCKDH+VQQsasPa1SsKLSE4ExGi1we0kc/mnAcNX8zKcHPMQgR5fcH14v43Q
-         2evdyhQdoOU/6h0r0g13IfU6Jt1gQQSmKaEGwipd3mDgBAUlG33/U5lIv5Re/HXyGyWH
-         exGx7NADs6CA6gOZJdpYmbauVDNjm8l3rBtgY2dvUc9pqAGm9YbfaUpHIIF12jI3R2r6
-         DuNvfBPqTPrOaNpyHvZjJgKmPAmFGKidIu3COdzrIhCvtK0NpYeGT7n7SurSAjS5ciWw
-         TWAA==
-X-Gm-Message-State: AOAM531AboBVnQzOEoIw+6ydYIfEcpvZS1mOoEzMkdzKVjZSGq95bFSD
-        IVgs10ui3g+dbG/38L1BopsPPW5d3hw=
-X-Google-Smtp-Source: ABdhPJyrJQEbFXhs9KtvBf+u6DpwUM4N/tZ43aXtQP893w84s/JggZSo1F8pUf7m1CvR0hfopANpZg==
-X-Received: by 2002:a05:6808:1824:: with SMTP id bh36mr1239215oib.142.1642784144544;
-        Fri, 21 Jan 2022 08:55:44 -0800 (PST)
-Received: from thinkpad.localdomain ([2804:14d:5cd1:5d03:cf72:4317:3105:f6e5])
-        by smtp.gmail.com with ESMTPSA id y8sm1089271oou.23.2022.01.21.08.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jan 2022 08:55:44 -0800 (PST)
-From:   Luiz Sampaio <sampaio.ime@gmail.com>
+        id S234710AbiAVSpT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 22 Jan 2022 13:45:19 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:34466 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230437AbiAVSpL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Jan 2022 13:45:11 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 51A02CE0920;
+        Sat, 22 Jan 2022 18:45:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C39BC004E1;
+        Sat, 22 Jan 2022 18:45:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642877107;
+        bh=sCXbGdPD/DLUXHC43kzl/N19hLy2775nseKkVywyCBo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eCCumVsQ3kuyG1y/yjxxjMGqkgA4TrZke2dcaXe8ArI5I62GP6D2W7a8hl2HpehcA
+         XfodSGRoF9y1wZniKyrn0MCysm/kXWBKNuMHtZE7clm2fE3PMn0pORLOAKn271KE8d
+         Skt1tgAttZNescYaqjWHttjHtS42gLbCiAtlO+Ati+0wLnw+VpU7i/SxI2f7p6BCNK
+         rku/Nhsoa5o1X+L7Vzt2Si42IXemZqR9DmHbepkHpLF+nvO6y7URst0/X6hPgwns6p
+         wF5FfKSaFFl3x4UEc+PgMWRAdjA8iSKlR1KcDrg+oSYO5ta9NM7bm+KfjXjUbq7GKk
+         1JqSngEkHLrGw==
+Date:   Sat, 22 Jan 2022 13:45:04 -0500
+From:   Sasha Levin <sashal@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, Luiz Sampaio <sampaio.ime@gmail.com>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH 25/31] include: linux: leds: changing LED_* from enum led_brightness to actual value
-Date:   Fri, 21 Jan 2022 13:54:30 -0300
-Message-Id: <20220121165436.30956-26-sampaio.ime@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220121165436.30956-1-sampaio.ime@gmail.com>
-References: <20220121165436.30956-1-sampaio.ime@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Rod Whitby <rod@whitby.id.au>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.10 34/34] leds: leds-fsg: Drop FSG3 LED driver
+Message-ID: <YexQsGqgu0Fz9UVw@sashalap>
+References: <20220117170326.1471712-1-sashal@kernel.org>
+ <20220117170326.1471712-34-sashal@kernel.org>
+ <20220117230900.GB14035@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220117230900.GB14035@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The enum led_brightness, which contains the declaration of LED_OFF,
-LED_ON, LED_HALF and LED_FULL is obsolete, as the led class now supports
-max_brightness.
----
- include/linux/leds.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jan 18, 2022 at 12:09:00AM +0100, Pavel Machek wrote:
+>On Mon 2022-01-17 12:03:24, Sasha Levin wrote:
+>> From: Linus Walleij <linus.walleij@linaro.org>
+>>
+>> [ Upstream commit b7f1ac9bb6413b739ea91bd61bdf23c9130a8007 ]
+>>
+>> The board file using this driver has been deleted and the
+>> FSG3 LEDs can be modeled using a system controller and some
+>> register bit LEDs in the device tree so this driver is no
+>> longer needed.
+>
+>Please drop.
 
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index ba4861ec73d3..814541e41ce0 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -597,7 +597,7 @@ void ledtrig_audio_set(enum led_audio type, enum led_brightness state);
- #else
- static inline enum led_brightness ledtrig_audio_get(enum led_audio type)
- {
--	return LED_OFF;
-+	return 0;
- }
- static inline void ledtrig_audio_set(enum led_audio type,
- 				     enum led_brightness state)
+Uh, not sure how it made it in to begin with. Dropped, thanks!
+
 -- 
-2.34.1
-
+Thanks,
+Sasha
