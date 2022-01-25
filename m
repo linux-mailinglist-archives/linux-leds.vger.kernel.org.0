@@ -2,53 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 169DB49AFB9
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 10:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFDB049B04D
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 10:42:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379305AbiAYJPy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Jan 2022 04:15:54 -0500
-Received: from mail.belongsenergy.pl ([185.45.112.191]:33978 "EHLO
-        mail.belongsenergy.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1455695AbiAYJGE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 04:06:04 -0500
-X-Greylist: delayed 644 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Jan 2022 04:06:04 EST
-Received: by mail.belongsenergy.pl (Postfix, from userid 1001)
-        id BCCEC265F5; Tue, 25 Jan 2022 08:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=belongsenergy.pl;
-        s=mail; t=1643100918;
-        bh=JAEkA4FCBmQ7T7M+WVau75EdqeDf4MEEr9hE2/l61BA=;
-        h=Date:From:To:Subject:From;
-        b=SMGq36UFvmxNXi2yu6gPg7bgxK18PV8oe1c2yP51eRN1+DJrVeELHYwtTFKQ65JLW
-         TKtTJ4OSWRlA7KT4cYgXJG+ofKO1neI015F+5J8ffHkAwLJn6xxCm57l/nFBIZ5jiR
-         Bh7EdTXlrfqNN7+rE04EdwLHUfehsnZRDF2RAH7ucL4lqiFCQRNPW07RDdkcdKVisq
-         nozPKRtKRPzTAcAYsuk8uYPECdfE2H00A7Od58S7pcly3Q0NF97ahQaJZnA11RKoYw
-         aRgw6V245r+DLIf1Le1RQEvzVroiYwO8+LNvcJgsXaQb2X3uZflzcGo7nsc/Qwm7DK
-         KCmPfqvp0mQfA==
-Received: by mail.belongsenergy.pl for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 08:55:14 GMT
-Message-ID: <20220125074500-0.1.7.1l1.0.np39jlpbjo@belongsenergy.pl>
-Date:   Tue, 25 Jan 2022 08:55:14 GMT
-From:   "Maciej Nitycz" <maciej.nitycz@belongsenergy.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.belongsenergy.pl
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1574090AbiAYJcE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Jan 2022 04:32:04 -0500
+Received: from mail.schwermer.no ([49.12.228.226]:53934 "EHLO
+        mail.schwermer.no" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1573405AbiAYJXi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 04:23:38 -0500
+From:   sven@svenschwermer.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1643102592;
+        bh=UPIEjwpG8b9H+ydQhiaNdP/fk/iMS04+pE1EIuzjXBI=;
+        h=From:To:Cc:Subject;
+        b=fkleATCGg1CQLVO4S3Z9N8vwQe/goIUrKffLF1vULijFI1MiQUk4Af9Pq0aCDZx+t
+         XamFRdQRkNWAMfMdOm9561OsEoyYLHZgUAPh+O8qSPw3KcZO0mVmLObi5cuOViUYWZ
+         jCVX797bvp4yqrFYigyEEvTOvaMLabqf1cXmo8S2MpAKNACqU2id2CH/ayUVOFNg4E
+         NtWYP90f/bROmRs0uJFORtz+fBh7Yq/bS8F/xPSMXTin79uwGy7514nJrEjHQswYGW
+         fJZrKq72WNNab+SaCdd2fG2SdAEePTQ0135AJEGKkymfcDhdtPTsX/qnIQ2W4jGjh/
+         +q4JlNnolqgmg==
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        pavel@ucw.cz, dmurphy@ti.com, robh+dt@kernel.org,
+        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+        lee.jones@linaro.org
+Subject: [RFC PATCH 0/2] Multicolor PWM LED support
+Date:   Tue, 25 Jan 2022 10:22:37 +0100
+Message-Id: <20220125092239.2006333-1-sven@svenschwermer.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Hi,
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+As previously discussed [1] on the linux-leds list I am missing
+multicolor PWM LED support. In the mean time I have put together a
+working prototype for such a driver. This is my first Linux driver
+so I'm hoping for some feedback. Here are some questions that came up
+while putting this thing together:
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+  1. Currently, the max-brightness property is expected as a property to
+     the multi-led node. That seems consistent with the existing
+     multicolor class code, but I'm wondering whether it would make
+     sense to have a max-brigthness for the individual LEDs as well?
+  2. The current multi-led node definition calls for a node index which
+     would in turn require the reg property to be set within the node.
+     In this context, that doesn't seem to make sense. Should this
+     requirement be lifted from leds-class-multicolor.yaml?
+  3. I'm not currently reusing any leds-pwm code because there aren't
+     too many overlaps. Does anyone have suggestions what could be
+     factored out into a common source file?
 
+I would appreciate if anyone would test this code. It runs on my
+i.MX6ULL-based hardware.
 
-Pozdrawiam,
-Maciej Nitycz
+Best regards,
+Sven
+
+[1]: https://www.spinics.net/lists/linux-leds/msg19988.html
+
+Sven Schwermer (2):
+  dt-bindings: leds: Add multicolor PWM LED bindings
+  leds: Add PWM multicolor driver
+
+ .../bindings/leds/leds-pwm-multicolor.yaml    |  73 +++++++
+ drivers/leds/Kconfig                          |   8 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-pwm-multicolor.c            | 184 ++++++++++++++++++
+ 4 files changed, 266 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+ create mode 100644 drivers/leds/leds-pwm-multicolor.c
+
+-- 
+2.35.0
+
