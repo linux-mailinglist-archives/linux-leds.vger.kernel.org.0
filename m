@@ -2,172 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AABF049BD15
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 21:27:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAA3A49BD9B
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 22:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231983AbiAYU1s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Jan 2022 15:27:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
+        id S232786AbiAYVDC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Jan 2022 16:03:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbiAYU1j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 15:27:39 -0500
-X-Greylist: delayed 357 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Jan 2022 12:27:38 PST
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E93C06173B;
-        Tue, 25 Jan 2022 12:27:38 -0800 (PST)
-Received: from thinkpad (unknown [172.20.6.87])
-        by mail.nic.cz (Postfix) with ESMTPSA id 415D61409A4;
-        Tue, 25 Jan 2022 21:27:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1643142457; bh=A57kRWvGiyKtaG/Yvtu0y04xlTtadwcYoeG0S5PBK+4=;
-        h=Date:From:To;
-        b=obndSyKu5DuWOkOOM01HZlYynzSPNjomKD+VcgJEfX3+UXxi/VTyFW07ImOzb2pBW
-         vrbSu3+PXtMt+hgSa6IFyC+jd5gY0XTh25lo4a6R2jbXuUcs9giiv/qLN5piQHMYKW
-         tzkyb2tJH9enEDwrdspG2vYuxl4IDF9547BvLEoA=
-Date:   Tue, 25 Jan 2022 21:27:36 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To:     sven@svenschwermer.de
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        pavel@ucw.cz, dmurphy@ti.com, robh+dt@kernel.org,
-        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
-        lee.jones@linaro.org, post@lespocky.de
-Subject: Re: [RFC PATCH v2 1/2] dt-bindings: leds: Add multicolor PWM LED
- bindings
-Message-ID: <20220125212736.5ffafe2b@thinkpad>
-In-Reply-To: <20220125151226.31049-2-sven@svenschwermer.de>
-References: <20220125151226.31049-1-sven@svenschwermer.de>
-        <20220125151226.31049-2-sven@svenschwermer.de>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229994AbiAYVDA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 16:03:00 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70458C06173B
+        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:03:00 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id w11so9981057wra.4
+        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mFN8doDOVlUR5NaTfg8DdFnYA6JWFxpYZhNIPaDoCr0=;
+        b=m3DFYfOCt/x10sMhvc4yg2q3wXjibY75nx4kWGn0M0qtpaAv4Ad0xSqq+EtJvu0fJE
+         1fVCunxNGP3A8qOYVT2S3k7TpJBe02y7LtQlwRcTI0e4V+mYIm7Ou4dZ9PAd3otPgFm1
+         KnHRvzZb9xSL5e2aeEw9sqtqtv6gN4pg5Bn5DRPCV3RvVm3iCXNBgyzyNDU/EXQpCNFs
+         SyPlUjlS4YoGjqVR5VIHN0iB0in2SfyXGiERCH00JwATZ7UAcMDfJ3bHSk3IQg5Lt9D0
+         6Msqrt8viCReBujqQ6gvR/llb6XhjFPwD75gs/aKyLVpy/qAUPe5LaWh39FkSMdJi8/6
+         CeMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mFN8doDOVlUR5NaTfg8DdFnYA6JWFxpYZhNIPaDoCr0=;
+        b=FYYj65frSMY/CFUn/EU24kYJUsIXGyhsRilV9RCxFl9uCOTnIHy+VFSUUFzSl3p8pR
+         6ZA68//2EX81XvzyZ79Nka82YBe3C9NiyHbOzJQYNrlF1aMJWeCws5v/JPZ4TrchZEUe
+         IzTM00Dhw4+yN0KoNTp2WT1pg/wBPtRR5kMIDRMoLorvWaVl1ei4ytfd/9bEmS1/9z+D
+         v6ko0X6x1cfnF1hq1kyDLpe3XF4CgyqwC/c3mLeilXWdHDUxhqXZyvQEypOjMZMKsVD5
+         KvHwYSCPwuG7cngLwxfCQ8UKXGbLWbUWJu3L+I2z3E/Jj0nLuxkQe0lFUfVDp2ROSwB8
+         64Kg==
+X-Gm-Message-State: AOAM530f3chLO5uBQP1hB7xN3gzZjLTEELeuu7zly/YYLaAj84yCIQbT
+        2FcWC+kRa3g2KezMftEwVs7rgA==
+X-Google-Smtp-Source: ABdhPJz9c365WOZDcEknLVWg4JboS7XBDorcow9moQuMxpo75+j6DZ+HHUkEIrTL4c31adg50sza/Q==
+X-Received: by 2002:adf:dec3:: with SMTP id i3mr13337228wrn.225.1643144578990;
+        Tue, 25 Jan 2022 13:02:58 -0800 (PST)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id n2sm20700641wrw.63.2022.01.25.13.02.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jan 2022 13:02:58 -0800 (PST)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     pavel@ucw.cz, jacek.anaszewski@gmail.com, linus.walleij@linaro.org,
+        robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH resend] dt-bindings: leds: common: add disk write/read and usb-host
+Date:   Tue, 25 Jan 2022 21:02:52 +0000
+Message-Id: <20220125210252.52998-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 25 Jan 2022 16:12:25 +0100
-sven@svenschwermer.de wrote:
+The triggers enum misses 3 cases used by gemini DT.
+usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
+so we add also as valid trigger usb-gadget which was added along in this
+commit.
 
-> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> 
-> This allows to group multiple PWM-connected monochrome LEDs into
-> multicolor LEDs, e.g. RGB LEDs.
-> 
-> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> ---
->  .../bindings/leds/leds-pwm-multicolor.yaml    | 76 +++++++++++++++++++
->  1 file changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> new file mode 100644
-> index 000000000000..b82b26f2e140
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-pwm-multicolor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Multi-color LEDs connected to PWM
-> +
-> +maintainers:
-> +  - Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> +
-> +description: |
-> +  This driver combines several monochrome PWM LEDs into one multi-color
-> +  LED using the multicolor LED class.
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-leds-multicolor
-> +
-> +patternProperties:
-> +  '^multi-led@[0-9a-f]$':
-> +    type: object
-> +    allOf:
-> +      - $ref: leds-class-multicolor.yaml#
-> +
-> +    patternProperties:
-> +      "^led-[0-9a-z]+$":
-> +        type: object
-> +        properties:
-> +          pwms:
-> +            maxItems: 1
-> +
-> +          pwm-names: true
-> +
-> +          color:
-> +            $ref: common.yaml#/properties/color
-> +
-> +        required:
-> +          - pwms
-> +          - color
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    rgb-led {
-> +        compatible = "pwm-leds-multicolor";
-> +
-> +        multi-led@0 {
-> +          color = <LED_COLOR_ID_RGB>;
-> +          function = LED_FUNCTION_INDICATOR;
-> +          max-brightness = <65535>;
-> +
-> +          led-red {
-> +              pwms = <&pwm1 0 1000000>;
-> +              color = <LED_COLOR_ID_RED>;
-> +          };
-> +
-> +          led-green {
-> +              pwms = <&pwm2 0 1000000>;
-> +              color = <LED_COLOR_ID_GREEN>;
-> +          };
-> +
-> +          led-blue {
-> +              pwms = <&pwm3 0 1000000>;
-> +              color = <LED_COLOR_ID_BLUE>;
-> +          };
-> +        };
+disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
 
-what about
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+This is a resend of the patch since it was not applied for 6 months
+https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210508193654.2596119-1-clabbe@baylibre.com/
 
-	multi-led@0 {
-		color = <LED_COLOR_ID_RGB>;
-		function = LED_FUNCTION_INDICATOR;
-		pwms = <&pwm1 0 1000000>,
-		       <&pwm2 0 1000000>,
-		       <&pwm3 0 1000000>;
-		channels = <LED_COLOR_ID_RED>,
-			   <LED_COLOR_ID_GREEN>,
-			   <LED_COLOR_ID_BLUE>;
-	};
+ Documentation/devicetree/bindings/leds/common.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I am not saying that it is necessarily better, just comenting that
-maybe it is, since it saves some space. `pwms` is phandle-array, so it
-can contain references to multiple pwms, and we have functions which
-make getting these pwms in driver code easy...
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index 697102707703..37f8a6fd6518 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -89,6 +89,8 @@ properties:
+       - heartbeat
+         # LED indicates disk activity
+       - disk-activity
++      - disk-read
++      - disk-write
+         # LED indicates IDE disk activity (deprecated), in new implementations
+         # use "disk-activity"
+       - ide-disk
+@@ -97,6 +99,8 @@ properties:
+         # LED alters the brightness for the specified duration with one software
+         # timer (requires "led-pattern" property)
+       - pattern
++      - usb-gadget
++      - usb-host
+ 
+   led-pattern:
+     description: |
+-- 
+2.34.1
 
-Also this example won't compile with
-   make dt_bindings_check
-because you don't have pwm1, pwm2
-and pwm3 defined...
-
-Marek
