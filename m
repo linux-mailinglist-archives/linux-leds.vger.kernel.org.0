@@ -2,60 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA3A49BD9B
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 22:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 215F849BDAD
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jan 2022 22:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbiAYVDC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Jan 2022 16:03:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
+        id S232870AbiAYVFp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Jan 2022 16:05:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbiAYVDA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 16:03:00 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70458C06173B
-        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:03:00 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id w11so9981057wra.4
-        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:03:00 -0800 (PST)
+        with ESMTP id S232920AbiAYVFo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jan 2022 16:05:44 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261DEC061744
+        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:05:44 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id h21so4611174wrb.8
+        for <linux-leds@vger.kernel.org>; Tue, 25 Jan 2022 13:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mFN8doDOVlUR5NaTfg8DdFnYA6JWFxpYZhNIPaDoCr0=;
-        b=m3DFYfOCt/x10sMhvc4yg2q3wXjibY75nx4kWGn0M0qtpaAv4Ad0xSqq+EtJvu0fJE
-         1fVCunxNGP3A8qOYVT2S3k7TpJBe02y7LtQlwRcTI0e4V+mYIm7Ou4dZ9PAd3otPgFm1
-         KnHRvzZb9xSL5e2aeEw9sqtqtv6gN4pg5Bn5DRPCV3RvVm3iCXNBgyzyNDU/EXQpCNFs
-         SyPlUjlS4YoGjqVR5VIHN0iB0in2SfyXGiERCH00JwATZ7UAcMDfJ3bHSk3IQg5Lt9D0
-         6Msqrt8viCReBujqQ6gvR/llb6XhjFPwD75gs/aKyLVpy/qAUPe5LaWh39FkSMdJi8/6
-         CeMw==
+        bh=jEGTwOTFazzFopYdwsjasSMs2TPOCsagXB4GLqvfljg=;
+        b=QpYfzczbBNquLA8XZcf2BgM2f8cTh8rvgYszpa/SnQF0TVCIDCkb3TpEy7LPrJkTi9
+         DHL6v4c/QVxERmf8g8k+VjcGLCLKdZ9xDVN6V5hjkOoH8UwmDp5rXLHb6HgfycdIQdkW
+         oip4zBgaNrVaXTetar96dGlt4kxszqcNKb1dxgnPWJwU/E2xx0228JAObDpyxbnS5466
+         w84p6MLbh+XLIPG51bEJQUoyVKoLsclCoupq1b3XqVvJuALKA+5LEEyAxTA38xtYXuuw
+         dGP5JMmtfoM40yH458XuKlIW6rBO/vUOnLz4Ru24OAAyfI9Z3amxuWMVDmY/+oUgZhEh
+         4onQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mFN8doDOVlUR5NaTfg8DdFnYA6JWFxpYZhNIPaDoCr0=;
-        b=FYYj65frSMY/CFUn/EU24kYJUsIXGyhsRilV9RCxFl9uCOTnIHy+VFSUUFzSl3p8pR
-         6ZA68//2EX81XvzyZ79Nka82YBe3C9NiyHbOzJQYNrlF1aMJWeCws5v/JPZ4TrchZEUe
-         IzTM00Dhw4+yN0KoNTp2WT1pg/wBPtRR5kMIDRMoLorvWaVl1ei4ytfd/9bEmS1/9z+D
-         v6ko0X6x1cfnF1hq1kyDLpe3XF4CgyqwC/c3mLeilXWdHDUxhqXZyvQEypOjMZMKsVD5
-         KvHwYSCPwuG7cngLwxfCQ8UKXGbLWbUWJu3L+I2z3E/Jj0nLuxkQe0lFUfVDp2ROSwB8
-         64Kg==
-X-Gm-Message-State: AOAM530f3chLO5uBQP1hB7xN3gzZjLTEELeuu7zly/YYLaAj84yCIQbT
-        2FcWC+kRa3g2KezMftEwVs7rgA==
-X-Google-Smtp-Source: ABdhPJz9c365WOZDcEknLVWg4JboS7XBDorcow9moQuMxpo75+j6DZ+HHUkEIrTL4c31adg50sza/Q==
-X-Received: by 2002:adf:dec3:: with SMTP id i3mr13337228wrn.225.1643144578990;
-        Tue, 25 Jan 2022 13:02:58 -0800 (PST)
+        bh=jEGTwOTFazzFopYdwsjasSMs2TPOCsagXB4GLqvfljg=;
+        b=Rww1KaKW/jPEaYByxmbZ84Rq4lI9tDJ5BLDeWwMNTejXh9bNzhCLFfV3Tqzke3ohhz
+         gGiJKqokJROnHvQ8xd5JtYrLCBYSe8wEBwhQmwnrF6ovlp1XkRtgGnJb8NieQozcmzh/
+         VF0M1eUzl1S8szPh3dp0Ew52sfpU7+R9L4rWXEEhZANhb7lF7oco9fWgJCR0DMOFPDrZ
+         NP/618rEqozKDIzVWBq/1aWzAEbmLPS5F5SOjutH5MJfwpBI2+KuQQzH7VZZoe4baGYh
+         f99FI+mflYPTUjzoZBE/XB+U2yC19fwaAiNjWTOGaRDchWWVUCjuBVtuoKfq1AEQ4MtC
+         VYMg==
+X-Gm-Message-State: AOAM531HIeMCy1FwmSTn8T68Ai32qdO4HK48IN8fFns7WpaQQQaiWIlf
+        ucGD80MP/4T0fmeawz1u0IvLLg==
+X-Google-Smtp-Source: ABdhPJxpd2Oy5zDR55D4p7MVX1/ub9Estu7VolmuKLbwZDdBW4kgP/pBBpByn8un8Kg/h5XCBgIFVQ==
+X-Received: by 2002:a5d:5043:: with SMTP id h3mr19447429wrt.280.1643144742766;
+        Tue, 25 Jan 2022 13:05:42 -0800 (PST)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id n2sm20700641wrw.63.2022.01.25.13.02.57
+        by smtp.googlemail.com with ESMTPSA id o10sm4258214wri.19.2022.01.25.13.05.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 13:02:58 -0800 (PST)
+        Tue, 25 Jan 2022 13:05:42 -0800 (PST)
 From:   Corentin Labbe <clabbe@baylibre.com>
-To:     pavel@ucw.cz, jacek.anaszewski@gmail.com, linus.walleij@linaro.org,
-        robh+dt@kernel.org
+To:     pavel@ucw.cz, robh+dt@kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH resend] dt-bindings: leds: common: add disk write/read and usb-host
-Date:   Tue, 25 Jan 2022 21:02:52 +0000
-Message-Id: <20220125210252.52998-1-clabbe@baylibre.com>
+        linux-leds@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v2] leds: remove ide-disk trigger
+Date:   Tue, 25 Jan 2022 21:05:37 +0000
+Message-Id: <20220125210537.54036-1-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,45 +61,60 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The triggers enum misses 3 cases used by gemini DT.
-usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
-so we add also as valid trigger usb-gadget which was added along in this
-commit.
+No user of ide-disk remains, so remove this deprecated trigger.
 
-disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
-This is a resend of the patch since it was not applied for 6 months
-https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210508193654.2596119-1-clabbe@baylibre.com/
+Changes since v1:
+- remove also DEFINE_LED_TRIGGER(ledtrig_ide)
 
- Documentation/devicetree/bindings/leds/common.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/leds/common.yaml | 3 ---
+ drivers/leds/trigger/ledtrig-disk.c                | 4 ----
+ 2 files changed, 7 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index 697102707703..37f8a6fd6518 100644
+index 37f8a6fd6518..c89f430df4a0 100644
 --- a/Documentation/devicetree/bindings/leds/common.yaml
 +++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -89,6 +89,8 @@ properties:
-       - heartbeat
-         # LED indicates disk activity
+@@ -91,9 +91,6 @@ properties:
        - disk-activity
-+      - disk-read
-+      - disk-write
-         # LED indicates IDE disk activity (deprecated), in new implementations
-         # use "disk-activity"
-       - ide-disk
-@@ -97,6 +99,8 @@ properties:
+       - disk-read
+       - disk-write
+-        # LED indicates IDE disk activity (deprecated), in new implementations
+-        # use "disk-activity"
+-      - ide-disk
+         # LED flashes at a fixed, configurable rate
+       - timer
          # LED alters the brightness for the specified duration with one software
-         # timer (requires "led-pattern" property)
-       - pattern
-+      - usb-gadget
-+      - usb-host
+diff --git a/drivers/leds/trigger/ledtrig-disk.c b/drivers/leds/trigger/ledtrig-disk.c
+index 0741910785bb..0b7dfbd04273 100644
+--- a/drivers/leds/trigger/ledtrig-disk.c
++++ b/drivers/leds/trigger/ledtrig-disk.c
+@@ -16,7 +16,6 @@
+ DEFINE_LED_TRIGGER(ledtrig_disk);
+ DEFINE_LED_TRIGGER(ledtrig_disk_read);
+ DEFINE_LED_TRIGGER(ledtrig_disk_write);
+-DEFINE_LED_TRIGGER(ledtrig_ide);
  
-   led-pattern:
-     description: |
+ void ledtrig_disk_activity(bool write)
+ {
+@@ -24,8 +23,6 @@ void ledtrig_disk_activity(bool write)
+ 
+ 	led_trigger_blink_oneshot(ledtrig_disk,
+ 				  &blink_delay, &blink_delay, 0);
+-	led_trigger_blink_oneshot(ledtrig_ide,
+-				  &blink_delay, &blink_delay, 0);
+ 	if (write)
+ 		led_trigger_blink_oneshot(ledtrig_disk_write,
+ 					  &blink_delay, &blink_delay, 0);
+@@ -40,7 +37,6 @@ static int __init ledtrig_disk_init(void)
+ 	led_trigger_register_simple("disk-activity", &ledtrig_disk);
+ 	led_trigger_register_simple("disk-read", &ledtrig_disk_read);
+ 	led_trigger_register_simple("disk-write", &ledtrig_disk_write);
+-	led_trigger_register_simple("ide-disk", &ledtrig_ide);
+ 
+ 	return 0;
+ }
 -- 
 2.34.1
 
