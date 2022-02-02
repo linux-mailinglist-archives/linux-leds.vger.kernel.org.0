@@ -2,58 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 024F54A6F5F
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Feb 2022 12:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E784A6E80
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Feb 2022 11:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343621AbiBBLCM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Feb 2022 06:02:12 -0500
-Received: from mail.profitfirm24.com.pl ([212.237.10.110]:58984 "EHLO
-        mail.profitfirm24.com.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343648AbiBBLCL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 06:02:11 -0500
-Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
-        id 79E60AAB64; Tue,  1 Feb 2022 09:17:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
-        s=mail; t=1643707964;
-        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-        h=Date:From:To:Subject:From;
-        b=bvJoG05ba461HEaoHUgsKUZQbYLliQeHZNP7uPGsFwNzHCBvMCfRYyAeedjVDTvUI
-         wv8ApEEHq21zcM+gx5z1hjurHPQduyJNtMklqM2dK6vT+SO7qyRaxqa9svKYJZRUcv
-         WbitJQ+5CpEK6jJNNT3KJUeoNwY1ADU6UG8iqTlbYjR4mRNqBTEw2eC4VcPuPEbXxb
-         HsxdRA4VCKWmhV6pr9azS3Yg9sTbG/W5ex9IEGkkUvjvNHZps6r7fKaBzRz2M55dUp
-         SIfzyGtr/QT/Wc6Ptgjq0o9J7QuEr33Moxy10pwvKZPFuv+nT3STc7kdaYihDgdsQS
-         ujjzNgXuyEBIw==
-Received: by profitfirm24.com.pl for <linux-leds@vger.kernel.org>; Tue,  1 Feb 2022 09:17:20 GMT
-Message-ID: <20220201074652-0.1.b.2zkd.0.q7ei4iudda@profitfirm24.com.pl>
-Date:   Tue,  1 Feb 2022 09:17:20 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@profitfirm24.com.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitfirm24.com.pl
+        id S1343490AbiBBKRL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Feb 2022 05:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232156AbiBBKRK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 05:17:10 -0500
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [IPv6:2001:4b7a:2000:18::167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC202C06173B;
+        Wed,  2 Feb 2022 02:17:10 -0800 (PST)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CF9E53F72A;
+        Wed,  2 Feb 2022 11:17:07 +0100 (CET)
+Date:   Wed, 2 Feb 2022 11:17:06 +0100
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH v10 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <20220202101706.ompigtbovbz6shwq@SoMainline.org>
+References: <20211010043912.136640-1-bjorn.andersson@linaro.org>
+ <20211010043912.136640-2-bjorn.andersson@linaro.org>
+ <YXL0DyyPkS4/wfB7@ripper>
+ <20211027211928.tjybwy2lokj6eoun@SoMainline.org>
+ <20211027212709.4ma5uzy5titmgzqv@SoMainline.org>
+ <YfSQBOHkwCKMGrbu@yoga>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfSQBOHkwCKMGrbu@yoga>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 2022-01-28 18:53:24, Bjorn Andersson wrote:
+> On Wed 27 Oct 16:27 CDT 2021, Marijn Suijten wrote:
+> 
+> > On 2021-10-27 23:19:30, Marijn Suijten wrote:
+> > > Hi Bjorn,
+> > > 
+> > > On 2021-10-22 10:25:35, Bjorn Andersson wrote:
+> > > > On Sat 09 Oct 21:39 PDT 2021, Bjorn Andersson wrote:
+> > > > 
+> > > > > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> > > > > PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
+> > > > > with their output being routed to various other components, such as
+> > > > > current sinks or GPIOs.
+> > > > > 
+> > > > > Each LPG instance can operate on fixed parameters or based on a shared
+> > > > > lookup-table, altering the duty cycle over time. This provides the means
+> > > > > for hardware assisted transitions of LED brightness.
+> > > > > 
+> > > > > A typical use case for the fixed parameter mode is to drive a PWM
+> > > > > backlight control signal, the driver therefor allows each LPG instance
+> > > > > to be exposed to the kernel either through the LED framework or the PWM
+> > > > > framework.
+> > > > > 
+> > > > > A typical use case for the LED configuration is to drive RGB LEDs in
+> > > > > smartphones etc, for which the driver support multiple channels to be
+> > > > > ganged up to a MULTICOLOR LED. In this configuration the pattern
+> > > > > generators will be synchronized, to allow for multi-color patterns.
+> > > > > 
+> > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > > > ---
+> > > > 
+> > > > Any feedback on this?
+> > > 
+> > > I asked in #linux-msm whether anything is wrong with the patterns,
+> > > since my Sony Discovery (sdm630 with a pm660l) blinks way quicker on a
+> > > pattern that's supposed to stay on for 1s and off for 1s:
+> > > 
+> > >     echo "0 1000 255 1000" > /sys/class/leds/rgb\:status/hw_pattern
+> > > 
+> > > It however seems to be broken in the same way on an older version now
+> > > (this might be v9 or v8) which I don't remember to be the case.  Can you
+> > > double-check if this is all working fine on your side?  If so, I'll have
+> > > to find some time to debug it on my end.
+> > > 
+> > > Thanks!
+> > > - Marijn
+> > 
+> > Another thing I just ran into: on both patch revisions the colors are
+> > flipped.  multi_index reports "red green glue", but the values written
+> > to multi_intensity correspond to "blue green red" instead.  Is it the
+> > same on your side?
+> > 
+> 
+> I booted one of my 8974 devices with RGB LED and the colors matches my
+> expectations. Can you confirm that your mapping in the DT node is
+> correct?
+> 
+> E.g. with pm8941 the mapping should be "backwards":
+> [snip]
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+Thanks, this was indeed a mistake on my side: downstream pm660l sets
+blue to the first channel too, whereas I set it to red.  Let's blame it
+on downstream mixing zero-based and one-based indices and my inability
+to read that :)
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
-
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
-
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
-
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+- Marijn
