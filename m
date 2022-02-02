@@ -2,488 +2,376 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D1CD4A79A3
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Feb 2022 21:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 374AD4A7A94
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Feb 2022 22:40:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240701AbiBBUkK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Feb 2022 15:40:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42910 "EHLO
+        id S1347646AbiBBVkG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Feb 2022 16:40:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236653AbiBBUkK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 15:40:10 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B0BC06173D
-        for <linux-leds@vger.kernel.org>; Wed,  2 Feb 2022 12:40:10 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id q186so600930oih.8
-        for <linux-leds@vger.kernel.org>; Wed, 02 Feb 2022 12:40:10 -0800 (PST)
+        with ESMTP id S232659AbiBBVkF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 16:40:05 -0500
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61649C061714
+        for <linux-leds@vger.kernel.org>; Wed,  2 Feb 2022 13:40:05 -0800 (PST)
+Received: by mail-ot1-x32a.google.com with SMTP id q14-20020a05683022ce00b005a6162a1620so798539otc.0
+        for <linux-leds@vger.kernel.org>; Wed, 02 Feb 2022 13:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BYQWgp0LuHkxGrn3i2T0CbLt7kajoO8Blp/PDwFkjzs=;
-        b=L312VT0lsElBJuXLS51O3LMB2RCKk36C4DMxjq5cvBuRqD10r3jNJptwS4uulOGUgE
-         eQVPXWO5EMDo0swUt81rQ3aRufHM6H9Mkzejuek7amfY3Fb1puYDUAff2Cewcf0SmEFD
-         ZNVYpcleYKQr0QHZ2v3Cs/bCqSZOIM0XJRIGpqo7SQgsSOMVIl2eT0Gi1JgKyxWgaqmz
-         /tn/8FFHGI3fojTEwx0qT2Xr91XuS6gJviPVAGXm3xYCOjguUv3zVwf6AsNLL5/XmmnF
-         lUr6eb5/xIn1AvqTjnEYB2qIS1ZcZcfggM1rdDlCCGbDwNU2KIGICDd23hAMGZgRoEiN
-         ekLA==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tMJm7rUkBaw98tkeDjYJTHlP89IJwdWSqnzx8mCujK8=;
+        b=CgWPPdoUoa+gTuGv8BwsjRnqlcCWz12gRIWvBZJvc6rvJ+tuVRMwXF1hXPTtSM6wRz
+         LiH1co14vC/fBKTFJdixlesrEtnTnftmpkfTy+voAXpvTmG7oRNQFff1PcFzwcpLaTCj
+         IBtJLNyORc0We2Nsq/sEAvjXmqF6vQFCfJ71+mHBketjDirnGfeh7pzZ5SMRHql5q3Pi
+         fmSlX3gTpR3noouKDayh5KJTrBGSckVwvSPy/vZU5JHAKh6cwP2IMFpx1JrRRGK677P/
+         oUbkpkHR11kf+cc4DdobC9WtivPKlnd7NULKYVR0x3zZlHzG8dklNTJcfPcTojCr5C2I
+         ZGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BYQWgp0LuHkxGrn3i2T0CbLt7kajoO8Blp/PDwFkjzs=;
-        b=Gi4lVeYn6BC8+4JLBhQjQ8v/bzXrIxd7kN+rWCKF+mBGQkEJjArK9yHONdU2O1BL0Z
-         jl5TexjnlKN4Ohz386NIdEatqqUFN2rRvw31/vAHUhxZsfUFURnIE+gaUK8VWJqFPUXv
-         eJR15xtjIuPq0dzdykpdoCEZp621Stf4gtX0Lo23N6xeVXQ9FKBqcQr/qSSjd625hUfz
-         j+GEfeVQVmStc3muB3PeSc76ZvuKsjyJc8A2TU+/OO4MYBW5NhqMlyCjIPUeuXbT8o3J
-         GHGjCSUK3TbhwWxbxaer26l9z2ihUTvJkbf+1KsIOCrGS7z7nD7UQh1iLcMiFFhPwFe5
-         SaBg==
-X-Gm-Message-State: AOAM531gxmQdf7eHn/sew7X0cX2PKU7zOtFUwo1XBvrEugvHuBLZZLaP
-        Z/1CAdstm2AJhRooH16pGj3OzQ==
-X-Google-Smtp-Source: ABdhPJwyJI/9mH0LobX5MAg6faJtYp+YgoH6czTmjafk24j1IYwWD4LJrBNk6TLmtSt0HmXWUZ9lKA==
-X-Received: by 2002:a05:6808:1149:: with SMTP id u9mr5385909oiu.68.1643834409364;
-        Wed, 02 Feb 2022 12:40:09 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tMJm7rUkBaw98tkeDjYJTHlP89IJwdWSqnzx8mCujK8=;
+        b=rwo/ap1JcJY9wEZ3qq0AA9fqSw6cGF3xPD6mLy7g8BDwrXP4iNUZR8DtAR/yH+FCAq
+         EDn7KSJKXv3SISJpmOntm1asvqmOfGf/lVIHjIDweSoaMxtf1LfUrgdZ5yzbQ6BihquX
+         zitpD5j80h15WMZ6gYALmVh+fTF4Zv/FALZ7JxSttNcb5M+PxmtOWWn5VNnf5bHZMUfI
+         OZuOTcnoMe0WfW+TejrwBVhM8cMkXvCHkpPejsxdOoj/FKxR7YZNs0tb2bLYvnak1cK7
+         uQt0lmI8q9wRCma7mkll1qwPrIgY0gEG57FNrWFOlcjPKNKaY2Xsux77NxMFvZBfD3CI
+         IIng==
+X-Gm-Message-State: AOAM532LI+EYlgNtFLuF7F/u/Ri9DqFZBistp7eO206ZnzD+3baV7KXF
+        2QxbaRxyNXfHYP32xSkOJkcOzL9bidihXw==
+X-Google-Smtp-Source: ABdhPJwvUGXQQBFJHRuewTxDd+tZJ8n0xjnlmdLs40wK8QaHygFkxIL2nvV0PegNjtDMPAkg9o/Bkg==
+X-Received: by 2002:a9d:58c8:: with SMTP id s8mr878984oth.294.1643838004310;
+        Wed, 02 Feb 2022 13:40:04 -0800 (PST)
 Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id w7sm17424378oou.13.2022.02.02.12.40.08
+        by smtp.gmail.com with ESMTPSA id ay42sm4488798oib.5.2022.02.02.13.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 12:40:08 -0800 (PST)
-Date:   Wed, 2 Feb 2022 12:40:26 -0800
+        Wed, 02 Feb 2022 13:40:03 -0800 (PST)
+Date:   Wed, 2 Feb 2022 13:40:21 -0800
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>
 Cc:     Pavel Machek <pavel@ucw.cz>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
         Lee Jones <lee.jones@linaro.org>,
         Satya Priya Kakitapalli <c_skakit@qti.qualcomm.com>,
         Marijn Suijten <marijn.suijten@somainline.org>,
         Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pwm@vger.kernel.org
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
 Subject: Re: [PATCH v11 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YfrsOqL4au5tBm8N@ripper>
+Message-ID: <Yfr6RQwJMZY5RZGr@ripper>
 References: <20220129005429.754727-1-bjorn.andersson@linaro.org>
  <20220129005429.754727-2-bjorn.andersson@linaro.org>
- <CAHp75VfgouJuF4zOM=FRg2itCgj1GN6hvSy6FuV2E5wo6gjtbg@mail.gmail.com>
+ <20220202162930.24zcediw44t2jzqf@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHp75VfgouJuF4zOM=FRg2itCgj1GN6hvSy6FuV2E5wo6gjtbg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220202162930.24zcediw44t2jzqf@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed 02 Feb 06:56 PST 2022, Andy Shevchenko wrote:
+On Wed 02 Feb 08:29 PST 2022, Uwe Kleine-K?nig wrote:
 
-> On Tue, Feb 1, 2022 at 12:31 AM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
-> >
+> Hello,
+> 
+> did you consider my earlier feedback "It would also be good if the PWM
+> code could live in drivers/pwm"?
+> (https://lore.kernel.org/r/20210505051958.e5lvwfxuo2skdu2q@pengutronix.de)
+> 
+
+Yes, I did consider this. Because the downstream driver is (at least was
+when I looked at it originally) split like that.
+
+
+We have a number of different Qualcomm PMICs containing the LPG modules,
+which consists of N PWM channels, a pattern lookup table and a set of
+current sinks.
+
+Each PWM channel can either be used as a traditional PWM, a LED or be
+grouped together with other channels to form a multicolor LED. So we
+need a design that allows different boards using a particular PMIC to
+freely use the N channels according to one of these three operational
+modes.
+
+The pattern lookup table is a shared resource containing duty cycle
+values and each of the PWM channels can be configured to have their duty
+cycle modified from the lookup table on some configured cadence.
+
+In the even that multiple PWM channels are ganged together to form a
+multicolor LED, which is driven by a pattern, the pattern generator for
+the relevant channels needs to be synchronized.
+
+
+If we consider the PWM channel to be the basic primitive we need some
+mechanism to configure the pattern properties for each of the channels
+and we need some mechanism to synchronize the pattern generators for
+some subset of the PWM channels.
+
+
+In other words we need some custom API between the LED driver part and
+the PWM driver, to configure these properties. This was the design
+of the downstream driver when I started looking at this driver.
+
+
+Another alternative that has been considered is to create two
+independent drivers - for the same hardware. This would allow the system
+integrator to pick the right driver for each of the channels.
+
+One problem with this strategy is that the DeviceTree description of the
+LPG hardware will have to be modified depending on the use case. In
+particular this prevents me from writing a platform dtsi describing the
+LPG hardware and then describe the LEDs and pwm channels in a board dts.
+
+And we can't express the individual channels, because the multicolor
+definition needs to span multiple channels.
+
+
+So among all the options, implementing the pwm_chip in the LED driver
+makes it possible for us to describe the LPG as one entity, with
+board-specific LEDs and a set of PWM channels.
+
+> At least splitting in two patches would be good IMHO.
+> 
+
+I guess I can split out the parts related to the pwmchip in a separate
+patch. Seems to be a rather small portion of the code though. Is that
+what you have in mind?
+
+> On Fri, Jan 28, 2022 at 04:54:29PM -0800, Bjorn Andersson wrote:
 > > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
 > > PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
 > > with their output being routed to various other components, such as
 > > current sinks or GPIOs.
-> >
+> > 
 > > Each LPG instance can operate on fixed parameters or based on a shared
 > > lookup-table, altering the duty cycle over time. This provides the means
 > > for hardware assisted transitions of LED brightness.
-> >
+> > 
 > > A typical use case for the fixed parameter mode is to drive a PWM
 > > backlight control signal, the driver therefor allows each LPG instance
 > > to be exposed to the kernel either through the LED framework or the PWM
 > > framework.
-> >
+> > 
 > > A typical use case for the LED configuration is to drive RGB LEDs in
 > > smartphones etc, for which the driver support multiple channels to be
-> 
-> supports
-> 
 > > ganged up to a MULTICOLOR LED. In this configuration the pattern
 > > generators will be synchronized, to allow for multi-color patterns.
-> 
-> ...
-> 
-> > +config LEDS_QCOM_LPG
-> > +       tristate "LED support for Qualcomm LPG"
-> 
-> > +       depends on OF
-> 
-> || COMPILE_TEST
-> 
-> > +       depends on SPMI
-> > +       help
-> > +         This option enables support for the Light Pulse Generator found in a
-> > +         wide variety of Qualcomm PMICs.
-> 
-> Module name?
-> 
-> ...
-> 
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> 
-> Wondering if these can be changed to mod_devicetable.h + property.,h.
-> 
-> ...
-> 
-> > + * @dev:       struct device for LPG device
-> 
-> Description without value and actually wrong. it's a pointer to, and
-> not a struct device.
-> 
-> ...
-> 
-> > +       /* Hardware does not behave when LO_IDX == HI_IDX */
-> 
-> Any clue /. elaboration why?
-> 
-
-As the two indices are inclusive I was expecting to just get a
-single-value pattern (i.e. static configuration), but instead it just
-keeps looping through the entire pattern memory.
-
-> ...
-> 
-> > +static void lpg_lut_free(struct lpg *lpg, unsigned int lo_idx, unsigned int hi_idx)
-> > +{
-> > +       int len;
-> > +
-> > +       if (lo_idx == hi_idx)
-> > +               return;
-> > +
-> > +       len = hi_idx - lo_idx + 1;
-> 
-> Perhaps swap above and add the similar comment:
-> 
-
-Sounds reasonable.
-
-> /* We never do a single item because ... */
-> len =
-> if (len == 1)
-> 
-> > +       bitmap_clear(lpg->lut_bitmap, lo_idx, len);
-> 
-> Who protects this bitmap from simultaneous access by different users?
-> 
-
-It's protected per LED, but apparently not cross LEDs. Will fix.
-
-> > +}
-> 
-> ...
-> 
+> > 
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+[..]
+> > diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+[..]
 > > +static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
 > > +{
-> > +       unsigned int clk, best_clk = 0;
-> > +       unsigned int div, best_div = 0;
-> > +       unsigned int m, best_m = 0;
-> > +       unsigned int error;
-> > +       unsigned int best_err = UINT_MAX;
-> > +       u64 best_period = 0;
+> > +	unsigned int clk, best_clk = 0;
+> > +	unsigned int div, best_div = 0;
+> > +	unsigned int m, best_m = 0;
+> > +	unsigned int error;
+> > +	unsigned int best_err = UINT_MAX;
+> > +	u64 best_period = 0;
 > > +
-> > +       /*
-> > +        * The PWM period is determined by:
-> > +        *
-> > +        *          resolution * pre_div * 2^M
-> > +        * period = --------------------------
-> > +        *                   refclk
-> > +        *
-> > +        * With resolution fixed at 2^9 bits, pre_div = {1, 3, 5, 6} and
-> > +        * M = [0..7].
-> > +        *
-> > +        * This allows for periods between 27uS and 384s, as the PWM framework
-> > +        * wants a period of equal or lower length than requested, reject
-> > +        * anything below 27uS.
-> > +        */
+> > +	/*
+> > +	 * The PWM period is determined by:
+> > +	 *
+> > +	 *          resolution * pre_div * 2^M
+> > +	 * period = --------------------------
+> > +	 *                   refclk
+> > +	 *
+> > +	 * With resolution fixed at 2^9 bits, pre_div = {1, 3, 5, 6} and
+> > +	 * M = [0..7].
+> > +	 *
+> > +	 * This allows for periods between 27uS and 384s, as the PWM framework
+> > +	 * wants a period of equal or lower length than requested, reject
+> > +	 * anything below 27uS.
+> > +	 */
+> > +	if (period <= (u64)NSEC_PER_SEC * LPG_RESOLUTION / 19200000)
 > 
-> > +       if (period <= (u64)NSEC_PER_SEC * LPG_RESOLUTION / 19200000)
-> > +               return -EINVAL;
+> u64 divisions must not be done by / in the kernel. Also I wonder if the
+> following would be more correct (though with the same semantic):
 > 
-> > +       /* Limit period to largest possible value, to avoid overflows */
-> > +       if (period > (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 1024)
-> > +               period = (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 2014;
-> 
-> 2014?!
+> 	if (period < DIV64_U64_ROUND_UP((u64)NSEC_PER_SEC * LPG_RESOLUTION, 19200000))
 > 
 
-I thought I fixed that...
-
-> And if it's incorrect, it seems like a good example to avoid
-> repetition of the long equations.
-> 
-> What about
-> 
->   best_period = clamp_val(period, ...);
->   if (best_period >= period)
->     return -EINVAL;
-> 
->   period = best_period;
-> 
-> ?
-
-Sounds reasonable.
+Thanks for spotting that.
 
 > 
-> > +       /*
-> > +        * Search for the pre_div, clk and M by solving the rewritten formula
-> > +        * for each clk and pre_div value:
-> > +        *
-> > +        *                       period * clk
-> > +        * M = log2 -------------------------------------
-> > +        *           NSEC_PER_SEC * pre_div * resolution
-> > +        */
-> > +       for (clk = 0; clk < ARRAY_SIZE(lpg_clk_rates); clk++) {
-> > +               u64 nom = period * lpg_clk_rates[clk];
-> 
-> Can we spell fully nunerator, denominator?
-> 
-
-Sure.
-
-> > +               for (div = 0; div < ARRAY_SIZE(lpg_pre_divs); div++) {
-> > +                       u64 denom = (u64)NSEC_PER_SEC * lpg_pre_divs[div] * (1 << 9);
-> 
-> " * (1 " part is redundant, you may shift left by 9, but see below.
-> 
-
-I could, but as written now it matches the formula as written in the
-comment above. With (1 << 9) being the resolution part.
-
-That said, I think I introduced the LPG_RESOLUTION constant after
-writing this, would be reasonable to reuse that here.
-
-> > +                       u64 actual;
-> > +                       u64 ratio;
+> > +		return -EINVAL;
 > > +
-> > +                       if (nom < denom)
-> > +                               continue;
+> > +	/* Limit period to largest possible value, to avoid overflows */
+> > +	if (period > (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 1024)
+> > +		period = (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 2014;
 > > +
-> > +                       ratio = div64_u64(nom, denom);
+> > +	/*
+> > +	 * Search for the pre_div, clk and M by solving the rewritten formula
+> > +	 * for each clk and pre_div value:
+> > +	 *
+> > +	 *                       period * clk
+> > +	 * M = log2 -------------------------------------
+> > +	 *           NSEC_PER_SEC * pre_div * resolution
+> > +	 */
+> > +	for (clk = 0; clk < ARRAY_SIZE(lpg_clk_rates); clk++) {
+> > +		u64 nom = period * lpg_clk_rates[clk];
+> > +
+> > +		for (div = 0; div < ARRAY_SIZE(lpg_pre_divs); div++) {
+> > +			u64 denom = (u64)NSEC_PER_SEC * lpg_pre_divs[div] * (1 << 9);
+> > +			u64 actual;
+> > +			u64 ratio;
+> > +
+> > +			if (nom < denom)
+> > +				continue;
+> > +
+> > +			ratio = div64_u64(nom, denom);
+> > +			m = ilog2(ratio);
+> > +			if (m > LPG_MAX_M)
+> > +				m = LPG_MAX_M;
+> > +
+> > +			actual = DIV_ROUND_UP_ULL(denom * (1 << m), lpg_clk_rates[clk]);
+> > +
+> > +			error = period - actual;
 > 
-> Instead of shifting left by 9, you may optimize below to count that in
-> the equations...
-> 
-> > +                       m = ilog2(ratio);
-> > +                       if (m > LPG_MAX_M)
-> > +                               m = LPG_MAX_M;
-> 
-> > +                       actual = DIV_ROUND_UP_ULL(denom * (1 << m), lpg_clk_rates[clk]);
-> 
-> ...including this one.
-> 
-> So, I see room for improvement in the calculations.
+> This looks good, though I didn't revalidate the calculation (e.g. to
+> convince myself that error is always >= 0)
 > 
 
-So you're saying that I should remove the resolution from the
-denominator and then just subtract 9 from M?
+We spent considerable time going through this last time, so I hope we're
+good :)
 
-I presume it improves things by replacing one bitshift with a
-subtraction, but afaict it wouldn't improve the readability of the code.
-
-> > +                       error = period - actual;
-> > +                       if (error < best_err) {
-> > +                               best_err = error;
+> > +			if (error < best_err) {
+> > +				best_err = error;
 > > +
-> > +                               best_div = div;
-> > +                               best_m = m;
-> > +                               best_clk = clk;
-> > +                               best_period = actual;
-> > +                       }
-> > +               }
-> > +       }
+> > +				best_div = div;
+> > +				best_m = m;
+> > +				best_clk = clk;
+> > +				best_period = actual;
+> > +			}
+> > +		}
+> > +	}
 > > +
-> > +       chan->clk = best_clk;
-> > +       chan->pre_div = best_div;
-> > +       chan->pre_div_exp = best_m;
-> > +       chan->period = best_period;
+> > +	chan->clk = best_clk;
+> > +	chan->pre_div = best_div;
+> > +	chan->pre_div_exp = best_m;
+> > +	chan->period = best_period;
 > > +
-> > +       return 0;
+> > +	return 0;
 > > +}
+[..]
+> > +static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> > +{
+> > +	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> > +	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+> > +
+> > +	return chan->in_use ? -EBUSY : 0;
+> > +}
+> > +
+> > +/*
+> > + * Limitations:
+> > + * - Updating both duty and period is not done atomically, so the output signal
+> > + *   will momentarily be a mix of the settings.
 > 
-> ...
-> 
-> > +       val = div64_u64(duty * lpg_clk_rates[chan->clk],
-> > +                       (u64)NSEC_PER_SEC * lpg_pre_divs[chan->pre_div] * (1 << chan->pre_div_exp));
-> 
-> For all code, just shift right directly, it makes code easier to read.
+> Is the PWM well-behaved? (i.e. does it emit the inactive level when
+> disabled?)
+
+Yes, a disabled channel outputs a logical 0.
+
+> Does it complete a period before switching to the new
+> setting?
 > 
 
-Code might be easier to read, but as written now it matches the formula
-described above.
+I see nothing indicating the answer to this, in either direction...
 
-You're right that we should get the same result if I replace the
-multiplication from the denominator to be a shift in the numerator, but
-at least for me that require me to think 1-2 extra steps when reading
-this to convince myself that below is the same as the formula described
-in the comments:
-
-val = div64_u64((duty * lpg_clk_rates[chan->clk]) >> chan->pre_div_exp,
-                (u64)NSEC_PER_SEC * lpg_pre_divs[chan->pre_div]);
-
-> ...
-> 
-> > +       regmap_bulk_write(lpg->map, chan->base + PWM_VALUE_REG, &val, sizeof(val));
-> 
-> In some cases the error is handled from regmap calls, in many it's not. Why?
+> Did you test with PWM_DEBUG enabled?
 > 
 
-The brightness_set() in struct led_classdev is a void function, so I
-have to throw away the very unlikely error at some point...
+For previous iterations of the patch yes, v11 didn't touch any of that
+so I omitted that step... Will enable it again as I respin v12.
 
-> ...
+> > + */
+> > +static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> > +			 const struct pwm_state *state)
+> > +{
+> > +	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> > +	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+> > +	int ret;
+> > +
+> > +	if (state->polarity != PWM_POLARITY_NORMAL)
+> > +		return -EINVAL;
+> > +
+> > +	ret = lpg_calc_freq(chan, state->period);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	lpg_calc_duty(chan, state->duty_cycle);
+> > +	chan->enabled = state->enabled;
+> > +
+> > +	lpg_apply(chan);
+> > +
+> > +	triled_set(lpg, chan->triled_mask, chan->enabled ? chan->triled_mask : 0);
+> > +
+> > +	return 0;
 > 
-> > +       count = of_property_count_u32_elems(np, "qcom,dtest");
-> > +       if (count == -EINVAL) {
-> > +               return 0;
-> 
-> > +       } else if (count < 0) {
-> 
-> Redundant 'else'
-> 
-> > +               ret = count;
-> 
-> Do it other way around, i.e.
-> 
->   ret = ...
->   ...
->   count = ret;
-> 
-> > +               goto err_malformed;
-> > +       } else if (count != lpg->data->num_channels * 2) {
-> 
-> Redundant 'else'.
-> 
-
-So you're saying that this form is preferable?
-
-if (a) {
-	return 0;
-}
-if (b) {
-	goto err_malformed:
-}
-if (c) {
-	return -EINVAL;
-}
-
-The else has absolutely no meaning to the compiler, but it immediately
-tells me as a human that we will enter only one of these branches.
-
-> > +               dev_err(lpg->dev, "qcom,dtest needs to be %d items\n",
-> > +                       lpg->data->num_channels * 2);
-> > +               return -EINVAL;
-> > +       }
-> 
-> ...
-> 
-> > +       /* Only support oneshot or indefinite loops, due to limited pattern space */
-> 
-> one shot
-> 
-> > +       if (repeat != -1 && repeat != 1)
-> 
-> abs(repeat) != 1 ?
+> Would it make sense to skip the calculation if state->enabled is false?
 > 
 
-While equivalent, I'm not checking to see if the absolute value of
-repeat is 1, I'm checking that repeat is either -1 and 1.
+Yes.
 
-Again, same outcome but different meaning to a human reading the code.
-
-> > +               return -EINVAL;
+> > +}
+> > +
+> > +static void lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> > +			      struct pwm_state *state)
+> > +{
+> > +	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> > +	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+> > +	u64 duty = DIV_ROUND_UP_ULL(chan->pwm_value * chan->period, LPG_RESOLUTION - 1);
+> > +
+> > +	state->period = chan->period;
+> > +	state->duty_cycle = duty;
+> > +	state->polarity = PWM_POLARITY_NORMAL;
+> > +	state->enabled = chan->enabled;
 > 
-> ...
-> 
-> > +       /* LPG_RAMP_DURATION_REG is 9 bit */
-> > +       if (pattern[0].delta_t >= 512)
-> 
-> Then compare with bit value? BIT(9)?
-> 
-> > +               return -EINVAL;
-> 
-> ...
-> 
-> > +       lpg_brightness_single_set(cdev, LED_FULL);
-> 
-> Isn't LED_FULL deprecated?
+> This doesn't work if .get_state() is called before .apply() was called,
+> does it?
 > 
 
-I had missed that the LED framework now supports variable
-max_brightness. Will update accordingly throughout the driver.
+You mean that I would return some bogus state and not the actual
+hardware state?
 
-> ...
+> > +}
+> > +
+> > +static const struct pwm_ops lpg_pwm_ops = {
+> > +	.request = lpg_pwm_request,
+> > +	.apply = lpg_pwm_apply,
+> > +	.get_state = lpg_pwm_get_state,
+> > +	.owner = THIS_MODULE,
+> > +};
+> > +
+> > +static int lpg_add_pwm(struct lpg *lpg)
+> > +{
+> > +	int ret;
+> > +
+> > +	lpg->pwm.base = -1;
 > 
-> > +       ret = of_property_read_u32(np, "reg", &reg);
-> > +       if (ret || !reg || reg > lpg->num_channels) {
-> 
-> > +               dev_err(lpg->dev, "invalid \"reg\" of %pOFn\n", np);
-> 
-> Confusing message for some of the error conditions.
-> 
-> > +               return -EINVAL;
-> 
-> Shadowed error code.
-> 
-> > +       }
-> 
-> ...
-> 
-> > +       ret = of_property_read_u32(np, "color", &color);
-> > +       if (ret < 0 && ret != -EINVAL) {
-> 
-> Why the specific error code check?
+> I already asked in May to drop this ...
 > 
 
-Because color is an optional property, so -EINVAL would imply that we
-didn't find the property and color was left untouched.
+Sorry about that, thought I had resolved that already.
 
-> > +               dev_err(lpg->dev, "failed to parse \"color\" of %pOF\n", np);
-> > +               return ret;
-> > +       }
-> 
-> ...
-> 
-> > +       if (!of_property_read_string(np, "default-state", &state) &&
-> > +           !strcmp(state, "on"))
-> 
-> of_property_match_string()?
-> 
-
-Neat.
-
-Regards,
+Thanks,
 Bjorn
 
-> ...
+> > +	lpg->pwm.dev = lpg->dev;
+> > +	lpg->pwm.npwm = lpg->num_channels;
+> > +	lpg->pwm.ops = &lpg_pwm_ops;
+> > +
 > 
-> > +       bitmap_size = BITS_TO_BYTES(lpg->lut_size);
-> > +       lpg->lut_bitmap = devm_kzalloc(lpg->dev, bitmap_size, GFP_KERNEL);
+> Best regards
+> Uwe
 > 
-> devm_bitmap_zalloc()
-> 
-> > +       if (!lpg->lut_bitmap)
-> > +               return -ENOMEM;
-> 
-> ...
-> 
-> > +               dev_err(&pdev->dev, "parent regmap unavailable\n");
-> > +               return -ENXIO;
-> 
-> return dev_err_probe(...);
-> 
-> ...
-> 
-> > +       .pwm_9bit_mask = 3 << 4,
-> 
-> GENMASK()
-> 
-> ...
-> 
-> > +       .pwm_9bit_mask = 3 << 4,
-> 
-> Ditto.
-> 
-> --
-> With Best Regards,
-> Andy Shevchenko
+> -- 
+> Pengutronix e.K.                           | Uwe Kleine-König            |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+
