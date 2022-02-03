@@ -2,126 +2,250 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE7134A7AC5
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Feb 2022 23:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9789E4A7D0C
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Feb 2022 02:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347777AbiBBWIn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Feb 2022 17:08:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236427AbiBBWIn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 17:08:43 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5100AC06173E
-        for <linux-leds@vger.kernel.org>; Wed,  2 Feb 2022 14:08:43 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id u18so1406527edt.6
-        for <linux-leds@vger.kernel.org>; Wed, 02 Feb 2022 14:08:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HlraHmNgdumj40y+Vxj8nJOCtHX98SAfTtbNfZ64dtc=;
-        b=yWO2Xpa2CCWLLJb5WHskpjn5ZNPJ/SJ+AOhMyUg5xDbi75ZZhWweuQFle7wYLU4M8D
-         fvyHZSTOE+nAgE9ATzz7pArYZV4gxHZhHzKlHiDXUgXFcOlYCojCjCGlpirLz4MGUhDQ
-         MURclDksMefKRG8nXCl9XVfWTzeD20uzS6M/EzsF1ljdSgzEkmr5DpjVVq8Ca+rTUe9q
-         WhXFwcSNP/efg0S9o+bEOQmnIFtWelEWRhlr7iJYNcAodLqZS+583KP/lhXLlKnZRQE9
-         TWPsmQyj4c+34zeOudEqMi4j9H0RPJn03T1e7v2bD0xzjLD6PGOE6adR1FZsuuyFnYBM
-         zfXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HlraHmNgdumj40y+Vxj8nJOCtHX98SAfTtbNfZ64dtc=;
-        b=4c1044MLMrSMEQLCYOOnYuYVHRQnGOx/nxDNok5RfznuVc3q/ocrxPkD04Wvtce/Nc
-         H24ovADrBmYtgwSrI/k8PMLl+X79Wl01mUo+FwYhCDLsSwfNMHWpPXot6pDjSb+vbd9y
-         Y+zfWDV14o8lBDODywEVETISOM0ReJqHwbamr0xL/KRJY7ofVWppAvA4FhFpd3A+Msp3
-         oXdfwGxYpo1YixWgSmNQFYuDoWj4Dlepm6aUOeM2SzOsXlmvsl/5UqVcoQn45Zrp8CC9
-         t7EpVzPqZggZsjz3DrdWQutoyBD0+p/bdkREetsuzpqs1MUBgetkqoWOFYaV9etbgTCb
-         AZGA==
-X-Gm-Message-State: AOAM5303XDOq87Y14FueG2CP5pdBedelE+CNQMw9X1M7IY0fg7jjd9iX
-        ifvEp3Cdk40q9WDvVFv0ix4DeoQhQhD3U/l0wdoUUA==
-X-Google-Smtp-Source: ABdhPJxU13IvMNJB9CLX9RID5RdpALDQmWnXhxjxw3ECF0QxhrvMFXS5K8yqGKyoBUl9QipAitnbbCsrxrqrphUFvGs=
-X-Received: by 2002:a05:6402:50cf:: with SMTP id h15mr25388003edb.102.1643839721825;
- Wed, 02 Feb 2022 14:08:41 -0800 (PST)
+        id S231817AbiBCBAY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Feb 2022 20:00:24 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:50129 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230037AbiBCBAY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Feb 2022 20:00:24 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id E3E4A2B001A2;
+        Wed,  2 Feb 2022 20:00:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 02 Feb 2022 20:00:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; bh=ghqGX3/+yOOHb2cOr1Jt9KBI+S4cLLds/M5rhcvfosE=; b=bqg5P
+        3LfxBT9QfWHEeZu4P2PeC5KtJQcu477uZdXAKwDzwJ6zuYgmbeof372Lr4nz3KM+
+        7TXIPrDgRyLwGADhiHsHwHp3NTMPd9S1lUR4dhT35qCjPR7O6XZ008FFftbfgAXd
+        C4rHOPwbxNc3tqcECIrF/7bJvvXtYuhWrhY4nKKo3KOZlzq+yoqXMUFQu4svRYvR
+        YNiuIN6eJd4rr+F123RclySMHAFqilbmYdIx85Q9fhKJ0sPZdmtqPiIQOhANb2GL
+        3XZhwzjHzaDAOswYCc8acn5v22HFagluowvb6WAaIZrPA7JDUEK9+chH68CJeP65
+        w+/2ODChvaKQj0CUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm2; bh=ghqGX3/+yOOHb2cOr1Jt9KBI+S4cL
+        Lds/M5rhcvfosE=; b=JvJGlb5IUQsk0DkjjbQKbnPcKjfpRbTct6esJ0QUjMGCZ
+        R66US/8aSAwOn7VEt3bV1RGYi2i/VdQ0eXT/is3wtFXJ2L35hX2WZ8MCq8JxHhn8
+        X+zpBjvcuBO68LEVO7+eMHhR+4sP9jPUmmKjWahIllTi6OSTj442Xw1cWj7C0FOJ
+        HfHKMb2qC9Uo9zXN4yTKmYkl8jW6nIY0T8Q+CnFHToLRfKOMmP7Z227QMEiC1AgP
+        j1ftJiyKFiTvb7g8d03ek2i3wuqDsYsGzxKC6O3wqE2NGqeDZvL+UzDyo1zo642T
+        /mwTgIgckTUXsN8ifH+UQCj9iOxh5mF3ypUjVGGmA==
+X-ME-Sender: <xms:JSn7YbWoye-gmceZB3uyNr1SnsXC3J_9TH6cUJ9Fv3AD0A8C-tIc7w>
+    <xme:JSn7YTmPQQsq6RGQWZ-y4OZ0FQILEp8w0cvaRQAhiKtQxeGUEEgzNsYn3YM0Wl9jc
+    hO6LNGIvO6MmPh9fg>
+X-ME-Received: <xmr:JSn7YXaJgx98ge3DtOzx24_6B5pquH1CmE-rv6Dj7w0Ded3y7wGSm6vXgrdtpl_3G0I0ts_t69Y0R__sgQc8EBBgYZZB3XTj2vXVj_myvv6NOyP_Y6yqaP_gqn8VF8o1lGCvjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeeigddvjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    evohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffoggfg
+    sedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcujfholhhlrghnugcuoehsrghmuh
+    gvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrghtthgvrhhnpeegffdtvdevgfel
+    jeduveefgfefffejhfdtudeiudejueehtdelgefgjeeuffduueenucffohhmrghinhepug
+    gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:JSn7YWX3LOq0pdzQnjfyYXRKAsGnQ5kflGk0dzr6Jm2rGFSQQv0Qtw>
+    <xmx:JSn7YVnYyf6mXcTbikgSAQjHEIfnn7WvTGvMs6aedO-6a0wKFbOA4g>
+    <xmx:JSn7YTewQ_Uq4JX0bm6KlsD6VGAlgDOe0hebpfPL-BSrm17FMRbntA>
+    <xmx:Jin7Ybc-EoVj_bUM2RpPx-BjAsaZP8AQsLT3wk5-gTtgouT9e9PgRiAJ1wU>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Feb 2022 20:00:20 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        Samuel Holland <samuel@sholland.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 1/2] dt-bindings: leds: Add Allwinner R329/D1 LED controller
+Date:   Wed,  2 Feb 2022 19:00:18 -0600
+Message-Id: <20220203010020.9924-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20220129005429.754727-1-bjorn.andersson@linaro.org>
- <20220129005429.754727-2-bjorn.andersson@linaro.org> <20220202111833.ibeq3udj37dkfv6l@SoMainline.org>
- <Yfrj7DnXET6fT3BX@ripper>
-In-Reply-To: <Yfrj7DnXET6fT3BX@ripper>
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-Date:   Wed, 2 Feb 2022 16:08:29 -0600
-Message-ID: <CAOCOHw7LS=NALXzHMN6LauEqrjDk2y27VoQtaT4tkHJiYxM7MQ@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] leds: Add driver for Qualcomm LPG
-To:     Marijn Suijten <marijn.suijten@somainline.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Uwe Kleine-K?nig" <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Satya Priya Kakitapalli <c_skakit@qti.qualcomm.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Feb 2, 2022 at 2:04 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Wed 02 Feb 03:18 PST 2022, Marijn Suijten wrote:
->
-> > On 2022-01-28 16:54:29, Bjorn Andersson wrote:
-> > > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> > > PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-> > > with their output being routed to various other components, such as
-> > > current sinks or GPIOs.
-> > >
-> > > Each LPG instance can operate on fixed parameters or based on a shared
-> > > lookup-table, altering the duty cycle over time. This provides the means
-> > > for hardware assisted transitions of LED brightness.
-> > >
-> > > A typical use case for the fixed parameter mode is to drive a PWM
-> > > backlight control signal, the driver therefor allows each LPG instance
-> > > to be exposed to the kernel either through the LED framework or the PWM
-> > > framework.
-> > >
-> > > A typical use case for the LED configuration is to drive RGB LEDs in
-> > > smartphones etc, for which the driver support multiple channels to be
-> > > ganged up to a MULTICOLOR LED. In this configuration the pattern
-> > > generators will be synchronized, to allow for multi-color patterns.
-> > >
-> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >
-> > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >
-> > There may still be some things to improve based on whether lo_pause
-> > works in non-ping-pong mode - to alleviate the requirement for the first
-> > delta_t to be at most 512ms - but this patch should not be delayed much
-> > longer and that's perhaps for a followup patch.  Same for my request for
-> > documentation and examples which at the same time serve as some form of
-> > tests to see if everything works as desired.
-> >
->
-> I've been considering lopause to be the value before we start the
-> pattern, but I think you're right in that it denotes how long we should
-> hold the first value.
->
-> So I think it might make sense in the predefined "<value> <delay> <value>
-> <delay>" scheme to use first <delay> as to calculate lo-pause. I think
-> it has to be calculated, because the first value will iiuc be held
-> for (lopause + 1) * delay ms.
->
-> > I also vaguely remember other (downstream) drivers to support more than
-> > 512ms per step by (drastically?) changing PWM period, but not sure how
-> > that worked again nor if it was reliable.
-> >
->
-> Thinking about it again, while 512 is the 9th bit, we should be able to
-> represent [0..1023] with 9 bits...
->
+The Allwinner R329 and D1 SoCs contain an LED controller designed to
+drive a series of RGB LED pixels. It supports PIO and DMA transfers, and
+has configurable timing and pixel format.
 
-Sorry, my mind was elsewhere as I wrote that. [0..511] is what we got.
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Regards,
-Bjorn
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+
+Changes in v2:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+
+ .../leds/allwinner,sun50i-r329-ledc.yaml      | 137 ++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+new file mode 100644
+index 000000000000..3db3fe766e6a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+@@ -0,0 +1,137 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/allwinner,sun50i-r329-ledc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner R329 LED Controller Bindings
++
++maintainers:
++  - Samuel Holland <samuel@sholland.org>
++
++description:
++  The LED controller found in Allwinner sunxi SoCs uses a one-wire serial
++  interface to drive up to 1024 RGB LEDs.
++
++properties:
++  compatible:
++    oneOf:
++      - const: allwinner,sun50i-r329-ledc
++      - items:
++          - enum:
++              - allwinner,sun20i-d1-ledc
++          - const: allwinner,sun50i-r329-ledc
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: Bus clock
++      - description: Module clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++
++  resets:
++    maxItems: 1
++
++  dmas:
++    maxItems: 1
++    description: TX DMA channel
++
++  dma-names:
++    const: tx
++
++  interrupts:
++    maxItems: 1
++
++  allwinner,pixel-format:
++    description: Pixel format (subpixel transmission order), default is "grb"
++    enum:
++      - bgr
++      - brg
++      - gbr
++      - grb
++      - rbg
++      - rgb
++
++  allwinner,t0h-ns:
++    default: 336
++    description: Length of high pulse when transmitting a "0" bit
++
++  allwinner,t0l-ns:
++    default: 840
++    description: Length of low pulse when transmitting a "0" bit
++
++  allwinner,t1h-ns:
++    default: 882
++    description: Length of high pulse when transmitting a "1" bit
++
++  allwinner,t1l-ns:
++    default: 294
++    description: Length of low pulse when transmitting a "1" bit
++
++  allwinner,treset-ns:
++    default: 300000
++    description: Minimum delay between transmission frames
++
++patternProperties:
++  "^multi-led@[0-9a-f]+$":
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    properties:
++      reg:
++        minimum: 0
++        maximum: 1023
++        description: Index of the LED in the series (must be contiguous)
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - resets
++  - dmas
++  - dma-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/leds/common.h>
++
++    ledc: led-controller@2008000 {
++      compatible = "allwinner,sun20i-d1-ledc",
++                   "allwinner,sun50i-r329-ledc";
++      reg = <0x2008000 0x400>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++      clocks = <&ccu 12>, <&ccu 34>;
++      clock-names = "bus", "mod";
++      resets = <&ccu 12>;
++      dmas = <&dma 42>;
++      dma-names = "tx";
++      interrupts = <36 IRQ_TYPE_LEVEL_HIGH>;
++
++      multi-led@0 {
++        reg = <0x0>;
++        color = <LED_COLOR_ID_RGB>;
++        function = LED_FUNCTION_INDICATOR;
++      };
++    };
++
++...
+-- 
+2.33.1
+
