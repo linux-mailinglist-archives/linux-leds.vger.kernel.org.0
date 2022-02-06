@@ -2,111 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E245D4AAF2B
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Feb 2022 13:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D53B4AB104
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Feb 2022 18:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbiBFM0F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 6 Feb 2022 07:26:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51344 "EHLO
+        id S236019AbiBFRkM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 6 Feb 2022 12:40:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbiBFM0F (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 6 Feb 2022 07:26:05 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23744C06173B
-        for <linux-leds@vger.kernel.org>; Sun,  6 Feb 2022 04:26:04 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id og43so10215746ejc.0
-        for <linux-leds@vger.kernel.org>; Sun, 06 Feb 2022 04:26:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AldHBVkTo+1qiRINvjNGhGwAu75cjEUUHA4BKBeKPlg=;
-        b=DImSatTJUu+d0SagwGOSqkJhb7uvjxlicRktwfssMy8iboXQGMzNBWP003Yg6LDRRz
-         n466h0a3ytsdRMjS/Z5Quj4F8lmtNtYrB+OhZYs8nOwl7jv2cPJJKR2UoZpfkuKugnRW
-         ECBZydfMoV+ugVeS9uJvTyz0DIOyC65zv73k92AdvGMc6SBzH+WSKEJvOubFt3vW7dbK
-         +e/C72qXVh4HrqOmv9c7/xJUVInO29WMwx2lCTxsQ5aytlbrURFwoMMVLX1s4e6oMY0U
-         wuWCDLre83OQ0TCwxgN+8xR3mdaBbDBdhISMqVZThoqNoZ9XrEFxgYWTe9ep6UFUO6GR
-         SDJw==
+        with ESMTP id S234682AbiBFRkL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 6 Feb 2022 12:40:11 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A116AC06173B
+        for <linux-leds@vger.kernel.org>; Sun,  6 Feb 2022 09:40:10 -0800 (PST)
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CDB1F40039
+        for <linux-leds@vger.kernel.org>; Sun,  6 Feb 2022 17:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1644168890;
+        bh=z5izoBPa4R9EwBL70QufFWzK1TBtESD+9kJEsHX6Aho=;
+        h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+         In-Reply-To:Content-Type;
+        b=MIcGa5Z4ikByeqdyMIUwhP5763PiJCTkTyKn2rStWLy0o1Xs8B/ifhdO9SPexYdI/
+         Ou49EtOlVCTFTQx7ITn1yjm/lExxWEutNyNntcNpTZjzlGgS1tvPSiWA/fIbo+cv8j
+         y0RchwfLEuf4IkZaqgTUaL1IBmPMfXRG18fJwI8ZTKPLfxHEB1njGPArbTqSEWVP/D
+         MnFMvI7BYKt6DjC10Sy+FeIMYaT6XN2qB2Ic3JuXlH1fgqGYfxXszmiXQP8Qyp9v+4
+         8iUOAEM/OljJykik8ti0X2oSWMc0UgLEE9OB9Pm35z2cVJ4Wx4nBh5x3cHPjKHuCnm
+         lMFoSSB/ntDiA==
+Received: by mail-wm1-f70.google.com with SMTP id h82-20020a1c2155000000b003552c13626cso6463987wmh.3
+        for <linux-leds@vger.kernel.org>; Sun, 06 Feb 2022 09:34:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AldHBVkTo+1qiRINvjNGhGwAu75cjEUUHA4BKBeKPlg=;
-        b=tXP9cBeLcOOUCU6o/RK/zbwbpQ8JeiEHhowbww9VpTGXDtbMoZCZYtEE7S1dEfsGXt
-         bV4n24Fx+QgbPtTnywwBIn7r9DmuYjLdPzoEi1kSwY9TmAkWuMPmEbqp4L+xAlpelS3f
-         +wlymS7CcOiwQukdbIRGNouslKJcvAr0GPT8uUM1aw3qbrFj62M/mEMl+VyaAHZ5omWU
-         +p7pM4WIWKybJX/jF++ng3YDBbiPMT2Jrlf8uHmwoRIn/UlFkr4qyspYSg+uzDn3WY7o
-         6LZK4b28eEGLrSiR3Zgilx46yJUFUUR9UvEO6eAELkHEIbIrWGz+PyCvAlaYdZH4fwQ8
-         Gm/w==
-X-Gm-Message-State: AOAM533qN+TBMoO/bymiSZqli3+ZBb4/bdZXUtTVUx80EEFIjA7CrJS0
-        gqBXCIGy1ayB2brPBuQenrjMkihCcEU9s7BNjds=
-X-Google-Smtp-Source: ABdhPJyEPZsX9Yi/wF+UxheD7JHdiUwGcDHJDenGSoKMYag6I+TJ4a2521Z/A68zJU3Z0Siv29sVLaLXSubehUYBYMw=
-X-Received: by 2002:a17:906:c14d:: with SMTP id dp13mr6334423ejc.132.1644150362522;
- Sun, 06 Feb 2022 04:26:02 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:cc:from:in-reply-to
+         :content-transfer-encoding;
+        bh=z5izoBPa4R9EwBL70QufFWzK1TBtESD+9kJEsHX6Aho=;
+        b=IgnCJa4Bz1rNJ7E5bXuh6Y7HyDkHx2JjU9X65qSlx4lkyQGFVqKWhw3wpZ5tA3ZlPS
+         iJ4kCzquza9Bqs0OnRV14wE5o/mdTaXBLUzzcZkAMn4C9WSD76ACPWRkXhGqjAB8uGyw
+         1tuH9+QoJhbAvZ7uH7832Rjez9VuTJwVY2JEnw6rPaivotTkwol4WBKtkXFiRPsqxl89
+         MNw9LXXZ1btCmdAuTWsO6M83rCWWjnrEDQTzvZMtUgICrxfqogYpCgoi/eWcFGC+K0hP
+         Li81zRhddAwcyZ3T2lqV29VK/EkmqLGeOHaaGbDdi13KwX0ciAzxRQ9b+rbd8L++aj1X
+         icJQ==
+X-Gm-Message-State: AOAM53127TBB9769jwuzh7+TUFnklucookSgcNU7wpWw85aCSEyOWQWQ
+        TMmW+/ZdZZP0oX5SjmTMtGDmvjUstuYZwKTDbnxSPr/ggU56+VviVBdqn1r65u9U0fGVPl6EmC6
+        3Qe/2G7OucDnOH+gFHWHzhm1v2w7ISEgs8SROPuY=
+X-Received: by 2002:a05:600c:510e:: with SMTP id o14mr7785306wms.163.1644168890585;
+        Sun, 06 Feb 2022 09:34:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1rOAFnc0rXLk6obrEoY0IBwhFxEnLcHOsLdWK71QDzzC6xlUe0hnU8CgHpqzZIXOQQqmMLg==
+X-Received: by 2002:a05:600c:510e:: with SMTP id o14mr7785295wms.163.1644168890461;
+        Sun, 06 Feb 2022 09:34:50 -0800 (PST)
+Received: from [192.168.0.86] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id ay29sm6975979wmb.38.2022.02.06.09.34.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Feb 2022 09:34:49 -0800 (PST)
+Message-ID: <f0a9e656-cf18-f212-b701-a1c9d10c4a59@canonical.com>
+Date:   Sun, 6 Feb 2022 18:34:48 +0100
 MIME-Version: 1.0
-References: <20220126104844.246068-1-sven@svenschwermer.de>
- <20220126104844.246068-3-sven@svenschwermer.de> <CAHp75VfMTCvgib__PhnfB_g7xLhyNws5TDRyMVyzuAkT1ydY_w@mail.gmail.com>
- <20f95cfd-a851-af4f-1c60-45f2ca238e10@svenschwermer.de> <CAHp75VeSD5bYERp=s9Dzd0xScVc+sYSdc8W4XBfCVXJgyWMPyA@mail.gmail.com>
- <0df04a77-6765-f9bd-a678-9016d0c0c5d5@svenschwermer.de>
-In-Reply-To: <0df04a77-6765-f9bd-a678-9016d0c0c5d5@svenschwermer.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 6 Feb 2022 14:25:26 +0200
-Message-ID: <CAHp75VfFZH4vZK9Ny0NfdfPSPShaekHvNiLm8m6hKxMmcCX6bQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] leds: Add PWM multicolor driver
-To:     Sven Schwermer <sven@svenschwermer.de>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        "post@lespocky.de" <post@lespocky.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 0/3] regulator/mfd: dt-bindings: maxim,max77802:
+ convert to dtschema
+Content-Language: en-US
+To:     Lee Jones <lee.jones@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Liam Girdwood <lgirdwood@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Feb 6, 2022 at 1:04 PM Sven Schwermer <sven@svenschwermer.de> wrote:
->
-> > Skipping mutex destruction is not critical, but in general if you wish
-> > to free allocated resource, it should be done in reversed order...
-> As far as I can tell, the ordering is already reversed:
+On 11/01/2022 18:54, Krzysztof Kozlowski wrote:
+> Hi,
+> 
+> Changes since v1
+> ================
+> 1. MFD: Use absolute path to schemas.
+> 2. Regulator: skip properties.
+> 
+> Dependencies
+> ============
+> 1. DTS patch: nothing depends on it, sending here so Rob's automatic
+>    checker won't complain about DTS.
+>    I will take it via Samsung SoC tree.
+> 
+> 2. Final MFD patch depends on regulator, so the two last patches could
+>    go via Rob's, Mark's or Lee's trees.
+> 
 
-I can't see it.
+Dear Lee,
 
-What I see is that mutex_destroy() is called before the LED class
-unregisters (along with PWM and memory allocation). It means
-potentially it may be the issue when during ->probe() error path or
-->remove() somebody calls for LED functions which rely on mutex
-presence (while it has been already destroyed).
+This patchset was reviewed and there are no outstanding issues. Could
+you pick up entire set via MFD tree?
 
-Easiest way to fix this is to wrap mutex_destroy() to be a devm_*()
-kind of function.
-
-> >             +destroy_mutex:
-> >             +       mutex_destroy(&priv->lock);
-> >
-> >
-> >         Wrong ordering here and in ->remove().
-> >
-> >         Don't mix devm_* with non-devm_* calls.
-> >
-> >     What do you mean by this?
-> >
-> >
-> > ...which is exactly the issue with this code because of the use of
-> > devm_*() calls mixed with non-devm_*() ones.
-> >
-> > TL;DR: ordering is broken here. And to fix it you need either a) to
-> > convert all calls to be devm_*(), or b) make them all non-devm, or c)
-> > regroup resource allocation so that all devm followed by non-devm ones.Which non-devm calls are you referring to?
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Krzysztof
