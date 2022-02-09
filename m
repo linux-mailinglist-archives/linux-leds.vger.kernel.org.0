@@ -1,319 +1,180 @@
 Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F164AE1FD
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Feb 2022 20:13:05 +0100 (CET)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 635554AF08C
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Feb 2022 13:01:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385864AbiBHTMr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Feb 2022 14:12:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57920 "EHLO
+        id S231238AbiBIMB3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Feb 2022 07:01:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385605AbiBHTMr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Feb 2022 14:12:47 -0500
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEFFC0613CB;
-        Tue,  8 Feb 2022 11:12:45 -0800 (PST)
-From:   sven@svenschwermer.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1644347563;
-        bh=JcjWtLE/DcOB7NX2pEvOOd/KnjzWHm9B7cZTmI0Wos8=;
-        h=From:To:Cc:Subject:In-Reply-To:References;
-        b=VqyOnBRe1vF1VGH7VOJj7VpDNdxoll89vCEqdLjgoFXYB+26YfmmmiBXHVxRq/5uB
-         L3bzkfG6mKdQknLLJpM7SNBZn+UUD7/UUxW0YyELwDcz6cz2tsWi23GhWsFLUpUVGP
-         d5CrRQ/eFM+6QF4mvx+6CPx3k6HSOXkIOpAFF2HbnWl77Kc/k38U/4FdVP4RB8cS2x
-         xTuLgzJrZhxm4r0UQ0FmWKmq5EOmT7cZxDgINfwG+wW2R8q+gTPnqBVBGRlr1J1vRj
-         rikUDfSps2hoJPSrW4JgX+kQe8YF+sIJAj4B4SOVBznEtrjtE1Wc5hW8Aoko7Q2ync
-         WukzSjTArUD6w==
-To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        with ESMTP id S232396AbiBIMBI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Feb 2022 07:01:08 -0500
+X-Greylist: delayed 4200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 03:54:49 PST
+Received: from mail.thorsis.com (mail.thorsis.com [92.198.35.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18265DF48F22;
+        Wed,  9 Feb 2022 03:54:49 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 42B5A1A7A;
+        Wed,  9 Feb 2022 10:17:25 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id TcYIS0UTs6_D; Wed,  9 Feb 2022 10:17:25 +0100 (CET)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id 4830C3578; Wed,  9 Feb 2022 10:17:23 +0100 (CET)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
+Date:   Wed, 9 Feb 2022 10:17:06 +0100
+From:   Alexander Dahl <ada@thorsis.com>
+To:     sven@svenschwermer.de
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
         pavel@ucw.cz, robh+dt@kernel.org, thierry.reding@gmail.com,
         u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
         post@lespocky.de, andy.shevchenko@gmail.com, robh@kernel.org
-Subject: [PATCH v6 3/3] leds: Add PWM multicolor driver
-Date:   Tue,  8 Feb 2022 20:12:36 +0100
-Message-Id: <20220208191236.660172-3-sven@svenschwermer.de>
-In-Reply-To: <20220208191236.660172-1-sven@svenschwermer.de>
+Subject: Re: [PATCH v6 2/3] dt-bindings: leds: Add multicolor PWM LED bindings
+Message-ID: <YgOGksA8kruvFLY2@ada-deb-carambola.ifak-system.com>
+Mail-Followup-To: sven@svenschwermer.de, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        pavel@ucw.cz, robh+dt@kernel.org, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
+        post@lespocky.de, andy.shevchenko@gmail.com, robh@kernel.org
 References: <20220208191236.660172-1-sven@svenschwermer.de>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <20220208191236.660172-2-sven@svenschwermer.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208191236.660172-2-sven@svenschwermer.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Hello Sven,
 
-By allowing to group multiple monochrome PWM LEDs into multicolor LEDs,
-all involved LEDs can be controlled in-sync. This enables using effects
-using triggers, etc.
+Am Tue, Feb 08, 2022 at 08:12:35PM +0100 schrieb sven@svenschwermer.de:
+> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+> 
+> This allows to group multiple PWM-connected monochrome LEDs into
+> multicolor LEDs, e.g. RGB LEDs.
+> 
+> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+> ---
+> 
+> Notes:
+>     Changes in v6:
+>     * Fix device tree binding schema
+>     
+>     Changes in v5:
+>     * (no changes)
+>     
+>     Changes in v4:
+>     * (no changes)
+>     
+>     Changes in v3:
+>     * Remove multi-led unit name
+> 
+>  .../bindings/leds/leds-pwm-multicolor.yaml    | 69 +++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+> new file mode 100644
+> index 000000000000..f7ce29c8ae63
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-pwm-multicolor.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Multi-color LEDs connected to PWM
+> +
+> +maintainers:
+> +  - Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+> +
+> +description: |
+> +  This driver combines several monochrome PWM LEDs into one multi-color
+> +  LED using the multicolor LED class.
+> +
+> +properties:
+> +  compatible:
+> +    const: pwm-leds-multicolor
+> +  multi-led:
+> +    type: object
+> +    patternProperties:
+> +      "^led-[0-9a-z]+$":
+> +        type: object
+> +        $ref: common.yaml#
+> +        properties:
+> +          pwms:
+> +            maxItems: 1
+> +          pwm-names: true
+> +          color: true
+> +        required:
+> +          - pwms
+> +          - color
+> +        additionalProperties: false
+> +required:
+> +  - compatible
+> +allOf:
+> +  - $ref: leds-class-multicolor.yaml#
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    rgb-led {
 
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
+I think this should be 'led-controller'. See
+Documentation/devicetree/bindings/leds/common.yaml for reference.
 
-Notes:
-    Changes in v6:
-    * (no changes)
-    
-    Changes in v5:
-    * Factor iteration over subleds out into function
-    
-    Changes in v4:
-    * Remove mutex destruction and remove function
-    * Include missing headers
-    * Use post-increment instead of pre-increment
-    * Variable declarations in reverse xmas tree order
-    * Use dev_err_probe where possible
-    * Return immediately where possible
-    * Cosmetic changes
-    * Document LKM name
-    
-    Changes in v3:
-    * Release fwnode handles
-    * Sort header includes
-    * Remove deprecated device tree properties
-    * Remove deprecated LED_OFF
-    * Remove subled channel assignment
-    * s/pwmstate/state/
+> +        compatible = "pwm-leds-multicolor";
+> +
+> +        multi-led {
+> +          color = <LED_COLOR_ID_RGB>;
+> +          function = LED_FUNCTION_INDICATOR;
+> +          max-brightness = <65535>;
+> +
+> +          led-red {
+> +              pwms = <&pwm1 0 1000000>;
+> +              color = <LED_COLOR_ID_RED>;
+> +          };
+> +
+> +          led-green {
+> +              pwms = <&pwm2 0 1000000>;
+> +              color = <LED_COLOR_ID_GREEN>;
+> +          };
+> +
+> +          led-blue {
+> +              pwms = <&pwm3 0 1000000>;
+> +              color = <LED_COLOR_ID_BLUE>;
+> +          };
 
- drivers/leds/Kconfig               |  11 ++
- drivers/leds/Makefile              |   1 +
- drivers/leds/leds-pwm-multicolor.c | 186 +++++++++++++++++++++++++++++
- 3 files changed, 198 insertions(+)
- create mode 100644 drivers/leds/leds-pwm-multicolor.c
+Not sure if those node names should be more generic like led-0, led-1
+etc.?  At least the color information is redundant here.  This would
+make it more similar to bindings of other LED drivers.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 6090e647daee..e70a46704076 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -552,6 +552,17 @@ config LEDS_PWM
- 	help
- 	  This option enables support for pwm driven LEDs
- 
-+config LEDS_PWM_MULTICOLOR
-+	tristate "PWM driven multi-color LED Support"
-+	depends on LEDS_CLASS_MULTICOLOR
-+	depends on PWM
-+	help
-+	  This option enables support for PWM driven monochrome LEDs that are
-+	  grouped into multicolor LEDs.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-pwm-multicolor.
-+
- config LEDS_REGULATOR
- 	tristate "REGULATOR driven LED support"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index e58ecb36360f..ba2c2c1edf12 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -73,6 +73,7 @@ obj-$(CONFIG_LEDS_PCA963X)		+= leds-pca963x.o
- obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
- obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
- obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
-+obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
- obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
- obj-$(CONFIG_LEDS_S3C24XX)		+= leds-s3c24xx.o
- obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
-diff --git a/drivers/leds/leds-pwm-multicolor.c b/drivers/leds/leds-pwm-multicolor.c
-new file mode 100644
-index 000000000000..45e38708ecb1
---- /dev/null
-+++ b/drivers/leds/leds-pwm-multicolor.c
-@@ -0,0 +1,186 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * PWM-based multi-color LED control
-+ *
-+ * Copyright 2022 Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/led-class-multicolor.h>
-+#include <linux/leds.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/pwm.h>
-+
-+struct pwm_led {
-+	struct pwm_device *pwm;
-+	struct pwm_state state;
-+};
-+
-+struct pwm_mc_led {
-+	struct led_classdev_mc mc_cdev;
-+	struct mutex lock;
-+	struct pwm_led leds[];
-+};
-+
-+static int led_pwm_mc_set(struct led_classdev *cdev,
-+			  enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-+	struct pwm_mc_led *priv = container_of(mc_cdev, struct pwm_mc_led, mc_cdev);
-+	unsigned long long duty;
-+	int ret = 0;
-+	int i;
-+
-+	led_mc_calc_color_components(mc_cdev, brightness);
-+
-+	mutex_lock(&priv->lock);
-+
-+	for (i = 0; i < mc_cdev->num_colors; i++) {
-+		duty = priv->leds[i].state.period;
-+		duty *= mc_cdev->subled_info[i].brightness;
-+		do_div(duty, cdev->max_brightness);
-+
-+		priv->leds[i].state.duty_cycle = duty;
-+		priv->leds[i].state.enabled = duty > 0;
-+		ret = pwm_apply_state(priv->leds[i].pwm,
-+				      &priv->leds[i].state);
-+		if (ret)
-+			break;
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return ret;
-+}
-+
-+static int iterate_subleds(struct device *dev, struct pwm_mc_led *priv,
-+			   struct fwnode_handle *mcnode)
-+{
-+	struct mc_subled *subled = priv->mc_cdev.subled_info;
-+	struct fwnode_handle *fwnode;
-+	struct pwm_led *pwmled;
-+	u32 color;
-+	int ret;
-+
-+	/* iterate over the nodes inside the multi-led node */
-+	fwnode_for_each_child_node(mcnode, fwnode) {
-+		pwmled = &priv->leds[priv->mc_cdev.num_colors];
-+		pwmled->pwm = devm_fwnode_pwm_get(dev, fwnode, NULL);
-+		if (IS_ERR(pwmled->pwm)) {
-+			ret = PTR_ERR(pwmled->pwm);
-+			dev_err(dev, "unable to request PWM: %d\n", ret);
-+			goto release_fwnode;
-+		}
-+		pwm_init_state(pwmled->pwm, &pwmled->state);
-+
-+		ret = fwnode_property_read_u32(fwnode, "color", &color);
-+		if (ret) {
-+			dev_err(dev, "cannot read color: %d\n", ret);
-+			goto release_fwnode;
-+		}
-+
-+		subled[priv->mc_cdev.num_colors].color_index = color;
-+		priv->mc_cdev.num_colors++;
-+	}
-+
-+	return 0;
-+
-+release_fwnode:
-+	fwnode_handle_put(fwnode);
-+	return ret;
-+}
-+
-+static int led_pwm_mc_probe(struct platform_device *pdev)
-+{
-+	struct fwnode_handle *mcnode, *fwnode;
-+	struct led_init_data init_data = {};
-+	struct led_classdev *cdev;
-+	struct mc_subled *subled;
-+	struct pwm_mc_led *priv;
-+	int count = 0;
-+	int ret = 0;
-+
-+	mcnode = device_get_named_child_node(&pdev->dev, "multi-led");
-+	if (!mcnode)
-+		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "expected multi-led node\n");
-+
-+	/* count the nodes inside the multi-led node */
-+	fwnode_for_each_child_node(mcnode, fwnode)
-+		count++;
-+
-+	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds, count),
-+			    GFP_KERNEL);
-+	if (!priv) {
-+		ret = -ENOMEM;
-+		goto release_mcnode;
-+	}
-+	mutex_init(&priv->lock);
-+
-+	subled = devm_kcalloc(&pdev->dev, count, sizeof(*subled), GFP_KERNEL);
-+	if (!subled) {
-+		ret = -ENOMEM;
-+		goto release_mcnode;
-+	}
-+	priv->mc_cdev.subled_info = subled;
-+
-+	/* init the multicolor's LED class device */
-+	cdev = &priv->mc_cdev.led_cdev;
-+	fwnode_property_read_u32(mcnode, "max-brightness",
-+				 &cdev->max_brightness);
-+	cdev->flags = LED_CORE_SUSPENDRESUME;
-+	cdev->brightness_set_blocking = led_pwm_mc_set;
-+
-+	ret = iterate_subleds(&pdev->dev, priv, mcnode);
-+	if (ret)
-+		goto release_mcnode;
-+
-+	init_data.fwnode = mcnode;
-+	ret = devm_led_classdev_multicolor_register_ext(&pdev->dev,
-+							&priv->mc_cdev,
-+							&init_data);
-+	if (ret) {
-+		dev_err(&pdev->dev,
-+			"failed to register multicolor PWM led for %s: %d\n",
-+			cdev->name, ret);
-+		goto release_mcnode;
-+	}
-+
-+	ret = led_pwm_mc_set(cdev, cdev->brightness);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "failed to set led PWM value for %s: %d",
-+				     cdev->name, ret);
-+
-+	platform_set_drvdata(pdev, priv);
-+	return 0;
-+
-+release_mcnode:
-+	fwnode_handle_put(mcnode);
-+	return ret;
-+}
-+
-+static const struct of_device_id of_pwm_leds_mc_match[] = {
-+	{ .compatible = "pwm-leds-multicolor", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, of_pwm_leds_mc_match);
-+
-+static struct platform_driver led_pwm_mc_driver = {
-+	.probe		= led_pwm_mc_probe,
-+	.driver		= {
-+		.name	= "leds_pwm_multicolor",
-+		.of_match_table = of_pwm_leds_mc_match,
-+	},
-+};
-+module_platform_driver(led_pwm_mc_driver);
-+
-+MODULE_AUTHOR("Sven Schwermer <sven.schwermer@disruptive-technologies.com>");
-+MODULE_DESCRIPTION("multi-color PWM LED driver");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:leds-pwm-multicolor");
--- 
-2.35.1
+And how is it supposed to be named if you have multiple
+"multi-led"s, e.g. one on three PWM channels, and another one on three
+different PWM channels?
 
+Greets
+Alex
+
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.35.1
+> 
