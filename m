@@ -2,179 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635554AF08C
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Feb 2022 13:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BCD24AFA25
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Feb 2022 19:36:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231238AbiBIMB3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Feb 2022 07:01:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39788 "EHLO
+        id S239514AbiBISfm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Feb 2022 13:35:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232396AbiBIMBI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Feb 2022 07:01:08 -0500
-X-Greylist: delayed 4200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 03:54:49 PST
-Received: from mail.thorsis.com (mail.thorsis.com [92.198.35.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18265DF48F22;
-        Wed,  9 Feb 2022 03:54:49 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 42B5A1A7A;
-        Wed,  9 Feb 2022 10:17:25 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id TcYIS0UTs6_D; Wed,  9 Feb 2022 10:17:25 +0100 (CET)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 4830C3578; Wed,  9 Feb 2022 10:17:23 +0100 (CET)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
-Date:   Wed, 9 Feb 2022 10:17:06 +0100
-From:   Alexander Dahl <ada@thorsis.com>
+        with ESMTP id S239565AbiBISfh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Feb 2022 13:35:37 -0500
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816F5C05CBA9;
+        Wed,  9 Feb 2022 10:35:40 -0800 (PST)
+Received: by mail-oo1-f45.google.com with SMTP id o192-20020a4a2cc9000000b00300af40d795so3436364ooo.13;
+        Wed, 09 Feb 2022 10:35:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+RsWfmq0F6wX1G1e+RM/xgkrQK09rJkHkHiAa0GU9Cw=;
+        b=i3F1VYAnVnrlJSdKC53s3ltKr54Mi6fmRw/oeG8ndk1u6uMR/1ISAyp8hXKu4EXKTu
+         rO197/EHfhPKWG7nsRr6j/EGL844ZeDgNXHmcPo6kEWyPEloaXx6FGhMuvkyGiqzxCg6
+         nw2QN61UYsI5c2tehMLQrFgYMXsAUodycFS0RzP/L163WV1DaVo1srzjG2yrhFI+nE6x
+         zo+C/LB73hqx18Zosx10pHuihWiFbvso2G7zDI7ITkV8pYfs5GmiM8/42uyTtJGkUuVl
+         dd1sZ86hhjni78i61bT888lFUkstVvvH1ZrR/pvq4QkfauIyVt+jbXIrLlhrL3uZh6gU
+         nrbQ==
+X-Gm-Message-State: AOAM531WQj1NSL8lZkvCdTdJ9NMRJFyEC3YKnblr8BIFRkAaayZqFzJC
+        10TtvaI8Pq4v/9i+RSTDlg==
+X-Google-Smtp-Source: ABdhPJz4vuvJMQycGpuhKo8F5FyYxYz+DXI3An7uVJ0o3p4z4D1w0b7P9DinkaIMcDzez15Qjv8kQQ==
+X-Received: by 2002:a05:6870:b1d1:: with SMTP id x17mr1416431oak.158.1644431739832;
+        Wed, 09 Feb 2022 10:35:39 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id z4sm6826911ota.7.2022.02.09.10.35.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 10:35:38 -0800 (PST)
+Received: (nullmailer pid 659221 invoked by uid 1000);
+        Wed, 09 Feb 2022 18:35:37 -0000
+Date:   Wed, 9 Feb 2022 12:35:37 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     sven@svenschwermer.de
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
+Cc:     linux-pwm@vger.kernel.org, post@lespocky.de,
+        linux-leds@vger.kernel.org, andy.shevchenko@gmail.com,
+        devicetree@vger.kernel.org, thierry.reding@gmail.com, pavel@ucw.cz,
+        u.kleine-koenig@pengutronix.de,
         Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        pavel@ucw.cz, robh+dt@kernel.org, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
-        post@lespocky.de, andy.shevchenko@gmail.com, robh@kernel.org
-Subject: Re: [PATCH v6 2/3] dt-bindings: leds: Add multicolor PWM LED bindings
-Message-ID: <YgOGksA8kruvFLY2@ada-deb-carambola.ifak-system.com>
-Mail-Followup-To: sven@svenschwermer.de, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        pavel@ucw.cz, robh+dt@kernel.org, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
-        post@lespocky.de, andy.shevchenko@gmail.com, robh@kernel.org
+        robh+dt@kernel.org, lee.jones@linaro.org
+Subject: Re: [PATCH v6 1/3] dt-bindings: leds: Optional multi-led unit address
+Message-ID: <YgQJeXKnQrWjjzcI@robh.at.kernel.org>
 References: <20220208191236.660172-1-sven@svenschwermer.de>
- <20220208191236.660172-2-sven@svenschwermer.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208191236.660172-2-sven@svenschwermer.de>
+In-Reply-To: <20220208191236.660172-1-sven@svenschwermer.de>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Sven,
-
-Am Tue, Feb 08, 2022 at 08:12:35PM +0100 schrieb sven@svenschwermer.de:
+On Tue, 08 Feb 2022 20:12:34 +0100, sven@svenschwermer.de wrote:
 > From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 > 
-> This allows to group multiple PWM-connected monochrome LEDs into
-> multicolor LEDs, e.g. RGB LEDs.
+> The unit address does not make sense in all cases the multi-led node is
+> used, e.g. for the upcoming PWM multi-color LED driver.
 > 
 > Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 > ---
 > 
 > Notes:
->     Changes in v6:
->     * Fix device tree binding schema
->     
->     Changes in v5:
->     * (no changes)
->     
->     Changes in v4:
->     * (no changes)
->     
->     Changes in v3:
->     * Remove multi-led unit name
+>     Added in v6
 > 
->  .../bindings/leds/leds-pwm-multicolor.yaml    | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+>  .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> new file mode 100644
-> index 000000000000..f7ce29c8ae63
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-pwm-multicolor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Multi-color LEDs connected to PWM
-> +
-> +maintainers:
-> +  - Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> +
-> +description: |
-> +  This driver combines several monochrome PWM LEDs into one multi-color
-> +  LED using the multicolor LED class.
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-leds-multicolor
-> +  multi-led:
-> +    type: object
-> +    patternProperties:
-> +      "^led-[0-9a-z]+$":
-> +        type: object
-> +        $ref: common.yaml#
-> +        properties:
-> +          pwms:
-> +            maxItems: 1
-> +          pwm-names: true
-> +          color: true
-> +        required:
-> +          - pwms
-> +          - color
-> +        additionalProperties: false
-> +required:
-> +  - compatible
-> +allOf:
-> +  - $ref: leds-class-multicolor.yaml#
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    rgb-led {
 
-I think this should be 'led-controller'. See
-Documentation/devicetree/bindings/leds/common.yaml for reference.
-
-> +        compatible = "pwm-leds-multicolor";
-> +
-> +        multi-led {
-> +          color = <LED_COLOR_ID_RGB>;
-> +          function = LED_FUNCTION_INDICATOR;
-> +          max-brightness = <65535>;
-> +
-> +          led-red {
-> +              pwms = <&pwm1 0 1000000>;
-> +              color = <LED_COLOR_ID_RED>;
-> +          };
-> +
-> +          led-green {
-> +              pwms = <&pwm2 0 1000000>;
-> +              color = <LED_COLOR_ID_GREEN>;
-> +          };
-> +
-> +          led-blue {
-> +              pwms = <&pwm3 0 1000000>;
-> +              color = <LED_COLOR_ID_BLUE>;
-> +          };
-
-Not sure if those node names should be more generic like led-0, led-1
-etc.?  At least the color information is redundant here.  This would
-make it more similar to bindings of other LED drivers.
-
-And how is it supposed to be named if you have multiple
-"multi-led"s, e.g. one on three PWM channels, and another one on three
-different PWM channels?
-
-Greets
-Alex
-
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.35.1
-> 
+Reviewed-by: Rob Herring <robh@kernel.org>
