@@ -2,97 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43A804B2A76
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Feb 2022 17:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 968204B2DD5
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Feb 2022 20:38:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347191AbiBKQeR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Feb 2022 11:34:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39630 "EHLO
+        id S1352895AbiBKTh1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Feb 2022 14:37:27 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242130AbiBKQeR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Feb 2022 11:34:17 -0500
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B182D65;
-        Fri, 11 Feb 2022 08:34:15 -0800 (PST)
-Received: by mail-qv1-f41.google.com with SMTP id a28so8942019qvb.10;
-        Fri, 11 Feb 2022 08:34:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ezNh3EWqFsaaHlTrJOp98oUzk3Ea1bEigkfyW/1bRyI=;
-        b=jw06rknBTakeYUYLqiVd1ypF3mhjn0E7Hv7cQII8Y34axuPkq8JzHuOo8dCO/nv5Yh
-         2rk5FI+N5n7Z1YoCns7kQ66HFn6GioDiRcsF0kZFHHIHKd3aHMdmxeKw2NS4LdWo/W40
-         yzjFzHdBzM5ZH6O83ojVRARuJAhHwixX+YbSTpkyx+iAnvFLfc4naTNRZd6IK00yXwlV
-         qiLalHghZbjHxhhyT25gDAL39Cid8V6uBGCjScQjf4a9B4j0st4UucFApQNvDHRUiA+Q
-         CuyKpVPUr1NmqxryfD2kJFxS+X7C8TwVqvSxuYEYlhknnZHD1kDbXBRqpWT7wq0zPzhZ
-         pE3A==
-X-Gm-Message-State: AOAM531CzU19CPGLtqLNOK/dp2sjTUCEbv+WDaSmZE5rwo8cUH/Cw2iP
-        0cCp39EIxvspqEGAP9yo51ZwK2iJ9Q==
-X-Google-Smtp-Source: ABdhPJzj+wCyynuKjTOGmIuc/1i5fpet5RySNhT8B/SqV7zEdro99sXdRni/6BFsjBoqncLtEVijyA==
-X-Received: by 2002:ad4:5bac:: with SMTP id 12mr1717492qvq.34.1644597254399;
-        Fri, 11 Feb 2022 08:34:14 -0800 (PST)
-Received: from robh.at.kernel.org ([2607:fb90:5fee:dfce:b6df:c3e1:b1e5:d6d8])
-        by smtp.gmail.com with ESMTPSA id bp18sm4153957qtb.72.2022.02.11.08.34.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 08:34:13 -0800 (PST)
-Received: (nullmailer pid 480397 invoked by uid 1000);
-        Fri, 11 Feb 2022 16:34:11 -0000
-Date:   Fri, 11 Feb 2022 10:34:11 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 2/3] dt-bindings: leds: sgm3140: Document ocp8110
- compatible
-Message-ID: <YgaQAwfYnt6E9buG@robh.at.kernel.org>
-References: <20211117091405.7412-1-git@apitzsch.eu>
- <20220207230638.56730-1-git@apitzsch.eu>
- <20220207230638.56730-3-git@apitzsch.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220207230638.56730-3-git@apitzsch.eu>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        with ESMTP id S1343939AbiBKTh0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Feb 2022 14:37:26 -0500
+Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C306ECF2;
+        Fri, 11 Feb 2022 11:37:23 -0800 (PST)
+Message-ID: <94f9ae9d-b048-3b72-970e-9055430ca5f5@svenschwermer.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1644608241;
+        bh=IRPnsyxD2CUad11a8uUxAIwhDx7MnWDkdL+tXUo5o6I=;
+        h=Subject:To:References:From:In-Reply-To;
+        b=RD3n5vrRh5wVheBTxyXJfin0WtCrvpa8RjtHbGeUlv9QKcnwJg5zeDFfZD3CY5wAU
+         +cMKfRbadXqZyRkLVsBVtESruzJaaWTkxIxml5vWatcwMUq6CVEQu5B9hVd+Fk787R
+         TfhGyj/QPIPaSasAWj2vTrluUIqbQtAjLLVmOZbbpqZCsahOGUE3qrfk0gVjUexYUQ
+         jSpOrdA3quvvDWKhmo2jBpQdr/fDQWvvqdY4xArJou4JE+r0+jX7ZfIHDZefOUx45Y
+         xYp/xAwO9xoMnzybetv8umEzVA5s6eIH1s2s1aaVB+wbh0/k7kws1JL2L4MPjbSUxP
+         93QIX9NMxXe4A==
+Date:   Fri, 11 Feb 2022 20:37:19 +0100
+Mime-Version: 1.0
+Subject: Re: [PATCH v6 2/3] dt-bindings: leds: Add multicolor PWM LED bindings
+Content-Language: en-US
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-pwm@vger.kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
+        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+        lee.jones@linaro.org, post@lespocky.de, andy.shevchenko@gmail.com,
+        robh@kernel.org
+References: <20220208191236.660172-1-sven@svenschwermer.de>
+ <20220208191236.660172-2-sven@svenschwermer.de>
+ <YgOGksA8kruvFLY2@ada-deb-carambola.ifak-system.com>
+ <2bf7a4c4-1661-d800-51d3-6e6287b5c6fc@svenschwermer.de>
+ <YgTb0sRSaO1EPsOW@ada-deb-carambola.ifak-system.com>
+From:   Sven Schwermer <sven@svenschwermer.de>
+In-Reply-To: <YgTb0sRSaO1EPsOW@ada-deb-carambola.ifak-system.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 12:06:37AM +0100, André Apitzsch wrote:
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Hi Alex,
 
-Commit msg? What's this h/w?
+On 2/10/22 10:33, Alexander Dahl wrote:
+>> I don't see how naming them led-{0,1,2} would be better in any way, please
+>> elaborate.
+> 
+> - consistency with other LED driver bindings
+> - spot the number of "sub"-LEDs more easily
+> - prevent all kinds of different names people will come up with, if
+>    all is allowed instead of a clear scheme
+> 
+> The color is in the color property anyways.
 
-> ---
->  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+Let's hear what others on this list say. I don't feel too strongly about 
+this either way.
+
+> I would have expected something like this:
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> index f68259619488..1c345cf16d08 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> @@ -18,7 +18,9 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: sgmicro,sgm3140
-> +    enum:
-> +      - ocs,ocp8110
-> +      - sgmicro,sgm3140
->  
->    enable-gpios:
->      maxItems: 1
-> -- 
-> 2.35.1
+>    led-controller-0 {
+>        compatible = "pwm-leds-multicolor";
 > 
+>        multi-led-0 {
+>          color = <LED_COLOR_ID_RGB>;
+>          function = LED_FUNCTION_INDICATOR;
+>          max-brightness = <65535>;
 > 
+>          led-0 {
+>              pwms = <&pwm1 0 1000000>;
+>              color = <LED_COLOR_ID_RED>;
+>          };
+> 
+>          led-1 {
+>              pwms = <&pwm2 0 1000000>;
+>              color = <LED_COLOR_ID_GREEN>;
+>          };
+> 
+>          led-2 {
+>              pwms = <&pwm3 0 1000000>;
+>              color = <LED_COLOR_ID_BLUE>;
+>          };
+>        };
+> 
+>        multi-led-1 {
+>          color = <LED_COLOR_ID_RGB>;
+>          function = LED_FUNCTION_INDICATOR;
+>          max-brightness = <65535>;
+> 
+>          led-0 {
+>              pwms = <&pwm1 0 1000000>;
+>              color = <LED_COLOR_ID_RED>;
+>          };
+> 
+>          led-1 {
+>              pwms = <&pwm2 0 1000000>;
+>              color = <LED_COLOR_ID_GREEN>;
+>          };
+> 
+>          led-2 {
+>              pwms = <&pwm3 0 1000000>;
+>              color = <LED_COLOR_ID_BLUE>;
+>          };
+>        };
+>    };
+
+That would make the driver more complex. I'm not sure that would be 
+worth it. Additionally, we'd have to change the node name pattern for 
+the multi LED class. Other opinions?
+
+Best regards,
+Sven
