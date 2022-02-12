@@ -2,83 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A97164B34DD
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Feb 2022 13:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 036A84B3540
+	for <lists+linux-leds@lfdr.de>; Sat, 12 Feb 2022 14:13:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbiBLMJC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 12 Feb 2022 07:09:02 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37294 "EHLO
+        id S235310AbiBLNNt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 12 Feb 2022 08:13:49 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiBLMJC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Feb 2022 07:09:02 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2266924BC1;
-        Sat, 12 Feb 2022 04:08:59 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id CA2081C0B7A; Sat, 12 Feb 2022 13:08:57 +0100 (CET)
-Date:   Sat, 12 Feb 2022 13:08:57 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Florian Eckert <fe@dev.tdt.de>, Rob Herring <robh+dt@kernel.org>,
-        Eckert.Florian@googlemail.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] leds: ktd20xx: Extension of the KTD20xx family of
- LED drivers from Kinetic
-Message-ID: <20220212120857.GJ20866@duo.ucw.cz>
-References: <20220121140150.1729-1-fe@dev.tdt.de>
- <20220121140150.1729-2-fe@dev.tdt.de>
- <CAHp75Vd4pwFXoF=xS5cskM2GDNb6c6RXTYo3j3FLP+nuQVoRyg@mail.gmail.com>
+        with ESMTP id S231276AbiBLNNr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Feb 2022 08:13:47 -0500
+Received: from smtprelay03.ispgateway.de (smtprelay03.ispgateway.de [80.67.18.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B6D2656A;
+        Sat, 12 Feb 2022 05:13:38 -0800 (PST)
+Received: from [92.206.166.137] (helo=note-book.lan)
+        by smtprelay03.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <git@apitzsch.eu>)
+        id 1nIsDb-0002iA-PA; Sat, 12 Feb 2022 14:13:39 +0100
+Message-ID: <9a89a99872ff2fd67f097224584121e50b8a2f07.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 2/3] dt-bindings: leds: sgm3140: Document ocp8110
+ compatible
+From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 12 Feb 2022 14:13:32 +0100
+In-Reply-To: <YgaQAwfYnt6E9buG@robh.at.kernel.org>
+References: <20211117091405.7412-1-git@apitzsch.eu>
+         <20220207230638.56730-1-git@apitzsch.eu>
+         <20220207230638.56730-3-git@apitzsch.eu>
+         <YgaQAwfYnt6E9buG@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="451BZW+OUuJBCAYj"
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vd4pwFXoF=xS5cskM2GDNb6c6RXTYo3j3FLP+nuQVoRyg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Am Freitag, dem 11.02.2022 um 10:34 -0600 schrieb Rob Herring:
+> On Tue, Feb 08, 2022 at 12:06:37AM +0100, André Apitzsch wrote:
+> > Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> 
+> Commit msg? What's this h/w?
+> 
+Thanks for the feedback.
 
---451BZW+OUuJBCAYj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Would the following message be sufficient?
 
-Hi!
+"""
+dt-bindings: leds: sgm3140: Document ocp8110 compatible
 
+Add devicetree binding for Orient Chip OCP8110 charge pump used for
+camera flash LEDs.
+"""
 
-> > +       struct device *dev =3D &chip->client->dev;
-> > +       int ret;
-> > +       unsigned int value;
->=20
-> Here and everywhere can you use reverse xmas tree ordering?
->=20
->        struct device *dev =3D &chip->client->dev;
->        unsigned int value;
->        int ret;
+> > ---
+> >  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> > index f68259619488..1c345cf16d08 100644
+> > --- a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> > @@ -18,7 +18,9 @@ description: |
+> >  
+> >  properties:
+> >    compatible:
+> > -    const: sgmicro,sgm3140
+> > +    enum:
+> > +      - ocs,ocp8110
+> > +      - sgmicro,sgm3140
+> >  
+> >    enable-gpios:
+> >      maxItems: 1
+> > -- 
+> > 2.35.1
+> > 
+> > 
 
-Lets not ask people to do that.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---451BZW+OUuJBCAYj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYgejWQAKCRAw5/Bqldv6
-8tnZAJ41Q0fqqLPQF2mfmRxh96z9hZHCFQCdExBMKGrnAQWoVhIWNICuT6y9NXQ=
-=rwST
------END PGP SIGNATURE-----
-
---451BZW+OUuJBCAYj--
