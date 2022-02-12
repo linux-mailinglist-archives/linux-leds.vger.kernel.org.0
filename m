@@ -2,44 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C58A4B34B5
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Feb 2022 12:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A0F4B348C
+	for <lists+linux-leds@lfdr.de>; Sat, 12 Feb 2022 12:26:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234614AbiBLLaw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 12 Feb 2022 06:30:52 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43694 "EHLO
+        id S234294AbiBLLZo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 12 Feb 2022 06:25:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbiBLLau (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Feb 2022 06:30:50 -0500
+        with ESMTP id S234250AbiBLLZm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Feb 2022 06:25:42 -0500
+X-Greylist: delayed 92 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 12 Feb 2022 03:25:39 PST
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC8926AF3;
-        Sat, 12 Feb 2022 03:30:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4245826562;
+        Sat, 12 Feb 2022 03:25:39 -0800 (PST)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 125321C0B7A; Sat, 12 Feb 2022 12:24:05 +0100 (CET)
-Date:   Sat, 12 Feb 2022 12:24:03 +0100
+        id E28801C0B80; Sat, 12 Feb 2022 12:25:37 +0100 (CET)
+Date:   Sat, 12 Feb 2022 12:25:36 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: leds: common: fix unit address in
- max77693 example
-Message-ID: <20220212112403.GA20866@duo.ucw.cz>
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v2 0/3] regulator/mfd: dt-bindings: maxim,max77802:
+ convert to dtschema
+Message-ID: <20220212112536.GB20866@duo.ucw.cz>
 References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
- <20220111175430.224421-4-krzysztof.kozlowski@canonical.com>
- <783a67ad-ee7e-c75a-a52c-672cd355bd37@canonical.com>
+ <f0a9e656-cf18-f212-b701-a1c9d10c4a59@canonical.com>
+ <YgDoG8Xlhq5L3Bii@google.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
+        protocol="application/pgp-signature"; boundary="neYutvxvOLaeuPCA"
 Content-Disposition: inline
-In-Reply-To: <783a67ad-ee7e-c75a-a52c-672cd355bd37@canonical.com>
+In-Reply-To: <YgDoG8Xlhq5L3Bii@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,49 +49,36 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---x+6KMIRAuhnl3hBn
+--neYutvxvOLaeuPCA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> > The max77693 LED device node should not take an unit address, because it
-> > is instantiated from a max77693 I2C parent device node.  This also
-> > splits all examples to separate DTS examples because they are actually
-> > independent.
+> > Dear Lee,
 > >=20
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > ---
-> >  Documentation/devicetree/bindings/leds/common.yaml | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >=20
+> > This patchset was reviewed and there are no outstanding issues. Could
+> > you pick up entire set via MFD tree?
 >=20
-> This should be part of my max77693 patchset:
-> https://lore.kernel.org/lkml/20220111175017.223966-1-krzysztof.kozlowski@=
-canonical.com/
->=20
-> Nothing actually depends on this patch. It just fixes a warning which
-> will be brought to eyes with mentioned max77693 patchset.
->=20
-> Pavel, feel free to take it separately via leds tree. Other way is to
-> take it with other max77693 patches (probably via MFD tree).
+> Nothing from LED or Regulator?
 
-Ok, let me take it separately. Applied, thanks.
+I took 3/3 separately, as suggested.
 
 Best regards,
 								Pavel
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---x+6KMIRAuhnl3hBn
+--neYutvxvOLaeuPCA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYgeY0wAKCRAw5/Bqldv6
-8o0HAJ40rgvnPNaFETKSsK2EgQBHcFZeGgCcCDg/CAOJXwcQ+R3w9N3O8BGULgA=
-=RmPe
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYgeZMAAKCRAw5/Bqldv6
+8oy2AJ9cSaFdxoaoiv60dYQ5ubQK+1vE8ACgrgDOFd06FGAIeeyDOMZ3ok9YyY0=
+=/ZGh
 -----END PGP SIGNATURE-----
 
---x+6KMIRAuhnl3hBn--
+--neYutvxvOLaeuPCA--
