@@ -2,124 +2,274 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9C44B6462
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Feb 2022 08:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7304B7FC1
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Feb 2022 05:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234829AbiBOHb1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Feb 2022 02:31:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38788 "EHLO
+        id S239277AbiBPEyZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Feb 2022 23:54:25 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232298AbiBOHb0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Feb 2022 02:31:26 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1813110F99A
-        for <linux-leds@vger.kernel.org>; Mon, 14 Feb 2022 23:31:17 -0800 (PST)
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id E009340334
-        for <linux-leds@vger.kernel.org>; Tue, 15 Feb 2022 07:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1644910275;
-        bh=5KIzTmaU7Td0HdHjYzNLRhA3qi5eAUjP5mwcTbkjBL4=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=jkBPjI+/Wuf64H/qB4m0l7CcahMlqoIsLaLbSQZrFbQp7jFwIliEDy/l2OPEgogX3
-         y9EdD//vNQeUr0blgLzxirk8JVHaH/JChPlSa1NhbFauVjpBBS5WD0Wgccu2ECZXus
-         AGjrmTKFisxUIAC3fbTt3zDPTHj/O+i9A8H+fW8nNtfoOgHOhpI4URuio4IZWfKinp
-         QHCWOzdmUDu7PQRS9oyyx/aFF/+c7LY5184qqIEygTwilI9efz/1RXkSRC3j871Lgn
-         /IOd4gRky8buUeb722Jv3Dm9FuOZp7wJEc9YInQuFHTllFFTeY2GYlK3bM5OJUtMid
-         UMgGkuUh2PI2Q==
-Received: by mail-ed1-f70.google.com with SMTP id g5-20020a056402090500b0040f28e1da47so11863200edz.8
-        for <linux-leds@vger.kernel.org>; Mon, 14 Feb 2022 23:31:15 -0800 (PST)
+        with ESMTP id S1343675AbiBPEyZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Feb 2022 23:54:25 -0500
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C69B12C4
+        for <linux-leds@vger.kernel.org>; Tue, 15 Feb 2022 20:54:12 -0800 (PST)
+Received: by mail-oo1-xc36.google.com with SMTP id f11-20020a4abb0b000000b002e9abf6bcbcso1280515oop.0
+        for <linux-leds@vger.kernel.org>; Tue, 15 Feb 2022 20:54:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=upTWQKCUf0o4m7HcdhyN/xP1oH98RdS82XJSQB3BSzY=;
+        b=H+RVkZKEn8WASj9WOOGHAUmsGIvNJ73gOZJrRpUa3e5YwesYm5ckPle6+1Bvk6iLJQ
+         gnrJeEjgG+RmblWLkwHDJAOKE9F+y8dW91qw3mnv+WuWJIrAB4ww41xrXTBdZdpd838f
+         noUEJ5N85Br2yjVrwtN/+tz1UA5fwagoyb5ITpqRIoQS4fnFq/wS6lngJBZjeHeqxuQW
+         RQYp40xf4z7BCK0PSqw0FFBW61973YNpJIIXKOeGxue813rDmvfWqD1mS13SWGccmCV0
+         wXZ5+cNzcRizPob9kQD+2oqPXhdCLb0PBsMR4yp9XInzHS2upjB4EIJ3kCa8/7j/WDmj
+         TWtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5KIzTmaU7Td0HdHjYzNLRhA3qi5eAUjP5mwcTbkjBL4=;
-        b=kE5y/UonzaKqkxLV55Z6KqrRopCcnSi5mpOEkvrC+G8PaR2wF1u5jVbihRUNRu8UdG
-         SEI4CLtUFkRxSKGaF9qjh2AG9e8P6a8Jc7Mt6Q3RFrAMOOynargB7MUNRcvvrRM4XNCh
-         WAwAOWjRfZaeHv9yKSRxyg5M4eaN3z/xncRRsLTeEvg/vCOEfpvDVmGnoS9WTv+FBNC8
-         4o1EMrYBWVITKo8xqtMhJl4TDUS+AovV5wXYTa8KUkBxLcdjQ7Tfmlm4ny24L0q9Q2vj
-         AFycCPBw/46arAzhh86Rp23aGtMAq6Q1gi6PocbL9vSoTp7cInTPYd0TkScEO1E+5n/s
-         nbmg==
-X-Gm-Message-State: AOAM532fB15I0TgQMbcq8wYkQCraxvSJfoGmOw/S7HeDSpoKRGpdyKpq
-        BNlpDPWrwjn8b3pSEhfLWV4JMJnfJipERIJTXcC8qV30nJmifEb+qpnDHFQgfHVLLnOs5b5NE/W
-        OdCc/sj7Suga3j7Pgn41JJtEMWw0wlo5/+8Jo/Ek=
-X-Received: by 2002:a05:6402:5156:: with SMTP id n22mr2554586edd.261.1644910275308;
-        Mon, 14 Feb 2022 23:31:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwKEdMrtFtr9+fyCK4bQAUhQJXP3ooGayJ+Qk+5aqufpIctM2yIOqsBaMB7ldhmHuU7FiXKuQ==
-X-Received: by 2002:a05:6402:5156:: with SMTP id n22mr2554575edd.261.1644910275144;
-        Mon, 14 Feb 2022 23:31:15 -0800 (PST)
-Received: from [192.168.0.106] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id h26sm570843eje.146.2022.02.14.23.31.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 23:31:14 -0800 (PST)
-Message-ID: <bfa33105-88fc-5e51-8bec-594e89ce6acf@canonical.com>
-Date:   Tue, 15 Feb 2022 08:31:13 +0100
+        bh=upTWQKCUf0o4m7HcdhyN/xP1oH98RdS82XJSQB3BSzY=;
+        b=q2USM4GbQtXMHvumoaB6SN3KkKEs4iYEMdZVtpZyC5pS1Gu2D9l0mJlYAk5mbECaRJ
+         iBZhIMUNA7JcxdplwgubaUNT0Jgchwyhp+SMJMXJ08mAcEj2kJH+/9o7gr/E15Z2l49n
+         utSMresrW41/JATEAxBFV/qqXwXBSF9JlFTeKVfHMbkNdvpg5hIdv7Hd4MpfvVGBwe+g
+         7xlN4pkjRdgwotF6FyMhlBju8lGR7R6sOwePGydx937sYGZ0+K02viX/KcYEzf8jcFnW
+         HkGhVVUlMmfXJG5M1N6flF8g15gYhVNhFbljQowYqwWo1WJnKoMV8Ol4IzNJ0J5fWWF/
+         5Fgg==
+X-Gm-Message-State: AOAM532/C7CoTFEXsAPrrQbzsKg36Pf+KiHInnPLF2dA7s5fjDCYuV1h
+        UsbTfG++I1gPPrfpWED1UMfTDg==
+X-Google-Smtp-Source: ABdhPJy+cyFtLbvYcQ1r3DrOGH2hnAXBXXMd6n2lDGkyrH3J21nTllnGkipJ4rTDxiDEDXWAbeeCIg==
+X-Received: by 2002:a4a:c719:0:b0:2eb:c34a:2ba7 with SMTP id n25-20020a4ac719000000b002ebc34a2ba7mr352663ooq.98.1644987252075;
+        Tue, 15 Feb 2022 20:54:12 -0800 (PST)
+Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id n11sm6916614oal.1.2022.02.15.20.54.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Feb 2022 20:54:11 -0800 (PST)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Satya Priya Kakitapalli <c_skakit@qti.qualcomm.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Luca Weiss <luca@z3ntu.xyz>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v12 1/2] dt-bindings: leds: Add Qualcomm Light Pulse Generator binding
+Date:   Tue, 15 Feb 2022 20:56:19 -0800
+Message-Id: <20220216045620.1716537-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/3] regulator/mfd: dt-bindings: maxim,max77802:
- convert to dtschema
-Content-Language: en-US
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Liam Girdwood <lgirdwood@gmail.com>
-References: <20220111175430.224421-1-krzysztof.kozlowski@canonical.com>
- <f0a9e656-cf18-f212-b701-a1c9d10c4a59@canonical.com>
- <YgDoG8Xlhq5L3Bii@google.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <YgDoG8Xlhq5L3Bii@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 07/02/2022 10:36, Lee Jones wrote:
-> On Sun, 06 Feb 2022, Krzysztof Kozlowski wrote:
-> 
->> On 11/01/2022 18:54, Krzysztof Kozlowski wrote:
->>> Hi,
->>>
->>> Changes since v1
->>> ================
->>> 1. MFD: Use absolute path to schemas.
->>> 2. Regulator: skip properties.
->>>
->>> Dependencies
->>> ============
->>> 1. DTS patch: nothing depends on it, sending here so Rob's automatic
->>>    checker won't complain about DTS.
->>>    I will take it via Samsung SoC tree.
->>>
->>> 2. Final MFD patch depends on regulator, so the two last patches could
->>>    go via Rob's, Mark's or Lee's trees.
->>>
->>
->> Dear Lee,
->>
->> This patchset was reviewed and there are no outstanding issues. Could
->> you pick up entire set via MFD tree?
-> 
-> Nothing from LED or Regulator?
-> 
+This adds the binding document describing the three hardware blocks
+related to the Light Pulse Generator found in a wide range of Qualcomm
+PMICs.
 
-I will send a v3 of this with all acks and a minor change.
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
 
-Best regards,
-Krzysztof
+Changes since v11:
+- None
+
+ .../bindings/leds/leds-qcom-lpg.yaml          | 173 ++++++++++++++++++
+ 1 file changed, 173 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+new file mode 100644
+index 000000000000..336bd8e10efd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -0,0 +1,173 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Light Pulse Generator
++
++maintainers:
++  - Bjorn Andersson <bjorn.andersson@linaro.org>
++
++description: >
++  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
++  a ramp generator with lookup table, the light pulse generator and a three
++  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
++
++properties:
++  compatible:
++    enum:
++      - qcom,pm8150b-lpg
++      - qcom,pm8150l-lpg
++      - qcom,pm8916-pwm
++      - qcom,pm8941-lpg
++      - qcom,pm8994-lpg
++      - qcom,pmc8180c-lpg
++      - qcom,pmi8994-lpg
++      - qcom,pmi8998-lpg
++
++  "#pwm-cells":
++    const: 2
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  qcom,power-source:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      power-source used to drive the output, as defined in the datasheet.
++      Should be specified if the TRILED block is present
++    enum: [0, 1, 3]
++
++  qcom,dtest:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    description: >
++      A list of integer pairs, where each pair represent the dtest line the
++      particular channel should be connected to and the flags denoting how the
++      value should be outputed, as defined in the datasheet. The number of
++      pairs should be the same as the number of channels.
++    items:
++      items:
++        - description: dtest line to attach
++        - description: flags for the attachment
++
++  multi-led:
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++    patternProperties:
++      "^led@[0-9a-f]$":
++        type: object
++        $ref: common.yaml#
++
++patternProperties:
++  "^led@[0-9a-f]$":
++    type: object
++    $ref: common.yaml#
++
++    properties:
++      reg: true
++
++    required:
++      - reg
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++      compatible = "qcom,pmi8994-lpg";
++
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      qcom,power-source = <1>;
++
++      qcom,dtest = <0 0>,
++                   <0 0>,
++                   <0 0>,
++                   <4 1>;
++
++      led@1 {
++        reg = <1>;
++        color = <LED_COLOR_ID_GREEN>;
++        function = LED_FUNCTION_INDICATOR;
++        function-enumerator = <1>;
++      };
++
++      led@2 {
++        reg = <2>;
++        color = <LED_COLOR_ID_GREEN>;
++        function = LED_FUNCTION_INDICATOR;
++        function-enumerator = <0>;
++        default-state = "on";
++      };
++
++      led@3 {
++        reg = <3>;
++        color = <LED_COLOR_ID_GREEN>;
++        function = LED_FUNCTION_INDICATOR;
++        function-enumerator = <2>;
++      };
++
++      led@4 {
++        reg = <4>;
++        color = <LED_COLOR_ID_GREEN>;
++        function = LED_FUNCTION_INDICATOR;
++        function-enumerator = <3>;
++      };
++    };
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++      compatible = "qcom,pmi8994-lpg";
++
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      qcom,power-source = <1>;
++
++      multi-led {
++        color = <LED_COLOR_ID_RGB>;
++        function = LED_FUNCTION_STATUS;
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led@1 {
++          reg = <1>;
++          color = <LED_COLOR_ID_RED>;
++        };
++
++        led@2 {
++          reg = <2>;
++          color = <LED_COLOR_ID_GREEN>;
++        };
++
++        led@3 {
++          reg = <3>;
++          color = <LED_COLOR_ID_BLUE>;
++        };
++      };
++    };
++  - |
++    pwm-controller {
++      compatible = "qcom,pm8916-pwm";
++      #pwm-cells = <2>;
++    };
++...
+-- 
+2.33.1
+
