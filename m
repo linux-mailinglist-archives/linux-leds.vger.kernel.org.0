@@ -2,131 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 194994B920A
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Feb 2022 21:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 505764B94BF
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Feb 2022 00:56:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiBPUB6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Feb 2022 15:01:58 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57840 "EHLO
+        id S238647AbiBPX5F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Feb 2022 18:57:05 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiBPUB5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Feb 2022 15:01:57 -0500
-X-Greylist: delayed 479 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Feb 2022 12:01:41 PST
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54659B0D07;
-        Wed, 16 Feb 2022 12:01:39 -0800 (PST)
-Received: from g550jk.localnet (ip-213-127-118-180.ip.prioritytelecom.net [213.127.118.180])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id C8517C3E9E;
-        Wed, 16 Feb 2022 19:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1645041220; bh=W3gVUgcU/OTVyEAEJ6EdabcIZ9I2bCwWK8lOeD2BH9I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=iStu35P26Rt0zu05xfrVXPLGIcP6dlbY6qX9lYz9BhDj5lAi6ebbHleFI1C8wqrCk
-         7M/zvMM3AoUO/Ol432qonVTINCGzQGybQrvW+4UoReP/prbWcC4zQ/mB1rXDJwDZnr
-         ELMaEdsEEWI0w6TzC1aOeVe1McZ/FxgnbWqD3SY4=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Satya Priya Kakitapalli <c_skakit@qti.qualcomm.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v12 2/2] leds: Add driver for Qualcomm LPG
-Date:   Wed, 16 Feb 2022 20:53:39 +0100
-Message-ID: <8036183.EvYhyI6sBW@g550jk>
-In-Reply-To: <20220216045620.1716537-2-bjorn.andersson@linaro.org>
-References: <20220216045620.1716537-1-bjorn.andersson@linaro.org> <20220216045620.1716537-2-bjorn.andersson@linaro.org>
+        with ESMTP id S229820AbiBPX5F (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Feb 2022 18:57:05 -0500
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125021409FE;
+        Wed, 16 Feb 2022 15:56:51 -0800 (PST)
+Received: by mail-io1-f43.google.com with SMTP id 24so1734325ioe.7;
+        Wed, 16 Feb 2022 15:56:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hjf4TuuxXPIxvfDkMwqUajUWR+H2GEmQF/IzXz/JxgM=;
+        b=r+43rOD8e2p4FQuP7YUrluT4NtjpT+1wsuqqqOa3M+yCIy/A3XLMk3ICg7rK0TgswJ
+         0O2I4rfiOlD9rEEilkRx1hieQVfrk2vlc8+X//QBqzy6OmX5A0jrZW4jl9P5pm8mYZ8P
+         2r6J6Uiw8EF+vVY2EEYMYoS6PSpNeSkCGdJPZ5b7y6xZYyxP68sTHDN7ttXCjXt5jBBV
+         RmX1nhvFr2w75cvGVuSK2vtLXnMLg7a+yS/KaLu5AjQpLa51fyuokFne4SY7j6td9nkO
+         /ha2qnaU45/xDC3IKmUfYkMPVglPdoEebP7mi+JmSiUPgHZ2MImcUMm1hUBoPdOovb6A
+         FpVA==
+X-Gm-Message-State: AOAM532HAiN5pFF2I21IvbkV5tLdNdVW0b30EM1Bg92fh6uxg6aCGNuL
+        wT4Lay/WZtkYhLMtLj/Veg==
+X-Google-Smtp-Source: ABdhPJwseFWiKxEklD/ZHy9MSMdAWqthEIKP5m+Bs+e38+VJiB1iS6t2LOBACHwIAHLfsYHYkKWEwQ==
+X-Received: by 2002:a05:6638:1453:b0:308:eafa:41c with SMTP id l19-20020a056638145300b00308eafa041cmr228197jad.30.1645055810390;
+        Wed, 16 Feb 2022 15:56:50 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id r7sm758611ilm.14.2022.02.16.15.56.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 15:56:49 -0800 (PST)
+Received: (nullmailer pid 1925627 invoked by uid 1000);
+        Wed, 16 Feb 2022 23:56:47 -0000
+Date:   Wed, 16 Feb 2022 17:56:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     sven@svenschwermer.de
+Cc:     pavel@ucw.cz, devicetree@vger.kernel.org,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-pwm@vger.kernel.org, robh+dt@kernel.org, post@lespocky.de,
+        linux-leds@vger.kernel.org, thierry.reding@gmail.com,
+        lee.jones@linaro.org, u.kleine-koenig@pengutronix.de,
+        andy.shevchenko@gmail.com
+Subject: Re: [PATCH v7 2/3] dt-bindings: leds: Add multicolor PWM LED bindings
+Message-ID: <Yg2PPwXpE9OUd85d@robh.at.kernel.org>
+References: <20220210075908.120496-1-sven@svenschwermer.de>
+ <20220210075908.120496-2-sven@svenschwermer.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        PDS_OTHER_BAD_TLD,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220210075908.120496-2-sven@svenschwermer.de>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Bjorn,
-
-On Mittwoch, 16. Februar 2022 05:56:20 CET Bjorn Andersson wrote:
-> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-> with their output being routed to various other components, such as
-> current sinks or GPIOs.
+On Thu, 10 Feb 2022 08:59:07 +0100, sven@svenschwermer.de wrote:
+> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 > 
-> Each LPG instance can operate on fixed parameters or based on a shared
-> lookup-table, altering the duty cycle over time. This provides the means
-> for hardware assisted transitions of LED brightness.
+> This allows to group multiple PWM-connected monochrome LEDs into
+> multicolor LEDs, e.g. RGB LEDs.
 > 
-> A typical use case for the fixed parameter mode is to drive a PWM
-> backlight control signal, the driver therefor allows each LPG instance
-> to be exposed to the kernel either through the LED framework or the PWM
-> framework.
-> 
-> A typical use case for the LED configuration is to drive RGB LEDs in
-> smartphones etc, for which the driver supports multiple channels to be
-> ganged up to a MULTICOLOR LED. In this configuration the pattern
-> generators will be synchronized, to allow for multi-color patterns.
-> 
-> The idea of modelling this as a LED driver ontop of a PWM driver was
-> considered, but setting the properties related to patterns does not fit
-> in the PWM API. Similarly the idea of just duplicating the lower bits in
-> a PWM and LED driver separately was considered, but this would not allow
-> the PWM channels and LEDs to be configured on a per-board basis. The
-> driver implements the more complex LED interface, and provides a PWM
-> interface on the side of that, in the same driver.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Works great on pm8941 / msm8974-fairphone-fp2!
-
-Tested-by: Luca Weiss <luca@z3ntu.xyz>
-
-Regards
-Luca
-
+> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 > ---
 > 
-> Changes since v11:
-> - Extended commit message to cover decision to put pwm_chip in the LED
-> driver - Added Documentation, in particular for the hw_pattern format
-> - Added a lock to synchronize requests from LED and PWM frameworks
-> - Turned out that the 9bit selector differs per channel in some PMICs, so
->   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
-> - Fixed kerneldoc for the struct device pointer in struct lpg
-> - Rewrote conditional in lut_free() to make it easier to read
-> - Corrected and deduplicated max_period expression in lpg_calc_freq()
-> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
-> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
-> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for reading
-> the same in get_state()
-> - Cleaned up the pattern format, to allow specifying both low and high pause
-> with and without pingpong mode.
-> - Only update frequency and pwm_value if PWM channel is enabled in
-> lpg_pwm_apply - Make lpg_pwm_get_state() read the hardware state, in order
-> to pick up e.g. bootloader backlight configuration
-> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
-> - Use dev_err_probe() in lpg_probe()
-> - Extended Kconfig help text to mention module name and satisfy checkpatch
+> Notes:
+>     Changes in v7:
+>     * Added newlines
+>     * Reorder slightly
+>     * Rename top-level node in example
 > 
->  Documentation/leds/leds-qcom-lpg.rst |   76 ++
->  drivers/leds/Kconfig                 |    3 +
->  drivers/leds/Makefile                |    3 +
->  drivers/leds/rgb/Kconfig             |   18 +
->  drivers/leds/rgb/Makefile            |    3 +
->  drivers/leds/rgb/leds-qcom-lpg.c     | 1401 ++++++++++++++++++++++++++
->  6 files changed, 1504 insertions(+)
->  create mode 100644 Documentation/leds/leds-qcom-lpg.rst
->  create mode 100644 drivers/leds/rgb/Kconfig
->  create mode 100644 drivers/leds/rgb/Makefile
->  create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
+>     Changes in v6:
+>     * Fix device tree binding schema
+> 
+>     Changes in v5:
+>     * (no changes)
+> 
+>     Changes in v4:
+>     * (no changes)
+> 
+>     Changes in v3:
+>     * Remove multi-led unit name
+> 
+>  .../bindings/leds/leds-pwm-multicolor.yaml    | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+> 
 
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
