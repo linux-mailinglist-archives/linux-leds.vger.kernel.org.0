@@ -2,60 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 698B34BCB2E
-	for <lists+linux-leds@lfdr.de>; Sun, 20 Feb 2022 00:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A0E4BCB30
+	for <lists+linux-leds@lfdr.de>; Sun, 20 Feb 2022 00:58:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbiBSX6j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Feb 2022 18:58:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49074 "EHLO
+        id S229821AbiBSX6l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Feb 2022 18:58:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiBSX6i (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Feb 2022 18:58:38 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D6738A5
-        for <linux-leds@vger.kernel.org>; Sat, 19 Feb 2022 15:58:18 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id e8so1520606ljj.2
-        for <linux-leds@vger.kernel.org>; Sat, 19 Feb 2022 15:58:18 -0800 (PST)
+        with ESMTP id S229677AbiBSX6k (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Feb 2022 18:58:40 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A30C138A5
+        for <linux-leds@vger.kernel.org>; Sat, 19 Feb 2022 15:58:20 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id u20so12008317lff.2
+        for <linux-leds@vger.kernel.org>; Sat, 19 Feb 2022 15:58:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=davTlAz72/o8PzH0gfbXYTV3qnPMMT+uYMyKepr6G5I=;
-        b=gpIzCawQ7726/hWrK4YYTMqxVQSQ+isU4ZSHdyFlx9TkwfZokyi796JG+kQp7csEtL
-         iyeCjl9TlHFyuauhIpMANmAcGt/wNX+YNM8mr3A2NKiinY1gGYRmcIXwH+tjg0C7Zzc+
-         MbB6xGg/bWmyN57/OdGmbJ2q+WCdkq5+Gnpnetp1Frlvj+hxJSpEZTKm2Yo5wbjdUhjv
-         bAP4M8+FImn/IbXBT/2pQaAbxnr9RXIBS+QZmKhvDwwovyTZYvj04DNpsekP63NlQ0Ip
-         iV3w8xhQs4OWGlIx6fTA4T+ULsylCnBleh7tNYm47hRfY+D7Qg+Yfa/zoYairLKOO95s
-         6VPg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LFss8ysMBD8Jhg8w3hi8+xycCjjqs7KkMfVxCv6AFTg=;
+        b=mzkDVYMEJwSJQtBKnmCc/3FCnxmQlEcEJPqGV5R4hIsbAoj/ulqprlug2yvn3Cea7k
+         MFK2YZTafG5l2uH1sR5IEOngFJwfSNVXax/XL5fSfIMeplpn5vkmsJ0rA4niCpyVZXcs
+         6nTgavnEC3mqcQ7JbcDrfdMsmcHl9mi0NgDz1q5OfO7wL9YFWmRNoF+Xr/WBTft/Bto+
+         06Gz/yArg0FuDjgesVwPggAcX72ldlj9LDZ+yRwsmOoDwI27YYu79+dGHOseN2nAnU59
+         JxTuSTi9PSqmhe3piHlTAJecTCkxtfPJV4SSzTrD8cDyI3BgDrIdFnq3Nf4WylLzvYsy
+         lS+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=davTlAz72/o8PzH0gfbXYTV3qnPMMT+uYMyKepr6G5I=;
-        b=UVoRi3yTq2vbH+VOmhJ4ZreV3vqFtdDAcBgM+VJpuNJSGCDMHIqYwB596WQhChsRf4
-         KbPn78dyHLrYdiY1YrxkPG9fcnF99inS/pYNPjVZZQA9U9dZzNOZBZEpto2Ue8lRLIwO
-         Y4XlEiMN23LB4y4KqT4dGaBPUZrrMV5oxn45goFGBNZ7xsf8UW7ubpbx5osxwIrikDeP
-         yUeH8HwgVkJCZADvKotQzDhtgTy9aPEqP5NVyiET85Sm5Gl4HjKk1W84LyLfmkuUbqqe
-         XMzhSkKVc6JqAZ30UFq6xhkHlTVKPGxC5zhMNYVk8KWOpLB1E68QKDU+CbZhvKjU/btB
-         obbw==
-X-Gm-Message-State: AOAM533spAtHtxbHxbxnz4QXDlywH+wPHzap0jYZQav47J20TXAF+RzP
-        TTdG4TCwaPLutR7GyzFe/B1WNw==
-X-Google-Smtp-Source: ABdhPJyQFOkTeWyLkS8fTh2/rw4kF64sCDC5TAs3PjIg8YLy+/XN839nIdoHfVIaCJyc1OHZtauocg==
-X-Received: by 2002:a05:651c:198f:b0:244:4deb:70d6 with SMTP id bx15-20020a05651c198f00b002444deb70d6mr9980225ljb.167.1645315096519;
-        Sat, 19 Feb 2022 15:58:16 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LFss8ysMBD8Jhg8w3hi8+xycCjjqs7KkMfVxCv6AFTg=;
+        b=0OPVmtAqlWT8xGxLlqk9KGctoJ6anIQiHqHXm5E2fMSSUCuZYaXuo9aCdWuAaPO+8y
+         nf4eTfF+WtNMFhptccUQJCoUQyz6oLoaX40mhta6z3jzBj4VNlKEQJqZk/+JrzDrTks1
+         UEKUYGT+Rwat9auovC6zHnxTPk/in3RUepAZeAUDjeI9KzK5lCBkjPU0gAGtZ5IpiYX1
+         qCyOG7NIFUtofyoBpRmybw2usTlAZX4O9fwdkv464/nWz7TRPwJCg06oFQum/2A3VpUm
+         LYdMIM4MpWYPL4czJBhBQZ6r9B92dQs/hav49VK7RugxTJ+/AOva5aJtJgeoIz392zd/
+         x0Nw==
+X-Gm-Message-State: AOAM532jpq2SSgYgkfI0U1DKK7O2uOEsRXJ97EBiLqmGU4LAeJ9Euvds
+        0f5m2O9gXpaT+MLuQlsNx2zXhIaJ+k8MdVYQ
+X-Google-Smtp-Source: ABdhPJz8C+mfWF1daTKkDozHPHt7cCFObh94mOi4OXTjC+gs1K8PKbQ2hciGVcchs4Ticzh/yr6Xdg==
+X-Received: by 2002:ac2:5de4:0:b0:443:5b80:d4c4 with SMTP id z4-20020ac25de4000000b004435b80d4c4mr9749259lfq.373.1645315099007;
+        Sat, 19 Feb 2022 15:58:19 -0800 (PST)
 Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id q34sm814106lje.121.2022.02.19.15.58.15
+        by smtp.gmail.com with ESMTPSA id q34sm814106lje.121.2022.02.19.15.58.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Feb 2022 15:58:16 -0800 (PST)
+        Sat, 19 Feb 2022 15:58:18 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     linux-leds@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
-        devicetree@vger.kernel.org, Antonio Ospite <ao2@ao2.it>
-Subject: [PATCH 1/3] dt-bindings: leds: Add regulator-led binding
-Date:   Sun, 20 Feb 2022 00:56:05 +0100
-Message-Id: <20220219235607.1613686-1-linus.walleij@linaro.org>
+        Antonio Ospite <ao2@ao2.it>
+Subject: [PATCH 2/3] leds: regulator: Add dev helper variable
+Date:   Sun, 20 Feb 2022 00:56:06 +0100
+Message-Id: <20220219235607.1613686-2-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220219235607.1613686-1-linus.walleij@linaro.org>
+References: <20220219235607.1613686-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -68,78 +70,63 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The regulator is a LED connected directly to a regulator and with
-its brightness controlled by the voltage of the regulator.
+Instead of repeating the hard to read &pdev->dev just create a
+local struct device *dev in probe().
 
-Cc: devicetree@vger.kernel.org
 Cc: Antonio Ospite <ao2@ao2.it>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- .../bindings/leds/regulator-led.yaml          | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/regulator-led.yaml
+ drivers/leds/leds-regulator.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/regulator-led.yaml b/Documentation/devicetree/bindings/leds/regulator-led.yaml
-new file mode 100644
-index 000000000000..3e020d700c00
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/regulator-led.yaml
-@@ -0,0 +1,55 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/regulator-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Device Tree Bindings for Regulator LEDs
-+
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description: |
-+  Regulator LEDs are powered by a single regulator such that they can
-+  be turned on or off by enabling or disabling the regulator. The available
-+  brightness settings will be inferred from the available voltages on the
-+  regulator, and any constraints on the voltage or current will need to be
-+  specified on the regulator.
-+
-+allOf:
-+  - $ref: common.yaml#
-+
-+properties:
-+  $nodename:
-+    pattern: '^led.*$'
-+
-+  compatible:
-+    const: regulator-led
-+
-+  vled-supply:
-+    description:
-+      The regulator controlling the current to the LED.
-+
-+  function: true
-+  color: true
-+  linux,default-trigger: true
-+  default-state: true
-+
-+required:
-+  - compatible
-+  - vled-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+
-+    led-heartbeat {
-+        compatible = "regulator-led";
-+        vled-supply = <&regulator>;
-+        function = LED_FUNCTION_STATUS;
-+        color = <LED_COLOR_ID_BLUE>;
-+        linux,default-trigger = "heartbeat";
-+    };
-+...
+diff --git a/drivers/leds/leds-regulator.c b/drivers/leds/leds-regulator.c
+index 208c98918433..87b9f46e572b 100644
+--- a/drivers/leds/leds-regulator.c
++++ b/drivers/leds/leds-regulator.c
+@@ -123,28 +123,29 @@ static int regulator_led_probe(struct platform_device *pdev)
+ {
+ 	struct led_regulator_platform_data *pdata =
+ 			dev_get_platdata(&pdev->dev);
++	struct device *dev = &pdev->dev;
+ 	struct regulator_led *led;
+ 	struct regulator *vcc;
+ 	int ret = 0;
+ 
+ 	if (pdata == NULL) {
+-		dev_err(&pdev->dev, "no platform data\n");
++		dev_err(dev, "no platform data\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	vcc = devm_regulator_get_exclusive(&pdev->dev, "vled");
++	vcc = devm_regulator_get_exclusive(dev, "vled");
+ 	if (IS_ERR(vcc)) {
+-		dev_err(&pdev->dev, "Cannot get vcc for %s\n", pdata->name);
++		dev_err(dev, "Cannot get vcc for %s\n", pdata->name);
+ 		return PTR_ERR(vcc);
+ 	}
+ 
+-	led = devm_kzalloc(&pdev->dev, sizeof(*led), GFP_KERNEL);
++	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+ 	if (led == NULL)
+ 		return -ENOMEM;
+ 
+ 	led->cdev.max_brightness = led_regulator_get_max_brightness(vcc);
+ 	if (pdata->brightness > led->cdev.max_brightness) {
+-		dev_err(&pdev->dev, "Invalid default brightness %d\n",
++		dev_err(dev, "Invalid default brightness %d\n",
+ 				pdata->brightness);
+ 		return -EINVAL;
+ 	}
+@@ -162,7 +163,7 @@ static int regulator_led_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, led);
+ 
+-	ret = led_classdev_register(&pdev->dev, &led->cdev);
++	ret = led_classdev_register(dev, &led->cdev);
+ 	if (ret < 0)
+ 		return ret;
+ 
 -- 
 2.34.1
 
