@@ -2,113 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F964BD700
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Feb 2022 08:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 500C54BF156
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Feb 2022 06:32:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346247AbiBUHe4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Feb 2022 02:34:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51378 "EHLO
+        id S229561AbiBVFas (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Feb 2022 00:30:48 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:54478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346293AbiBUHet (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Feb 2022 02:34:49 -0500
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2C26310;
-        Sun, 20 Feb 2022 23:34:12 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id c14so29934403qvl.12;
-        Sun, 20 Feb 2022 23:34:12 -0800 (PST)
+        with ESMTP id S229683AbiBVFa3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Feb 2022 00:30:29 -0500
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DCE7084E;
+        Mon, 21 Feb 2022 21:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=R4B6JGXR6mvZF1952Vke43JV0QR66SxjuMutQVOsFo8=;
-        b=Z06LCpgN2MVimjjFUlm3IrOc0bB63t5ON0LGaE4naFFq5j3x0jb78evJj8rax3eWP/
-         wgLsdIlXGADTXtwIZOPQPKaJFEYfYXwgtZ5UOBJuzO2T8WAjlN5DomYW9eZL93ICBZT8
-         yimSlEUKhwEw4f1FPbp0zK/EwW0EF/4JAD5uY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=R4B6JGXR6mvZF1952Vke43JV0QR66SxjuMutQVOsFo8=;
-        b=YmMEd+CHsdS0M5r5aMIe5Z8ScJKlFdbIFOKLqG52zRhQyW7ptqSoXd1fiajzxbl9sH
-         l4L60kMO5C7KtaqsC1Fdyb9D8LMwkvfM9hepITVhgrdPLA+g/Of3vZouBZW/jwiLaeLn
-         fV3qp+A+TLNljy3hZVBSTd5GGSwA7A2A84Fge+rmIUYhwj+WfVi5ifza+XdEpQVT2+LH
-         41dCQZzG6lYTW64TablpGoo66LKFiUUXQdxKJ+9nKNjUYb5fZ75jOg9kJ7JxxJLEkr8s
-         Q2XC2e48GPr2aaDPn1C3PUTbTGpqlvcqQKzx36YyQIuVUNXwfsnRYZ2QjDCqbjPcf6kU
-         ZXxA==
-X-Gm-Message-State: AOAM530Fwtu09ZEqAqW8L10A/Lk3K218yaytYQuYDF9aTW54vHLIR5/Y
-        XhqY1NRbM+zHfpPhw/EUo2vgezzcJoraEtaVpjA=
-X-Google-Smtp-Source: ABdhPJx2pPvLE2lY8PhsDFi43EexUA016GTtes5KYX0xv/HLHfxhIxLOM/pn0HF05x8GWnFK30iX+BejJZ2bFcsMSdI=
-X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
- a2-20020ac85b82000000b002cf232db1f8mr16728455qta.58.1645428851531; Sun, 20
- Feb 2022 23:34:11 -0800 (PST)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1645507804; x=1677043804;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=dyGCqEWolvHRVduWhviEQyQaBM1jwneMhkEEEZgRg3s=;
+  b=Q+H4CnPYpO3k1/j0tItfEbW4nOwV5EPuHE54o7wM9187M6bxH8SbB3Gw
+   BWGXoc0uibP8yorS/Rs09qbF4BGl32SW3wJhq+hYzpfgF9lJFqunlGOPq
+   n+HkMlKSYe8M47eqiHqXlCLW9YfiyTs5zzLYbB9YqvponjhgANzO1+Fp0
+   A=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 21 Feb 2022 20:45:56 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 20:45:55 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 21 Feb 2022 20:45:55 -0800
+Received: from [10.216.54.2] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Mon, 21 Feb
+ 2022 20:45:51 -0800
+Subject: Re: [PATCH V3 2/4] leds: Add pm8350c support to Qualcomm LPG driver
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+CC:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>, <mka@chromium.org>,
+        <swboyd@chromium.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        satya priya <skakit@codeaurora.org>
+References: <1635507893-25490-1-git-send-email-quic_c_skakit@quicinc.com>
+ <1635507893-25490-3-git-send-email-quic_c_skakit@quicinc.com>
+ <Yg7LjJFi51cmDUQr@ripper>
+From:   "Satya Priya Kakitapalli (Temp)" <quic_c_skakit@quicinc.com>
+Message-ID: <d6dada9f-3b81-01c4-47a6-0750dafa2864@quicinc.com>
+Date:   Tue, 22 Feb 2022 10:15:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20210921043936.468001-1-andrew@aj.id.au> <d2b85ad7-aef7-6088-03f5-cbd6e0bcab5d@kaod.org>
-In-Reply-To: <d2b85ad7-aef7-6088-03f5-cbd6e0bcab5d@kaod.org>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Mon, 21 Feb 2022 07:33:59 +0000
-Message-ID: <CACPK8Xdvns7PK9t1ZutAbkJqhb5eRcoWCDySQGsfbtLv+XMvqQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] leds: pca955x: Expose GPIOs for all pins
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-        linux-leds@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+In-Reply-To: <Yg7LjJFi51cmDUQr@ripper>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Pavel,
+On 2/18/2022 3:56 AM, Bjorn Andersson wrote:
 
-
-
-On Fri, 24 Sept 2021 at 06:41, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> On Fri 29 Oct 04:44 PDT 2021, Satya Priya wrote:
 >
-> On 9/21/21 06:39, Andrew Jeffery wrote:
-> > Without these patches the driver limits the number of pins exposed on
-> > the gpiochip to the number of pins specified as GPIO in the devicetree,
-> > but doesn't map between the GPIO and pin number spaces. The result is
-> > that specifying offset or interleaved GPIOs in the devicetree gives
-> > unexpected behaviour in userspace.
-> >
-> > By always exposing all pins as GPIOs the patches resolve the lack of
-> > mapping between GPIO offsets and pins on the package in the driver by
-> > ensuring we always have a 1-to-1 mapping.
-> >
-> > The issue is primarily addressed by patch 1/2. Patch 2/2 makes it
-> > possible to not expose any pins as LEDs (and therefore make them all
-> > accessible as GPIOs). This has a follow-on effect of allowing the drive=
-r
-> > to bind to a device instantiated at runtime without requiring a
-> > description in the devicetree.
-> >
-> > I've tested the series under qemu to inspect the various interactions
-> > between LEDs vs GPIOs as well as conflicting GPIO requests.
+>> From: satya priya <skakit@codeaurora.org>
+>>
+>> Add pm8350c compatible and lpg_data to the driver.
+>>
+>> Signed-off-by: satya priya <skakit@codeaurora.org>
+> Sorry for the OCD, but I would really like for you to capitalize 's' and
+> 'p' in your name.
 
-> > Please review!
+
+I had corrected this in the v3-resend version.
+
+https://patchwork.kernel.org/project/linux-arm-msm/patch/1637917920-22041-3-git-send-email-quic_c_skakit@quicinc.com/
+
+
 >
-> This is simpler than the 'ngpio' business we had before.
+>> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+>> ---
+>> Changes in V2:
+>>   - Added const for lpg_channel_data[] struct.
+>>
+>> Changes in V3:
+>>   - Correct the num_channels and add respective base addresses.
+>>
+>>   drivers/leds/rgb/leds-qcom-lpg.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+>> index 45ef4ec..ad99a9b 100644
+>> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+>> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+>> @@ -1275,9 +1275,22 @@ static const struct lpg_data pm8150l_lpg_data = {
+>>   	},
+>>   };
+>>   
+>> +static const struct lpg_data pm8350c_pwm_data = {
+>> +	.pwm_9bit_mask = BIT(2),
+> As you might have seen in v12 I dropped pwm_9bit_mask.
+
+
+Yeah, I'll drop this.
+
+
+>> +
+> Afaict there's a tri-channel current sink in pm8350c as well, so you
+> should have:
 >
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>          .triled_base = 0xef00,
+>
+> And then associated .triled_mask in the relevant channels.
 
-I saw that you recently merged some LED patches. I was wondering if
-you could consider this series for v5.18. It still applies cleanly,
-and we've been running it for a while now, so it's very well tested.
 
-Cheers,
+Okay, I'll add them.
 
-Joel
+
+> Regards,
+> Bjorn
+>
+>> +	.num_channels = 4,
+>> +	.channels = (const struct lpg_channel_data[]) {
+>> +		{ .base = 0xe800 },
+>> +		{ .base = 0xe900 },
+>> +		{ .base = 0xea00 },
+>> +		{ .base = 0xeb00 },
+>> +	},
+>> +};
+>> +
+>>   static const struct of_device_id lpg_of_table[] = {
+>>   	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
+>>   	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
+>> +	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
+>>   	{ .compatible = "qcom,pm8916-pwm", .data = &pm8916_pwm_data },
+>>   	{ .compatible = "qcom,pm8941-lpg", .data = &pm8941_lpg_data },
+>>   	{ .compatible = "qcom,pm8994-lpg", .data = &pm8994_lpg_data },
+>> -- 
+>> 2.7.4
+>>
