@@ -2,71 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7081D4C00BA
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Feb 2022 18:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299FC4C0226
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Feb 2022 20:42:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234777AbiBVR7D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Feb 2022 12:59:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
+        id S231814AbiBVTnI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Feb 2022 14:43:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234774AbiBVR7C (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Feb 2022 12:59:02 -0500
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2BA171861
-        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:58:36 -0800 (PST)
-Received: by mail-oo1-xc34.google.com with SMTP id p206-20020a4a2fd7000000b0031bfec11983so18648552oop.13
-        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:58:36 -0800 (PST)
+        with ESMTP id S234571AbiBVTnH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Feb 2022 14:43:07 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2144119C36
+        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 11:42:39 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id a6so15732476oid.9
+        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 11:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9Y2AqDKUpMQgTsOg3FI79lbQQePJo1iYlm+XyAflgx0=;
-        b=LmfyH44UGzXt6wILF+bnLCqYn5OW6LnPIuT7x/JfxAHL5ZgBH/SB0zz1GaU07zcKc/
-         4vYk85m6gonT+gcZxME1BSo79mzDwxWs/DQMWtRFmpqqANaKCNGtCNVWZYpUTvyW7pcJ
-         s2aiFwVT0mO15/chQySqSzZTEL6OTIoxG7sUkG0CHgcdu6qRTesl53RZEWD1iYvozm0e
-         I/ABk/YjAZeMhehY75hopIW0b+A1jb1wO0tDxGW+AoMDSRKNcaz3NsaH9+/dpPirWAT5
-         wdoLeS6F2wvtIjEkHbZjwUb3ePZ/CBKeWx4JUssJ9dzTW0PoBgqEI0gCOfbPsDGUL/UL
-         HbTw==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=tHHrQuSWi58Byx8KIrTnO3jC3OlHbtYfA548Skw/vVk=;
+        b=Thn1gy4F9LDXT+Y1U9VDZf1kI0pRTYFEQrKi7aieN5nYbldDAVZ6BJik23Hru52Zcn
+         r+UjTboIY+/MK7NuFGVqibLvjgamJ7R5VKYjFoQlQBCuPBgTZxYgG3bQMOilDssOuuWn
+         TCsVaig9doPZbl7giEMe/8IiTkEoEK4ILVrUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9Y2AqDKUpMQgTsOg3FI79lbQQePJo1iYlm+XyAflgx0=;
-        b=CsbnCODFeOcA0KkGQ+morEdgkUYPK86BJsu1obcJPXC5pUrryOSvpjWT3iFLe28yU0
-         1DBK6AkIBJgfl3HBJ4HAkX2D2yPth3rdKveKIoV0NfESvHhGanZaObphY2UCvBzydYTi
-         n+IcYAJSBun4ILOYVVHof3ZMbHXb5UnsKUpu/dgCKnMHKjvsPeXJPwmW4hMAcXvMKR9H
-         +VyZUOpGOKrkiUPP6+qOX85DRBfUYxNPh5tzQX0Pr5lIRAI5qOwOxo0rH5wOW1Ldi2uq
-         Jmd7gVsMf8z3B6IElRKDfE8kS5uOPK84h9BKCtsrFUBdhcODF1d34Ejpl61YR6MI7pFJ
-         6f+A==
-X-Gm-Message-State: AOAM530a93s1ggrter0XPNY7ANK+zh5VNOMmXfB0gWyM0ExlFICcFor4
-        wTVrR+SPIOecxzS1F5N20QD+DQ==
-X-Google-Smtp-Source: ABdhPJyj87/YvJOCybKJXx1u/9jXrSrA/hbB7V18Hg9PLPl52iAsQhxw+fIIZM13P1F+EGTEAGWXrA==
-X-Received: by 2002:a05:6871:7a8:b0:c5:a1b3:43eb with SMTP id o40-20020a05687107a800b000c5a1b343ebmr2265517oap.103.1645552715430;
-        Tue, 22 Feb 2022 09:58:35 -0800 (PST)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id g18sm1751484otp.17.2022.02.22.09.58.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 09:58:34 -0800 (PST)
-Date:   Tue, 22 Feb 2022 10:00:34 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Satya Priya <quic_c_skakit@quicinc.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH V4 4/4] arm64: dts: qcom: Enable pm8350c pwm for
- sc7280-idp2
-Message-ID: <YhUkwmis0ZY9gypR@ripper>
-References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
- <1645509309-16142-5-git-send-email-quic_c_skakit@quicinc.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=tHHrQuSWi58Byx8KIrTnO3jC3OlHbtYfA548Skw/vVk=;
+        b=j0AApZlQAFUBVAAdTbYDnk8Pn2oYIIrl4uBrXA2pWeVYcLAP6EpmW4+vCJfLtp4Ysu
+         8dFbpPH8dBA4fV+oq5bqMmKTXtkT9N4FffTBtsM6DjMg/KqJY8PGum69YL8aFbnRvnj2
+         rruVxe+W2X5+rEvkflv3mqie4cW0C328PRd5m1NDReIl6KPPSF9pKeWu6Ij4u0m5Pim5
+         QCzRim19O/u1ZwzOzBqVl0BnMfpHvhFecrmVhqJjp9+CQFNYnWsLVTcJdW1aG3HjvVZp
+         ozN0v0kwyxZ10SeGh6EVc6clXL9aVeUgu+fqELmsqC8AWQuI2Ug7YCZhudmHFnx/9dHA
+         bcWg==
+X-Gm-Message-State: AOAM530FAS0CYZ8yPXusy0PmBRhNy/yr1rM1JvqzDgvUdqQtT28DvipX
+        9SrtvJFLK43M9vQM14KANN0dPGBFAdswDu5GsCvoOQ==
+X-Google-Smtp-Source: ABdhPJxZ52ezKmoUqfjedGIIW4Ty4dTio7wMBusWG2Qqyp7uDWt0Dx8ARcCmp+baGQTchg2Ict/x9PMcFhbsByrf03s=
+X-Received: by 2002:a05:6808:f88:b0:2d4:c8c2:b898 with SMTP id
+ o8-20020a0568080f8800b002d4c8c2b898mr2798658oiw.112.1645558958512; Tue, 22
+ Feb 2022 11:42:38 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 22 Feb 2022 19:42:38 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1645509309-16142-5-git-send-email-quic_c_skakit@quicinc.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+In-Reply-To: <1645509309-16142-3-git-send-email-quic_c_skakit@quicinc.com>
+References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com> <1645509309-16142-3-git-send-email-quic_c_skakit@quicinc.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date:   Tue, 22 Feb 2022 19:42:38 +0000
+Message-ID: <CAE-0n538_a=j9NjVyZfvVwN2KNEFqu9cX03pa_6LZXyc6FVYNw@mail.gmail.com>
+Subject: Re: [PATCH V4 2/4] leds: Add pm8350c support to Qualcomm LPG driver
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>
+Cc:     Matthias Kaehlcke <mka@chromium.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,37 +69,14 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon 21 Feb 21:55 PST 2022, Satya Priya wrote:
-
-> Enable pm8350c pmic pwm support for backlight on sc7280-idp2.
-> 
+Quoting Satya Priya (2022-02-21 21:55:07)
+> Add pm8350c compatible and lpg_data to the driver.
+>
 > Signed-off-by: Satya Priya <quic_c_skakit@quicinc.com>
+> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
 > ---
-> Changes in V3:
->  - New patch added in V3, to enable pwm support on sc7280-idp2 board.
-> 
-> Changes in V4:
->  - No changes.
-> 
->  arch/arm64/boot/dts/qcom/sc7280-idp2.dts | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp2.dts b/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-> index 73b9911..d4f7cab 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-> +++ b/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-> @@ -34,3 +34,7 @@
->  &nvme_3v3_regulator {
->  	gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
->  };
-> +
-> +&pm8350c_pwm {
-> +	status = "okay";
-> +};
-> -- 
-> 2.7.4
-> 
+
+Still
+
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
