@@ -2,52 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B134C00AC
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Feb 2022 18:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B7C4C00B2
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Feb 2022 18:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234765AbiBVR5o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Feb 2022 12:57:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38138 "EHLO
+        id S232758AbiBVR6Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Feb 2022 12:58:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234751AbiBVR5m (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Feb 2022 12:57:42 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95CFEC115A
-        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:57:13 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id i5so15423137oih.1
-        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:57:13 -0800 (PST)
+        with ESMTP id S232913AbiBVR6X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Feb 2022 12:58:23 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9485317184F
+        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:57:57 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id w16-20020a056830281000b005ad480e8dd5so8680370otu.9
+        for <linux-leds@vger.kernel.org>; Tue, 22 Feb 2022 09:57:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=rfmaBXDNF2dcfkVI4GZHzIMW5mn3jOrlYCzlPPScMHQ=;
-        b=kpvqMMTu4zQ5/Qjh5pIG3UjKhzitX43hxeJ4qKO7/VsGjllS4xqFbl9MQz5ejboL43
-         NMKgqtotlR6vpU6Pjjjf2otFX5LduwdIdT94S7izpri+t9rQ4jjHzkfeXKQuhaLLlsbs
-         cdkQnxBMgZSSDix3DyCdBdzqtDSVoNXiU0gJqGCidjJkE5l1+WTxtGK28x6dqqr2qB0K
-         /89Ma96s/C+5YW1hZIL8HWvurtyOIF/bQfxWT4gskpY1w4hcanwKqkRAfD0vHGJba8mY
-         kgJ7hX0tJ1n8upJ2025RbQRteMmFT6LAwZCtNVcOWAocaNnyaBYI3UWqipfbwWm7B/If
-         367A==
+        bh=G0sUZOsALD4UFQRtotXeV1X/0UXxK/QgZJrwgrz4140=;
+        b=DuBuoIvHryLqfPzS6MUwZmm8TXoIyuiEhXAwbXz7hAjfXtKOrQqrNGMrOC4e0ZnGdn
+         MDzAuW67IdjnXtJiKXYTr3TR+V6nS1Ce1gRJ1gnidhgeDPf10+ouGQFtco1Sxj91Ggl0
+         Px4NqnZQSzwAunJ8g674YPvxFPLI1Lfm0gqZGUpyMMdQ91SDTtdkKAjLYiHXd6aqtExV
+         f+zC1/dUOTWi/Aw14z3VhX4uBJVEf5HZT4TvEbv33Cs1bBFEMdkiGt5L9PJ5nvk2MnDX
+         S08H+4kvv/c4Gou/bgLi8sj8/jJZYVziSShs6DnMDr3CoYZ2/vy+6aLw+Fk547wkckVV
+         KgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rfmaBXDNF2dcfkVI4GZHzIMW5mn3jOrlYCzlPPScMHQ=;
-        b=yiq8vgfu5aTTQPDxuJUS5qqxvzxA1cyKYEasUxacFxnEsL4WLnOzEuvi/lcE4B39vs
-         rJOM00T9dsVmuaGMNXLcu3LR7aWmMFTuRMpfiKwGfvMKQ8gd/qAA0WX9OhdW/0+OJLvO
-         1twixotloQJTiU3zDO9F6c9kjsKC78FwHunUW6cF5yxVgHYEcPOGYn1vNQQmqAeXe/W+
-         7oQvO9Ltr+x7iO9rJqyl7noD3IySxfhn6mu6WURA572QbYOjHFO9uiNekgpsEV9Ossqm
-         zfmNVTSBkiWXl7bm370D+8OFiumvWnaddNZaM7jPR88KkpCUCLoCymy+oGGcWiH9KysT
-         k3Bw==
-X-Gm-Message-State: AOAM530kmUAO8tFpnDUVHzlIGRiJipSbYH2vTwJHsig05OaFrndwLrYp
-        fm4FayKIW8g2ziXUIrXoIShu9Q==
-X-Google-Smtp-Source: ABdhPJxfanSWm6mS3pAMGDzvvvoc7Di46iARnR31cY2yD0zBOAlaSXe7Ly0XMyJAPvZNoSjaiyIbAg==
-X-Received: by 2002:a05:6808:2386:b0:2d5:47e8:521a with SMTP id bp6-20020a056808238600b002d547e8521amr1446220oib.232.1645552632587;
-        Tue, 22 Feb 2022 09:57:12 -0800 (PST)
+        bh=G0sUZOsALD4UFQRtotXeV1X/0UXxK/QgZJrwgrz4140=;
+        b=wJatYwK22g/TXaH/FiajcMKmxCvwE/VPjOczXpRxASD+7xEcynzqDYfvuIefFhrAeC
+         uZ7Ceqx0ZgP6tYmdgjNkr07yO66SViZhdkWhhKDIoYZOuU9j1wR1KLhxHgRHG1vGz7B+
+         1liVmKI8sUIRrh9e0cVb1dV/XpZq7ZJow3MScjXwz8SVhwDcoCmK+Ff2WZwpKHSvDvAR
+         //rW6dBq9RGK+zeBXUHBY+FUwMU/GKeFDCjstLc+ZKJO/52zhkXccFpFMfaVlnjP6Kzh
+         ZiEyoIBAHs1m2qx9mgvP9bIiRysxnENIqeEJJa9JZCQQ94qWGaFMgzfsGBGZMJlYZsp/
+         GAAQ==
+X-Gm-Message-State: AOAM530owL0lErf9LdXlyrt5JAinFk+BshZdV+NQypdRcaqpZzSfLEj4
+        VzkeYq1taBTjgKpi4RDx/JcJ5w==
+X-Google-Smtp-Source: ABdhPJzgNVbuqWvG0y4QCgsWwA62N0RoFgKktuJ+mZPR6ZTZLHD7UoHJh8DYuBkKlA+3WBA+XP3Kmw==
+X-Received: by 2002:a9d:2e6:0:b0:5a3:ccab:78f6 with SMTP id 93-20020a9d02e6000000b005a3ccab78f6mr8788756otl.160.1645552676590;
+        Tue, 22 Feb 2022 09:57:56 -0800 (PST)
 Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id bj38sm5963664oib.20.2022.02.22.09.57.11
+        by smtp.gmail.com with ESMTPSA id x22sm5662928ooo.20.2022.02.22.09.57.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 09:57:12 -0800 (PST)
-Date:   Tue, 22 Feb 2022 09:59:12 -0800
+        Tue, 22 Feb 2022 09:57:56 -0800 (PST)
+Date:   Tue, 22 Feb 2022 09:59:57 -0800
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Satya Priya <quic_c_skakit@quicinc.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
@@ -56,14 +56,14 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH V4 2/4] leds: Add pm8350c support to Qualcomm LPG driver
-Message-ID: <YhUkcH1dYXPDXA01@ripper>
+Subject: Re: [PATCH V4 3/4] arm64: dts: qcom: pm8350c: Add pwm support
+Message-ID: <YhUkndDDSSync29w@ripper>
 References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
- <1645509309-16142-3-git-send-email-quic_c_skakit@quicinc.com>
+ <1645509309-16142-4-git-send-email-quic_c_skakit@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1645509309-16142-3-git-send-email-quic_c_skakit@quicinc.com>
+In-Reply-To: <1645509309-16142-4-git-send-email-quic_c_skakit@quicinc.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -76,61 +76,44 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Mon 21 Feb 21:55 PST 2022, Satya Priya wrote:
 
-> Add pm8350c compatible and lpg_data to the driver.
+> Add pwm support for PM8350C pmic.
 > 
 > Signed-off-by: Satya Priya <quic_c_skakit@quicinc.com>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 > ---
 > Changes in V2:
->  - Added const for lpg_channel_data[] struct.
+>  - Dropped suffix '4' from pwm phandle and removed "status=ok".
 > 
 > Changes in V3:
->  - Correct the num_channels and add respective base addresses.
+>  - Add reg property.
 > 
 > Changes in V4:
->  - Remove .pwm_9bit_mask, add .triled_base and .triled_mask.
-
-This changed the patch quite a bit. In general when this happen I would
-suggest that you don't keep previously acquired Reviewed-bys.
-
-Regards,
-Bjorn
-
+>  - No Changes.
 > 
->  drivers/leds/rgb/leds-qcom-lpg.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  arch/arm64/boot/dts/qcom/pm8350c.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index c1ad678..ab29610 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -1374,9 +1374,22 @@ static const struct lpg_data pm8150l_lpg_data = {
->  	},
+> diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> index e1b75ae..1ba6318 100644
+> --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> @@ -29,6 +29,13 @@
+>  			interrupt-controller;
+>  			#interrupt-cells = <2>;
+>  		};
+> +
+> +		pm8350c_pwm: pwm@e800 {
+> +			compatible = "qcom,pm8350c-pwm";
+> +			reg = <0xe800>;
+> +			#pwm-cells = <2>;
+> +			status = "disabled";
+> +		};
+>  	};
 >  };
 >  
-> +static const struct lpg_data pm8350c_pwm_data = {
-> +	.triled_base = 0xef00,
-> +
-> +	.num_channels = 4,
-> +	.channels = (const struct lpg_channel_data[]) {
-> +		{ .base = 0xe800, .triled_mask = BIT(7) },
-> +		{ .base = 0xe900, .triled_mask = BIT(6) },
-> +		{ .base = 0xea00, .triled_mask = BIT(5) },
-> +		{ .base = 0xeb00 },
-> +	},
-> +};
-> +
->  static const struct of_device_id lpg_of_table[] = {
->  	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
->  	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
-> +	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
->  	{ .compatible = "qcom,pm8916-pwm", .data = &pm8916_pwm_data },
->  	{ .compatible = "qcom,pm8941-lpg", .data = &pm8941_lpg_data },
->  	{ .compatible = "qcom,pm8994-lpg", .data = &pm8994_lpg_data },
 > -- 
 > 2.7.4
 > 
