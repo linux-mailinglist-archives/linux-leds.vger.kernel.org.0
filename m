@@ -2,44 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8137F4C3088
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Feb 2022 16:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB044C3300
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Feb 2022 18:04:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236783AbiBXP6R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Feb 2022 10:58:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42556 "EHLO
+        id S231436AbiBXRD4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Feb 2022 12:03:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236877AbiBXP5u (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Feb 2022 10:57:50 -0500
+        with ESMTP id S232178AbiBXRCs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Feb 2022 12:02:48 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7093CF68F0
-        for <linux-leds@vger.kernel.org>; Thu, 24 Feb 2022 07:57:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AE4B74DFB
+        for <linux-leds@vger.kernel.org>; Thu, 24 Feb 2022 08:59:57 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1nNGUH-0002YT-9m; Thu, 24 Feb 2022 16:57:01 +0100
+        id 1nNHSx-0002ML-Er; Thu, 24 Feb 2022 17:59:43 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1nNGUG-0012fU-KG; Thu, 24 Feb 2022 16:56:59 +0100
+        id 1nNHSv-00139d-Ma; Thu, 24 Feb 2022 17:59:40 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1nNGUF-005GIW-31; Thu, 24 Feb 2022 16:56:59 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH] leds: trigger/tty: Add knob to blink only for tx or only for rx
-Date:   Thu, 24 Feb 2022 16:56:55 +0100
-Message-Id: <20220224155655.702255-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.34.1
+        id 1nNHSt-005Go7-SU; Thu, 24 Feb 2022 17:59:39 +0100
+Date:   Thu, 24 Feb 2022 17:59:39 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <20220224165939.4275x7mzp7qpl2kj@pengutronix.de>
+References: <20220218183116.2261770-1-bjorn.andersson@linaro.org>
+ <20220218183116.2261770-2-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3954; h=from:subject; bh=REukF/PMZs/vFmkcIKU625DRW7XWF5ea9udVrvGdaxY=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiF6rDU8h6YDAvalMh7uuvDNbbmUsK2QWpQWPm/L3n ZxpyOliJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYheqwwAKCRDB/BR4rcrsCX8CCA CcT2UWydpxVRrAzrkQ9Kqeqyp1fEN/gPW7AYe+Ve3n/ZAjdivTPUQrJ+4JKFNKbAkZJRk9B0yMQ3Al uso/gYegSFVvhuScX+WfR8cUq/RdKOFnOrrw9lQwDQQkPmzYpukOvHSB2trHJeQXaTNB0fPt7TQsH6 lNVEFYZUjJ9UP4veqF7Q2eRqwtsBEQpbBdKYV5DbGyh309O4vcLAadJ8Tvrlax5MjgmciXT2w1Yd4x IDJ5BSswtT6vDXGOyQfgEEMe1qWW8l6bJxGWQMe+O05EmdOU3/Fe1JzGA7dTu5MLWQl6P1uRtNCoXw cxBKbpk4HjQv3+H0XCyEp81CuRx6LE
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vypeaeqkhphwiwzw"
+Content-Disposition: inline
+In-Reply-To: <20220218183116.2261770-2-bjorn.andersson@linaro.org>
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
@@ -53,131 +60,182 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The newly introduced "triggerevent" attribute allows to restrict
-blinking to TX or RX only.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- .../ABI/testing/sysfs-class-led-trigger-tty   |  9 +++
- drivers/leds/trigger/ledtrig-tty.c            | 60 ++++++++++++++++++-
- 2 files changed, 67 insertions(+), 2 deletions(-)
+--vypeaeqkhphwiwzw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-index 2bf6b24e781b..27532f685b0d 100644
---- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-@@ -4,3 +4,12 @@ KernelVersion:	5.10
- Contact:	linux-leds@vger.kernel.org
- Description:
- 		Specifies the tty device name of the triggering tty
-+
-+What:		/sys/class/leds/<led>/triggerevent
-+Date:		Feb 2022
-+KernelVersion:	5.18
-+Contact:	linux-leds@vger.kernel.org
-+Description:
-+		Can contain "tx', "rx" (to only blink on transfers
-+		in the specified direction) or "both" (to blink for
-+		both directions.)
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index f62db7e520b5..f87877ca48d4 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -14,6 +14,7 @@ struct ledtrig_tty_data {
- 	const char *ttyname;
- 	struct tty_struct *tty;
- 	int rx, tx;
-+	bool handle_rx, handle_tx;
- };
- 
- static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
-@@ -76,6 +77,57 @@ static ssize_t ttyname_store(struct device *dev,
- }
- static DEVICE_ATTR_RW(ttyname);
- 
-+static ssize_t triggerevent_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-+	ssize_t len = 0;
-+
-+	mutex_lock(&trigger_data->mutex);
-+
-+	if (trigger_data->handle_tx && trigger_data->handle_rx)
-+		len = sprintf(buf, "both\n");
-+	else if (trigger_data->handle_tx)
-+		len = sprintf(buf, "tx\n");
-+	else
-+		len = sprintf(buf, "rx\n");
-+
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	return len;
-+}
-+
-+static ssize_t triggerevent_store(struct device *dev,
-+				  struct device_attribute *attr,
-+				  const char *buf, size_t size)
-+{
-+	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-+	ssize_t ret = size;
-+
-+	if (size > 0 && buf[size - 1] == '\n')
-+		size -= 1;
-+
-+	mutex_lock(&trigger_data->mutex);
-+
-+	if (!strncmp(buf, "both", size)) {
-+		trigger_data->handle_tx = true;
-+		trigger_data->handle_rx = true;
-+	} else if (!strncmp(buf, "tx", size)) {
-+		trigger_data->handle_tx = true;
-+		trigger_data->handle_rx = false;
-+	} else if (!strncmp(buf, "rx", size)) {
-+		trigger_data->handle_tx = false;
-+		trigger_data->handle_rx = true;
-+	} else {
-+		ret = -EINVAL;
-+	}
-+
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RW(triggerevent);
-+
- static void ledtrig_tty_work(struct work_struct *work)
- {
- 	struct ledtrig_tty_data *trigger_data =
-@@ -120,8 +172,8 @@ static void ledtrig_tty_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (icount.rx != trigger_data->rx ||
--	    icount.tx != trigger_data->tx) {
-+	if ((icount.rx != trigger_data->rx && trigger_data->handle_rx) ||
-+	    (icount.tx != trigger_data->tx && trigger_data->handle_tx)) {
- 		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
- 
- 		trigger_data->rx = icount.rx;
-@@ -137,6 +189,7 @@ static void ledtrig_tty_work(struct work_struct *work)
- 
- static struct attribute *ledtrig_tty_attrs[] = {
- 	&dev_attr_ttyname.attr,
-+	&dev_attr_triggerevent.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(ledtrig_tty);
-@@ -155,6 +208,9 @@ static int ledtrig_tty_activate(struct led_classdev *led_cdev)
- 	trigger_data->led_cdev = led_cdev;
- 	mutex_init(&trigger_data->mutex);
- 
-+	trigger_data->handle_tx = true;
-+	trigger_data->handle_rx = true;
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+On Fri, Feb 18, 2022 at 10:31:16AM -0800, Bjorn Andersson wrote:
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
+> with their output being routed to various other components, such as
+> current sinks or GPIOs.
+>=20
+> Each LPG instance can operate on fixed parameters or based on a shared
+> lookup-table, altering the duty cycle over time. This provides the means
+> for hardware assisted transitions of LED brightness.
+>=20
+> A typical use case for the fixed parameter mode is to drive a PWM
+> backlight control signal, the driver therefor allows each LPG instance
+> to be exposed to the kernel either through the LED framework or the PWM
+> framework.
+>=20
+> A typical use case for the LED configuration is to drive RGB LEDs in
+> smartphones etc, for which the driver supports multiple channels to be
+> ganged up to a MULTICOLOR LED. In this configuration the pattern
+> generators will be synchronized, to allow for multi-color patterns.
+>=20
+> The idea of modelling this as a LED driver ontop of a PWM driver was
+> considered, but setting the properties related to patterns does not fit
+> in the PWM API. Similarly the idea of just duplicating the lower bits in
+> a PWM and LED driver separately was considered, but this would not allow
+> the PWM channels and LEDs to be configured on a per-board basis. The
+> driver implements the more complex LED interface, and provides a PWM
+> interface on the side of that, in the same driver.
+>=20
+> Tested-by: Luca Weiss <luca@z3ntu.xyz>
+> Tested-by: Doug Anderson <dianders@chromium.org>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+> Changes since v12:
+> - Initialize ret in lpg_pwm_apply()
+>=20
+> Changes since v11:
+> - Extended commit message to cover decision to put pwm_chip in the LED dr=
+iver
+> - Added Documentation, in particular for the hw_pattern format
+> - Added a lock to synchronize requests from LED and PWM frameworks
+> - Turned out that the 9bit selector differs per channel in some PMICs, so
+>   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
+> - Fixed kerneldoc for the struct device pointer in struct lpg
+> - Rewrote conditional in lut_free() to make it easier to read
+> - Corrected and deduplicated max_period expression in lpg_calc_freq()
+> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
+> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
+> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for readin=
+g the
+>   same in get_state()
+> - Cleaned up the pattern format, to allow specifying both low and high pa=
+use
+>   with and without pingpong mode.
+> - Only update frequency and pwm_value if PWM channel is enabled in lpg_pw=
+m_apply
+> - Make lpg_pwm_get_state() read the hardware state, in order to pick up e=
+=2Eg.
+>   bootloader backlight configuration
+> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
+> - Use dev_err_probe() in lpg_probe()
+> - Extended Kconfig help text to mention module name and satisfy checkpatch
+>=20
+>  Documentation/leds/leds-qcom-lpg.rst |   76 ++
+>  drivers/leds/Kconfig                 |    3 +
+>  drivers/leds/Makefile                |    3 +
+>  drivers/leds/rgb/Kconfig             |   18 +
+>  drivers/leds/rgb/Makefile            |    3 +
+>  drivers/leds/rgb/leds-qcom-lpg.c     | 1401 ++++++++++++++++++++++++++
+>  6 files changed, 1504 insertions(+)
+>  create mode 100644 Documentation/leds/leds-qcom-lpg.rst
+>  create mode 100644 drivers/leds/rgb/Kconfig
+>  create mode 100644 drivers/leds/rgb/Makefile
+>  create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
+>=20
+> diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/le=
+ds-qcom-lpg.rst
+> new file mode 100644
+> index 000000000000..d4825a289888
+> --- /dev/null
+> +++ b/Documentation/leds/leds-qcom-lpg.rst
+> @@ -0,0 +1,76 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +Kernel driver for Qualcomm LPG
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +Description
+> +-----------
+> +
+> +The Qualcomm LPG can be found in a variety of Qualcomm PMICs and consist=
+s of a
+> +number of PWM channels, a programmable pattern lookup table and a RGB LED
+> +current sink.
+> +
+> +To facilitate the various use cases, the LPG channels can be exposed as
+> +individual LEDs, grouped together as RGB LEDs or otherwise be accessed a=
+s PWM
+> +channels. The output of each PWM channel is routed to other hardware
+> +blocks, such as the RGB current sink, GPIO pins etc.
+> +
+> +The each PWM channel can operate with a period between 27us and 384 seco=
+nds and
+> +has a 9 bit resolution of the duty cycle.
+> +
+> +In order to provide support for status notifications with the CPU subsys=
+tem in
+> +deeper idle states the LPG provides pattern support. This consists of a =
+shared
+> +lookup table of brightness values and per channel properties to select t=
+he
+> +range within the table to use, the rate and if the pattern should repeat.
+> +
+> +The pattern for a channel can be programmed using the "pattern" trigger,=
+ using
+> +the hw_pattern attribute.
+> +
+> +/sys/class/leds/<led>/hw_pattern
+> +--------------------------------
+> +
+> +Specify a hardware pattern for a Qualcomm LPG LED.
+> +
+> +The pattern is a series of brightness and hold-time pairs, with the hold=
+-time
+> +expressed in milliseconds. The hold time is a property of the pattern an=
+d must
+> +therefor be identical for each element in the pattern (except for the pa=
+uses
+> +described below).
+> +
+> +Simple pattern::
+> +
+> +    "255 500 0 500"
+> +
+> +        ^
+> +        |
+> +    255 +----+    +----+
+> +	|    |    |    |      ...
+> +      0 |    +----+    +----
+> +        +---------------------->
+> +	0    5   10   15     time (100ms)
 
+you're mixing tabs and spaces here, I suggest to use spaces only. Not
+sure you want to respin for that.
+
+(I didn't look into the rest of the driver, but assume it's fine.)
+
+Best regards
+Uwe
+
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--vypeaeqkhphwiwzw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIXuXcACgkQwfwUeK3K
+7Ams5wf+MyshgmoyVbFd/VtoEJNG+8bLx/KFx6APd8Kl+8oj/EFWOfBDYU9GDKLw
+EsQrVAoJ0gQg/K6hMTUAsN/gwhInmrb4aDHy3Ot1GWBNMoTXiADdF84G6X9avKoF
+Qii16MnMTN95w6CbsDf41DIwjWv+RgIISVztXKjFBWvuL8EaLeMVgcpEIKw/j7JH
+/0BBSbAZmY0039nhyPeVSJhW8IAX0eAhlwN4pTHvbXZ99P5TIFSuOZu9mEROr2FV
+1VbQfq1KRCbxCpKwPiLyKKBsmVHve6nSH6EDOycwu+twmgAiJMk8u4wKpysRClFw
+eKlrJ+QUoNrzwBxmbDphCRvapeddng==
+=X7KB
+-----END PGP SIGNATURE-----
+
+--vypeaeqkhphwiwzw--
