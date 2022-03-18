@@ -2,61 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72B5A4DC197
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Mar 2022 09:43:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFA7E4DD56C
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Mar 2022 08:46:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbiCQIos (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Mar 2022 04:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
+        id S233225AbiCRHqt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Mar 2022 03:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbiCQIoq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Mar 2022 04:44:46 -0400
-Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C529BB91BC
-        for <linux-leds@vger.kernel.org>; Thu, 17 Mar 2022 01:43:25 -0700 (PDT)
-Received: by mail.olerise.pl (Postfix, from userid 1001)
-        id C54A2462EB; Thu, 17 Mar 2022 09:41:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
-        t=1647506486; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
-        h=Date:From:To:Subject:From;
-        b=ilhuH0Mo5/aQ8zGgryfvuhiOYPxgEpAz+/D5o331+tavvQ0v7VTAlWSY7FLGzUb4h
-         wHntiqg34QeTfn1bJIRVF3QfYzRxaBq0yTqB/jpcJRhLXPaeGmdU4NR2UYlrc19AkY
-         MWWFzz6PKOYM/0YPV1Y4fzm69rUUR5Muixa3emZBZilHqjQpy2E+ukXMgUvPgQDiiI
-         1QuXK/C+djFSV+rUV6ndaCyAnlaoDBjWt23JtC6yS6FBBRqH/AwOn8fItkL1/ySUoo
-         1cLF7yjsBe7I9NHLryk06oM4gzvGe7QTXYOmJRvKsLMbgPgT/9/KqRBRTcpQUrDD7y
-         saA3/4ehqOLug==
-Received: by mail.olerise.pl for <linux-leds@vger.kernel.org>; Thu, 17 Mar 2022 08:40:21 GMT
-Message-ID: <20220317084500-0.1.2d.ru8r.0.yro4la7i90@olerise.pl>
-Date:   Thu, 17 Mar 2022 08:40:21 GMT
-From:   =?UTF-8?Q? "Miko=C5=82aj_Rudzik" ?= <mikolaj.rudzik@olerise.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.olerise.pl
+        with ESMTP id S233224AbiCRHqt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Mar 2022 03:46:49 -0400
+X-Greylist: delayed 1121 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Mar 2022 00:45:23 PDT
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1810A1F51B3;
+        Fri, 18 Mar 2022 00:45:22 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=50901776b7=fe@dev.tdt.de>)
+        id 1nV70J-000Tmn-MA; Fri, 18 Mar 2022 08:26:31 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1nV70I-000T4V-Ul; Fri, 18 Mar 2022 08:26:30 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 3F9E8240049;
+        Fri, 18 Mar 2022 08:26:30 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id B16B4240040;
+        Fri, 18 Mar 2022 08:26:29 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id 3B1FB25F67;
+        Fri, 18 Mar 2022 08:26:29 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_BL,
-        RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 18 Mar 2022 08:26:29 +0100
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Eckert.Florian@googlemail.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] leds: ktd20xx: Extension of the KTD20xx family of
+ LED drivers from Kinetic
+In-Reply-To: <20220212120857.GJ20866@duo.ucw.cz>
+References: <20220121140150.1729-1-fe@dev.tdt.de>
+ <20220121140150.1729-2-fe@dev.tdt.de>
+ <CAHp75Vd4pwFXoF=xS5cskM2GDNb6c6RXTYo3j3FLP+nuQVoRyg@mail.gmail.com>
+ <20220212120857.GJ20866@duo.ucw.cz>
+Message-ID: <7c973f04b4ecf1cd88d69e388edbb7e7@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-purgate-ID: 151534::1647588391-000005D6-B4761D2A/0/0
+X-purgate: clean
+X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hello Pavel,
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+Haven't seen the new ktd20xx for the next [1] kernel release yet.
+Do I still have to do something?
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
+Best regards,
 
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+Florian Eckert
 
-
-Pozdrawiam
-Miko=C5=82aj Rudzik
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/log/?h=for-next
