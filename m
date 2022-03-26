@@ -2,48 +2,35 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FBC54E307E
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Mar 2022 20:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9CC94E84AC
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Mar 2022 00:51:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241949AbiCUTKF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Mar 2022 15:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57314 "EHLO
+        id S229948AbiCZXwt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Mar 2022 19:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352440AbiCUTKE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Mar 2022 15:10:04 -0400
-X-Greylist: delayed 152 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Mar 2022 12:08:35 PDT
-Received: from smtprelay07.ispgateway.de (smtprelay07.ispgateway.de [134.119.228.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8A024F3E;
-        Mon, 21 Mar 2022 12:08:33 -0700 (PDT)
-Received: from [92.206.166.137] (helo=note-book.lan)
-        by smtprelay07.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <git@apitzsch.eu>)
-        id 1nWNLr-0003ty-0w; Mon, 21 Mar 2022 20:05:59 +0100
-Message-ID: <62c44a98ba6d45a087ccf20c5a857366639f2025.camel@apitzsch.eu>
-Subject: Re: [PATCH v3 2/3] dt-bindings: leds: sgm3140: Document ocp8110
- compatible
-From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Date:   Mon, 21 Mar 2022 20:05:57 +0100
-In-Reply-To: <YhVN9MoUyme53OeK@robh.at.kernel.org>
-References: <20211117091405.7412-1-git@apitzsch.eu>
-         <20220212180942.8241-2-git@apitzsch.eu>
-         <YhVN9MoUyme53OeK@robh.at.kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-C3CkBKU7TmV9uTkARBvl"
-User-Agent: Evolution 3.42.4 
+        with ESMTP id S229796AbiCZXwt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Mar 2022 19:52:49 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 759C5E13;
+        Sat, 26 Mar 2022 16:51:11 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 6371C1C0BB0; Sun, 27 Mar 2022 00:51:09 +0100 (CET)
+Date:   Sun, 27 Mar 2022 00:51:08 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v5.18-rc1
+Message-ID: <20220326235108.GA4456@duo.ucw.cz>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -51,59 +38,68 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---=-C3CkBKU7TmV9uTkARBvl
-Content-Type: text/plain; charset="UTF-8"
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Am Dienstag, dem 22.02.2022 um 14:56 -0600 schrieb Rob Herring:
-> On Sat, 12 Feb 2022 19:09:41 +0100, Andr=C3=A9 Apitzsch wrote:
-> > Add devicetree binding for Orient Chip OCP8110 charge pump used for
-> > camera flash LEDs.
-> >=20
-> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > ---
-> > V2 -> V3: Add commit message, h/w info
-> >=20
-> >  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
->=20
-> Reviewed-by: Rob Herring <robh@kernel.org>
+The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
 
+  Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
 
-Hello Pavel,
+are available in the Git repository at:
 
-kind reminder that patch 2/3 hasn't been applied to [1], yet.
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.18-rc1
 
-Is there anything that needs to be done from my side?
+for you to fetch changes up to e26557a0aa68acfb705b51947b7c756401a1ab71:
 
-Best regards,
-Andr=C3=A9
+  leds: pca955x: Allow zero LEDs to be specified (2022-03-02 09:51:40 +0100)
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/log/?h=
-=3Dfor-next
+----------------------------------------------------------------
+LED updates for 5.18-rc1. Nothing major here, there are two drivers
+that need review and did not make it.
 
---=-C3CkBKU7TmV9uTkARBvl
+----------------------------------------------------------------
+Andrew Jeffery (2):
+      leds: pca955x: Make the gpiochip always expose all pins
+      leds: pca955x: Allow zero LEDs to be specified
+
+Andr=E9 Apitzsch (2):
+      dt-bindings: vendor-prefixes: Add ocs prefix
+      leds: sgm3140: Add ocs,ocp8110 compatible
+
+Hans de Goede (2):
+      leds: simatic-ipc-leds: Make simatic_ipc_led_mem_res static
+      leds: simatic-ipc-leds: Don't directly deref ioremap_resource() retur=
+ned ptr
+
+Krzysztof Kozlowski (1):
+      dt-bindings: leds: common: fix unit address in max77693 example
+
+Uwe Kleine-K=F6nig (1):
+      leds: lm3692x: Return 0 from remove callback
+
+ Documentation/devicetree/bindings/leds/common.yaml |  9 ++-
+ .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
+ drivers/leds/flash/leds-sgm3140.c                  |  1 +
+ drivers/leds/leds-lm3692x.c                        |  5 +-
+ drivers/leds/leds-pca955x.c                        | 67 +++++++++++-------=
+----
+ drivers/leds/simple/simatic-ipc-leds.c             | 34 ++++++-----
+ 6 files changed, 65 insertions(+), 53 deletions(-)
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--6c2NcOVqGQ03X4Wi
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEazlg6L1sjNt+krNCgnfiFzZ+STsFAmI4zJUACgkQgnfiFzZ+
-STu8ew//cmFJGYUF1ifeQEKE/wMqYVEDypIhDbvlZIgak6v4Yjb2QA+nQV23VuiR
-ZpjRXORxMbM6T5FdsJtDZDnfaHWNEAZ1dz5AUiFS2BtSMtBHbY1riMqgPRsc6AtD
-TP7FXlqMJwz9RDd+o/SPahyjwCZSzPeuAQQ0PDI1bnzpG6DD2pQ5OLp+zbbpYH97
-ShdcX66UY/yBzFdrXWoFjc8d8/HtuObrbx0vHc1Kx8nkv/R4P6MAY7getAfOw7tG
-lT1yRInQKlhQh6cThCvVWS1KdukrpiVNVytfTYmOid4mXr56INZXVPeKwJ2Hj1o1
-SlNNHNbFoE5xVA49Fein4cs8RKQDG8whV04PyR6yRmjpcVRXz4n8PgGY8k14df7u
-eCfI0QcLEKW3545wKtJdTQEojFYlOLc2QACxvGzZWlg7edpZmugRLjdyNKV+wiYU
-0A3Sumxtif28WHol2M2fwHSahOvxoIVZFceDxmwJ1CQ/oJ4CJ1F2TXOcoArhXvDj
-wHrYu6Ml8zVQcDpuZ7vTz3XGU3Iadp8M6RFCYqUTwHn/Oipk67K89nje1AdU/3FZ
-YFujZ7MAmELhes5rWpe/Oh9qQZAEoYnGLrA0BljSFPtUOm0EFm8/Wz7mrvt+BDYD
-YjKKoLl/zK+QxoMznNL8JPSMn8Y9tauJUV0OH8aj1WUvuKAj8c8=
-=yezE
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYj+m7AAKCRAw5/Bqldv6
+8lehAJ9M/Ba9JIj+fa2Sdovh06xaN60jxwCeP6p5m0OSkx3IAPL4e6CZDXuFAVg=
+=Zb1J
 -----END PGP SIGNATURE-----
 
---=-C3CkBKU7TmV9uTkARBvl--
+--6c2NcOVqGQ03X4Wi--
