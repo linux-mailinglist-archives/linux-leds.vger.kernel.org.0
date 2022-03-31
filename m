@@ -2,55 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B41654EDA63
-	for <lists+linux-leds@lfdr.de>; Thu, 31 Mar 2022 15:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E61B34EDD9D
+	for <lists+linux-leds@lfdr.de>; Thu, 31 Mar 2022 17:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236731AbiCaNVm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 31 Mar 2022 09:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45344 "EHLO
+        id S238322AbiCaPoY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 31 Mar 2022 11:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232629AbiCaNVl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 31 Mar 2022 09:21:41 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9005818544C
-        for <linux-leds@vger.kernel.org>; Thu, 31 Mar 2022 06:19:54 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nZuiO-0008QF-0A; Thu, 31 Mar 2022 15:19:52 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nZuiN-0007dg-VN; Thu, 31 Mar 2022 15:19:50 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nZuiL-000FOJ-La; Thu, 31 Mar 2022 15:19:49 +0200
-Date:   Thu, 31 Mar 2022 15:19:49 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Riku Voipio <riku.voipio@iki.fi>, linux-leds@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v3] leds: pca9532: Make pca9532_destroy_devices() return
- void
-Message-ID: <20220331131949.hboij2vkptpxdvme@pengutronix.de>
-References: <20211021121639.79179-1-u.kleine-koenig@pengutronix.de>
- <20211022101707.1194979-1-u.kleine-koenig@pengutronix.de>
- <20220110072317.sysdgvuzvlzzbcsb@pengutronix.de>
- <20220111211223.GA26173@duo.ucw.cz>
- <20220111213032.5hqlgptdqjxvnikj@pengutronix.de>
+        with ESMTP id S240127AbiCaPng (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 31 Mar 2022 11:43:36 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 963981D59DB;
+        Thu, 31 Mar 2022 08:39:10 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 75C9732020A4;
+        Thu, 31 Mar 2022 11:39:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 31 Mar 2022 11:39:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=KyI/j72y7JMpL9/xQjQ4csJ00FkyYP4CjB3zQa
+        JiteE=; b=mARUd3dNVIoDY0WW0hYsVKA7Lf7fwcTN1tIxFE0N5OsckZ9r1XG0u3
+        rh+EwDIuYSc04rnvx+EpdmoNEh1BMgVhXtQs//tm3pfwOXjkKr3x3QqkXyPsPjG7
+        r7xOj6X4G4U5YL3FGJcPT+zvCJtcfFyf/z05yw2/vQitVf9RUu6h+SKEL7hTFwrz
+        /aS4Lh4sHQUH52VifqB/1c3R+e2/PAXA5yjrjy8RNjBAxXD9BRssZkDI6BD1pXvV
+        4lOTe19Ojm/lQWRUbij7EyaloFTqagm6LTduNrHagnBzIsAtWJ5JtxgeyWOiPmBY
+        QhM++cH5Y59JCtRatWzPhvJgZLRQXIKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KyI/j72y7JMpL9/xQ
+        jQ4csJ00FkyYP4CjB3zQaJiteE=; b=g7TRrmzHPVgg6DgXsHjsO2eLrgorP9PeA
+        65z6ZvPimmANl/Em/yRPNDLtQAJ3wHMzU8TALdLnHvIP5DLyN/W5s7QKjSSutXr3
+        wj3+lFIfZX3g7hqBxOlAqGnaJ5Tiq4KkCuuk8yEZKIIh0uvnCGP0Zw/NLRxuXVGD
+        B61ydk1puY1cHyJuz0hrflXXWuqT4m+UT9fRMbE0G6/dMa6OP61iog1cAvtRQPXQ
+        7MbdjAs6a3DxKkpKjFcxB284MnwmNJx/WYsoEB+BzXcrh73NQqJP5Mw/Rdi4GOtU
+        tMavjh9FeLonmfVEwamGlj0nzg5WYyV7lAFLPWC7yXx2rRKlDzjHg==
+X-ME-Sender: <xms:HMtFYutS58m5Ij6Wi8vsGO72pwiJWmfS1WBYWAgDFLBU-clNqfI2MA>
+    <xme:HMtFYjeMl07xJgh2l68Sm1qEeTWcesplu6SRXIeOsmy5UmNdZEvNlMNb9rK5rIWAk
+    5p80QghJQzIQ7aRcQQ>
+X-ME-Received: <xmr:HMtFYpx1lIr-nr7Mnu10rZKvqllsndpYpYsNU44kSKTS3g0eryj14uaXNjT9mXCVcrWK9xPrTwlx6O8gwmmQQZB5eOFFMUqW1ec>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
+    vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
+    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
+    geefgfdthefhkedtleffveekgfeuffehtdeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:HMtFYpOnk1vt45w1o4EXRYp03Ka6a6wGOW5tPa63xfniHzdSpg-kUg>
+    <xmx:HMtFYu8vNNgduVDpKYLfeU0J3h8rMbQFObgEr539NyGjFb7pfzb7Yw>
+    <xmx:HMtFYhW_g-T88mSS5127T0sbJSclHOzBmXDf99C883YoL-MgWATmBw>
+    <xmx:HctFYiayG9iwCsGHWT7GAIMkc02fOSWggrYoYRG9ARGt6MmeF7F2Sg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 31 Mar 2022 11:39:08 -0400 (EDT)
+Date:   Thu, 31 Mar 2022 10:39:07 -0500
+From:   Patrick Williams <patrick@stwcx.xyz>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     linux-leds@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, pavel@ucw.cz, joel@jms.id.au
+Subject: Re: [PATCH] leds: pca955x: Add HW blink support
+Message-ID: <YkXLG++LWdQWCxQF@heinlein>
+References: <20220330203318.19225-1-eajames@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="c5ecghwn7taosmmt"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="1Owk7bxpetCwLmTk"
 Content-Disposition: inline
-In-Reply-To: <20220111213032.5hqlgptdqjxvnikj@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220330203318.19225-1-eajames@linux.ibm.com>
+X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -58,69 +82,85 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---c5ecghwn7taosmmt
-Content-Type: text/plain; charset=iso-8859-1
+--1Owk7bxpetCwLmTk
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 11, 2022 at 10:30:32PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Tue, Jan 11, 2022 at 10:12:23PM +0100, Pavel Machek wrote:
-> > On Mon 2022-01-10 08:23:17, Uwe Kleine-K=F6nig wrote:
-> > > On Fri, Oct 22, 2021 at 12:17:07PM +0200, Uwe Kleine-K=F6nig wrote:
-> > > > Up to now pca9532_destroy_devices() returns always zero because it's
-> > > > always called with data !=3D NULL. Remove the never-taken error pat=
-h and
-> > > > make it return void which makes it easier to see in the callers that
-> > > > there is no error to handle.
-> > > >=20
-> > > > Also the return value of i2c remove callbacks is ignored anyway.
-> > > >=20
-> > > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > >=20
-> > > Ping. This patch is part of an effort to make the i2c remove callback=
- a
-> > > void function, too. Are there any concerns, or plans to pick up this
-> > > patch?
-> >=20
-> > It looks like a simple cleanup with no effect outside of the
-> > driver. Am I wrong?
->=20
-> Yes, there is no intended effect on the compiled code.
+On Wed, Mar 30, 2022 at 03:33:18PM -0500, Eddie James wrote:
+> Support blinking using the PCA955x chip. Use PWM0 for blinking
+> instead of LED_HALF brightness. Since there is only one frequency
+> and brightness register for any blinking LED, all blinked LEDs on
+> the chip will have the same frequency and brightness.
 
-ah, oh, the answer should have been "No". :-)
+The current implementation uses the PWM to control the "brightness"
+with PWM0 being assigned 50% and PWM1 being configured as a single value
+that isn't ON, OFF, or 50%.  I suspect that most users of these 955x
+chips care either about brightness or blinking but not both, but it is
+possible I am wrong.  It would be nice if we could use PWM1 as another
+hardware blink control when it hasn't been used for brightness, but that
+would require some additional state tracking I think.
 
-> The reason I want this patch is that I work on making the i2c remove
-> callback return void. As this has to touch all i2c drivers, the changes
-> to these should be as simple as possible, so ideally I just want to drop
-> the "return 0" there. Every return that might return a value !=3D 0 is
-> more complicated to handle there.
->=20
-> So it's just to prepare this change an to make the code a tad easier to
-> read for a human.
+I like that we can now use the hardware to control blink rate, rather
+than doing it in software, and, I really like that in theory if N LEDs on
+the device are all blinking at the same rate they will actually turn on and
+off at the same exact moment because it is done in hardware.  I am really
+concerned about this proposed change and the way it will change current
+behavior though.
 
-Is this convincing? Is this patch still on the "to-review" (or still
-better the "to-apply") list?
+It is not uncommon in a BMC design to use one of these 955x chips to control
+8 or 16 different LEDs reflecting the state of the system and at
+different blink rates.  An example LED policy might be that you have 1 LED
+for "power status" and another LED for "system identify + health status".
+When the system is powered off the "power status" LED flashes at a slow rate
+and when the system is powered on it goes on solid.  When the system is hea=
+lthy
+the "health status" is on, when it is unhealthy it blinks slowly, and when =
+the
+system is "identified" it blinks fast.
 
-Best regards
-Uwe
+My point of the above is that there are certainly system policies where
+you'd want to flash two different LEDs at two different rates.  In
+today's implementation of this driver those both turn into
+software-emulated blinking by the kernel.  With your proposal we lose
+this ability and instead whichever LED is configured second will affect
+all other blinking LEDs.
+
+It looks like in led-core.c led_blink_setup that if the device
+`blink_set` returns an error then software blinking is the fallback.  Is
+it possible for us to have this driver keep track of how many LEDs are
+in blink state (and which speeds are allocated) and get led-core to
+fallback to software blinking if we are unable to satisfy the new blink
+rate without affecting an existing LED blink rate?
+
+Looking at the tree it seems bcm6328 does what I am suggesting already
+but I don't see any other drivers that obviously do.  The PCA955x is
+pretty widely used in BMC implementations:
+
+    $ git grep -l pca955 arch/arm/boot/dts/aspeed* | wc -l
+    13
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Patrick Williams
 
---c5ecghwn7taosmmt
+--1Owk7bxpetCwLmTk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJFqnIACgkQwfwUeK3K
-7AmeswgAlPP3wyOQny5R3989gP8T8ChH/ZiGrZ6TvYBdbQFgqi9cRJF5wNc0GyKX
-St5VGDyD5EgaSkPpgFofpDjvcc+EPIxm6w7ETX9n1NgC20SI+ZbqOTCucSp+xR/t
-exP+hS2R7KXF+4wFA3QSengbQ/K4IgszbL/r0CqnW8Mg5iuwaf85B5MY+7RRM58t
-1gGVKNUctmE0X/eCivdHVWWKlf8eOwTnaXYBYK0QQG1p6q5Cuj76QE2qzYfPzmxA
-mYJRqWbyRiJFcm/AITyRaGZor/a7Gg/HGdbFhwmr/J6k8di4QHT7/OMt4Nm29nza
-0/vByx+UohbBbe9HM0iZzIXHgpc9DQ==
-=9FmP
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmJFyxkACgkQqwNHzC0A
+wRkAaBAAjBfOY0GBJZfL3KuD59+0bFzyNMbkCbK0EmE4VU3YlONWgxXTLwTDir9/
+Ctb2a86QdZglRQzoof7/jyEmAJ1/tFFA+Kps5Z1FGPczZbGxJ9Obel7J8SNo3aiy
+sP3gBz2pbZtprpOo2w0Yc1ReZFiJe/kH7z3a1H/2Xl/lq9TPEDg22wVQnzkccNJp
+4X+1p0rwAqOqxGjBeOjaGAj1y7PvqXUICZVw0rkkXaI80Gjg+IikrUB8/FDSaCDT
+WHV3i4QfocIEUD62v5bSnzKijyaixo2e16fOUNqCTv1hWA5U2ZvoH+LhRm+91I0+
+otF6Hf9TUhcLFQkAKcoBOTXcmOJ2IZ06bUZ/sklWhdLWHmc0jL0t0LmcJk8s4eJb
+PJz+bP81sjTaB18sFkQu1KCXOaRkDf4/32csLZd2Tqq1HEXc24uFzhGdhirNgKpw
+55Bxs8H4Bp0OyqvIW+TYWutWDbP96vULv6xkaGNtJM4Nc0gJECh82yp/QQEBd9bS
+JjjwLbjl1W58SOfhtrzrwLd52RqKuBYUSzWSBoTP1RFOhHeTcCisE8XgL2hT/JZB
+DKl4ER8AQJDuqmjK6PilTPEM0c4gSupmJFqLnMC61StQ75pmpoxDqlE3bvqJ2GSd
+p1Xpy3S5LhJqY+TEo65UIst6nWhAF4XRsBjy+hf0uqzib9ykpxw=
+=/hef
 -----END PGP SIGNATURE-----
 
---c5ecghwn7taosmmt--
+--1Owk7bxpetCwLmTk--
