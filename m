@@ -2,155 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7F94F7E6D
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Apr 2022 13:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF7814F8574
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Apr 2022 19:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245021AbiDGLxq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 7 Apr 2022 07:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33994 "EHLO
+        id S232389AbiDGREW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 7 Apr 2022 13:04:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245008AbiDGLxp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 7 Apr 2022 07:53:45 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ACA2364EB;
-        Thu,  7 Apr 2022 04:51:45 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id x33so2725175lfu.1;
-        Thu, 07 Apr 2022 04:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kRv8uThwMjemCPH0U9dWg7Ga/t+oDd3aBEoB7wfTW1U=;
-        b=e8tCwr77YvJqF7FoJIybsEy25RG/pfAVowZUzfc881Sk/yMJLDsR+7CzirdJFcwRtD
-         Sp/Q3a30PzdphOy/3Ah+Re6Wzo+o13iItwUpjC+2prQW19JKNs9m+45co9ubbDqoZd++
-         uWHIS9VrmDEne4XlYygrdv6Cul23hGgFwTW/isFdj8gVOCkCPTSRKfWIwVlAnuXrMqrL
-         8DrnC8goGUqt8eUMoQNeBEc4ooGtg87e1rsWUATSkN0dWT/hv/mmIRT89sRWOV4r16VN
-         ZD9sglGkr6VVHHZJc02RRuP6FSZBrE5nqmP7F2avG7LkCYhfIohMokF2Q5Uaqn7cR3pP
-         u7XQ==
+        with ESMTP id S243254AbiDGRES (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 7 Apr 2022 13:04:18 -0400
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA981C9B44;
+        Thu,  7 Apr 2022 10:02:17 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id e189so6246851oia.8;
+        Thu, 07 Apr 2022 10:02:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kRv8uThwMjemCPH0U9dWg7Ga/t+oDd3aBEoB7wfTW1U=;
-        b=mI0Bi85mXdu6bwXLGKU5lO8afNLVo5D4OE99r7JT72ZVHWpBPGiKg8OZIha5OGjMo9
-         moeu1K0iZ5nLXKjSREzCB4a5M/87juXVyG7CCLyjD+MxQNMtSgpo7Tjfq4KcrJW1BWz6
-         2levvr1e3KFqqb5iyuKo6gvfHGF2nz38fLLSsVtZWz6JMcGG0ZXk6WpXbFdPwV8NDKQn
-         k61MKvGOGBAUIN+kwHjERDjGXPmdxYeGdFzNLvnT7FXnQQOOTxALS2CSrI7UMQFOL7fF
-         yoKyEnqOg+Gc909CXI2KXilUzYfswKYAVtt1eAUfdrYcBcQd5FyebGM1wsX7T+ankBXI
-         JKLQ==
-X-Gm-Message-State: AOAM533EWmVnNranfDrztelOpNSoTjr1Gd+ks79JvIhdT5o0LwvtOiCO
-        jibnVsP5IHZ0CTJIxyikMr7bA2/tH1I=
-X-Google-Smtp-Source: ABdhPJwsnQgFOt+/HsuI52G0JTO0s6m2NWSDkgYAkdvr/Nj3kQNfmE8EVNYcGrUXfftrPoCABhVNZQ==
-X-Received: by 2002:a05:6512:e97:b0:464:f4dc:89f8 with SMTP id bi23-20020a0565120e9700b00464f4dc89f8mr1834802lfb.655.1649332303536;
-        Thu, 07 Apr 2022 04:51:43 -0700 (PDT)
-Received: from nergzd-desktop.localdomain ([194.39.226.133])
-        by smtp.gmail.com with ESMTPSA id i16-20020a198c50000000b0044a2580a2d3sm2143666lfj.156.2022.04.07.04.51.42
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=Wp8RSwIrgzG7uQ3b1/ypwJs7daFfqxiiYUEMrzxbqT0=;
+        b=1tYAl2yFyP6/X2KSem7RfxY6ckyAUuZDEu4EjliaL2r+TVs9KQJXEzDjxU89Tx1EVL
+         88F4iQqBYLRaUSaWAFn8Qx+snactdPUnhIx6a+A/xAN8VjtrmmMWnBs8UD8pCBAQf37R
+         xkhXQTQ3Woqilebpz5pVPYQPHbTBKYPcdtzSRDLM6WrZ8f8iK+ZD3na+wdf7hXLyM0vh
+         KmIUta8eaJ4eLFT0tveJgj9fhEXriPUWAhpRTKYY6vUTuw3VVZBdYEyIX54rmOfLmoSo
+         MI8Xt6AVTwGm78kFweTr3keWlTQDVJ4dHdxOTWyhUTzxX/ok5GBN8NIExAUEUr7tTW3R
+         qV4Q==
+X-Gm-Message-State: AOAM531pwWDXbhtxKmp0F+6PqtIEuFaj7yGM/Vo1cblbKyB1wvxcxtlA
+        69k47FjgVHfdo9GLoZBbZQ==
+X-Google-Smtp-Source: ABdhPJwfZgiNM9aE7g93ngGxHZ9S+c/XahJIWijit/HHJyW68508gY+Yc3Pn8uYTbOC5M8Fw+qgcdQ==
+X-Received: by 2002:a05:6808:30a7:b0:2ec:cf1c:9a06 with SMTP id bl39-20020a05680830a700b002eccf1c9a06mr6455461oib.272.1649350935482;
+        Thu, 07 Apr 2022 10:02:15 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id mj27-20020a0568700d9b00b000de29e1d6adsm6053342oab.16.2022.04.07.10.02.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 04:51:43 -0700 (PDT)
-From:   Markuss Broks <markuss.broks@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Thu, 07 Apr 2022 10:02:15 -0700 (PDT)
+Received: (nullmailer pid 1406984 invoked by uid 1000);
+        Thu, 07 Apr 2022 17:02:14 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
+        phone-devel@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 2/2] leds: ktd2692: Make aux-gpios optional
-Date:   Thu,  7 Apr 2022 14:51:25 +0300
-Message-Id: <20220407115126.69293-3-markuss.broks@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407115126.69293-1-markuss.broks@gmail.com>
-References: <20220407115126.69293-1-markuss.broks@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org
+In-Reply-To: <20220407101034.13122-2-markuss.broks@gmail.com>
+References: <20220407101034.13122-1-markuss.broks@gmail.com> <20220407101034.13122-2-markuss.broks@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: convert ktd2692 bindings to yaml
+Date:   Thu, 07 Apr 2022 12:02:14 -0500
+Message-Id: <1649350934.490785.1406983.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Make the AUX pin optional, since it isn't a core part of functionality,
-and the device is designed to be operational with only one CTRL pin.
+On Thu, 07 Apr 2022 13:10:05 +0300, Markuss Broks wrote:
+> This patch converts the leds-ktd2692.txt bindings to modern yaml
+> style device-tree bindings.
+> 
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> ---
+>  .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
+>  .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
+>  2 files changed, 87 insertions(+), 50 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
+> 
 
-Also pick up maintainership for the LED driver and the yaml bindings.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
----
- MAINTAINERS                       |  6 ++++++
- drivers/leds/flash/leds-ktd2692.c | 16 ++++++++++------
- 2 files changed, 16 insertions(+), 6 deletions(-)
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml:37:24: [error] syntax error: expected <block end>, but found '<scalar>' (syntax)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2db49ea7ae55..8ef5667a1d98 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10479,6 +10479,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
- 
-+KTD2692 FLASH LED DRIVER
-+M:	Markuss Broks <markuss.broks@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2692.yaml
-+F:	drivers/leds/flash/leds-ktd2692.yaml
-+
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/leds/flash/leds-ktd2692.c b/drivers/leds/flash/leds-ktd2692.c
-index f341da1503a4..bfbe1d5f7b8e 100644
---- a/drivers/leds/flash/leds-ktd2692.c
-+++ b/drivers/leds/flash/leds-ktd2692.c
-@@ -163,7 +163,8 @@ static int ktd2692_led_brightness_set(struct led_classdev *led_cdev,
- 
- 	if (brightness == LED_OFF) {
- 		led->mode = KTD2692_MODE_DISABLE;
--		gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
-+		if (led->aux_gpio)
-+			gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
- 	} else {
- 		ktd2692_expresswire_write(led, brightness |
- 					KTD2692_REG_MOVIE_CURRENT_BASE);
-@@ -191,10 +192,12 @@ static int ktd2692_led_flash_strobe_set(struct led_classdev_flash *fled_cdev,
- 				| KTD2692_REG_FLASH_TIMEOUT_BASE);
- 
- 		led->mode = KTD2692_MODE_FLASH;
--		gpiod_direction_output(led->aux_gpio, KTD2692_HIGH);
-+		if (led->aux_gpio)
-+			gpiod_direction_output(led->aux_gpio, KTD2692_HIGH);
- 	} else {
- 		led->mode = KTD2692_MODE_DISABLE;
--		gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
-+		if (led->aux_gpio)
-+			gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
- 	}
- 
- 	ktd2692_expresswire_write(led, led->mode | KTD2692_REG_MODE_BASE);
-@@ -248,7 +251,8 @@ static void ktd2692_setup(struct ktd2692_context *led)
- {
- 	led->mode = KTD2692_MODE_DISABLE;
- 	ktd2692_expresswire_reset(led);
--	gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
-+	if (led->aux_gpio)
-+		gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
- 
- 	ktd2692_expresswire_write(led, (KTD2692_MM_MIN_CURR_THRESHOLD_SCALE - 1)
- 				 | KTD2692_REG_MM_MIN_CURR_THRESHOLD_BASE);
-@@ -287,8 +291,8 @@ static int ktd2692_parse_dt(struct ktd2692_context *led, struct device *dev,
- 	led->aux_gpio = devm_gpiod_get(dev, "aux", GPIOD_ASIS);
- 	ret = PTR_ERR_OR_ZERO(led->aux_gpio);
- 	if (ret) {
--		dev_err(dev, "cannot get aux-gpios %d\n", ret);
--		return ret;
-+		dev_info(dev, "aux-gpios not available, flash mode current might be reduced\n");
-+		led->aux_gpio = NULL;
- 	}
- 
- 	led->regulator = devm_regulator_get(dev, "vin");
--- 
-2.35.1
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/leds/kinetic,ktd2692.example.dts'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 52, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 119, in get_single_data
+    node = self.composer.get_single_node()
+  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
+  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
+ruamel.yaml.parser.ParserError: while parsing a block mapping
+  in "<unicode string>", line 36, column 5
+did not find expected key
+  in "<unicode string>", line 37, column 24
+make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/leds/kinetic,ktd2692.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml:  while parsing a block mapping
+  in "<unicode string>", line 36, column 5
+did not find expected key
+  in "<unicode string>", line 37, column 24
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml: ignoring, error parsing file
+make: *** [Makefile:1401: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
