@@ -2,110 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B68D34F9B2A
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 18:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D407E4F9C22
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 19:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbiDHRAJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Apr 2022 13:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
+        id S238425AbiDHSBo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 8 Apr 2022 14:01:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234433AbiDHRAI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 13:00:08 -0400
-Received: from smtp.smtpout.orange.fr (smtp09.smtpout.orange.fr [80.12.242.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27210343303
-        for <linux-leds@vger.kernel.org>; Fri,  8 Apr 2022 09:58:01 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.180.246])
-        by smtp.orange.fr with ESMTPA
-        id crvlnGf4Gs0FRcrvlnrZPt; Fri, 08 Apr 2022 18:57:59 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Fri, 08 Apr 2022 18:57:59 +0200
-X-ME-IP: 86.243.180.246
-Message-ID: <f0f934b8-2e97-2b9a-76de-e1cb217fc58c@wanadoo.fr>
-Date:   Fri, 8 Apr 2022 18:57:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 2/2] leds: ktd2692: Make aux-gpios optional
-Content-Language: fr
-To:     Markuss Broks <markuss.broks@gmail.com>,
-        linux-kernel@vger.kernel.org
+        with ESMTP id S229654AbiDHSBn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 14:01:43 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E986A188575;
+        Fri,  8 Apr 2022 10:59:38 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id k21so16376622lfe.4;
+        Fri, 08 Apr 2022 10:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l8ldH75DpUXw+cHOPkEL+Os84zbLfTTSbUgqmJGQe1Q=;
+        b=AeHcwHeYzcVI0VlIAFuPe4/2CgMzqgX8RQSxvaf93TM/s6oymRkMmus1agso0Ey3S6
+         Xfs8MMc6wSWOsGRYj6Npf/ybntjKWqN7UniO4O83VMAL/OtXij4hp1K2s020KwUUMNKh
+         bNCjid8cSKYuk992sGLkoGDesjCDvcUSsCe4t9S1ysga3Ckl1MXTELZ+P3YjtxDTu53Q
+         1mhXmvVenMn8WA+Oe9NbaSlCg/53/coCB3Pwdjq75u8QIfZlsc3QZMzvcGtM+UeV3K+q
+         +zct323QhgH5BTxetif7VYNcEr/8Bl4UVjIMgfe8l8TY1IVY5aL+E7H77umexPirwbor
+         h+PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l8ldH75DpUXw+cHOPkEL+Os84zbLfTTSbUgqmJGQe1Q=;
+        b=g/71uxphlYOU7F8ldrdyitUegAS09KKDhD3l3BB3nwaxL7tVgClCONQP6eSopXPVup
+         o34Dxd8j1th/7fvbmor9MlmBzil/09Py3pRzznx0Rn1maZW/4QL6g990bgtVQrHZGUdH
+         vAeNWLKI1fpUgkrRlWcsuuhSSG+yoYPZOTBU5dah9A9bzQTEDb3piZwN/5wh39Lij0C/
+         KTciCQ+Qg2xPLpVV5CprrLph0OxqzwBp8g7Km6z1kma0Rs2EnHJxUPKUxWtHs6rsxe5x
+         wmULEsGXdP7+6SGEznlhPNwWjvdiu8sPsH6bmVOkg6yk+//TlKqu3tKfv1lZhoYOQf7v
+         8lbg==
+X-Gm-Message-State: AOAM530ua6CZgswxJX3XZMx7I0eePwNnobQO2LZ7s14H0T1gGMienkM5
+        Q4cC/PWSiQ1ayXHFyxVwf5EZTbyXpoA=
+X-Google-Smtp-Source: ABdhPJzlbv3TypspOgqHa0j5UXcJ3yBiFClekaUzswai6xLSLWg7iqcQk2yhL2HM0+t+BdUgY3sxWw==
+X-Received: by 2002:a05:6512:68d:b0:44a:cc2:78b5 with SMTP id t13-20020a056512068d00b0044a0cc278b5mr12990324lfe.43.1649440776788;
+        Fri, 08 Apr 2022 10:59:36 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id p3-20020a056512312300b0046b83c2f92fsm272456lfd.58.2022.04.08.10.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 10:59:36 -0700 (PDT)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     linux-kernel@vger.kernel.org
 Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Markuss Broks <markuss.broks@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220408163330.200898-1-markuss.broks@gmail.com>
- <20220408163330.200898-3-markuss.broks@gmail.com>
-From:   Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220408163330.200898-3-markuss.broks@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH v5 0/2] Make AUX gpio pin optional for ktd2692
+Date:   Fri,  8 Apr 2022 20:59:25 +0300
+Message-Id: <20220408175929.281453-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Some appliances of ktd2692 don't have the AUX pin connected to
+a GPIO. Specifically, Samsung Galaxy J5 (2015), which uses ktd2692
+for driving the front flash LED, has the pin not connected anywhere on
+schematics. Make specifying the AUX pin optional, since it is additional
+functionality and only affects amount of current going through the LED.
 
-Le 08/04/2022 à 18:33, Markuss Broks a écrit :
-> Make the AUX pin optional, since it isn't a core part of functionality,
-> and the device is designed to be operational with only one CTRL pin.
->
-> Also pick up maintenance for the LED driver and the yaml bindings.
->
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> ---
->   MAINTAINERS                       | 6 ++++++
->   drivers/leds/flash/leds-ktd2692.c | 7 +++----
->   2 files changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2db49ea7ae55..8ef5667a1d98 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10479,6 +10479,12 @@ S:	Maintained
->   F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
->   F:	drivers/video/backlight/ktd253-backlight.c
->   
-> +KTD2692 FLASH LED DRIVER
-> +M:	Markuss Broks <markuss.broks@gmail.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2692.yaml
-> +F:	drivers/leds/flash/leds-ktd2692.yaml
-> +
->   KTEST
->   M:	Steven Rostedt <rostedt@goodmis.org>
->   M:	John Hawley <warthog9@eaglescrag.net>
-> diff --git a/drivers/leds/flash/leds-ktd2692.c b/drivers/leds/flash/leds-ktd2692.c
-> index f341da1503a4..26edf41dfa7d 100644
-> --- a/drivers/leds/flash/leds-ktd2692.c
-> +++ b/drivers/leds/flash/leds-ktd2692.c
-> @@ -284,10 +284,9 @@ static int ktd2692_parse_dt(struct ktd2692_context *led, struct device *dev,
->   		return ret;
->   	}
->   
-> -	led->aux_gpio = devm_gpiod_get(dev, "aux", GPIOD_ASIS);
-> -	ret = PTR_ERR_OR_ZERO(led->aux_gpio);
-> -	if (ret) {
-> -		dev_err(dev, "cannot get aux-gpios %d\n", ret);
-> +	led->aux_gpio = devm_gpiod_get_optional(dev, "aux", GPIOD_ASIS);
-> +	if (IS_ERR(led->aux_gpio)) {
-> +		dev_err(dev, "cannot get aux-gpios: %d\n", ret);
->   		return ret;
+Also convert the txt device-tree bindings to yaml and pick up maintenance
+over the yaml binding and the driver itself.
 
-Hi,
+v2:
+- fix the dt_binding_check
+v3:
+- set the aux_gpio to NULL to avoid passing ERR_PTR as a gpio
+v4:
+- maintainership -> maintenance (description)
+- remove the if (led->aux_gpio)
+- use devm_gpiod_get_optional for aux gpio
+v5:
+- use ret to pass a correct error return code (Christophe)
 
-'ret' is known to be 0 at this point.
-maybe adding:
-    ret = PTR_ERR(led->aux_gpio);
+Markuss Broks (2):
+  dt-bindings: leds: convert ktd2692 bindings to yaml
+  leds: ktd2692: Make aux-gpios optional
 
-?
+ .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
+ .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
+ MAINTAINERS                                   |  6 ++
+ drivers/leds/flash/leds-ktd2692.c             | 18 ++--
+ 4 files changed, 103 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
 
-CJ
+-- 
+2.35.1
 
->   	}
->   
