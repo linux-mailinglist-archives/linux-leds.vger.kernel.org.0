@@ -2,122 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 869274F9D21
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 20:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BBAA4F9E7B
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 22:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239164AbiDHSnc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Apr 2022 14:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54316 "EHLO
+        id S234343AbiDHVBr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 8 Apr 2022 17:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239160AbiDHSn2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 14:43:28 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A1ED190B77;
-        Fri,  8 Apr 2022 11:41:24 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id p15so16517524lfk.8;
-        Fri, 08 Apr 2022 11:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hss05uUSr3Uc3Gs0kDe2glyZ50kr35XM4twyAZx/Q7g=;
-        b=BiLeBiNJ4IU0JKxxJwQ/+tsSbDO8w926u868ywMqvgqSx1ECrq4SQRpVmiNHU8xInz
-         I08n30WH55Fgmj3kKdizeFitibHvWRfJ+NsJTlIyX3sdgo/gRX0ApYXQGo25hnxeJH0o
-         IchXYwrlNxr6YCxsOjzty/dlQUst72RcEKFB94cZQmdku2lU5NqQ0A/pCZ174EZIuQ/G
-         NDJjCwqsKNMQ+C1AgoYTSwvcopDsdbP1FuCdqKlEJCIwmJSmCRO9iZsF0b0rdGJ9aEN6
-         0EQEV3Si86ME/BVSZL7hEeg+9PTpDY5FO2NxDfT6C98SSDTFdo8hVrj9SYMbeD4Q8oZU
-         GSAg==
+        with ESMTP id S229586AbiDHVBq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 17:01:46 -0400
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74152C38;
+        Fri,  8 Apr 2022 13:59:41 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-d6ca46da48so10958249fac.12;
+        Fri, 08 Apr 2022 13:59:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hss05uUSr3Uc3Gs0kDe2glyZ50kr35XM4twyAZx/Q7g=;
-        b=3GN4UqsGcXE1so6MDu2e+4FtEXttIJ+xKHl3EY0R0TRSFXLNh8+1RR9KKZjQzi/OrO
-         iumRqZBEPUL8Tz2lSzJkvgUMzQhEsOnAE/YeMyoRiN4sL4dFv5W6nxeRsUjs3W3E5Lq2
-         fk6R0OHgLZ/bEd/KmoD4XjlsJephSB5cMo1qwTCOPsSnFmCLtl5mS+hWp+6ciHN6cTuA
-         PZqkUfBEQYLC9ONsuQ6qPRU/JjGUoueWSTg3jf8eFgRewA7/NC8UprFDY1ijRDoVB8AH
-         n4KR9TTOqSdEWGCFU97UP1J6yX0q7Ijsa1vWxiCAHZMZy+9lChhuBrwkf1KhTeYPyC3u
-         E2KQ==
-X-Gm-Message-State: AOAM533zNLFCqD/ix8ua+Fi2eTiocbWirwyyhm8l6J7zUro0geiynjKk
-        ob4WdwLV/xEt5/+iMBiVel14pQ+0XS8=
-X-Google-Smtp-Source: ABdhPJy/Vqtt6+tWHlLIytsK6143rCKFf7AKlW6x1FLCTH0jDJY7ZEmgYaHrNxzFJSHIFIY2fBqhtQ==
-X-Received: by 2002:ac2:5619:0:b0:464:f76b:cace with SMTP id v25-20020ac25619000000b00464f76bcacemr5412057lfd.437.1649443282346;
-        Fri, 08 Apr 2022 11:41:22 -0700 (PDT)
-Received: from nergzd-desktop.localdomain ([194.39.226.133])
-        by smtp.gmail.com with ESMTPSA id v17-20020a2e9f51000000b0024b006037eesm2301201ljk.139.2022.04.08.11.41.21
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mgIV08Nzu1AulSexKN4gF1Bv7Djf0q021L8PdHI29+k=;
+        b=0KDYXMJLORdgfiJ2GSIMXR3iq+8/3pEDfPegG5VGgNXMEQtLBpwkQ4gyrW9hRDxZtf
+         BSzMK+ZFzex3faRoyjxnXO2/EgdtwSa0ujcZZDYz34ZpZ2IiNYrbTjQxk1xDUouoemMO
+         FoxmISOqpid4ktfaR2xKOI1Yalm+2Ye4xaRyIwY3y/i6rhKO5Ok9cbQcU1IbsAgZ/K34
+         E446v+D343LArxGbfV5KnHbubwsiLGJexAUo/+ZCIqZ2r2ImOImLOmh+VMsCGzT5zARK
+         KWNtXjdp5/2ZAx8/6aPiaT4d/GSF9M9p5anOCiOsHI51lqY4cE81kGWLgEYzJI7cEv2t
+         9G/Q==
+X-Gm-Message-State: AOAM530+YgFTXTl33d8CAwKCaBOO/XyB7I1PjuEXM4NJvzWuFVXLXl/W
+        E8waMYiKjoFKx7JZ5JKdHELruaPYMw==
+X-Google-Smtp-Source: ABdhPJxHqBYnOljjlPwoSREFiVsVGDcfYviUYhyu+neONh6XlOy5IYfgmJpr6obbximEBUAHpbNLjw==
+X-Received: by 2002:a05:6870:a1a8:b0:e2:182d:6375 with SMTP id a40-20020a056870a1a800b000e2182d6375mr9625671oaf.247.1649451580743;
+        Fri, 08 Apr 2022 13:59:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x18-20020a056830245200b005ce01c28c77sm9417283otr.1.2022.04.08.13.59.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 11:41:21 -0700 (PDT)
-From:   Markuss Broks <markuss.broks@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Markuss Broks <markuss.broks@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Fri, 08 Apr 2022 13:59:40 -0700 (PDT)
+Received: (nullmailer pid 4052959 invoked by uid 1000);
+        Fri, 08 Apr 2022 20:59:39 -0000
+Date:   Fri, 8 Apr 2022 15:59:39 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        phone-devel@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 2/2] leds: ktd2692: Make aux-gpios optional
-Date:   Fri,  8 Apr 2022 21:40:55 +0300
-Message-Id: <20220408184104.13665-3-markuss.broks@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220408184104.13665-1-markuss.broks@gmail.com>
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Pavel Machek <pavel@ucw.cz>,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] dt-bindings: leds: convert ktd2692 bindings to
+ yaml
+Message-ID: <YlCiO3hfTtzJwq5H@robh.at.kernel.org>
 References: <20220408184104.13665-1-markuss.broks@gmail.com>
+ <20220408184104.13665-2-markuss.broks@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220408184104.13665-2-markuss.broks@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Make the AUX pin optional, since it isn't a core part of functionality,
-and the device is designed to be operational with only one CTRL pin.
+On Fri, 08 Apr 2022 21:40:54 +0300, Markuss Broks wrote:
+> This patch converts the leds-ktd2692.txt bindings to modern yaml
+> style device-tree bindings.
+> 
+> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> ---
+>  .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
+>  .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
+>  2 files changed, 87 insertions(+), 50 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
+> 
 
-Also pick up maintenance for the LED driver and the yaml bindings.
-
-Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
----
- MAINTAINERS                       | 6 ++++++
- drivers/leds/flash/leds-ktd2692.c | 6 +++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2db49ea7ae55..8ef5667a1d98 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10479,6 +10479,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
- 
-+KTD2692 FLASH LED DRIVER
-+M:	Markuss Broks <markuss.broks@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2692.yaml
-+F:	drivers/leds/flash/leds-ktd2692.yaml
-+
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/leds/flash/leds-ktd2692.c b/drivers/leds/flash/leds-ktd2692.c
-index f341da1503a4..01ceea83af67 100644
---- a/drivers/leds/flash/leds-ktd2692.c
-+++ b/drivers/leds/flash/leds-ktd2692.c
-@@ -284,9 +284,9 @@ static int ktd2692_parse_dt(struct ktd2692_context *led, struct device *dev,
- 		return ret;
- 	}
- 
--	led->aux_gpio = devm_gpiod_get(dev, "aux", GPIOD_ASIS);
--	ret = PTR_ERR_OR_ZERO(led->aux_gpio);
--	if (ret) {
-+	led->aux_gpio = devm_gpiod_get_optional(dev, "aux", GPIOD_ASIS);
-+	if (IS_ERR(led->aux_gpio)) {
-+		ret = PTR_ERR(led->aux_gpio);
- 		dev_err(dev, "cannot get aux-gpios %d\n", ret);
- 		return ret;
- 	}
--- 
-2.35.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
