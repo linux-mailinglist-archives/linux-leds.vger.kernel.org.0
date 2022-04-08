@@ -2,62 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4695B4F93E1
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 13:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A364F9AB0
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 18:34:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232080AbiDHLZy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Apr 2022 07:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52738 "EHLO
+        id S232006AbiDHQgJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 8 Apr 2022 12:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231779AbiDHLZp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 07:25:45 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B25179B21;
-        Fri,  8 Apr 2022 04:23:32 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id r13so16698019ejd.5;
-        Fri, 08 Apr 2022 04:23:31 -0700 (PDT)
+        with ESMTP id S231303AbiDHQgJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 12:36:09 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C849724959;
+        Fri,  8 Apr 2022 09:34:04 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id bu29so16107601lfb.0;
+        Fri, 08 Apr 2022 09:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cRoyXCmCEfHW6FbxD2a5gAxg2fHOPCI7K6xvLP7LBlY=;
-        b=OLcF3ugvB6AlRI055J9tJP1EjOYQdBpBT+XkuD7zndoJU11AGacmBG0mk67F36A7sV
-         /hFA2veApJ1HXhiYh86006TKDvYD4t+E2QlFKC9lCt7JnwjqYOKX1AeY57SseQhW8FA2
-         h/vVYNGtyuU++PyL6Mpo8/tsqUQx845T+UDGFMZifewrDlXr1ltR6c2pYS4KjTGVRnny
-         GqRV2E7BWxjpx8Y9KBKYV7zPxSRxGXZTcrfQADOJzyfKbY/Z2dIxNA+E54a+1qOhTQUp
-         F1dCghAsXSy1BL3OswS8qj7zWCPpRIBqHp5HhU/cnibFj0k7iK6cwSXitz9skmpzPL3m
-         KMqQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pz40nRgvhtcOeXUbzgyo9Hq14GrnezoaHqBr+KLvPIo=;
+        b=NOIUQsr6XphXreR0Ws3aESzt6zh125cSmmUwY+ZOQLs8O6OUb4qHsG8YTp+btiQw3S
+         v6ceYcQ66PpxMlfOA9B1O3YEAvx8LqrXvjN6NrTmrWZwhU/1a2ZrvKyW7SUbW0yDURXY
+         HnF7XNSUNEoPdwlHmVcIvjfGHoiTLwUppVoAIF8JJ/m1m5OTGpCjJ2+vbmLVB4Oo7j0T
+         CmqtGgqhDvLlsNNyJ2k1kc1CDRGTIG3z+BoLPnXJlrcyUGEQ8sy09gkm+XObgLA6h5Bm
+         5gU11d3p60aUF4HiOnVZ/Nc7BXIppHqC8hp5HLQZ9cavka/bgFdYIjMsmLV/5lhvSmKN
+         e11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cRoyXCmCEfHW6FbxD2a5gAxg2fHOPCI7K6xvLP7LBlY=;
-        b=Jz2fqYZ6Q5esfrkQb/yGRoBfw9S+kb5qfHrvnF9OqAii7L6Tv22OxljSIYDcNoL2YE
-         4hwIQ/zyDJ8Bs0P1lO+lb+dHaZNhmh5kd2a1+yl465UQlzEMUf+n1B7q+igk0IQrvbC2
-         BWW179u53taiVexR3gbkZR3lJ+LYW6kLU4IiTWZFR7qyx8wrJ3SM2F3HJRF89pBTx6zP
-         caRKmYxeg+8SHE/BYnKlf4K9MzUQyIU5+rAdaQkD5g1lscjmN9Voa6TJ3qlPKbHrnvFW
-         XJf5zkQhWg0u19VWUKLhlG24IRkvQwKNJORFFlEjbhYZ5/J+VGeDoSGTW6qyX5QzbrrH
-         L2Rg==
-X-Gm-Message-State: AOAM532+Zmc/B5HPmD4aFX3Te2bgIXb+VgaVE4gYh2b6KtEddutORG4R
-        vrZN1aYnEzV68yiRUesNoV8/4o3WLNTutine4hU=
-X-Google-Smtp-Source: ABdhPJykQNqDc7FaAjGw5x9RJlN7Ipzg84vVW8ik/7vJMM2bSnf0UwzV3g7qHKQy7+iLJ6yUnwC5p+UHpZTxxck2Pfw=
-X-Received: by 2002:a17:907:968e:b0:6db:aed5:43c8 with SMTP id
- hd14-20020a170907968e00b006dbaed543c8mr17927638ejc.636.1649417010579; Fri, 08
- Apr 2022 04:23:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pz40nRgvhtcOeXUbzgyo9Hq14GrnezoaHqBr+KLvPIo=;
+        b=n9WpLAR2eWd5ryIVGxKrH35c3/SDmCQoaB2ndBl/OOYJxOB1IvDtTTqhaMzUqHzRNW
+         0woyDHxcVw7MQ8+AW5Zpa74vTNmV+gONdu79pxTAvkjIA6m1AVOQHxBZyrzwLQ2B5f69
+         CkkdbXMCkBaDwsury9VJbQa38EVbMmyr7aR9nZngfUsnZMxsXhAS22n1iWuzdXwHLKUO
+         020Vb2Wtri4x35iOnViirzURmmwb1+5h7nxTd1KXHVgM5XPegHX9orpfdMdsp2DBk2wz
+         ldalk0CEfpuVlwygPfJJSnjuG3WkHo2vCGfw+brI0VmftYUwbrpgFKCy0D2pSeuS2uDO
+         F0sQ==
+X-Gm-Message-State: AOAM533+GINLp6m4eAHjrnFfoYlRN0gTsGH9Y/WuRMn8hNNAOoTaA9/2
+        eMpPse70oZWrEfmC2HLqzdC+4yu1wFs=
+X-Google-Smtp-Source: ABdhPJxq6jWHs4Q8uMOLnsxSSSKI55rbTZr/y0gclVa6MyldkPT7fEd3IQU521XN1VdJl8L7ZCJOIg==
+X-Received: by 2002:a05:6512:4002:b0:46b:8490:2ba3 with SMTP id br2-20020a056512400200b0046b84902ba3mr2565733lfb.632.1649435642808;
+        Fri, 08 Apr 2022 09:34:02 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id q4-20020a0565123a8400b0044a27a8c63asm2495403lfu.80.2022.04.08.09.34.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 09:34:02 -0700 (PDT)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v4 0/2] Make AUX gpio pin optional for ktd2692
+Date:   Fri,  8 Apr 2022 19:33:26 +0300
+Message-Id: <20220408163330.200898-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220407183941.36555-1-eajames@linux.ibm.com> <20220407183941.36555-3-eajames@linux.ibm.com>
-In-Reply-To: <20220407183941.36555-3-eajames@linux.ibm.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 8 Apr 2022 14:19:15 +0300
-Message-ID: <CAHp75VfcmhGitd6_6mDVG6_eE02sX2B3_iqZxeiX3iFDkmPShg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] leds: pca955x: Add HW blink support
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Joel Stanley <joel@jms.id.au>, patrick@stwcx.xyz
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -68,109 +71,36 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Apr 7, 2022 at 10:43 PM Eddie James <eajames@linux.ibm.com> wrote:
->
-> Support blinking using the PCA955x chip. Use PWM0 for blinking
-> instead of LED_HALF brightness. Since there is only one frequency
-> and brightness register for any blinking LED, track the blink state
-> of each LED and only support one HW blinking frequency. If another
-> frequency is requested, fallback to software blinking.
+Some appliances of ktd2692 don't have the AUX pin connected to
+a GPIO. Specifically, Samsung Galaxy J5 (2015), which uses ktd2692
+for driving the front flash LED, has the pin not connected anywhere on
+schematics. Make specifying the AUX pin optional, since it is additional
+functionality and only affects amount of current going through the LED.
 
-...
+Also convert the txt device-tree bindings to yaml and pick up maintenance
+over the yaml binding and the driver itself.
 
-> +#define PCA955X_BLINK_DEFAULT  1000
+v2:
+- fix the dt_binding_check
+v3:
+- set the aux_gpio to NULL to avoid passing ERR_PTR as a gpio
+v4:
+- maintainership -> maintenance (description)
+- remove the if (led->aux_gpio)
+- use devm_gpiod_get_optional for aux gpio
 
-What's the unit of this number?
+Markuss Broks (2):
+  dt-bindings: leds: convert ktd2692 bindings to yaml
+  leds: ktd2692: Make aux-gpios optional
 
-...
-
->   * Write to frequency prescaler register, used to program the
-> - * period of the PWM output.  period = (PSCx + 1) / 38
-> + * period of the PWM output.  period = (PSCx + 1) / <38 or 44, chip dependent>
-
-Using <> in  formulas a bit confusing, what about
-
- * period of the PWM output.  period = (PSCx + 1) / coeff
- * where for ... chips coeff = 38, for ... chips coeff = 44.
-
-?
-
-...
-
-> +               dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n",
-> +                       __func__, n, ret);
-
-Can be indented better. But I would rather see regmap, where this kind
-of debugging is for free and already present in the regmap core/.
-
-...
-
-> +static u8 pca955x_period_to_psc(struct pca955x *pca955x, unsigned long p)
-> +{
-> +       p *= (unsigned long)pca955x->chipdef->blink_div;
-
-Why casting?
-
-> +       p /= 1000;
-
-Does this 1000 have a meaning? (see units.h and other headers with
-time / frequency multiplier definitions).
-
-> +       p -= 1;
-
-> +       return (u8)p;
-
-Redundant casting.
-
-> +}
-
-> +static unsigned long pca955x_psc_to_period(struct pca955x *pca955x, u8 psc)
-> +{
-> +       unsigned long p = (unsigned long)psc;
-> +
-> +       p += 1;
-> +       p *= 1000;
-> +       p /= (unsigned long)pca955x->chipdef->blink_div;
-> +
-> +       return p;
-
-Similar questions here.
-
-> +}
-
-...
-
-> +       if (!p) {
-
-Why not use a positive conditional?
-
-> +               p = pca955x->active_blink ? pca955x->blink_period :
-> +                       PCA955X_BLINK_DEFAULT;
-> +       } else {
-> +               if (*delay_on != *delay_off) {
-> +                       ret = -EINVAL;
-> +                       goto out;
-> +               }
-> +
-> +               if (p < pca955x_psc_to_period(pca955x, 0) ||
-> +                   p > pca955x_psc_to_period(pca955x, 0xff)) {
-> +                       ret = -EINVAL;
-> +                       goto out;
-> +               }
-> +       }
-
-...
-
-> +       if (!keep_psc0) {
-
-Ditto.
-
-> +               psc0 = pca955x_period_to_psc(pca955x, pca955x->blink_period);
-> +               err = pca955x_write_psc(pca955x, 0, psc0);
-> +       } else {
-> +               err = pca955x_read_psc(pca955x, 0, &psc0);
->         }
+ .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
+ .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
+ MAINTAINERS                                   |  6 ++
+ drivers/leds/flash/leds-ktd2692.c             | 18 ++--
+ 4 files changed, 103 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.35.1
+
