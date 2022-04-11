@@ -2,83 +2,174 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BBAA4F9E7B
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Apr 2022 22:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 550B24FC03E
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Apr 2022 17:19:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234343AbiDHVBr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Apr 2022 17:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41892 "EHLO
+        id S1347630AbiDKPUc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Apr 2022 11:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiDHVBq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Apr 2022 17:01:46 -0400
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74152C38;
-        Fri,  8 Apr 2022 13:59:41 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-d6ca46da48so10958249fac.12;
-        Fri, 08 Apr 2022 13:59:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mgIV08Nzu1AulSexKN4gF1Bv7Djf0q021L8PdHI29+k=;
-        b=0KDYXMJLORdgfiJ2GSIMXR3iq+8/3pEDfPegG5VGgNXMEQtLBpwkQ4gyrW9hRDxZtf
-         BSzMK+ZFzex3faRoyjxnXO2/EgdtwSa0ujcZZDYz34ZpZ2IiNYrbTjQxk1xDUouoemMO
-         FoxmISOqpid4ktfaR2xKOI1Yalm+2Ye4xaRyIwY3y/i6rhKO5Ok9cbQcU1IbsAgZ/K34
-         E446v+D343LArxGbfV5KnHbubwsiLGJexAUo/+ZCIqZ2r2ImOImLOmh+VMsCGzT5zARK
-         KWNtXjdp5/2ZAx8/6aPiaT4d/GSF9M9p5anOCiOsHI51lqY4cE81kGWLgEYzJI7cEv2t
-         9G/Q==
-X-Gm-Message-State: AOAM530+YgFTXTl33d8CAwKCaBOO/XyB7I1PjuEXM4NJvzWuFVXLXl/W
-        E8waMYiKjoFKx7JZ5JKdHELruaPYMw==
-X-Google-Smtp-Source: ABdhPJxHqBYnOljjlPwoSREFiVsVGDcfYviUYhyu+neONh6XlOy5IYfgmJpr6obbximEBUAHpbNLjw==
-X-Received: by 2002:a05:6870:a1a8:b0:e2:182d:6375 with SMTP id a40-20020a056870a1a800b000e2182d6375mr9625671oaf.247.1649451580743;
-        Fri, 08 Apr 2022 13:59:40 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x18-20020a056830245200b005ce01c28c77sm9417283otr.1.2022.04.08.13.59.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 13:59:40 -0700 (PDT)
-Received: (nullmailer pid 4052959 invoked by uid 1000);
-        Fri, 08 Apr 2022 20:59:39 -0000
-Date:   Fri, 8 Apr 2022 15:59:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        phone-devel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Pavel Machek <pavel@ucw.cz>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] dt-bindings: leds: convert ktd2692 bindings to
- yaml
-Message-ID: <YlCiO3hfTtzJwq5H@robh.at.kernel.org>
-References: <20220408184104.13665-1-markuss.broks@gmail.com>
- <20220408184104.13665-2-markuss.broks@gmail.com>
+        with ESMTP id S1347736AbiDKPTv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Apr 2022 11:19:51 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EAA23BA6D;
+        Mon, 11 Apr 2022 08:17:28 -0700 (PDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23BDmdct030005;
+        Mon, 11 Apr 2022 15:17:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Wexj+HWaU6vLgwDQsWYPJ9KbhO7qyvQywXRQlLh7xZQ=;
+ b=PUhFJyGhVUumL20txeq+D3t211cps4xMKEoaQdgM7zyqcL1DwYsW8vgqIJiMx8x1hf3N
+ PNy0xCge11WmIBN6RHGu0sV+TmvmzF7hbinYlhf8j0RmoA2bIdTssDpLVUETuZ9gi1fV
+ JRTZn9nUPEitZHSn2jpohJtJBIDhbI4Pf1ZbuDVeMMWkYjVsgrbdgS2RTqYQRuiaPzCl
+ IgMvazlXeeF77GJ7NyVi165Enk7oH8dd4jJ504v8i5AAjywUcxu6zFEIlbAuHZBtsOfx
+ lVzSS5fM28heXvq5hvRuZ7vUwVUMPoXL4LeFf9seZgqBC2ddpeRAmlx7C7Q0elnh3YAo TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fcks94qdw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Apr 2022 15:17:18 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23BFHHSe015571;
+        Mon, 11 Apr 2022 15:17:17 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fcks94qdj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Apr 2022 15:17:17 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23BFDH0G014511;
+        Mon, 11 Apr 2022 15:17:16 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+        by ppma01dal.us.ibm.com with ESMTP id 3fb1s94pw4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 11 Apr 2022 15:17:16 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23BFHFrk25100724
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 11 Apr 2022 15:17:16 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DECAAAE064;
+        Mon, 11 Apr 2022 15:17:15 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3F347AE062;
+        Mon, 11 Apr 2022 15:17:15 +0000 (GMT)
+Received: from [9.211.106.206] (unknown [9.211.106.206])
+        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 11 Apr 2022 15:17:15 +0000 (GMT)
+Message-ID: <47f566cc-bdff-0f4f-557d-b069100911c3@linux.ibm.com>
+Date:   Mon, 11 Apr 2022 10:17:14 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408184104.13665-2-markuss.broks@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/2] leds: pca955x: Clean up and optimize
+Content-Language: en-US
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Joel Stanley <joel@jms.id.au>, Pavel Machek <pavel@ucw.cz>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+References: <20220407183941.36555-1-eajames@linux.ibm.com>
+ <20220407183941.36555-2-eajames@linux.ibm.com>
+ <CAHp75VedZdEYB-BjJTVaKJgPwQ9a1DhTp=MYsrh1Ve9Eyfnytw@mail.gmail.com>
+From:   Eddie James <eajames@linux.ibm.com>
+In-Reply-To: <CAHp75VedZdEYB-BjJTVaKJgPwQ9a1DhTp=MYsrh1Ve9Eyfnytw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: etKwe3NLEd6Z7glho5IQ0QJNxjw7N1i4
+X-Proofpoint-ORIG-GUID: KVAdM8862jJhTOXTU87YJCBjxK3RL8sv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-11_06,2022-04-11_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=535 mlxscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204110083
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H4,
         RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 08 Apr 2022 21:40:54 +0300, Markuss Broks wrote:
-> This patch converts the leds-ktd2692.txt bindings to modern yaml
-> style device-tree bindings.
-> 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> ---
->  .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
->  .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
->  2 files changed, 87 insertions(+), 50 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 4/8/22 06:11, Andy Shevchenko wrote:
+> On Thu, Apr 7, 2022 at 10:42 PM Eddie James <eajames@linux.ibm.com> wrote:
+>> Clean up the I2C access functions to avoid fetching the pca955x
+>> driver data again. Optimize the probe to do at most 4 reads and
+>> 4 writes of the LED selector regs, rather than 16 of each.
+>> Rename some functions and variables to be more consistent and
+>> descriptive.
+> Separate patch.
+
+
+Ack.
+
+
+
+>
+>> +               dev_err(&pca955x->client->dev,
+>> +                       "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n, val,
+>> +                       ret);
+> This can be indented better.
+>
+> I would add a temporary dev pointer variable and put this on one line.
+>
+>   struct device *dev = &pca955x->client->dev;
+>
+>                 dev_err(dev, "%s: reg 0x%x, val 0x%x, err %d\n",
+> __func__, n, val, ret);
+
+
+Hm, I still end up having to use two lines for the dev_err function, so 
+not sure it's worth it?
+
+
+>
+> ...
+>
+>> +               dev_err(&pca955x->client->dev,
+>> +                       "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n, val,
+>> +                       ret);
+> Ditto.
+>
+> ...
+>
+>> +               dev_err(&pca955x->client->dev,
+>> +                       "%s: reg 0x%x, val 0x%x, err %d\n", __func__, n, val,
+>> +                       ret);
+> Ditto.
+>
+> ...
+>
+>> +               dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n",
+>>                          __func__, n, ret);
+> Ditto.
+>
+> ...
+>
+>> +               dev_err(&pca955x->client->dev, "%s: reg 0x%x, err %d\n",
+>>                          __func__, n, ret);
+> Ditto.
+>
+> ...
+>
+>> +       struct pca955x_led *pca955x_led = container_of(led_cdev,
+>> +                                                      struct pca955x_led,
+>> +                                                      led_cdev);
+> Is it used once? If more than once, consider a helper for that as well.
+
+
+Ack.
+
+
+Thanks for the review!
+
+Eddie
+
+>
