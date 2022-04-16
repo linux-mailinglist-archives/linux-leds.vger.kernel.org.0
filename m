@@ -2,83 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E04FD50085E
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Apr 2022 10:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA733503500
+	for <lists+linux-leds@lfdr.de>; Sat, 16 Apr 2022 09:52:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237140AbiDNIbq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Apr 2022 04:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39204 "EHLO
+        id S230204AbiDPHww (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 16 Apr 2022 03:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236836AbiDNIbp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Apr 2022 04:31:45 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3228E0D;
-        Thu, 14 Apr 2022 01:29:20 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 6349D1C0B88; Thu, 14 Apr 2022 10:29:17 +0200 (CEST)
-Date:   Thu, 14 Apr 2022 10:29:16 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Velumani T <velumani.t@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patrick@stwcx.xyz
-Subject: Re: Multi-color LED framework
-Message-ID: <20220414082916.GA6514@amd>
-References: <CAEHFT+o-wv=5AUrzwYDR5t4fA4vDJW8QY2SCpteNYrq6nYB2ZQ@mail.gmail.com>
- <CAEHFT+rq_Pn9Y+38ZBptCDpEUUtKL5RYGUh2gmySXtjQefLG8g@mail.gmail.com>
+        with ESMTP id S230250AbiDPHwZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 16 Apr 2022 03:52:25 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A763FFFBA
+        for <linux-leds@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id r66so10092330pgr.3
+        for <linux-leds@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
+         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
+         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
+         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
+         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
+         XtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=Glg2P9e6rSs6Km1Tr5IiJbF6F3BAQjAKRp32WVM16U9OPq73hiDVKh3h+5gGM0GfMO
+         rKOQwhfFePmVw7Pci6GNU9KvAuhPnzxow4PURtXUlFHD8vbEsGNZfLMNMHsbTU/oOHN9
+         ri7nMbpATEnP7cNeEvbzVlYy+uAbiMAWVzAy0mIiX+k/fP1mlbdSLarI6LHSbEvIbWNP
+         ggo/Qj8Tql8V76nyfM+KFa3fmWQBr7eA5WEl9QAzNRH9X7DX5zPcdzveckiWjo1D42l+
+         THWH8jMhsVWLFKyZ6wuz61+yNTZEbzd6wis6VzExrhHGrL/4Mr0/8mvftDtj2EkVIjzK
+         b7eg==
+X-Gm-Message-State: AOAM532dFjR/RcsEcQTF4I9tGuzgKdL8MravFftSGDF1tvJcsg11HGOZ
+        YVhLRPjsqMb50rns0Y5o3Nx31udR0b9Oif+X75COFolBp6g=
+X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
+X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
+ q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
+ Apr 2022 00:49:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
-Content-Disposition: inline
-In-Reply-To: <CAEHFT+rq_Pn9Y+38ZBptCDpEUUtKL5RYGUh2gmySXtjQefLG8g@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
+ -0700 (PDT)
+Reply-To: daniel.seyba@yahoo.com
+From:   Seyba Daniel <royhalton13@gmail.com>
+Date:   Sat, 16 Apr 2022 09:49:26 +0200
+Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:544 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [royhalton13[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [royhalton13[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello,
 
---/9DWx/yDrRhgMJTb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am so sorry contacting you in this means especially when we have never
+met before. I urgently seek your service to represent me in investing in
+your region / country and you will be rewarded for your service without
+affecting your present job with very little time invested in it.
 
-Hi!
+My interest is in buying real estate, private schools or companies with
+potentials for rapid growth in long terms.
 
-> I have a question about the multi-color LED driver, Is the multicolor
-> driver implementation specific to the RGB color integration?
->=20
-> If yes, is there a way I can use static color LEDs with this driver
-> framework making changes to have this as enhancement?
->=20
-> In my case we have blue and yellow color static LEDs connected in
-> GPIO, I need to choose the color from the application and the LED
-> shall glow based on the application configuration.
+So please confirm interest by responding back.
 
-Why sending the mail twice?
+My dearest regards
 
-Multicolor framework should be able to work with that, but if LEDs are
-just on/off it may be a bit of overkill.
-
-Best regards,
-
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---/9DWx/yDrRhgMJTb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmJX21wACgkQMOfwapXb+vLmwQCfZ0oM+UVmf1tVipxuEz2yEkvg
-nB4AoL1uA5u/yvx7H0J7MjmR5rkPLh8+
-=w1M+
------END PGP SIGNATURE-----
-
---/9DWx/yDrRhgMJTb--
+Seyba Daniel
