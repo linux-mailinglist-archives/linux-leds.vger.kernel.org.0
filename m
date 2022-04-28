@@ -2,108 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3AC5134BE
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 15:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F66B513592
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 15:45:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346992AbiD1NUc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Apr 2022 09:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
+        id S1347605AbiD1NsZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Apr 2022 09:48:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346944AbiD1NUT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 09:20:19 -0400
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B8E5C85D;
-        Thu, 28 Apr 2022 06:17:04 -0700 (PDT)
-Received: by mail-oi1-f182.google.com with SMTP id l203so5335608oif.0;
-        Thu, 28 Apr 2022 06:17:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2KX0k1wrXX43D5TeLkqocszqE72U0xXm9eQIEdaCUbE=;
-        b=TgY5XBw5uqMfXtjMf9sYoal5HTrNfcmvw4StcnpzzB0rDlRM45ZMcSDfPOKmgQTUjQ
-         hPGz2xRhQn6EZt0Sp+F3f+bZHH5hburNjsjxkVLrLYejteID6EgeD08ceI9NzeoFmbQA
-         skGVhl790JO4uD/JjOUx+t6ourfAKFAkT+efo2mC/Ohh3UToye5wqL9LqTbSti5NwFjy
-         fGqjOmWAV2oMt63uQeByzICkDc1w05coNbBQoBTU2LsewXi8dIPNBjZs5Yd+behASMB8
-         8UtjZW99RQcyyrLBj8/cK9EW8v7cD2z8N5WTxfDda43d0atYjjEvVkGIWQJ690+8/Qrd
-         ZupQ==
-X-Gm-Message-State: AOAM532fWHsXpUkXv9rmqVs1tdtdD/cxmzkv/ZUtAwI0mvVS38GL/FJC
-        FWAFOp/yOVl8tte2V4D23g==
-X-Google-Smtp-Source: ABdhPJz/d8BYWGUSJp+sBgndd/ngWTLW1+V3dbP8Dggh5IlPgtUXaU65s/zWtk3vrKBC101akso2uw==
-X-Received: by 2002:a05:6808:2021:b0:322:ba69:53d2 with SMTP id q33-20020a056808202100b00322ba6953d2mr19985135oiw.22.1651151823956;
-        Thu, 28 Apr 2022 06:17:03 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id dt48-20020a0568705ab000b000e686d13875sm1825089oab.15.2022.04.28.06.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 06:17:03 -0700 (PDT)
-Received: (nullmailer pid 2082134 invoked by uid 1000);
-        Thu, 28 Apr 2022 13:17:02 -0000
-Date:   Thu, 28 Apr 2022 08:17:02 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        krzysztof.kozlowski+dt@linaro.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>,
-        ChiYuan Huang <cy_huang@richtek.com>
-Subject: Re: [PATCH 2/2] dt-bindings: mfd: Add bindings for the Mediatek
- MT6360
-Message-ID: <YmqTzlrVL5KaVPuz@robh.at.kernel.org>
-References: <20220427080330.40136-1-gene.chen.richtek@gmail.com>
- <20220427080330.40136-3-gene.chen.richtek@gmail.com>
- <YmmQpg/Hh6qTNhj2@robh.at.kernel.org>
- <CAE+NS34SawC_pdTm=eDmp6zq1zLZgEaA+_s_xZOc4LuFHDV1iQ@mail.gmail.com>
+        with ESMTP id S1347594AbiD1NsX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 09:48:23 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613661009;
+        Thu, 28 Apr 2022 06:45:07 -0700 (PDT)
+Received: from mail-yw1-f172.google.com ([209.85.128.172]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Mbj7g-1oHTX51Pwc-00dBzt; Thu, 28 Apr 2022 15:45:05 +0200
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f16645872fso53520157b3.4;
+        Thu, 28 Apr 2022 06:45:04 -0700 (PDT)
+X-Gm-Message-State: AOAM531rqS3TMANA9dj5PbXHgYaYSabwGuCiqYz/vsc+5F15FvO6r45T
+        WzYb45HYkZmr2LEKIEQie8lnR4wtPfawCBHHv8E=
+X-Google-Smtp-Source: ABdhPJzhKdbLezBOw+onlWys2HjSNrb5hSb6f6j0ogYNPd9ax1npbHyo1Y6CrpuYIOWED3Pgr1SGQ4YvAKDaJmP/tmM=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr33063062ywf.347.1651153503029; Thu, 28
+ Apr 2022 06:45:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE+NS34SawC_pdTm=eDmp6zq1zLZgEaA+_s_xZOc4LuFHDV1iQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20220419163810.2118169-1-arnd@kernel.org> <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net> <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net> <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net> <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net> <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+In-Reply-To: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 28 Apr 2022 15:44:47 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Message-ID: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:FlIDVPKXj9nzRwbk/wtccBdWDayg3PeTGiQuZ0/K42Bc7lGmPdy
+ zssQcyDZ/DvWHSLnMLZ2c9c0/R8//Ct6Le7VOKueD5Qrh1XSkN/immCrCQM54OpPKR7UGyt
+ rQR8FQFtM5HLTQupvDTlwrysBtqfjlwTZD25pEF/Z42s6fyHy6hxD7eWpHSPUujdYwhn8pQ
+ hp2z24g1g13nAlk8lrHHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bRWqGE+N+ZY=:1iRjrIl6V157UK5O78TAoc
+ 5W5zmo/RxHt6piZZQJR7bHPk8veJW7G/eD5jO6ABZaX8NSxlHXJ4TP5x5uFoaOWveTMuY2YNB
+ E/S7IJzqQcjMpAVq0rBO649N779tX8wy6iezjQHdAX7O/6l7dHbxrLeGuJGtVvy5SPmFPsnuF
+ 7hnbUhs94zbUsLMYQRcLlnGNptZ7bFxfi+PlNYB3jQQh0+wXdJS+P/EHPJK8UZHs5BjQBv+Qa
+ EX048TdTH+63xTL5zzrwgKZLFucF2PiHs68Y/WDhFOvULFD5XwxnpC8QYME42zx9V0NjnR5nN
+ Zars/a9a2hpnBBVlPLxle2k0Ttww//0frPo+wnR8G+aU3Z16D9IvAlHwSrOB4KMSHfQcLKCXw
+ tPZA1Y7PpVtBkQv7lmHrlSCe1xcRYAXOza/mWm2Xjc8xgk76wXvHvzBr1oDGBEonkVw+bOSVk
+ vREnB57Ovs/1UlfpUFpyy1eB8Q7JaktAGlKXASPtn19bnV5rt2G4I4ntfhaJQgAmDnlzlZpC5
+ Evd5+7v4S1X/iOOX+m+Ahkho8f4fM1ugsUVvQaHKOghqQBb6nN0eAvrdXIURg56QmTfn7UwPn
+ N0bxJ5G7FH8Br9CiO+tOZBKs/TdaV+aEaEj9KMO4yP5VYEF6IpBEitkf9ifUTwFwihqSEjEM8
+ bFcGWSSCC9/0KLlTg8Gh5+db6LA5cg7itMKXDE5C7XsBAI9Hm3mx1p5yWo7HLHsbXHmzeASA2
+ rpwe5iV2gi/30EyX8gsnnoe4xEtOTZhUuWGdwxWCA0Vb4Q0oLDG+gyWlREBg6vyV7SR9Ag7iE
+ yckvS97oNG9rtf98GBy9xysVb2+4/y8JObMv6+5+lQPd284ay4=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Apr 28, 2022 at 05:30:38PM +0800, Gene Chen wrote:
-> Rob Herring <robh@kernel.org> 於 2022年4月28日 週四 上午2:51寫道：
-> >
-> > On Wed, Apr 27, 2022 at 04:03:30PM +0800, Gene Chen wrote:
-> > > From: Gene Chen <gene_chen@richtek.com>
+On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> > On 4/24/22 01:52, Arnd Bergmann wrote:
+> > > On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > > into the defconfig file, otherwise the multiplatform target defaults to
+> > > an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+> > > you also need to enable CONFIG_ARCH_MULTI_V4T.
 > > >
-> > > Add bindings for the Mediatek MT6360
+> > > This is slightly unfortunate, but I don't see any way to avoid it, and the
+> > > modified defconfig will still work fine with older kernel trees.
 > > >
-> > > Signed-off-by: Gene Chen <gene_chen@richtek.com>
-> > > ---
-> > >  .../devicetree/bindings/mfd/mt6360.yaml       | 258 ++++++++++++++++++
-> > >  1 file changed, 258 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/mfd/mt6360.yaml
 > >
-> > As I mentioned, I applied your previous version. Please send a patch on
-> > top of it adding the child nodes.
-> >
-> > Rob
-> 
-> Hi Rob,
-> 
->     I try to sync latest code and can't find the mt6360 led fixed patch.
->     Could you please tell me how to get and apply previous version?
->     And should I add a tags in commit message to tell which previous
-> commit I based on?
+> > Yes, that works. I changed it in my configuration.
+>
+> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+> and it gets around the issue with my patch, correctly detecting the
+> CF card.
 
-The led fix is in my dt/linus branch and today's linux next.
+Hi Guenter,
 
-The mfd patch is in my dt/next branch.
+I have now sent out a fix that I'm happy with, and applied it to the
+pxa-multiplatform-5.18 branch of the soc tree as well as the
+combined arm/multiplatform tree.
 
-Rob
+I have not merged this new version into the for-next branch
+since I would like to see if there are any other regressions first.
+
+Can you run your boot tests on the arm/multiplatform branch
+and let me know if that fixes everything you found? If that
+takes a lot of manual steps on your side, I'd just wait for the
+build bots and merge it after all there are no new compile-time
+issues.
+
+       Arnd
