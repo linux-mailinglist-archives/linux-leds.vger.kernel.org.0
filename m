@@ -2,191 +2,159 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3E38513A11
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 18:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15455513A5A
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 18:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349984AbiD1Qpz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Apr 2022 12:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
+        id S1350359AbiD1Qw5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Apr 2022 12:52:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349900AbiD1Qpy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 12:45:54 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24149B1A94
-        for <linux-leds@vger.kernel.org>; Thu, 28 Apr 2022 09:42:39 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id g6so10734533ejw.1
-        for <linux-leds@vger.kernel.org>; Thu, 28 Apr 2022 09:42:39 -0700 (PDT)
+        with ESMTP id S1344849AbiD1Qw4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 12:52:56 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B05B53E6;
+        Thu, 28 Apr 2022 09:49:41 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-e5e433d66dso5707062fac.5;
+        Thu, 28 Apr 2022 09:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AkQQpoM0XqeDnroSElMP8/Xsy0E3kSoEUlYeB6Pe/vk=;
-        b=bz9fRRT9A06VnWM5YCZauEp8rMIqhBhq2O7w/BgDv9VGUkM2g91QDtmNKbe1n5q1MA
-         Tvsv1uTCi1B4r8TCbe1VoL9OfXhKYuFI5QdlV7vebCaH7JcLINfuTmlGeWDZY+XnVHiH
-         C05m7IossFyNWXyN2z3+Kp946vNEWL8tnJUn8=
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
+        b=OkCy3r1S0ZpJd0xw0VfvdODlVptYGtGD/s68vjFfu+cv5VfksDwVTELspFMjzyqn2l
+         o3HoJm03XsZQdwbEbRWjI+Lb63jSRMQLNDN7FFeOkhyetGmz/gAbkEhkV3TcaKgGRG82
+         vuwvRZEQI4XV6kVyb9AK1+aJWoE9PIAQbe2raaE3M+WY6coymTsE71a+p721Tp/oJ1tu
+         En+rQbHzGa1KawncckJtHDkTWA14zP+YTiLHoNAAclpt3pPZZQzCVaSg0pgbdjB43usw
+         AxIfxdOHjkKVb6pAsbdhR1cE59eZyAmq6cI4Gd58mfC+2jQzc1Zta0D378ut2yf8lfbd
+         NqrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AkQQpoM0XqeDnroSElMP8/Xsy0E3kSoEUlYeB6Pe/vk=;
-        b=xDlLILIB0wSDMME4NInWL4hGdyj/zG+TBqAtJ9WOM7Ev25zEz2MRggLX38cICdt4wr
-         WLb3z/eLe8u/xDfj4NKJGNU4npgmg7nOwIquL5wp6YJKxypJmlbk05uR6KY4D2Lgj+uL
-         1Iv/H+XUuG82FbsQbk15u5F0BP7PL2gWSU1pW2c/ML7p1baYLkDSV3xyuHPz5QNk/dnT
-         vzF3RsXJidv3lv5wCGA7qD62G1pn/ixbrQmkfcS1PaZz66e3QrMruohT7s8Turc/DqIW
-         8BYRoNdTotIazZ6/mmm7MyAXy3qPSaNBsHsWCXBCfyCKA9mfulPOguY9kqN/i25rQMV5
-         kdew==
-X-Gm-Message-State: AOAM533IUa6HZq0pcdD704UK3Tnovl+Px0mAR33f3YsF2OXur10lJ2rz
-        +sMgKv7SSX2JK8oA29BNgUllY4Os+/PAeAWg
-X-Google-Smtp-Source: ABdhPJyUWKdLSAcRgcgh1ygbEDtKzksJ1BCAEUKW6qM8jyT2JJRSGr3Un9ULd1Qoz/LE2PTxskLW/Q==
-X-Received: by 2002:a17:907:168a:b0:6da:9167:47dc with SMTP id hc10-20020a170907168a00b006da916747dcmr32114841ejc.126.1651164157718;
-        Thu, 28 Apr 2022 09:42:37 -0700 (PDT)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id dc16-20020a170906c7d000b006f391eafd1esm185632ejb.67.2022.04.28.09.42.36
-        for <linux-leds@vger.kernel.org>
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
+        b=dOwkGtw9dzdMd240ouokfJ4dl8tjhaloPKw1nqE++5hoRiCFTpENqlsfi1mg3Ls4wI
+         xNnEZM1iKXU53rnxp3MocydBbnoFRWtpSI0zT45CGCsgJhQwFQQtfIADkMfUemDBG8DU
+         pscUPvNhybZQ2ZqjUTFqi201/nbeOLGbjKP0IFH6JwbBmX+LOCb31UFAgn9JPHJ9bDRp
+         7bbHsthT0/ioa6oB7tDeBKTR6U/rZaMZjpk803fdXhybT2D5ZmpkmPQdqjAzPAKLvhkO
+         tOeIpK7DHaG5QmPgvwEAFlBAKlEHsd0+SxqzEwZBitZ8AUMcFZi0DgmkVooUr8TdPkpE
+         ZPZA==
+X-Gm-Message-State: AOAM533GaflZGPmbY4D3fPd7Q2nhlECfkZgiV8DzhzGR90HRc0jbmLDc
+        5K+CiJ64HwZsPVWUYcNN5OQ=
+X-Google-Smtp-Source: ABdhPJzrsKYpUtqCt/iZ06NVVnsLxq83abuM+0rz/PmqCRR+0Jas/OQpo6w5mfl9KOVI8b7KjTk3bw==
+X-Received: by 2002:a05:6870:3289:b0:e9:1a82:c010 with SMTP id q9-20020a056870328900b000e91a82c010mr11417956oac.25.1651164580861;
+        Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p17-20020a4a3651000000b0035d9b838f21sm205539ooe.10.2022.04.28.09.49.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 09:42:37 -0700 (PDT)
-Received: by mail-wm1-f51.google.com with SMTP id bi24-20020a05600c3d9800b00393ff664705so3342386wmb.4
-        for <linux-leds@vger.kernel.org>; Thu, 28 Apr 2022 09:42:36 -0700 (PDT)
-X-Received: by 2002:a05:600c:3d0e:b0:38f:f83b:e7dc with SMTP id
- bh14-20020a05600c3d0e00b0038ff83be7dcmr40096910wmb.29.1651164156093; Thu, 28
- Apr 2022 09:42:36 -0700 (PDT)
+        Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <dd3ac1fa-67c2-8bdf-f275-9210a9e23054@roeck-us.net>
+Date:   Thu, 28 Apr 2022 09:49:36 -0700
 MIME-Version: 1.0
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org> <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
- <CAD=FV=Xa4wW2AH1RzwQRiTZt__Eptr2+Li5SmfZyUjTvNTkOcA@mail.gmail.com>
-In-Reply-To: <CAD=FV=Xa4wW2AH1RzwQRiTZt__Eptr2+Li5SmfZyUjTvNTkOcA@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 28 Apr 2022 09:42:22 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U1jGdZiqu4ADo6ZDuMfhsLrvZyX9ab4KtJZoxwgj4oeA@mail.gmail.com>
-Message-ID: <CAD=FV=U1jGdZiqu4ADo6ZDuMfhsLrvZyX9ab4KtJZoxwgj4oeA@mail.gmail.com>
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-pwm <linux-pwm@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+In-Reply-To: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
+On 4/28/22 06:44, Arnd Bergmann wrote:
+> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>> On 4/24/22 01:52, Arnd Bergmann wrote:
+>>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> into the defconfig file, otherwise the multiplatform target defaults to
+>>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+>>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
+>>>>
+>>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
+>>>> modified defconfig will still work fine with older kernel trees.
+>>>>
+>>>
+>>> Yes, that works. I changed it in my configuration.
+>>
+>> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+>> and it gets around the issue with my patch, correctly detecting the
+>> CF card.
+> 
+> Hi Guenter,
+> 
+> I have now sent out a fix that I'm happy with, and applied it to the
+> pxa-multiplatform-5.18 branch of the soc tree as well as the
+> combined arm/multiplatform tree.
+> 
+> I have not merged this new version into the for-next branch
+> since I would like to see if there are any other regressions first.
+> 
+> Can you run your boot tests on the arm/multiplatform branch
+> and let me know if that fixes everything you found? If that
+> takes a lot of manual steps on your side, I'd just wait for the
+> build bots and merge it after all there are no new compile-time
+> issues.
+> 
 
-On Wed, Apr 6, 2022 at 8:18 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi Pavel,
->
-> On Thu, Mar 3, 2022 at 2:10 PM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Thu, Mar 3, 2022 at 1:41 PM Bjorn Andersson
-> > <bjorn.andersson@linaro.org> wrote:
-> > >
-> > > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> > > PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-> > > with their output being routed to various other components, such as
-> > > current sinks or GPIOs.
-> > >
-> > > Each LPG instance can operate on fixed parameters or based on a shared
-> > > lookup-table, altering the duty cycle over time. This provides the means
-> > > for hardware assisted transitions of LED brightness.
-> > >
-> > > A typical use case for the fixed parameter mode is to drive a PWM
-> > > backlight control signal, the driver therefor allows each LPG instance
-> > > to be exposed to the kernel either through the LED framework or the PWM
-> > > framework.
-> > >
-> > > A typical use case for the LED configuration is to drive RGB LEDs in
-> > > smartphones etc, for which the driver supports multiple channels to be
-> > > ganged up to a MULTICOLOR LED. In this configuration the pattern
-> > > generators will be synchronized, to allow for multi-color patterns.
-> > >
-> > > The idea of modelling this as a LED driver ontop of a PWM driver was
-> > > considered, but setting the properties related to patterns does not fit
-> > > in the PWM API. Similarly the idea of just duplicating the lower bits in
-> > > a PWM and LED driver separately was considered, but this would not allow
-> > > the PWM channels and LEDs to be configured on a per-board basis. The
-> > > driver implements the more complex LED interface, and provides a PWM
-> > > interface on the side of that, in the same driver.
-> > >
-> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > ---
-> > >
-> > > Changes since v13:
-> > > - Fixed mixed space/tab indentation in documentation
-> > > - Added 0 as to lpg_clk_rates[] to match the hardware state, to avoid + 1 in
-> > >   lpg_apply_freq() and - 1 in lpg_pwm_get_state()
-> > > - Don't divide with 0 if current clock is 0 in lpg_pwm_get_state(), just return
-> > >   period = duty = 0 in this case
-> > > - Renamed "clk" in struct lpg_channel to clk_sel
-> > > - Renamed "pre_div" in struct lpg_channel to pre_div_sel
-> > >
-> > > Changes since v12:
-> > > - Initialize ret in lpg_pwm_apply()
-> > >
-> > > Changes since v11:
-> > > - Extended commit message to cover decision to put pwm_chip in the LED driver
-> > > - Added Documentation, in particular for the hw_pattern format
-> > > - Added a lock to synchronize requests from LED and PWM frameworks
-> > > - Turned out that the 9bit selector differs per channel in some PMICs, so
-> > >   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
-> > > - Fixed kerneldoc for the struct device pointer in struct lpg
-> > > - Rewrote conditional in lut_free() to make it easier to read
-> > > - Corrected and deduplicated max_period expression in lpg_calc_freq()
-> > > - Extended nom/dom to numerator/denominator in lpg_calc_freq()
-> > > - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
-> > > - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for reading the
-> > >   same in get_state()
-> > > - Cleaned up the pattern format, to allow specifying both low and high pause
-> > >   with and without pingpong mode.
-> > > - Only update frequency and pwm_value if PWM channel is enabled in lpg_pwm_apply
-> > > - Make lpg_pwm_get_state() read the hardware state, in order to pick up e.g.
-> > >   bootloader backlight configuration
-> > > - Use devm_bitmap_zalloc() to allocate the lut_bitmap
-> > > - Use dev_err_probe() in lpg_probe()
-> > > - Extended Kconfig help text to mention module name and satisfy checkpatch
-> > >
-> > >  Documentation/leds/leds-qcom-lpg.rst |   76 ++
-> > >  drivers/leds/Kconfig                 |    3 +
-> > >  drivers/leds/Makefile                |    3 +
-> > >  drivers/leds/rgb/Kconfig             |   18 +
-> > >  drivers/leds/rgb/Makefile            |    3 +
-> > >  drivers/leds/rgb/leds-qcom-lpg.c     | 1405 ++++++++++++++++++++++++++
-> > >  6 files changed, 1508 insertions(+)
-> >
-> > Gets rid of the KASAN error and PWM still works for me, so happy to add back:
-> >
-> > Tested-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > I haven't done a full review of the driver but I did a once-over of
-> > the changes between v12 and v13 and they look good to me.
->
-> With v5.18-rc1 released, this seems like it would be an ideal time to
-> land this driver and its bindings in a for-next branch for the leds
-> subsystem. Is there anything blocking it? Are you the right person to
-> land them? Ideally the bindings / driver (patch #1 and #2) from
-> Satya's series [1] could land right atop it since it's ready too?
->
-> [1] https://lore.kernel.org/r/1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com/
+-next is pretty badly broken right now due to a series of less than
+perfect mm patches, so testing there won't do any good.
 
-I don't mean to be a huge pest, but we're already at v5.18-rc4 (almost
-at -rc5) and these two series are still pending. I'm worried that
-we're going to miss the window to land them again. Can you give any
-update about them?
+I'll see if I can dig up the multiplatform branch and push it into
+my 'testing' branch.
 
-Thanks!
-
--Doug
+Guenter
