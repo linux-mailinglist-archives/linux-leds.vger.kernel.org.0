@@ -2,72 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D04455130A2
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 12:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4899C5132D3
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 13:51:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232830AbiD1KG1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Apr 2022 06:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50210 "EHLO
+        id S235256AbiD1LyV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Apr 2022 07:54:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231743AbiD1KGB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 06:06:01 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C446739B9B;
-        Thu, 28 Apr 2022 02:52:30 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KprVY5CL1zfb99;
-        Thu, 28 Apr 2022 17:51:33 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 28 Apr 2022 17:52:29 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 28 Apr
- 2022 17:52:28 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-CC:     <pavel@ucw.cz>
-Subject: [PATCH] leds: netxbig: add missing of_node_put() in netxbig_leds_get_of_pdata()
-Date:   Thu, 28 Apr 2022 18:04:19 +0800
-Message-ID: <20220428100419.543937-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S235128AbiD1LyU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 07:54:20 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38B871DA7;
+        Thu, 28 Apr 2022 04:51:05 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id gh6so9129835ejb.0;
+        Thu, 28 Apr 2022 04:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=egD9TWiQgZ00ABqrlpVUqX07Bqzo15fCup+voob9j6g=;
+        b=WL1Az0l4M71t6wH3bpologdHI+2TTcuoscgjnsBJKMEICZric1CBnR4C+iqFz40wp2
+         WduxOA3DY68wKKncU5lIgYNo3SNSThAyo7vsLzBPYwn90G7eAkr+t2XUGZAoEIvL3XXl
+         ONaIN7YHpPSW3nloam1m74lWGBzKVTCkfJ7C7Vzfs89uM5mllkCSsiNClcUaos4lvRtS
+         288uNt0JBuhVd9u4Wc70I6n9QqasFOhbZbGnut7fp6kl34H0ZJwMLWrpcF9Of1kHY2eF
+         CDcaFvF98+zajvfK2GhQf5AR+uNasFZ0WElVRW1r7LER7Viun70c9lwZbOjsnUIKowOK
+         9Ijg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=egD9TWiQgZ00ABqrlpVUqX07Bqzo15fCup+voob9j6g=;
+        b=Cup4COTLQBOEOxRKI0HPRaKIciT+QFf7ZYnHmzhUZhTWWVhSEensOweN87ORE3XmAQ
+         Cuq9M+B8o1J624lphAy+Y7jDt5B2O0Z0YdxpuwjwWjFkUwoQtg3CwnAD2URLUgVkiirN
+         QcLL4vdnxOCBJVdwL+18gBVU+7v0xXpmnaKxyg1OLDjFo6+UxGls95OfEmoWkcSWYYxS
+         9+nMb+zUQ4Z1jPiDMQkhG4DHMFaRorFfEZjYC4eq9GVBSZ/1QfwxJHyWnOBgPgNn+5wh
+         hWs0i9d/Cj9tzkYBifRuzCPYgcDgOhgzJ2IKcjtTsEPZf4XkYVL3AvSpnKYMjBHLkBsX
+         VaBw==
+X-Gm-Message-State: AOAM530BdOaU5YoJXKsWa76aKRa+hCJltrDuktYMJzMeEL2uK+cNemGd
+        ii5TMakQD2n4Q5lFNhnBXSgEDZgC8pUVYY668vg=
+X-Google-Smtp-Source: ABdhPJz7sphZYsAcSHkuYWOXutg/BiHeCdlfJ7IswfBYScK2TZOjRTZA+jBvaIFK4z2tXF9uaATwhh/UhZCbUQlMNqY=
+X-Received: by 2002:a17:906:c147:b0:6df:f047:1677 with SMTP id
+ dp7-20020a170906c14700b006dff0471677mr30824800ejc.4.1651146664432; Thu, 28
+ Apr 2022 04:51:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <1651138365-17362-1-git-send-email-u0084500@gmail.com> <1651138365-17362-5-git-send-email-u0084500@gmail.com>
+In-Reply-To: <1651138365-17362-5-git-send-email-u0084500@gmail.com>
+From:   Matti Vaittinen <mazziesaccount@gmail.com>
+Date:   Thu, 28 Apr 2022 14:50:53 +0300
+Message-ID: <CANhJrGN8avK7mehqVDHVCjBzoG3RU4CykHEaFdQqt40_LjSh1A@mail.gmail.com>
+Subject: Re: [PATCH 4/4] leds: flash: mt6360: Add mt6360 isnk channel hardwre
+ breath mode support
+To:     cy_huang <u0084500@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add missing of_node_put() in error path in netxbig_leds_get_of_pdata().
+Hi ChiYuan!
 
-Fixes: 9af512e81964 ("leds: netxbig: Convert to use GPIO descriptors")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/leds/leds-netxbig.c | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, Apr 28, 2022 at 1:03 PM cy_huang <u0084500@gmail.com> wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> Add mt6360 isnk channel hardware breath mode support.
+>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+>
+> +static int mt6360_gen_breath_reg_config(struct led_pattern *pattern, u32 len,
+> +                                       u8 *vals, int val_len)
+> +{
+> +       static const struct linear_range tranges[MT6360_ILED_RANGE_MAX] = {
+> +               { 125, 0, 15, 250 }, /* tr/f12 and ton, unit: millisecond */
+> +               { 250, 0, 15, 500 }, /* toff, unit: millisecond */
+> +       };
 
-diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
-index 77213b79f84d..6692de0af68f 100644
---- a/drivers/leds/leds-netxbig.c
-+++ b/drivers/leds/leds-netxbig.c
-@@ -440,6 +440,7 @@ static int netxbig_leds_get_of_pdata(struct device *dev,
- 	}
- 	gpio_ext_pdev = of_find_device_by_node(gpio_ext_np);
- 	if (!gpio_ext_pdev) {
-+		of_node_put(gpio_ext_np);
- 		dev_err(dev, "Failed to find platform device for gpio-ext\n");
- 		return -ENODEV;
- 	}
+It's nice to see you are using the linear_ranges helpers here! Just a
+minor remark - do you think you could use field names in linear_ranges
+initializations? That would make it less likely the driver breaks if
+someone changes the struct linear_range definition. Eg, use something
+like:
+
+static const struct linear_range tranges[MT6360_ILED_RANGE_MAX] = {
+        /* tr/f12 and ton, unit: millisecond */
+        { .min = 125, .min_sel = 0, .max_sel = 15, .step = 250 },
+        /* toff, unit: millisecond */
+        { .min = 250, .min_sel = 0, .max_sel = 15, .step = 500 },
+};
+
+Do you think that would work?
+
+Best Regards
+-- Matti
+
 -- 
-2.25.1
 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
+Discuss - Estimate - Plan - Report and finally accomplish this:
+void do_work(int time) __attribute__ ((const));
