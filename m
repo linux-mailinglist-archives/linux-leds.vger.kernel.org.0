@@ -2,74 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 394D1513031
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 11:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B565D512FAB
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 11:47:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232031AbiD1JuV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Apr 2022 05:50:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
+        id S231992AbiD1JuT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Apr 2022 05:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347651AbiD1JeE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 05:34:04 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C1417FF70;
-        Thu, 28 Apr 2022 02:30:50 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id e189so4722665oia.8;
-        Thu, 28 Apr 2022 02:30:50 -0700 (PDT)
+        with ESMTP id S1348037AbiD1JgX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 05:36:23 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C6B95486;
+        Thu, 28 Apr 2022 02:33:09 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id k4so3847748plk.7;
+        Thu, 28 Apr 2022 02:33:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nngAnZlymkzX4sUAsT0146zEMaA0AO4c4fvL3wIWwWk=;
-        b=l18ijNANJ5b5fye/QNxz87z7+j8z02w6R0swX/JLw63krCb6g192GEyjHjzQP5aj5N
-         Oa7DRdFJTdgQbLmCBFuvVrJFSZZCa7u2cofzzcnvLPI61NzdxgLO4fNj9EEFzE61wyUQ
-         mam1iVGXHTeLeNvTESRsLv1awkl9hwK0Yu75xPx/hPIc21cKILj4Dqif7rntW15dNRgM
-         PSyyh4uu+e/czfoBlGa26euNzMwWhk9eRd+G+bd56WOPNdgv9VmPtDcQw6SHIEQqXUoP
-         z/HArI89LLF3VoUNX4cm9BKXp7vKYNCsN+7V/IEXzt52nWFAlin61yEZXfhUw/uPoXAY
-         vqKw==
+        h=from:to:cc:subject:date:message-id;
+        bh=kWZe+4U90sxTKToEseK0+oAihI7ZBnHaalcQvB+4Uuo=;
+        b=E7jjJrp33n0Qj5If3vLLYwfakVJG/T4INawvqftLhNW9eEe+YbX0OSrjv6IS0PtyMe
+         diT0FntjAzNAvTpLcC8J54wT9I008ZvsoEbauH0HMYGKJW1JMoIyJ5M04Fk3A6/RhB06
+         QzKacey6Y3Ri7k7+gX+bab14OldiWlQcuVcXNRLmnccATw/D1AXIGcIODkY5Q1Sy/FkP
+         Fc6NQb8b1fjEjRDZlYsU3KHgoaXk22AXFIApM81ss9XL5KltYVelBJFUP+hQmz9gTAlZ
+         ZUUwyQjtPh8Vopq7OGLBmQqsindaYGYKiCfjyPLYHdWTW6j92UzfeovurHhagnenCpK4
+         9X9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nngAnZlymkzX4sUAsT0146zEMaA0AO4c4fvL3wIWwWk=;
-        b=P0BstbZ2lKHZA8ahZk+TV1hKq3zcLrs8qF6v3iu/YHA6+NDLUqkT9jRPGNsTYwd1Tw
-         a7T/eOR5uFjn1QQwXWvAgzVWH7bWvi32haQvsNk4uV9m1QWo++Cdpxwzwe00/PzAmOOQ
-         oOPonXtOq62j9NgiZ5tT2MtcIqEDEreet9J3ZNN5GmFmTObzCW7HOVC0JvhD5hVRWwxe
-         0m/VLTZKU+o0Wk4lGgnuyWEjV7mrYtOR5dB7H1a6wdrGrKcEAKUVA7b/skSRZ1KbTFGV
-         TtGYlDM52hKxHZd2WMtK9m+x3jwFiJNW8e4VYcUjqrprvKUlgyU48hgbUkGhmx0HR0Cr
-         oISg==
-X-Gm-Message-State: AOAM532n4bFSz6cGQqrg+I1YS9SezAkDzqkg7NA3QjSPna3ULzfTI+lf
-        2tpqCwaDZnLb32flglZ+C6LQWSgTLKT+b3KRpV/qvTDbLO8=
-X-Google-Smtp-Source: ABdhPJxBPaN24K5DEsdqrFfIEtSaWdXHM9IEjTWzdDQ+b3wWrScNMI+uGO0dfJS0cpYEZLaEWLJNqGcvxnc4xNMAtpc=
-X-Received: by 2002:a05:6808:1246:b0:2c9:efa5:7209 with SMTP id
- o6-20020a056808124600b002c9efa57209mr20058605oiv.62.1651138249908; Thu, 28
- Apr 2022 02:30:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220427080330.40136-1-gene.chen.richtek@gmail.com>
- <20220427080330.40136-3-gene.chen.richtek@gmail.com> <YmmQpg/Hh6qTNhj2@robh.at.kernel.org>
-In-Reply-To: <YmmQpg/Hh6qTNhj2@robh.at.kernel.org>
-From:   Gene Chen <gene.chen.richtek@gmail.com>
-Date:   Thu, 28 Apr 2022 17:30:38 +0800
-Message-ID: <CAE+NS34SawC_pdTm=eDmp6zq1zLZgEaA+_s_xZOc4LuFHDV1iQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: mfd: Add bindings for the Mediatek MT6360
-To:     Rob Herring <robh@kernel.org>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        krzysztof.kozlowski+dt@linaro.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>,
-        ChiYuan Huang <cy_huang@richtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=kWZe+4U90sxTKToEseK0+oAihI7ZBnHaalcQvB+4Uuo=;
+        b=2nNvyMI2XoERuecGOoUjOV2iow8vJl63qesFouYbfZazCQsvZfRaGM8RLNf2yTZsvx
+         TjIlshHoRl2405i9vS6rm4vui99R3qGzWglynCLzGXLzvd2/83I+qHNqiK7vr/jW7kfp
+         Za0F+NCDaVgJMwTnVQXZ2LOMkjbDWrQjRrColRTD1v3YolULE7K4ckaVmcRI4vvpVGOp
+         fxuTv5jodEebM7H3qHQ28YwbDj91N1to7lrLy+wqGcJFmk5ZHKck72AJkCW/VL3t7F3i
+         h8GGpvj6gv3ZIBLMc23ETxyOPGHxwl2E+/0dI/wGHmCOYXuyDKgBrdHJ4Kt/TKCcN32e
+         K8xw==
+X-Gm-Message-State: AOAM5323vw2H4zRnC5137a/xtZZH11fDyA1QleGrlkgC5ZXz2Ou3A2Lf
+        rifFxop8WRGT7H0Wtcs2judIWw3hL20=
+X-Google-Smtp-Source: ABdhPJwNXGBHj42NXx7t+qclCk9irVzgFj4UXrWz3vDqXdZOADcX0g9YJUbTB3xz2kMM91Xt+Vf7NA==
+X-Received: by 2002:a17:90a:c402:b0:1d9:a003:3f8a with SMTP id i2-20020a17090ac40200b001d9a0033f8amr17168273pjt.18.1651138388661;
+        Thu, 28 Apr 2022 02:33:08 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:569:2b1f:d169:337e:6359:8ff7])
+        by smtp.gmail.com with ESMTPSA id i66-20020a628745000000b0050d36a5fe70sm15457932pfe.127.2022.04.28.02.33.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 Apr 2022 02:33:07 -0700 (PDT)
+From:   cy_huang <u0084500@gmail.com>
+To:     pavel@ucw.cz, matthias.bgg@gmail.com
+Cc:     cy_huang@richtek.com, jacek.anaszewski@gmail.com,
+        gene_chen@richtek.com, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] leds: flash: mt6360: Apply the fixes and hardware features
+Date:   Thu, 28 Apr 2022 17:32:41 +0800
+Message-Id: <1651138365-17362-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,28 +65,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Rob Herring <robh@kernel.org> =E6=96=BC 2022=E5=B9=B44=E6=9C=8828=E6=97=A5 =
-=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=882:51=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Wed, Apr 27, 2022 at 04:03:30PM +0800, Gene Chen wrote:
-> > From: Gene Chen <gene_chen@richtek.com>
-> >
-> > Add bindings for the Mediatek MT6360
-> >
-> > Signed-off-by: Gene Chen <gene_chen@richtek.com>
-> > ---
-> >  .../devicetree/bindings/mfd/mt6360.yaml       | 258 ++++++++++++++++++
-> >  1 file changed, 258 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/mt6360.yaml
->
-> As I mentioned, I applied your previous version. Please send a patch on
-> top of it adding the child nodes.
->
-> Rob
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Hi Rob,
+This patch series includes some fixes and add supproted ISNK hardware features.
+From MT6360, ISNK can support three modes (CC, PWM, and Breath). The previous
+one can only support CC mode.
 
-    I try to sync latest code and can't find the mt6360 led fixed patch.
-    Could you please tell me how to get and apply previous version?
-    And should I add a tags in commit message to tell which previous
-commit I based on?
+ChiYuan Huang (4):
+  leds: flash: mt6360: Fix the wrong enable_reg in multicolor brightness
+    set
+  leds: flash: mt6360: Remove unused dependency in Kconfig
+  leds: flash: mt6360: Add mt6360 isnk channel hardware timer dimming
+    mode support
+  leds: flash: mt6360: Add mt6360 isnk channel hardwre breath mode
+    support
+
+ drivers/leds/flash/Kconfig       |   4 +-
+ drivers/leds/flash/leds-mt6360.c | 413 ++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 410 insertions(+), 7 deletions(-)
+
+-- 
+2.7.4
+
