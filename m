@@ -2,119 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4899C5132D3
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 13:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E3AC5134BE
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Apr 2022 15:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbiD1LyV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Apr 2022 07:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
+        id S1346992AbiD1NUc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Apr 2022 09:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235128AbiD1LyU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 07:54:20 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38B871DA7;
-        Thu, 28 Apr 2022 04:51:05 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id gh6so9129835ejb.0;
-        Thu, 28 Apr 2022 04:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=egD9TWiQgZ00ABqrlpVUqX07Bqzo15fCup+voob9j6g=;
-        b=WL1Az0l4M71t6wH3bpologdHI+2TTcuoscgjnsBJKMEICZric1CBnR4C+iqFz40wp2
-         WduxOA3DY68wKKncU5lIgYNo3SNSThAyo7vsLzBPYwn90G7eAkr+t2XUGZAoEIvL3XXl
-         ONaIN7YHpPSW3nloam1m74lWGBzKVTCkfJ7C7Vzfs89uM5mllkCSsiNClcUaos4lvRtS
-         288uNt0JBuhVd9u4Wc70I6n9QqasFOhbZbGnut7fp6kl34H0ZJwMLWrpcF9Of1kHY2eF
-         CDcaFvF98+zajvfK2GhQf5AR+uNasFZ0WElVRW1r7LER7Viun70c9lwZbOjsnUIKowOK
-         9Ijg==
+        with ESMTP id S1346944AbiD1NUT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Apr 2022 09:20:19 -0400
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B8E5C85D;
+        Thu, 28 Apr 2022 06:17:04 -0700 (PDT)
+Received: by mail-oi1-f182.google.com with SMTP id l203so5335608oif.0;
+        Thu, 28 Apr 2022 06:17:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=egD9TWiQgZ00ABqrlpVUqX07Bqzo15fCup+voob9j6g=;
-        b=Cup4COTLQBOEOxRKI0HPRaKIciT+QFf7ZYnHmzhUZhTWWVhSEensOweN87ORE3XmAQ
-         Cuq9M+B8o1J624lphAy+Y7jDt5B2O0Z0YdxpuwjwWjFkUwoQtg3CwnAD2URLUgVkiirN
-         QcLL4vdnxOCBJVdwL+18gBVU+7v0xXpmnaKxyg1OLDjFo6+UxGls95OfEmoWkcSWYYxS
-         9+nMb+zUQ4Z1jPiDMQkhG4DHMFaRorFfEZjYC4eq9GVBSZ/1QfwxJHyWnOBgPgNn+5wh
-         hWs0i9d/Cj9tzkYBifRuzCPYgcDgOhgzJ2IKcjtTsEPZf4XkYVL3AvSpnKYMjBHLkBsX
-         VaBw==
-X-Gm-Message-State: AOAM530BdOaU5YoJXKsWa76aKRa+hCJltrDuktYMJzMeEL2uK+cNemGd
-        ii5TMakQD2n4Q5lFNhnBXSgEDZgC8pUVYY668vg=
-X-Google-Smtp-Source: ABdhPJz7sphZYsAcSHkuYWOXutg/BiHeCdlfJ7IswfBYScK2TZOjRTZA+jBvaIFK4z2tXF9uaATwhh/UhZCbUQlMNqY=
-X-Received: by 2002:a17:906:c147:b0:6df:f047:1677 with SMTP id
- dp7-20020a170906c14700b006dff0471677mr30824800ejc.4.1651146664432; Thu, 28
- Apr 2022 04:51:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <1651138365-17362-1-git-send-email-u0084500@gmail.com> <1651138365-17362-5-git-send-email-u0084500@gmail.com>
-In-Reply-To: <1651138365-17362-5-git-send-email-u0084500@gmail.com>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-Date:   Thu, 28 Apr 2022 14:50:53 +0300
-Message-ID: <CANhJrGN8avK7mehqVDHVCjBzoG3RU4CykHEaFdQqt40_LjSh1A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] leds: flash: mt6360: Add mt6360 isnk channel hardwre
- breath mode support
-To:     cy_huang <u0084500@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2KX0k1wrXX43D5TeLkqocszqE72U0xXm9eQIEdaCUbE=;
+        b=TgY5XBw5uqMfXtjMf9sYoal5HTrNfcmvw4StcnpzzB0rDlRM45ZMcSDfPOKmgQTUjQ
+         hPGz2xRhQn6EZt0Sp+F3f+bZHH5hburNjsjxkVLrLYejteID6EgeD08ceI9NzeoFmbQA
+         skGVhl790JO4uD/JjOUx+t6ourfAKFAkT+efo2mC/Ohh3UToye5wqL9LqTbSti5NwFjy
+         fGqjOmWAV2oMt63uQeByzICkDc1w05coNbBQoBTU2LsewXi8dIPNBjZs5Yd+behASMB8
+         8UtjZW99RQcyyrLBj8/cK9EW8v7cD2z8N5WTxfDda43d0atYjjEvVkGIWQJ690+8/Qrd
+         ZupQ==
+X-Gm-Message-State: AOAM532fWHsXpUkXv9rmqVs1tdtdD/cxmzkv/ZUtAwI0mvVS38GL/FJC
+        FWAFOp/yOVl8tte2V4D23g==
+X-Google-Smtp-Source: ABdhPJz/d8BYWGUSJp+sBgndd/ngWTLW1+V3dbP8Dggh5IlPgtUXaU65s/zWtk3vrKBC101akso2uw==
+X-Received: by 2002:a05:6808:2021:b0:322:ba69:53d2 with SMTP id q33-20020a056808202100b00322ba6953d2mr19985135oiw.22.1651151823956;
+        Thu, 28 Apr 2022 06:17:03 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id dt48-20020a0568705ab000b000e686d13875sm1825089oab.15.2022.04.28.06.17.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 06:17:03 -0700 (PDT)
+Received: (nullmailer pid 2082134 invoked by uid 1000);
+        Thu, 28 Apr 2022 13:17:02 -0000
+Date:   Thu, 28 Apr 2022 08:17:02 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Gene Chen <gene.chen.richtek@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        krzysztof.kozlowski+dt@linaro.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
         linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Gene Chen <gene_chen@richtek.com>,
+        ChiYuan Huang <cy_huang@richtek.com>
+Subject: Re: [PATCH 2/2] dt-bindings: mfd: Add bindings for the Mediatek
+ MT6360
+Message-ID: <YmqTzlrVL5KaVPuz@robh.at.kernel.org>
+References: <20220427080330.40136-1-gene.chen.richtek@gmail.com>
+ <20220427080330.40136-3-gene.chen.richtek@gmail.com>
+ <YmmQpg/Hh6qTNhj2@robh.at.kernel.org>
+ <CAE+NS34SawC_pdTm=eDmp6zq1zLZgEaA+_s_xZOc4LuFHDV1iQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE+NS34SawC_pdTm=eDmp6zq1zLZgEaA+_s_xZOc4LuFHDV1iQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi ChiYuan!
+On Thu, Apr 28, 2022 at 05:30:38PM +0800, Gene Chen wrote:
+> Rob Herring <robh@kernel.org> 於 2022年4月28日 週四 上午2:51寫道：
+> >
+> > On Wed, Apr 27, 2022 at 04:03:30PM +0800, Gene Chen wrote:
+> > > From: Gene Chen <gene_chen@richtek.com>
+> > >
+> > > Add bindings for the Mediatek MT6360
+> > >
+> > > Signed-off-by: Gene Chen <gene_chen@richtek.com>
+> > > ---
+> > >  .../devicetree/bindings/mfd/mt6360.yaml       | 258 ++++++++++++++++++
+> > >  1 file changed, 258 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/mfd/mt6360.yaml
+> >
+> > As I mentioned, I applied your previous version. Please send a patch on
+> > top of it adding the child nodes.
+> >
+> > Rob
+> 
+> Hi Rob,
+> 
+>     I try to sync latest code and can't find the mt6360 led fixed patch.
+>     Could you please tell me how to get and apply previous version?
+>     And should I add a tags in commit message to tell which previous
+> commit I based on?
 
-On Thu, Apr 28, 2022 at 1:03 PM cy_huang <u0084500@gmail.com> wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
->
-> Add mt6360 isnk channel hardware breath mode support.
->
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
->
-> +static int mt6360_gen_breath_reg_config(struct led_pattern *pattern, u32 len,
-> +                                       u8 *vals, int val_len)
-> +{
-> +       static const struct linear_range tranges[MT6360_ILED_RANGE_MAX] = {
-> +               { 125, 0, 15, 250 }, /* tr/f12 and ton, unit: millisecond */
-> +               { 250, 0, 15, 500 }, /* toff, unit: millisecond */
-> +       };
+The led fix is in my dt/linus branch and today's linux next.
 
-It's nice to see you are using the linear_ranges helpers here! Just a
-minor remark - do you think you could use field names in linear_ranges
-initializations? That would make it less likely the driver breaks if
-someone changes the struct linear_range definition. Eg, use something
-like:
+The mfd patch is in my dt/next branch.
 
-static const struct linear_range tranges[MT6360_ILED_RANGE_MAX] = {
-        /* tr/f12 and ton, unit: millisecond */
-        { .min = 125, .min_sel = 0, .max_sel = 15, .step = 250 },
-        /* toff, unit: millisecond */
-        { .min = 250, .min_sel = 0, .max_sel = 15, .step = 500 },
-};
-
-Do you think that would work?
-
-Best Regards
--- Matti
-
--- 
-
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
-Discuss - Estimate - Plan - Report and finally accomplish this:
-void do_work(int time) __attribute__ ((const));
+Rob
