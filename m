@@ -2,82 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C989514B75
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Apr 2022 15:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B077514C2F
+	for <lists+linux-leds@lfdr.de>; Fri, 29 Apr 2022 16:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376697AbiD2N4N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 29 Apr 2022 09:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53366 "EHLO
+        id S1377064AbiD2OIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 29 Apr 2022 10:08:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376597AbiD2Nzu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 Apr 2022 09:55:50 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9084E5A2EC;
-        Fri, 29 Apr 2022 06:51:39 -0700 (PDT)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TBasB5028096;
-        Fri, 29 Apr 2022 13:51:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=flRwf6YFSjDmygm1dNz782hAvHsHqrkXlBOSl6z14JI=;
- b=cP2G8ezaF9JnZi2BPH+RxKUQ2zrcE2xz2/dc1u1swCkztGt+bVvQtkYWkZfhNQoOhENm
- 00KTYxiqF6BInsIT3Qtk7IzY0L9qjgm9fCruRaI+hhPA9PKr4RwH15NJOxpolA9XJRDX
- aiMeMeQh7yRQriQhIGUfVZ62M1xZzulLqQwuDpHdZNdcxo7tYketBz+EHM+UPHRdVrwB
- g9MLqPhmdVXU5uI9lx/HWKOwl156OXK79bdG0U93BAOXqlNsHUv/5S0VJ2DQprcpoR8g
- GGaOwb4JMQc6zlk0G4K5CboxKTFvTFHkJgQz8vl51bcmE+rRBogg9UKyFg53ONLQHqR5 kA== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqtdnd88e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 29 Apr 2022 13:51:30 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDRq7b011857;
-        Fri, 29 Apr 2022 13:51:28 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma06fra.de.ibm.com with ESMTP id 3fm8qhqavu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 29 Apr 2022 13:51:27 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TDcHvW50201086
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 29 Apr 2022 13:38:17 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8928F4C044;
-        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 38D374C040;
-        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
-Subject: [RFC v2 16/39] leds: add HAS_IOPORT dependencies
-Date:   Fri, 29 Apr 2022 15:50:26 +0200
-Message-Id: <20220429135108.2781579-29-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220429135108.2781579-1-schnelle@linux.ibm.com>
-References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+        with ESMTP id S1376645AbiD2OIG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 Apr 2022 10:08:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03397DAA07;
+        Fri, 29 Apr 2022 06:57:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D3EAD62370;
+        Fri, 29 Apr 2022 13:57:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78159C385A7;
+        Fri, 29 Apr 2022 13:56:56 +0000 (UTC)
+Date:   Fri, 29 Apr 2022 09:56:54 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, senozhatsky@chromium.org,
+        stern@rowland.harvard.edu, tglx@linutronix.de, vgoyal@redhat.com,
+        vkuznets@redhat.com, will@kernel.org
+Subject: Re: [PATCH 17/30] tracing: Improve panic/die notifiers
+Message-ID: <20220429095654.26d00b79@gandalf.local.home>
+In-Reply-To: <832eecc5-9569-1d95-6ab8-f029b660dfcb@igalia.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+        <20220427224924.592546-18-gpiccoli@igalia.com>
+        <b8771b37-01f5-f50b-dbb3-9db4ee26e67e@gmail.com>
+        <20220429092351.10bca4dd@gandalf.local.home>
+        <832eecc5-9569-1d95-6ab8-f029b660dfcb@igalia.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: JcQFFBgj8yK3QXr2AgpBZZ_hGVswoufQ
-X-Proofpoint-ORIG-GUID: JcQFFBgj8yK3QXr2AgpBZZ_hGVswoufQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-29_06,2022-04-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
- mlxlogscore=643 clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204290078
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,29 +71,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+On Fri, 29 Apr 2022 10:46:35 -0300
+"Guilherme G. Piccoli" <gpiccoli@igalia.com> wrote:
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/leds/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks Sergei and Steven, good idea! I thought about the switch change
+> you propose, but I confess I got a bit confused by the "fallthrough"
+> keyword - do I need to use it?
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 6090e647daee..d05b7b035b13 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -681,7 +681,7 @@ config LEDS_LM355x
- 
- config LEDS_OT200
- 	tristate "LED support for the Bachmann OT200"
--	depends on LEDS_CLASS && HAS_IOMEM && (X86_32 || COMPILE_TEST)
-+	depends on LEDS_CLASS && HAS_IOPORT && (X86_32 || COMPILE_TEST)
- 	help
- 	  This option enables support for the LEDs on the Bachmann OT200.
- 	  Say Y to enable LEDs on the Bachmann OT200.
--- 
-2.32.0
+No. The fallthrough keyword is only needed when there's code between case
+labels. As it is very common to list multiple cases for the same code path.
+That is:
 
+	case DIE_OOPS:
+ 	case PANIC_NOTIFIER:
+ 		do_dump = 1;
+ 		break;
+
+Does not need a fall through label, as there's no code between the DIE_OOPS
+and the PANIC_NOTIFIER. But if you had:
+
+	case DIE_OOPS:
+		x = true;
+ 	case PANIC_NOTIFIER:
+ 		do_dump = 1;
+ 		break;
+
+Then you do.
+
+-- Steve
