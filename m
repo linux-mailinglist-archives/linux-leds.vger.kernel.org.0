@@ -2,120 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E526514AFC
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Apr 2022 15:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C989514B75
+	for <lists+linux-leds@lfdr.de>; Fri, 29 Apr 2022 15:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376310AbiD2Nuv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 29 Apr 2022 09:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37456 "EHLO
+        id S1376697AbiD2N4N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 29 Apr 2022 09:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352209AbiD2Nuu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 Apr 2022 09:50:50 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85220CB031;
-        Fri, 29 Apr 2022 06:47:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=C2OEpCl3NbPTnDM8xzX2S4IX9JfHaO7AlvKh6b2mc6o=; b=pqe8NQsff608mhiYOzk5PDnm3n
-        SqpJEt2cMOf7fKd9x6EBmHDeHOX5PyCqZaiQd+rsoiJqYRJfq3hy0YC1K+f5G6E1EYGyBkHkky/4o
-        A4sr1jLh/ZiZsTRb8VvM35RQhf4WjzvO8x5RrxtfBf8C8C5PVdUgz7Ik51+zFewe+U63oi8LhMtjA
-        jsMfNQ3e75qfSDrR+BCOQg4pDZsV5C5nFo1cAeFeQ7vSqL72QRCGkkh8ptmyZp43zUawgc2bKvA+V
-        5dpGhl6WFgQXUob6WnQm5VHnfuqrvgLJ/w/gTZOEZRu0JtLeyWnhBKRg4Xfo6FA1ZDb4qCsQBNlya
-        WoHGALzQ==;
-Received: from [179.113.53.197] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nkQxe-0007JF-GW; Fri, 29 Apr 2022 15:47:06 +0200
-Message-ID: <832eecc5-9569-1d95-6ab8-f029b660dfcb@igalia.com>
-Date:   Fri, 29 Apr 2022 10:46:35 -0300
+        with ESMTP id S1376597AbiD2Nzu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 Apr 2022 09:55:50 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9084E5A2EC;
+        Fri, 29 Apr 2022 06:51:39 -0700 (PDT)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TBasB5028096;
+        Fri, 29 Apr 2022 13:51:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=flRwf6YFSjDmygm1dNz782hAvHsHqrkXlBOSl6z14JI=;
+ b=cP2G8ezaF9JnZi2BPH+RxKUQ2zrcE2xz2/dc1u1swCkztGt+bVvQtkYWkZfhNQoOhENm
+ 00KTYxiqF6BInsIT3Qtk7IzY0L9qjgm9fCruRaI+hhPA9PKr4RwH15NJOxpolA9XJRDX
+ aiMeMeQh7yRQriQhIGUfVZ62M1xZzulLqQwuDpHdZNdcxo7tYketBz+EHM+UPHRdVrwB
+ g9MLqPhmdVXU5uI9lx/HWKOwl156OXK79bdG0U93BAOXqlNsHUv/5S0VJ2DQprcpoR8g
+ GGaOwb4JMQc6zlk0G4K5CboxKTFvTFHkJgQz8vl51bcmE+rRBogg9UKyFg53ONLQHqR5 kA== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqtdnd88e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 29 Apr 2022 13:51:30 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDRq7b011857;
+        Fri, 29 Apr 2022 13:51:28 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma06fra.de.ibm.com with ESMTP id 3fm8qhqavu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 29 Apr 2022 13:51:27 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TDcHvW50201086
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 29 Apr 2022 13:38:17 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8928F4C044;
+        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 38D374C040;
+        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 29 Apr 2022 13:51:25 +0000 (GMT)
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+Subject: [RFC v2 16/39] leds: add HAS_IOPORT dependencies
+Date:   Fri, 29 Apr 2022 15:50:26 +0200
+Message-Id: <20220429135108.2781579-29-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 17/30] tracing: Improve panic/die notifiers
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
-        dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, senozhatsky@chromium.org,
-        stern@rowland.harvard.edu, tglx@linutronix.de, vgoyal@redhat.com,
-        vkuznets@redhat.com, will@kernel.org
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-18-gpiccoli@igalia.com>
- <b8771b37-01f5-f50b-dbb3-9db4ee26e67e@gmail.com>
- <20220429092351.10bca4dd@gandalf.local.home>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220429092351.10bca4dd@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JcQFFBgj8yK3QXr2AgpBZZ_hGVswoufQ
+X-Proofpoint-ORIG-GUID: JcQFFBgj8yK3QXr2AgpBZZ_hGVswoufQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-29_06,2022-04-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ mlxlogscore=643 clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290078
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 29/04/2022 10:23, Steven Rostedt wrote:
-> On Fri, 29 Apr 2022 12:22:44 +0300
-> Sergei Shtylyov <sergei.shtylyov@gmail.com> wrote:
-> 
->>> +	switch (ev) {
->>> +	case DIE_OOPS:
->>> +		do_dump = 1;
->>> +		break;
->>> +	case PANIC_NOTIFIER:
->>> +		do_dump = 1;
->>> +		break;  
->>
->>    Why not:
->>
->> 	case DIE_OOPS:
->> 	case PANIC_NOTIFIER:
->> 		do_dump = 1;
->> 		break;
-> 
-> Agreed.
-> 
-> Other than that.
-> 
-> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> 
-> -- Steve
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Thanks Sergei and Steven, good idea! I thought about the switch change
-you propose, but I confess I got a bit confused by the "fallthrough"
-keyword - do I need to use it?
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/leds/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-About the s/int/bool, for sure! Not sure why I didn't use bool at
-first...heheh
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 6090e647daee..d05b7b035b13 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -681,7 +681,7 @@ config LEDS_LM355x
+ 
+ config LEDS_OT200
+ 	tristate "LED support for the Bachmann OT200"
+-	depends on LEDS_CLASS && HAS_IOMEM && (X86_32 || COMPILE_TEST)
++	depends on LEDS_CLASS && HAS_IOPORT && (X86_32 || COMPILE_TEST)
+ 	help
+ 	  This option enables support for the LEDs on the Bachmann OT200.
+ 	  Say Y to enable LEDs on the Bachmann OT200.
+-- 
+2.32.0
 
-Cheers,
-
-
-Guilherme
