@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D3A51681A
-	for <lists+linux-leds@lfdr.de>; Sun,  1 May 2022 23:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF87516824
+	for <lists+linux-leds@lfdr.de>; Sun,  1 May 2022 23:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355190AbiEAVjK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 1 May 2022 17:39:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46262 "EHLO
+        id S1355426AbiEAVop (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 1 May 2022 17:44:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355197AbiEAVjH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 1 May 2022 17:39:07 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22B703D492
-        for <linux-leds@vger.kernel.org>; Sun,  1 May 2022 14:35:38 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-2f7c424c66cso131875477b3.1
-        for <linux-leds@vger.kernel.org>; Sun, 01 May 2022 14:35:38 -0700 (PDT)
+        with ESMTP id S1355380AbiEAVoo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 1 May 2022 17:44:44 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DD3AE42
+        for <linux-leds@vger.kernel.org>; Sun,  1 May 2022 14:41:16 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id d12so23308503ybc.4
+        for <linux-leds@vger.kernel.org>; Sun, 01 May 2022 14:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=T254pOQ0OrSDi8zN/59MRP0JPU9NfQ5B5Rmbgtdrkko=;
-        b=wlpA+CfyvX91ALnfVCMPP166Rc0Mpatt42DsMvCkWJmeZUVRfB6mnUYecnMGRNYbhI
-         ld8YsssomjW9oCtQmr15blAmBLS+t4KouSWHxbIZVjnsq1DnJlp8Fx6XNCVuGUF0GS/N
-         6klXRU6dGXOQupaFrwlX9Yah5rEs29v06x/UCbuJ/f0GQoJQPiBvrEccSjVf/VH42K7p
-         RwLGlqfP5o3h1uwBR8xQuBvPKaAX5Sq4RHEUwFvP/y5fx9owfyl5p9sMhmOT/ahPJUD6
-         7q+tV1u5MOsspWP4YhNR748kjKGgc9lX4NNszXKAVeEM0jxtUxFRG3LYR6gGsd4NYws0
-         Yv1w==
+        bh=W/jgoNHxZ0Bthjb3T+ueRSX0j4+9gCUm19tM0i8wHwg=;
+        b=IhdUZeb/2gtz8F3Rms9jbaMLWrgk9MgQ3AsdLov4FK3Mlzh5dB5SkLKChzGtZ8IxYp
+         G5ca/lqDXuEA1sPhEVPyIa/Q2PZiKGOf7YhqAw/IHqTaRS3tfuxe5vxPkiXcKnSSY+3S
+         7ppRg4LQk2Uv9wR63si1SSy6XwiVLL7qFkHNlWqfSlqs0yLXj9GT9hsHOGdPMLeWa4Z5
+         yi/NgdTd0E83Yl+jmXtf3Jut6MVJU1arAhV4mge1OLZtShQSG4PEDF87HlZJ7jAAsXMq
+         NvpTbNSoJchK+6lkQfko/fVrXtHXd/BqfkBEUyV3r++82iVekijvFZHqUIOR58kizRlW
+         mQmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T254pOQ0OrSDi8zN/59MRP0JPU9NfQ5B5Rmbgtdrkko=;
-        b=oir6NFPmTDMPJhhBWvUTrQF8tmWAawioiltNW9cN1NyDsKDvgCYn88aY3bRNNUj6N2
-         i2RzfgYrO5O6TeOv4cXyIkdzqGRVy2s4QDiPWA7pUE8qNtGyVDhdqmA7prFpD2Wzwwts
-         tsoLJUt5nn2ezQAYaVgq+Wa8OUbf/v31AiCzcA3q/EYMRNwc8DSV1KwQIZIZGRRucBZX
-         DQlmiSBrLjrdhHJZsTE/JoNv5uGz4EhN7c9Dvhw+r60ujNhjpFaAhLnwrIZTxqXD5XaZ
-         Gv4//oj+DSg/pOEycIjA5Z3veVMSka886Ew+kj+N1T2sXe/4FvnNPM7bJQ4kklCGD53U
-         1NlQ==
-X-Gm-Message-State: AOAM533qrtul6x5OWjrZqF2+BLAQru+2iYVHBonClTR9o3IJCIgDcMoA
-        OUKST/ukMgv6YZbBjSdMu6+E91YpDuuHpQgcCVCX6A==
-X-Google-Smtp-Source: ABdhPJyiNIf7FX2G9hbcHdCnWtNprAICIXfmTZ2O7M9XljL3Duwj1WbWX/AgvgI1z1Nmh9oOd4l1d7OyIUiw7QC5qEY=
-X-Received: by 2002:a0d:ddc6:0:b0:2f8:a506:a5c0 with SMTP id
- g189-20020a0dddc6000000b002f8a506a5c0mr9543818ywe.140.1651440937377; Sun, 01
- May 2022 14:35:37 -0700 (PDT)
+        bh=W/jgoNHxZ0Bthjb3T+ueRSX0j4+9gCUm19tM0i8wHwg=;
+        b=lgygMDeMEurzzhGjeCcPSG9mZoPNNss7OtIxtSOCGi+LPmi5BjmfTz9Z0Sby+yhC57
+         fRE9PrzpJlvLkrzZGlNvYllezia4leHnAt+N1tuAayP9ReIqN1XRtf7C8CFWLQZZISHb
+         ATOMQr6YQRyTRy1TYOr310Mn6VQaJx9GYSE3Cjod0S7Fx8DEnloXiCGm7uo7SLVsfM/f
+         u8eIpLj96uXW1PfZfyi1qCj/omAtLoFn+PeBUhSzm5wWG6g+p+LcdoJqC2G14Wk4exmB
+         kc9ujjB2JtiDA60vXjHAivUrCK5CRUslsboqJ6wb98jdwXvR1qVy/EXKFjI+i607hp5D
+         /thQ==
+X-Gm-Message-State: AOAM532FiHSWRji2c0JDCEoaKrZyTkcgxCy/FZvMDk8JHukjSITHhGhY
+        BWkCixmv17K9cDjY1IlwRtZH4nJKbOJlfuQd2Qq+Fw==
+X-Google-Smtp-Source: ABdhPJxQ+Z2MWNpw84rRmTsi9PlMVLP8E3NHAP2/94wScknuaOhbNIB27Lulcn5Bn4eH53rZYcEIPCq8gj4+tkqqRT4=
+X-Received: by 2002:a25:2905:0:b0:649:7a2b:ca72 with SMTP id
+ p5-20020a252905000000b006497a2bca72mr2453918ybp.492.1651441275908; Sun, 01
+ May 2022 14:41:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org> <20220419163810.2118169-18-arnd@kernel.org>
-In-Reply-To: <20220419163810.2118169-18-arnd@kernel.org>
+References: <20220419163810.2118169-1-arnd@kernel.org> <20220419163810.2118169-19-arnd@kernel.org>
+In-Reply-To: <20220419163810.2118169-19-arnd@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 1 May 2022 23:35:26 +0200
-Message-ID: <CACRpkda10Cv9W07FjO4Ww58V_cgP05Thz-7cv6aF=QC8iW2vDA@mail.gmail.com>
-Subject: Re: [PATCH 17/48] ARM: pxa: corgi: use gpio descriptors for audio
+Date:   Sun, 1 May 2022 23:41:04 +0200
+Message-ID: <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
+Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
 To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org,
         Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
@@ -96,13 +96,35 @@ On Tue, Apr 19, 2022 at 6:41 PM Arnd Bergmann <arnd@kernel.org> wrote:
 > The audio driver should not use a hardwired gpio number
 > from the header. Change it to use a lookup table.
 >
+> Cc: Philipp Zabel <philipp.zabel@gmail.com>
+> Cc: Paul Parsons <lost.distance@yahoo.com>
 > Acked-by: Mark Brown <broonie@kernel.org>
-> Cc: alsa-devel@alsa-project.org
 > Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+> Cc: alsa-devel@alsa-project.org
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Looks good to me!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+(...)
+> +static struct gpiod_lookup_table hx4700_audio_gpio_table = {
+> +       .dev_id = "hx4700-audio",
+> +       .table = {
+> +               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
+> +                           "earphone-ndet", GPIO_ACTIVE_HIGH),
+
+This looks wrong. The n in nDET in the end of the name of the GPIO line
+means active low does it not?
+
+What I usually do when I see this is to properly set it to
+GPIO_ACTIVE_LOW in the descriptor table, then invert the logic
+where it's getting used.
+
+Also rename to earphone-det instead of -ndet
+
+> +               GPIO_LOOKUP("gpio-pxa", GPIO92_HX4700_HP_DRIVER,
+> +                           "hp-driver", GPIO_ACTIVE_HIGH),
+> +               GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
+> +                           "spk-nsd", GPIO_ACTIVE_HIGH),
+
+Same here. Rename spk-sd
 
 Yours,
 Linus Walleij
