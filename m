@@ -2,307 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5794516B18
-	for <lists+linux-leds@lfdr.de>; Mon,  2 May 2022 09:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16A50516C0C
+	for <lists+linux-leds@lfdr.de>; Mon,  2 May 2022 10:31:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383542AbiEBHLl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 May 2022 03:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56862 "EHLO
+        id S1383762AbiEBIep (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 May 2022 04:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354251AbiEBHLk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 May 2022 03:11:40 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0FE38DBC;
-        Mon,  2 May 2022 00:08:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1714DB81147;
-        Mon,  2 May 2022 07:08:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB14C385B4;
-        Mon,  2 May 2022 07:08:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651475289;
-        bh=X5DDZ5cu8Ec0v5TpZDEASVCpiKVJTD3WHl3xILny+5s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ftc66P1KRLtIxbphpeXSRKGK+ku85pG3xcLnI/ILm+zDUqAWSpZi/jH68+mJyw4e4
-         qrSk4knKQzczwh6juw3h25W1EEaFoJp13UogCVeUFApS4IlTRxkiRu31rw+h42AEEo
-         yVvI3NHLHqZRZMWf/GwdXrO0fkciYsoEJY1TJDzJqiHn5YRljNyBweeocP1TAdMDIW
-         SjWUyPk2BlfHWlnvCbBf3F73MPSMg+TT/ecnNgdjKm4f099yYZrBX2f5FXLl9T5/YR
-         SvkcpkVzscWXQHMTAsjSEd0WcjGhlhqUMXSf9/gRaXtg84BSH7Y053ojFgR2kKR7NX
-         cyQX12I4WnqMQ==
-Received: by mail-yb1-f182.google.com with SMTP id m128so24603743ybm.5;
-        Mon, 02 May 2022 00:08:09 -0700 (PDT)
-X-Gm-Message-State: AOAM533YXgNgVBCaIk7s9X4l2uGaKY7PX9fESMeQGr95OIWvy9Hgok5G
-        skFANhKVeVZqhSpAEiicidyCvsqdenyuPV2U89E=
-X-Google-Smtp-Source: ABdhPJzh1sjDRx5OtKZisw0kK2teD3n3NIRAbZSwmRkDNwDLe6EnG5RDGjvENlJGwWWdkEOx8bePQy1Q38g26+xkjEA=
-X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
- x185-20020a2531c2000000b00641660f230fmr9381815ybx.472.1651475288728; Mon, 02
- May 2022 00:08:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org> <20220419163810.2118169-19-arnd@kernel.org>
- <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
-In-Reply-To: <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 2 May 2022 09:07:52 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
-Message-ID: <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
-Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+        with ESMTP id S1379416AbiEBIen (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 May 2022 04:34:43 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3BF17E34;
+        Mon,  2 May 2022 01:31:14 -0700 (PDT)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2428ADh1031464;
+        Mon, 2 May 2022 08:31:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=doxriEulTiZsDY7ZIJpyPf8vZ1hJT5S/w2opti4Vq4o=;
+ b=B04jwbyGwEyCVU6Nwhnj41IfBNVTRlBTEXB5HszJ3Y/gddaSN2J/qrmiIOq4pDsEos/x
+ gWeF5rMoq9SamjXl836zKxP0Em/gzVFcE8jPbjLPPhQ51buM48D+oykeRmQS7VRhDPP/
+ WP4KZqoSdK9169OMX2X8JOMgE6a9hgTUbvjzPeFvDRySodWChXImEF+S5zb1SskPaDUm
+ fByB9hbD31HJP2c26KY6BFIda5VFWKWgIMlf4m5XaztWcMhhamRLxYVu//pTHfTe/zaS
+ YKmik1zCXZbZl6v+SHdHv7le0V905pO47wbY29jX99gwZQKC/TRWcMThI95jikowlCTe 0Q== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fta1bj0ep-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 May 2022 08:31:05 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2428TtqS014959;
+        Mon, 2 May 2022 08:31:03 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma03ams.nl.ibm.com with ESMTP id 3frvr8tc9v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 May 2022 08:31:03 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2428V1G858720618
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 2 May 2022 08:31:01 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2315C5204E;
+        Mon,  2 May 2022 08:31:01 +0000 (GMT)
+Received: from sig-9-145-11-74.uk.ibm.com (unknown [9.145.11.74])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C42FE5204F;
+        Mon,  2 May 2022 08:31:00 +0000 (GMT)
+Message-ID: <c3b98e9503abaeac9e4eeca9b7539b60a612b5e6.camel@linux.ibm.com>
+Subject: Re: [RFC v2 16/39] leds: add HAS_IOPORT dependencies
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
+Date:   Mon, 02 May 2022 10:31:00 +0200
+In-Reply-To: <20220429185435.GB2597@duo.ucw.cz>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+         <20220429135108.2781579-29-schnelle@linux.ibm.com>
+         <20220429185435.GB2597@duo.ucw.cz>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5yBLo7nQfOdQG8vDLxFa5rJeNNlJ3XOX
+X-Proofpoint-ORIG-GUID: 5yBLo7nQfOdQG8vDLxFa5rJeNNlJ3XOX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-02_02,2022-04-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=297 adultscore=0
+ suspectscore=0 clxscore=1015 mlxscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205020062
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, May 1, 2022 at 11:41 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> (...)
-> > +static struct gpiod_lookup_table hx4700_audio_gpio_table = {
-> > +       .dev_id = "hx4700-audio",
-> > +       .table = {
-> > +               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-> > +                           "earphone-ndet", GPIO_ACTIVE_HIGH),
->
-> This looks wrong. The n in nDET in the end of the name of the GPIO line
-> means active low does it not?
->
-> What I usually do when I see this is to properly set it to
-> GPIO_ACTIVE_LOW in the descriptor table, then invert the logic
-> where it's getting used.
->
-> Also rename to earphone-det instead of -ndet
+On Fri, 2022-04-29 at 20:54 +0200, Pavel Machek wrote:
+> Hi!
+> 
+> > In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+> > not being declared. We thus need to add HAS_IOPORT as dependency for
+> > those drivers using them.
+> > 
+> > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> 
+> I don't see a problem there.
+> 
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> 
+> (Its marked RFC so I'm not taking the patch.. right?)
+> 
+> Best regards,
+> 								Pavel
 
-Thanks for taking a look! I changed it now, but I don't know if
-I got the correct number of inversions in the end. How does this look?
+Right and thank you.
 
-          Arnd
-
-commit 9d452c9cbee59fc58c940b5f7ae5a40579aab0d2
-Author: Arnd Bergmann <arnd@arndb.de>
-Date:   Wed Sep 11 14:27:13 2019 +0200
-
-    ARM: pxa: hx4700: use gpio descriptors for audio
-
-    The audio driver should not use a hardwired gpio number
-    from the header. Change it to use a lookup table.
-
-    Cc: Philipp Zabel <philipp.zabel@gmail.com>
-    Cc: Paul Parsons <lost.distance@yahoo.com>
-    Acked-by: Mark Brown <broonie@kernel.org>
-    Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-    Cc: alsa-devel@alsa-project.org
-    Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-diff --git a/arch/arm/mach-pxa/hx4700-pcmcia.c
-b/arch/arm/mach-pxa/hx4700-pcmcia.c
-index e8acbfc9ef6c..e2331dfe427d 100644
---- a/arch/arm/mach-pxa/hx4700-pcmcia.c
-+++ b/arch/arm/mach-pxa/hx4700-pcmcia.c
-@@ -10,7 +10,7 @@
- #include <linux/irq.h>
-
- #include <asm/mach-types.h>
--#include <mach/hx4700.h>
-+#include "hx4700.h"
-
- #include <pcmcia/soc_common.h>
-
-diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
-index 140a44cb2989..2ae06edf413c 100644
---- a/arch/arm/mach-pxa/hx4700.c
-+++ b/arch/arm/mach-pxa/hx4700.c
-@@ -41,7 +41,7 @@
-
- #include "pxa27x.h"
- #include "addr-map.h"
--#include <mach/hx4700.h>
-+#include "hx4700.h"
- #include <linux/platform_data/irda-pxaficp.h>
-
- #include <sound/ak4641.h>
-@@ -834,6 +834,19 @@ static struct i2c_board_info i2c_board_info[]
-__initdata = {
-        },
- };
-
-+static struct gpiod_lookup_table hx4700_audio_gpio_table = {
-+       .dev_id = "hx4700-audio",
-+       .table = {
-+               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-+                           "earphone-det", GPIO_ACTIVE_LOW),
-+               GPIO_LOOKUP("gpio-pxa", GPIO92_HX4700_HP_DRIVER,
-+                           "hp-driver", GPIO_ACTIVE_HIGH),
-+               GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
-+                           "spk-sd", GPIO_ACTIVE_LOW),
-+               { },
-+       },
-+};
-+
- static struct platform_device audio = {
-        .name   = "hx4700-audio",
-        .id     = -1,
-@@ -895,6 +908,7 @@ static void __init hx4700_init(void)
-
-        gpiod_add_lookup_table(&bq24022_gpiod_table);
-        gpiod_add_lookup_table(&gpio_vbus_gpiod_table);
-+       gpiod_add_lookup_table(&hx4700_audio_gpio_table);
-        platform_add_devices(devices, ARRAY_SIZE(devices));
-        pwm_add_table(hx4700_pwm_lookup, ARRAY_SIZE(hx4700_pwm_lookup));
-
-diff --git a/arch/arm/mach-pxa/include/mach/hx4700.h
-b/arch/arm/mach-pxa/hx4700.h
-similarity index 99%
-rename from arch/arm/mach-pxa/include/mach/hx4700.h
-rename to arch/arm/mach-pxa/hx4700.h
-index 0c30e6d9c660..ce2db33989e1 100644
---- a/arch/arm/mach-pxa/include/mach/hx4700.h
-+++ b/arch/arm/mach-pxa/hx4700.h
-@@ -10,7 +10,7 @@
-
- #include <linux/gpio.h>
- #include <linux/mfd/asic3.h>
--#include "irqs.h" /* PXA_NR_BUILTIN_GPIO */
-+#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO */
-
- #define HX4700_ASIC3_GPIO_BASE PXA_NR_BUILTIN_GPIO
- #define HX4700_EGPIO_BASE      (HX4700_ASIC3_GPIO_BASE + ASIC3_NUM_GPIOS)
-diff --git a/sound/soc/pxa/hx4700.c b/sound/soc/pxa/hx4700.c
-index 7334fac758de..a0734b742322 100644
---- a/sound/soc/pxa/hx4700.c
-+++ b/sound/soc/pxa/hx4700.c
-@@ -10,7 +10,7 @@
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
-
- #include <sound/core.h>
- #include <sound/jack.h>
-@@ -18,10 +18,10 @@
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-
--#include <mach/hx4700.h>
- #include <asm/mach-types.h>
- #include "pxa2xx-i2s.h"
-
-+static struct gpio_desc *gpiod_hp_driver, *gpiod_spk_sd;
- static struct snd_soc_jack hs_jack;
-
- /* Headphones jack detection DAPM pin */
-@@ -40,9 +40,7 @@ static struct snd_soc_jack_pin hs_jack_pin[] = {
-
- /* Headphones jack detection GPIO */
- static struct snd_soc_jack_gpio hs_jack_gpio = {
--       .gpio           = GPIO75_HX4700_EARPHONE_nDET,
--       .invert         = true,
--       .name           = "hp-gpio",
-+       .name           = "earphone-det",
-        .report         = SND_JACK_HEADPHONE,
-        .debounce_time  = 200,
- };
-@@ -81,14 +79,14 @@ static const struct snd_soc_ops hx4700_ops = {
- static int hx4700_spk_power(struct snd_soc_dapm_widget *w,
-                            struct snd_kcontrol *k, int event)
- {
--       gpio_set_value(GPIO107_HX4700_SPK_nSD, !!SND_SOC_DAPM_EVENT_ON(event));
-+       gpiod_set_value(gpiod_spk_sd, !!SND_SOC_DAPM_EVENT_ON(event));
-        return 0;
- }
-
- static int hx4700_hp_power(struct snd_soc_dapm_widget *w,
-                           struct snd_kcontrol *k, int event)
- {
--       gpio_set_value(GPIO92_HX4700_HP_DRIVER, !!SND_SOC_DAPM_EVENT_ON(event));
-+       gpiod_set_value(gpiod_hp_driver, !!SND_SOC_DAPM_EVENT_ON(event));
-        return 0;
- }
-
-@@ -162,11 +160,6 @@ static struct snd_soc_card snd_soc_card_hx4700 = {
-        .fully_routed           = true,
- };
-
--static struct gpio hx4700_audio_gpios[] = {
--       { GPIO107_HX4700_SPK_nSD, GPIOF_OUT_INIT_HIGH, "SPK_POWER" },
--       { GPIO92_HX4700_HP_DRIVER, GPIOF_OUT_INIT_LOW, "EP_POWER" },
--};
--
- static int hx4700_audio_probe(struct platform_device *pdev)
- {
-        int ret;
-@@ -174,26 +167,26 @@ static int hx4700_audio_probe(struct
-platform_device *pdev)
-        if (!machine_is_h4700())
-                return -ENODEV;
-
--       ret = gpio_request_array(hx4700_audio_gpios,
--                               ARRAY_SIZE(hx4700_audio_gpios));
-+       gpiod_hp_driver = devm_gpiod_get(&pdev->dev, "hp-driver",
-GPIOD_OUT_HIGH);
-+       ret = PTR_ERR_OR_ZERO(gpiod_hp_driver);
-+       if (ret)
-+               return ret;
-+       gpiod_spk_sd = devm_gpiod_get(&pdev->dev, "spk-sd", GPIOD_OUT_LOW);
-+       ret = PTR_ERR_OR_ZERO(gpiod_spk_sd);
-        if (ret)
-                return ret;
-
-+       hs_jack_gpio.gpiod_dev = &pdev->dev;
-        snd_soc_card_hx4700.dev = &pdev->dev;
-        ret = devm_snd_soc_register_card(&pdev->dev, &snd_soc_card_hx4700);
--       if (ret)
--               gpio_free_array(hx4700_audio_gpios,
--                               ARRAY_SIZE(hx4700_audio_gpios));
-
-        return ret;
- }
-
- static int hx4700_audio_remove(struct platform_device *pdev)
- {
--       gpio_set_value(GPIO92_HX4700_HP_DRIVER, 0);
--       gpio_set_value(GPIO107_HX4700_SPK_nSD, 0);
--
--       gpio_free_array(hx4700_audio_gpios, ARRAY_SIZE(hx4700_audio_gpios));
-+       gpiod_set_value(gpiod_hp_driver, 0);
-+       gpiod_set_value(gpiod_spk_sd, 0);
-        return 0;
- }
