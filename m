@@ -2,42 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 332BA51833A
-	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 13:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B6D518412
+	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 14:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234398AbiECLa7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 May 2022 07:30:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37508 "EHLO
+        id S235150AbiECMUI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 May 2022 08:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233393AbiECLa6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 07:30:58 -0400
+        with ESMTP id S235138AbiECMUI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 08:20:08 -0400
 Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB25B27B03;
-        Tue,  3 May 2022 04:27:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BAE227CE8
+        for <linux-leds@vger.kernel.org>; Tue,  3 May 2022 05:16:36 -0700 (PDT)
 X-Virus-Scanned: Yes
-From:   Sven Schwermer <sven@svenschwermer.de>
+Message-ID: <4e88850e-9e45-2b47-c857-7070ec87440f@svenschwermer.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1651577243;
-        bh=d8ER+kGznK/svT0YX/8SOUfQKwEh0SoW3+nU3n0R0iQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References;
-        b=ldu/MxdDCgWaGzqMGeqCOYDb32L+lBLFO0bwvbw3WNkr9kcvlFHuf790dMy4raw+t
-         bVn6qYYuRcCuol0alaXOhzyryVWx1tDhngq3ztnq6HEw8KFkpefxv5IkkCJRjR6h5E
-         V/k7yYnjFMyhG3B46jZ9sFjWyTlIGVMK0crEYsptTChnK8pO22m4YxZsjPC83RWrXu
-         o9WdxnFU8Q88TUpIHUmal70aij33YdNysi8TslaQpD/YgG/41iC9mbdcoYNIB2ITnh
-         CxqXUlAGe6M1uNVxILWatKWzz0x/BydL3l3Vhx2ePHI/Tl+O7Mm4jzTgurL+l6Uuu0
-         UUiSwRxag+aqg==
-To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, dmurphy@ti.com,
-        devicetree@vger.kernel.org
-Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-Subject: [PATCH v2 2/2] leds: multicolor: Read default-intensities property
-Date:   Tue,  3 May 2022 13:27:07 +0200
-Message-Id: <980857efbf41b77667b0e0b5044f06409295d7d0.1651577132.git.sven.schwermer@disruptive-technologies.com>
-In-Reply-To: <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
-References: <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
+        s=mail; t=1651580194;
+        bh=h0WZQiqVkm+jM9J9mPn/GZSo/9EGqrbo4925YuOyb1k=;
+        h=To:Cc:From:Subject;
+        b=pHCR0krwIu3aNZ1FtMiq7cDJyxcOeiwQoDAW4LW67+jiFI8Sx3iDXKACw1JrhPSmE
+         peg+eY5JV5ssrylXyreSSpztAS2kM3+aSC46T/sRFPeKZfhsMLwZcaFD0Ve4bGOzSI
+         0iomtojqTMNXqh50elOeE0ZVOYia3TuDQzlNsQkh6n8ev2IxF2qjUSEU5srefwiOaz
+         6qye5WI1e2tedu/shhf0a5f9tesUri0a7BVF4NTP/3NL2pPovGsFpOJSiHGZjlz+cc
+         QYk/pbB5YOUzgD/LpZwYkScwqTEAzmzdlYjxYZgDkkN3su5m5cak+LXOb9f1y4DYsy
+         NbOLbNoCuk1wQ==
+Date:   Tue, 3 May 2022 14:16:33 +0200
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+To:     linux-leds@vger.kernel.org
+Cc:     pavel@ucw.cz
+From:   Sven Schwermer <sven@svenschwermer.de>
+Subject: Setting multi-color intensities stops software blink
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -47,73 +44,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+Hi,
 
-This allows to assign intensity values taken from the firmware interface
-(if available) to the indivisual sub LEDs (colors) at driver probe time,
-i.e. most commonly at kernel boot time. This is crucial for setting a
-specific color and early in the boot process. While it would be possible
-to set a static color in the bootloader, this mechanism allows setting a
-pattern (e.g. blinking) at a specific color.
+I'm experiencing an issue with multi-color LEDs when setting the 
+intensities while software blinking is active (e.g. trigger=timer). This 
+manifests itself by delay_on and delay_off being set to 0 when writing 
+multi_intensities while the LED is off. If doing this while the LED is 
+on, everything works as expected.
 
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
----
+I suspect that this happens because multi_intensity_store() calls 
+led_set_brightness(led_cdev, led_cdev->brightness) at the end. It seems 
+like the software blinking modifies led_cdev->brightness directly, so if 
+the LED is in its off-phase, we're effectively switching the LED off 
+because we're setting its brightness to 0 which clears delay_on and 
+delay_off to 0:
 
-Notes:
-    V1->V2: Fix mixup
+led_set_brightness(brightness=0): sets LED_BLINK_DISABLE
+  -> set_brightness_delayed()
+   -> led_stop_software_blink(): clears blink delays
 
- drivers/leds/led-class-multicolor.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+How would one fix this properly? Should multi_intensity_store() call 
+led_set_brightness() with brightness=led_cdev->blink_brightness if 
+blinking is active? That feels like an unclean solution.
 
-diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-index e317408583df..84f237784246 100644
---- a/drivers/leds/led-class-multicolor.c
-+++ b/drivers/leds/led-class-multicolor.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-+#include <linux/property.h>
- 
- #include "leds.h"
- 
-@@ -116,6 +117,26 @@ static struct attribute *led_multicolor_attrs[] = {
- };
- ATTRIBUTE_GROUPS(led_multicolor);
- 
-+static void multi_load_default_intensities(struct device *parent,
-+					   struct led_classdev_mc *mcled_cdev,
-+					   struct fwnode_handle *fwnode)
-+{
-+	u32 intensities[LED_COLOR_ID_MAX];
-+	unsigned int i;
-+	int ret;
-+
-+	ret = fwnode_property_read_u32_array(fwnode, "default-intensities",
-+					     intensities, mcled_cdev->num_colors);
-+	if (ret < 0) {
-+		if (ret != -ENODATA)
-+			dev_warn(parent, "failed to read default-intensities property: %d", ret);
-+		return;
-+	}
-+
-+	for (i = 0; i < mcled_cdev->num_colors; i++)
-+		mcled_cdev->subled_info[i].intensity = intensities[i];
-+}
-+
- int led_classdev_multicolor_register_ext(struct device *parent,
- 				     struct led_classdev_mc *mcled_cdev,
- 				     struct led_init_data *init_data)
-@@ -134,6 +155,9 @@ int led_classdev_multicolor_register_ext(struct device *parent,
- 	led_cdev = &mcled_cdev->led_cdev;
- 	mcled_cdev->led_cdev.groups = led_multicolor_groups;
- 
-+	if (init_data && init_data->fwnode)
-+		multi_load_default_intensities(parent, mcled_cdev, init_data->fwnode);
-+
- 	return led_classdev_register_ext(parent, led_cdev, init_data);
- }
- EXPORT_SYMBOL_GPL(led_classdev_multicolor_register_ext);
--- 
-2.36.0
+I'm hoping for some input. Thanks :)
+
+Best regards,
+Sven
 
