@@ -2,126 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F25E5185F2
-	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 15:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA2F5518616
+	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 16:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235229AbiECNyg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 May 2022 09:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42348 "EHLO
+        id S236668AbiECOIi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 May 2022 10:08:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233489AbiECNyf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 09:54:35 -0400
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20107.outbound.protection.outlook.com [40.107.2.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91AB18E0A;
-        Tue,  3 May 2022 06:51:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CB6EWPC/jVDZAi8GiBAzXkEzgLlKkEilRmrIi+DlBbZdc0nshxK6zqk0nYMe1XHaxEElGLO+jYa274POP0d1PUSyUaymXYMaImS6aGWAcoxfWP/WiUimfzdSAnaf00TLJqfv+uh/tx9ie1a4a7/meX/1SKfBOHH+fagfQn9msw2Jy0skabBrc0w5lRc1aKHPGhmaJZgC+1+cdH8MsY1ACyO9EsgUyWFkQ3mnbZi+M7lm9Z2KSnz3xHNqVzSHvnlgOx8HEI2NIzmCNpLoEyy5q/jkf0c3d/cK2344b37YRjZxVYdowdVX7qS4LBsoXaHw+1p4gVeNqgZHGBCebiLZRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=imgIp6CqRGYxGv0Tvyu+vzA+IH5zoRgZjV9Sf6btPa8=;
- b=ia57RSnytn+vCsMY+a+sLiZgn02Euw9RZxNdD9CfoWIF+UghW0TpknIEbJMAe35InSVOfNJl96gTx+IN9CXelNYVvpRj8Tk7wqbsRZc0fksxuMHBvGmgT0O+C4t6CgYGfs0V1Nm861SmjeUG5S95F8xLk48cHORkiF4600Iqj6b32lzfQYidvPOieMRpzhjwgFnfnR9sqCc19a/kqA+j7WVpQl1v8p+PZ9CSz4nmgecJstN+1CLs5DhkTZ8T7kj1RokIOFkM6yx1XaWCn7rl+O9nTeSWd9uH8NbBIL72PijzXI3wGbBMZ3PlKh/I70A4jlET5huMcNGbQBMk51PXag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=schleissheimer.de; dmarc=pass action=none
- header.from=schleissheimer.de; dkim=pass header.d=schleissheimer.de; arc=none
+        with ESMTP id S236230AbiECOIg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 10:08:36 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36161EADD;
+        Tue,  3 May 2022 07:05:03 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id z8so18283201oix.3;
+        Tue, 03 May 2022 07:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schleissheimer.onmicrosoft.com; s=selector1-schleissheimer-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imgIp6CqRGYxGv0Tvyu+vzA+IH5zoRgZjV9Sf6btPa8=;
- b=U7epZsbMBnuaw3H6czeUW3A5CH+Ki3QzKJiH1dxMNd8Jh+q/6HQHyXfYR+OE+MJFtfxgv2iGyV7QCyZKAGa0ZFSRc2bHttO/oORmjry+xg2HS7PqH4nulGcaDP9qXplRIEQ2xFsYcUfTK541FzST9CDUVHwHrPKSQvk0Ielvw+U=
-Received: from GVXP190MB1917.EURP190.PROD.OUTLOOK.COM (2603:10a6:150:6c::18)
- by AS4P190MB1807.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:4b6::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.28; Tue, 3 May
- 2022 13:50:59 +0000
-Received: from GVXP190MB1917.EURP190.PROD.OUTLOOK.COM
- ([fe80::d51:5e16:ae67:ccac]) by GVXP190MB1917.EURP190.PROD.OUTLOOK.COM
- ([fe80::d51:5e16:ae67:ccac%6]) with mapi id 15.20.5186.021; Tue, 3 May 2022
- 13:50:59 +0000
-From:   Sven Schuchmann <schuchmann@schleissheimer.de>
-To:     Sven Schwermer <sven@svenschwermer.de>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-CC:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-Subject: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
-Thread-Topic: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
-Thread-Index: AQHYXuDItnuRkj/QokSwpXQ9iOIt6K0NKZ3w
-Date:   Tue, 3 May 2022 13:50:58 +0000
-Message-ID: <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
-References: <20220502204616.GA27288@ucw.cz>
- <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
-In-Reply-To: <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=schleissheimer.de;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3de7bfb0-0f0d-4e25-6a15-08da2d0bf41f
-x-ms-traffictypediagnostic: AS4P190MB1807:EE_
-x-microsoft-antispam-prvs: <AS4P190MB18070D989AF087782FBE3328D9C09@AS4P190MB1807.EURP190.PROD.OUTLOOK.COM>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sBnW6C4sI+QUfpluEQWVHNDWJ7Ni/pD5B5HI/j6gI/oNvxkxGH6LLOX5UCnNopNOC8ArwFiDBPzINr2DP4DT4AVHITZOIYbX57Anky8+sR0oePWqx7udFXEord7aY1zb8QlYx9uISBfaHt9Yo1CW0y5S9tGgGmYaLQ2n7m09/vol7Se5CJvqn7KVFxR1O89tn9EoF48XSxw2+iYYkFMstUjnA0nVlHWcSMo0ZpU/B9yERo5M5WIMtEjlB6kqjzVMeVAsZD67JDk+p/dupAEQsEyG+/btpDOp6zcMppqZdnMRKEghdHrJze00rRuzp8wTYioZzBV9kZDfFoz5ZCoF7DhbQcPa+h8EvQ6kJ6eOSA7Yy5SnFQ8pJ6wyEBmP/u+qISj+A86BqqspiwGKMEbaycc+nML5+onPRSinbpcdJ/V5rPZvLSxFPai7qKh32Xc1F7B4ZDijbaEdggyZ10RPJv/rh4l7tCZxDjrnyeAd7f6b0KG4tpvISMWF4FtDbtnG28pnfSEGlqk9pZ5zkSyjRT/Hk/nSnRISu26L9xCO7jmdeeJ+2Uh216jaXeyiQku0dOiQ/yTprV7mcrDY5we+IUzFRn91v9Ybh2Qdb8pNsu9z9+HalluFkK3QTdyeI1Fc8N7oGFsL1noq3qOt3gwra6lvCnPZCqetx3pOeR8/hwlqxfxah4W+1tc/+UyqEi8zh3P49SfboqfiICguE+586EwXF8tsxVlpRqPK0/DokDW8use2gr78fk08MpMZ5cx9tT8uvGIrOJaFTmzRkf4qEFiHzhetLDWuVpfVgUUmauA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP190MB1917.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(376002)(346002)(366004)(396003)(39840400004)(136003)(52536014)(6506007)(71200400001)(5660300002)(966005)(55016003)(186003)(38070700005)(8936002)(508600001)(86362001)(64756008)(9686003)(26005)(33656002)(66574015)(2906002)(7696005)(83380400001)(66556008)(76116006)(66446008)(66946007)(66476007)(8676002)(4326008)(122000001)(316002)(110136005)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?I8xL7E/xLibPAJwao3hvr0Z+ix4MrPv6lIFCd3Hgagy5tlSu64tM1VmFy+?=
- =?iso-8859-1?Q?LMjPYIuAcLIF5Hu6lADvLL+Q2ywjc/hmlmBouPU/BN/WaBiJayF79TuMYn?=
- =?iso-8859-1?Q?88/r/QTgr1sZKDP8JUcAun1fyVDGCifEqedTmX+kHgXhW0ijYjp05Xnvvl?=
- =?iso-8859-1?Q?E7FGWFQyVbD4CIlS3SDfyWEFh6WObWXm6F1JLhVA+zOJK3Cz4hpyupnBLv?=
- =?iso-8859-1?Q?U6aXFmj+qq1pDDmmqeJz2589mP68gGonbH7Opr19C3miNpKtftaIsdQKPW?=
- =?iso-8859-1?Q?cyO/MwzQtCQVLw4V0Ifgv7UNB6rLbJWwK6iuu11kDuWjBradKzlLHJWyvN?=
- =?iso-8859-1?Q?pFpv7HWlUBk8ALDHalxEZkOq7IvnEoUysBA1kmrUULajtHoKWVKKjWZPYH?=
- =?iso-8859-1?Q?G7suDfNL2jF3/MQJuzFaweZvxfKFFPOg4ggh8ZagBhD5iIpi2rNVk+VxHc?=
- =?iso-8859-1?Q?GZFs1ueSEHTRfv0tYuCTmSH+01HelQOoMHXXXDEz0o1WEC0JL+OE1OvZG9?=
- =?iso-8859-1?Q?mQ9vYWiW/UhzyaGqh2eFzqeSkRDjURd2DvHDwhci/ybpLsW+3yZQw+wKFZ?=
- =?iso-8859-1?Q?Ddg3n/FqQoy4Zu9cwVUbtLb0C66J/OaISqc0lL8IhVeQCJEQzKvKYpEw2B?=
- =?iso-8859-1?Q?k8aqOT9SUbNmYKjYIsRBT/B2GFvFJtGuPHnNOhf4jaAoLjVN+PvqSKJQij?=
- =?iso-8859-1?Q?ulhyjiwudNZ62fKdh70KfKtkX4qV0YF+mIemWNPQL5cLWUb0E7ni8LD5nl?=
- =?iso-8859-1?Q?wK4TKJqrLPiKQUXfpZx87StvjjKRlfVR3zIswon+iXmMosH7Ck8ymib7ah?=
- =?iso-8859-1?Q?O0/AlLjERkdnl1fP3peu5fhub+Rrg1iQSosCwmsSMwdFyrQH4QKmqblbcO?=
- =?iso-8859-1?Q?NgNOoSjErCHZShBMW8jVeQuyiXRzxHOQEyRu0PVP1KbUi8JP9H5xMFCZGE?=
- =?iso-8859-1?Q?hCwmaSwKORkoXcjmvN+15RgMp3vljQn3hPXBfpAYcjnj6HFwdsNeAofg5/?=
- =?iso-8859-1?Q?lp0rPpeUjn0g8oRFI7O5NQUrTnzJDZ6vp12TlsRbx4PtMh1aUr+cJrqsjZ?=
- =?iso-8859-1?Q?LKyJAxbRHqgQaozEwDAbbS1cwwrIf9z1zoAu+bQXy3wpFixrTH0alEqF8n?=
- =?iso-8859-1?Q?uluhpgs2CAuX7IcbNBRJG3YltMqSRB851GtCIlsizx0eNHPX+/ltgnEnnf?=
- =?iso-8859-1?Q?eYosRSPysDB1e1nqQX+xFwhBgkI/Nm3nmrlXVH6fzZgxT87ZuCLLv8jsy0?=
- =?iso-8859-1?Q?ANWvi+sY7Cl7ZjUodUqCgc/SYQYKeXoF5hfGqtpjUK8eD7YUNZGYYcUwkT?=
- =?iso-8859-1?Q?+A//WLY7H3pJeFtiHt8AErKP07MjpURntH9li6GVVMMH16AYzUalOj07iu?=
- =?iso-8859-1?Q?2HL7yyUeLn64UE2XtEfCsS5F9YN6WIGzjMYamZ1qivdh4xlhggn4TzKxTs?=
- =?iso-8859-1?Q?1UiWnXG4U2KnR/81ossrYPRXDuNYTKx8VEpSlMTkdL6wGpYZ5sr3pPLOJy?=
- =?iso-8859-1?Q?ip5EQiUpeNboaQqD0p110oQ1pGjOOAPUHTQIBn5ZeCOwDewfGvGgESsut7?=
- =?iso-8859-1?Q?fHWGISRVljneXomk8ttFjE6mxvse+2IOvVc6EQfBf1NQ0Nq39bPXJRqzGU?=
- =?iso-8859-1?Q?+Aj2/iQjTumFNvcS3JyXJMJhBLpVlsQoPrOGJ0D9rTrWiuRhzLdmEo18iR?=
- =?iso-8859-1?Q?b38RND5M8fc10y+GmijeT0Z0Q20p/encrRmd0+dkRbcZufR4+dHA61pl0z?=
- =?iso-8859-1?Q?tKcQc6toZowcDU8XAD60/Hn0g1RoV41ISuBAbb5rz9lK11t9mlYlGZNTGT?=
- =?iso-8859-1?Q?di1GPkZ/k3i5yilaPVg+hPF8IjLXZZo=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=b5zcWYUFPO27QgFEnMVs+54HuZPkQ0FL3sPCUBagWEs=;
+        b=nmtAO8elN+lD21aNW4PeFwV5qviuq6Y4sVLZWcQC9zZn6UqsLXYF5ciWRgl0+lA1Wo
+         Q3rLe4Fskzg95B7RE9bBDzCWYoXQcNXwViucb5QcW8FGpQqDvUf5YZDsdBhza6rYepvt
+         JfGvKjbu2S1tIWfgmVuDBkIJnidthNgLCkvix0KKZ/uKOs1c5s5gsxh2uVagQLRY6nw/
+         ziKH7/MVdkOxup3VPlggEPris50qLUCDUg9E33r7OhDbS5bq0RNLc5yT2Ouqb/LH4LOT
+         N/oRmt4dIHZssgokdRevfTbu/juuu2xeyRBaFEeQbqQW6cVYD7R5t3xz7Vo6hhn100CX
+         OKdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=b5zcWYUFPO27QgFEnMVs+54HuZPkQ0FL3sPCUBagWEs=;
+        b=yDASM6rLJbKX9+ZVLg892YHe+za9Eudw4dVMdkqwtGrE/Fsso8IYnAC6pDNj3glBci
+         h5qmg4AzpgUPm+NZIIzKePXcxlKrKcojE25DvCs+EkMUd/g03kbK2c4e5vLQ+YBxX5Sq
+         tedkXejWxzGvqYo8xhGeAEMyqqpHNBR+/mI4hYUCjGdroTGIY531YrdI1PBIY4Oc/RR9
+         FsGW8BwSprfejNnrqZ7ffZJMU4PQ75dv11xNKpn4uzx+yrsS7dZrdc2Xta1cuvblikHR
+         u/ZB6O5zrAx5E0snvd2ULn5sdIC/gnTHCUOwHXivFgG7KcOURKqzWt+zCuOJ3JQQGRPd
+         kX5A==
+X-Gm-Message-State: AOAM5334v8GF7VvLDFyoThb5yWDY715wrSL36U1B4eQNUHMlIAT44ltn
+        /AIqRT/yMjljZjdbP3069QE=
+X-Google-Smtp-Source: ABdhPJzzGJEdAdih1u7jF2kiLOrOxmCv3lvE9XNEtKe9LYoSPKte95Aq4ECL/l2Oq3F4Q7XGCpzu3g==
+X-Received: by 2002:a05:6808:2007:b0:325:7c10:475e with SMTP id q7-20020a056808200700b003257c10475emr1861677oiw.250.1651586703247;
+        Tue, 03 May 2022 07:05:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k6-20020a056830168600b0060603221249sm4013581otr.25.2022.05.03.07.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 07:05:00 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d4eb4752-d8c0-715a-1d69-829f39c88d2e@roeck-us.net>
+Date:   Tue, 3 May 2022 07:04:56 -0700
 MIME-Version: 1.0
-X-OriginatorOrg: schleissheimer.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GVXP190MB1917.EURP190.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3de7bfb0-0f0d-4e25-6a15-08da2d0bf41f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2022 13:50:58.9779
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ba05321a-a007-44df-8805-c7e62d5887b5
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JYcS+i3M+TlflTPqArSmKXut33svJ/keLicXg7zjtni77/tnjtgEC0EL0kyULdVD+zuU18j/9qRMFrgB7Qa4jY/OBH1tzO0NBh11yQtrrxA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P190MB1807
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+ <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+ <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
+ <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+ <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+ <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
+ <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
+ <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
+ <04840b4f-5b9d-b29a-62f7-e5148d415313@roeck-us.net>
+ <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -129,92 +121,37 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Sven,
+On 5/3/22 00:17, Arnd Bergmann wrote:
+> On Tue, May 3, 2022 at 4:55 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 5/2/22 14:03, Arnd Bergmann wrote:
+>>> On Mon, May 2, 2022 at 10:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> On 5/2/22 12:21, Arnd Bergmann wrote:
+>>
+>> qemu puts initrd in the middle of available memory. With the image size
+>> being ~1MB larger than with v5.18-rc, this is too much, and the kernel
+>> overwrites part of initrd. This causes it to be corrupted.
+>>
+>> It looks like that would have happened eventually, your patch series just
+>> made it happen now. The kernel is just getting too large to run on such small
+>> systems. I worked around the problem in my version of qemu by loading initrd
+>> at the end of the (small) RAM. With that, I no longer see the boot failure.
+> 
+> Ok, thanks for confirming. If it's just the image size that changed,
+> then I think
+> we can live with it. Having the kernel image grow by 1MB seems excessive
+> though, I'd like to understand better where that increase comes from.
+> 
+> Starting out from pxa_defconfig, I see a 40KB increase from the final patch
+> that moves to multiplatform support, which I think is fine.
+> 
+> If you have a z2 specific config, that would probably not enable CONFIG_OF,
+> which is always turned on for multiplatform, but again that only adds around
+> 250KB in my builds (using gcc-11). This is more than I'd like it to be, but
+> still much less than 1MB.
+> 
 
-tried this some time ago for the LP50XX
-https://lore.kernel.org/all/20210204143726.27977-1-schuchmann@schleissheime=
-r.de/
+Maybe it is a bit less; I only compared the size of "Image". Either case,
+it is enough to cause the problem. I am not sure if it is worth the time
+trying to track this down further.
 
-Your solution looks much better.
-Could you give an example of how to use it?
-
-My Configuration at this time looks like this:
-
-multi-led@0 {
-		#address-cells =3D <1>;
-		#size-cells =3D <0>;
-		reg =3D <0x0>;
-		color =3D <LED_COLOR_ID_RGB>;
-		function =3D "eee-led-status";
-
-		led-0 {
-			color =3D <LED_COLOR_ID_RED>;
-		};
-
-		led-1 {
-			color =3D <LED_COLOR_ID_GREEN>;
-		};
-
-		led-2 {
-			color =3D <LED_COLOR_ID_BLUE>;
-		};
-	};
-
-
-Where do I put the "default-intensities"?
-
-Regards,
-
-   Sven
-
-> -----Urspr=FCngliche Nachricht-----
-> Von: Sven Schwermer <sven@svenschwermer.de>
-> Gesendet: Dienstag, 3. Mai 2022 13:27
-> An: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; pavel@ucw.c=
-z;
-> robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org; dmurphy@ti.com;
-> devicetree@vger.kernel.org
-> Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
-> Betreff: [PATCH v2 1/2] dt-bindings: leds: Add multi-color default-intens=
-ities property
->=20
-> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
->=20
-> This allows to assign intensity values to the indivisual sub LEDs
-> (colors) at driver probe time, i.e. most commonly at kernel boot time.
-> This is crucial for setting a specific color early in the boot process.
->=20
-> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com=
->
-> ---
->=20
-> Notes:
->     V1->V2: no changes
->=20
->  .../devicetree/bindings/leds/leds-class-multicolor.yaml    | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor=
-.yaml
-> b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> index 37445c68cdef..c483967a847c 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> @@ -31,6 +31,13 @@ patternProperties:
->            include/linux/leds/common.h.
->          enum: [ 8, 9 ]
->=20
-> +      default-intensities:
-> +        description: |
-> +          This parameter, if present, sets the initial intensities of th=
-e
-> +          individual colors. This array must have the same length as the
-> +          multi-color LED has sub LEDs (colors).
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
->      $ref: "common.yaml#"
->=20
->      required:
-> --
-> 2.36.0
-
+Guenter
