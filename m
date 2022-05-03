@@ -2,151 +2,148 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9ABA518CB7
-	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 20:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2A3518CE8
+	for <lists+linux-leds@lfdr.de>; Tue,  3 May 2022 21:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234645AbiECTCg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 May 2022 15:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
+        id S241768AbiECTQf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 May 2022 15:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241487AbiECTCc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 15:02:32 -0400
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B363F8A0
-        for <linux-leds@vger.kernel.org>; Tue,  3 May 2022 11:58:57 -0700 (PDT)
-X-Virus-Scanned: Yes
-Message-ID: <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1651604333;
-        bh=V3V9NfqklucD+vBXB+mrpdm9QwmbSxH4j9b4eEhKd3Y=;
-        h=Subject:To:Cc:References:From:In-Reply-To;
-        b=DiwgbV3c5T5JF4bWqWWHmwfWp5v8ExdbVfP3O6uow5j9aPFmBk1sy7gMIa5i72JgC
-         /PWZQfPsv36gMTlDEhQaCm4h1yWn+KEzJbCNYnXQAtdLgt32aj9fybySnWk6cWmxhn
-         0bqMJ0bXia39pxwiPW6z2bvw1FrxYYe+dHLAv8bQclifhdeQo4eGQ10sYJyuXrjgnZ
-         jycZbSXMZJqolbBDw8B13+TGpZgxalNqT2/rgh9kqYSYUHnV3fxMb2KmCTpbJnUBVW
-         caLc2pHbXeRsrI3yk26Ousemu/nF3BO52pXJFw3hj9hQ5WTTxrKR/RhD4dXdvrz8Zj
-         QNsPgA+wkYtcw==
-Date:   Tue, 3 May 2022 20:58:51 +0200
-Mime-Version: 1.0
-Subject: Re: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
+        with ESMTP id S232835AbiECTQe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 May 2022 15:16:34 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028553F8A9;
+        Tue,  3 May 2022 12:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=YwqRVzAP9ZbrZ5VBMcTGFQUJhCIOHa56e0xcGxSMZUc=; b=g6wHrcBwrz2KwYvXjjVtORBiHn
+        IYMsR5GaRD/VR0xedfaxvBvF7rTbYR/J22t3j5lb3f06u/Fc1RouLR18wpSiKcYUFYo1Es0dUnLOJ
+        KS0gcPiTX1Gp43QoEXeB9qey3fro+JGWKqZb1HOFCCA1BT9LzygpBsI5rkGlNutynR2bG5HAOwC/E
+        tPyLP92RA6GDIRm0QuhAm+c5aBu4j0UaKxwKd9I7j0kUsDE4qHndJxIdGDBq1RIB7dNA6suRfXZwh
+        e21o4FfMtSVNbUCh0WQI73Gd4fdNm7+rXf7RsUeEiM3OYwwmkesCvbsvfiNKmEoMOIdut9FTHQRzP
+        TtMjBb/w==;
+Received: from [179.113.53.197] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nlxwt-0003VB-Uo; Tue, 03 May 2022 21:12:40 +0200
+Message-ID: <adcf6d0e-c37c-6ede-479e-29959d03d8c0@igalia.com>
+Date:   Tue, 3 May 2022 16:12:09 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 04/30] firmware: google: Convert regular spinlock into
+ trylock on panic path
 Content-Language: en-US
-To:     Sven Schuchmann <schuchmann@schleissheimer.de>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>
-References: <20220502204616.GA27288@ucw.cz>
- <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
- <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
-From:   Sven Schwermer <sven@svenschwermer.de>
-In-Reply-To: <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+To:     Evan Green <evgreen@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, bhe@redhat.com,
+        pmladek@suse.com, kexec@lists.infradead.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de,
+        Kees Cook <keescook@chromium.org>, luto@kernel.org,
+        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
+        peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, Alan Stern <stern@rowland.harvard.edu>,
+        Thomas Gleixner <tglx@linutronix.de>, vgoyal@redhat.com,
+        vkuznets@redhat.com, Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        David Gow <davidgow@google.com>,
+        Julius Werner <jwerner@chromium.org>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-5-gpiccoli@igalia.com>
+ <CAE=gft5Pq25L4KFoPWbftkPF-JN1ex2yws77mMJ4GQnn9W0L2g@mail.gmail.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <CAE=gft5Pq25L4KFoPWbftkPF-JN1ex2yws77mMJ4GQnn9W0L2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Sven,
+On 03/05/2022 15:03, Evan Green wrote:
+> [...]
+> gsmi_shutdown_reason() is a common function called in other scenarios
+> as well, like reboot and thermal trip, where it may still make sense
+> to wait to acquire a spinlock. Maybe we should add a parameter to
+> gsmi_shutdown_reason() so that you can get your change on panic, but
+> we don't convert other callbacks into try-fail scenarios causing us to
+> miss logs.
+> 
 
-Thanks for making me aware of your patch series. My series would work 
-similar to yours, i.e. the default-intensities property would be on the 
-same level as color = <LED_COLOR_ID_RGB>.
+Hi Evan, thanks for your feedback, much appreciated!
+What I've done in other cases like this was to have a helper checking
+the spinlock in the panic notifier - if we can acquire that, go ahead
+but if not, bail out. For a proper example of an implementation, check
+patch 13 of the series:
+https://lore.kernel.org/lkml/20220427224924.592546-14-gpiccoli@igalia.com/ .
 
-However, the concern voiced by Jacek is relevant for my patch as well, 
-see 
-https://lore.kernel.org/all/d5631e35-cd62-106f-2ec4-de3163367bc0@gmail.com/
-However, I do not know how to resolve the issue. Perhaps somebody from 
-the list has ideas?
+Do you agree with that, or prefer really a parameter in
+gsmi_shutdown_reason() ? I'll follow your choice =)
 
-Best regards,
-Sven
 
-On 5/3/22 15:50, Sven Schuchmann wrote:
-> Hello Sven,
-> 
-> tried this some time ago for the LP50XX
-> https://lore.kernel.org/all/20210204143726.27977-1-schuchmann@schleissheimer.de/
-> 
-> Your solution looks much better.
-> Could you give an example of how to use it?
-> 
-> My Configuration at this time looks like this:
-> 
-> multi-led@0 {
-> 		#address-cells = <1>;
-> 		#size-cells = <0>;
-> 		reg = <0x0>;
-> 		color = <LED_COLOR_ID_RGB>;
-> 		function = "eee-led-status";
-> 
-> 		led-0 {
-> 			color = <LED_COLOR_ID_RED>;
-> 		};
-> 
-> 		led-1 {
-> 			color = <LED_COLOR_ID_GREEN>;
-> 		};
-> 
-> 		led-2 {
-> 			color = <LED_COLOR_ID_BLUE>;
-> 		};
-> 	};
-> 
-> 
-> Where do I put the "default-intensities"?
-> 
-> Regards,
-> 
->     Sven
-> 
->> -----Ursprüngliche Nachricht-----
->> Von: Sven Schwermer <sven@svenschwermer.de>
->> Gesendet: Dienstag, 3. Mai 2022 13:27
->> An: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; pavel@ucw.cz;
->> robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org; dmurphy@ti.com;
->> devicetree@vger.kernel.org
->> Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
->> Betreff: [PATCH v2 1/2] dt-bindings: leds: Add multi-color default-intensities property
->>
->> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
->>
->> This allows to assign intensity values to the indivisual sub LEDs
->> (colors) at driver probe time, i.e. most commonly at kernel boot time.
->> This is crucial for setting a specific color early in the boot process.
->>
->> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
->> ---
->>
->> Notes:
->>      V1->V2: no changes
->>
->>   .../devicetree/bindings/leds/leds-class-multicolor.yaml    | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
->> b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
->> index 37445c68cdef..c483967a847c 100644
->> --- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
->> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
->> @@ -31,6 +31,13 @@ patternProperties:
->>             include/linux/leds/common.h.
->>           enum: [ 8, 9 ]
->>
->> +      default-intensities:
->> +        description: |
->> +          This parameter, if present, sets the initial intensities of the
->> +          individual colors. This array must have the same length as the
->> +          multi-color LED has sub LEDs (colors).
->> +        $ref: /schemas/types.yaml#/definitions/uint32-array
->> +
->>       $ref: "common.yaml#"
->>
->>       required:
->> --
->> 2.36.0
-> 
+> Though thinking more about it, is this really a Good Change (TM)? The
+> spinlock itself already disables interrupts, meaning the only case
+> where this change makes a difference is if the panic happens from
+> within the function that grabbed the spinlock (in which case the
+> callback is also likely to panic), or in an NMI that panics within
+> that window. The downside of this change is that if one core was
+> politely working through an event with the lock held, and another core
+> panics, we now might lose the panic log, even though it probably would
+> have gone through fine assuming the other core has a chance to
+> continue.
+
+My feeling is that this is a good change, indeed - a lot of places are
+getting changed like this, in this series.
+
+Reasoning: the problem with your example is that, by default, secondary
+CPUs are disabled in the panic path, through an IPI mechanism. IPIs take
+precedence and interrupt the work in these CPUs, effectively
+interrupting the "polite work" with the lock held heh
+
+Then, such CPU is put to sleep and we finally reach the panic notifier
+hereby discussed, in the main CPU. If the other CPU was shut-off *with
+the lock held*, it's never finishing such work, so the lock is never to
+be released. Conclusion: the spinlock can't be acquired, hence we broke
+the machine (which is already broken, given it's panic) in the path of
+this notifier.
+This should be really rare, but..possible. So I think we should protect
+against this scenario.
+
+We can grab others' feedback if you prefer, and of course you have the
+rights to refuse this change in the gsmi code, but from my
+point-of-view, I don't see any advantage in just assume the risk,
+specially since the change is very very simple.
+
+Cheers,
+
+
+Guilherme
