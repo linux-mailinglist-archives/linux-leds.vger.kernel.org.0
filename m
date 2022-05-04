@@ -2,70 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A67B551A42F
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 17:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF6E51A47B
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 17:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352573AbiEDPmM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 11:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36542 "EHLO
+        id S1352753AbiEDPzT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 11:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352431AbiEDPmK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 11:42:10 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77760165BB;
-        Wed,  4 May 2022 08:38:34 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id q20so1097116wmq.1;
-        Wed, 04 May 2022 08:38:34 -0700 (PDT)
+        with ESMTP id S232647AbiEDPzS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 11:55:18 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC2F457BC;
+        Wed,  4 May 2022 08:51:42 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id a21so2203369edb.1;
+        Wed, 04 May 2022 08:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CGfHsjidANyyHV7qeZ5govjIF6ESMs4sMWxP9NbcJlA=;
-        b=HKTlhRQHU8wuB7Yd31wODGwwRr40WNkmFOUi8rsW6a8U0AAakmd/S8xFQCyz9ygkUq
-         KkbnO3jCpSaaRv9Cu18gBVEYgWedbtQIQ7v1QZzQGuem2lXTH4pVkFSZ8ahpG4gb8Yfe
-         Owfjb/312vx0W+x6paggOO9TZSNp+AsCeZAPybwqxItFZ26jUv0nBmX5jgh1lR3B8Dx4
-         9ZhrgldNc1u5aC2kqKViBqEhO0M1dij+sKZGyYAviJF3LCi6h1y/5MMHTnJIcJWE9QWE
-         Ouvdhmn2ZGLH46qpy5POC5U0eZrN8FnHYvns7eKamBnzL/u+7NlTEPqxhMFs0LQw1Bn9
-         GFrQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mUEDan7Dtx1KZpGoKAau2Fv0ZvExfFewSXxbANg6G8k=;
+        b=Rweo0KfAB6S4ghWTiJYw6bg0FQGb4rnMWOySQR650Mz9JVBYQLQJoXd9Q8yFxEw0gO
+         vaEhv2Gy5iV+aCOLz97jzQO/A46Ab3uHH3mrB9lLpmWZU/0U1Fk1ChzBbl9LdyV9udpY
+         pdaOyOu9mECd54mSOyEt4X9FjPO8oTNr2Ggh4y5n3+omh99MJg1QcGUxqo6z+Z3zDLSB
+         c4LLB+i5v2fX+Sx1rPYeRRFQe2+Xd8oXkCz4wWKpI9A7WmXgIpBdyvS1H6AeDQln9Pow
+         z+stxHBlA9w3ZTegK8lNt1phZ6cdtA8GNGvku4n+QH98nvWxY8niwx2S+9zcE5vTPxv1
+         r5AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CGfHsjidANyyHV7qeZ5govjIF6ESMs4sMWxP9NbcJlA=;
-        b=WPgaZNgsdEG5l3PZVQS/3V/XwMy09Vz3/f7tcmY2dquTfghzV0+kivFpDyZW7bo10h
-         O9Yg2MwuzM1v/Jf0twwVOW3QwkQJiHLM/6R0+QU9IKdaLxB9baXSjSe7HVGJXvbX7LXx
-         LZBErjZ/Ag8sH87DHkGiq3oz5INvzZ7Ja6q2D05P5EyhPBvUd0LU3brROlNwwUB9/8F+
-         u7r6OTRMDi0G2pigyX6fguuXqSCy2lRU7cPDjxcGATA/L97iWe67mfan5urTnu41HWMp
-         40tD/3Nkxq3XTgOIkOfYHwOKhrZ5IDar6Srddl3JkBzs+N6Z+ZfQnAY6JBsOf9Oz+ocM
-         z24w==
-X-Gm-Message-State: AOAM533BjOB2IGAkuez0/R3xd/RXDI6tNvAaEKg3LS2YGL/u0Rc31WkA
-        19AHX+UUC9kQ5atihfFazN4=
-X-Google-Smtp-Source: ABdhPJzh6RAR1drthFT0i0kt4pF+YyMWOWIHuCbuIALa+gZThkRIq2l8IX27Il5BYGhR0GytSkfC7w==
-X-Received: by 2002:a1c:2706:0:b0:391:822c:83da with SMTP id n6-20020a1c2706000000b00391822c83damr46858wmn.100.1651678713085;
-        Wed, 04 May 2022 08:38:33 -0700 (PDT)
-Received: from nergzd-desktop.localdomain ([194.39.226.133])
-        by smtp.gmail.com with ESMTPSA id e18-20020adf9bd2000000b0020c5253d8besm11792725wrc.10.2022.05.04.08.38.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 08:38:32 -0700 (PDT)
-From:   Markuss Broks <markuss.broks@gmail.com>
-To:     pavel@ucw.cz
-Cc:     Markuss Broks <markuss.broks@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mUEDan7Dtx1KZpGoKAau2Fv0ZvExfFewSXxbANg6G8k=;
+        b=xynwduqUWOF6h7ETDRoYX0B23LhyIlG1GTmQDQMZPgDNfEbv662mvWeMMn/9iw+WmD
+         HZPrN/dFPrmHdJAqdNRKB1SY0NOqZiGeeK3vvkE72qv6J+fY3dZtblvq2pRdALepdl9a
+         +kwv14z3tj0kEn9Rtw6qApFkGK0STv0MJ8CWmcLFvmqLglelKre1LbdbAORd6NEBQ2eo
+         3b3myhS08dh0h8pgLF1PlYM+qP5iJ2Ed96+HLVV+JKm1z3XRHMogi/0cAla2064GQE7g
+         yulvMkLrqgjYzSIEm06zINbDve+p1css7z6DI8M1l2UgDQQuSQxYYFvCWmHmyH3ODV8A
+         544Q==
+X-Gm-Message-State: AOAM530MAH5WYegs9Gb4LVL0T/rlfmuZIzXQM68QqpNSJ2BGrpt/JcBZ
+        E/CuFw0SmAk/eEzOQZMII1aLRYKPOaFQqt912Ho=
+X-Google-Smtp-Source: ABdhPJzWeXcftsvlZGTStFal8X76u0Ucog5gaxUCa91ZoaoBu2hf96b7Mh0Dh3Qzp5Gpvk9f4sWk/7nam8QqvEVT9Bs=
+X-Received: by 2002:a05:6402:d51:b0:425:d5e1:e9f0 with SMTP id
+ ec17-20020a0564020d5100b00425d5e1e9f0mr23714956edb.125.1651679501072; Wed, 04
+ May 2022 08:51:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220504153814.11108-1-markuss.broks@gmail.com> <20220504153814.11108-3-markuss.broks@gmail.com>
+In-Reply-To: <20220504153814.11108-3-markuss.broks@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 4 May 2022 17:51:05 +0200
+Message-ID: <CAHp75VdfaP4ypVHdMZ=TgMVmd1ioak-0AUA9k+Z6wNAr458+ag@mail.gmail.com>
+Subject: Re: [PATCH RESEND v6 (corrected v2) 2/2] leds: ktd2692: Make
+ aux-gpios optional
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v6 (corrected v2) 2/2] leds: ktd2692: Make aux-gpios optional
-Date:   Wed,  4 May 2022 18:38:11 +0300
-Message-Id: <20220504153814.11108-3-markuss.broks@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220504153814.11108-1-markuss.broks@gmail.com>
-References: <20220504153814.11108-1-markuss.broks@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -76,52 +72,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Make the AUX pin optional, since it isn't a core part of functionality,
-and the device is designed to be operational with only one CTRL pin.
+On Wed, May 4, 2022 at 5:38 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Make the AUX pin optional, since it isn't a core part of functionality,
+> and the device is designed to be operational with only one CTRL pin.
+>
+> Also pick up maintenance for the LED driver and the yaml bindings.
 
-Also pick up maintenance for the LED driver and the yaml bindings.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
----
- MAINTAINERS                       | 6 ++++++
- drivers/leds/flash/leds-ktd2692.c | 6 +++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
+The MAINTAINERS update seems like it deserves a separate patch.
+But most importantly, you need to add a patch that converts the error
+reporting to use dev_err_probe(). Currently code has that issue, i.e.
+it will print the error message as many times as probe was deferred
+due to unreadiness of GPIO.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2db49ea7ae55..8ef5667a1d98 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10479,6 +10479,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
- 
-+KTD2692 FLASH LED DRIVER
-+M:	Markuss Broks <markuss.broks@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd2692.yaml
-+F:	drivers/leds/flash/leds-ktd2692.yaml
-+
- KTEST
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	John Hawley <warthog9@eaglescrag.net>
-diff --git a/drivers/leds/flash/leds-ktd2692.c b/drivers/leds/flash/leds-ktd2692.c
-index f341da1503a4..01ceea83af67 100644
---- a/drivers/leds/flash/leds-ktd2692.c
-+++ b/drivers/leds/flash/leds-ktd2692.c
-@@ -284,9 +284,9 @@ static int ktd2692_parse_dt(struct ktd2692_context *led, struct device *dev,
- 		return ret;
- 	}
- 
--	led->aux_gpio = devm_gpiod_get(dev, "aux", GPIOD_ASIS);
--	ret = PTR_ERR_OR_ZERO(led->aux_gpio);
--	if (ret) {
-+	led->aux_gpio = devm_gpiod_get_optional(dev, "aux", GPIOD_ASIS);
-+	if (IS_ERR(led->aux_gpio)) {
-+		ret = PTR_ERR(led->aux_gpio);
- 		dev_err(dev, "cannot get aux-gpios %d\n", ret);
- 		return ret;
- 	}
+Something like this
+
+>                 dev_err(dev, "cannot get aux-gpios %d\n", ret);
+>                 return ret;
+
+===>
+
+  return dev_err_probe(dev, ret, "cannot get aux-gpios\n");
+
+with a Fixes tag added.
+
 -- 
-2.35.1
-
+With Best Regards,
+Andy Shevchenko
