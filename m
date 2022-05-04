@@ -2,113 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8811751A001
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 14:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E40B51A137
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 15:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350029AbiEDMyq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 08:54:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39810 "EHLO
+        id S1350775AbiEDNtT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 09:49:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240294AbiEDMyn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 08:54:43 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D206634BBC;
-        Wed,  4 May 2022 05:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651668667; x=1683204667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QViVx1DZnpgHjCekzYN+RthuhzyIH8/WXaQo0oT1cno=;
-  b=WhWGDpT4yEb+vWDtNK7Dl4D7UxCJmc8YaRvgq8RgGc2hucnZ8vw4rpUB
-   1nnoEkmyZ52ydA0QBPUeY/KPGM7hoCZB+BEDQTiomVIcIn4nVAz9rxsVB
-   /pjK2XfMK/Nv8k9VR6w6bDJL1zqRzHZ2mEdNY3GDMHxPigQDPj0XYMQ0q
-   1cmr/SYvcWBTO1ge0f6cESySCfKScGqYyGJ+1Pb+yI38NPkvT2MIxxAvV
-   zF2y/Z25Khps3bMPATWEOLySOcD1wXt0c4PiMFMiMnv4jYP8nPB9kIBYi
-   k7Pv/FhGk2yrvg5/YZpOs1ffQiN2v8z47KSnnd7BA8T5T5JK/tKoQPS72
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="255222031"
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
-   d="scan'208";a="255222031"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 05:51:07 -0700
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
-   d="scan'208";a="620792210"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 05:51:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nmET7-00BsqV-PJ;
-        Wed, 04 May 2022 15:51:01 +0300
-Date:   Wed, 4 May 2022 15:51:01 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-Subject: Re: [PATCH 0/2] simatic-ipc additions to p2sb apl lake gpio
-Message-ID: <YnJ2tYjCpJi7yc4j@smile.fi.intel.com>
-References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
- <20220308193522.26696-1-henning.schild@siemens.com>
+        with ESMTP id S1350804AbiEDNtH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 09:49:07 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05CF13F48
+        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 06:45:29 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id a21so1774304edb.1
+        for <linux-leds@vger.kernel.org>; Wed, 04 May 2022 06:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uv7Hp42LV/vTpm+weT4So5OI48akf0l91Vs3/APjQVg=;
+        b=nkKNa9OSox+I2AggVlih55mls2Es/JkmCEZAwb77r66baliDbgU8EDdLzRGFczo0yP
+         FSgfD+O+c4tXzxuOhPQHxvOUlJ9D5AQyRZZw0NkeftBD0NlLvEyt0MjIhMJ+lu1gyRhR
+         iFOd5IJGpYOdHePtcc3S7VnKeBkakc2CkiZbc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uv7Hp42LV/vTpm+weT4So5OI48akf0l91Vs3/APjQVg=;
+        b=FddOukwTUZV0QpvXrIXPa60V9YYZLrYIJWhGTRF2970R6lb4e6+nQTJSOmG6pngVsy
+         vUBupmEjTzfYUj7WHlJCdhjDhxSI+HuEcpUA8vhKXc9rvUr+gksLmmnAC7gwpiIC+5DN
+         y6ftK5NfFiyBCWfYf5Ns77hnFOB5knY8muBz7CEERWdpeTlWlKQsuHWdp94skICyZlLH
+         HMSh4T2D/MGl9KjYnbAwIKhxhiJHl4djh5mEmiRZnm8zEejOze5bIAq5ZleneqdELLmJ
+         jdr3tFslv8Mq3pNQMn6fhnkdrKI/o2+uXZ/zQUrchneH7B+d6Un+MC/cz4GB7m0W5Cdj
+         WNoA==
+X-Gm-Message-State: AOAM5324IgTOVj/cU9723v4pi0CZ0UROgXXdtzzfaYkLwetBsR0YLohh
+        9c4p/nJROxLIKQt5NQ7qn/dlv2SoJy9Xw861g1A=
+X-Google-Smtp-Source: ABdhPJx2ZinDkBz5UtXQeqO/D4AH2YmvxRxQ2UVt2qgUckN4BJVrxz1/oaZujrf2S2H4idm4MPOvQw==
+X-Received: by 2002:a05:6402:210:b0:41c:9ca7:7660 with SMTP id t16-20020a056402021000b0041c9ca77660mr24118853edv.145.1651671928026;
+        Wed, 04 May 2022 06:45:28 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
+        by smtp.gmail.com with ESMTPSA id hx8-20020a170906846800b006f3ef214dd0sm5657336ejc.54.2022.05.04.06.45.26
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 May 2022 06:45:26 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id k2so2096405wrd.5
+        for <linux-leds@vger.kernel.org>; Wed, 04 May 2022 06:45:26 -0700 (PDT)
+X-Received: by 2002:a05:6000:c7:b0:20a:d8c1:d044 with SMTP id
+ q7-20020a05600000c700b0020ad8c1d044mr16774023wrx.422.1651671925564; Wed, 04
+ May 2022 06:45:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220308193522.26696-1-henning.schild@siemens.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
+In-Reply-To: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 4 May 2022 06:45:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U9XfOancqNOGCWKEkP2jD4CHw6NHY8mdALG7D-7OLMTw@mail.gmail.com>
+Message-ID: <CAD=FV=U9XfOancqNOGCWKEkP2jD4CHw6NHY8mdALG7D-7OLMTw@mail.gmail.com>
+Subject: Re: [PATCH V4 0/4] Add PM8350C PMIC PWM support for backlight
+To:     Satya Priya <quic_c_skakit@quicinc.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-leds@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 08, 2022 at 08:35:20PM +0100, Henning Schild wrote:
-> This switches the simatic-ipc modules to using the p2sb interface
-> introduced by Andy with "platform/x86: introduce p2sb_bar() helper".
-> 
-> It also switches to one apollo lake device to using gpio leds.
-> 
-> I am kind of hoping Andy will take this on top and propose it in his
-> series.
+Pavel,
 
-First of all, they are not applicable to my current version [1] of the series
-(it maybe something changed in the Simatic drivers upstream, because I have got
-conflicts there. For the record, I'm using Linux Next as a base.
+On Mon, Feb 21, 2022 at 9:55 PM Satya Priya <quic_c_skakit@quicinc.com> wrote:
+>
+> This series depends on [1], which adds driver for Qualcomm LPG.
+>
+> [1] https://patchwork.kernel.org/project/linux-arm-msm/list/?series=615848
+>
+> Satya Priya (4):
+>   dt-bindings: leds: Add pm8350c pmic support
+>   leds: Add pm8350c support to Qualcomm LPG driver
+>   arm64: dts: qcom: pm8350c: Add pwm support
+>   arm64: dts: qcom: Enable pm8350c pwm for sc7280-idp2
 
-Second question is could it be possible to split first patch into three, or it
-has to be in one?
+I see Bjorn's patch in your tree. Thanks!
 
-[1]: https://gitlab.com/andy-shev/next/-/tree/topic/p2sb-next
-It would be nice if you can perform another round of testing.
+...could you add patch #1 and #2 from this series too? They are both
+small and ready to go.
 
-> Henning Schild (2):
->   simatic-ipc: convert to use common P2SB accessor
->   leds: simatic-ipc-leds-gpio: add GPIO version of Siemens driver
-> 
->  drivers/leds/simple/Kconfig                   |  11 ++
->  drivers/leds/simple/Makefile                  |   3 +-
->  drivers/leds/simple/simatic-ipc-leds-gpio.c   | 108 ++++++++++++++++++
->  drivers/leds/simple/simatic-ipc-leds.c        |  77 +------------
->  drivers/platform/x86/simatic-ipc.c            |  43 +------
->  drivers/watchdog/Kconfig                      |   1 +
->  drivers/watchdog/simatic-ipc-wdt.c            |  15 +--
->  .../platform_data/x86/simatic-ipc-base.h      |   2 -
->  8 files changed, 139 insertions(+), 121 deletions(-)
->  create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio.c
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+-Doug
