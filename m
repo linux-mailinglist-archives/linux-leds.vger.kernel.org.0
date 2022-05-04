@@ -2,111 +2,256 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 445D2519834
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 09:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A4D3519B9E
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 11:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345451AbiEDHdr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 03:33:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53278 "EHLO
+        id S1347203AbiEDJ21 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 05:28:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343741AbiEDHdq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 03:33:46 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B9D23168;
-        Wed,  4 May 2022 00:30:11 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2E7E01C0B82; Wed,  4 May 2022 09:30:10 +0200 (CEST)
-Date:   Wed, 4 May 2022 09:30:09 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <20220504073009.GC8204@duo.ucw.cz>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
-Content-Disposition: inline
-In-Reply-To: <20220303214300.59468-2-bjorn.andersson@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S1347160AbiEDJ2X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 05:28:23 -0400
+Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321EB252BA
+        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 02:24:46 -0700 (PDT)
+X-Virus-Scanned: Yes
+Message-ID: <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1651656284;
+        bh=GPAodxgZi0XfnHltWyuNus1d66FCLfwaa0OHcT3/7es=;
+        h=Subject:To:Cc:References:From:In-Reply-To;
+        b=NvV6I5L621KyvPVY4uTaKuaz/AdVnZp0YpgVOBs+sB9neGgUbHS+xMmFajiZIItMp
+         +nbLbGP5dwES9QdtvrRqE0g4GgjlU6m6tRyt3RJG4GT40x33Ea7uCahS3Awol5MUhD
+         TzR8i6WSH/pOSolVl+PgppAn1j9DnTXqO4SmUEEw96Kk+s9xLS3xAovl23fddF7LNm
+         3yWVaVS/AzhJHQIILKM5NGoYPrQ6JYKCKxOgnE5ozjgHeh1pVYgKx7eMFY+Bu3YsqM
+         tWzawMgXIGzChjhhYr663SdrQ2IVuqF8pt6qeSNGJV8bA0WQzi8uDrXbnMpeNH5hXA
+         dpX1iqdQ7rsHw==
+Date:   Wed, 4 May 2022 11:24:41 +0200
+Mime-Version: 1.0
+Subject: Re: AW: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
+ default-intensities property
+Content-Language: en-US
+To:     Sven Schuchmann <schuchmann@schleissheimer.de>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+References: <20220502204616.GA27288@ucw.cz>
+ <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
+ <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
+ <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
+ <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
+From:   Sven Schwermer <sven@svenschwermer.de>
+In-Reply-To: <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Sven,
 
---Y5rl02BVI9TCfPar
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I did consider placing the property into the multicolor's sub nodes. 
+However, multicolor LEDs are not required to have firmware sub nodes. At 
+least the multicolor class API does not make any assumptions about this.
 
-Hi!
+One possible solution that I came up with is to do something like this:
 
-> +/sys/class/leds/<led>/hw_pattern
-> +--------------------------------
-> +
-> +Specify a hardware pattern for a Qualcomm LPG LED.
-> +
-> +The pattern is a series of brightness and hold-time pairs, with the hold=
--time
-> +expressed in milliseconds. The hold time is a property of the pattern an=
-d must
-> +therefor be identical for each element in the pattern (except for the pa=
-uses
-> +described below).
+multi-led {
+	color = <LED_COLOR_ID_RGB>;
+	default-intensities = <
+		LED_COLOR_ID_RED 100
+		LED_COLOR_ID_GREEN 0
+		LED_COLOR_ID_BLUE 0
+	>;
+	led-0 {
+		color = <LED_COLOR_ID_RED>;
+	};
+	led-1 {
+		color = <LED_COLOR_ID_GREEN>;
+	};
+	led-2 {
+		color = <LED_COLOR_ID_BLUE>;
+	};
+};
 
-therefore?
+This requires the array to be twice as long as the number of colors (sub 
+LEDs). Each color identifier would be paired with the initial intensity. 
+This would limit number of LEDs per color to 1. However, I believe, this 
+limitation is already there today.
 
-> +Simple pattern::
-> +
-> +    "255 500 0 500"
-> +
-> +        ^
-> +        |
-> +    255 +----+    +----+
-> +        |    |    |    |      ...
-> +      0 |    +----+    +----
-> +        +---------------------->
-> +        0    5   10   15     time (100ms)
-> +
-> +The LPG supports specifying a longer hold-time for the first and last el=
-ement
-> +in the pattern, the so called "low pause" and "high pause".
-
-Please see
-Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
-should really be compatible.
-
-Can I get either patch to disable pattern infrastructure for now or to
-get it compatible?
+Thoughts?
 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Sven
 
---Y5rl02BVI9TCfPar
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnIrgQAKCRAw5/Bqldv6
-8rLMAJ0VtBNxB/xvCl2JcOP0LCU18d1nfgCfdpUxi4Hu4njyY6v5UbF8MNrW4p8=
-=qHV3
------END PGP SIGNATURE-----
-
---Y5rl02BVI9TCfPar--
+On 5/4/22 09:17, Sven Schuchmann wrote:
+> Hello Sven,
+> 
+> 
+>> -----Ursprüngliche Nachricht-----
+>> Von: Sven Schwermer <sven@svenschwermer.de>
+>> Gesendet: Dienstag, 3. Mai 2022 20:59
+>> An: Sven Schuchmann <schuchmann@schleissheimer.de>; linux-leds@vger.kernel.org
+>> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>; pavel@ucw.cz
+>> Betreff: Re: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color default-intensities
+>> property
+>>
+>> Hi Sven,
+>>
+>> Thanks for making me aware of your patch series. My series would work
+>> similar to yours, i.e. the default-intensities property would be on the
+>> same level as color = <LED_COLOR_ID_RGB>.
+>>
+>> However, the concern voiced by Jacek is relevant for my patch as well,
+>> see
+>> https://lore.kernel.org/all/d5631e35-cd62-106f-2ec4-de3163367bc0@gmail.com/
+>> However, I do not know how to resolve the issue. Perhaps somebody from
+>> the list has ideas?
+> 
+> I also do not have an idea. But maybe we can talk about how the definition
+> should look like in DT. As far as I understood with your patch I would
+> have define the LED as follows:
+> 
+> multi-led@0 {
+> 	#address-cells = <1>;
+> 	#size-cells = <0>;
+> 	reg = <0x0>;
+> 	color = <LED_COLOR_ID_RGB>;
+> 	default-intensities = <100 0 0>  <----
+> 	function = "eee-led-status";
+> 	led-0 {
+> 		color = <LED_COLOR_ID_RED>;
+> 	};
+> 	led-1 {
+> 		color = <LED_COLOR_ID_GREEN>;
+> 	};
+> 	led-2 {
+> 		color = <LED_COLOR_ID_BLUE>;
+> 	};
+> };
+> 
+> 
+> Maybe it is better to define per Color like this:
+> 
+> multi-led@0 {
+> 	#address-cells = <1>;
+> 	#size-cells = <0>;
+> 	reg = <0x0>;
+> 	color = <LED_COLOR_ID_RGB>;
+> 	function = "eee-led-status";
+> 	led-0 {
+> 		color = <LED_COLOR_ID_RED>;
+> 		default-intensity = 100
+> 	};
+> 	led-1 {
+> 		color = <LED_COLOR_ID_GREEN>;
+> 		default-intensity = 0
+> 	};
+> 	led-2 {
+> 		color = <LED_COLOR_ID_BLUE>;
+> 		default-intensity = 0
+> 	};
+> };
+> 
+> 
+> I think this could then be handled by RGBW LEDs also.
+> 
+> Best Regards,
+> 
+>     Sven
+> 
+> 
+> 
+>>
+>> Best regards,
+>> Sven
+>>
+>> On 5/3/22 15:50, Sven Schuchmann wrote:
+>>> Hello Sven,
+>>>
+>>> tried this some time ago for the LP50XX
+>>> https://lore.kernel.org/all/20210204143726.27977-1-schuchmann@schleissheimer.de/
+>>>
+>>> Your solution looks much better.
+>>> Could you give an example of how to use it?
+>>>
+>>> My Configuration at this time looks like this:
+>>>
+>>> multi-led@0 {
+>>> 		#address-cells = <1>;
+>>> 		#size-cells = <0>;
+>>> 		reg = <0x0>;
+>>> 		color = <LED_COLOR_ID_RGB>;
+>>> 		function = "eee-led-status";
+>>>
+>>> 		led-0 {
+>>> 			color = <LED_COLOR_ID_RED>;
+>>> 		};
+>>>
+>>> 		led-1 {
+>>> 			color = <LED_COLOR_ID_GREEN>;
+>>> 		};
+>>>
+>>> 		led-2 {
+>>> 			color = <LED_COLOR_ID_BLUE>;
+>>> 		};
+>>> 	};
+>>>
+>>>
+>>> Where do I put the "default-intensities"?
+>>>
+>>> Regards,
+>>>
+>>>      Sven
+>>>
+>>>> -----Ursprüngliche Nachricht-----
+>>>> Von: Sven Schwermer <sven@svenschwermer.de>
+>>>> Gesendet: Dienstag, 3. Mai 2022 13:27
+>>>> An: linux-leds@vger.kernel.org; linux-kernel@vger.kernel.org; pavel@ucw.cz;
+>>>> robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org; dmurphy@ti.com;
+>>>> devicetree@vger.kernel.org
+>>>> Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+>>>> Betreff: [PATCH v2 1/2] dt-bindings: leds: Add multi-color default-intensities property
+>>>>
+>>>> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+>>>>
+>>>> This allows to assign intensity values to the indivisual sub LEDs
+>>>> (colors) at driver probe time, i.e. most commonly at kernel boot time.
+>>>> This is crucial for setting a specific color early in the boot process.
+>>>>
+>>>> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+>>>> ---
+>>>>
+>>>> Notes:
+>>>>       V1->V2: no changes
+>>>>
+>>>>    .../devicetree/bindings/leds/leds-class-multicolor.yaml    | 7 +++++++
+>>>>    1 file changed, 7 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+>>>> b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+>>>> index 37445c68cdef..c483967a847c 100644
+>>>> --- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+>>>> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+>>>> @@ -31,6 +31,13 @@ patternProperties:
+>>>>              include/linux/leds/common.h.
+>>>>            enum: [ 8, 9 ]
+>>>>
+>>>> +      default-intensities:
+>>>> +        description: |
+>>>> +          This parameter, if present, sets the initial intensities of the
+>>>> +          individual colors. This array must have the same length as the
+>>>> +          multi-color LED has sub LEDs (colors).
+>>>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+>>>> +
+>>>>        $ref: "common.yaml#"
+>>>>
+>>>>        required:
+>>>> --
+>>>> 2.36.0
+>>>
