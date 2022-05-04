@@ -2,115 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7193B51AFE4
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 22:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E393151B070
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 23:23:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378442AbiEDVBm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 17:01:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47484 "EHLO
+        id S241278AbiEDV1Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 17:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378428AbiEDVBk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 17:01:40 -0400
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911643057F
-        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 13:58:02 -0700 (PDT)
-Received: from Marijn-Arch-PC.localdomain (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8C9773F90B;
-        Wed,  4 May 2022 22:58:00 +0200 (CEST)
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-To:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Martin Botka <martin.botka@somainline.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S235997AbiEDV1Q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 17:27:16 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4604ECF3;
+        Wed,  4 May 2022 14:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=t193kCtbz84k4NqKCB/hub8TFRvgLN7u8xZAZsAuxJw=; b=Ux
+        r1z1r9vj0dyQ/xQAlBLIV2RAbSdFyLqwgy9DCU5aco08VXgJVtFsNTddy+f3lW1Pc0LuQ+9BPIXMg
+        4pNYq712wFI1CQZGTwmoQH5t6tzqYg+h4Acba/IBFnJ+gFn0FulJiWs8mlg/bDUtd8tNhA6AxHrpE
+        NVW52RFZqotG7VU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nmMSp-001GMU-RI; Wed, 04 May 2022 23:23:15 +0200
+Date:   Wed, 4 May 2022 23:23:15 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>
-Subject: [PATCH 4/4] arm64: dts: qcom: sdm630-nile: Add RGB status LED on the PM660L LPG
-Date:   Wed,  4 May 2022 22:57:04 +0200
-Message-Id: <20220504205704.699500-4-marijn.suijten@somainline.org>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220504205704.699500-1-marijn.suijten@somainline.org>
-References: <20220504205704.699500-1-marijn.suijten@somainline.org>
+        Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
+ speeds
+Message-ID: <YnLuw2N76cv5eYky@lunn.ch>
+References: <20220503153613.15320-1-zajec5@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220503153613.15320-1-zajec5@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The entire Sony Nile and Ganges lineup utilize the first three channels
-(the triled channels) of the LPG block for an RGB (battery) status and
-notification indicator.
+On Tue, May 03, 2022 at 05:36:10PM +0200, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- .../dts/qcom/sdm630-sony-xperia-nile.dtsi     | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Hi Rafał
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile.dtsi b/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile.dtsi
-index 42af1fade461..f42304671520 100644
---- a/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile.dtsi
-@@ -10,6 +10,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/input/gpio-keys.h>
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	/* required for bootloader to select correct board */
-@@ -214,6 +215,38 @@ &blsp2_uart1 {
- 	/* HCI Bluetooth */
- };
- 
-+&pm660l_lpg {
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	qcom,power-source = <1>;
-+
-+	multi-led {
-+		color = <LED_COLOR_ID_RGB>;
-+		function = LED_FUNCTION_STATUS;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		led@1 {
-+			reg = <1>;
-+			color = <LED_COLOR_ID_BLUE>;
-+		};
-+
-+		led@2 {
-+			reg = <2>;
-+			color = <LED_COLOR_ID_GREEN>;
-+		};
-+
-+		led@3 {
-+			reg = <3>;
-+			color = <LED_COLOR_ID_RED>;
-+		};
-+	};
-+};
-+
- &pon_pwrkey {
- 	status = "okay";
- };
--- 
-2.36.0
+Please take a look at:
 
+https://lore.kernel.org/netdev/1651616511.165627.139789.nullmailer@robh.at.kernel.org/T/
+
+You need to somehow combine with that series. We want one way to
+configure PHY leds.
+
+Also, please don't post only DT patches, we want to see the driver
+changes as well which goes with it.
+
+    Andrew
