@@ -2,142 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 538C751A29D
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 16:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B5A51A324
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 17:06:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351502AbiEDOzo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 10:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
+        id S1351842AbiEDPKZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 11:10:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351520AbiEDOxk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 10:53:40 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3933920F69
-        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 07:50:04 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-e5e433d66dso1394503fac.5
-        for <linux-leds@vger.kernel.org>; Wed, 04 May 2022 07:50:04 -0700 (PDT)
+        with ESMTP id S1351730AbiEDPKY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 11:10:24 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CDD1D0FE;
+        Wed,  4 May 2022 08:06:48 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id p7-20020a05600c358700b00393e80c59daso2775914wmq.0;
+        Wed, 04 May 2022 08:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
-        b=H5IJ/aqZWpfdIMrj7CgLAqG/SdKN5STaYbw0mAiMe3knsYohgMViLX+4UVUoKCbjYy
-         KKl4gSQqN+y8a/5bgi2RL4jv+amby146NGM7XBx8dbVn4RsofMgka5QZYxjpufREvBgx
-         on8qRLmmmZDTNBS3mIpw49Zfq+rPlMGaYLZ12oBZLGWqrTnMda+uze00F4XB8lCnZ5nm
-         8Tl5G8rLBtDEYPTBoB6Iw3xTervmR0L8O+zASziNoND35e/wLu2xlyoXStOr8sXjon1D
-         bzVRi1ICf4OkXuJZNPr4iA9KfJYxKeZKraeRlic8bM30iN0elqk80fTjZY50t3Okqw6Y
-         ZeuQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PLmxdEGvqe0b9xKOHj+/DgoHCwSTpZrIfVZVX1IGYVE=;
+        b=RJ5Y+sMQpd20ZyIJH1JA5wTBSuhhYBuHYRDaWB21Q8hJk+0dSFTKTxpwt/e11XBGQs
+         GkHQqeZoac8FqFZ7bOwyic+hNGBcWM/3ZHSxsgiEZS/aAAozjV7vkK26hQnU+t1Q3zwU
+         sLjCJpUI+aexAU8HQDvF/5ogQErLQELeV+E9hhiB2gDfGWlkfyW1BokC/Vhpc1ujjhjC
+         s9osgfDoi1Y49kiIrk2y3K6VjBOmCcgW460LAV0Bbbbp7a3ObNum5R4UoLlWMfbCn942
+         idZqZ7pvkPYITEnrVuJak+PHDrAHbPKsuDzWdfVJ1NcDehZKfSQFS6ss6RDKj6tmAI+M
+         La9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
-        b=gXFxVpiBhzU/CSqIt+Ml3bd96j6HbnlsqbOqLtpeEUJL7gcVVIw5YDX5DgCJXdSRwN
-         8LDhWIIHbta+uJmHqE/5/qUbKZ/zkqF4fIqkoyZ2EOPUVaR/vq0ELzOBwAvjGtLvZO+n
-         kO4a3nHs4pjNUfC8dffLaZvVk/lNnu3VbTy2zVJEvI+z9J0qrFRG69KlhIIGqGPm+2qj
-         yKJBKT7sOTnnILqeLDhogjatZm2uEfrJCM07WqzsR0SGH1/XSrbzFnh+Bm7gfb+1agft
-         4D1H/U6+Wd7WR0WMV/6dRo7nd4Q3fAPzkXXfvYqkgtSI/yfbJUnneDbRZsGvQH/o+7wN
-         7KMA==
-X-Gm-Message-State: AOAM532LVwIhWhX02cyczLBhQYA/gvOTA8pHm17u32rz/2S6Own5fwSQ
-        R840bHDKkwcM4qa0mkRmd2hlpg==
-X-Google-Smtp-Source: ABdhPJwNJvAJDal6JEEM3A076oA8yC/XXroNGViJX0ZDvZfYyeiTcwTHDhaQwkREcnPpG+p4quwFKw==
-X-Received: by 2002:a05:6870:d254:b0:e9:5d17:9e35 with SMTP id h20-20020a056870d25400b000e95d179e35mr3712035oac.154.1651675803423;
-        Wed, 04 May 2022 07:50:03 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id v15-20020a05683018cf00b0060603221251sm5158169ote.33.2022.05.04.07.50.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PLmxdEGvqe0b9xKOHj+/DgoHCwSTpZrIfVZVX1IGYVE=;
+        b=HMHm4RksbdvhiQWdgLnzEYygAi+jZPWtMFDPAUnlkgFMOkKEUltznxiGS848qaCAwr
+         53N8u0dixrr1zAIKnm6aOVWi3jrKtUCWegb7vjoKZB486eFYVEImui1M0jfMgdzAIKma
+         mPEqTukZLIQcmZ/xQbigBgbMjMPYdVjE+2smqtsvIlylU3lMoALsKP2KGFjI6nLNPs1i
+         YLrwFs9wrfTqNcY9hWBhLTBXUFsyGdfpSJEsPxNWeA9MmelOQNWfRIZnxGVUPEmKf+QI
+         LyvRdcoiZzaIXppVSHX94bS4O55NwRvoPZfU0M+TjXRwQ52oE+ECuM+diZ5sau4NIGGr
+         YzBw==
+X-Gm-Message-State: AOAM530Hr/ZmEkEnlB/lkA7TnW0ibU+6h5YlaAgQtahfQU+z+e7bxfFD
+        AgQxyKaeyETb7oXXFErACdw=
+X-Google-Smtp-Source: ABdhPJx+qvrlmXgsYT5R8LTc8zrOEgffWUXrPSoe9HJXdVRJcuiV8a4dw5YQactUmt24rxBGG0DTRA==
+X-Received: by 2002:a1c:f606:0:b0:394:1a21:f68c with SMTP id w6-20020a1cf606000000b003941a21f68cmr8183075wmc.131.1651676806706;
+        Wed, 04 May 2022 08:06:46 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id q14-20020adfaa4e000000b0020c5253d91fsm12143596wrd.107.2022.05.04.08.06.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 07:50:02 -0700 (PDT)
-Date:   Wed, 4 May 2022 07:51:46 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
+        Wed, 04 May 2022 08:06:46 -0700 (PDT)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     pavel@ucw.cz
+Cc:     Markuss Broks <markuss.broks@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YnKTAvQc6eDxTl14@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND v6 0/2] Make AUX gpio pin optional for ktd2692
+Date:   Wed,  4 May 2022 18:04:09 +0300
+Message-Id: <20220504150457.5626-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220504073009.GC8204@duo.ucw.cz>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed 04 May 00:30 PDT 2022, Pavel Machek wrote:
+Some appliances of ktd2692 don't have the AUX pin connected to
+a GPIO. Specifically, Samsung Galaxy J5 (2015), which uses ktd2692
+for driving the front flash LED, has the pin not connected anywhere on
+schematics. Make specifying the AUX pin optional, since it is additional
+functionality and only affects amount of current going through the LED.
 
-> Hi!
-> 
-> > +/sys/class/leds/<led>/hw_pattern
-> > +--------------------------------
-> > +
-> > +Specify a hardware pattern for a Qualcomm LPG LED.
-> > +
-> > +The pattern is a series of brightness and hold-time pairs, with the hold-time
-> > +expressed in milliseconds. The hold time is a property of the pattern and must
-> > +therefor be identical for each element in the pattern (except for the pauses
-> > +described below).
-> 
-> therefore?
-> 
+Also convert the txt device-tree bindings to yaml and pick up maintenance
+over the yaml binding and the driver itself.
 
-Yes
+v2:
+- fix the dt_binding_check
+v3:
+- set the aux_gpio to NULL to avoid passing ERR_PTR as a gpio
+v4:
+- maintainership -> maintenance (description)
+- remove the if (led->aux_gpio)
+- use devm_gpiod_get_optional for aux gpio
+v5:
+- use ret to pass a correct error return code (Christophe)
+v6:
+- use PTR_ERR properly (when IS_ERR is true) (Christophe)
 
-> > +Simple pattern::
-> > +
-> > +    "255 500 0 500"
-> > +
-> > +        ^
-> > +        |
-> > +    255 +----+    +----+
-> > +        |    |    |    |      ...
-> > +      0 |    +----+    +----
-> > +        +---------------------->
-> > +        0    5   10   15     time (100ms)
-> > +
-> > +The LPG supports specifying a longer hold-time for the first and last element
-> > +in the pattern, the so called "low pause" and "high pause".
-> 
-> Please see
-> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
-> should really be compatible.
-> 
+Markuss Broks (2):
+  dt-bindings: leds: convert ktd2692 bindings to yaml
+  leds: ktd2692: Make aux-gpios optional
 
-Unfortunately the LPG hardware only supports fixed duration (except for
-the ability to hold/extend the first and last duration in the pattern)
-and it also does not support gradual transition between the brightness
-levels.
+ .../bindings/leds/kinetic,ktd2692.yaml        | 87 +++++++++++++++++++
+ .../devicetree/bindings/leds/leds-ktd2692.txt | 50 -----------
+ MAINTAINERS                                   |  6 ++
+ drivers/leds/flash/leds-ktd2692.c             | 18 ++--
+ 4 files changed, 103 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
 
-As such the pattern sequence provided to hw_pattern looks to be the
-smae, but I don't see that it can be made compatible.
+-- 
+2.35.1
 
-> Can I get either patch to disable pattern infrastructure for now or to
-> get it compatible?
-> 
-
-I'd be happy to get this updated to your liking, but this was one of the
-drivers we discussed when we introduced the pattern trigger and led to
-the conclusion that we need the ability to do hw-specific patterns.
-
-As such this document provides the hardware specific documentation, as
-we describe under "hw_pattern" in
-Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-
-Please advice on what you would like me to do.
-
-Regards,
-Bjorn
