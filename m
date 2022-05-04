@@ -2,83 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9262D51ACB5
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 20:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DFDB51ACFA
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 20:36:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237334AbiEDS2X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 14:28:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47872 "EHLO
+        id S1353781AbiEDSjj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 14:39:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237899AbiEDS2Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 14:28:16 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DEE44D61B;
-        Wed,  4 May 2022 10:56:48 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 606581C0BA5; Wed,  4 May 2022 19:56:47 +0200 (CEST)
-Date:   Wed, 4 May 2022 19:56:47 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Gene Chen <gene_chen@richtek.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: leds-mt6360: Drop redundant
- 'unevaluateProperties'
-Message-ID: <20220504175647.GE8725@duo.ucw.cz>
-References: <20220426133508.1849580-1-robh@kernel.org>
- <YmmLldJcJ2tOOCO7@robh.at.kernel.org>
+        with ESMTP id S1377480AbiEDSjZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 14:39:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB1D1AF17
+        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 11:31:39 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmJmj-0003sc-D6; Wed, 04 May 2022 20:31:37 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmJmk-000MYN-2Y; Wed, 04 May 2022 20:31:36 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmJmh-007Ztu-Rm; Wed, 04 May 2022 20:31:35 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] leds: is31fl32xx: Improve error reporting in .remove()
+Date:   Wed,  4 May 2022 20:31:31 +0200
+Message-Id: <20220504183131.52728-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="2hMgfIw2X+zgXrFs"
-Content-Disposition: inline
-In-Reply-To: <YmmLldJcJ2tOOCO7@robh.at.kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1320; h=from:subject; bh=cJRA3glxO1Ke7ajkhJU/PzZSeqPTk5OSlmeEga+VuP8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBicsZ/z+WRLs0yy1zUlykzkP1zaNUFCuBnkNjODT9X nLPnR2SJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYnLGfwAKCRDB/BR4rcrsCXysB/ 0XmRYAZ2y+aW9ZsU/vN4x6nPm+jVjDUvuI4BdK2QybVm3LcYqiuFAXBZwGoGoyM+6TZrwh/zUE2hUI pFdutCwmLTbqwuJsQHoBbbF4Y9CYnfZijNmoCZBUpOgLcxzIZQUqpkjoFs0hr/iC0sq21Km4j/x+yL 1EDwhZh9G7gZqN1MIgHppUDqFfldeJf2+5FpF9+nMpcWiFFNhI9a/Q39IC5AEiZq4qpQ3xfHqwlaHP ceNOftWK3A0Yx+osqF0aFVlkr01p40EroBFDNo9U/w8tQaRyzjGvn7A+npyMSWWuxJIKoGBfSGYA01 R/fCpc8p1ReUQyvPE6JTtE71WXv++o
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Returning an error value in an i2c remove callback results in a generic
+error message being emitted by the i2c core, but otherwise it doesn't make
+a difference. The device goes away anyhow and the devm cleanups are
+called.
 
---2hMgfIw2X+zgXrFs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So instead of triggering the generic i2c error message, emit a more helpful
+message if a problem occurs and return 0 to suppress the generic message.
 
-On Wed 2022-04-27 13:29:41, Rob Herring wrote:
-> On Tue, 26 Apr 2022 08:35:08 -0500, Rob Herring wrote:
-> > The binding has both 'unevaluateProperties: false' and
-> > 'additionalProperties: false' which is redundant. 'additionalProperties'
-> > is the stricter of the two, so drop 'unevaluateProperties'.
-> >=20
-> > Fixes: e05cab34e417 ("dt-bindings: leds: Add bindings for MT6360 LED")
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/leds/leds-mt6360.yaml | 2 --
-> >  1 file changed, 2 deletions(-)
-> >=20
->=20
-> Applied
+This patch is a preparation for making i2c remove callbacks return void.
 
-Thank you!
-							Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/leds/leds-is31fl32xx.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
---2hMgfIw2X+zgXrFs
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+index 22c092a4394a..fc63fce38c19 100644
+--- a/drivers/leds/leds-is31fl32xx.c
++++ b/drivers/leds/leds-is31fl32xx.c
+@@ -460,8 +460,14 @@ static int is31fl32xx_probe(struct i2c_client *client,
+ static int is31fl32xx_remove(struct i2c_client *client)
+ {
+ 	struct is31fl32xx_priv *priv = i2c_get_clientdata(client);
++	int ret;
+ 
+-	return is31fl32xx_reset_regs(priv);
++	ret = is31fl32xx_reset_regs(priv);
++	if (ret)
++		dev_err(&client->dev, "Failed to reset registers on removal (%pe)\n",
++			ERR_PTR(ret));
++
++	return 0;
+ }
+ 
+ /*
 
------BEGIN PGP SIGNATURE-----
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+-- 
+2.35.1
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnK+XwAKCRAw5/Bqldv6
-8uKUAJ4mu8CeqxEjsLFjOzdUAjXUoBBgEQCgpeK3/QYfQACi2vQAk8BrArf+WJU=
-=SuN2
------END PGP SIGNATURE-----
-
---2hMgfIw2X+zgXrFs--
