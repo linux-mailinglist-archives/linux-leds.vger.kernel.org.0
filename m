@@ -2,107 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D35A151A557
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 18:22:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E6051A5A5
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 18:37:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353041AbiEDQZv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 12:25:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
+        id S236816AbiEDQks (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 12:40:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344517AbiEDQZu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 12:25:50 -0400
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26EE37A82
-        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 09:22:13 -0700 (PDT)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-e2fa360f6dso1684830fac.2
-        for <linux-leds@vger.kernel.org>; Wed, 04 May 2022 09:22:13 -0700 (PDT)
+        with ESMTP id S231852AbiEDQks (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 12:40:48 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087C015711;
+        Wed,  4 May 2022 09:37:11 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id d6so2321472ede.8;
+        Wed, 04 May 2022 09:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QmilVLs7shRy11j7rzed/0OI3W8rRjrF4NUvuI5TW7Y=;
-        b=I2Z1uyTSFgbIs7dDPMYfZtThOeL99v+lk2RWkbxe2YxCc2f6tbVq1mCMJB5vF7WHXu
-         c5oEgN/Crke1yktphbSZN0pnieBc3TJrJJzsXWIluzQovY/Mco7o9sp+Vk43dYshZGHv
-         UK4HD+TLdnGh13vumFVFiq7Za4UVyA2/kWcAiG2iStaHcuyX77sC4simIfSkFr7kXGgM
-         i1UJEM7XrRCiO+H/ce+y8kLMtyp8VTPEp1tDphVFuU6wBS5viAmbAiYcVSexf1RE4KOh
-         KOY4pCt6ilbh0ikZpBdsIcxiK5Wz93bcYiKaVvZ04Kl8/o6RRgxf1/q5lymQ0okZd/NU
-         ZH+g==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xf0XnIUXSUk6cizryQBZy/YJHjA9ZjdH2YsUOzyDnc4=;
+        b=aSXtoSMHDvZNXMhWaihhLP25nQOQhiEHCKB91OUlWvLZD0yCipp8z5dzqA69y0ms61
+         Lq8x67iU3jxnqIMy4JG6m3PIEmXpy6R1DEZDGGSdgtjRu07/Xsd77YBZQ43e6zWVaYQ5
+         MP1lZaWwaOiuqf2Ddf4OPGhE53cKuuXZoPSktz7O+xjodz7Tbtl9invbFlKBgWRh2q8K
+         Bp6XRGmdhMHMvAcPYe5A7MxC9Wu76/YGcQW8qLUMreFTu1O1DCin2OiWNE1GSjYs8Zrx
+         u5Y0jwDXFcbnRPgCQa0UEB7k08nXH/WpKUg6QkZ9ml4hyJYfsm2oLkuNaLHDW36+8h82
+         yAFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QmilVLs7shRy11j7rzed/0OI3W8rRjrF4NUvuI5TW7Y=;
-        b=mEa+Jd7et0MmrPnMOvIZRV+g6ML1WMH5ySy3TQg3yoYJnV+HEb8MqX/fplvMkejjWO
-         52aPdyPN43iKgRBZx+sxj+XG940ckKL+kxN1ctETisy3Sl4hGmPxspy788E5G38awVY3
-         /uX7Knn8EGeip/jLODI4UEfEnyZYQLcL5FHAw/6c2AlHCcONCxVo7Y3RRBnohp1CIJTY
-         jlGIJy8Y5jQi4G0bSHLJMEi2Bz2LZvDYLuCtiW5wEa12vv00W3+rEQyxOo5zLWFNAq0a
-         /KXtPHvusnrVkCO7z3AEMNYR6iKZTlVxNGf8KCQmZ64EHAUPIoTKIIw8jui07k9rdj5R
-         yadQ==
-X-Gm-Message-State: AOAM530HHYCIQeR/JaZ7Mdej+VUzOqro2551GwrrKuMBPNpIzI8wI5gX
-        gCa8xWjWKJkecseGs0gk8t3Jmg==
-X-Google-Smtp-Source: ABdhPJyw8fdPyxfPtPFrptz6bFFUOaUxzQnYjrbmvhmNyVIEVriAllRJELoo7ijvXDYYfA7OzXwaKw==
-X-Received: by 2002:a05:6870:a7a0:b0:ed:e8f2:fe1c with SMTP id x32-20020a056870a7a000b000ede8f2fe1cmr128691oao.192.1651681333370;
-        Wed, 04 May 2022 09:22:13 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id v3-20020acade03000000b003263cf0f282sm1440619oig.26.2022.05.04.09.22.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 09:22:12 -0700 (PDT)
-Date:   Wed, 4 May 2022 09:23:56 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Doug Anderson <dianders@chromium.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        linux-leds@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH V4 0/4] Add PM8350C PMIC PWM support for backlight
-Message-ID: <YnKonEp3/+9QZmRa@ripper>
-References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
- <CAD=FV=U9XfOancqNOGCWKEkP2jD4CHw6NHY8mdALG7D-7OLMTw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xf0XnIUXSUk6cizryQBZy/YJHjA9ZjdH2YsUOzyDnc4=;
+        b=6sExnOamH6OLNhCg3fHPq6eYJ9D9QxOntpKJFDzhMyWSkanhiGiPkL7xoQXvL/Ho0r
+         6jKTvKNeOz2GaHCzGS+4W9iIq75I8BMlFlV04r46rdW0R+7kyBmQV2hRh6T+hAFOrody
+         ZAPXIVeiNQTtuY9+aFQck2kT1ys3xBZ2TDAy+Mu7MoZ3TYxLmqmaaX9j0qcUWKN1XOIw
+         hKO7mpACf/XMWSoHF+ONVoI5JRW+w5Qe4GtuR4fNEpB1clb0NiJkmJEzd+u8ZUY/7f+/
+         WADTG7OCLvkYc3cSBdqLS7spypshN6/z9OTwh+JJJXUSCSu53a1c9YIhFfet3//BrlZW
+         XNdg==
+X-Gm-Message-State: AOAM533l5IG29udDARzm8ZPDqzY/721uaucsVkHqtlgYrIr3aiUr9l2g
+        +abbNDAU0ku3rv6/caEQnCYlyI7k5OlS5o/RwCRBWi4UMYDGAdDp
+X-Google-Smtp-Source: ABdhPJzvVj4QAu2vJSNQvv5AulXPLXlXytMRH0aeuSwaDWF3GIZlKBljGm3kzbhGM2ilk0akA+eSiBvblyYOUScdFNE=
+X-Received: by 2002:a05:6402:54:b0:419:9b58:e305 with SMTP id
+ f20-20020a056402005400b004199b58e305mr23790727edu.158.1651682229586; Wed, 04
+ May 2022 09:37:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=U9XfOancqNOGCWKEkP2jD4CHw6NHY8mdALG7D-7OLMTw@mail.gmail.com>
+References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
+ <20220308193522.26696-1-henning.schild@siemens.com> <YnJ2tYjCpJi7yc4j@smile.fi.intel.com>
+ <20220504171951.0d569632@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20220504171951.0d569632@md1za8fc.ad001.siemens.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 4 May 2022 18:36:33 +0200
+Message-ID: <CAHp75VfhzYrCRd_Ne_JPdzXgNaaHz8Eg_Rr+n83umWVFtoTzfA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] simatic-ipc additions to p2sb apl lake gpio
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed 04 May 06:45 PDT 2022, Doug Anderson wrote:
+On Wed, May 4, 2022 at 6:16 PM Henning Schild
+<henning.schild@siemens.com> wrote:
+> Am Wed, 4 May 2022 15:51:01 +0300
+> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+> > On Tue, Mar 08, 2022 at 08:35:20PM +0100, Henning Schild wrote:
 
-> Pavel,
-> 
-> On Mon, Feb 21, 2022 at 9:55 PM Satya Priya <quic_c_skakit@quicinc.com> wrote:
-> >
-> > This series depends on [1], which adds driver for Qualcomm LPG.
-> >
-> > [1] https://patchwork.kernel.org/project/linux-arm-msm/list/?series=615848
-> >
-> > Satya Priya (4):
-> >   dt-bindings: leds: Add pm8350c pmic support
-> >   leds: Add pm8350c support to Qualcomm LPG driver
-> >   arm64: dts: qcom: pm8350c: Add pwm support
-> >   arm64: dts: qcom: Enable pm8350c pwm for sc7280-idp2
-> 
-> I see Bjorn's patch in your tree. Thanks!
-> 
-> ...could you add patch #1 and #2 from this series too? They are both
-> small and ready to go.
-> 
+...
 
-To add to that, now that the binding has been accepted I will pick the
-two dts patches (patch 3 and 4) through the Qualcomm tree.
+> > Second question is could it be possible to split first patch into
+> > three, or it has to be in one?
+>
+> I assume one for leds one for wdt and finally drop stuff from platform,
 
-So Pavel, please pick up the first two through your tree.
+Yes.
 
-Regards,
-Bjorn
+> and i will go with that assumption for a next round based on your tree
+> directly.
+
+> Can you explain why that will be useful? While it is kind of a
+> separation of concerns and subsystems ... it also kind of all belongs
+> together and needs to be merged in a rather strict order.
+
+The main case here is that it's easy to review during upstreaming and
+in case of somebody looking into the history. It keeps each of the
+changes logically isolated. I.o.w. it adds flexibility, for example
+changing ordering of the WDT and LED patches in the series in this
+case.
+
+I admit that for _this_ series my arguments are not strong, but I'm
+speaking out of general approach. The pattern
+  1) add new api
+  2) switch driver #1 to it
+  ...
+  2+n) switch driver #n to it
+  3+n) drop old API
+is how we do in the Linux kernel, even if the changes are coupled
+together from a functional / compile perspective.
+
+-- 
+With Best Regards,
+Andy Shevchenko
