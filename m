@@ -2,94 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FA1351AE78
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 21:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5462451AF31
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 22:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233791AbiEDT7r (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 15:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33434 "EHLO
+        id S1378078AbiEDUgf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 16:36:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238208AbiEDT7q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 15:59:46 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC0062E8;
-        Wed,  4 May 2022 12:56:09 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id p18so2906541edr.7;
-        Wed, 04 May 2022 12:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lHzN/II1cqKG6Dxy3ToqBfroY6UHh0zWNL0Co+wZqsU=;
-        b=XHO7iOq/qqQ21uCUaSIAHFkG/WcxpiKguZE7NqeR4ndEtDqWMXhN9HdlAuEKQZhOZ1
-         VPJ+UbojC9TuiU5u8V4uDbfAehIaGrXYoj8rIXSVOqDS0wTScuqw6Xy6xySDXb2nbg14
-         6pu08x8MpTqBx/iryzQcJHl4dAlxvtzQExPy91oeGkGApKYfxiagVJ4SAl+uaZGpzxCX
-         UUuA7Qc6rpfpCDyR1txQWqsZjTah861eUXNpQk3rJ34jBRvpCBujSVWc3zRP6iK/sLQe
-         nqVR2O2zAPwsUpZkPNLRG/2T+3AXgE4Ehg7+8qr4hQZ8Q5xFRadXN+rbY8jLs7KQjCrM
-         rQ6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lHzN/II1cqKG6Dxy3ToqBfroY6UHh0zWNL0Co+wZqsU=;
-        b=R5xxIQYDG7LTXjkXGbIzUR1maaYtkqOvdqUYWuaJm5bpYeNJK5fXsp3Owey7gAVJhN
-         +pE0qUq/GhChbq9XvdhiGvkLY29rYpcbuV/GBZrvA8klCaO0wissu9XEKPJctnhzifKy
-         b56U5DSAlWca/Z7PZ/2lzxjr8VpZmoe4HxAPMPgkkWwZD3gjYRH/aj4XQnYfK2VpkW9X
-         U3bhz5nFAfSYWUmuOyDq31zzpHtgXKQSvw9M9WPZD2anb/shl5+Q5JnMkaf/snB2Wwm9
-         8nSZ5pRGBwDPU7dv7bc+6xzHqk1edq4/UfZcMqjW9Pj37fWCGH2w3/R4f63Ch9QUZzyO
-         hTbg==
-X-Gm-Message-State: AOAM5319vyDZAJfOfp+6LOZUksgzUYZjFU3qcSW8rEkbHRuW7nwWo+6j
-        guqOZM/y85kmij0rMBHQ4Anmtw48tZJD0OmDRRQ=
-X-Google-Smtp-Source: ABdhPJzoLtDpQCHhg4vioDldJRRTCvYHn7hSBl7b9n91FwSGhv1/4alySP2hCps314zWYRH0QbPJY2cSM6YnoyJrlzQ=
-X-Received: by 2002:aa7:d350:0:b0:425:e029:da56 with SMTP id
- m16-20020aa7d350000000b00425e029da56mr25311335edr.296.1651694168197; Wed, 04
- May 2022 12:56:08 -0700 (PDT)
+        with ESMTP id S1378062AbiEDUgd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 16:36:33 -0400
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7659A4F448;
+        Wed,  4 May 2022 13:32:56 -0700 (PDT)
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1nmLg4-0003MI-01; Wed, 04 May 2022 22:32:52 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id B9C09C01D0; Wed,  4 May 2022 22:32:24 +0200 (CEST)
+Date:   Wed, 4 May 2022 22:32:24 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Subject: Re: [PATCH 07/30] mips: ip22: Reword PANICED to PANICKED and remove
+ useless header
+Message-ID: <20220504203224.GA23475@alpha.franken.de>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-8-gpiccoli@igalia.com>
 MIME-Version: 1.0
-References: <20220504193439.15938-1-markuss.broks@gmail.com>
- <CAHp75VeMCiwgTFFy5vGBoWYSw4mGQU6623B1eMr7apJZF_L-kg@mail.gmail.com> <20220504195042.GA25790@duo.ucw.cz>
-In-Reply-To: <20220504195042.GA25790@duo.ucw.cz>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 4 May 2022 21:55:32 +0200
-Message-ID: <CAHp75VeBovr7FvaW3VYhoR=QN0RUSdBEAYoP8jftS30_10vsOA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/2] Make AUX gpio pin optional for ktd2692
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Markuss Broks <markuss.broks@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427224924.592546-8-gpiccoli@igalia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 4, 2022 at 9:50 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > > v7:
-> > > - drop the MAINTAINERS part
-> >
-> > I'm not sure why it happened.
-> >
-> > 4) update MAINTAINERS.
->
-> I asked for that one.
->
-> If there's no other problem, I can take the series.
+On Wed, Apr 27, 2022 at 07:49:01PM -0300, Guilherme G. Piccoli wrote:
+> Many other place in the kernel prefer the latter, so let's keep
+> it consistent in MIPS code as well. Also, removes a useless header.
+> 
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+>  arch/mips/sgi-ip22/ip22-reset.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 
-Ah, thanks for clarification.
-As I mentioned before, it would be really nice to have a fix-patch
-prepending this series. That said, this series needs to be rebased on
-it.
+applied to mips-next.
+
+Thomas.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
