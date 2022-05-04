@@ -2,64 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5462451AF31
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 22:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F1051AFDC
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 22:58:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378078AbiEDUgf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 16:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42286 "EHLO
+        id S1378418AbiEDVBi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 17:01:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378062AbiEDUgd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 16:36:33 -0400
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7659A4F448;
-        Wed,  4 May 2022 13:32:56 -0700 (PDT)
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1nmLg4-0003MI-01; Wed, 04 May 2022 22:32:52 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id B9C09C01D0; Wed,  4 May 2022 22:32:24 +0200 (CEST)
-Date:   Wed, 4 May 2022 22:32:24 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
-        dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-Subject: Re: [PATCH 07/30] mips: ip22: Reword PANICED to PANICKED and remove
- useless header
-Message-ID: <20220504203224.GA23475@alpha.franken.de>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-8-gpiccoli@igalia.com>
+        with ESMTP id S238650AbiEDVBf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 17:01:35 -0400
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [IPv6:2001:4b7a:2000:18::169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7D218387;
+        Wed,  4 May 2022 13:57:56 -0700 (PDT)
+Received: from Marijn-Arch-PC.localdomain (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 9D4BD3F79F;
+        Wed,  4 May 2022 22:57:54 +0200 (CEST)
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Martin Botka <martin.botka@somainline.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] dt-bindings: leds: qcom-lpg: Add compatible for PM660L LPG block
+Date:   Wed,  4 May 2022 22:57:01 +0200
+Message-Id: <20220504205704.699500-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427224924.592546-8-gpiccoli@igalia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,20 +48,26 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 07:49:01PM -0300, Guilherme G. Piccoli wrote:
-> Many other place in the kernel prefer the latter, so let's keep
-> it consistent in MIPS code as well. Also, removes a useless header.
-> 
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> ---
->  arch/mips/sgi-ip22/ip22-reset.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+Document the availability of an LPG configuration for the PM660L PMIC in
+the Qualcomm Light Pulse Generator driver.
 
-applied to mips-next.
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
+ Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thomas.
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 336bd8e10efd..64272a92c5b7 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -17,6 +17,7 @@ description: >
+ properties:
+   compatible:
+     enum:
++      - qcom,pm660l-lpg
+       - qcom,pm8150b-lpg
+       - qcom,pm8150l-lpg
+       - qcom,pm8916-pwm
+--
+2.36.0
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
