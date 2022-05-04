@@ -2,131 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FC451ABF7
-	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 19:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D750851AC26
+	for <lists+linux-leds@lfdr.de>; Wed,  4 May 2022 20:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359714AbiEDSCK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 14:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41358 "EHLO
+        id S1359806AbiEDSG3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 14:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377452AbiEDSA4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 14:00:56 -0400
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D451C12B;
-        Wed,  4 May 2022 10:15:51 -0700 (PDT)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-e5e433d66dso1825981fac.5;
-        Wed, 04 May 2022 10:15:51 -0700 (PDT)
+        with ESMTP id S1359616AbiEDSGL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 14:06:11 -0400
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77DAC6D3A4
+        for <linux-leds@vger.kernel.org>; Wed,  4 May 2022 10:21:28 -0700 (PDT)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-e656032735so1876471fac.0
+        for <linux-leds@vger.kernel.org>; Wed, 04 May 2022 10:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DUWKIdH/fEUKAxxzAokiJ2q+i9WASUkxei6O8LHC1rU=;
+        b=a3TSfVCrQqto9wmhJlB9avSH7Rp2BPHfvLxJNNhi9ciOwVonT/3vyD9qvpnRG+ay/p
+         qodVdrmUN8IKY+xc/SwIaS/U9CllguT+CewL9xBoAIC9Y/aeFEng9u/xSDK6UhVeVt+O
+         sO+g09lD0i56YTXLqTzDrIsYeJGoIQ+q0uovZ0NRMQADtfZS08DC4ojVdOuGOjK2acsi
+         jVmiv3QUseFuu2IDWH00tkMrWer8HKAka2giqqNBfRrwkcAuIinbAEwEJ0Y5HyzQfaPh
+         4NF/gMn9Gy/IxS9yXzH99wjHS5ajbfASZKmDgOfbspi4lYoSdUSWNU4uqa0NFqpwu4fK
+         LOgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/sZFoGSuVJsC2wZ9dNCc4JLrQrkFZcqEG47d9JqV1Gg=;
-        b=Wr9U25nWL8PG6OO8do93gYbUy0N/ihRqkK/bG7hG7rdAZvds4bbbFujaJWEU5A1wdH
-         mqR5n3zR+FV6pcTyCAMwXPkipvbJXkQyMKX4BRGQXdrkvQnbS5rD72dILnM2Lcc+C4/g
-         UP4u/ZMql1p9cg7qM1vsYvlhxieblw8PXaVIK7UBmegsd/SJpYkfHRohDVqtTWgvG++M
-         aEhmU8Ty17KjYU/nBbylIOBrEYFCjoE02eXMz3nz3+1Il9hKZcY5G5pt4TvulFiuOlQe
-         jN79sSn3V3ZFmk6DC7n+fxK1sIPVekN6c3TOAJrkIr7bLpe7iFyGRY5Qq0fbue7tE7BG
-         U9+A==
-X-Gm-Message-State: AOAM531NQFsr89tMQ6FUmSMRh7QTq34GytN4hDYBDwebMZ1yCHmuxfPM
-        j055A1eAbtZnsdIcJnFvHg==
-X-Google-Smtp-Source: ABdhPJz/D0e0enLqOyhRaOxOcEe96JkZ+yUVLWBCkpaNez82JEr/wX3grMMHjSAk9p5UL5gCadvo6Q==
-X-Received: by 2002:a05:6870:9a05:b0:e6:589e:1ec5 with SMTP id fo5-20020a0568709a0500b000e6589e1ec5mr240831oab.203.1651684550678;
-        Wed, 04 May 2022 10:15:50 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id f6-20020a4ad806000000b0035eb4e5a6c4sm6234126oov.26.2022.05.04.10.15.49
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DUWKIdH/fEUKAxxzAokiJ2q+i9WASUkxei6O8LHC1rU=;
+        b=7j8WjxhiLiTuLCrc7gLHpAC6jZho9N1pGqhWij9hJ3b1mNxwIQ5ujrOQp/W6b6IvMt
+         HIjM3fqX3iBkWWIvN/Jj/TLhaTKsiFPPUt1yA0TowYWJZMbUhLSr4aLKE5HVAUIjebSV
+         kZ04COCr3uFhmIEu81ljQm/RXSAPtVEYPGXc3L2k+P0wb1IyL58TC4qDCLdQvFqVKS/f
+         v3lrmfnuQYjFoPi2uAwiuQHdq+RT5+5bDxOuLPfIMAH40oMDFSXoGxCG9PtvWI5hC9VI
+         9pdomg5Velnkhq5HrkYKT2sTJDL0oXkvLU32H2S4+DXMMn5TK066KGG+AHHc4a0fS0O0
+         RqSw==
+X-Gm-Message-State: AOAM533HB5QzARbz86JNn7VPhLiNSNNi+EcPnWYaWpGKt9G3eKVBPVtr
+        IywzL0sir1Txo6FkrnO9T1RWYQ==
+X-Google-Smtp-Source: ABdhPJy2UZOyD3CWXrA/eXvFp3d4iW9ppaYryHuEExwQ7s7wGina9JRPiQs5uxLBRUeni6GHxzzWGA==
+X-Received: by 2002:a05:6870:c186:b0:e9:5f39:85b1 with SMTP id h6-20020a056870c18600b000e95f3985b1mr277585oad.144.1651684887889;
+        Wed, 04 May 2022 10:21:27 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id a7-20020a056870b14700b000ead8b89484sm5785452oal.5.2022.05.04.10.21.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 10:15:49 -0700 (PDT)
-Received: (nullmailer pid 1896703 invoked by uid 1000);
-        Wed, 04 May 2022 17:15:48 -0000
-Date:   Wed, 4 May 2022 12:15:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v6 11/11] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <YnK0xHOkfXI+rgzs@robh.at.kernel.org>
-References: <20220503151633.18760-1-ansuelsmth@gmail.com>
- <20220503151633.18760-12-ansuelsmth@gmail.com>
+        Wed, 04 May 2022 10:21:27 -0700 (PDT)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Satya Priya <quic_c_skakit@quicinc.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: (subset) [PATCH V4 0/4] Add PM8350C PMIC PWM support for backlight
+Date:   Wed,  4 May 2022 12:21:12 -0500
+Message-Id: <165168485227.3730817.2589652211436766434.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
+References: <1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503151633.18760-12-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, May 03, 2022 at 05:16:33PM +0200, Ansuel Smith wrote:
-> Add LEDs definition example for qca8k using the offload trigger as the
-> default trigger and add all the supported offload triggers by the
-> switch.
+On Tue, 22 Feb 2022 11:25:05 +0530, Satya Priya wrote:
+> This series depends on [1], which adds driver for Qualcomm LPG.
 > 
-> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> [1] https://patchwork.kernel.org/project/linux-arm-msm/list/?series=615848
 > 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index f3c88371d76c..9b46ef645a2d 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -65,6 +65,8 @@ properties:
->                   internal mdio access is used.
->                   With the legacy mapping the reg corresponding to the internal
->                   mdio is the switch reg with an offset of -1.
-> +                 Each phy have at least 3 LEDs connected and can be declared
+> Satya Priya (4):
+>   dt-bindings: leds: Add pm8350c pmic support
+>   leds: Add pm8350c support to Qualcomm LPG driver
+>   arm64: dts: qcom: pm8350c: Add pwm support
+>   arm64: dts: qcom: Enable pm8350c pwm for sc7280-idp2
+> 
+> [...]
 
-s/at least/up to/ ?
+Applied, thanks!
 
-Or your example is wrong with only 2.
+[3/4] arm64: dts: qcom: pm8350c: Add pwm support
+      commit: 5be66d2dc8873edcf215804067b1c076b00c6887
+[4/4] arm64: dts: qcom: Enable pm8350c pwm for sc7280-idp2
+      commit: 82096cc644098ab610e6df5238341907ea662164
 
-> +                 using the standard LEDs structure.
->  
->  patternProperties:
->    "^(ethernet-)?ports$":
-> @@ -287,6 +289,24 @@ examples:
->  
->                  internal_phy_port1: ethernet-phy@0 {
->                      reg = <0>;
-> +
-> +                    leds {
-> +                        led@0 {
-> +                            reg = <0>;
-> +                            color = <LED_COLOR_ID_WHITE>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            linux,default-trigger = "netdev";
-> +                        };
-> +
-> +                        led@1 {
-> +                            reg = <1>;
-> +                            color = <LED_COLOR_ID_AMBER>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            linux,default-trigger = "netdev";
-> +                        };
-> +                    };
->                  };
->  
->                  internal_phy_port2: ethernet-phy@1 {
-> -- 
-> 2.34.1
-> 
-> 
+Best regards,
+-- 
+Bjorn Andersson <bjorn.andersson@linaro.org>
