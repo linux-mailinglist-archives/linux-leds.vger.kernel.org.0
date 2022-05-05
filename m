@@ -2,44 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71DD751BC84
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 11:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D262B51BF1D
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 14:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354589AbiEEJy0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 05:54:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37394 "EHLO
+        id S1376481AbiEEMVX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 08:21:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231517AbiEEJyO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 05:54:14 -0400
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E419140D7;
-        Thu,  5 May 2022 02:50:29 -0700 (PDT)
-X-Virus-Scanned: Yes
-From:   Sven Schwermer <sven@svenschwermer.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1651744226;
-        bh=lOGd00ODohYP+KMc0D1h92V6nZo00DPGfkd/bfgkdYw=;
-        h=From:To:Cc:Subject:In-Reply-To:References;
-        b=JZdNtDf77tM4Zs5MwXskT78cfYZLmrk/pLZ54LQmDnU5IHzW2XDNfeRxP2RYcK14+
-         TWyWIASbqtdYiIlRKuyKlWH6/gS0Lt9yJJGM6rHXnX9ff6xbtgprA/jSj3tzRaTxpx
-         nIJUaCWAnni5hEiyvcG1NwBcgfyq/mGnAOgodIFzY2swPU3yTYR/zTGDfLG/PG4n8C
-         6GGjQ0MuaApRj3n6qJUfnxAO5RyxBjkB6/nEGm/XU9JN/sVXht5EIVnnB7lMD8Edhi
-         mVR9Da2au8wKFPYavx2m/35pi7sSlpr5gg61ejBOifKoHtdPwUUOuoQaInDk/JX8hj
-         8+W0RhmXAVdvg==
-To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
-Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        schuchmann@schleissheimer.de
-Subject: [PATCH v3 2/2] leds: multicolor: Read default-intensities property
-Date:   Thu,  5 May 2022 11:50:09 +0200
-Message-Id: <9175a8b9fdd23a5b379457e7246ae4364cabc110.1651744128.git.sven.schwermer@disruptive-technologies.com>
-In-Reply-To: <eef2dba9633a860063527628a72f6a4523aaf6cd.1651744128.git.sven.schwermer@disruptive-technologies.com>
-References: <eef2dba9633a860063527628a72f6a4523aaf6cd.1651744128.git.sven.schwermer@disruptive-technologies.com>
-Mime-Version: 1.0
+        with ESMTP id S1355567AbiEEMVW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 08:21:22 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD1E54FB5;
+        Thu,  5 May 2022 05:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=aZq5jO8c2cQjpNu/6cSRu86328iJHgS0Kgbi++2VnQk=; b=t9
+        rEggc8JstJI8HquYLGPX7K2BbrWG3xtlnbc5OBWAZzd6tAddeHR6S3uzlGNzNnpsgY73ujkYD4fd/
+        uo1KRNTnmkYJPUMERaGHOKvsAIS299g2tf1xHtD5/TV7sqtYzry9CVbxv8trMehsTnNzawMVoo4je
+        TzI5G6zMq8PYzt4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nmaPw-001LnC-7I; Thu, 05 May 2022 14:17:12 +0200
+Date:   Thu, 5 May 2022 14:17:12 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
+ speeds
+Message-ID: <YnPASLy4oWJ6BJDq@lunn.ch>
+References: <20220503153613.15320-1-zajec5@gmail.com>
+ <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,98 +66,26 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+On Thu, May 05, 2022 at 07:19:41AM +0200, Rafał Miłecki wrote:
+> On 3.05.2022 17:36, Rafał Miłecki wrote:
+> > From: Rafał Miłecki <rafal@milecki.pl>
+> > 
+> > This allows specifying multiple Ethernet speeds in a single DT uint32
+> > value.
+> > 
+> > Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> 
+> Ansuel please check if my patchset conflicts in any way with your work.
+> 
+> Andrew suggested to combine both but right now I don't see it as
+> necessary.
+> 
+> I'd still appreciate your review of my work. Such binding may be
+> required for some hardware controlled LEDs setup too I guess.
 
-This allows to assign intensity values taken from the firmware interface
-(if available) to the indivisual sub LEDs (colors) at driver probe time,
-i.e. most commonly at kernel boot time. This is crucial for setting a
-specific color and early in the boot process. While it would be possible
-to set a static color in the bootloader, this mechanism allows setting a
-pattern (e.g. blinking) at a specific color.
+Please look at the LED binding. It is an LED you are trying to
+control, so that is the binding you should be using.  How do you
+describe this functionality using that binding. Ansuel code will give
+you the framework to actually do the implementation within.
 
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
----
-
-Notes:
-    V1->V2: Fix mixup
-    V2->V3: Use color-intensity mapping instead of simple intensity array
-
- drivers/leds/led-class-multicolor.c | 48 +++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
-
-diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-index e317408583df..2900dd02fe41 100644
---- a/drivers/leds/led-class-multicolor.c
-+++ b/drivers/leds/led-class-multicolor.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-+#include <linux/property.h>
- 
- #include "leds.h"
- 
-@@ -116,6 +117,50 @@ static struct attribute *led_multicolor_attrs[] = {
- };
- ATTRIBUTE_GROUPS(led_multicolor);
- 
-+static void multi_load_default_intensities(struct device *parent,
-+					   struct led_classdev_mc *mcled_cdev,
-+					   struct fwnode_handle *fwnode)
-+{
-+	u32 intensities[2 * LED_COLOR_ID_MAX];
-+	unsigned int j;
-+	int len;
-+	int ret;
-+	int i;
-+
-+	len = fwnode_property_read_u32_array(fwnode, "default-intensities",
-+					     NULL, 0);
-+	if (len < 0) {
-+		if (len != -ENODATA)
-+			dev_warn(parent,
-+				 "failed to read default-intensities property length: %d", ret);
-+		return;
-+	}
-+	if (len % 2 != 0) {
-+		dev_warn(parent, "default-intensities property has uneven number of values");
-+		return;
-+	}
-+	if (len > ARRAY_SIZE(intensities)) {
-+		dev_warn(parent, "default-intensities property has too many values");
-+		return;
-+	}
-+
-+	ret = fwnode_property_read_u32_array(fwnode, "default-intensities",
-+					     intensities, len);
-+	if (ret < 0) {
-+		dev_warn(parent, "failed to read default-intensities property values: %d", ret);
-+		return;
-+	}
-+
-+	for (i = 0; i < len; i += 2) {
-+		for (j = 0; j < mcled_cdev->num_colors; j++) {
-+			if (intensities[i] == mcled_cdev->subled_info[j].color_index) {
-+				mcled_cdev->subled_info[j].intensity = intensities[i + 1];
-+				break;
-+			}
-+		}
-+	}
-+}
-+
- int led_classdev_multicolor_register_ext(struct device *parent,
- 				     struct led_classdev_mc *mcled_cdev,
- 				     struct led_init_data *init_data)
-@@ -134,6 +179,9 @@ int led_classdev_multicolor_register_ext(struct device *parent,
- 	led_cdev = &mcled_cdev->led_cdev;
- 	mcled_cdev->led_cdev.groups = led_multicolor_groups;
- 
-+	if (init_data && init_data->fwnode)
-+		multi_load_default_intensities(parent, mcled_cdev, init_data->fwnode);
-+
- 	return led_classdev_register_ext(parent, led_cdev, init_data);
- }
- EXPORT_SYMBOL_GPL(led_classdev_multicolor_register_ext);
--- 
-2.36.0
-
+    Andrew
