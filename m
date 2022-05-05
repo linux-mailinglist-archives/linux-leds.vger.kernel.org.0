@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5299651B55D
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 03:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF48651B56C
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 03:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236176AbiEEBuA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 May 2022 21:50:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59338 "EHLO
+        id S236599AbiEEB7P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 May 2022 21:59:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235887AbiEEBt7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 21:49:59 -0400
+        with ESMTP id S236467AbiEEB7N (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 May 2022 21:59:13 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEB71037;
-        Wed,  4 May 2022 18:46:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 871D718E10;
+        Wed,  4 May 2022 18:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=wP+yhgO9708LV/mXAnbEvaVQwS2jYiUd7rRm1lrxg8Y=; b=c3i7JN4a/FesuLyUv7OQZKmrhQ
-        S0LkNjERj2/FAuFAk0mTXrwwoFgFVvi+45TGstGLZjzQkqrhMsrcNDIQmMbEAtfeH1VjKeFyLnj+f
-        5z58Xkt+oEABagxvSmNjEA/n8+6zsDb89oBFE51d8rEAqi1WYZlyXzqgJm6RwUrkigmQ=;
+        bh=sL15BtqxkS83BtwMcXzwwWefkBGsC27aYs1XXsPFiMg=; b=k4YcWOZ0W272989cxF2N9neV80
+        zC0uryM6TrESFaN/7iEAyWBnYSUfQbkXa6eBVJrjLslY4Z2tW1PwlRW8InkBQ4sl8aLNmtH4+a9M7
+        OjY/CPuYhlH+dpD3wW2tl3QcYVqLdJnMWUgeKEU6wjn0PLHQ/j5pqeTKHnl6WMBRCesU=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1nmQZJ-001Hz6-Bw; Thu, 05 May 2022 03:46:13 +0200
-Date:   Thu, 5 May 2022 03:46:13 +0200
+        id 1nmQiF-001I3B-0G; Thu, 05 May 2022 03:55:27 +0200
+Date:   Thu, 5 May 2022 03:55:26 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Ansuel Smith <ansuelsmth@gmail.com>
 Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
@@ -41,7 +41,7 @@ Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
 Subject: Re: [RFC PATCH v6 10/11] net: dsa: qca8k: add LEDs support
-Message-ID: <YnMsZc6kJ/YEOGWF@lunn.ch>
+Message-ID: <YnMujjDHD5M9UdH0@lunn.ch>
 References: <20220503151633.18760-1-ansuelsmth@gmail.com>
  <20220503151633.18760-11-ansuelsmth@gmail.com>
 MIME-Version: 1.0
@@ -57,49 +57,8 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> +config NET_DSA_QCA8K_LEDS_SUPPORT
-> +	tristate "Qualcomm Atheros QCA8K Ethernet switch family LEDs support"
-> +	select NET_DSA_QCA8K
+> +		ret = fwnode_property_read_string(led, "default-state", &state);
 
-The should be a depends, not a select. It will then become visible
-when the NET_DSA_QCA8K directly above it is enabled.
+You should probably use led_default_state led_init_default_state_get()
 
-> +	select LEDS_OFFLOAD_TRIGGERS
-
-and this should also be a depends. If the LED core does not have
-support, the QCA8K driver should not enable its support.
-
-> +static int
-> +qca8k_parse_netdev(unsigned long rules, u32 *offload_trigger, u32 *mask)
-> +{
-> +	/* Parsing specific to netdev trigger */
-> +	if (test_bit(TRIGGER_NETDEV_LINK, &rules))
-> +		*offload_trigger = QCA8K_LED_LINK_10M_EN_MASK |
-> +				   QCA8K_LED_LINK_100M_EN_MASK |
-> +				   QCA8K_LED_LINK_1000M_EN_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_LINK_10, &rules))
-> +		*offload_trigger = QCA8K_LED_LINK_10M_EN_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_LINK_100, &rules))
-> +		*offload_trigger = QCA8K_LED_LINK_100M_EN_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_LINK_1000, &rules))
-> +		*offload_trigger = QCA8K_LED_LINK_1000M_EN_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &rules))
-> +		*offload_trigger = QCA8K_LED_HALF_DUPLEX_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &rules))
-> +		*offload_trigger = QCA8K_LED_FULL_DUPLEX_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_TX, &rules))
-> +		*offload_trigger = QCA8K_LED_TX_BLINK_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_RX, &rules))
-> +		*offload_trigger = QCA8K_LED_RX_BLINK_MASK;
-> +	if (test_bit(TRIGGER_NETDEV_BLINK_2HZ, &rules))
-> +		*offload_trigger = QCA8K_LED_BLINK_2HZ;
-> +	if (test_bit(TRIGGER_NETDEV_BLINK_4HZ, &rules))
-> +		*offload_trigger = QCA8K_LED_BLINK_4HZ;
-> +	if (test_bit(TRIGGER_NETDEV_BLINK_8HZ, &rules))
-> +		*offload_trigger = QCA8K_LED_BLINK_8HZ;
-> +
-> +	pr_info("OFFLOAD TRIGGER %x\n", *offload_trigger);
-
-leftover debug print.
-
-	 Andrew
+    Andrew
