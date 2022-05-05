@@ -2,90 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AD151BBA9
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 11:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE25E51BC86
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 11:50:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346453AbiEEJSP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 05:18:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56066 "EHLO
+        id S1354658AbiEEJy0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 05:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245698AbiEEJSN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 05:18:13 -0400
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [IPv6:2001:4b7a:2000:18::168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 427774CD4F
-        for <linux-leds@vger.kernel.org>; Thu,  5 May 2022 02:14:32 -0700 (PDT)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6D2493F613;
-        Thu,  5 May 2022 11:14:28 +0200 (CEST)
-Date:   Thu, 5 May 2022 11:14:26 +0200
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Martin Botka <martin.botka@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: leds: qcom-lpg: Add compatible for
- PM660L LPG block
-Message-ID: <20220505091426.ycjejqtkf3hvy4u7@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Martin Botka <martin.botka@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220504205704.699500-1-marijn.suijten@somainline.org>
- <ec1afdc4-54be-71cd-1873-6959e132a45d@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec1afdc4-54be-71cd-1873-6959e132a45d@linaro.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S236532AbiEEJyO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 05:54:14 -0400
+Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE30327FE9;
+        Thu,  5 May 2022 02:50:29 -0700 (PDT)
+X-Virus-Scanned: Yes
+From:   Sven Schwermer <sven@svenschwermer.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1651744226;
+        bh=Cju5atHZSKbs0+hWDH/edUW4chChIFgp/6aEsqfLeOU=;
+        h=From:To:Cc:Subject:In-Reply-To:References;
+        b=J8oZofZ/VXB6zqcaglqQeDMRUKvGMGXnmDyYkDb+s2f8YbL04jFqlW52WYzfDa0CL
+         gAnXpZGfEfIUGEEL9jDbKZ5PYWu7zmg0chw9kDmfQZxPxptoTrp1IsqiraBBUIZqK+
+         BfsmvLna9qIFrHSyMe5CndtwmgmdQ/KkIuO8O3VN602skYLZkdKBwUBOWh98+4wdq0
+         wUJ7cx3E5H4Li+kMwkiVFSpbCVjvDtslnIc4CcqRG5cWNLOiFY3MuItM/rJsC0iPkY
+         NPv0sVEHrLLgJ9GnwLa/VePrEisY+83s1S2LqcwPHjmvDTRYkufPhMkOF10BOuhka9
+         3u/gueJt9dr/A==
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
+Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        schuchmann@schleissheimer.de
+Subject: [PATCH v3 1/2] dt-bindings: leds: Add multi-color default-intensities property
+Date:   Thu,  5 May 2022 11:50:08 +0200
+Message-Id: <eef2dba9633a860063527628a72f6a4523aaf6cd.1651744128.git.sven.schwermer@disruptive-technologies.com>
+In-Reply-To: <20220502204616.GA27288@ucw.cz>
+References: <20220502204616.GA27288@ucw.cz>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2022-05-05 10:35:20, Krzysztof Kozlowski wrote:
-> On 04/05/2022 22:57, Marijn Suijten wrote:
-> > Document the availability of an LPG configuration for the PM660L PMIC in
-> > the Qualcomm Light Pulse Generator driver.
-> > 
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > ---
-> >  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
-> 
-> Hmm, there is no such file in next-20220503...
+From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 
-Bjorn's patches got pulled into Pavel's linux-leds tree just yesterday:
+This allows to assign intensity values to the individual sub LEDs
+(colors) at driver probe time, i.e. most commonly at kernel boot time.
+This is crucial for setting a specific color early in the boot process.
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/log/?h=for-next
+Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+---
 
-Specifically, this file got added in:
+Notes:
+    V1->V2: no changes
+    V2->V3:
+    - Use color-intensity mapping instead of simple intensity array
+    - Add example DTS snippet
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/commit/?h=for-next&id=a8e53db46f19f67be6a26488aafb7d10c78e33bd
+ .../bindings/leds/leds-class-multicolor.yaml  | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-They don't seem to be in next-20220504 yet either, but should probably
-show up in next-20220505.  This shouldn't prevent the patch from being
-picked up for linux-leds though, now that everone is scrambling to send
-additional LPG configs in hopes of landing for 5.19 all at once.
+diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+index f41d021ed677..41050de496f6 100644
+--- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+@@ -31,6 +31,19 @@ patternProperties:
+           include/linux/leds/common.h.
+         enum: [ 8, 9 ]
+ 
++      default-intensities:
++        description: |
++          This parameter, if present, sets the initial intensities of the
++          individual colors. The format is a list of pairs, mapping an intensity
++          value to a sub LED identified by its color.
++        $ref: /schemas/types.yaml#/definitions/uint32-matrix
++        items:
++          minItems: 2
++          maxItems: 2
++          items:
++            - description: color identifier (LED_COLOR_ID_*)
++            - description: intensity value
++
+     $ref: "common.yaml#"
+ 
+     required:
+@@ -38,4 +51,28 @@ patternProperties:
+ 
+ additionalProperties: true
+ 
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    multi-led {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      color = <LED_COLOR_ID_RGB>;
++      default-intensities = <LED_COLOR_ID_RED 64>,
++                            <LED_COLOR_ID_BLUE 0>;
++      led@0 {
++        reg = <0>;
++        color = <LED_COLOR_ID_RED>;
++      };
++      led@1 {
++        reg = <1>;
++        color = <LED_COLOR_ID_GREEN>;
++      };
++      led@2 {
++        reg = <2>;
++        color = <LED_COLOR_ID_BLUE>;
++      };
++    };
+ ...
+-- 
+2.36.0
 
-- Marijn
