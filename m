@@ -2,149 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 240A051C0EF
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 15:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36EB251C131
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 15:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350179AbiEENih (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 09:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
+        id S1379984AbiEENtw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 09:49:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233559AbiEENih (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 09:38:37 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F1B1AD99;
-        Thu,  5 May 2022 06:34:57 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id l18so8765672ejc.7;
-        Thu, 05 May 2022 06:34:57 -0700 (PDT)
+        with ESMTP id S1380032AbiEENtu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 09:49:50 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8244C425;
+        Thu,  5 May 2022 06:46:10 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id g6so8859978ejw.1;
+        Thu, 05 May 2022 06:46:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:from:to:cc:subject:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UPQKk6k7iZjBvDBrSwiqjZZBhXacN0AVsfOq9/Z93RE=;
-        b=P58lRPzo06h3imubgpZe523Pph7le52PJEYuSZv1mDJnO16H81MRvQJ9KuwDonmwBD
-         6k1GU7Xesh2MZcdOES8S67Mt8O5z1RUY3xMZMv4gmvJ5hv5RcnAVkE09FNcEKYfhgHBn
-         rtnuS6JjnDFOeObCU4rTGJ2M3jKcNegqxXAzgG/Ha9rdwBKCTl/Ce9w1Vq7qOhTfMdEQ
-         144K73yQcNmW4de48pzWMWqZsM0qPMw/E9ylQm1XHD8HfBUsnxAMptpN7ycL58Pehpps
-         08XeL4BUqSutr5bwYeXMaF184+KbNa+Um0wIY6T1UmYNgwpDeE9eDMc1Ptd2/EMQZuk5
-         qo/w==
+        h=message-id:date:mime-version:user-agent:subject:to:cc:references
+         :from:in-reply-to:content-transfer-encoding;
+        bh=CmoyTtPjJebV46XUr6LOOtlTzAOsGOF3XhLcusYZkKo=;
+        b=qkGXMkTe1Qn7XTDKJ0umXoiwPn5bieN4DnmYFJMb0AnzSptY+nMg2rpWw6JMaL1OoG
+         /DmLSgpjm7MTwRJtjaClvGnTmV9avpKaOzL4JwgchJQXsbEbbq1WoOmBs1dGdvuYH0cw
+         inHqyIGCCglhWykXXAqimkc7JaV6VWFJtuf9teARjR2/gEULg7V+1YHzSL/6RDCh2R2h
+         uK8jNTKOcTmFfTGT/HSoudWCyH7ZiuXg4EIR507WDjsx4C1DpHRB6AKvzhW5muD7P0ML
+         wpqBiQ95OHuXkC31U+b8SfaeNJaMQAEQJDcfBSCwQ8VOBtuLwm2m/1QfrjZca9MJxk/u
+         d/XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UPQKk6k7iZjBvDBrSwiqjZZBhXacN0AVsfOq9/Z93RE=;
-        b=DLdIc33rIPxsq+EU6NmPKgSnnvZlYjuRnRCeyxFyhOIZa/RP4/9QH0QEDZSjYrRooO
-         aDup8kZuWOx5NBQELTs3pA8Y5hjVf1V1KbyZq5Y1op0g7EXPOCe8xgRM3QpiZpmN3HeF
-         3r1PHoOGPUWy9svTm06bt15l5/eZEMAKReqDVIaq0eEJfHhhm4Y6+KAT5kU7Z3pYegDx
-         oFC+zrm5FhhP+nFu/abJSAnq1AC0nx9arqOpt8zjnLiiPlFqcoeBXq+MtzW5YJJ0wllb
-         gfqijl5rgHjmQhuLt9Wws99TTvhDhWa5PbzZ7xCGaAQpHEJYQfZni+fG5ZVh0JurwPvB
-         yI3A==
-X-Gm-Message-State: AOAM5319AtvbWFbYajiAdevF9++MC4NdyoTeZuNQIMkA9vwMZ4dt9bzv
-        foTjcCNb16vO+lZGMJ1LWJP+7Flf23w=
-X-Google-Smtp-Source: ABdhPJzPbgp1O6nSwALSCxsYipeQz7C8LafxJDsmZA0CjnA+ucU/sR54+B09i+/QQGyS79tGfcnk2A==
-X-Received: by 2002:a17:906:a08b:b0:6b9:2e20:f139 with SMTP id q11-20020a170906a08b00b006b92e20f139mr27451391ejy.463.1651757695463;
-        Thu, 05 May 2022 06:34:55 -0700 (PDT)
-Received: from Ansuel-xps. (93-42-70-190.ip85.fastwebnet.it. [93.42.70.190])
-        by smtp.gmail.com with ESMTPSA id mm27-20020a170906cc5b00b006f3ef214e1csm758571ejb.130.2022.05.05.06.34.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 06:34:54 -0700 (PDT)
-Message-ID: <6273d27e.1c69fb81.95534.43c8@mx.google.com>
-X-Google-Original-Message-ID: <YnPSfWaN4LlOfwjD@Ansuel-xps.>
-Date:   Thu, 5 May 2022 15:34:53 +0200
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :to:cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=CmoyTtPjJebV46XUr6LOOtlTzAOsGOF3XhLcusYZkKo=;
+        b=T4/HRi7c24q1FZqblkLM0D2fZqwiUqAB90osK27OoCFTLiewLF0Awnws6w3Y6DvGZe
+         m0zHJuLDHFEq85KWVk5kdHSHAZBcLnYOXAIllS5Hh6+/0BNHCmXlcC3SRu42Xzw//q6Z
+         f3XUR3lWT2HPRQ75Kb8KR4jOuAgz77arqILe0rh/c+fjjyaFzsIGY81UqE8/A9fly03f
+         65XMF2//BncNUfBW8DTF4Q4ozuBngeQ01Gsn+pZpMCujxX7K3cgKG8PJZR5XNwRSk2kg
+         EaWvY1RrgiYpUpNij4YReWsGXzisjrb7UBpVCurfDMKFmN/HPBTykICcEJEWgUmK/Cad
+         Pfng==
+X-Gm-Message-State: AOAM531XwkhsG3TONXY2aodTRmlUBwM4Jupnlc3k74bPfw+KjQ+HOI9K
+        EFwYoj+4n+GLwnvPsTq/V0x8Si9xcI00iw==
+X-Google-Smtp-Source: ABdhPJz/S7duDzv1qxhCsbjUa4Gc3wRiKALN4dKxHxOaNoCS//xTIyD2dmAu/BorcD1LheMMIkbTAQ==
+X-Received: by 2002:a17:906:2883:b0:6e8:7012:4185 with SMTP id o3-20020a170906288300b006e870124185mr8852264ejd.204.1651758368873;
+        Thu, 05 May 2022 06:46:08 -0700 (PDT)
+Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.googlemail.com with ESMTPSA id s19-20020aa7c553000000b0042617ba63c1sm837838edr.75.2022.05.05.06.46.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 06:46:08 -0700 (PDT)
+Message-ID: <47bafeae-34fb-fc55-3758-d248bd9706af@gmail.com>
+Date:   Thu, 5 May 2022 15:46:03 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
+ speeds
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v6 11/11] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-References: <20220503151633.18760-1-ansuelsmth@gmail.com>
- <20220503151633.18760-12-ansuelsmth@gmail.com>
- <YnK0xHOkfXI+rgzs@robh.at.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnK0xHOkfXI+rgzs@robh.at.kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
+References: <20220503153613.15320-1-zajec5@gmail.com>
+ <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com> <YnPASLy4oWJ6BJDq@lunn.ch>
+From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <YnPASLy4oWJ6BJDq@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 04, 2022 at 12:15:48PM -0500, Rob Herring wrote:
-> On Tue, May 03, 2022 at 05:16:33PM +0200, Ansuel Smith wrote:
-> > Add LEDs definition example for qca8k using the offload trigger as the
-> > default trigger and add all the supported offload triggers by the
-> > switch.
-> > 
-> > Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
-> > ---
-> >  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> > index f3c88371d76c..9b46ef645a2d 100644
-> > --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> > +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> > @@ -65,6 +65,8 @@ properties:
-> >                   internal mdio access is used.
-> >                   With the legacy mapping the reg corresponding to the internal
-> >                   mdio is the switch reg with an offset of -1.
-> > +                 Each phy have at least 3 LEDs connected and can be declared
-> 
-> s/at least/up to/ ?
-> 
-> Or your example is wrong with only 2.
->
+I don't understand anything from below, I'm sorry. Could you clarify,
+please?
 
-Up to. Internally the regs are there but 99% of the times OEM just
-connect 2 of 3 LEDs. Will fix. 
+On 5.05.2022 14:17, Andrew Lunn wrote:
+> On Thu, May 05, 2022 at 07:19:41AM +0200, Rafał Miłecki wrote:
+>> On 3.05.2022 17:36, Rafał Miłecki wrote:
+>>> From: Rafał Miłecki <rafal@milecki.pl>
+>>>
+>>> This allows specifying multiple Ethernet speeds in a single DT uint32
+>>> value.
+>>>
+>>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+>>
+>> Ansuel please check if my patchset conflicts in any way with your work.
+>>
+>> Andrew suggested to combine both but right now I don't see it as
+>> necessary.
+>>
+>> I'd still appreciate your review of my work. Such binding may be
+>> required for some hardware controlled LEDs setup too I guess.
 
-> > +                 using the standard LEDs structure.
-> >  
-> >  patternProperties:
-> >    "^(ethernet-)?ports$":
-> > @@ -287,6 +289,24 @@ examples:
-> >  
-> >                  internal_phy_port1: ethernet-phy@0 {
-> >                      reg = <0>;
-> > +
-> > +                    leds {
-> > +                        led@0 {
-> > +                            reg = <0>;
-> > +                            color = <LED_COLOR_ID_WHITE>;
-> > +                            function = LED_FUNCTION_LAN;
-> > +                            function-enumerator = <1>;
-> > +                            linux,default-trigger = "netdev";
-> > +                        };
-> > +
-> > +                        led@1 {
-> > +                            reg = <1>;
-> > +                            color = <LED_COLOR_ID_AMBER>;
-> > +                            function = LED_FUNCTION_LAN;
-> > +                            function-enumerator = <1>;
-> > +                            linux,default-trigger = "netdev";
-> > +                        };
-> > +                    };
-> >                  };
-> >  
-> >                  internal_phy_port2: ethernet-phy@1 {
-> > -- 
-> > 2.34.1
-> > 
-> > 
 
--- 
-	Ansuel
+ > Please look at the LED binding.
+
+My binding or Ansuel's binding?
+
+
+ > It is an LED you are trying to control, so that is the binding you should be using.
+
+Well, of course, LED setup requires DT binding.
+
+
+ > How do you describe this functionality using that binding.
+
+I allow describing trigger source network device by using
+"trigger-sources" property referencing network device. That is an
+extension or what we already use for describing USB port that are
+trigger sources.
+
+
+ > Ansuel code will give you the framework to actually do the implementation within.
+
+I was planning to base my work on top of Ansuel's one. I'll send proof
+on concept meanwhile without asking for it to be applied.
