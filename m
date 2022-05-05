@@ -2,130 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A2751C298
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 16:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20FC451C2A4
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 16:33:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358450AbiEEOeS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 10:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58762 "EHLO
+        id S1380701AbiEEOhB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 10:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380716AbiEEOeO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 10:34:14 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FCA101EE;
-        Thu,  5 May 2022 07:30:34 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id z2so7513695ejj.3;
-        Thu, 05 May 2022 07:30:34 -0700 (PDT)
+        with ESMTP id S1380690AbiEEOhA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 10:37:00 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC705AA57
+        for <linux-leds@vger.kernel.org>; Thu,  5 May 2022 07:33:18 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id y76so7978081ybe.1
+        for <linux-leds@vger.kernel.org>; Thu, 05 May 2022 07:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:from:to:cc:subject:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uPRFuYIOzOX+lfHSk0TAnDa37PyGEjlIVUZQBvDYK1w=;
-        b=Ms9X8X7IdWm5uZCCq9ScGLgW/sXkqzuQt2MfNvGCiSUdy3p1lmn/MQbFiO9gmHa4l5
-         SisY3i4Tnyif2yoKWa2WiCMUkEzJbVgp1xQN5CNGnuu0DG72B/S5X4+cqBg5ZzNFBI46
-         +KOpXVb50bBGy2bXxdsH/KdSPtoQW9d0hKi7dqah4HYBemjgMXT1+8mgOZfEHDiAYQTj
-         788BxS6V3RIr8akFPjMSeRasMYTWAOfMCBH2tamxmzbyA2CCzHQ1rAwJWmtmE2Urfxi9
-         hODTnyoCuYr0su4GNyEX6kBsTk/R7WmfF9k5DE1I6PRYGokbU+fSQseIw/uUqg3Y4So0
-         HBFw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mjPMNwsrp6J5GYko2SAtRJngBnVXhB8jFuWLYKEwiPY=;
+        b=fewd6t0m8AlbJsOL8rMMtmdSbrblLC+tou4WQa5Ukx0fDLML8yOTTiI03IEYZHxp2c
+         5W5CFU2Qo00NadwNz4fu2sdMo4N/fhzCDiGLHlJnCCs1Ua3dcldY61sEg61hMdSawUir
+         7eSZQI2CebwLUn4u4p9Bz1nt0xWXEswSQ1mxvA/ee4Uu5XXGOucd4+6oSzUonl+Kg0LI
+         8uOzDzX7qYjSqNbAmA90tOmmW4qdH/x0e5n5IbhGhckydFuX0s17/FQo0madWUU2q0+q
+         rIcDxGLzvzfaBFeSvXHNgwp/tqsLvfCOnU4JqRfERHcRhzltPIYSlpBkJGsKowlUJZN7
+         2CtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uPRFuYIOzOX+lfHSk0TAnDa37PyGEjlIVUZQBvDYK1w=;
-        b=HqTfpE5AOOhcb/aInSfzu6dl+xsDVzA7F8ECoeruD93LbZGW0BubJOOtzlnZrShun7
-         YFP7SvaZ21a0Y+ZojtU49Fj8YfcghqrOpp5DWlfHXkX1sRiUKUQ8RgM4mA02yQ3PgJf1
-         aLB0SYZ1EmCJRNWzqQGqqFrf7F8zoAJiZrDM/ZP5IoU4eIzVmUpE/WVWb+wQe2eolRRk
-         wXcafGLfGuRZsX1G+5em+ypuU2VYAg2CEiGJJWVz/ARpAcLyCt+aD7VTCRfeUTY1UYaT
-         mzUwni3wOFNZ1ZwUfJ/BFwZBfIVqmVGznq15WtZ3LNcbNDZWJWXiZKebj/YdSQvenV0b
-         LGlw==
-X-Gm-Message-State: AOAM531p21hV/MKrhg9M+fjMotm/CHtYHqkhFwRn1M5bx1O67ldps6l5
-        B5ecVc6yYamTe3Emne6atW0=
-X-Google-Smtp-Source: ABdhPJyPihA5bLvhSw6UjJz5kS4lcJeRXQCszddNar6sz3CWTvzELecqGlLzWWo3/pL8xJfE3F+E5w==
-X-Received: by 2002:a17:907:a0c9:b0:6f4:bbdf:8081 with SMTP id hw9-20020a170907a0c900b006f4bbdf8081mr9156501ejc.257.1651761032841;
-        Thu, 05 May 2022 07:30:32 -0700 (PDT)
-Received: from Ansuel-xps. (93-42-70-190.ip85.fastwebnet.it. [93.42.70.190])
-        by smtp.gmail.com with ESMTPSA id b18-20020aa7dc12000000b0042617ba63acsm918452edu.54.2022.05.05.07.30.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 07:30:32 -0700 (PDT)
-Message-ID: <6273df88.1c69fb81.1757e.5347@mx.google.com>
-X-Google-Original-Message-ID: <YnPfhlqqNkxWMwU5@Ansuel-xps.>
-Date:   Thu, 5 May 2022 16:30:30 +0200
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
-        vivien.didelot@gmail.com, Vladimir Oltean <olteanv@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH RESEND 0/5] dt-bindings: support Ethernet devices as LED
- triggers
-References: <20220505135512.3486-1-zajec5@gmail.com>
- <6273d900.1c69fb81.fbc61.4680@mx.google.com>
- <b9ef7ce4-2a9d-9ecb-0aee-3f671c25d13f@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mjPMNwsrp6J5GYko2SAtRJngBnVXhB8jFuWLYKEwiPY=;
+        b=gJYTyf0PStDjoeupfBZGF3+GzxujdjF2IClWcvV1h932mo/4t6HPrke7c6NwFU49uR
+         9asZYSFVVhlx6erQag6GgbT2/x9eIV/ysPofhD3SIoBwTW+SZ8r9Q/IR5fPSIfjrIfKw
+         DM1mgOs8ncVmwcENNxJtIdn9E6CPSGBVeN1c/XWflvjD7CG9TswIzvBkDAH3KXFlQRf2
+         c+OGhu/Ei8JO7fw2+8fFhbNJyRLvUF3FyL1GRykiTKpWTpv9ILJ5Eyf6Z//LiTrBiTcD
+         jAJ+L6BN1WpKs9KrMe6NEUq6hyjignndfr7Bt0JT2U5P2Ap/a65AtrH1qhk1P0I7mhXr
+         6M7A==
+X-Gm-Message-State: AOAM5315QsOCQK4RgpjIwdtL+QtOF3xd0UAeuRjb+6GAXic71f8a2+K7
+        5hEPqthn933Ogkv2ZBuMJc9qUzgfqARvA+6LHAjMwQ==
+X-Google-Smtp-Source: ABdhPJwo8Hf6LSoTaiB2cHkTaFM0+gz3ZfG++D4wXVwew3EevAVlxRmwDqgoKNolEWO5oTKK+x6Cg+35P6TVPloh+u0=
+X-Received: by 2002:a25:bcc7:0:b0:648:d728:d39 with SMTP id
+ l7-20020a25bcc7000000b00648d7280d39mr22199185ybm.514.1651761198027; Thu, 05
+ May 2022 07:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b9ef7ce4-2a9d-9ecb-0aee-3f671c25d13f@gmail.com>
+References: <20220419163810.2118169-1-arnd@kernel.org> <20220419163810.2118169-19-arnd@kernel.org>
+ <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
+ <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
+ <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com> <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
+In-Reply-To: <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 5 May 2022 16:33:06 +0200
+Message-ID: <CACRpkdaNRX0RDYJd_uaGo5jtiXu_qGHmEDGniaCmR=TZvcHH8A@mail.gmail.com>
+Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Philipp Zabel <philipp.zabel@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Paul Parsons <lost.distance@yahoo.com>,
+        Tomas Cech <sleep_walker@suse.com>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, May 05, 2022 at 04:21:33PM +0200, Rafał Miłecki wrote:
-> On 5.05.2022 16:02, Ansuel Smith wrote:
-> > On Thu, May 05, 2022 at 03:55:07PM +0200, Rafał Miłecki wrote:
-> > > From: Rafał Miłecki <rafal@milecki.pl>
-> > > 
-> > > Some LEDs are designed to represent a state of another device. That may
-> > > be USB port, Ethernet interface, CPU, hard drive and more.
-> > > 
-> > > We already have support for LEDs that are designed to indicate USB port
-> > > (e.g. light on when USB device gets connected). There is DT binding for
-> > > that and Linux implementation in USB trigger.
-> > > 
-> > > This patchset adds support for describing LEDs that should react to
-> > > Ethernet interface status. That is commonly used in routers. They often
-> > > have LED to display state and activity of selected physical port. It's
-> > > also common to have multiple LEDs, each reacting to a specific link
-> > > speed.
-> > > 
-> > 
-> > I notice this is specific to ethernet speed... I wonder if we should
-> > expand this also to other thing like duplex state or even rx/tx.
-> 
-> I didn't see any router with separated Rx/Tx LEDs, but it still sounds
-> like a valid case.
+On Thu, May 5, 2022 at 8:04 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> On Wed, May 4, 2022 at 11:59 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+
+> > Thus drop one ! in front of the expression, just !SND_SOC_DAPM_EVENT_ON(event)
 >
+> Ok, done. But I still leave the extra 'invert=1' in hs_jack_pin[], right?
+>
+> /* Headphones jack detection DAPM pin */
+> static struct snd_soc_jack_pin hs_jack_pin[] = {
+>         {
+>                 .pin    = "Headphone Jack",
+>                 .mask   = SND_JACK_HEADPHONE,
+>         },
+>         {
+>                 .pin    = "Speaker",
+>                 /* disable speaker when hp jack is inserted */
+>                 .mask   = SND_JACK_HEADPHONE,
+>                 .invert = 1,
+>         },
 
-Not a normal configuration but it's doable. For qca8k you can really set
-the led to do whatever you want.
+Hm some ASoC thingie. No idea what that is, but I suppose another
+place where a subsystem for legacy reasons try to do the gpiolib
+inversion on it's own accord. That one isn't flagged as active low in the
+descriptor so it's fine I guess.
 
-> We could add flags for that in proposed field like:
-> trigger-sources = <&port (SPEED_1000 | LINK | TX)>;
-> 
-> Or add separated field for non-speed flags like:
-> trigger-sources = <&port SPEED_1000 (LINK | TX)>;
-> 
-> Let's see what DT experts say about it.
+Possible this should be fixed in ASoC to rely on gpiolib but we can't
+fix the entire world.
 
--- 
-	Ansuel
+Yours,
+Linus Walleij
