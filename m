@@ -2,162 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A7C151B7B7
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 08:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5B5451B956
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 09:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244049AbiEEGIP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 02:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57590 "EHLO
+        id S230419AbiEEHpV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 03:45:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbiEEGIN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 02:08:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07F8366A5;
-        Wed,  4 May 2022 23:04:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 766EA61C03;
-        Thu,  5 May 2022 06:04:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6FEC385BC;
-        Thu,  5 May 2022 06:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651730673;
-        bh=gGag8LcvVDzOYjY7vVQNICNRVUATqvouUQ3T9qB8Y4k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IzeX2fl3N2x2kryaheKunqUXxhYq2EKW3EevzAcRMispu7pOGu+LIVB4gtA4lt47H
-         kuw8arO+PfbPq7WQnALg8Llzkb+hKwtvB/sYTsnK/90IacYZCB6DJZ5ZQJOsJ5C1F3
-         TeSHzM+uYa+G41zdiYBmFF25L9TEm88hz+cFkf+LED+1kXeRmilzEAvsC7hDnbfjGn
-         7+T7Dj+o9VKBm1U6ge16L5XMEd+1ntq34MUjLp9fn2cdJO958LQytdZ8prNLl0PmNR
-         JJUBc01v6sbgWXUsh3IWA1bR3+vxPlhbpLgI0/bOseW+q4bkkad+M4ksyG11vuvJyh
-         VmRMQT8XoxC+g==
-Received: by mail-wm1-f49.google.com with SMTP id q20so2010918wmq.1;
-        Wed, 04 May 2022 23:04:33 -0700 (PDT)
-X-Gm-Message-State: AOAM532KYwJ4kV4x0ust3FQTY5P7lDLmdAqa0ZHF8tckDNZFQ3EHpIll
-        agg4oXhlxqv95Hv8yxNuanYbXaFOameqvZcXfEI=
-X-Google-Smtp-Source: ABdhPJxJJBc6IXeb9FDBUjhMgPRC02W3Kaja9XP7Gl4879zHpOvDa2WCA8GypEt4poAHxn+t5qvz/Rnv+5FUxU+6qJI=
-X-Received: by 2002:a05:600c:4f0f:b0:394:54c1:f5b3 with SMTP id
- l15-20020a05600c4f0f00b0039454c1f5b3mr3065513wmq.33.1651730671693; Wed, 04
- May 2022 23:04:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org> <20220419163810.2118169-19-arnd@kernel.org>
- <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
- <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com> <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com>
-In-Reply-To: <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 5 May 2022 08:04:14 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
-Message-ID: <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
-Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Tomas Cech <sleep_walker@suse.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S1345513AbiEEHpU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 03:45:20 -0400
+X-Greylist: delayed 2128 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 May 2022 00:41:41 PDT
+Received: from ao2.it (mail.ao2.it [92.243.12.208])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDBF1C901;
+        Thu,  5 May 2022 00:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ao2.it; s=20180927;
+        h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:In-Reply-To:Message-Id:Subject:Cc:To:From:Date; bh=lond+a4bCQAxVhPAjkVW6lgP11E9zMPB6gW9cqz7d/E=;
+        b=l8zf/DF4MpbmMcJgRI2PTtuY8nJaaecd/L0lmGc9YmBZLvnI0bVSPdKQvqOaTVVGXCL3zXjyh03H7yCXfw9EK0LCRSR7exIkKoCaFXhPLMU/nYUy2kYQudwVS6rpqUquwqABeOGvTy4ewkm9v0Mn5RtKjsw/MsiXTMNxkUqVQaJI4T08OOLag+4VJDRSyhfjG34upId10X7/0GSqMiqqGoIBc0T3Trnybc0KTyeqK9BXmLHDpgAZ143kljb1/SBi/dRLnEu0mGWs9zu2jf9F7mZ+JEcExi9Q5xRSGVj0cnz5sFWFsYai4d7fkvjogwBR2UBCZKEkd++d9JUq8aXViw==;
+Received: from localhost ([127.0.0.1] helo=jcn.localdomain)
+        by ao2.it with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.84_2)
+        (envelope-from <ao2@ao2.it>)
+        id 1nmVYP-0001vx-Py; Thu, 05 May 2022 09:05:37 +0200
+Date:   Thu, 5 May 2022 09:06:03 +0200
+From:   Antonio Ospite <ao2@ao2.it>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: leds: Add regulator-led binding
+Message-Id: <20220505090603.a9b902a2c9e51088c932a164@ao2.it>
+In-Reply-To: <20220504174229.GC8725@duo.ucw.cz>
+References: <20220404203522.2068071-1-linus.walleij@linaro.org>
+        <20220504174229.GC8725@duo.ucw.cz>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+X-Face: z*RaLf`X<@C75u6Ig9}{oW$H;1_\2t5)({*|jhM<pyWR#k60!#=#>/Vb;]yA5<GWI5`6u&+
+ ;6b'@y|8w"wB;4/e!7wYYrcqdJFY,~%Gk_4]cq$Ei/7<j&N3ah(m`ku?pX.&+~:_/wC~dwn^)MizBG !pE^+iDQQ1yC6^,)YDKkxDd!T>\I~93>J<_`<4)A{':UrE
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 4, 2022 at 11:59 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Mon, May 2, 2022 at 9:08 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > On Sun, May 1, 2022 at 11:41 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > >
-> > > (...)
-> > > > +static struct gpiod_lookup_table hx4700_audio_gpio_table = {
-> > > > +       .dev_id = "hx4700-audio",
-> > > > +       .table = {
-> > > > +               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-> > > > +                           "earphone-ndet", GPIO_ACTIVE_HIGH),
-> > >
-> > > This looks wrong. The n in nDET in the end of the name of the GPIO line
-> > > means active low does it not?
-> > >
-> > > What I usually do when I see this is to properly set it to
-> > > GPIO_ACTIVE_LOW in the descriptor table, then invert the logic
-> > > where it's getting used.
-> > >
-> > > Also rename to earphone-det instead of -ndet
-> >
-> > Thanks for taking a look! I changed it now, but I don't know if
-> > I got the correct number of inversions in the end. How does this look?
->
-> Looks wrong, you can just invert the argument to any statement of set_value()
-> after tagging respective line as active low. Then gpilob will do a second
-> inversion.
->
-> > +               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-> > +                           "earphone-det", GPIO_ACTIVE_LOW),
-> > +               GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
-> > +                           "spk-sd", GPIO_ACTIVE_LOW),
->
-> So those two have switched polarity.
->
-> > @@ -81,14 +79,14 @@ static const struct snd_soc_ops hx4700_ops = {
-> >  static int hx4700_spk_power(struct snd_soc_dapm_widget *w,
-> >                             struct snd_kcontrol *k, int event)
-> >  {
-> > -       gpio_set_value(GPIO107_HX4700_SPK_nSD, !!SND_SOC_DAPM_EVENT_ON(event));
-> > +       gpiod_set_value(gpiod_spk_sd, !!SND_SOC_DAPM_EVENT_ON(event));
->
-> Thus drop one ! in front of the expression, just !SND_SOC_DAPM_EVENT_ON(event)
+On Wed, 4 May 2022 19:42:29 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
-Ok, done. But I still leave the extra 'invert=1' in hs_jack_pin[], right?
+> On Mon 2022-04-04 22:35:20, Linus Walleij wrote:
+> > The regulator is a LED connected directly to a regulator and with
+> > its brightness controlled by the voltage of the regulator.
+> 
+> Thank you, applied.
+> 
 
-/* Headphones jack detection DAPM pin */
-static struct snd_soc_jack_pin hs_jack_pin[] = {
-        {
-                .pin    = "Headphone Jack",
-                .mask   = SND_JACK_HEADPHONE,
-        },
-        {
-                .pin    = "Speaker",
-                /* disable speaker when hp jack is inserted */
-                .mask   = SND_JACK_HEADPHONE,
-                .invert = 1,
-        },
-};
+Thank you all for keeping this driver up to date :)
 
-> > +       gpiod_spk_sd = devm_gpiod_get(&pdev->dev, "spk-sd", GPIOD_OUT_LOW);
->
-> These initial values don't seem to be set in the old code you could
-> just use GPIOD_ASIS as flag to make sure the new code behaves
-> the same.
+Ciao,
+   Antonio
 
-Ok.
+-- 
+Antonio Ospite
+https://ao2.it
+https://twitter.com/ao2it
 
-        Arnd
+A: Because it messes up the order in which people normally read text.
+   See http://en.wikipedia.org/wiki/Posting_style
+Q: Why is top-posting such a bad thing?
