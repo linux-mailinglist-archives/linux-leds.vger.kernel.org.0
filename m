@@ -2,74 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B5451B956
-	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 09:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B532551B86D
+	for <lists+linux-leds@lfdr.de>; Thu,  5 May 2022 09:07:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbiEEHpV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 May 2022 03:45:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
+        id S245593AbiEEHLZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 May 2022 03:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345513AbiEEHpU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 03:45:20 -0400
-X-Greylist: delayed 2128 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 May 2022 00:41:41 PDT
-Received: from ao2.it (mail.ao2.it [92.243.12.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDBF1C901;
-        Thu,  5 May 2022 00:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ao2.it; s=20180927;
-        h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:In-Reply-To:Message-Id:Subject:Cc:To:From:Date; bh=lond+a4bCQAxVhPAjkVW6lgP11E9zMPB6gW9cqz7d/E=;
-        b=l8zf/DF4MpbmMcJgRI2PTtuY8nJaaecd/L0lmGc9YmBZLvnI0bVSPdKQvqOaTVVGXCL3zXjyh03H7yCXfw9EK0LCRSR7exIkKoCaFXhPLMU/nYUy2kYQudwVS6rpqUquwqABeOGvTy4ewkm9v0Mn5RtKjsw/MsiXTMNxkUqVQaJI4T08OOLag+4VJDRSyhfjG34upId10X7/0GSqMiqqGoIBc0T3Trnybc0KTyeqK9BXmLHDpgAZ143kljb1/SBi/dRLnEu0mGWs9zu2jf9F7mZ+JEcExi9Q5xRSGVj0cnz5sFWFsYai4d7fkvjogwBR2UBCZKEkd++d9JUq8aXViw==;
-Received: from localhost ([127.0.0.1] helo=jcn.localdomain)
-        by ao2.it with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.84_2)
-        (envelope-from <ao2@ao2.it>)
-        id 1nmVYP-0001vx-Py; Thu, 05 May 2022 09:05:37 +0200
-Date:   Thu, 5 May 2022 09:06:03 +0200
-From:   Antonio Ospite <ao2@ao2.it>
+        with ESMTP id S245583AbiEEHLR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 May 2022 03:11:17 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4914754D
+        for <linux-leds@vger.kernel.org>; Thu,  5 May 2022 00:07:37 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmVaK-0008HO-7y; Thu, 05 May 2022 09:07:36 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmVaK-000SVm-Oi; Thu, 05 May 2022 09:07:35 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nmVaI-007guP-CZ; Thu, 05 May 2022 09:07:34 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: leds: Add regulator-led binding
-Message-Id: <20220505090603.a9b902a2c9e51088c932a164@ao2.it>
-In-Reply-To: <20220504174229.GC8725@duo.ucw.cz>
-References: <20220404203522.2068071-1-linus.walleij@linaro.org>
-        <20220504174229.GC8725@duo.ucw.cz>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-X-Face: z*RaLf`X<@C75u6Ig9}{oW$H;1_\2t5)({*|jhM<pyWR#k60!#=#>/Vb;]yA5<GWI5`6u&+
- ;6b'@y|8w"wB;4/e!7wYYrcqdJFY,~%Gk_4]cq$Ei/7<j&N3ah(m`ku?pX.&+~:_/wC~dwn^)MizBG !pE^+iDQQ1yC6^,)YDKkxDd!T>\I~93>J<_`<4)A{':UrE
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] leds: lp50xx: Remove duplicated error reporting in .remove()
+Date:   Thu,  5 May 2022 09:07:27 +0200
+Message-Id: <20220505070727.68768-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1250; h=from:subject; bh=AUB8yiy3bQr4BKx5sFehIFcd5mZcdR9Tb2trohsD0ME=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBic3epio51oct0QsrNvZMsfKaphzK2w0gQgHfdLzHB GiSw/aWJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYnN3qQAKCRDB/BR4rcrsCeHACA CgExR63xPxIsAbHZf27QHWTSjClGMQOT1ycqfOCcGTeKf4JhFHPNW4z/yJfCjEjMbkQLeMqov30x/A E1u7JM6JNbCZCyDoKrAEFhqnrnbp6O+Z4KynXu1b2GGBfJHJSm9vAd/ZGouKbz6ZUuEd41ZE6yMVI8 9iBoYxaUVvzv8x015mztZmVZr4oZ898KkhDZbJM8gNl+ZgkKEM8yDEX3JWtHIrEqLxP+c88D35pMxG sPyHM4RfngQFxpio7UQNAHs8kfeMgAKfsyQY1CSASmA9vJynGBdFx6aEzqgibx+32GHIfWhyJ5SZV5 E3/8i5tGWdGrTlSK8qDHkqp3c2U+u8
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 4 May 2022 19:42:29 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+Returning an error value from an i2c remove callback results in an error
+message being emitted by the i2c core, but otherwise it doesn't make a
+difference. The device goes away anyhow and the devm cleanups are
+called.
 
-> On Mon 2022-04-04 22:35:20, Linus Walleij wrote:
-> > The regulator is a LED connected directly to a regulator and with
-> > its brightness controlled by the voltage of the regulator.
-> 
-> Thank you, applied.
-> 
+As stk3310_set_state() already emits an error message on failure and the
+additional error message by the i2c core doesn't add any useful
+information, don't pass the error value up the stack. Instead continue
+to clean up and return 0.
 
-Thank you all for keeping this driver up to date :)
+This patch is a preparation for making i2c remove callbacks return void.
 
-Ciao,
-   Antonio
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/leds/leds-lp50xx.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index 50b195ff96ca..e129dcc656b8 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -569,10 +569,8 @@ static int lp50xx_remove(struct i2c_client *client)
+ 	int ret;
+ 
+ 	ret = lp50xx_enable_disable(led, 0);
+-	if (ret) {
++	if (ret)
+ 		dev_err(led->dev, "Failed to disable chip\n");
+-		return ret;
+-	}
+ 
+ 	if (led->regulator) {
+ 		ret = regulator_disable(led->regulator);
+
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-Antonio Ospite
-https://ao2.it
-https://twitter.com/ao2it
+2.35.1
 
-A: Because it messes up the order in which people normally read text.
-   See http://en.wikipedia.org/wiki/Posting_style
-Q: Why is top-posting such a bad thing?
