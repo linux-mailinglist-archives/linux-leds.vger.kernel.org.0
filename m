@@ -2,33 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A713C51EA3E
-	for <lists+linux-leds@lfdr.de>; Sat,  7 May 2022 23:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26AB951EA43
+	for <lists+linux-leds@lfdr.de>; Sat,  7 May 2022 23:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239670AbiEGVPE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 7 May 2022 17:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34590 "EHLO
+        id S236965AbiEGVRA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 7 May 2022 17:17:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236965AbiEGVPD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 7 May 2022 17:15:03 -0400
+        with ESMTP id S235186AbiEGVRA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 7 May 2022 17:17:00 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1E013F07
-        for <linux-leds@vger.kernel.org>; Sat,  7 May 2022 14:11:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F51B12608;
+        Sat,  7 May 2022 14:13:12 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 30A181C0BA6; Sat,  7 May 2022 23:11:14 +0200 (CEST)
-Date:   Sat, 7 May 2022 23:11:13 +0200
+        id 2DF191C0BA6; Sat,  7 May 2022 23:13:11 +0200 (CEST)
+Date:   Sat, 7 May 2022 23:13:10 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] leds: is31fl32xx: Improve error reporting in .remove()
-Message-ID: <20220507211113.GB11004@duo.ucw.cz>
-References: <20220504183131.52728-1-u.kleine-koenig@pengutronix.de>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] Make AUX gpio pin optional for ktd2692
+Message-ID: <20220507211310.GC11004@duo.ucw.cz>
+References: <20220505152521.71019-1-markuss.broks@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="8GpibOaaTibBMecb"
+        protocol="application/pgp-signature"; boundary="0lnxQi9hkpPO77W3"
 Content-Disposition: inline
-In-Reply-To: <20220504183131.52728-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220505152521.71019-1-markuss.broks@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -40,40 +46,38 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---8GpibOaaTibBMecb
-Content-Type: text/plain; charset=iso-8859-1
+--0lnxQi9hkpPO77W3
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> Returning an error value in an i2c remove callback results in a generic
-> error message being emitted by the i2c core, but otherwise it doesn't make
-> a difference. The device goes away anyhow and the devm cleanups are
-> called.
+> Some appliances of ktd2692 don't have the AUX pin connected to
+> a GPIO. Specifically, Samsung Galaxy J5 (2015), which uses ktd2692
+> for driving the front flash LED, has the pin not connected anywhere on
+> schematics. Make specifying the AUX pin optional, since it is additional
+> functionality and only affects the amount of current going through the LE=
+D.
 >=20
-> So instead of triggering the generic i2c error message, emit a more helpf=
-ul
-> message if a problem occurs and return 0 to suppress the generic message.
->=20
-> This patch is a preparation for making i2c remove callbacks return void.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Also convert the txt device-tree bindings to yaml.
 
 Thank you, applied.
 
-									Pavel
+Best regards,
+								Pavel
+							=09
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---8GpibOaaTibBMecb
+--0lnxQi9hkpPO77W3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnbgcQAKCRAw5/Bqldv6
-8nOVAJ9CqzTYK/xAU6agNZ5VnIwIkt6uKQCfYpPqYO9rRIJT7fkkuhy38RIHOPk=
-=k8do
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYnbg5gAKCRAw5/Bqldv6
+8nZAAKCz84N8NIlsTi0vIfclmw0msp4OoQCgpVr9WzwLO0OBhb+vTkEIlCdbk04=
+=ahrg
 -----END PGP SIGNATURE-----
 
---8GpibOaaTibBMecb--
+--0lnxQi9hkpPO77W3--
