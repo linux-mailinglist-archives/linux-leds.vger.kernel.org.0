@@ -2,143 +2,142 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A63751F0E7
-	for <lists+linux-leds@lfdr.de>; Sun,  8 May 2022 21:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE40551FCF1
+	for <lists+linux-leds@lfdr.de>; Mon,  9 May 2022 14:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbiEHT7Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 May 2022 15:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42492 "EHLO
+        id S234510AbiEIMhj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 May 2022 08:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbiEHT7X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 May 2022 15:59:23 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E3612C
-        for <linux-leds@vger.kernel.org>; Sun,  8 May 2022 12:55:32 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id i10so20583030lfg.13
-        for <linux-leds@vger.kernel.org>; Sun, 08 May 2022 12:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DcnnTahHkqBl+zFxqve8WeyCmeGZC3frHcthHfdX98A=;
-        b=dSwXHqJRyTlgpwD+3jvhLtnoyU8AyCf905Cbq1TMFGzW9uR7DDGV7ndZef9ZCX7oGw
-         cx/oG2KZO6jmbrRd+Qn+2rzLBGBdVsnZgGmIMMpxam1uYsewBIO+aG2Rdmwgy8GQEz7K
-         tCVQNU2cEhHPrMHep0zx+/cf2FPXfi8Iwbuw6j4oCShDnGf0pZnyl3oH6jidfpgvu2+G
-         CAFa3YdqR3WFMx6WVSBet5bwKEkUnGUt43OaN0ZRTZArqxuOiaBxDfEPV3NHf5ZBiBj+
-         du4PZRxRc2IliJrYO2xdjbaSqZlJ+JT1KwWohFeOOCbq0qLwIH1Om8GufWrOg0oSgAYi
-         sKMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DcnnTahHkqBl+zFxqve8WeyCmeGZC3frHcthHfdX98A=;
-        b=pPobzZnzXlGdzk1soYkXY9Hz9nZzKRDobcWu3evtx8FqyPSY6UuS0ZkryJ6B3MqbD9
-         gMFaMuGxF/S0ArheRgLyfiYbOP+1Na+Sry9la7grPUHF/51uu7EXPof4qkO5Ay8EyGYD
-         yhkWR6MJ6vhROQRDsItJnl1mJ+Kks55SITKS3m806i+0mVBvUlYFoeJmUlOgDHD7PWqe
-         CuCWkIbtT8mxrrqs/xegyOSKNpJ7F63UbWAgZtB+tvJFDcqEjbERAMjPaDdLzRncsDXe
-         1rjce/64pVgiv2T0xtkjuO5ZC+nEAtOA3a70qsKvW6ZatPDB+tE1KCWTyF/JGtPQPNyo
-         UbIg==
-X-Gm-Message-State: AOAM533l8bMRrGnZoHU4jOXFVSpTELFpG/Iq4TKodJO5MxpNk+sGDRmX
-        VQcRyK5cTaRLUd6aiesnnBSg5X88m7g=
-X-Google-Smtp-Source: ABdhPJy5V4PzQNsFwPRjFY7tIhVFzGBW5BAl8XLqgwd2QSjytzf0IebopFFPGb7b1wyfgqn5jTYqBA==
-X-Received: by 2002:a05:6512:2316:b0:473:b7cb:f5b4 with SMTP id o22-20020a056512231600b00473b7cbf5b4mr10306633lfu.236.1652039730353;
-        Sun, 08 May 2022 12:55:30 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id s23-20020a2e98d7000000b0024f3d1daeb1sm1535525ljj.57.2022.05.08.12.55.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 May 2022 12:55:29 -0700 (PDT)
-Message-ID: <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
-Date:   Sun, 8 May 2022 21:55:28 +0200
+        with ESMTP id S234488AbiEIMhi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 May 2022 08:37:38 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21BD28BDC9;
+        Mon,  9 May 2022 05:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=L3p0/83L4yDVyZoegOtsQfWmJV/6wtv6TZoOXChWFJg=; b=Gm1PabHNS+/VMjWNpRDgN0q7Gz
+        okgDM+2WHp5z93ZUGeQzJtlj40ch1Djul+F9LKvzWURwbafLBOoP/NgGu9GSmPuuE28KOgN2Dlog/
+        GHXl8dWWFH9IUIBQmU28gspF2npPpEWaJ19eWl8SzxR3mk4Q/F4kmhrZuCV0rVMHSE4nkq5aDi9ss
+        tskoNSlPr3h/0gKp/FmRCE42MZtPYeJf36WeID1+imZk2dUy5vrTX2Nb6oqUW3HqWx20YRVV7+Jqn
+        2U5xO3lqX+ogULZEqtYM74LQ/XjYNOdW70A5rw6LBK7UHwdRlT2URD08Y6BIbm5BwJqTO8MAols4i
+        vbgjN92g==;
+Received: from [177.183.162.244] (helo=[192.168.0.5])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1no2ZO-0002Vw-CD; Mon, 09 May 2022 14:32:58 +0200
+Message-ID: <b5a1370c-1319-24d1-6b2a-629e5c8915ed@igalia.com>
+Date:   Mon, 9 May 2022 09:32:27 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: AW: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 01/30] x86/crash,reboot: Avoid re-disabling VMX in all
+ CPUs on crash/restart
 Content-Language: en-US
-To:     Sven Schwermer <sven@svenschwermer.de>,
-        Sven Schuchmann <schuchmann@schleissheimer.de>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Cc:     "pavel@ucw.cz" <pavel@ucw.cz>
-References: <20220502204616.GA27288@ucw.cz>
- <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
- <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
- <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>, vkuznets@redhat.com
+Cc:     kexec@lists.infradead.org, pmladek@suse.com, bhe@redhat.com,
+        akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, will@kernel.org,
+        "David P . Reed" <dpreed@deepplum.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-2-gpiccoli@igalia.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <20220427224924.592546-2-gpiccoli@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Sven and Sven,
-
-On 5/4/22 11:24, Sven Schwermer wrote:
-> Hi Sven,
+On 27/04/2022 19:48, Guilherme G. Piccoli wrote:
+> In the panic path we have a list of functions to be called, the panic
+> notifiers - such callbacks perform various actions in the machine's
+> last breath, and sometimes users want them to run before kdump. We
+> have the parameter "crash_kexec_post_notifiers" for that. When such
+> parameter is used, the function "crash_smp_send_stop()" is executed
+> to poweroff all secondary CPUs through the NMI-shootdown mechanism;
+> part of this process involves disabling virtualization features in
+> all CPUs (except the main one).
 > 
-> I did consider placing the property into the multicolor's sub nodes. 
-> However, multicolor LEDs are not required to have firmware sub nodes. At 
-> least the multicolor class API does not make any assumptions about this.
-
-So this is something to be clarified. The whole idea relies on having
-sub-nodes in the multi-led node.
-
-> One possible solution that I came up with is to do something like this:
+> Now, in the emergency restart procedure we have also a way of
+> disabling VMX in all CPUs, using the same NMI-shootdown mechanism;
+> what happens though is that in case we already NMI-disabled all CPUs,
+> the emergency restart fails due to a second addition of the same items
+> in the NMI list, as per the following log output:
 > 
-> multi-led {
->      color = <LED_COLOR_ID_RGB>;
->      default-intensities = <
->          LED_COLOR_ID_RED 100
->          LED_COLOR_ID_GREEN 0
->          LED_COLOR_ID_BLUE 0
->      >;
->      led-0 {
->          color = <LED_COLOR_ID_RED>;
->      };
->      led-1 {
->          color = <LED_COLOR_ID_GREEN>;
->      };
->      led-2 {
->          color = <LED_COLOR_ID_BLUE>;
->      };
-> };
+> sysrq: Trigger a crash
+> Kernel panic - not syncing: sysrq triggered crash
+> [...]
+> Rebooting in 2 seconds..
+> list_add double add: new=<addr1>, prev=<addr2>, next=<addr1>.
+> ------------[ cut here ]------------
+> kernel BUG at lib/list_debug.c:29!
+> invalid opcode: 0000 [#1] PREEMPT SMP PTI
 > 
-[...]
->>
->>
->> Maybe it is better to define per Color like this:
->>
->> multi-led@0 {
->>     #address-cells = <1>;
->>     #size-cells = <0>;
->>     reg = <0x0>;
->>     color = <LED_COLOR_ID_RGB>;
->>     function = "eee-led-status";
->>     led-0 {
->>         color = <LED_COLOR_ID_RED>;
->>         default-intensity = 100
->>     };
->>     led-1 {
->>         color = <LED_COLOR_ID_GREEN>;
->>         default-intensity = 0
->>     };
->>     led-2 {
->>         color = <LED_COLOR_ID_BLUE>;
->>         default-intensity = 0
->>     };
->> };
+> In order to reproduce the problem, users just need to set the kernel
+> parameter "crash_kexec_post_notifiers" *without* kdump set in any
+> system with the VMX feature present.
+> 
+> Since there is no benefit in re-disabling VMX in all CPUs in case
+> it was already done, this patch prevents that by guarding the restart
+> routine against doubly issuing NMIs unnecessarily. Notice we still
+> need to disable VMX locally in the emergency restart.
+> 
+> Fixes: ed72736183c4 ("x86/reboot: Force all cpus to exit VMX root if VMX is supported)
+> Fixes: 0ee59413c967 ("x86/panic: replace smp_send_stop() with kdump friendly version in panic path")
+> Cc: David P. Reed <dpreed@deepplum.com>
+> Cc: Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+>  arch/x86/include/asm/cpu.h |  1 +
+>  arch/x86/kernel/crash.c    |  8 ++++----
+>  arch/x86/kernel/reboot.c   | 14 ++++++++++++--
+>  3 files changed, 17 insertions(+), 6 deletions(-)
+> 
 
-I would go for this. Seems to be the most straightforward solution.
+Hi Paolo / Sean / Vitaly, sorry for the ping.
+But do you think this fix is OK from the VMX point-of-view?
 
--- 
-Best regards,
-Jacek Anaszewski
+I'd like to send a V2 of this set soon, so any review here is highly
+appreciated!
+
+Cheers,
+
+
+Guilherme
+
