@@ -2,106 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA02522410
-	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 20:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF225224EC
+	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 21:40:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237552AbiEJSb4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 May 2022 14:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34264 "EHLO
+        id S231131AbiEJTkp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 May 2022 15:40:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245573AbiEJSb4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 14:31:56 -0400
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9698D3CFCB
-        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 11:31:54 -0700 (PDT)
-X-Virus-Scanned: Yes
-Message-ID: <3a016b38-57d2-e8d0-0162-734829aa0419@svenschwermer.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1652207511;
-        bh=IL3zhw62kVj/H8/MNAvgwfK6Sd0tuQIHhgHmQueLz5c=;
-        h=Subject:To:Cc:References:From:In-Reply-To;
-        b=Es2M+PnpPcSvPr2B0UdOuSDGLC3MEVHfLnXOaKXyE3iy5Y0PYzWZz/2vqMwgwU8Qd
-         ed5dimyFx7pTnUvqvsa0MGuAL3F6jcmxBZVFYJSd2/ZbQgVEwoBDOXCg1nHtfro5r+
-         wIOzsxwnMd49CzBVlm4m9tVC4bZTWtnk8RiWYQE+cDTpBhxRDDWq0PL1qpyuvBdK7o
-         icAerG3byk6iHir2cTg09JOgwl3fwKfg9HvO5MmE8yaZuRjDSgws4jzY0pw8ihChRe
-         eRsQVH9OmygtuNVVlonrjOyXtnjyYFDZ4oSdZQoygkwiAeQb2/DdJoDILCmnQk4JpF
-         S+a5IPhV1u9wQ==
-Date:   Tue, 10 May 2022 20:31:50 +0200
-Mime-Version: 1.0
-Subject: Re: AW: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
-Content-Language: en-US
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sven Schuchmann <schuchmann@schleissheimer.de>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Cc:     "pavel@ucw.cz" <pavel@ucw.cz>
-References: <20220502204616.GA27288@ucw.cz>
- <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
- <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
- <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
- <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
-From:   Sven Schwermer <sven@svenschwermer.de>
-In-Reply-To: <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229635AbiEJTko (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 15:40:44 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE9111163;
+        Tue, 10 May 2022 12:40:42 -0700 (PDT)
+From:   John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1652211640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OEDxfxfGB0zzvmyrmmb19QrPenmgyOx+wB7aMTpPY14=;
+        b=s9qpTYE/3WJU4N3KJVSOdyb7xWHt1vkR4fCuQ5J8Zkt0v0hhGnmBmJdDRvMzx7U23g78AD
+        5x0GWGYOK6up5rJgLjlqAJ0oKWgxSuZArLqIZD7/93+m719asCNv2npDv0K4E3pzaf0TU1
+        QT3fxi7rAkTN0NzY7sIU3W6vHFJAKmFF1D5WFGFp25IVzQ1U2GLRWaAA15JzW4DMVMPiln
+        C4PlGutDHid0b5MW+yz4Oad3VH/9G9wKQ7qYFzrw5pmS2R8UQ108RRuRC1xOe7QqhudZaN
+        toooF05flVTdgRJ8Mw90Ti/8UtTs7R3lmx6LjRAd0TtWQNVsyqtk/eFe4jDJKA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1652211640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OEDxfxfGB0zzvmyrmmb19QrPenmgyOx+wB7aMTpPY14=;
+        b=vLCouTuSreEprlIyaHBdxRuhj0utQMxldxJLsrUVX2CbalgS135YGbpGNA0WSY+j9euZdD
+        GTFEAV97omDLmGAg==
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>
+Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Evan Green <evgreen@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>, bhe@redhat.com,
+        kexec@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, Kees Cook <keescook@chromium.org>,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, senozhatsky@chromium.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Thomas Gleixner <tglx@linutronix.de>, vgoyal@redhat.com,
+        vkuznets@redhat.com, Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        David Gow <davidgow@google.com>,
+        Julius Werner <jwerner@chromium.org>
+Subject: Re: [PATCH 04/30] firmware: google: Convert regular spinlock into
+ trylock on panic path
+In-Reply-To: <20220510132015.38923cb2@gandalf.local.home>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-5-gpiccoli@igalia.com>
+ <CAE=gft5Pq25L4KFoPWbftkPF-JN1ex2yws77mMJ4GQnn9W0L2g@mail.gmail.com>
+ <adcf6d0e-c37c-6ede-479e-29959d03d8c0@igalia.com> <YnpOv4hAPV4b+6v4@alley>
+ <20220510132015.38923cb2@gandalf.local.home>
+Date:   Tue, 10 May 2022 21:46:38 +0206
+Message-ID: <87h75xkwg9.fsf@jogness.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,INVALID_DATE_TZ_ABSURD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jacek,
+On 2022-05-10, Steven Rostedt <rostedt@goodmis.org> wrote:
+>> As already mentioned in the other reply, panic() sometimes stops the
+>> other CPUs using NMI, for example, see kdump_nmi_shootdown_cpus().
+>> 
+>> Another situation is when the CPU using the lock ends in some
+>> infinite loop because something went wrong. The system is in
+>> an unpredictable state during panic().
+>> 
+>> I am not sure if this is possible with the code under gsmi_dev.lock
+>> but such things really happen during panic() in other subsystems.
+>> Using trylock in the panic() code path is a good practice.
+>
+> I believe that Peter Zijlstra had a special spin lock for NMIs or
+> early printk, where it would not block if the lock was held on the
+> same CPU. That is, if an NMI happened and paniced while this lock was
+> held on the same CPU, it would not deadlock. But it would block if the
+> lock was held on another CPU.
 
-On 5/8/22 21:55, Jacek Anaszewski wrote:
-> Hi Sven and Sven,
-> 
-> On 5/4/22 11:24, Sven Schwermer wrote:
->> Hi Sven,
->>
->> I did consider placing the property into the multicolor's sub nodes. 
->> However, multicolor LEDs are not required to have firmware sub nodes. 
->> At least the multicolor class API does not make any assumptions about 
->> this.
-> 
-> So this is something to be clarified. The whole idea relies on having
-> sub-nodes in the multi-led node.
+Yes. And starting with 5.19 it will be carrying the name that _you_ came
+up with (cpu_sync):
 
-As far as I understand, multi-color LEDs don't require actual OF 
-sub-nodes. The Turris Omnia LED driver doesn't have sub-nodes, see 
-Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+printk_cpu_sync_get_irqsave()
+printk_cpu_sync_put_irqrestore()
 
->>> Maybe it is better to define per Color like this:
->>>
->>> multi-led@0 {
->>>     #address-cells = <1>;
->>>     #size-cells = <0>;
->>>     reg = <0x0>;
->>>     color = <LED_COLOR_ID_RGB>;
->>>     function = "eee-led-status";
->>>     led-0 {
->>>         color = <LED_COLOR_ID_RED>;
->>>         default-intensity = 100
->>>     };
->>>     led-1 {
->>>         color = <LED_COLOR_ID_GREEN>;
->>>         default-intensity = 0
->>>     };
->>>     led-2 {
->>>         color = <LED_COLOR_ID_BLUE>;
->>>         default-intensity = 0
->>>     };
->>> };
-> 
-> I would go for this. Seems to be the most straightforward solution.
-
-I agree, that this would be the best option. However, as noted above, 
-this wouldn't be compatible with all existing multi-color drivers.
-
-Best regards,
-Sven
+John
