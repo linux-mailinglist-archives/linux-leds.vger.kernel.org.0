@@ -2,90 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D825222F7
-	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 19:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EA02522410
+	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 20:31:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348342AbiEJRoX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 May 2022 13:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
+        id S237552AbiEJSb4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 May 2022 14:31:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245678AbiEJRoW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 13:44:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7FB2A28DF;
-        Tue, 10 May 2022 10:40:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 44D13B81DF5;
-        Tue, 10 May 2022 17:40:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 749E5C385C2;
-        Tue, 10 May 2022 17:40:16 +0000 (UTC)
-Date:   Tue, 10 May 2022 13:40:14 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
-        dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, senozhatsky@chromium.org,
-        stern@rowland.harvard.edu, tglx@linutronix.de, vgoyal@redhat.com,
-        vkuznets@redhat.com, will@kernel.org
-Subject: Re: [PATCH 23/30] printk: kmsg_dump: Introduce helper to inform
- number of dumpers
-Message-ID: <20220510134014.3923ccba@gandalf.local.home>
-In-Reply-To: <20220427224924.592546-24-gpiccoli@igalia.com>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
-        <20220427224924.592546-24-gpiccoli@igalia.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S245573AbiEJSb4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 14:31:56 -0400
+Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9698D3CFCB
+        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 11:31:54 -0700 (PDT)
+X-Virus-Scanned: Yes
+Message-ID: <3a016b38-57d2-e8d0-0162-734829aa0419@svenschwermer.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1652207511;
+        bh=IL3zhw62kVj/H8/MNAvgwfK6Sd0tuQIHhgHmQueLz5c=;
+        h=Subject:To:Cc:References:From:In-Reply-To;
+        b=Es2M+PnpPcSvPr2B0UdOuSDGLC3MEVHfLnXOaKXyE3iy5Y0PYzWZz/2vqMwgwU8Qd
+         ed5dimyFx7pTnUvqvsa0MGuAL3F6jcmxBZVFYJSd2/ZbQgVEwoBDOXCg1nHtfro5r+
+         wIOzsxwnMd49CzBVlm4m9tVC4bZTWtnk8RiWYQE+cDTpBhxRDDWq0PL1qpyuvBdK7o
+         icAerG3byk6iHir2cTg09JOgwl3fwKfg9HvO5MmE8yaZuRjDSgws4jzY0pw8ihChRe
+         eRsQVH9OmygtuNVVlonrjOyXtnjyYFDZ4oSdZQoygkwiAeQb2/DdJoDILCmnQk4JpF
+         S+a5IPhV1u9wQ==
+Date:   Tue, 10 May 2022 20:31:50 +0200
+Mime-Version: 1.0
+Subject: Re: AW: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
+ default-intensities property
+Content-Language: en-US
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schuchmann <schuchmann@schleissheimer.de>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Cc:     "pavel@ucw.cz" <pavel@ucw.cz>
+References: <20220502204616.GA27288@ucw.cz>
+ <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
+ <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
+ <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
+ <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
+ <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
+ <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
+From:   Sven Schwermer <sven@svenschwermer.de>
+In-Reply-To: <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 27 Apr 2022 19:49:17 -0300
-"Guilherme G. Piccoli" <gpiccoli@igalia.com> wrote:
+Hi Jacek,
 
-> Currently we don't have a way to check if there are dumpers set,
-> except counting the list members maybe. This patch introduces a very
-> simple helper to provide this information, by just keeping track of
-> registered/unregistered kmsg dumpers. It's going to be used on the
-> panic path in the subsequent patch.
+On 5/8/22 21:55, Jacek Anaszewski wrote:
+> Hi Sven and Sven,
+> 
+> On 5/4/22 11:24, Sven Schwermer wrote:
+>> Hi Sven,
+>>
+>> I did consider placing the property into the multicolor's sub nodes. 
+>> However, multicolor LEDs are not required to have firmware sub nodes. 
+>> At least the multicolor class API does not make any assumptions about 
+>> this.
+> 
+> So this is something to be clarified. The whole idea relies on having
+> sub-nodes in the multi-led node.
 
-FYI, it is considered "bad form" to reference in the change log "this
-patch". We know this is a patch. The change log should just talk about what
-is being done. So can you reword your change logs (you do this is almost
-every patch). Here's what I would reword the above to be:
+As far as I understand, multi-color LEDs don't require actual OF 
+sub-nodes. The Turris Omnia LED driver doesn't have sub-nodes, see 
+Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
 
- Currently we don't have a way to check if there are dumpers set, except
- perhaps by counting the list members. Introduce a very simple helper to
- provide this information, by just keeping track of registered/unregistered
- kmsg dumpers. This will simplify the refactoring of the panic path.
+>>> Maybe it is better to define per Color like this:
+>>>
+>>> multi-led@0 {
+>>>     #address-cells = <1>;
+>>>     #size-cells = <0>;
+>>>     reg = <0x0>;
+>>>     color = <LED_COLOR_ID_RGB>;
+>>>     function = "eee-led-status";
+>>>     led-0 {
+>>>         color = <LED_COLOR_ID_RED>;
+>>>         default-intensity = 100
+>>>     };
+>>>     led-1 {
+>>>         color = <LED_COLOR_ID_GREEN>;
+>>>         default-intensity = 0
+>>>     };
+>>>     led-2 {
+>>>         color = <LED_COLOR_ID_BLUE>;
+>>>         default-intensity = 0
+>>>     };
+>>> };
+> 
+> I would go for this. Seems to be the most straightforward solution.
 
+I agree, that this would be the best option. However, as noted above, 
+this wouldn't be compatible with all existing multi-color drivers.
 
--- Steve
+Best regards,
+Sven
