@@ -2,69 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EA615220B9
-	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 18:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AC7F5220EF
+	for <lists+linux-leds@lfdr.de>; Tue, 10 May 2022 18:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236527AbiEJQKY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 May 2022 12:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45970 "EHLO
+        id S1347216AbiEJQVz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 May 2022 12:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347202AbiEJQJ7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 12:09:59 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F0C32670B7;
-        Tue, 10 May 2022 09:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652198737; x=1683734737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=knKoDSX6XXVi1UoUVL9DwH66JaiGwiaJztWXaAd6inc=;
-  b=XryxLngxqZCXypeKsueZ0AsnkNZ++ArGYWUAOhsrAy7R5n23abIRRjsZ
-   eg8YLcC1nP95DD0AJhuZ6+PC96L7lwOT25Yg5aBDE3A4+Q+7473Lemrpj
-   wJg5SgCrPj44Tu3yLaFimmfHpNdKdbEDvqaTluegaCZ4Tpif+3XcDLqs1
-   o07bfPLT9y7cj+8MXp6TMDAb+AHJ+AcXXHbMZ8A547sQnB5Kzy8ECoqbH
-   wdjeOrRCHPKHP1s4weEy0OaWXrHCjmBeh6i8cOvU+UilOmuMANkGU8nQo
-   iNH3hxghXgrLoIZsCQjqPE0K/JY+u6/jbcAWwr11emAJQ1E/UF98xpn+R
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269558159"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="269558159"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 09:05:25 -0700
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="738765503"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 09:05:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1noSMR-00EOjV-12;
-        Tue, 10 May 2022 19:05:19 +0300
-Date:   Tue, 10 May 2022 19:05:18 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-Subject: Re: [PATCH 0/2] simatic-ipc additions to p2sb apl lake gpio
-Message-ID: <YnqNPpIKFAoLegMr@smile.fi.intel.com>
-References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
- <20220308193522.26696-1-henning.schild@siemens.com>
- <YnJ2tYjCpJi7yc4j@smile.fi.intel.com>
- <20220504171951.0d569632@md1za8fc.ad001.siemens.net>
- <20220510173053.10a14aeb@md1za8fc.ad001.siemens.net>
+        with ESMTP id S1347193AbiEJQVr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 12:21:47 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21D428ED28;
+        Tue, 10 May 2022 09:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=DG+kC/U+ySej5D6tfV4OCa8YH0d8ESpuNC4bFJt4RU8=; b=C2KkFYKUIxmXZpa9w2+Tc0j2Ea
+        RFFr76ch465vsOUiMZW1uqZNDnhRYy0QqpFeaougTFG9GOX2EvcKO8NnFtvJdvaTDSvmTGm5I6bLE
+        gx/SYLZAEuVfjx7NJeu1tB8cieKdzixVjql/phg2ZRqRsu9xZgqdP1nbzw6Nv7UUXN3Dua0weQYl6
+        +N3ACyNpHY020LPMtgokauBK3/rzBv0qIzP0VJEueNDPsJdk0Noe60ugWXyfyRTapgsSXBPVXAg4/
+        oobDhrEfQYteiYAwrodL1TGkVGLJREzPqDYfYYN3sh0JBT6vnlq6trf1vxZCJI19NPJiA+YiSFKJe
+        qkMs6K7A==;
+Received: from [177.183.162.244] (helo=[192.168.0.5])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1noSY8-0008UD-Jz; Tue, 10 May 2022 18:17:24 +0200
+Message-ID: <244a412c-4589-28d1-bb77-d3648d4f0b12@igalia.com>
+Date:   Tue, 10 May 2022 13:16:54 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220510173053.10a14aeb@md1za8fc.ad001.siemens.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 14/30] panic: Properly identify the panic event to the
+ notifiers' callbacks
+Content-Language: en-US
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-15-gpiccoli@igalia.com> <YnqBsXBImU64PAOL@alley>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <YnqBsXBImU64PAOL@alley>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,44 +80,56 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, May 10, 2022 at 05:30:53PM +0200, Henning Schild wrote:
-> Am Wed, 4 May 2022 17:19:51 +0200
-> schrieb Henning Schild <henning.schild@siemens.com>:
-> > Am Wed, 4 May 2022 15:51:01 +0300
-> > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > > On Tue, Mar 08, 2022 at 08:35:20PM +0100, Henning Schild wrote:
+On 10/05/2022 12:16, Petr Mladek wrote:
+> [...]
+> Hmm, this looks like a hack. PANIC_UNUSED will never be used.
+> All notifiers will be always called with PANIC_NOTIFIER.
+> 
+> The @val parameter is normally used when the same notifier_list
+> is used in different situations.
+> 
+> But you are going to use it when the same notifier is used
+> in more lists. This is normally distinguished by the @nh
+> (atomic_notifier_head) parameter.
+> 
+> IMHO, it is a bad idea. First, it would confuse people because
+> it does not follow the original design of the parameters.
+> Second, the related code must be touched anyway when
+> the notifier is moved into another list so it does not
+> help much.
+> 
+> Or do I miss anything, please?
+> 
+> Best Regards,
+> Petr
 
-...
+Hi Petr, thanks for the review.
 
-> > > [1]: https://gitlab.com/andy-shev/next/-/tree/topic/p2sb-next
-> > > It would be nice if you can perform another round of testing.
->
-> Just got around to testing this with my patches on top. My stuff will
-> need some more work before i can send again.
->
-> Is this a rebasing branch?
-> With efc7d77ea372 ("EDAC, pnd2: convert to use common P2SB accessor")
-
-It's rebased over and over. I just pushed the same version I have sent as v5.
-
-> I am seeing problems while booting ... things do work but still error
-> messages which probably should not be there.
-
-It's okay. This is not related to my stuff, it's a new series from Marc which
-enables that (harmless) warning.
-
-> [    2.217506] broxton-pinctrl apollolake-pinctrl.1: Failed to attach ACPI GPIO chip
-> [    2.217542] gpio gpiochip1: (apollolake-pinctrl.1): not an immutable chip, please consider fixing it!
-> [    2.217771] i801_smbus 0000:00:1f.1: Failed to enable SMBus PCI device (-22)
-> [    2.217788] i801_smbus: probe of 0000:00:1f.1 failed with error -22
-> [    2.221460] broxton-pinctrl apollolake-pinctrl.2: Failed to attach ACPI GPIO chip
-> [    2.221482] gpio gpiochip2: (apollolake-pinctrl.2): not an immutable chip, please consider fixing it!
-> [    2.222010] broxton-pinctrl apollolake-pinctrl.3: Failed to attach ACPI GPIO chip
-> [    2.222023] gpio gpiochip3: (apollolake-pinctrl.3): not an immutable
-> chip, please consider fixing it!
-
--- 
-With Best Regards,
-Andy Shevchenko
+I'm not strong attached to this patch, so we could drop it and refactor
+the code of next patches to use the @nh as identification - but
+personally, I feel this parameter could be used to identify the list
+that called such function, in other words, what is the event that
+triggered the callback. Some notifiers are even declared with this
+parameter called "ev", like the event that triggers the notifier.
 
 
+You mentioned 2 cases:
+
+(a) Same notifier_list used in different situations;
+
+(b) Same *notifier callback* used in different lists;
+
+Mine is case (b), right? Can you show me an example of case (a)? You can
+see in the following patches (or grep the kernel) that people are using
+this identification parameter to determine which kind of OOPS trigger
+the callback to condition the execution of the function to specific
+cases. IIUIC, this is more or less what I'm doing, but extending the
+idea for panic notifiers.
+
+Again, as a personal preference, it makes sense to me using id's VS
+comparing pointers to differentiate events/callers.
+
+Cheers,
+
+
+Guilherme
