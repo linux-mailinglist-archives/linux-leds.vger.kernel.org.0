@@ -2,152 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D17523A9D
-	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 18:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF800523BF6
+	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 19:53:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344980AbiEKQsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 May 2022 12:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
+        id S1345876AbiEKRxz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 May 2022 13:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233496AbiEKQsA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 May 2022 12:48:00 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DCDE6B7DB;
-        Wed, 11 May 2022 09:47:58 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24BESoKr028080;
-        Wed, 11 May 2022 16:46:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=tjIW4ViQYza/lnoDnWyOhboEO5kjiPdt7taCyynzKFw=;
- b=lxUbqAEO3GqUpU+Tuw2IWXF1fzXIGSDn1j9FVHjMmFIPrrH/+bQrVN9PaaYcbEJhBJIr
- 7d0t++ZFM6UKMdcnwcUF0YasHW2SP51KwmfPJnRgOou9+kRarIXLa3hIMjmu5cX5t3FO
- 6rItwaIor28IfP+e6c0HY1HIerMLLjGg06tg70umpoMhCUKjDu0piWYCrZz/VisJ+s0b
- 0DuyX+X+ttOZsVNhvwPdzqfPCbp/RA3MDqZWBEVZBj0PN/wvhGTqQYzQ4imgN+k8TjhU
- NC3v9IrNMZOoN56TSdKZo20ktYuMVwJV19grssXUZ/JxpGndCu9D0HmYa5fO310s9Ten QA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g0etx3406-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 May 2022 16:46:00 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24BGebih023228;
-        Wed, 11 May 2022 16:45:59 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g0etx33y1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 May 2022 16:45:59 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24BGgY6p030999;
-        Wed, 11 May 2022 16:45:56 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma03ams.nl.ibm.com with ESMTP id 3fwgd8wsc9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 May 2022 16:45:55 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24BGjqsM27197764
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 11 May 2022 16:45:52 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BA0B35204E;
-        Wed, 11 May 2022 16:45:52 +0000 (GMT)
-Received: from osiris (unknown [9.145.80.86])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id B9FCE52050;
-        Wed, 11 May 2022 16:45:50 +0000 (GMT)
-Date:   Wed, 11 May 2022 18:45:49 +0200
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-leds@vger.kernel.org, pmladek@suse.com, bhe@redhat.com,
-        akpm@linux-foundation.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        kexec@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
-        dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-Subject: Re: [PATCH 22/30] panic: Introduce the panic post-reboot notifier
- list
-Message-ID: <YnvoPe2cTS31qbjb@osiris>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-23-gpiccoli@igalia.com>
- <7017c234-7c73-524a-11b6-fefdd5646f59@igalia.com>
+        with ESMTP id S1345868AbiEKRxy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 May 2022 13:53:54 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F98621A952;
+        Wed, 11 May 2022 10:53:53 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id m20so5542596ejj.10;
+        Wed, 11 May 2022 10:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=20318/xvPXu2lxX8X9tVBy9ShWnG5kb0p7KIWm6bilY=;
+        b=JhwCo1D5QmYppFs7JgZN+Z1pfDhfm374tctxpKM/EvNUTf8teix+UoxWxHTlqIgQU6
+         p1t5nB782rusQ3nkFO8wA3iFptOukcRDowcFR96BfOF5UDs1dJwN2tBXPsMDiOeofRp3
+         Xb8m22WFI6FbzSbfk7mvNd6koLTB4U0CZITZTpzr7lsDXmKMBr13C4TfUmHULvxXiZT+
+         zMzyOhR6DRohpqj2EbducUCZV2c9nieHO73muzMM3HUp4G5P0mzmgP+EduQsZVrnLkv6
+         XDXPilhxlLJ/MApYsWpaNvCcvPc1g/unY/sjRejpX83J88JbZ5z2nyq7SW///qK4oMEI
+         +uLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=20318/xvPXu2lxX8X9tVBy9ShWnG5kb0p7KIWm6bilY=;
+        b=d3YNWI7aV7+39si42NZxJdm08zsUWIDG4LL2ImYXWLLCxYYVdhEf230Yo/cgQnvCow
+         RJ/Cp9KjCGJ7/dhUyEOarzc0kWV+n2txoB/QdGEOmdmAEY0q/LPjmAx8aT04tVvf9suw
+         kj9VRoSup5EADHmWZgeV5pMJosuDwxX4H3/VcRk/93UGjZeC0Crl+oJS746zNsfc2pjf
+         51C3/Yy9vddJx1S7IJZitpCN9qYikMmvIdSf1+jiGeFGKlFXAQb5FpQiueEAt6DHoFuL
+         MIY537emUW9nOvXw1D/58q2WR49Mi9y6Y6IxNF61p5opgIagt34/ucjfCohkIkp8sdBB
+         uzMw==
+X-Gm-Message-State: AOAM533rnvHaBIQhxIDmfQ7U5GPlUHt2UUOSdQq/5XKmR7bOpllM2DKg
+        4AyDEPGf2FpemFyh+rsGty5am9WsCWqNPELMYEg=
+X-Google-Smtp-Source: ABdhPJxLMXfl6V1uz22UIQH2xA7vQHrxBxFcksWT+mePA5R6lPB9wyRPj6nwxmx2HuPq5Ms9yAFMlx+fSjhE4qq5i34=
+X-Received: by 2002:a17:906:3ce9:b0:6ef:a8aa:ab46 with SMTP id
+ d9-20020a1709063ce900b006efa8aaab46mr25724454ejh.579.1652291631524; Wed, 11
+ May 2022 10:53:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7017c234-7c73-524a-11b6-fefdd5646f59@igalia.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: P8jYmW-Xe3lS0Lxn9LfjJuLQx8-pWyu5
-X-Proofpoint-ORIG-GUID: 3EoVOe4XNkWaSjwGnBLNECSOqY142ccD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-11_07,2022-05-11_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 malwarescore=0 phishscore=0 mlxscore=0 adultscore=0
- suspectscore=0 mlxlogscore=429 bulkscore=0 impostorscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2205110076
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220511153905.13980-1-henning.schild@siemens.com> <20220511153905.13980-5-henning.schild@siemens.com>
+In-Reply-To: <20220511153905.13980-5-henning.schild@siemens.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 11 May 2022 19:53:15 +0200
+Message-ID: <CAHp75VdSYgAj-8scpZK1EmiNywuji6cpsCWnCo+6vqqdEvg+5w@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] leds: simatic-ipc-leds-gpio: add GPIO version of
+ Siemens driver
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 09, 2022 at 11:16:10AM -0300, Guilherme G. Piccoli wrote:
-> On 27/04/2022 19:49, Guilherme G. Piccoli wrote:
-> > Currently we have 3 notifier lists in the panic path, which will
-> > be wired in a way to allow the notifier callbacks to run in
-> > different moments at panic time, in a subsequent patch.
-> > 
-> > But there is also an odd set of architecture calls hardcoded in
-> > the end of panic path, after the restart machinery. They're
-> > responsible for late time tunings / events, like enabling a stop
-> > button (Sparc) or effectively stopping the machine (s390).
-> > 
-> > This patch introduces yet another notifier list to offer the
-> > architectures a way to add callbacks in such late moment on
-> > panic path without the need of ifdefs / hardcoded approaches.
-> > 
-> > Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> > Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Heiko Carstens <hca@linux.ibm.com>
-> > Cc: Sven Schnelle <svens@linux.ibm.com>
-> > Cc: Vasily Gorbik <gor@linux.ibm.com>
-> > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> 
-> Hey S390/SPARC folks, sorry for the ping!
-> 
-> Any reviews on this V1 would be greatly appreciated, I'm working on V2
-> and seeking feedback in the non-reviewed patches.
+On Wed, May 11, 2022 at 6:40 PM Henning Schild
+<henning.schild@siemens.com> wrote:
+>
+> On Apollo Lake the pinctrl drivers will now come up without ACPI. Use
+> that instead of open coding it.
+> Create a new driver for that which can later be filled with more GPIO
+> based models, and which has different dependencies.
 
-Sorry, missed that this is quite s390 specific. So, yes, this looks
-good to me and nice to see that one of the remaining CONFIG_S390 in
-common code will be removed!
+...
 
-For the s390 bits:
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
+> +       .dev_id = "leds-gpio",
+> +       .table = {
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 0, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 52, NULL, 1, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 53, NULL, 2, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 57, NULL, 3, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 58, NULL, 4, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 60, NULL, 5, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 56, NULL, 6, GPIO_ACTIVE_LOW),
+> +               GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 59, NULL, 7, GPIO_ACTIVE_HIGH),
+
+> +       }
+
+Keeping a comma is good here.
+
+> +};
+
+...
+
+> +       /* PM_BIOS_BOOT_N */
+> +       gpiod = gpiod_get_index(&simatic_leds_pdev->dev, NULL, 6, 0);
+
+This is basically GPIOD_ASIS...
+
+> +       if (IS_ERR(gpiod)) {
+> +               err = PTR_ERR(gpiod);
+> +               goto out;
+> +       }
+
+> +       gpiod_set_value(gpiod, 0);
+
+...but you may apply GPIOD_OUTPUT_LOW there and drop this call.
+
+> +       gpiod_put(gpiod);
+
+Ditto for the rest GPIO requests.
+
+...
+
+> +static struct platform_driver simatic_ipc_led_gpio_driver = {
+> +       .probe = simatic_ipc_leds_gpio_probe,
+> +       .remove = simatic_ipc_leds_gpio_remove,
+> +       .driver = {
+> +               .name = KBUILD_MODNAME,
+> +       }
+> +};
+
+> +
+
+No need to have this blank line.
+
+> +module_platform_driver(simatic_ipc_led_gpio_driver);
+
+-- 
+With Best Regards,
+Andy Shevchenko
