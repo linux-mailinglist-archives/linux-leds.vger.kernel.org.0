@@ -2,142 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D35B52384D
-	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 18:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D17523A9D
+	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 18:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344471AbiEKQO7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 May 2022 12:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57818 "EHLO
+        id S1344980AbiEKQsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 May 2022 12:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344458AbiEKQO5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 May 2022 12:14:57 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2394E6D3B4
-        for <linux-leds@vger.kernel.org>; Wed, 11 May 2022 09:14:56 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id v66so3294257oib.3
-        for <linux-leds@vger.kernel.org>; Wed, 11 May 2022 09:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Cf09Je3CtRN58q8NVoc2nPVu33QjMHj88UB5fSrOla4=;
-        b=CTG8yoxyViVJG9wmGrm6SLhEgFT0WuEvMoQXyZI5Kx6YkRB5j28pASLSwuZICqn0Cn
-         WUe9JQtUluE5n2n2m1EPa+FISLLmw74zubXRkCQO7+cPFnDb7SH7eHHvsAv5UmyVzyUV
-         Yg4qwAYNHpV19CvN9+QaSJdKAjMOYPnzZCA3hYz+C9nugper2Z4G1e1AGj+1SszRkaQo
-         moGjWWVVce7nK2CR/KrFugqD3XC1mwkzPeFT8lqC0rXm5ECEPIDRHLahArrblpkSEeOi
-         oarjMZfY1Bm/srauvkhyBWogv1HqzCKX1WkOEQx8b1IIsfASQoQDyYqMHU0Z+3n8xztv
-         Iymw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Cf09Je3CtRN58q8NVoc2nPVu33QjMHj88UB5fSrOla4=;
-        b=Jrg4KnnWVf6F1vqU0eFaTBfvT0cddXjVIHzT7sDjyf03ApEckahRBqShztjmz6BbLT
-         T6dNwzhouPDRNJuowcJkdp1JO2E0YnzbjKl+WBQlzDKDRKN5yClCMM5Ysrr4G+1ArwBn
-         tpAIctFOuPZbTir3uWRGodhZr0xnIsdB42FgDO+c50Rk78BMhO1RHmKf3j/a0So4n4tv
-         iobDuPTE37fO2lgCvkoFR7yL/SVTDS+nhJ7pBuLVttShWg61Kv3xT8RRm6vWxIZ5SWY6
-         s8Gw7lI6Je0lXmeWESymEK0cZv5fV9D0DU7ZmPwueNhZ6tkpAEVwfkMWYUvTHZs6r82r
-         HS2g==
-X-Gm-Message-State: AOAM5306/yZ6VqMeUnioFDvWjdVm/80c5l3dHp6LKyzhllhRBEztRNy/
-        ceVUFCWw3MiCKF4Ti5OR2LDK+w==
-X-Google-Smtp-Source: ABdhPJz8wvQ3CXsSwZJgwMBRizoEDzOcZERxCvR6YfvQLmBZIZFLmiRHdvM6kGdBrvW6hOVawnGctg==
-X-Received: by 2002:a05:6808:2199:b0:326:90e2:754b with SMTP id be25-20020a056808219900b0032690e2754bmr2876267oib.227.1652285695478;
-        Wed, 11 May 2022 09:14:55 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id z18-20020a056808065200b00325cda1ffacsm861218oih.43.2022.05.11.09.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 09:14:54 -0700 (PDT)
-Date:   Wed, 11 May 2022 09:17:25 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YnvhleAI5RW0ZvkV@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
- <YnKTAvQc6eDxTl14@ripper>
- <20220506160901.GA1199@bug>
- <YnVMcaRV86jZslhd@ripper>
- <20220507063659.GA6968@amd>
+        with ESMTP id S233496AbiEKQsA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 May 2022 12:48:00 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DCDE6B7DB;
+        Wed, 11 May 2022 09:47:58 -0700 (PDT)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24BESoKr028080;
+        Wed, 11 May 2022 16:46:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=tjIW4ViQYza/lnoDnWyOhboEO5kjiPdt7taCyynzKFw=;
+ b=lxUbqAEO3GqUpU+Tuw2IWXF1fzXIGSDn1j9FVHjMmFIPrrH/+bQrVN9PaaYcbEJhBJIr
+ 7d0t++ZFM6UKMdcnwcUF0YasHW2SP51KwmfPJnRgOou9+kRarIXLa3hIMjmu5cX5t3FO
+ 6rItwaIor28IfP+e6c0HY1HIerMLLjGg06tg70umpoMhCUKjDu0piWYCrZz/VisJ+s0b
+ 0DuyX+X+ttOZsVNhvwPdzqfPCbp/RA3MDqZWBEVZBj0PN/wvhGTqQYzQ4imgN+k8TjhU
+ NC3v9IrNMZOoN56TSdKZo20ktYuMVwJV19grssXUZ/JxpGndCu9D0HmYa5fO310s9Ten QA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g0etx3406-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 11 May 2022 16:46:00 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24BGebih023228;
+        Wed, 11 May 2022 16:45:59 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g0etx33y1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 11 May 2022 16:45:59 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24BGgY6p030999;
+        Wed, 11 May 2022 16:45:56 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma03ams.nl.ibm.com with ESMTP id 3fwgd8wsc9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 11 May 2022 16:45:55 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24BGjqsM27197764
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 11 May 2022 16:45:52 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BA0B35204E;
+        Wed, 11 May 2022 16:45:52 +0000 (GMT)
+Received: from osiris (unknown [9.145.80.86])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id B9FCE52050;
+        Wed, 11 May 2022 16:45:50 +0000 (GMT)
+Date:   Wed, 11 May 2022 18:45:49 +0200
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, pmladek@suse.com, bhe@redhat.com,
+        akpm@linux-foundation.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        kexec@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Subject: Re: [PATCH 22/30] panic: Introduce the panic post-reboot notifier
+ list
+Message-ID: <YnvoPe2cTS31qbjb@osiris>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-23-gpiccoli@igalia.com>
+ <7017c234-7c73-524a-11b6-fefdd5646f59@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220507063659.GA6968@amd>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <7017c234-7c73-524a-11b6-fefdd5646f59@igalia.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: P8jYmW-Xe3lS0Lxn9LfjJuLQx8-pWyu5
+X-Proofpoint-ORIG-GUID: 3EoVOe4XNkWaSjwGnBLNECSOqY142ccD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-11_07,2022-05-11_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 mlxscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=429 bulkscore=0 impostorscore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2205110076
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri 06 May 23:36 PDT 2022, Pavel Machek wrote:
-
-> Hi!
-> 
-> > > > As such the pattern sequence provided to hw_pattern looks to be the
-> > > > smae, but I don't see that it can be made compatible.
-> > > > 
-> > > > > Can I get either patch to disable pattern infrastructure for now or to
-> > > > > get it compatible?
-> > > > > 
-> > > > 
-> > > > I'd be happy to get this updated to your liking, but this was one of the
-> > > > drivers we discussed when we introduced the pattern trigger and led to
-> > > > the conclusion that we need the ability to do hw-specific patterns.
-> > > > 
-> > > > As such this document provides the hardware specific documentation, as
-> > > > we describe under "hw_pattern" in
-> > > > Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-> > > > 
-> > > > Please advice on what you would like me to do.
-> > > 
-> > > I'd like you to use same format leds-trigger-pattern describes.
-> > > 
-> > > If someone passes "255 500 0 500", that's requesting gradual transitions and
-> > > your hw can not do that. You return -EINVAL.
-> > > 
-> > > If someone wants that kind of blinking, they need to pass "255 0 255 500 0 0 0 500".
-> > > 
+On Mon, May 09, 2022 at 11:16:10AM -0300, Guilherme G. Piccoli wrote:
+> On 27/04/2022 19:49, Guilherme G. Piccoli wrote:
+> > Currently we have 3 notifier lists in the panic path, which will
+> > be wired in a way to allow the notifier callbacks to run in
+> > different moments at panic time, in a subsequent patch.
 > > 
-> > So the section under hw_pattern in sysfs-class-led-trigger-pattern that
-> > says:
+> > But there is also an odd set of architecture calls hardcoded in
+> > the end of panic path, after the restart machinery. They're
+> > responsible for late time tunings / events, like enabling a stop
+> > button (Sparc) or effectively stopping the machine (s390).
 > > 
-> > "Since different LED hardware can have different semantics of
-> > hardware patterns, each driver is expected to provide its own
-> > description for the hardware patterns in their documentation
-> > file at Documentation/leds/."
+> > This patch introduces yet another notifier list to offer the
+> > architectures a way to add callbacks in such late moment on
+> > panic path without the need of ifdefs / hardcoded approaches.
 > > 
-> > That doesn't apply to this piece of hardware & driver?
+> > Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+> > Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: Heiko Carstens <hca@linux.ibm.com>
+> > Cc: Sven Schnelle <svens@linux.ibm.com>
+> > Cc: Vasily Gorbik <gor@linux.ibm.com>
+> > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > 
-> It applies: since your hardware can not do arbitrary patterns, you
-> need description of what kinds of patterns it can do.
+> Hey S390/SPARC folks, sorry for the ping!
 > 
-> But you should still use compatible format, so that pattern that is
-> valid for hw_pattern file is valid for pattern file, too, and produces
-> same result.
-> 
+> Any reviews on this V1 would be greatly appreciated, I'm working on V2
+> and seeking feedback in the non-reviewed patches.
 
-Okay, I didn't understand that the hw_pattern needs to be a subset of
-the pattern. I will prepare a patch to require the pattern to include
-the zero-time entries as well.
+Sorry, missed that this is quite s390 specific. So, yes, this looks
+good to me and nice to see that one of the remaining CONFIG_S390 in
+common code will be removed!
 
-> If you believe documentation implies something else, it may need to be
-> clarified.
-> 
-
-I'll read it again and if needed I'll try to clarify the expectations.
-
-Thanks,
-Bjorn
+For the s390 bits:
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
