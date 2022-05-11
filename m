@@ -2,110 +2,145 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B122522692
-	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 00:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55871522A8F
+	for <lists+linux-leds@lfdr.de>; Wed, 11 May 2022 05:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbiEJWAr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 May 2022 18:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60738 "EHLO
+        id S236784AbiEKDyQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 May 2022 23:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235185AbiEJWAn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 18:00:43 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CF729B010
-        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 15:00:35 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id 16so242301lju.13
-        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 15:00:35 -0700 (PDT)
+        with ESMTP id S236251AbiEKDyM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 May 2022 23:54:12 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8A74C7A3
+        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 20:54:11 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-edeb6c3642so1418403fac.3
+        for <linux-leds@vger.kernel.org>; Tue, 10 May 2022 20:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=8wl4JGjcagTE5DTXgovuMHC09QoMON5V3iCY7oQVcUY=;
-        b=iMLbaUxacpJCVUqtGpBpcjGut8v/t0M39DdzYHX0k9Wkfa4QZm7ZEWEuA//hHCbINu
-         62HVf5Uns/s4gefd1qOxG7WmVduKvUz2UMOVgnwmn0QHlKsfH83cdv591pkoqhOBTDEZ
-         XfO3fyX9yq1ipSIP5FIhGoD1CT2X/RIMetQRbxqAjm/m2L896muotvzNLdQJxRR32mbd
-         xYCEQc9oWZixV3Xta5S9y2PSB6x35y8eDJRoswxTF29e32B7bPsQgz7h2bmMrH49swKO
-         eyg8CdW/EGMLX9XCgvaKDGVsk33H25P5Od5N3ZcPkORmTSK/zM2VRdBFGK/Sbi5ji5ol
-         whYw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=0WrSL/b+MR9+m4rRbjGXRX60B+r7zy7wkt64zUH48oY=;
+        b=rDNhyYBHwTL4zR2u6Rh91X182mgiFM7lrZSGXKOmY04hNhVAPm4Dgx0gU5cVJ2vGDC
+         VVK0s4uScAZKYRBD/jNDbgkWWuBV5j+CeByod0LNmbTJY6H1BdD52pzirbR50niNQOWs
+         4UcMfF4B2g4Ic9rYOGzl0LOSN1aaLtLb/R9U55fs4o/J0pMUPrqbzTdJSVKL4Fh78wGH
+         oqA+4Tao/oGIRZvarBpyi6x4Gmuur5E3YRVUVPWpq48UoXcyFBPUo67hsWk85HdW1Iyu
+         UKVBVAQsXQiIpeynG/0M9jNsljMLvTSFcolAfzNWxtFedgaFi3D/S+XxgXcjaVIGS2sh
+         xkqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=8wl4JGjcagTE5DTXgovuMHC09QoMON5V3iCY7oQVcUY=;
-        b=ohiHoEbPP7oh0Z89ICVmD9h7OuSs35Ce8l69UzCPcAHXuZOlJVaiEGrg3EcjNGzFor
-         NeZQiHVH2smpmbw/U3p0iTwCh+e6QJUFYjKGGzjLNHdEb4e/Mnh9W49W/OMDv0M0pNII
-         6F3S9B2EoKhU8k0ZB7Vo/+6sn+IVELzMx6Ik2MnwQv/m87GWY7CbkUYZaETNfUnPo4P+
-         vJEMmnOAIJAZi3ICJaN1SGPZMwmxmlsaB0f6c6Gbtsf2sy82sj2hrlvkF88J7/Uhxpx3
-         b9EUiQ58S9fHTCF3Q8inQEO6W3OlGiiWujgHppZfSKLiyF3Ek6yXlRm5FHigFHA/7Le1
-         Gvsg==
-X-Gm-Message-State: AOAM531ohNjH5USWYfxTUHtjfXoHD8IovrVEYNaseuG7/enW/8pv3Cj9
-        hWKuz38U9oAd/n2rPlJP1mw=
-X-Google-Smtp-Source: ABdhPJwl8J4eR7sn0+VIZMDFYxlG5Kw+aYEy12fGMGa/ftleO5Suh93XVjPNm5Di/aHFuBYU23GoLw==
-X-Received: by 2002:a2e:54b:0:b0:24f:1055:194c with SMTP id 72-20020a2e054b000000b0024f1055194cmr14753410ljf.106.1652220033496;
-        Tue, 10 May 2022 15:00:33 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id m9-20020ac24ac9000000b0047255d211d7sm20694lfp.262.2022.05.10.15.00.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 15:00:32 -0700 (PDT)
-Message-ID: <9209a2da-a201-d58a-3cb2-9d2ef7ae9a2b@gmail.com>
-Date:   Wed, 11 May 2022 00:00:30 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0WrSL/b+MR9+m4rRbjGXRX60B+r7zy7wkt64zUH48oY=;
+        b=tGXxsB6m00vf6nMRUZ8zMpsYU2CO1mte0S0rTVXS7bwzDU3o1RFJdB63SnrbJjLUp4
+         2IMjjdy87iQlf6ObT+ic2QjXqCs8Z4/bDSX5mWGtyTV6/kGzg3T8f9QfoFVHL7vKyDcX
+         jeLO/O/TT1shhjvUm9RhOElHqeSqLOta50riqIxIBj0KfGSl0142QuuXwLJ3xvbwvkBn
+         lzJI/pO3RQgwGpSoDgwV6cCxtiW3lUD7eDOa18JLD79hlLTUChJN+s2MOhPyUHVuQecm
+         TEKB79IBwg2CraoBXo7WRXbddCc2TFmOcvIClBJxTmK4Yx9G3RTv3qERR2w5G8c5/rtb
+         4gNA==
+X-Gm-Message-State: AOAM5329q4GpdDkBQPyGXpWCehd6IXLeEemGa2tKVyZhq3ezaBTM3jtc
+        OMldlzdMTwzdN9Il/zWGfhgBmA==
+X-Google-Smtp-Source: ABdhPJyoFDZ6uvhFkWPUEbCyNMWvl/HBFzH2dTTIdFcRPaK+Uq/uWTzwMP5AeRGfoz4hWcMS4Eo26w==
+X-Received: by 2002:a05:6870:818a:b0:f1:1223:3afd with SMTP id k10-20020a056870818a00b000f112233afdmr497822oae.271.1652241250132;
+        Tue, 10 May 2022 20:54:10 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id l6-20020a056830154600b0060603221269sm397354otp.57.2022.05.10.20.54.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 May 2022 20:54:09 -0700 (PDT)
+Date:   Tue, 10 May 2022 22:54:07 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Martin Botka <martin.botka@somainline.org>,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        Rob Herring <robh@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>
+Subject: Re: [PATCH 2/4] leds: qcom-lpg: Add PM660L configuration and
+ compatible
+Message-ID: <YnszX1wdQhUSkgyH@builder.lan>
+References: <20220507221123.2201668-1-marijn.suijten@somainline.org>
+ <20220507221123.2201668-2-marijn.suijten@somainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: AW: AW: [PATCH v2 1/2] dt-bindings: leds: Add multi-color
- default-intensities property
-Content-Language: en-US
-To:     Sven Schwermer <sven@svenschwermer.de>,
-        Sven Schuchmann <schuchmann@schleissheimer.de>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Cc:     "pavel@ucw.cz" <pavel@ucw.cz>
-References: <20220502204616.GA27288@ucw.cz>
- <364df52a196fa0ae5db07e599995fcf8dfafb43e.1651577132.git.sven.schwermer@disruptive-technologies.com>
- <GVXP190MB19174C638935B1C6717F8AEBD9C09@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <499bce9d-81d1-8edb-3db5-187e86db71f4@svenschwermer.de>
- <GVXP190MB191792BF0B86407C86A43BB5D9C39@GVXP190MB1917.EURP190.PROD.OUTLOOK.COM>
- <74896374-d9d5-2f6c-9340-713f2ee57df6@svenschwermer.de>
- <46556208-3366-b7e7-4a51-1830461c254c@gmail.com>
- <3a016b38-57d2-e8d0-0162-734829aa0419@svenschwermer.de>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <3a016b38-57d2-e8d0-0162-734829aa0419@svenschwermer.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220507221123.2201668-2-marijn.suijten@somainline.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/10/22 20:31, Sven Schwermer wrote:
-> Hi Jacek,
-> 
-> On 5/8/22 21:55, Jacek Anaszewski wrote:
->> Hi Sven and Sven,
->>
->> On 5/4/22 11:24, Sven Schwermer wrote:
->>> Hi Sven,
->>>
->>> I did consider placing the property into the multicolor's sub nodes. 
->>> However, multicolor LEDs are not required to have firmware sub nodes. 
->>> At least the multicolor class API does not make any assumptions about 
->>> this.
->>
->> So this is something to be clarified. The whole idea relies on having
->> sub-nodes in the multi-led node.
-> 
-> As far as I understand, multi-color LEDs don't require actual OF 
-> sub-nodes. The Turris Omnia LED driver doesn't have sub-nodes, see 
-> Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+On Sat 07 May 17:11 CDT 2022, Marijn Suijten wrote:
 
-Ah, I forgot about that one and the related discussion.
-In this case, yes, global array will do.
+> Inherit PM660L PMIC LPG/triled block configuration from downstream
+> drivers and DT sources, consisting of a triled block with automatic
+> trickle charge control and source selection, three colored led channels
+> belonging to the synchronized triled block and one loose PWM channel.
+> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  drivers/leds/rgb/leds-qcom-lpg.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index cfa3362b2457..30c12ac8eed4 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -1271,6 +1271,23 @@ static int lpg_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct lpg_data pm660l_lpg_data = {
+> +	.lut_base = 0xb000,
+> +	.lut_size = 0x100,
 
--- 
-Best regards,
-Jacek Anaszewski
+The documentation tells me that you have 49 entries of LUT on the
+PM660L.
+
+> +
+> +	.triled_base = 0xd000,
+> +	.triled_has_atc_ctl = true,
+> +	.triled_has_src_sel = true,
+> +
+> +	.num_channels = 4,
+> +	.channels = (struct lpg_channel_data[]) {
+
+This can be const
+
+Regards,
+Bjorn
+
+> +		{ .base = 0xb100, .triled_mask = BIT(5) },
+> +		{ .base = 0xb200, .triled_mask = BIT(6) },
+> +		{ .base = 0xb300, .triled_mask = BIT(7) },
+> +		{ .base = 0xb400 },
+> +	},
+> +};
+> +
+>  static const struct lpg_data pm8916_pwm_data = {
+>  	.num_channels = 1,
+>  	.channels = (const struct lpg_channel_data[]) {
+> @@ -1391,6 +1408,7 @@ static const struct lpg_data pm8350c_pwm_data = {
+>  };
+>  
+>  static const struct of_device_id lpg_of_table[] = {
+> +	{ .compatible = "qcom,pm660l-lpg", .data = &pm660l_lpg_data },
+>  	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
+>  	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
+>  	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
+> -- 
+> 2.36.0
+> 
