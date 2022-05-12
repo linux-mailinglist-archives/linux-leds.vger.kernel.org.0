@@ -2,69 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EF1F5242E2
-	for <lists+linux-leds@lfdr.de>; Thu, 12 May 2022 04:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D405244A4
+	for <lists+linux-leds@lfdr.de>; Thu, 12 May 2022 07:03:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243716AbiELCwV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 May 2022 22:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54942 "EHLO
+        id S1347982AbiELFDD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 May 2022 01:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243697AbiELCwU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 May 2022 22:52:20 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22041B1CDA;
-        Wed, 11 May 2022 19:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652323938; x=1683859938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iPovg244m5lB0ST8KaA8boWcMETie163IiQLz7k5qJk=;
-  b=L/GI1HzsMa+cDzMLOz2EEBMihyRofAgS3/RsuNCniY2dbqGrcB+MkQuW
-   Rh0h13dH1EDfRNvG+1GtAr1QKJ0hY462ZRj+EGypDQp5KBTcSwQztkFrz
-   /LshXxd5vloSHVdp6xVifxFeloGPjJ3ui5mCX9SzxgLInCAqPch+Q7Zi8
-   TTMv+IV+gCTjhblsRMvdbie3z8tv17MI2QxwGtEP+zYzlA3KwBs2t2v+l
-   y5EndX1Fq8hGHBWQQ0eFo7pBLqtVt0zOHrvV3i5bDxRYA8c6+ihNuLav3
-   ctC7NGsg5AR2dUiWxpnEsDzfla96E+gRnzICJyl3JX92c1y8MLiJfFesx
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="257419742"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; 
-   d="scan'208";a="257419742"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2022 19:52:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; 
-   d="scan'208";a="636662834"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 May 2022 19:52:15 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1noyw2-000Jrz-Oi;
-        Thu, 12 May 2022 02:52:14 +0000
-Date:   Thu, 12 May 2022 10:51:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Henning Schild <henning.schild@siemens.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Mark Gross <markgross@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Henning Schild <henning.schild@siemens.com>
-Subject: Re: [PATCH v2 2/4] watchdog: simatic-ipc-wdt: convert to use P2SB
- accessor
-Message-ID: <202205121056.jp0pcxHa-lkp@intel.com>
-References: <20220511153905.13980-3-henning.schild@siemens.com>
+        with ESMTP id S236899AbiELFDC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 May 2022 01:03:02 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C5C134826;
+        Wed, 11 May 2022 22:03:01 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id c11so3804552plg.13;
+        Wed, 11 May 2022 22:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xbcrdAwKj+Ij54Ml9ka4/NdqN5N/T+xmKnU7uRGQyRI=;
+        b=fOAe+jfDANq0AupJtVi1gfIbeV196nhTZWRsb63ZsWljYAeHMBP++onf83uk/3oPYZ
+         TFqKqxVYJRpuEkobS6iVlwwWiInrrPnPyGu3FvlPWlTTke1dW1UwijYeptL0PM5N/0uT
+         Yrp1r2H/DeTjL+D9f/dmk8RrZBLPvTbxigiHPbNM7o8D5ewzY2doCcU3KNNWxoNjx3Vk
+         5GFStz1DY7ct3z0ZuGbNtT79PgQva3JSywym8D+RJ2afFR2qsjnMWRG31kE8oFeqSFkG
+         iJ3NNnafghl4fvpHaAzN5kt+jevwF1QU7vmyzKn7fi51zmvAPrAx4HnNyRYJIUQdPM0H
+         BeKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xbcrdAwKj+Ij54Ml9ka4/NdqN5N/T+xmKnU7uRGQyRI=;
+        b=74IzJDRX1YDMybyUJickwEU6dn7iE+Rw0mrxw0OoJH2LW1WL1aOQ+5r+NmxJzoeMkr
+         7Zpb4BkOUtXJpBxcUDR7INCm7537I0WR98RhYg5dZ9I4ySTrf9hNVF0Er9b/BQuvoUg1
+         SKJBm9/zAx0nIgHPJz+4WE2neKmf90941/bGYe5IoZDvvxYDZboX6yO07axlBb0lw31s
+         ilxjomLk5BxmvelJIxdp4KBnUPq8YF9L16NjRzV28KX9dBnZ9rib0ego/vDz29657ICe
+         Jv/bR7Wfcy72j42mN5xu2g8/uia/5ofaK4WouLhzURFJ1GLUfb4xxgIuw6EQFf7vfoVE
+         ZSWA==
+X-Gm-Message-State: AOAM533FvcZM5g2oCOzNEXfaTMFHpUe3HGy/JRHveJlKP3y6qRt0jUlp
+        Od8yol8GwN92VuvGgAPpwKs=
+X-Google-Smtp-Source: ABdhPJzO8d0Zbjp/afNVaVm72C1DkLqXQSapP81yK0gNOkijQqnDeub7nX6jY/tlh6bxYktA64lA0w==
+X-Received: by 2002:a17:90b:380f:b0:1dc:596c:bb0 with SMTP id mq15-20020a17090b380f00b001dc596c0bb0mr9083088pjb.212.1652331781075;
+        Wed, 11 May 2022 22:03:01 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id u85-20020a627958000000b0050dc7628178sm2671782pfc.82.2022.05.11.22.02.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 22:03:00 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] leds: netxbig: Fix refcount leak in netxbig_leds_get_of_pdata
+Date:   Thu, 12 May 2022 09:02:53 +0400
+Message-Id: <20220512050253.8987-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220511153905.13980-3-henning.schild@siemens.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,52 +68,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Henning,
+of_parse_phandle() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when not needed anymore.
+When of_find_device_by_node() fails, of_node_put() is missing.
 
-Thank you for the patch! Yet something to improve:
+Fixes: 9af512e81964 ("leds: netxbig: Convert to use GPIO descriptors")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/leds/leds-netxbig.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[auto build test ERROR on pavel-leds/for-next]
-[also build test ERROR on groeck-staging/hwmon-next linus/master v5.18-rc6 next-20220511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Henning-Schild/simatic-ipc-additions-to-p2sb-apl-lake-gpio/20220511-234148
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: i386-randconfig-a004-20220509 (https://download.01.org/0day-ci/archive/20220512/202205121056.jp0pcxHa-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd123c56754edf62c7042dcf23185c3727610f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f9374205615fb91a7d289a6acaeafcd5f9c16ac4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Henning-Schild/simatic-ipc-additions-to-p2sb-apl-lake-gpio/20220511-234148
-        git checkout f9374205615fb91a7d289a6acaeafcd5f9c16ac4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/watchdog/simatic-ipc-wdt.c:19:10: fatal error: 'linux/platform_data/x86/p2sb.h' file not found
-   #include <linux/platform_data/x86/p2sb.h>
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +19 drivers/watchdog/simatic-ipc-wdt.c
-
-  > 19	#include <linux/platform_data/x86/p2sb.h>
-    20	#include <linux/platform_data/x86/simatic-ipc-base.h>
-    21	#include <linux/platform_device.h>
-    22	#include <linux/sizes.h>
-    23	#include <linux/util_macros.h>
-    24	#include <linux/watchdog.h>
-    25	
-
+diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
+index 77213b79f84d..ceb046500469 100644
+--- a/drivers/leds/leds-netxbig.c
++++ b/drivers/leds/leds-netxbig.c
+@@ -441,6 +441,7 @@ static int netxbig_leds_get_of_pdata(struct device *dev,
+ 	gpio_ext_pdev = of_find_device_by_node(gpio_ext_np);
+ 	if (!gpio_ext_pdev) {
+ 		dev_err(dev, "Failed to find platform device for gpio-ext\n");
++		of_node_put(gpio_ext_np);
+ 		return -ENODEV;
+ 	}
+ 	gpio_ext_dev = &gpio_ext_pdev->dev;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
