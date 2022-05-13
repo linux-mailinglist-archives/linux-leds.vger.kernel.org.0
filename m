@@ -2,111 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E8C55264F4
-	for <lists+linux-leds@lfdr.de>; Fri, 13 May 2022 16:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16A65526511
+	for <lists+linux-leds@lfdr.de>; Fri, 13 May 2022 16:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233889AbiEMOnr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 May 2022 10:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49152 "EHLO
+        id S1381386AbiEMOqJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 May 2022 10:46:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382170AbiEMOmJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 May 2022 10:42:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34276980A9
-        for <linux-leds@vger.kernel.org>; Fri, 13 May 2022 07:37:04 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1npWPd-0007iu-W8; Fri, 13 May 2022 16:37:02 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1npWPe-0026F7-8P; Fri, 13 May 2022 16:37:00 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1npWPc-009TQx-7D; Fri, 13 May 2022 16:37:00 +0200
-Date:   Fri, 13 May 2022 16:36:57 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     kernel@pengutronix.de, Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: lm3601x: Don't use mutex after it was destroyed
-Message-ID: <20220513143657.5tak6tdmuuxpkyw2@pengutronix.de>
-References: <20220513081832.263863-1-u.kleine-koenig@pengutronix.de>
- <20220513140255.GA18001@duo.ucw.cz>
+        with ESMTP id S1381450AbiEMOp6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 May 2022 10:45:58 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBB093C4B7;
+        Fri, 13 May 2022 07:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=A7LCydQD5IYNzaoDGyfG1KKM7tCxGhr7TuWULSo03X0=;
+        t=1652453114; x=1653662714; b=LYs2Kri0cw+/UGCEdaklFX6++OP3d6XjJhLcC02jkMM6M13
+        enCTtLPVnFDCrQRFLX819G3cOwVdjYiBSa9JccmqbQblnXISEdyq/7i5O4aMDV5xAFeJh8X61XWYA
+        3hNxcWPO6okKyPbXVAhEt6WHQ/sVkV0gcWR0C3dCeQWocdHTJKZWVZ25I4x63uWgmbhevhAje3sRQ
+        ynAaFSpM6xFAePbWKVwYY4aWUVh0Ju93mi2MceapTMkNIryb6lt7v4/iXwdFQzg89Tz18COaji5Fq
+        iSqUu6mUSMMlAVO2Bcj32MYDMrCOrP4TWkawclAlZw9o6WbW7KIcYMOBD7zR8fsA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.95)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1npWX2-00AdYm-Tp;
+        Fri, 13 May 2022 16:44:41 +0200
+Message-ID: <1760d499824f9ef053af7a8dac04b48ab7d7fd3d.camel@sipsolutions.net>
+Subject: Re: [PATCH 11/30] um: Improve panic notifiers consistency and
+ ordering
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Date:   Fri, 13 May 2022 16:44:36 +0200
+In-Reply-To: <4b003501-f5c3-cd66-d222-88d98c93e141@igalia.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+         <20220427224924.592546-12-gpiccoli@igalia.com> <Ynp2hRodh04K3pzK@alley>
+         <4b003501-f5c3-cd66-d222-88d98c93e141@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nwwahpns3zyosq7h"
-Content-Disposition: inline
-In-Reply-To: <20220513140255.GA18001@duo.ucw.cz>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, 2022-05-11 at 17:22 -0300, Guilherme G. Piccoli wrote:
+> On 10/05/2022 11:28, Petr Mladek wrote:
+> > [...]
+> > It is not clear to me why user mode linux should not care about
+> > the other notifiers. It might be because I do not know much
+> > about the user mode linux.
+> > 
+> > Is the because they always create core dump or are never running
+> > in a hypervisor or ...?
+> > 
+> > AFAIK, the notifiers do many different things. For example, there
+> > is a notifier that disables RCU watchdog, print some extra
+> > information. Why none of them make sense here?
+> > 
+> 
+> Hi Petr, my understanding is that UML is a form of running Linux as a
+> regular userspace process for testing purposes.
 
---nwwahpns3zyosq7h
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Correct.
 
-Hello Pavel,
+> With that said, as soon
+> as we exit in the error path, less "pollution" would happen, so users
+> can use GDB to debug the core dump for example.
+> 
+> In later patches of this series (when we split the panic notifiers in 3
+> lists) these UML notifiers run in the pre-reboot list, so they run after
+> the informational notifiers for example (in the default level).
+> But without the list split we cannot order properly, so my gut feeling
+> is that makes sense to run them rather earlier than later in the panic
+> process...
+> 
+> Maybe Anton / Johannes / Richard could give their opinions - appreciate
+> that, I'm not attached to the priority here, it's more about users'
+> common usage of UML I can think of...
 
-[dropped Dan Murphy from Cc:, the email address doesn't work]
+It's hard to say ... In a sense I'm not sure it matters?
 
-On Fri, May 13, 2022 at 04:02:55PM +0200, Pavel Machek wrote:
-> Hi!
->=20
-> > The mutex might still be in use until the devm cleanup callback
-> > devm_led_classdev_flash_release() is called. This only happens some time
-> > after lm3601x_remove() completed.
->=20
-> I'm sure lots of "use after free" can be fixed by simply removing the
-> resource freeing...
+OTOH something like the ftrace dump notifier (kernel/trace/trace.c)
+might still be useful to run before the mconsole and coredump ones, even
+if you could probably use gdb to figure out the information.
 
-I agree in general. Mutexes are a bit special here and often are not
-destroyed. mutex_destroy() is a no-op usually and with debugging enabled
-only does
+Personally, I don't have a scenario where I'd care about the trace
+buffers though, and most of the others I found would seem irrelevant
+(drivers that aren't even compiled, hung tasks won't really happen since
+we exit immediately, and similar.)
 
-	lock->magic =3D NULL;
-
-which catches use-after-destroy. So IMHO just dropping the mutex_destroy
-is fine.
-
-> but lets fix this properly.
-
-I don't understand that part. Does that mean you pick up my patch, or
-that you create a better fix?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---nwwahpns3zyosq7h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJ+bQYACgkQwfwUeK3K
-7AnQpgf/TdCRE82ssQgwxOQE0C4UBLn3FAvl505Z4RyvSHhLcAt6FlIEpXKHWuvq
-KD/sF0wkgEQ/T7BTAvF49WNH3gpPnTpT0WmX/3uLJo7c+tJwb6u8IR0FPIlGsL7n
-gltyOGcqxrTyOBJ4G8X9kAfi3Vm9UAc1HV1M2r3HArUan50wsTYAfZlegaWP3i1J
-OGsiTCxZUwcON1m7/5L+rqUwpA0HxoQ5KvktL/DyTqYKY/3wYohEqIsuSeYKY5Lo
-ROePcyOTM6JuelA2tifpaySYI1hAcG+a4XY/hVCnWMvv9QPcwbSv5HsW3q1nK3Ec
-WiVQMQmzY7NYbTU4gL+mUj8SRmpG0g==
-=i335
------END PGP SIGNATURE-----
-
---nwwahpns3zyosq7h--
+johannes
