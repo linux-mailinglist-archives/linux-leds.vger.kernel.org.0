@@ -2,317 +2,329 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A354D5280F4
-	for <lists+linux-leds@lfdr.de>; Mon, 16 May 2022 11:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D0045281B9
+	for <lists+linux-leds@lfdr.de>; Mon, 16 May 2022 12:21:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbiEPJmf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 May 2022 05:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S233965AbiEPKVz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 May 2022 06:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240356AbiEPJmc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 May 2022 05:42:32 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787FD32051;
-        Mon, 16 May 2022 02:42:31 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id B89C91F427E7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652694150;
-        bh=ePZmgVs4ybnh8KRb65Q8v+CKf3f4EQCPnj11z5d93nI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QQOpnPRNslnlmHn9l5dwp3EmcpubriNf5bmglU7dZG4kLolSuDSznL58Og3DF20CU
-         aNM3k4YMyfcHIacKE56n6T3WLsNqsZ92SNn+EBEFJBZWAxJHK3hIliXi+6iOrufYZT
-         n2HbYwsgHzkWG80EvIChaNdUkZ9KNOWwOwb4GS1ivUIq2tkQF4/ihYcllePBBS2UT4
-         O2yML+y2v2j07405c3C1pxTTtPSDWN6L00eoFzpEjfoIMNJr7lsmjTr6kJ6KGqlbrP
-         K0FOHdUsk7hf/x6vcVeyOcpL3U3vc43qHqY2voZyhjQdJgdaGPoToKeMNaEzn3ePCN
-         wUs/9Nela7LDQ==
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     sean.wang@mediatek.com
-Cc:     pavel@ucw.cz, matthias.bgg@gmail.com, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 3/3] leds: leds-mt6323: Drop MT6323_ prefix from macros and defines
-Date:   Mon, 16 May 2022 11:42:22 +0200
-Message-Id: <20220516094222.30414-4-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220516094222.30414-1-angelogioacchino.delregno@collabora.com>
-References: <20220516094222.30414-1-angelogioacchino.delregno@collabora.com>
+        with ESMTP id S232593AbiEPKVy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 May 2022 06:21:54 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 840B0DEC9;
+        Mon, 16 May 2022 03:21:52 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 02AF51F930;
+        Mon, 16 May 2022 10:21:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1652696511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9SKwT5B95E5YN9xa81VvHUpO+QGR+zcfCsbhuV2Jgp4=;
+        b=LWTnDo04g2ZIMR91v0c2MAsYmxaUOl80sz+tTo9fRyqmuLzfAZ1jmcmhBu1F/2SwEKbidr
+        AAgP6W9p9YHXuK9IdMK0VKJ5T49DYuwEAzjkXZlkWl2knT/MPCmRsL91fAF4WZ26S0Lq+5
+        GaIq0ymGLcl5C1bryaGKOpn3k9Ph6bU=
+Received: from suse.cz (unknown [10.100.208.146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 89FB92C141;
+        Mon, 16 May 2022 10:21:48 +0000 (UTC)
+Date:   Mon, 16 May 2022 12:21:48 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     "michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>,
+        d.hatayama@jp.fujitsu.com, akpm@linux-foundation.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, dave.hansen@linux.intel.com, feng.tang@intel.com,
+        gregkh@linuxfoundation.org, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Subject: Re: [PATCH 24/30] panic: Refactor the panic path
+Message-ID: <YoIlvFxbqoiDsD1l@alley>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-25-gpiccoli@igalia.com>
+ <Yn0TnsWVxCcdB2yO@alley>
+ <d313eec2-96b6-04e3-35cd-981f103d010e@igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d313eec2-96b6-04e3-35cd-981f103d010e@igalia.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This renames all definitions and macros to drop the MT6323_ prefix,
-since it is now possible to easily add support to more PMICs in
-this driver.
-While at it, also fix related formatting where possible.
+On Sun 2022-05-15 19:47:39, Guilherme G. Piccoli wrote:
+> On 12/05/2022 11:03, Petr Mladek wrote:
+> > This talks only about kdump. The reality is much more complicated.
+> > The level affect the order of:
+> > 
+> >     + notifiers vs. kdump
+> >     + notifiers vs. crash_dump
+> >     + crash_dump vs. kdump
+> 
+> First of all, I'd like to ask you please to clarify to me *exactly* what
+> are the differences between "crash_dump" and "kdump". I'm sorry if
+> that's a silly question, I need to be 100% sure I understand the
+> concepts the same way you do.
 
-This commit brings no functional changes.
+Ah, it should have been:
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/leds/leds-mt6323.c | 125 ++++++++++++++++++-------------------
- 1 file changed, 61 insertions(+), 64 deletions(-)
+     + notifiers vs. kmsg_dump
+     + notifiers vs. crash_dump
+     + crash_dump vs. kmsg_dump
 
-diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
-index fa9d251e9efa..26f06452a860 100644
---- a/drivers/leds/leds-mt6323.c
-+++ b/drivers/leds/leds-mt6323.c
-@@ -14,52 +14,49 @@
- #include <linux/regmap.h>
- 
- /*
-- * Register field for MT6323_TOP_CKPDN0 to enable
-+ * Register field for TOP_CKPDN0 to enable
-  * 32K clock common for LED device.
-  */
--#define MT6323_RG_DRV_32K_CK_PDN	BIT(11)
--#define MT6323_RG_DRV_32K_CK_PDN_MASK	BIT(11)
-+#define RG_DRV_32K_CK_PDN		BIT(11)
-+#define RG_DRV_32K_CK_PDN_MASK		BIT(11)
- 
- /*
-- * Register field for MT6323_TOP_CKPDN2 to enable
-+ * Register field for TOP_CKPDN2 to enable
-  * individual clock for LED device.
-  */
--#define MT6323_RG_ISINK_CK_PDN(i)	BIT(i)
--#define MT6323_RG_ISINK_CK_PDN_MASK(i)	BIT(i)
-+#define RG_ISINK_CK_PDN(i)		BIT(i)
-+#define RG_ISINK_CK_PDN_MASK(i)		BIT(i)
- 
- /*
-- * Register field for MT6323_TOP_CKCON1 to select
-+ * Register field for TOP_CKCON1 to select
-  * clock source.
-  */
--#define MT6323_RG_ISINK_CK_SEL_MASK(i)	(BIT(10) << (i))
-+#define RG_ISINK_CK_SEL_MASK(i)		(BIT(10) << (i))
- 
- /*
-- * Register for MT6323_ISINK_CON0 to setup the
-+ * Register for ISINK_CON0 to setup the
-  * duty cycle of the blink.
-  */
--#define MT6323_ISINK_CON(r, i)		(r + 0x8 * (i))
--#define MT6323_ISINK_DIM_DUTY_MASK	(0x1f << 8)
--#define MT6323_ISINK_DIM_DUTY(i)	(((i) << 8) & \
--					MT6323_ISINK_DIM_DUTY_MASK)
-+#define ISINK_CON(r, i)			(r + 0x8 * (i))
-+#define ISINK_DIM_DUTY_MASK		(0x1f << 8)
-+#define ISINK_DIM_DUTY(i)		(((i) << 8) & ISINK_DIM_DUTY_MASK)
- 
- /* ISINK_CON1: Register to setup the period of the blink. */
--#define MT6323_ISINK_DIM_FSEL_MASK	(0xffff)
--#define MT6323_ISINK_DIM_FSEL(i)	((i) & MT6323_ISINK_DIM_FSEL_MASK)
-+#define ISINK_DIM_FSEL_MASK		(0xffff)
-+#define ISINK_DIM_FSEL(i)		((i) & ISINK_DIM_FSEL_MASK)
- 
- /* ISINK_CON2: Register to control the brightness. */
--#define MT6323_ISINK_CH_STEP_SHIFT	12
--#define MT6323_ISINK_CH_STEP_MASK	(0x7 << 12)
--#define MT6323_ISINK_CH_STEP(i)		(((i) << 12) & \
--					MT6323_ISINK_CH_STEP_MASK)
--#define MT6323_ISINK_SFSTR0_TC_MASK	(0x3 << 1)
--#define MT6323_ISINK_SFSTR0_TC(i)	(((i) << 1) & \
--					MT6323_ISINK_SFSTR0_TC_MASK)
--#define MT6323_ISINK_SFSTR0_EN_MASK	BIT(0)
--#define MT6323_ISINK_SFSTR0_EN		BIT(0)
-+#define ISINK_CH_STEP_SHIFT		12
-+#define ISINK_CH_STEP_MASK		(0x7 << 12)
-+#define ISINK_CH_STEP(i)		(((i) << 12) & ISINK_CH_STEP_MASK)
-+#define ISINK_SFSTR0_TC_MASK		(0x3 << 1)
-+#define ISINK_SFSTR0_TC(i)		(((i) << 1) & ISINK_SFSTR0_TC_MASK)
-+#define ISINK_SFSTR0_EN_MASK		BIT(0)
-+#define ISINK_SFSTR0_EN			BIT(0)
- 
- /* Register to LED channel enablement. */
--#define MT6323_ISINK_CH_EN_MASK(i)	BIT(i)
--#define MT6323_ISINK_CH_EN(i)		BIT(i)
-+#define ISINK_CH_EN_MASK(i)		BIT(i)
-+#define ISINK_CH_EN(i)			BIT(i)
- 
- #define MAX_SUPPORTED_LEDS		8
- 
-@@ -159,14 +156,14 @@ static int mt6323_led_hw_brightness(struct led_classdev *cdev,
- 	 * Setup current output for the corresponding
- 	 * brightness level.
- 	 */
--	con2_mask |= MT6323_ISINK_CH_STEP_MASK |
--		     MT6323_ISINK_SFSTR0_TC_MASK |
--		     MT6323_ISINK_SFSTR0_EN_MASK;
--	con2_val |=  MT6323_ISINK_CH_STEP(brightness - 1) |
--		     MT6323_ISINK_SFSTR0_TC(2) |
--		     MT6323_ISINK_SFSTR0_EN;
--
--	ret = regmap_update_bits(regmap, MT6323_ISINK_CON(regs->isink_con[2], led->id),
-+	con2_mask |= ISINK_CH_STEP_MASK |
-+		     ISINK_SFSTR0_TC_MASK |
-+		     ISINK_SFSTR0_EN_MASK;
-+	con2_val |=  ISINK_CH_STEP(brightness - 1) |
-+		     ISINK_SFSTR0_TC(2) |
-+		     ISINK_SFSTR0_EN;
-+
-+	ret = regmap_update_bits(regmap, ISINK_CON(regs->isink_con[2], led->id),
- 				 con2_mask, con2_val);
- 	return ret;
- }
-@@ -180,16 +177,16 @@ static int mt6323_led_hw_off(struct led_classdev *cdev)
- 	unsigned int status;
- 	int ret;
- 
--	status = MT6323_ISINK_CH_EN(led->id);
-+	status = ISINK_CH_EN(led->id);
- 	ret = regmap_update_bits(regmap, regs->isink_en_ctrl,
--				 MT6323_ISINK_CH_EN_MASK(led->id), ~status);
-+				 ISINK_CH_EN_MASK(led->id), ~status);
- 	if (ret < 0)
- 		return ret;
- 
- 	usleep_range(100, 300);
- 	ret = regmap_update_bits(regmap, regs->top_ckpdn[2],
--				 MT6323_RG_ISINK_CK_PDN_MASK(led->id),
--				 MT6323_RG_ISINK_CK_PDN(led->id));
-+				 RG_ISINK_CK_PDN_MASK(led->id),
-+				 RG_ISINK_CK_PDN(led->id));
- 	if (ret < 0)
- 		return ret;
- 
-@@ -210,22 +207,22 @@ mt6323_get_led_hw_brightness(struct led_classdev *cdev)
- 	if (ret < 0)
- 		return ret;
- 
--	if (status & MT6323_RG_ISINK_CK_PDN_MASK(led->id))
-+	if (status & RG_ISINK_CK_PDN_MASK(led->id))
- 		return 0;
- 
- 	ret = regmap_read(regmap, regs->isink_en_ctrl, &status);
- 	if (ret < 0)
- 		return ret;
- 
--	if (!(status & MT6323_ISINK_CH_EN(led->id)))
-+	if (!(status & ISINK_CH_EN(led->id)))
- 		return 0;
- 
--	ret = regmap_read(regmap, MT6323_ISINK_CON(regs->isink_con[2], led->id), &status);
-+	ret = regmap_read(regmap, ISINK_CON(regs->isink_con[2], led->id), &status);
- 	if (ret < 0)
- 		return ret;
- 
--	return  ((status & MT6323_ISINK_CH_STEP_MASK)
--		  >> MT6323_ISINK_CH_STEP_SHIFT) + 1;
-+	return  ((status & ISINK_CH_STEP_MASK)
-+		  >> ISINK_CH_STEP_SHIFT) + 1;
- }
- 
- static int mt6323_led_hw_on(struct led_classdev *cdev,
-@@ -244,13 +241,13 @@ static int mt6323_led_hw_on(struct led_classdev *cdev,
- 	 * the default.
- 	 */
- 	ret = regmap_update_bits(regmap, regs->top_ckcon[1],
--				 MT6323_RG_ISINK_CK_SEL_MASK(led->id), 0);
-+				 RG_ISINK_CK_SEL_MASK(led->id), 0);
- 	if (ret < 0)
- 		return ret;
- 
--	status = MT6323_RG_ISINK_CK_PDN(led->id);
-+	status = RG_ISINK_CK_PDN(led->id);
- 	ret = regmap_update_bits(regmap, regs->top_ckpdn[2],
--				 MT6323_RG_ISINK_CK_PDN_MASK(led->id),
-+				 RG_ISINK_CK_PDN_MASK(led->id),
- 				 ~status);
- 	if (ret < 0)
- 		return ret;
-@@ -258,8 +255,8 @@ static int mt6323_led_hw_on(struct led_classdev *cdev,
- 	usleep_range(100, 300);
- 
- 	ret = regmap_update_bits(regmap, regs->isink_en_ctrl,
--				 MT6323_ISINK_CH_EN_MASK(led->id),
--				 MT6323_ISINK_CH_EN(led->id));
-+				 ISINK_CH_EN_MASK(led->id),
-+				 ISINK_CH_EN(led->id));
- 	if (ret < 0)
- 		return ret;
- 
-@@ -267,15 +264,15 @@ static int mt6323_led_hw_on(struct led_classdev *cdev,
- 	if (ret < 0)
- 		return ret;
- 
--	ret = regmap_update_bits(regmap, MT6323_ISINK_CON(regs->isink_con[0], led->id),
--				 MT6323_ISINK_DIM_DUTY_MASK,
--				 MT6323_ISINK_DIM_DUTY(31));
-+	ret = regmap_update_bits(regmap, ISINK_CON(regs->isink_con[0], led->id),
-+				 ISINK_DIM_DUTY_MASK,
-+				 ISINK_DIM_DUTY(31));
- 	if (ret < 0)
- 		return ret;
- 
--	ret = regmap_update_bits(regmap, MT6323_ISINK_CON(regs->isink_con[1], led->id),
--				 MT6323_ISINK_DIM_FSEL_MASK,
--				 MT6323_ISINK_DIM_FSEL(1000));
-+	ret = regmap_update_bits(regmap, ISINK_CON(regs->isink_con[1], led->id),
-+				 ISINK_DIM_FSEL_MASK,
-+				 ISINK_DIM_FSEL(1000));
- 	if (ret < 0)
- 		return ret;
- 
-@@ -337,15 +334,15 @@ static int mt6323_led_set_blink(struct led_classdev *cdev,
- 		led->current_brightness = cdev->max_brightness;
- 	}
- 
--	ret = regmap_update_bits(regmap, MT6323_ISINK_CON(regs->isink_con[0], led->id),
--				 MT6323_ISINK_DIM_DUTY_MASK,
--				 MT6323_ISINK_DIM_DUTY(duty_hw - 1));
-+	ret = regmap_update_bits(regmap, ISINK_CON(regs->isink_con[0], led->id),
-+				 ISINK_DIM_DUTY_MASK,
-+				 ISINK_DIM_DUTY(duty_hw - 1));
- 	if (ret < 0)
- 		goto out;
- 
--	ret = regmap_update_bits(regmap, MT6323_ISINK_CON(regs->isink_con[1], led->id),
--				 MT6323_ISINK_DIM_FSEL_MASK,
--				 MT6323_ISINK_DIM_FSEL(period - 1));
-+	ret = regmap_update_bits(regmap, ISINK_CON(regs->isink_con[1], led->id),
-+				 ISINK_DIM_FSEL_MASK,
-+				 ISINK_DIM_FSEL(period - 1));
- out:
- 	mutex_unlock(&leds->lock);
- 
-@@ -439,9 +436,9 @@ static int mt6323_led_probe(struct platform_device *pdev)
- 	leds->hw = hw;
- 	mutex_init(&leds->lock);
- 
--	status = MT6323_RG_DRV_32K_CK_PDN;
-+	status = RG_DRV_32K_CK_PDN;
- 	ret = regmap_update_bits(leds->hw->regmap, regs->top_ckpdn[0],
--				 MT6323_RG_DRV_32K_CK_PDN_MASK, ~status);
-+				 RG_DRV_32K_CK_PDN_MASK, ~status);
- 	if (ret < 0) {
- 		dev_err(leds->dev,
- 			"Failed to update TOP_CKPDN0 Register\n");
-@@ -515,8 +512,8 @@ static int mt6323_led_remove(struct platform_device *pdev)
- 		mt6323_led_hw_off(&leds->led[i]->cdev);
- 
- 	regmap_update_bits(leds->hw->regmap, regs->top_ckpdn[0],
--			   MT6323_RG_DRV_32K_CK_PDN_MASK,
--			   MT6323_RG_DRV_32K_CK_PDN);
-+			   RG_DRV_32K_CK_PDN_MASK,
-+			   RG_DRV_32K_CK_PDN);
- 
- 	mutex_destroy(&leds->lock);
- 
--- 
-2.35.1
+I am sorry for the confusion. Even "crash_dump" is slightly
+misleading because there is no function with this name.
+But it seems to be easier to understand than __crash_kexec().
 
+
+> > There might theoretically many variants of the ordering of kdump,
+> > crash_dump, and the 4 notifier list. Some variants do not make
+> > much sense. You choose 5 variants and tried to select them by
+> > a level number.
+> > 
+> > The question is if we really could easily describe the meaning this
+> > way. It is not only about a "level" of notifiers before kdump. It is
+> > also about the ordering of crash_dump vs. kdump. IMHO, "level"
+> > semantic does not fit there.
+> > 
+> > Maybe more parameters might be easier to understand the effect.
+> > Anyway, we first need to agree on the chosen variants.
+> > I am going to discuss it more in the code, see below.
+> > 
+> > 
+> > [...] 
+> > Here is the code using the above functions. It helps to discuss
+> > the design and logic.
+> > 
+> > I have to say that the logic is very unclear. Almost all
+> > functions are called twice:
+> > 
+> > The really used code path is defined by order_panic_notifiers_and_kdump()
+> > that encodes "level" into "bits". The bits are then flipped in
+> > panic_notifier_*_once() calls that either do something or not.
+> > kmsg_dump() is called according to the bit flip.
+> > 
+> > Also I guess that it is good proof that "level" abstraction does
+> > not fit here. Normal levels would not need this kind of magic.
+> 
+> Heheh OK, I appreciate your opinion, but I guess we'll need to agree in
+> disagree here - I'm much more fond to this kind of code than a bunch of
+> if/else blocks that almost give headaches. Encoding such "level" logic
+> in the if/else scheme is very convoluted, generates a very big code. And
+> the functions aren't so black magic - they map a level in bits, and the
+> functions _once() are called...once! Although we switch the position in
+> the code, so there are 2 calls, one of them is called and the other not.
+
+I see. Well, I would consider this as a warning that the approach is
+too complex. If the code, using if/then/else, would cause headaches
+then also understanding of the behavior would cause headaches for
+both users and programmers.
+
+
+> But that's totally fine to change - especially if we're moving away from
+> the "level" logic. I see below you propose a much simpler approach - if
+> we follow that, definitely we won't need the "black magic" approach heheh
+
+I do not say that my proposal is fully correct. But we really need
+this kind of simpler approach.
+
+
+> > OK, the question is how to make it better.
+
+> > One option "panic_prefer_crash_dump" should be enough.
+> > And the code might look like:
+> > 
+> > void panic()
+> > {
+> > [...]
+> > 	dump_stack();
+> > 	kgdb_panic(buf);
+> > 
+> > 	< ---  here starts the reworked code --- >
+> > 
+> > 	/* crash dump is enough when enabled and preferred. */
+> > 	if (panic_prefer_crash_dump)
+> > 		__crash_kexec(NULL);
+> > 
+> > 	/* Stop other CPUs and focus on handling the panic state. */
+> > 	if (has_kexec_crash_image)
+> > 		crash_smp_send_stop();
+> > 	else
+> > 		smp_send_stop()
+> > 
+> 
+> Here we have a very important point. Why do we need 2 variants of SMP
+> CPU stopping functions? I disagree with that - my understanding of this
+> after some study in architectures is that the crash_() variant is
+> "stronger", should work in all cases and if not, we should fix that -
+> that'd be a bug.
+> 
+> Such variant either maps to smp_send_stop() (in various architectures,
+> including XEN/x86) or overrides the basic function with more proper
+> handling for panic() case...I don't see why we still need such
+> distinction, if you / others have some insight about that, I'd like to
+> hear =)
+
+The two variants were introduced by the commit 0ee59413c967c35a6dd
+("x86/panic: replace smp_send_stop() with kdump friendly version in
+panic path")
+
+It points to https://lkml.org/lkml/2015/6/24/44 that talks about
+still running watchdogs.
+
+It is possible that the problem could be fixed another way. It is
+even possible that it has already been fixed by the notifiers
+that disable the watchdogs.
+
+Anyway, any change of the smp_send_stop() behavior should be done
+in a separate patch. It will help with bisection of possible
+regression. Also it would require a good explanation in
+the commit message. I would personally do it in a separate
+patch(set).
+
+
+> > 	/* Notify hypervisor about the system panic. */
+> > 	atomic_notifier_call_chain(&panic_hypervisor_list, 0, NULL);
+> > 
+> > 	/*
+> > 	 * No need to risk extra info when there is no kmsg dumper
+> > 	 * registered.
+> > 	 */
+> > 	if (!has_kmsg_dumper())
+> > 		__crash_kexec(NULL);
+> > 
+> > 	/* Add extra info from different subsystems. */
+> > 	atomic_notifier_call_chain(&panic_info_list, 0, NULL);
+> > 
+> > 	kmsg_dump(KMSG_DUMP_PANIC);
+> > 	__crash_kexec(NULL);
+> > 
+> > 	/* Flush console */
+> > 	unblank_screen();
+> > 	console_unblank();
+> > 	debug_locks_off();
+> > 	console_flush_on_panic(CONSOLE_FLUSH_PENDING);
+> > 
+> > 	if (panic_timeout > 0) {
+> > 		delay()
+> > 	}
+> > 
+> > 	/*
+> > 	 * Prepare system for eventual reboot and allow custom
+> > 	 * reboot handling.
+> > 	 */
+> > 	atomic_notifier_call_chain(&panic_reboot_list, 0, NULL);
+> 
+> You had the order of panic_reboot_list VS. consoles flushing inverted.
+> It might make sense, although I didn't do that in V1...
+
+IMHO, it makes sense:
+
+  1. panic_reboot_list contains notifiers that do the reboot
+     immediately, for example, xen_panic_event, alpha_panic_event.
+     The consoles have to be flushed earlier.
+
+  2. console_flush_on_panic() ignores the result of console_trylock()
+     and always calls console_unlock(). As a result the lock should
+     be unlocked at the end. And any further printk() should be able
+     to printk the messages to the console immediately. It means
+     that any messages printed by the reboot notifiers should appear
+     on the console as well.
+
+> Are you OK in having a helper for console flushing, as I did in V1? It
+> makes code of panic() a bit less polluted / more focused I feel.
+
+Yes, it makes sense. Well, it would better to do it in a separate
+patch. The patch patch reworking the logic should be as small
+as possible. It will simplify the review.
+
+
+> > 	if (panic_timeout != 0) {
+> > 		reboot();
+> > 	}
+> > 
+> > 	/*
+> > 	 * Prepare system for the infinite waiting, for example,
+> > 	 * setup blinking.
+> > 	 */
+> > 	atomic_notifier_call_chain(&panic_loop_list, 0, NULL);
+> > 
+> > 	infinite_loop();
+> > }
+> > 
+> > 
+> > __crash_kexec() is there 3 times but otherwise the code looks
+> > quite straight forward.
+> > 
+> > Note 1: I renamed the two last notifier list. The name 'post-reboot'
+> > 	did sound strange from the logical POV ;-)
+> > 
+> > Note 2: We have to avoid the possibility to call "reboot" list
+> > 	before kmsg_dump(). All callbacks providing info
+> > 	have to be in the info list. It a callback combines
+> > 	info and reboot functionality then it should be split.
+> > 
+> > 	There must be another way to calm down problematic
+> > 	info callbacks. And it has to be solved when such
+> > 	a problem is reported. Is there any known issue, please?
+> > 
+> > It is possible that I have missed something important.
+> > But I would really like to make the logic as simple as possible.
+> 
+> OK, I agree with you! It's indeed simpler and if others agree, I can
+> happily change the logic to what you proposed. Although...currently the
+> "crash_kexec_post_notifiers" allows to call _all_ panic_reboot_list
+> callbacks _before kdump_.
+>
+> We need to mention this change in the commit messages, but I really
+> would like to hear the opinions of heavy users of notifiers (as
+> Michael/Hyper-V) and the kdump interested parties (like Baoquan / Dave
+> Young / Hayatama). If we all agree on such approach, will change that
+> for V2 =)
+
+Sure, we need to make sure that we call everything that is needed.
+And it should be documented.
+
+I believe that this is the right way because:
+
+  + It was actually the motivation for this patchset. We split
+    the notifiers into separate lists because we want to call
+    only the really needed ones before kmsg_dump and crash_dump.
+
+  + If anything is needed for crash_dump that it should be called
+    even when crash_dump is called first. It should be either
+    hardcoded into crash_dump() or we would need another notifier
+    list that will be always called before crash_dump.
+
+
+Thanks a lot for working on this.
+
+Best Regards,
+Petr
