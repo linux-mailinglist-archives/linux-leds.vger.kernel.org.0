@@ -2,115 +2,264 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E02552843F
-	for <lists+linux-leds@lfdr.de>; Mon, 16 May 2022 14:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7E7528641
+	for <lists+linux-leds@lfdr.de>; Mon, 16 May 2022 16:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbiEPMeu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 May 2022 08:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56932 "EHLO
+        id S244173AbiEPOCF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 May 2022 10:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230412AbiEPMet (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 May 2022 08:34:49 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 808E539174;
-        Mon, 16 May 2022 05:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652704488; x=1684240488;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gkwJB3FC+w/sAIG0GdnTROrSAhvxYi63fkLJ9hK9U2g=;
-  b=KOk8fSEmewEIr4stMydJr17Nj3X+t2k2M16/pgcASglGoInPGbzwN9G6
-   GNXojGIoR+xiqgURLx/0WH1VDZ42wb7/TvOxgV1jJBXykoyoHoiwNeuCq
-   0jorbx3NVcC1AlHJRbjBJWa6drGDC10EcnbRCw96mQ7yz/neudj4PwhbZ
-   EErJRLaG9axW6MfCrB5Uu+FY02WEi+WRaWkX2/omZaHSnRLQl548mTfF/
-   +/jEyffQDs7vCWEID47uokqQx2dlRJka1vbRSMOH331f+DS3Ols5smKgv
-   zx/7RWkivA4NpBTW/CrIFmegMwXrfZud67RDuFQotaRbso61S+O9DFqj1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="269642230"
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
-   d="scan'208";a="269642230"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 05:34:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
-   d="scan'208";a="699511964"
-Received: from lkp-server02.sh.intel.com (HELO 0628dcddc537) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 May 2022 05:34:31 -0700
-Received: from kbuild by 0628dcddc537 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqZvi-00005l-Ny;
-        Mon, 16 May 2022 12:34:30 +0000
-Date:   Mon, 16 May 2022 20:34:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Kyle Swenson <kyle.swenson@est.tech>, pavel@ucw.cz,
-        robh+dt@kernel.org, krzk+dt@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Kyle Swenson <kyle.swenson@est.tech>
-Subject: Re: [PATCH 1/2] leds: aw21024: Add support for Awinic's AW21024
-Message-ID: <202205162025.GEAQ50Y7-lkp@intel.com>
-References: <20220513190409.3682501-1-kyle.swenson@est.tech>
+        with ESMTP id S235347AbiEPOCD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 May 2022 10:02:03 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290271A389;
+        Mon, 16 May 2022 07:02:02 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 2362F21F5C;
+        Mon, 16 May 2022 14:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1652709720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6xX/Xo1YcyoxhDGVtD+3aF7M9NKMVvtDcsL11SFSAQU=;
+        b=UAEfoymfYf+QAbCzE3oYFS/LnW9rFBs924Unv93LKXY9GoxfXpJbDSZbNYQc1AwPujLxjA
+        jmh7TvIJcQUwFXF0iE9L66PiKtfkKtU88t+hUCpM3m0czPO3TM37NQr+8KouKC5lf5Okex
+        k2McswvfGUIvb+tozWKmApBRPL9ucl0=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id D43112C141;
+        Mon, 16 May 2022 14:01:57 +0000 (UTC)
+Date:   Mon, 16 May 2022 16:01:57 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        David Gow <davidgow@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dexuan Cui <decui@microsoft.com>,
+        Doug Berger <opendmb@gmail.com>,
+        Evan Green <evgreen@chromium.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Julius Werner <jwerner@chromium.org>,
+        Justin Chen <justinpopo6@gmail.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mihai Carabas <mihai.carabas@oracle.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
+        Scott Branden <scott.branden@broadcom.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Shile Zhang <shile.zhang@linux.alibaba.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Wang ShaoBo <bobo.shaobowang@huawei.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH 19/30] panic: Add the panic hypervisor notifier list
+Message-ID: <YoJZVZl/MH0KiE/J@alley>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-20-gpiccoli@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220513190409.3682501-1-kyle.swenson@est.tech>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220427224924.592546-20-gpiccoli@igalia.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Kyle,
+On Wed 2022-04-27 19:49:13, Guilherme G. Piccoli wrote:
+> The goal of this new panic notifier is to allow its users to register
+> callbacks to run very early in the panic path. This aims hypervisor/FW
+> notification mechanisms as well as simple LED functions, and any other
+> simple and safe mechanism that should run early in the panic path; more
+> dangerous callbacks should execute later.
+> 
+> For now, the patch is almost a no-op (although it changes a bit the
+> ordering in which some panic notifiers are executed). In a subsequent
+> patch, the panic path will be refactored, then the panic hypervisor
+> notifiers will effectively run very early in the panic path.
+> 
+> We also defer documenting it all properly in the subsequent refactor
+> patch. While at it, we removed some useless header inclusions and
+> fixed some notifiers return too (by using the standard NOTIFY_DONE).
 
-Thank you for the patch! Perhaps something to improve:
+> --- a/arch/mips/sgi-ip22/ip22-reset.c
+> +++ b/arch/mips/sgi-ip22/ip22-reset.c
+> @@ -195,7 +195,7 @@ static int __init reboot_setup(void)
+>  	}
+>  
+>  	timer_setup(&blink_timer, blink_timeout, 0);
+> -	atomic_notifier_chain_register(&panic_notifier_list, &panic_block);
+> +	atomic_notifier_chain_register(&panic_hypervisor_list, &panic_block);
 
-[auto build test WARNING on pavel-leds/for-next]
-[also build test WARNING on robh/for-next v5.18-rc7 next-20220513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+This notifier enables blinking. It is not much safe. It calls
+mod_timer() that takes a lock internally.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Swenson/leds-aw21024-Add-support-for-Awinic-s-AW21024/20220514-030705
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: hexagon-randconfig-r014-20220516 (https://download.01.org/0day-ci/archive/20220516/202205162025.GEAQ50Y7-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 853fa8ee225edf2d0de94b0dcbd31bea916e825e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/38eeda60299918b5599f4a58714dc91f9741677c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kyle-Swenson/leds-aw21024-Add-support-for-Awinic-s-AW21024/20220514-030705
-        git checkout 38eeda60299918b5599f4a58714dc91f9741677c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+This kind of functionality should go into the last list called
+before panic() enters the infinite loop. IMHO, all the blinking
+stuff should go there.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+>  
+>  	return 0;
+>  }
+> diff --git a/arch/mips/sgi-ip32/ip32-reset.c b/arch/mips/sgi-ip32/ip32-reset.c
+> index 18d1c115cd53..9ee1302c9d13 100644
+> --- a/arch/mips/sgi-ip32/ip32-reset.c
+> +++ b/arch/mips/sgi-ip32/ip32-reset.c
+> @@ -145,7 +144,7 @@ static __init int ip32_reboot_setup(void)
+>  	pm_power_off = ip32_machine_halt;
+>  
+>  	timer_setup(&blink_timer, blink_timeout, 0);
+> -	atomic_notifier_chain_register(&panic_notifier_list, &panic_block);
+> +	atomic_notifier_chain_register(&panic_hypervisor_list, &panic_block);
 
-All warnings (new ones prefixed by >>):
+Same here. Should be done only before the "loop".
 
->> drivers/leds/leds-aw21024.c:295:34: warning: unused variable 'of_aw21024_leds_match' [-Wunused-const-variable]
-   static const struct of_device_id of_aw21024_leds_match[] = {
-                                    ^
-   1 warning generated.
+>  
+>  	return 0;
+>  }
+> --- a/drivers/firmware/google/gsmi.c
+> +++ b/drivers/firmware/google/gsmi.c
+> @@ -1034,7 +1034,7 @@ static __init int gsmi_init(void)
+>  
+>  	register_reboot_notifier(&gsmi_reboot_notifier);
+>  	register_die_notifier(&gsmi_die_notifier);
+> -	atomic_notifier_chain_register(&panic_notifier_list,
+> +	atomic_notifier_chain_register(&panic_hypervisor_list,
+>  				       &gsmi_panic_notifier);
+
+I am not sure about this one. It looks like some logging or
+pre_reboot stuff.
 
 
-vim +/of_aw21024_leds_match +295 drivers/leds/leds-aw21024.c
+>  
+>  	printk(KERN_INFO "gsmi version " DRIVER_VERSION " loaded\n");
+> --- a/drivers/leds/trigger/ledtrig-activity.c
+> +++ b/drivers/leds/trigger/ledtrig-activity.c
+> @@ -247,7 +247,7 @@ static int __init activity_init(void)
+>  	int rc = led_trigger_register(&activity_led_trigger);
+>  
+>  	if (!rc) {
+> -		atomic_notifier_chain_register(&panic_notifier_list,
+> +		atomic_notifier_chain_register(&panic_hypervisor_list,
+>  					       &activity_panic_nb);
 
-   294	
- > 295	static const struct of_device_id of_aw21024_leds_match[] = {
-   296		{ .compatible = "awinic,aw21024", },
-   297		{},
-   298	};
-   299	MODULE_DEVICE_TABLE(of, of_aw21024_leds_match);
-   300	
+The notifier is trivial. It just sets a variable.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+But still, it is about blinking and should be done
+in the last "loop" list.
+
+
+>  		register_reboot_notifier(&activity_reboot_nb);
+>  	}
+> --- a/drivers/leds/trigger/ledtrig-heartbeat.c
+> +++ b/drivers/leds/trigger/ledtrig-heartbeat.c
+> @@ -190,7 +190,7 @@ static int __init heartbeat_trig_init(void)
+>  	int rc = led_trigger_register(&heartbeat_led_trigger);
+>  
+>  	if (!rc) {
+> -		atomic_notifier_chain_register(&panic_notifier_list,
+> +		atomic_notifier_chain_register(&panic_hypervisor_list,
+>  					       &heartbeat_panic_nb);
+
+Same here. Blinking => loop list.
+
+>  		register_reboot_notifier(&heartbeat_reboot_nb);
+>  	}
+> diff --git a/drivers/misc/bcm-vk/bcm_vk_dev.c b/drivers/misc/bcm-vk/bcm_vk_dev.c
+> index a16b99bdaa13..d9d5199cdb2b 100644
+> --- a/drivers/misc/bcm-vk/bcm_vk_dev.c
+> +++ b/drivers/misc/bcm-vk/bcm_vk_dev.c
+> @@ -1446,7 +1446,7 @@ static int bcm_vk_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  
+>  	/* register for panic notifier */
+>  	vk->panic_nb.notifier_call = bcm_vk_on_panic;
+> -	err = atomic_notifier_chain_register(&panic_notifier_list,
+> +	err = atomic_notifier_chain_register(&panic_hypervisor_list,
+>  					     &vk->panic_nb);
+
+It seems to reset some hardware or so. IMHO, it should go into the
+pre-reboot list.
+
+
+>  	if (err) {
+>  		dev_err(dev, "Fail to register panic notifier\n");
+> --- a/drivers/power/reset/ltc2952-poweroff.c
+> +++ b/drivers/power/reset/ltc2952-poweroff.c
+> @@ -279,7 +279,7 @@ static int ltc2952_poweroff_probe(struct platform_device *pdev)
+>  	pm_power_off = ltc2952_poweroff_kill;
+>  
+>  	data->panic_notifier.notifier_call = ltc2952_poweroff_notify_panic;
+> -	atomic_notifier_chain_register(&panic_notifier_list,
+> +	atomic_notifier_chain_register(&panic_hypervisor_list,
+>  				       &data->panic_notifier);
+
+I looks like this somehow triggers the reboot. IMHO, it should go
+into the pre_reboot list.
+
+>  	dev_info(&pdev->dev, "probe successful\n");
+>  
+> --- a/drivers/soc/bcm/brcmstb/pm/pm-arm.c
+> +++ b/drivers/soc/bcm/brcmstb/pm/pm-arm.c
+> @@ -814,7 +814,7 @@ static int brcmstb_pm_probe(struct platform_device *pdev)
+>  		goto out;
+>  	}
+>  
+> -	atomic_notifier_chain_register(&panic_notifier_list,
+> +	atomic_notifier_chain_register(&panic_hypervisor_list,
+>  				       &brcmstb_pm_panic_nb);
+
+I am not sure about this one. It instruct some HW to preserve DRAM.
+IMHO, it better fits into pre_reboot category but I do not have
+strong opinion.
+
+>  
+>  	pm_power_off = brcmstb_pm_poweroff;
+
+Best Regards,
+Petr
