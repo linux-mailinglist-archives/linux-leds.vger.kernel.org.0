@@ -2,178 +2,138 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B01D852AB93
-	for <lists+linux-leds@lfdr.de>; Tue, 17 May 2022 21:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B175252ACC7
+	for <lists+linux-leds@lfdr.de>; Tue, 17 May 2022 22:35:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352514AbiEQTIF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 May 2022 15:08:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
+        id S1352947AbiEQUfN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 May 2022 16:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352515AbiEQTIA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 May 2022 15:08:00 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3020711A03;
-        Tue, 17 May 2022 12:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652814479; x=1684350479;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dMu3qmaQOzDmPfmmDPn/58HAfnv205GwUCrX1kk3ZHk=;
-  b=krY32QVABR11lSLbV/PPyT1/BIPqjn8qfufw7lnr9KPEnUQQCnx4jTD3
-   dA7yLRnCzk5GgS08qninF7Hm8JTen97pg1XQIHnuLSBoWw2g1RZbmVLUn
-   5izyPKzZ9ZjC4zFnQi76FBMX016cB5qJ3EnNUsOnbt9Ik7W/BxWeYU2E4
-   iUb2W2S8l+XS9Wo8iFdFW80Pdd+csoAKg9QFu5EqqDG/CfScK2zrZ8Pi2
-   oR1pn2jySbsMo6mvqM8WUoDWUuAX15Q7DbgKeQBC32TyqQIp8ZSv+L6gk
-   wVT1GncmYSGc563YJtrzsfhHCOIIh76+zu11JvziWwrEmMC1u0d7yqlJY
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="270985083"
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="270985083"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 12:07:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
-   d="scan'208";a="605497608"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga001.jf.intel.com with ESMTP; 17 May 2022 12:07:56 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 17 May 2022 12:07:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 17 May 2022 12:07:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Tue, 17 May 2022 12:07:55 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Dinh Nguyen <dinguyen@kernel.org>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "bhe@redhat.com" <bhe@redhat.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "openipmi-developer@lists.sourceforge.net" 
-        <openipmi-developer@lists.sourceforge.net>,
-        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "fabiomirmar@gmail.com" <fabiomirmar@gmail.com>,
-        "alejandro.j.jimenez@oracle.com" <alejandro.j.jimenez@oracle.com>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "arnd@arndb.de" <arnd@arndb.de>, "bp@alien8.de" <bp@alien8.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "d.hatayama@jp.fujitsu.com" <d.hatayama@jp.fujitsu.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "Tang, Feng" <feng.tang@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mikelley@microsoft.com" <mikelley@microsoft.com>,
-        "hidehiro.kawai.ez@hitachi.com" <hidehiro.kawai.ez@hitachi.com>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "john.ogness@linutronix.de" <john.ogness@linutronix.de>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "will@kernel.org" <will@kernel.org>, Alex Elder <elder@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Chris Zankel <chris@zankel.net>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        "Corey Minyard" <minyard@acm.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "Heiko Carstens" <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        James Morse <james.morse@arm.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        "Matt Turner" <mattst88@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
-        "Richard Weinberger" <richard@nod.at>,
-        Robert Richter <rric@kernel.org>,
-        "Stefano Stabellini" <sstabellini@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "Vasily Gorbik" <gor@linux.ibm.com>, Wei Liu <wei.liu@kernel.org>
-Subject: RE: [PATCH 21/30] panic: Introduce the panic pre-reboot notifier list
-Thread-Topic: [PATCH 21/30] panic: Introduce the panic pre-reboot notifier
- list
-Thread-Index: AQHYWooLnXaT7guJw0OCpuGv/IkEoK0iJCSAgAAZuAD//40QkIAAesuAgAFqbACAACtDgP//jcxAgACKZID//5nyAA==
-Date:   Tue, 17 May 2022 19:07:54 +0000
-Message-ID: <7f9f6feb9f494b0288deab718807172d@intel.com>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-22-gpiccoli@igalia.com> <YoJgcC8c6LaKADZV@alley>
- <63a74b56-89ef-8d1f-d487-cdb986aab798@igalia.com>
- <bed66b9467254a5a8bafc1983dad643a@intel.com>
- <e895ce94-e6b9-caf6-e5d3-06bf0149445c@igalia.com> <YoOs9GJ5Ovq63u5Q@alley>
- <599b72f6-76a4-8e6d-5432-56fb1ffd7e0b@igalia.com>
- <06d85642fef24bc482642d669242654b@intel.com>
- <62a63fc2-346f-f375-043a-fa21385279df@igalia.com>
-In-Reply-To: <62a63fc2-346f-f375-043a-fa21385279df@igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S239770AbiEQUfM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 May 2022 16:35:12 -0400
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A5F52B08;
+        Tue, 17 May 2022 13:35:11 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-f17f1acffeso115047fac.4;
+        Tue, 17 May 2022 13:35:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GmVQSVvz0XOG6SjnV7V4V6/T41LZgX89awI2HyE+m1g=;
+        b=M16Wo2uODFOMFu7LdbBn+yuWEHPxaWaHGQG0zRhOSXTlFMb6XbcrmKqXUCTsgm+NZf
+         SKudcSJGY+9jLqa/p8TPEuSpUgiOeYILAkjcZAwrUgse3U3ko0wI/DalI2cZHsmxBu07
+         AnYifBKNTWSArJHJH4MJsY0xF4dwVF70aWWU1+fiRkS0Zr88+6U5vRlxzx81HQEbVvMz
+         RUbx3kxZqqQnp/unR4qVdrng6cLl2J4IyW08qIn/PbEHEYalzre22x9QNtSQxpLpYIon
+         nKyetfzPv6H6BWb+1X6mkWvXmdE2fkgSR1s5KnZBQsYCxHhybOkjv/vVA4Q9OrzLCZuG
+         Y+HQ==
+X-Gm-Message-State: AOAM531jb3JeXT1J6a7O1q7yIPbg5qjsosZD7qotm1Krv5lbOFwJQzFk
+        ktCsHUjgT8G5I3bubk/IeIyHeTFn1Q==
+X-Google-Smtp-Source: ABdhPJwVy5rMYvBSm6iJXKOoWVCYoOCbHdrII8531VFVtPAVHhEAMU0+Vo7aEjXF+Qq/rl3ZVqG6rw==
+X-Received: by 2002:a05:6870:311e:b0:de:bd67:b6c3 with SMTP id v30-20020a056870311e00b000debd67b6c3mr19403147oaa.268.1652819710483;
+        Tue, 17 May 2022 13:35:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p206-20020acabfd7000000b0032617532120sm106697oif.48.2022.05.17.13.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 13:35:09 -0700 (PDT)
+Received: (nullmailer pid 1590333 invoked by uid 1000);
+        Tue, 17 May 2022 20:35:08 -0000
+Date:   Tue, 17 May 2022 15:35:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, ansuelsmth@gmail.com,
+        andrew@lunn.ch, vivien.didelot@gmail.com,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH RESEND 1/5] dt-bindings: net: add bitfield defines for
+ Ethernet speeds
+Message-ID: <20220517203508.GA1587170-robh@kernel.org>
+References: <20220505135512.3486-1-zajec5@gmail.com>
+ <20220505135512.3486-2-zajec5@gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220505135512.3486-2-zajec5@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-PiBXaGF0IEknbSBwbGFubmluZyB0byBkbyBpbiB0aGUgYWx0ZXJhX2VkYWMgbm90aWZpZXIgaXM6
-DQo+DQo+IGlmIChrZHVtcF9pc19zZXQpDQo+ICAgcmV0dXJuOw0KDQpZZXMuIFRoYXQncyB3aGF0
-IEkgdGhpbmsgc2hvdWxkIGhhcHBlbi4NCg0KLVRvbnkNCg==
+On Thu, May 05, 2022 at 03:55:08PM +0200, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
+> 
+> This allows specifying multiple Ethernet speeds in a single DT uint32
+> value.
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> ---
+>  include/dt-bindings/net/eth.h | 27 +++++++++++++++++++++++++++
+
+ethernet.h
+
+>  1 file changed, 27 insertions(+)
+>  create mode 100644 include/dt-bindings/net/eth.h
+> 
+> diff --git a/include/dt-bindings/net/eth.h b/include/dt-bindings/net/eth.h
+> new file mode 100644
+> index 000000000000..89caff09179b
+> --- /dev/null
+> +++ b/include/dt-bindings/net/eth.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+
+Dual license
+
+> +/*
+> + * Device Tree constants for the Ethernet
+> + */
+> +
+> +#ifndef _DT_BINDINGS_ETH_H
+> +#define _DT_BINDINGS_ETH_H
+> +
+> +#define SPEED_UNSPEC		0
+> +#define SPEED_10		(1 << 0)
+> +#define SPEED_100		(1 << 1)
+> +#define SPEED_1000		(1 << 2)
+> +#define SPEED_2000		(1 << 3)
+> +#define SPEED_2500		(1 << 4)
+> +#define SPEED_5000		(1 << 5)
+> +#define SPEED_10000		(1 << 6)
+> +#define SPEED_14000		(1 << 7)
+> +#define SPEED_20000		(1 << 8)
+> +#define SPEED_25000		(1 << 9)
+> +#define SPEED_40000		(1 << 10)
+> +#define SPEED_50000		(1 << 11)
+> +#define SPEED_56000		(1 << 12)
+> +#define SPEED_100000		(1 << 13)
+> +#define SPEED_200000		(1 << 14)
+> +#define SPEED_400000		(1 << 15)
+
+These should probably have some namespace. ETH_*?
+> +
+> +#endif
+> -- 
+> 2.34.1
+> 
+> 
