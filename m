@@ -2,66 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FF5B529D83
-	for <lists+linux-leds@lfdr.de>; Tue, 17 May 2022 11:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 290A9529D90
+	for <lists+linux-leds@lfdr.de>; Tue, 17 May 2022 11:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240458AbiEQJK3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 May 2022 05:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33466 "EHLO
+        id S236859AbiEQJLt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 May 2022 05:11:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244009AbiEQJKO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 May 2022 05:10:14 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2568A4B1F6
-        for <linux-leds@vger.kernel.org>; Tue, 17 May 2022 02:08:11 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id ks9so33402369ejb.2
-        for <linux-leds@vger.kernel.org>; Tue, 17 May 2022 02:08:10 -0700 (PDT)
+        with ESMTP id S244733AbiEQJLl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 May 2022 05:11:41 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CF82E699
+        for <linux-leds@vger.kernel.org>; Tue, 17 May 2022 02:11:40 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id i19so33380675eja.11
+        for <linux-leds@vger.kernel.org>; Tue, 17 May 2022 02:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=NRdWgdSpXJV+FcRgrC3T3hnaGk51bNd2Lc1wuCnkz10=;
-        b=tqzBqSOU1atmIhPo7Z8/Qx9MQLX8YvKpeYCjDGSJfNeYkHlvepSEq3ilSL/3SNSJTA
-         jeWNHIRX3WcBEE/QA98ncUuhq+wQtxBdZ/B9tnPLwEiwodEzlZzdk0/L53tA9+GGyP22
-         L9J58kZX49nYzEHIwsmZSWrC4pMXxsMNI+uKhqkPbFLtHcjA03Srw08oBF3oyjSfcUc0
-         gCOCl8njKcTHqx5OyMDusQ8pflXlFAiHiE1zuShXo48hBxT9p5vJPfCf0Xk6DBCqrX6K
-         uf+m1wo61pqCI8oRCPT713h9tLYaFT+YoMN/ihSvbJQAvS2FC1KbR2IUavvBpYWvBnXQ
-         m4tg==
+        bh=WoK3/4X38XI5MJwJfyYkHCDo2nAI1IwR+ig2OMpgJlE=;
+        b=efY0hyThX5sR3+svG+5tVcQNYaM5+y3NBGW8jRjJgjjVQWxvwQYvqOz6sV6+QSbI9E
+         EZn3NxDpNVdqW0VRIVgQ0DsJm2BdjGWB1w9VhDaNdqD1+hJ/wdtJ81SykfJcA/pwAqRB
+         9oRMPbXuNDxi1EwhVxuj2u8i/EkZjNFHYPZ3OchBEwjNbwXU2TpWhMze82V7f2786ItS
+         5gzo8b0bPpcRJelIr7PmBEYL+GYLgECadzFOSMJ/Nm3lYRQORvLYMAze7ro2xdSqX02t
+         aY5NGQeQwwkt9eVmfzG9I36v2ew4j5jL05bOH0J/FTwKCojGvv2TxSBVHMu0uo4Upuld
+         5HYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=NRdWgdSpXJV+FcRgrC3T3hnaGk51bNd2Lc1wuCnkz10=;
-        b=rdAu3p/3xVcuJ9x/uyj8NV2o49LmsAcclXJSQ/VFF1fDTfXiMaYzPBppG4gLleexpa
-         Ye/cdqA4I64KLD8qxyN97ZGnZYRRwSH+eRBCqHj+R0uJKgVeC9cGXOfjOiL+rlRJkCnw
-         qrYurViBzRmyVNnCwZM8HBlpzVwFqzC6Eu1/uG1JmQZgbA/0owinXWiHUF8u27aM7Mjj
-         zk+hc8xkom8Tkmp4WQ/vUz5VqsK3cuzX80D1yv4sMoS+p/Dip/UO8ov9T3mxqkZ7fdDr
-         Qu1SMTsG0zvKdV3adWrb86sEjXoj2EbePS47zcsxEVCB90i2CX5hbrQqHebP6uMsTgD7
-         md4g==
-X-Gm-Message-State: AOAM530SRKd0l0FpXHvRbTZbpIeUnyPTTEURuMQcK+uUTeHGnZr0QFGr
-        2cfC4CHtG+NuvFdesa3risfFYg==
-X-Google-Smtp-Source: ABdhPJzmIZ6txUZMp2J5P4jNTuEMmi4wFlFytR9W87ll4e0C8ncDD8mwYXQsFJ9iQVkjtUOTZWAzyg==
-X-Received: by 2002:a17:906:4fd5:b0:6f8:5784:fddb with SMTP id i21-20020a1709064fd500b006f85784fddbmr19606221ejw.161.1652778489510;
-        Tue, 17 May 2022 02:08:09 -0700 (PDT)
+        bh=WoK3/4X38XI5MJwJfyYkHCDo2nAI1IwR+ig2OMpgJlE=;
+        b=6U1v0h4syaNQIxts7s0jqZ2pacjTn2YdK9Thqk3U43xAfk5u51L7fA6fcSf6y8Zuc5
+         oic299ig7yKaqcc/aQFlVhaAF8LuFbYxsxvH30SLttWw1G9f78WTad+PHb/pQePNx+EU
+         j2UdzcPB4BXTRmWmQV6psPgUGdUF5P7MvIY00viHv383OTLcyeWsOlwl+6IB7/DXHWKM
+         ZkhZpZgaEJMFyntsb3BnFoLug4wlyx2E6t2OeDul+Dl6kzrIkHRiB3flNatUw0u478e/
+         /3MvilIi57zmQqcz/jDoW1spd68UQHaO05+AyDAvYXwX8Bxnv2kpP95gH8JCcPMhmEjG
+         wfDA==
+X-Gm-Message-State: AOAM531YdJ0zO8FzC17dNZI9b35+9sc+BM1iCaFIfN4D69wQUI4NMlTW
+        G4lAWRhxjB4v0xZDzCGm2crG3Q==
+X-Google-Smtp-Source: ABdhPJzb8uTqg1GVyxA+vbN5JjvNR7xG9UeK+hy85pumHsYXVI1nJYVIRsbMxc46hDfQwWzLuPEMsA==
+X-Received: by 2002:a17:906:559:b0:6f3:8ba6:39c8 with SMTP id k25-20020a170906055900b006f38ba639c8mr19009343eja.486.1652778698894;
+        Tue, 17 May 2022 02:11:38 -0700 (PDT)
 Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id 25-20020a17090600d900b006f3ef214e55sm787681eji.187.2022.05.17.02.08.08
+        by smtp.gmail.com with ESMTPSA id ec33-20020a0564020d6100b0042ab48ea729sm2736606edb.88.2022.05.17.02.11.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 May 2022 02:08:09 -0700 (PDT)
-Message-ID: <cb83fbab-7aa3-d1a7-ab80-d2b94a516f6d@linaro.org>
-Date:   Tue, 17 May 2022 11:08:08 +0200
+        Tue, 17 May 2022 02:11:38 -0700 (PDT)
+Message-ID: <178182e1-edd1-9f27-6441-a0a9fabde567@linaro.org>
+Date:   Tue, 17 May 2022 11:11:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] dt-bindings: leds: Add aw21024 binding
+Subject: Re: [PATCH 1/2] leds: aw21024: Add support for Awinic's AW21024
 Content-Language: en-US
 To:     Kyle Swenson <kyle.swenson@est.tech>, pavel@ucw.cz,
         robh+dt@kernel.org, krzk+dt@kernel.org
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
 References: <20220513190409.3682501-1-kyle.swenson@est.tech>
- <20220513190409.3682501-2-kyle.swenson@est.tech>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220513190409.3682501-2-kyle.swenson@est.tech>
+In-Reply-To: <20220513190409.3682501-1-kyle.swenson@est.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,215 +74,51 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 13/05/2022 21:04, Kyle Swenson wrote:
-> Add device-tree bindings for Awinic's aw21024 24 channel RGB LED Driver.
-> 
-> Datasheet:
-> https://www.awinic.com/Public/Uploads/uploadfile/files/20200511/20200511165751_5eb9138fcd9e3.PDF
+> The Awinic AW21024 LED controller is a 24-channel RGB LED controller.
+> Each LED on the controller can be controlled individually or grouped
+> with other LEDs on the controller to form a multi-color LED.  Arbitrary
+> combinations of individual and grouped LED control should be possible.
 > 
 > Signed-off-by: Kyle Swenson <kyle.swenson@est.tech>
-> ---
->  .../bindings/leds/leds-aw21024.yaml           | 157 ++++++++++++++++++
->  1 file changed, 157 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-aw21024.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-aw21024.yaml b/Documentation/devicetree/bindings/leds/leds-aw21024.yaml
-> new file mode 100644
-> index 000000000000..1180c02b5d21
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-aw21024.yaml
-> @@ -0,0 +1,157 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-aw21024.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AWINIC AW21024 24-channel LED Driver
-> +
-> +maintainers:
-> +  - Kyle Swenson <kyle.swenson@est.tech>
-> +
-> +description: |
-> +  The AW21024 is a 24-channel LED driver with an I2C interface.
-> +
-> +  For more product information please see the link below:
-> +  https://www.awinic.com/en/index/pageview/catid/19/id/28.html
-> +
-> +properties:
-> +  compatible:
-> +    const: awinic,aw21024
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      I2C peripheral address
 
-Skip description, it's obvious.
+Thank you for your patch. There is something to discuss/improve.
 
 > +
-> +  enable-gpios:
-> +    maxItems: 1
-> +    description: GPIO pin to enable/disable the device.
+> +static const struct i2c_device_id aw21024_id[] = {
+> +	{ "aw21024", 0 }, /* 24 Channel */
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, aw21024_id);
+> +
+> +static const struct of_device_id of_aw21024_leds_match[] = {
+> +	{ .compatible = "awinic,aw21024", },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, of_aw21024_leds_match);
+> +
+> +static struct i2c_driver aw21024_driver = {
+> +	.driver		= {
+> +		.name	= "aw21024",
+> +		.of_match_table = of_match_ptr(of_aw21024_leds_match),
 
-Skip description, it's obvious.
+of_match_ptr causes this being unused. kbuild robot probably pointed
+this out... if not - of_match_ptr goes with maybe_unused. You need both
+or none, depending on intended usage.
 
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  '^multi-led@[0-9a-f]$':
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    properties:
-> +      reg:
-> +        minItems: 1
-> +        maxItems: 24
-> +        description:
-> +          Denotes the LED indicies that should be grouped into a
-> +          single multi-color LED.
-> +
-> +    patternProperties:
-> +      "(^led-[0-9a-f]$|led)":
+> +	},
+> +	.probe_new		= aw21024_probe,
+> +	.remove		= aw21024_remove,
+> +	.id_table = aw21024_id,
 
-How does this pass your own bindings? In the DTS you use underscofer
-which is not here...
-
-You need to test the bindings before sending them to people.
-
-> +        type: object
-> +        $ref: common.yaml#
-> +
-> +patternProperties:
-> +  "^led@[0-2]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        description: Index of the LED.
-> +        minimum: 0
-> +        maximum: 23
-> +
-> +    description:
-> +      Specifies a single LED at the specified index
-> +
-> +
-
-Just one line. Plus errors pointed out by Rob's bot.
-
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +   #include <dt-bindings/gpio/gpio.h>
-> +   #include <dt-bindings/leds/common.h>
-> +
-> +   i2c {
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +        led-controller@30 {
-> +            compatible = "awinic,aw21024";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            reg = <0x30>;
-
-reg after compatible.
-
-> +            enable-gpios = <&gpio1 23>;
-> +
-> +            multi-led@1 {
-> +                #address-cells = <1>;
-> +                #size-cells = <2>;
-> +                reg = <0x0 0x1 0x2>;
-
-This is confusing. Does not match unit address and address/size cells.
-Perhaps you wanted three separate regs?
+Why other places are indented but this not?
 
 
-> +                color = <LED_COLOR_ID_RGB>;
-> +                label = "RGB_LED1";
+> +};
+> +module_i2c_driver(aw21024_driver);
 > +
-> +                led-0 {
-> +                    color = <LED_COLOR_ID_RED>;
-> +                };
-> +
-> +                led-1 {
-> +                    color = <LED_COLOR_ID_GREEN>;
-> +                };
-> +
-> +                led-2 {
-> +                    color = <LED_COLOR_ID_BLUE>;
-> +                };
-> +
-> +            };
-> +            multi-led@2 {
-> +                #address-cells = <1>;
-> +                #size-cells = <3>;
-> +                reg = <0x3 0x4 0x5 0x6>;
-
-The same
-
-> +                color = <LED_COLOR_ID_RGB>;
-> +                label = "RGBW_LED1";
-
-Why labels are upper-case?
-
-> +
-> +                led-4 {
-> +                    color = <LED_COLOR_ID_RED>;
-> +                };
-> +
-> +                led-5 {
-> +                    color = <LED_COLOR_ID_GREEN>;
-> +                };
-> +
-> +                led-6 {
-> +                    color = <LED_COLOR_ID_BLUE>;
-> +                };
-> +
-> +                led-7 {
-> +                    color = <LED_COLOR_ID_WHITE>;
-> +                };
-> +            };
-> +            ready_led@3 {
-
-No underscores in node names. Generic node name, so just led.
-
-> +                #address-cells = <1>;
-> +                #size-cells = <1>;
-> +                reg = <0x7 0x8>;
-
-The same problem with reg.
-
-> +                label = "READY";
-> +                color = <LED_COLOR_ID_MULTI>;
-> +
-> +                led-8 {
-> +                  color = <LED_COLOR_ID_RED>;
-> +                };
-> +
-> +                led-9 {
-> +                  color = <LED_COLOR_ID_GREEN>;
-> +                };
-> +            };
-> +            connected_led@4 {
-> +                reg = <0x9>;
-> +                label = "CONNECTED";
-> +                color = <LED_COLOR_ID_BLUE>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
+> +MODULE_AUTHOR("Kyle Swenson <kyle.swenson@est.tech>");
+> +MODULE_DESCRIPTION("Awinic AW21024 LED driver");
+> +MODULE_LICENSE("GPL");
 
 
 Best regards,
