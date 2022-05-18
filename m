@@ -2,83 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F64D52B4FE
-	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C30152B504
+	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232853AbiERIW2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 May 2022 04:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60026 "EHLO
+        id S233186AbiERIaU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 May 2022 04:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbiERIWZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 04:22:25 -0400
-Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8DB1059CA
-        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:22:24 -0700 (PDT)
-X-Virus-Scanned: Yes
-From:   Sven Schwermer <sven@svenschwermer.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1652862141;
-        bh=dmM9S7syXZ/NlSayuvMqcSqnpEC8jIJAY94sp9uFY9s=;
-        h=From:To:Cc:Subject:In-Reply-To:References;
-        b=OjxG+t+VWSkNkj0fAF5bm+iz5D05IUVYTAiOgLHV8w5LfyDKkVRgNI/nIN0KwQ0IS
-         z5OIQiOA4Zaa2t8HVwisIdY9g2RnCkIg5+SPRlo9VrQ349OujLeh1ZprzGzL+pkT8g
-         NTgOX2USTVNs76IGREdMeMISPA1jlShXGJTBKYC7+vn4W30uI0WhFLbU4pspw0CrV1
-         q1BNTWjP0JuA2QSBExcrlTC18Vmwpzxc3yQ8aJLd+CKcTViFljKhHnl63bfPNarGYq
-         ZVHsrUbjdGj2YltTxwBZzHGVfjUQZKnMipfS9rJwHi0l02EbC3m7o3P1SiSac8j5w9
-         N3UGCLrwMvURg==
-To:     linux-leds@vger.kernel.org
-Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        jacek.anaszewski@gmail.com, schuchmann@schleissheimer.de,
-        pavel@ucw.cz
-Subject: [PATCH] led: multicolor: Don't set brightness when blinking
-Date:   Wed, 18 May 2022 10:22:16 +0200
-Message-Id: <20220518082216.160413-1-sven@svenschwermer.de>
-In-Reply-To: <4f672091-07da-8815-a00f-659f5a478b0e@gmail.com>
-References: <4f672091-07da-8815-a00f-659f5a478b0e@gmail.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233187AbiERIaT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 04:30:19 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD873A888F
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:30:18 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id d15so2326652lfk.5
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kRadtUZAQLBYTGDUxJ60Vvdw9+6O5D4lVBl2phBDBpk=;
+        b=La+f8DZoz5ddbyHccUuuef342TgVW/6LBrjgN6B9jHYqhOzsCazPYAg38AbpdFWgJ0
+         s+6mviCvbXsDLq2Zz1ix+wt5wZwI+uBcRHgCCiCap5nKOvsUxO3aPK6TsA70cwtBQVNI
+         IxfGxYy2lljI0DIWpy3f1SIcVsgDHnWkuP0/G4Q8QTIWH3wXRPexO+ZtqGZNFp4lVCCm
+         vlc12TYNIX3pdk0O9fs2WSbMWhWqYfZ0Af6v2PvLmIKfnCTcy/7w+onrjb5ZFU9+uOId
+         Tse4YEcLwltGhp9RCqRL21s0MQF5s9gBrWLXrqm6IxAmVwmSWS9MkldgKvURY/TSnWPr
+         lNSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kRadtUZAQLBYTGDUxJ60Vvdw9+6O5D4lVBl2phBDBpk=;
+        b=2/jHa66GqvngEMjt9FfAq1/rhCE0jtBokTkk4qIY9QX7ZGPdeW9LoP6vVapDk2teQf
+         IJel9yJ+b53xePqNlkVu9A4mBuxWJAxFrYh8HPqjqz32fb1wwJf8pJ/kAMLTbojgODO7
+         7a2hdX9hrXwFQIfNopX3+c6aQvRcWjQJB4DlgqaQztvwTaLFT8apvnd/LZjJSspfKSRV
+         uKOhwmlBPPgOlmfVoTDKknkIH9L04Q51CiCjghpGF5U1EXpHk9BV77cUZ9Qes5j8dr+E
+         PkJ2HH2Zl7klCH/pzH0AurFBWPu9CZe3qojLJ1ntdr7WJBm4XP1VB0AzMaS8Ca6Jv8e/
+         D0uQ==
+X-Gm-Message-State: AOAM532xwcX9AFt+6hjvxpVpdtJcUFn/Eqqw3xo1WfRvAAEBZp4LPZPA
+        DArsphEOi98vHD3s3Txj/8nO5w==
+X-Google-Smtp-Source: ABdhPJyW8+626+tgJiuY25uoZrldwGJCtXS28K6kLDUFBPF9E/s5NTP+xLm8hyMyRPeOKDXaCROqMw==
+X-Received: by 2002:a05:6512:22c1:b0:46b:a2b7:2edd with SMTP id g1-20020a05651222c100b0046ba2b72eddmr20314533lfu.133.1652862616925;
+        Wed, 18 May 2022 01:30:16 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id f4-20020ac25084000000b00477a61abff4sm8196lfm.63.2022.05.18.01.30.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 01:30:16 -0700 (PDT)
+Message-ID: <bfb0f17f-4e78-65ad-898c-b6c07b04db38@linaro.org>
+Date:   Wed, 18 May 2022 10:30:15 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] leds: aw21024: Add support for Awinic's AW21024
+Content-Language: en-US
+To:     Kyle Swenson <kyle.swenson@est.tech>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzk+dt@kernel.org
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220513190409.3682501-1-kyle.swenson@est.tech>
+ <178182e1-edd1-9f27-6441-a0a9fabde567@linaro.org> <YoPrLbGBnSuYgEzF@p620>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YoPrLbGBnSuYgEzF@p620>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+On 17/05/2022 20:36, Kyle Swenson wrote:
+>>> +static const struct of_device_id of_aw21024_leds_match[] = {
+>>> +	{ .compatible = "awinic,aw21024", },
+>>> +	{},
+>>> +};
+>>> +MODULE_DEVICE_TABLE(of, of_aw21024_leds_match);
+>>> +
+>>> +static struct i2c_driver aw21024_driver = {
+>>> +	.driver		= {
+>>> +		.name	= "aw21024",
+>>> +		.of_match_table = of_match_ptr(of_aw21024_leds_match),
+>>
+>> of_match_ptr causes this being unused. kbuild robot probably pointed
+>> this out... if not - of_match_ptr goes with maybe_unused. You need both
+>> or none, depending on intended usage.
+>>
+> Ah, yes, the kbuild robot did point this out to me, and I had planned on
+> fixing by adding 'depends on OF' to the Kconfig.  Perhaps that isn't
+> correct or complete (or even relevant)?
+> 
+> I'll do some investigating and determine if I need to use of_match_ptr
+> or not and I'll fix it either by removing it or adding maybe_unused in
+> the next version.
 
-When writing to the multi_intensity file, don't unconditionally call
-led_set_brightness. By only doing this if blinking is inactive we
-prevent blinking from stopping if the blinking is in its off phase while
-the file is written.
+Your has i2c_device_id so it could bind without OF, however obviously
+aw21024_probe_dt() will do nothing and return 0.
 
-Instead, if blinking is active, the changed intensity values are applied
-upon the next blink. This is consistent with changing the brightness on
-monochrome LEDs with active blinking.
+Therefore it is up to you if you want to add dependency on OF. If you
+add, please add it with "|| COMPILE_TEST".
 
-Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
----
- drivers/leds/led-class-multicolor.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Then in both cases you need to handle the case of building (not running)
+a driver without OF: using maybe_unused+of_match_ptr() or nothing (thus
+always referencing of_device_id). Which one to choose matters less.
+Using it causes the code to be smaller for !OF case, which might matter
+for some distros which build everything as module. Not using it allows
+to match the driver on ACPI systems, although I am not sure if this is
+relevant.
 
-diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-index e317408583df..5b1479b5d32c 100644
---- a/drivers/leds/led-class-multicolor.c
-+++ b/drivers/leds/led-class-multicolor.c
-@@ -59,7 +59,8 @@ static ssize_t multi_intensity_store(struct device *dev,
- 	for (i = 0; i < mcled_cdev->num_colors; i++)
- 		mcled_cdev->subled_info[i].intensity = intensity_value[i];
- 
--	led_set_brightness(led_cdev, led_cdev->brightness);
-+	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
-+		led_set_brightness(led_cdev, led_cdev->brightness);
- 	ret = size;
- err_out:
- 	mutex_unlock(&led_cdev->led_access);
+I don't have recommendation on that - just be sure there are no warnings.
 
-base-commit: 210e04ff768142b96452030c4c2627512b30ad95
--- 
-2.36.1
 
+Best regards,
+Krzysztof
