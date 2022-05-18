@@ -2,157 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A0652B452
-	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A8AC52B469
+	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232952AbiERH7y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 May 2022 03:59:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
+        id S232801AbiERIR1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 May 2022 04:17:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232861AbiERH6Y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 03:58:24 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB051207E6;
-        Wed, 18 May 2022 00:58:22 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1B35021B9A;
-        Wed, 18 May 2022 07:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652860701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QH8rZRpDaB1rKzYBSvbHTkuJfXIZgq5PPOEyov0S61g=;
-        b=T0gGp12c0pU5b8b1i3GTuIGm3SeP3EhRpXPECQNn/enftlsKdapz4VZkfCcS2uIPqM17q+
-        /PBA3AVHUNLBKEckN04LlFAw1RfXD18Ad2wMfhhColdg9InPjS0Cl4zZnO5bfZL0Ln9Soj
-        5NqvLRJqL5BZI+4DmlPHTXzoYIVJS4o=
-Received: from suse.cz (unknown [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0683D2C142;
-        Wed, 18 May 2022 07:58:19 +0000 (UTC)
-Date:   Wed, 18 May 2022 09:58:18 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     David Gow <davidgow@google.com>, Evan Green <evgreen@chromium.org>,
-        Julius Werner <jwerner@chromium.org>,
-        Scott Branden <scott.branden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        akpm@linux-foundation.org, bhe@redhat.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        halves@canonical.com, fabiomirmar@gmail.com,
-        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
-        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
-        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dexuan Cui <decui@microsoft.com>,
-        Doug Berger <opendmb@gmail.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Justin Chen <justinpopo6@gmail.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Mihai Carabas <mihai.carabas@oracle.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
-        Shile Zhang <shile.zhang@linux.alibaba.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Wang ShaoBo <bobo.shaobowang@huawei.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH 19/30] panic: Add the panic hypervisor notifier list
-Message-ID: <YoSnGmBJ3kYs5WMf@alley>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-20-gpiccoli@igalia.com>
- <YoJZVZl/MH0KiE/J@alley>
- <ad082ce7-db50-13bb-3dbb-9b595dfa78be@igalia.com>
- <YoOpyW1+q+Z5as78@alley>
+        with ESMTP id S232800AbiERIR0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 04:17:26 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1407740A19
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:17:24 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id i23so1603433ljb.4
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PVVYuSWeKKOCTgybQ+dTOSOPcAGf8Bzx5TVqJC5mrvY=;
+        b=cNNfBzgqzUPTHP95q3mgAbPU+sjDD4S1/buHo0iH/MA1BIiCnJm8YoUgftnSheS9Mg
+         Tbklftv/qYgl3NE5qsKVy078GlxqQRNcVS/VRDtH0KlpYGKEzbo+K3hxDi7BzZ4U5qWJ
+         5vCpOlgiWGO7yfIDbDPr85M2phyWJ6k3ZTIXaO1a4hUvjjfBdFQRYB0X6XI1XKKNyNVM
+         psCGobcrTLJCHQq3+0rIevKIzh9FF3cKxLxtMY69nk6iA7V4hHL91Y5RC63WcJJdu47v
+         tFhLZEU5B0Ow+/DTSCSyfifdGi2iWVJ+Y1Wv0CswiD2jotVy++M+pnIsgUxPWzn9T9cO
+         qWzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PVVYuSWeKKOCTgybQ+dTOSOPcAGf8Bzx5TVqJC5mrvY=;
+        b=R2R4m+t//McobazyG/H8dDMaDhFiYWBWuyQKROEzsIOu9Jozb9SFfLD5VTeHmcsOtP
+         GtqQXFTgpnc/lRzP6JiUAd/XIIHLy2uV4cP0nOM4lVW121Cmigl78A7fme9fQcRtgVZu
+         KjRpP4HSD4H9KxDL57VATxPhSkU4Z+n4Ly9zOsJdjnJTJHBiDv03y5+UY9YZ/tMm1AMo
+         Og9D1gfRiMqLktGXJeKrYR3btAHsoLJz+NBloPc/e8jlKrN9LOihBJz7OR6TK/ZVeZ7Q
+         QNHYe0lPtc1mXhBbxgwXLrVZxiYdXVm3Lh9u3YpILEeCgCRnjX+KBF1qO5VhXL5Evj8U
+         DgYQ==
+X-Gm-Message-State: AOAM531Z35eyCNj07PepCw0T7Q1uwRT1YTpCVzA9R7XXAB+UIEzuFc1k
+        6WJRzYg1LR0lJ90BTplbJTTvMg==
+X-Google-Smtp-Source: ABdhPJzMuG9p7OEw65AYXi1+Azt8GhLsLWUXIceXlYxErATRMFj5eL+EsfIiXREOYoaHUQVLwYx5PQ==
+X-Received: by 2002:a2e:8501:0:b0:249:17a0:ebf8 with SMTP id j1-20020a2e8501000000b0024917a0ebf8mr16676914lji.125.1652861842342;
+        Wed, 18 May 2022 01:17:22 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id m1-20020ac24241000000b0047255d2118asm133198lfl.185.2022.05.18.01.17.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 01:17:21 -0700 (PDT)
+Message-ID: <2c9b80ef-74c6-bd60-cfc9-d69349cdf6b1@linaro.org>
+Date:   Wed, 18 May 2022 10:17:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoOpyW1+q+Z5as78@alley>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Add aw21024 binding
+Content-Language: en-US
+To:     Kyle Swenson <kyle.swenson@est.tech>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzk+dt@kernel.org
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220513190409.3682501-1-kyle.swenson@est.tech>
+ <20220513190409.3682501-2-kyle.swenson@est.tech>
+ <cb83fbab-7aa3-d1a7-ab80-d2b94a516f6d@linaro.org> <YoPqDLMe+WYWKBxi@p620>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YoPqDLMe+WYWKBxi@p620>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue 2022-05-17 15:57:34, Petr Mladek wrote:
-> On Mon 2022-05-16 12:06:17, Guilherme G. Piccoli wrote:
-> > >> --- a/drivers/soc/bcm/brcmstb/pm/pm-arm.c
-> > >> +++ b/drivers/soc/bcm/brcmstb/pm/pm-arm.c
-> > >> @@ -814,7 +814,7 @@ static int brcmstb_pm_probe(struct platform_device *pdev)
-> > >>  		goto out;
-> > >>  	}
-> > >>  
-> > >> -	atomic_notifier_chain_register(&panic_notifier_list,
-> > >> +	atomic_notifier_chain_register(&panic_hypervisor_list,
-> > >>  				       &brcmstb_pm_panic_nb);
-> > > 
-> > > I am not sure about this one. It instruct some HW to preserve DRAM.
-> > > IMHO, it better fits into pre_reboot category but I do not have
-> > > strong opinion.
-> > 
-> > Disagree here, I'm CCing Florian for information.
-> > 
-> > This notifier preserves RAM so it's *very interesting* if we have
-> > kmsg_dump() for example, but maybe might be also relevant in case kdump
-> > kernel is configured to store something in a persistent RAM (then,
-> > without this notifier, after kdump reboots the system data would be lost).
+On 17/05/2022 20:31, Kyle Swenson wrote:
+>>> +
+>>> +            multi-led@1 {
+>>> +                #address-cells = <1>;
+>>> +                #size-cells = <2>;
+>>> +                reg = <0x0 0x1 0x2>;
+>>
+>> This is confusing. Does not match unit address and address/size cells.
+>> Perhaps you wanted three separate regs?
+> The wrong address and size cells and not matching the unit address is a
+> mistake on my part, and the next version will actually pass make
+> dt_binding_check.
 > 
-> I see. It is actually similar problem as with
-> drivers/firmware/google/gsmi.c.
+> That said, it's not clear to me how best to handle a combination of
+> multi-leds and individual LEDs on a particular board. For example, a
+> particular board with this driver might have the first six outputs
+> connected to two RGB LEDs, and then the remainder of the outputs
+> connected to individual LEDs.
+> 
+> My (poor) attempt at handling this resulted in this approach where I
+> (ab)used the 'reg' property to be able to address each individual LED of
+> a multi-led.  I'm sure this problem has been solved before, but I'm
+> struggling finding a driver in the tree that has solved it.
+> 
+> Any advice or pointers will be welcome, and in the mean time I'll plan
+> on fixing the (now obvious) issues with the binding.  At the very least,
+> cleaning up the binding will make the problem I'm trying to solve more
+> clear.
 
-As discussed in the other other reply, it seems that both affected
-notifiers do not store kernel logs and should stay in the "hypervisor".
+The immediate solution to the DTS reg issue is to use the same unit
+address, so:
 
-> I does similar things like kmsg_dump() so it should be called in
-> the same location (after info notifier list and before kdump).
->
-> A solution might be to put it at these notifiers at the very
-> end of the "info" list or make extra "dump" notifier list.
+multi-led@0 {
+	reg = <0x0>, <0x1>, <0x2>;
+}
 
-I just want to point out that the above idea has problems.
-Notifiers storing kernel log need to be treated as kmsg_dump().
-In particular, we would  need to know if there are any.
-We do not need to call "info" notifier list before kdump
-when there is no kernel log dumper registered.
+However your case is partially (or entirely) covered by multicolor LEDs.
+You should add allOf:$ref with reference to leds-class-multicolor.yaml.
+I see exactly your pattern being used there - just the fixed one, I
+think. I'll send a patch for it and put you on Cc.
 
-Best Regards,
-Petr
+Best regards,
+Krzysztof
