@@ -2,71 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A8AC52B469
-	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23ACF52B4D8
+	for <lists+linux-leds@lfdr.de>; Wed, 18 May 2022 10:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232801AbiERIR1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 May 2022 04:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40258 "EHLO
+        id S232818AbiERIWX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 May 2022 04:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232800AbiERIR0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 04:17:26 -0400
+        with ESMTP id S232800AbiERIWX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 May 2022 04:22:23 -0400
 Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1407740A19
-        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:17:24 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id i23so1603433ljb.4
-        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:17:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD74B104CB9
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:22:20 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id b32so1635021ljf.1
+        for <linux-leds@vger.kernel.org>; Wed, 18 May 2022 01:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PVVYuSWeKKOCTgybQ+dTOSOPcAGf8Bzx5TVqJC5mrvY=;
-        b=cNNfBzgqzUPTHP95q3mgAbPU+sjDD4S1/buHo0iH/MA1BIiCnJm8YoUgftnSheS9Mg
-         Tbklftv/qYgl3NE5qsKVy078GlxqQRNcVS/VRDtH0KlpYGKEzbo+K3hxDi7BzZ4U5qWJ
-         5vCpOlgiWGO7yfIDbDPr85M2phyWJ6k3ZTIXaO1a4hUvjjfBdFQRYB0X6XI1XKKNyNVM
-         psCGobcrTLJCHQq3+0rIevKIzh9FF3cKxLxtMY69nk6iA7V4hHL91Y5RC63WcJJdu47v
-         tFhLZEU5B0Ow+/DTSCSyfifdGi2iWVJ+Y1Wv0CswiD2jotVy++M+pnIsgUxPWzn9T9cO
-         qWzA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PdJpvkWYTOnWvkoIPd4KYauwa7ctY5TQOeL36DvVqdU=;
+        b=gd2Tn1U+Uo/c2muLFCnoR47YLR9gp6z6anQ5w7ZJYGPJOQfvoBGwpYv4QXZLwlk6sa
+         ymcB0aTJz1bo0Mt0we1suE4GGCOX1m1ujGbq/p2uItTvR2WQ58fHL58hSCYc2pQyU97V
+         tM+WBlTwNlXBFVq5Zwc21Qq3biMfsVoLxtSU2AmU8/LIT2dFIckWJp88pAJSQ1AH3ay9
+         zWgVlqwTcDzMi+KMKwhcAJmd8hI2fQ7js2wVzfEK9T2UrySLL9mtC6OluGRBsdpxpY6K
+         QIStOSOZnjIvUPmEZcFakLCBYcPstO1JsUYiZ7kauztPZouua3t+U9+SurBdRY2tgNAP
+         QUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PVVYuSWeKKOCTgybQ+dTOSOPcAGf8Bzx5TVqJC5mrvY=;
-        b=R2R4m+t//McobazyG/H8dDMaDhFiYWBWuyQKROEzsIOu9Jozb9SFfLD5VTeHmcsOtP
-         GtqQXFTgpnc/lRzP6JiUAd/XIIHLy2uV4cP0nOM4lVW121Cmigl78A7fme9fQcRtgVZu
-         KjRpP4HSD4H9KxDL57VATxPhSkU4Z+n4Ly9zOsJdjnJTJHBiDv03y5+UY9YZ/tMm1AMo
-         Og9D1gfRiMqLktGXJeKrYR3btAHsoLJz+NBloPc/e8jlKrN9LOihBJz7OR6TK/ZVeZ7Q
-         QNHYe0lPtc1mXhBbxgwXLrVZxiYdXVm3Lh9u3YpILEeCgCRnjX+KBF1qO5VhXL5Evj8U
-         DgYQ==
-X-Gm-Message-State: AOAM531Z35eyCNj07PepCw0T7Q1uwRT1YTpCVzA9R7XXAB+UIEzuFc1k
-        6WJRzYg1LR0lJ90BTplbJTTvMg==
-X-Google-Smtp-Source: ABdhPJzMuG9p7OEw65AYXi1+Azt8GhLsLWUXIceXlYxErATRMFj5eL+EsfIiXREOYoaHUQVLwYx5PQ==
-X-Received: by 2002:a2e:8501:0:b0:249:17a0:ebf8 with SMTP id j1-20020a2e8501000000b0024917a0ebf8mr16676914lji.125.1652861842342;
-        Wed, 18 May 2022 01:17:22 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id m1-20020ac24241000000b0047255d2118asm133198lfl.185.2022.05.18.01.17.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 May 2022 01:17:21 -0700 (PDT)
-Message-ID: <2c9b80ef-74c6-bd60-cfc9-d69349cdf6b1@linaro.org>
-Date:   Wed, 18 May 2022 10:17:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] dt-bindings: leds: Add aw21024 binding
-Content-Language: en-US
-To:     Kyle Swenson <kyle.swenson@est.tech>, pavel@ucw.cz,
-        robh+dt@kernel.org, krzk+dt@kernel.org
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220513190409.3682501-1-kyle.swenson@est.tech>
- <20220513190409.3682501-2-kyle.swenson@est.tech>
- <cb83fbab-7aa3-d1a7-ab80-d2b94a516f6d@linaro.org> <YoPqDLMe+WYWKBxi@p620>
+        bh=PdJpvkWYTOnWvkoIPd4KYauwa7ctY5TQOeL36DvVqdU=;
+        b=IgKHgFIj0Kf3TlPzboE2z/NyF1pVaiG4UrxHHaIFVbJbOHuy69jqmNfnt2YE67iRtc
+         PeNoaVaLJHX2oT+qUcQB3PuWQNxeWazrOEvmG1nym52D+QTn2dBcyECUBU+tonStsZ8Q
+         Hc+MDTqz0dKCreDE/pdNmbK95ZLlaHAeVrRZHes+e49oeQowm4XFFsJNl4kpE7DzBj2P
+         L7vjMBrqVkpPNLAR+atDkLkXM3LpNLKo2l2hnnVTCwFxpNEG24ez4yEMBLedPrmYkNMI
+         os/IpirC4C9UtPBqtIOtOAC58HqkRTjunh70c/EbfjT6lv2faU0CPmUZUbuLg1ve3hDE
+         CMgg==
+X-Gm-Message-State: AOAM533R0IRq5t+GJQMQiPQWCEYoDX6t3m5B8A9taXY4cnsPNJbZDEMi
+        Ip0qL2BZEUlpBesmm79r1X6vQw==
+X-Google-Smtp-Source: ABdhPJwT5RTTAxwpR5t/FcglX1IVPzT00EfqYqhhyDelqjbjNAV2o8RUapTvLAbf3eCG5pBm+8TqZg==
+X-Received: by 2002:a2e:934f:0:b0:24f:ea1:6232 with SMTP id m15-20020a2e934f000000b0024f0ea16232mr16534478ljh.135.1652862139286;
+        Wed, 18 May 2022 01:22:19 -0700 (PDT)
+Received: from krzk-bin.. (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id t13-20020ac243ad000000b0047255d210dbsm139264lfl.10.2022.05.18.01.22.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 01:22:18 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YoPqDLMe+WYWKBxi@p620>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Kyle Swenson <kyle.swenson@est.tech>
+Subject: [PATCH 1/2] dt-bindings: leds: lp50xx: correct reg/unit addresses in example
+Date:   Wed, 18 May 2022 10:22:14 +0200
+Message-Id: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,46 +73,75 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 17/05/2022 20:31, Kyle Swenson wrote:
->>> +
->>> +            multi-led@1 {
->>> +                #address-cells = <1>;
->>> +                #size-cells = <2>;
->>> +                reg = <0x0 0x1 0x2>;
->>
->> This is confusing. Does not match unit address and address/size cells.
->> Perhaps you wanted three separate regs?
-> The wrong address and size cells and not matching the unit address is a
-> mistake on my part, and the next version will actually pass make
-> dt_binding_check.
-> 
-> That said, it's not clear to me how best to handle a combination of
-> multi-leds and individual LEDs on a particular board. For example, a
-> particular board with this driver might have the first six outputs
-> connected to two RGB LEDs, and then the remainder of the outputs
-> connected to individual LEDs.
-> 
-> My (poor) attempt at handling this resulted in this approach where I
-> (ab)used the 'reg' property to be able to address each individual LED of
-> a multi-led.  I'm sure this problem has been solved before, but I'm
-> struggling finding a driver in the tree that has solved it.
-> 
-> Any advice or pointers will be welcome, and in the mean time I'll plan
-> on fixing the (now obvious) issues with the binding.  At the very least,
-> cleaning up the binding will make the problem I'm trying to solve more
-> clear.
+The multi-led node defined address/size cells, so it intended to have
+children with unit addresses.
 
-The immediate solution to the DTS reg issue is to use the same unit
-address, so:
+The second multi-led's reg property defined three LED indexes within one
+reg item, which is not correct - these are three separate items.
 
-multi-led@0 {
-	reg = <0x0>, <0x1>, <0x2>;
-}
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-However your case is partially (or entirely) covered by multicolor LEDs.
-You should add allOf:$ref with reference to leds-class-multicolor.yaml.
-I see exactly your pattern being used there - just the fixed one, I
-think. I'll send a patch for it and put you on Cc.
+---
 
-Best regards,
-Krzysztof
+Cc: Kyle Swenson <kyle.swenson@est.tech>
+---
+ .../devicetree/bindings/leds/leds-lp50xx.yaml | 22 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+index f12fe5b53f30..dc1ac905bb91 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+@@ -99,35 +99,41 @@ examples:
+                color = <LED_COLOR_ID_RGB>;
+                function = LED_FUNCTION_CHARGING;
+ 
+-               led-0 {
++               led@0 {
++                   reg = <0x0>;
+                    color = <LED_COLOR_ID_RED>;
+                };
+ 
+-               led-1 {
++               led@1 {
++                   reg = <0x1>;
+                    color = <LED_COLOR_ID_GREEN>;
+                };
+ 
+-               led-2 {
++               led@2 {
++                   reg = <0x2>;
+                    color = <LED_COLOR_ID_BLUE>;
+                };
+           };
+ 
+           multi-led@2 {
+             #address-cells = <1>;
+-            #size-cells = <2>;
+-            reg = <0x2 0x3 0x5>;
++            #size-cells = <0>;
++            reg = <0x3>, <0x4>, <0x5>;
+             color = <LED_COLOR_ID_RGB>;
+             function = LED_FUNCTION_STANDBY;
+ 
+-            led-6 {
++            led@3 {
++              reg = <0x3>;
+               color = <LED_COLOR_ID_RED>;
+             };
+ 
+-            led-7 {
++            led@4 {
++              reg = <0x4>;
+               color = <LED_COLOR_ID_GREEN>;
+             };
+ 
+-            led-8 {
++            led@5 {
++              reg = <0x5>;
+               color = <LED_COLOR_ID_BLUE>;
+             };
+          };
+-- 
+2.32.0
+
