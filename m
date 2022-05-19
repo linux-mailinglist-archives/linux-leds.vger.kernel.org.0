@@ -2,88 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A8A52CDDE
-	for <lists+linux-leds@lfdr.de>; Thu, 19 May 2022 10:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F15F52D207
+	for <lists+linux-leds@lfdr.de>; Thu, 19 May 2022 14:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbiESIEv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 May 2022 04:04:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47858 "EHLO
+        id S237650AbiESMIl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 May 2022 08:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235123AbiESIE2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 May 2022 04:04:28 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C14157B16
-        for <linux-leds@vger.kernel.org>; Thu, 19 May 2022 01:04:27 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id l19so5277498ljb.7
-        for <linux-leds@vger.kernel.org>; Thu, 19 May 2022 01:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ZZOJQsXopNvdEtJpq78Q/nXeV+Bemzorq/3YkFGIe1s=;
-        b=u1RoAU6r4L4vEbyskCWAmkVU+zKBNrLY5Rfmyan1DzHNkXvP2qv9R9T9whl0T+CcKo
-         g2U0XT4C79sEB6SrkXmmduhiPTZL6+KCT2ceo8b2UXU9O0gT6spp3DujC8STiNy/Cu8y
-         +IER8ANoZOnG8SiW2dkIUI2voNr7KR6Ze9SRy2lFSlHnaAwrHSs93tlQWN7Dd+6pqs1B
-         Jo/DkYROTgeGawMG4PGHWJMmZwqdryznMofdSlSv4JkSIlhyZQ9MlpSxq0ZWugnNaBp6
-         7ENXWKLpc15h67x1QwJnp4sr3OTUvqRbZBbNvSm1Fw37/TWG1m20Eke2Ve3VDg19H86+
-         /y1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ZZOJQsXopNvdEtJpq78Q/nXeV+Bemzorq/3YkFGIe1s=;
-        b=i0pQEjRmJr8tktwYVXuJdXmamdGqBEB4C0a/6xGaeSSLNSo+3PHXGoEKJpKWMbGNPx
-         Ki2tytUjudMdd3m9qVLQvR7FtA/7g6YXtNEgMeJvt92xKR+MqDHvz1AvTWIVysY0jCbx
-         dp5TPwDmea7fPvt+xL2njtzJwapdVIttlZ/eWjaq6lKZhdqI5VZ09iB1YfsgxJjhmOvB
-         Bd3I2r3twG9j+No5F0+QWWaDfE2Ue1DOZgaPPQScx0cWXGWCDxmHF2qVnPuqiOraGMEx
-         2FEStweSnO6SD4t63LbS90PHRR0YnMStXB7464PTItouUwpvnO4rFrHbq/cae7TvUvE5
-         44ww==
-X-Gm-Message-State: AOAM530gW+CoauxvWu1fkXp/2m8dJIuFFZsAClzLV9NrYbFxqMV0nb0V
-        Sk0t9lUXEraFMbuMEwMRcbFM5semHT7yHnpw
-X-Google-Smtp-Source: ABdhPJwCQ8oQ+egK1WvrGhSYWRJ9D+wUKMTbdriiSXDhgRTkRjVT0AgaxutawTDSEEUFgGnnTc2+9g==
-X-Received: by 2002:a2e:93d0:0:b0:24f:255d:4bb1 with SMTP id p16-20020a2e93d0000000b0024f255d4bb1mr1924870ljh.525.1652947465899;
-        Thu, 19 May 2022 01:04:25 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id d25-20020ac24c99000000b00477b624c0a8sm195989lfl.180.2022.05.19.01.04.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 01:04:25 -0700 (PDT)
-Message-ID: <d33e2d4d-35e1-f17e-c4dc-0218e79afa7b@linaro.org>
-Date:   Thu, 19 May 2022 10:04:24 +0200
+        with ESMTP id S232762AbiESMIj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 May 2022 08:08:39 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5265997C;
+        Thu, 19 May 2022 05:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=8Or+sigV8tAW403lBCNOcYfh+f/QtBZxoM4MtJnkEDo=; b=JqidS10tAFi8w45bv/QRWgkoh/
+        KOgIwZ/tIUUpLlbLrbLO1ldSksH/br07uow35GeONuGXn9H2gl6Zc+ITyazsuepTHCwyY7cXFe/h7
+        MtwjDL5RB9ZO6kq5gTfsayx//B9lueprkuY9Bysrv6zGbl5LRv1UeYThThR2djyvHZK5yH9WAOS3f
+        IAvBZnCmpegeYcMo7srxsmSG31D8d5jvfPawZOHcM5Mv+NhxsgRuyQoZ7I4NYbnvdtmZ38tbx+LTT
+        WmYVOrIBhGzwQtf/+4wAyIFnS+fHagBv45fyKy1zunamCTiZMunglm+e59nItrKVAlZjSL4ou4wbM
+        ShGTIh/g==;
+Received: from 200-161-159-120.dsl.telesp.net.br ([200.161.159.120] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nrewo-00BE00-NL; Thu, 19 May 2022 14:08:07 +0200
+Message-ID: <73ade79a-5d76-0e68-708c-f14d3665a7d2@igalia.com>
+Date:   Thu, 19 May 2022 09:07:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] dt-bindings: leds: Add aw21024 binding
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 19/30] panic: Add the panic hypervisor notifier list
 Content-Language: en-US
-To:     Kyle Swenson <kyle.swenson@est.tech>
-Cc:     pavel@ucw.cz, robh+dt@kernel.org, krzk+dt@kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220513190409.3682501-1-kyle.swenson@est.tech>
- <20220513190409.3682501-2-kyle.swenson@est.tech>
- <cb83fbab-7aa3-d1a7-ab80-d2b94a516f6d@linaro.org> <YoPqDLMe+WYWKBxi@p620>
- <2c9b80ef-74c6-bd60-cfc9-d69349cdf6b1@linaro.org> <YoVimFUOy581rJ9W@p620>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YoVimFUOy581rJ9W@p620>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     David Gow <davidgow@google.com>, Evan Green <evgreen@chromium.org>,
+        Julius Werner <jwerner@chromium.org>,
+        Scott Branden <scott.branden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dexuan Cui <decui@microsoft.com>,
+        Doug Berger <opendmb@gmail.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Justin Chen <justinpopo6@gmail.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mihai Carabas <mihai.carabas@oracle.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
+        Shile Zhang <shile.zhang@linux.alibaba.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Wang ShaoBo <bobo.shaobowang@huawei.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        zhenwei pi <pizhenwei@bytedance.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-20-gpiccoli@igalia.com> <YoJZVZl/MH0KiE/J@alley>
+ <ad082ce7-db50-13bb-3dbb-9b595dfa78be@igalia.com> <YoOpyW1+q+Z5as78@alley>
+ <YoSnGmBJ3kYs5WMf@alley> <fbbd0a8d-2ef4-4a39-4b75-354918e85778@igalia.com>
+ <YoXr2AD+Jc/ukUhJ@alley>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <YoXr2AD+Jc/ukUhJ@alley>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 18/05/2022 23:18, Kyle Swenson wrote:
-> Thanks again for your time and guidance.  I happen to have a board with that
-> lp50xx LED controller and I'll be happy to test out the example DTS from the
-> binding if you'd like.
+On 19/05/2022 04:03, Petr Mladek wrote:
+> [...]
+> I would ignore it for now. If anyone would want to safe the log
+> then they would need to read it. They will most likely use
+> the existing kmsg_dump() infastructure. In fact, they should
+> use it to avoid a code duplication.
+> 
+> Best Regards,
+> Petr
 
-Sure, that would be good. The DTS using that lp50xx LED follows
-different concept, so maybe the binding example is not correct.
-
-
-Best regards,
-Krzysztof
+Cool, thanks! I agree, let's expect people use kmsg_dump() as they should =)
