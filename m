@@ -2,145 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 402F9531DD6
-	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 23:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B7B531E48
+	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 00:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbiEWVfd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 17:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
+        id S230457AbiEWWBO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 May 2022 18:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiEWVfc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 17:35:32 -0400
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B71AFAD7;
-        Mon, 23 May 2022 14:35:31 -0700 (PDT)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-d39f741ba0so20013131fac.13;
-        Mon, 23 May 2022 14:35:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=21fVV3K7uR7kIMeuvkJxyKGEyMab9A5XAQ8v8L7cvv4=;
-        b=eu9nDFIX18d7InxX+E0CGet12dDNih81CbLIorPSea3rJZ2kFCHjUaJ3Amos22nMaa
-         rXz9ZkgpgXHLSNv95zroLUWeiU+MPyXoS8SafSpaJwVjciQEQuovUhEbFdr0xDFN3iKl
-         5nnCnoJZAWs1NLB39NhP++Lg679LspG+WXmUGzfUHfl9PkBwRU/KKOwlwtsNAXGhtJl+
-         Dp/aKbAjATrRgv1NB9yqvx3h1MVqiUeqZFnLlT3sGXz/hCMB6yowi0coCUyeTUuI1MAb
-         gH3De4jzKNoJXbpjvTUy3mTGFmS/KD2iKtA1R/T17IGqmCgW7ff6G97tQwvUUVMVnLGg
-         PSKQ==
-X-Gm-Message-State: AOAM530Nvo7qYdABJpwf6lzRIYwYTWyTbW6Tl/tIYjC1fHUOBPAKSoQu
-        JZwua1dxLWLalU6V5in4AQ==
-X-Google-Smtp-Source: ABdhPJz51kKeyTgJE1T6i86x5hCXYv2n1s+1kgWg51kba8nF+s/Dc2URwpsMdwdyiYNp7Tn9pQlERA==
-X-Received: by 2002:a05:6870:9106:b0:f2:8c7c:edbe with SMTP id o6-20020a056870910600b000f28c7cedbemr613044oae.277.1653341729967;
-        Mon, 23 May 2022 14:35:29 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d130-20020a4a5288000000b0035eb4e5a6besm4710618oob.20.2022.05.23.14.35.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 14:35:29 -0700 (PDT)
-Received: (nullmailer pid 2231067 invoked by uid 1000);
-        Mon, 23 May 2022 21:35:28 -0000
-Date:   Mon, 23 May 2022 16:35:28 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>,
+        with ESMTP id S229552AbiEWWBN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 18:01:13 -0400
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76F660F4;
+        Mon, 23 May 2022 15:01:10 -0700 (PDT)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0F6FC2013A;
+        Tue, 24 May 2022 00:01:09 +0200 (CEST)
+Date:   Tue, 24 May 2022 00:01:07 +0200
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Richard Purdie <rpurdie@rpsys.net>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: lp50xx: correct reg/unit
- addresses in example
-Message-ID: <20220523213528.GA2227380-robh@kernel.org>
-References: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] leds: Add driver for Qualcomm LPG
+Message-ID: <20220523220107.6wmpp2ohw63p4mjh@SoMainline.org>
+References: <20170323055435.29197-1-bjorn.andersson@linaro.org>
+ <20220523163038.GA9124@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220523163038.GA9124@duo.ucw.cz>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 18, 2022 at 10:22:14AM +0200, Krzysztof Kozlowski wrote:
-> The multi-led node defined address/size cells, so it intended to have
-> children with unit addresses.
+On 2022-05-23 18:30:38, Pavel Machek wrote:
+> Hi!
 > 
-> The second multi-led's reg property defined three LED indexes within one
-> reg item, which is not correct - these are three separate items.
+> > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> > PMICs from Qualcomm. It can operate on fixed parameters or based on a
+> > lookup-table, altering the duty cycle over time - which provides the
+> > means for e.g. hardware assisted transitions of LED brightness.
+> > 
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Cc: Kyle Swenson <kyle.swenson@est.tech>
-> ---
->  .../devicetree/bindings/leds/leds-lp50xx.yaml | 22 ++++++++++++-------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> index f12fe5b53f30..dc1ac905bb91 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-> @@ -99,35 +99,41 @@ examples:
->                 color = <LED_COLOR_ID_RGB>;
->                 function = LED_FUNCTION_CHARGING;
->  
-> -               led-0 {
-> +               led@0 {
-> +                   reg = <0x0>;
->                     color = <LED_COLOR_ID_RED>;
->                 };
->  
-> -               led-1 {
-> +               led@1 {
-> +                   reg = <0x1>;
->                     color = <LED_COLOR_ID_GREEN>;
->                 };
->  
-> -               led-2 {
-> +               led@2 {
-> +                   reg = <0x2>;
->                     color = <LED_COLOR_ID_BLUE>;
->                 };
->            };
->  
->            multi-led@2 {
->              #address-cells = <1>;
-> -            #size-cells = <2>;
-> -            reg = <0x2 0x3 0x5>;
-> +            #size-cells = <0>;
-> +            reg = <0x3>, <0x4>, <0x5>;
+> I'd really like to see the patch fixing the pattern interface (or
+> disabling it). I don't want to push the tree to Linus with that bug.
 
-The unit-address is 2, but the reg value is 3?
+(I couldn't help but be confused for a minute by this being a reply to
+the original v1 patchset from March 2017 :) )
 
->              color = <LED_COLOR_ID_RGB>;
->              function = LED_FUNCTION_STANDBY;
->  
-> -            led-6 {
-> +            led@3 {
-> +              reg = <0x3>;
->                color = <LED_COLOR_ID_RED>;
->              };
->  
-> -            led-7 {
-> +            led@4 {
-> +              reg = <0x4>;
->                color = <LED_COLOR_ID_GREEN>;
->              };
->  
-> -            led-8 {
-> +            led@5 {
-> +              reg = <0x5>;
->                color = <LED_COLOR_ID_BLUE>;
->              };
->           };
-> -- 
-> 2.32.0
-> 
-> 
+Does that mean there's still some time to review / pick up [1]
+(LPG enablement for PM660L)?  And even more so for [2] (fixing the use
+of a software-pattern variable in the hardware-pattern code) which
+complements Bjorn's series but hasn't been looked at ever since last
+year.
+
+I wouldn't mind picking up this issue (discussed in the v14 series at
+[3]) and unblock you sending the tree to Linus without reverting, if
+Bjorn doesn't have the bandwidth for it currently.  But I will need
+confirmation that patches sent in my name actually get looked at...
+Thanks!
+
+- Marijn
+
+[1]: https://lore.kernel.org/linux-leds/20220511190718.764445-1-marijn.suijten@somainline.org/
+[2]: https://lore.kernel.org/linux-leds/20210915080252.69147-1-marijn.suijten@somainline.org/
+[3]: https://lore.kernel.org/linux-leds/YnvhleAI5RW0ZvkV@ripper/T/#m6cb0d8df051bbcd3772d068640ccd784678ad47b
