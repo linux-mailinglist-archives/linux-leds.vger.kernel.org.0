@@ -2,175 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E43455313F8
-	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 18:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44D205314DD
+	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 18:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238058AbiEWPjt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 11:39:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43144 "EHLO
+        id S238635AbiEWQWd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 May 2022 12:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238046AbiEWPjs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 11:39:48 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 287BB1C92F
-        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 08:39:47 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id e4so17139844ljb.13
-        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 08:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=j7w3vFu2/JjysHkDMsR7t2P3IRWVLaZtVOZBrHf5Z50=;
-        b=UMj/nBuut346RBNVzjPaQHcaii39eb6UdUfzYfUppBqhPapVE2Oq8eaX3g+kg+w1hf
-         ktH3nTD9bWTRrevMgmDuMtru8aQmFRFQWU0DZ46cp/0X/SxahU4Z5+sZtYvLoU0cXade
-         u+cs/by/n52BTv8OFu6HuZTz/7RofPI9iFRd69+W1ZtzIOVz/0iLSHYGvyv96tnApHpw
-         qJPI+kJeOv2FZvZm7dtonX1Go43nhGzWmls0n7sAKhsMPz45plyrLU02hxrxnTg0ANfS
-         /bm07llvuTmeHkmXgBWK87csJ9hxgyDa7GCxTAPqV0ubRCcMFxyMMOs1Kyk8gtcjhL7N
-         2l/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=j7w3vFu2/JjysHkDMsR7t2P3IRWVLaZtVOZBrHf5Z50=;
-        b=ppvWQTgU6dco/+JZ3/MSPxd7gpwcGmiKQi023BYkUk2lUP13vyGcDc0p1RlrClCuRt
-         oIrHpwiw7HNSUQkg2RP4BQPdCq102i4V8RgaDuzvxEhfKtcTYVLqSmAm6CJMXhZ1TKiK
-         +x2trURVW9D04EjgIGyzUN4Bsq7dbAStzzk4IPKaaoRnBfsxUQJRm+tYPy+wQ8HIzbUs
-         0o7Ddf9zf8OCzpjBrNSO9wYYoZLaJOHLHOPTwHflAQswOn2CEqylLe/73X9Tn1/xKn1Q
-         i3sAGD0SP+AWyZLBjQrsYbcJWNYrGyvUYA26baGGmEbukaoVGkg9Gy1KC7RQEo2VFRKk
-         e+cw==
-X-Gm-Message-State: AOAM5320gMJ1er4dXEEHQ47Wj3Sm5gvWzngvShLy5ADePfWZ7XSjCsRx
-        fMgfTiz7ZXfEIaNYYMtsTUgNU0KOG3VSyYuf
-X-Google-Smtp-Source: ABdhPJzBcwxw3J8gC+HU9XEg2GjIXHOYRVUjF2iN6KgxWFDA3XeMvl6PErRLJA6sI8uYHCW60V72AQ==
-X-Received: by 2002:a2e:8804:0:b0:253:defb:b7a with SMTP id x4-20020a2e8804000000b00253defb0b7amr9143590ljh.470.1653320385331;
-        Mon, 23 May 2022 08:39:45 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id a23-20020a2e8317000000b00253e32aa2c4sm1404539ljh.126.2022.05.23.08.39.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 May 2022 08:39:44 -0700 (PDT)
-Message-ID: <0ab6c10b-48e4-9122-e806-68294e8e3dd5@linaro.org>
-Date:   Mon, 23 May 2022 17:39:43 +0200
+        with ESMTP id S236520AbiEWQWb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 12:22:31 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA5B5BE7D;
+        Mon, 23 May 2022 09:22:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653322949; x=1684858949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AgL1ko85PWWvfyTYsuQmaz71teSdVfxl8k4j+ahVxfE=;
+  b=L9LQNrDud0X1e3J51UFsnI413PQlhN5LH8QGXYOyapF+X2SjOo5o++Jm
+   NoHdRMinTK+4aVSH3h09fKaxJ84go95hNYw0seGewz3ZJKz7arzO3DXiA
+   iNPVT6Hl6REEvEOQZbJEXUKrVjCuk998M89L83hit02mtv7EvGD2DOQqf
+   UKw5+LFO6776AjuZup4fIZfvwVgZJ7wUBr2ZWacHcJ8rbAAl18puuOanK
+   yM9OSwc25lxhwxOJI+nV82Uy+rnGVwOcLqgvk5QnotpJ8pDQBmShobniG
+   ixyd1FfpzGsOg6rK2IwJzQTmbBgiX1V3Osz5vtbDVY92xl+vHiL9PBZ6U
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="260878535"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
+   d="scan'208";a="260878535"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 09:22:28 -0700
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
+   d="scan'208";a="526013937"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 09:22:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ntAp5-000JLd-8Z;
+        Mon, 23 May 2022 19:22:23 +0300
+Date:   Mon, 23 May 2022 19:22:23 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, Enrico Weigelt <lkml@metux.net>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
+Subject: Re: [PATCH v3 3/4] platform/x86: simatic-ipc: drop custom P2SB bar
+ code
+Message-ID: <You0vzJDvuO7A1qv@smile.fi.intel.com>
+References: <20220513083652.974-1-henning.schild@siemens.com>
+ <20220513083652.974-4-henning.schild@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/3] dt-bindings: leds: Add bindings for the TLC5925
- controller
-Content-Language: en-US
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220523084958.2723943-1-jjhiblot@traphandler.com>
- <20220523084958.2723943-2-jjhiblot@traphandler.com>
- <d12a0afc-c040-5615-fc0d-70a5c29bbf0a@linaro.org>
- <0e1e417a-6444-ddb5-5c48-c89bd78c5fe8@traphandler.com>
- <4f766cdb-a33b-2470-5b2e-3945c821ce6c@linaro.org>
- <bcf87cc8-85dc-efd6-1076-91e56ec4286c@traphandler.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <bcf87cc8-85dc-efd6-1076-91e56ec4286c@traphandler.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513083652.974-4-henning.schild@siemens.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 23/05/2022 17:37, Jean-Jacques Hiblot wrote:
-> 
-> On 23/05/2022 17:30, Krzysztof Kozlowski wrote:
->> On 23/05/2022 17:16, Jean-Jacques Hiblot wrote:
->>> On 23/05/2022 12:14, Krzysztof Kozlowski wrote:
->>>> On 23/05/2022 10:49, Jean-Jacques Hiblot wrote:
->>>>> Add bindings documentation for the TLC5925 LED controller.
->>>>>
->>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
->>>> Thank you for your patch. There is something to discuss/improve.
->>>>
->>>>> ---
->>>>> devicetree@vger.kernel.org
->>>>>    .../bindings/leds/leds-tlc5925.yaml           | 100 ++++++++++++++++++
->>>>>    1 file changed, 100 insertions(+)
->>>>>    create mode 100644 Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml b/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..156db599d5a1
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
->>>> Filename: vendor,device
->>>> so "ti,tlc5925-leds.yaml" for example.
->>>>
->>>>
->>>>
->>>>> @@ -0,0 +1,100 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/leds/leds-tlc5925.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: LEDs connected to TI TLC5925 controller
->>>>> +
->>>>> +maintainers:
->>>>> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
->>>>> +
->>>>> +description: |
->>>>> +  The TLC5925 is a low-power 16-channel constant-current LED sink driver.
->>>>> +  It is controlled through a SPI interface.
->>>>> +  It is built around a shift register and latches which convert serial
->>>>> +  input data into a parallel output. Several TLC5925 can be chained to
->>>>> +  control more than 16 LEDs with a single chip-select.
->>>>> +  The brightness level cannot be controlled, each LED is either on or off.
->>>>> +
->>>>> +  Each LED is represented as a sub-node of the ti,tlc5925 device.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: ti,tlc5925
->>>>> +
->>>>> +  shift_register_length:
->>>>> +    maxItems: 1
->>>> No...
->>>> 1. Did you test your bindings with dt_binding_check? This fails
->>>> obviously... please, do not send untested bindings.
->>>>
->>>> 2. vendor prefix, no underscores, proper type, maxItems look wrong here
->>>>
->>>>> +    description: |
->>>>> +      The length of the shift register. If several TLC5925 are chained,
->>>>> +      shift_register_length should be set to 16 times the number of TLC5925.
->>>>> +      The value must be a multiple of 8.
->>>>> +
->>>>> +  "#address-cells":
->>>>> +    const: 1
->>>>> +
->>>>> +  "#size-cells":
->>>>> +    const: 0
->>>>> +
->>>>> +  output-enable-b-gpios:
->>>>> +    description: |
->>>>> +      GPIO pins to enable/disable the parallel output. They describe the GPIOs
->>>>> +      connected to the OE/ pin of the TLC5925s.
->>>> maxItems
->>> There is no limitation in the driver itself. The actual number of items
->>> here really depends on the number of chips and how they are wired.
->> So you could daisy chain 4 billion of devices? Because by not using any
->> limit you claim that 4 billion is doable?
-> 
-> You could chain 1000 devices or more and have 16000 leds. It would be a 
-> bit tedious to describe them all in the DTS though.
-> 
-> We can impose a limit but it will be arbitrary. Is this how it is 
-> usually treated ?
+On Fri, May 13, 2022 at 10:36:51AM +0200, Henning Schild wrote:
+> The two drivers that used to use this have been switched over to the
+> common P2SB accessor, so this code is not needed any longer.
 
-1000 is still less than billion, although above that number it probably
-does not make sense to have any limit.
+Hans, in order to minimize the risk of not getting this into next cycle, I
+would like to collect your tag (if you have no objection) and then, when I send
+a new version of the P2SB series with this series together, we would everything
+ready to be taken by Lee.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
