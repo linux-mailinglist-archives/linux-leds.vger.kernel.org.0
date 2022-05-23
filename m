@@ -2,93 +2,219 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0281531E77
-	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 00:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 197B6531F41
+	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 01:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbiEWWSm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 18:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
+        id S230234AbiEWXen (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 May 2022 19:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231338AbiEWWSj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 18:18:39 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A8F3BA579;
-        Mon, 23 May 2022 15:18:37 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 66D3D1C0B82; Tue, 24 May 2022 00:18:35 +0200 (CEST)
-Date:   Tue, 24 May 2022 00:18:35 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marijn Suijten <marijn.suijten@somainline.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Richard Purdie <rpurdie@rpsys.net>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] leds: Add driver for Qualcomm LPG
-Message-ID: <20220523221835.GC15554@duo.ucw.cz>
-References: <20170323055435.29197-1-bjorn.andersson@linaro.org>
- <20220523163038.GA9124@duo.ucw.cz>
- <20220523220107.6wmpp2ohw63p4mjh@SoMainline.org>
+        with ESMTP id S229725AbiEWXen (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 19:34:43 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424C277F24
+        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-e93bbb54f9so20322022fac.12
+        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
+        b=QiH/msiZeAyInxGvrGwUEfSdbKWbaTyNEd961BMevyc/brAfOZXgi6lzt3hdJoSy3O
+         D7jK/2O+Y+VfhvOBtk5qhQqIrqsCf3gQybmgwlZiixutgdC1qWv5XxT0HVaH6akBQ1Tf
+         e6mRuuCc15D3YjhR25FHwzr7yWiUme0C3xul6WXXLLY3Q/MGwl33YwUxm6/WlaT28v8r
+         x2wCg+pKkoMMtTEXFxDOrkZFcuiu0Wrb2j6zbWoRn+6bat1mXf6KjCumlGIPbdd3vZdY
+         fMKN7RgEZsClQg6a3DV0VLbwBXRavf2qODQtJtFIb0MmS8UaSlPdyvKxEcWUnP/owuEF
+         porg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
+        b=lyP365ev88WwCGWElnncFCs5HAJ+eLyGik8ekSvGoNanZK/uweu8P5crpk+HpoUG0w
+         NUbt/c5o/UGH16L3LoMftvsSP6ZXkjuQZCf/friQhZwA4Jl0FUI3EMW8u91JK1Q8V2ZY
+         JRGuor67udyYxyjNkGbSu+jv+E4zBk8/9ZZcRGn+mMJqMN6qu2Y9n9+PsZHGIkW9waHL
+         kYnwBYpd7zU4HFKMLhlEybFW4oJ4fsIM52ea8Ih7/J98Wan5HZlydUHqnBsIVkx+idrd
+         GEzzrdkkEeyMl4Px+BMhsUeciispt4PaLM9Sq7X/5fiVo+YmnHrNjMjOfE6V5XikzC/m
+         c+gw==
+X-Gm-Message-State: AOAM531xP3DR0BNQaXh7kjV1diQeJdXX9jSasiryRfYiNsBCkTIbu+Ic
+        sbFhCYXBEk8S2K6jrE+ok4fRnQ==
+X-Google-Smtp-Source: ABdhPJw26M92bveFTTnyDoAXwGBWyIiwm4i/MAtr6dmWYCraDZxguamiLCnyIxrpYoDR+rzsD0Htdg==
+X-Received: by 2002:a05:6870:960d:b0:f1:28b4:41ff with SMTP id d13-20020a056870960d00b000f128b441ffmr881447oaq.51.1653348881457;
+        Mon, 23 May 2022 16:34:41 -0700 (PDT)
+Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id i4-20020a056870044400b000f15ca674b2sm4305696oak.52.2022.05.23.16.34.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 16:34:40 -0700 (PDT)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     Matthias Kaehlcke <mka@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH] leds: qcom-lpg: Require pattern to follow documentation
+Date:   Mon, 23 May 2022 16:37:19 -0700
+Message-Id: <20220523233719.1496297-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="96YOpH+ONegL0A3E"
-Content-Disposition: inline
-In-Reply-To: <20220523220107.6wmpp2ohw63p4mjh@SoMainline.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The leds-trigger-pattern documentation describes how the brightness of
+the LED should transition linearly from one brightness value to the
+next, over the given delta_t.
 
---96YOpH+ONegL0A3E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+But the pattern engine in the Qualcomm LPG hardware only supports
+holding the brightness for each entry for the period.
+This subset of patterns can be represented in the leds-trigger-pattern
+by injecting zero-time transitions after each entry in the pattern,
+resulting in a pattern that pattern that can be rendered by the LPG.
 
-On Tue 2022-05-24 00:01:07, Marijn Suijten wrote:
-> On 2022-05-23 18:30:38, Pavel Machek wrote:
-> > Hi!
-> >=20
-> > > The Light Pulse Generator (LPG) is a PWM-block found in a wide range =
-of
-> > > PMICs from Qualcomm. It can operate on fixed parameters or based on a
-> > > lookup-table, altering the duty cycle over time - which provides the
-> > > means for e.g. hardware assisted transitions of LED brightness.
-> > >=20
-> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >=20
-> > I'd really like to see the patch fixing the pattern interface (or
-> > disabling it). I don't want to push the tree to Linus with that bug.
->=20
-> (I couldn't help but be confused for a minute by this being a reply to
-> the original v1 patchset from March 2017 :) )
->=20
-> Does that mean there's still some time to review / pick up [1]
-> (LPG enablement for PM660L)?  And even more so for [2] (fixing the use
-> of a software-pattern variable in the hardware-pattern code) which
-> complements Bjorn's series but hasn't been looked at ever since last
-> year.
+Rework LPG pattern interface to require these zero-time transitions, to
+make it comply with this subset of patterns and reject the patterns it
+can't render.
 
-There's still time if the patches are perfect.
+Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ Documentation/leds/leds-qcom-lpg.rst |  8 ++++--
+ drivers/leds/rgb/leds-qcom-lpg.c     | 43 ++++++++++++++++++++++++----
+ 2 files changed, 43 insertions(+), 8 deletions(-)
 
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/leds-qcom-lpg.rst
+index f12416f02dd8..de7ceead9337 100644
+--- a/Documentation/leds/leds-qcom-lpg.rst
++++ b/Documentation/leds/leds-qcom-lpg.rst
+@@ -35,11 +35,13 @@ Specify a hardware pattern for a Qualcomm LPG LED.
+ The pattern is a series of brightness and hold-time pairs, with the hold-time
+ expressed in milliseconds. The hold time is a property of the pattern and must
+ therefor be identical for each element in the pattern (except for the pauses
+-described below).
++described below). As the LPG hardware is not able to perform the linear
++transitions expected by the leds-trigger-pattern format, each entry in the
++pattern must be followed a zero-length entry of the same brightness.
+ 
+ Simple pattern::
+ 
+-    "255 500 0 500"
++    "255 500 255 0 0 500 0 0"
+ 
+         ^
+         |
+@@ -54,7 +56,7 @@ in the pattern, the so called "low pause" and "high pause".
+ 
+ Low-pause pattern::
+ 
+-    "255 1000 0 500 255 500 0 500"
++    "255 1000 255 0 0 500 0 0 255 500 255 0 0 500 0 0"
+ 
+         ^
+         |
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index cfa3362b2457..02f51cc61837 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -704,11 +704,12 @@ static int lpg_blink_mc_set(struct led_classdev *cdev,
+ 	return ret;
+ }
+ 
+-static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
++static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *led_pattern,
+ 			   u32 len, int repeat)
+ {
+ 	struct lpg_channel *chan;
+ 	struct lpg *lpg = led->lpg;
++	struct led_pattern *pattern;
+ 	unsigned int brightness_a;
+ 	unsigned int brightness_b;
+ 	unsigned int actual_len;
+@@ -719,18 +720,48 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 	unsigned int hi_idx;
+ 	unsigned int i;
+ 	bool ping_pong = true;
+-	int ret;
++	int ret = -EINVAL;
+ 
+ 	/* Hardware only support oneshot or indefinite loops */
+ 	if (repeat != -1 && repeat != 1)
+ 		return -EINVAL;
+ 
++	/*
++	 * The standardized leds-trigger-pattern format defines that the
++	 * brightness of the LED follows a linear transition from one entry
++	 * in the pattern to the next, over the given delta_t time. It
++	 * describes that the way to perform instant transitions a zero-length
++	 * entry should be added following a pattern entry.
++	 *
++	 * The LPG hardware is only able to perform the latter (no linear
++	 * transitions), so require each entry in the pattern to be followed by
++	 * a zero-length transition.
++	 */
++	if (len % 2)
++		return -EINVAL;
++
++	pattern = kcalloc(len / 2, sizeof(*pattern), GFP_KERNEL);
++	if (!pattern)
++		return -ENOMEM;
++
++	for (i = 0; i < len; i += 2) {
++		if (led_pattern[i].brightness != led_pattern[i + 1].brightness)
++			goto out_free_pattern;
++		if (led_pattern[i + 1].delta_t != 0)
++			goto out_free_pattern;
++
++		pattern[i / 2].brightness = led_pattern[i].brightness;
++		pattern[i / 2].delta_t = led_pattern[i].delta_t;
++	}
++
++	len /= 2;
++
+ 	/*
+ 	 * Specifying a pattern of length 1 causes the hardware to iterate
+ 	 * through the entire LUT, so prohibit this.
+ 	 */
+ 	if (len < 2)
+-		return -EINVAL;
++		goto out_free_pattern;
+ 
+ 	/*
+ 	 * The LPG plays patterns with at a fixed pace, a "low pause" can be
+@@ -781,13 +812,13 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 			 * specify hi pause. Reject other variations.
+ 			 */
+ 			if (i != actual_len - 1)
+-				return -EINVAL;
++				goto out_free_pattern;
+ 		}
+ 	}
+ 
+ 	/* LPG_RAMP_DURATION_REG is a 9bit */
+ 	if (delta_t >= BIT(9))
+-		return -EINVAL;
++		goto out_free_pattern;
+ 
+ 	/* Find "low pause" and "high pause" in the pattern */
+ 	lo_pause = pattern[0].delta_t;
+@@ -814,6 +845,8 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 
+ out_unlock:
+ 	mutex_unlock(&lpg->lock);
++out_free_pattern:
++	kfree(pattern);
+ 
+ 	return ret;
+ }
+-- 
+2.35.1
 
---96YOpH+ONegL0A3E
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYowIOgAKCRAw5/Bqldv6
-8tlOAKDDdpooBKjWIXXR4nNmzGWAZIKRhACfQ4fsUFMXbtyBNNp0GHvGW9tuWPE=
-=56ty
------END PGP SIGNATURE-----
-
---96YOpH+ONegL0A3E--
