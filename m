@@ -2,197 +2,153 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CB33530F04
-	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 15:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD15531328
+	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 18:23:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235977AbiEWNHV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 09:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52264 "EHLO
+        id S237439AbiEWPAk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 May 2022 11:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235874AbiEWNHT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 09:07:19 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F2C49935;
-        Mon, 23 May 2022 06:07:15 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.109.138.188])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id D667410363FD1;
-        Mon, 23 May 2022 15:07:13 +0200 (CEST)
-Received: from [192.168.1.42] (88.161.25.233) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 23 May
- 2022 15:07:13 +0200
-Message-ID: <eb043379-bb33-096a-d7b0-f333d00554dd@traphandler.com>
-Date:   Mon, 23 May 2022 15:07:13 +0200
+        with ESMTP id S237427AbiEWPAk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 11:00:40 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47EEB5B8B8;
+        Mon, 23 May 2022 08:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=keKJrvyQ/+r75XOnYYRl19FO+VGyiPJcwICfZxDBkqs=; b=O+C3jDB0Vwu4Y/gkTmW/RCmTwy
+        kNqD2emzzlOs/8A7J1xO/TSH5qapt6sCckUwfqeKLJwoCrpUi4pUQfOKCsbI70QtSFMdfNTmFr+H0
+        NXT6Oh9iPuG4hVKz84ZvxHpmEirVLNSMQMza54o3VmB+D23FpdTtf7JnpYZ61zk10z8NLp053Dtmb
+        5G5TvLT8W+VF+imYpIQccZx+LAQHhkmqjWgwAULVFomENEWSpKhN5UeAVPt+Y1vZC04/4FyRoMtUE
+        OHqcld4S4ftUjXzRb6CJS95k+7T+FIlHKMRNj13Qcs75Xk/j3Ix2WaTpEwsP72+2bzr+hEFsSu6v0
+        WUJ5ifAA==;
+Received: from 200-161-159-120.dsl.telesp.net.br ([200.161.159.120] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nt9XQ-00GTti-N1; Mon, 23 May 2022 17:00:05 +0200
+Message-ID: <0fac8c71-6f18-d15c-23f5-075dbc45f3f9@igalia.com>
+Date:   Mon, 23 May 2022 11:56:12 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/3] dt-bindings: leds: Add bindings for the TLC5925
- controller
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 19/30] panic: Add the panic hypervisor notifier list
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>
-CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20220523084958.2723943-1-jjhiblot@traphandler.com>
- <20220523084958.2723943-2-jjhiblot@traphandler.com>
- <d12a0afc-c040-5615-fc0d-70a5c29bbf0a@linaro.org>
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-In-Reply-To: <d12a0afc-c040-5615-fc0d-70a5c29bbf0a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     Scott Branden <scott.branden@broadcom.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Desmond yan <desmond.yan@broadcom.com>
+Cc:     David Gow <davidgow@google.com>, Evan Green <evgreen@chromium.org>,
+        Julius Werner <jwerner@chromium.org>,
+        bcm-kernel-feedback-list@broadcom.com, linux-pm@vger.kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
+        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dexuan Cui <decui@microsoft.com>,
+        Doug Berger <opendmb@gmail.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Justin Chen <justinpopo6@gmail.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Mihai Carabas <mihai.carabas@oracle.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@samba.org>, Pavel Machek <pavel@ucw.cz>,
+        Shile Zhang <shile.zhang@linux.alibaba.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Wang ShaoBo <bobo.shaobowang@huawei.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        zhenwei pi <pizhenwei@bytedance.com>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-20-gpiccoli@igalia.com> <YoJZVZl/MH0KiE/J@alley>
+ <ad082ce7-db50-13bb-3dbb-9b595dfa78be@igalia.com> <YoOpyW1+q+Z5as78@alley>
+ <d72b9aab-675c-ac89-b73a-b1de4a0b722d@igalia.com>
+ <81878a67-21f1-fee8-1add-f381bc8b05df@broadcom.com>
+ <edbaa4fa-561c-6f5e-f2ab-43ae68acaede@igalia.com>
+ <d1cc0bee-2a98-0c2e-8796-6fb7fae6b803@broadcom.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <d1cc0bee-2a98-0c2e-8796-6fb7fae6b803@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [88.161.25.233]
-X-ClientProxiedBy: CAS4.emp2.local (172.16.1.4) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 9728056670395120091
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrjedugdeftdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeeugfevvdeludefkeejleetvdejueduvddtteejfeejvdevheekueefiefhlefgkeenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppedtrddtrddtrddtpdekkedrudeiuddrvdehrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehprhhovddrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
-On 23/05/2022 12:14, Krzysztof Kozlowski wrote:
-> On 23/05/2022 10:49, Jean-Jacques Hiblot wrote:
->> Add bindings documentation for the TLC5925 LED controller.
+On 19/05/2022 16:20, Scott Branden wrote:
+> [...] 
+>> Hi Scott / Desmond, thanks for the detailed answer! Is this adapter
+>> designed to run in x86 only or you have other architectures' use cases?
+> The adapter may be used in any PCIe design that supports DMA.
+> So it may be possible to run in arm64 servers.
 >>
->> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> Thank you for your patch. There is something to discuss/improve.
-
-Thanks for the review. I didn't know about dt_binding_check.
-
-I'll make sure it passes next time.
-
-JJ
-
->> ---
->> devicetree@vger.kernel.org
->>   .../bindings/leds/leds-tlc5925.yaml           | 100 ++++++++++++++++++
->>   1 file changed, 100 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
+>> [...]
+>> With that said, and given this is a lightweight notifier that ideally
+>> should run ASAP, I'd keep this one in the hypervisor list. We can
+>> "adjust" the semantic of this list to include lightweight notifiers that
+>> reset adapters.
+> Sounds the best to keep system operating as tested today.
 >>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml b/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
->> new file mode 100644
->> index 000000000000..156db599d5a1
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-tlc5925.yaml
-> Filename: vendor,device
-> so "ti,tlc5925-leds.yaml" for example.
->
->
->
->> @@ -0,0 +1,100 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/leds-tlc5925.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: LEDs connected to TI TLC5925 controller
->> +
->> +maintainers:
->> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
->> +
->> +description: |
->> +  The TLC5925 is a low-power 16-channel constant-current LED sink driver.
->> +  It is controlled through a SPI interface.
->> +  It is built around a shift register and latches which convert serial
->> +  input data into a parallel output. Several TLC5925 can be chained to
->> +  control more than 16 LEDs with a single chip-select.
->> +  The brightness level cannot be controlled, each LED is either on or off.
->> +
->> +  Each LED is represented as a sub-node of the ti,tlc5925 device.
->> +
->> +properties:
->> +  compatible:
->> +    const: ti,tlc5925
->> +
->> +  shift_register_length:
->> +    maxItems: 1
-> No...
-> 1. Did you test your bindings with dt_binding_check? This fails
-> obviously... please, do not send untested bindings.
->
-> 2. vendor prefix, no underscores, proper type, maxItems look wrong here
->
->> +    description: |
->> +      The length of the shift register. If several TLC5925 are chained,
->> +      shift_register_length should be set to 16 times the number of TLC5925.
->> +      The value must be a multiple of 8.
->> +
->> +  "#address-cells":
->> +    const: 1
->> +
->> +  "#size-cells":
->> +    const: 0
->> +
->> +  output-enable-b-gpios:
->> +    description: |
->> +      GPIO pins to enable/disable the parallel output. They describe the GPIOs
->> +      connected to the OE/ pin of the TLC5925s.
-> maxItems
->
->
->> +
->> +patternProperties:
->> +  "@[a-f0-9]+$":
-> How many LEDs you can have here? Usually it is limited, so the pattern
-> should be narrowed.
->
->> +    type: object
->> +
->> +    $ref: common.yaml#
->> +
->> +    properties:
->> +      reg:
->> +        items:
-> Not correct syntax... I will stop reviewing. There is no point to use
-> reviewers time to do the job of a tool.
->
->
->> +examples:
->> +  - |
->> +    &spi0 {
->> +        leds@2 {
->> +                compatible = "ti,tlc5925";
-> Messed up indentation. 4 spaces for DTS example.
->
->> +                reg = <0x02>;
->> +                spi-max-frequency = <30000000>;
->> +                shift_register_length = <32>;
->> +                output-enable-b-gpios = <&gpio0b 9 GPIO_ACTIVE_HIGH>, <&gpio0b 7 GPIO_ACTIVE_HIGH>;
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                led-satus@0 {
->> +                        reg = <0>;
->> +                        function = LED_FUNCTION_STATUS;
->> +                        color = <LED_COLOR_ID_GREEN>;
->> +                };
->> +
->> +                led-satus@4 {
->> +                        reg = <4>;
->> +                        function = LED_FUNCTION_STATUS;
->> +                        color = <LED_COLOR_ID_RED>;
->> +                };
->> +
->> +                led-alive@24 {
->> +                        reg = <24>;
->> +                        label = "green:alive"
->> +                };
->> +
->> +                led-panic@31 {
->> +                        reg = <31>;
->> +                        label = "red:panic"
->> +                };
->> +        };
->> +    };
->
-> Best regards,
-> Krzysztof
+>> With that said, Petr has a point - not always such list is going to be
+>> called before kdump. So, that makes me think in another idea: what if we
+>> have another list, but not on panic path, but instead in the custom
+>> crash_shutdown()? Drivers could add callbacks there that must execute
+>> before kexec/kdump, no matter what.
+> It may be beneficial for some other drivers but for our use we would 
+> then need to register for the panic path and the crash_shutdown path. 
+> We notify the VK card for 2 purposes: one to stop DMA so memory stop 
+> changing during a kdump.  And also to get the card into a good state so 
+> resets happen cleanly.
+
+Thanks Scott! With that, I guess it's really better to keep this
+notifier in this hypervisor/early list - I'm planning to do that for V2.
+Unless Petr or somebody has strong feelings against that, of course.
+
+Cheers,
+
+
+Guilherme
