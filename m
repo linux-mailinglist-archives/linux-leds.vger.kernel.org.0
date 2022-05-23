@@ -2,98 +2,145 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6191D5319EF
-	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 22:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 402F9531DD6
+	for <lists+linux-leds@lfdr.de>; Mon, 23 May 2022 23:35:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233150AbiEWUlL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 16:41:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50046 "EHLO
+        id S229525AbiEWVfd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 May 2022 17:35:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233175AbiEWUlD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 16:41:03 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE309C3F;
-        Mon, 23 May 2022 13:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=LG2HkLvcft3PZ/5y+RaNtcoQpztQykGkc8EQp8pxJfI=; b=fPCMiuZns16FgBzoGF9Je3OLkO
-        LL4L2QHAG/wGtiXgEhS21zRsWqE1LMzGwwDxe6f9KpfZaY9eV7CGD4vwhcqTRNInSSR1HDaLnpPpS
-        miMpU8/+9j0GmfawjCEu88Tqk7uAI9V6UbtlRLQsT2Paj7KpRr9Eexx/1nt9uyC0/PRdqZ6qso//5
-        331flFwFw5rYDxq1lD4s7YGntuImz8x8p2XDCS463SY8sQhksTBKudAp4pKnME8DpTbZ4fGAvbQxT
-        wafY442u8mSqR6x/cwniP7CEUq4fd8W+eVImWzP4xrptC52doj1jXiLwbdsJQSnWbw0nF1P7Xd8f/
-        wPYC4mSw==;
-Received: from 200-161-159-120.dsl.telesp.net.br ([200.161.159.120] helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1ntEr0-00Gje9-7b; Mon, 23 May 2022 22:40:38 +0200
-Message-ID: <0dda86c0-3a54-8c70-d1e7-18bbb4d41bab@igalia.com>
-Date:   Mon, 23 May 2022 17:40:07 -0300
+        with ESMTP id S229479AbiEWVfc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 17:35:32 -0400
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B71AFAD7;
+        Mon, 23 May 2022 14:35:31 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-d39f741ba0so20013131fac.13;
+        Mon, 23 May 2022 14:35:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=21fVV3K7uR7kIMeuvkJxyKGEyMab9A5XAQ8v8L7cvv4=;
+        b=eu9nDFIX18d7InxX+E0CGet12dDNih81CbLIorPSea3rJZ2kFCHjUaJ3Amos22nMaa
+         rXz9ZkgpgXHLSNv95zroLUWeiU+MPyXoS8SafSpaJwVjciQEQuovUhEbFdr0xDFN3iKl
+         5nnCnoJZAWs1NLB39NhP++Lg679LspG+WXmUGzfUHfl9PkBwRU/KKOwlwtsNAXGhtJl+
+         Dp/aKbAjATrRgv1NB9yqvx3h1MVqiUeqZFnLlT3sGXz/hCMB6yowi0coCUyeTUuI1MAb
+         gH3De4jzKNoJXbpjvTUy3mTGFmS/KD2iKtA1R/T17IGqmCgW7ff6G97tQwvUUVMVnLGg
+         PSKQ==
+X-Gm-Message-State: AOAM530Nvo7qYdABJpwf6lzRIYwYTWyTbW6Tl/tIYjC1fHUOBPAKSoQu
+        JZwua1dxLWLalU6V5in4AQ==
+X-Google-Smtp-Source: ABdhPJz51kKeyTgJE1T6i86x5hCXYv2n1s+1kgWg51kba8nF+s/Dc2URwpsMdwdyiYNp7Tn9pQlERA==
+X-Received: by 2002:a05:6870:9106:b0:f2:8c7c:edbe with SMTP id o6-20020a056870910600b000f28c7cedbemr613044oae.277.1653341729967;
+        Mon, 23 May 2022 14:35:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d130-20020a4a5288000000b0035eb4e5a6besm4710618oob.20.2022.05.23.14.35.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 14:35:29 -0700 (PDT)
+Received: (nullmailer pid 2231067 invoked by uid 1000);
+        Mon, 23 May 2022 21:35:28 -0000
+Date:   Mon, 23 May 2022 16:35:28 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: lp50xx: correct reg/unit
+ addresses in example
+Message-ID: <20220523213528.GA2227380-robh@kernel.org>
+References: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 12/30] parisc: Replace regular spinlock with spin_trylock
- on panic path
-Content-Language: en-US
-To:     Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        pmladek@suse.com, bhe@redhat.com, akpm@linux-foundation.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        halves@canonical.com, fabiomirmar@gmail.com,
-        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
-        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
-        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-13-gpiccoli@igalia.com>
- <6a7c924a-54a9-c5ea-8a9d-3ea92987b436@gmx.de>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <6a7c924a-54a9-c5ea-8a9d-3ea92987b436@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 28/04/2022 13:55, Helge Deller wrote:
-> [...]
-> You may add:
-> Acked-by: Helge Deller <deller@gmx.de> # parisc
+On Wed, May 18, 2022 at 10:22:14AM +0200, Krzysztof Kozlowski wrote:
+> The multi-led node defined address/size cells, so it intended to have
+> children with unit addresses.
 > 
-> Helge
+> The second multi-led's reg property defined three LED indexes within one
+> reg item, which is not correct - these are three separate items.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Cc: Kyle Swenson <kyle.swenson@est.tech>
+> ---
+>  .../devicetree/bindings/leds/leds-lp50xx.yaml | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> index f12fe5b53f30..dc1ac905bb91 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> @@ -99,35 +99,41 @@ examples:
+>                 color = <LED_COLOR_ID_RGB>;
+>                 function = LED_FUNCTION_CHARGING;
+>  
+> -               led-0 {
+> +               led@0 {
+> +                   reg = <0x0>;
+>                     color = <LED_COLOR_ID_RED>;
+>                 };
+>  
+> -               led-1 {
+> +               led@1 {
+> +                   reg = <0x1>;
+>                     color = <LED_COLOR_ID_GREEN>;
+>                 };
+>  
+> -               led-2 {
+> +               led@2 {
+> +                   reg = <0x2>;
+>                     color = <LED_COLOR_ID_BLUE>;
+>                 };
+>            };
+>  
+>            multi-led@2 {
+>              #address-cells = <1>;
+> -            #size-cells = <2>;
+> -            reg = <0x2 0x3 0x5>;
+> +            #size-cells = <0>;
+> +            reg = <0x3>, <0x4>, <0x5>;
 
-Hi Helge, do you think would be possible to still pick this one for
-v5.19 or do you prefer to hold for the next release?
+The unit-address is 2, but the reg value is 3?
 
-I'm working on V2, so if it's merged for 5.19 I won't send it again.
-Thanks,
-
-
-Guilherme
+>              color = <LED_COLOR_ID_RGB>;
+>              function = LED_FUNCTION_STANDBY;
+>  
+> -            led-6 {
+> +            led@3 {
+> +              reg = <0x3>;
+>                color = <LED_COLOR_ID_RED>;
+>              };
+>  
+> -            led-7 {
+> +            led@4 {
+> +              reg = <0x4>;
+>                color = <LED_COLOR_ID_GREEN>;
+>              };
+>  
+> -            led-8 {
+> +            led@5 {
+> +              reg = <0x5>;
+>                color = <LED_COLOR_ID_BLUE>;
+>              };
+>           };
+> -- 
+> 2.32.0
+> 
+> 
