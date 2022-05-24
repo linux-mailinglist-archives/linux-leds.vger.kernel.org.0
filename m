@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1B0A5323A6
-	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 09:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655B35323A8
+	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 09:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234457AbiEXHIi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 May 2022 03:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33698 "EHLO
+        id S234467AbiEXHIk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 May 2022 03:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234451AbiEXHIh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 May 2022 03:08:37 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2778F85ECA
-        for <linux-leds@vger.kernel.org>; Tue, 24 May 2022 00:08:36 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id m6so19820401ljb.2
-        for <linux-leds@vger.kernel.org>; Tue, 24 May 2022 00:08:36 -0700 (PDT)
+        with ESMTP id S234416AbiEXHIj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 May 2022 03:08:39 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEE087227
+        for <linux-leds@vger.kernel.org>; Tue, 24 May 2022 00:08:37 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id c19so16197081lfv.5
+        for <linux-leds@vger.kernel.org>; Tue, 24 May 2022 00:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sZ0SEJMDewbb4cdbPD0390E8YQ7MceyC5EWnHO5cujc=;
-        b=KXuQy/4sTDlEX2yWV3xfM7vPhghHFjvNnRWVTd4Xr6M/ZI7j/ZA37N21TdNtKJP6i3
-         PaAokYnIvCy8XYCFz30GrUikPXizKG0WHINqTyBCXGZI5xGPMtbc2sVrovtxTNIyOt20
-         yZQ81+OefVWaBbcCIc+XC3E9EpJ5o7Y5H084SqXPpu+IgCC+pWbaKh9RhluM2/AFSuFe
-         XZyLo9quD1MG2OqAk+jE8AK8SFbdcCUAtp0FaDkFclSQaRKRwysJtWdIcBgPj/Dldx6e
-         BJBjtXLlaRENiw4whox1d/zHPkq8oHEYmf+nFVSQUddVmUN307OfK7tYRcj1/kVrYNik
-         fJog==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1cz4d+fm9aCQbgqKo0PSrrCjJpVOn5py/1Tnn7DmY6o=;
+        b=FWZe8ib2ybH7BFuAYY8yRm68ebP3KMXeHb7240EFYr0TDeXLGkt7Z5BJbQTRXwtwxD
+         2xQ/8ItezylfIl+y22LKPWewIDwVSfD46Wp7c5JcMFC1qAoJ5pZgp2EAlB8OyLyl/4xt
+         SBeLKhpxqvJ8kHvQCqaMsVkel2KojiFh1aNlV+q3ltxEyaLoGVvZZuE2oiEBMC+K3cXf
+         BrEUdesY/oFyXZDwqdL3JpxnRVBSLOQtEt/2Z6pJpaGZvKUBWlsUH9p26WgPJsPHb9hj
+         bq51GhhL4TQY7xqL0Afw3t+CxImKY/ANplKy5Nq0LiP7zmVTaxOW4SyRwSGxg1wXcbu/
+         XS2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sZ0SEJMDewbb4cdbPD0390E8YQ7MceyC5EWnHO5cujc=;
-        b=tx7w5wT2pR5xV6E8tf18j7OXcMLB1u2QkVW06RYdEK/w1xeJ3PQKNxYaaeC+LWMS/S
-         CjAnIvlhQ15C1QolEuaJtCY/tHLQPO7UB8bW3WOVsuWqTK0RCzcUEec56cAFTqe9NdTG
-         476g53mrVzT4oZyAkMI5PK9e+ez7MQfCrNATcgqeBzaQ1aNZ+EmIS03yRjmigV+W4XmU
-         s1Xwx/J1ZyMGP95lVdmYPzeiw/9bmpl5G/3R7a/V6NAoE44J83XlBvDqT5sFRdfVLlgh
-         mFbKi8OVeDoxdICNpQLoIKHyAQY6MFBFDzKHe5fqcxwnMEJiDmH3Iprt8SPvYDxXsXbv
-         Y2hA==
-X-Gm-Message-State: AOAM5306FkyOew93q+2h2GQqUHTwxAWtvWgOSmL45wtBL9hnpe4F7dXw
-        XeOaODd/DrlODbv5vO56H8v4yw==
-X-Google-Smtp-Source: ABdhPJwapjjxbwWshe3MtGo8eVeVq/7+DMcCfW6rPQEyrJ26Q1nW9d4OMJxhU/vduSauiMdRVL9UPQ==
-X-Received: by 2002:a2e:88d5:0:b0:253:ea46:b00 with SMTP id a21-20020a2e88d5000000b00253ea460b00mr5407663ljk.399.1653376114467;
-        Tue, 24 May 2022 00:08:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1cz4d+fm9aCQbgqKo0PSrrCjJpVOn5py/1Tnn7DmY6o=;
+        b=OrnCSbAjARux+MDy85y41J1dCH3cUWxNCF/2M6yH3WVW0QRzvq3keEhbGZDTjZ1XSj
+         OW7FHfbQ9tbBOoC8Zvh9lXNDsPO6QWZ/8F8BoaZnBh069Ur9oKskvVmRZBFnc8Hc1eyj
+         SHoFwRj29hLhw4wIm+YmHtfUUAAico4h901V8LmlqzkpjiBg1lebMcahdwVy3bQRQn6G
+         6viAVy5KMXA/a6Nm7UvFNbeseGD6mFzRdhHNKU7Jv1BN0VlYO+y3XD51O27F5SYCcke+
+         usheTgbpGWmNGoQYZXDkn7hRB4PpEEXa/b0eErc2DFC4eyaWrVr2u7lYyC6adkJfOWF2
+         Mlng==
+X-Gm-Message-State: AOAM5317VJ52aMud+Ob0vveoVLCJBUKTpKlfw8oN09kKlh5M4ReE26LY
+        z6L9auatWcDgwxnrm8Iw0MtjZQ==
+X-Google-Smtp-Source: ABdhPJwR5jUv7Pcg0QWVolnrOC51LAyBbSUWTT9ueRJNtriaNIm/aup3/brxDeoHDbMTVR7odMXJUA==
+X-Received: by 2002:a05:6512:39cc:b0:478:5c35:e7e8 with SMTP id k12-20020a05651239cc00b004785c35e7e8mr11366052lfu.392.1653376115575;
+        Tue, 24 May 2022 00:08:35 -0700 (PDT)
 Received: from krzk-bin.. (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id e12-20020a2e8ecc000000b0024f3d1daebdsm2237655ljl.69.2022.05.24.00.08.33
+        by smtp.gmail.com with ESMTPSA id e12-20020a2e8ecc000000b0024f3d1daebdsm2237655ljl.69.2022.05.24.00.08.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 00:08:33 -0700 (PDT)
+        Tue, 24 May 2022 00:08:35 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -57,10 +57,12 @@ To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Kyle Swenson <kyle.swenson@est.tech>
-Subject: [PATCH v2 1/2] dt-bindings: leds: lp50xx: correct reg/unit addresses in example
-Date:   Tue, 24 May 2022 09:08:14 +0200
-Message-Id: <20220524070815.42997-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 2/2] dt-bindings: leds: fix indentation in examples
+Date:   Tue, 24 May 2022 09:08:15 +0200
+Message-Id: <20220524070815.42997-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220524070815.42997-1-krzysztof.kozlowski@linaro.org>
+References: <20220524070815.42997-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -73,79 +75,431 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The multi-led node defined address/size cells, so it intended to have
-children with unit addresses.
-
-The second multi-led's reg property defined three LED indexes within one
-reg item, which is not correct - these are three separate items.
+The examples were mixing 4-space with 2- and 3-space indentations, so
+correct them to use 4-space one.  No functional change.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
 
 Changes since v1:
-1. Correct multi-led unit address as well (Rob).
+1. None
 
 Cc: Kyle Swenson <kyle.swenson@est.tech>
 ---
- .../devicetree/bindings/leds/leds-lp50xx.yaml | 24 ++++++++++++-------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ .../devicetree/bindings/leds/leds-lp50xx.yaml | 110 ++++-----
+ .../devicetree/bindings/leds/leds-lp55xx.yaml | 222 +++++++++---------
+ .../bindings/leds/leds-pwm-multicolor.yaml    |  36 +--
+ 3 files changed, 184 insertions(+), 184 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-index f12fe5b53f30..29ce0cb7d449 100644
+index 29ce0cb7d449..d11898567313 100644
 --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
 +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-@@ -99,35 +99,41 @@ examples:
-                color = <LED_COLOR_ID_RGB>;
-                function = LED_FUNCTION_CHARGING;
+@@ -78,66 +78,66 @@ additionalProperties: false
  
--               led-0 {
-+               led@0 {
-+                   reg = <0x0>;
-                    color = <LED_COLOR_ID_RED>;
-                };
+ examples:
+   - |
+-   #include <dt-bindings/gpio/gpio.h>
+-   #include <dt-bindings/leds/common.h>
+-
+-   i2c {
+-       #address-cells = <1>;
+-       #size-cells = <0>;
+-
+-       led-controller@14 {
+-           compatible = "ti,lp5009";
+-           reg = <0x14>;
+-           #address-cells = <1>;
+-           #size-cells = <0>;
+-           enable-gpios = <&gpio1 16>;
+-
+-           multi-led@1 {
+-               #address-cells = <1>;
+-               #size-cells = <0>;
+-               reg = <0x1>;
+-               color = <LED_COLOR_ID_RGB>;
+-               function = LED_FUNCTION_CHARGING;
+-
+-               led@0 {
+-                   reg = <0x0>;
+-                   color = <LED_COLOR_ID_RED>;
+-               };
+-
+-               led@1 {
+-                   reg = <0x1>;
+-                   color = <LED_COLOR_ID_GREEN>;
+-               };
+-
+-               led@2 {
+-                   reg = <0x2>;
+-                   color = <LED_COLOR_ID_BLUE>;
+-               };
+-          };
+-
+-          multi-led@3 {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-            reg = <0x3>, <0x4>, <0x5>;
+-            color = <LED_COLOR_ID_RGB>;
+-            function = LED_FUNCTION_STANDBY;
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
  
--               led-1 {
-+               led@1 {
-+                   reg = <0x1>;
-                    color = <LED_COLOR_ID_GREEN>;
-                };
+-            led@3 {
+-              reg = <0x3>;
+-              color = <LED_COLOR_ID_RED>;
+-            };
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
  
--               led-2 {
-+               led@2 {
-+                   reg = <0x2>;
-                    color = <LED_COLOR_ID_BLUE>;
-                };
-           };
- 
--          multi-led@2 {
-+          multi-led@3 {
-             #address-cells = <1>;
--            #size-cells = <2>;
--            reg = <0x2 0x3 0x5>;
+-            led@4 {
+-              reg = <0x4>;
+-              color = <LED_COLOR_ID_GREEN>;
++        led-controller@14 {
++            compatible = "ti,lp5009";
++            reg = <0x14>;
++            #address-cells = <1>;
 +            #size-cells = <0>;
-+            reg = <0x3>, <0x4>, <0x5>;
-             color = <LED_COLOR_ID_RGB>;
-             function = LED_FUNCTION_STANDBY;
++            enable-gpios = <&gpio1 16>;
++
++            multi-led@1 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <0x1>;
++                color = <LED_COLOR_ID_RGB>;
++                function = LED_FUNCTION_CHARGING;
++
++                led@0 {
++                     reg = <0x0>;
++                     color = <LED_COLOR_ID_RED>;
++                };
++
++                led@1 {
++                     reg = <0x1>;
++                     color = <LED_COLOR_ID_GREEN>;
++                };
++
++                led@2 {
++                     reg = <0x2>;
++                     color = <LED_COLOR_ID_BLUE>;
++                };
+             };
  
--            led-6 {
+-            led@5 {
+-              reg = <0x5>;
+-              color = <LED_COLOR_ID_BLUE>;
++            multi-led@3 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <0x3>, <0x4>, <0x5>;
++                color = <LED_COLOR_ID_RGB>;
++                function = LED_FUNCTION_STANDBY;
++
++                led@3 {
++                    reg = <0x3>;
++                    color = <LED_COLOR_ID_RED>;
++                };
++
++                led@4 {
++                    reg = <0x4>;
++                    color = <LED_COLOR_ID_GREEN>;
++                };
++
++                led@5 {
++                    reg = <0x5>;
++                    color = <LED_COLOR_ID_BLUE>;
++                };
+             };
+-         };
+-       };
++        };
+     };
+ 
+ ...
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+index f552cd143d5b..7ec676e53851 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+@@ -108,119 +108,119 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-   #include <dt-bindings/leds/common.h>
+-
+-   i2c {
+-       #address-cells = <1>;
+-       #size-cells = <0>;
+-
+-       led-controller@32 {
+-           #address-cells = <1>;
+-           #size-cells = <0>;
+-           compatible = "ti,lp8501";
+-           reg = <0x32>;
+-           clock-mode = /bits/ 8 <2>;
+-           pwr-sel = /bits/ 8 <3>;	/* D1~9 connected to VOUT */
+-
+-           led@0 {
+-               reg = <0>;
+-               chan-name = "d1";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@1 {
+-               reg = <1>;
+-               chan-name = "d2";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@2 {
+-               reg = <2>;
+-               chan-name = "d3";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@3 {
+-               reg = <3>;
+-               chan-name = "d4";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@4 {
+-               reg = <4>;
+-               chan-name = "d5";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@5 {
+-               reg = <5>;
+-               chan-name = "d6";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@6 {
+-               reg = <6>;
+-               chan-name = "d7";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@7 {
+-               reg = <7>;
+-               chan-name = "d8";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
+-
+-           led@8 {
+-               reg = <8>;
+-               chan-name = "d9";
+-               led-cur = /bits/ 8 <0x14>;
+-               max-cur = /bits/ 8 <0x20>;
+-           };
++    #include <dt-bindings/leds/common.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@32 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            compatible = "ti,lp8501";
++            reg = <0x32>;
++            clock-mode = /bits/ 8 <2>;
++            pwr-sel = /bits/ 8 <3>;	/* D1~9 connected to VOUT */
++
++            led@0 {
++                reg = <0>;
++                chan-name = "d1";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
++            led@1 {
++                reg = <1>;
++                chan-name = "d2";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
++            led@2 {
++                reg = <2>;
++                chan-name = "d3";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
 +            led@3 {
-+              reg = <0x3>;
-               color = <LED_COLOR_ID_RED>;
-             };
- 
--            led-7 {
++                reg = <3>;
++                chan-name = "d4";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
 +            led@4 {
-+              reg = <0x4>;
-               color = <LED_COLOR_ID_GREEN>;
-             };
- 
--            led-8 {
++                reg = <4>;
++                chan-name = "d5";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
 +            led@5 {
-+              reg = <0x5>;
-               color = <LED_COLOR_ID_BLUE>;
++                reg = <5>;
++                chan-name = "d6";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
++            led@6 {
++                reg = <6>;
++                chan-name = "d7";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
++            led@7 {
++                reg = <7>;
++                chan-name = "d8";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
++
++            led@8 {
++                reg = <8>;
++                chan-name = "d9";
++                led-cur = /bits/ 8 <0x14>;
++                max-cur = /bits/ 8 <0x20>;
++            };
+         };
+ 
+-       led-controller@33 {
+-           #address-cells = <1>;
+-           #size-cells = <0>;
+-           compatible = "national,lp5523";
+-           reg = <0x33>;
+-           clock-mode = /bits/ 8 <0>;
+-
+-           multi-led@2 {
+-               #address-cells = <1>;
+-               #size-cells = <0>;
+-               reg = <0x2>;
+-               color = <LED_COLOR_ID_RGB>;
+-               function = LED_FUNCTION_STANDBY;
+-               linux,default-trigger = "heartbeat";
+-
+-               led@0 {
+-                   led-cur = /bits/ 8 <50>;
+-                   max-cur = /bits/ 8 <100>;
+-                   reg = <0x0>;
+-                   color = <LED_COLOR_ID_GREEN>;
+-               };
+-
+-               led@1 {
+-                   led-cur = /bits/ 8 <50>;
+-                   max-cur = /bits/ 8 <100>;
+-                   reg = <0x1>;
+-                   color = <LED_COLOR_ID_BLUE>;
+-               };
+-
+-               led@6 {
+-                   led-cur = /bits/ 8 <50>;
+-                   max-cur = /bits/ 8 <100>;
+-                   reg = <0x6>;
+-                   color = <LED_COLOR_ID_RED>;
+-               };
++        led-controller@33 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            compatible = "national,lp5523";
++            reg = <0x33>;
++            clock-mode = /bits/ 8 <0>;
++
++            multi-led@2 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <0x2>;
++                color = <LED_COLOR_ID_RGB>;
++                function = LED_FUNCTION_STANDBY;
++                linux,default-trigger = "heartbeat";
++
++                led@0 {
++                    led-cur = /bits/ 8 <50>;
++                    max-cur = /bits/ 8 <100>;
++                    reg = <0x0>;
++                    color = <LED_COLOR_ID_GREEN>;
++                };
++
++                led@1 {
++                    led-cur = /bits/ 8 <50>;
++                    max-cur = /bits/ 8 <100>;
++                    reg = <0x1>;
++                    color = <LED_COLOR_ID_BLUE>;
++                };
++
++                led@6 {
++                    led-cur = /bits/ 8 <50>;
++                    max-cur = /bits/ 8 <100>;
++                    reg = <0x6>;
++                    color = <LED_COLOR_ID_RED>;
++                };
              };
-          };
+         };
+     };
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+index 6625a528f727..fdaf04e03a8d 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+@@ -55,24 +55,24 @@ examples:
+         compatible = "pwm-leds-multicolor";
+ 
+         multi-led {
+-          color = <LED_COLOR_ID_RGB>;
+-          function = LED_FUNCTION_INDICATOR;
+-          max-brightness = <65535>;
+-
+-          led-red {
+-              pwms = <&pwm1 0 1000000>;
+-              color = <LED_COLOR_ID_RED>;
+-          };
+-
+-          led-green {
+-              pwms = <&pwm2 0 1000000>;
+-              color = <LED_COLOR_ID_GREEN>;
+-          };
+-
+-          led-blue {
+-              pwms = <&pwm3 0 1000000>;
+-              color = <LED_COLOR_ID_BLUE>;
+-          };
++            color = <LED_COLOR_ID_RGB>;
++            function = LED_FUNCTION_INDICATOR;
++            max-brightness = <65535>;
++
++            led-red {
++                pwms = <&pwm1 0 1000000>;
++                color = <LED_COLOR_ID_RED>;
++            };
++
++            led-green {
++                pwms = <&pwm2 0 1000000>;
++                color = <LED_COLOR_ID_GREEN>;
++            };
++
++            led-blue {
++                pwms = <&pwm3 0 1000000>;
++                color = <LED_COLOR_ID_BLUE>;
++            };
+         };
+     };
+ 
 -- 
 2.34.1
 
