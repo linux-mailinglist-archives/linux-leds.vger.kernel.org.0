@@ -2,67 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 197B6531F41
-	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 01:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1804E53234A
+	for <lists+linux-leds@lfdr.de>; Tue, 24 May 2022 08:36:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbiEWXen (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 May 2022 19:34:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
+        id S233687AbiEXGgY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 May 2022 02:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbiEWXen (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 May 2022 19:34:43 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424C277F24
-        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-e93bbb54f9so20322022fac.12
-        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
+        with ESMTP id S233634AbiEXGgR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 May 2022 02:36:17 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53FE43EB87
+        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 23:36:14 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id v8so27242411lfd.8
+        for <linux-leds@vger.kernel.org>; Mon, 23 May 2022 23:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
-        b=QiH/msiZeAyInxGvrGwUEfSdbKWbaTyNEd961BMevyc/brAfOZXgi6lzt3hdJoSy3O
-         D7jK/2O+Y+VfhvOBtk5qhQqIrqsCf3gQybmgwlZiixutgdC1qWv5XxT0HVaH6akBQ1Tf
-         e6mRuuCc15D3YjhR25FHwzr7yWiUme0C3xul6WXXLLY3Q/MGwl33YwUxm6/WlaT28v8r
-         x2wCg+pKkoMMtTEXFxDOrkZFcuiu0Wrb2j6zbWoRn+6bat1mXf6KjCumlGIPbdd3vZdY
-         fMKN7RgEZsClQg6a3DV0VLbwBXRavf2qODQtJtFIb0MmS8UaSlPdyvKxEcWUnP/owuEF
-         porg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=naO7MfUZImeoXwi1QHGtkiW2IkE7ZgBBCUBLVbjErGs=;
+        b=tdjIKMzaQGMRuZHzjqWMkQra9s66xVHja7tX0VNqSU+hLS1xiKmO98GEsEHeZz20Q4
+         QOovmZrew5aKqPKVV4p1RZ9PIl9t9fopan9WMpWk6KICBShIF1tpQt1OUuts2E2HdXKz
+         PM1erRGq8wUDW1cwHx20Zohwi9i2Wt4lrqjBEp1hwNx88XexxzM4c64fUqssIJaT6+OJ
+         DB1TJURiECE8uVjIk7F8qGvTEKr9zBlKfkoU01fmgJ9e4iQ3lrgcuPT9VaLsVtPa719n
+         XxoDN6f+N/vWHsivFgCB9d/OVB7gDy98z28Ypnqz90lefgNwdygLE+qkIKao+lwTdUO5
+         OnpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
-        b=lyP365ev88WwCGWElnncFCs5HAJ+eLyGik8ekSvGoNanZK/uweu8P5crpk+HpoUG0w
-         NUbt/c5o/UGH16L3LoMftvsSP6ZXkjuQZCf/friQhZwA4Jl0FUI3EMW8u91JK1Q8V2ZY
-         JRGuor67udyYxyjNkGbSu+jv+E4zBk8/9ZZcRGn+mMJqMN6qu2Y9n9+PsZHGIkW9waHL
-         kYnwBYpd7zU4HFKMLhlEybFW4oJ4fsIM52ea8Ih7/J98Wan5HZlydUHqnBsIVkx+idrd
-         GEzzrdkkEeyMl4Px+BMhsUeciispt4PaLM9Sq7X/5fiVo+YmnHrNjMjOfE6V5XikzC/m
-         c+gw==
-X-Gm-Message-State: AOAM531xP3DR0BNQaXh7kjV1diQeJdXX9jSasiryRfYiNsBCkTIbu+Ic
-        sbFhCYXBEk8S2K6jrE+ok4fRnQ==
-X-Google-Smtp-Source: ABdhPJw26M92bveFTTnyDoAXwGBWyIiwm4i/MAtr6dmWYCraDZxguamiLCnyIxrpYoDR+rzsD0Htdg==
-X-Received: by 2002:a05:6870:960d:b0:f1:28b4:41ff with SMTP id d13-20020a056870960d00b000f128b441ffmr881447oaq.51.1653348881457;
-        Mon, 23 May 2022 16:34:41 -0700 (PDT)
-Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id i4-20020a056870044400b000f15ca674b2sm4305696oak.52.2022.05.23.16.34.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 16:34:40 -0700 (PDT)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Marijn Suijten <marijn.suijten@somainline.org>
-Cc:     Matthias Kaehlcke <mka@chromium.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH] leds: qcom-lpg: Require pattern to follow documentation
-Date:   Mon, 23 May 2022 16:37:19 -0700
-Message-Id: <20220523233719.1496297-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.35.1
+        bh=naO7MfUZImeoXwi1QHGtkiW2IkE7ZgBBCUBLVbjErGs=;
+        b=CkrxO61N1JnxsA1eunh92dNmaXg/tthksWBXvKK3tLok1HS+kMk0TE1lsqZkrQrJPG
+         mGfHxQyn2VTOYIbb8NKJpC1johG2Tx+uDqOfGLWFm8AddX0fHzywzHl60l5byFDj2/dq
+         YYz5tdMGvSqabp1WOL4ttfwFNz5GA2UfWvxv4bAIICy/4PVLkBCmtqrEggy6VjWoAYTr
+         7CLkhH+lTT2jbQ5utkdrGIbxAk1vNKb7Ql4unYgFJ5YIYFAPiW+6cvsi0X6BqffnCMwT
+         b4zL0lUXDmqPzLS4nUMjE1Rmfi4wJDEcmAnIq5UsHysLPPnR6MgJuaBPtESeeoF8uIdr
+         JwaQ==
+X-Gm-Message-State: AOAM533GF7Yr+3d5T9gygbpjUOk0jz9CMAq30DJBPl8xsv7k6JsixokD
+        RHsoJA36R6/h/uWZZHi0qmXknQ==
+X-Google-Smtp-Source: ABdhPJznnkdfT2gEMM9zUFDFG/znJx0xsTuJYEjWAjhGfeGvsJeGRt1A3uUGSXqiLqwuYnVjGudssA==
+X-Received: by 2002:a05:6512:1585:b0:448:3936:a5a0 with SMTP id bp5-20020a056512158500b004483936a5a0mr18327566lfb.108.1653374172109;
+        Mon, 23 May 2022 23:36:12 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id c3-20020a056512074300b0047255d2115asm2356464lfs.137.2022.05.23.23.36.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 May 2022 23:36:11 -0700 (PDT)
+Message-ID: <0d48b3fa-d6db-68d8-93a0-79902a119735@linaro.org>
+Date:   Tue, 24 May 2022 08:36:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/2] dt-bindings: leds: lp50xx: correct reg/unit addresses
+ in example
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>
+References: <20220518082215.14358-1-krzysztof.kozlowski@linaro.org>
+ <20220523213528.GA2227380-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220523213528.GA2227380-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,150 +80,64 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The leds-trigger-pattern documentation describes how the brightness of
-the LED should transition linearly from one brightness value to the
-next, over the given delta_t.
+On 23/05/2022 23:35, Rob Herring wrote:
+> On Wed, May 18, 2022 at 10:22:14AM +0200, Krzysztof Kozlowski wrote:
+>> The multi-led node defined address/size cells, so it intended to have
+>> children with unit addresses.
+>>
+>> The second multi-led's reg property defined three LED indexes within one
+>> reg item, which is not correct - these are three separate items.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Cc: Kyle Swenson <kyle.swenson@est.tech>
+>> ---
+>>  .../devicetree/bindings/leds/leds-lp50xx.yaml | 22 ++++++++++++-------
+>>  1 file changed, 14 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>> index f12fe5b53f30..dc1ac905bb91 100644
+>> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>> @@ -99,35 +99,41 @@ examples:
+>>                 color = <LED_COLOR_ID_RGB>;
+>>                 function = LED_FUNCTION_CHARGING;
+>>  
+>> -               led-0 {
+>> +               led@0 {
+>> +                   reg = <0x0>;
+>>                     color = <LED_COLOR_ID_RED>;
+>>                 };
+>>  
+>> -               led-1 {
+>> +               led@1 {
+>> +                   reg = <0x1>;
+>>                     color = <LED_COLOR_ID_GREEN>;
+>>                 };
+>>  
+>> -               led-2 {
+>> +               led@2 {
+>> +                   reg = <0x2>;
+>>                     color = <LED_COLOR_ID_BLUE>;
+>>                 };
+>>            };
+>>  
+>>            multi-led@2 {
+>>              #address-cells = <1>;
+>> -            #size-cells = <2>;
+>> -            reg = <0x2 0x3 0x5>;
+>> +            #size-cells = <0>;
+>> +            reg = <0x3>, <0x4>, <0x5>;
+> 
+> The unit-address is 2, but the reg value is 3?
 
-But the pattern engine in the Qualcomm LPG hardware only supports
-holding the brightness for each entry for the period.
-This subset of patterns can be represented in the leds-trigger-pattern
-by injecting zero-time transitions after each entry in the pattern,
-resulting in a pattern that pattern that can be rendered by the LPG.
+Right, the multi-led should be also @3 to match the reg and first led in
+children.
 
-Rework LPG pattern interface to require these zero-time transitions, to
-make it comply with this subset of patterns and reject the patterns it
-can't render.
+Thanks.
 
-Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- Documentation/leds/leds-qcom-lpg.rst |  8 ++++--
- drivers/leds/rgb/leds-qcom-lpg.c     | 43 ++++++++++++++++++++++++----
- 2 files changed, 43 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/leds-qcom-lpg.rst
-index f12416f02dd8..de7ceead9337 100644
---- a/Documentation/leds/leds-qcom-lpg.rst
-+++ b/Documentation/leds/leds-qcom-lpg.rst
-@@ -35,11 +35,13 @@ Specify a hardware pattern for a Qualcomm LPG LED.
- The pattern is a series of brightness and hold-time pairs, with the hold-time
- expressed in milliseconds. The hold time is a property of the pattern and must
- therefor be identical for each element in the pattern (except for the pauses
--described below).
-+described below). As the LPG hardware is not able to perform the linear
-+transitions expected by the leds-trigger-pattern format, each entry in the
-+pattern must be followed a zero-length entry of the same brightness.
- 
- Simple pattern::
- 
--    "255 500 0 500"
-+    "255 500 255 0 0 500 0 0"
- 
-         ^
-         |
-@@ -54,7 +56,7 @@ in the pattern, the so called "low pause" and "high pause".
- 
- Low-pause pattern::
- 
--    "255 1000 0 500 255 500 0 500"
-+    "255 1000 255 0 0 500 0 0 255 500 255 0 0 500 0 0"
- 
-         ^
-         |
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index cfa3362b2457..02f51cc61837 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -704,11 +704,12 @@ static int lpg_blink_mc_set(struct led_classdev *cdev,
- 	return ret;
- }
- 
--static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
-+static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *led_pattern,
- 			   u32 len, int repeat)
- {
- 	struct lpg_channel *chan;
- 	struct lpg *lpg = led->lpg;
-+	struct led_pattern *pattern;
- 	unsigned int brightness_a;
- 	unsigned int brightness_b;
- 	unsigned int actual_len;
-@@ -719,18 +720,48 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
- 	unsigned int hi_idx;
- 	unsigned int i;
- 	bool ping_pong = true;
--	int ret;
-+	int ret = -EINVAL;
- 
- 	/* Hardware only support oneshot or indefinite loops */
- 	if (repeat != -1 && repeat != 1)
- 		return -EINVAL;
- 
-+	/*
-+	 * The standardized leds-trigger-pattern format defines that the
-+	 * brightness of the LED follows a linear transition from one entry
-+	 * in the pattern to the next, over the given delta_t time. It
-+	 * describes that the way to perform instant transitions a zero-length
-+	 * entry should be added following a pattern entry.
-+	 *
-+	 * The LPG hardware is only able to perform the latter (no linear
-+	 * transitions), so require each entry in the pattern to be followed by
-+	 * a zero-length transition.
-+	 */
-+	if (len % 2)
-+		return -EINVAL;
-+
-+	pattern = kcalloc(len / 2, sizeof(*pattern), GFP_KERNEL);
-+	if (!pattern)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < len; i += 2) {
-+		if (led_pattern[i].brightness != led_pattern[i + 1].brightness)
-+			goto out_free_pattern;
-+		if (led_pattern[i + 1].delta_t != 0)
-+			goto out_free_pattern;
-+
-+		pattern[i / 2].brightness = led_pattern[i].brightness;
-+		pattern[i / 2].delta_t = led_pattern[i].delta_t;
-+	}
-+
-+	len /= 2;
-+
- 	/*
- 	 * Specifying a pattern of length 1 causes the hardware to iterate
- 	 * through the entire LUT, so prohibit this.
- 	 */
- 	if (len < 2)
--		return -EINVAL;
-+		goto out_free_pattern;
- 
- 	/*
- 	 * The LPG plays patterns with at a fixed pace, a "low pause" can be
-@@ -781,13 +812,13 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
- 			 * specify hi pause. Reject other variations.
- 			 */
- 			if (i != actual_len - 1)
--				return -EINVAL;
-+				goto out_free_pattern;
- 		}
- 	}
- 
- 	/* LPG_RAMP_DURATION_REG is a 9bit */
- 	if (delta_t >= BIT(9))
--		return -EINVAL;
-+		goto out_free_pattern;
- 
- 	/* Find "low pause" and "high pause" in the pattern */
- 	lo_pause = pattern[0].delta_t;
-@@ -814,6 +845,8 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
- 
- out_unlock:
- 	mutex_unlock(&lpg->lock);
-+out_free_pattern:
-+	kfree(pattern);
- 
- 	return ret;
- }
--- 
-2.35.1
-
+Best regards,
+Krzysztof
