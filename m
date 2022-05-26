@@ -2,71 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E71B9534CF0
-	for <lists+linux-leds@lfdr.de>; Thu, 26 May 2022 12:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B84534D56
+	for <lists+linux-leds@lfdr.de>; Thu, 26 May 2022 12:32:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244207AbiEZKFR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 May 2022 06:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
+        id S1345544AbiEZKcT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 May 2022 06:32:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237752AbiEZKFQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 May 2022 06:05:16 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2ABAC9EF9
-        for <linux-leds@vger.kernel.org>; Thu, 26 May 2022 03:05:14 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id r126-20020a1c4484000000b00397345f2c6fso619855wma.4
-        for <linux-leds@vger.kernel.org>; Thu, 26 May 2022 03:05:14 -0700 (PDT)
+        with ESMTP id S233811AbiEZKcR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 May 2022 06:32:17 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93EF2AC5E
+        for <linux-leds@vger.kernel.org>; Thu, 26 May 2022 03:32:15 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id gi33so2221966ejc.3
+        for <linux-leds@vger.kernel.org>; Thu, 26 May 2022 03:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Q2/Vrqz5X77pgoaL4sWT9uNh8P+G0LpsaCXqtANxzbY=;
-        b=alvENUPR1RoIdzdhbyYZL4jZz6a2WTuZVvGMUXOyRzTtSUlFMVkMmroCvum7nmvad0
-         AdI49WUD5g7yY8JcuP+gxSpebiD38sEWgO1fPim74uQNUhuGba7CWd6ST2TMULVxDhh3
-         0cQqbnj6iSKJhPtsNeauBq+EENMJRyWQBxeutx7HagHWHeaJpQxY+HfqNYS9+arSjtlN
-         r3u55+VbMwFVNraRdE26MsV29D3rfy0o3mzDRcCrD6o4KggqSSyMLFZkqeqmgMfMdO9Y
-         5XKl1+e1RicYK3Prq5Dn+WtQ0HGA2x8pbBIXS8E8nVUGeEoksec8o8uDeAXemuuc5oaq
-         AUUg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=IhOoJiEVW1f9NZEh+LjhXs1p495IAP76V+trW0SBtRo=;
+        b=fHJSBncXPQADirHt+O19VJemtFTXXzyJ9q03nrECjDpx0gclUcHS+ieBBLezoqaGC8
+         fC9IFFI8ajtjcsHFcgywLvOMp38YGvBMAleD8t3/LJ+AzXKH8Ws0VP/al+A5cV+dvndp
+         vbwzgeE6XPTvGSWaBMWaPbxOPw5U6SbRdTI6AzE9Ukhmj4/OFvziEXy8j39zUB7eEJhj
+         FTN8mM+nJh+j543Nxch1kt4Eb2DiZFyFlU6AkDNnAYa7Thb88HRDsTB2Yf2h7GIIM3UL
+         5G3W+O3JObh5EYYc+QDGbPhCcusMC6Vv+6UPGGM5+QCWxR3F7NvdX/5JM+LR+olH2syZ
+         kYmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Q2/Vrqz5X77pgoaL4sWT9uNh8P+G0LpsaCXqtANxzbY=;
-        b=K78JP8xpVbzs8WmdHlw43CCoYYMZQn8C0kHzLX2r1/WP4lm05yjMcxveCed21VKndr
-         WnEitCzQjT81hhjDAZkyOLlBC0f+6Mhtg/fr50rZYHA3ScC1OS03CqZy7o0Jq46JpI7B
-         P+inExhMAwmOjY1Pnl6MuVCg87i5oQD9N32gpECf3exO97bevLpOeR3C+NE5GqUbZYmq
-         F7C+sGARXHFcIlP5HDFlwUDlJZsMEkCTeiofIXxcOzMNfZ8g8fspZ/rigcoFNFC2njIe
-         a8mXGHEA2XSTSWZUyJpOLCyPpuNRUIhLYV8F/8eUFPXFEHkPseWWPP1t8072vRpIyjZN
-         Yihw==
-X-Gm-Message-State: AOAM533OLlHMfKIqdDvGg616nYDyT3/RazAeXCIrzPOuMCUvyZU5MqAT
-        DHKRlLqt3rVJB8IhUqJnphA4rg==
-X-Google-Smtp-Source: ABdhPJyAMsU2F/RK1cL0bLCBgOBJUZUtMEQOXHjfblUN5C5omG3gZLUaGDIiyuTCzCSNRcdx1vkiyw==
-X-Received: by 2002:a05:600c:1f0a:b0:397:7161:d3bf with SMTP id bd10-20020a05600c1f0a00b003977161d3bfmr1609365wmb.27.1653559513012;
-        Thu, 26 May 2022 03:05:13 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id n4-20020a7bc5c4000000b003974d0d981dsm4227187wmk.35.2022.05.26.03.05.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 03:05:12 -0700 (PDT)
-Date:   Thu, 26 May 2022 11:05:10 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     cy_huang <u0084500@gmail.com>
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        lee.jones@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        deller@gmx.de, cy_huang@richtek.com, lucas_tsai@richtek.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] backlight: rt4831: Add the property parsing for ocp
- level selection
-Message-ID: <20220526100510.3utwh5bov4ax2jmg@maple.lan>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-3-git-send-email-u0084500@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=IhOoJiEVW1f9NZEh+LjhXs1p495IAP76V+trW0SBtRo=;
+        b=QQJ57wE18fgxcs9DgmoKE6+xcBbT4/XNxBEFDyGSsCFBoKSn3ug1aAnlbEa62mfAnU
+         OLzyn2pijA7k035MlZre1+pMJGt3/kZsKSopdOwArl+jmTF6/HLSPmRB80Q6X6zkLDov
+         LYfYFz0TNxoYDlqFjz9bDT5e+2njQWomvPkuEK2NLLzIb6hCuG7tGWP8l1/mVm/U5PQO
+         XqbdB15/kjUvM+ZmJN9l8ojzsg2/w1bZSkPYK88e67YtQsi0JZeHBnkl4WEgBX/6mbVh
+         wxJBBhO0sWfyUnNyyITK7o3E0L2DOw/f+bwla2zpfpF3H/hx2yKIN4XjAJl+UhciHZ/9
+         eNqQ==
+X-Gm-Message-State: AOAM533t1rycxoF3NOlZQw7UF8GcU3UYveo980ehv0JehiFNRtJvxEm7
+        VqgOwGCcsvT6pT2erfRoUuRrlg==
+X-Google-Smtp-Source: ABdhPJytcoRzpFy9P5lbgclcSPwMfqb4FHL8nr2e5PQ5uM1dp3kx1YyMinkEiWBL0zjylUDn4i5I3w==
+X-Received: by 2002:a17:907:d21:b0:6fe:c340:616 with SMTP id gn33-20020a1709070d2100b006fec3400616mr22342567ejc.177.1653561134125;
+        Thu, 26 May 2022 03:32:14 -0700 (PDT)
+Received: from [192.168.0.177] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id i8-20020a50c3c8000000b0042617ba63basm610186edf.68.2022.05.26.03.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 May 2022 03:32:13 -0700 (PDT)
+Message-ID: <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
+Date:   Thu, 26 May 2022 12:32:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1653534995-30794-3-git-send-email-u0084500@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
+ for ocp level selection
+Content-Language: en-US
+To:     ChiYuan Huang <u0084500@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        jingoohan1@gmail.com, Pavel Machek <pavel@ucw.cz>, deller@gmx.de,
+        cy_huang <cy_huang@richtek.com>, lucas_tsai@richtek.com,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+ <1653534995-30794-2-git-send-email-u0084500@gmail.com>
+ <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
+ <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,87 +86,59 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, May 26, 2022 at 11:16:35AM +0800, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add the property parsing for ocp level selection.
+On 26/05/2022 10:13, ChiYuan Huang wrote:
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
+>>
+>> On 26/05/2022 05:16, cy_huang wrote:
+>>> From: ChiYuan Huang <cy_huang@richtek.com>
+>>>
+>>> Add the new property for ocp level selection.
+>>>
+>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+>>> ---
+>>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
+>>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
+>>>  2 files changed, 13 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>> index e0ac686..c1c59de 100644
+>>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>> @@ -47,6 +47,14 @@ properties:
+>>>      minimum: 0
+>>>      maximum: 3
+>>>
+>>> +  richtek,bled-ocp-sel:
+>>
+>> Skip "sel" as it is a shortcut of selection. Name instead:
+>> "richtek,backlight-ocp"
+>>
+> OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
+> If  only this property is naming as 'backlight'. it may conflict with
+> the others like as "richtek,bled-ovp-sel".
 
-Isn't this just restating the Subject: line?
+Ah, no, no need.
 
-It would be better to provide information useful to the reviewer here.
-Something like:
+>>
+>>> +    description: |
+>>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
+>>
+>> Could you explain here what is OCP (unfold the acronym)?
+> Yes. And the full name is 'over current protection'.
 
-"Currently this driver simply inherits whatever over-current protection
-level is programmed into the hardware when it is handed over. Typically
-this will be the reset value, <whatever>A, although the bootloader could
-have established a different value.
+Thanks and this leads to second thing - you encode register value
+instead of logical value. This must be a logical value in mA, so
+"richtek,bled-ocp-microamp".
 
-Allow the correct OCP value to be provided by the DT."
-
-BTW please don't uncritically copy the above into the patch header. It is
-just made something up as an example and I did no fact checking...
-
-
-> 
-> Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  drivers/video/backlight/rt4831-backlight.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
-> index 42155c7..c81f7d9 100644
-> --- a/drivers/video/backlight/rt4831-backlight.c
-> +++ b/drivers/video/backlight/rt4831-backlight.c
-> @@ -12,6 +12,7 @@
->  #define RT4831_REG_BLCFG	0x02
->  #define RT4831_REG_BLDIML	0x04
->  #define RT4831_REG_ENABLE	0x08
-> +#define RT4831_REG_BLOPT2	0x11
->  
->  #define RT4831_BLMAX_BRIGHTNESS	2048
->  
-> @@ -23,6 +24,8 @@
->  #define RT4831_BLDIML_MASK	GENMASK(2, 0)
->  #define RT4831_BLDIMH_MASK	GENMASK(10, 3)
->  #define RT4831_BLDIMH_SHIFT	3
-> +#define RT4831_BLOCP_MASK	GENMASK(1, 0)
-> +#define RT4831_BLOCP_SHIFT	0
->  
->  struct rt4831_priv {
->  	struct device *dev;
-> @@ -120,6 +123,16 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
->  	if (ret)
->  		return ret;
->  
-> +	ret = device_property_read_u8(dev, "richtek,bled-ocp-sel", &propval);
-> +	if (ret)
-> +		propval = RT4831_BLOCPLVL_1P2A;
-
-Is 1.2A the reset value for the register?
-
-Additionally, it looks like adding a hard-coded default would cause
-problems for existing platforms where the bootloader doesn't use
-richtek,bled-ocp-sel and pre-configures a different value itself.
-
-Would it be safer (in terms of working nicely with older bootloaders)
-to only write to the RT4831_BLOCP_MASK if the new property is set?
+I see you already did some register-style for voltage. It's wrong but it
+was done, so let it be. But let's don't make that a pattern...
 
 
-Daniel.
+>>
+>>
+>> Best regards,
+>> Krzysztof
 
 
-
-> +
-> +	propval = min_t(u8, propval, RT4831_BLOCPLVL_1P8A);
-> +	ret = regmap_update_bits(priv->regmap, RT4831_REG_BLOPT2, RT4831_BLOCP_MASK,
-> +				 propval << RT4831_BLOCP_SHIFT);
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = device_property_read_u8(dev, "richtek,channel-use", &propval);
->  	if (ret) {
->  		dev_err(dev, "richtek,channel-use DT property missing\n");
-> -- 
-> 2.7.4
-> 
+Best regards,
+Krzysztof
