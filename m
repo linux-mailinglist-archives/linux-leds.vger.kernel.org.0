@@ -2,173 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 630B7535EC3
-	for <lists+linux-leds@lfdr.de>; Fri, 27 May 2022 12:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D1C1535F3C
+	for <lists+linux-leds@lfdr.de>; Fri, 27 May 2022 13:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351126AbiE0K41 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 27 May 2022 06:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50376 "EHLO
+        id S1350919AbiE0L1K convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Fri, 27 May 2022 07:27:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351100AbiE0K4Y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 May 2022 06:56:24 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C73412E325
-        for <linux-leds@vger.kernel.org>; Fri, 27 May 2022 03:56:11 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id u3so5399606wrg.3
-        for <linux-leds@vger.kernel.org>; Fri, 27 May 2022 03:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jrGgy+PH692lFsYF+dtk7dWio1nqD2I64lL7+wih4a8=;
-        b=dQx4ferhWG44Xidn1n3UXaPwXV1KQVTCRSqgo0w8ELub1AkvMVX5/sRdkmO8ll4Zk3
-         2v2PAzhmidtq0rPpqmDFMVImttdAqw0LCrUsnUjRg6+TQ4ewZ8mo8kf13oO5kYzr+Y7C
-         G316PQHNrGhLNoxEf5ytwoBjH58Aakl6bYJb1i9T0KD0R6nvAygYc435xX6d2GLtJVXB
-         BlfiQyEUXPaQW+4LVfQbk0raKU4G9lIfa/mQ03fIJUQ4jlooeuRj1C0DUesiFQdYPQOn
-         7gBzBMLVG4ey+Y2HFPs+TEP4c5xMyeb8EFvsv/5qGP6Y1ra/xldI/YhZd5PiZYVKJreT
-         9HwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jrGgy+PH692lFsYF+dtk7dWio1nqD2I64lL7+wih4a8=;
-        b=ap80NQ1gVv1Vr9ffRKAZnMhmpEKbXVdw7KCETZ3Zyl4+FZWAOSi7JNbw24StCqlcrc
-         MIxz8iu9v6lUK9kSfOsA9R0jhIvviEzxhodUEqX8I5wRbm2g9is0eEA7dO2HZ7V1emBA
-         zV0X/KOuooo1EevQ0NPkYLrKgia1VIK6KTFFwp4rjZEedsjwRMJtSslU3Q/nq8NIaavL
-         B15G3xLcsOCDT0h8kMx2W+CcKHxBmbT7+TYAeZu5zvlMBFtf3zh05gi2YoOv1UJ9YeqB
-         r0JXad7XzLNLOpKjxpzJQYh2JaSblq1Ng4THNAZwhPit+X/Xeipz9iRWrjsFn9EyyuFA
-         mWmA==
-X-Gm-Message-State: AOAM532L7weT69jGcd7AHJ7g3NBOy0+H/6NimnThfnep1Y/iwR1VlxyC
-        PFSb9NmmIXBRy8MTCmcm+zqjog==
-X-Google-Smtp-Source: ABdhPJwOt3C8JBzWvWP9ZBSLuDdffF2lB32gd6PKxfF9FArTmlC1qflYGl5xnT+8PL6XweEjZG5ZcQ==
-X-Received: by 2002:adf:ed0c:0:b0:210:e82:898 with SMTP id a12-20020adfed0c000000b002100e820898mr5148595wro.399.1653648969762;
-        Fri, 27 May 2022 03:56:09 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id v18-20020adfebd2000000b0020c5253d8besm1451810wrn.10.2022.05.27.03.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 03:56:09 -0700 (PDT)
-Date:   Fri, 27 May 2022 11:56:07 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     ChiYuan Huang <u0084500@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>, jingoohan1@gmail.com,
-        Pavel Machek <pavel@ucw.cz>, deller@gmx.de,
-        cy_huang <cy_huang@richtek.com>, lucas_tsai@richtek.com,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] backlight: rt4831: Add the property parsing for ocp
- level selection
-Message-ID: <20220527105607.gk5ge77byuojxkkc@maple.lan>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-3-git-send-email-u0084500@gmail.com>
- <20220526100510.3utwh5bov4ax2jmg@maple.lan>
- <CADiBU3_3rJ6uCYx_W+TZJpuPzGtt61QEDwZWtxy_abzynTr8VQ@mail.gmail.com>
+        with ESMTP id S242364AbiE0L1J (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 May 2022 07:27:09 -0400
+X-Greylist: delayed 1080 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 04:27:08 PDT
+Received: from mail.composit.net (mail.composit.net [195.49.185.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D0E185BD30;
+        Fri, 27 May 2022 04:27:08 -0700 (PDT)
+Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
+        by mail.composit.net (Proxmox) with ESMTP id 0ACDE391FD1;
+        Fri, 27 May 2022 14:05:13 +0300 (MSK)
+Received: from mail.composit.net (unknown [192.168.101.14])
+        by mail.composit.net (Proxmox) with SMTP id CDEAE38148D;
+        Fri, 27 May 2022 14:05:12 +0300 (MSK)
+Received: from [192.168.1.105] (Unknown [197.234.219.23])
+        by mail.composit.net with ESMTPSA
+        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
+        ; Fri, 27 May 2022 14:05:13 +0300
+Message-ID: <568F1AC1-C3B1-44C5-88DB-F07F62F69E78@mail.composit.net>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADiBU3_3rJ6uCYx_W+TZJpuPzGtt61QEDwZWtxy_abzynTr8VQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Greetings From Ukraine.  
+To:     Recipients <heiss@dnet.it>
+From:   "Kostiantyn Chichkov" <heiss@dnet.it>
+Date:   Fri, 27 May 2022 12:04:38 +0100
+Reply-To: kostiantync@online.ee
+X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,RCVD_IN_SBL,
+        RCVD_IN_SORBS_WEB,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, May 27, 2022 at 10:24:42AM +0800, ChiYuan Huang wrote:
-> Daniel Thompson <daniel.thompson@linaro.org> 於 2022年5月26日 週四 下午6:05寫道：
-> >
-> > On Thu, May 26, 2022 at 11:16:35AM +0800, cy_huang wrote:
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > Add the property parsing for ocp level selection.
-> >
-> > Isn't this just restating the Subject: line?
-> >
-> Ah, that's my fault. I didn't state too much in the patch comment.
-> I only left it in the cover letter.
-> 
-> > It would be better to provide information useful to the reviewer here.
-> > Something like:
-> >
-> > "Currently this driver simply inherits whatever over-current protection
-> > level is programmed into the hardware when it is handed over. Typically
-> > this will be the reset value, <whatever>A, although the bootloader could
-> > have established a different value.
-> >
-> > Allow the correct OCP value to be provided by the DT."
-> >
-> > BTW please don't uncritically copy the above into the patch header. It is
-> > just made something up as an example and I did no fact checking...
-> >
-> OK, got it.
-> >
-> > >
-> > > Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
-> > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > ---
-> > >  drivers/video/backlight/rt4831-backlight.c | 13 +++++++++++++
-> > >  1 file changed, 13 insertions(+)
-> > >
-> > > diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
-> > > index 42155c7..c81f7d9 100644
-> > > --- a/drivers/video/backlight/rt4831-backlight.c
-> > > +++ b/drivers/video/backlight/rt4831-backlight.c
-> > > @@ -12,6 +12,7 @@
-> > >  #define RT4831_REG_BLCFG     0x02
-> > >  #define RT4831_REG_BLDIML    0x04
-> > >  #define RT4831_REG_ENABLE    0x08
-> > > +#define RT4831_REG_BLOPT2    0x11
-> > >
-> > >  #define RT4831_BLMAX_BRIGHTNESS      2048
-> > >
-> > > @@ -23,6 +24,8 @@
-> > >  #define RT4831_BLDIML_MASK   GENMASK(2, 0)
-> > >  #define RT4831_BLDIMH_MASK   GENMASK(10, 3)
-> > >  #define RT4831_BLDIMH_SHIFT  3
-> > > +#define RT4831_BLOCP_MASK    GENMASK(1, 0)
-> > > +#define RT4831_BLOCP_SHIFT   0
-> > >
-> > >  struct rt4831_priv {
-> > >       struct device *dev;
-> > > @@ -120,6 +123,16 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
-> > >       if (ret)
-> > >               return ret;
-> > >
-> > > +     ret = device_property_read_u8(dev, "richtek,bled-ocp-sel", &propval);
-> > > +     if (ret)
-> > > +             propval = RT4831_BLOCPLVL_1P2A;
-> >
-> > Is 1.2A the reset value for the register?
-> Yes, it's the HW default value.
-> >
-> > Additionally, it looks like adding a hard-coded default would cause
-> > problems for existing platforms where the bootloader doesn't use
-> > richtek,bled-ocp-sel and pre-configures a different value itself.
-> >
-> > Would it be safer (in terms of working nicely with older bootloaders)
-> > to only write to the RT4831_BLOCP_MASK if the new property is set?
-> >
-> Ah, my excuse. I really didn't consider the case that you mentioned.
-> It seems it's better to do the judgement here for two cases.
-> 1) property not exist, keep the current HW value
-> 2) property exist, clamp align and update the suitable selector to HW.
+Good Morning,
 
-Ok, great.
+We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
 
-When you make this change can you make sure there is a comment in the
-source code explaining that concerns about older firmware is *why* we
-treat bled-ocp-sel differently to bled-ovp-sel!
+Thank you.
+
+Yours expectantly,
+
+Kostiantyn Chichkov & Ms. Maryna Chudnovska,
+From Ukraine.
 
 
-Thanks
-
-Daniel.
