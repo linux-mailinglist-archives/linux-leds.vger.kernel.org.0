@@ -2,59 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3ED5397DA
-	for <lists+linux-leds@lfdr.de>; Tue, 31 May 2022 22:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D2E1539828
+	for <lists+linux-leds@lfdr.de>; Tue, 31 May 2022 22:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347498AbiEaUPK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 May 2022 16:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
+        id S1347802AbiEaUiq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 May 2022 16:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347336AbiEaUPD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 May 2022 16:15:03 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1700980AE
-        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:15:01 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id z7so8199571edm.13
-        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:15:01 -0700 (PDT)
+        with ESMTP id S1347797AbiEaUip (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 May 2022 16:38:45 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F1964DB
+        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:38:35 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id b8so11129476edf.11
+        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=oFtwwjCwLQncprSW0uxMAdDJMdxwLty5X6vUURCLEwk=;
-        b=ITMWpvDnZ+RR0dXG8wMy2xR2rl4TYKiJPd4P2ee+6b+YSNrXIfd5C5/sxHiIaiV8l/
-         Rr8j5rbfZJQdWDicbqJLULlJ8a1LPJtojDk9pZRk5GN9Grou5i7tAHjAOnAm+43fQbft
-         AItTPaS/anUqkjrgHeA8gWiVTOnJVpyYwkX4kWPrZRx3KFfTtM/N/iDSPeACILsT4aQf
-         M3SWSLCBTTSyyMcH3BloOhEZjIv4V9qKLVXjfngWe+ZrAh5pvVrbUk/ZDUnhXwaHIcji
-         8VSjsm3e2xhEeVQO89RSDtV5LDweV0ruYx2PZwybiDHSYQi1HJRfQptttYSjG2nvuBwD
-         fRkw==
+        bh=LnHG31HXQfKnbhGg7cjs5q5dHO7sV+EO7splsWy9LeQ=;
+        b=G4bpmdn50HXz387vl8R3y2JvcN1BMO8J4TnlELbvBC3hch09KoDJys8Gb1VxVKVfMp
+         WF4/5Bl7r3o0N8kDIFXar10RdRAF2ERfMar+yaboTm27MUMOFUcQYMywTvJn4plszWu8
+         Ezu6XeSDZVZvjILJcLyo9KEkUpJBiujNlQNxKeqylfN4Z1m0gwC/cw2quZMAy9Tl2zNe
+         8VT/AW2zGVespv4TQu1Zz7OhJPEKNhKrS9X+3H43j6OKle3lQ4bHS3gfG7NjX7SzzA4Y
+         6dd+Ty88BqnmRjplgHfH6NgwyQ/L5t4nymBrZrAKk05FYWSm/8zJsHLfWc7dmq7YPoJ5
+         1mTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=oFtwwjCwLQncprSW0uxMAdDJMdxwLty5X6vUURCLEwk=;
-        b=EgKGAYPXsw+9nfoonfNQSEUWu1RfaBPtqXpQq9glIx1tMYPWbNioSoCvuGBOjk6l8l
-         5l3ivyz8MPps6CK9nWY6E+u6WXuJaiYvZ22aSgDw0Run59IDG0Muc4nLpU9jSJKTstRb
-         8Dbk+ElQGAuELpFR0QaNjabbHQXqBGeK6wvWOV3a2P/OiWYmrGzEVnTlTbyOKkSldKZk
-         cUxddy3dGJQoEsy9SpLhtSCC5zOG4fDMA1O0TTdK0Maw1nqrC7+OoG3LX7+TnBMhSVn+
-         YSE2RFeY7734OXm/+YjW6TThxbw9YFfOs014vkQKYK8Woy28pGJIZ5TIICCUkPj368Ck
-         TBVA==
-X-Gm-Message-State: AOAM531xo5x5FATd6RvoBCmALES8XuZLChc0GC/lEOxheSc15AgIEY6f
-        BEhh3oCATZONgthmFt+irXs6fg==
-X-Google-Smtp-Source: ABdhPJxh3X5a34X2qfUbuwM7ahlfxQCxIkomDGMgER9D0LcMD1yvEUBK+ewRUPxHTf67kQQv6tje2Q==
-X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id b1-20020aa7d481000000b0042dd5fdf963mr10752639edr.209.1654028100222;
-        Tue, 31 May 2022 13:15:00 -0700 (PDT)
+        bh=LnHG31HXQfKnbhGg7cjs5q5dHO7sV+EO7splsWy9LeQ=;
+        b=lY5fz9U+nfZyLTbNrwt9cEtdE6go/vVapI4Ic3FTILqbixpMZm2Vcpeq5r2qm0z+fa
+         FIwWLBZcGxhceEa+kZ6XyRq6qkr9cAbYuDSiXbQitU9PsuCcRVcZmSUYEp7j8JV95pGc
+         Zk1sQ691CfQnOT6h7m5Hck7jv/oehda5MgvTK7XHWKZtG2OxtyB9fKYLet4Ft/XduiLf
+         fd/GPUjWaODCDdKyzmWU9ZuQs2LKEm96vI1VaukwT6TlwE6GUjLKhxS26br4J2USjYul
+         8lXdM+oSKC+d6yWTFMJ5DaiceSyT901q873fgQx/2jupOZci7K4vRd9sKXv8FpgJuk82
+         uZBw==
+X-Gm-Message-State: AOAM532k+dyiV22DargTb+UUuIjBHLqEqQWBvbCS8tZrFKVFCdhJuwo/
+        hnOzsBSCNscjoSYKBphFYyTKbA==
+X-Google-Smtp-Source: ABdhPJxkgTOHGDh/+1ZlJUDIpeS1F3D633+ql1GnhfBUpZG6Av5LP8dRbdIOBf6rA5kXSNJ0tE0G7w==
+X-Received: by 2002:a05:6402:1f0f:b0:42d:d4a5:a38c with SMTP id b15-20020a0564021f0f00b0042dd4a5a38cmr10987637edb.140.1654029514252;
+        Tue, 31 May 2022 13:38:34 -0700 (PDT)
 Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id i24-20020a170906091800b006ff05d4726esm5251077ejd.50.2022.05.31.13.14.58
+        by smtp.gmail.com with ESMTPSA id 12-20020a50874c000000b0042bc5a536edsm9094727edv.28.2022.05.31.13.38.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 May 2022 13:14:59 -0700 (PDT)
-Message-ID: <33a797d7-ca60-5153-2ba1-3a909fcc5965@linaro.org>
-Date:   Tue, 31 May 2022 22:14:58 +0200
+        Tue, 31 May 2022 13:38:33 -0700 (PDT)
+Message-ID: <0036b3f3-fdf8-4635-18e9-461b93a87f19@linaro.org>
+Date:   Tue, 31 May 2022 22:38:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 10/14] dt-bindings: power: supply: Add Mediatek MT6370
- Charger binding documentation
+Subject: Re: [PATCH 11/14] dt-bindings: leds: mt6370: Add Mediatek mt6370
+ indicator documentation
 Content-Language: en-US
 To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
         daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
@@ -71,9 +71,9 @@ Cc:     cy_huang@richtek.com, alice_chen@richtek.com,
         linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
 References: <20220531104211.17106-1-peterwu.pub@gmail.com>
- <20220531104211.17106-2-peterwu.pub@gmail.com>
+ <20220531104211.17106-3-peterwu.pub@gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220531104211.17106-2-peterwu.pub@gmail.com>
+In-Reply-To: <20220531104211.17106-3-peterwu.pub@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,101 +87,92 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 31/05/2022 12:42, ChiaEn Wu wrote:
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
+> From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-
-Subject - remove "binding documentation". It's already implied by prefix.
-
-> Add Mediatek MT6370 Charger binding documentation.
+> Add Mediatek mt6370 indicator documentation.
 > 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 > ---
->  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
->  1 file changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+>  .../leds/mediatek,mt6370-indicator.yaml       | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+> diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
 > new file mode 100644
-> index 000000000000..9d5c4487ca9c
+> index 000000000000..823be3add097
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> @@ -0,0 +1,60 @@
+> +++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+> @@ -0,0 +1,57 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
+> +$id: http://devicetree.org/schemas/leds/mediatek,mt6370-indicator.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Mediatek MT6370 Battery Charger
+> +title: LED driver for MT6370 PMIC from MediaTek Integrated.
 > +
 > +maintainers:
-> +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> +  - Alice Chen <alice_chen@richtek.com>
 > +
 > +description: |
 > +  This module is part of the MT6370 MFD device.
-> +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+> +  see Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+> +  Add MT6370 LED driver include 4-channel RGB LED support Register/PWM/Breath Mode
 > +
 > +properties:
 > +  compatible:
-> +    const: mediatek,mt6370-charger
+> +    const: mediatek,mt6370-indicator
 > +
-> +  interrupts:
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^(multi-)?led@[0-3]$":
 > +    description: |
-> +      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
-> +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
-> +      are required.
-> +    items:
-> +      - description: BC1.2 done irq for mt6370 charger
-> +      - description: usb plug in irq for mt6370 charger
-> +      - description: mivr irq for mt6370 charger
+> +      Properties for a single LED.
 
-s/for mt6370 charger//
-in each item
+Not useful description. Just skip it, I think schema allows it.
 
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: attach_i
-> +      - const: uvp_d_evt
-> +      - const: mivr
-> +
-> +  io-channels:
-> +    description: |
-> +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC channel
-> +      is required.
-
-Constraints (e.g. maxItems) are needed.
-
-> +
-> +  usb-otg-vbus:
-
-Let's keep the same name as in MT6360:
-
-usb-otg-vbus-regulator
+> +    $ref: common.yaml#
 > +    type: object
-> +    description: OTG boost regulator.
-> +    $ref: /schemas/regulator/regulator.yaml#
 > +
 > +    properties:
-> +      enable-gpio:
-> +        maxItems: 1
+> +      reg:
 > +        description: |
-> +          Specify a valid 'enable' gpio for the regulator and it's optional
+> +          Index of the LED.
 
-This description is pointless - does not bring any more information. You
-repeat the schema. Please, avoid such descriptions.
+The same, regs are usually not described.
 
+> +        enum:
+> +          - 0 # LED output ISINK1
+> +          - 1 # LED output ISINK2
+> +          - 2 # LED output ISINK3
+> +          - 3 # LED output ISINK4
+> +
+> +      mediatek,soft-start:
+> +        description: |
+> +          soft start step control, support /0.5ms/1ms/1.5ms/2ms.
+
+Why here you start sentence lower-case?
+
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [0, 1, 2, 3]
+
+This has to be in logical values, so in ms, not in some register values.
+Use proper unit suffix and enumerate the actual values.
+
+> +
+> +    unevaluatedProperties: false
 > +
 > +required:
 > +  - compatible
-> +  - interrupts
-> +  - interrupt-names
-> +  - io-channels
+> +  - "#address-cells"
+> +  - "#size-cells"
 > +
 > +additionalProperties: false
-
-
-How about example? Or is it going to be in MFD schema?
 
 
 Best regards,
