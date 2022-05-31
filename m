@@ -2,146 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB5955397BE
-	for <lists+linux-leds@lfdr.de>; Tue, 31 May 2022 22:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3ED5397DA
+	for <lists+linux-leds@lfdr.de>; Tue, 31 May 2022 22:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244324AbiEaUGY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 May 2022 16:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52584 "EHLO
+        id S1347498AbiEaUPK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 May 2022 16:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233062AbiEaUGX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 May 2022 16:06:23 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0800669B76;
-        Tue, 31 May 2022 13:06:21 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 913131C0B82; Tue, 31 May 2022 22:06:19 +0200 (CEST)
-Date:   Tue, 31 May 2022 22:06:19 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs changes for v5.19-rc1
-Message-ID: <20220531200619.GA8906@duo.ucw.cz>
+        with ESMTP id S1347336AbiEaUPD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 May 2022 16:15:03 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1700980AE
+        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:15:01 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id z7so8199571edm.13
+        for <linux-leds@vger.kernel.org>; Tue, 31 May 2022 13:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=oFtwwjCwLQncprSW0uxMAdDJMdxwLty5X6vUURCLEwk=;
+        b=ITMWpvDnZ+RR0dXG8wMy2xR2rl4TYKiJPd4P2ee+6b+YSNrXIfd5C5/sxHiIaiV8l/
+         Rr8j5rbfZJQdWDicbqJLULlJ8a1LPJtojDk9pZRk5GN9Grou5i7tAHjAOnAm+43fQbft
+         AItTPaS/anUqkjrgHeA8gWiVTOnJVpyYwkX4kWPrZRx3KFfTtM/N/iDSPeACILsT4aQf
+         M3SWSLCBTTSyyMcH3BloOhEZjIv4V9qKLVXjfngWe+ZrAh5pvVrbUk/ZDUnhXwaHIcji
+         8VSjsm3e2xhEeVQO89RSDtV5LDweV0ruYx2PZwybiDHSYQi1HJRfQptttYSjG2nvuBwD
+         fRkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oFtwwjCwLQncprSW0uxMAdDJMdxwLty5X6vUURCLEwk=;
+        b=EgKGAYPXsw+9nfoonfNQSEUWu1RfaBPtqXpQq9glIx1tMYPWbNioSoCvuGBOjk6l8l
+         5l3ivyz8MPps6CK9nWY6E+u6WXuJaiYvZ22aSgDw0Run59IDG0Muc4nLpU9jSJKTstRb
+         8Dbk+ElQGAuELpFR0QaNjabbHQXqBGeK6wvWOV3a2P/OiWYmrGzEVnTlTbyOKkSldKZk
+         cUxddy3dGJQoEsy9SpLhtSCC5zOG4fDMA1O0TTdK0Maw1nqrC7+OoG3LX7+TnBMhSVn+
+         YSE2RFeY7734OXm/+YjW6TThxbw9YFfOs014vkQKYK8Woy28pGJIZ5TIICCUkPj368Ck
+         TBVA==
+X-Gm-Message-State: AOAM531xo5x5FATd6RvoBCmALES8XuZLChc0GC/lEOxheSc15AgIEY6f
+        BEhh3oCATZONgthmFt+irXs6fg==
+X-Google-Smtp-Source: ABdhPJxh3X5a34X2qfUbuwM7ahlfxQCxIkomDGMgER9D0LcMD1yvEUBK+ewRUPxHTf67kQQv6tje2Q==
+X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id b1-20020aa7d481000000b0042dd5fdf963mr10752639edr.209.1654028100222;
+        Tue, 31 May 2022 13:15:00 -0700 (PDT)
+Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id i24-20020a170906091800b006ff05d4726esm5251077ejd.50.2022.05.31.13.14.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 May 2022 13:14:59 -0700 (PDT)
+Message-ID: <33a797d7-ca60-5153-2ba1-3a909fcc5965@linaro.org>
+Date:   Tue, 31 May 2022 22:14:58 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 10/14] dt-bindings: power: supply: Add Mediatek MT6370
+ Charger binding documentation
+Content-Language: en-US
+To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de
+Cc:     cy_huang@richtek.com, alice_chen@richtek.com,
+        chiaen_wu@richtek.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
+References: <20220531104211.17106-1-peterwu.pub@gmail.com>
+ <20220531104211.17106-2-peterwu.pub@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220531104211.17106-2-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 31/05/2022 12:42, ChiaEn Wu wrote:
+> From: ChiaEn Wu <chiaen_wu@richtek.com>
+> 
 
---k+w/mQv8wyuph6w0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Subject - remove "binding documentation". It's already implied by prefix.
 
-The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+> Add Mediatek MT6370 Charger binding documentation.
+> 
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> ---
+>  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+> new file mode 100644
+> index 000000000000..9d5c4487ca9c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT6370 Battery Charger
+> +
+> +maintainers:
+> +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> +
+> +description: |
+> +  This module is part of the MT6370 MFD device.
+> +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6370-charger
+> +
+> +  interrupts:
+> +    description: |
+> +      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
+> +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
+> +      are required.
+> +    items:
+> +      - description: BC1.2 done irq for mt6370 charger
+> +      - description: usb plug in irq for mt6370 charger
+> +      - description: mivr irq for mt6370 charger
 
-  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+s/for mt6370 charger//
+in each item
 
-are available in the Git repository at:
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: attach_i
+> +      - const: uvp_d_evt
+> +      - const: mivr
+> +
+> +  io-channels:
+> +    description: |
+> +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC channel
+> +      is required.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-5.19-rc1
+Constraints (e.g. maxItems) are needed.
 
-for you to fetch changes up to e98a860f65428a3cae7ed7b3e8ebcf6320d7fc5e:
+> +
+> +  usb-otg-vbus:
 
-  leds: qcom-lpg: Require pattern to follow documentation (2022-05-24 22:08=
-:10 +0200)
+Let's keep the same name as in MT6360:
 
-----------------------------------------------------------------
-LED updates for 5.19. Most significant here is driver for Qualcomm
-LPG. Apparently it drives backlight on some boards, so it is quite
-important for some people.
+usb-otg-vbus-regulator
+> +    type: object
+> +    description: OTG boost regulator.
+> +    $ref: /schemas/regulator/regulator.yaml#
+> +
+> +    properties:
+> +      enable-gpio:
+> +        maxItems: 1
+> +        description: |
+> +          Specify a valid 'enable' gpio for the regulator and it's optional
 
-----------------------------------------------------------------
-Bjorn Andersson (3):
-      dt-bindings: leds: Add Qualcomm Light Pulse Generator binding
-      leds: Add driver for Qualcomm LPG
-      leds: qcom-lpg: Require pattern to follow documentation
+This description is pointless - does not bring any more information. You
+repeat the schema. Please, avoid such descriptions.
 
-Johan Hovold (1):
-      leds: qcom-lpg: add missing PWM dependency
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +  - interrupt-names
+> +  - io-channels
+> +
+> +additionalProperties: false
 
-Linus Walleij (3):
-      dt-bindings: leds: Add regulator-led binding
-      leds: regulator: Add dev helper variable
-      leds: regulator: Make probeable from device tree
 
-Markuss Broks (3):
-      leds: ktd2692: Avoid duplicate error messages on probe deferral
-      dt-bindings: leds: convert ktd2692 bindings to yaml
-      leds: ktd2692: Make aux-gpios optional
+How about example? Or is it going to be in MFD schema?
 
-Satya Priya (2):
-      dt-bindings: leds: Add pm8350c pmic support
-      leds: Add pm8350c support to Qualcomm LPG driver
 
-Sven Schwermer (4):
-      dt-bindings: leds: Optional multi-led unit address
-      dt-bindings: leds: Add multicolor PWM LED bindings
-      leds: Add PWM multicolor driver
-      leds: Move pwm-multicolor driver into rgb directory
-
-Uwe Kleine-K=F6nig (3):
-      leds: pca9532: Make pca9532_destroy_devices() return void
-      leds: is31fl32xx: Improve error reporting in .remove()
-      leds: lp50xx: Remove duplicated error reporting in .remove()
-
- .../devicetree/bindings/leds/kinetic,ktd2692.yaml  |   87 ++
- .../bindings/leds/leds-class-multicolor.yaml       |    2 +-
- .../devicetree/bindings/leds/leds-ktd2692.txt      |   50 -
- .../bindings/leds/leds-pwm-multicolor.yaml         |   79 ++
- .../devicetree/bindings/leds/leds-qcom-lpg.yaml    |  174 +++
- .../devicetree/bindings/leds/regulator-led.yaml    |   55 +
- Documentation/leds/leds-qcom-lpg.rst               |   78 ++
- drivers/leds/Kconfig                               |    3 +
- drivers/leds/Makefile                              |    3 +
- drivers/leds/flash/leds-ktd2692.c                  |   15 +-
- drivers/leds/leds-is31fl32xx.c                     |    8 +-
- drivers/leds/leds-lp50xx.c                         |    4 +-
- drivers/leds/leds-pca9532.c                        |   11 +-
- drivers/leds/leds-regulator.c                      |   47 +-
- drivers/leds/rgb/Kconfig                           |   29 +
- drivers/leds/rgb/Makefile                          |    4 +
- drivers/leds/rgb/leds-pwm-multicolor.c             |  186 +++
- drivers/leds/rgb/leds-qcom-lpg.c                   | 1451 ++++++++++++++++=
-++++
- 18 files changed, 2193 insertions(+), 93 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/kinetic,ktd2692.=
-yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-ktd2692.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm-multico=
-lor.yaml
- create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.ya=
-ml
- create mode 100644 Documentation/devicetree/bindings/leds/regulator-led.ya=
-ml
- create mode 100644 Documentation/leds/leds-qcom-lpg.rst
- create mode 100644 drivers/leds/rgb/Kconfig
- create mode 100644 drivers/leds/rgb/Makefile
- create mode 100644 drivers/leds/rgb/leds-pwm-multicolor.c
- create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---k+w/mQv8wyuph6w0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYpZ1OwAKCRAw5/Bqldv6
-8kiMAJ0a5+dol+qNge3qehwHte/82RC65ACcCC28orvjHM1NNHDcod6ozzTEB3Q=
-=NHEq
------END PGP SIGNATURE-----
-
---k+w/mQv8wyuph6w0--
+Best regards,
+Krzysztof
