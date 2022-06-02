@@ -2,147 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE54653BA52
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jun 2022 15:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52F3E53BA60
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jun 2022 16:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbiFBN7B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Jun 2022 09:59:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33080 "EHLO
+        id S235682AbiFBOA3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 Jun 2022 10:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235650AbiFBN7A (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 09:59:00 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EDC98A057
-        for <linux-leds@vger.kernel.org>; Thu,  2 Jun 2022 06:58:59 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id x5so1304265edi.2
-        for <linux-leds@vger.kernel.org>; Thu, 02 Jun 2022 06:58:58 -0700 (PDT)
+        with ESMTP id S235643AbiFBOA1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 10:00:27 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AD5271781;
+        Thu,  2 Jun 2022 07:00:26 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id f9so10254962ejc.0;
+        Thu, 02 Jun 2022 07:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=xl2jygig3bKkpYx+EUxe9wQPOU+AZ5rTVngrpx7kwik=;
-        b=lLmTJ7W9nApDvWIuXiY6fGueNSV2LzEDh3RCpbYjCWfTdsUd6nWirkpfR71joEzeTv
-         0M+GXEEkJHlpG8gfW91r0dpt3mUZsHcyOUDXdlnV6/FtwvQzh2duPQw7eXEVNzHKyiRL
-         LqcMqrM9hpLhqjRnBbmj+Rw8M0t+wI5BZsKnPiZXZJdUam91mxbsYcelwR34UGsEl8Tk
-         A+NB62zpq0MZ9xxH7RelvEv4RdD//U+Jef4jDNgVZqV7587tkWpQ9XXgzVhBKJDt6zrz
-         knsrGqvAPWaqzYNGw3zP/hUI7L3h/++wvZv0PwigslLwekBejJhnRxWw2nJS4M5Tcv9Q
-         l8iA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=AYxq+mMduPBX5NXqRBF2+5IJjnwegK5vDcEeTyInUPU=;
+        b=auP1KW3KeSmMw7VIZ62/gbLMAnB923JIROgeNcNM60iNfs70SRXGH9Oh+PqNAIdl95
+         sF3KgLrJAdhJvNL5E/yTCatacqFZTuJwNSgnwpd8r3nWCcjRXQOJQGh/LEv8L8WGwDHn
+         GRMckxbpngc/1zSMfnGGQOEbWW1vqQbIAf/Fr7XQHihGGmhAIL+CXKz/Sx20mLoDFvK2
+         Mrq/lvN37tLRQTJChv3fW11X7HfKADxJn3lW1n7mcgkdAUHAPKZhMEZRqOIIvJS+CQJo
+         E9+wli3/tU0/Qxnp7IRGppAp11D6KG1QpREaRpW+RGISetT3kVGuRq7qeRk42Hciw7Be
+         LYwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=xl2jygig3bKkpYx+EUxe9wQPOU+AZ5rTVngrpx7kwik=;
-        b=kjHI1CXNsy5QPlWKOOy5HwKOO4CklVl2mtb/XGfilMLM4TBSVFWOAZZOk2ctqJ5xQx
-         eP0TVHqaDShdgDD9RsQmyrZ9SCQ5cBzLxEUeiMHunonfQkeK6lyoYy+Xiirbc65q7xGM
-         wbrDcf6GDyxfiMpb8E+UWQ42PZUYmDn+m/KTDPrujbezvCt/dsvIrmDr3UcujWdyiup+
-         0wRPpQnZ1rMrSdCeJd7hVJT5/8h/dIV2dE33x6aAnscJFQjLl4LjfAeHLhzXbXry8TDc
-         dydHCAiFnb7JRLaUNFt8kFPGno5o/06iBVFm1OogkbavmtD5hST7EmZOnM8SeFJzFcZt
-         Qdvw==
-X-Gm-Message-State: AOAM531uni8WILT4wz8gkEAgSUhfOJ5zCcGtoKqmY2wumsVVCuGlMkgT
-        mW69pyAEGJS+Xgg5uKwXx8XB2A==
-X-Google-Smtp-Source: ABdhPJzMhbKs1YwQWj4X8ECBojb/7UwLUEdrJ1vXgsV+O02awxeW+R0U7efax0xzp1uyPBM6BAySlQ==
-X-Received: by 2002:a05:6402:a41:b0:42b:e6ed:4170 with SMTP id bt1-20020a0564020a4100b0042be6ed4170mr5777371edb.344.1654178337203;
-        Thu, 02 Jun 2022 06:58:57 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id f1-20020a056402160100b0042de839eb2csm2463093edv.27.2022.06.02.06.58.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jun 2022 06:58:56 -0700 (PDT)
-Message-ID: <e3aa9c7e-bf2d-dd55-8b3f-ca51f569771d@linaro.org>
-Date:   Thu, 2 Jun 2022 15:58:55 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=AYxq+mMduPBX5NXqRBF2+5IJjnwegK5vDcEeTyInUPU=;
+        b=ND6vo9TSDcon/FmEUjE+075JxG/6ovzx/dplStXFQ+KTdj+yLHnr9f2bum1FkOT6QG
+         oTnhJbLJ654aRR8//t3d6Nuj9JOSjq+bQRbHyEkbgc3rcRkJcBvFbOJryiRxeWlqP6eC
+         9MV/dDkEe0ziWC+CMLSgisNfLOa4r45JVnOJi9NEwoZwVb+g2PFtwwj3OBG6jayL1TiL
+         I9QzTvn+RiGuc91kDYdwic2yoRFit0rkF/Apwp7X+eILLFxqvLTOOXekzIlbIqaZB3Wb
+         cnHYUnCa/OtF7wGfhSvt6N43PinmmuswWRcF404NnjEimncKk8OVkVm8nSUp9qu/hLjM
+         f6Kw==
+X-Gm-Message-State: AOAM532TKGBJY+Ss51GOm90GYOOs8uwe5JUvEN5lnjmuMC0lKo/F1SlR
+        Z4UofG7MOSLrh/iTM0EEoTIop/aumYUXFE6Gi/I=
+X-Google-Smtp-Source: ABdhPJxtpuBCKEOrj7yi3ocCsJZ0ETA3Lw0fV9RaebX5CwbyumoNpdxxmykaJXm5oH5aPRnpODJs/24H5iu7FWYfbjE=
+X-Received: by 2002:a17:907:8a27:b0:707:cc50:e790 with SMTP id
+ sc39-20020a1709078a2700b00707cc50e790mr4462180ejc.77.1654178424506; Thu, 02
+ Jun 2022 07:00:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
- for ocp level selection
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     ChiYuan Huang <u0084500@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+References: <20220531102809.11976-1-peterwu.pub@gmail.com> <20220531102809.11976-8-peterwu.pub@gmail.com>
+ <CAHp75VdUQqihr=AX-wEUD05jY1ReL63hMCL+eaqmjkN8CsS_Vg@mail.gmail.com>
+ <CA+hk2fasiriGHepNjsnPCqTMJOgAEbVHACmWrDRZY7cHPcOQqA@mail.gmail.com> <CAHp75Vf=ATRfaaaGFuuPHuQj6wTjnRPBw4W5WYfgYuUP-A-L=g@mail.gmail.com>
+In-Reply-To: <CAHp75Vf=ATRfaaaGFuuPHuQj6wTjnRPBw4W5WYfgYuUP-A-L=g@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 2 Jun 2022 15:59:48 +0200
+Message-ID: <CAHp75VdDLnisODLCpTEHdGcxCFATdJHfJWf+=GdGtYV2U_o9+g@mail.gmail.com>
+Subject: Re: [PATCH 07/14] leds: flashlight: mt6370: Add Mediatek MT6370
+ flashlight support
+To:     szuni chen <szunichen@gmail.com>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Daniel Thompson <daniel.thompson@linaro.org>,
-        jingoohan1@gmail.com, Pavel Machek <pavel@ucw.cz>, deller@gmx.de,
-        cy_huang <cy_huang@richtek.com>, lucas_tsai@richtek.com,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>, cy_huang@richtek.com,
+        alice_chen@richtek.com, chiaen_wu@richtek.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-2-git-send-email-u0084500@gmail.com>
- <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
- <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
- <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
- <20220602135604.GA2194286-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220602135604.GA2194286-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 02/06/2022 15:56, Rob Herring wrote:
-> On Thu, May 26, 2022 at 12:32:12PM +0200, Krzysztof Kozlowski wrote:
->> On 26/05/2022 10:13, ChiYuan Huang wrote:
->>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
->>>>
->>>> On 26/05/2022 05:16, cy_huang wrote:
->>>>> From: ChiYuan Huang <cy_huang@richtek.com>
->>>>>
->>>>> Add the new property for ocp level selection.
->>>>>
->>>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
->>>>> ---
->>>>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
->>>>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
->>>>>  2 files changed, 13 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>> index e0ac686..c1c59de 100644
->>>>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>> @@ -47,6 +47,14 @@ properties:
->>>>>      minimum: 0
->>>>>      maximum: 3
->>>>>
->>>>> +  richtek,bled-ocp-sel:
->>>>
->>>> Skip "sel" as it is a shortcut of selection. Name instead:
->>>> "richtek,backlight-ocp"
->>>>
->>> OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
->>> If  only this property is naming as 'backlight'. it may conflict with
->>> the others like as "richtek,bled-ovp-sel".
->>
->> Ah, no, no need.
->>
->>>>
->>>>> +    description: |
->>>>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
->>>>
->>>> Could you explain here what is OCP (unfold the acronym)?
->>> Yes. And the full name is 'over current protection'.
->>
->> Thanks and this leads to second thing - you encode register value
->> instead of logical value. This must be a logical value in mA, so
->> "richtek,bled-ocp-microamp".
-> 
-> We already have common properties for setting current of LEDs. We should 
-> use that here I think.
+On Thu, Jun 2, 2022 at 3:57 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Thu, Jun 2, 2022 at 2:07 PM szuni chen <szunichen@gmail.com> wrote:
+> > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=
+=9C=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:57=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> > > On Tue, May 31, 2022 at 1:32 PM ChiaEn Wu <peterwu.pub@gmail.com> wro=
+te:
+...
 
-It might not be exactly the same. We have "led-max-microamp" which is
-the maximum allowed current. I guess over-current protection level  is
-slightly higher (e.g. led-max-microamp + 1). IOW, led-max-microamp is
-something which still can be set and used by system/hardware. OCP should
-not.
+> > > > +       const char * const states[] =3D { "off", "keep", "on" };
+> > > > +       const char *str;
+> > > > +       int ret;
+> > > > +
+> > > > +       if (!fwnode_property_read_string(init_data->fwnode,
+> > > > +                                        "default-state", &str)) {
+> > > > +               ret =3D match_string(states, ARRAY_SIZE(states), st=
+r);
+> > > > +               if (ret < 0)
+> > > > +                       ret =3D STATE_OFF;
+> > > > +
+> > > > +               led->default_state =3D ret;
+> > > > +       }
+> > >
+> > > fwnode_property_match_string()?
+> > Sorry, but I think the use of this function is different from my target=
+.
+> > I want to read the string of the "default-state" property and figure
+> > out if the string is in the states array.
+> > But the fwnode_property_match_string aimed to figure out if the state
+> > in the property array.
+> > One is a property array and another one is a state array.
+>
+> Ah, indeed. Nevertheless you may reduce the code base by doing like
+> the following (I wonder what your code do if there is no default-state
+> property):
+>
+>   led->default_state =3D STATE_OFF; // it's by default off since
+> kzalloc(), so I don't see why we need this line at all.
+>
+>   fwnode_property_read_string(init_data->fwnode, "default-state", &str);
+>   ret =3D match_string(states, ARRAY_SIZE(states), str);
+>   if (ret >=3D 0)
+>     led->default_state =3D ret;
 
+Missed change
 
-Best regards,
-Krzysztof
+  const char *str =3D states[STATE_OFF];
+
+--=20
+With Best Regards,
+Andy Shevchenko
