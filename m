@@ -2,206 +2,127 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C29953B8BC
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jun 2022 14:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7A5F53BA30
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jun 2022 15:56:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234816AbiFBMHW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Jun 2022 08:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38618 "EHLO
+        id S235612AbiFBN4I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 Jun 2022 09:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234815AbiFBMHV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 08:07:21 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A56B1EBEEB;
-        Thu,  2 Jun 2022 05:07:20 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id i185so4597249pge.4;
-        Thu, 02 Jun 2022 05:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XwcwX6loUblFTwI5Bhmlqw2TBVsxdFoQXDJc3TovI80=;
-        b=k7esYmpY4T8Q9KWtH0jxmxeHnbiHqRF3LqvsK/4Ug3Jqt1gx+19gOZth9lZtzHsVKs
-         z65zFnDsir6/cGI09w4DESfFBhn0W5yFwcDHUhGt52REfaoXr8Lc3VEDfnfNLuP0/o4D
-         QhmI2Ziwo2TGGYdyx1kXgJ3Stahlm838VXMAuafTcApdKShsfEtVjX9TkbD+0Bn3YGXN
-         cu4WTkIfORLzLsRbi8XMZ5t129tM/R0mlJLffyFB4beE1GnzDQtiOj8V92AdJoeaUJkr
-         MOUy0Z8FtpbwiXb1/kULCSN9k82OaEpM+B4qbR683RScjbId31DRofz7DKXeQlDpP1zH
-         wMRQ==
+        with ESMTP id S231286AbiFBN4H (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 09:56:07 -0400
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E65176D46;
+        Thu,  2 Jun 2022 06:56:06 -0700 (PDT)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-f16a3e0529so6842616fac.2;
+        Thu, 02 Jun 2022 06:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XwcwX6loUblFTwI5Bhmlqw2TBVsxdFoQXDJc3TovI80=;
-        b=tgW3x3fSz6AnxVIFHcR9qdnnwznVBAKmjKHiAwjYxffPQ9R4q7YZraQlvtEZdSP1tW
-         qkHxAWOf68VL8RQ2oHHCQPl6eusjYqfZKJsc190xid659GVlBNnnSbiTeojuHbuJZcgM
-         li5B/2xYlvdjS0DIACwmTUKAXQGhQFHMkF8o9BWjMHMndH9Xsnmr7eKH1BhAaVc5NMmB
-         D+6MgkXL3TitcqSlmpsNyIBOGzmd1lmwaKNILSyt4fjKCjocM3GR86+FssmIh4q7g3Ie
-         HTtLQ9aqvgNCPRLwh0Sd3/9jgtH2IWMmU5NK83DSdccNoewua0dUVC3omDMuk1Su1+ra
-         pnaA==
-X-Gm-Message-State: AOAM531ksrFcw+pauIm8rdZe83w1GjWhIxp0jmF/kniDugr2fTIpPwrl
-        StoZIvmv2FyccOu7w3aUAdyUARBkG/O0xM5IhMs=
-X-Google-Smtp-Source: ABdhPJwLN3JLAZweJSj8I9PDnQ5t3UDnCmJ6jzOmk2NgYlJRjY/uTSAVQc8mkFdLPGGc+2hlm0r13u/yFcGFZ+aEYy0=
-X-Received: by 2002:a63:2c15:0:b0:3f6:6a5f:8f0a with SMTP id
- s21-20020a632c15000000b003f66a5f8f0amr3954364pgs.76.1654171639739; Thu, 02
- Jun 2022 05:07:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531102809.11976-1-peterwu.pub@gmail.com> <20220531102809.11976-8-peterwu.pub@gmail.com>
- <CAHp75VdUQqihr=AX-wEUD05jY1ReL63hMCL+eaqmjkN8CsS_Vg@mail.gmail.com>
-In-Reply-To: <CAHp75VdUQqihr=AX-wEUD05jY1ReL63hMCL+eaqmjkN8CsS_Vg@mail.gmail.com>
-From:   szuni chen <szunichen@gmail.com>
-Date:   Thu, 2 Jun 2022 20:07:08 +0800
-Message-ID: <CA+hk2fasiriGHepNjsnPCqTMJOgAEbVHACmWrDRZY7cHPcOQqA@mail.gmail.com>
-Subject: Re: [PATCH 07/14] leds: flashlight: mt6370: Add Mediatek MT6370
- flashlight support
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ItU4+oZlqrhVsTFDZffq1bHsfD8LPaRiGahfhp8yC6g=;
+        b=N2ctTcfyN5uG8FdwmwhEY0l1YnhGlGLA+yYeChQIhiJoRHmngGgJR7e2ROsusehLMP
+         S5DeeQf9RiNWMy0T67hlcnQVRvPrSJ40DtwCYKK8057sPlBgLI6/VFAaeRU5zWhKC9AL
+         KlmNdKE/s9d/j9koTDbNOMjriM9+hTtThZM0YM44Fx88QMM2V4oZsRagQl97eBpDde1d
+         WnwEkZTkQ00xoMvmfz3BOmHN5h3wAYiHj0nmkFjy4jwYDhwwI+c2cfrIrd00UNgPAkUV
+         OYnL3V/YaCnE0sQ12C3WbBc+JhNUmWM58E47bYmPvtDE1gGPe1AaKr0yRkObKbVQlANa
+         fuFg==
+X-Gm-Message-State: AOAM533J+eN9SUXPrvsfrw6pZWAmRyJnveOStlVuRShpUfa1gbPOWByx
+        FfIDMKb3e7NUWCG6ZTqkAg==
+X-Google-Smtp-Source: ABdhPJxg9znekohzZ8yCO9gbFG1TwRG0wCp2dzp7Q9YlFVk8Z/w1M4q2XVJue+i1UtPEKiJWdkNyqA==
+X-Received: by 2002:a05:6870:4799:b0:f1:46f8:6ea4 with SMTP id c25-20020a056870479900b000f146f86ea4mr2783044oaq.223.1654178165323;
+        Thu, 02 Jun 2022 06:56:05 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id f3-20020a05680807c300b00325cda1ffa8sm2212823oij.39.2022.06.02.06.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 06:56:04 -0700 (PDT)
+Received: (nullmailer pid 2197386 invoked by uid 1000);
+        Thu, 02 Jun 2022 13:56:04 -0000
+Date:   Thu, 2 Jun 2022 08:56:04 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     ChiYuan Huang <u0084500@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Lee Jones <lee.jones@linaro.org>,
         Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>, cy_huang@richtek.com,
-        alice_chen@richtek.com, chiaen_wu@richtek.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        jingoohan1@gmail.com, Pavel Machek <pavel@ucw.cz>, deller@gmx.de,
+        cy_huang <cy_huang@richtek.com>, lucas_tsai@richtek.com,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
+ for ocp level selection
+Message-ID: <20220602135604.GA2194286-robh@kernel.org>
+References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+ <1653534995-30794-2-git-send-email-u0084500@gmail.com>
+ <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
+ <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
+ <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Thank you for the valuable suggestion.
+On Thu, May 26, 2022 at 12:32:12PM +0200, Krzysztof Kozlowski wrote:
+> On 26/05/2022 10:13, ChiYuan Huang wrote:
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
+> >>
+> >> On 26/05/2022 05:16, cy_huang wrote:
+> >>> From: ChiYuan Huang <cy_huang@richtek.com>
+> >>>
+> >>> Add the new property for ocp level selection.
+> >>>
+> >>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> >>> ---
+> >>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
+> >>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
+> >>>  2 files changed, 13 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> index e0ac686..c1c59de 100644
+> >>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> @@ -47,6 +47,14 @@ properties:
+> >>>      minimum: 0
+> >>>      maximum: 3
+> >>>
+> >>> +  richtek,bled-ocp-sel:
+> >>
+> >> Skip "sel" as it is a shortcut of selection. Name instead:
+> >> "richtek,backlight-ocp"
+> >>
+> > OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
+> > If  only this property is naming as 'backlight'. it may conflict with
+> > the others like as "richtek,bled-ovp-sel".
+> 
+> Ah, no, no need.
+> 
+> >>
+> >>> +    description: |
+> >>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
+> >>
+> >> Could you explain here what is OCP (unfold the acronym)?
+> > Yes. And the full name is 'over current protection'.
+> 
+> Thanks and this leads to second thing - you encode register value
+> instead of logical value. This must be a logical value in mA, so
+> "richtek,bled-ocp-microamp".
 
-Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=
-=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:57=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Tue, May 31, 2022 at 1:32 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> >
-> > From: Alice Chen <alice_chen@richtek.com>
-> >
-> > Add Mediatek MT6370 flashlight support
->
-> Same comments about the commit message.
->
-> ...
->
-> > +#include <linux/platform_device.h>
-> > +#include <linux/property.h>
-> > +#include <linux/regmap.h>
->
-> + blank line?
-Thanks, this will be refined in the new version.
->
-> > +#include <media/v4l2-flash-led-class.h>
->
-> + blank line
-Thanks, this will be refined in the new version.
->
-> > +enum {
-> > +       MT6370_LED_FLASH1,
-> > +       MT6370_LED_FLASH2,
-> > +       MT6370_MAX_LEDS
-> > +};
->
-> ...
->
-> > +       struct mt6370_led *led =3D container_of(fl_cdev, struct mt6370_=
-led,
-> > +                                             flash);
->
-> > +       struct mt6370_led *led =3D container_of(fl_cdev, struct mt6370_=
-led,
-> > +                                             flash);
->
-> Make a helper out of this
->
->   #define to_mt637_led()  container_of()
->
-> and reuse.
-Thanks, this will be refined in the new version.
->
-> ...
->
-> > +       /*
-> > +        * For the flash turn on/off, HW rampping up/down time is 5ms/5=
-00us,
->
-> ramping
->
-> > +        * respectively
->
-> Period!
-Thanks, this will be refined in the new version.
->
-> > +        */
->
-> ...
->
-> > +       const char * const states[] =3D { "off", "keep", "on" };
-> > +       const char *str;
-> > +       int ret;
-> > +
-> > +       if (!fwnode_property_read_string(init_data->fwnode,
-> > +                                        "default-state", &str)) {
-> > +               ret =3D match_string(states, ARRAY_SIZE(states), str);
-> > +               if (ret < 0)
-> > +                       ret =3D STATE_OFF;
-> > +
-> > +               led->default_state =3D ret;
-> > +       }
->
-> fwnode_property_match_string()?
-Sorry, but I think the use of this function is different from my target.
-I want to read the string of the "default-state" property and figure
-out if the string is in the states array.
-But the fwnode_property_match_string aimed to figure out if the state
-in the property array.
-One is a property array and another one is a state array.
->
-> ...
->
-> > +       if (!count || count > MT6370_MAX_LEDS) {
-> > +               dev_err(&pdev->dev,
-> > +               "No child node or node count over max led number %lu\n"=
-, count);
-> > +               return -EINVAL;
->
-> return dev_err_probe(...);
-Thanks, will refine in the new version
->
-> > +       }
->
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
-Sincerely,
-Alice Chen
+We already have common properties for setting current of LEDs. We should 
+use that here I think.
+
+Rob
