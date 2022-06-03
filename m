@@ -2,102 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA6C53CAEF
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jun 2022 15:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2BD753CCB4
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jun 2022 17:54:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244833AbiFCNxa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Jun 2022 09:53:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
+        id S1343497AbiFCPyN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Jun 2022 11:54:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242859AbiFCNx3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jun 2022 09:53:29 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C98A3669D;
-        Fri,  3 Jun 2022 06:53:28 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 938C61C0B9B; Fri,  3 Jun 2022 15:53:26 +0200 (CEST)
-Date:   Fri, 3 Jun 2022 15:53:26 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: Add leds-qcom-lpg entry to documentation table of
- contents
-Message-ID: <20220603135326.GA14636@duo.ucw.cz>
-References: <20220603025735.17953-1-bagasdotme@gmail.com>
- <87bkv9x3qu.fsf@meer.lwn.net>
+        with ESMTP id S237935AbiFCPyL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jun 2022 11:54:11 -0400
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FD3632B;
+        Fri,  3 Jun 2022 08:54:07 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.108.20.220])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 39DFA10791211;
+        Fri,  3 Jun 2022 17:54:05 +0200 (CEST)
+Received: from localhost.localdomain (88.161.25.233) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 3 Jun 2022
+ 17:54:04 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <pavel@ucw.cz>, <krzk+dt@kernel.org>
+CC:     <robh+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v2 0/3] Add support for the TLC5925
+Date:   Fri, 3 Jun 2022 17:53:29 +0200
+Message-ID: <20220603155332.112272-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
-Content-Disposition: inline
-In-Reply-To: <87bkv9x3qu.fsf@meer.lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG8EX1.emp2.local (172.16.2.81) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 3358840900190091739
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjeeuhfeklefghfelhfethfegkedtvedvgfekledtheegueejuedtheekuefhffdtnecukfhppedtrddtrddtrddtpdekkedrudeiuddrvdehrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehprhhovddrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhohedvke
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This series add the support for the TLC5925 LED controller.
+This LED controller is driven though SPI. There is little internal logic
+and it can be thought of as a deserializer + latches.
+The TLC5925 itself drives up to 16 LEDs, but multiple TLC5925s can be
+chained to drive more.
 
---ZPt4rx8FFjLCG7dd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The first patch describes the dt bindings.
+The second patch implements most of the driver and supports only
+synchronous brightness setting (brightness_set_blocking).
+The last patch implements the non-blocking version (brightness_set).
 
-Hi!
+changes v1->v2:
+ * renamed property shift_register_length into shift-register-length
+ * add a SPI MODULE_DEVICE_TABLE structure
+ * fixed the yaml description of the bindings (now passes dt_binding_check)
 
-> > After merging linux-leds tree to the mainline [1], htmldocs build produ=
-ces
-> > a new warning:
-> >
-> > checking consistency... /home/bagas/repo/linux-stable/Documentation/led=
-s/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
-> >
-> > The warning above is because leds-qcom-lpg.rst is missing in the table =
-of
-> > contents.
-> >
-> > Add the missing entry.
->=20
-> The fix is good but ...
->=20
-> > [1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
-> >
-> > Fixes: e98a860f65428a ("leds: qcom-lpg: Require pattern to follow docum=
-entation")
->=20
-> ...I'm confused as to why you used that commit for a Fixes: tag.  It
-> touched the file in question but didn't add it in the first place; I
-> think 24e2d05d1b68 is the droid you're looking for.
+Jean-Jacques Hiblot (3):
+  dt-bindings: leds: Add bindings for the TLC5925 controller
+  leds: Add driver for the TLC5925 LED controller
+  leds: tlc5925: Add support for non blocking operations
 
-Not sure if that is important, we don't need this in stable, do we?
+ .../devicetree/bindings/leds/ti,tlc5925.yaml  | 106 +++++++++
+ drivers/leds/Kconfig                          |   6 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-tlc5925.c                   | 223 ++++++++++++++++++
+ 4 files changed, 336 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+ create mode 100644 drivers/leds/leds-tlc5925.c
 
-Anyway
+-- 
+2.25.1
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
-=2E.. and I assume it goes through your tree?
-
-Best regards,
-								Pavel
-
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---ZPt4rx8FFjLCG7dd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYpoSVgAKCRAw5/Bqldv6
-8nIWAKCWcLLIJQ32FCX2NeS6MLnFdl8klACdF6zcYv7cWK9iP753o88ODVFFAJk=
-=Hiy/
------END PGP SIGNATURE-----
-
---ZPt4rx8FFjLCG7dd--
