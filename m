@@ -2,85 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60BA053BF3D
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Jun 2022 22:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF1F753C359
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jun 2022 04:57:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234632AbiFBUCp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Jun 2022 16:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36862 "EHLO
+        id S234935AbiFCC5w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 Jun 2022 22:57:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239084AbiFBUC3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 16:02:29 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Jun 2022 13:02:27 PDT
-Received: from smtp687out9.mel.oss-core.net (smtp687out9.mel.oss-core.net [210.50.216.236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79DE2E10
-        for <linux-leds@vger.kernel.org>; Thu,  2 Jun 2022 13:02:26 -0700 (PDT)
-X-IPAS-Result: =?us-ascii?q?A2C4SQDRFZli/7NplnpaGgEBAQEBDR4LBgEBAQECAgEBA?=
- =?us-ascii?q?QECAQEBAQMBAQEBAQsJCYFGAqV9hxkbgiWJYwsBAQEhMAQBAYR4AQFZBYRzJ?=
- =?us-ascii?q?jcGDgECBAEBAQEDAgMBAQEBAQEDAQEGAQEBAQEBBgSBHIUvRoZUIAcBgVYBD?=
- =?us-ascii?q?gEehXUBAaxugTMNdIRZFIIQBAqCc4E9AYlGhV99gRCBSBCCOAGFfYNAgi4Ek?=
- =?us-ascii?q?kaEIwQbOwMhFRg0EoEhRSwBCAYGBwoFMgYCDBgUBAITElMdAhIMChwOVBkMD?=
- =?us-ascii?q?wMSAxEBBwILEggVLAgDAgMIAwIDLgIDGAkHCgMdCAoKEhIQFAIEBg0eCwgDG?=
- =?us-ascii?q?R8tCQIEDgNDCAsKAxEEAxMYCxYIEAQGAwkvDSgLAxQPAQYDBgIFBQEDIAMUA?=
- =?us-ascii?q?wUnBwMhBwsmDQ0EIx0DAwUmAwICGwcCAgMCBhcGAgJxCigNCAQIBAwQHSUTB?=
- =?us-ascii?q?QIHMQUELwIeBAUGEQkCFgIGBAUCBAQWAgISCAIIJxsHFjYZAQUOTwYLCSEcC?=
- =?us-ascii?q?SARBQYWAyNzBUgPKTU5BnwPrlKQQJ4zCoNOBSkHgQkHnkkxg2MBlxIRASeBV?=
- =?us-ascii?q?4tUlmioEoEYgX9wFYIIgRxQKJ0QgRACBgsBAQMJjwoBAQ?=
-IronPort-Data: A9a23:yLUBZ6ALmAviChVW/6Hhw5YqxClBgxIJ4kV8jS/XYbTApDp2hDwPz
- 2NNWDvXMqncamT1eNkgPYvnoEwGvp/UndY3OVdlrnsFo1Bi95OZWYzxwmQcns+2BpeeJK6yx
- 5xGMrEsFC2wJ5Pljk/F3oLJ9BGQ7onVAOulYAL4EnopH1U8Fn970UgLd9MR2+aEv/DoW2thh
- vuqyyHvEAfNN+lcaz98Bwqr8XuDjdyq0N8qlgVWicNj4Dcyo0Io4Kc3fsldGZdXrr58RYZWT
- 86bpF2wE/iwEx0FUrtJmZ6jGqEGryK70QWm0hJrt6aebhdqlBMV7qcfHcgnTBl+yD+ivvVU7
- Y4cjMnlIespFvWkdOU1bDh+VgMhEoNq0pbgfCGd2SCR5xScKT21nq0oVRlre9RHq46bAkkXn
- RAcADELYBerguuwzKP9Qe5p7igmBJmxZN5B5So9pd3fJfY8YdPIfeLu3OBjwD0StPJvEKmHP
- tVMPFKDazyFOXWjIGw/DJM4gfftgnTzaBVGp1+P46k6+W7eyEp2yreFDTbOUoXQH4AMwx7d/
- zqbuj2mU1cBKNXZ1jCf9XugjObJkWX9VZ5UHaDQGuNWvWB/D1c7UHU+PWZXa9Hg4qJic7qz8
- 3Apxxc=
-IronPort-HdrOrdr: A9a23:op7076FevuzLkmmIpLqEi8eALOsnbusQ8zAXPidKJiC9E/b1qy
- nAppUmPHPP4wr5JktBpTnoAsDpfZq7z/BICOIqV4tKMjOKhFeV
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.91,272,1647262800"; 
-   d="scan'208";a="82056735"
-Received: from 122-150-105-179.sta.wbroadband.net.au (HELO WIN-J7GFDBAO51J) ([122.150.105.179])
-  by smtp687.mel.oss-core.net with ESMTP; 03 Jun 2022 06:01:19 +1000
-From:   "Martin Otamori" <info@mandy.com>
-Subject: Acknowledge this message
-To:     <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset=iso-8859-1
+        with ESMTP id S229494AbiFCC5w (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jun 2022 22:57:52 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E05C140E5;
+        Thu,  2 Jun 2022 19:57:47 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q123so6236211pgq.6;
+        Thu, 02 Jun 2022 19:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x820pLXCsqkyIOD33ZRcyDFQsozHdZWLRbOvlupxM6Y=;
+        b=NDVs7le7eCjhAMs5Buj4u9LWNHEViT99BY68+RNb6hrQOt8/o1pD/MCcbbvF09GdkS
+         66lGkrAL9ZiLRIHQmjARe976DldUtD40tGRHxlQL6k+0ZZgYZxZs/2MQV742rWF3X4sU
+         0717vVygxtarruhlweMGXd+844loIrYlW5FuBgs2DixPa6wAsN4BnZxszR4Ll8AVU7Vs
+         iUTW8hmtdfl5dzTTaOMCXegaPLVjVqt/dyd9SfOJaw/7eemo8BCCKYKjxY6Ox0BnqPlr
+         WsHXPYyjXenSjUImK5mLlCrBkz8YZ4jNcWqRUwBZj07jIyYe0NOzatAT3N1Y9vyM6o7k
+         Utwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x820pLXCsqkyIOD33ZRcyDFQsozHdZWLRbOvlupxM6Y=;
+        b=lTf+Fz5oUNx5RH4OOXvfWjV8VjtQm0RSg6KUowIlhXYVt/VlQjj0dBFVDMFUkT/Re6
+         ejqHwKKoOXi7ow9hr83mI7vvOv1l9dArRSSZ0/uOOGX7CyI+mxAJlaZDTPB/VObZkJkA
+         Js25lh1ewsJwUMzHcnDpo1apVMesM6yR/6IvDz7SuG22uEM8nL03TtW1ftCMAJtm//Po
+         emytQGM++MstvwHBDhhYjUhOFATTgZGhe2GoZ/43B9PRrHsWtjqzQR6kunq4yRStkHwg
+         K0GwWuqxeQZwhG2WtuobNPD4cq+Dzh/UQwfBkKeZaWUPaAHJyLo9+GB6D0D51csEtQo3
+         l4HQ==
+X-Gm-Message-State: AOAM531/+WnHO2783A6RvMynJ3iX5kVOT4r/3ZUmu7UqikhSZ9MJSs8t
+        C2xYGBQp1gpoMinzMuJURo9xLzS2X1a5HA==
+X-Google-Smtp-Source: ABdhPJzd4bR4jGaSMzsYqTsWFkC6YiPrkFfEEtA93z+N5w9JNYeCWlgrqyD3vdIQRzSGf4nj3kKfxQ==
+X-Received: by 2002:a65:6e9b:0:b0:3fc:587a:6dcd with SMTP id bm27-20020a656e9b000000b003fc587a6dcdmr6833105pgb.200.1654225065976;
+        Thu, 02 Jun 2022 19:57:45 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id w16-20020a1709026f1000b00166496ba268sm1393055plk.285.2022.06.02.19.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 19:57:45 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: Add leds-qcom-lpg entry to documentation table of contents
+Date:   Fri,  3 Jun 2022 09:57:35 +0700
+Message-Id: <20220603025735.17953-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Reply-To: <okkmart68@gmail.com>
-Date:   Thu, 2 Jun 2022 13:01:15 -0700
-Message-Id: <20220206130114FB03D0BB0A-9D5164E0A9@mandy.com>
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_LOW,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?122.150.105.179>]
-        * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
-        *       low trust
-        *      [210.50.216.236 listed in list.dnswl.org]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [122.150.105.179 listed in zen.spamhaus.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [okkmart68[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *******
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-I will give you more details as soon as you acknowledge this message.
-Thank you.
-Martin Otamori.
+After merging linux-leds tree to the mainline [1], htmldocs build produces
+a new warning:
+
+checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
+
+The warning above is because leds-qcom-lpg.rst is missing in the table of
+contents.
+
+Add the missing entry.
+
+[1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
+
+Fixes: e98a860f65428a ("leds: qcom-lpg: Require pattern to follow documentation")
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-leds@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/leds/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+index e5d63b9400459c..014e009b076159 100644
+--- a/Documentation/leds/index.rst
++++ b/Documentation/leds/index.rst
+@@ -25,4 +25,5 @@ LEDs
+    leds-lp5562
+    leds-lp55xx
+    leds-mlxcpld
++   leds-qcom-lpg
+    leds-sc27xx
+
+base-commit: 50fd82b3a9a9335df5d50c7ddcb81c81d358c4fc
+-- 
+An old man doll... just what I always wanted! - Clara
 
