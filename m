@@ -2,50 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E89CD53CAC7
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jun 2022 15:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAA6C53CAEF
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jun 2022 15:53:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234405AbiFCNmY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Jun 2022 09:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36406 "EHLO
+        id S244833AbiFCNxa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Jun 2022 09:53:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244728AbiFCNmX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jun 2022 09:42:23 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54081286F5
-        for <linux-leds@vger.kernel.org>; Fri,  3 Jun 2022 06:42:22 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DAFBC37C;
-        Fri,  3 Jun 2022 13:42:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DAFBC37C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654263741; bh=CDEFvP1Jem9noEONiIVLPpUiWeuxuA4FOUJvVBoNyRM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=BmHQIy6xlyruDDB97VmmT+z2kXomItXBu+a3hzmfZLYQ03V2gblDOsEcjydBwodUR
-         vs2TnoZKGKYizErBui6DzOWmpEJ090dq0OkPrlUNOFMUzm+UdfWlGOrM6o4DPhPOZg
-         n7fxQ2+SYW97e6ri4SmiipMxlczarYyDnBrE4L6Tq59ojemmY/ccttKkGySqv4OIi8
-         UXK0VAdEdWS9U9XjsXW27k50b1JOVcw76TEJ9aI54lw65MeiS9NF1ipFUDnG9DylzA
-         ZjEANsD5/j+Tv+m/POkLsfi2ecVwe1+jrIyRjOqo4VZvsCt1Sv2fCVwP4Db9HqehcE
-         7WH1accqk290w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S242859AbiFCNx3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jun 2022 09:53:29 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C98A3669D;
+        Fri,  3 Jun 2022 06:53:28 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 938C61C0B9B; Fri,  3 Jun 2022 15:53:26 +0200 (CEST)
+Date:   Fri, 3 Jun 2022 15:53:26 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Marijn Suijten <marijn.suijten@somainline.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] leds: Add leds-qcom-lpg entry to documentation table of
  contents
-In-Reply-To: <20220603025735.17953-1-bagasdotme@gmail.com>
+Message-ID: <20220603135326.GA14636@duo.ucw.cz>
 References: <20220603025735.17953-1-bagasdotme@gmail.com>
-Date:   Fri, 03 Jun 2022 07:42:33 -0600
-Message-ID: <87bkv9x3qu.fsf@meer.lwn.net>
+ <87bkv9x3qu.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
+Content-Disposition: inline
+In-Reply-To: <87bkv9x3qu.fsf@meer.lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,26 +43,61 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> After merging linux-leds tree to the mainline [1], htmldocs build produces
-> a new warning:
->
-> checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
->
-> The warning above is because leds-qcom-lpg.rst is missing in the table of
-> contents.
->
-> Add the missing entry.
+--ZPt4rx8FFjLCG7dd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The fix is good but ...
+Hi!
 
-> [1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
->
-> Fixes: e98a860f65428a ("leds: qcom-lpg: Require pattern to follow documentation")
+> > After merging linux-leds tree to the mainline [1], htmldocs build produ=
+ces
+> > a new warning:
+> >
+> > checking consistency... /home/bagas/repo/linux-stable/Documentation/led=
+s/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
+> >
+> > The warning above is because leds-qcom-lpg.rst is missing in the table =
+of
+> > contents.
+> >
+> > Add the missing entry.
+>=20
+> The fix is good but ...
+>=20
+> > [1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
+> >
+> > Fixes: e98a860f65428a ("leds: qcom-lpg: Require pattern to follow docum=
+entation")
+>=20
+> ...I'm confused as to why you used that commit for a Fixes: tag.  It
+> touched the file in question but didn't add it in the first place; I
+> think 24e2d05d1b68 is the droid you're looking for.
 
-...I'm confused as to why you used that commit for a Fixes: tag.  It
-touched the file in question but didn't add it in the first place; I
-think 24e2d05d1b68 is the droid you're looking for.
+Not sure if that is important, we don't need this in stable, do we?
 
-jon
+Anyway
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+=2E.. and I assume it goes through your tree?
+
+Best regards,
+								Pavel
+
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--ZPt4rx8FFjLCG7dd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYpoSVgAKCRAw5/Bqldv6
+8nIWAKCWcLLIJQ32FCX2NeS6MLnFdl8klACdF6zcYv7cWK9iP753o88ODVFFAJk=
+=Hiy/
+-----END PGP SIGNATURE-----
+
+--ZPt4rx8FFjLCG7dd--
