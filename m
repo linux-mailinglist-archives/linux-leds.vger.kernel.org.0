@@ -2,174 +2,203 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C6D053DCDF
-	for <lists+linux-leds@lfdr.de>; Sun,  5 Jun 2022 18:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D324353DED6
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Jun 2022 01:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351192AbiFEQL0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 5 Jun 2022 12:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
+        id S242163AbiFEXAk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 5 Jun 2022 19:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244660AbiFEQLZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 Jun 2022 12:11:25 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA401DA5D
-        for <linux-leds@vger.kernel.org>; Sun,  5 Jun 2022 09:11:24 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id x62so15862152ede.10
-        for <linux-leds@vger.kernel.org>; Sun, 05 Jun 2022 09:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DhEMuP67p9l6gHaYEp6fnXGttVPME12T6ktP3AWQge0=;
-        b=QNXO7F2FkAsGFQCNld2QcAUPn6alhVgigX1dmDbd3ZX+iuVaRjFFYKE3PoXy+jEf02
-         JCwnrg27lTHCMbi9hzQ6/3N6eMHqvmCIi81ChzbJj10KWxjmla2XHf5bN+4wlxf7H9/q
-         GCARFpWO8PaL7R256uVWtKXy0LSuU68cEdjmNigxHstq77ClMLVZstnQcdo7ci53pib3
-         Ke0GneWLIa4M511qgIiRFOz64sHvhTlw47c0nURg3tnCRwpcKfyF+K+GNTeGNR3VodqT
-         FoeBXabKxL2WtDlBgzGLnTd+Z9RRD0N9wWzUn0EhsEr5yoxPV7GtmxuoisKHVsN+dU8J
-         eGbw==
+        with ESMTP id S231932AbiFEXAj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 Jun 2022 19:00:39 -0400
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB01E4D62E;
+        Sun,  5 Jun 2022 16:00:38 -0700 (PDT)
+Received: by mail-ot1-f46.google.com with SMTP id n2-20020a9d6f02000000b0060b22af84d4so9647567otq.1;
+        Sun, 05 Jun 2022 16:00:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DhEMuP67p9l6gHaYEp6fnXGttVPME12T6ktP3AWQge0=;
-        b=fbYSF60X3O4zhPzQVgCiMONLRjH7Kb2AWjAuVZorn0GJQtOd1gYAhhl02dAuFK9Qw9
-         rVJy7ZtBsGXw3vtsuCz8uBIl5VcQgG/3PbAr8k4FmJbgDc8ca2+7VftmkKy9c36Lr0KY
-         W9V3G7WzC531ICg5bSARjHcHSkrgEYOeOJi8VRDcGB4l0Pgyw6iVbBXwXLzBCHrX4xr4
-         B2qYMFqlyeG9pJXZesIcXyLubRtR/neoFUd3nrVZUGoI8Hwi7bJodLsiDhnXjDzJuTm+
-         6VQSTRDAtThrs8PMNDra+hbPjQGd5vuDidPuZMzoLUsa6IlpXhyKozz3NKGRGFuKn1V0
-         bzvw==
-X-Gm-Message-State: AOAM531f5g4BduI+x0kkvHf0ZvodHfmfubl9la6MRBA5aScGh4d7Hp6J
-        rRgflPRtdgBdNcVriLV7+rzkEA==
-X-Google-Smtp-Source: ABdhPJzf1aRfWMqPIN0vUwQ81NF3efT2xr/E6L8kvihJxDqoLLshcwR5HZpZDT/Uorsouy9/KTw7mg==
-X-Received: by 2002:a05:6402:380f:b0:42b:27aa:d4cb with SMTP id es15-20020a056402380f00b0042b27aad4cbmr22449447edb.211.1654445482544;
-        Sun, 05 Jun 2022 09:11:22 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id a22-20020aa7d916000000b0042dd4f9c464sm6934675edr.84.2022.06.05.09.11.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jun 2022 09:11:22 -0700 (PDT)
-Message-ID: <12096a2c-98c3-9e77-785f-808cc3e1a0e4@linaro.org>
-Date:   Sun, 5 Jun 2022 18:11:20 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Cuos8gspcI8YFcAvEdhtAno3qJ/kq97L2Lmz0j3/73g=;
+        b=o+p/CD7K3vTrtujbiekwl99V5ztUE5ezj5JNJQ/LZypoQLeiyZNEtYafkuNazpCRsr
+         GaQ6hRQb3l99GifS5mDKdtLRJCTAGlb+4xN7TDBUrt6xJ3IV9MOBUjCQBUC2WDdA6HlW
+         MmXSh/Z8moQHJK6WxGUXfO8sAmictwq+D16OoQLrR1OplMoE7fyac0+OLZbJu/EQqgQL
+         znDLiOcGIKr+vk5huHc5D7qS11Qc6WNnUOgcDBwd4AokU1a5JbwShXC8gCkucUA42CMC
+         BOQT0APOODij9biXhRJk+2scaUmaIu+82s5gtJAt6ObcjaIARPsthjk4+EwKzzpwUiJI
+         RsJA==
+X-Gm-Message-State: AOAM5338pUdY8xWp6yPM726KnEZtA2YoNGOati4UIBESi7KLvHXkuEhO
+        HaGZe7RmErYkuzcop2TV6A==
+X-Google-Smtp-Source: ABdhPJznM9+rNipHLJAjX2e4WzlxR5Zn3vCxW/fLOCOCn6Ty6pXQW+geIqZSW8hxsAkTqqcwkkBjjw==
+X-Received: by 2002:a9d:69da:0:b0:60b:1218:19ba with SMTP id v26-20020a9d69da000000b0060b121819bamr8646715oto.92.1654470038148;
+        Sun, 05 Jun 2022 16:00:38 -0700 (PDT)
+Received: from robh.at.kernel.org ([2607:fb90:1bdb:2e61:f12:452:5315:9c7e])
+        by smtp.gmail.com with ESMTPSA id ay31-20020a056808301f00b00328c9e63389sm7675173oib.11.2022.06.05.16.00.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jun 2022 16:00:37 -0700 (PDT)
+Received: (nullmailer pid 3689236 invoked by uid 1000);
+        Sun, 05 Jun 2022 23:00:34 -0000
+Date:   Sun, 5 Jun 2022 18:00:34 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     pavel@ucw.cz, krzk+dt@kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: leds: Add bindings for the TLC5925
+ controller
+Message-ID: <20220605230034.GA3683670-robh@kernel.org>
+References: <20220603155332.112272-1-jjhiblot@traphandler.com>
+ <20220603155332.112272-2-jjhiblot@traphandler.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
- for ocp level selection
-Content-Language: en-US
-To:     ChiYuan Huang <u0084500@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Helge Deller <deller@gmx.de>, cy_huang <cy_huang@richtek.com>,
-        lucas_tsai@richtek.com,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-2-git-send-email-u0084500@gmail.com>
- <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
- <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
- <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
- <20220602135604.GA2194286-robh@kernel.org>
- <e3aa9c7e-bf2d-dd55-8b3f-ca51f569771d@linaro.org>
- <CADiBU3-dN0vtQBEqvVLFCUp4-MkhLbQRkOiCet+fO8WfkEW4MQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CADiBU3-dN0vtQBEqvVLFCUp4-MkhLbQRkOiCet+fO8WfkEW4MQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220603155332.112272-2-jjhiblot@traphandler.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 02/06/2022 17:31, ChiYuan Huang wrote:
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月2日 週四 下午9:58寫道：
->>
->> On 02/06/2022 15:56, Rob Herring wrote:
->>> On Thu, May 26, 2022 at 12:32:12PM +0200, Krzysztof Kozlowski wrote:
->>>> On 26/05/2022 10:13, ChiYuan Huang wrote:
->>>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
->>>>>>
->>>>>> On 26/05/2022 05:16, cy_huang wrote:
->>>>>>> From: ChiYuan Huang <cy_huang@richtek.com>
->>>>>>>
->>>>>>> Add the new property for ocp level selection.
->>>>>>>
->>>>>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
->>>>>>> ---
->>>>>>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
->>>>>>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
->>>>>>>  2 files changed, 13 insertions(+)
->>>>>>>
->>>>>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>>>> index e0ac686..c1c59de 100644
->>>>>>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>>>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>>>>>> @@ -47,6 +47,14 @@ properties:
->>>>>>>      minimum: 0
->>>>>>>      maximum: 3
->>>>>>>
->>>>>>> +  richtek,bled-ocp-sel:
->>>>>>
->>>>>> Skip "sel" as it is a shortcut of selection. Name instead:
->>>>>> "richtek,backlight-ocp"
->>>>>>
->>>>> OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
->>>>> If  only this property is naming as 'backlight'. it may conflict with
->>>>> the others like as "richtek,bled-ovp-sel".
->>>>
->>>> Ah, no, no need.
->>>>
->>>>>>
->>>>>>> +    description: |
->>>>>>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
->>>>>>
->>>>>> Could you explain here what is OCP (unfold the acronym)?
->>>>> Yes. And the full name is 'over current protection'.
->>>>
->>>> Thanks and this leads to second thing - you encode register value
->>>> instead of logical value. This must be a logical value in mA, so
->>>> "richtek,bled-ocp-microamp".
->>>
->>> We already have common properties for setting current of LEDs. We should
->>> use that here I think.
->>
->> It might not be exactly the same. We have "led-max-microamp" which is
->> the maximum allowed current. I guess over-current protection level  is
->> slightly higher (e.g. led-max-microamp + 1). IOW, led-max-microamp is
->> something which still can be set and used by system/hardware. OCP should
->> not.
->>
-> Yap, you're right.
-
-So I am right or Rob?
-
-> From the modern backlight IC design, it uses the boost converter architecture.
-> This OCP level is to limit the inductor current when the internal MOS
-> switch turn on.
-> Details can refer to the below wiki link
-> https://en.wikipedia.org/wiki/Boost_converter
+On Fri, Jun 03, 2022 at 05:53:30PM +0200, Jean-Jacques Hiblot wrote:
+> Add bindings documentation for the TLC5925 LED controller.
 > 
-> And based on it, OVP is used to limit the inductor output voltage.
-> Each channel maximum current is based on the IC affordable limit.
-> It is more like as what you said 'led-max-microamp'.
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> ---
+>  .../devicetree/bindings/leds/ti,tlc5925.yaml  | 106 ++++++++++++++++++
+>  1 file changed, 106 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
 > 
-> So boost voltage level may depend on the LED VF.
-> The different series of LED may cause different boost voltage.
+> diff --git a/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml b/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+> new file mode 100644
+> index 000000000000..379ade094fd3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+> @@ -0,0 +1,106 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/ti,tlc5925.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LEDs connected to TI TLC5925 controller
+> +
+> +maintainers:
+> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> +
+> +description: |
+> +  The TLC5925 is a low-power 16-channel constant-current LED sink driver.
+> +  It is controlled through a SPI interface.
+> +  It is built around a shift register and latches which convert serial
+> +  input data into a parallel output. Several TLC5925 can be chained to
+> +  control more than 16 LEDs with a single chip-select.
+> +  The brightness level cannot be controlled, each LED is either on or off.
+> +
+> +  Each LED is represented as a sub-node of the ti,tlc5925 device.
+> +
+> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,tlc5925
+> +
+> +  shift-register-length:
+
+Not a common property. Needs a vendor prefix and type.
+
+> +    minimum: 8
+> +    description: |
+> +      The length of the shift register. If several TLC5925 are chained,
+> +      shift_register_length should be set to 16 times the number of TLC5925.
+> +      The value must be a multiple of 8.
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  output-enable-b-gpios:
+> +    description: |
+> +      Optional GPIO pins to enable/disable the parallel output. They describe
+> +      the GPIOs connected to the OE/ pin of the TLC5925s.
+> +
+> +patternProperties:
+> +  "@[0-9a-z]+$":
+
+Unit addresses are typically hex (a-f).
+
+> +    type: object
+> +    $ref: common.yaml#
+> +
+> +    description: |
+> +      LED pin number (must be lower than shift_register_length).
+> +      The furthest LED down the chain has the pin number 0.
+> +
+> +    properties:
+> +      reg:
+> +        minimum: 0
+
+0 is always the minimum.
+
+> +
+> +    required:
+> +      - reg
+> +
+> +additionalProperties: true
+
+Not allowed except for common schemas. Must be false. Since you have a 
+$ref, you probably want 'unevaluatedProperties: false' instead.
+
+
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - shift_register_length
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    spi0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        leds@2 {
+> +            compatible = "ti,tlc5925";
+> +            reg = <0x02>;
+> +            spi-max-frequency = <30000000>;
+> +            shift_register_length = <32>;
+> +            output-enable-b-gpios = <&gpio0b 9 GPIO_ACTIVE_HIGH>, <&gpio0b 7 GPIO_ACTIVE_HIGH>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            led@0 {
+> +                reg = <0>;
+> +                function = LED_FUNCTION_STATUS;
+> +                color = <LED_COLOR_ID_GREEN>;
+> +            };
+> +
+> +            led@4 {
+> +                reg = <4>;
+> +                function = LED_FUNCTION_STATUS;
+> +                color = <LED_COLOR_ID_RED>;
+> +            };
+> +
+> +            led@1f {
+> +                reg = <31>;
+> +                function = LED_FUNCTION_PANIC;
+> +                color = <LED_COLOR_ID_RED>;
+> +            };
+> +        };
+> +
+> +    };
+> -- 
+> 2.25.1
 > 
-> RT4831's OVP/OCP is not just the protection, more like as the limit.
-
-This suggests Rob is right, so let's use led-max-microamp property?
-
-Best regards,
-Krzysztof
+> 
