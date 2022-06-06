@@ -2,65 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C589353EB32
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Jun 2022 19:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACF8353EB5A
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Jun 2022 19:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235795AbiFFLyZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Jun 2022 07:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S239862AbiFFO32 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Jun 2022 10:29:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235790AbiFFLyY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jun 2022 07:54:24 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652A666AD0
-        for <linux-leds@vger.kernel.org>; Mon,  6 Jun 2022 04:54:23 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id 25so18205148edw.8
-        for <linux-leds@vger.kernel.org>; Mon, 06 Jun 2022 04:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UjWmoz9cQsNqwcd1YmuM2n5AszTR120N285mNHmroEM=;
-        b=VunPuw6TATfi6N4bnaxxoDDho8xLTfaI9hzVih2f/sGq6toTGBhx3s+Iy1YeX6UGER
-         4IdqfOn7OkHRaJGEbgflnJlAYYtGLhlI3qRKAsyOBjCG+tdVry9OXOrTZLDPNcGsslWy
-         MyuZXNaMcQoshRmqS98lvRJ9j0pU+SHW4aPAaYIdOMpWv1cJq0Ir7+t6gUILi/fd2T03
-         uBPlcergK94j1bBozOR83c3xSsk13A4cYJ2k7Tl0OcAXfpnVU8NXnhWgQ1GJNu4t6zji
-         nxqaa0Wfn6wTvadG7nNJovR3vML+F9SmhD8/he4MAUgs+guZP8UGaRXx/n77tu1Qe06b
-         8IXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UjWmoz9cQsNqwcd1YmuM2n5AszTR120N285mNHmroEM=;
-        b=fr4mKBU7v657UBVmVsab2l2m8inBnb+rvJYMOIuwKUcz73CzWK3HqFGs/xNIfF6cG6
-         H1jHB1wHy+sKDzz2UarMuR3FtSwCX1spu6AtH13ANJVVOpkq/RSKXEi8OPVe7/FKrrCB
-         9n0CAzJ/7Lo0lQmFkvBpbCkqOHsrYkIYo128qh4U4Kxy7GKhEPVCfX3EsBwF0S5KdCbB
-         7ILtEZ+Ohdxiz9rQ8x6gGxhfyTI2Utz8tXtpzl5aaS/QBMNb2Pdk4mDYBqwe/v6Vt5uR
-         7T135FH8H0C0jCedeqYDWt0wN9/IsIynw1i18GMdNF0CnBBjPx6szOQR1ZcLryNixEAf
-         iehw==
-X-Gm-Message-State: AOAM5317H3xasJYRVCAmZuvK3Rk7dXOKPAzh45xP3lAhcb1bL/g4GGFY
-        UxwgQwct6JEoH2dRNaIqFDl8PvVs8h8rQ9vw
-X-Google-Smtp-Source: ABdhPJwiAfM36gsPY16htZrbZS62DE9GF824R5AAKC0D/QGbsuT1exmbZ8UCLLHy1KNfGu0bGAnGCQ==
-X-Received: by 2002:a05:6402:4381:b0:42e:271e:b3ba with SMTP id o1-20020a056402438100b0042e271eb3bamr20938474edc.103.1654516461998;
-        Mon, 06 Jun 2022 04:54:21 -0700 (PDT)
-Received: from stroh80.sec.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
-        by smtp.gmail.com with ESMTPSA id i15-20020aa7c70f000000b0042bc97322desm8782639edq.43.2022.06.06.04.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 04:54:21 -0700 (PDT)
-From:   Naresh Solanki <naresh.solanki@9elements.com>
-X-Google-Original-From: Naresh Solanki <Naresh.Solanki@9elements.com>
-To:     Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-leds@vger.kernel.org
-Cc:     Naresh Solanki <Naresh.Solanki@9elements.com>
-Subject: [PATCH 0/5] mfd: max597x: Add support for max597x
-Date:   Mon,  6 Jun 2022 13:54:01 +0200
-Message-Id: <20220606115413.3875433-1-Naresh.Solanki@9elements.com>
-X-Mailer: git-send-email 2.35.3
+        with ESMTP id S239844AbiFFO31 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jun 2022 10:29:27 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC5FC7E3D;
+        Mon,  6 Jun 2022 07:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654525766; x=1686061766;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6gFuK9m/CegkpD/g+gX8hVz/ChSurSOe3kM0kYWm6aE=;
+  b=eMC426nikFbLleMpcDTh7f0evVLQFOc0EOD+mur79kxbvG6TELXmV8Aj
+   nKCCefZWHVfjqCAiqyuxa6AoT7ForInPA8yVKBMPw0N5veqmcsRD0MHpG
+   WfnXh0EIX4qO/xF58JQ14SySJcla3/QhtBM00+2CbGX7MYqJ01fHG4pCM
+   OmHgeLZTj9y3aiEgmKrcwqGTCAd27vIFsy+QS7RkB6xTPSlM/eYjbTEvY
+   jIYL5BuSi5oE4+2LfaM97VvzDcnwrsHa0onSb5vU/EInWkCdLieVMka/T
+   D5FyRsO5GakZz4AcB75dugRKVfr3X7rX7Hio/NQkBb6988DLPTnDDPa6P
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="275436363"
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
+   d="scan'208";a="275436363"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 07:29:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
+   d="scan'208";a="554471422"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 06 Jun 2022 07:29:19 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nyDjK-000Cnd-JV;
+        Mon, 06 Jun 2022 14:29:18 +0000
+Date:   Mon, 6 Jun 2022 22:28:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de
+Cc:     kbuild-all@lists.01.org, cy_huang@richtek.com,
+        alice_chen@richtek.com, chiaen_wu@richtek.com,
+        peterwu.pub@gmail.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [RESEND 12/14] leds: mt6370: Add Mediatek MT6370 Indicator
+ support
+Message-ID: <202206062207.q0S8wxpj-lkp@intel.com>
+References: <20220531111900.19422-13-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531111900.19422-13-peterwu.pub@gmail.com>
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,42 +76,70 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-max597x is multifunction device with power switch for output voltage
-control, voltage/current monitor & 4 leds.
+Hi ChiaEn,
 
-max5978 has single power switch wehereas max5970 has dual switch.
+Thank you for the patch! Yet something to improve:
 
-Additionally the chip also provide fault protection like over voltage,
-over current & under voltage protection.
+[auto build test ERROR on pavel-leds/for-next]
+[also build test ERROR on lee-mfd/for-mfd-next lee-backlight/for-backlight-next v5.19-rc1 next-20220606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20220606/202206062207.q0S8wxpj-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
+        git checkout 4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-mt6370.c: In function 'mt6370_check_vendor_info':
+>> drivers/leds/leds-mt6370.c:873:15: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
+     873 |         vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
+         |               ^~~~~~~~~
+         |               FOLL_GET
+   cc1: some warnings being treated as errors
 
 
-Marcello Sylvester Bauer (1):
-  dt-bindings: mfd: Add bindings for MAX5970 and MAX5978
+vim +873 drivers/leds/leds-mt6370.c
 
-Naresh Solanki (2):
-  leds: Add driver_data for led_classdev
-  mfd: max597x: Add led support
+   863	
+   864	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+   865	{
+   866		unsigned int devinfo, vid;
+   867		int ret;
+   868	
+   869		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
+   870		if (ret)
+   871			return ret;
+   872	
+ > 873		vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
+   874		if (vid == 0x9 || vid == 0xb) {
+   875			priv->reg_fields = mt6372_reg_fields;
+   876			priv->ranges = mt6372_led_ranges;
+   877			priv->is_mt6372 = true;
+   878		} else {
+   879			priv->reg_fields = common_reg_fields;
+   880			priv->ranges = common_led_ranges;
+   881		}
+   882	
+   883		return 0;
+   884	}
+   885	
 
-Patrick Rudolph (2):
-  mfd: max597x: Add support for MAX5970 and MAX5978
-  mfd: max597x: Add IIO support
-
- .../devicetree/bindings/mfd/max5970.yaml      | 151 +++++
- MAINTAINERS                                   |   7 +
- drivers/mfd/Kconfig                           |  18 +
- drivers/mfd/Makefile                          |   3 +
- drivers/mfd/max597x.c                         | 594 ++++++++++++++++++
- drivers/mfd/max597x.h                         | 117 ++++
- drivers/mfd/max597x_iio.c                     | 141 +++++
- include/linux/leds.h                          |   2 +-
- 8 files changed, 1032 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/mfd/max5970.yaml
- create mode 100644 drivers/mfd/max597x.c
- create mode 100644 drivers/mfd/max597x.h
- create mode 100644 drivers/mfd/max597x_iio.c
-
-
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-2.35.3
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
