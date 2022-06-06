@@ -2,63 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F02153DFBE
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Jun 2022 04:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85EB53E38A
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Jun 2022 10:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349154AbiFFCmJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 5 Jun 2022 22:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33686 "EHLO
+        id S229924AbiFFGVV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Jun 2022 02:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348097AbiFFCmH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 Jun 2022 22:42:07 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C71263F1;
-        Sun,  5 Jun 2022 19:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654483327; x=1686019327;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cYXhc1jT7ezmOoNdV3xqBIghhscJRNwdK2ONb4gnirw=;
-  b=B0naBc+6ZbMqviL5/yrc3L692umRmeN5LxBuv8E9ZgpUjp0rKpvxsRyr
-   5/1dj61OjfuX9rs0/eDY5UHwBK9b2i5BaNNKNkDWipc35MDUFdoA9t9vm
-   +8ea8NmyOJOz9UgBSOICulmh1XwgMxKSWQtLEuwTDgOXrnpxgW8ebgMtz
-   V9wWn7nVCsHFMjJRonKdp2FtovJej9u8+PcRmhytbsKh7yQ+XZSd16A+G
-   eKvHb1pqtVlnDYPECZL3TnWObqHHqNGbsbQGsZn+7mC2R8MUuqqkUpJO0
-   rrtKOBVja96hs/l+89/KVWcHqle7YRE6YSzjmUZQB573239SQjDspWfeH
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="276653896"
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="276653896"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2022 19:42:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="669265976"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2022 19:42:04 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1ny2gt-000CQa-PU;
-        Mon, 06 Jun 2022 02:42:03 +0000
-Date:   Mon, 6 Jun 2022 10:41:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>, pavel@ucw.cz,
-        krzk+dt@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, robh+dt@kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Subject: Re: [PATCH v2 2/3] leds: Add driver for the TLC5925 LED controller
-Message-ID: <202206060923.vYFzGndu-lkp@intel.com>
-References: <20220603155332.112272-3-jjhiblot@traphandler.com>
+        with ESMTP id S229835AbiFFGUb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jun 2022 02:20:31 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00EAF220DA
+        for <linux-leds@vger.kernel.org>; Sun,  5 Jun 2022 23:20:25 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id v1so16246749ejg.13
+        for <linux-leds@vger.kernel.org>; Sun, 05 Jun 2022 23:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=F/BITtmLWc1VtxM65EqQjDPMCYQMAuoqz8dLA7WWjls=;
+        b=S7fiGYjkD4hCmOxEBPhVlPYrksvpFVRkVWt7637cDHckBJf5TCtLnmB9UkOmZKTIKF
+         ZLq2E6ClOr44GI0ySPWu8fcv61ODO7R7TZkolOKRsI5miFRej3Sk0Ez3u9iUUrvcJ5sD
+         cAe8JXXs9pMWUQrp3HLptyxSBK/Dp/Kxb5sEbCn1ddt6aBXwzyPUPn7+QvK0OpZFNJ1S
+         3g3yffxJw5Emt0ODfIJsXbgP0bmEDOP7Bw2xD88HDF2FIF6NYDreWrcOhAPuEekY79bd
+         EbakCJ2/E0EsEoUb9/nLOZLwS+QfCORF4eCHplr5b7slcx0Fg9kERBNrirNO5aeJAadX
+         ZL5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=F/BITtmLWc1VtxM65EqQjDPMCYQMAuoqz8dLA7WWjls=;
+        b=BKtoYv+IHpP579EmX8DXaGrloW4vvtuMNugNkPlUDjcKhijtcj+xHxt/vBlE78MQIa
+         YdFDSu6RUHLy0NRhyvBaqLpEKs/N0B5lp6PXfMz50FuEkbQjwON2mNxAQpsNTWjnVhJg
+         YmkdLvy1WT7iowokw1gXI44I28ANW5uU+bwflDu1ExfbAIVkRr0ngbuTPAk/efGxmBQ/
+         BBb8iwBcALOFGdjQYjPVWfT17qJAclbJPliG/ZXKoXxDNDKqSw/+l86TkPAeiymDZPBR
+         2cnFmTYTkiedQwygJKMNRIvrTEX2tKQCpzWChjqSJThP9mVlISSHpiiiIWhfs2iD0laU
+         ga4Q==
+X-Gm-Message-State: AOAM533KZTYl7DiNdW4DpKG4+NBjnn31t3IiEuaUxAEYHaxjg7W5bSdI
+        Cv3dQPx6BBxW97HIWkuYd3FMRw==
+X-Google-Smtp-Source: ABdhPJzAfxWKgaolZMJ1kBvo3MGRFufwf7UUXNcLCeJtJs0PDGTLYJF6eHuRcJkYjoAgJxuWKltYiw==
+X-Received: by 2002:a17:906:4fce:b0:6f4:f41c:3233 with SMTP id i14-20020a1709064fce00b006f4f41c3233mr19013888ejw.117.1654496423905;
+        Sun, 05 Jun 2022 23:20:23 -0700 (PDT)
+Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id n19-20020a05640205d300b0042de8155fa1sm8150758edx.0.2022.06.05.23.20.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Jun 2022 23:20:23 -0700 (PDT)
+Message-ID: <5af6d6ff-c5e3-f764-fa9c-a2c3d7365082@linaro.org>
+Date:   Mon, 6 Jun 2022 08:20:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603155332.112272-3-jjhiblot@traphandler.com>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
+ for ocp level selection
+Content-Language: en-US
+To:     ChiYuan Huang <u0084500@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Helge Deller <deller@gmx.de>, cy_huang <cy_huang@richtek.com>,
+        lucas_tsai@richtek.com,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+ <1653534995-30794-2-git-send-email-u0084500@gmail.com>
+ <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
+ <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
+ <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
+ <20220602135604.GA2194286-robh@kernel.org>
+ <e3aa9c7e-bf2d-dd55-8b3f-ca51f569771d@linaro.org>
+ <CADiBU3-dN0vtQBEqvVLFCUp4-MkhLbQRkOiCet+fO8WfkEW4MQ@mail.gmail.com>
+ <12096a2c-98c3-9e77-785f-808cc3e1a0e4@linaro.org>
+ <CADiBU3_REqNRb4UtT5OrVBKuhYL0NPAALisHTM76SrFCHUYMuA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CADiBU3_REqNRb4UtT5OrVBKuhYL0NPAALisHTM76SrFCHUYMuA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,54 +94,103 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jean-Jacques,
+On 06/06/2022 03:39, ChiYuan Huang wrote:
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月6日 週一 上午12:11寫道：
+>>
+>> On 02/06/2022 17:31, ChiYuan Huang wrote:
+>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月2日 週四 下午9:58寫道：
+>>>>
+>>>> On 02/06/2022 15:56, Rob Herring wrote:
+>>>>> On Thu, May 26, 2022 at 12:32:12PM +0200, Krzysztof Kozlowski wrote:
+>>>>>> On 26/05/2022 10:13, ChiYuan Huang wrote:
+>>>>>>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
+>>>>>>>>
+>>>>>>>> On 26/05/2022 05:16, cy_huang wrote:
+>>>>>>>>> From: ChiYuan Huang <cy_huang@richtek.com>
+>>>>>>>>>
+>>>>>>>>> Add the new property for ocp level selection.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+>>>>>>>>> ---
+>>>>>>>>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
+>>>>>>>>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
+>>>>>>>>>  2 files changed, 13 insertions(+)
+>>>>>>>>>
+>>>>>>>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>>>>>>>> index e0ac686..c1c59de 100644
+>>>>>>>>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>>>>>>>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+>>>>>>>>> @@ -47,6 +47,14 @@ properties:
+>>>>>>>>>      minimum: 0
+>>>>>>>>>      maximum: 3
+>>>>>>>>>
+>>>>>>>>> +  richtek,bled-ocp-sel:
+>>>>>>>>
+>>>>>>>> Skip "sel" as it is a shortcut of selection. Name instead:
+>>>>>>>> "richtek,backlight-ocp"
+>>>>>>>>
+>>>>>>> OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
+>>>>>>> If  only this property is naming as 'backlight'. it may conflict with
+>>>>>>> the others like as "richtek,bled-ovp-sel".
+>>>>>>
+>>>>>> Ah, no, no need.
+>>>>>>
+>>>>>>>>
+>>>>>>>>> +    description: |
+>>>>>>>>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
+>>>>>>>>
+>>>>>>>> Could you explain here what is OCP (unfold the acronym)?
+>>>>>>> Yes. And the full name is 'over current protection'.
+>>>>>>
+>>>>>> Thanks and this leads to second thing - you encode register value
+>>>>>> instead of logical value. This must be a logical value in mA, so
+>>>>>> "richtek,bled-ocp-microamp".
+>>>>>
+>>>>> We already have common properties for setting current of LEDs. We should
+>>>>> use that here I think.
+>>>>
+>>>> It might not be exactly the same. We have "led-max-microamp" which is
+>>>> the maximum allowed current. I guess over-current protection level  is
+>>>> slightly higher (e.g. led-max-microamp + 1). IOW, led-max-microamp is
+>>>> something which still can be set and used by system/hardware. OCP should
+>>>> not.
+>>>>
+>>> Yap, you're right.
+>>
+>> So I am right or Rob?
+>>
+> As I know, both are incorrect.
+>>> From the modern backlight IC design, it uses the boost converter architecture.
+>>> This OCP level is to limit the inductor current when the internal MOS
+>>> switch turn on.
+>>> Details can refer to the below wiki link
+>>> https://en.wikipedia.org/wiki/Boost_converter
+>>>
+>>> And based on it, OVP is used to limit the inductor output voltage.
+>>> Each channel maximum current is based on the IC affordable limit.
+>>> It is more like as what you said 'led-max-microamp'.
+>>>
+>>> So boost voltage level may depend on the LED VF.
+>>> The different series of LED may cause different boost voltage.
+>>>
+>>> RT4831's OVP/OCP is not just the protection, more like as the limit.
+>>
+>> This suggests Rob is right, so let's use led-max-microamp property?
+>>
+> No, the meaning is different. 'led-max-microamp' always means the
+> channel output current.
+> It already can be adjusted by backlight brightness node.
+> 
+> For example
+> low voltage side (3.3~4.4V) to generate the boost voltage to 16~17V,
+> even 20V for BLED Vout.
+> This OCP is to limit the input current of low voltage side.
+> 
+> After the explanation, do you still think it's the same thing?
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on pavel-leds/for-next]
-[also build test WARNING on v5.18 next-20220603]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Jacques-Hiblot/Add-support-for-the-TLC5925/20220605-235250
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220606/202206060923.vYFzGndu-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 416a5080d89066029f9889dc23f94de47c2fa895)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/e8ae916efd705311a0bdeb2a8f9a1649174867be
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jean-Jacques-Hiblot/Add-support-for-the-TLC5925/20220605-235250
-        git checkout e8ae916efd705311a0bdeb2a8f9a1649174867be
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/leds/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/leds/leds-tlc5925.c:144:35: warning: unused variable 'tlc5925_id' [-Wunused-const-variable]
-   static const struct spi_device_id tlc5925_id[] = {
-                                     ^
-   1 warning generated.
+This sounds differently so I propose to use this dedicated property with
+the changes I asked for.
 
 
-vim +/tlc5925_id +144 drivers/leds/leds-tlc5925.c
-
-   143	
- > 144	static const struct spi_device_id tlc5925_id[] = {
-   145		{"tlc5925", 0},
-   146		{}
-   147	};
-   148	MODULE_DEVICE_TABLE(spi, tlc5925_id);
-   149	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best regards,
+Krzysztof
