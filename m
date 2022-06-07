@@ -2,51 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBEB153F676
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Jun 2022 08:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3725153F7A6
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Jun 2022 09:52:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232554AbiFGGqV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Jun 2022 02:46:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
+        id S235955AbiFGHwy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Jun 2022 03:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbiFGGqS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jun 2022 02:46:18 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1381452E7E
-        for <linux-leds@vger.kernel.org>; Mon,  6 Jun 2022 23:46:18 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nySyl-0006ax-Sq; Tue, 07 Jun 2022 08:46:15 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nySym-006wTz-7E; Tue, 07 Jun 2022 08:46:14 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nySyj-00EiN8-KQ; Tue, 07 Jun 2022 08:46:13 +0200
-Date:   Tue, 7 Jun 2022 08:46:10 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Walleij <linus.walleij@linaro.org>, kernel@pengutronix.de,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: lm3601x: Don't use mutex after it was destroyed
-Message-ID: <20220607064610.sjgkhxct7bqy6wyt@pengutronix.de>
-References: <20220513081832.263863-1-u.kleine-koenig@pengutronix.de>
- <20220513140255.GA18001@duo.ucw.cz>
- <20220513143657.5tak6tdmuuxpkyw2@pengutronix.de>
- <20220523073510.ujpgmz5sjrgt4fkj@pengutronix.de>
+        with ESMTP id S237942AbiFGHwx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jun 2022 03:52:53 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CE153B46
+        for <linux-leds@vger.kernel.org>; Tue,  7 Jun 2022 00:52:51 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id n28so21843519edb.9
+        for <linux-leds@vger.kernel.org>; Tue, 07 Jun 2022 00:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yz4IPbK/kjVXg2rtjKYX6ym7AFg337BC4YZaEJPRg3Y=;
+        b=bErztxGS/sxqn/5MaEwtqSQKYl8etJxog1lP0bLx9F0yUteWXBG9NAmUfIQ0ynbJHT
+         VeKqty9tWhHfRadz+G6Evu9yJpAiWHuvRPRY67jnsz/bD6lBhNmXVEo2/Buoo5qC9igU
+         unmL5Twzz1YAIy74Wv4rWJCoGtDB9Jm3dtIzLDaISLt0gHWaKgnCqq6yB+D4z8p7KbCX
+         d1xz3Knx31qe9F3lcupa+N4o/p/drV6u7zwjsAAKbYCjnI+5vyz6mh4rTZy343xVBEgK
+         IlaZpcUvtlIJC6xEem+unWPYq9qcGRvdzBo2SvryeJaTVQ5AqtRcCjdmdbF6+rJiPIT9
+         U9CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yz4IPbK/kjVXg2rtjKYX6ym7AFg337BC4YZaEJPRg3Y=;
+        b=WO7QupUJNUOKYxjRYe9SfRjMqjUIEjNrXnM4XF9C2MUUwscx67vKz2kgJRySguySeL
+         MSVzbWABg9Z2fNJapdjWw7qbYJvzsX1n2ZMecaGNt2D/DU4o+vhbXrH6b3r9SRULK8sX
+         3qNDLHFwtpo61P+TLIgORbYQFs8XE2Nvc6gwWgMMWdrFKwirHi1+LftY62qfmAkyBI9o
+         aPC8YeKjmk3FMARjQGLdDXyjBbIUlRhxYtnK2voEuRs/BxStFgJlVmxdjKO2iCuXdtIE
+         DvWR5vXIkSOcTAb0gSO94QBPXzD/zurvpQAs0JyQjj8GX8fDxJ/beOpL2zBct//ovFs/
+         6oLw==
+X-Gm-Message-State: AOAM531thawgJCbzj5FJC3bCvTjrOa3aReM32YiOzJU1aKgWZOKX+RCi
+        kR8exPrZfKEjq8asMwfjCCrrag==
+X-Google-Smtp-Source: ABdhPJwkIeZfv38b59Ycb+if+OhPKhwi1qS4LboQmLNqhsMhCChDXB232li5lfdubeuGAHOgNuqsow==
+X-Received: by 2002:a05:6402:2790:b0:431:4bb6:a6dc with SMTP id b16-20020a056402279000b004314bb6a6dcmr13559114ede.48.1654588370353;
+        Tue, 07 Jun 2022 00:52:50 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id m3-20020aa7c483000000b0042de29d8fc0sm9773731edq.94.2022.06.07.00.52.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 00:52:49 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Kyle Swenson <kyle.swenson@est.tech>
+Subject: [PATCH v3 1/2] dt-bindings: leds: lp50xx: correct reg/unit addresses in example
+Date:   Tue,  7 Jun 2022 09:52:46 +0200
+Message-Id: <20220607075247.58048-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="t5vukiszaxyp4exc"
-Content-Disposition: inline
-In-Reply-To: <20220523073510.ujpgmz5sjrgt4fkj@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -55,71 +74,84 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The multi-led node defined address/size cells, so it is intended to have
+children with unit addresses.
 
---t5vukiszaxyp4exc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The second multi-led's reg property defined three LED indexes within one
+reg item, which is not correct - these are three separate items.
 
-Hello Pavel,
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-On Mon, May 23, 2022 at 09:35:10AM +0200, Uwe Kleine-K=F6nig wrote:
-> On Fri, May 13, 2022 at 04:36:57PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Fri, May 13, 2022 at 04:02:55PM +0200, Pavel Machek wrote:
-> > > > The mutex might still be in use until the devm cleanup callback
-> > > > devm_led_classdev_flash_release() is called. This only happens some=
- time
-> > > > after lm3601x_remove() completed.
-> > >=20
-> > > I'm sure lots of "use after free" can be fixed by simply removing the
-> > > resource freeing...
-> >=20
-> > I agree in general. Mutexes are a bit special here and often are not
-> > destroyed. mutex_destroy() is a no-op usually and with debugging enabled
-> > only does
-> >=20
-> > 	lock->magic =3D NULL;
-> >=20
-> > which catches use-after-destroy. So IMHO just dropping the mutex_destroy
-> > is fine.
-> >=20
-> > > but lets fix this properly.
-> >=20
-> > I don't understand that part. Does that mean you pick up my patch, or
-> > that you create a better fix?
->=20
-> You didn't pick up this patch up to now and also I didn't see a better
-> fix.
->=20
-> So I wonder what is your plan/vision here. The obvious alternatives are
-> to call mutex_destroy only in a devm callback that is registered before
-> calling lm3601x_register_leds(), or don't used devm to register the LED.
+---
 
-Any news on this? If you're waiting for a better fix from me, please
-tell my your expectations. A devm variant of mutex_init would be an
-option, but that feels like a very big hammer for a small nail. I still
-consider my patch fine.
+Changes since v2:
+1. Minor grammar change in commit msg.
+2. Add Rb tag.
 
-Best regards
-Uwe
+Changes since v1:
+1. Correct multi-led unit address as well (Rob).
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Cc: Kyle Swenson <kyle.swenson@est.tech>
+---
+ .../devicetree/bindings/leds/leds-lp50xx.yaml | 24 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
---t5vukiszaxyp4exc
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+index f12fe5b53f30..29ce0cb7d449 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+@@ -99,35 +99,41 @@ examples:
+                color = <LED_COLOR_ID_RGB>;
+                function = LED_FUNCTION_CHARGING;
+ 
+-               led-0 {
++               led@0 {
++                   reg = <0x0>;
+                    color = <LED_COLOR_ID_RED>;
+                };
+ 
+-               led-1 {
++               led@1 {
++                   reg = <0x1>;
+                    color = <LED_COLOR_ID_GREEN>;
+                };
+ 
+-               led-2 {
++               led@2 {
++                   reg = <0x2>;
+                    color = <LED_COLOR_ID_BLUE>;
+                };
+           };
+ 
+-          multi-led@2 {
++          multi-led@3 {
+             #address-cells = <1>;
+-            #size-cells = <2>;
+-            reg = <0x2 0x3 0x5>;
++            #size-cells = <0>;
++            reg = <0x3>, <0x4>, <0x5>;
+             color = <LED_COLOR_ID_RGB>;
+             function = LED_FUNCTION_STANDBY;
+ 
+-            led-6 {
++            led@3 {
++              reg = <0x3>;
+               color = <LED_COLOR_ID_RED>;
+             };
+ 
+-            led-7 {
++            led@4 {
++              reg = <0x4>;
+               color = <LED_COLOR_ID_GREEN>;
+             };
+ 
+-            led-8 {
++            led@5 {
++              reg = <0x5>;
+               color = <LED_COLOR_ID_BLUE>;
+             };
+          };
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKe9DAACgkQwfwUeK3K
-7AleJwgAgQE3ali2ei29bsxPSotvmpm9o+UZjxJIHl635wPtNURI4yxcFnfhfJr3
-P9iSyBB3r2e0/OXVdC30wU6ZmfoUJKGgxLwkbNGnjXlNtz3GwwxM/B2DqaCa7Imp
-31qI1Ni4zppNyg/6JYkf3ty57ktUj3HGt6GRPKS3WCrz+41P+kUNQwJ3KbAxeO58
-gq92KiEav7Cm1zQbSbKuQ1HwoZg/BfDlfbyfqkdQMiDMhdjp+dznp8PAi1AID0tc
-VbagSMgobNJZ+JOom1/oXzi+6txEe9SZ2fLl9X1jYe+gajfGzK2RepVv3jD2C1nx
-0VN0DvNEikIow1hdrD3z0dmLXNKUmQ==
-=7n4M
------END PGP SIGNATURE-----
-
---t5vukiszaxyp4exc--
