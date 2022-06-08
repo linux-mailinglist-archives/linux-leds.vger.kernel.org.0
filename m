@@ -2,75 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C9B542BB2
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jun 2022 11:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A58542C10
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jun 2022 11:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235088AbiFHJkN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jun 2022 05:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59672 "EHLO
+        id S235144AbiFHJzW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Jun 2022 05:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235125AbiFHJjr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jun 2022 05:39:47 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A7419DE54
-        for <linux-leds@vger.kernel.org>; Wed,  8 Jun 2022 02:07:31 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id v19so26161773edd.4
-        for <linux-leds@vger.kernel.org>; Wed, 08 Jun 2022 02:07:31 -0700 (PDT)
+        with ESMTP id S235832AbiFHJxj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jun 2022 05:53:39 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDCD14253F2
+        for <linux-leds@vger.kernel.org>; Wed,  8 Jun 2022 02:23:38 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 67-20020a1c1946000000b00397382b44f4so10782768wmz.2
+        for <linux-leds@vger.kernel.org>; Wed, 08 Jun 2022 02:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=rGAq4iJpxrWH26r4v3kGADYD/+3w1lhJSCcD5FIQXdU=;
-        b=O0xd2Hdn/TXw/TpQcEa4m6r6LaJMi3/Wjf8zui/j3m4s1mNB1Ak508t1pdTQu7PR3j
-         Qy3Yt3JJIP4c9RPAsZBuYMm9vYU1hF2OSlXA9WPI5sKXggrKJwzrFcN/mpJDlnPWaSmX
-         rQj8hHoM0cklzvFtBuT1VEji2jaNz8c66zbSAdDjePPg170tpP9rsobsg4nVyge+ngV+
-         ybNN8BdagbF7r+qKjyJHO3xwLDQ2k7b51Zm99s16yP0LzD3hFEdsbhWevO/ULRqceoxm
-         PGNEJzRhwBRZeSyu+YwWjGbrSiAN/AuNJiRIMz8VAn3IurSzVPzRQ9e9QEUg1kgGY362
-         2n7A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8eV6nIYV8SU6cGKfjJH6IuBQJkesB4s+GfYeW1ujbBY=;
+        b=yfPJviBzBPAoWfqiRyBev2YmtSekag/ce5R4TXWS48H1P/Evi7E5TB4vT3PR3E8aj3
+         W7V+yIRePpReAEdegxUDxKd1K5j3YcZ/X9I2dg95aREfa2ooixPGrI4JNbofdS5Sq1cJ
+         W42F5YcmUZk2zJk+QQk0+MVdp0O0W1Pk01mKCNppDXZyCUkjqBW10RbxyMuj7ydHz4dZ
+         PfnejUW3iyyNEIkJcCSwpK+9Ki08hmTYbDfedqOsRj+WbfyXvmi6OR4qm+K/cObXS/t9
+         HYm9o8wLPshlOpW4G0YGfzNBC2K2TstMcRLWAUaLgN+v2Db+PnvZLxiNHb1dAZfixesi
+         jIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=rGAq4iJpxrWH26r4v3kGADYD/+3w1lhJSCcD5FIQXdU=;
-        b=PV6OqXPMVWpT0Eq8EkkwlafpZownAJ8w22mWB0S0iKqT7IcuQE3AxXWbdukLv0SRDg
-         r4lpKg1nSAeewr4Oal17pqwddlV8TKdpivjxksrIR8WZJo1ux+gGk2M8jh9Y6bCsZS8Y
-         7AQklZbn839jdjC29lKQ5T2tad+yJOR/HwSDF8DAIZxiDMTFp2rapP9vzb/dbL8qJ3yx
-         1/rQ87DlnBb/kMEtH4lmBonB0A1ZBuLFfubgN8vxJBi6tZKctJrxEnkUW1G2grQnAM8H
-         /+2rKd70rPFKDolx3kLs2VCsHN06b/ZLd7oBiIQN3ZzKT7mhTOV67OsnyaCvebKSRA0R
-         cTKw==
-X-Gm-Message-State: AOAM530LtWfWGjzJ6AjLdkOg0Y1QxDkcTydJMtANfhvZptc5Lj+0FCw9
-        1byQd+XsaIWDQeCnAY2oPXTMOg==
-X-Google-Smtp-Source: ABdhPJza6k5S7+pmqbQfI8gdRti+QgJDdbBtfUOc7HjAeExYq9Q1uMmaVNDhDI7HMIbSJ/vcySsU3A==
-X-Received: by 2002:a05:6402:b03:b0:42d:ce84:387a with SMTP id bm3-20020a0564020b0300b0042dce84387amr38840161edb.3.1654679249188;
-        Wed, 08 Jun 2022 02:07:29 -0700 (PDT)
-Received: from [192.168.0.190] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id ft29-20020a170907801d00b0071145c2f494sm5101080ejc.27.2022.06.08.02.07.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 02:07:28 -0700 (PDT)
-Message-ID: <e3add370-de7d-db41-0a35-489fda0a3f60@linaro.org>
-Date:   Wed, 8 Jun 2022 11:07:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: rt4831: Add the new ocp
- level property
-Content-Language: en-US
-To:     cy_huang <u0084500@gmail.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com
-Cc:     pavel@ucw.cz, deller@gmx.de, cy_huang@richtek.com,
-        lucas_tsai@richtek.com, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8eV6nIYV8SU6cGKfjJH6IuBQJkesB4s+GfYeW1ujbBY=;
+        b=GiJaSYJd6nJWX/kMkP/Ny0+gxtymToDIJT82c/x7fXaJwKAS8XaZ8DilaXpjs5NAWg
+         wdjoZG02Lkfrj9/X7voaa+Q8IC5ejVrt/8Fpvx6/TZ7m0qcLWKTaGKO0w8zXRRlicIlj
+         AZCYqFGujA3BTKcenrPAD9YPcDY+GaWdtaRFBuJGErfJoGZV3f3qvaH1Ng681VAAp7NP
+         +LRjmPbyZNy1OnQZtW5rdZzabxhvno5hsLOsWqD2Ixtek8Ua8UtC6sg2tgoGhFLJntsh
+         /A2eZv2aCh1tTJYxRizR1GT6vJ1ECKrZE4Rv43y3pmnGYg1lHBK6h4MEILs5GZ4pJWLM
+         L+Ow==
+X-Gm-Message-State: AOAM530qhTZmHaWH04zgi49iLiN+ledNk0Z6UBQ3iFU7icXZgbFY6Jrc
+        IkBQZnVNn/s9kAULOVcNC/Pr+w==
+X-Google-Smtp-Source: ABdhPJyM+IflvMN2gKuuxgwYkvwPOCyEfY1Cnbc1MlR6mjMqp5ng/HykRi2LIV6jvv1XqHQatPbucg==
+X-Received: by 2002:a7b:c5da:0:b0:39c:542a:a07b with SMTP id n26-20020a7bc5da000000b0039c542aa07bmr13928306wmk.83.1654680217388;
+        Wed, 08 Jun 2022 02:23:37 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id o18-20020a05600c4fd200b0039744bd664esm27578721wmq.13.2022.06.08.02.23.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 02:23:36 -0700 (PDT)
+Date:   Wed, 8 Jun 2022 10:23:34 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     cy_huang <u0084500@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee.jones@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        deller@gmx.de, cy_huang@richtek.com, lucas_tsai@richtek.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] backlight: rt4831: Apply ocp level from devicetree
+Message-ID: <20220608092334.23srjgxsjmj7mwer@maple.lan>
 References: <1654677674-15417-1-git-send-email-u0084500@gmail.com>
- <1654677674-15417-2-git-send-email-u0084500@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1654677674-15417-2-git-send-email-u0084500@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+ <1654677674-15417-3-git-send-email-u0084500@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1654677674-15417-3-git-send-email-u0084500@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,41 +74,20 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 08/06/2022 10:41, cy_huang wrote:
+On Wed, Jun 08, 2022 at 04:41:14PM +0800, cy_huang wrote:
 > From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> Add 'richtek,bled-ocp-microamp' property to make it chooseable.
+> Add 'richtek,bled-ocp-microamp' property parsing in
+> device_property_init function.
 > 
-> The wrong backlight ocp level may affect the backlight channel output
-> current smaller than configured.
+> This value may configure prior to the kernel driver. If it's not specified in
+> devicetree, keep the original setting. Else, use clamp to align the
+> value in min/max range and also roundup to choose the best selector.
 > 
+> Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
 > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> Since v2:
-> - Change the property name from 'richtek,bled-ocp-sel' to 'richtek,bled-ocp-microamp'.
-> 
-> ---
->  .../devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> index e0ac686..0f4beeb 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> @@ -47,6 +47,11 @@ properties:
->      minimum: 0
->      maximum: 3
->  
-> +  richtek,bled-ocp-microamp:
-> +    description: |
-> +      Backlight over current protection level, unit in microamp.
 
-Skip last part. Unit comes from property name.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-> The current
-> +      supported level is 0.9A/1.2A/1.5A/1.8A.
 
-Define here enum instead of this text.
-
-Best regards,
-Krzysztof
+Daniel.
