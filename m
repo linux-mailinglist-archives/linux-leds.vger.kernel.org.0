@@ -2,125 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF64E54290D
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jun 2022 10:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A692542B50
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jun 2022 11:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbiFHIPV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jun 2022 04:15:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47206 "EHLO
+        id S233750AbiFHJTk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Jun 2022 05:19:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232514AbiFHINb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jun 2022 04:13:31 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10243104C4
-        for <linux-leds@vger.kernel.org>; Wed,  8 Jun 2022 00:42:44 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id m32-20020a05600c3b2000b0039756bb41f2so10638499wms.3
-        for <linux-leds@vger.kernel.org>; Wed, 08 Jun 2022 00:42:44 -0700 (PDT)
+        with ESMTP id S235251AbiFHJTL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jun 2022 05:19:11 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC355224462;
+        Wed,  8 Jun 2022 01:41:27 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id q12-20020a17090a304c00b001e2d4fb0eb4so23139723pjl.4;
+        Wed, 08 Jun 2022 01:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=pDUMQH/JwikS3dGEuoL+s1rn8CjjChIDmrF7b583qjU=;
-        b=fKa3RQzgR1C9gPuzjlK18lPR2ODRZc9Pj5Y+S/gKLpIzbFKHaf1hSkOcGwqMnNsq9r
-         XMuR0mXisUyo/8tXYSJHQu1AEBby8iCEMYFo9QfFIPo7CeBdgGwt4qVeeX7wVgxf6yLX
-         bw288huVE7wnORJcuCI5o1dxTMI8dpA+TRhyYRY3VuiE+BlZ/D2EkZIJVJKnQEiTN0M4
-         2Tc/6fwu7DLHDdQbhhhmCxEbH3XYI2IzWnO/zUDfPluY0N6BMqQOxDd5pl8kgFNumtlP
-         e0rNv4a89XGj4Yn2zUj5RD1kWvz2pHoia7MKcqd+835Rt8u8iwj82sJeJYf00LEQTTM1
-         RbHQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=kCNBdcO4eoFOVjLRvT8Z2N/y1O53eJhJcKUq651+9sk=;
+        b=bit2wIiyAJxn1s5PrPmVxVa8L9FFb163p3AmfXkmDPgZQYMURTcFenjrXsCY6NqSIk
+         PuvsU+AvCWlaah1oVCI6b9yYDqT97QUVSyOR70IWJY/d13pMB/XZJvB76UP2u5QThVoY
+         yBXPWMS26gx8it4G2E15Cd0h5p4svWGSkUmHsXsfdcnWC3q5d9LPuD0qSmHAUsKmoMIU
+         yFyA/3sGyyWT6jzcGsluJRxxuZz/muWnFyNnhxCcWmr5jeOhaKqpURTed5MuU023P383
+         RBl4eQveJrM4024P+PAcQFeOrVMQBOj9431ZkTk+gCxdDOA58rpSDyDzbrwK4/MzDPs+
+         4dmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=pDUMQH/JwikS3dGEuoL+s1rn8CjjChIDmrF7b583qjU=;
-        b=1vQjQ0SLW66vYuaIHEEUC4UoH+6m08uohkWHI8B1j5WqZA9182aRNWbRPhY3is7Lam
-         /geqSIAMXUnxEVQk5QrtxIDij3HBg5Iq11IRg/FAScZjqHzVdQ95Vxny3cqYeEKS9Lm0
-         XH/6ijD+rmYScjkbC8Ou5L2z3Tp6oxwLYc/Qm1uIHlIPJTdLRbhq3yGEbxX4ZP+Tmo7B
-         YLI6AnYKtbjDLjlpeHjljFMXdhbXPZlsYgif6XKCRN4TWF9/hx2KvLGsb5pNhqLYN/He
-         esIDj2sVq+d0Ssb0B1dCD6Z4SHYYTVu/sJws32RroVs/7F4d33QgHWVtARTTvLl/43py
-         1d8A==
-X-Gm-Message-State: AOAM530hWqWhGM6HyXh64nqizfKYk1rcv4oVdUnBnGsjzr8g20vSDJME
-        fapQTk76NDyUOkXqsn30pZmI6Q==
-X-Google-Smtp-Source: ABdhPJxfmsfGuJRdtDGKUMYuiYyopBGOApn2Jgo+2/o+D5JV/RRywsnhNTpqwclfgNE8JAcQiqHOkA==
-X-Received: by 2002:a05:600c:5021:b0:39c:6571:e0b0 with SMTP id n33-20020a05600c502100b0039c6571e0b0mr190102wmr.177.1654674163150;
-        Wed, 08 Jun 2022 00:42:43 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id g20-20020a05600c4c9400b0039749b01ea7sm26101954wmp.32.2022.06.08.00.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 00:42:42 -0700 (PDT)
-Date:   Wed, 8 Jun 2022 08:42:40 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
-        Jean Delvare <jdelvare@suse.de>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Henning Schild <henning.schild@siemens.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Yong <jonathan.yong@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Tyser <ptyser@xes-inc.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Mark Gross <markgross@kernel.org>
-Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
-Message-ID: <YqBS8I62YBPFC9iS@google.com>
-References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=kCNBdcO4eoFOVjLRvT8Z2N/y1O53eJhJcKUq651+9sk=;
+        b=Of9T1oW80zJUx33bI+k5wrdHzz910ZJ3lu22CO4SqGmGNb2Btm4KjVPqYBPFtedrL5
+         nOMfdvebywfDmi9hRp7CtyG4JvhVI0XJgXlYjSsmfPnJ5inoDgzq5q0ArjnNPYNTiDyO
+         Wj+xvYZRq8CxLbogU0LyKQaOhMUz11Li/baaOUTqtYpZe6mwLKZxLOZ+jQhoPL9Kud1J
+         ixvSAZyaWNKZZLOKoRNVVhCJseVBAHsSzw8d3bLk+GCfScBfsrwnfKKKyxNlEkROMUHx
+         fzyKLlnGFclvtjyT+kopc2l8OTahnxphyNcjhcBwt3SkCriVEeIatLI2+Z25hs/07cXJ
+         jphA==
+X-Gm-Message-State: AOAM533VUc3pe0nktG5FvcCuA2+C28GVgMW7TEelaNJc///0ry32HH6b
+        1idOM9LiJAhRKEvX6rozv7/2t8wReG8X1g==
+X-Google-Smtp-Source: ABdhPJwNcbYcVlZIhaeCGBxYyO+6ciZc90nZSC52cPCGgsTAQa8jbSACg9+m6+RlipHxUBy8lvwUXg==
+X-Received: by 2002:a17:90a:4291:b0:1e2:92f3:20d1 with SMTP id p17-20020a17090a429100b001e292f320d1mr36261288pjg.163.1654677687268;
+        Wed, 08 Jun 2022 01:41:27 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:479:837b:38ad:1ae9:1239:b178])
+        by smtp.gmail.com with ESMTPSA id q4-20020a170902f34400b0015e8d4eb263sm13902217ple.173.2022.06.08.01.41.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Jun 2022 01:41:25 -0700 (PDT)
+From:   cy_huang <u0084500@gmail.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee.jones@linaro.org, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com
+Cc:     pavel@ucw.cz, deller@gmx.de, cy_huang@richtek.com,
+        lucas_tsai@richtek.com, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add the property to make backlight OCP level selectable
+Date:   Wed,  8 Jun 2022 16:41:12 +0800
+Message-Id: <1654677674-15417-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 06 Jun 2022, Andy Shevchenko wrote:
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-> There are a few users that would like to utilize P2SB mechanism of hiding
-> and unhiding a device from the PCI configuration space.
-> 
-> Here is the series to consolidate p2sb handling code for existing users
-> and to provide a generic way for new comer(s).
-> 
-> It also includes a patch to enable GPIO controllers on Apollo Lake
-> when it's used with ABL bootloader w/o ACPI support.
-> 
-> The patch that brings the helper ("platform/x86/intel: Add Primary to
-> Sideband (P2SB) bridge support") has a commit message that sheds a light
-> on what the P2SB is and why this is needed.
-> 
-> I have tested this on Apollo Lake platform (I'm able to see SPI NOR and
-> since we have an ACPI device for GPIO I do not see any attempts to recreate
-> one).
-> 
-> The series is ready to be merged via MFD tree, but see below.
-> 
-> The series also includes updates for Simatic IPC drivers that partially
-> tagged by respective maintainers (the main question is if Pavel is okay
-> with the last three patches, since I believe Hans is okay with removing
-> some code under PDx86). Hence the first 8 patches can be merged right
-> away and the rest when Pavel does his review.
+This patch series is to add the backlight ocp level property parsing.
 
-Can we just wait for Pavel's review, then merge them all at once?
+Since v2:
+- change the property name from the register style 'richtek,bled-ocp-cel' to
+  'richtek,bled-ocp-microamp'.
+- Use the clamp and roundup to get the ovp level selector.
+
+ChiYuan Huang (2):
+  dt-bindings: backlight: rt4831: Add the new ocp level property
+  backlight: rt4831: Apply ocp level from devicetree
+
+ .../leds/backlight/richtek,rt4831-backlight.yaml   |  5 ++++
+ drivers/video/backlight/rt4831-backlight.c         | 33 +++++++++++++++++++++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.7.4
+
