@@ -2,59 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 627CF545597
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 22:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B195455A9
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 22:31:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234604AbiFIU2W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jun 2022 16:28:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
+        id S235068AbiFIUbr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 16:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234419AbiFIU2V (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 16:28:21 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE80A1E04B1;
-        Thu,  9 Jun 2022 13:28:19 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id j20so3816179ljg.8;
-        Thu, 09 Jun 2022 13:28:19 -0700 (PDT)
+        with ESMTP id S234626AbiFIUbq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 16:31:46 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70A921808;
+        Thu,  9 Jun 2022 13:31:44 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id w20so18092350lfa.11;
+        Thu, 09 Jun 2022 13:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :references:from:in-reply-to:content-transfer-encoding;
-        bh=46OkSZCeD56sfzrRV9ixVa9kbc26s0RkXULJ1qM0uHw=;
-        b=Cqo4DSvIxHUHTuqtmXxBEQEss56ECscrzgfl6tFBQQHCwHv4gHc+tfptnqcWotUnwn
-         kfM7AqT75NAxphIsW4UmWdx1OMvBH82UlNcB/J3l+xA8Q25UnaHbCypKPUGW1epXcIKW
-         3IBLprzy5gOxwNAFx+x8NZCg3gTeT62BvN7F1YSOfoRuJo6+ew2xM1G0cAoCpdUwZ2kp
-         kZBttUZCWNmLKpe7pg00P+/0iVJoNtSmAcO2jLvQpGHsCBOGni1DyGQUkMTpo0JoxCH9
-         /8y4RA7vHZS/yy51dpCqH9fZ3EATcI+zV+1c4+nvuiJCJ6JNvUwSokhuStUyONTQ67/k
-         fLGg==
+        bh=CA2137blCv89eq2ZgR16JFTYhMBK9m/DAMtjtrUnzv4=;
+        b=FNyhUSkOM7ITAVGM42a2lcYI7sMqsdl0l5PUJFKaAoyxqtp/3p7EMeU5IC1E/DLGTN
+         lFmGYHU8olzBe1VrTMlwtGoLufWejlLWT3IoxvVDLA7fA96M9N3DyArbCRhj9J5BTi0y
+         66tc0iPJyUKSeQNfOl5YWQAyoeFRDpT95Lw2i1DzMQ0sSdXFwyUarMLWXWBBhhcS4jz6
+         svQcbwKYUzyq4m8WcM6yhHR50Lg3Uw1M4kx7kwKszV2XrqZO8g8J4rWI4N5IvNTPgTGV
+         xCBD6S5Xq9y/UXULLjfiwt4AoyAhnRzEnd7ZZAmYgtIW4fLG6J+vbT/8IRmLlf9MG3kb
+         SDBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=46OkSZCeD56sfzrRV9ixVa9kbc26s0RkXULJ1qM0uHw=;
-        b=n5x0kifhw/XGnaQXvwgLnhiWKRWXJsclrdhZtZ+MFE3vcDQylP9seGTIosf9sN5kbv
-         +uim5SpRX2nxlmpE+Ou1M45OgkF41lo1rrVybdtcZi+gV+1lGdaF19zJpjGQqx0ezvbY
-         ckNcJ4vpik7Eqmc3TK+0tLuRgG+K7QniKAZCZeo7u6zpxBdaLmkr5yWB0Kmig+xM4ZId
-         aLn1H1VBdJAfzu3JyOYYJmezTf+jrJdLG4p10hGJhppe3BD2dwPMHlJjL53+bp9RMjhp
-         xabITciWrpwoimZOHuw/kZ6WHtvVlouZsxXnr0SJ7j5xp9Zuz2o8Fhn3uEqS524q24hC
-         42lQ==
-X-Gm-Message-State: AOAM533A9J74+6G4MoKKclP9PSKlioUoogoeRoLomiOwvDCDqAFDlp2L
-        weYvOrOVrRbXyGVSwLf3LsiSRjVTro0=
-X-Google-Smtp-Source: ABdhPJyyeult8NpzAQqn7PaWa4sRx7dCdjWErZ27oucNSpMUlcJj32mPjTi39OlTcDR82vmZrn5E7w==
-X-Received: by 2002:a2e:9808:0:b0:255:59c1:3086 with SMTP id a8-20020a2e9808000000b0025559c13086mr27890832ljj.495.1654806498059;
-        Thu, 09 Jun 2022 13:28:18 -0700 (PDT)
+        bh=CA2137blCv89eq2ZgR16JFTYhMBK9m/DAMtjtrUnzv4=;
+        b=Q6buC3mnk+spodJoYpS0iByHA8QJQuabEEBLPMSIyaDXzt133aQjnhnIQBhXgtQs4e
+         W51zULw5WiVvuPe+wOhURoP6YiyinTC1/7gJloc8IXRUYkXfZciqT41o2f6QQT6zAqo0
+         m2OdTg/qsGUEpE5K7GsRwnN64V9unNJdi9p2CzHxoZSvOLIhwpduH5EjgLnPUBtWbWwY
+         cCT4ylmrDowmEDjm7Jk9T84h4np+GG1lqL27QCVbrAAZqrGQewTl63T4/v8g6/guoRJi
+         kiwBe0r3ahoVEvww4mUYKfysH8ynM8CQdH5tBHzPDZnsj50DKr5a/ffTnDEpQ0xH2QZz
+         mpbA==
+X-Gm-Message-State: AOAM532j3nKIK6XWXuu7zLHP1pc40mfTOw69TlmXujAOVU+hq93DiyZF
+        kOYmnTjYVzgJeIfV5xUMN9w=
+X-Google-Smtp-Source: ABdhPJzhToDwB+G1T0rZoz9FzKJtAL3yXpSGu2fYpJJiJS5R8uUYEpkNX6PVk+RkVORC1F5SWSz7Bw==
+X-Received: by 2002:ac2:4c50:0:b0:479:55a9:2e08 with SMTP id o16-20020ac24c50000000b0047955a92e08mr11574855lfk.642.1654806703162;
+        Thu, 09 Jun 2022 13:31:43 -0700 (PDT)
 Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id p20-20020ac24ed4000000b004744bfd620fsm198164lfr.236.2022.06.09.13.28.17
+        by smtp.gmail.com with ESMTPSA id q22-20020a194316000000b0047255d210e0sm4389159lfa.15.2022.06.09.13.31.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 13:28:17 -0700 (PDT)
-Message-ID: <d6d1642c-26b4-e4a8-5ae7-c4b952ae6c62@gmail.com>
-Date:   Thu, 9 Jun 2022 22:28:16 +0200
+        Thu, 09 Jun 2022 13:31:42 -0700 (PDT)
+Message-ID: <4a7f8ab6-c061-3861-5790-b6c0fbd7cad1@gmail.com>
+Date:   Thu, 9 Jun 2022 22:31:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 1/3] dt-bindings: leds: skyworks,aat1290: convert to
- dtschema
+Subject: Re: [PATCH 3/3] ARM: dts: exynos: add function and color to aat1290
+ flash LED node in Galaxy S3
 Content-Language: en-US
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
@@ -64,8 +64,9 @@ To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
 References: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
+ <20220607085343.72414-3-krzysztof.kozlowski@linaro.org>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220607085343.72414-3-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -81,43 +82,41 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Hi Krzysztof,
 
 On 6/7/22 10:53, Krzysztof Kozlowski wrote:
-> Convert the Skyworks Solutions, Inc. AAT1290 Current Regulator bindings
-> to DT Schema.
+> Add common LED properties - the function and color - to aat1290 flash
+> LED node in Galaxy S3.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-[...]
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    // Ct = 220 nF, Rset = 160 kOhm
-> +    led-controller {
-> +        compatible = "skyworks,aat1290";
-> +        flen-gpios = <&gpj1 1 GPIO_ACTIVE_HIGH>;
-> +        enset-gpios = <&gpj1 2 GPIO_ACTIVE_HIGH>;
-> +
-> +        pinctrl-names = "default", "host", "isp";
-> +        pinctrl-0 = <&camera_flash_host>;
-> +        pinctrl-1 = <&camera_flash_host>;
-> +        pinctrl-2 = <&camera_flash_isp>;
-> +
-> +        led {
-> +            label = "flash";
+> ---
+>   arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
+> index 72901772fcad..d76f3678dcab 100644
+> --- a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
+> +++ b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
+> @@ -7,6 +7,7 @@
+>    */
+>   
+>   /dts-v1/;
+> +#include <dt-bindings/leds/common.h>
+>   #include "exynos4412-midas.dtsi"
+>   
+>   / {
+> @@ -27,6 +28,8 @@ led-controller {
+>   
+>   		led {
+>   			label = "flash";
+> +			function = LED_FUNCTION_FLASH;
+> +			color = <LED_COLOR_ID_WHITE>;
 
-Why are you adding label? It is deprecated, but has the precedence over
-new function and color for backwards compatibility, so it would make
-those unused by the driver now. Please drop the label from this example.
+Addition of these two properties will not change anything because
+the label has precedence. It is deprecated, but if you introduce
+function and color to the binding instead of the label, the resulting
+LED class device name will change.
 
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            led-max-microamp = <520833>;
-> +            flash-max-microamp = <1012500>;
-> +            flash-max-timeout-us = <1940000>;
-> +        };
-> +    };
+>   			led-max-microamp = <520833>;
+>   			flash-max-microamp = <1012500>;
+>   			flash-max-timeout-us = <1940000>;
 
 -- 
 Best regards,
