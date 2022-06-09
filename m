@@ -2,160 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27C36544167
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 04:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 717A6544747
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 11:23:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236535AbiFICWo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jun 2022 22:22:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46196 "EHLO
+        id S233983AbiFIJXN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 05:23:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236634AbiFICWm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jun 2022 22:22:42 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E6C27E1E8;
-        Wed,  8 Jun 2022 19:22:41 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id d129so20560462pgc.9;
-        Wed, 08 Jun 2022 19:22:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zUInyvNeOnDXs6rfO5VKVDhyL30Ry7vKQyVq8b/sXhM=;
-        b=URFVRvzYDluiblUwQq0fFYaerhtlF8YxghQ8N9Sk9qFp3XcUC/UN6ixBnaxA2e4s9l
-         2XU1ufsmKeJFRB8lKM/0XUTQ/seh6zC/7VWXW2ktyopwuZvHMa1x42kogSv8c9cYuK5i
-         keBswrmSPE26QtkbcNEIqCYXw0L9DJJdv8Hz/RFjEo5yib6drZVERoP/5ge5QUE5I4JO
-         s+5/rxrM0nBL0ig3B3rRwZr2ndKjhCmlcQpdyM6l8ekz29Pb4d9wWNvoAVelyCL2IDEW
-         2WNlja1Ue5RBd7NabxHWxha+FK3kDgvIDtp5e/ZDNmCQSKuXljhNcLxLGG2Zqw3gab0h
-         fhfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=zUInyvNeOnDXs6rfO5VKVDhyL30Ry7vKQyVq8b/sXhM=;
-        b=KQf2vBYaJ6W/PBsq9U2mA4d3tMtq835LFlbwnYRKyn2U6x/IwjCwZJPmWcBmekIWUD
-         IMPyyxuFGEj1k6Ryq24pww7qHAq/Kzyvpv1KJqJlIOzAqzXQCTc436V+7zbdODQcjvwo
-         pAU7ARKnrKcHS0T/JFDrmzbq2sLMH3SsgOZfPJvqzFiNhfx7X2dD9Cs3XA2MGccWEgmu
-         ePwrYrZG5ta4wqOv0L8FJDjiR91t/tVLVputNTJFXfosLbcGMjJgaWS1tTdrxFkg1YdM
-         OwdjTk45E8NNKdGBeSz9+l3MTg+H/5HIexG7eriZdAFitLYi+qWUm6tGGILIsrH+PPKw
-         73Rw==
-X-Gm-Message-State: AOAM5317tV7Uus3HjFG9cYnH3yqa2xKxn5LFGCpHBJkRTDZPLCFObA3E
-        e/2c81SNegK/l3OkuZKzX1I=
-X-Google-Smtp-Source: ABdhPJxgN6xlX7nmneOpKS4cylXau9IRK1Vj1JgQbUIyitFG9LNgyXER82qKAdrSu8+0lZQhHjeIXw==
-X-Received: by 2002:a63:ea4f:0:b0:3c6:6534:d8f2 with SMTP id l15-20020a63ea4f000000b003c66534d8f2mr32515923pgk.187.1654741360832;
-        Wed, 08 Jun 2022 19:22:40 -0700 (PDT)
-Received: from localhost.localdomain ([2402:7500:478:d041:804b:4db9:72:b011])
-        by smtp.gmail.com with ESMTPSA id y22-20020aa78056000000b005183f333721sm15748770pfm.87.2022.06.08.19.22.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Jun 2022 19:22:40 -0700 (PDT)
-From:   cy_huang <u0084500@gmail.com>
-To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        lee.jones@linaro.org, daniel.thompson@linaro.org,
-        jingoohan1@gmail.com
-Cc:     pavel@ucw.cz, deller@gmx.de, cy_huang@richtek.com,
-        lucas_tsai@richtek.com, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] backlight: rt4831: Apply ocp level from devicetree
-Date:   Thu,  9 Jun 2022 10:22:19 +0800
-Message-Id: <1654741339-12756-3-git-send-email-u0084500@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1654741339-12756-1-git-send-email-u0084500@gmail.com>
-References: <1654741339-12756-1-git-send-email-u0084500@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S232120AbiFIJXM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 05:23:12 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5912B18A
+        for <linux-leds@vger.kernel.org>; Thu,  9 Jun 2022 02:23:11 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nzENh-00015X-JK; Thu, 09 Jun 2022 11:23:09 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nzENh-007M2y-U0; Thu, 09 Jun 2022 11:23:08 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nzENf-00F9xV-KT; Thu, 09 Jun 2022 11:23:07 +0200
+Date:   Thu, 9 Jun 2022 11:23:06 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 2/2] leds: lm3697: Remove duplicated error reporting in
+ .remove()
+Message-ID: <20220609092306.bptity7k2bss37qe@pengutronix.de>
+References: <20220515161227.339514-1-u.kleine-koenig@pengutronix.de>
+ <20220515161227.339514-2-u.kleine-koenig@pengutronix.de>
+ <20220601093537.hsje2sgh7jiv65th@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zg4jylflj6cmhze4"
+Content-Disposition: inline
+In-Reply-To: <20220601093537.hsje2sgh7jiv65th@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: ChiYuan Huang <cy_huang@richtek.com>
 
-Add 'richtek,bled-ocp-microamp' property parsing in
-device_property_init function.
+--zg4jylflj6cmhze4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This value may configure prior to the kernel driver. If it's not specified in
-devicetree, keep the original setting. Else, use clamp to align the
-value in min/max range and also roundup to choose the best selector.
+Hello Pavel,
 
-Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
----
-Since v2:
-- Prase the 'richtek,bled-ocp-microamp', clamp the value in min/max range, and
-  roundup to get the best selector.
+On Wed, Jun 01, 2022 at 11:35:37AM +0200, Uwe Kleine-K=F6nig wrote:
+> On Sun, May 15, 2022 at 06:12:27PM +0200, Uwe Kleine-K=F6nig wrote:
+> > Returning an error value from an i2c remove callback results in an error
+> > message being emitted by the i2c core, but otherwise it doesn't make a
+> > difference. The device goes away anyhow and the devm cleanups are
+> > called.
+> >=20
+> > As lm3697_remove() already emits an error message on failure and the
+> > additional error message by the i2c core doesn't add any useful
+> > information, don't pass the error value up the stack. Instead continue
+> > to clean up and return 0.
+> >=20
+> > This patch is a preparation for making i2c remove callbacks return void.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> you merged patch 1 of this series (which is in Linus Torvald's tree
+> now). But you neither commented nor merged this patch. I assume you just
+> missed this one?
 
----
- drivers/video/backlight/rt4831-backlight.c | 33 +++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+Just a quick additional note: I want to tackle making i2c remove
+callbacks return void after the next merge window and this is a
+preparing patch for that. So it would be great if that patch made it in
+in the post 5.19 merge window. Otherwise I'll send this patch together
+with the callback change to get accepted via the i2c tree.
 
-diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
-index 42155c7..8c2001b 100644
---- a/drivers/video/backlight/rt4831-backlight.c
-+++ b/drivers/video/backlight/rt4831-backlight.c
-@@ -12,6 +12,7 @@
- #define RT4831_REG_BLCFG	0x02
- #define RT4831_REG_BLDIML	0x04
- #define RT4831_REG_ENABLE	0x08
-+#define RT4831_REG_BLOPT2	0x11
- 
- #define RT4831_BLMAX_BRIGHTNESS	2048
- 
-@@ -23,6 +24,11 @@
- #define RT4831_BLDIML_MASK	GENMASK(2, 0)
- #define RT4831_BLDIMH_MASK	GENMASK(10, 3)
- #define RT4831_BLDIMH_SHIFT	3
-+#define RT4831_BLOCP_MASK	GENMASK(1, 0)
-+
-+#define RT4831_BLOCP_MINUA	900000
-+#define RT4831_BLOCP_MAXUA	1800000
-+#define RT4831_BLOCP_STEPUA	300000
- 
- struct rt4831_priv {
- 	struct device *dev;
-@@ -85,7 +91,7 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
- {
- 	struct device *dev = priv->dev;
- 	u8 propval;
--	u32 brightness;
-+	u32 brightness, ocp_uA;
- 	unsigned int val = 0;
- 	int ret;
- 
-@@ -120,6 +126,31 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * This OCP level is used to protect and limit the inductor current.
-+	 * If inductor peak current reach the level, low-side MOSFET will be
-+	 * turned off. Meanwhile, the output channel current may be limited.
-+	 * To match the configured channel current, the inductor chosen must
-+	 * be higher than the OCP level.
-+	 *
-+	 * Not like the OVP level, the default 21V can be used in the most
-+	 * application. But if the chosen OCP level is smaller than needed,
-+	 * it will also affect the backlight channel output current to be
-+	 * smaller than the register setting.
-+	 */
-+	ret = device_property_read_u32(dev, "richtek,bled-ocp-microamp",
-+				       &ocp_uA);
-+	if (!ret) {
-+		ocp_uA = clamp_val(ocp_uA, RT4831_BLOCP_MINUA,
-+				   RT4831_BLOCP_MAXUA);
-+		val = roundup(ocp_uA - RT4831_BLOCP_MINUA,
-+			      RT4831_BLOCP_STEPUA);
-+		ret = regmap_update_bits(priv->regmap, RT4831_REG_BLOPT2,
-+					 RT4831_BLOCP_MASK, val);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = device_property_read_u8(dev, "richtek,channel-use", &propval);
- 	if (ret) {
- 		dev_err(dev, "richtek,channel-use DT property missing\n");
--- 
-2.7.4
+See
+https://lore.kernel.org/linux-i2c/20220609091018.q52fhowlsdbdkct5@pengutron=
+ix.de/
+for some more details.
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zg4jylflj6cmhze4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKhu/cACgkQwfwUeK3K
+7AktKwgAjB9uxtdNbcxtftiopEeiAcHcLDsbUX1e3RaGeehHFINKTjtzyogB96UF
+VNoU6MsxdcrHKRbH/G0mUvXRYmEOTM71qjVH1BE93Xmd1ppJTNx5teNzGL+fUFeZ
+d6oZhXef+YqHJ3CN49LOz5zM+sPQn6vEVrLikTlrEdZZLMFXpRApXI4PISNUM11h
+TLQY8Z7WyEGdMFZAlxCeVR9Bed9yVSpoFcqEjUKwy7FA9ZgHJPVpnlYZNyB8cV5C
+32wP8X6o5ozhlbcH6BxP0s5Ro2G0QU9jGEbMANmmgmxS18yS4RSkPMy9oFFl67n4
+Y2chNVnj/MWEpoL8QpfAwA/4ptHbsg==
+=rp00
+-----END PGP SIGNATURE-----
+
+--zg4jylflj6cmhze4--
