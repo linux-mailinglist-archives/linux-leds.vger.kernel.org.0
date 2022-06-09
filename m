@@ -2,76 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9B195455A9
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 22:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBC45545772
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Jun 2022 00:31:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235068AbiFIUbr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jun 2022 16:31:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
+        id S237156AbiFIWb2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 18:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234626AbiFIUbq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 16:31:46 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70A921808;
-        Thu,  9 Jun 2022 13:31:44 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id w20so18092350lfa.11;
-        Thu, 09 Jun 2022 13:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=CA2137blCv89eq2ZgR16JFTYhMBK9m/DAMtjtrUnzv4=;
-        b=FNyhUSkOM7ITAVGM42a2lcYI7sMqsdl0l5PUJFKaAoyxqtp/3p7EMeU5IC1E/DLGTN
-         lFmGYHU8olzBe1VrTMlwtGoLufWejlLWT3IoxvVDLA7fA96M9N3DyArbCRhj9J5BTi0y
-         66tc0iPJyUKSeQNfOl5YWQAyoeFRDpT95Lw2i1DzMQ0sSdXFwyUarMLWXWBBhhcS4jz6
-         svQcbwKYUzyq4m8WcM6yhHR50Lg3Uw1M4kx7kwKszV2XrqZO8g8J4rWI4N5IvNTPgTGV
-         xCBD6S5Xq9y/UXULLjfiwt4AoyAhnRzEnd7ZZAmYgtIW4fLG6J+vbT/8IRmLlf9MG3kb
-         SDBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=CA2137blCv89eq2ZgR16JFTYhMBK9m/DAMtjtrUnzv4=;
-        b=Q6buC3mnk+spodJoYpS0iByHA8QJQuabEEBLPMSIyaDXzt133aQjnhnIQBhXgtQs4e
-         W51zULw5WiVvuPe+wOhURoP6YiyinTC1/7gJloc8IXRUYkXfZciqT41o2f6QQT6zAqo0
-         m2OdTg/qsGUEpE5K7GsRwnN64V9unNJdi9p2CzHxoZSvOLIhwpduH5EjgLnPUBtWbWwY
-         cCT4ylmrDowmEDjm7Jk9T84h4np+GG1lqL27QCVbrAAZqrGQewTl63T4/v8g6/guoRJi
-         kiwBe0r3ahoVEvww4mUYKfysH8ynM8CQdH5tBHzPDZnsj50DKr5a/ffTnDEpQ0xH2QZz
-         mpbA==
-X-Gm-Message-State: AOAM532j3nKIK6XWXuu7zLHP1pc40mfTOw69TlmXujAOVU+hq93DiyZF
-        kOYmnTjYVzgJeIfV5xUMN9w=
-X-Google-Smtp-Source: ABdhPJzhToDwB+G1T0rZoz9FzKJtAL3yXpSGu2fYpJJiJS5R8uUYEpkNX6PVk+RkVORC1F5SWSz7Bw==
-X-Received: by 2002:ac2:4c50:0:b0:479:55a9:2e08 with SMTP id o16-20020ac24c50000000b0047955a92e08mr11574855lfk.642.1654806703162;
-        Thu, 09 Jun 2022 13:31:43 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id q22-20020a194316000000b0047255d210e0sm4389159lfa.15.2022.06.09.13.31.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 13:31:42 -0700 (PDT)
-Message-ID: <4a7f8ab6-c061-3861-5790-b6c0fbd7cad1@gmail.com>
-Date:   Thu, 9 Jun 2022 22:31:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 3/3] ARM: dts: exynos: add function and color to aat1290
- flash LED node in Galaxy S3
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        with ESMTP id S235078AbiFIWb0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 18:31:26 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEA015D338;
+        Thu,  9 Jun 2022 15:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1654813877;
+        bh=vEaQf4ej1aP5nbwJBkZozLJilZKt9/y7Cca4UzA3dn4=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=UKG2zb0qW8oKhFGrjWfD5KVGo9+5L0HVrd01a5Fk2Ms105evTIgKyZFlXv9c/DlV6
+         FtdtW3cqo5RoUuvYCdr8DoHJ2NJCu732hTx+xyv7HZAplLA6IeIm4bkvnBqYDWCffe
+         gHKA1TcdgKn05DJ/11RMYg1yzqCkJ9GDrKxwG7oc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([81.173.137.165]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mt79P-1nkNq8196v-00tQVu; Fri, 10
+ Jun 2022 00:31:17 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     devicetree@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-References: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
- <20220607085343.72414-3-krzysztof.kozlowski@linaro.org>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20220607085343.72414-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: leds: Fix reference to definition of default-state
+Date:   Fri, 10 Jun 2022 00:31:13 +0200
+Message-Id: <20220609223114.183038-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/S+TrqVEu+MfQoi2V9hxHqC1lkX2c/nUIRluP8XEoIkfBeX2O2+
+ /RqGjXDXUcNO+192KSgXE+5lrv501h1PsMqlxSpJ5RI+YDMRRl589hWZYTuDBfHkwUP5ElZ
+ Yfk2jRnPKcjeGi22/yH+/DWDz3Ccd79bYW47OS/gSl3XexgoFwsyDkmYc/Guxc4hrQYOrXU
+ 7f5CX/4JmKyvLZXOj8wIw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qBo5RD/iq4E=:oUDwP1QXeVH2FbvGIcVs7u
+ 1d1egTJUSV+4GqcktxoHxMdz6y7bEF5ob5NDXm3N0e4DL0ltkyiLHYo0Borbv2tKqvtnvLTEb
+ YDxp3Qv+hfWQ9F1aAeiVC3+dezdeQ4GwIyZlVUazOAfMeX3lQ+Zj4JYa8peYu7OzSLPA7acwc
+ GzYjgXfjD2kb8PqjnL/9yMXx+4DXMwHRjne6Oj40e49oPJnyJE3ma/YENlnoI1eOLUjZlPFEn
+ f8kr3KYZ+IeE8BQmAWPcehUV83HYkA8h5u0CFjNx03T7YUzM3U5M1NwQfmjYcchevgI81HVrQ
+ skhjsIC26BpNxB7S2GNmHXi7tuwHVHlOhoIhpq6ST9CvRPcTqmtbbseTprXoT+cvYuqeqtt6i
+ iTlA/PgjRH1KNzqLLbj8MdmdW3kyITD3/r2QU6fdN4Rd0oy7nH4rxNNlkn2qHoCW/AbBYTZOF
+ uCnBhMeGOp63U+s2rkPJg/vdIj3Sd4ZYN1eo9ZVvGbT046eWTH/RCQKajHve09opeZBagcZwh
+ hDgOX3aFGhCTqfldkWvN5RsnibK7WaoRSXCE3ylcuC3ZT/kPeMXmwzdqTHGxy7fGZ1vzpD/fV
+ lDFhkffhbjhoSdgkH8YBU2wH16UN/wT8LPHf6/+GQUVSjDBB/bGGNVZrMYiPmg6TaHE9bjFcZ
+ moN7Mo6kRkEbae8ohOzBIcZvQQacjr9fit+BPNF31XWiylixhz+wbHVMf2qD2ly8VnpTm+F3p
+ LAGfHzxqNJmMPvN7x84AKVUP+esom3ODLnsrvew80pgezCJzj4FzTCoOkrQI8QGG1cxsutdke
+ H1PFrGRUxa83Cj9qI140ffnZXIrRE4pKa7aiHagIgFAWiaz86AA1v+IVSeznAcdWtIAEVnmd2
+ 1W7egEe2GYi43PRy/sXSsPTQwoFeWKscKHMOxJKx+uFgW3gEKmgdrC4Kt9sE2rY/sXvqRueaK
+ 2MVBddn34lk4Q7RJ/kmg5k65Wx+XXm3KYERegDf/RyXM1cZtwhzNpO9887MiLUlbazhU/G1pM
+ wQEAeuiRvm7nhmi2EgDOZCpLWa92YfOXIfI8Dg4Qw6HdRaRyzrCqW6D2LfvbiLgx6U6icP1gR
+ QCJmQ1kHNk5J2jjOfZVfEvv1BAil/TcL2bqfOcqt9FkAegMooGNEIDpzg==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,45 +70,32 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Krzysztof,
+At least since the YAML conversion, the default-state property is
+described in leds/common.yaml, so there's no need to point to another
+file for its definition.
 
-On 6/7/22 10:53, Krzysztof Kozlowski wrote:
-> Add common LED properties - the function and color - to aat1290 flash
-> LED node in Galaxy S3.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
-> index 72901772fcad..d76f3678dcab 100644
-> --- a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
-> +++ b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
-> @@ -7,6 +7,7 @@
->    */
->   
->   /dts-v1/;
-> +#include <dt-bindings/leds/common.h>
->   #include "exynos4412-midas.dtsi"
->   
->   / {
-> @@ -27,6 +28,8 @@ led-controller {
->   
->   		led {
->   			label = "flash";
-> +			function = LED_FUNCTION_FLASH;
-> +			color = <LED_COLOR_ID_WHITE>;
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/devicetree/bindings/leds/common.yaml | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Addition of these two properties will not change anything because
-the label has precedence. It is deprecated, but if you introduce
-function and color to the binding instead of the label, the resulting
-LED class device name will change.
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Document=
+ation/devicetree/bindings/leds/common.yaml
+index 328952d7acbbc..35fcdad711b03 100644
+=2D-- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -82,8 +82,7 @@ properties:
+     enum:
+         # LED will act as a back-light, controlled by the framebuffer sys=
+tem
+       - backlight
+-        # LED will turn on (but for leds-gpio see "default-state" propert=
+y in
+-        # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
++        # LED will turn on (see also "default-state" property)
+       - default-on
+         # LED "double" flashes at a load average based rate
+       - heartbeat
+=2D-
+2.35.1
 
->   			led-max-microamp = <520833>;
->   			flash-max-microamp = <1012500>;
->   			flash-max-timeout-us = <1940000>;
-
--- 
-Best regards,
-Jacek Anaszewski
