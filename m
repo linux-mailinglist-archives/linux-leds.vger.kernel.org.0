@@ -2,83 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C32545553
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 22:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 627CF545597
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 22:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbiFIUKp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jun 2022 16:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58538 "EHLO
+        id S234604AbiFIU2W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 16:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbiFIUKo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 16:10:44 -0400
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E83D6572;
-        Thu,  9 Jun 2022 13:10:43 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id r3so19553063ilt.8;
-        Thu, 09 Jun 2022 13:10:43 -0700 (PDT)
+        with ESMTP id S234419AbiFIU2V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 16:28:21 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE80A1E04B1;
+        Thu,  9 Jun 2022 13:28:19 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id j20so3816179ljg.8;
+        Thu, 09 Jun 2022 13:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=46OkSZCeD56sfzrRV9ixVa9kbc26s0RkXULJ1qM0uHw=;
+        b=Cqo4DSvIxHUHTuqtmXxBEQEss56ECscrzgfl6tFBQQHCwHv4gHc+tfptnqcWotUnwn
+         kfM7AqT75NAxphIsW4UmWdx1OMvBH82UlNcB/J3l+xA8Q25UnaHbCypKPUGW1epXcIKW
+         3IBLprzy5gOxwNAFx+x8NZCg3gTeT62BvN7F1YSOfoRuJo6+ew2xM1G0cAoCpdUwZ2kp
+         kZBttUZCWNmLKpe7pg00P+/0iVJoNtSmAcO2jLvQpGHsCBOGni1DyGQUkMTpo0JoxCH9
+         /8y4RA7vHZS/yy51dpCqH9fZ3EATcI+zV+1c4+nvuiJCJ6JNvUwSokhuStUyONTQ67/k
+         fLGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hu/KmUyRIWRHw+tVp/TRd7thi4SABOMvdE0DmVGk4P8=;
-        b=48zpVDM6ZmbjJWyk+B8ACUALP4eHBKuHE1Xm5bkq0kLt49iFQW3+PsTvPSBOufyoIY
-         AqREguKEYmxDrX2yptsMKglhBRX2i8Va6jiDnXKGJCGC3lYvGFWDiSF0M8YtrFIczgON
-         SgQI3uLWWjxvyOqAlGxDXL922+oWgW4FrPG5MrXfYRXUM9IywU93O+S/0TYvAqwvhg6X
-         Se9DSY5BZULjpY8BlWVZvNZU+LjgIaHjf2TQegvZprKmTwxBIVD1dsD7FqkjGksqdg70
-         nC6A/KRlRzU1y0AApNTyl9NuKzMFam8j659sKv8h5BcOnBY4b0EXGfHpXrYQddG3uX67
-         LEjg==
-X-Gm-Message-State: AOAM533v9CVVYw72pdyYWzunFVAayjyJJW+I94l9VU4C3C0vtrWdSEgW
-        mfwalMqLbUSgA9kC8lISr1wooHitaw==
-X-Google-Smtp-Source: ABdhPJzbnMgq7DhjNPfGJdQUaIAuCLln7Meofq002rllS6dGJZ9peZBk2+yKLhaDUF4T8eLmBdNoZQ==
-X-Received: by 2002:a92:c146:0:b0:2d7:6168:21a0 with SMTP id b6-20020a92c146000000b002d7616821a0mr3515114ilh.120.1654805442533;
-        Thu, 09 Jun 2022 13:10:42 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id p3-20020a02c803000000b00331d411da60sm3784259jao.75.2022.06.09.13.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 13:10:42 -0700 (PDT)
-Received: (nullmailer pid 22748 invoked by uid 1000);
-        Thu, 09 Jun 2022 20:10:40 -0000
-Date:   Thu, 9 Jun 2022 14:10:40 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=46OkSZCeD56sfzrRV9ixVa9kbc26s0RkXULJ1qM0uHw=;
+        b=n5x0kifhw/XGnaQXvwgLnhiWKRWXJsclrdhZtZ+MFE3vcDQylP9seGTIosf9sN5kbv
+         +uim5SpRX2nxlmpE+Ou1M45OgkF41lo1rrVybdtcZi+gV+1lGdaF19zJpjGQqx0ezvbY
+         ckNcJ4vpik7Eqmc3TK+0tLuRgG+K7QniKAZCZeo7u6zpxBdaLmkr5yWB0Kmig+xM4ZId
+         aLn1H1VBdJAfzu3JyOYYJmezTf+jrJdLG4p10hGJhppe3BD2dwPMHlJjL53+bp9RMjhp
+         xabITciWrpwoimZOHuw/kZ6WHtvVlouZsxXnr0SJ7j5xp9Zuz2o8Fhn3uEqS524q24hC
+         42lQ==
+X-Gm-Message-State: AOAM533A9J74+6G4MoKKclP9PSKlioUoogoeRoLomiOwvDCDqAFDlp2L
+        weYvOrOVrRbXyGVSwLf3LsiSRjVTro0=
+X-Google-Smtp-Source: ABdhPJyyeult8NpzAQqn7PaWa4sRx7dCdjWErZ27oucNSpMUlcJj32mPjTi39OlTcDR82vmZrn5E7w==
+X-Received: by 2002:a2e:9808:0:b0:255:59c1:3086 with SMTP id a8-20020a2e9808000000b0025559c13086mr27890832ljj.495.1654806498059;
+        Thu, 09 Jun 2022 13:28:18 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id p20-20020ac24ed4000000b004744bfd620fsm198164lfr.236.2022.06.09.13.28.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 13:28:17 -0700 (PDT)
+Message-ID: <d6d1642c-26b4-e4a8-5ae7-c4b952ae6c62@gmail.com>
+Date:   Thu, 9 Jun 2022 22:28:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
 Subject: Re: [PATCH 1/3] dt-bindings: leds: skyworks,aat1290: convert to
  dtschema
-Message-ID: <20220609201040.GA22636-robh@kernel.org>
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
 References: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 In-Reply-To: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 07 Jun 2022 10:53:41 +0200, Krzysztof Kozlowski wrote:
+Hi Krzysztof,
+
+On 6/7/22 10:53, Krzysztof Kozlowski wrote:
 > Convert the Skyworks Solutions, Inc. AAT1290 Current Regulator bindings
 > to DT Schema.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/leds/leds-aat1290.txt | 77 ---------------
->  .../bindings/leds/skyworks,aat1290.yaml       | 96 +++++++++++++++++++
->  2 files changed, 96 insertions(+), 77 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-aat1290.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/skyworks,aat1290.yaml
-> 
+[...]
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    // Ct = 220 nF, Rset = 160 kOhm
+> +    led-controller {
+> +        compatible = "skyworks,aat1290";
+> +        flen-gpios = <&gpj1 1 GPIO_ACTIVE_HIGH>;
+> +        enset-gpios = <&gpj1 2 GPIO_ACTIVE_HIGH>;
+> +
+> +        pinctrl-names = "default", "host", "isp";
+> +        pinctrl-0 = <&camera_flash_host>;
+> +        pinctrl-1 = <&camera_flash_host>;
+> +        pinctrl-2 = <&camera_flash_isp>;
+> +
+> +        led {
+> +            label = "flash";
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Why are you adding label? It is deprecated, but has the precedence over
+new function and color for backwards compatibility, so it would make
+those unused by the driver now. Please drop the label from this example.
+
+> +            function = LED_FUNCTION_FLASH;
+> +            color = <LED_COLOR_ID_WHITE>;
+> +            led-max-microamp = <520833>;
+> +            flash-max-microamp = <1012500>;
+> +            flash-max-timeout-us = <1940000>;
+> +        };
+> +    };
+
+-- 
+Best regards,
+Jacek Anaszewski
