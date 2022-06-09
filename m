@@ -2,117 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 717A6544747
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 11:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E05A5544761
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 11:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233983AbiFIJXN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jun 2022 05:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46640 "EHLO
+        id S239637AbiFIJ0q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 05:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbiFIJXM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 05:23:12 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5912B18A
-        for <linux-leds@vger.kernel.org>; Thu,  9 Jun 2022 02:23:11 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nzENh-00015X-JK; Thu, 09 Jun 2022 11:23:09 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nzENh-007M2y-U0; Thu, 09 Jun 2022 11:23:08 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1nzENf-00F9xV-KT; Thu, 09 Jun 2022 11:23:07 +0200
-Date:   Thu, 9 Jun 2022 11:23:06 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 2/2] leds: lm3697: Remove duplicated error reporting in
- .remove()
-Message-ID: <20220609092306.bptity7k2bss37qe@pengutronix.de>
-References: <20220515161227.339514-1-u.kleine-koenig@pengutronix.de>
- <20220515161227.339514-2-u.kleine-koenig@pengutronix.de>
- <20220601093537.hsje2sgh7jiv65th@pengutronix.de>
+        with ESMTP id S235608AbiFIJ0m (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 05:26:42 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8670449FA7
+        for <linux-leds@vger.kernel.org>; Thu,  9 Jun 2022 02:26:39 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id a15so23030663wrh.2
+        for <linux-leds@vger.kernel.org>; Thu, 09 Jun 2022 02:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=doJDwgeNCCpGAVqsr1zYgJtRpwsMml2sELB5t/MLY5M=;
+        b=VPq3f0ZdO06SkOgMTlkS3D7YZmul+nXO/J0BjMk+stYpad6L9H5cOp2IBGHQEJn+Sl
+         1DMRophNR04WNcXUHOqrs6OdfQB6HANh/JIw0MbdRNMPdyNkUr80U6L24XxRCD+MDAjQ
+         b8uHt8YM3EAoR9QEqHA6AWl3jKoB4Qv35ji2cAwqZiUJ19jKK2galnmED0gVBj+49+66
+         /qGVkju5ZMhYZOrCdmwHdn/4FpDWyJv/LT9amthGPdsenZoaAJkV3WM4pcG5dhO2/6AC
+         O8TCD9uWN5YA+b2+xx6Tzxnp/uPXS1CUQ9z2beYU40E9pslWPHdTUZeMIWzAmccv0CRG
+         zrng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=doJDwgeNCCpGAVqsr1zYgJtRpwsMml2sELB5t/MLY5M=;
+        b=CryUN7ozAto1EFjYIRgxp5fwu0r70IUmhgIjViYgLzRzQbmcjjhqwZjQk3pqVsxRPt
+         0l2OWzaMkSqoQhAv4YMTD8NOB4di/q/0URYQG35CYDT8yXSSzhrQhUxkjBsFB4vJNvZG
+         4lkzEMy116gxE2ygYBQYoWgFEAwwIlRgYLS7gh8P7fv5BtpJjD/O6x3KhNrn1xmZbDHd
+         4bEfFs7wD3hckBYNlGqgV0b5sFs8opzgDquQ+hCYAUyZaqyeKcraogrsaiL/5oUE7ysV
+         jfb03rFdZKHB5+3uCaEieBhNNHeUH1keao/eV0t5AVl+EgKjI+wCZ2tUOGb9sunZdzl1
+         6pNw==
+X-Gm-Message-State: AOAM531OT3bsHPYGO3dCeEvF7/8W0w8tm0Fd4+hyUwowgrFaZ1KTAgnM
+        EGI127BPZoHuI263mX0heuOuvQ==
+X-Google-Smtp-Source: ABdhPJwHbfMoTUujhvRpFZUQSGO8P5QHWho99EELCVbHKvomYjfYHQdY9sivEWq9/Zf7ddPDSfJWtA==
+X-Received: by 2002:adf:f750:0:b0:210:2ef5:7c5c with SMTP id z16-20020adff750000000b002102ef57c5cmr36424281wrp.416.1654766797986;
+        Thu, 09 Jun 2022 02:26:37 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id b15-20020adfde0f000000b002103136623esm24819171wrm.85.2022.06.09.02.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 02:26:37 -0700 (PDT)
+Date:   Thu, 9 Jun 2022 10:26:35 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     cy_huang <u0084500@gmail.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        lee.jones@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        deller@gmx.de, cy_huang@richtek.com, lucas_tsai@richtek.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: rt4831: Add the new ocp
+ level property
+Message-ID: <20220609092635.ew3wqfi2uv6d3smj@maple.lan>
+References: <1654741339-12756-1-git-send-email-u0084500@gmail.com>
+ <1654741339-12756-2-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zg4jylflj6cmhze4"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220601093537.hsje2sgh7jiv65th@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+In-Reply-To: <1654741339-12756-2-git-send-email-u0084500@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, Jun 09, 2022 at 10:22:18AM +0800, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add 'richtek,bled-ocp-microamp' property to make it chooseable.
+> 
+> The wrong backlight ocp level may affect the backlight channel output
+> current smaller than configured.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 
---zg4jylflj6cmhze4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Hello Pavel,
 
-On Wed, Jun 01, 2022 at 11:35:37AM +0200, Uwe Kleine-K=F6nig wrote:
-> On Sun, May 15, 2022 at 06:12:27PM +0200, Uwe Kleine-K=F6nig wrote:
-> > Returning an error value from an i2c remove callback results in an error
-> > message being emitted by the i2c core, but otherwise it doesn't make a
-> > difference. The device goes away anyhow and the devm cleanups are
-> > called.
-> >=20
-> > As lm3697_remove() already emits an error message on failure and the
-> > additional error message by the i2c core doesn't add any useful
-> > information, don't pass the error value up the stack. Instead continue
-> > to clean up and return 0.
-> >=20
-> > This patch is a preparation for making i2c remove callbacks return void.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> you merged patch 1 of this series (which is in Linus Torvald's tree
-> now). But you neither commented nor merged this patch. I assume you just
-> missed this one?
-
-Just a quick additional note: I want to tackle making i2c remove
-callbacks return void after the next merge window and this is a
-preparing patch for that. So it would be great if that patch made it in
-in the post 5.19 merge window. Otherwise I'll send this patch together
-with the callback change to get accepted via the i2c tree.
-
-See
-https://lore.kernel.org/linux-i2c/20220609091018.q52fhowlsdbdkct5@pengutron=
-ix.de/
-for some more details.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---zg4jylflj6cmhze4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKhu/cACgkQwfwUeK3K
-7AktKwgAjB9uxtdNbcxtftiopEeiAcHcLDsbUX1e3RaGeehHFINKTjtzyogB96UF
-VNoU6MsxdcrHKRbH/G0mUvXRYmEOTM71qjVH1BE93Xmd1ppJTNx5teNzGL+fUFeZ
-d6oZhXef+YqHJ3CN49LOz5zM+sPQn6vEVrLikTlrEdZZLMFXpRApXI4PISNUM11h
-TLQY8Z7WyEGdMFZAlxCeVR9Bed9yVSpoFcqEjUKwy7FA9ZgHJPVpnlYZNyB8cV5C
-32wP8X6o5ozhlbcH6BxP0s5Ro2G0QU9jGEbMANmmgmxS18yS4RSkPMy9oFFl67n4
-Y2chNVnj/MWEpoL8QpfAwA/4ptHbsg==
-=rp00
------END PGP SIGNATURE-----
-
---zg4jylflj6cmhze4--
+Daniel.
