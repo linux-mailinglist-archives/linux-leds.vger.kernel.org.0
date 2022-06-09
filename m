@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C003A545234
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 18:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A173F545289
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jun 2022 18:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238211AbiFIQnq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jun 2022 12:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
+        id S1344863AbiFIQ6G (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jun 2022 12:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238146AbiFIQnp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 12:43:45 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68188A8;
-        Thu,  9 Jun 2022 09:43:43 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id s12so41411744ejx.3;
-        Thu, 09 Jun 2022 09:43:43 -0700 (PDT)
+        with ESMTP id S238833AbiFIQ6D (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jun 2022 12:58:03 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65E9BE176;
+        Thu,  9 Jun 2022 09:58:01 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id s12so41485578ejx.3;
+        Thu, 09 Jun 2022 09:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iBiZ6SznVvXATC1SUBdZ68AkCh7t6mlC0hhaQj4/WrA=;
-        b=OIAtE1zuERdBCetQexFckqbqrgl8T8B+lM+/UK2in1cW48d3d841F68oZ8vjXCGWGm
-         l/R8nApT1yg8gtniEWhvesAmqQJhKJqJ+ex9O+mkWozilSiCasF9+MXZVF7ZJEv7FQJp
-         ZgMMHUOMz7N9tjwfeHYq5xJbpvoq2ct4pxtBKIk2O0KlqVOjVSo6xobJoThYAi8ysBou
-         zeshNvfD7He6Vfam19bdu7Ho9KrQ1ifa2UHnWl+mJKHMOBgFJeKh01TIqMLtT/y5yiWS
-         CKZ7S9x8GG7/DWVAEpWnHbhPDJNTYGDj+JcGKfm3cm/DU7VuJ+B2zvjZyKRqJQU0LEpL
-         RU5g==
+        bh=VeJH2GjgTNv55jeCpCfZ1ujKSjcX5p8lHDW19F4+qv0=;
+        b=eU51bgefzD4BjSWwpiGbcxgEQEXO5kaPih1MD0/kJ8dKtUTbxN1L+VPH8x71j31XaQ
+         215GBGMNb8eotwEdhZpA0DuYQud1RfSg2bN1RSAONgW4D/x21ylx2sAoouEVuqH5kBG5
+         uCfISMSgZMxlya10bCwA1qOrBD5OxxBHgVqocUc/pQLAeo4as0p9eq6JKTl7y0GnBmyq
+         NCDQl7i7pNzhR7yIIh8sddZilQChCu4q568RtEoo46P+w+xhJTHTcBSN9mSP89ZP7X8W
+         EkbW9sMwsxhAQW6q8zgEqLtlqlZ+9hEBsjW7l4pBijYq8hnVZqhpBfsCJN3buf3UsTpt
+         Pq8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iBiZ6SznVvXATC1SUBdZ68AkCh7t6mlC0hhaQj4/WrA=;
-        b=FlW5Z30s31cLV1Cr4IOeDoAfjFCbRS4Mmq2SrUzp/HGabVgYFrpXVhFz/e7HReeCMd
-         xwebQJ1NTdwS086OZ/OSw6xu/2Jr1Q38kqca8EKvRfyP8SNtRHEOZv5sxQaJP3TXaWNY
-         RgV4cQrpulqjGS8J+PljaLqLJADKwRKooeXweDOBDKoXQ7cUMiWzpfexLlmoNC8z8Z+0
-         hEqlgwx4kyDgs+FHEM/6XINxBhlxU3hCE8cMwfVTEy5dgG6ELonkqVydPyKB26Z/sS6I
-         W5686+As0SSd9YQNn8qA43g5GpFoujKRuPgHZ8NGa9rgggCTUKWwDwNdnjZPqCgDupDP
-         BMJA==
-X-Gm-Message-State: AOAM532JpoS33z4by2HlL6BfLO29js1tOl69bJaFKXlES+QNVuL+6g8l
-        idJVbTlb8GhJNFVeh4CcLxzAaJpsCQg6MRIgvLmQTJCTEpXecQ==
-X-Google-Smtp-Source: ABdhPJz2/M0DGbWsj8CASHzOZAB+znTCBKOVfhi/GLCIRO6n1OofksuugGla4O2xS5kBmoRnaG30pqW2Ub50V5gD7o0=
-X-Received: by 2002:a17:906:434f:b0:711:eb76:c320 with SMTP id
- z15-20020a170906434f00b00711eb76c320mr11280199ejm.636.1654793021839; Thu, 09
- Jun 2022 09:43:41 -0700 (PDT)
+        bh=VeJH2GjgTNv55jeCpCfZ1ujKSjcX5p8lHDW19F4+qv0=;
+        b=rd4rPCQot3aAtdTQhIp2vhlxOz/8nFeRgPgtmvf++rSNTFN1txdh+OA95kdJffN3eP
+         bIACF6kd+ulEB0svU3nXT91T1WrQJVaj7QMpwGrLThz33KFEYCA4pn141+f+W5IcyXB+
+         xQCmejK8Mvwt46n+4P8xyEXTMqJUYnpJZsmvwc8PBTTVyZwMEeKTVpKRAU+eakINt2pl
+         65SlrHSDQQUJ5n0QLym3YjcSq80hwvRFf/EyeKPnuIIletRDLLWO2on933ZX/Xm5kLpm
+         zsOKJ2jgg6e37Sowqr7C07wOUTGGu6OdWTytr8H9msUAB5SQx+vXvXElvN9DRlipMyMu
+         nnBg==
+X-Gm-Message-State: AOAM532HLOV2gI3hqt4pyShwtoqt/8JmYp8os2T+lyu7X1EaoFMDhReZ
+        c0snWnMu47+6fsWOIQVMqS0gZmDTPzFojCEcisw=
+X-Google-Smtp-Source: ABdhPJz/bLVGa94IUhnQGtuYBTuAjqeCnsYqrJUHvGlOch8tOQQBrYNlJ4iNmC+EQIqmuResN1kzJ7b4XtO4YLokwhs=
+X-Received: by 2002:a17:906:1193:b0:70d:cf39:a4db with SMTP id
+ n19-20020a170906119300b0070dcf39a4dbmr31577671eja.44.1654793880193; Thu, 09
+ Jun 2022 09:58:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220609162734.1462625-1-jjhiblot@traphandler.com> <20220609162734.1462625-4-jjhiblot@traphandler.com>
-In-Reply-To: <20220609162734.1462625-4-jjhiblot@traphandler.com>
+References: <20220609162734.1462625-1-jjhiblot@traphandler.com> <20220609162734.1462625-3-jjhiblot@traphandler.com>
+In-Reply-To: <20220609162734.1462625-3-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jun 2022 18:43:04 +0200
-Message-ID: <CAHp75VftbVOwPFra83T-k5d1qu3NnD_sDHYxiiSEDDrW3NObNQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] leds: tlc5925: Add support for non blocking operations
+Date:   Thu, 9 Jun 2022 18:57:24 +0200
+Message-ID: <CAHp75Veurvhxi0Pg1Sjxav+3XpDTVOdan8WFFmZmdhJbZJiCaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] leds: Add driver for the TLC5925 LED controller
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, krzk+dt@kernel.org,
         Rob Herring <robh+dt@kernel.org>,
@@ -68,108 +68,177 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jun 9, 2022 at 6:29 PM Jean-Jacques Hiblot
+On Thu, Jun 9, 2022 at 6:30 PM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> Settings multiple LEDs in a row can be a slow operation because of the
-> time required to acquire the bus and prepare the transfer.
-> And, in most cases, it is not required that the operation is synchronous.
->
-> Implementing the non-blocking brightness_set() for such cases.
-> A work queue is used to perform the actual SPI transfer.
->
-> The blocking method is still available in case someone needs to perform
-> this operation synchronously (ie by calling led_set_brightness_sync()).
+> The TLC5925 is a 16-channels constant-current LED sink driver.
+> It is controlled via SPI but doesn't offer a register-based interface.
+> Instead it contains a shift register and latches that convert the
+> serial input into a parallel output.
 
-i.e.
-
-> +#define BITS_PER_ATOMIC (sizeof(atomic_t) * 8)
-
-We have BITS_PER_TYPE(). Use it directly in the code, no need for a
-whole new macro.
+Can you add Datasheet: tag here with the corresponding URL? Rationale
+is to get a link to the datasheet by just browsing Git log without
+browsing the source code, which will benefit via Web UIs.
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 
 ...
 
-> +static int xmit(struct tlc5925_leds_priv *priv)
-> +{
-> +       int i;
-> +
-> +       spin_lock(&priv->lock);
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/leds.h>
+> +#include <linux/err.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/property.h>
+> +#include <linux/workqueue.h>
 
-This can't be called during IRQ?
-
-> +       for (i = 0; i < priv->max_state / (sizeof(atomic_t) * 8) ; i++)
-
-BITS_PER_TYPE() ?
-
-> +               priv->spi_buffer[i] = atomic_read(&priv->state[i]);
-> +       spin_unlock(&priv->lock);
-> +
-> +       return spi_write(priv->spi, priv->spi_buffer, priv->max_num_leds / 8);
-> +}
+Keep it sorted?
 
 ...
 
-> +static void xmit_work(struct work_struct *ws)
-> +{
-> +       struct tlc5925_leds_priv *priv =
-> +               container_of(ws, struct tlc5925_leds_priv, xmit_work);
+> +struct single_led_priv {
+> +       int idx;
+> +       struct led_classdev cdev;
 
-One line?
+For pointer arithmetics it's better to swap these two members.
 
-Missed blank line here.
+> +};
+> +
+> +struct tlc5925_leds_priv {
+> +       int max_num_leds;
+> +       u8 *state;
 
-> +       xmit(priv);
+unsigned long? DECLARE_BITMAP() ?
+
+> +       spinlock_t lock;
+> +       struct single_led_priv leds[];
 > +};
 
 ...
 
->         if (brightness)
-> -               priv->state[index / 8] |= (1 << (index % 8));
-> +               atomic_or(1 << (index % BITS_PER_ATOMIC),
-> +                         &priv->state[index / BITS_PER_ATOMIC]);
->         else
-> -               priv->state[index / 8] &= ~(1 << (index % 8));
-> -       spin_unlock(&priv->lock);
-> +               atomic_and(~(1 << (index % BITS_PER_ATOMIC)),
-> +                          &priv->state[index / BITS_PER_ATOMIC]);
-
-The whole bunch looks like reinventing the bitmap / bitops.
-Use unsigned long (or DECLARE_BITMAP() if it can be higher than 32)
-for state and set_bit() / clear_bit() / assign_bit() that are atomic.
-
-...
-
 > +       if (brightness)
-> +               atomic_or(1 << (index % BITS_PER_ATOMIC),
-> +                         &priv->state[index / BITS_PER_ATOMIC]);
+> +               priv->state[index / 8] |= (1 << (index % 8));
 > +       else
-> +               atomic_and(~(1 << (index % BITS_PER_ATOMIC)),
-> +                          &priv->state[index / BITS_PER_ATOMIC]);
+> +               priv->state[index / 8] &= ~(1 << (index % 8));
 
 assign_bit()
 
 ...
 
-> +       // Allocate the buffer used to hold the state of each LED
-> +       priv->max_state = round_up(max_num_leds, BITS_PER_ATOMIC);
-> +       priv->state = devm_kzalloc(dev,
-> +                                  priv->max_state / 8,
-> +                                  GFP_KERNEL);
->         if (!priv->state)
->                 return -ENOMEM;
+> +       return spi_write(spi, priv->state, priv->max_num_leds / 8);
 
-devm_bitmap_zalloc() ?
+BITS_TO_BYTES() ?
 
 ...
 
-> +       // Allocate a second buffer for the communication on the SPI bus
-> +       priv->spi_buffer = devm_kzalloc(dev,
-> +                                  priv->max_state / 8,
-> +                                  GFP_KERNEL);
+> +       count = device_get_child_node_count(dev);
+> +       if (!count) {
+> +               dev_err(dev, "no led defined.\n");
+> +               return -ENODEV;
 
-Not sure I understand the output, but perhaps here the BITS_TO_BYTES()
-should be used.
+  return dev_err_probe(...);
+
+here and everywhere in ->probe() and Co.
+
+> +       }
+
+...
+
+> +       ret = device_property_read_u32_array(dev, "ti,shift-register-length",
+> +                                            &max_num_leds, 1);
+
+Always an array of 1 element? call device_property_read_u32().
+
+...
+
+> +       if (max_num_leds % 8) {
+> +               dev_err(dev, "'ti,shift-register-length' must be a multiple of 8\n");
+> +               return -EINVAL;
+> +       }
+
+Is this really fatal? I would rather issue a warning and go on if it
+has at least 8 there. So the idea is to use a minimum that holds
+multiple of 8.
+
+...
+
+> +       /* Assert all the OE/ lines */
+> +       gpios = devm_gpiod_get_array(dev, "output-enable-b", GPIOD_OUT_LOW);
+> +       if (IS_ERR(gpios)) {
+> +               dev_err(dev, "Unable to get the 'output-enable-b' gpios\n");
+> +               return PTR_ERR(gpios);
+> +       }
+
+You have to use dev_err_probe() here, otherwise it will spam logs a
+lot in case of deferred probe.
+
+...
+
+> +       priv->state = devm_kzalloc(dev, DIV_ROUND_UP(max_num_leds, 8), GFP_KERNEL);
+
+devm_bitmap_zalloc()
+
+...
+
+> +       device_for_each_child_node(dev, child) {
+> +               struct led_init_data init_data = {.fwnode = child};
+
+Missed spaces.
+
+> +               struct led_classdev *cdev;
+> +               u32 idx;
+> +
+> +               ret = fwnode_property_read_u32_array(child, "reg", &idx, 1);
+
+fwnode_property_read_u32()
+
+> +               if (ret || idx >= max_num_leds) {
+> +                       dev_err(dev, "%s: invalid reg value. Ignoring.\n",
+> +                               fwnode_get_name(child));
+> +                       fwnode_handle_put(child);
+> +                       continue;
+
+Either dev_warn + continue, or dev_err + return dev_err_probe().
+
+> +               }
+> +
+> +               count--;
+> +               priv->leds[count].idx = idx;
+> +               cdev = &(priv->leds[count].cdev);
+> +               cdev->brightness = LED_OFF;
+> +               cdev->max_brightness = 1;
+> +               cdev->brightness_set_blocking = tlc5925_brightness_set_blocking;
+> +
+> +               ret = devm_led_classdev_register_ext(dev, cdev, &init_data);
+> +               if (ret) {
+
+Ditto.
+
+> +                       dev_err(dev, "%s: cannot create LED device.\n",
+> +                               fwnode_get_name(child));
+> +                       fwnode_handle_put(child);
+> +                       continue;
+> +               }
+> +       }
+
+...
+
+> +static const struct of_device_id tlc5925_dt_ids[] = {
+> +       { .compatible = "ti,tlc5925", },
+> +       {},
+
+No comma for terminator entry.
+
+> +};
+
+Where is the MODULE_DEVICE_TABLE() for this one?
+
+...
+
+> +
+
+No  need for this blank line.
+
+> +module_spi_driver(tlc5925_driver);
 
 -- 
 With Best Regards,
