@@ -2,123 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37E1154634A
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Jun 2022 12:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4E4B5465E8
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Jun 2022 13:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348351AbiFJKOJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Jun 2022 06:14:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
+        id S244302AbiFJLjc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Jun 2022 07:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238786AbiFJKOI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Jun 2022 06:14:08 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7541D2ADA
-        for <linux-leds@vger.kernel.org>; Fri, 10 Jun 2022 03:14:07 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 25so34336946edw.8
-        for <linux-leds@vger.kernel.org>; Fri, 10 Jun 2022 03:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=B0o7AXQ0r9FjP17c3onrtPlUng/3FOneXR9q+r6CXZ4=;
-        b=GteEZc/g+x6URVp3OrzaAOP5ced5M+SgT27OFHCtngEa6HPdA8AwnnoEzcPdWb8G9F
-         zMdBrmzTyPWmmnO4plDNgeUaFF30bgoA52iRn+yajfbcORcNxXWJzJJSq0b4q/3iW6IB
-         WtAXsKgr8OnK9SoQM4w01p+0xk/p1OtTDzYRLc2jsfz0xmWXsJI3RiTd/eyxuAXUQfvm
-         n67N/R9k9INeDyN48Z1vtqo5HF3KLdDAjN/jaGd/O/g07Aeppq5nAUrPeYkJxtWdIwPy
-         iVRMbC4hK/3186O2uubxMs65rdKDxwVOenmkZl48XB8rt+pXqfDZmyrlwhnL8VUvahhc
-         aeAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=B0o7AXQ0r9FjP17c3onrtPlUng/3FOneXR9q+r6CXZ4=;
-        b=DKIep4k15aXBNR/yQOzyV16NRu5Ej861ZBBdlXbfmyU0x5v3n2J329FO29SWqYawXa
-         1voFUA/7SaM5wvScjbRR5p0V5Yoq+/MYy7A+Tj24D7nTRHMFACOzldkBUiVAoCdn8TxK
-         3wmZ9HJPNwJKWbemPgCqw1+CcNi9STOyTUZ+DyceCNmEmPu8ZUiXwqXXwH60FKk56Gu/
-         6ob075PhDMNTzfcwM2eTxh9tkcfjo/3o/ToTY1kArYtF2awkmaNAODW1j9gv6vomu2yj
-         aYrXDlvfJQ6yrgcZRg2rxIhlphwIhfFNyph5awdxwAPTiUrI3yoFRrimFsk8DESPKXrz
-         XfPg==
-X-Gm-Message-State: AOAM53200SHQFqoV+6OECd0ghO/9lW+vcB1/Bf1iPMbN5jGVReU9jyWH
-        9W+FF5v7h/GIZsWy7pf9T6WZBg==
-X-Google-Smtp-Source: ABdhPJz6TLCN00FmGgljepz6JlGgR9SZ91ZMZ+1zloxKFBoD/8uXAVfcTGMryf2GDivs3WF3/8R0lw==
-X-Received: by 2002:a05:6402:2554:b0:42d:ee79:559d with SMTP id l20-20020a056402255400b0042dee79559dmr50152521edb.175.1654856045705;
-        Fri, 10 Jun 2022 03:14:05 -0700 (PDT)
-Received: from [192.168.0.202] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id e1-20020a1709062c0100b0070bdc059ab2sm10532995ejh.138.2022.06.10.03.14.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jun 2022 03:14:05 -0700 (PDT)
-Message-ID: <ef62a7bb-2217-2947-17dd-fc4a51acdea5@linaro.org>
-Date:   Fri, 10 Jun 2022 12:14:04 +0200
+        with ESMTP id S1347758AbiFJLjP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Jun 2022 07:39:15 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6615F78ED2;
+        Fri, 10 Jun 2022 04:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654861154; x=1686397154;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kB1eqnECJOqLhsJLFivfDJgKKuQZBPVbbz0sPmE1QZ8=;
+  b=J3VR/ws1jS5u/j5Ox6UedPidJPAq2zOh9PY5KVMW0iD69/tZ7+qJugbZ
+   YB9R3IcoCfw8l66JC7cz/JDuStlHBwtN1cP/St3QZgcO9T1HwzOLP/fzs
+   BfTb2BWTnwLiJPynxSrVWpzM10aCeXIwBS4x8cUa4t3V+C69tPQGcFQar
+   gVvRsZKzdpRW2hrq2GKrto7h34ZQmiw5y2xiXttdoP/tEuXC39WlIcbqS
+   i6kLYEnFVTwxCLObEhrLMKhA7OtBxymEHduSdkRjBlSoe8pBgDQEFmmTh
+   TTjzsF6Cg26oYYLPoG5tQUuKpJqin6iCu49VwnYBRYennLNZJ3WF8qb67
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10373"; a="257436290"
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; 
+   d="scan'208";a="257436290"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 04:39:14 -0700
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; 
+   d="scan'208";a="649797018"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 04:39:11 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nzcyq-000Yjp-TL;
+        Fri, 10 Jun 2022 14:39:08 +0300
+Date:   Fri, 10 Jun 2022 14:39:08 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v1 1/1] leds: trigger: gpio: Convert to use kstrtox()
+Message-ID: <YqMtXPVy2q0RRdky@smile.fi.intel.com>
+References: <20220609161829.80312-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 3/3] ARM: dts: exynos: add function and color to aat1290
- flash LED node in Galaxy S3
-Content-Language: en-US
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-References: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
- <20220607085343.72414-3-krzysztof.kozlowski@linaro.org>
- <4a7f8ab6-c061-3861-5790-b6c0fbd7cad1@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <4a7f8ab6-c061-3861-5790-b6c0fbd7cad1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220609161829.80312-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 09/06/2022 22:31, Jacek Anaszewski wrote:
-> Hi Krzysztof,
-> 
-> On 6/7/22 10:53, Krzysztof Kozlowski wrote:
->> Add common LED properties - the function and color - to aat1290 flash
->> LED node in Galaxy S3.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>   arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
->> index 72901772fcad..d76f3678dcab 100644
->> --- a/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
->> +++ b/arch/arm/boot/dts/exynos4412-galaxy-s3.dtsi
->> @@ -7,6 +7,7 @@
->>    */
->>   
->>   /dts-v1/;
->> +#include <dt-bindings/leds/common.h>
->>   #include "exynos4412-midas.dtsi"
->>   
->>   / {
->> @@ -27,6 +28,8 @@ led-controller {
->>   
->>   		led {
->>   			label = "flash";
->> +			function = LED_FUNCTION_FLASH;
->> +			color = <LED_COLOR_ID_WHITE>;
-> 
-> Addition of these two properties will not change anything because
-> the label has precedence. It is deprecated, but if you introduce
-> function and color to the binding instead of the label, the resulting
-> LED class device name will change.
+On Thu, Jun 09, 2022 at 07:18:29PM +0300, Andy Shevchenko wrote:
+> sscanf() is a heavy one and moreover requires additional boundary checks.
+> Convert driver to use kstrtox() and replace kstrtoul() by kstrtobool()
+> in gpio_trig_inverted_store().
 
-Which is not necessarily what we want, right? Adding these properties is
-a proper description of hardware, regardless whether current Linux
-implementation uses them or not.
+> While here, check the desired brightness against maximum defined for
+> a certain LED.
 
-Best regards,
-Krzysztof
+I realize that this part may be wrong. I have to drop it in the next version.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
