@@ -2,110 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88E1D5477F7
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jun 2022 02:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1D98547AA2
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jun 2022 17:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbiFLABi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 11 Jun 2022 20:01:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50816 "EHLO
+        id S237590AbiFLPIf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jun 2022 11:08:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbiFLABh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 Jun 2022 20:01:37 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B12146A425;
-        Sat, 11 Jun 2022 17:01:36 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id gc3-20020a17090b310300b001e33092c737so2671295pjb.3;
-        Sat, 11 Jun 2022 17:01:36 -0700 (PDT)
+        with ESMTP id S237487AbiFLPIZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jun 2022 11:08:25 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6CA55EDD8;
+        Sun, 12 Jun 2022 08:08:23 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id h23so5345516lfe.4;
+        Sun, 12 Jun 2022 08:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rrR2yAG5ZDoOc5RKGUSqko0qrkTdkFcvAE69IpskmQk=;
-        b=bxm/xiWQoxyLzg/Q6KDEDCwr+QZ3vIvSrbwYfyVTcvKPaoIxtp34y3V3YDIDleYI+W
-         QK/vtFXhrhy2ZhZRrycP2vEZ0ewJbEZQa3myf2dCw85jXBLROXvMLWRZoF/fWczBPjZo
-         VyxfUKhQsoA0rnjMKfSCfmGI0Wr6s0grg37+v8JpW7Qt5qxlMybuzGNZDIuyEE/IOcOB
-         ZgNge4Pw8ce200HQ49utHlg6PPmI0zIPFY74F3gyntOl3fRzU4XWnTI99vIItxdWSRrU
-         m9Sow0NKHDamMtXdKpPq42VO/pr8bh9twl6MVcv7pw6o8NfsGUyw20z3wYPPG1/b60NJ
-         0dHg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=YSTRMk+mv8/8mRawNcAG/kPCu35wvaQcd0rlFYK138I=;
+        b=WZUvQkYJDroUcqOJ8upXuhmIANC6/o+ah0+qcs9McJPFpSN0c28tLw2Wmj64Ar8FrB
+         LUmQ5RVuPXK91F6HqDrQajzE/jegZD9LnAUwXt2DreIV7DUKsJUcjt+6TANGzeR//cjS
+         AHwa0iznhVsX48AqkojuRRGCeIrm5Wy/w2OVHxWjZHjImnWrfT4P4sixGHu+8R4KRdr0
+         JdCaqdEznAqgubv1Gd9OBKCCghkB/86+bGWuBx8YOq3ueTgxDtnwiVHeqZb4SMIt3FMj
+         15+lEWVqmCmha3PnTN3LkvMq4p3xOEP0HW3HLHRJPi+68EM2EsVL8D3VSbnfiA/xEGtj
+         WmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=rrR2yAG5ZDoOc5RKGUSqko0qrkTdkFcvAE69IpskmQk=;
-        b=H3goDps9U2JRGibN4+AHv7y6p2/hguvAh6eaAr5hXTKVIpM/7ZGqvx0YxQPaYkWUAa
-         d8ChUaB/lagZF8evbPEPvY2fY/8vHbRsq2Edg8iRvdefH1vanim1G5+BcXL/fiGSWmwV
-         Hjtf02BCzAqMUeYDuF1ZCP7CtLU0gqtp5JmUnWGX+3w1RtoFfBN7eiETaqZAyEwV8NLv
-         p2YzoSEMDylGpd7ZmEDtWtwYjLu8NCoBDLPiXGpn1948nieYDLgdx7NkjST6SZfdb4Cp
-         V/snTGDJ9/XucwQZ33qqNf58smgmflXYSsy/e0iKCg4EDpa6ovQcXxDkDhMf12269ujs
-         2YAA==
-X-Gm-Message-State: AOAM533FxA7DeHuOMkA9M1sxHee+4ARZTEf5VInNcXPwvyJAIz5arl22
-        NKF0MJDw3huyEHXRu6Q8pSxCY0U/oKQ=
-X-Google-Smtp-Source: ABdhPJwzSAUVchKa+rTUGUJRkr60hBjUTrhIP0rYG8PQuiBVJ4d9X8ZgTMHK527r6yMU87IvTMLFEA==
-X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id i5-20020a170902cf0500b00156009dca01mr51176328plg.111.1654992095656;
-        Sat, 11 Jun 2022 17:01:35 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id a15-20020a62d40f000000b0051f2b9f9b05sm2146794pfh.76.2022.06.11.17.01.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jun 2022 17:01:35 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2] leds: Add leds-qcom-lpg entry to documentation table of contents
-Date:   Sun, 12 Jun 2022 07:01:25 +0700
-Message-Id: <20220612000125.9777-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        bh=YSTRMk+mv8/8mRawNcAG/kPCu35wvaQcd0rlFYK138I=;
+        b=SqlONAoscFCoRsB6BP4mA6lJjbWvRuKQN+o0qVh77c8ZaEDq9K70ethmaz4258NnOD
+         A586qZGySiOBYdLptWcUBBp7fr3oSkY2WYYwYxmm1x+HHUzatID5E9LlBqRCJfIYp8Ru
+         n7XqR7UpjR3MjEzevLq8Nwfm1SnYGT045EXerkewiuhAbKzRM0pC3Eqox1Fj6+jkQicZ
+         fZJDIISzmOjX82cgaRqrUuAeYy7hfkq9seBf/Bfb9COi6mA4OUS1/Ca4kgDmFN0xMmr1
+         paJkG38RI39Ade4y1+rMRJgvCYNyVf5Pu0/pzXGA84kHWcjWHW5THf1cEDiT8Zgz2isj
+         ob9A==
+X-Gm-Message-State: AOAM533/URyYjd3chh7f8o3eCQ/2WizvHvFS7+lYXxvcMYSVLD8mkApQ
+        kCCd+BpNLkY1fl4gQz8FzfI=
+X-Google-Smtp-Source: ABdhPJyLgiK/n2xx4Qe5//vI4+DUPK3WLlmcmSPS95xxOHNSYLqB5p+YktGpTd9iX+kUMZKX3EvtNA==
+X-Received: by 2002:a05:6512:3d23:b0:478:fa1e:70fe with SMTP id d35-20020a0565123d2300b00478fa1e70femr33703531lfv.530.1655046502168;
+        Sun, 12 Jun 2022 08:08:22 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id g2-20020a056512118200b00477c164293csm640383lfr.79.2022.06.12.08.08.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jun 2022 08:08:21 -0700 (PDT)
+Message-ID: <05c9128d-6228-40e5-ad69-1334a81d786e@gmail.com>
+Date:   Sun, 12 Jun 2022 17:08:19 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/3] dt-bindings: leds: skyworks,aat1290: convert to
+ dtschema
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+References: <20220607085343.72414-1-krzysztof.kozlowski@linaro.org>
+ <d6d1642c-26b4-e4a8-5ae7-c4b952ae6c62@gmail.com>
+ <410c5c97-8ff7-2303-5e19-d6053d3779dd@linaro.org>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <410c5c97-8ff7-2303-5e19-d6053d3779dd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-After merging linux-leds tree to the mainline [1], htmldocs build produces
-a new warning:
+On 6/10/22 12:12, Krzysztof Kozlowski wrote:
+> On 09/06/2022 22:28, Jacek Anaszewski wrote:
+>> Hi Krzysztof,
+>>
+>> On 6/7/22 10:53, Krzysztof Kozlowski wrote:
+>>> Convert the Skyworks Solutions, Inc. AAT1290 Current Regulator bindings
+>>> to DT Schema.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> [...]
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/gpio/gpio.h>
+>>> +    #include <dt-bindings/leds/common.h>
+>>> +
+>>> +    // Ct = 220 nF, Rset = 160 kOhm
+>>> +    led-controller {
+>>> +        compatible = "skyworks,aat1290";
+>>> +        flen-gpios = <&gpj1 1 GPIO_ACTIVE_HIGH>;
+>>> +        enset-gpios = <&gpj1 2 GPIO_ACTIVE_HIGH>;
+>>> +
+>>> +        pinctrl-names = "default", "host", "isp";
+>>> +        pinctrl-0 = <&camera_flash_host>;
+>>> +        pinctrl-1 = <&camera_flash_host>;
+>>> +        pinctrl-2 = <&camera_flash_isp>;
+>>> +
+>>> +        led {
+>>> +            label = "flash";
+>>
+>> Why are you adding label? It is deprecated,
+> 
+> Eh, so it should be marked as deprecated:true, not just mentioned in the
+> description (common.yaml).
 
-checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
+I believe so.
 
-The warning above is because leds-qcom-lpg.rst is missing in the table of
-contents.
+>> but has the precedence over
+>> new function and color for backwards compatibility, so it would make
+>> those unused by the driver now. Please drop the label from this example.
+> 
+> I synced the example with DTS, but I can drop it. No problem.
 
-Add the missing entry.
+Yeah, let's avoid further confusion.
 
-[1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
-
-Fixes: 24e2d05d1b6898 ("leds: Add driver for Qualcomm LPG")
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-leds@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/leds/index.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index e5d63b9400459c..014e009b076159 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,4 +25,5 @@ LEDs
-    leds-lp5562
-    leds-lp55xx
-    leds-mlxcpld
-+   leds-qcom-lpg
-    leds-sc27xx
-
-base-commit: 0678afa6055d14799c1dc1eee47c8025eba56cab
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Best regards,
+Jacek Anaszewski
