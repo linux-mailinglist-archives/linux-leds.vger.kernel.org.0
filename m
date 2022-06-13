@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1703B5496C5
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jun 2022 18:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1FA1549189
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jun 2022 18:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355549AbiFMM4E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jun 2022 08:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43870 "EHLO
+        id S1356252AbiFMM4K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jun 2022 08:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357539AbiFMMyc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jun 2022 08:54:32 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A552F66236;
-        Mon, 13 Jun 2022 04:13:12 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id q12-20020a17090a304c00b001e2d4fb0eb4so8498631pjl.4;
-        Mon, 13 Jun 2022 04:13:12 -0700 (PDT)
+        with ESMTP id S1357799AbiFMMyq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jun 2022 08:54:46 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330F33525F;
+        Mon, 13 Jun 2022 04:13:20 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id v4so2817132plp.8;
+        Mon, 13 Jun 2022 04:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fmQY6vSeK8Zc6KodLnbJm1/BoNk/JBGKEN17gVySBcE=;
-        b=k+B4IXfSX+zP8uIUj7zzU5GPRDui0LJDVrFVnFwfb1Wcd0uK8cuKNQ9Vb9bRCa3gOT
-         krfaM6pqot/3oykApmdkQxJ2RKzxmwc4f3Ohr+IY9mEbc4oB8KYjSEqqFWBiMoKx3quX
-         jTrHc0DrMaD+R0BT09CPife77Kf56sL+/19MyJYgyLS3xA6iLGgntHGEwDcxqeu0OwDv
-         9hKcWA0MzLcscIhnj4JXfMT2xB2Y4xMyywrfAsASmhF0iU+djVIXdpX++ZR3T8o5V+WU
-         c2Ki4ISrswT741BeTI8vwoD0zcBjAKfyK8w3ONBZPZJ1aZkByjVARGgehvx8eNvHfyEu
-         GtUQ==
+        bh=3rUrxuCKF0DCyd3JQ6Wgmj/kFWPhmcri1h/drUvO1G8=;
+        b=NScHQfrqgHwP521eCoPQjtpN912OcwnRwu59+PuGaZuK4oKbwDBUjye361SCshH8zi
+         4SJ2YO8q5q3EkiVx1RKPiZIS7NdVKUjk2qFE4UAEA3sSHiOIp/zFNlUlhcAXjgQufbm9
+         ocfc1+l+3Ttl0CHI8diwDwvdw2azU5OqhDmxNJ4M9+LtW4IvMjBeU5etHrDcktDyt6zg
+         DrnbP1mlldUUSTuizOcZ+lP3PYb8RwViliALPBx0lvMCW9rmn/dcBzxSSLYELFg2HqAX
+         nk7KiOFMqZW9rnFKKKPyHlTMzh9pxckh2pgh+kW+K8lqmA9/GL5Bwq65JLNIhCGIEaCb
+         16NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fmQY6vSeK8Zc6KodLnbJm1/BoNk/JBGKEN17gVySBcE=;
-        b=jQhX7vmIIKggQS0JPfB+TFzS3JAk7ZaohW5LJ6TMP3fROBVCD8UVFped0/xuAxagY7
-         hNAhaLteOCmUZKXyEsqMcmRK/bw6F/p2gQndzm7PKkyXsobK9rADuaxGvzKbAYPx9cLC
-         skCJNeOb5KKykKuO5uRUTR7g4FPwJkKrGw25t1Ml8CZ4N+r7Km/fj1AQg/1kbaGApIzU
-         X4UpdLy/mIS5X5rs43dnBsUgvjZNhZA6uyUJwD02F9YECYVj+3QVkbHAsfIEN0ZToUi/
-         gr0ITB0CPMqff11wPtYp5A9jG0eL1iXspt79vABcjjwz1buJNrvo0Rc5Zk7mySNl9xhq
-         45/g==
-X-Gm-Message-State: AOAM5309HRiLSMfNBrLYls3ehvFcrQZjR2X6iopM2YvwzGvDjf+/XSlj
-        mQQ1h+v/hS+7aEABF8y8fXI=
-X-Google-Smtp-Source: ABdhPJxO8aTvAB3mFtzrML3I5aFfT6DN4rqUVR7l4BTxvDEFKDzUYQXlzCUwmwKURsGmc4DPaPX0+A==
-X-Received: by 2002:a17:902:d2ce:b0:167:7637:7025 with SMTP id n14-20020a170902d2ce00b0016776377025mr40909237plc.37.1655118791614;
-        Mon, 13 Jun 2022 04:13:11 -0700 (PDT)
+        bh=3rUrxuCKF0DCyd3JQ6Wgmj/kFWPhmcri1h/drUvO1G8=;
+        b=eqowV06bmC59mVFpYD96+msz10hIewD35HU9uqbqx+GLXFhZvLR8ZJOG+Wqtd81B09
+         hxSaz5NkTOdy+VBodwK45OqfyD7xghd/f+iJLNU3gxhh+4qt00W/QSh+E5saU43riPJ9
+         p6zKXGc8lpD17RwqXbdLM96WwLimaCO6tZ4xcJn+HLcbJlJiGLMEno3dTBXqCA62EfWK
+         qc7ocnkSU8u/A591yUkVkvFdh8tr7AYyEQcD/KNE0HXCT/UdBV7y3CqYcJikNfUyn2H9
+         P4KXET09yhpGUn/xIWsLFA+gC17q5TloLnlQlXJBG7SYcgQ/frcNx6ORRk9aSigyKshw
+         XZRw==
+X-Gm-Message-State: AOAM533sjwtDemYsGLmocpLZjcGKZEO9t1JJ5jZQtjmBqv63sKctq203
+        OpTk1/QtbCUqkvAlSPkCi4Q=
+X-Google-Smtp-Source: ABdhPJzprQEZ/2eMk0LM63G+TvmKbqbd13viJt/JjxT5owErHjYPTl3y4hl3Elfxl58+EKnlb+rwDQ==
+X-Received: by 2002:a17:90b:1e0e:b0:1e3:2eee:3ab9 with SMTP id pg14-20020a17090b1e0e00b001e32eee3ab9mr15386632pjb.158.1655118800286;
+        Mon, 13 Jun 2022 04:13:20 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (42-72-115-109.emome-ip.hinet.net. [42.72.115.109])
-        by smtp.gmail.com with ESMTPSA id g17-20020a056a000b9100b0051b4e53c487sm5199989pfj.45.2022.06.13.04.13.07
+        by smtp.gmail.com with ESMTPSA id g17-20020a056a000b9100b0051b4e53c487sm5199989pfj.45.2022.06.13.04.13.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 04:13:11 -0700 (PDT)
+        Mon, 13 Jun 2022 04:13:20 -0700 (PDT)
 From:   ChiaEn Wu <peterwu.pub@gmail.com>
 To:     jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
         lee.jones@linaro.org, daniel.thompson@linaro.org,
@@ -58,9 +58,9 @@ Cc:     linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
         szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
-Subject: [PATCH v2 06/15] dt-bindings: mfd: Add Mediatek MT6370
-Date:   Mon, 13 Jun 2022 19:11:37 +0800
-Message-Id: <20220613111146.25221-7-peterwu.pub@gmail.com>
+Subject: [PATCH v2 08/15] mfd: mt6370: Add Mediatek MT6370 support
+Date:   Mon, 13 Jun 2022 19:11:39 +0800
+Message-Id: <20220613111146.25221-9-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220613111146.25221-1-peterwu.pub@gmail.com>
 References: <20220613111146.25221-1-peterwu.pub@gmail.com>
@@ -78,325 +78,407 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-Add Mediatek MT6370 binding documentation.
+Add Mediatek MT6370 MFD support.
 
 Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 ---
- .../bindings/mfd/mediatek,mt6370.yaml         | 279 ++++++++++++++++++
- .../dt-bindings/iio/adc/mediatek,mt6370_adc.h |  18 ++
- 2 files changed, 297 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
- create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+ drivers/mfd/Kconfig  |  13 ++
+ drivers/mfd/Makefile |   1 +
+ drivers/mfd/mt6370.c | 349 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 363 insertions(+)
+ create mode 100644 drivers/mfd/mt6370.c
 
-diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 3b59456f5545..d9a7524a3e0e 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -937,6 +937,19 @@ config MFD_MT6360
+ 	  PMIC part includes 2-channel BUCKs and 2-channel LDOs
+ 	  LDO part includes 4-channel LDOs
+ 
++config MFD_MT6370
++	tristate "Mediatek MT6370 SubPMIC"
++	select MFD_CORE
++	select REGMAP_I2C
++	select REGMAP_IRQ
++	depends on I2C
++	help
++	  Say Y here to enable MT6370 SubPMIC functional support.
++	  It integrate single cell battery charger with adc monitoring, RGB
++	  LEDs, dual channel flashlight, WLED backlight driver, display bias
++	  voltage supply, one general purpose LDO, and cc logic
++	  controller with USBPD commmunication capable.
++
+ config MFD_MT6397
+ 	tristate "MediaTek MT6397 PMIC Support"
+ 	select MFD_CORE
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 858cacf659d6..62b27125420e 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -242,6 +242,7 @@ obj-$(CONFIG_INTEL_SOC_PMIC_BXTWC)	+= intel_soc_pmic_bxtwc.o
+ obj-$(CONFIG_INTEL_SOC_PMIC_CHTWC)	+= intel_soc_pmic_chtwc.o
+ obj-$(CONFIG_INTEL_SOC_PMIC_CHTDC_TI)	+= intel_soc_pmic_chtdc_ti.o
+ obj-$(CONFIG_MFD_MT6360)	+= mt6360-core.o
++obj-$(CONFIG_MFD_MT6370)	+= mt6370.o
+ mt6397-objs			:= mt6397-core.o mt6397-irq.o mt6358-irq.o
+ obj-$(CONFIG_MFD_MT6397)	+= mt6397.o
+ obj-$(CONFIG_INTEL_SOC_PMIC_MRFLD)	+= intel_soc_pmic_mrfld.o
+diff --git a/drivers/mfd/mt6370.c b/drivers/mfd/mt6370.c
 new file mode 100644
-index 000000000000..6c2639e81e50
+index 000000000000..6af9f73c9c0c
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-@@ -0,0 +1,279 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/mediatek,mt6370.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/mfd/mt6370.c
+@@ -0,0 +1,349 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+title: Mediatek MT6370 SubPMIC
++#include <linux/bits.h>
++#include <linux/i2c.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/mfd/core.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - ChiYuan Huang <cy_huang@richtek.com>
++enum {
++	MT6370_USBC_I2C = 0,
++	MT6370_PMU_I2C,
++	MT6370_MAX_I2C
++};
 +
-+description: |
-+  MT6370 is a highly-integrated smart power management IC, which includes a
-+  single cell Li-Ion/Li-Polymer switching battery charger, a USB Type-C &
-+  Power Delivery (PD) controller, dual flash LED current sources, a RGB LED
-+  driver, a backlight WLED driver, a display bias driver and a general LDO for
-+  portable devices.
++#define MT6370_REG_DEV_INFO	0x100
++#define MT6370_REG_CHG_IRQ1	0x1C0
++#define MT6370_REG_CHG_MASK1	0x1E0
 +
-+properties:
-+  compatible:
-+    const: mediatek,mt6370
++#define MT6370_VENID_MASK	GENMASK(7, 4)
 +
-+  reg:
-+    maxItems: 1
++#define MT6370_NUM_IRQREGS	16
++#define MT6370_USBC_I2CADDR	0x4E
++#define MT6370_REG_ADDRLEN	2
++#define MT6370_REG_MAXADDR	0x1FF
 +
-+  wakeup-source: true
++/* IRQ definitions */
++#define MT6370_IRQ_DIRCHGON		0
++#define MT6370_IRQ_CHG_TREG		4
++#define MT6370_IRQ_CHG_AICR		5
++#define MT6370_IRQ_CHG_MIVR		6
++#define MT6370_IRQ_PWR_RDY		7
++#define MT6370_IRQ_FL_CHG_VINOVP	11
++#define MT6370_IRQ_CHG_VSYSUV		12
++#define MT6370_IRQ_CHG_VSYSOV		13
++#define MT6370_IRQ_CHG_VBATOV		14
++#define MT6370_IRQ_CHG_VINOVPCHG	15
++#define MT6370_IRQ_TS_BAT_COLD		20
++#define MT6370_IRQ_TS_BAT_COOL		21
++#define MT6370_IRQ_TS_BAT_WARM		22
++#define MT6370_IRQ_TS_BAT_HOT		23
++#define MT6370_IRQ_TS_STATC		24
++#define MT6370_IRQ_CHG_FAULT		25
++#define MT6370_IRQ_CHG_STATC		26
++#define MT6370_IRQ_CHG_TMR		27
++#define MT6370_IRQ_CHG_BATABS		28
++#define MT6370_IRQ_CHG_ADPBAD		29
++#define MT6370_IRQ_CHG_RVP		30
++#define MT6370_IRQ_TSHUTDOWN		31
++#define MT6370_IRQ_CHG_IINMEAS		32
++#define MT6370_IRQ_CHG_ICCMEAS		33
++#define MT6370_IRQ_CHGDET_DONE		34
++#define MT6370_IRQ_WDTMR		35
++#define MT6370_IRQ_SSFINISH		36
++#define MT6370_IRQ_CHG_RECHG		37
++#define MT6370_IRQ_CHG_TERM		38
++#define MT6370_IRQ_CHG_IEOC		39
++#define MT6370_IRQ_ADC_DONE		40
++#define MT6370_IRQ_PUMPX_DONE		41
++#define MT6370_IRQ_BST_BATUV		45
++#define MT6370_IRQ_BST_MIDOV		46
++#define MT6370_IRQ_BST_OLP		47
++#define MT6370_IRQ_ATTACH		48
++#define MT6370_IRQ_DETACH		49
++#define MT6370_IRQ_HVDCP_STPDONE	51
++#define MT6370_IRQ_HVDCP_VBUSDET_DONE	52
++#define MT6370_IRQ_HVDCP_DET		53
++#define MT6370_IRQ_CHGDET		54
++#define MT6370_IRQ_DCDT			55
++#define MT6370_IRQ_DIRCHG_VGOK		59
++#define MT6370_IRQ_DIRCHG_WDTMR		60
++#define MT6370_IRQ_DIRCHG_UC		61
++#define MT6370_IRQ_DIRCHG_OC		62
++#define MT6370_IRQ_DIRCHG_OV		63
++#define MT6370_IRQ_OVPCTRL_SWON		67
++#define MT6370_IRQ_OVPCTRL_UVP_D	68
++#define MT6370_IRQ_OVPCTRL_UVP		69
++#define MT6370_IRQ_OVPCTRL_OVP_D	70
++#define MT6370_IRQ_OVPCTRL_OVP		71
++#define MT6370_IRQ_FLED_STRBPIN		72
++#define MT6370_IRQ_FLED_TORPIN		73
++#define MT6370_IRQ_FLED_TX		74
++#define MT6370_IRQ_FLED_LVF		75
++#define MT6370_IRQ_FLED2_SHORT		78
++#define MT6370_IRQ_FLED1_SHORT		79
++#define MT6370_IRQ_FLED2_STRB		80
++#define MT6370_IRQ_FLED1_STRB		81
++#define mT6370_IRQ_FLED2_STRB_TO	82
++#define MT6370_IRQ_FLED1_STRB_TO	83
++#define MT6370_IRQ_FLED2_TOR		84
++#define MT6370_IRQ_FLED1_TOR		85
++#define MT6370_IRQ_OTP			93
++#define MT6370_IRQ_VDDA_OVP		94
++#define MT6370_IRQ_VDDA_UV		95
++#define MT6370_IRQ_LDO_OC		103
++#define MT6370_IRQ_BLED_OCP		118
++#define MT6370_IRQ_BLED_OVP		119
++#define MT6370_IRQ_DSV_VNEG_OCP		123
++#define MT6370_IRQ_DSV_VPOS_OCP		124
++#define MT6370_IRQ_DSV_BST_OCP		125
++#define MT6370_IRQ_DSV_VNEG_SCP		126
++#define MT6370_IRQ_DSV_VPOS_SCP		127
 +
-+  interrupts:
-+    maxItems: 1
++struct mt6370_info {
++	struct i2c_client *i2c[MT6370_MAX_I2C];
++	struct device *dev;
++	struct regmap *regmap;
++	struct regmap_irq_chip_data *irq_data;
++};
 +
-+  interrupt-controller: true
++static const struct regmap_irq mt6370_irqs[] = {
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHGON, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_TREG, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_AICR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_MIVR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_PWR_RDY, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FL_CHG_VINOVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_VSYSUV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_VSYSOV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_VBATOV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_VINOVPCHG, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TS_BAT_COLD, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TS_BAT_COOL, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TS_BAT_WARM, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TS_BAT_HOT, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TS_STATC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_FAULT, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_STATC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_TMR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_BATABS, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_ADPBAD, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_RVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_TSHUTDOWN, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_IINMEAS, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_ICCMEAS, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHGDET_DONE, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_WDTMR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_SSFINISH, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_RECHG, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_TERM, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHG_IEOC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_ADC_DONE, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_PUMPX_DONE, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_BST_BATUV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_BST_MIDOV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_BST_OLP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_ATTACH, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DETACH, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_HVDCP_STPDONE, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_HVDCP_VBUSDET_DONE, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_HVDCP_DET, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_CHGDET, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DCDT, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHG_VGOK, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHG_WDTMR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHG_UC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHG_OC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DIRCHG_OV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OVPCTRL_SWON, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OVPCTRL_UVP_D, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OVPCTRL_UVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OVPCTRL_OVP_D, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OVPCTRL_OVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED_STRBPIN, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED_TORPIN, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED_TX, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED_LVF, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED2_SHORT, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED1_SHORT, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED2_STRB, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED1_STRB, 8),
++	REGMAP_IRQ_REG_LINE(mT6370_IRQ_FLED2_STRB_TO, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED1_STRB_TO, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED2_TOR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_FLED1_TOR, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_OTP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_VDDA_OVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_VDDA_UV, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_LDO_OC, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_BLED_OCP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_BLED_OVP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DSV_VNEG_OCP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DSV_VPOS_OCP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DSV_BST_OCP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DSV_VNEG_SCP, 8),
++	REGMAP_IRQ_REG_LINE(MT6370_IRQ_DSV_VPOS_SCP, 8)
++};
 +
-+  '#interrupt-cells':
-+    const: 1
++static const struct regmap_irq_chip mt6370_irq_chip = {
++	.name		= "mt6370-irqs",
++	.status_base	= MT6370_REG_CHG_IRQ1,
++	.mask_base	= MT6370_REG_CHG_MASK1,
++	.num_regs	= MT6370_NUM_IRQREGS,
++	.irqs		= mt6370_irqs,
++	.num_irqs	= ARRAY_SIZE(mt6370_irqs),
++};
 +
-+  adc:
-+    type: object
-+    description: |
-+      Provides 9 channels for system monitoring, including vbusdiv5, vbusdiv2,
-+      vbat, vsys, chg_vddp, ts_bat, ibus, ibat, and temp_jc.
++static const struct resource mt6370_regulator_irqs[] = {
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_DSV_VPOS_SCP, "db_vpos_scp"),
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_DSV_VNEG_SCP, "db_vneg_scp"),
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_DSV_BST_OCP, "db_vbst_ocp"),
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_DSV_VPOS_OCP, "db_vpos_ocp"),
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_DSV_VNEG_OCP, "db_vneg_ocp"),
++	DEFINE_RES_IRQ_NAMED(MT6370_IRQ_LDO_OC, "ldo_oc")
++};
 +
-+    properties:
-+      compatible:
-+        const: mediatek,mt6370-adc
++static const struct mfd_cell mt6370_devices[] = {
++	MFD_CELL_OF("adc", NULL, NULL, 0, 0, "mediatek,mt6370-adc"),
++	MFD_CELL_OF("charger", NULL, NULL, 0, 0, "mediatek,mt6370-charger"),
++	MFD_CELL_OF("backlight", NULL, NULL, 0, 0, "mediatek,mt6370-backlight"),
++	MFD_CELL_OF("flashlight", NULL, NULL, 0, 0, "mediatek,mt6370-flashlight"),
++	MFD_CELL_OF("indicator", NULL, NULL, 0, 0, "mediatek,mt6370-indicator"),
++	MFD_CELL_OF("tcpc", NULL, NULL, 0, 0, "mediatek,mt6370-tcpc"),
++	MFD_CELL_RES("regulator", mt6370_regulator_irqs)
++};
 +
-+      "#io-channel-cells":
-+        const: 1
++static int mt6370_check_vendor_info(struct mt6370_info *info)
++{
++	unsigned int devinfo;
++	int ret;
 +
-+    required:
-+      - compatible
-+      - '#io-channel-cells'
++	ret = regmap_read(info->regmap, MT6370_REG_DEV_INFO, &devinfo);
++	if (ret)
++		return ret;
 +
-+  backlight:
-+    type: object
-+    $ref: /schemas/leds/backlight/mediatek,mt6370-backlight.yaml#
++	switch (FIELD_GET(MT6370_VENID_MASK, devinfo)) {
++	case 0x8: /* RT5081 */
++	case 0xA: /* RT5081A */
++	case 0xE: /* MT6370 */
++	case 0xF: /* MT6371 */
++	case 0x9: /* MT6372P */
++	case 0xB: /* MT6372CP */
++		break;
++	default:
++		dev_err(info->dev, "Not invalid value 0x%02x\n", devinfo);
++		return -ENODEV;
++	}
 +
-+  charger:
-+    type: object
-+    $ref: /schemas/power/supply/mediatek,mt6370-charger.yaml#
++	return 0;
++}
 +
-+  tcpc:
-+    type: object
-+    $ref: /schemas/usb/mediatek,mt6370-tcpc.yaml#
++static int mt6370_regmap_read(void *context, const void *reg_buf,
++			      size_t reg_size, void *val_buf, size_t val_size)
++{
++	struct mt6370_info *info = context;
++	u8 bank_idx = *(u8 *)reg_buf, bank_addr = *(u8 *)(reg_buf + 1);
++	int ret;
 +
-+  indicator:
-+    type: object
-+    $ref: /schemas/leds/mediatek,mt6370-indicator.yaml#
++	ret = i2c_smbus_read_i2c_block_data(info->i2c[bank_idx], bank_addr,
++					    val_size, val_buf);
++	if (ret != val_size)
++		return ret;
 +
-+  flashlight:
-+    type: object
-+    $ref: /schemas/leds/mediatek,mt6370-flashlight.yaml#
++	return 0;
++}
 +
-+  regulators:
-+    type: object
-+    description: |
-+      List all supported regulators, which support the control for DisplayBias
-+      voltages and one general purpose LDO which commonly used to drive the
-+      vibrator.
++static int mt6370_regmap_write(void *context, const void *data, size_t count)
++{
++	struct mt6370_info *info = context;
++	u8 bank_idx = *(u8 *)data, bank_addr = *(u8 *)(data + 1);
++	int len = count - MT6370_REG_ADDRLEN;
 +
-+    patternProperties:
-+      "^(dsvbst|vibldo)$":
-+        $ref: /schemas/regulator/regulator.yaml#
-+        type: object
-+        unevaluatedProperties: false
++	return i2c_smbus_write_i2c_block_data(info->i2c[bank_idx], bank_addr,
++					      len, data + MT6370_REG_ADDRLEN);
++}
 +
-+      "^(dsvpos|dsvneg)$":
-+        $ref: /schemas/regulator/regulator.yaml#
-+        type: object
-+        unevaluatedProperties: false
++static const struct regmap_bus mt6370_regmap_bus = {
++	.read		= mt6370_regmap_read,
++	.write		= mt6370_regmap_write,
++};
 +
-+        properties:
-+          enable-gpio:
-+            maxItems: 1
++static const struct regmap_config mt6370_regmap_config = {
++	.reg_bits		= 16,
++	.val_bits		= 8,
++	.reg_format_endian	= REGMAP_ENDIAN_BIG,
++	.max_register		= MT6370_REG_MAXADDR,
++};
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-controller
-+  - '#interrupt-cells'
-+  - regulators
-+  - adc
-+  - backlight
-+  - indicator
-+  - tcpc
-+  - charger
-+  - flashlight
++static int mt6370_probe(struct i2c_client *i2c)
++{
++	struct mt6370_info *info;
++	struct i2c_client *usbc_i2c;
++	int ret;
 +
-+additionalProperties: false
++	info = devm_kzalloc(&i2c->dev, sizeof(*info), GFP_KERNEL);
++	if (!info)
++		return -ENOMEM;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/leds/common.h>
-+    #include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
-+    #include <dt-bindings/usb/pd.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
++	info->dev = &i2c->dev;
 +
-+        pmic@34 {
-+        compatible = "mediatek,mt6370";
-+        reg = <0x34>;
-+        wakeup-source;
-+        interrupts-extended = <&gpio26 3 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
++	usbc_i2c = devm_i2c_new_dummy_device(&i2c->dev, i2c->adapter,
++					     MT6370_USBC_I2CADDR);
++	if (IS_ERR(usbc_i2c)) {
++		ret = PTR_ERR(usbc_i2c);
++		dev_err(&i2c->dev, "Failed to register usbc i2c client %d\n", ret);
++		return ret;
++	}
 +
-+        mt6370_adc: adc {
-+          compatible = "mediatek,mt6370-adc";
-+          #io-channel-cells = <1>;
-+        };
++	/* Assign I2C client for PMU and TypeC */
++	info->i2c[MT6370_PMU_I2C] = i2c;
++	info->i2c[MT6370_USBC_I2C] = usbc_i2c;
 +
-+        backlight {
-+          compatible = "mediatek,mt6370-backlight";
-+          mediatek,bled-channel-use = /bits/ 8 <15>;
-+        };
++	info->regmap = devm_regmap_init(&i2c->dev, &mt6370_regmap_bus, info,
++					&mt6370_regmap_config);
++	if (IS_ERR(info->regmap)) {
++		ret = PTR_ERR(info->regmap);
++		dev_err(&i2c->dev, "Failed to register regmap (%d)\n", ret);
++		return ret;
++	}
 +
-+        charger {
-+          compatible = "mediatek,mt6370-charger";
-+          interrupts = <48>, <68>, <6>;
-+          interrupt-names = "attach_i", "uvp_d_evt", "mivr";
-+          io-channels = <&mt6370_adc MT6370_CHAN_IBUS>;
++	ret = mt6370_check_vendor_info(info);
++	if (ret) {
++		dev_err(&i2c->dev, "Failed to check vendor info (%d)\n", ret);
++		return ret;
++	}
 +
-+          mt6370_otg_vbus: usb-otg-vbus-regulator {
-+            regulator-name = "mt6370-usb-otg-vbus";
-+            regulator-min-microvolt = <4350000>;
-+            regulator-max-microvolt = <5800000>;
-+            regulator-min-microamp = <500000>;
-+            regulator-max-microamp = <3000000>;
-+          };
-+        };
++	ret = devm_regmap_add_irq_chip(&i2c->dev, info->regmap, i2c->irq,
++				       IRQF_ONESHOT, -1, &mt6370_irq_chip,
++				       &info->irq_data);
++	if (ret) {
++		dev_err(&i2c->dev, "Failed to add irq chip (%d)\n", ret);
++		return ret;
++	}
 +
-+        indicator {
-+          compatible = "mediatek,mt6370-indicator";
-+          #address-cells = <1>;
-+          #size-cells = <0>;
++	return devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO,
++				    mt6370_devices, ARRAY_SIZE(mt6370_devices),
++				    NULL, 0,
++				    regmap_irq_get_domain(info->irq_data));
++}
 +
-+          multi-led@0 {
-+            reg = <0>;
-+            function = LED_FUNCTION_INDICATOR;
-+            color = <LED_COLOR_ID_RGB>;
-+            led-max-microamp = <24000>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            led@0 {
-+              reg = <0>;
-+              color = <LED_COLOR_ID_RED>;
-+            };
-+            led@1 {
-+              reg = <1>;
-+              color = <LED_COLOR_ID_GREEN>;
-+            };
-+            led@2 {
-+              reg = <2>;
-+              color = <LED_COLOR_ID_BLUE>;
-+            };
-+          };
-+          led@3 {
-+            reg = <3>;
-+            function = LED_FUNCTION_INDICATOR;
-+            color = <LED_COLOR_ID_WHITE>;
-+            led-max-microamp = <6000>;
-+          };
-+        };
++static const struct of_device_id mt6370_match_table[] = {
++	{ .compatible = "mediatek,mt6370", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, mt6370_match_table);
 +
-+        flashlight {
-+          compatible = "mediatek,mt6370-flashlight";
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+          led@0 {
-+            reg = <0>;
-+            led-sources = <0>;
-+            function = LED_FUNCTION_FLASH;
-+            color = <LED_COLOR_ID_WHITE>;
-+            function-enumerator = <1>;
-+            led-max-microamp = <200000>;
-+            flash-max-microamp = <500000>;
-+            flash-max-timeout-us = <1248000>;
-+          };
-+          led@1 {
-+            reg = <1>;
-+            led-sources = <1>;
-+            function = LED_FUNCTION_FLASH;
-+            color = <LED_COLOR_ID_WHITE>;
-+            function-enumerator = <2>;
-+            led-max-microamp = <200000>;
-+            flash-max-microamp = <500000>;
-+            flash-max-timeout-us = <1248000>;
-+          };
-+        };
++static struct i2c_driver mt6370_driver = {
++	.driver = {
++		.name = "mt6370",
++		.of_match_table = mt6370_match_table,
++	},
++	.probe_new = mt6370_probe,
++};
++module_i2c_driver(mt6370_driver);
 +
-+        tcpc {
-+          compatible = "mediatek,mt6370-tcpc";
-+          interrupts-extended = <&gpio26 4 IRQ_TYPE_LEVEL_LOW>;
-+
-+          connector {
-+            compatible = "usb-c-connector";
-+            label = "USB-C";
-+            vbus-supply = <&mt6370_otg_vbus>;
-+            data-role = "dual";
-+            power-role = "dual";
-+            try-power-role = "sink";
-+            source-pdos = <PDO_FIXED(5000, 1000, PDO_FIXED_DUAL_ROLE | PDO_FIXED_DATA_SWAP)>;
-+            sink-pdos = <PDO_FIXED(5000, 2000, PDO_FIXED_DUAL_ROLE | PDO_FIXED_DATA_SWAP)>;
-+            op-sink-microwatt = <10000000>;
-+
-+            ports {
-+              #address-cells = <1>;
-+              #size-cells = <0>;
-+
-+              port@0 {
-+                reg = <0>;
-+                endpoint {
-+                  remote-endpoint = <&usb_hs>;
-+                };
-+              };
-+              port@1 {
-+                reg = <1>;
-+                endpoint {
-+                  remote-endpoint = <&usb_ss>;
-+                };
-+              };
-+              port@2 {
-+                reg = <2>;
-+                endpoint {
-+                  remote-endpoint = <&dp_aux>;
-+                };
-+              };
-+            };
-+          };
-+        };
-+
-+        regulators {
-+          dsvbst {
-+            regulator-name = "mt6370-dsv-vbst";
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <6200000>;
-+          };
-+          dsvpos {
-+            regulator-name = "mt6370-dsv-vpos";
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <6000000>;
-+            regulator-boot-on;
-+          };
-+          dsvneg {
-+            regulator-name = "mt6370-dsv-vneg";
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <6000000>;
-+            regulator-boot-on;
-+          };
-+          vibldo {
-+            regulator-name = "mt6370-vib-ldo";
-+            regulator-min-microvolt = <1600000>;
-+            regulator-max-microvolt = <4000000>;
-+          };
-+        };
-+      };
-+    };
-diff --git a/include/dt-bindings/iio/adc/mediatek,mt6370_adc.h b/include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-new file mode 100644
-index 000000000000..6ee725547763
---- /dev/null
-+++ b/include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+
-+#ifndef __DT_BINDINGS_MEDIATEK_MT6370_ADC_H__
-+#define __DT_BINDINGS_MEDIATEK_MT6370_ADC_H__
-+
-+/* ADC Channel Index */
-+#define MT6370_CHAN_VBUSDIV5	0
-+#define MT6370_CHAN_VBUSDIV2	1
-+#define MT6370_CHAN_VSYS	2
-+#define MT6370_CHAN_VBAT	3
-+#define MT6370_CHAN_TS_BAT	4
-+#define MT6370_CHAN_IBUS	5
-+#define MT6370_CHAN_IBAT	6
-+#define MT6370_CHAN_CHG_VDDP	7
-+#define MT6370_CHAN_TEMP_JC	8
-+#define MT6370_CHAN_MAX		9
-+
-+#endif
++MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
++MODULE_DESCRIPTION("MT6370 I2C MFD Driver");
++MODULE_LICENSE("GPL v2");
 -- 
 2.25.1
 
