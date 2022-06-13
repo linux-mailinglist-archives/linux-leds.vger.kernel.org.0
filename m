@@ -2,82 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23AAA549D99
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jun 2022 21:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E56EE54A03D
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jun 2022 22:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350089AbiFMTZD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jun 2022 15:25:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54494 "EHLO
+        id S1348628AbiFMUyd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jun 2022 16:54:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350193AbiFMTYv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jun 2022 15:24:51 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2FE3A5D0;
-        Mon, 13 Jun 2022 10:42:24 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8A3B72D6;
-        Mon, 13 Jun 2022 17:42:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8A3B72D6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1655142143; bh=D/tkzvqkGG3tyA96/khy1O4WmIgfRfvmO+IJpiodDjc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=WIQjVqR6dCCotZXHSAN3xulM+JTXouRZjvyTfzmHRlQdfLZdnYb4B1NbvbE5NUNmK
-         nV8MOfUHjSzFrNzfYEaXJWdauneDeT/8JczTujB7oDwaB3cby+DWOHa0ilRi6SWxMx
-         JaWTwOdiOuFPNy7Vicc4brU5iweijhHcETACbpqkIVZwnqR+4+8aniujnV7S5h3Dzt
-         tsshuLEyHsJhFgcl8rLyNvq3zr/R3b0L8V8W7SBI+9wDfszix/MT5lfU3VN/I6xGSo
-         64mAOgQHtzy3HPCuT03RczmsXPJQSed91p+tFs0hxiljRlga3HuUgHQ7LCTqP0JVrx
-         orjuzXQGSLMnQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2] leds: Add leds-qcom-lpg entry to
- documentation table of contents
-In-Reply-To: <20220612000125.9777-1-bagasdotme@gmail.com>
-References: <20220612000125.9777-1-bagasdotme@gmail.com>
-Date:   Mon, 13 Jun 2022 11:42:22 -0600
-Message-ID: <87v8t4zcht.fsf@meer.lwn.net>
+        with ESMTP id S241971AbiFMUxF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jun 2022 16:53:05 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C11AE9C;
+        Mon, 13 Jun 2022 13:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=CF9UJrdeWimgjo6b+3sLXnRZ+YKpG34Hd87mZaFsWOQ=; b=c7khjL9wMhgkexLmyAP5JznkUn
+        VxdBdmEKdzpLyXSV9VSwQobUMXr98PHFoytDWiQ3HIhBlu694lInFw+iOU7AnJf/nW+gz5S9kJ11G
+        SCoCRG5b1TjhHYBX4qaK92eN62Kt76eunJAA/aEgAf11AkTBq1iM/rhvPErEdPacMTQVFH70dhvb4
+        vlrHgpxrZYLBjXB9VHFcUeLsq640SfT4uzfotwf+a9hfdMe0MvLN0qnEEzsqT9SLr/PpswCycaTIA
+        r/Ujr7d4yuDkHzfFA9xKaomERUPE1mbxc9qUI9TWS/YLPX3BX+X3TDWnUnQ4BbxeUICwJXWQ9RVC2
+        fe3jX5OQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o0qS4-007f8t-8C; Mon, 13 Jun 2022 20:14:23 +0000
+Message-ID: <4aef2e48-9717-1aca-b716-5f9486bf320e@infradead.org>
+Date:   Mon, 13 Jun 2022 13:14:11 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 08/15] mfd: mt6370: Add Mediatek MT6370 support
+Content-Language: en-US
+To:     ChiaEn Wu <peterwu.pub@gmail.com>, jic23@kernel.org,
+        lars@metafoo.de, matthias.bgg@gmail.com, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc:     linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
+ <20220613111146.25221-9-peterwu.pub@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220613111146.25221-9-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> After merging linux-leds tree to the mainline [1], htmldocs build produces
-> a new warning:
->
-> checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
->
-> The warning above is because leds-qcom-lpg.rst is missing in the table of
-> contents.
->
-> Add the missing entry.
->
-> [1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
->
-> Fixes: 24e2d05d1b6898 ("leds: Add driver for Qualcomm LPG")
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Pavel, that document appears to have entered via your tree; do you plan
-to push this fix too?
+On 6/13/22 04:11, ChiaEn Wu wrote:
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 3b59456f5545..d9a7524a3e0e 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -937,6 +937,19 @@ config MFD_MT6360
+>  	  PMIC part includes 2-channel BUCKs and 2-channel LDOs
+>  	  LDO part includes 4-channel LDOs
+>  
+> +config MFD_MT6370
+> +	tristate "Mediatek MT6370 SubPMIC"
+> +	select MFD_CORE
+> +	select REGMAP_I2C
+> +	select REGMAP_IRQ
+> +	depends on I2C
+> +	help
+> +	  Say Y here to enable MT6370 SubPMIC functional support.
+> +	  It integrate single cell battery charger with adc monitoring, RGB
 
-Thanks,
+	     integrates                                 ADC  (?)
 
-jon
+> +	  LEDs, dual channel flashlight, WLED backlight driver, display bias
+> +	  voltage supply, one general purpose LDO, and cc logic
+
+	                                               CC   (?)
+What is CC?
+
+> +	  controller with USBPD commmunication capable.
+
+	                                       capability.
+
+-- 
+~Randy
