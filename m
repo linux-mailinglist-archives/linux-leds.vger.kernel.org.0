@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 803DD54B3DC
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 16:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E63E254B3ED
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 16:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232474AbiFNOwk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Jun 2022 10:52:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49440 "EHLO
+        id S233742AbiFNOx7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Jun 2022 10:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244279AbiFNOwg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 10:52:36 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B34920F6F;
-        Tue, 14 Jun 2022 07:52:32 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id n28so12003072edb.9;
-        Tue, 14 Jun 2022 07:52:31 -0700 (PDT)
+        with ESMTP id S245375AbiFNOxw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 10:53:52 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A7C33E29;
+        Tue, 14 Jun 2022 07:53:51 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id c2so12020028edf.5;
+        Tue, 14 Jun 2022 07:53:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NmnLHQKIq/Qwpw3bROli63abqMMrdwZuMr4hqttXvi8=;
-        b=VaLkfDeTNu6KkT5rS6rZ4nkj8x7jr5Tbjxla6ZXrToXpigafc0fk2AEEqPXR3nyHt3
-         ecKU50Si8+kMyq7s2CILNxQUI8KXD0m5ekQKxe1mDzheGgHVLLYuNKeExATL7FEb+uqT
-         NqRwo2uU3W0xF01h/1ejx3SNwUkln0iU1u1vUBmFfIPCP76w8zKmGF3IarOf17QetP7m
-         JgQeuvP+rq2QwkF4tzeU2/HADL4i5/iFd8+jcvV3TbzH/odMjB3lxBvEx/Q/cBDtIGNl
-         CzoGOPQnK2hGHjJs6p9rKRPNifL6LvkYMu8auKgLx+sAkVqBBdAcS1qdaR8sJhDcvV79
-         vl6A==
+        bh=i002CZ3kNshSLiBB0Sk9zUBde6XACnITYgh2VJAFDjw=;
+        b=YrA/W4Q3CQqJGcPLjWQrYFy4qhMY19avMEq6Zb2Ty68Oc6r3CiV1vZe7TQxnFDLT78
+         +Onq+uNaU+1CGbg4MQ1u1gh0Y5fCaiZNT2jnjupmZNcogDhVGo0aRS8WeniWu//5sfaa
+         43sc2lKlY3W0yORugNFYzW3jWKYnWxJ7X3zKyl2lhxUHrHcfE0drTVBPHVCS27BQzs4T
+         yVjvN7eH3/YwiEUqomyL4QcULTM1nNk15dANKNpOSdAVMFUbyeby/+X1c7rT4gjokGYn
+         9Z9P3PGsrEfjTvI0Tp+XNHIdQpbzPDLKDPrt2c7JAQZYiQuSHOfNOLN1Ixb8FrxRoqLs
+         c8sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NmnLHQKIq/Qwpw3bROli63abqMMrdwZuMr4hqttXvi8=;
-        b=NXhaeCKnea5oPycNepu0IskEBdjOqCsnM0n71GNRJMGkgz942U4c+tWbpogosWdZBp
-         vI/vpSi8KOS/MKKlBmztlxKfNwlfHMunAYgUNrwEkRMJEokK6GQPuqYV+I3DR53APb+v
-         Hn91NLq0CODEXsfiu82uddIaHqGr5S2B6B19kqwF2iVNauWbWF4myiOGTBCr2z5rUuz3
-         94n0k821gC0cpVWIhmb3eIvPLDytcleiS0t+9gJeJEaWpKDKpWQa+vLAWq5OBwxBN5hk
-         Cnqgl6fs6pSWYx9w4TJ4jsgRAlGQV0QtcrV9ZysIPIG5KqRSCWwpT3ETO6dISIPzBvOL
-         4DFA==
-X-Gm-Message-State: AJIora/vwM3Elao82obJWH3yqhr7qyTD+aemOaFXR0xbUPy+zpbomKXD
-        mMn6kqhmLO/cK9n+vem51ktrQMj50GEcNLLA/+o=
-X-Google-Smtp-Source: ABdhPJwavfre5IkSew79d1lWafxiOtQ5nWlFLC7RO+RWMsDFfncyk6FoEkhpqtyBp2eDMdjA8iEDdBnOI3E8hYEs5/w=
-X-Received: by 2002:aa7:c396:0:b0:42d:8b86:a8dc with SMTP id
- k22-20020aa7c396000000b0042d8b86a8dcmr6466658edq.54.1655218350390; Tue, 14
- Jun 2022 07:52:30 -0700 (PDT)
+        bh=i002CZ3kNshSLiBB0Sk9zUBde6XACnITYgh2VJAFDjw=;
+        b=oD6Tr7GtYDy/kI1lyiYOztAts136uJfXztbQC4wTUMX6lZoAdaqWeYPpDR52kXVBGj
+         By5ow7GdRrQmDus0FRD8lgjUUmVm9MsOykiu0p4lCd3sTulpFsRMdfX2iRdsAPmWED2U
+         hNY7EvDJVogfi+RcwaESPO89PKcrMM09aVYQnsZE63wC7LCX8oGVFJl8jL6xEYgJdxIH
+         z+6iznJYHd6Inw1TJMr/vpMU6KajjGAqjAsbTwld9+kUn+TPRrqUd+7PyGzJuh0/qXww
+         s9+Psp2O4/ksF6EKpxijSfOsyhKjkJ7epKp6REF1Qd5oIiztt+oYyyTKWZDeKcTg4HKn
+         E3XA==
+X-Gm-Message-State: AOAM531AtQD0VlwQirs3qlzMSkVGUro36l2oYa0Iunk+sehmAN8Nfw5D
+        pVnYRu9EiOzL9yq7WqXW9veQ94rZ4xhxjdLBCjs=
+X-Google-Smtp-Source: ABdhPJx3Bq0wNrqEF8lSyUCZ5VshuSRqgNgGBod/kPv3JOjHRqHmbA/j/c4PBm2AG1qjWMfzhi5Ygd4Az6pMkuDLlvQ=
+X-Received: by 2002:aa7:d303:0:b0:42d:d192:4c41 with SMTP id
+ p3-20020aa7d303000000b0042dd1924c41mr6640987edq.178.1655218430432; Tue, 14
+ Jun 2022 07:53:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220614142704.155496-1-jjhiblot@traphandler.com> <20220614142704.155496-4-jjhiblot@traphandler.com>
-In-Reply-To: <20220614142704.155496-4-jjhiblot@traphandler.com>
+References: <20220614142704.155496-1-jjhiblot@traphandler.com>
+In-Reply-To: <20220614142704.155496-1-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Jun 2022 16:51:53 +0200
-Message-ID: <CAHp75VdwiptUUHwDT8bZmY4r7beiiT9NFD9o_-=+KiqMcqGhcg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] leds: tlc5925: Add support for non blocking operations
+Date:   Tue, 14 Jun 2022 16:53:13 +0200
+Message-ID: <CAHp75Vd29e55B7MFfg5A4RLkCzhKbE3FxcnESV2hNxYLA+OWGw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Add support for the TLC5925
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, krzk+dt@kernel.org,
         Rob Herring <robh+dt@kernel.org>,
@@ -71,90 +71,65 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Tue, Jun 14, 2022 at 4:27 PM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> Settings multiple LEDs in a row can be a slow operation because of the
-> time required to acquire the bus and prepare the transfer.
-> And, in most cases, it is not required that the operation is synchronous.
->
-> Implementing the non-blocking brightness_set() for such cases.
-> A work queue is used to perform the actual SPI transfer.
->
-> The blocking method is still available in case someone needs to perform
-> this operation synchronously (ie by calling led_set_brightness_sync()).
->
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> ---
->  drivers/leds/leds-tlc5925.c | 39 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 37 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/leds/leds-tlc5925.c b/drivers/leds/leds-tlc5925.c
-> index eeab1138ba2c..2c083b04d7f6 100644
-> --- a/drivers/leds/leds-tlc5925.c
-> +++ b/drivers/leds/leds-tlc5925.c
-> @@ -14,6 +14,7 @@
->  #include <linux/leds.h>
->  #include <linux/module.h>
->  #include <linux/property.h>
-> +#include <linux/workqueue.h>
->  #include <linux/spi/spi.h>
->
->  struct single_led_priv {
-> @@ -24,10 +25,24 @@ struct single_led_priv {
->  struct tlc5925_leds_priv {
->         int max_num_leds;
->         unsigned long *state;
-> +       struct spi_device *spi;
-> +       struct work_struct xmit_work;
->         struct single_led_priv leds[];
->  };
->
-> -static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
-> +static int xmit(struct tlc5925_leds_priv *priv)
-> +{
-> +       return spi_write(priv->spi, priv->state, BITS_TO_BYTES(priv->max_num_leds));
-> +}
-> +
-> +static void xmit_work(struct work_struct *ws)
-> +{
-> +       struct tlc5925_leds_priv *priv =
-> +               container_of(ws, struct tlc5925_leds_priv, xmit_work);
+> This series add the support for the TLC5925 LED controller.
 
-+ Blank line.
+adds
 
-> +       xmit(priv);
-> +};
-> +
-> +static void tlc5925_brightness_set(struct led_classdev *cdev,
->                                             enum led_brightness brightness)
->  {
->         struct spi_device *spi = to_spi_device(cdev->dev->parent);
-> @@ -40,9 +55,25 @@ static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
->         // assign_bit() is atomic, no need for lock
->         assign_bit(index, priv->state, !!brightness);
+> This LED controller is driven though SPI. There is little internal logic
+
+through
+
+> and it can be thought of as a deserializer + latches.
+
+> The TLC5925 itself drives up to 16 LEDs, but multiple TLC5925s can be
+> chained to drive more.
 >
-> -       return spi_write(spi, priv->state, BITS_TO_BYTES(priv->max_num_leds));
-> +       schedule_work(&priv->xmit_work);
->  }
+> The first patch describes the dt bindings.
+> The second patch implements most of the driver and supports only
+> synchronous brightness setting (brightness_set_blocking).
+> The last patch implements the non-blocking version (brightness_set).
+
+Much better, I have a few comments and I believe next version will be final.
+
+> changes v3->v4:
+>  * add missing MODULE_DEVICE_TABLE(of, ...)
+>  * use dev_err_probe() to avoid spaming the log in case of deferred probe
+
+spamming
+
+>  * use bitmap ops instead of direct mem access + lock
+
+memory
+
+>  * sort headers and a few other cosmetic changes.
 >
-> +static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
-> +                                           enum led_brightness brightness)
-> +{
-> +       struct spi_device *spi = to_spi_device(cdev->dev->parent);
-> +       struct tlc5925_leds_priv *priv = spi_get_drvdata(spi);
+> changes v2->v3:
+>  * fixed the yaml description of the bindings (now passes dt_binding_check)
+>  * renamed shit-register-length into ti,shift-register-length and specify its
+>    type
+>
+> changes v1->v2:
+>  * renamed property shift_register_length into shift-register-length
+>  * add a SPI MODULE_DEVICE_TABLE structure
+>  * fixed the yaml description of the bindings (now passes dt_binding_check)
+>
+> Jean-Jacques Hiblot (3):
+>   dt-bindings: leds: Add bindings for the TLC5925 controller
+>   leds: Add driver for the TLC5925 LED controller
+>   leds: tlc5925: Add support for non blocking operations
+>
+>  .../devicetree/bindings/leds/ti,tlc5925.yaml  | 107 ++++++++++
+>  drivers/leds/Kconfig                          |   6 +
+>  drivers/leds/Makefile                         |   1 +
+>  drivers/leds/leds-tlc5925.c                   | 191 ++++++++++++++++++
+>  4 files changed, 305 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+>  create mode 100644 drivers/leds/leds-tlc5925.c
+>
+> --
+> 2.25.1
+>
 
-> +       struct single_led_priv *led = container_of(cdev,
-> +                                                  struct single_led_priv,
-> +                                                  cdev);
-
-Better:
-
-       struct single_led_priv *led =
-                        container_of(cdev, struct single_led_priv, cdev);
-
-...
-
-> +       // assign_bit() is atomic, no need for lock
-
-The useless comment.
 
 -- 
 With Best Regards,
