@@ -2,149 +2,169 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD6954B34D
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 16:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1AD54B3CD
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 16:50:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238119AbiFNOgU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Jun 2022 10:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
+        id S235120AbiFNOt6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Jun 2022 10:49:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348440AbiFNOgG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 10:36:06 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 394A93DDE6;
-        Tue, 14 Jun 2022 07:36:05 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 8286121B97;
-        Tue, 14 Jun 2022 14:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1655217363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7h6hH0gYTond1cgiS/uMW2G4mVmL8aIozW74ouv+gK4=;
-        b=B9wTA4hA6Qxez4dhaQq2jaLjcRQqv8/C1d0oKbtJxHWYl3duIpfM3QjZ2J2ZIG1jByzjIk
-        ObTWFZbyZcppMylTomPCNwhynw9TlYQGEMrmiuv4k8IcEezBoIE3JYy9Oiijt3mtdocbSR
-        YntR36rSYs/Otfz0SDXm/BOtVHJZFAE=
-Received: from suse.cz (unknown [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0C0ED2C142;
-        Tue, 14 Jun 2022 14:36:01 +0000 (UTC)
-Date:   Tue, 14 Jun 2022 16:36:01 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     bhe@redhat.com, d.hatayama@jp.fujitsu.com,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Mark Rutland <mark.rutland@arm.com>, mikelley@microsoft.com,
-        vkuznets@redhat.com, akpm@linux-foundation.org,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        hidehiro.kawai.ez@hitachi.com, jgross@suse.com,
-        john.ogness@linutronix.de, keescook@chromium.org, luto@kernel.org,
-        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
-        peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, will@kernel.org
-Subject: Re: [PATCH 24/30] panic: Refactor the panic path
-Message-ID: <Yqic0R8/UFqTbbMD@alley>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-25-gpiccoli@igalia.com>
- <87fskzuh11.fsf@email.froward.int.ebiederm.org>
- <0d084eed-4781-c815-29c7-ac62c498e216@igalia.com>
+        with ESMTP id S235039AbiFNOt5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 10:49:57 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BEF91EEDB;
+        Tue, 14 Jun 2022 07:49:56 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id u12so17637492eja.8;
+        Tue, 14 Jun 2022 07:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9qHhTGxxY9/waiBpfU6mqYtlay9MtThobDAeZOTJkHQ=;
+        b=fiNUu/SiNf33k6dJaZ95un7DWP2Yv+shAdb6ZksmWhtZDwHnC1BMu7T0xWkn4OuqOQ
+         X8vMKc7WNB9H83uqjV2aYPfLzniZmqsHRgljLiyxXBgOVblJUN9EOlIZJLes941Jh1+I
+         7qdhMuxy4eRi1VAj2ttGP3MatHBgada6EUAhrycVnCJSxHu/wIV/iUdvQlglzhLIoVpX
+         N02iJ4d85ICFofTyXu3SKW0M/jixATZbrzpdwh/QcdrN2OoXD97YAamPIE2pT+ANVCib
+         RzZdCGdvoCQb1NLCuU0ftoW8xMaMaDmf+/0+4MW6k0ImoMOgBg/wp8CGFGnyXZ+PI9JS
+         EHTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9qHhTGxxY9/waiBpfU6mqYtlay9MtThobDAeZOTJkHQ=;
+        b=Dt4ybsnn2cfzbGqFcrmvATMWx824DSpR4LJvG+nNehsMoXx94CHKnhLJaj7RSXfUL5
+         CN9FHd6iNOvEjlVBxQ9xSjSRTSZCyyuQBwy+M1ZDqWXHEPb5vaJd0id7vdSGiweAPlbo
+         inEHnJxnliBRTDw0agI22S1Kjn3WNFqEFVyNqrDolxirRt9VeQsRWQdZ7Z8/vbUhmWhx
+         JFDp0bU+GhqyxivYCJ3WrAOk+CBw+sYEB60CQaijtb9tdSeFXpcipfPKp2MOdGXi3Jg5
+         hEuW7+RVx3i8OlenCGhDNlBeClWUulWGb6LiM5RVhKznyv1Tczn1mgkYfsNghljGkyV+
+         J7pw==
+X-Gm-Message-State: AOAM533DBUHfsKswlUH1AX98sD+YVGirrs/DeBB4kSlj80+IMz3ilw02
+        c1RJqOGIMz7A7fbEYYPHQdAlwq6PTEcq95bmgMTcg00XtH3phA==
+X-Google-Smtp-Source: ABdhPJykAc4fFrO2Ai+35/pU6BtImZMf+AWI71ybB0/OdOr3BkqeJxAkOP/SXOpcaHNU5Q0y3C5hAET/hbdgSlfXFsQ=
+X-Received: by 2002:a17:906:c7c1:b0:711:d2e9:99d0 with SMTP id
+ dc1-20020a170906c7c100b00711d2e999d0mr4636129ejb.639.1655218195050; Tue, 14
+ Jun 2022 07:49:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d084eed-4781-c815-29c7-ac62c498e216@igalia.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220614142704.155496-1-jjhiblot@traphandler.com> <20220614142704.155496-3-jjhiblot@traphandler.com>
+In-Reply-To: <20220614142704.155496-3-jjhiblot@traphandler.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 14 Jun 2022 16:49:13 +0200
+Message-ID: <CAHp75Vc1=hNzrVeA9J_TbVEWFO4b-8+VjdsyJVMRTRkX5yhNhQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] leds: Add driver for the TLC5925 LED controller
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, krzk+dt@kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu 2022-05-26 13:25:57, Guilherme G. Piccoli wrote:
-> OK, so it seems we have some points in which agreement exists, and some
-> points that there is no agreement and instead, we have antagonistic /
-> opposite views and needs. Let's start with the easier part heh
+On Tue, Jun 14, 2022 at 4:27 PM Jean-Jacques Hiblot
+<jjhiblot@traphandler.com> wrote:
 >
-> It seems everybody agrees that *we shouldn't over-engineer things*, and
-> as per Eric good words: making the panic path more feature-full or
-> increasing flexibility isn't a good idea. So, as a "corollary": the
-> panic level approach I'm proposing is not a good fit, I'll drop it and
-> let's go with something simpler.
+> The TLC5925 is a 16-channels constant-current LED sink driver.
+> It is controlled via SPI but doesn't offer a register-based interface.
+> Instead it contains a shift register and latches that convert the
+> serial input into a parallel output.
+>
+> Datasheet: https://www.ti.com/lit/ds/symlink/tlc5925.pdf
 
-Makes sense.
+>
 
-> Another point of agreement seems to be that _notifier lists in the panic
-> path are dangerous_, for *2 different reasons*:
-> 
-> (a) We cannot guarantee that people won't add crazy callbacks there, we
-> can plan and document things the best as possible - it'll never be
-> enough, somebody eventually would slip a nonsense callback that would
-> break things and defeat the planned purpose of such a list;
+No blank lines are allowed in the tag block.
 
-It is true that notifier lists might allow to add crazy stuff
-without proper review more easily. Things added into the core
-code would most likely get better review.
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 
-But nothing is error-proof. And bugs will happen with any approach.
+...
 
+> +#include <linux/err.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/spi/spi.h>
 
-> (b) As per Eric point, in a panic/crash situation we might have memory
-> corruption exactly in the list code / pointers, etc, so the notifier
-> lists are, by nature, a bit fragile. But I think we shouldn't consider
-> it completely "bollocks", since this approach has been used for a while
-> with a good success rate. So, lists aren't perfect at all, but at the
-> same time, they aren't completely useless.
+This misses a few headers that this code is direct user of:
+container_of.h
+gpio/consumer.h
+types.h
 
-I am not able to judge this. Of course, any extra step increases
-the risk. I am just not sure how much more complicated it would
-be to hardcode the calls. Most of them are architecture
-and/or feature specific. And such code is often hard to
-review and maintain.
+...
 
-> To avoid using a 4th list,
+> +       // assign_bit() is atomic, no need for lock
 
-4th or 5th? We already have "hypervisor", "info", "pre-reboot", and "pre-loop".
-The 5th might be pre-crash-exec.
+Comment is useless, since it's a pattern that is used in the kernel:
+__op is non-atomic, op is atomic.
 
-> especially given the list nature is a bit
-> fragile, I'd suggest one of the 3 following approaches - I *really
-> appreciate feedbacks* on that so I can implement the best solution and
-> avoid wasting time in some poor/disliked solution:
+...
 
-Honestly, I am not able to decide what might be better without seeing
-the code.
+> +
+> +
 
-Most things fits pretty well into the 4 proposed lists:
-"hypervisor", "info", "pre-reboot", and "pre-loop". IMHO, the
-only question is the code that needs to be always called
-even before crash_dump.
+One blank line is enough
 
-I suggest that you solve the crash_dump callbacks the way that
-looks best to you. Ideally do it in a separate patch so it can be
-reviewed and reworked more easily.
+...
 
-I believe that a fresh code with an updated split and simplified
-logic would help us to move forward.
+> +
+> +
 
-Best Regards,
-Petr
+Ditto.
+
+...
+
+> +       gpios = devm_gpiod_get_array(dev, "output-enable-b", GPIOD_OUT_LOW);
+> +       if (IS_ERR(gpios)) {
+> +               return dev_err_probe(dev, PTR_ERR(gpios),
+> +                             "Unable to get the 'output-enable-b' gpios\n");
+> +       }
+
+{} are not needed, and you may put the return on one line.
+
+...
+
+> +       count = device_get_child_node_count(dev);
+> +       if (!count) {
+> +               dev_err(dev, "no led defined.\n");
+> +               return -ENODEV;
+> +       }
+
+It's fine to use return dev_err_probe() in such cases like above, it's
+written in the documentation.
+
+...
+
+> +               ret = fwnode_property_read_u32(child, "reg", &idx);
+> +               if (ret || idx >= max_num_leds) {
+> +                       dev_warn(dev, "%s: invalid reg value. Ignoring.\n",
+> +                               fwnode_get_name(child));
+
+%pfw / %pfwP ?
+
+> +                       fwnode_handle_put(child);
+> +                       continue;
+> +               }
+
+...
+
+> +               ret = devm_led_classdev_register_ext(dev, cdev, &init_data);
+> +               if (ret) {
+> +                       dev_warn(dev, "%s: cannot create LED device.\n",
+> +                               fwnode_get_name(child));
+
+Ditto.
+
+> +                       fwnode_handle_put(child);
+> +                       continue;
+> +               }
+
+-- 
+With Best Regards,
+Andy Shevchenko
