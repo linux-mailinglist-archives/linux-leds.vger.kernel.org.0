@@ -2,90 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 989C354A066
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jun 2022 22:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC0554AABD
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 09:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346879AbiFMUzh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jun 2022 16:55:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40024 "EHLO
+        id S1354726AbiFNHge (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Jun 2022 03:36:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352256AbiFMUyT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jun 2022 16:54:19 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B61724088;
-        Mon, 13 Jun 2022 13:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=8O3gyMH/DIarLtUQIeptn6LXzo+PYX0mLfSnGbw2a7g=; b=NiCUaEIDQk/r/vKjMnabo0T1aj
-        KK3IXgeBZZBkAGgl4TSxcVArNoBIV/AKyyLi9t5a07UnCfbFSwN2nvXFXzLDYNNMAXXD2fr3a3lXn
-        5qBH/nL9tJX2J7QQ4kM/7UEN+euVSEGc7b6Ex8N+TV4DQW9YU3BeLEFg/YHZyrRBVB4eOurKWVCUV
-        3dbn5FrNEUgwk3XQpLPNxo6eOD7VlDnTDsuYkubKzs3hE1PvMf7ii7WpSMRyCQ1xaKSHGQwOi4VXv
-        BhCrf7pxathZUx6m7wZ/N1DXG7+13m4woNibuhLDnSJXchPFtBME85NedsEqI+ptN5vbrVryuRlDS
-        RIIm5mxw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o0qZK-007fIG-L3; Mon, 13 Jun 2022 20:21:51 +0000
-Message-ID: <424b4f90-138c-d71f-0f1c-12c60e44c1c2@infradead.org>
-Date:   Mon, 13 Jun 2022 13:21:43 -0700
+        with ESMTP id S1354728AbiFNHgb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 03:36:31 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D663EABA;
+        Tue, 14 Jun 2022 00:36:30 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id i29so12570470lfp.3;
+        Tue, 14 Jun 2022 00:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LFwMlD3e6MpOKchNvuK+4lcuy4YZDarqBQY4i719zcc=;
+        b=PAh8hSghT45qJn8oTRAhx1ovw+P3HDYmlFpxUYNixZIUHxPIkAnksasR7avH8YiVVk
+         UJqbd+bxOcGrbRKx0vyaV4g9U/iZYQJSSx6BkR3fEaZTaGgaG0P61/puTsbe5/Q+DWtF
+         +Jf4v9X+tdwHSVipkPLq+ma11BuKtK6Xa6nfjuC18uMNzr3c/oSYoXNwsQWQCMmf1Rws
+         dKFt79RZp2CIm9Uqnwbs39VyU2OWMXsXA9mzqS1Cm0wdmud97suQL+PS8gSqjS4eTCnE
+         geR/6WFX9MoQ3U+8mh9eMkv2y0mlzumkOp5BKdefSjLztrSMQxnOGDrrX91/LQj5dIzr
+         RQ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LFwMlD3e6MpOKchNvuK+4lcuy4YZDarqBQY4i719zcc=;
+        b=mvOA8Hp6pVTHd7N+t8outqeR28OYoequgRZPMtEdnt+KXmGlPjbNYPlg6hxj6pjJv5
+         5UcrwsPkOkcQLEKENT9cu7w/Y3LkwpLxwpg+CgiIEDrPqlZ1+tMbsW30+EyNXKQFPcND
+         BYMMqkCi9UHgmseUdTpgKwGXukubQNCo2yuzgn6scvEWib8+psB/74B4zDSaDD3bjYN1
+         apbVdfeGXUngxrS9NNTDuSPCK0BDmuDv3sBa166pdBcPbJJaQAEqUSAGYDQ6SKCrT9pC
+         wvi5pFM3XUPWPUQ4LedZw4/+kPZ1AeCV2D8j7g9BBAj0x2vv6hlNVXXmijF7ykhZ90Wt
+         NX+A==
+X-Gm-Message-State: AJIora9y5BDDCj4rwVE6nVrmuOyfGfsV8A1Pe1X9Cs9af2ATLsWW02tZ
+        xqquf8c6V6rmf7NpH+wa89pftzorBSlGzGQJYivOo84i
+X-Google-Smtp-Source: AGRyM1uROblyDj8YDXZUc3ZoCBhH+XazHfRipMjAGBfNxPmWlz06u+/rd7JiQYm3NWYT2+vv0cn9AF47W2oVtwMUCtI=
+X-Received: by 2002:a05:6512:1051:b0:479:6428:7a59 with SMTP id
+ c17-20020a056512105100b0047964287a59mr2321642lfb.222.1655192188103; Tue, 14
+ Jun 2022 00:36:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 15/15] video: backlight: mt6370: Add Mediatek MT6370
- support
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, jic23@kernel.org,
-        lars@metafoo.de, matthias.bgg@gmail.com, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc:     linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com, ChiaEn Wu <chiaen_wu@richtek.com>
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-16-peterwu.pub@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220613111146.25221-16-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <1651138365-17362-1-git-send-email-u0084500@gmail.com>
+In-Reply-To: <1651138365-17362-1-git-send-email-u0084500@gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Tue, 14 Jun 2022 15:36:17 +0800
+Message-ID: <CADiBU38V+03GrCt6SWbPywzJWfL=ibkzhDHFMJdu8n2XC=TKog@mail.gmail.com>
+Subject: Re: [PATCH 0/4] leds: flash: mt6360: Apply the fixes and hardware features
+To:     Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     cy_huang <cy_huang@richtek.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Gene Chen <gene_chen@richtek.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi:
 
+    Is there any comment about this patch series?
+One is for the fix, second is Kconfig refine, others are for the HW
+PWM/Breath feature added.
 
-On 6/13/22 04:11, ChiaEn Wu wrote:
-> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> index a003e02e13ce..ec1589ad88bb 100644
-> --- a/drivers/video/backlight/Kconfig
-> +++ b/drivers/video/backlight/Kconfig
-> @@ -268,6 +268,15 @@ config BACKLIGHT_MAX8925
->  	  If you have a LCD backlight connected to the WLED output of MAX8925
->  	  WLED output, say Y here to enable this driver.
->  
-> +config BACKLIGHT_MT6370
-> +	tristate "Mediatek MT6370 Backlight Driver"
-> +	depends on MFD_MT6370
-> +	help
-> +	  This enables support for Mediatek MT6370 Backlight driver.
-> +	  It's commonly used to drive the display WLED. There're 4 channels
-
-	                                                There are 4 channels
-
-> +	  inisde, and each channel supports up to 30mA of current capability
-
-	  inside,
-
-> +	  with 2048 current steps in exponential or linear mapping curves.
-
--- 
-~Randy
+cy_huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B44=E6=9C=8828=E6=97=A5 =
+=E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:33=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> This patch series includes some fixes and add supproted ISNK hardware fea=
+tures.
+> From MT6360, ISNK can support three modes (CC, PWM, and Breath). The prev=
+ious
+> one can only support CC mode.
+>
+> ChiYuan Huang (4):
+>   leds: flash: mt6360: Fix the wrong enable_reg in multicolor brightness
+>     set
+>   leds: flash: mt6360: Remove unused dependency in Kconfig
+>   leds: flash: mt6360: Add mt6360 isnk channel hardware timer dimming
+>     mode support
+>   leds: flash: mt6360: Add mt6360 isnk channel hardwre breath mode
+>     support
+>
+>  drivers/leds/flash/Kconfig       |   4 +-
+>  drivers/leds/flash/leds-mt6360.c | 413 +++++++++++++++++++++++++++++++++=
++++++-
+>  2 files changed, 410 insertions(+), 7 deletions(-)
+>
+> --
+> 2.7.4
+>
