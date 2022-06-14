@@ -2,135 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E63E254B3ED
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 16:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 772A554B4EC
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Jun 2022 17:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233742AbiFNOx7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Jun 2022 10:53:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
+        id S236270AbiFNPnC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Jun 2022 11:43:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245375AbiFNOxw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 10:53:52 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A7C33E29;
-        Tue, 14 Jun 2022 07:53:51 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id c2so12020028edf.5;
-        Tue, 14 Jun 2022 07:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i002CZ3kNshSLiBB0Sk9zUBde6XACnITYgh2VJAFDjw=;
-        b=YrA/W4Q3CQqJGcPLjWQrYFy4qhMY19avMEq6Zb2Ty68Oc6r3CiV1vZe7TQxnFDLT78
-         +Onq+uNaU+1CGbg4MQ1u1gh0Y5fCaiZNT2jnjupmZNcogDhVGo0aRS8WeniWu//5sfaa
-         43sc2lKlY3W0yORugNFYzW3jWKYnWxJ7X3zKyl2lhxUHrHcfE0drTVBPHVCS27BQzs4T
-         yVjvN7eH3/YwiEUqomyL4QcULTM1nNk15dANKNpOSdAVMFUbyeby/+X1c7rT4gjokGYn
-         9Z9P3PGsrEfjTvI0Tp+XNHIdQpbzPDLKDPrt2c7JAQZYiQuSHOfNOLN1Ixb8FrxRoqLs
-         c8sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i002CZ3kNshSLiBB0Sk9zUBde6XACnITYgh2VJAFDjw=;
-        b=oD6Tr7GtYDy/kI1lyiYOztAts136uJfXztbQC4wTUMX6lZoAdaqWeYPpDR52kXVBGj
-         By5ow7GdRrQmDus0FRD8lgjUUmVm9MsOykiu0p4lCd3sTulpFsRMdfX2iRdsAPmWED2U
-         hNY7EvDJVogfi+RcwaESPO89PKcrMM09aVYQnsZE63wC7LCX8oGVFJl8jL6xEYgJdxIH
-         z+6iznJYHd6Inw1TJMr/vpMU6KajjGAqjAsbTwld9+kUn+TPRrqUd+7PyGzJuh0/qXww
-         s9+Psp2O4/ksF6EKpxijSfOsyhKjkJ7epKp6REF1Qd5oIiztt+oYyyTKWZDeKcTg4HKn
-         E3XA==
-X-Gm-Message-State: AOAM531AtQD0VlwQirs3qlzMSkVGUro36l2oYa0Iunk+sehmAN8Nfw5D
-        pVnYRu9EiOzL9yq7WqXW9veQ94rZ4xhxjdLBCjs=
-X-Google-Smtp-Source: ABdhPJx3Bq0wNrqEF8lSyUCZ5VshuSRqgNgGBod/kPv3JOjHRqHmbA/j/c4PBm2AG1qjWMfzhi5Ygd4Az6pMkuDLlvQ=
-X-Received: by 2002:aa7:d303:0:b0:42d:d192:4c41 with SMTP id
- p3-20020aa7d303000000b0042dd1924c41mr6640987edq.178.1655218430432; Tue, 14
- Jun 2022 07:53:50 -0700 (PDT)
+        with ESMTP id S1344569AbiFNPnA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Jun 2022 11:43:00 -0400
+Received: from smtpout1.mo3004.mail-out.ovh.net (smtpout1.mo3004.mail-out.ovh.net [79.137.123.219])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB24A366B7;
+        Tue, 14 Jun 2022 08:42:57 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.109.156.55])
+        by mo3004.mail-out.ovh.net (Postfix) with ESMTPS id 6ECE3243309;
+        Tue, 14 Jun 2022 15:42:56 +0000 (UTC)
+Received: from localhost.localdomain (88.161.25.233) by DAG1EX2.emp2.local
+ (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 14 Jun
+ 2022 17:42:55 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <pavel@ucw.cz>, <krzk+dt@kernel.org>, <andy.shevchenko@gmail.com>
+CC:     <robh+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v5 0/3] Add support for the TLC5925
+Date:   Tue, 14 Jun 2022 17:42:42 +0200
+Message-ID: <20220614154245.354167-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220614142704.155496-1-jjhiblot@traphandler.com>
-In-Reply-To: <20220614142704.155496-1-jjhiblot@traphandler.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Jun 2022 16:53:13 +0200
-Message-ID: <CAHp75Vd29e55B7MFfg5A4RLkCzhKbE3FxcnESV2hNxYLA+OWGw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Add support for the TLC5925
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, krzk+dt@kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG1EX2.emp2.local (172.16.2.2) To DAG1EX2.emp2.local
+ (172.16.2.2)
+X-Ovh-Tracer-Id: 12429934973719493083
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduledgledtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeejuefhkeelgffhlefhtefhgeektdevvdfgkeeltdehgeeujeeutdehkeeuhffftdenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmoheftddtge
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 4:27 PM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
->
-> This series add the support for the TLC5925 LED controller.
+This series adds the support for the TLC5925 LED controller.
+This LED controller is driven through SPI. There is little internal logic
+and it can be thought of as a deserializer + latches.
+The TLC5925 itself drives up to 16 LEDs, but multiple TLC5925s can be
+chained to drive more.
 
-adds
+The first patch describes the dt bindings.
+The second patch implements most of the driver and supports only
+synchronous brightness setting (brightness_set_blocking).
+The last patch implements the non-blocking version (brightness_set).
 
-> This LED controller is driven though SPI. There is little internal logic
+changes v4->v5:
+ * add the headers that the code is a direct user of
+ * replace dev_err() with dev_err_probe() in ->probe()
+ * comestic changes (spaces, alignment and blank lines)
 
-through
+changes v3->v4:
+ * add missing MODULE_DEVICE_TABLE(of, ...) 
+ * use dev_err_probe() to avoid spamming the log in case of deferred probe
+ * use bitmap ops instead of direct memory access + lock
+ * sort headers and a few other cosmetic changes.
 
-> and it can be thought of as a deserializer + latches.
+changes v2->v3:
+ * fixed the yaml description of the bindings (now passes dt_binding_check)
+ * renamed shit-register-length into ti,shift-register-length and specify
+   its type
 
-> The TLC5925 itself drives up to 16 LEDs, but multiple TLC5925s can be
-> chained to drive more.
->
-> The first patch describes the dt bindings.
-> The second patch implements most of the driver and supports only
-> synchronous brightness setting (brightness_set_blocking).
-> The last patch implements the non-blocking version (brightness_set).
+changes v1->v2:
+ * renamed property shift_register_length into shift-register-length
+ * add a SPI MODULE_DEVICE_TABLE structure
+ * fixed the yaml description of the bindings (now passes dt_binding_check)
 
-Much better, I have a few comments and I believe next version will be final.
+Jean-Jacques Hiblot (3):
+  dt-bindings: leds: Add bindings for the TLC5925 controller
+  leds: Add driver for the TLC5925 LED controller
+  leds: tlc5925: Add support for non blocking operations
 
-> changes v3->v4:
->  * add missing MODULE_DEVICE_TABLE(of, ...)
->  * use dev_err_probe() to avoid spaming the log in case of deferred probe
-
-spamming
-
->  * use bitmap ops instead of direct mem access + lock
-
-memory
-
->  * sort headers and a few other cosmetic changes.
->
-> changes v2->v3:
->  * fixed the yaml description of the bindings (now passes dt_binding_check)
->  * renamed shit-register-length into ti,shift-register-length and specify its
->    type
->
-> changes v1->v2:
->  * renamed property shift_register_length into shift-register-length
->  * add a SPI MODULE_DEVICE_TABLE structure
->  * fixed the yaml description of the bindings (now passes dt_binding_check)
->
-> Jean-Jacques Hiblot (3):
->   dt-bindings: leds: Add bindings for the TLC5925 controller
->   leds: Add driver for the TLC5925 LED controller
->   leds: tlc5925: Add support for non blocking operations
->
->  .../devicetree/bindings/leds/ti,tlc5925.yaml  | 107 ++++++++++
->  drivers/leds/Kconfig                          |   6 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-tlc5925.c                   | 191 ++++++++++++++++++
->  4 files changed, 305 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
->  create mode 100644 drivers/leds/leds-tlc5925.c
->
-> --
-> 2.25.1
->
-
+ .../devicetree/bindings/leds/ti,tlc5925.yaml  | 107 +++++++++++
+ drivers/leds/Kconfig                          |   6 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-tlc5925.c                   | 181 ++++++++++++++++++
+ 4 files changed, 295 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+ create mode 100644 drivers/leds/leds-tlc5925.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
