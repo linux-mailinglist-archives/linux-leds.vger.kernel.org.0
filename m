@@ -2,62 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD58D54C31A
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Jun 2022 10:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CB954CB77
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Jun 2022 16:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240911AbiFOIHb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Jun 2022 04:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43948 "EHLO
+        id S238660AbiFOOh4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Jun 2022 10:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242415AbiFOIH2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Jun 2022 04:07:28 -0400
-X-Greylist: delayed 504 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 15 Jun 2022 01:07:27 PDT
-Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA622CE3
-        for <linux-leds@vger.kernel.org>; Wed, 15 Jun 2022 01:07:27 -0700 (PDT)
-Received: by mail.olerise.pl (Postfix, from userid 1001)
-        id CA6A6237D0; Wed, 15 Jun 2022 09:56:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
-        t=1655279889; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=DdsCuEuP4AbWpZ151Qs+7fxjSz1NNN9QgY5EA0/jyztWKwaJTQG2b7SwY6QsKWuGy
-         OIainxd6IMThLP+OU7KlP2Mcvzdas7e9MZ//BLJzK+HmtzHRtutUVzVN8qi7YTEsAd
-         dsdTdv75yDnuGffgz79HW0L15LueHMyWK1UpjV8lFnXNcUIhHXWVkDljjmLnorKEgo
-         TFzzYPabHXV6Ynb7BwInBgg54US28JoQVxzWxCuHniDG0YzqAcKlqZyE3rmnqOUeAF
-         rOYSSPmukgw4ivG/ZEFPdshXf6uNp4w7vSUQfKU6JcqWBBPjFgDWTMkJSR/vhgBxpj
-         pj3Cn/FrKfq/w==
-Received: by mail.olerise.pl for <linux-leds@vger.kernel.org>; Wed, 15 Jun 2022 07:55:22 GMT
-Message-ID: <20220615084500-0.1.f.83sn.0.hkr7gx556i@olerise.pl>
-Date:   Wed, 15 Jun 2022 07:55:22 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@olerise.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.olerise.pl
+        with ESMTP id S230160AbiFOOhz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Jun 2022 10:37:55 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4708D13CE1;
+        Wed, 15 Jun 2022 07:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=75kgVCcqOPOLeu4JBiLLFab/dM4uNZ1dcLuvpDx9ZCg=; b=kAIWl67VuUe8cBDkmFOZTh4b+J
+        Uy6PgE2+CwIEzhFEfsXCTAadcMkk5TefuTIBHvgzxNrjmUz+/r/f3fMBR5i8mMC7UweLMh9MkeJoD
+        97gkOJRUGibA77qDy9s4vL7NkQkS1Sv+TX4WpruLFHmbGvImVgE9LeYadgdIraA8AGxMlB+PxaWy/
+        1adKvJuvvpCbTsZosCqi5SMDlMupfKEgEY7JpKMS8HhvbF7gyowCTheRqW0YX0S9D05qpW9G1fKLt
+        DJUWQ6k8Tz/HxaHb6kuJRSWnDBXrsJA/DQco3hh/lFSm8XLWvSeNFNfH2bKr+ugXM0hH/Gw2zl2s+
+        laFslj7w==;
+Received: from 179.red-81-39-194.dynamicip.rima-tde.net ([81.39.194.179] helo=[192.168.15.167])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1o1U8m-002LYs-SW; Wed, 15 Jun 2022 16:37:04 +0200
+Message-ID: <362f6520-8209-1721-823c-11928338f57d@igalia.com>
+Date:   Wed, 15 Jun 2022 11:36:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 24/30] panic: Refactor the panic path
+Content-Language: en-US
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     bhe@redhat.com, d.hatayama@jp.fujitsu.com,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mark Rutland <mark.rutland@arm.com>, mikelley@microsoft.com,
+        vkuznets@redhat.com, akpm@linux-foundation.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        hidehiro.kawai.ez@hitachi.com, jgross@suse.com,
+        john.ogness@linutronix.de, keescook@chromium.org, luto@kernel.org,
+        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
+        peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, will@kernel.org
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-25-gpiccoli@igalia.com>
+ <87fskzuh11.fsf@email.froward.int.ebiederm.org>
+ <0d084eed-4781-c815-29c7-ac62c498e216@igalia.com> <Yqic0R8/UFqTbbMD@alley>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <Yqic0R8/UFqTbbMD@alley>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Perfect Petr, thanks for your feedback!
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+I'll be out for some weeks, but after that what I'm doing is to split
+the series in 2 parts:
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+(a) The general fixes, which should be reviewed by subsystem maintainers
+and even merged individually by them.
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+(b) The proper panic refactor, which includes the notifiers list split,
+etc. I'll think about what I consider the best solution for the
+crash_dump required ones, and will try to split in very simple patches
+to make it easier to review.
+
+Cheers,
 
 
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
+Guilherme
