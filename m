@@ -2,67 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17FBF54F577
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Jun 2022 12:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32CFD54F686
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Jun 2022 13:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381084AbiFQKfs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Jun 2022 06:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54362 "EHLO
+        id S236314AbiFQLQE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Jun 2022 07:16:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380066AbiFQKfr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Jun 2022 06:35:47 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABB7A6AA70;
-        Fri, 17 Jun 2022 03:35:46 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id b138so4100723iof.13;
-        Fri, 17 Jun 2022 03:35:46 -0700 (PDT)
+        with ESMTP id S236254AbiFQLQD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Jun 2022 07:16:03 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5033396A4;
+        Fri, 17 Jun 2022 04:16:01 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id r5so4201570iod.5;
+        Fri, 17 Jun 2022 04:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=rOxytpr3JE53RNJSPRdeBWhwwL5aBsV68OtuK0gPSKc=;
-        b=VXLvhpaQU0zgeMjKkkqDHD1I+K0rIshiGzQkNBPk2HQGNqDDUZT5LxEKFLtoSchSaZ
-         fKpgnNsU0HTiilSwtx0LgLcenSKqGXiW3QiesMvmIoG8bZYBxjvxIm4ZMCMJssMi06O7
-         DmqBTjSMvAsNPKw0iZwY8THSaeWRxbZvzA5XCoxwOMwh8aFihG4t0lDRFgRD8H/l72fJ
-         4WO9j/DcS912xHkAAyWAdl+uQmxw6JQHU9ZhlfeMjFsP+HiYKJpSZDjCjXLCjJ4UMtG5
-         sj63siSb6Jqs6FXFchQDLzzEq6UOf/Duny841OrK6jdAGRvH8toYDeFHZA1bsbuZ+Yvc
-         ewGw==
+        bh=t/crlnZbBJQszYNcH9+aCU70dM7HBkp9N2s5QyPNLUk=;
+        b=KjYSoJjQbHSzBiIh2OvctpgUON2u4IbMNHkuAcnrPX5S/8O+2ZqVL+M1OTWti1TgGE
+         U3a+c0waowlN8KRIlHNwYNlX5PWBWecrqUFBF2t3EinouRe/3mJ3rUJmCVzpd4yKgyB7
+         XAQjJrF5yzz/4IN635jYJA6DDgneEYjQIzB19Mv89dJJg1k3jF0EPSbZbfZy8eD5BmJv
+         umqzL5gXktsRNmAiumwyLQQIsRbOm0kcPe2HywZwOMl/bFqj4uo9yMOhxmtIYtFNnKfx
+         7kpkppI8wiEpDGOFh8+AmBeXhAgGr/cVeZamCja94WfRWTAgXgfTFpQckCHWWnOziQwd
+         aSfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rOxytpr3JE53RNJSPRdeBWhwwL5aBsV68OtuK0gPSKc=;
-        b=UUU13xS7uvl9HledfE/X7S4w/Mro+2VwQ1vxTNT6HAsMbCGoTxhFo+DnWLOyhJxV9Y
-         +oF2iT76MlV79lzKIKePDUUbzWbb+Fum6otvQ3904J6bN/OWdOQ+tAEX/y0uYgyT4Hm0
-         w6/0x+/5GROCe8NLHtnh/NCv0lcATOUQdDvburz5dBlqEM7iqQDdXq4YHaYVX08MRhRm
-         5QGBvaTR7c+zbSAWW6u8Yat1tX6NctPMA63bROGtDmh9/rr1uVvLQeZlU9Iyq6rZXORc
-         97o+c1KlFAmGJ9Z4GKcKNUCyXjjimocuCGs/p8+SrkHrreyABHu0pdyiMD+zq8Hx0nQI
-         bTbA==
-X-Gm-Message-State: AJIora9fTUrTBrts99yncrscDoSRRbFdBlpriXzo8y45Q1C1FQVJVSxX
-        4iNA3RokeNIMp7S3NlLZM3N10atafc5HGt0FbDo=
-X-Google-Smtp-Source: AGRyM1udgMHgKDiQMYRnn7E3oN5h0pbJ2A1MrxTn2OBrvOJsKft+xj/e2gq23SyVxC5kFN9WD040jXi32G7pqDTUjpk=
-X-Received: by 2002:a05:6638:2113:b0:331:feae:af81 with SMTP id
- n19-20020a056638211300b00331feaeaf81mr4897345jaj.196.1655462146064; Fri, 17
- Jun 2022 03:35:46 -0700 (PDT)
+        bh=t/crlnZbBJQszYNcH9+aCU70dM7HBkp9N2s5QyPNLUk=;
+        b=TyvS4Hg5PaPKIeL+IPDHhrLjZ1QpCeAgSHQyRPf/Te+nnXYV0t9tpzqCMiw6Hrj+L+
+         /0DArzInyJpZnR4IirXK7KOVxVSgk989AcW+ficZwlAlKMuxfpuQnzs+gGz9jlnlGcFp
+         60Bz/0J+NmRA1fXdXyAHtbuuAL1rlzzHIbczN1TEIXgKOQqoYgZG5NmOyv6kjJpOiL1T
+         W1FA0EjfI8TDX6LPfXcRQCjCZyd0xq2BaytQUPLNi3PRVb0vqhAiqP6Yq/0L7iDVp9yS
+         OSAU1XgwlgLlIg1BNmg/Ut4lWnlTcTpeP5Ge2p0EzWPyE7BLnyZFq3cMDak8+Kz1AWuu
+         +PkA==
+X-Gm-Message-State: AJIora8JdPKjZKanrsTptkI7uuM+GRRnOS41VGX3ho7FUITmWczyzSXD
+        rGzVDsDUlvHflZKJH91paogNLRJiluimSJPGCuk=
+X-Google-Smtp-Source: AGRyM1tFKZjYJUHdgUMGn9EB6+U2f/oxJq7gDzAwy6h/11fXVSFDBb4uXbC7kjFkRKwg/y/yQilyfk1BrMK1DcJRUUI=
+X-Received: by 2002:a5d:9d8d:0:b0:669:cd5e:f953 with SMTP id
+ ay13-20020a5d9d8d000000b00669cd5ef953mr4655343iob.153.1655464561141; Fri, 17
+ Jun 2022 04:16:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613111146.25221-1-peterwu.pub@gmail.com> <20220613111146.25221-6-peterwu.pub@gmail.com>
- <9c38f708-1376-aa89-2c56-c08d320bcf2b@linaro.org>
-In-Reply-To: <9c38f708-1376-aa89-2c56-c08d320bcf2b@linaro.org>
+References: <20220613111146.25221-1-peterwu.pub@gmail.com> <20220613111146.25221-7-peterwu.pub@gmail.com>
+ <1655127197.567546.3564136.nullmailer@robh.at.kernel.org>
+In-Reply-To: <1655127197.567546.3564136.nullmailer@robh.at.kernel.org>
 From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Fri, 17 Jun 2022 18:35:34 +0800
-Message-ID: <CABtFH5KhijZDRA+K=stpOV0t8K3cqCMoLXpLShcdm9F8emrKCA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/15] dt-bindings: backlight: Add Mediatek MT6370 backlight
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
-        lee.jones@linaro.org, Daniel Thompson <daniel.thompson@linaro.org>,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
+Date:   Fri, 17 Jun 2022 19:15:49 +0800
+Message-ID: <CABtFH5JPu5tOg4wGJf5ay1-NJHLcPTK4XxADGTksHW1-6wjMRQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/15] dt-bindings: mfd: Add Mediatek MT6370
+To:     Rob Herring <robh@kernel.org>
+Cc:     pavel@ucw.cz, robh+dt@kernel.org, linux-pm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, szunichen@gmail.com,
+        lars@metafoo.de, matthias.bgg@gmail.com,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        lee.jones@linaro.org, ChiYuan Huang <cy_huang@richtek.com>,
+        linux-leds@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        jingoohan1@gmail.com, devicetree@vger.kernel.org, jic23@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,184 +75,138 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Krzysztof,
+Hi Rob,
 
-Thanks for your helpful feedback, I have some questions want to
-confirm with you below.
-
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2022=E5=B9=
-=B46=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=BA=94 =E6=B8=85=E6=99=A85:13=E5=AF=AB=
-=E9=81=93=EF=BC=9A
+Rob Herring <robh@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8813=E6=97=A5 =
+=E9=80=B1=E4=B8=80 =E6=99=9A=E4=B8=8A9:33=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> On 13/06/2022 04:11, ChiaEn Wu wrote:
+> On Mon, 13 Jun 2022 19:11:37 +0800, ChiaEn Wu wrote:
 > > From: ChiYuan Huang <cy_huang@richtek.com>
 > >
-> > Add mt6370 backlight binding documentation.
+> > Add Mediatek MT6370 binding documentation.
 > >
 > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 > > ---
-> >  .../backlight/mediatek,mt6370-backlight.yaml  | 107 ++++++++++++++++++
-> >  1 file changed, 107 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/me=
-diatek,mt6370-backlight.yaml
+> >  .../bindings/mfd/mediatek,mt6370.yaml         | 279 ++++++++++++++++++
+> >  .../dt-bindings/iio/adc/mediatek,mt6370_adc.h |  18 ++
+> >  2 files changed, 297 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt63=
+70.yaml
+> >  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
 > >
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/mediatek,=
-mt6370-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/me=
-diatek,mt6370-backlight.yaml
-> > new file mode 100644
-> > index 000000000000..25a05e607e83
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-=
-backlight.yaml
-> > @@ -0,0 +1,107 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-back=
-light.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Mediatek MT6370 Backlight
-> > +
-> > +maintainers:
-> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
-> > +
-> > +description: |
-> > +  This module is part of the MT6370 MFD device.
-> > +  The MT6370 Backlight WLED driver supports up to a 29V output voltage=
- for
-> > +  4 channels of 8 series WLEDs. Each channel supports up to 30mA of cu=
-rrent
-> > +  capability with 2048 current steps (11 bits) in exponential or linea=
-r
-> > +  mapping curves.
-> > +
-> > +allOf:
-> > +  - $ref: common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt6370-backlight
-> > +
-> > +  default-brightness:
-> > +    minimum: 0
-> > +    maximum: 2048
-> > +
-> > +  max-brightness:
-> > +    minimum: 0
-> > +    maximum: 2048
-> > +
-> > +  enable-gpios:
-> > +    description: External backlight 'enable' pin
-> > +    maxItems: 1
-> > +
-> > +  mediatek,bled-pwm-enable:
-> > +    description: |
-> > +      Enable external PWM input for backlight dimming
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-pwm-hys-enable:
-> > +    description: |
-> > +      Enable the backlight input-hysteresis for PWM mode
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-pwm-hys-input-bit:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    enum: [0, 1, 2, 3]
-> > +    description: |
-> > +      The selection of the upper and lower bounds threshold of backlig=
-ht
-> > +      PWM resolution. If we choose selection 3 (6 bits), the variation=
- of PWM
-> > +      resolution needs over than 64 steps (2^6).
-> > +      value mapping:
-> > +        - 0: 1
-> > +        - 1: 2
-> > +        - 2: 4
-> > +        - 3: 6
 >
-> Nope, I said last time:
-> "In any case you cannot have values mapping"
+> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 >
-> Please use proper real world value, not some register bits. The property
-> name also needs fixing.
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> ./Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml: Unable to f=
+ind schema file matching $id: http://devicetree.org/schemas/leds/backlight/=
+mediatek,mt6370-backlight.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: pmic@34: backlight: False schema does not allo=
+w {'compatible': ['mediatek,mt6370-backlight'], 'mediatek,bled-channel-use'=
+: b'\x0f'}
+>         From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/mfd/mediatek,mt6370.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: pmic@34: charger: False schema does not allow =
+{'compatible': ['mediatek,mt6370-charger'], 'interrupts': [[48], [68], [6]]=
+, 'interrupt-names': ['attach_i', 'uvp_d_evt', 'mivr'], 'io-channels': [[1,=
+ 5]], 'usb-otg-vbus-regulator': {'regulator-name': ['mt6370-usb-otg-vbus'],=
+ 'regulator-min-microvolt': [[4350000]], 'regulator-max-microvolt': [[58000=
+00]], 'regulator-min-microamp': [[500000]], 'regulator-max-microamp': [[300=
+0000]], 'phandle': [[2]]}}
+>         From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/mfd/mediatek,mt6370.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: pmic@34: tcpc: False schema does not allow {'c=
+ompatible': ['mediatek,mt6370-tcpc'], 'interrupts-extended': [[4294967295, =
+4, 8]], 'connector': {'compatible': ['usb-c-connector'], 'label': ['USB-C']=
+, 'vbus-supply': [[2]], 'data-role': ['dual'], 'power-role': ['dual'], 'try=
+-power-role': ['sink'], 'source-pdos': [[570527844]], 'sink-pdos': [[570527=
+944]], 'op-sink-microwatt': [[10000000]], 'ports': {'#address-cells': [[1]]=
+, '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpo=
+int': [[4294967295]]}}, 'port@1': {'reg': [[1]], 'endpoint': {'remote-endpo=
+int': [[4294967295]]}}, 'port@2': {'reg': [[2]], 'endpoint': {'remote-endpo=
+int': [[4294967295]]}}}}}
+>         From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/mfd/mediatek,mt6370.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: pmic@34: indicator: False schema does not allo=
+w {'compatible': ['mediatek,mt6370-indicator'], '#address-cells': [[1]], '#=
+size-cells': [[0]], 'multi-led@0': {'reg': [[0]], 'function': ['indicator']=
+, 'color': [[9]], 'led-max-microamp': [[24000]], '#address-cells': [[1]], '=
+#size-cells': [[0]], 'led@0': {'reg': [[0]], 'color': [[1]]}, 'led@1': {'re=
+g': [[1]], 'color': [[2]]}, 'led@2': {'reg': [[2]], 'color': [[3]]}}, 'led@=
+3': {'reg': [[3]], 'function': ['indicator'], 'color': [[0]], 'led-max-micr=
+oamp': [[6000]]}}
+>         From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/mfd/mediatek,mt6370.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: pmic@34: flashlight: False schema does not all=
+ow {'compatible': ['mediatek,mt6370-flashlight'], '#address-cells': [[1]], =
+'#size-cells': [[0]], 'led@0': {'reg': [[0]], 'led-sources': [[0]], 'functi=
+on': ['flash'], 'color': [[0]], 'function-enumerator': [[1]], 'led-max-micr=
+oamp': [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us'=
+: [[1248000]]}, 'led@1': {'reg': [[1]], 'led-sources': [[1]], 'function': [=
+'flash'], 'color': [[0]], 'function-enumerator': [[2]], 'led-max-microamp':=
+ [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us': [[12=
+48000]]}}
+>         From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/mfd/mediatek,mt6370.yaml
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/=
+mediatek,mt6370.example.dtb: backlight: mediatek,bled-channel-use: b'\x0f' =
+is not of type 'object', 'array', 'boolean', 'null'
+>         From schema: /usr/local/lib/python3.10/dist-packages/dtschema/sch=
+emas/dt-core.yaml
+> Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /e=
+xample-0/i2c/pmic@34/backlight: failed to match any schema with compatible:=
+ ['mediatek,mt6370-backlight']
+> Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /e=
+xample-0/i2c/pmic@34/charger: failed to match any schema with compatible: [=
+'mediatek,mt6370-charger']
+> Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /e=
+xample-0/i2c/pmic@34/indicator: failed to match any schema with compatible:=
+ ['mediatek,mt6370-indicator']
+> Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /e=
+xample-0/i2c/pmic@34/flashlight: failed to match any schema with compatible=
+: ['mediatek,mt6370-flashlight']
+> Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /e=
+xample-0/i2c/pmic@34/tcpc: failed to match any schema with compatible: ['me=
+diatek,mt6370-tcpc']
+>
 
-I so apologized for misunderstanding your meaning...
-I try to modify it like below.
---------
-mediatek,bled-pwm-hys-input-threshold-steps:
-  $ref: /schemas/types.yaml#/definitions/uint8
-  enum: [1, 4, 16, 64]
-  description: |
-    The selection of the upper and lower bounds threshold of backlight
-    PWM resolution. If we choose selection 64, the variation of PWM
-    resolution needs over 64 steps.
---------
-If these changes meet your expectations, I will try to modify
-"bled-ovp-microvolt" and "bled-ocp-microamp" in the same way.
-Thank you so much.
+Before we submitted these patches, we had already checked by running
+this command below,
+"make DT_CHECKER_FLAGS=3D-m dt_binding_check
+DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/mfd/mediatek,mt6370.yam=
+l".
+But we could not find any errors like your error msg after the checking pro=
+cess.
 
+Our mfd dt-binding patch is dependent on "backlight dt-binding",
+"charger dt-binding", "tcpc dt-binding", "indicator dt-binding" and
+"flashlight dt-binding" patches.
+Would you please apply them before you check mfd dt-binding patch?
+Thank you so much!
+
+> doc reference errors (make refcheckdocs):
 >
-> > +
-> > +  mediatek,bled-ovp-shutdown:
-> > +    description: |
-> > +      Enable the backlight shutdown when OVP level triggered
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-ovp-microvolt:
-> > +    enum: [0, 1, 2, 3]
-> > +    description: |
-> > +      Backlight OVP level selection.
-> > +      value mapping:
-> > +        - 0: 17000000
-> > +        - 1: 21000000
-> > +        - 2: 25000000
-> > +        - 3: 29000000
+> See https://patchwork.ozlabs.org/patch/
 >
-> No. Please test your bindings.
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
 >
-> microvolt cannot be 1 mV. It's 21000000, not 1. No value mappings.
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
 >
-> > +
-> > +  mediatek,bled-ocp-shutdown:
-> > +    description: |
-> > +      Enable the backlight shutdown when OCP level triggerred.
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-ocp-microamp:
-> > +    enum: [0, 1, 2, 3]
-> > +    description: |
-> > +      Backlight OC level selection.
-> > +      value mapping:
-> > +        - 0: 900000
-> > +        - 1: 1200000
-> > +        - 2: 1500000
-> > +        - 3: 1800000
+> pip3 install dtschema --upgrade
 >
-> Nope.
+> Please check and re-submit.
 >
-> > +
-> > +  mediatek,bled-channel-use:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    description: |
-> > +      Backlight LED channel to be used.
-> > +      Each bit mapping to:
-> > +        - 0: CH4
-> > +        - 1: CH3
-> > +        - 2: CH2
-> > +        - 3: CH1
-> > +    minimum: 1
-> > +    maximum: 15
-> > +
-> > +required:
-> > +  - compatible
-> > +  - mediatek,bled-channel-use
-> > +
-> > +additionalProperties: false
->
->
-> Best regards,
-> Krzysztof
 
 Best regards,
 ChiaEn Wu
