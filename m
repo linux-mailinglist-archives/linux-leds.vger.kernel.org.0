@@ -2,82 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDDB550071
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Jun 2022 01:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 870DD55009D
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Jun 2022 01:21:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236091AbiFQXP0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Jun 2022 19:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S1383607AbiFQXUL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Jun 2022 19:20:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383551AbiFQXNu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Jun 2022 19:13:50 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDFB4633BA
-        for <linux-leds@vger.kernel.org>; Fri, 17 Jun 2022 16:13:47 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d13so5011863plh.13
-        for <linux-leds@vger.kernel.org>; Fri, 17 Jun 2022 16:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=10mVd//XJbMVb3Cy5Pks+pC6niMtAwguM0D0PFkeb/0=;
-        b=ftsgA9iCXVg14SM3UhGJNZroNcKteQOV8fhn/TQ4qmubLGEYc9goTyY9cqxWv/Vujz
-         vvqm9Hc1xj1CilJkuFjGUkxiPQmxIGRA6ZWY937f+DBGH4jZKoO1kMpGaa8atsr2iy+c
-         jInXea+ezAu5ezkR5e9DqoDPRxhK80c23I0Rxem6Hv76djU0l3rMSkohW6NtZA/wT8Xq
-         kkbN94pT99l5RfQhhgeyyK0XqowM7S3hyzY9US2HlPGSSPmBn1VE+8RMyrvOvwk/qSQO
-         VuNIIi8ERnbIixzMX8MQ/LZDa52WzzLDJSlri5vEF8FF0NVgt/kmQO5wufOCoypheUaN
-         mQ7g==
+        with ESMTP id S1383598AbiFQXT6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Jun 2022 19:19:58 -0400
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E468674CA;
+        Fri, 17 Jun 2022 16:19:52 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id a10so5958629ioe.9;
+        Fri, 17 Jun 2022 16:19:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=10mVd//XJbMVb3Cy5Pks+pC6niMtAwguM0D0PFkeb/0=;
-        b=xYq5s3s7aLaMEdP89Z2Z7pUcYhzd6Oepc4Ssd5IbXvpIvs31/8Gd4FPI9QvxO0JJap
-         siECFlBJdAni/qGt2eO1FXvMBRJX+SJ+6yDAfW7frSP59Mc2e4OraHnSFA1TT1Cz0rUA
-         Ni35xtMnx7iPhkebFOpats7XHqFM5c5hyfrgNzsuJ4CtpdLvDFigs+NhMyTG4nMptKzw
-         T9B5sauEp+V04LXvGZ6bAYF7rGlP4YRzaMNB17AHuI3R9UoxnF3CVJL9Ns3FVA8l3xEw
-         P336CR0scp+4yHRXqcmyLCYCjHAc2hdRi2oEJVK7URMFVb9otGY+5UYpKPnbXifPaw5Z
-         52NA==
-X-Gm-Message-State: AJIora8c8XElqYLbWmjdzfjRjGCayvLIXnCY4u9L831vj9kUXaIzYLA1
-        m21sVWwWR+HwAzcWkYD5O/s7pA==
-X-Google-Smtp-Source: AGRyM1t/dM7EAh0Y7mmMWaeiTHeXaEw5ea7tY/IXesEX0mn/1dH62oUOXAC46KuZhDOj2XfNQPbrog==
-X-Received: by 2002:a17:90b:3701:b0:1ea:9f82:59ef with SMTP id mg1-20020a17090b370100b001ea9f8259efmr13153806pjb.239.1655507627413;
-        Fri, 17 Jun 2022 16:13:47 -0700 (PDT)
-Received: from [172.31.235.92] ([216.9.110.6])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170903028100b0016784c93f23sm4054315plr.197.2022.06.17.16.13.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jun 2022 16:13:46 -0700 (PDT)
-Message-ID: <9b567f78-e12b-d665-2f11-96436fe9ed08@linaro.org>
-Date:   Fri, 17 Jun 2022 16:13:42 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/crESimSLz2PKIuHtassqXLrE43lm+c6M6EBrH0uI4o=;
+        b=drVwfnmQZnzDQMuusdpjk0zwoyFHLV2+2y45FaW6qqkhaxKEnQHn/AFUIUg/pl5qTA
+         oCha5N4jjIEbBV2EJ+PZEG4sXV51rh2JcNLjIe9LPBLpPLuW+wmNVIi5iEeUO1Zn1WSE
+         RfZPsxQsFST8AdIjEGpcaBUUHZG2+Eb8I77g4V8tSc3nTX5YysI/ooarZHCWepHNvpta
+         Ks9c9sdOvjqcd+eWw6k2RxaW4QDrIXr0xk90dkWUc5c1lXuxu36E5PN5r2eYoapMfZSs
+         LLVzuh7YxkpY1tZ2EW4/IzKL85oKwpQfirk3tKKbAq+hrJwIQdNwILNDccf5oFqxt9sB
+         U+Ew==
+X-Gm-Message-State: AJIora+79M4I7bTFqn5KHtjzuJ+nLCn90QjM4eTcZvgO17HQdq8ZGjo2
+        2UYu4Z4OggBCP51qf8VZeA==
+X-Google-Smtp-Source: AGRyM1unOGWunO2EfAbWBeq3icSNHgtCgY3RGjLRyleqmzS6wLBurHQ477wfdd4ml3xSivplblwTGQ==
+X-Received: by 2002:a05:6638:19c8:b0:331:e614:461 with SMTP id bi8-20020a05663819c800b00331e6140461mr6856926jab.76.1655507991237;
+        Fri, 17 Jun 2022 16:19:51 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id q10-20020a056e020c2a00b002cde6e352d4sm2870483ilg.30.2022.06.17.16.19.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 16:19:50 -0700 (PDT)
+Received: (nullmailer pid 2624510 invoked by uid 1000);
+        Fri, 17 Jun 2022 23:19:49 -0000
+Date:   Fri, 17 Jun 2022 17:19:49 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     pavel@ucw.cz, krzk+dt@kernel.org, andy.shevchenko@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] dt-bindings: leds: Add bindings for the TLC5925
+ controller
+Message-ID: <20220617231949.GA2613244-robh@kernel.org>
+References: <20220614154245.354167-1-jjhiblot@traphandler.com>
+ <20220614154245.354167-2-jjhiblot@traphandler.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 05/15] dt-bindings: backlight: Add Mediatek MT6370
- backlight
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
-        lee.jones@linaro.org, Daniel Thompson <daniel.thompson@linaro.org>,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-6-peterwu.pub@gmail.com>
- <9c38f708-1376-aa89-2c56-c08d320bcf2b@linaro.org>
- <CABtFH5KhijZDRA+K=stpOV0t8K3cqCMoLXpLShcdm9F8emrKCA@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABtFH5KhijZDRA+K=stpOV0t8K3cqCMoLXpLShcdm9F8emrKCA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614154245.354167-2-jjhiblot@traphandler.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,33 +64,152 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 17/06/2022 03:35, ChiaEn Wu wrote:
-> +        - 3: 6
->>
->> Nope, I said last time:
->> "In any case you cannot have values mapping"
->>
->> Please use proper real world value, not some register bits. The property
->> name also needs fixing.
+On Tue, Jun 14, 2022 at 05:42:43PM +0200, Jean-Jacques Hiblot wrote:
+> Add bindings documentation for the TLC5925 LED controller.
 > 
-> I so apologized for misunderstanding your meaning...
-> I try to modify it like below.
-> --------
-> mediatek,bled-pwm-hys-input-threshold-steps:
->   $ref: /schemas/types.yaml#/definitions/uint8
->   enum: [1, 4, 16, 64]
->   description: |
->     The selection of the upper and lower bounds threshold of backlight
->     PWM resolution. If we choose selection 64, the variation of PWM
->     resolution needs over 64 steps.
-> --------
-> If these changes meet your expectations, I will try to modify
-> "bled-ovp-microvolt" and "bled-ocp-microamp" in the same way.
-> Thank you so much.
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> ---
+>  .../devicetree/bindings/leds/ti,tlc5925.yaml  | 107 ++++++++++++++++++
+>  1 file changed, 107 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml b/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+> new file mode 100644
+> index 000000000000..12a71e48f854
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/ti,tlc5925.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/ti,tlc5925.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LEDs connected to TI TLC5925 controller
+> +
+> +maintainers:
+> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> +
+> +description: |
+> +  The TLC5925 is a low-power 16-channel constant-current LED sink driver.
+> +  It is controlled through a SPI interface.
+> +  It is built around a shift register and latches which convert serial
+> +  input data into a parallel output. Several TLC5925 can be chained to
+> +  control more than 16 LEDs with a single chip-select.
+> +  The brightness level cannot be controlled, each LED is either on or off.
+> +
+> +  Each LED is represented as a sub-node of the ti,tlc5925 device.
+> +
+> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,tlc5925
+> +
+> +  ti,shift-register-length:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 8
+> +    description: |
 
-This looks good. Thank you.
+Don't need '|' if no formatting to preserve.
 
+> +      The length of the shift register. If several TLC5925 are chained,
+> +      shift_register_length should be set to 16 times the number of TLC5925.
+> +      The value must be a multiple of 8.
 
-Best regards,
-Krzysztof
+multipleOf: 8
+
+Though I'm confused why it's not 16.
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  output-enable-b-gpios:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+
+Already has a type.
+
+> +    description: |
+> +      Optional GPIO pins to enable/disable the parallel output. They describe
+> +      the GPIOs connected to the OE/ pin of the TLC5925s.
+> +
+> +patternProperties:
+> +  "@[0-9a-f]+$":
+> +    type: object
+> +    $ref: common.yaml#
+
+       unevaluatedProperties: false
+
+> +
+> +    properties:
+> +      reg:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+
+Don't need a type here.
+
+> +        description: |
+> +          LED pin number (must be lower than ti,shift-register-length).
+> +          The furthest LED down the chain has the pin number 0.
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ti,shift-register-length
+
+Is there not a default when not chained? 
+
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    spi0 {
+
+spi {
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        leds@2 {
+> +            compatible = "ti,tlc5925";
+> +            reg = <0x02>;
+> +            spi-max-frequency = <30000000>;
+> +            ti,shift-register-length = <32>;
+> +            output-enable-b-gpios = <&gpio0b 9 GPIO_ACTIVE_HIGH>, <&gpio0b 7 GPIO_ACTIVE_HIGH>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            led@0 {
+> +                reg = <0>;
+> +                function = LED_FUNCTION_STATUS;
+> +                color = <LED_COLOR_ID_GREEN>;
+> +            };
+> +
+> +            led@4 {
+> +                reg = <4>;
+> +                function = LED_FUNCTION_STATUS;
+> +                color = <LED_COLOR_ID_RED>;
+> +            };
+> +
+> +            led@1f {
+> +                reg = <31>;
+> +                function = LED_FUNCTION_PANIC;
+> +                color = <LED_COLOR_ID_RED>;
+> +            };
+> +        };
+> +
+> +    };
+> -- 
+> 2.25.1
+> 
+> 
