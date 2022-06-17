@@ -2,160 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DBFE54EC5A
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Jun 2022 23:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B48054F3DD
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Jun 2022 11:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379115AbiFPVPt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Jun 2022 17:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37478 "EHLO
+        id S1380703AbiFQJHB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Jun 2022 05:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378918AbiFPVPs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jun 2022 17:15:48 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E552160A81
-        for <linux-leds@vger.kernel.org>; Thu, 16 Jun 2022 14:15:46 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id s37so2505674pfg.11
-        for <linux-leds@vger.kernel.org>; Thu, 16 Jun 2022 14:15:46 -0700 (PDT)
+        with ESMTP id S1380185AbiFQJHA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Jun 2022 05:07:00 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E003F4B1DC;
+        Fri, 17 Jun 2022 02:06:59 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id m16so1072511ilf.6;
+        Fri, 17 Jun 2022 02:06:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=tml1AzLWRr4YzF3sAdjGFBXOgQpNGM4CdcoqHXy6fq8=;
-        b=jqIsk7Q+m6EcCuXgHO5qdrSbk9XCkK4QrELg4P/y5TFyxvqpcMjqJNM+E8zK9d5Q7c
-         FcDjUcLBJ/8XBeegZ7WhoXEoQ9Rms8fcCrmoVVla5DeUWH6FcdNUr90bcpBiNfd+0yX0
-         QUgEc7zEmcPW4VNgURMMFv7Yf6dnaMW3BF2L0DpMkLVllk6pUf88SARfSTB/OlxSXWd/
-         S/ngORpZ2XySJVG+qWCpq4u1c45IieRfdipQCz36HZit/QPrMn0O9wYhQRmtnisyxeFf
-         qptBWeOlEWksEUDXOIzm9lezHFrXuazZFiYdP96fsDiKS/P1FjazmQAqxUHu6o5SMaQW
-         SbNQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qSNsJXRAq4gUj6ivdXbrjgAuRPp+HHbhKrKeTXicOCg=;
+        b=Dl6LB9Q7n5EpkbYyX81Yn4cmxCMk5bOsvIkbCtCocr/dTjXuNz2CrJSviTnH0BS1ZA
+         csEqG/oDAowT6GKI5Jv33GJEiHpYxvdMlDZhfZBBuw/eZ9Eo831Cknv0KsMHy7G0DWSs
+         3swp9MPgLARrnm6iLy+/DP1EEaXbJ7LnAHzCQlBxp5v/D0UiuJmor5kJKMxWAzEUyXZI
+         1+858U9fStR05SV0oD9CPijH25+Hp8jW+T2+F6TYxR/pS4vViGBRihmxY3Mm2QYpLSfc
+         pMc8NksdwBd9eDGRApyinNjzZgukXbDtZkXMIRDLUvQKRqSpj3sI5S1JKd3VMT+YO5Eb
+         /7oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=tml1AzLWRr4YzF3sAdjGFBXOgQpNGM4CdcoqHXy6fq8=;
-        b=DfPhLq4K7e1YBSabsUnI6Ijfb1O4rIU/V3O0Qx2QGjmTcuZHyeDxmBSwYzP/apG7X9
-         jLOleZsGotunXwwxOsJENsSFBgj/bhPl63Oa38QvVe2i9wIukmNd2BoO88rfrOFVCDzz
-         JAiTgWDR/1nn4Wbadb8eT17cvv3nv0vkAOfjq+A2LzZmPP6ykUw5VO8j1b/Eg4nIcC5l
-         1oHgWARC4rOocbymrsBsYpgN8pwKOONiiJI+lCzv4y/NdMFqMBP+T0GQ5Zj7WscSpIEq
-         cvxXrfEpmm6r/T/bUA3TJQSdqq03bPBC0v9WSEKTNYhb9cnEOhi3bh+3Qul3YYqgiyDR
-         CeCQ==
-X-Gm-Message-State: AJIora/2C8eRWiKugZ3Yih5Aqi9z15ME2S33DX++gOHp3Zuclu6uMWXg
-        i6pCtpvkQ6Kq0ztTVw9Ee668YA==
-X-Google-Smtp-Source: AGRyM1sh6e+GuWnqSFtrhbHqrmFWx8Qa99sAGwZCXTtI91IuORU3SI44Gi/lqC6ObXbqOvNYusLNiw==
-X-Received: by 2002:a63:3ec7:0:b0:408:d3ac:9c0c with SMTP id l190-20020a633ec7000000b00408d3ac9c0cmr6200985pga.176.1655414146402;
-        Thu, 16 Jun 2022 14:15:46 -0700 (PDT)
-Received: from [172.22.33.138] ([192.77.111.2])
-        by smtp.gmail.com with ESMTPSA id b13-20020a170902d88d00b0016196bcf743sm2052571plz.275.2022.06.16.14.15.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 14:15:46 -0700 (PDT)
-Message-ID: <28b73da7-d97c-5ea5-0b22-724fa971aeb0@linaro.org>
-Date:   Thu, 16 Jun 2022 14:15:44 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qSNsJXRAq4gUj6ivdXbrjgAuRPp+HHbhKrKeTXicOCg=;
+        b=Oc49Mh4jy5yl8WXqLr2F8DcSrI9ZuHuz1dXMVc9JOcwhcUf6nI0bmU4cC7QLqT7kFM
+         HCgdGhkkZFGHm30nqdWCK8eS8HBTkVibeQi4wLfeQNqQRmLzuSSwnk+OKU+sBQ902OJX
+         NkqAiCMon0ihKbyV1t8YjUZkDPXwaKq68qllN3vsl40ZugTHS6wj52ptzJ7Lqo8fpgnB
+         ykCyfNffEpTpTvUqzTesyv6sIPGANiStbAmSdUf6SNYyrBPkoqE3N/WuKxeaIXKE7Njw
+         3kdVVdXosCNsix5DLGpgm/oL91hQC9orfoU9EbkifkklxV7rmU55lDqHuAxFiU39wBgj
+         NTuA==
+X-Gm-Message-State: AJIora8ExwknEIcqRGu/HaKBcPU02TaKCUGFiwIvEtyxn0a0a+50kta5
+        Yu3J99mRA4IjTPW6fn3PFLcR9UCt4S00vXfiseNmvMY/gBE=
+X-Google-Smtp-Source: AGRyM1tGCu6AS9wDCH8Gur5zYW6uSfoWWJs4DOW5mFrlMgAa3+NrBz1Bdl1bq12S+LuODQiyUM9pGAPCWwXJA6zrKuk=
+X-Received: by 2002:a05:6e02:1aa4:b0:2d3:aeb9:930 with SMTP id
+ l4-20020a056e021aa400b002d3aeb90930mr5026082ilv.45.1655456819325; Fri, 17 Jun
+ 2022 02:06:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 06/15] dt-bindings: mfd: Add Mediatek MT6370
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, jic23@kernel.org,
-        lars@metafoo.de, matthias.bgg@gmail.com, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc:     linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+References: <20220613111146.25221-1-peterwu.pub@gmail.com> <20220613111146.25221-11-peterwu.pub@gmail.com>
+ <31b588e9-2233-3b40-e452-83f0f6bfb744@infradead.org>
+In-Reply-To: <31b588e9-2233-3b40-e452-83f0f6bfb744@infradead.org>
+From:   ChiaEn Wu <peterwu.pub@gmail.com>
+Date:   Fri, 17 Jun 2022 17:06:48 +0800
+Message-ID: <CABtFH5K9SiOO-JDMoJJ9=5Y2XpMBirgX0ce+8F4e_Kgsk9Udaw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] regulator: mt6370: Add mt6370 DisplayBias and
+ VibLDO support
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
+        lee.jones@linaro.org, Daniel Thompson <daniel.thompson@linaro.org>,
+        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
         szunichen@gmail.com, ChiYuan Huang <cy_huang@richtek.com>
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-7-peterwu.pub@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220613111146.25221-7-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 13/06/2022 04:11, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add Mediatek MT6370 binding documentation.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  .../bindings/mfd/mediatek,mt6370.yaml         | 279 ++++++++++++++++++
->  .../dt-bindings/iio/adc/mediatek,mt6370_adc.h |  18 ++
->  2 files changed, 297 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
->  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-> new file mode 100644
-> index 000000000000..6c2639e81e50
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-> @@ -0,0 +1,279 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/mediatek,mt6370.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6370 SubPMIC
-> +
-> +maintainers:
-> +  - ChiYuan Huang <cy_huang@richtek.com>
-> +
-> +description: |
-> +  MT6370 is a highly-integrated smart power management IC, which includes a
-> +  single cell Li-Ion/Li-Polymer switching battery charger, a USB Type-C &
-> +  Power Delivery (PD) controller, dual flash LED current sources, a RGB LED
-> +  driver, a backlight WLED driver, a display bias driver and a general LDO for
-> +  portable devices.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6370
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  wakeup-source: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  '#interrupt-cells':
-> +    const: 1
-> +
-> +  adc:
-> +    type: object
-> +    description: |
-> +      Provides 9 channels for system monitoring, including vbusdiv5, vbusdiv2,
-> +      vbat, vsys, chg_vddp, ts_bat, ibus, ibat, and temp_jc.
-> +
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6370-adc
-> +
-> +      "#io-channel-cells":
-> +        const: 1
-> +
-> +    required:
-> +      - compatible
-> +      - '#io-channel-cells'
+Hi Randy,
 
-Decide in your entire patchset whether you use ' or ". Don't mix.
+Thanks for your helpful comments!
+We will refine them in the next patch, thanks!
 
-Since you did not test your bindings, I am not reviewing it. First, test
-them. No need for me to do the job of a automated tool, right?
+Randy Dunlap <rdunlap@infradead.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8814=E6=
+=97=A5 =E9=80=B1=E4=BA=8C =E5=87=8C=E6=99=A84:15=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 6/13/22 04:11, ChiaEn Wu wrote:
+> > diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+> > index cbe0f96ca342..dcb6866dab53 100644
+> > --- a/drivers/regulator/Kconfig
+> > +++ b/drivers/regulator/Kconfig
+> > @@ -804,6 +804,14 @@ config REGULATOR_MT6360
+> >         2-channel buck with Thermal Shutdown and Overload Protection
+> >         6-channel High PSRR and Low Dropout LDO.
+> >
+> > +config REGULATOR_MT6370
+> > +     tristate "MT6370 SubPMIC Regulator"
+> > +     depends on MFD_MT6370
+> > +     help
+> > +       Say Y here to enable MT6370 regulator support.
+> > +       This driver support the control for DisplayBias voltages and on=
+e
+>
+>                       supports
+>
+> > +       general purpose LDO which commonly used to drive the vibrator.
+>
+>                               which is commonly used to drive the vibrato=
+r.
+>
+>
+> --
+> ~Randy
 
 Best regards,
-Krzysztof
+ChiaEn Wu
