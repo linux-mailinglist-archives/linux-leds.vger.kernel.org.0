@@ -2,180 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14145550FF4
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jun 2022 08:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9245E5521D0
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jun 2022 18:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238487AbiFTGBD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Jun 2022 02:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37540 "EHLO
+        id S244134AbiFTQFF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Jun 2022 12:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238458AbiFTGA5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jun 2022 02:00:57 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11427DFD0;
-        Sun, 19 Jun 2022 23:00:54 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id p8so632587ile.1;
-        Sun, 19 Jun 2022 23:00:54 -0700 (PDT)
+        with ESMTP id S243797AbiFTQFE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jun 2022 12:05:04 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C9F2019D
+        for <linux-leds@vger.kernel.org>; Mon, 20 Jun 2022 09:05:00 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id o9so6526472edt.12
+        for <linux-leds@vger.kernel.org>; Mon, 20 Jun 2022 09:05:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cwN6IxyQjuvVAsZLjo36uq20E2C9scRHPNKcXTuVvbA=;
-        b=g6PojB88FJpDGekaEQW5sgtt2awlIg9Kyk+OmVxnfABwAPRZbln/Y/uyyXMGCfm5er
-         1R0+e483BrsBWcnsxOmWnurViueosKKnTooTuvNzUQMFav5s+AbIomGcK2PP1DZYPPpr
-         VQ9yUoTx79KEo59DnPTs2lGLIKmUyAHc7ejDxujesUmt3jln8fx88SDSJ7Xc4h4fpZ+m
-         YStImi8HoHdq4ffN+XYmEH9iKrQpXmIjZvY6BidOkJ07b9JEBCQIG0EV892yb0kP3kZR
-         L+mSaXygBIURfwfvW7HX1XbwBPpR7BkPNJr0VxPdz7HSXxsudDSiVGYuklRWY+DOvNS3
-         bRjg==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=PiyaNO6pa1UECbQmSjR1WNenD8YkEf0ERGJt4gH8P0Q=;
+        b=gQcSn4MdkPpkFw9VUNku8D6x6KLxjeo/MkCT25gPhzhY2lob+o/AW/NtLLHzpiyEgl
+         YaTWvpFBUVdbZq9gIr0kkt4PjUcdpsouBzZouKRxcyLG6PH+7qBRpx7iUdKljoK0CyEa
+         pBEh+bzEL97/mTjwOx4lVmlJYxYIopKqa5eKahId/vYDvGr98qeMFTrTZ3Ctf6NJo/wM
+         MRnXdPGYJyb3Vmxc9Kl+rrqd3mY+ch9uyApqGGLfKzojaOB8TRdcWZVexlcTKoVuYvlB
+         +c2j3qsO6o5XRiOpyhKeT1hOS2xFeBSzXaexXVgZ/G2zK0CFajtUrxWc/qbpaMvO2zOB
+         TSIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cwN6IxyQjuvVAsZLjo36uq20E2C9scRHPNKcXTuVvbA=;
-        b=nwwEfkz1FE/tdWuVEoZ1YpV4Opure9v8u/5QtmmvcgQabLWsn6zQixVWoDF9sU8efj
-         jJMmirBksP/VBZg0TqdsA1EsBVH2Ysq1LOZXcnZbOdoVjhJ6n3AEvUdUTsiiUyRQ9JQP
-         9n386QHLX1B7MIAdm7VVAkNUP8ne4hA2DlKoOMXXhk5fxars1wbGv9YS0oAtCII9Cz6j
-         qiiWSY0rpKtAdZdk8recQ93M9iSB8PkAVwsQiqEdg2Ed97RoRm8XBC91ybMFTbvCK910
-         OsKrS2LrwfHu2AB8P9ZcFrpuJTxi0Ip7Z9IF+zOu2RD8tXT0BoWjuBooirl9d9YraCGH
-         RIJw==
-X-Gm-Message-State: AJIora8XiJpN3/zIEOqTWH78ip1LJrlWT8yvTA29oyQce4HJqp//VuJ+
-        LHrfYOQbhMlFETSsKYDtTw5Iw3+4Vd+Bad37Vnc=
-X-Google-Smtp-Source: AGRyM1uXlPLygCXpmbKeDXm5LIO35jz/XjYzrLDMy2nvrMmyGvaWds72J9n4lNin+B4hhL3oHWaBa/1XDczfnzCMFbM=
-X-Received: by 2002:a05:6e02:1aa4:b0:2d3:aeb9:930 with SMTP id
- l4-20020a056e021aa400b002d3aeb90930mr12576572ilv.45.1655704854169; Sun, 19
- Jun 2022 23:00:54 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PiyaNO6pa1UECbQmSjR1WNenD8YkEf0ERGJt4gH8P0Q=;
+        b=xuSrfEn/NOzNRpJQI2Ue7V1i7e8se3OgotDLAcKQZO2sOTBX2URt+nVudylWuG9NIP
+         KPUJDBZpdpqqugZ4qvnD6nOFbhuHGEOKcAAGbgxnkNKBgJMuqC8aG+YRPprtoBEkblhJ
+         ewUtqremKlXqJtmYDdl7RcNu/ZO3wF77jSFdbXMORo50oknKfsUkprNYG1I3ZViKw3JI
+         kc+XEiYVzqXbh5mpoj6BQyaIYmvW2Bwg3xDHN28vCYIJkQ6ldLkCXQTvssgcBWz/OIK4
+         4gJjKuTpq4d58lgj+Y/LKeMOVsj3enfO7bN//JWpU/x77CLBPbEjWxuTBQT16qQtvQwM
+         Y2Yg==
+X-Gm-Message-State: AJIora94TIHvgSWNfLGT28vndyNmUMkp6lLxd/JPmU0+ny/4f2RvCoq5
+        GWpX5lNzWivUb1MWq/P/PxK3tg==
+X-Google-Smtp-Source: AGRyM1vjJkbpsGZpShi0xdylQhTb+8pCE4v7toIA2SYqutENem+JoaXD18e44Vl4hAvCa9V8XXLOeg==
+X-Received: by 2002:a05:6402:5212:b0:42e:2fa:41a7 with SMTP id s18-20020a056402521200b0042e02fa41a7mr30186493edd.22.1655741098882;
+        Mon, 20 Jun 2022 09:04:58 -0700 (PDT)
+Received: from [192.168.0.210] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id r17-20020a1709061bb100b00711d88ae162sm6216949ejg.24.2022.06.20.09.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 09:04:58 -0700 (PDT)
+Message-ID: <1e71759b-32a1-3f35-6c08-b9ea4611e361@linaro.org>
+Date:   Mon, 20 Jun 2022 18:04:57 +0200
 MIME-Version: 1.0
-References: <20220613111146.25221-1-peterwu.pub@gmail.com> <20220613111146.25221-8-peterwu.pub@gmail.com>
- <20220618164820.2eeb8ae8@jic23-huawei>
-In-Reply-To: <20220618164820.2eeb8ae8@jic23-huawei>
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Mon, 20 Jun 2022 14:00:43 +0800
-Message-ID: <CABtFH5+R761Tyd4yaWg-foSC4K=_aeYiVaTf37KvVH1Z4z9Jhw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/15] Documentation: ABI: testing: mt6370: Add ADC
- sysfs guideline
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     lars@metafoo.de, matthias.bgg@gmail.com, lee.jones@linaro.org,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com, ChiaEn Wu <chiaen_wu@richtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: lp50xx: correct reg/unit
+ addresses in example
+Content-Language: en-US
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Rob Herring <robh@kernel.org>, Kyle Swenson <kyle.swenson@est.tech>
+References: <20220607075247.58048-1-krzysztof.kozlowski@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220607075247.58048-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jonathan,
+On 07/06/2022 09:52, Krzysztof Kozlowski wrote:
+> The multi-led node defined address/size cells, so it is intended to have
+> children with unit addresses.
+> 
+> The second multi-led's reg property defined three LED indexes within one
+> reg item, which is not correct - these are three separate items.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> ---
 
-Thanks for your helpful comments, and I have some questions want to
-ask you below.
+Pavel, Jacek,
 
-Jonathan Cameron <jic23@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8818=E6=
-=97=A5 =E9=80=B1=E5=85=AD =E6=99=9A=E4=B8=8A11:39=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> On Mon, 13 Jun 2022 19:11:38 +0800
-> ChiaEn Wu <peterwu.pub@gmail.com> wrote:
->
-> > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> >
-> > Add ABI documentation for mt6370 non-standard ADC sysfs interfaces.
-> >
-> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > ---
-> >  .../ABI/testing/sysfs-bus-iio-adc-mt6370      | 36 +++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> >
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370 b/Docum=
-entation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> > new file mode 100644
-> > index 000000000000..039b3381176a
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> > @@ -0,0 +1,36 @@
-> > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage0_raw
->
-> Unfortunately the kernel documentation build scripts do no support duplic=
-ating
-> standard ABI for particular devices so as to provide more information.
-> Hence you can't have anything in this file.
->
+Any comments on these two patches?
 
-I want to confirm with you again,
-because my ABI file duplicates with standard sysfs-bus-iio (voltage,
-current, and temperature channels),
-Should I just remove this ABI file and modify the code of mt6370-adc
-to meet your expectations??
-
->
-> > +KernelVersion:       5.18
-> > +Contact:     chiaen_wu@richtek.com
-> > +Description:
-> > +             Indicated MT6370 VBUS ADC with lower accuracy(+-75mA)
-> Curious though, voltage with a mA accuracy range?
-
-Yes, this description is based on the data sheet.
-
-> This scale should be presented directly to userspace anyway so no need
-> for this doc.
->
-> > +             higher measure range(1~22V)
-> > +             Calculating with scale returns voltage in uV
->
-> No. All channels return in mV. That's the ABI requirement as
-> in sysfs-bus-iio and we cannot vary if for particular drivers.  If we did
-> no generic tooling would work.
-
-Ok, I got it!
-
->
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage1_raw
-> > +KernelVersion:       5.18
-> > +Contact:     chiaen_wu@richtek.com
-> > +Description:
-> > +             Indicated MT6370 VBUS ADC with higher accuracy(+-30mA)
-> > +             lower measure range(1~9.76V)
-> > +             Calculating with scale offset returns voltage in uV
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage4_raw
-> > +KernelVersion:       5.18
-> > +Contact:     chiaen_wu@richtek.com
-> > +Description:
-> > +             Indicated MT6370 TS_BAT ADC
-> > +             Calculating with scale returns voltage in uV
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage7_raw
-> > +KernelVersion:       5.18
-> > +Contact:     chiaen_wu@richtek.com
-> > +Description:
-> > +             Indicated MT6370 CHG_VDDP ADC
-> > +             Calculating with scale returns voltage in mV
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/in_temp8_raw
-> > +KernelVersion:       5.18
-> > +Contact:     chiaen_wu@richtek.com
-> > +Description:
-> > +             Indicated MT6370 IC junction temperature
-> > +             Calculating with scale and offset returns temperature in =
-degree
-
-Shall I modify the scale of temperature to milli degrees in
-mt6370-adc.c and remove this item??
-
->
 
 Best regards,
-ChiaEn Wu
+Krzysztof
