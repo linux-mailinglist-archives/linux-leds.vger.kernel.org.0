@@ -2,71 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5469F5548D0
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Jun 2022 14:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2644554765
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Jun 2022 14:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355102AbiFVIgT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Jun 2022 04:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33584 "EHLO
+        id S1356021AbiFVL65 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Jun 2022 07:58:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354538AbiFVIgA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jun 2022 04:36:00 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194D838BFC
-        for <linux-leds@vger.kernel.org>; Wed, 22 Jun 2022 01:35:51 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id eo8so22891725edb.0
-        for <linux-leds@vger.kernel.org>; Wed, 22 Jun 2022 01:35:50 -0700 (PDT)
+        with ESMTP id S244454AbiFVL64 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jun 2022 07:58:56 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6822F3CA74
+        for <linux-leds@vger.kernel.org>; Wed, 22 Jun 2022 04:58:55 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id ej4so19605212edb.7
+        for <linux-leds@vger.kernel.org>; Wed, 22 Jun 2022 04:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LKVKNIti1LcRpv/jEhLMMKWh1ADREH2xijbZTCW6Xr4=;
-        b=HTdEvAVx/Nof1YbJwQLyXd8dTkR/+m7SXUfhIdnvWqSKFFHyN4/nJbLZN7l3HUb/VL
-         ejdoskCUL3HevZhUZLkymtquwxhwS0Yyk39d1zwHTft+vMf/6ece6uy7Z576XCZHwjYp
-         gh+L1ynkZnUwloRiWvrQNH8vxZ5jeLFClRX1/m13hbqYB9RRh0PNgKJPNTNd5aHJ58iW
-         NR51sWkbop9/ITHUdhlwLAMIjsnnEKDu1CXoCaNShIrzMmRdGlnwERlp0cTsgoMro4Lb
-         2Q8QzCWCz2XGC/23fXWJrfKQHQpQcvBqVB+4FZAIG+OXNYDWUoh9bR0T7xC8FwWr7OaK
-         htYQ==
+        bh=+hoDgmECCxkmEuLXgBpfFKs4eUitUbbxSUfe43Rhe54=;
+        b=C+NroklpGh0nlubI+1ZeSqpfsLNzxb/G87D1tEFno3abaQT9GtucS9KDGd/I33ABE9
+         B9rvOtees8v8+IHbiU5niiqIqxJ/XsZI+EN5IuNZjMBKaHMCft6W2iOiWM0JHhBVjKzN
+         YHIk1ymllRhQooe5avdb1htIEaJDS4e6o7zQ47bl3mEaNvYOoAGMIFg0TNPOpXj6fNCF
+         b4mt/VsMqMCslwz9Iw+OrjyyEba9dG9ZWJQXpQNsaWLsfc3+JShLJV+Y7fZS0sSe5aWN
+         M+pU75P2Km9lx5B8DOm5BtfByPt89QbqZfxrnqoRJB3hBOCwQjwEx7W1MMn76MXpoLYP
+         6aGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LKVKNIti1LcRpv/jEhLMMKWh1ADREH2xijbZTCW6Xr4=;
-        b=eo5kkukEpAhcpu3MsdMYjenXVb70b8O8BxbDV8YrK3lqM+r64ea2+cJlPXwQ+1ZB9m
-         Yv8BL7kjpdp8gGMiBFt9OiYAEtTOvH78KddDERRhKY6FEtDEELOGEGu6AiH51kWaVPHE
-         ZBgpy23YIOgWCDx8I6/ZbzUeCEwqd58iTPAYCWgoBWwDthXNlZUQ4IUcpDY+ECGsq7yD
-         m8fRBpUsHuJmyc8fW80zxzu9F/LRR3W+NB4JILJ3cuz/r328vfGOxpJPbOdodqHvRj6j
-         NQBxt19abeveKle/YEqE7aFJ6hioe04ge62JSnGZXnuFXo4yEi82wsAWk6Su4TQziAK4
-         sP9w==
-X-Gm-Message-State: AJIora9oueOulqsJN9CxJskRXp1ifzzres1cXL0I+dRXG+p8lP8EsH5t
-        IVQtqJk6gT/Z4DkjcdlbcCdqpA==
-X-Google-Smtp-Source: AGRyM1ubdfO8px4g4kpPHR6o6PIPxQqkUkvACkcd7VlHI+hBIgv/8yaZr8ORCW2o1aIa03m0jnMdpQ==
-X-Received: by 2002:a05:6402:358b:b0:435:828a:a403 with SMTP id y11-20020a056402358b00b00435828aa403mr2788497edc.117.1655886949582;
-        Wed, 22 Jun 2022 01:35:49 -0700 (PDT)
+        bh=+hoDgmECCxkmEuLXgBpfFKs4eUitUbbxSUfe43Rhe54=;
+        b=M29gAf0VXiGgY5V8/TEjcayliCVJunfUtbf+G4Rq8vg3nJBCkKaW/jJFNCUbjKWNUJ
+         YDTmES/Mnqrd9UsW/8zqliMvMdXQcsS+K3x4I/k2kpgp/JBj96n1jSaAwkDrdaSsTFAu
+         kgKdV+ZRzxaD9IAn8KTh9ZnR6LYuj/1xLF9+MHwmu0ofehnHf8NQdnFA3pxMKIOShhuj
+         uZpv7XyVLrB6rxVYvpCUdKK+8BeDtXEz76k2Bk2Lk2p8oKmuwtFXGBkwMA9FyfgmpNP9
+         6v197ZoZJ+ux6wvSu3Lv+ntxFQ3s+WGKXnqkxf1YrkYJIzhmNQpn3ggiM33HFsmVs4H5
+         s40w==
+X-Gm-Message-State: AJIora9jbOvsmmZTCRjgU0K7tTq8jvyrXCYBysjCWkwBDMNHmy/2mAPL
+        XFlRhIIg8jToqt40ktjquZN2EA==
+X-Google-Smtp-Source: AGRyM1sV0n+kFPrHjo7J9mlB5BlTGLwd6/VlnulPgYV6wcLDYSE4OUHrGe0vlIYlpXI7KIin0ABbDw==
+X-Received: by 2002:a05:6402:f8d:b0:435:6df2:68a with SMTP id eh13-20020a0564020f8d00b004356df2068amr3762502edb.209.1655899133972;
+        Wed, 22 Jun 2022 04:58:53 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id ku10-20020a170907788a00b00722e603c39asm1979733ejc.31.2022.06.22.01.35.48
+        by smtp.gmail.com with ESMTPSA id qw21-20020a1709066a1500b0070c4abe4706sm1746212ejc.158.2022.06.22.04.58.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 01:35:48 -0700 (PDT)
+        Wed, 22 Jun 2022 04:58:53 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     kgunda@codeaurora.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, linux-arm-msm@vger.kernel.org, pavel@ucw.cz,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
-        linux-kernel@vger.kernel.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, krzysztof.kozlowski@linaro.org,
-        jingoohan1@gmail.com, linux-leds@vger.kernel.org
-Subject: Re: (subset) [PATCH 2/2] arm64: dts: qcom: correct SPMI WLED register range encoding
-Date:   Wed, 22 Jun 2022 10:35:35 +0200
-Message-Id: <165588692597.15720.6527539957529378086.b4-ty@linaro.org>
+To:     devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        krzysztof.kozlowski@linaro.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, robh+dt@kernel.org,
+        pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, alim.akhtar@samsung.com,
+        jacek.anaszewski@gmail.com
+Subject: Re: (subset) [PATCH v2 2/3] ARM: dts: exynos: align aat1290 flash LED node with bindings in Galaxy S3
+Date:   Wed, 22 Jun 2022 13:58:49 +0200
+Message-Id: <165589912782.8422.17803439134103733138.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
-References: <20220505154702.422108-1-krzysztof.kozlowski@linaro.org> <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220620175033.130468-3-krzysztof.kozlowski@linaro.org>
+References: <20220620175033.130468-1-krzysztof.kozlowski@linaro.org> <20220620175033.130468-3-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,16 +73,15 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 5 May 2022 17:47:02 +0200, Krzysztof Kozlowski wrote:
-> On PM660L, PMI8994 and PMI8998, the WLED has two address spaces and with
-> size-cells=0, they should be encoded as two separate items.
+On Mon, 20 Jun 2022 19:50:32 +0200, Krzysztof Kozlowski wrote:
+> The bindings expect aat1290 flash LED child node to be named "led".
 > 
 > 
 
 Applied, thanks!
 
-[2/2] arm64: dts: qcom: correct SPMI WLED register range encoding
-      https://git.kernel.org/krzk/linux/c/2559f68b5991be168785a16a53f582862cf0063c
+[2/3] ARM: dts: exynos: align aat1290 flash LED node with bindings in Galaxy S3
+      https://git.kernel.org/krzk/linux/c/efbf2c262c89f78f99fd781c77b7305fac23c3c7
 
 Best regards,
 -- 
