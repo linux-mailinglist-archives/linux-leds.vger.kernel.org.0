@@ -2,62 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E296559857
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Jun 2022 13:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E2055986C
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jun 2022 13:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbiFXLNc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Jun 2022 07:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43916 "EHLO
+        id S229968AbiFXLVP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Jun 2022 07:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229947AbiFXLNb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jun 2022 07:13:31 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9075F340E2
-        for <linux-leds@vger.kernel.org>; Fri, 24 Jun 2022 04:13:29 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id sb34so3943480ejc.11
-        for <linux-leds@vger.kernel.org>; Fri, 24 Jun 2022 04:13:29 -0700 (PDT)
+        with ESMTP id S229813AbiFXLVP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jun 2022 07:21:15 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB56477FF0
+        for <linux-leds@vger.kernel.org>; Fri, 24 Jun 2022 04:21:13 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id z7so2945067edm.13
+        for <linux-leds@vger.kernel.org>; Fri, 24 Jun 2022 04:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0zlxTVnvbHpKy0DwhHrN4iNAtQ8jGGjP1mEZMb9Cqfc=;
-        b=BZ40dSXMcmZVrrFgwl+Svd+XT2GC1ZjSxQe9gAJ3i1aM9JQG6gU+AV52iu7Fpu+iwr
-         AFTy+gCgeUc9N/+qCzAIBTlf1Ic+VQE6/mjVzQIaXg8pgqLlubqvTatTI0AS44CWLCA8
-         2N44cmo7bFuCuT1V7gvfWlEI7yslFcHD0dH/5M1Mna5ZM7b2YQ13e8ssvEqwA93ACrfI
-         5bAePAt2QvDX9rB3N64/NHt0r2E/fA0why7b54JgxQPrkaRdEJCNwkX80Iu130RMgidl
-         oT8yc1svJdnXmoY92DuwF8QGj45XnrCYInJwlsyVWjLh8KJsw7u9b8nRVUP7NMuPRHIr
-         X3OA==
+        bh=nswwdq9kMT+/2jh1GVwB6lx89Sb6QhmoZOaTHHpxSRg=;
+        b=PCs0VJyiDsVMvPRWH/uSgRuNoJMFBJ1IXL/NJBVtBu08gRHJi+ZH0Bu0BWfKbb7VLu
+         zawX5TFLQdefNPlie9qAQ6AVoDCqmGu6JuGXJj9oJn/2Nlh6XK1kDlG5Y9TCQoLj47+Q
+         Sat/+DRU8dR968xKKYf5vy6p0WUmSkX4H+qisMcO2LJcTslk0N6FdwR4/8kj+IG6MY1U
+         9KXuCPHmIvdXUYRlWrtCctuALzy2CwgkwoRcbmsG0f0JjxSr49l4r8PmH3/Q3eY3zewR
+         HnziikgM21IhN6kenx+Fs2xXUTofRVCaaY14qEldot/4dasv8YQG6fVRge8P6/8vEFBP
+         +yGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0zlxTVnvbHpKy0DwhHrN4iNAtQ8jGGjP1mEZMb9Cqfc=;
-        b=2cKw4mxjD8t1RkMjhr7PVBoAJRmZGR38W0zcQIyzf5XPubCoz3+dI82O5K+jo2zEXy
-         X168ZhYD8dv29eVZMjruQxzt3gPiMTKaeWOx6mcj0GYul2WFi5PoxEyN+yYXOnU2Hq/r
-         rObxYRaXr/TVf2v+3nitmtk744vqof8j2UyMAUhy5yXraIyWKSwwkVokn4YYnqhopHko
-         5eM3fsn4+FX8IvBjn6Oh1uiltHnDUKS96mfJ0f42Lkam0kv0u+u+jvyhAWCnzJQYWuRs
-         M+J9VlljRlpnUA2ncvpPRG0h1QmE5ErjiOsOijlkhAN/NW2rwWcxY8D/eHdkAalUkpYy
-         vHOQ==
-X-Gm-Message-State: AJIora/PBTBaWwmrPX+UgpEXAi6vuoo1P3ECoEDTKqiwMGu1zSTwRWMJ
-        ZENA7k4hTTvE2PhxbfPs8ETosVPoSCDlvQ==
-X-Google-Smtp-Source: AGRyM1sIeHNs7Q5rcCDUucuqRivorQ8lvaJWn3CypW2Y1pnrMMJZxiu2vO3vGBttNwZ8JeR2lpFs/w==
-X-Received: by 2002:a17:907:72d6:b0:722:e59a:72f4 with SMTP id du22-20020a17090772d600b00722e59a72f4mr13068601ejc.158.1656069208122;
-        Fri, 24 Jun 2022 04:13:28 -0700 (PDT)
+        bh=nswwdq9kMT+/2jh1GVwB6lx89Sb6QhmoZOaTHHpxSRg=;
+        b=PyBznwJ6v6OKD10z6vNM81jbT2x30EW2WZEQxey0XcOSm5nRL1SvyGw+/mDJz1cyOJ
+         nmN9jxyY+FFimwzXja0nyOzGyNRsE3ndRfZQu1ieH+O/ImWyr2Vn3+6d5YSJbP19MQfN
+         MOaaKvPhRvHHl6bkbii5PluxLbhgwEzNEYIz1P9ZlAK4O4REONYfHwXgBNLWwT6nmuoh
+         MwvNeitByNND3T+piuEJJdVjEMDs8DvP85iocw01TowXPUWuSRxTeS2kRhEs+BYMPG+l
+         CciGONlhLAPTHNPGIozNKsbpAOKCK6gT20anXzkfP7xTZRRcH2XeP93iOlTQKM7H9E5Q
+         CINw==
+X-Gm-Message-State: AJIora9HpkLk0gXFy2bVCdYZnKkU4DW3o1734PuFvm49f0Cdy7Eu95gB
+        Ja5ODg2gGduYx3swzwltxiR3nw==
+X-Google-Smtp-Source: AGRyM1t+3q8i3H1TjipkxGeDkdr3UTTrFKyKEuBidyDjFwMg7pLhaXm/xh1pnaG2df6LaAhL7WaZYg==
+X-Received: by 2002:a05:6402:3546:b0:42e:2f58:2c90 with SMTP id f6-20020a056402354600b0042e2f582c90mr16943057edd.84.1656069672244;
+        Fri, 24 Jun 2022 04:21:12 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id x22-20020a170906711600b00722e4bab163sm898877ejj.200.2022.06.24.04.13.26
+        by smtp.gmail.com with ESMTPSA id i10-20020a170906698a00b00705fa7087bbsm951874ejr.142.2022.06.24.04.21.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jun 2022 04:13:27 -0700 (PDT)
+        Fri, 24 Jun 2022 04:21:11 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+To:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: leds: lp50xx: fix LED children names
-Date:   Fri, 24 Jun 2022 13:13:25 +0200
-Message-Id: <20220624111325.96478-1-krzysztof.kozlowski@linaro.org>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] dt-bindings: leds: class-multicolor: reference class directly in multi-led node
+Date:   Fri, 24 Jun 2022 13:21:06 +0200
+Message-Id: <20220624112106.111351-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,36 +74,136 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The lp50xx LEDs expects to have single-color LED children with unit
-addresses.  This is required by the driver and provided by existing
-DTSes.  Fix the binding to match actual usage.
+The leds/common.yaml is referenced directly in each LED node, which
+leads to people doing the same with leds/leds-class-multicolor.yaml.
+This is not correct because leds-class-multicolor.yaml defined multi-led
+property and its children.  Some schemas implemented this incorrect.
+
+Rework this to match same behavior common.yaml, so expect the multi-led
+node to reference the leds-class-multicolor.yaml.  Fixing allows to add
+unevaluatedProperties:false.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Fixes: dce1452301e7 ("dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers")
----
- Documentation/devicetree/bindings/leds/leds-lp50xx.yaml | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
+---
+
+This will conflict with any new users of leds-class-multicolor, e.g.:
+https://lore.kernel.org/all/20220623115631.22209-4-peterwu.pub@gmail.com/
+
+The new users should be updated to match the usage introduced here.
+---
+ .../leds/cznic,turris-omnia-leds.yaml         |  2 ++
+ .../bindings/leds/leds-class-multicolor.yaml  | 32 +++++++++----------
+ .../devicetree/bindings/leds/leds-lp50xx.yaml |  2 ++
+ .../bindings/leds/leds-pwm-multicolor.yaml    |  5 ++-
+ .../bindings/leds/leds-qcom-lpg.yaml          |  2 ++
+ 5 files changed, 24 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+index 9362b1ef9e88..14bebe1ad8f8 100644
+--- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
++++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+@@ -33,6 +33,8 @@ patternProperties:
+   "^multi-led@[0-9a-b]$":
+     type: object
+     $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
++
+     description:
+       This node represents one of the RGB LED devices on Turris Omnia.
+       No subnodes need to be added for subchannels since this controller only
+diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+index f41d021ed677..12693483231f 100644
+--- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+@@ -19,22 +19,22 @@ description: |
+   LED class.  Common LED nodes and properties are inherited from the common.yaml
+   within this documentation directory.
+ 
+-patternProperties:
+-  "^multi-led(@[0-9a-f])?$":
+-    type: object
+-    description: Represents the LEDs that are to be grouped.
+-    properties:
+-      color:
+-        description: |
+-          For multicolor LED support this property should be defined as either
+-          LED_COLOR_ID_RGB or LED_COLOR_ID_MULTI which can be found in
+-          include/linux/leds/common.h.
+-        enum: [ 8, 9 ]
+-
+-    $ref: "common.yaml#"
+-
+-    required:
+-      - color
++properties:
++  $nodename:
++    pattern: "^multi-led(@[0-9a-f])?$"
++
++  color:
++    description: |
++      For multicolor LED support this property should be defined as either
++      LED_COLOR_ID_RGB or LED_COLOR_ID_MULTI which can be found in
++      include/linux/leds/common.h.
++    enum: [ 8, 9 ]
++
++required:
++  - color
++
++allOf:
++  - $ref: "common.yaml#"
+ 
+ additionalProperties: true
+ 
 diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-index f12fe5b53f30..c274a10bbde6 100644
+index d11898567313..d44bf48b3c2f 100644
 --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
 +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-@@ -65,8 +65,14 @@ patternProperties:
-           for the child node.  The LED modules can either be used stand alone
-           or grouped into a module bank.
+@@ -56,6 +56,8 @@ patternProperties:
+   '^multi-led@[0-9a-f]$':
+     type: object
+     $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
++
+     properties:
+       reg:
+         minItems: 1
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+index fdaf04e03a8d..e9fdecdaf84d 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+@@ -19,6 +19,8 @@ properties:
  
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
+   multi-led:
+     type: object
++    $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
+ 
      patternProperties:
--      "(^led-[0-9a-f]$|led)":
-+      "^led@[0-9a-f]+$":
-         type: object
-         $ref: common.yaml#
+       "^led-[0-9a-z]+$":
+@@ -42,9 +44,6 @@ properties:
+ required:
+   - compatible
  
+-allOf:
+-  - $ref: leds-class-multicolor.yaml#
+-
+ additionalProperties: false
+ 
+ examples:
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 409a4c7298e1..fe336fa16518 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -58,6 +58,8 @@ properties:
+   multi-led:
+     type: object
+     $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
++
+     properties:
+       "#address-cells":
+         const: 1
 -- 
 2.34.1
 
