@@ -2,60 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2625596C2
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Jun 2022 11:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69215559719
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jun 2022 11:57:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiFXJeu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Jun 2022 05:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
+        id S230311AbiFXJ47 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Jun 2022 05:56:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiFXJet (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jun 2022 05:34:49 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9638B699BF;
-        Fri, 24 Jun 2022 02:34:48 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id p69so2092342iod.10;
-        Fri, 24 Jun 2022 02:34:48 -0700 (PDT)
+        with ESMTP id S230306AbiFXJ4z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jun 2022 05:56:55 -0400
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A2C67A19C;
+        Fri, 24 Jun 2022 02:56:52 -0700 (PDT)
+Received: by mail-il1-x132.google.com with SMTP id k7so1144678ils.8;
+        Fri, 24 Jun 2022 02:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=MP9RQT0mw2gx9xecm41XDjO0xQp/A9AAK0cYbd+v7PM=;
-        b=XOSjJie8EVvJ68P8cDkEuXXdIP7YNykFHD5ucaFHa23sPTgdW5s+vEyYglwP5ITADf
-         de6ih0EGdaikqxaCCoMYFOazeMTR+HJ2Od3FO0aVrMGZ9Ao0YQc3IGKpdK1KsldTwlvh
-         mNgixo6yDK8vv6W4zP9rFZEgeSROQH0wRlhznnuez0r+LK3zlRzbpSDq8zkiXpRGsUdD
-         wlBFXBP+v/yudkNVKvRuUvTnfyVEt9q4H+CcHi3K0tEYuY/us9b2jbsRIceZSdwT323h
-         bCW6ZtoKL/DDgyl9mBYWdF/TeTYV9OJiSRhfvnTTdEl5HuLFgATDlbAUJ79bLaqNIqyo
-         pjrg==
+        bh=M4nnsvgHgIi0r2ItWc5dFuhTU+zH2GcT6p/faSXA7jc=;
+        b=HsRYekV2sU4Xv613pAvXWZuwPyAd8ueafTN7t5ELrygCaBWqwnSFn/yimTyvXphliU
+         rk/k1nDNQ3ECBrZQCQibcC5/SXphAPug9oObZB9Femn+4ZMKO367Z07kbw302ugSier+
+         3u6Ie+cqpVmNjf+nVQ2o9wUhernyrputNPwEkW+iFxQ7yrQw609omGwbvjVllqqdkQlb
+         DFP5VJKZgPzIyttK1WQpTnymekzhmxmCFLdIDv+zhBnfs0Quw4/dsjyIWcL8P0Yv01Hh
+         HffrHojwf2vBBMXK+Xv5kciDDgUaOI7o+FqSBYVUB7RtJd64wGJ3mx0TRrsc6+x3jNA+
+         Uofw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MP9RQT0mw2gx9xecm41XDjO0xQp/A9AAK0cYbd+v7PM=;
-        b=hTAwqwnpuD0bg8/et7uTMOZKNM6Jv3GlxUPHmRqiY5BPoi+LOY0oBU6SMxoD9ZITW7
-         bSuFV3mfndskomSI+cNkjpWG9DLQCS+O1zx6GROfdejgo0+U0Int8kVR0hHISku+Kb1p
-         /2rLNceaWpnkvE4oNF7oSvrCyNG5fq6bb405EaUJfDHIjiLp6Q/VTwys6lfNd0XYF6Po
-         kbvIqC5LCFWflKy6lo3HM6jVbc63MOOoPHy++FhBM0YxYEEng+lk3la3kJ8PgH2XGVof
-         04eUcvPzwZ+FUUi4X0bxOEnIzQyhRe/WOBb2HRDE7XinMHgKS743ZgfGki+AYIbOxnK7
-         VSkg==
-X-Gm-Message-State: AJIora+kPWz4/GuYVOPISnffJ+3zolxj/ChUizbAmgtKayi0/soZjcBz
-        nMNvrZUHp3/mb2kSsjujN1lv0a9JqL16dkIFp+E=
-X-Google-Smtp-Source: AGRyM1uasjCkCSVNNk3dqGVMtMHhWuLiOU+3vPo8KNEsy3IZCmdFQUJiWYJTC/E8bQMesuaOX1oy1FkolQJLbHcM1Io=
-X-Received: by 2002:a05:6638:348d:b0:331:d8f0:fd9d with SMTP id
- t13-20020a056638348d00b00331d8f0fd9dmr7928714jal.165.1656063287244; Fri, 24
- Jun 2022 02:34:47 -0700 (PDT)
+        bh=M4nnsvgHgIi0r2ItWc5dFuhTU+zH2GcT6p/faSXA7jc=;
+        b=4QDiFNuyHmWZ9g7JG7KiFjNCuKE0VSg4BJHi+DiYOHzJt/uoBbIVM9hFGCnvbvdVCh
+         mcCfzOV5cdTiu/nyBKtUk2rn94PXsuBaKcLIQvxlhOwa8Hjh2WfQnvioOUQUPd8jME1Q
+         lSBQZ7qEKfFqlrwpl/i2htzpPw7KvnSXQ+UzkUr9hBCZbcxra8iyK5dEL7tk4Oafxrdh
+         5AcBU2Z+Z+Pku+8dfcenyWlaZihS5FCZ6PiiR7fwrRe9TXgEstWY9EWd3rhQSiMeej47
+         b52MeYyucdragJiPypszqtb9qtORrIjpPKodKaSYK5ID4iHSLRLXFded5trEyyOBqRkB
+         /TFA==
+X-Gm-Message-State: AJIora/6KcZfLeHvLltf6HoUjQX3vWt/X+htkbzI/g9LMK4U4CcukgVa
+        QvgBC7wz3ztve1xxi0BbZs38WJPNpDB6FwM9wiQ=
+X-Google-Smtp-Source: AGRyM1u4tHhqAdEi5ogAeS0dS5voh35vGz3kiJUl5ktCSsYPoM0YYC7H2ztWgE2w6YlrhoWKAwKgDMijTEOWiU+6IC8=
+X-Received: by 2002:a05:6e02:10cf:b0:2d9:2310:e6b3 with SMTP id
+ s15-20020a056e0210cf00b002d92310e6b3mr7601053ilj.212.1656064612053; Fri, 24
+ Jun 2022 02:56:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623115631.22209-1-peterwu.pub@gmail.com> <20220623115631.22209-6-peterwu.pub@gmail.com>
- <YrRny9TPqMUW7Yr/@spruce>
-In-Reply-To: <YrRny9TPqMUW7Yr/@spruce>
+References: <20220623115631.22209-1-peterwu.pub@gmail.com> <20220623115631.22209-15-peterwu.pub@gmail.com>
+ <20220623134316.rg3adyobz3hkgflt@maple.lan>
+In-Reply-To: <20220623134316.rg3adyobz3hkgflt@maple.lan>
 From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Fri, 24 Jun 2022 17:34:36 +0800
-Message-ID: <CABtFH5JdPHfvGi+tG+EKh_-XH0YxWHR3o=LsPAdW38e8fFoBeg@mail.gmail.com>
-Subject: Re: [PATCH v3 05/14] dt-bindings: backlight: Add Mediatek MT6370 backlight
-To:     Joe Simmons-Talbott <joetalbott@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+Date:   Fri, 24 Jun 2022 17:56:41 +0800
+Message-ID: <CABtFH5JnAAGh46i9yb1J6c2gAZfRHgTOhK19dOCdCuvdLW1ALg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/14] video: backlight: mt6370: Add Mediatek MT6370 support
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Lee Jones <lee.jones@linaro.org>, jingoohan1@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
         sre@kernel.org, chunfeng.yun@mediatek.com,
         gregkh@linuxfoundation.org, Jonathan Cameron <jic23@kernel.org>,
@@ -82,150 +81,113 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Joe,
+Hi Daniel,
 
-Joe Simmons-Talbott <joetalbott@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=
-=8823=E6=97=A5 =E9=80=B1=E5=9B=9B =E6=99=9A=E4=B8=8A9:17=E5=AF=AB=E9=81=93=
+Thanks for your comments!
+
+Daniel Thompson <daniel.thompson@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=
+=8823=E6=97=A5 =E9=80=B1=E5=9B=9B =E6=99=9A=E4=B8=8A9:43=E5=AF=AB=E9=81=93=
 =EF=BC=9A
 >
-> On Thu, Jun 23, 2022 at 07:56:22PM +0800, ChiaEn Wu wrote:
-> > From: ChiYuan Huang <cy_huang@richtek.com>
+> On Thu, Jun 23, 2022 at 07:56:31PM +0800, ChiaEn Wu wrote:
+> > From: ChiaEn Wu <chiaen_wu@richtek.com>
 > >
-> > Add mt6370 backlight binding documentation.
+> > Add Mediatek MT6370 Backlight support.
 > >
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > ---
-> >
-> > v3
-> > - Rename "mediatek,bled-pwm-hys-input-threshold-steps" to
-> >   "mediatek,bled-pwm-hys-input-th-steps"
-> > - Refine "bled-pwm-hys-input-th-steps", "bled-ovp-microvolt",
-> >   "bled-ocp-microamp" enum values
-> > ---
-> >  .../leds/backlight/mediatek,mt6370-backlight.yaml  | 92 ++++++++++++++=
-++++++++
-> >  1 file changed, 92 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/me=
-diatek,mt6370-backlight.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/mediatek,=
-mt6370-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/me=
-diatek,mt6370-backlight.yaml
-> > new file mode 100644
-> > index 0000000..26563ae
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-=
-backlight.yaml
-> > @@ -0,0 +1,92 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-back=
-light.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Mediatek MT6370 Backlight
-> > +
-> > +maintainers:
-> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
-> > +
-> > +description: |
-> > +  This module is part of the MT6370 MFD device.
-> > +  The MT6370 Backlight WLED driver supports up to a 29V output voltage=
- for
-> > +  4 channels of 8 series WLEDs. Each channel supports up to 30mA of cu=
-rrent
-> > +  capability with 2048 current steps (11 bits) in exponential or linea=
-r
-> > +  mapping curves.
-> > +
-> > +allOf:
-> > +  - $ref: common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt6370-backlight
-> > +
-> > +  default-brightness:
-> > +    minimum: 0
-> > +    maximum: 2048
-> > +
-> > +  max-brightness:
-> > +    minimum: 0
-> > +    maximum: 2048
-> > +
-> > +  enable-gpios:
-> > +    description: External backlight 'enable' pin
-> > +    maxItems: 1
-> > +
-> > +  mediatek,bled-pwm-enable:
-> > +    description: |
-> > +      Enable external PWM input for backlight dimming
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-pwm-hys-enable:
-> > +    description: |
-> > +      Enable the backlight input-hysteresis for PWM mode
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-pwm-hys-input-th-steps:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    enum: [1, 4, 16, 64]
-> > +    description: |
-> > +      The selection of the upper and lower bounds threshold of backlig=
-ht
-> > +      PWM resolution. If we choose selection 64, the variation of PWM
-> > +      resolution needs over than 64 steps.
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 >
-> more than?
+> > diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/=
+Kconfig
+> > index a003e02..7cd823d 100644
+> > <snip>
+> > +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
+> > +                                         struct backlight_properties *=
+props)
+> > +{
+> > +     struct device *dev =3D priv->dev;
+> > +     u8 prop_val;
+> > +     u32 brightness, ovp_uV, ocp_uA;
+> > +     unsigned int mask, val;
+> > +     int ret;
+> > +
+> > +     /* Vendor optional properties */
+> > +     val =3D 0;
+> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-enable"))
+> > +             val |=3D MT6370_BL_PWM_EN_MASK;
+> > +
+> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"=
+))
+> > +             val |=3D MT6370_BL_PWM_HYS_EN_MASK;
+> > +
+> > +     ret =3D device_property_read_u8(dev,
+> > +                                   "mediatek,bled-pwm-hys-input-th-ste=
+ps",
+> > +                                   &prop_val);
+> > +     if (!ret) {
+> > +             prop_val =3D clamp_val(prop_val,
+> > +                                  MT6370_BL_PWM_HYS_TH_MIN_STEP,
+> > +                                  MT6370_BL_PWM_HYS_TH_MAX_STEP);
+> > +             /*
+> > +              * prop_val =3D  1      -->  1 steps --> 0x00
+> > +              * prop_val =3D  2 ~  4 -->  4 steps --> 0x01
+> > +              * prop_val =3D  5 ~ 16 --> 16 steps --> 0x10
+> > +              * prop_val =3D 17 ~ 64 --> 64 steps --> 0x11
 >
-> Thanks,
-> Joe
->
+>                                                       ^^^^^
+> These numbers are binary, not hex, right? If so, the comments
+> should be 0b00 to 0b03 .
 
-Thanks for your helpful comments!
-I will revise this in the next patch. Thanks!
+Ohh! Yes! These numbers are binary!
+I so apologize for making this mistake...
+I will revise the comments in the next patch!
+Thank you so much!
 
+>
+>
+> > +              */
+> > +             prop_val =3D (ilog2(roundup_pow_of_two(prop_val)) + 1) >>=
+ 1;
+> > +             val |=3D prop_val << (ffs(MT6370_BL_PWM_HYS_SEL_MASK) - 1=
+);
+> > +     }
 > > +
-> > +  mediatek,bled-ovp-shutdown:
-> > +    description: |
-> > +      Enable the backlight shutdown when OVP level triggered
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-ovp-microvolt:
-> > +    enum: [17000000, 21000000, 25000000, 29000000]
-> > +    description: |
-> > +      Backlight OVP level selection.
-> > +
-> > +  mediatek,bled-ocp-shutdown:
-> > +    description: |
-> > +      Enable the backlight shutdown when OCP level triggerred.
-> > +    type: boolean
-> > +
-> > +  mediatek,bled-ocp-microamp:
-> > +    enum: [900000, 1200000, 1500000, 1800000]
-> > +    description: |
-> > +      Backlight OC level selection.
-> > +
-> > +  mediatek,bled-channel-use:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    description: |
-> > +      Backlight LED channel to be used.
-> > +      Each bit mapping to:
-> > +        - 0: CH4
-> > +        - 1: CH3
-> > +        - 2: CH2
-> > +        - 3: CH1
-> > +    minimum: 1
-> > +    maximum: 15
-> > +
-> > +required:
-> > +  - compatible
-> > +  - mediatek,bled-channel-use
-> > +
-> > +additionalProperties: false
-> > --
-> > 2.7.4
+> > +     ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PWM,
+> > +                              val, val);
+> > +     if (ret)
+> > +             return ret;
+>
+> Overall, I like this approach! Easy to read and understand.
+>
+>
+> > <snip>
+> > +static int mt6370_bl_probe(struct platform_device *pdev)
+> > +{
+> > +     struct mt6370_priv *priv;
+> > +     struct backlight_properties props =3D {
+> > +             .type =3D BACKLIGHT_RAW,
+> > +             .scale =3D BACKLIGHT_SCALE_LINEAR,
+>
+> Sorry, I missed this before but the KConfig comment says that the
+> backlight can support both linear and exponential curves.
+>
+> Is there a good reason to default to linear?
+
+Well...
+The customers who used this PMIC have very few or even no use exponential c=
+urve,
+so I set the default to linear.
+
+If you think this is inappropriate, I will add a DT property to
+control this feature in the next patch!
+
+By the way,
+I found some mistakes in my probe() function... I didn't use "return"
+when I use dev_err_probe()...
+I will refine it in the next patch!
+
+>
+>
+> Daniel.
 > >
 
 Best regards,
