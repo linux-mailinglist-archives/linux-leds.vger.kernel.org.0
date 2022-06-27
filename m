@@ -2,153 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B626855C887
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jun 2022 14:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A55155C792
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Jun 2022 14:54:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231721AbiF0Iiu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Jun 2022 04:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
+        id S233366AbiF0It2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Jun 2022 04:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233451AbiF0Iis (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jun 2022 04:38:48 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 770FD60FF;
-        Mon, 27 Jun 2022 01:38:47 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.108.4.248])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 5063B1128E079;
-        Mon, 27 Jun 2022 10:38:44 +0200 (CEST)
-Received: from localhost.localdomain (88.161.25.233) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 27 Jun
- 2022 10:38:43 +0200
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-To:     <pavel@ucw.cz>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
-        <andy.shevchenko@gmail.com>
-CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Subject: [PATCH v6 3/3] leds: tlc5925: Add support for non blocking operations
-Date:   Mon, 27 Jun 2022 10:38:35 +0200
-Message-ID: <20220627083835.106676-4-jjhiblot@traphandler.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627083835.106676-1-jjhiblot@traphandler.com>
-References: <20220627083835.106676-1-jjhiblot@traphandler.com>
+        with ESMTP id S232615AbiF0It1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jun 2022 04:49:27 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C8326F1;
+        Mon, 27 Jun 2022 01:49:26 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9C5CF1C0B8F; Mon, 27 Jun 2022 10:49:24 +0200 (CEST)
+Date:   Mon, 27 Jun 2022 10:49:09 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>, krzk+dt@kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] leds: Add driver for the TLC5925 LED controller
+Message-ID: <20220627084909.GA15970@duo.ucw.cz>
+References: <20220609162734.1462625-1-jjhiblot@traphandler.com>
+ <20220609162734.1462625-3-jjhiblot@traphandler.com>
+ <CAHp75Veurvhxi0Pg1Sjxav+3XpDTVOdan8WFFmZmdhJbZJiCaQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [88.161.25.233]
-X-ClientProxiedBy: CAS1.emp2.local (172.16.1.1) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 7824159928964626907
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgtdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffojghfggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeduteevleevvefggfdvueffffejhfehheeuiedtgedtjeeghfehueduudegfeefueenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehvdek
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Disposition: inline
+In-Reply-To: <CAHp75Veurvhxi0Pg1Sjxav+3XpDTVOdan8WFFmZmdhJbZJiCaQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Settings multiple LEDs in a row can be a slow operation because of the
-time required to acquire the bus and prepare the transfer.
-And, in most cases, it is not required that the operation is synchronous.
-Implementing the non-blocking brightness_set() for such cases.
-A work queue is used to perform the actual SPI transfer.
 
-The blocking method is still available in case someone needs to perform
-this operation synchronously (ie by calling led_set_brightness_sync()).
+--UlVJffcvxoiEqYs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/leds/leds-tlc5925.c | 38 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+On Thu 2022-06-09 18:57:24, Andy Shevchenko wrote:
+> On Thu, Jun 9, 2022 at 6:30 PM Jean-Jacques Hiblot
+> <jjhiblot@traphandler.com> wrote:
+> >
+> > The TLC5925 is a 16-channels constant-current LED sink driver.
+> > It is controlled via SPI but doesn't offer a register-based interface.
+> > Instead it contains a shift register and latches that convert the
+> > serial input into a parallel output.
+>=20
+> Can you add Datasheet: tag here with the corresponding URL? Rationale
+> is to get a link to the datasheet by just browsing Git log without
+> browsing the source code, which will benefit via Web UIs.
 
-diff --git a/drivers/leds/leds-tlc5925.c b/drivers/leds/leds-tlc5925.c
-index 797836354c74..0423e3592bd7 100644
---- a/drivers/leds/leds-tlc5925.c
-+++ b/drivers/leds/leds-tlc5925.c
-@@ -18,6 +18,7 @@
- #include <linux/property.h>
- #include <linux/spi/spi.h>
- #include <linux/types.h>
-+#include <linux/workqueue.h>
- 
- #define TLC5925_SHIFT_REGISTER_LENGTH 16
- 
-@@ -29,10 +30,25 @@ struct single_led_priv {
- struct tlc5925_leds_priv {
- 	int max_num_leds;
- 	unsigned long *state;
-+	struct spi_device *spi;
-+	struct work_struct xmit_work;
- 	struct single_led_priv leds[];
- };
- 
--static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
-+static int xmit(struct tlc5925_leds_priv *priv)
-+{
-+	return spi_write(priv->spi, priv->state, BITS_TO_BYTES(priv->max_num_leds));
-+}
-+
-+static void xmit_work(struct work_struct *ws)
-+{
-+	struct tlc5925_leds_priv *priv =
-+		container_of(ws, struct tlc5925_leds_priv, xmit_work);
-+
-+	xmit(priv);
-+};
-+
-+static void tlc5925_brightness_set(struct led_classdev *cdev,
- 					    enum led_brightness brightness)
- {
- 	struct spi_device *spi = to_spi_device(cdev->dev->parent);
-@@ -43,9 +59,23 @@ static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
- 
- 	assign_bit(index, priv->state, !!brightness);
- 
--	return spi_write(spi, priv->state, BITS_TO_BYTES(priv->max_num_leds));
-+	schedule_work(&priv->xmit_work);
- }
- 
-+static int tlc5925_brightness_set_blocking(struct led_classdev *cdev,
-+					    enum led_brightness brightness)
-+{
-+	struct spi_device *spi = to_spi_device(cdev->dev->parent);
-+	struct tlc5925_leds_priv *priv = spi_get_drvdata(spi);
-+	struct single_led_priv *led =
-+		container_of(cdev, struct single_led_priv, cdev);
-+	int index = led->idx;
-+
-+	assign_bit(index, priv->state, !!brightness);
-+
-+	cancel_work_sync(&priv->xmit_work);
-+	return xmit(priv);
-+}
- static int tlc5925_probe(struct spi_device *spi)
- {
- 	struct device *dev = &spi->dev;
-@@ -83,6 +113,9 @@ static int tlc5925_probe(struct spi_device *spi)
- 	if (!priv->state)
- 		return -ENOMEM;
- 
-+	priv->spi = spi;
-+	INIT_WORK(&priv->xmit_work, xmit_work);
-+
- 	priv->max_num_leds = max_num_leds;
- 
- 	device_for_each_child_node(dev, child) {
-@@ -104,6 +137,7 @@ static int tlc5925_probe(struct spi_device *spi)
- 		cdev = &(priv->leds[count].cdev);
- 		cdev->brightness = LED_OFF;
- 		cdev->max_brightness = 1;
-+		cdev->brightness_set = tlc5925_brightness_set;
- 		cdev->brightness_set_blocking = tlc5925_brightness_set_blocking;
- 
- 		ret = devm_led_classdev_register_ext(dev, cdev, &init_data);
--- 
-2.25.1
+If you want to add datasheet url, add it as a comment to the source,
+not to the git log.
 
+Thanks,
+							Pavel
+						=09
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--UlVJffcvxoiEqYs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYrlvBQAKCRAw5/Bqldv6
+8lMjAJ9QpuvQP9tiG3G3LO7oImmcxCl19ACeMx/G70Fqwya3O7MADn4ofhcKyhc=
+=n4C4
+-----END PGP SIGNATURE-----
+
+--UlVJffcvxoiEqYs2--
