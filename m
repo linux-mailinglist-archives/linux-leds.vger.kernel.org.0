@@ -2,100 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DE155E6C0
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jun 2022 18:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B91A55EBC0
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Jun 2022 20:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347288AbiF1ODZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jun 2022 10:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42818 "EHLO
+        id S234070AbiF1SDI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Jun 2022 14:03:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347330AbiF1ODY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Jun 2022 10:03:24 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275762A247
-        for <linux-leds@vger.kernel.org>; Tue, 28 Jun 2022 07:03:23 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6BoH-0008Ko-3A; Tue, 28 Jun 2022 16:03:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6BoC-003DTA-RZ; Tue, 28 Jun 2022 16:03:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o6BoE-001gzK-Q5; Tue, 28 Jun 2022 16:03:18 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de,
-        linux-i2c@vger.kernel.org
-Subject: [PATCH 4/6] leds: lm3601x: Improve error reporting for problems during .remove()
-Date:   Tue, 28 Jun 2022 16:03:10 +0200
-Message-Id: <20220628140313.74984-5-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S233961AbiF1SCv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Jun 2022 14:02:51 -0400
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4E512AF1;
+        Tue, 28 Jun 2022 11:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1656438116; bh=vDRo6n6+RakJAT66r0udKc/DY6YnG0bhUMMuNDc/DBg=;
+        h=X-EA-Auth:From:To:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+         Content-Transfer-Encoding;
+        b=eqKLt8wVQ067GjhlAfRjYE74up8K/4iRgOW3lGQxv8OijV82Y8rh373Rsg9mZ9H2F
+         MJdB82WlNLLEMKWBrh6vcbfzO5j85xcgOQKNmTE7K5BX97kAiQb59djOw9e7xqszvA
+         Il14Nk+awIe1MxjEGW+aqWINB1itt0ZqzmiEf4bc=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+        via [213.182.55.207]
+        Tue, 28 Jun 2022 19:41:56 +0200 (CEST)
+X-EA-Auth: 3MnPSvpoD2/RL1zc5ouy3XYMkjEVCTTCl8Ut9aXrsEXN4e8K/L2YlCm2P6S7ZE9/Wb/R2eMxwXQjFrIOis7JX/Yzra+62uPGKB2sB7Si7EU=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/7] Fix/Add is31fl319{0,1,3} support
+Date:   Tue, 28 Jun 2022 19:41:15 +0200
+Message-Id: <20220628174124.2819238-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1541; h=from:subject; bh=KYZrnMIsHWPEQ0VMi38pLX+3N1MFh5aofr4bwRSMKj8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiuwoQedus2oXqZ4lI1Y7ykicmNsI6/10UBQjPhQof kzxCC1qJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYrsKEAAKCRDB/BR4rcrsCbcaB/ 45l952SnWhWwVGYrGXrGIq2ENWvFSEXwsGGIXxflWkNC6ZcUKnh+l9powkiWgrSTHVCA0TNemxsKzE V4lQyZYwo/Chp+nZxT46S/7NSOO22lgTfVI+ssVDQdXZkKuRn0XwJV1FXahhhzSlAzv4yK3/juoGy0 9zU6mve+I2dD4pr5qavC2P9dDMNWoJN1l/4oBzm17p5dC7j20LC7JN70RaNnqut5RSHNcpVF5J3IBJ eeAJWCQf15BilBfwAiya8f04SDeYfmk6yybww2ermpHzsQPYceTZdUZYOrXArjF63q89uzMVa96M18 /F7pA2Ak8HF7TBvjhkhHo+xCUF9WV+
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Returning an error value in an i2c remove callback results in a generic
-error message being emitted by the i2c core, but otherwise it doesn't
-make a difference. The device goes away anyhow and the devm cleanups are
-called.
+The is31fl3190, is31fl3191 and is31fl3193 chips (1 or 3 PWM channels)
+cannot be handled the same as is31fl3196 and is31fl3199,
+if only because the register map is different.
+Also:
+- the software shutdown bit is reversed
+- and additional field needs to be set to enable all channels
+- the led-max-microamp current values and setting are not the same
 
-So instead of triggering the generic i2c error message, emit a more
-helpful message if a problem occurs and return 0 to suppress the generic
-message.
+Datasheets:
+https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
 
-This patch is a preparation for making i2c remove callbacks return void.
+This series:
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Forwarded: id:20220513102516.271920-1-u.kleine-koenig@pengutronix.de
----
- drivers/leds/flash/leds-lm3601x.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+- converts dt-bindings to dtschema, adding all si-en compatibles
+  for convenience and consistency, and adding constraints on
+  supported values for eg. reg address and led-max-microamp
 
-diff --git a/drivers/leds/flash/leds-lm3601x.c b/drivers/leds/flash/leds-lm3601x.c
-index 3d1272748201..37e1d6e68687 100644
---- a/drivers/leds/flash/leds-lm3601x.c
-+++ b/drivers/leds/flash/leds-lm3601x.c
-@@ -443,10 +443,15 @@ static int lm3601x_probe(struct i2c_client *client)
- static int lm3601x_remove(struct i2c_client *client)
- {
- 	struct lm3601x_led *led = i2c_get_clientdata(client);
-+	int ret;
- 
--	return regmap_update_bits(led->regmap, LM3601X_ENABLE_REG,
--			   LM3601X_ENABLE_MASK,
--			   LM3601X_MODE_STANDBY);
-+	ret = regmap_update_bits(led->regmap, LM3601X_ENABLE_REG,
-+				 LM3601X_ENABLE_MASK, LM3601X_MODE_STANDBY);
-+	if (ret)
-+		dev_warn(&client->dev,
-+			 "Failed to put into standby (%pe)\n", ERR_PTR(ret));
-+
-+	return 0;
- }
- 
- static const struct i2c_device_id lm3601x_id[] = {
+- changes vars, structs and defines to not use 319X suffix
+  but 3190 for 319{0,1,3} and 3196 for 319{6,9}
+
+- adds fields in chipdef struct for chip-specific values
+
+- only in the last patch, adds is31fl319{0,1,3} specific values
+  so those chips can work.
+
+Tested on msm8916-alcatel-idol347, which probably has an
+is31fl3190 or is31fl3191 (only one white led indicator).
+
+Vincent Knecht (7):
+  dt-bindings: leds: Convert is31fl319x to dtschema
+  dt-bindings: leds: is31fl319x: Add missing si-en compatibles
+  leds: is31fl319x: Add missing si-en compatibles
+  dt-bindings: leds: is31fl319x: Document variants specificities
+  leds: is31fl319x: Use non-wildcard names for vars, structs and defines
+  leds: is31fl319x: Move chipset-specific values in chipdef struct
+  leds: is31fl319x: Add support for is31fl319{0,1,3} chips
+
+ .../bindings/leds/issi,is31fl319x.yaml        | 193 +++++++++
+ .../bindings/leds/leds-is31fl319x.txt         |  61 ---
+ drivers/leds/leds-is31fl319x.c                | 406 +++++++++++++-----
+ 3 files changed, 488 insertions(+), 172 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+
 -- 
-2.36.1
+2.35.3
+
+
 
