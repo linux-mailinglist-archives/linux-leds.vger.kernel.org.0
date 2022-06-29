@@ -2,624 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D33E05604F3
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Jun 2022 17:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1528560601
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Jun 2022 18:40:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232470AbiF2Pww (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 29 Jun 2022 11:52:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34012 "EHLO
+        id S229664AbiF2QkM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Jun 2022 12:40:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbiF2Pww (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Jun 2022 11:52:52 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008711FCF6;
-        Wed, 29 Jun 2022 08:52:50 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id z191so16398488iof.6;
-        Wed, 29 Jun 2022 08:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m3srbM8QGWrZhwGq/B370AsvjDk8BediS0HIOgFCe3E=;
-        b=TEqaPH+b8J+kXTgX6LEBz8BN99Q66IkyfTj6NQf26Ir9KFKzJZQhZNNYMMGqRDSXRo
-         7G8RPAE3Ivq80Rkwp/+ZUB/616P7/Lyl6qshrI567HvQ9t6/P6X0G1jLWZWUOjIkoWSt
-         cWz4d4UdzcRBwtU09wfItyTJ5bA1klYc7TJ6RafHaP3Yo88QQKuHk1zI/qe3q/vWt9au
-         LlVlhUhn+6HuKRK3wVWiMaHNlFbychaZJGtyZvVICV8gpj2/STktb0MXl1ilulpiV/Zf
-         ZL+ykSxuyluILTFp3WJD6ZM2Ux79vUgPcg9FYBVp7HCc9nzlsTEp25Ooc7reCsJUgvA9
-         j6vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m3srbM8QGWrZhwGq/B370AsvjDk8BediS0HIOgFCe3E=;
-        b=s8Q/WrTy4eqEd8IQXefqdG41wyUCi3GwTfmdbhrbSobmP1tJa+iWD/3SYMOWDyYKOp
-         w8iYQWO4FzfA9yaSI7VJkgbs3r60Hye5O5yaDBEZWCQqXDLHu7tqTvhAq5hFNST/D7LB
-         cvG1vSbiLMngasYrt5AX5khoNFG07K5OuBXZELvb8fF07TBFsC2zP6IQqMeT3DvmyOqW
-         3n/3IvUysZvE76z9ogRd6uq1vU36ylHdYytywv77E4zm/GxhBLOj8DGP7yfY2gbCuCX7
-         kCz+jMnN7AzpFOopcUIpXY1/ryWyt8qror351X0QrrYMN/HVprhhpIs4Ree7bmXZHIHx
-         QoLg==
-X-Gm-Message-State: AJIora87TtyL/O9LGmeqZCyfpwQc9YVz2Q6zhOZHtOowdtin0049ZqLG
-        4k1sY3f5aQ2UmT1OVq4wirNrMuInWJNJkiMjCf4=
-X-Google-Smtp-Source: AGRyM1t+rE4Wwngtg5YS4SsXmN+Nyw4Tu9pZHHDpNjJP8e9iQDVbLMC6ySWAMXPj73PzqGNOmA4LXfYcAJyLHSyBKfs=
-X-Received: by 2002:a05:6638:14c7:b0:33c:c6ff:4d74 with SMTP id
- l7-20020a05663814c700b0033cc6ff4d74mr2346897jak.254.1656517968775; Wed, 29
- Jun 2022 08:52:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220623115631.22209-1-peterwu.pub@gmail.com> <20220623115631.22209-12-peterwu.pub@gmail.com>
- <CAHp75Vf2UAVgWS1nu8iwNjESWHQGOMWcNMUFShZ8Q_Qp3fssdQ@mail.gmail.com>
-In-Reply-To: <CAHp75Vf2UAVgWS1nu8iwNjESWHQGOMWcNMUFShZ8Q_Qp3fssdQ@mail.gmail.com>
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Wed, 29 Jun 2022 23:52:33 +0800
-Message-ID: <CABtFH5J8GVXQMKmsUs2HfjV-p_rx4gLdCTKsDP_aCJWzE4AVeQ@mail.gmail.com>
-Subject: Re: [PATCH v3 11/14] power: supply: mt6370: Add Mediatek MT6370
- charger driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        with ESMTP id S229479AbiF2QkL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Jun 2022 12:40:11 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644292C11C;
+        Wed, 29 Jun 2022 09:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656520810; x=1688056810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z+hcQzKepqpV4YWC94+CLnyEkG6YeuxWItwkjNGgn3g=;
+  b=EMRW4yYMOut+YvJiCcEB/BGuUvjzqEzgX9f5bC9NWVMYs6cnTWIe3WsI
+   T6YkypOYsWZ/OLVPV8f5g5zspOYHdmoP7AINP4P2SWAuBeX2ygDN3vXoZ
+   rUGXuRCQrR6WL24VKXhV+NoEMuybUALfGA9WSeuKPfdK4lUMKvnG5Mjc/
+   7uBpK0Suq3innGLuCCU6bTB+dGOTuBMIsRf/cLA2YeNnZXtTV6o+8No4x
+   RdLkwQCfTfTGQgNsO7dvOjRqGRW4166hFId7Rb5M1/B9NZgiacPTvslkK
+   WyBaqJMNOYz3BNdwJcH1z3//EMNFHQ2qQXwO08sgRMqCYfRqFGAIMvosh
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="307579352"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="307579352"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 09:40:09 -0700
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; 
+   d="scan'208";a="617628857"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 09:40:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o6ajO-000xuI-Nk;
+        Wed, 29 Jun 2022 19:39:58 +0300
+Date:   Wed, 29 Jun 2022 19:39:58 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
+Message-ID: <YryAXlZqcr/liN7n@smile.fi.intel.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+ <YqBS8I62YBPFC9iS@google.com>
+ <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
+ <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
++Cc: Rafael
 
-Sorry for the late reply, I have some questions to ask you below. Thanks!
+On Tue, Jun 21, 2022 at 02:58:16PM +0300, Andy Shevchenko wrote:
+> On Wed, Jun 08, 2022 at 12:50:44PM +0200, Andy Shevchenko wrote:
+> > On Wed, Jun 8, 2022 at 9:42 AM Lee Jones <lee.jones@linaro.org> wrote:
+> > > On Mon, 06 Jun 2022, Andy Shevchenko wrote:
+> > >
+> > > > There are a few users that would like to utilize P2SB mechanism of hiding
+> > > > and unhiding a device from the PCI configuration space.
+> > > >
+> > > > Here is the series to consolidate p2sb handling code for existing users
+> > > > and to provide a generic way for new comer(s).
+> > > >
+> > > > It also includes a patch to enable GPIO controllers on Apollo Lake
+> > > > when it's used with ABL bootloader w/o ACPI support.
+> > > >
+> > > > The patch that brings the helper ("platform/x86/intel: Add Primary to
+> > > > Sideband (P2SB) bridge support") has a commit message that sheds a light
+> > > > on what the P2SB is and why this is needed.
+> > > >
+> > > > I have tested this on Apollo Lake platform (I'm able to see SPI NOR and
+> > > > since we have an ACPI device for GPIO I do not see any attempts to recreate
+> > > > one).
+> > > >
+> > > > The series is ready to be merged via MFD tree, but see below.
+> > > >
+> > > > The series also includes updates for Simatic IPC drivers that partially
+> > > > tagged by respective maintainers (the main question is if Pavel is okay
+> > > > with the last three patches, since I believe Hans is okay with removing
+> > > > some code under PDx86). Hence the first 8 patches can be merged right
+> > > > away and the rest when Pavel does his review.
+> > >
+> > > Can we just wait for Pavel's review, then merge them all at once?
+> > 
+> > Sure, it would be the best course of action.
+> 
+> Pavel, do you have a chance to review the patches (last three) that touch
+> LED drivers? What would be your verdict?
 
-Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=
-=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E5=87=8C=E6=99=A82:56=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Thu, Jun 23, 2022 at 2:00 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> >
-> > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> >
-> > Add Mediatek MT6370 charger driver.
->
-> ...
->
-> > +config CHARGER_MT6370
-> > +       tristate "Mediatek MT6370 Charger Driver"
-> > +       depends on MFD_MT6370
-> > +       depends on REGULATOR
-> > +       select LINEAR_RANGES
-> > +       help
-> > +         Say Y here to enable MT6370 Charger Part.
-> > +         The device supports High-Accuracy Voltage/Current Regulation,
-> > +         Average Input Current Regulation, Battery Temperature Sensing=
-,
-> > +         Over-Temperature Protection, DPDM Detection for BC1.2.
->
-> Module name?
->
-> ...
->
-> > +#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
->
-> This usually goes after linux/*
->
-> > +#include <linux/atomic.h>
-> > +#include <linux/bitfield.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/iio/consumer.h>
-> > +#include <linux/init.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
->
-> > +#include <linux/of.h>
->
->
-> > +#include <linux/platform_device.h>
-> > +#include <linux/power_supply.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/driver.h>
-> > +#include <linux/workqueue.h>
->
-> ...
->
-> > +#define MT6370_MIVR_IBUS_TH            100000          /* 100 mA */
->
-> Instead of comment, add proper units.
->
-> ...
->
-> > +       MT6370_USB_STAT_DCP,
-> > +       MT6370_USB_STAT_CDP,
-> > +       MT6370_USB_STAT_MAX,
->
-> No comma for a terminator line.
->
-> ...
->
-> > +static inline u32 mt6370_chg_val_to_reg(const struct mt6370_chg_range =
-*range,
-> > +                                       u32 val)
-> > +static inline u32 mt6370_chg_reg_to_val(const struct mt6370_chg_range =
-*range,
-> > +                                       u8 reg)
->
-> I'm wondering if you can use the
-> https://elixir.bootlin.com/linux/v5.19-rc3/source/include/linux/linear_ra=
-nge.h
-> APIs.
+Lee, Rafael,
 
-Thanks for your helpful comments!
-I will refine it in the next patch!
+It seems quite hard to get Pavel's attention to this series [1]. It's already
+passed more than 3 weeks for any sign of review of three top patches of the
+series that touched LED subsystem. The entire series has all necessary tags,
+but for LED changes.
 
->
-> ...
->
-> > +       int ret =3D 0;
->
-> This seems a redundant assignment, see below.
->
-> > +       rcfg->ena_gpiod =3D fwnode_gpiod_get_index(of_fwnode_handle(of)=
-,
-> > +                                                "enable", 0,
->
-> For index =3D=3D 0 don't use _index API.
->
-> > +                                                GPIOD_OUT_LOW |
-> > +                                                GPIOD_FLAGS_BIT_NONEXC=
-LUSIVE,
-> > +                                                rdesc->name);
-> > +       if (IS_ERR(rcfg->ena_gpiod)) {
-> > +               dev_err(priv->dev, "Failed to requeset OTG EN Pin\n");
->
-> request
->
-> > +               rcfg->ena_gpiod =3D NULL;
->
-> So, use _optional and return any errors you got.
+Note, that the top of this series is not done by me and was sent for
+preliminary review much earlier [2], altogether it makes months of no response from
+the maintainer.
 
-These days, I tried to use various APIs in <gpio/consumer.h>, and also
-try to use _optional APIs.
-But my OTG regulator node is a child node of the charger node, like below.
----------------------------------------------------------------------------=
--
-// copy-paste from our mfd dt-binding example
-        charger {
-          compatible =3D "mediatek,mt6370-charger";
-          interrupts =3D <48>, <68>, <6>;
-          interrupt-names =3D "attach_i", "uvp_d_evt", "mivr";
-          io-channels =3D <&mt6370_adc MT6370_CHAN_IBUS>;
+The nature of patches is pretty simple and doesn't touch any of other than Simatic LED
+drivers nor LED core. Moreover, it was written by Siemens, who produces the H/W in
+question and very well tested as a separate change and as part of the series.
 
-          mt6370_otg_vbus: usb-otg-vbus-regulator {
-            regulator-name =3D "mt6370-usb-otg-vbus";
-            regulator-min-microvolt =3D <4350000>;
-            regulator-max-microvolt =3D <5800000>;
-            regulator-min-microamp =3D <500000>;
-            regulator-max-microamp =3D <3000000>;
-          };
-        };
----------------------------------------------------------------------------=
--
-Hence, if I use _optional APIs, it will always get NULL.
-And, If I use 'gpiod_get_from_of_node' here, this API will only parse
-the 'enable' property, not 'enable-gpio' or 'enable-gpios', we need to
-add the '-gpio' suffix before we use this API.
+I think to move forward we may ask Rafael to review it on behalf of good maintainer
+and with his approval apply entire series.
 
-Only 'fwnode_gpiod_get_index' can match this case. Although fwnode
-parsing is not preferred, 'of_parse_cb' already can guarantee the
-callback will only be used by the regulator of_node parsing.
+Thoughts?
 
->
-> > +       } else {
-> > +               val =3D MT6370_OPA_MODE_MASK | MT6370_OTG_PIN_EN_MASK;
-> > +               ret =3D regmap_update_bits(priv->regmap, MT6370_REG_CHG=
-_CTRL1,
-> > +                                        val, val);
-> > +               if (ret)
-> > +                       dev_err(priv->dev, "Failed to set otg bits\n");
-> > +       }
->
-> ...
->
-> > +       irq_num =3D platform_get_irq_byname(pdev, irq_name);
->
-> > +
->
-> Unwanted blank line.
->
-> > +       if (irq_num < 0) {
->
-> > +               dev_err(priv->dev, "Failed to get platform resource\n")=
-;
->
-> Isn't it printed by the call?
->
-> > +       } else {
-> > +               if (en)
-> > +                       enable_irq(irq_num);
-> > +               else
-> > +                       disable_irq_nosync(irq_num);
-> > +       }
->
-> ...
->
-> > +toggle_cfo_exit:
->
-> The useless label.
->
-> > +       return ret;
-> > +}
->
-> ...
->
-> > +       ret =3D mt6370_chg_get_online(priv, val);
-> > +       if (!val->intval) {
->
-> No error check?
+[1]: https://lore.kernel.org/all/20220606164138.66535-1-andriy.shevchenko@linux.intel.com/
+[2]: https://lore.kernel.org/linux-leds/20220513083652.974-1-henning.schild@siemens.com/
 
-I replace "mt6370_chg_get_online()" with "power_supply_get_property()"
-and add some error check.
-Could it meet your expectations??
+-- 
+With Best Regards,
+Andy Shevchenko
 
->
-> > +               val->intval =3D POWER_SUPPLY_STATUS_DISCHARGING;
-> > +               return 0;
-> > +       }
->
-> ...
->
-> > +static int mt6370_chg_set_online(struct mt6370_priv *priv,
-> > +                                const union power_supply_propval *val)
-> > +{
-> > +       int attach;
-> > +       u32 pwr_rdy =3D !!val->intval;
-> > +
-> > +       mutex_lock(&priv->attach_lock);
-> > +       attach =3D atomic_read(&priv->attach);
-> > +       if (pwr_rdy =3D=3D !!attach) {
-> > +               dev_err(priv->dev, "pwr_rdy is same(%d)\n", pwr_rdy);
-> > +               mutex_unlock(&priv->attach_lock);
-> > +               return 0;
-> > +       }
-> > +
-> > +       atomic_set(&priv->attach, pwr_rdy);
-> > +       mutex_unlock(&priv->attach_lock);
-> > +
-> > +       if (!queue_work(priv->wq, &priv->bc12_work))
-> > +               dev_err(priv->dev, "bc12 work has already queued\n");
-> > +
-> > +       return 0;
->
-> > +
->
-> Unwanted blank line.
->
-> > +}
->
-> > +static int mt6370_chg_get_property(struct power_supply *psy,
-> > +                                  enum power_supply_property psp,
-> > +                                  union power_supply_propval *val)
-> > +{
-> > +       struct mt6370_priv *priv =3D power_supply_get_drvdata(psy);
-> > +       int ret =3D 0;
-> > +
-> > +       switch (psp) {
-> > +       case POWER_SUPPLY_PROP_ONLINE:
-> > +               ret =3D mt6370_chg_get_online(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_STATUS:
-> > +               ret =3D mt6370_chg_get_status(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CHARGE_TYPE:
-> > +               ret =3D mt6370_chg_get_charge_type(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
-> > +               ret =3D mt6370_chg_get_ichg(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX:
-> > +               ret =3D mt6370_chg_get_max_ichg(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
-> > +               ret =3D mt6370_chg_get_cv(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE_MAX:
-> > +               ret =3D mt6370_chg_get_max_cv(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
-> > +               ret =3D mt6370_chg_get_aicr(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
-> > +               ret =3D mt6370_chg_get_mivr(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_PRECHARGE_CURRENT:
-> > +               ret =3D mt6370_chg_get_iprechg(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
-> > +               ret =3D mt6370_chg_get_ieoc(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_TYPE:
-> > +               val->intval =3D priv->psy_desc->type;
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_USB_TYPE:
-> > +               val->intval =3D priv->psy_usb_type;
-> > +               break;
-> > +       default:
-> > +               ret =3D -EINVAL;
-> > +               break;
-> > +       }
-> > +
-> > +       return ret;
->
-> In all cases, return directly.
->
-> > +}
->
-> ...
->
-> > +       switch (psp) {
-> > +       case POWER_SUPPLY_PROP_ONLINE:
-> > +               ret =3D mt6370_chg_set_online(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
-> > +               ret =3D mt6370_chg_set_ichg(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
-> > +               ret =3D mt6370_chg_set_cv(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
-> > +               ret =3D mt6370_chg_set_aicr(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
-> > +               ret =3D mt6370_chg_set_mivr(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_PRECHARGE_CURRENT:
-> > +               ret =3D mt6370_chg_set_iprechg(priv, val);
-> > +               break;
-> > +       case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
-> > +               ret =3D mt6370_chg_set_ieoc(priv, val);
-> > +               break;
-> > +       default:
-> > +               ret =3D -EINVAL;
-> > +       }
-> > +       return ret;
->
-> As per above.
->
-> ...
->
-> > +       for (i =3D 0; i < F_MAX; i++) {
-> > +               priv->rmap_fields[i] =3D devm_regmap_field_alloc(priv->=
-dev,
-> > +                                                              priv->re=
-gmap,
-> > +                                                              fds[i].f=
-ield);
-> > +               if (IS_ERR(priv->rmap_fields[i])) {
-> > +                       dev_err(priv->dev,
-> > +                               "Failed to allocate regmap field [%s]\n=
-",
-> > +                               fds[i].name);
-> > +                       return PTR_ERR(priv->rmap_fields[i]);
->
-> return dev_err_probe();
->
-> > +               }
-> > +       }
->
-> ...
->
-> > +       mutex_init(&priv->attach_lock);
-> > +       atomic_set(&priv->attach, 0);
->
-> Why not atomic_init() ?
-> But yeah, usage of it and other locking mechanisms in this driver are
-> questionable.
 
-I will refine it in the next patch!
-
->
-> ...
->
-> > +       /* ICHG/IEOC Workaroud, ICHG can not be set less than 900mA */
->
-> Workaround
->
-> ...
->
-> > +       return IS_ERR(priv->rdev) ? PTR_ERR(priv->rdev) : 0;
->
-> PTR_ERR_OR_ZERO()
->
-> ...
->
-> > +               .of_node =3D priv->dev->of_node,
->
-> dev_of_node() ?
->
-> > +       };
-> > +
-> > +       priv->psy_desc =3D &mt6370_chg_psy_desc;
-> > +       priv->psy_desc->name =3D dev_name(priv->dev);
-> > +       priv->psy =3D devm_power_supply_register(priv->dev, priv->psy_d=
-esc, &cfg);
-> > +
-> > +       return IS_ERR(priv->psy) ? PTR_ERR(priv->psy) : 0;
->
-> PTR_ERR_OR_ZERO()
->
-> > +}
->
-> ...
->
-> > +static irqreturn_t mt6370_attach_i_handler(int irq, void *data)
-> > +{
-> > +       struct mt6370_priv *priv =3D data;
-> > +       u32 otg_en;
-> > +       int ret;
-> > +
-> > +       /* Check in otg mode or not */
-> > +       ret =3D mt6370_chg_field_get(priv, F_BOOST_STAT, &otg_en);
-> > +       if (ret < 0) {
-> > +               dev_err(priv->dev, "failed to get otg state\n");
-> > +               return IRQ_HANDLED;
->
-> Handled error?
->
-> > +       }
-> > +
-> > +       if (otg_en)
-> > +               return IRQ_HANDLED;
->
-> > +       mutex_lock(&priv->attach_lock);
-> > +       atomic_set(&priv->attach, MT6370_ATTACH_STAT_ATTACH_BC12_DONE);
-> > +       mutex_unlock(&priv->attach_lock);
->
-> Mutex around atomic?! It's interesting...
-
-I will revise it in the next patch.
-
->
-> > +       if (!queue_work(priv->wq, &priv->bc12_work))
-> > +               dev_err(priv->dev, "bc12 work has already queued\n");
-> > +
-> > +       return IRQ_HANDLED;
-> > +}
->
-> ...
->
-> > +       for (i =3D 0; i < ARRAY_SIZE(mt6370_chg_irqs); i++) {
-> > +               ret =3D platform_get_irq_byname(to_platform_device(priv=
-->dev),
-> > +                                             mt6370_chg_irqs[i].name);
-> > +               if (ret < 0) {
-> > +                       dev_err(priv->dev, "Failed to get irq %s\n",
-> > +                               mt6370_chg_irqs[i].name);
->
-> Isn't the same printed by the above call?
-
-well... yes they are similar, I will remove one of them in the next patch.
-
->
-> > +                       return ret;
-> > +               }
-> > +
-> > +               ret =3D devm_request_threaded_irq(priv->dev, ret, NULL,
-> > +                                               mt6370_chg_irqs[i].hand=
-ler,
-> > +                                               IRQF_TRIGGER_FALLING,
-> > +                                               dev_name(priv->dev),
-> > +                                               priv);
-> > +
-> > +               if (ret < 0) {
-> > +                       dev_err(priv->dev, "Failed to request irq %s\n"=
-,
-> > +                               mt6370_chg_irqs[i].name);
-> > +                       return ret;
->
-> return dev_err_probe();
->
-> > +               }
-> > +       }
->
-> ...
->
-> > +static int mt6370_chg_probe(struct platform_device *pdev)
-> > +{
->
->
-> Use return dev_err_probe(...); pattern.
->
-> > +probe_out:
-> > +       destroy_workqueue(priv->wq);
-> > +       mutex_destroy(&priv->attach_lock);
->
-> I don't see clearly the initialization of these in the ->probe().
-> Besides that, does destroy_workque() synchronize the actual queue(s)?
->
-> Mixing devm_ and non-devm_ may lead to a wrong release order that's
-> why it is better to see allocating and destroying resources in one
-> function (they may be wrapped, but should be both of them, seems like
-> you have done it only for the first parts).
-
-OK, I will try to revise these in the next patch!
-
->
-> > +       return ret;
-> > +}
->
-> ...
->
-> > +static int mt6370_chg_remove(struct platform_device *pdev)
-> > +{
-> > +       struct mt6370_priv *priv =3D platform_get_drvdata(pdev);
-> > +
-> > +       if (priv) {
->
-> Can you describe when this condition can be false?
-
-well... I will remove it in the next patch, sorry for making this
-stupid mistake...
-
->
-> > +               mt6370_chg_enable_irq(priv, "mivr", false);
-> > +               cancel_delayed_work_sync(&priv->mivr_dwork);
-> > +               destroy_workqueue(priv->wq);
-> > +               mutex_destroy(&priv->attach_lock);
-> > +       }
-> > +
-> > +       return 0;
-> > +}
->
-> ...
->
-> > +static struct platform_driver mt6370_chg_driver =3D {
-> > +       .probe =3D mt6370_chg_probe,
-> > +       .remove =3D mt6370_chg_remove,
-> > +       .driver =3D {
-> > +               .name =3D "mt6370-charger",
-> > +               .of_match_table =3D of_match_ptr(mt6370_chg_of_match),
->
-> No good use of of_match_ptr(), please drop it.
->
-> > +       },
-> > +};
->
-> --
-> With Best Regards,
-> Andy Shevchenko
-
-Thanks for your review!
-
-Best regards,
-ChiaEn Wu
