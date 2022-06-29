@@ -2,102 +2,363 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A886155F32B
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Jun 2022 04:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 267C355F957
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Jun 2022 09:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbiF2CJr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jun 2022 22:09:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58546 "EHLO
+        id S232255AbiF2Hly (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Jun 2022 03:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230359AbiF2CJr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Jun 2022 22:09:47 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538602CE38;
-        Tue, 28 Jun 2022 19:09:46 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id h85so14683077iof.4;
-        Tue, 28 Jun 2022 19:09:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=JARNJ/aUAAWYF8Kp9K5vhEa9VQqjpKlqU+P1/PZeinw=;
-        b=m5tH2CVBLf67LXgaKfGIzaRr0/Sg/Usy2R+Xwglpjc5ezzlUm5ERzaO4VM9A7jpkcQ
-         rp1lvPx9iy1OAaErBthIswwJnUhUvT4m7hv5J1rvdMDQDGXD/XgDrX7XPHnzMgh6cnXn
-         F9XqKE5BdI+6FT8Po8DOh73eFhr9/uio7wTpFin3ErJ+JGuf7zQsDkn+bn1sUUu+A88s
-         qDafDYhBSTbg5HESvlbJ73A8HIk8VPu1GsQ1B8kY++wSthKFtOaaKp184hng0V7XQSeR
-         fXANRyHr0mOwPTuFEgPrheYa3oDBYClNk8/M4Z1m9ZWkYpvmKWZIew9WMjQCjpscvesV
-         xN6Q==
-X-Gm-Message-State: AJIora+PIZ4wSQ2WfuzdM+laKIs0HfY4ituSVlsUn1REV2FZztbsCqmS
-        vyUvcVSvIlkAPxu6ze2uEg==
-X-Google-Smtp-Source: AGRyM1slPM29QAD/Q6rfKGUPHPz46pGl5j8ASLSRBWb17aap3g6ZtMAMFFX/FUCNsC04wBp4fZMJAw==
-X-Received: by 2002:a6b:7a46:0:b0:675:7cc7:516b with SMTP id k6-20020a6b7a46000000b006757cc7516bmr546965iop.43.1656468585563;
-        Tue, 28 Jun 2022 19:09:45 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id y7-20020a5d94c7000000b006752c67c7c3sm4738029ior.19.2022.06.28.19.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 19:09:45 -0700 (PDT)
-Received: (nullmailer pid 1403672 invoked by uid 1000);
-        Wed, 29 Jun 2022 02:09:39 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-In-Reply-To: <20220628182147.2837180-2-vincent.knecht@mailoo.org>
-References: <20220628182147.2837180-1-vincent.knecht@mailoo.org> <20220628182147.2837180-2-vincent.knecht@mailoo.org>
-Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to dtschema
-Date:   Tue, 28 Jun 2022 20:09:39 -0600
-Message-Id: <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229820AbiF2Hlv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Jun 2022 03:41:51 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F1236B42;
+        Wed, 29 Jun 2022 00:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656488510; x=1688024510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hRLWAheTUgpMqJ+CTyhb8q72eqCf5jXCD+qdlPmQdX8=;
+  b=V7EsYYr9EIij1ip70+OQMY/gzrh5wyGiKcYp8AWCHb25bOJrQa8ldVVA
+   WjfiGM9RSi7+O2v6aTzjnGFtciC06e+wwz660J8d1fRqDhDUuFa+GCisT
+   rKUaoFvcqeLu972MEnNCCaodyFq5KFw65hrEObpxXK1USTMOqGTNjghk1
+   M6eAb7r6RhwTd49jKSf+itMDaZ5Gu/jHoVMqNBN++BYhLvCzxTurIoN9M
+   /3H0k+pz3CbrRrMwvdgEhSQ7BUW5H6fpDqV6CtG6BHjQGM7QYyLOK833q
+   sD1PkwJUKQH1n3D/+a5t4ubmQSAULxHZs8gKZv4cjGcBr80q05Z6ghIMA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="307444900"
+X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; 
+   d="scan'208";a="307444900"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 00:41:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; 
+   d="scan'208";a="733074160"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 29 Jun 2022 00:40:24 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 29 Jun 2022 10:40:23 +0300
+Date:   Wed, 29 Jun 2022 10:40:23 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Russell King <linux@armlinux.org.uk>,
+        Scott Wood <oss@buserror.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Robin van der Gracht <robin@protonic.nl>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Corey Minyard <minyard@acm.org>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Phong LE <ple@baylibre.com>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Martin Donnelly <martin.donnelly@ge.com>,
+        Martyn Welch <martyn.welch@collabora.co.uk>,
+        Douglas Anderson <dianders@chromium.org>,
+        Stefan Mavrodiev <stefan@olimex.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Florian Fainelli <f.fainelli@gmail.com>, Broad@vger.kernel.org
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <YrwB5xPKZmHlXzrC@kuha.fi.intel.com>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
-> Convert leds-is31fl319x.txt to dtschema.
-> Set license to the one recommended by DT project.
-> 
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> ---
->  .../bindings/leds/issi,is31fl319x.yaml        | 113 ++++++++++++++++++
->  .../bindings/leds/leds-is31fl319x.txt         |  61 ----------
->  2 files changed, 113 insertions(+), 61 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-> 
+On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
+> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+> index cd47c3597e19..2a58185fb14c 100644
+> --- a/drivers/usb/typec/hd3ss3220.c
+> +++ b/drivers/usb/typec/hd3ss3220.c
+> @@ -245,14 +245,12 @@ static int hd3ss3220_probe(struct i2c_client *client,
+>  	return ret;
+>  }
+>  
+> -static int hd3ss3220_remove(struct i2c_client *client)
+> +static void hd3ss3220_remove(struct i2c_client *client)
+>  {
+>  	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
+>  
+>  	typec_unregister_port(hd3ss3220->port);
+>  	usb_role_switch_put(hd3ss3220->role_sw);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct of_device_id dev_ids[] = {
+> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
+> index 6184f5367190..d6495e533e58 100644
+> --- a/drivers/usb/typec/mux/fsa4480.c
+> +++ b/drivers/usb/typec/mux/fsa4480.c
+> @@ -181,14 +181,12 @@ static int fsa4480_probe(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int fsa4480_remove(struct i2c_client *client)
+> +static void fsa4480_remove(struct i2c_client *client)
+>  {
+>  	struct fsa4480 *fsa = i2c_get_clientdata(client);
+>  
+>  	typec_mux_unregister(fsa->mux);
+>  	typec_switch_unregister(fsa->sw);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id fsa4480_table[] = {
+> diff --git a/drivers/usb/typec/mux/pi3usb30532.c b/drivers/usb/typec/mux/pi3usb30532.c
+> index 6ce9f282594e..1cd388b55c30 100644
+> --- a/drivers/usb/typec/mux/pi3usb30532.c
+> +++ b/drivers/usb/typec/mux/pi3usb30532.c
+> @@ -160,13 +160,12 @@ static int pi3usb30532_probe(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int pi3usb30532_remove(struct i2c_client *client)
+> +static void pi3usb30532_remove(struct i2c_client *client)
+>  {
+>  	struct pi3usb30532 *pi = i2c_get_clientdata(client);
+>  
+>  	typec_mux_unregister(pi->mux);
+>  	typec_switch_unregister(pi->sw);
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id pi3usb30532_table[] = {
+> diff --git a/drivers/usb/typec/rt1719.c b/drivers/usb/typec/rt1719.c
+> index f1b698edd7eb..ea8b700b0ceb 100644
+> --- a/drivers/usb/typec/rt1719.c
+> +++ b/drivers/usb/typec/rt1719.c
+> @@ -930,14 +930,12 @@ static int rt1719_probe(struct i2c_client *i2c)
+>  	return ret;
+>  }
+>  
+> -static int rt1719_remove(struct i2c_client *i2c)
+> +static void rt1719_remove(struct i2c_client *i2c)
+>  {
+>  	struct rt1719_data *data = i2c_get_clientdata(i2c);
+>  
+>  	typec_unregister_port(data->port);
+>  	usb_role_switch_put(data->role_sw);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct of_device_id __maybe_unused rt1719_device_table[] = {
+> diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
+> index e7745d1c2a5c..8638f1d39896 100644
+> --- a/drivers/usb/typec/stusb160x.c
+> +++ b/drivers/usb/typec/stusb160x.c
+> @@ -801,7 +801,7 @@ static int stusb160x_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static int stusb160x_remove(struct i2c_client *client)
+> +static void stusb160x_remove(struct i2c_client *client)
+>  {
+>  	struct stusb160x *chip = i2c_get_clientdata(client);
+>  
+> @@ -823,8 +823,6 @@ static int stusb160x_remove(struct i2c_client *client)
+>  
+>  	if (chip->main_supply)
+>  		regulator_disable(chip->main_supply);
+> -
+> -	return 0;
+>  }
+>  
+>  static int __maybe_unused stusb160x_suspend(struct device *dev)
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 96c55eaf3f80..5e9348f28d50 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -1771,7 +1771,7 @@ static int fusb302_probe(struct i2c_client *client,
+>  	return ret;
+>  }
+>  
+> -static int fusb302_remove(struct i2c_client *client)
+> +static void fusb302_remove(struct i2c_client *client)
+>  {
+>  	struct fusb302_chip *chip = i2c_get_clientdata(client);
+>  
+> @@ -1783,8 +1783,6 @@ static int fusb302_remove(struct i2c_client *client)
+>  	fwnode_handle_put(chip->tcpc_dev.fwnode);
+>  	destroy_workqueue(chip->wq);
+>  	fusb302_debugfs_exit(chip);
+> -
+> -	return 0;
+>  }
+>  
+>  static int fusb302_pm_suspend(struct device *dev)
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index f33e08eb7670..c48fca60bb06 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -869,7 +869,7 @@ static int tcpci_probe(struct i2c_client *client,
+>  	return 0;
+>  }
+>  
+> -static int tcpci_remove(struct i2c_client *client)
+> +static void tcpci_remove(struct i2c_client *client)
+>  {
+>  	struct tcpci_chip *chip = i2c_get_clientdata(client);
+>  	int err;
+> @@ -880,8 +880,6 @@ static int tcpci_remove(struct i2c_client *client)
+>  		dev_warn(&client->dev, "Failed to disable irqs (%pe)\n", ERR_PTR(err));
+>  
+>  	tcpci_unregister_port(chip->tcpci);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id tcpci_id[] = {
+> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> index df2505570f07..a11be5754128 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> @@ -493,14 +493,12 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+>  	return ret;
+>  }
+>  
+> -static int max_tcpci_remove(struct i2c_client *client)
+> +static void max_tcpci_remove(struct i2c_client *client)
+>  {
+>  	struct max_tcpci_chip *chip = i2c_get_clientdata(client);
+>  
+>  	if (!IS_ERR_OR_NULL(chip->tcpci))
+>  		tcpci_unregister_port(chip->tcpci);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id max_tcpci_id[] = {
+> diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> index b56a0880a044..9ad4924b4ba7 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> @@ -263,12 +263,11 @@ static int rt1711h_probe(struct i2c_client *client,
+>  	return 0;
+>  }
+>  
+> -static int rt1711h_remove(struct i2c_client *client)
+> +static void rt1711h_remove(struct i2c_client *client)
+>  {
+>  	struct rt1711h_chip *chip = i2c_get_clientdata(client);
+>  
+>  	tcpci_unregister_port(chip->tcpci);
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id rt1711h_id[] = {
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index dfbba5ae9487..b637e8b378b3 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -857,15 +857,13 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static int tps6598x_remove(struct i2c_client *client)
+> +static void tps6598x_remove(struct i2c_client *client)
+>  {
+>  	struct tps6598x *tps = i2c_get_clientdata(client);
+>  
+>  	tps6598x_disconnect(tps, 0);
+>  	typec_unregister_port(tps->port);
+>  	usb_role_switch_put(tps->role_sw);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct of_device_id tps6598x_of_match[] = {
+> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> index 6db7c8ddd51c..920b7e743f56 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> @@ -1398,7 +1398,7 @@ static int ucsi_ccg_probe(struct i2c_client *client,
+>  	return status;
+>  }
+>  
+> -static int ucsi_ccg_remove(struct i2c_client *client)
+> +static void ucsi_ccg_remove(struct i2c_client *client)
+>  {
+>  	struct ucsi_ccg *uc = i2c_get_clientdata(client);
+>  
+> @@ -1408,8 +1408,6 @@ static int ucsi_ccg_remove(struct i2c_client *client)
+>  	ucsi_unregister(uc->ucsi);
+>  	ucsi_destroy(uc->ucsi);
+>  	free_irq(uc->irq, uc);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct i2c_device_id ucsi_ccg_device_id[] = {
+> diff --git a/drivers/usb/typec/wusb3801.c b/drivers/usb/typec/wusb3801.c
+> index e63509f8b01e..3cc7a15ecbd3 100644
+> --- a/drivers/usb/typec/wusb3801.c
+> +++ b/drivers/usb/typec/wusb3801.c
+> @@ -399,7 +399,7 @@ static int wusb3801_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static int wusb3801_remove(struct i2c_client *client)
+> +static void wusb3801_remove(struct i2c_client *client)
+>  {
+>  	struct wusb3801 *wusb3801 = i2c_get_clientdata(client);
+>  
+> @@ -411,8 +411,6 @@ static int wusb3801_remove(struct i2c_client *client)
+>  
+>  	if (wusb3801->vbus_on)
+>  		regulator_disable(wusb3801->vbus_supply);
+> -
+> -	return 0;
+>  }
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: patternProperties:^thermistor@:properties:adi,excitation-current-nanoamp: '$ref' should not be valid under {'const': '$ref'}
-	hint: Standard unit suffix properties don't need a type $ref
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: ignoring, error in schema: patternProperties: ^thermistor@: properties: adi,excitation-current-nanoamp
-Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dtb:0:0: /example-0/spi/ltc2983@0: failed to match any schema with compatible: ['adi,ltc2983']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+-- 
+heikki
