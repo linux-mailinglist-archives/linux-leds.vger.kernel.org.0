@@ -2,61 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E1B5613AB
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 09:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE72561F3B
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 17:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233094AbiF3HwW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Jun 2022 03:52:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43902 "EHLO
+        id S234227AbiF3P2M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Jun 2022 11:28:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233360AbiF3HwQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 03:52:16 -0400
-Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300353ED3C
-        for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 00:52:15 -0700 (PDT)
-Received: by mail.olerise.pl (Postfix, from userid 1001)
-        id 1A12B240E4; Thu, 30 Jun 2022 09:51:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
-        t=1656575509; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=FPDsrUyjrrAw/u1CZ4aSy/k+07Tyv1Hp0USZ6T+hdBy7eChMuQIUc/PVxr9VKX5As
-         Ax2gRGbQ/7Vg/UgoloJpSJcX2bnkQYzbgy7MgAVLXceOvAZg0Gy8UiBpJ0cEf6PBHm
-         I/Db1UMCUNwAQuUfTz2o2Ip/4XXDjss6JG1OF+84P1EDUFZ8rWQQ6bQcpIsBnDhT2Z
-         R8txJi6ca+jdpIUTB/UTaAh59orLpfw8Cxz2DAhftALFBnh3HPb5rr58wWUDQC4QCp
-         mkBWo7TNYvfrsZbxNpkAmky2zPYVTy7iyWA2l8a/ClNnlQQDbPsD9bQIXmKscb3Hf0
-         6FZGEeebJ2A3Q==
-Received: by mail.olerise.pl for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 07:51:21 GMT
-Message-ID: <20220630084500-0.1.p.bbtn.0.3sj2j94ubv@olerise.pl>
-Date:   Thu, 30 Jun 2022 07:51:21 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@olerise.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.olerise.pl
+        with ESMTP id S235787AbiF3P2L (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 11:28:11 -0400
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785C36582;
+        Thu, 30 Jun 2022 08:28:08 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id h85so19486183iof.4;
+        Thu, 30 Jun 2022 08:28:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=v3fCsU8QvmYK6uO1hQCv7+cOLqDCcdfggA8x53nv70M=;
+        b=YeLYKjR6/9iZPpfsC5/1Qt/mazEHARmW/zpJjGywZDW8tVictELn6C3Q8jUUxyVlPG
+         pa30e18Leyp7Lys1yJVZFcMCR3tQIcwkAQaq7SIcSuCxMuKqf1qDjdxdumiBw3AUcP/u
+         BvWR/0CoWN6jhNxdVc8NhbDO4X+UuwE+rBTZSFTDqsu2Wdg3/IVxdnXnglJzt53va1LZ
+         FJCF2uQWWO12ALadajMSWAqcoAaaBRUVJdT5hm+H1PdPh3HLHAtC0s3Hz+9lQWNBiQtd
+         iZBv9dctU9WeAwfxy2Eir9+7JsBf3RRxI3fkrxFg6VAHQ2GNDLWKSaqZO9oXz0OLOGix
+         gKDw==
+X-Gm-Message-State: AJIora8hZPBJGWqd/v1s/vahyvX2kgHAI4lyehJdC7OESQKphDNYVIcm
+        DOZKxd98wW5nZub25di0Xw==
+X-Google-Smtp-Source: AGRyM1uiMa8Lbawmqk7m9RBiNYGmneqDL6HHs6q1fDNwTcu2C1YoflyIvtE/Nt4vca8Xd91yTDwTiw==
+X-Received: by 2002:a6b:cd43:0:b0:675:b0bf:d999 with SMTP id d64-20020a6bcd43000000b00675b0bfd999mr1189535iog.193.1656602887765;
+        Thu, 30 Jun 2022 08:28:07 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id a13-20020a927f0d000000b002d8f50441absm8082320ild.10.2022.06.30.08.28.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 08:28:07 -0700 (PDT)
+Received: (nullmailer pid 2744540 invoked by uid 1000);
+        Thu, 30 Jun 2022 15:28:06 -0000
+Date:   Thu, 30 Jun 2022 09:28:06 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Vincent Knecht <vincent.knecht@mailoo.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to
+ dtschema
+Message-ID: <20220630152806.GA2732671-robh@kernel.org>
+References: <20220628182147.2837180-1-vincent.knecht@mailoo.org>
+ <20220628182147.2837180-2-vincent.knecht@mailoo.org>
+ <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Jun 28, 2022 at 08:09:39PM -0600, Rob Herring wrote:
+> On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
+> > Convert leds-is31fl319x.txt to dtschema.
+> > Set license to the one recommended by DT project.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Do you have permission to do so? The original .txt file is default GPL2 
+and owned by H. Nikolaus Schaller. 
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+> > 
+> > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> > ---
+> >  .../bindings/leds/issi,is31fl319x.yaml        | 113 ++++++++++++++++++
+> >  .../bindings/leds/leds-is31fl319x.txt         |  61 ----------
+> >  2 files changed, 113 insertions(+), 61 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+> > 
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: patternProperties:^thermistor@:properties:adi,excitation-current-nanoamp: '$ref' should not be valid under {'const': '$ref'}
+> 	hint: Standard unit suffix properties don't need a type $ref
+> 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: ignoring, error in schema: patternProperties: ^thermistor@: properties: adi,excitation-current-nanoamp
+> Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dtb:0:0: /example-0/spi/ltc2983@0: failed to match any schema with compatible: ['adi,ltc2983']
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+You can ignore this. The bot went amuck.
 
-
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
+Rob
