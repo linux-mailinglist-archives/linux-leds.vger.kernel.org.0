@@ -2,112 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C8145623A8
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 21:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3827A56257D
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 23:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236645AbiF3T5P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Jun 2022 15:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55882 "EHLO
+        id S233519AbiF3Vno (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Jun 2022 17:43:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236381AbiF3T5O (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 15:57:14 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08AB4505D
-        for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 12:57:12 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id h65so658872oia.11
-        for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 12:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=asrsLCve7ft+8NRUNZKYtim8NNgQyrp9MB13KeU7AbI=;
-        b=yNpeqvk1lvjfuzCg0bY5aNNrru2ODDt+C/BmJ7Om+4lIpk/yrCC9CllVrX14RMSHLU
-         pgSKuIL2rAv3z3/VqEEoMHNKH+2v8H6VUimjl91OxDgajjUDw/je7y6/KEr9XFbyWA1y
-         vCqgii46QzT1JkSkLDa54gq5BIXpfqqaxv4Dxrb2W32jLJL21qbBlwDC1KwfPGBs3uJd
-         3bAxYVrI4fanNVhr84Rmowx8YbUBYqqD7VYgkgB0smp6/DJQTixRIQBwXA+HU5DD6MAR
-         ZV1A4hWIqHzrGY9Y8YroHP5M6vmp5y9x5m0ZWIzj6Ux342u1cvKdmD6ONidWglNDyktY
-         u9ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=asrsLCve7ft+8NRUNZKYtim8NNgQyrp9MB13KeU7AbI=;
-        b=XAUF/EpxUcMCLGx03oWa4jFzzAfSbWbSYNQTvPSA2l5SAAULbP5OX1FRnTCA1pTXa3
-         I2kn6tgJagUS6cy/eU4pShgc1KrWJhJhCKHvJYAijFgRFea2HmqCD09ZmvnbV6IgIl6T
-         xYJdG/1OB6pBSmAfWzrl8SztwJvWXNEd9YNFK6NULakr9zLVnluF50d9ljnEQWVKBLXY
-         cNhDnyMKnafx/s1vLwNnnNPCpoZLv9w4xpFvuORlpZHhio+GyDHC3CdfMgi7i09PwlD0
-         GOEXvVlJL0nk3jKRIaElWY8NIeCIeAG/zEvmF3ioR+E37kypiV7doxxvxLjz25NJwAIO
-         TooA==
-X-Gm-Message-State: AJIora+i3gq0lRQ9yxKM5G7sd5zrMnYRG/W4jr5Sc+OoiRuNPBEve+bJ
-        sag/CWWGJJbuJ4w2Q1yBwGEzpzXyGFkg/w==
-X-Google-Smtp-Source: AGRyM1s1HI8pDKjCbt5ffi/PZEpuSXDvN+CbToQtKcmm9nU++mum28Dm+XRBlc2un5/DA+FFmCZq7g==
-X-Received: by 2002:a05:6808:2113:b0:335:5252:ddf3 with SMTP id r19-20020a056808211300b003355252ddf3mr6648541oiw.94.1656619032354;
-        Thu, 30 Jun 2022 12:57:12 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id n14-20020a4ac70e000000b0042313f42b26sm11273140ooq.39.2022.06.30.12.57.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 12:57:11 -0700 (PDT)
-Date:   Thu, 30 Jun 2022 14:57:10 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Marijn Suijten <marijn.suijten@somainline.org>
-Cc:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S231937AbiF3Vnn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 17:43:43 -0400
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87EC153ECE;
+        Thu, 30 Jun 2022 14:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1656625407; bh=kfSeJYHpcO+DQINDcQTze3o46t7att6FRDfo86mkGb0=;
+        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+        b=e56yVha1FJK+4Mwia2qzYcWjNmN8rgjpauwgmzrC3iOtd2hrxNqRTOhTzBNPvVFFA
+         zTXGzXQZQyyH+igcF93SPGKv0RAEZ53zAIYtT9peidaU5ctZy9pweCRwwYVqSPH8Rf
+         fyQp69dT2g7jmyaDh0UcZTSCkc9yWwG76yDRSOqQ=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+        via [213.182.55.207]
+        Thu, 30 Jun 2022 23:43:27 +0200 (CEST)
+X-EA-Auth: R3mel8gQQlMckotIkNXG0Nwv57HB69aXmxYwEO0Dc9nBmk8Y9CpIZOrzkNX4BDt28//Fr3PvmcPPEcBEslUDPKjcy635HDgAePFG8IWvGwE=
+Message-ID: <dcd817c8a3852f3e6bad0c221a284fb3e69e1ca9.camel@mailoo.org>
+Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to
+ dtschema
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Martin Botka <martin.botka@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: qcom-lpg: Add compatible for
- PM660L LPG block
-Message-ID: <Yr4AFu3jf+9hGMKK@builder.lan>
-References: <20220511190718.764445-1-marijn.suijten@somainline.org>
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        hns@goldelico.com
+Date:   Thu, 30 Jun 2022 23:43:26 +0200
+In-Reply-To: <20220630152806.GA2732671-robh@kernel.org>
+References: <20220628182147.2837180-1-vincent.knecht@mailoo.org>
+         <20220628182147.2837180-2-vincent.knecht@mailoo.org>
+         <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
+         <20220630152806.GA2732671-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220511190718.764445-1-marijn.suijten@somainline.org>
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed 11 May 14:07 CDT 2022, Marijn Suijten wrote:
+Le jeudi 30 juin 2022 =C3=A0 09:28 -0600, Rob Herring a =C3=A9crit=C2=A0:
+> On Tue, Jun 28, 2022 at 08:09:39PM -0600, Rob Herring wrote:
+> > On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
+> > > Convert leds-is31fl319x.txt to dtschema.
+> > > Set license to the one recommended by DT project.
+>=20
+> Do you have permission to do so? The original .txt file is default GPL2=
+=20
+> and owned by H. Nikolaus Schaller.=20
 
-> Document the availability of an LPG configuration for the PM660L PMIC in
-> the Qualcomm Light Pulse Generator driver.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Acked-by: Rob Herring <robh@kernel.org>
+No, sorry for the mistake.
+Adding to cc, which I forgot to do in the first place...
+For reference: https://lore.kernel.org/linux-leds/20220628182147.2837180-1-=
+vincent.knecht@mailoo.org/T/
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > >=20
+> > > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> > > ---
+> > > =C2=A0.../bindings/leds/issi,is31fl319x.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 113 ++++++++++++++++++
+> > > =C2=A0.../bindings/leds/leds-is31fl319x.txt=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 61 ----------
+> > > =C2=A02 files changed, 113 insertions(+), 61 deletions(-)
+> > > =C2=A0create mode 100644 Documentation/devicetree/bindings/leds/issi,=
+is31fl319x.yaml
+> > > =C2=A0delete mode 100644 Documentation/devicetree/bindings/leds/leds-=
+is31fl319x.txt
+> > >=20
+> >=20
+> > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_chec=
+k'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> >=20
+> > yamllint warnings/errors:
+> >=20
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/ii=
+o/temperature/adi,ltc2983.yaml:
+> > patternProperties:^thermistor@:properties:adi,excitation-current-nanoam=
+p: '$ref' should not be valid under {'const':
+> > '$ref'}
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hint: Standard unit suf=
+fix properties don't need a type $ref
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from schema $id: http:/=
+/devicetree.org/meta-schemas/core.yaml#
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/ii=
+o/temperature/adi,ltc2983.yaml: ignoring,
+> > error in schema: patternProperties: ^thermistor@: properties: adi,excit=
+ation-current-nanoamp
+> > Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.d=
+tb:0:0: /example-0/spi/ltc2983@0: failed to
+> > match any schema with compatible: ['adi,ltc2983']
+>=20
+> You can ignore this. The bot went amuck.
+>=20
 
-Regards,
-Bjorn
+Ack... at least it respected the 3 Laws :-)
 
-> ---
->  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> index 409a4c7298e1..cd02811583ec 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> @@ -17,6 +17,7 @@ description: >
->  properties:
->    compatible:
->      enum:
-> +      - qcom,pm660l-lpg
->        - qcom,pm8150b-lpg
->        - qcom,pm8150l-lpg
->        - qcom,pm8350c-pwm
-> -- 
-> 2.36.1
-> 
+
+
