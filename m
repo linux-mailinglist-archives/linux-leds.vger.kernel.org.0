@@ -2,115 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3827A56257D
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 23:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917735625AE
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 23:55:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233519AbiF3Vno (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Jun 2022 17:43:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35772 "EHLO
+        id S236705AbiF3VzH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Jun 2022 17:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231937AbiF3Vnn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 17:43:43 -0400
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87EC153ECE;
-        Thu, 30 Jun 2022 14:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-        t=1656625407; bh=kfSeJYHpcO+DQINDcQTze3o46t7att6FRDfo86mkGb0=;
-        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
-        b=e56yVha1FJK+4Mwia2qzYcWjNmN8rgjpauwgmzrC3iOtd2hrxNqRTOhTzBNPvVFFA
-         zTXGzXQZQyyH+igcF93SPGKv0RAEZ53zAIYtT9peidaU5ctZy9pweCRwwYVqSPH8Rf
-         fyQp69dT2g7jmyaDh0UcZTSCkc9yWwG76yDRSOqQ=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-        via [213.182.55.207]
-        Thu, 30 Jun 2022 23:43:27 +0200 (CEST)
-X-EA-Auth: R3mel8gQQlMckotIkNXG0Nwv57HB69aXmxYwEO0Dc9nBmk8Y9CpIZOrzkNX4BDt28//Fr3PvmcPPEcBEslUDPKjcy635HDgAePFG8IWvGwE=
-Message-ID: <dcd817c8a3852f3e6bad0c221a284fb3e69e1ca9.camel@mailoo.org>
-Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to
- dtschema
-From:   Vincent Knecht <vincent.knecht@mailoo.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        hns@goldelico.com
-Date:   Thu, 30 Jun 2022 23:43:26 +0200
-In-Reply-To: <20220630152806.GA2732671-robh@kernel.org>
-References: <20220628182147.2837180-1-vincent.knecht@mailoo.org>
-         <20220628182147.2837180-2-vincent.knecht@mailoo.org>
-         <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
-         <20220630152806.GA2732671-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        with ESMTP id S232633AbiF3VzG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 17:55:06 -0400
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECC40217;
+        Thu, 30 Jun 2022 14:55:04 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id m13so571439ioj.0;
+        Thu, 30 Jun 2022 14:55:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=O0oI2Gbpm910/K3zuIgYxSbljlnn6O3+k19Oo002PO8=;
+        b=h2UuwuwbnKEelVZu8LJo9AA0aImrF0GDkLZVz8mo+EUEQqFuDxorAzBX7gRP9D4NMT
+         rm6f8mKyVqZKgDIIbAGaI2hPe234/3lDuyH5PeQwvVAk9FbTY/7U5kx9avfu6Od47YkG
+         Btvh+TQwsMgB9XyZ+ZbsaUb2QTgOEAD9WrlhNWqvYLG4jq/WXqD3FKgGPKx2N2Wjs6f+
+         /UfTbau/WZBJZ9scuA4vNaadl6vdLDS3u1doDgDEn5cB+Hov51zng2btG0HSw8fwEvIg
+         l4WAALllHpUUnSz/D63d6LLSppbbL567BSWjddmVR2pzhwyLEcA+qdBakaIIhFbe6ydy
+         8bRg==
+X-Gm-Message-State: AJIora9tACg6r7ixO9iVlMXVy/p+t1GuEN2Tr9/JgoW5P92w8CwCU5Ld
+        xkUItkoN2/t7wYOFSRb1ew==
+X-Google-Smtp-Source: AGRyM1vtcfkSVY6M7PNTiDY7FVEXYZMNw3bvjSTqjH2j0Qe5vPkkxFrAuZnZMfEK51OROsKsre8rDw==
+X-Received: by 2002:a05:6638:3387:b0:33c:9f9e:5a17 with SMTP id h7-20020a056638338700b0033c9f9e5a17mr6777342jav.12.1656626104166;
+        Thu, 30 Jun 2022 14:55:04 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id m2-20020a02cdc2000000b00339e6168237sm8637761jap.34.2022.06.30.14.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 14:55:03 -0700 (PDT)
+Received: (nullmailer pid 3384041 invoked by uid 1000);
+        Thu, 30 Jun 2022 21:55:00 -0000
+Date:   Thu, 30 Jun 2022 15:55:00 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     chiaen_wu@richtek.com, devicetree@vger.kernel.org,
+        matthias.bgg@gmail.com, jic23@kernel.org,
+        daniel.thompson@linaro.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-iio@vger.kernel.org, linux-pm@vger.kernel.org,
+        jingoohan1@gmail.com, linux-leds@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        alice_chen@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
+        lgirdwood@gmail.com, robh+dt@kernel.org, chunfeng.yun@mediatek.com,
+        linux@roeck-us.net, linux-fbdev@vger.kernel.org,
+        broonie@kernel.org, szunichen@gmail.com, sre@kernel.org,
+        heikki.krogerus@linux.intel.com, cy_huang@richtek.com,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, gregkh@linuxfoundation.org,
+        lars@metafoo.de, deller@gmx.de
+Subject: Re: [PATCH v3 05/14] dt-bindings: backlight: Add Mediatek MT6370
+ backlight
+Message-ID: <20220630215500.GA3383976-robh@kernel.org>
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-6-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623115631.22209-6-peterwu.pub@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Le jeudi 30 juin 2022 =C3=A0 09:28 -0600, Rob Herring a =C3=A9crit=C2=A0:
-> On Tue, Jun 28, 2022 at 08:09:39PM -0600, Rob Herring wrote:
-> > On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
-> > > Convert leds-is31fl319x.txt to dtschema.
-> > > Set license to the one recommended by DT project.
->=20
-> Do you have permission to do so? The original .txt file is default GPL2=
-=20
-> and owned by H. Nikolaus Schaller.=20
+On Thu, 23 Jun 2022 19:56:22 +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add mt6370 backlight binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> 
+> v3
+> - Rename "mediatek,bled-pwm-hys-input-threshold-steps" to
+>   "mediatek,bled-pwm-hys-input-th-steps"
+> - Refine "bled-pwm-hys-input-th-steps", "bled-ovp-microvolt",
+>   "bled-ocp-microamp" enum values
+> ---
+>  .../leds/backlight/mediatek,mt6370-backlight.yaml  | 92 ++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml
+> 
 
-No, sorry for the mistake.
-Adding to cc, which I forgot to do in the first place...
-For reference: https://lore.kernel.org/linux-leds/20220628182147.2837180-1-=
-vincent.knecht@mailoo.org/T/
-
-> > >=20
-> > > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> > > ---
-> > > =C2=A0.../bindings/leds/issi,is31fl319x.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 113 ++++++++++++++++++
-> > > =C2=A0.../bindings/leds/leds-is31fl319x.txt=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 61 ----------
-> > > =C2=A02 files changed, 113 insertions(+), 61 deletions(-)
-> > > =C2=A0create mode 100644 Documentation/devicetree/bindings/leds/issi,=
-is31fl319x.yaml
-> > > =C2=A0delete mode 100644 Documentation/devicetree/bindings/leds/leds-=
-is31fl319x.txt
-> > >=20
-> >=20
-> > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_chec=
-k'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> >=20
-> > yamllint warnings/errors:
-> >=20
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/ii=
-o/temperature/adi,ltc2983.yaml:
-> > patternProperties:^thermistor@:properties:adi,excitation-current-nanoam=
-p: '$ref' should not be valid under {'const':
-> > '$ref'}
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hint: Standard unit suf=
-fix properties don't need a type $ref
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from schema $id: http:/=
-/devicetree.org/meta-schemas/core.yaml#
-> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/ii=
-o/temperature/adi,ltc2983.yaml: ignoring,
-> > error in schema: patternProperties: ^thermistor@: properties: adi,excit=
-ation-current-nanoamp
-> > Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.d=
-tb:0:0: /example-0/spi/ltc2983@0: failed to
-> > match any schema with compatible: ['adi,ltc2983']
->=20
-> You can ignore this. The bot went amuck.
->=20
-
-Ack... at least it respected the 3 Laws :-)
-
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
