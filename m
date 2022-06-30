@@ -2,63 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE72561F3B
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 17:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A2585623A2
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Jun 2022 21:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234227AbiF3P2M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Jun 2022 11:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
+        id S236431AbiF3T4u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Jun 2022 15:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235787AbiF3P2L (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 11:28:11 -0400
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785C36582;
-        Thu, 30 Jun 2022 08:28:08 -0700 (PDT)
-Received: by mail-io1-f49.google.com with SMTP id h85so19486183iof.4;
-        Thu, 30 Jun 2022 08:28:08 -0700 (PDT)
+        with ESMTP id S236095AbiF3T4t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Jun 2022 15:56:49 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6BDC4505D
+        for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 12:56:47 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id t189so676553oie.8
+        for <linux-leds@vger.kernel.org>; Thu, 30 Jun 2022 12:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gboqnFzZ9ZxrTwUZ6WoU6968NwUUgD1UzCCueja8BgY=;
+        b=I+h5q/QxmSgU2Xn6TLqFpiyXdlVZ919B4FJoNbgwmk3sIYwyarHIJ86nxrcCPpb4bx
+         skrcEy4pYPPBpeyQ1AZBHx6JFHj1QPOSRFane0fNyRGpyUw7JRHile4y4wW+LwZ+4cLR
+         TtP+sgAkSVRz1HyjXn/kXfjEux0Otz6kKePg0OcIH3zXSQlALgV4tTeRSM/DOPpQo19X
+         rGpzy00/i/JIATf27P0BP+zVeKhX/Bwtadr5N5mzgHGEqhzc92VcosxKBojsre483aVd
+         lC4wlpP73Mkc7S2Y0uYP6Eft2e1UTg5GXMFDNKi73aHrH4xzizt0caA1BfUFp0VNk5Tc
+         7prg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=v3fCsU8QvmYK6uO1hQCv7+cOLqDCcdfggA8x53nv70M=;
-        b=YeLYKjR6/9iZPpfsC5/1Qt/mazEHARmW/zpJjGywZDW8tVictELn6C3Q8jUUxyVlPG
-         pa30e18Leyp7Lys1yJVZFcMCR3tQIcwkAQaq7SIcSuCxMuKqf1qDjdxdumiBw3AUcP/u
-         BvWR/0CoWN6jhNxdVc8NhbDO4X+UuwE+rBTZSFTDqsu2Wdg3/IVxdnXnglJzt53va1LZ
-         FJCF2uQWWO12ALadajMSWAqcoAaaBRUVJdT5hm+H1PdPh3HLHAtC0s3Hz+9lQWNBiQtd
-         iZBv9dctU9WeAwfxy2Eir9+7JsBf3RRxI3fkrxFg6VAHQ2GNDLWKSaqZO9oXz0OLOGix
-         gKDw==
-X-Gm-Message-State: AJIora8hZPBJGWqd/v1s/vahyvX2kgHAI4lyehJdC7OESQKphDNYVIcm
-        DOZKxd98wW5nZub25di0Xw==
-X-Google-Smtp-Source: AGRyM1uiMa8Lbawmqk7m9RBiNYGmneqDL6HHs6q1fDNwTcu2C1YoflyIvtE/Nt4vca8Xd91yTDwTiw==
-X-Received: by 2002:a6b:cd43:0:b0:675:b0bf:d999 with SMTP id d64-20020a6bcd43000000b00675b0bfd999mr1189535iog.193.1656602887765;
-        Thu, 30 Jun 2022 08:28:07 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id a13-20020a927f0d000000b002d8f50441absm8082320ild.10.2022.06.30.08.28.06
+        bh=gboqnFzZ9ZxrTwUZ6WoU6968NwUUgD1UzCCueja8BgY=;
+        b=Z/Ae+D0peoyFQ9maV9AUdA8rZhiCVrCWIdbDx0CCyvxIcbTNrAokuiTq9Sk3dW4Ih+
+         UH217yAjTK3S57Pv2tNm2S0zmh1pPshvXXEuJvDz7ARgm97UvPNf5nVjwd77GtHd3CUr
+         6roMBtpROjThylnHveq1BkhiBZuqjoWVe55JNwEbeUGLVoo7pSKBbtrNzufSSSDiKL8V
+         0cd5aTjLUXjtqP97Uzt9Nhj7WInhewASAL0YiYdYS0dIXeQK5fNsKzVxl2PkRpqsE667
+         RR592B8du/aQVFjSxpV9vAMBKvG637V794SvDVjeLaurBqZc3gePLp0eIn545t+O3/zV
+         3oyA==
+X-Gm-Message-State: AJIora/mPcPYIO3K2fAVVebgop8jgwoP8jmx5xN6A2bBnhubVA8veUPh
+        /sOZkUiGp4pfRhn3Z9QB+ra8Kw==
+X-Google-Smtp-Source: AGRyM1tUfOefuvaZG6KMm5IzvtBIQ0uGoQ5jBW6zY56LCV44QQt1Xp03TNrIfDW5/93qhc1L3b4jYQ==
+X-Received: by 2002:a05:6808:f12:b0:335:c055:768e with SMTP id m18-20020a0568080f1200b00335c055768emr3410019oiw.186.1656619007244;
+        Thu, 30 Jun 2022 12:56:47 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id bl29-20020a056808309d00b0032ed2343100sm10842807oib.14.2022.06.30.12.56.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 08:28:07 -0700 (PDT)
-Received: (nullmailer pid 2744540 invoked by uid 1000);
-        Thu, 30 Jun 2022 15:28:06 -0000
-Date:   Thu, 30 Jun 2022 09:28:06 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 30 Jun 2022 12:56:46 -0700 (PDT)
+Date:   Thu, 30 Jun 2022 14:56:44 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         ~postmarketos/upstreaming@lists.sr.ht,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Martin Botka <martin.botka@somainline.org>,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        Rob Herring <robh@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to
- dtschema
-Message-ID: <20220630152806.GA2732671-robh@kernel.org>
-References: <20220628182147.2837180-1-vincent.knecht@mailoo.org>
- <20220628182147.2837180-2-vincent.knecht@mailoo.org>
- <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Matthias Kaehlcke <mka@chromium.org>
+Subject: Re: [PATCH v3 2/4] leds: qcom-lpg: Add PM660L configuration and
+ compatible
+Message-ID: <Yr3//P1IHJQV3mMt@builder.lan>
+References: <20220511190718.764445-1-marijn.suijten@somainline.org>
+ <20220511190718.764445-2-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+In-Reply-To: <20220511190718.764445-2-marijn.suijten@somainline.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,36 +82,75 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 08:09:39PM -0600, Rob Herring wrote:
-> On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
-> > Convert leds-is31fl319x.txt to dtschema.
-> > Set license to the one recommended by DT project.
+On Wed 11 May 14:07 CDT 2022, Marijn Suijten wrote:
 
-Do you have permission to do so? The original .txt file is default GPL2 
-and owned by H. Nikolaus Schaller. 
-
-> > 
-> > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> > ---
-> >  .../bindings/leds/issi,is31fl319x.yaml        | 113 ++++++++++++++++++
-> >  .../bindings/leds/leds-is31fl319x.txt         |  61 ----------
-> >  2 files changed, 113 insertions(+), 61 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-> > 
+> Inherit PM660L PMIC LPG/triled block configuration from downstream
+> drivers and DT sources, consisting of a triled block with automatic
+> trickle charge control and source selection, three colored led channels
+> belonging to the synchronized triled block and one loose PWM channel.
 > 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: patternProperties:^thermistor@:properties:adi,excitation-current-nanoamp: '$ref' should not be valid under {'const': '$ref'}
-> 	hint: Standard unit suffix properties don't need a type $ref
-> 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml: ignoring, error in schema: patternProperties: ^thermistor@: properties: adi,excitation-current-nanoamp
-> Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.example.dtb:0:0: /example-0/spi/ltc2983@0: failed to match any schema with compatible: ['adi,ltc2983']
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-You can ignore this. The bot went amuck.
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Rob
+Pavel, please pick this change and I'll pick the dts changes through the
+qcom tree.
+
+Regards,
+Bjorn
+
+> ---
+> 
+> Changes since v2:
+> - Constify channels struct-array (Bjorn);
+> - Correct LUT size to 49 slots (Bjorn).
+> 
+> v2: https://lore.kernel.org/linux-leds/20220507221123.2201668-1-marijn.suijten@somainline.org/T/#u
+> 
+> Changes since v1:
+> - Rebased to pick up pm8350c in the diff-context (Pavel).
+> 
+> v1: https://lore.kernel.org/linux-leds/20220504205704.699500-1-marijn.suijten@somainline.org/T/#u
+> 
+>  drivers/leds/rgb/leds-qcom-lpg.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index cfa3362b2457..44b0d1a563df 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -1271,6 +1271,23 @@ static int lpg_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct lpg_data pm660l_lpg_data = {
+> +	.lut_base = 0xb000,
+> +	.lut_size = 49,
+> +
+> +	.triled_base = 0xd000,
+> +	.triled_has_atc_ctl = true,
+> +	.triled_has_src_sel = true,
+> +
+> +	.num_channels = 4,
+> +	.channels = (const struct lpg_channel_data[]) {
+> +		{ .base = 0xb100, .triled_mask = BIT(5) },
+> +		{ .base = 0xb200, .triled_mask = BIT(6) },
+> +		{ .base = 0xb300, .triled_mask = BIT(7) },
+> +		{ .base = 0xb400 },
+> +	},
+> +};
+> +
+>  static const struct lpg_data pm8916_pwm_data = {
+>  	.num_channels = 1,
+>  	.channels = (const struct lpg_channel_data[]) {
+> @@ -1391,6 +1408,7 @@ static const struct lpg_data pm8350c_pwm_data = {
+>  };
+>  
+>  static const struct of_device_id lpg_of_table[] = {
+> +	{ .compatible = "qcom,pm660l-lpg", .data = &pm660l_lpg_data },
+>  	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
+>  	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
+>  	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
+> -- 
+> 2.36.1
+> 
