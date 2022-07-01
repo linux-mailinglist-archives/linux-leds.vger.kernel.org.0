@@ -2,92 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9194A563B97
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 23:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15161563B5E
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 23:15:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232013AbiGAUty (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Jul 2022 16:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48338 "EHLO
+        id S230148AbiGAU6u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Jul 2022 16:58:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231237AbiGAUts (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 16:49:48 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F516051C;
-        Fri,  1 Jul 2022 13:49:46 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id 194so987224ybc.4;
-        Fri, 01 Jul 2022 13:49:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=L3xyYkVUb08ki16owDdwA0s6fxyBYTVKhzo/OZc4swY=;
-        b=Q2bHi8xGPVEu5bceVUNZYHpmzzugqU9zcEOTOg2MdUoxdlZMrh2dhUi/3V/yVyoP8T
-         7JZKoRSgqiX3kGpk6q8nfQN+YnjerSQKLRyC5wB9fCeMncQJ3qV6JNf2cjyYqUtH+8NM
-         pdl9uOadAWBK3qlpdDJd7bhS4ek7Jt+2teWEvzgDro4DgmMj/6UqIUVyrft2OnpZsIjb
-         valYyD/7fj2Fg3XZsjwz0WFbMBR4OJjKVoa+i9poO3QyMXjzjnCbuPxui6Unq14iapP6
-         HLgpXiF/htqOgwAORxZbk3vYkJwLJnrzVADBiTnCagwQpcjAD42LQfLIDiM/Jnv7p14Z
-         c5ig==
+        with ESMTP id S229570AbiGAU6t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 16:58:49 -0400
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F254168A05;
+        Fri,  1 Jul 2022 13:58:47 -0700 (PDT)
+Received: by mail-il1-f174.google.com with SMTP id h5so2141090ili.3;
+        Fri, 01 Jul 2022 13:58:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L3xyYkVUb08ki16owDdwA0s6fxyBYTVKhzo/OZc4swY=;
-        b=hoP3kRxZBoTr0SSee1gkWBKvlMMDQkwsoLbTU4sFhYYI/VF7RlnLQWs8AMcJd8bRyl
-         nIHeZIxVn+asVm/e963cFPup21Gm+vqOHatPbnwmizFewNPdOQMz4rcpLeJZDsMaMBiB
-         WQrj76oiDIzmM59BiYbt3yEfCoJcYn9vZo+gIXORLPXNyb6aG2q+LPJ1xU1lYbvzSCxW
-         uImUaQJQTTAIwYnRrJuVmtlh/GYhyuGoI1zLA00+um0dSHl5FS35I5vQNj+xg7wbBf6S
-         j1TrlK6IBWmaq9kONH/qBivIbEC0okFDNG6jOCY+gyG0pEycoeJ9IGuFxHYE05p8kEZ5
-         wPGQ==
-X-Gm-Message-State: AJIora9i/dBkJqzCeChptcyKzi0iYbykXMuN2X/00gH6e8fQCznK8nmn
-        kMXHl7S0so6L//fMCYVohNwXyNX9gG/2INnmKV8=
-X-Google-Smtp-Source: AGRyM1sSuMB2bm2+fgeAw4QBEbPXyLstIl8n4mXHDssuvKcqLX+xrURcZllP7cVih4dACkvtsUY4DWlFxSN1vsLxeLQ=
-X-Received: by 2002:a05:6902:1142:b0:66d:999a:81a7 with SMTP id
- p2-20020a056902114200b0066d999a81a7mr13503264ybu.460.1656708586203; Fri, 01
- Jul 2022 13:49:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220701134415.4017794-1-vincent.knecht@mailoo.org>
- <20220701134415.4017794-5-vincent.knecht@mailoo.org> <CAHp75Vf1nMi6OAbksNMCEkq3snrtDQSwRcSnbkB=gPwS=WWz9A@mail.gmail.com>
-In-Reply-To: <CAHp75Vf1nMi6OAbksNMCEkq3snrtDQSwRcSnbkB=gPwS=WWz9A@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 1 Jul 2022 22:49:08 +0200
-Message-ID: <CAHp75VdpQ5J1nSONpM=C9YL1Qd6sJMLbrmGT_3uQHn8Um_0++w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] leds: is31fl319x: Use non-wildcard names for vars,
- structs and defines
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jTiysxQ1mDjbgrX1GIC1fvRl2VzOeJCuzL2T82Etx+k=;
+        b=Xl20VnIOlXfFU9xIQ0XWjSoN32hL972s8LviKmM5y0X0l/yzATRtYESPUD8wwxDqMy
+         fxZphJz73ZM7epvyfrGjAc6RrrP9GierrBTe1ipsH6scEFDns05CqfdkNnbFCslhu6Wb
+         I4Vx9dCdRDoAA0G9Hvp6g+Myz/ylK9mLD1mQJ4mGP0Iu/2mt/nVgVjD7F4JUlUw1Vu48
+         k2QNsM+WKt+0zuCMj0SIQL6QmJTigvPe97XYQhNIlS2FH2oxVBbzDbrwyVrTF6nCr6t2
+         MajWU24cgU06MG5llOPW0JZEk6NYTuoPFOIa4aUt1jNEO/9f7Rk69vfekJhlPin7yOSa
+         HX5A==
+X-Gm-Message-State: AJIora+E2qZNKYDxbQhG1HdgRW1/5O9nAVNBdNq8VYmcwl51FCtLCY/+
+        JnTxUZ4NyLoTPYwoFsfDtpCDuOODDg==
+X-Google-Smtp-Source: AGRyM1t/0z1oa23PdELK4xIthVQ3oyP1jTCDv+F8M18YpRCBHLKAdXJzNvzSC4kT952g5L1ewpbuhA==
+X-Received: by 2002:a05:6e02:1be5:b0:2d9:3419:742a with SMTP id y5-20020a056e021be500b002d93419742amr9391939ilv.289.1656709127296;
+        Fri, 01 Jul 2022 13:58:47 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id z19-20020a05663822b300b00331f1f828adsm10301591jas.16.2022.07.01.13.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 13:58:46 -0700 (PDT)
+Received: (nullmailer pid 1518882 invoked by uid 1000);
+        Fri, 01 Jul 2022 20:58:45 -0000
+Date:   Fri, 1 Jul 2022 14:58:45 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+Cc:     "H. Nikolaus Schaller" <hns@goldelico.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "H. Nikolaus Schaller" <hns@goldelico.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: leds: Convert is31fl319x to dtschema
+Message-ID: <20220701205845.GA1518826-robh@kernel.org>
+References: <20220701134415.4017794-1-vincent.knecht@mailoo.org>
+ <20220701134415.4017794-2-vincent.knecht@mailoo.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701134415.4017794-2-vincent.knecht@mailoo.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jul 1, 2022 at 10:47 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Fri, Jul 1, 2022 at 3:45 PM Vincent Knecht <vincent.knecht@mailoo.org> wrote:
+On Fri, 01 Jul 2022 15:44:08 +0200, Vincent Knecht wrote:
+> Convert leds-is31fl319x.txt to dtschema.
+> 
+> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+>  .../bindings/leds/issi,is31fl319x.yaml        | 113 ++++++++++++++++++
+>  .../bindings/leds/leds-is31fl319x.txt         |  61 ----------
+>  2 files changed, 113 insertions(+), 61 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+> 
 
-...
-
-> > +#define IS31FL3196_CURRENT_MIN         ((u32)5000)
-> > +#define IS31FL3196_CURRENT_MAX         ((u32)40000)
-> > +#define IS31FL3196_CURRENT_STEP                ((u32)5000)
-> > +#define IS31FL3196_CURRENT_DEFAULT     ((u32)20000)
-
-Also why no units as below, for example, has?
-
-> > +#define IS31FL3196_AUDIO_GAIN_DB_MAX   ((u32)21)
-> > +#define IS31FL3196_AUDIO_GAIN_DB_STEP  ((u32)3)
-
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Rob Herring <robh@kernel.org>
