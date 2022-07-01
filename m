@@ -2,129 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4315563030
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 11:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3200756349A
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 15:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbiGAJdh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Jul 2022 05:33:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53128 "EHLO
+        id S231589AbiGANpU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Jul 2022 09:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbiGAJdh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 05:33:37 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8471C74371;
-        Fri,  1 Jul 2022 02:33:32 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.109.143.68])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 2E11311478EAB;
-        Fri,  1 Jul 2022 11:33:29 +0200 (CEST)
-Received: from [192.168.1.41] (88.161.25.233) by DAG1EX2.emp2.local
- (172.16.2.2) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
- 11:33:29 +0200
-Message-ID: <c84d0513-b89b-0eea-eeaf-68dc634bd7b0@traphandler.com>
-Date:   Fri, 1 Jul 2022 11:33:22 +0200
+        with ESMTP id S231299AbiGANpJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 09:45:09 -0400
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CC624095;
+        Fri,  1 Jul 2022 06:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1656683074; bh=/XIhNMsHfQVnHoWDZvZkTtokLC+p1iZNKAj10GG4dFs=;
+        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+         MIME-Version:Content-Transfer-Encoding;
+        b=CXeaETQDvzvpSjUh5ZX355D1eVfYDPYzgACJBgCKdoTJPon5TcN8k/T/oUdjosoFq
+         +gXzt8pUD/wmK01WjfmjU8YwwKFZF5BApHR1YK8+h5/Iz/pBEGHAKc8BaSSFVsH5Mn
+         K9h3f6lhJyllyr87/6hNZd0Hdxbr4+n1KQvFRjcI=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+        via [213.182.55.207]
+        Fri,  1 Jul 2022 15:44:34 +0200 (CEST)
+X-EA-Auth: lcIWkkblNbzzBCcQkHdR0O3Z4YAtjsrC42K4XxJM9tCOSbHzQ+RnVhXuiGmbEj4DqKkTBMDLwoeOrv1+uKiuCKJoIB3Z146gp51fEw3Liqw=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Vincent Knecht <vincent.knecht@mailoo.org>
+Subject: [PATCH v2 0/6] leds: Fix/Add is31fl319{0,1,3} support
+Date:   Fri,  1 Jul 2022 15:44:07 +0200
+Message-Id: <20220701134415.4017794-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/4] dt-bindings: leds: Add binding for a multicolor group
- of LEDs
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <pavel@ucw.cz>, <sven.schwermer@disruptive-technologies.com>,
-        <krzysztof.kozlowski+dt@linaro.org>, <johan+linaro@kernel.org>,
-        <marijn.suijten@somainline.org>, <bjorn.andersson@linaro.org>,
-        <andy.shevchenko@gmail.com>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20220615154918.521687-1-jjhiblot@traphandler.com>
- <20220615154918.521687-4-jjhiblot@traphandler.com>
- <20220627221257.GA3046298-robh@kernel.org>
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-In-Reply-To: <20220627221257.GA3046298-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [88.161.25.233]
-X-ClientProxiedBy: DAG2EX1.emp2.local (172.16.2.11) To DAG1EX2.emp2.local
- (172.16.2.2)
-X-Ovh-Tracer-Id: 13792836810162911707
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepuefgvedvledufeekjeeltedvjeeuuddvtdetjeefjedvveehkeeufeeihfelgfeknecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehvdek
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Changes since v2:
+- keep original bindings license and maintainer/owner (Rob)
+- squash bindings patches 2 & 4 (Krzysztof)
 
-On 28/06/2022 00:12, Rob Herring wrote:
-> On Wed, Jun 15, 2022 at 05:49:17PM +0200, Jean-Jacques Hiblot wrote:
->> This allows to group multiple monochromatic LEDs into a multicolor
->> LED, e.g. RGB LEDs.
->>
->> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
->> ---
->>   .../bindings/leds/leds-group-multicolor.yaml  | 94 +++++++++++++++++++
->>   1 file changed, 94 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
->> new file mode 100644
->> index 000000000000..30a67985ae33
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
->> @@ -0,0 +1,94 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Multi-color LED built with monochromatic LEDs
->> +
->> +maintainers:
->> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
->> +
->> +description: |
->> +  This driver combines several monochromatic LEDs into one multi-color
->> +  LED using the multicolor LED class.
->> +
->> +properties:
->> +  compatible:
->> +    const: leds-group-multicolor
->> +
->> +  multi-led:
->> +    type: object
->> +
->> +    patternProperties:
->> +      "^led-[0-9a-z]+$":
->> +        type: object
->> +        $ref: common.yaml#
->> +
->> +        additionalProperties: false
->> +
->> +        properties:
->> +          leds:
-> Not a standard property. What is the type?
-That would be a reference to the node of a LED
-> Really, just do a GPIO multi-color LED binding similar to the PWM one
-> rather than adding this layer. I suppose you could combine LEDs from all
-> different controllers, but that seems somewhat unlikely to me.
-
-I'm not using gpio leds, rather leds driven by two TLC5925.
-
-I agree that combining from different model of controller is unlikely. 
-However from 2 separate chips of the same model is not (ex: driving 5 
-RGB LEDs with two 8-output chips)
-
-In the case of the TLC5925, that is not really a problem because as long 
-as the chips are on the same CS, they are considered as a single entity 
-by the driver. But for I2C chips at least that would be a problem.
+Changes since v1:
+- no change, resending after configuring git to accomodate
+  for smtp provider limit of 5 emails per batch
+- just change cover-letter to mention si-en chip for idol347
 
 
-JJ
+The is31fl3190, is31fl3191 and is31fl3193 chips (1 or 3 PWM channels)
+cannot be handled the same as is31fl3196 and is31fl3199,
+if only because the register map is different.
+Also:
+- the software shutdown bit is reversed
+- and additional field needs to be set to enable all channels
+- the led-max-microamp current values and setting are not the same
 
->
-> Rob
+Datasheets:
+https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
+
+This series:
+
+- converts dt-bindings to dtschema, adding all si-en compatibles
+  for convenience and consistency, and adding constraints on
+  supported values for eg. reg address and led-max-microamp
+
+- changes vars, structs and defines to not use 319X suffix
+  but 3190 for 319{0,1,3} and 3196 for 319{6,9}
+
+- adds fields in chipdef struct for chip-specific values
+
+- only in the last patch, adds is31fl319{0,1,3} specific values
+  so those chips can work.
+
+Tested on msm8916-alcatel-idol347, which probably has an
+si-en,sn3190 or si-en,sn3191 (only one white led indicator).
+
+Vincent Knecht (6):
+  dt-bindings: leds: Convert is31fl319x to dtschema
+  dt-bindings: leds: is31fl319x: Document variants specificities
+  leds: is31fl319x: Add missing si-en compatibles
+  leds: is31fl319x: Use non-wildcard names for vars, structs and defines
+  leds: is31fl319x: Move chipset-specific values in chipdef struct
+  leds: is31fl319x: Add support for is31fl319{0,1,3} chips
+
+ .../bindings/leds/issi,is31fl319x.yaml        | 193 +++++++++
+ .../bindings/leds/leds-is31fl319x.txt         |  61 ---
+ drivers/leds/leds-is31fl319x.c                | 406 +++++++++++++-----
+ 3 files changed, 488 insertions(+), 172 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+
+-- 
+2.35.3
+
+
+
