@@ -2,97 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C08EA56382B
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 18:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4364A563B3E
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Jul 2022 22:49:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232561AbiGAQkk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Jul 2022 12:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34958 "EHLO
+        id S230072AbiGAUs3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Jul 2022 16:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232603AbiGAQki (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 12:40:38 -0400
-X-Greylist: delayed 348 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Jul 2022 09:40:32 PDT
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D394504F;
-        Fri,  1 Jul 2022 09:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1656693268;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=eMe8iN2pQOflR+UL23Usvst9NDxt1a4K3PcAeZQiaV0=;
-    b=X7vDSqkF3JURad5JnwL5Dsdr3emSpYz4moerSpPLxI6SZpR0p4HFLzTo2zq5SVzrEz
-    trJhNX/dCtVZrVnI7GaK5QR1gtJfKDpuW2K20kxBWtEiLptQLx0G3M9g5Gjv16SdS1Db
-    5ya7dfIVfpxgSlFZCJrGHq5t3cN+OozCxyBjr2aT6y8JjAqzXuYkfVpANPxAcRlM123Q
-    /UYq4LVkElv8TtP2GKzOzn3C8Mi2Pigl0WByOuD4/Tv2cvdXi4RbyFyHBSqP4/NKU2HL
-    bw9l3SqWVjdA5lPCq27yeg8bTe14mQi8vEA7kBO+uhtUa3k7ehPMpjFz/qjKrDCSKEjv
-    WRJg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw47sdXM="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box
-    by smtp.strato.de (RZmta 47.46.1 DYNA|AUTH)
-    with ESMTPSA id x1817fy61GYRBka
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Fri, 1 Jul 2022 18:34:27 +0200 (CEST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v1 RESEND 1/7] dt-bindings: leds: Convert is31fl319x to
- dtschema
-From:   "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <dcd817c8a3852f3e6bad0c221a284fb3e69e1ca9.camel@mailoo.org>
-Date:   Fri, 1 Jul 2022 18:34:26 +0200
-Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <24FA86F1-9601-4431-ADE5-3EBF8149E128@goldelico.com>
-References: <20220628182147.2837180-1-vincent.knecht@mailoo.org>
- <20220628182147.2837180-2-vincent.knecht@mailoo.org>
- <1656468579.884791.1403671.nullmailer@robh.at.kernel.org>
- <20220630152806.GA2732671-robh@kernel.org>
- <dcd817c8a3852f3e6bad0c221a284fb3e69e1ca9.camel@mailoo.org>
+        with ESMTP id S229999AbiGAUs1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jul 2022 16:48:27 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7F51AF33;
+        Fri,  1 Jul 2022 13:48:26 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-31772f8495fso34652707b3.4;
+        Fri, 01 Jul 2022 13:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YCkQguGKE4vw52rjiqjjJsW7E4cSYB+SLLUzIoTk1Ik=;
+        b=nhB8IrU8txldVw7LtGSWB2XuMaK41dK1wtjCFUP7hs2b3EfyPt+IK/qd97CWasayUH
+         NHtvxCX6iaDovs0Ht/ldQ9nYuWtX5WiPSWMRH5wddBrPfIgkfnm8B5h2MSoQIpIUsObL
+         hqv6XVESZyTyy8HferXZt7iyBAQU9BKTTOtJus593aZ7o1aHj/VN2ixvSZ+TutJnzS8Y
+         JsOQDoGNQ3+HC7gVixZ2VZWq2ChM+8TqFCY6eRzj+A8B4alnuxSWvk0mnCBBuy9JfZH1
+         ikEbbDeMIal5CTyUy+vX9UVmHtNIShnuU5jdE5TT7ZCCMA3YPZGAz6uS0lVeE6CxpTth
+         TdKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YCkQguGKE4vw52rjiqjjJsW7E4cSYB+SLLUzIoTk1Ik=;
+        b=uKOJ4/BzmTT+Di0mS/YyJXzC7ZFpToMtLjDtbMyz1+3Ni48gthl7PcvDSe9D5Mu9tM
+         OPolfNiwAsQ8DbMFinyJIXizBFYLIfTdGWIKQYp2WsF00ELVnTQAJkbJ+rCtctJxZeYA
+         orQzjMjI7HCWmueegATgvdGGV0/1ZMpOMyIe33OzfsVWUem03AEONC28YL1JZTLQWryO
+         fjMa6VikQSQFbBmZVW1AXb9HRVeoDyLucA+y8zAiCmmteXD3pMGe0SzkxwvcpvPYIS1P
+         y/X2LubDVqLrDAUqVd3FVx46SrhRrAt9xVs4YJEVcydb5orGfgK1Q7bBkcrtbIzPSyoX
+         AnRA==
+X-Gm-Message-State: AJIora+WSIo0IBFhJRz97R6uCVZO2Za3rzpwXxgyelZFnwIC/jx3tQZd
+        yV9SMHMLICnH3pycURT6IN5iison1QTW+0E4wAg=
+X-Google-Smtp-Source: AGRyM1vUtG1sprs3WyDHHWQCuxk/Q5yWxq2OoSg0LZhgVVTyot64upYI6tkj6cuRWeOXXNHfAH6Aq1iE1M/M/fjuaZI=
+X-Received: by 2002:a81:cd3:0:b0:317:861c:ac07 with SMTP id
+ 202-20020a810cd3000000b00317861cac07mr19277273ywm.486.1656708505618; Fri, 01
+ Jul 2022 13:48:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220701134415.4017794-1-vincent.knecht@mailoo.org> <20220701134415.4017794-5-vincent.knecht@mailoo.org>
+In-Reply-To: <20220701134415.4017794-5-vincent.knecht@mailoo.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 1 Jul 2022 22:47:49 +0200
+Message-ID: <CAHp75Vf1nMi6OAbksNMCEkq3snrtDQSwRcSnbkB=gPwS=WWz9A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] leds: is31fl319x: Use non-wildcard names for vars,
+ structs and defines
 To:     Vincent Knecht <vincent.knecht@mailoo.org>
-X-Mailer: Apple Mail (2.3445.104.21)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Fri, Jul 1, 2022 at 3:45 PM Vincent Knecht <vincent.knecht@mailoo.org> wrote:
+>
+> In order to add real support for is31fl3190, is31fl3191 and is31fl3193,
+> rename variant-dependent elements to not use 319X where needed.
+>
+> 3190 suffix is used for is31fl3190, is31fl3191 and is31fl3193 circuits.
+> 3196 suffix is used for is31fl3196 and is31fl3199.
+>
+> Those two groups have different register maps, current settings and even
+> a different interpretation of the software shutdown bit:
+> https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
+>
+> Rename variables, stuctures and defines in preparation of the splitting.
 
-> Am 30.06.2022 um 23:43 schrieb Vincent Knecht =
-<vincent.knecht@mailoo.org>:
->=20
-> Le jeudi 30 juin 2022 =C3=A0 09:28 -0600, Rob Herring a =C3=A9crit :
->> On Tue, Jun 28, 2022 at 08:09:39PM -0600, Rob Herring wrote:
->>> On Tue, 28 Jun 2022 20:21:39 +0200, Vincent Knecht wrote:
->>>> Convert leds-is31fl319x.txt to dtschema.
->>>> Set license to the one recommended by DT project.
->>=20
->> Do you have permission to do so? The original .txt file is default =
-GPL2=20
->> and owned by H. Nikolaus Schaller.=20
->=20
-> No, sorry for the mistake.
-> Adding to cc, which I forgot to do in the first place...
-> For reference: =
-https://lore.kernel.org/linux-leds/20220628182147.2837180-1-vincent.knecht=
-@mailoo.org/T/
+structures
 
-Please go ahead and change as you suggested. I won't find time to =
-maintain this (new) document.
+> No functional nor behaviour change.
 
-BR and thanks,
-Nikolaus
+...
 
+> +#define IS31FL3196_CONFIG2_CS_MASK     0x7
+
+GENMASK() ?
+
+...
+
+> +#define IS31FL3196_CURRENT_MIN         ((u32)5000)
+> +#define IS31FL3196_CURRENT_MAX         ((u32)40000)
+> +#define IS31FL3196_CURRENT_STEP                ((u32)5000)
+> +#define IS31FL3196_CURRENT_DEFAULT     ((u32)20000)
+
+> +#define IS31FL3196_AUDIO_GAIN_DB_MAX   ((u32)21)
+> +#define IS31FL3196_AUDIO_GAIN_DB_STEP  ((u32)3)
+
+Why do you need all these castings? Wouldn't u/U suffice if you really
+want to have them unsigned?
+
+-- 
+With Best Regards,
+Andy Shevchenko
