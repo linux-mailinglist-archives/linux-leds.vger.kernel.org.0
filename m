@@ -2,47 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70E44564057
-	for <lists+linux-leds@lfdr.de>; Sat,  2 Jul 2022 15:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF7F56406C
+	for <lists+linux-leds@lfdr.de>; Sat,  2 Jul 2022 15:48:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbiGBN0w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 2 Jul 2022 09:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59496 "EHLO
+        id S229955AbiGBNr4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 2 Jul 2022 09:47:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiGBN0w (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Jul 2022 09:26:52 -0400
-X-Greylist: delayed 75126 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 02 Jul 2022 06:26:50 PDT
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A2BEE0A;
-        Sat,  2 Jul 2022 06:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1656768396;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=ADhBACrz2Qr0S090wS1ZIeXS8nBhvOhWtGz98bfbjKc=;
-    b=R2EZDoOxGYQL6npqnTUNFLU0N0ESBh2a/SC1H16XCaCAx4XMSGZeC3sAus7KN6KPLK
-    86cT70xlMus+iqlYKDBgSTMFkylLoWvWNgE8jckxVWC/V1YvytrqrIsGOwlVYVUDjIpH
-    B6m3nTaZYOp6tGlll/5qo3cPGKwSGLbbRAFrU+Q3fWmGG/MzZ7t7sRulvz8jyVhCiJ0C
-    Ujmjv+Dsgnu2qLZ6BaY2JymHXVGC4E5ERY/uwuTDu5V+vY0wjtRAc8es54D/2yNCnuOA
-    hXLk7gcx1vyZymkMp+vnFo8tds1kjp2wzMqW0PEdCir7ZzVBcxt0dyQ4UILz4EdhH1ti
-    73eg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBp5hRw/qOxWRk4dH6mrCd8hjwtNJ1XR1aCfoW9lMn+10EiTZKVKiKo"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2001:16b8:2d3c:9600:bc62:e093:3980:49eb]
-    by smtp.strato.de (RZmta 47.46.1 AUTH)
-    with ESMTPSA id x1817fy62DQXDwp
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-    Sat, 2 Jul 2022 15:26:33 +0200 (CEST)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+        with ESMTP id S229491AbiGBNrz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Jul 2022 09:47:55 -0400
+Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4522DF2E;
+        Sat,  2 Jul 2022 06:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1656769649; bh=KRvAEsUC0sls+O9Nc7UMnd+DxX26VFDrwl51aR8S2gA=;
+        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+        b=Np/XkjLGYDSK2m+ojMf9zS4ddJ5r02mOPImaeG/SpQ39LcS6qmijaK8jrWoD/8S5Z
+         O4mEVpWt5KRCrV3PgrLVSKbylc1orn1ZHRsXgig4eOEvbxf1Wu+rMVkDXsVw++jSm0
+         n0SDVpITUJbq9IWrQS2QtU6Z2/kN4zGhl1ZXYP1A=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+        via [213.182.55.207]
+        Sat,  2 Jul 2022 15:47:29 +0200 (CEST)
+X-EA-Auth: NvJ8YmF84cTTSq1nzCuSijqA9StTvrfAFrhbyf6EeamH+Zgv60bAkmVLtOhIEfVGVThA33NXyVo9Jj6btur4iZPjM6f2lfuuSkRCSy8A3eQ=
+Message-ID: <a66ee18b02fa7a1654fedab0aa49bde09cedeee1.camel@mailoo.org>
 Subject: Re: [PATCH v2 1/6] dt-bindings: leds: Convert is31fl319x to dtschema
-From:   "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20220701134415.4017794-2-vincent.knecht@mailoo.org>
-Date:   Sat, 2 Jul 2022 15:26:32 +0200
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     "H. Nikolaus Schaller" <hns@goldelico.com>,
+        Rob Herring <robh+dt@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-leds@vger.kernel.org,
@@ -50,62 +37,78 @@ Cc:     Pavel Machek <pavel@ucw.cz>,
         <devicetree@vger.kernel.org>,
         linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <99DCB131-5A1F-4F8B-8E3F-1AE283AA591A@goldelico.com>
+Date:   Sat, 02 Jul 2022 15:47:28 +0200
+In-Reply-To: <99DCB131-5A1F-4F8B-8E3F-1AE283AA591A@goldelico.com>
 References: <20220701134415.4017794-1-vincent.knecht@mailoo.org>
- <20220701134415.4017794-2-vincent.knecht@mailoo.org>
-To:     Vincent Knecht <vincent.knecht@mailoo.org>,
-        Rob Herring <robh+dt@kernel.org>
-X-Mailer: Apple Mail (2.3445.104.21)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+         <20220701134415.4017794-2-vincent.knecht@mailoo.org>
+         <99DCB131-5A1F-4F8B-8E3F-1AE283AA591A@goldelico.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Vincent,
-
-> Am 01.07.2022 um 15:44 schrieb Vincent Knecht =
-<vincent.knecht@mailoo.org>:
+Le samedi 02 juillet 2022 =C3=A0 15:26 +0200, H. Nikolaus Schaller a =C3=A9=
+crit=C2=A0:
+> Hi Vincent,
 >=20
-> Convert leds-is31fl319x.txt to dtschema.
+> > Am 01.07.2022 um 15:44 schrieb Vincent Knecht <vincent.knecht@mailoo.or=
+g>:
+> >=20
+> > Convert leds-is31fl319x.txt to dtschema.
+> >=20
+> > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> > ---
+> > .../bindings/leds/issi,is31fl319x.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 113 ++++++++++++++++++
+> > .../bindings/leds/leds-is31fl319x.txt=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 61 ----------
+> > 2 files changed, 113 insertions(+), 61 deletions(-)
+> > create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl31=
+9x.yaml
+> > delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl31=
+9x.txt
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/leds/issi,is31fl319x.yam=
+l
+> > b/Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+> > new file mode 100644
+> > index 000000000000..17635a7cf8af
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+> > @@ -0,0 +1,113 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/issi,is31fl319x.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ISSI LED controllers bindings for IS31FL319{0,1,3,6,9}
+> > +
+> > +maintainers:
+> > +=C2=A0 - H. Nikolaus Schaller <hns@goldelico.com>
+> > +
 >=20
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
-> ---
-> .../bindings/leds/issi,is31fl319x.yaml        | 113 ++++++++++++++++++
-> .../bindings/leds/leds-is31fl319x.txt         |  61 ----------
-> 2 files changed, 113 insertions(+), 61 deletions(-)
-> create mode 100644 =
-Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
-> delete mode 100644 =
-Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+> as noted for v1 you can change this as it is a new file (just same idea i=
+n different language) and I won't have time
+> to maintain it.
 >=20
-> diff --git =
-a/Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml =
-b/Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
-> new file mode 100644
-> index 000000000000..17635a7cf8af
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/issi,is31fl319x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ISSI LED controllers bindings for IS31FL319{0,1,3,6,9}
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
+> BR and thanks,
+> Nikolaus
 
-as noted for v1 you can change this as it is a new file (just same idea =
-in different language) and I won't have time to maintain it.
+Hi Nikolaus,
 
-BR and thanks,
-Nikolaus=
+ok I'll send a new series.
+Just to be sure, is it ok to change license to (GPL-2.0-only OR BSD-2-Claus=
+e) too ?
+
+Thank you
+
+
