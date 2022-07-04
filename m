@@ -2,60 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15218564EB8
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Jul 2022 09:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DAFF56502D
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Jul 2022 11:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233426AbiGDHcH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Jul 2022 03:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55136 "EHLO
+        id S232531AbiGDJBE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Jul 2022 05:01:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232315AbiGDHcH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Jul 2022 03:32:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65FB47670;
-        Mon,  4 Jul 2022 00:32:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 03C0A60FA4;
-        Mon,  4 Jul 2022 07:32:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFCEEC341CA;
-        Mon,  4 Jul 2022 07:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1656919925;
-        bh=Om+nqyQlk3ApwySlhU6XCtK3ALi3IXJUqmVS0sAksoc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dvvNeEXhguJ/fBeZ8UhgLDURBTtN/9EI/GZpfcpbZR6tLtCBuTNE7bHHQEldnGzme
-         X/e9TPvuqzXU5aOFXzaOpylhZFZYcR2YYa0Va3ZZVvKKQiS+6AKPbuIwRLGzireZUS
-         YAxlyXr9wFqsv4s2m69GXLBTecgeYE66bAwkGkkY=
-Date:   Mon, 4 Jul 2022 09:32:02 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     lee.jones@linaro.org, daniel.thompson@linaro.org,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        sre@kernel.org, chunfeng.yun@mediatek.com, jic23@kernel.org,
-        lars@metafoo.de, lgirdwood@gmail.com, broonie@kernel.org,
-        linux@roeck-us.net, heikki.krogerus@linux.intel.com, deller@gmx.de,
-        chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370
- tcpci driver
-Message-ID: <YsKXcnys2Wa8Zz0p@kroah.com>
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-9-peterwu.pub@gmail.com>
+        with ESMTP id S231274AbiGDJBE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Jul 2022 05:01:04 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5F31D6
+        for <linux-leds@vger.kernel.org>; Mon,  4 Jul 2022 02:01:02 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id g1so3209263edb.12
+        for <linux-leds@vger.kernel.org>; Mon, 04 Jul 2022 02:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eT4y52kSDwYMkPDU8vLHO6lBX+TLXBqTTsHP5yCtY4E=;
+        b=EX81WfHCP/BD6F7LDKgN3Ep0KJmK0j5vc4tV6khMKraWhUSk4o5JdOKR4bCicwcqtw
+         Ss61IYF10DuoTSkxAoabiXlb135pzYxTCywqNh8RSB1b5PxwkUacD732WxP9crcIfKs4
+         aRwQugdw2bXbyOnaQrpawGQeslloUT/ph62f+5H7F5sV/TRaCu1aPpqosnPgQCPkVyMa
+         DsGLLoEEIP4nUV3U9Di3uYCNC2qSD5+bu5ZIYTL1TWLra33fyG3u1DIOGVuJwQGcjvjE
+         WG7+TOEVFb/fdh4DaZjvBusNJ7+NmHIKICqaIhX6jr9CtH3y/YLEAsYACJbU9nyxzyS1
+         gVPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eT4y52kSDwYMkPDU8vLHO6lBX+TLXBqTTsHP5yCtY4E=;
+        b=iEwbjZmSiCjtGugfnsKcOl9jRcYmw189dYjRr45QdQ5AQbKxDIBYop3exO5pPw1p9T
+         mdE60hlihKMz3usSs46lVCO0m1XMQzipwzuCi90IitHKAgsGuTc8OEFg6TuAo6hd0NBq
+         Y0MoWbjoe8GHH7onAW3B/zdyuczu1C4yVBpXBqZ6kj15mHalVmFgLX6HdCnjGU7LPlye
+         4HwTAGjbt9j4OWKEbmf7YS9KPV4fouxXAW8zIo7181UgEPR/y6bN4fXcRD1ydQCzF+Pn
+         CTdUTydCgH6Ktcfw2ROZ+Gj3l4a5JQfF07gAG6/6GssF12q8yUipQGnx06x9HjY3guOA
+         BNPQ==
+X-Gm-Message-State: AJIora/hN92YmK2I3Kdqh+NKMa4dnTX0JNNMjLey4CQvwuZwkrD3qbIw
+        MUAzvzaNxqduqTYKeVwpUpcq0g==
+X-Google-Smtp-Source: AGRyM1tR4Gd6ADljzwlLPNVZnRjcxbsyTp5XQ4IYBxU0DxmvORlFG+hELY/SzFD35l8NSRG6A216qA==
+X-Received: by 2002:a05:6402:348e:b0:435:a912:355f with SMTP id v14-20020a056402348e00b00435a912355fmr35992270edc.326.1656925260815;
+        Mon, 04 Jul 2022 02:01:00 -0700 (PDT)
+Received: from stroh80.sec.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
+        by smtp.gmail.com with ESMTPSA id g21-20020a170906539500b0072ab9f5ae5fsm1642613ejo.75.2022.07.04.02.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 02:01:00 -0700 (PDT)
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+X-Google-Original-From: Naresh Solanki <Naresh.Solanki@9elements.com>
+To:     Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Naresh Solanki <Naresh.Solanki@9elements.com>
+Subject: [PATCH 0/5] mfd: max597x: Add support for max597x
+Date:   Mon,  4 Jul 2022 11:00:44 +0200
+Message-Id: <20220704090050.3289572-1-Naresh.Solanki@9elements.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220704053901.728-9-peterwu.pub@gmail.com>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,14 +68,46 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jul 04, 2022 at 01:38:56PM +0800, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add chip level mt6370 tcpci driver.
+max597x is multifunction device with hot swap controller, fault
+protection & upto four indication leds.
 
-What does this mean?  Please provide more information about the hardware
-being supported here so we know how to review this.
+max5978 has single hot swap controller whereas max5970 has two hot swap
+controllers.
 
-thanks,
 
-greg k-h
+Marcello Sylvester Bauer (1):
+  dt-bindings: mfd: Add bindings for MAX5970 and MAX5978
+
+Patrick Rudolph (4):
+  mfd: max597x: Add support for MAX5970 and MAX5978
+  regulator: max597x: Add support for max597x regulator
+  iio: max597x: Add support for max597x
+  leds: max597x: Add support for max597x
+
+ .../devicetree/bindings/mfd/max5970.yaml      | 164 ++++++
+ drivers/iio/adc/Kconfig                       |   9 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/max597x-iio.c                 | 156 ++++++
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-max597x.c                   | 130 +++++
+ drivers/mfd/Kconfig                           |  12 +
+ drivers/mfd/Makefile                          |   2 +
+ drivers/mfd/max597x.c                         | 109 ++++
+ drivers/regulator/Kconfig                     |  10 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/max597x-regulator.c         | 506 ++++++++++++++++++
+ include/linux/mfd/max597x.h                   | 100 ++++
+ 14 files changed, 1211 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/max5970.yaml
+ create mode 100644 drivers/iio/adc/max597x-iio.c
+ create mode 100644 drivers/leds/leds-max597x.c
+ create mode 100644 drivers/mfd/max597x.c
+ create mode 100644 drivers/regulator/max597x-regulator.c
+ create mode 100644 include/linux/mfd/max597x.h
+
+
+base-commit: 88084a3df1672e131ddc1b4e39eeacfd39864acf
+-- 
+2.35.3
+
