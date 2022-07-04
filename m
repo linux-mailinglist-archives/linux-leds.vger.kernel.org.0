@@ -2,115 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28124565059
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Jul 2022 11:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D90565650F0
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Jul 2022 11:34:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233587AbiGDJHV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Jul 2022 05:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37726 "EHLO
+        id S233938AbiGDJdD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Jul 2022 05:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233551AbiGDJHT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Jul 2022 05:07:19 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0384EBE0B
-        for <linux-leds@vger.kernel.org>; Mon,  4 Jul 2022 02:07:16 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id z21so14618039lfb.12
-        for <linux-leds@vger.kernel.org>; Mon, 04 Jul 2022 02:07:16 -0700 (PDT)
+        with ESMTP id S233948AbiGDJcv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Jul 2022 05:32:51 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8BFE0C7;
+        Mon,  4 Jul 2022 02:31:41 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so13070622pjl.5;
+        Mon, 04 Jul 2022 02:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=BtyIymdH2qSSNBvNEoKc/50n+YaYkErYRhVN3d4+GHk=;
-        b=XiM+E5UdwfyHsyHbIllCDzfZVdzGil+LXmUM3o6WF4PkRJ4XqFmVWojD1MoYEM77UY
-         8+GhsWQjoigl4ndUWRWWskLeKNbMy9E0wfbPwsNxu0WoSBISOu84MorLmmWNIKgTWfWC
-         Qj12RXtMOdfS1+T4b+EPVwW0F4GFOMBWYctm4pNB8bg1eHfe2AaGwUodg+mu7efIXksV
-         TNtl7aJRF9CsWzUdAnNF1x2c3v41JPbqU1Ies4ozEErlMu42mw5lQIEqwp2GwAssuDYK
-         Cw3KRx93bb5JTFartqor8wS0/vf3qj4RGn/Vtt/gfoVCkPpTOdjeZN4O1NmlZR66TIIo
-         LfSw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xIA0tkEJFCPwLmR+R6eKHNKrvI9a6bVM4TsihGfrld0=;
+        b=f8MhiLRjvn4JhQhz9F64yCgS5B6jrH8tJwT1awj7AGv9RShuJdBVz84vc1kQVsx0Lv
+         eNwaezjyn3nuI01xLjtA8+y0NZAqsqTswX489ZxWe/DK4qA3KOAt8JChBJylkfu6iBcj
+         ORlmB+OW6RB+2+Vau8HlQetnTopYsjVTFjp0f9KRNoR/+YI371o5iIsodX7EUGlhLxKP
+         kIepqqS2tlY+l7PfLRiLbmuc06ZAkcN8W3clHbhEfFPx2LGi5BU/JurrZIflfzIJK1dI
+         KLvXaDm+sy2U5Xe0lntfK9VA1zVFQuJyC2Hbzq2cctn7nouM2bwK0yqcoPWSdeZyN5vE
+         +/GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=BtyIymdH2qSSNBvNEoKc/50n+YaYkErYRhVN3d4+GHk=;
-        b=Zbxwi2S/PFp/60qpF8jLTggg8fdE8bOYkxpWAk2ppAtTLpwoLDG5E+yeD7mpSquEyA
-         THX21tGVIZ13cfN5q9tN7hcCf3pMJQbTYH9ThZuc9pyNIJou3QWjtbIZTukVfv+5yBsu
-         htHrREh4WVWxESxQ28MFETQ8LKguyV5v0SbxYoISe5lC0qwp0tmBrZ9kLqfm3f/3HfgK
-         Nyyhw1rvSIpcpu5/QLAPQx5+WIxYpYxCgrEWgQ97bq7tT6rxum07U+6m7Pdi/MBAxjDl
-         7ksAOWqNvwMK48UgNz+sFeuEvKnEXASuzLa0YkBUj6+75IEshWxqzevumhi1qKRL7qxH
-         STAQ==
-X-Gm-Message-State: AJIora/U1eSqxtBBoawZZpDSXHAb85nLBqamlBQ+whxGNAWEhnQTkz7z
-        iVtkOiPJtndDkT19Xn4EDGNrfw==
-X-Google-Smtp-Source: AGRyM1tI9Ub9KvPHASQI5b2883dspTVBOFIXRiN1cbb02P3TVGpg8m7UwRb/aJtvqXiUk+O/khToVA==
-X-Received: by 2002:a05:6512:2810:b0:47f:a76c:8770 with SMTP id cf16-20020a056512281000b0047fa76c8770mr19891464lfb.116.1656925635286;
-        Mon, 04 Jul 2022 02:07:15 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id e18-20020ac25472000000b0047f77cc3287sm5036384lfn.274.2022.07.04.02.07.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 02:07:14 -0700 (PDT)
-Message-ID: <247e5688-8aff-1c7c-80e4-b39c5f2fae9b@linaro.org>
-Date:   Mon, 4 Jul 2022 11:07:13 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xIA0tkEJFCPwLmR+R6eKHNKrvI9a6bVM4TsihGfrld0=;
+        b=POMPhCymPAxgLj2H6m7adApMVcTrUWLx1gC5wWoSYnMk8y7f37BYaMomk10afoT4mg
+         VvWRteExDmC6YL2pHc9YTYlaPZSrBAL8Ku456f5j2U16C6v1q8vs8h9SlOcF7eVCo9VQ
+         otonsIoxN6lV0Is0xQpYoRAgzcMFjlmZAEdkzcnLW9sTtjAqoRWvP+VTSDUSsFjt6H5w
+         khuhWdTW2ScsDwWGtolr2cIEP9YeCMPxo2aUSYmcZ1G3x1QlwP64PPRVowc+XgCXg6UN
+         x1CYrcPKhqcPx5VaAsFPeL6fc3BQZb/7/nS0yUyEEilfHfkywXsIF8r8zIsqo2GQvS9l
+         d61Q==
+X-Gm-Message-State: AJIora+ywkXY3rglOW+A0MWGoerBEpEer7QEG6ser+wAjZxjmjxxKPfg
+        fz3MvTmVktNpFh+dIjt/DF/1kEYY97iCmWGriEw=
+X-Google-Smtp-Source: AGRyM1snqrRpQbd96zgAVBmjrPX1x2o3afFwTRTiOLpzM13U4eENpimphE3z0PHrUTRqdjm3Nu9HaCkQlEPGsPeCLlE=
+X-Received: by 2002:a17:903:110c:b0:168:fa61:1440 with SMTP id
+ n12-20020a170903110c00b00168fa611440mr34740455plh.149.1656927100855; Mon, 04
+ Jul 2022 02:31:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 06/13] dt-bindings: mfd: Add Mediatek MT6370
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
-        heikki.krogerus@linux.intel.com, deller@gmx.de
-Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-7-peterwu.pub@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220704053901.728-7-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220704053901.728-1-peterwu.pub@gmail.com> <20220704053901.728-9-peterwu.pub@gmail.com>
+ <YsKXcnys2Wa8Zz0p@kroah.com>
+In-Reply-To: <YsKXcnys2Wa8Zz0p@kroah.com>
+From:   szuni chen <szunichen@gmail.com>
+Date:   Mon, 4 Jul 2022 17:31:29 +0800
+Message-ID: <CA+hk2fYA3phYAoh+BFr0ddy9MR8Ro1WCoqBpa1UK2StwMtLyfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370
+ tcpci driver
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>, chiaen_wu@richtek.com,
+        alice_chen@richtek.com, ChiYuan Huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 04/07/2022 07:38, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add Mediatek MT6370 binding documentation.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> 
-> v4
-> - Roll back all "$ref: " to v2 patch style (using
->   "/schemas/...")
-> ---
->  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
->  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
->  2 files changed, 298 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
->  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
-> 
+Greg KH <gregkh@linuxfoundation.org> =E6=96=BC 2022=E5=B9=B47=E6=9C=884=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:32=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Mon, Jul 04, 2022 at 01:38:56PM +0800, ChiaEn Wu wrote:
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add chip level mt6370 tcpci driver.
+>
+> What does this mean?  Please provide more information about the hardware
+> being supported here so we know how to review this.
 
-Looks ok. This depends on previous DT bindings patches, so all of them
-should go through one tree or with some pull requests (but that would be
-a lot). You should mention it in cover letter to get the acks from
-subsystem maintainers.
+Dear Greg,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MediaTek MT6370 is a highly-integrated smart power management IC,
+which includes a single cell Li-Ion/Li-Polymer switching battery charger,
+a USB Type-C & Power Delivery (PD) controller, dual flash LED current sourc=
+es,
+a RGB LED driver, a backlight WLED driver, a display bias driver and a
+general LDO for portable devices.
 
-Best regards,
-Krzysztof
+This driver is used for the Type-C & Power Delivery controller in
+MediaTek MT6370 IC.
+
+If we change the commit message to
+
+"Add MediaTek MT6370 tcpci driver.
+MediaTek MT6370 is a multi-functional IC that includes USB Type-C.
+It works with Type-C Port Controller Manager to provide USB PD and USB
+Type-C functionalities."
+
+does this meet your requirements?
+Or =E2=80=9CAdd tcpci driver for Mediatek MT6370 IC=E2=80=9D is enough?
+
+Sincerely,
+Alice Chen
