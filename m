@@ -2,97 +2,198 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18C8056703D
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 16:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E89AB5673AC
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 18:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231937AbiGEOGj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 10:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53734 "EHLO
+        id S229801AbiGEQAL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 12:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231856AbiGEOGU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 10:06:20 -0400
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A7F237DA;
-        Tue,  5 Jul 2022 06:54:34 -0700 (PDT)
-Received: by mail-il1-f177.google.com with SMTP id h5so7286295ili.3;
-        Tue, 05 Jul 2022 06:54:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=buPhKKKW8Xayy8T9aHzdMFGzDZRwQ4d9cvNmyEA517Q=;
-        b=6OPYwWjvpClcFEgRDlrd3slFsIL153UN8Hw4V7WA43IiPEQ8va3EVfwQbjjUMYymmN
-         cRSbZC8yvW/PNAIXCOmNCqdC3lWi1p3Vx++rg8AFMqXRXM3xQFJ1+NUxX5KC8A1CTj9A
-         ZQdTsdTWCBqC0t68q7VKCAHbq/J+CoGtgh34noTD1s0NfZoJ2syVeuPd2xXXkL8FldEw
-         XRHygK6MLgCKywTJwsmXI0NuUq5wvux06CWd/K237QWjoewbClMCYBGelkAm5k2EhUFp
-         JpZcSbMJpYhLTSU1edqARqpQIcHqoR5vWKNU3VaAb80gEbYemznHiikkDymF/MDvVNIr
-         Iukg==
-X-Gm-Message-State: AJIora/Jgpf0ahFIWrXvnlCaULz09CQ3aAG4WZDuyNAA9P+EuqVjidKq
-        59omW/Lw4axI6D+nMW+QQxZa6W/3EQ==
-X-Google-Smtp-Source: AGRyM1s+sSt2C+3zdM8x8HXBUZqMpoqENUNuNJ3ltpsCbA+QPeSFS+w1g92ETH9uvwjhbZ3cmkWH5Q==
-X-Received: by 2002:a05:6e02:20c5:b0:2d9:3368:3db1 with SMTP id 5-20020a056e0220c500b002d933683db1mr20137991ilq.112.1657029273087;
-        Tue, 05 Jul 2022 06:54:33 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id p4-20020a056638190400b0033ea1d9858bsm5308602jal.36.2022.07.05.06.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 06:54:32 -0700 (PDT)
-Received: (nullmailer pid 1999979 invoked by uid 1000);
-        Tue, 05 Jul 2022 13:54:31 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S229520AbiGEQAK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 12:00:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B87F13DCD;
+        Tue,  5 Jul 2022 09:00:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35E8361B91;
+        Tue,  5 Jul 2022 16:00:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4A4C341C7;
+        Tue,  5 Jul 2022 16:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657036807;
+        bh=iNFu+DCH3hapeUc3T/tivUxYXOlzMBlW6gIg/mWtii8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gOPLhrbOO+fFuKTsxaoTB2TA6IUw0fPCOAYRWdnPC2QRQLkWaUQTpzWuTAzp0Gz0l
+         fxCu/kSIFRluRp6z/2snPVwgBYjWddbrv+VPY9+Om7nZIWrkU3D6NkLnBan1szM4Qy
+         KtP0+zsj2sNU/OM0BfxquL50JZD66nGVPwCVvGSXjZzNvTHQpTzLG9fw7nL6686PF+
+         Q3dmARH9e7mcRonE6HehLqTizR8UAfhuyCdv7L50v72IDbIFn0UukEgEMpUeJttcWL
+         lHHYlhPRN8kCLHtkmtFMRXCGRmuo53116NkNz/629rA6FZ8e9TX28OGywxfjCsrRIw
+         59AmdL6iNxAXw==
+Received: by pali.im (Postfix)
+        id D5003CBF; Tue,  5 Jul 2022 18:00:03 +0200 (CEST)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add cznic,turris1x-leds.yaml binding
+Date:   Tue,  5 Jul 2022 17:59:28 +0200
+Message-Id: <20220705155929.25565-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220705000448.14337-1-pali@kernel.org>
 References: <20220705000448.14337-1-pali@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Add cznic,turris1x-leds.yaml binding
-Date:   Tue, 05 Jul 2022 07:54:31 -0600
-Message-Id: <1657029271.142997.1999977.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,PP_MIME_FAKE_ASCII_TEXT,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 05 Jul 2022 02:04:47 +0200, Pali Rohár wrote:
-> Add device-tree bindings documentation for Turris 1.x RGB LEDs.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> ---
->  .../bindings/leds/cznic,turris1x-leds.yaml    | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
-> 
+Add device-tree bindings documentation for Turris 1.x RGB LEDs.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Pali Rohár <pali@kernel.org>
 
-yamllint warnings/errors:
+---
+Changes in v2:
+* Fix schema errors
+---
+ .../bindings/leds/cznic,turris1x-leds.yaml    | 118 ++++++++++++++++++
+ 1 file changed, 118 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/leds/cznic,turris1x-leds.example.dts:21.18-84.11: Warning (unit_address_vs_reg): /example-0/cpld@3,0: node has a unit name, but no reg or ranges property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.example.dtb: led-controller@13: reg: [[19, 29]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
+new file mode 100644
+index 000000000000..bcaab5b03128
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
+@@ -0,0 +1,118 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/cznic,turris1x-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: CZ.NIC's Turris 1.x LEDs driver
++
++maintainers:
++  - Pali Rohár <pali@kernel.org>
++
++description:
++  This module adds support for the RGB LEDs found on the front panel of the
++  Turris 1.x routers. There are 8 RGB LEDs that are controlled by CZ.NIC CPLD
++  firmware running on Lattice FPGA. Firmware is open source and available at
++  https://gitlab.nic.cz/turris/hw/turris_cpld/-/blob/master/CZ_NIC_Router_CPLD.v
++
++properties:
++  compatible:
++    const: cznic,turris1x-leds
++
++  reg:
++    description: CPLD address range where LED registers are mapped
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^multi-led@[0-7]$":
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      reg:
++        minimum: 0
++        maximum: 7
++
++    required:
++      - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    cpld@3,0 {
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges = <0x0 0x3 0x0 0x00020000>;
++
++        led-controller@13 {
++            compatible = "cznic,turris1x-leds";
++            reg = <0x13 0x1d>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            multi-led@0 {
++                    reg = <0x0>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_WAN;
++            };
++
++            multi-led@1 {
++                    reg = <0x1>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_LAN;
++                    function-enumerator = <5>;
++            };
++
++            multi-led@2 {
++                    reg = <0x2>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_LAN;
++                    function-enumerator = <4>;
++            };
++
++            multi-led@3 {
++                    reg = <0x3>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_LAN;
++                    function-enumerator = <3>;
++            };
++
++            multi-led@4 {
++                    reg = <0x4>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_LAN;
++                    function-enumerator = <2>;
++            };
++
++            multi-led@5 {
++                    reg = <0x5>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_LAN;
++                    function-enumerator = <1>;
++            };
++
++            multi-led@6 {
++                    reg = <0x6>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_WLAN;
++            };
++
++            multi-led@7 {
++                    reg = <0x7>;
++                    color = <LED_COLOR_ID_RGB>;
++                    function = LED_FUNCTION_POWER;
++            };
++        };
++    };
++
++...
+-- 
+2.20.1
 
