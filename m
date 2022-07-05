@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B68C5676E0
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 20:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5801F5676F9
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 20:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232966AbiGESwc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 14:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
+        id S232988AbiGES4y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 14:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232836AbiGESwa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 14:52:30 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EE51EEDA;
-        Tue,  5 Jul 2022 11:52:30 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id j7so17097526ybj.10;
-        Tue, 05 Jul 2022 11:52:30 -0700 (PDT)
+        with ESMTP id S232802AbiGES4y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 14:56:54 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554E21CB08;
+        Tue,  5 Jul 2022 11:56:53 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id 76so7869234ybd.0;
+        Tue, 05 Jul 2022 11:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yja7doOEpycm6RswSNt6Ndu5Y1PCKNLpIKO/qkkV0nE=;
-        b=a55i++zWl7RlFm3zSrT5LvAALOmVDqFD54SzizUFEfNwQRdB6Ou3Nnn7B+iZEQf1lU
-         PdGlmjvHtewS8WBW4VCSms4/L+CEQKjCVM3IHfw5EZdIlVypuM0/ZF13ZqFeCJ6phl7f
-         9Z5WQ21aGvw1n3m7g5oAcPQAZLEJMf8xV+hvC5Y0Mq9uOJy/YHfJUsnVccZnWAlDsMmQ
-         D+sNWKP+6nw9Gp/QWzcYQWt9nwX63aHvWbkOLhJjKZGupYEu7hN21C6tpra2B7n5oqB9
-         gfNrGNfFKEzRy9rpeyFHhZLpzE8Yf3kdH4CbwgbX5mGrkzBvGZi78uxoOEfNUf9/ahUt
-         Fl6Q==
+         :cc:content-transfer-encoding;
+        bh=dDpLmzgCTNaag0l7E/auT86quNK4kZ8UAf8vd4GL+vY=;
+        b=FSTgQmjT1A5oPfD0QfDB0xn+jyjsEW0QRgR1S8VKPO6GqcMTMG/veArbE39Y+fz0lj
+         fIxOY7vPZIZ+eZFNgycrrsJOOREu5eyEZvru0H691bRCsb1oqKB9ySOZhfyx6ANnhCbr
+         rKX/SvxuO5qChcBBoHMcvpFy/IS7FLSZEsHuQc0TxtfxwW59LS8N6gbOFEL/FJlC2dXS
+         C2zv5Pzv3NUAG1GiBCf6vTMKpm9BBJGjpHRMA/QKwCUVB1qIIc+otnsX8atwLhnzEIb5
+         HajuQ0BWnfeGCciivylxEHlk4Q10fup8BRAm5Rcxe/nzAoDatYnQgt1YTC0P0niMqjsj
+         3G5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yja7doOEpycm6RswSNt6Ndu5Y1PCKNLpIKO/qkkV0nE=;
-        b=QMYylGvFUFs7EZi5kNXYW4fXRWs74bcQppWVI0qn8NG1wc2Zfji8bnq3ufeN8aKwtE
-         RwzwSjuZty2fqNLx0nAgqPt9EUD9DvUTXhQUCAxrPs2P6jGp41OmbFJ+WMNCXlOURI5M
-         ZSkFAoMh4bEm1dxPyZWZ2x+0Vp5YpbfGjbCUsU/udaMvD1Sotx3w23D5I9ULf7+KcxDF
-         +tb6zfiscsTOyiQzD+A5EpHodEAiNr9lfeOUsu8AULS/bDoT+90Hvq4SNyGyTsblbMkK
-         man47PYgeB+0IFA0/gLeI8LaPI1+cgr47l9TeTMlXFklK/N+7WrPZ0C8rwtJMUWdrqJe
-         UXqw==
-X-Gm-Message-State: AJIora/fDQospK+tOYRwfab8vtez3GnxRMK3895qamdnlklQ1d9hUoUl
-        h3tnvsxb3prXlEa1kDgQiOyXQEsCNDJCwf8trUM6s4htNPzxHw==
-X-Google-Smtp-Source: AGRyM1sXCXdmA1oh73EjPE613SlrQgJJ687u6/+ASegMiKcdwlMvgS9s5xDQMB5NWi9NuWyPo1By384NQC0dTgbyMks=
-X-Received: by 2002:a25:858e:0:b0:66e:4898:63e2 with SMTP id
- x14-20020a25858e000000b0066e489863e2mr14635194ybk.296.1657047149337; Tue, 05
- Jul 2022 11:52:29 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=dDpLmzgCTNaag0l7E/auT86quNK4kZ8UAf8vd4GL+vY=;
+        b=30oK/C7O6SVesK0JIso+Q+uwLVIFxgbZbeH4QFmtej5S2rYpLiEwlUMmI0cTKa0YK5
+         yLyx80lUOON5WjgxTbXjCeyeelKeBxW+70/2xXRX4Gn5+h6j02jwL6wO0LKEd2qK5mtf
+         mC/nNLWvL7C6EGOMyritRDspkVWUSARS+51x9eddaoDks8Vvksbkfrzxf8G3V2vn0BRD
+         CCfT6mIf+bdQIBYuiCLJP/VMhbC7AZ03gfCN0UNt/EnRULMLig2UHwXEfKjV20RaQpbJ
+         EGhhXtvUyJnfuG/S5aoKDKI9iBRXujGazoA22XekVs4x/TTfkwavGRkVU8vV/zIdDuqM
+         415Q==
+X-Gm-Message-State: AJIora9lO2fe8ux3NymCogCwtwJhdwfyqKSId7XRw/eIUCatjxIzs9xj
+        ZcoGbvywOI2EqfI7ENTBFEuoDp+qpQpJj1oyklo=
+X-Google-Smtp-Source: AGRyM1vhXskzcKZ6sXq/AtW3jjNFnj4urMoKIla7gCjfhBXmvrqCipn1iAay4wMX66hYNqInxrSIZ70fLjn7SopMcv8=
+X-Received: by 2002:a25:dd83:0:b0:66c:8d8d:4f5f with SMTP id
+ u125-20020a25dd83000000b0066c8d8d4f5fmr38806189ybg.79.1657047412542; Tue, 05
+ Jul 2022 11:56:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705163136.2278662-1-vincent.knecht@mailoo.org> <20220705163136.2278662-6-vincent.knecht@mailoo.org>
-In-Reply-To: <20220705163136.2278662-6-vincent.knecht@mailoo.org>
+References: <20220705163136.2278662-1-vincent.knecht@mailoo.org> <20220705163136.2278662-7-vincent.knecht@mailoo.org>
+In-Reply-To: <20220705163136.2278662-7-vincent.knecht@mailoo.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 5 Jul 2022 20:51:52 +0200
-Message-ID: <CAHp75VexCGKRVovaMhfzonFkju6vh_TR6_A3vLtZVox3AhAvYg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] leds: is31fl319x: Move chipset-specific values in
- chipdef struct
+Date:   Tue, 5 Jul 2022 20:56:16 +0200
+Message-ID: <CAHp75VfrROx1oM54x1Bc8+zLkPi6-ivxPtFS2ECyPPLKsYFd1g@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] leds: is31fl319x: Add support for is31fl319{0,1,3} chips
 To:     Vincent Knecht <vincent.knecht@mailoo.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -61,6 +60,7 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         "H. Nikolaus Schaller" <hns@goldelico.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -71,48 +71,67 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jul 5, 2022 at 6:33 PM Vincent Knecht <vincent.knecht@mailoo.org> wrote:
+On Tue, Jul 5, 2022 at 6:32 PM Vincent Knecht <vincent.knecht@mailoo.org> w=
+rote:
 >
-> Allow setting chips' specifics in chipdef struct by adding fields for:
-> - the reset register address
-> - a pointer to a regmap_config struct
-> - a pointer to a brightness_set function
-> - current default, min and max values
-> - a boolean to distinguish 319{0,1,3} and 319{6,9} chips
-> and use those fields in places where distinction has to be made.
->
-> The fields for 319{0,1,3} still point to 319{6,9} values.
-> No functional change.
+> Set specific chipset structs values for is31fl319{0,1,3}
+> so that those chips can actually work.
+> Datasheets:
+> https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
+> https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
 
 ...
 
-> +static bool is31fl319x_readable_reg(struct device *dev, unsigned int reg)
-> +{ /* we have no readable registers */
+Two comments as per previous patch reviews.
 
-Non-standard place for comments.
+...
 
-> +       return false;
+> +       struct is31fl319x_led *led =3D container_of(cdev, struct is31fl31=
+9x_led,
+> +                                                 cdev);
+
+One line?
+
+...
+
+> +               ret =3D regmap_read(is31->regmap, IS31FL3190_PWM(i), &pwm=
+_value);
+
+> +               dev_dbg(&is31->client->dev, "%s read %d: ret=3D%d: %d\n",
+> +                       __func__, i, ret, pwm_value);
+
+regmap has tracepoints Do you need to duplicate it with slow printk()?
+
+...
+
+> +static inline int is31fl3190_microamp_to_cs(struct device *dev, u32 micr=
+oamp)
+> +{
+> +       switch (microamp) {
+> +       case 5000:
+> +               return IS31FL3190_CURRENT_5_mA;
+> +       case 10000:
+> +               return IS31FL3190_CURRENT_10_mA;
+> +       case 17500:
+> +               return IS31FL3190_CURRENT_17dot5_mA;
+> +       case 30000:
+> +               return IS31FL3190_CURRENT_30_mA;
+> +       case 42000:
+> +               return IS31FL3190_CURRENT_42_mA;
+> +       default:
+> +               dev_warn(dev, "Unsupported current value: %d, using 5000 =
+=C2=B5A!\n", microamp);
+> +       }
+> +
+> +       return IS31FL3190_CURRENT_5_mA;
+
+It's more consistent to return directly from the default case.
+
 > +}
 
-...
-
-> +static const struct reg_default is31fl3196_reg_defaults[] = {
-> +       { IS31FL3196_CONFIG1, 0x00},
-> +       { IS31FL3196_CONFIG2, 0x00},
-> +       { IS31FL3196_PWM(0), 0x00},
-> +       { IS31FL3196_PWM(1), 0x00},
-> +       { IS31FL3196_PWM(2), 0x00},
-> +       { IS31FL3196_PWM(3), 0x00},
-> +       { IS31FL3196_PWM(4), 0x00},
-> +       { IS31FL3196_PWM(5), 0x00},
-> +       { IS31FL3196_PWM(6), 0x00},
-> +       { IS31FL3196_PWM(7), 0x00},
-> +       { IS31FL3196_PWM(8), 0x00},
-
-Missed space before }.
-
->  };
-
--- 
+--=20
 With Best Regards,
 Andy Shevchenko
