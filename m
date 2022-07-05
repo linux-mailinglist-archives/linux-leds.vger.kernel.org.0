@@ -2,57 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81A29566A44
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 13:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1294B566CEB
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 14:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbiGELyG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 07:54:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34968 "EHLO
+        id S236102AbiGEMU0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 08:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231693AbiGELyE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 07:54:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A3317069;
-        Tue,  5 Jul 2022 04:54:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 52A81B817CC;
-        Tue,  5 Jul 2022 11:54:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 104D8C341C7;
-        Tue,  5 Jul 2022 11:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657022041;
-        bh=xPWHUAWA1OzLNPdBjpQH6oZ2wBudhcnzPT27+wGyRK4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oi2rW1/3wrIN8h/7P9KudZxtNEtk/aXqe3eatSV3nRHjBX+W4jmtl/22ARiYgljem
-         XeUnkjuk2vHmu4hQxXO+0Kkt1tss5db4wCvqKfMB28OqoOlEdUE0MUEYvFEMtDQQds
-         tu1mucnsITKA67vbw26cH0H5VjK8MoOdTnbw10Rltglp6pRhv9iyU8KwWedfCt3Llh
-         9GbbWsiAKDWylOubRzgA1OVJ/aZ8B898qt/dakvyUmAJS8sfiaXXTMGso+Lz0tb4ep
-         1rMRQolvlX1qXpfeJVllU4P2qYZXwHvdBJCjYkjoKhUQqe4yJ4jAeflWRVjAPUiSq+
-         RxlwzofXOLiGQ==
-Date:   Tue, 5 Jul 2022 13:53:55 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Add cznic,turris1x-leds.yaml
- binding
-Message-ID: <20220705135355.008f6bec@thinkpad>
-In-Reply-To: <20220705114238.xwgexavgozqskwbw@pali>
-References: <20220705000448.14337-1-pali@kernel.org>
-        <42d837dd-fbd1-6294-2fa0-8a07ae0f8d44@linaro.org>
-        <20220705114238.xwgexavgozqskwbw@pali>
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S236622AbiGEMR7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 08:17:59 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC8D193E1
+        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 05:13:09 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id r9so14246661ljp.9
+        for <linux-leds@vger.kernel.org>; Tue, 05 Jul 2022 05:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=UeNH2jSWLV7pgX+9k7Jm7Qrd1Rmj1W872ul3so8oKsg=;
+        b=z8mFZcu8ol2iXYecvxhFYVi1ZxVvlUsA9LO5AkNvxja+k2FsQDGymo6xlhVwgpfHAa
+         IZnKK/XQLW3VNqnYmH1aVoW+TMAqVeQZ8Ia9/maR4izz4q8X9gP7wWoQV8/cjgUC6Q4f
+         L/MSlBfpow9PbpLtZWW95HXO/IAIG2VUsZ05RyWvU5mRTJdyezEz6oEvl4M65oogq60W
+         Fv6fNRQJNaykpYXU/aBizSMBVCSZRUcDmPoiAF1sAKWeDzwtWem5NJnjOz3Mu0KBhNal
+         gPyLFTAAnFxB+R3UjFOQ7gccQ0tXnKh1BvIe8QZiD041AJ8Zj3ZgSVfuuf4f1OTiJvBz
+         UVJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=UeNH2jSWLV7pgX+9k7Jm7Qrd1Rmj1W872ul3so8oKsg=;
+        b=5Kqp3tRdsAUlMVjaSQ1qGRxBGM56ucpUM/SnytiYS4gLHxkqKG6UuoJoj9wG7IRgBb
+         UWLWt7u+wpPHK8HmHgefxzwzcwRKeGZA9i6mJaZAzBLevUOtPBcyhUHitRc2+VzvpqxN
+         Z9p6RzrjQjFjolrucMq/OdT+jk4Gsr351yZjMtAxTs0pZXcBeivL4bsjMWrAkFMciDhD
+         G9UyVvVE/YOI7PteDcGjpVgtIocbnI31qwv02CtHXHYp2dQlQXctv6S4PDyHIxCXfqYE
+         ULb2XtFsIB8SuhDaoSG+kVkJSzJNeqXFq6mvnhFkyKmt0aQw8Htv2Gg2E/7X/Pj5TJKu
+         +JmQ==
+X-Gm-Message-State: AJIora9WIgVtkVu8iruGhyKGJND0mjkUlhtY2Wr048yYi8o8h1swEPG6
+        GYMdMLijzKcFUIRjC5VCB2fzGA==
+X-Google-Smtp-Source: AGRyM1u4eaLpKZopejR3YzQCSTc3vkTgPfGkiK6QtKH02WQO260Dtam/hZsuQzVtqY6jQ39l776M9w==
+X-Received: by 2002:a05:651c:246:b0:25a:3420:735d with SMTP id x6-20020a05651c024600b0025a3420735dmr20556878ljn.515.1657023188027;
+        Tue, 05 Jul 2022 05:13:08 -0700 (PDT)
+Received: from [192.168.1.52] ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id v13-20020ac2560d000000b0047f8790085csm5673105lfd.71.2022.07.05.05.13.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Jul 2022 05:13:06 -0700 (PDT)
+Message-ID: <e5d2d2b9-b346-0481-03be-4a94c87a816f@linaro.org>
+Date:   Tue, 5 Jul 2022 14:13:05 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] dt-bindings: leds: lp50xx: fix LED children names
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220624111325.96478-1-krzysztof.kozlowski@linaro.org>
+ <1656091594.405509.146345.nullmailer@robh.at.kernel.org>
+ <31f5f441-eba3-4ffb-cf68-159cd827ade7@linaro.org>
+In-Reply-To: <31f5f441-eba3-4ffb-cf68-159cd827ade7@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,12 +78,38 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 5 Jul 2022 13:42:38 +0200
-Pali Roh=C3=A1r <pali@kernel.org> wrote:
+On 24/06/2022 19:31, Krzysztof Kozlowski wrote:
+> On 24/06/2022 19:26, Rob Herring wrote:
+>> On Fri, 24 Jun 2022 13:13:25 +0200, Krzysztof Kozlowski wrote:
+>>> The lp50xx LEDs expects to have single-color LED children with unit
+>>> addresses.  This is required by the driver and provided by existing
+>>> DTSes.  Fix the binding to match actual usage.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> Fixes: dce1452301e7 ("dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers")
+>>> ---
+>>>  Documentation/devicetree/bindings/leds/leds-lp50xx.yaml | 8 +++++++-
+>>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>
+>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp50xx.example.dtb: led-controller@14: multi-led@2:#size-cells:0:0: 0 was expected
+>> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+>>
+> 
+> This is expected and fixed in:
+> https://lore.kernel.org/all/20220607075247.58048-1-krzysztof.kozlowski@linaro.org/
+> 
+> I did not combine this patch with above patchset because this one is a
+> fix and might be backported to stable.
+> 
 
-> I have tested bindings on the real hardware and it is working fine
-> together with the driver from patch 2/2.
+Anyone willing to pick this up? This is a fix.
 
-I think Krzysztof meant testing with dtschema.
-
-Marek
+Best regards,
+Krzysztof
