@@ -2,101 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBC82566FA6
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 15:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C8056703D
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 16:07:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbiGENnz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 09:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
+        id S231937AbiGEOGj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 10:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232733AbiGENn2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 09:43:28 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD32201BC
-        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 06:07:34 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id t25so20441943lfg.7
-        for <linux-leds@vger.kernel.org>; Tue, 05 Jul 2022 06:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=zbkJQitCCB4JIY77EtUWLU2dvmK4r/1hyyXKadOjVuk=;
-        b=Y5fC7OWZuDKf24I0MV+8pbvacfRq5CpAm7myf5QLNeQ+ruoEM4xzzTMzeWHqAU4rDl
-         meIsa1R/5ZXa6+KXMiGEznU0U6Cx1zVGVsplX31icjx1gfbVm7VPKwsvg++vCIQCfgLh
-         nnJWoZ0vsZWqDkWMLyR3ynZ15eJsd51irIIwFC+OcgSkVmrK2xYypXRlXe+xBXy1ATyj
-         d+HleFZ95SL53prO/dlNuzAKmSzabgXGJmbOb3nwtULUNmsvREbe3gJ+gBwOg4ieICBw
-         G4uLvh4pSWuLay39UzOaB+OvYTJm6QMjxK+wYM30JTtzG7pugXDtnIHQ3QuR/Cd7V9VI
-         uoJg==
+        with ESMTP id S231856AbiGEOGU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 10:06:20 -0400
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A7F237DA;
+        Tue,  5 Jul 2022 06:54:34 -0700 (PDT)
+Received: by mail-il1-f177.google.com with SMTP id h5so7286295ili.3;
+        Tue, 05 Jul 2022 06:54:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zbkJQitCCB4JIY77EtUWLU2dvmK4r/1hyyXKadOjVuk=;
-        b=oSRGvfCMP0GxsgdA7V7sPyt51JtMw6wwvwTYpozrLhgbGa4vhlucjFzxYsnfhiZKZP
-         uxLvjaEDfvjbJ/IDkoaY8pLGRGpE4t0qcJ9gutKVynP2+HsXOSYARkJ2aBcGOA5QGsQJ
-         Su9nubq/E8pLd+t0KGGyoGmh7f6aj+3mkBL+060t450Mmz3XWrYT0Qaav2nd5npGRle7
-         dxtBCF1XlIa3WmTzRpo4bn9eQuChndzGCXdmXnVibsZYgwZMj3PUpnf4IvMYzsoFvHFg
-         V7fO+vhXz3enIb4tY/G/7myXNU1QbspxpchXJHHzm2jPnu04ebbLPXkWwljOkKiv3Enx
-         SEcQ==
-X-Gm-Message-State: AJIora8y4ombv4Si4tj0QWmd1Nj/ZA9T2p8u8i0eEQBOmp4vMUVhIyDA
-        Bd3QPTrDY5KSoGoFFNpS1zhLZbfXzF6oFQ==
-X-Google-Smtp-Source: AGRyM1unrH7/KXqgrUw0VN4FOA+NEao2KQ6Mp/vj2A5DmtcTSTdiZPVwcD0NO8/kYjMYNCgLInjTKA==
-X-Received: by 2002:a05:6512:2346:b0:484:4837:eba9 with SMTP id p6-20020a056512234600b004844837eba9mr1186235lfu.37.1657026452443;
-        Tue, 05 Jul 2022 06:07:32 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id dt7-20020a0565122a8700b0047f674838a5sm5680112lfb.231.2022.07.05.06.07.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 06:07:31 -0700 (PDT)
-Message-ID: <3897aace-bce5-cad4-d92f-40cef4d0e207@linaro.org>
-Date:   Tue, 5 Jul 2022 15:07:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Add cznic,turris1x-leds.yaml
- binding
-Content-Language: en-US
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=buPhKKKW8Xayy8T9aHzdMFGzDZRwQ4d9cvNmyEA517Q=;
+        b=6OPYwWjvpClcFEgRDlrd3slFsIL153UN8Hw4V7WA43IiPEQ8va3EVfwQbjjUMYymmN
+         cRSbZC8yvW/PNAIXCOmNCqdC3lWi1p3Vx++rg8AFMqXRXM3xQFJ1+NUxX5KC8A1CTj9A
+         ZQdTsdTWCBqC0t68q7VKCAHbq/J+CoGtgh34noTD1s0NfZoJ2syVeuPd2xXXkL8FldEw
+         XRHygK6MLgCKywTJwsmXI0NuUq5wvux06CWd/K237QWjoewbClMCYBGelkAm5k2EhUFp
+         JpZcSbMJpYhLTSU1edqARqpQIcHqoR5vWKNU3VaAb80gEbYemznHiikkDymF/MDvVNIr
+         Iukg==
+X-Gm-Message-State: AJIora/Jgpf0ahFIWrXvnlCaULz09CQ3aAG4WZDuyNAA9P+EuqVjidKq
+        59omW/Lw4axI6D+nMW+QQxZa6W/3EQ==
+X-Google-Smtp-Source: AGRyM1s+sSt2C+3zdM8x8HXBUZqMpoqENUNuNJ3ltpsCbA+QPeSFS+w1g92ETH9uvwjhbZ3cmkWH5Q==
+X-Received: by 2002:a05:6e02:20c5:b0:2d9:3368:3db1 with SMTP id 5-20020a056e0220c500b002d933683db1mr20137991ilq.112.1657029273087;
+        Tue, 05 Jul 2022 06:54:33 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id p4-20020a056638190400b0033ea1d9858bsm5308602jal.36.2022.07.05.06.54.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 06:54:32 -0700 (PDT)
+Received: (nullmailer pid 1999979 invoked by uid 1000);
+        Tue, 05 Jul 2022 13:54:31 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+In-Reply-To: <20220705000448.14337-1-pali@kernel.org>
 References: <20220705000448.14337-1-pali@kernel.org>
- <42d837dd-fbd1-6294-2fa0-8a07ae0f8d44@linaro.org>
- <20220705114238.xwgexavgozqskwbw@pali>
- <90fd55cb-13f4-eac2-2b1a-85ae628ecc89@linaro.org>
- <20220705121541.t7jjcjp4hkqprsdo@pali>
- <3358f88c-5c58-ae0d-2c26-7ba9a954b491@linaro.org>
- <20220705130550.uu6ix7tdtswn7vaf@pali>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220705130550.uu6ix7tdtswn7vaf@pali>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 1/2] dt-bindings: leds: Add cznic,turris1x-leds.yaml binding
+Date:   Tue, 05 Jul 2022 07:54:31 -0600
+Message-Id: <1657029271.142997.1999977.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,PP_MIME_FAKE_ASCII_TEXT,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 05/07/2022 15:05, Pali Rohár wrote:
+On Tue, 05 Jul 2022 02:04:47 +0200, Pali Rohár wrote:
+> Add device-tree bindings documentation for Turris 1.x RGB LEDs.
 > 
-> This was the first thing which I did when I read email. No usable
-> result. So the next thing was that I started git grep on the linux tree.
-> Again no result. So at the end I come to the conclusion that you forgot
-> to copy+paste whole quote or something like that.
+> Signed-off-by: Pali Rohár <pali@kernel.org>
+> ---
+>  .../bindings/leds/cznic,turris1x-leds.yaml    | 116 ++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
 > 
-> Now I started searching a bit more and found it in following documentation:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> Original link to the quote would be useful (but now I have it).
 
-Good point, thanks for the link. I forgot that devicetree spec is also
-available as webpage.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Best regards,
-Krzysztof
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/leds/cznic,turris1x-leds.example.dts:21.18-84.11: Warning (unit_address_vs_reg): /example-0/cpld@3,0: node has a unit name, but no reg or ranges property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.example.dtb: led-controller@13: reg: [[19, 29]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
