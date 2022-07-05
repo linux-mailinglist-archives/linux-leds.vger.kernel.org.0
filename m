@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C55BF5676CA
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 20:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B68C5676E0
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 20:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231181AbiGESsA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 14:48:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
+        id S232966AbiGESwc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 14:52:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232494AbiGESrq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 14:47:46 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DB31B788;
-        Tue,  5 Jul 2022 11:47:42 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-31bf3656517so117869937b3.12;
-        Tue, 05 Jul 2022 11:47:42 -0700 (PDT)
+        with ESMTP id S232836AbiGESwa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 14:52:30 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EE51EEDA;
+        Tue,  5 Jul 2022 11:52:30 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id j7so17097526ybj.10;
+        Tue, 05 Jul 2022 11:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=OUn0Dl36fUybJsR7SVUxdhvipccFobY5Xd3Ct0RmvM0=;
-        b=LLsUFpXOv4vADqi/Z+1WbsuyTzVjRaEjfscsAli3kLOpdNNF/fg1rSfF2x19nVWf1g
-         wBBZGjk6janX3qenOpHKKrAyuolm9qLk6VYgRlX+X5STjfp1Q6Ljp7l/XcwiqEIj+g4s
-         ADTspCsqtE6/53G2ibgsjcKGj3RLC6ZWil3g1UTA2xiEyWYzeBsUu2DzCDC96jhF85mM
-         vXI2TZqF2eiCuhNyo2NTHM3Nqx+VPcGF95eGlPB9scw47wikb04gtdJA/WBpXWmMsyHq
-         WsWCmpVj3HQEQ9hxPbnK7EGAoSVq43PIbeWe8AjAmstetcCc+Sr2YEyWE0wuqSzHqlu7
-         xfeA==
+        bh=yja7doOEpycm6RswSNt6Ndu5Y1PCKNLpIKO/qkkV0nE=;
+        b=a55i++zWl7RlFm3zSrT5LvAALOmVDqFD54SzizUFEfNwQRdB6Ou3Nnn7B+iZEQf1lU
+         PdGlmjvHtewS8WBW4VCSms4/L+CEQKjCVM3IHfw5EZdIlVypuM0/ZF13ZqFeCJ6phl7f
+         9Z5WQ21aGvw1n3m7g5oAcPQAZLEJMf8xV+hvC5Y0Mq9uOJy/YHfJUsnVccZnWAlDsMmQ
+         D+sNWKP+6nw9Gp/QWzcYQWt9nwX63aHvWbkOLhJjKZGupYEu7hN21C6tpra2B7n5oqB9
+         gfNrGNfFKEzRy9rpeyFHhZLpzE8Yf3kdH4CbwgbX5mGrkzBvGZi78uxoOEfNUf9/ahUt
+         Fl6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=OUn0Dl36fUybJsR7SVUxdhvipccFobY5Xd3Ct0RmvM0=;
-        b=KU2tzmn7zCGpY32IFrDdTe2Q/81nzgjXvoEkAq6jb5kw6YZdngswgdNQa3LBjmfllG
-         PqDeudG4uiZAZ+eVwgOaW9M1l8mbHLO+ndVIF98aO8jeiSsXzuovCwSpKeXDCO+YGMes
-         VJhK0SHuk7ZmXplaTUepTUb0tsuO57sPg5c3h+trxLWFdouAdpdmMiSzVybwcH7AYDt7
-         tGMVjKoh5m70RWasyrztiVIvzUx8WzrOnEW/BuVndo43/Bk4AToxwaQO8vC1TL9YNwKV
-         owwkfhVU3oJafGk9IfQ3FzczbtR2lN9yyy3+FBG+yH19boQkcEnjzy2xBGEiBsIoyB7g
-         zgFQ==
-X-Gm-Message-State: AJIora+kWtDHboVnorVOmEQMEJw+bpx6iOen2PvjlTgmCGJ0A/wZFKXy
-        3fNyFFTbbYcOLXcOJSAhqK2m0mZ+WJ8CgPslmFA=
-X-Google-Smtp-Source: AGRyM1s+scTvZUsz+EFhE5GHHFUPVEKSvgjXH4mEu2fWSfrxbb0l4gyvoFkcbtEYwWVD17SjWWeUkoZd6n8XmmBTeso=
-X-Received: by 2002:a81:8397:0:b0:31c:8a02:3f6d with SMTP id
- t145-20020a818397000000b0031c8a023f6dmr16817651ywf.486.1657046861338; Tue, 05
- Jul 2022 11:47:41 -0700 (PDT)
+        bh=yja7doOEpycm6RswSNt6Ndu5Y1PCKNLpIKO/qkkV0nE=;
+        b=QMYylGvFUFs7EZi5kNXYW4fXRWs74bcQppWVI0qn8NG1wc2Zfji8bnq3ufeN8aKwtE
+         RwzwSjuZty2fqNLx0nAgqPt9EUD9DvUTXhQUCAxrPs2P6jGp41OmbFJ+WMNCXlOURI5M
+         ZSkFAoMh4bEm1dxPyZWZ2x+0Vp5YpbfGjbCUsU/udaMvD1Sotx3w23D5I9ULf7+KcxDF
+         +tb6zfiscsTOyiQzD+A5EpHodEAiNr9lfeOUsu8AULS/bDoT+90Hvq4SNyGyTsblbMkK
+         man47PYgeB+0IFA0/gLeI8LaPI1+cgr47l9TeTMlXFklK/N+7WrPZ0C8rwtJMUWdrqJe
+         UXqw==
+X-Gm-Message-State: AJIora/fDQospK+tOYRwfab8vtez3GnxRMK3895qamdnlklQ1d9hUoUl
+        h3tnvsxb3prXlEa1kDgQiOyXQEsCNDJCwf8trUM6s4htNPzxHw==
+X-Google-Smtp-Source: AGRyM1sXCXdmA1oh73EjPE613SlrQgJJ687u6/+ASegMiKcdwlMvgS9s5xDQMB5NWi9NuWyPo1By384NQC0dTgbyMks=
+X-Received: by 2002:a25:858e:0:b0:66e:4898:63e2 with SMTP id
+ x14-20020a25858e000000b0066e489863e2mr14635194ybk.296.1657047149337; Tue, 05
+ Jul 2022 11:52:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705163136.2278662-1-vincent.knecht@mailoo.org> <20220705163136.2278662-5-vincent.knecht@mailoo.org>
-In-Reply-To: <20220705163136.2278662-5-vincent.knecht@mailoo.org>
+References: <20220705163136.2278662-1-vincent.knecht@mailoo.org> <20220705163136.2278662-6-vincent.knecht@mailoo.org>
+In-Reply-To: <20220705163136.2278662-6-vincent.knecht@mailoo.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 5 Jul 2022 20:47:05 +0200
-Message-ID: <CAHp75VdHdSkALpgGHGxthq8h1q9Dg3N5jJS6NxTuexvfWJEDjQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] leds: is31fl319x: Use non-wildcard names for vars,
- structs and defines
+Date:   Tue, 5 Jul 2022 20:51:52 +0200
+Message-ID: <CAHp75VexCGKRVovaMhfzonFkju6vh_TR6_A3vLtZVox3AhAvYg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] leds: is31fl319x: Move chipset-specific values in
+ chipdef struct
 To:     Vincent Knecht <vincent.knecht@mailoo.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -71,35 +71,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jul 5, 2022 at 6:32 PM Vincent Knecht <vincent.knecht@mailoo.org> wrote:
+On Tue, Jul 5, 2022 at 6:33 PM Vincent Knecht <vincent.knecht@mailoo.org> wrote:
 >
-> In order to add real support for is31fl3190, is31fl3191 and is31fl3193,
-> rename variant-dependent elements to not use 319X where needed.
+> Allow setting chips' specifics in chipdef struct by adding fields for:
+> - the reset register address
+> - a pointer to a regmap_config struct
+> - a pointer to a brightness_set function
+> - current default, min and max values
+> - a boolean to distinguish 319{0,1,3} and 319{6,9} chips
+> and use those fields in places where distinction has to be made.
 >
-> 3190 suffix is used for is31fl3190, is31fl3191 and is31fl3193 circuits.
-> 3196 suffix is used for is31fl3196 and is31fl3199.
->
-> Those two groups have different register maps, current settings and even
-> a different interpretation of the software shutdown bit:
-> https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
-> https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
-> https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
-> https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
-> https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
->
-> Rename variables, structures and defines in preparation of the splitting.
-> No functional nor behaviour change.
+> The fields for 319{0,1,3} still point to 319{6,9} values.
+> No functional change.
 
 ...
 
-> +static bool is31fl3196_volatile_reg(struct device *dev, unsigned int reg)
+> +static bool is31fl319x_readable_reg(struct device *dev, unsigned int reg)
+> +{ /* we have no readable registers */
 
->  { /* volatile registers are not cached */
+Non-standard place for comments.
 
-This is a rather non-standard place for comments. Are you going to
-address this in the future?
-
->  }
+> +       return false;
+> +}
 
 ...
 
@@ -116,8 +109,7 @@ address this in the future?
 > +       { IS31FL3196_PWM(7), 0x00},
 > +       { IS31FL3196_PWM(8), 0x00},
 
-While at it, add a space before }. This seems in many places like
-this. Perhaps address the rest in a separate patch?
+Missed space before }.
 
 >  };
 
