@@ -2,99 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEBDF5677A4
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 21:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D17556790F
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 23:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbiGETTH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 15:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53126 "EHLO
+        id S232213AbiGEVBu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 17:01:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232995AbiGETTF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 15:19:05 -0400
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294371EC47;
-        Tue,  5 Jul 2022 12:19:05 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id y18so12061590iof.2;
-        Tue, 05 Jul 2022 12:19:05 -0700 (PDT)
+        with ESMTP id S229668AbiGEVBt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 17:01:49 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A8CDC5
+        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 14:01:48 -0700 (PDT)
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 498B942430
+        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 21:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1657054906;
+        bh=BZ3TTPllU2RNx61rLK2KPq+axv5Y7LrzDROkWqt5HLQ=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=Rls6SjXdQkGc4rLaj7PNxtQH8mOHip+hf3+lfmAtQUkwqXeaJgAz9DUrXmJ+JusTq
+         lVwrxCQ3Js6RxBiBAV3rH2d/hX19Z/L0jZdno/fxvFHjyZXJrE8FH9yTgnRXRO1p9D
+         NxxOUl8invvi/TZFvuhjPE7+0xTxheN01A8JMomX+iufUtLoUVSCrAdnDFps7f+lMy
+         UcLUl1M01KNyuJNF390wnvh56XM71N96cLU0/P8YVHAd+JfSEFY89YawR58rQaX+D4
+         pm1IISnVFxN4FNYQ9ocn+aufJyJJn7mcf6RNsiKRRIyGWcjHhbVYMmUvRgv5pAfnQ/
+         hZaGHcP2oEKmA==
+Received: by mail-wm1-f69.google.com with SMTP id bg6-20020a05600c3c8600b003a03d5d19e4so7300091wmb.1
+        for <linux-leds@vger.kernel.org>; Tue, 05 Jul 2022 14:01:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=WPIEwkVrmxig66ialqAqq2owXYX1dmoA0wLUgk0+Jp8=;
-        b=lY5AA5tvC3H/ahvP8oWme5Q6YeaftNZPnDExCzAULgzVhvNikAWGQeqlmGWuGHxAtt
-         hsMyz+N2U+HsNiPNX3xuvxPlv8ThGOMKeMkq3Wjb7darkbKNcFVVbm89NPNPytCFBu9b
-         jiq6tfI1XhMb3cSTeds23PwBq90p4c7q+wUmGSOac4zBwYY4EF+IweMycz/r2tW2MRoR
-         EuuPyzTgB5Y8gSi30CLTbWNfmuUIFQ3Yu/1xsIFPhNDVsM9BSeid+ubzZ9e7okcQHLsK
-         Ga/PSF926VHbI3gACUZYNGmceepxeUtL1GQQ7Q/lLLbTxY/MuMNWpJA1zNI9e83Ccm8V
-         c6iQ==
-X-Gm-Message-State: AJIora8iFRqOZmauryWCb/8cAn8e0o9Gnk6vFi0jt6jLYLmZezCMvY1f
-        ln9xr+rRwIhS1lU7I4aaI9B+3m44bQ==
-X-Google-Smtp-Source: AGRyM1ukQp/CEyzQERolQoD4vyxGMs9HeuxGET5TIc4m7jyTwHuQfQWJXFF3lpftEUav3q1LgeVswg==
-X-Received: by 2002:a05:6602:164f:b0:678:9c7c:6701 with SMTP id y15-20020a056602164f00b006789c7c6701mr4168774iow.107.1657048744386;
-        Tue, 05 Jul 2022 12:19:04 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id f9-20020a02a109000000b00339e3a22dbbsm15216707jag.21.2022.07.05.12.19.03
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BZ3TTPllU2RNx61rLK2KPq+axv5Y7LrzDROkWqt5HLQ=;
+        b=R62aT5xWbeORaqBNk9wLhRpSb5960zGAD7R7YwFTV0tjY17p4uvwsSSxynmkTy0vFN
+         kXxHQxBA10NOCmk0KDs1m2muXzEDzVd6XMEclBgizn3kS63c7IQp1WTQEF+NTMwjAGcq
+         VoKFdKEzrj0F+7nRcJ8HYZXF3bcNTluxkow2VG8nqkArJEQwSFOTHgqinLkaS2dajpOO
+         XWf9Q44aJz8xXw6QqGphNLZbuKno8hZHET3xglWnxTH1UPIyKWQiaZ7tRqNQobvCllIX
+         1bqD0FYs3c7vSlxdEHyycdVMnVWah6BL/RRVwCeAY5OjvRBze6e/3K4cjuvvAflWyWyu
+         fyzw==
+X-Gm-Message-State: AJIora9LlfFU5h44qpdY+wMjyIuVjnZ3KpsFCXCS+6IbhHP4pGXT/R/0
+        6l7w8H0x7rxG0gHn49/AAqfiuspxx7Sj4OTPwkFETTxbXWuggtGtUzKM+S1Ak+TXqEhFNuxMntO
+        v4K7jpetrLlQrnoRRrj6ezAnGGbzIUTgd96oXRZc=
+X-Received: by 2002:adf:d1e9:0:b0:21d:2154:2bc7 with SMTP id g9-20020adfd1e9000000b0021d21542bc7mr32198655wrd.105.1657054905481;
+        Tue, 05 Jul 2022 14:01:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uJ6GR25rmzYj+5MOIYxx8GnVDHsnsL8L8SKcrRNOoJrGmGln63zLuDAwKc99O7ChnLFoDsbg==
+X-Received: by 2002:adf:d1e9:0:b0:21d:2154:2bc7 with SMTP id g9-20020adfd1e9000000b0021d21542bc7mr32198623wrd.105.1657054905236;
+        Tue, 05 Jul 2022 14:01:45 -0700 (PDT)
+Received: from stitch.. (80.71.140.73.ipv4.parknet.dk. [80.71.140.73])
+        by smtp.gmail.com with ESMTPSA id r15-20020a0560001b8f00b0021d74906683sm2517667wru.28.2022.07.05.14.01.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 12:19:04 -0700 (PDT)
-Received: (nullmailer pid 2471231 invoked by uid 1000);
-        Tue, 05 Jul 2022 19:18:57 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-kernel@vger.kernel.org,
-        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20220705155929.25565-1-pali@kernel.org>
-References: <20220705000448.14337-1-pali@kernel.org> <20220705155929.25565-1-pali@kernel.org>
-Subject: Re: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add cznic,turris1x-leds.yaml binding
-Date:   Tue, 05 Jul 2022 13:18:57 -0600
-Message-Id: <1657048737.399210.2471230.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,PP_MIME_FAKE_ASCII_TEXT,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Tue, 05 Jul 2022 14:01:44 -0700 (PDT)
+From:   Emil Renner Berthing <emil.renner.berthing@canonical.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Vincent Pelletier <plr.vincent@gmail.com>,
+        Bin Meng <bin.meng@windriver.com>,
+        Aurelien Jarno <aurelien@aurel32.net>,
+        Ron Economos <w6rz@comcast.net>,
+        Qiu Wenbo <qiuwenbo@kylinos.com.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stephen L Arnold <nerdboy@gentoo.org>,
+        Jianlong Huang <jianlong.huang@starfivetech.com>,
+        Mark Kettenis <kettenis@openbsd.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        David Abdurachmanov <davidlt@rivosinc.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH v1 0/4] Add HiFive Unmatched LEDs
+Date:   Tue,  5 Jul 2022 23:01:39 +0200
+Message-Id: <20220705210143.315151-1-emil.renner.berthing@canonical.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 05 Jul 2022 17:59:28 +0200, Pali Rohár wrote:
-> Add device-tree bindings documentation for Turris 1.x RGB LEDs.
-> 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
-> 
-> ---
-> Changes in v2:
-> * Fix schema errors
-> ---
->  .../bindings/leds/cznic,turris1x-leds.yaml    | 118 ++++++++++++++++++
->  1 file changed, 118 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
-> 
+This series adds support for the two LEDs on the HiFive Unmatched
+RISC-V board.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Emil Renner Berthing (4):
+  leds: pwm-multicolor: Don't show -EPROBE_DEFER as errors
+  dt-bindings: leds: pwm-multicolor: Add active-low property
+  leds: pwm-multicolor: Support active-low LEDs
+  riscv: dts: sifive unmatched: Add PWM controlled LEDs
 
-yamllint warnings/errors:
+ .../bindings/leds/leds-pwm-multicolor.yaml    |  4 ++
+ .../boot/dts/sifive/hifive-unmatched-a00.dts  | 42 +++++++++++++++++++
+ drivers/leds/rgb/leds-pwm-multicolor.c        |  8 +++-
+ 3 files changed, 52 insertions(+), 2 deletions(-)
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/leds/cznic,turris1x-leds.example.dts:23.13-47: Warning (ranges_format): /example-0/cpld@3,0:ranges: "ranges" property has invalid length (16 bytes) (parent #address-cells == 1, child #address-cells == 1, #size-cells == 1)
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+-- 
+2.37.0
 
