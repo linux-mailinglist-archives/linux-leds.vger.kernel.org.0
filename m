@@ -2,75 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 121F2566A20
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 13:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 599DE566A3C
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 13:53:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbiGELvR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 07:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60756 "EHLO
+        id S230302AbiGELx3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Jul 2022 07:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiGELvR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 07:51:17 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12253175B8
-        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 04:51:16 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id z21so20040523lfb.12
-        for <linux-leds@vger.kernel.org>; Tue, 05 Jul 2022 04:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/UGo3h1lFotrXUyVOn1vvOw10sA63ae5wh+VH5tG39s=;
-        b=c3j2jGXVqGFeYL75sECqGf7InKbQhuBnnqkj1UqNiL/+dGSczDyMQcf9Atm1oKsz3d
-         HsYqcKbvtKchDYMu6q2wripBe4bD5G3oo9GqFuvCXUMQViG23oVoqFbR9pPq4POpg+q3
-         CPTPYo0qtLsCba7MDASbJOliZCmGTPnmIXv+wgyG8h6Qy3bG+XdE1/ZcABa84jmGVEni
-         DegY99VzxiaRDQ8BsRvthhlBO8Bcio7T46lRE6T16uEE3R7AVCQCZLd1TCc68zTqutFo
-         e6xJIYJXzMR7CUK7NtYL+Dkbe33MssoJHi1PLUy/jdGbn5KmjBIbSh2Z1preu8ZIF2uK
-         mCGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/UGo3h1lFotrXUyVOn1vvOw10sA63ae5wh+VH5tG39s=;
-        b=AK7u7UBa3YUb1z5V/116spnV4NNIegHiWKkNX+TATaqNSHfFZvGz/+ukzUdmEM9siE
-         CzvqwmkKUIzh8wvRt4LjIcKP4p/vE8Ca1f5L30PHCjmLPjPJrf5l0rZCKuxRwYLvvd4C
-         bg++nijfRUeEAfdAslU80KXRYFm+C68BpP6RO6N0TvyFY+yOKCL4igZWb1ImNxlmIZ9+
-         uYlJ0j1nnOjz3Zwca134CFSMpUZ5D80n32ngxB/CVBOIsnAoUNL6yNeoR5XqMukb9iyh
-         bherU9735HTSuo3n5BJ9UzUFn8SQl7DY4OGxVjfZGJOTMn+L6RWSK89RcOvU2BJ/WryA
-         TLWw==
-X-Gm-Message-State: AJIora+3Y3nFAa/3a75CNmx8G/VajvWAP2Fcv3yPebfCLvd/9Ur9F5jc
-        6A1Qa9fEr8DfUf4YPuD7QN/mlg==
-X-Google-Smtp-Source: AGRyM1vw6cA8apgUVB4nud8nMwX7wEE8bQbgw7xac6nBHVQglGxItugzYlWcsshQ3UiivXanpk/r6Q==
-X-Received: by 2002:a05:6512:2a8d:b0:47f:b3ba:4922 with SMTP id dt13-20020a0565122a8d00b0047fb3ba4922mr23997604lfb.38.1657021874399;
-        Tue, 05 Jul 2022 04:51:14 -0700 (PDT)
-Received: from [192.168.1.52] ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id s14-20020a19770e000000b0047faab456cesm5659965lfc.237.2022.07.05.04.51.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 04:51:13 -0700 (PDT)
-Message-ID: <90fd55cb-13f4-eac2-2b1a-85ae628ecc89@linaro.org>
-Date:   Tue, 5 Jul 2022 13:51:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Add cznic,turris1x-leds.yaml
- binding
-Content-Language: en-US
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
+        with ESMTP id S232702AbiGELwi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 07:52:38 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F6017A86;
+        Tue,  5 Jul 2022 04:52:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0979EB817CD;
+        Tue,  5 Jul 2022 11:52:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D85C341CF;
+        Tue,  5 Jul 2022 11:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657021954;
+        bh=GYJpMv4Qk89/Srmvf9HLQazSk3cXF+hryGZt901MQCk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=P4pViUO84HnzTJhHsqJN6cnIJ2v4n4S6B2NmGEHOtEWyYOFHHnAMLMUqaoK0tydMl
+         U0ZJ/gn6k3yE2MyMeo+WptLsb26rp5LwE6/q87pIuuU3zVScGrC3f5COuBQMrKmkrc
+         DJRvaf8SEXQo1dKL83ZYwZj8CpzdhIUlYZwpol8Y4g6SgqIaItoR0q49bfIxbdfbrJ
+         NSrIxkxT1/WxZ1nO1geX5yZMRgZr7Dcy+pjYpbUb9jY9P6mpqc5UCMBGW16xSbWyh+
+         HXx2RCGa5Nf2yUYuu3QIgPpZXInbIL72Ybdh0x2ln80nk2fY5yb+wbe40jmRP26h+d
+         pz2TPED7SOlUA==
+Date:   Tue, 5 Jul 2022 13:52:27 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: Add support for Turris 1.x LEDs
+Message-ID: <20220705135227.6380d6d5@thinkpad>
+In-Reply-To: <20220705105609.cpabhrwozyeejwqe@pali>
 References: <20220705000448.14337-1-pali@kernel.org>
- <42d837dd-fbd1-6294-2fa0-8a07ae0f8d44@linaro.org>
- <20220705114238.xwgexavgozqskwbw@pali>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220705114238.xwgexavgozqskwbw@pali>
+        <20220705000448.14337-2-pali@kernel.org>
+        <20220705123705.0a9caead@thinkpad>
+        <20220705105609.cpabhrwozyeejwqe@pali>
+X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,126 +59,63 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 05/07/2022 13:42, Pali Rohár wrote:
-> On Tuesday 05 July 2022 13:36:54 Krzysztof Kozlowski wrote:
->> On 05/07/2022 02:04, Pali Rohár wrote:
->>> Add device-tree bindings documentation for Turris 1.x RGB LEDs.
->>>
->>> Signed-off-by: Pali Rohár <pali@kernel.org>
->>> ---
->>>  .../bindings/leds/cznic,turris1x-leds.yaml    | 116 ++++++++++++++++++
->>>  1 file changed, 116 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
->>> new file mode 100644
->>> index 000000000000..fd09613c8d2d
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
->>> @@ -0,0 +1,116 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/leds/cznic,turris1x-leds.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: CZ.NIC's Turris 1.x LEDs driver
->>> +
->>> +maintainers:
->>> +  - Pali Rohár <pali@kernel.org>
->>> +
->>> +description:
->>> +  This module adds support for the RGB LEDs found on the front panel of the
->>> +  Turris 1.x routers. There are 8 RGB LEDs that are controlled by CZ.NIC CPLD
->>> +  firmware running on Lattice FPGA. Firmware is open source and available at
->>> +  https://gitlab.nic.cz/turris/hw/turris_cpld/-/blob/master/CZ_NIC_Router_CPLD.v
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: cznic,turris1x-leds
->>> +
->>> +  reg:
->>> +    maxItems: 2
->>
->> You need to describe the items, if it is really two items. However your
->> example has only one item, so this was not tested and won't work.
-> 
-> Ehm? Example has two items in the reg.
+On Tue, 5 Jul 2022 12:56:09 +0200
+Pali Roh=C3=A1r <pali@kernel.org> wrote:
 
-No, you have exactly one item.
-<0x13 0x1d>
+> >=20
+> > I don't consider this a problem =20
+>=20
+> I think it is a problem, to ensure that 'cat multi_intensity' for every
 
-Two items are for example:
-<0x13 0x1d>, <0x23 0x1d>
+Misunderstanding. I meant that I don't consider the eventual
+inconsistency a problem, i.e. I agree with your code.
 
-> 
->> You'll get warning from Rob's robot soon... but you should test the
->> bindings instead.
-> 
-> I have tested bindings on the real hardware and it is working fine
-> together with the driver from patch 2/2.
+> > Or maybe just write the value?
+> > Is the register write expensive on the CPLD or why are you trying to
+> > avoid it if unnecessary? =20
+>=20
+> I just do not see any reason to do unnecessary writes.
 
-Bindings cannot be tested on real hardware. Bindings are tested with
-dt_binding_check, as explained in writing-schema.rst
+But now you do an unnecessary check. Unless the writeb() is slower than
+that check. Since this isn't i2c, I am wondering how fast that writeb()
+is... But this is just me wondering, we can keep it the way you wrote
+it...
 
-> 
->>> +
->>> +  "#address-cells":
->>> +    const: 1
->>> +
->>> +  "#size-cells":
->>> +    const: 0
->>> +
->>> +patternProperties:
->>> +  "^multi-led@[0-7]$":
->>> +    type: object
->>> +    $ref: leds-class-multicolor.yaml#
->>
->> This looks incorrect, unless you rebased on my patchset?
-> 
-> So what is the correct? (I used inspiration from
-> cznic,turris-omnia-leds.yaml file)
+> >=20
+> > Hmm. Wouldn't it make more sense to simply have the global brightness
+> > accept values from 0 to 7, instead of mapping it to 256 values? And
+> > call it something like selected_brightness_index? =20
+>=20
+> All other drivers have brightness entry which operates on monotone
+> brightness property.
+> Brightness levels do not have to be monotone and by default are
+> decreasing: 0 =3D brightness with higher intensity; 7 =3D no intensity (o=
+ff)
 
-Which according to current multicolor bindings is not correct. Correct
-is pwm-multicolor. However if you rebase on [1], it looks fine, except
-missing unevaluatedProperties.
+What do you mean all other drivers? AFAIK only one driver does this
+global brightness thing, and that is Omnia. The global brightness is
+something different from LED cdev brightness property, the same names
+are just coincidental (in fact it caused confusion when Pavel was
+first reviewing Turris Omnia driver). Maybe it should have been called
+global_intensity, to avoid the confusion...
 
-[1]
-https://lore.kernel.org/all/20220624112106.111351-1-krzysztof.kozlowski@linaro.org/
+> I cannot image who would like or prefer usage of such API.
 
-> 
->>> +
->>> +    properties:
->>> +      reg:
->>> +        minimum: 0
->>> +        maximum: 7
->>> +
->>> +    required:
->>> +      - reg
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +
->>
->> No blank line.
-> 
-> Ok.
-> 
->>> +    #include <dt-bindings/leds/common.h>
->>> +
->>> +    cpld@3,0 {
->>
->> Generic node name.
-> 
-> Is not cpld name generic enough?
+One file that represents the index of the selected global intensity (as
+is stored internally in the CPLD) and another file that represents the
+configured intensities between which the button switches makes sense,
+IMO.
 
-No, it means nothing to me. Just like "a", "ashjd" or "wrls".
+> Just stick with existing APIs. "brightness" entry takes intensity value
+> which is monotone, 0 the lowest, MAX (=3D255) the highest.
 
-"The name of a node should be somewhat generic, reflecting the function
-of the device and not its precise programming
- model. If appropriate, the name should be one of the following choices:"
+Again, the name "brightness" does not imply that it is the same thing
+as "brightness" of a LED cdev. And since it even doesn't live in
+/sys/class/<led>/ directory, we are proposing new API and can use
+whatever makes sense.
 
-Best regards,
-Krzysztof
+I am not saying that the way you did it doesn't make sense. I am just
+wondering if it wouldn't make more sense to be able to read the index
+of what the user selected by button pressing.
+
+Marek
