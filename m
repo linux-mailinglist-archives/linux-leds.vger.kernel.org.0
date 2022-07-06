@@ -2,92 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E74E568C7F
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 17:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C57568CB8
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 17:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232584AbiGFPTx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 11:19:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
+        id S232377AbiGFP1t (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 11:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232562AbiGFPTw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 11:19:52 -0400
-X-Greylist: delayed 7794 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 06 Jul 2022 08:19:51 PDT
-Received: from 3.mo560.mail-out.ovh.net (3.mo560.mail-out.ovh.net [46.105.58.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EE4DFE9
-        for <linux-leds@vger.kernel.org>; Wed,  6 Jul 2022 08:19:50 -0700 (PDT)
-Received: from player759.ha.ovh.net (unknown [10.110.115.111])
-        by mo560.mail-out.ovh.net (Postfix) with ESMTP id C48A12401A
-        for <linux-leds@vger.kernel.org>; Wed,  6 Jul 2022 12:54:29 +0000 (UTC)
-Received: from milecki.pl (ip-194-187-74-233.konfederacka.maverick.com.pl [194.187.74.233])
-        (Authenticated sender: rafal@milecki.pl)
-        by player759.ha.ovh.net (Postfix) with ESMTPSA id 23AA82C62D3DC;
-        Wed,  6 Jul 2022 12:54:19 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-98R0021715cc91-ca2c-4e6d-985b-220cb5972dbf,
-                    9C20F4AFB6E1A5C03E66B265D4B61152F87D618A) smtp.auth=rafal@milecki.pl
-X-OVh-ClientIp: 194.187.74.233
-Message-ID: <361c9fc9-e982-55d3-f780-405505fd4389@milecki.pl>
-Date:   Wed, 6 Jul 2022 14:54:15 +0200
+        with ESMTP id S231500AbiGFP1s (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 11:27:48 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A36C29;
+        Wed,  6 Jul 2022 08:27:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id C9DE6CE1FF3;
+        Wed,  6 Jul 2022 15:27:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A993EC3411C;
+        Wed,  6 Jul 2022 15:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657121263;
+        bh=pzDkkZF4zwiLIMVduMcEQXRah9THlaVSc9/xibzqO6w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kpKrtpkIIHrOr2yO/+Ok6rPw50lR92dFVr8RjKtD2T3XE+XGs/yh7qem2hvYYkmpI
+         UYgJ4/LStRM9ZAd7ddEWAQJciintk4J0HXlmt2OFiJUKUntODyKVo+iCnkmMs3iHaO
+         7PAb8GuIuMeZD8q+bUQ15EhFFGxccev3QjgTqnv6eUgm5LnJ2AqbonImE2NjGvMCYt
+         mf1x1iKNjrTz/WGwKtxfbZUy/16HBne7F6rG91NFN+mAZLy31B4rIyieH5EZweRWRA
+         Lc65a1XiU62XXny+RW1NWHdO8gk8MZNktBpLuhv7eJDXGUZ1+xyqyvBgkXHe3x69+2
+         AHUtumixbliug==
+Date:   Wed, 6 Jul 2022 17:27:32 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add
+ cznic,turris1x-leds.yaml binding
+Message-ID: <20220706172732.6228d180@thinkpad>
+In-Reply-To: <20220706111912.hz2mx4dc35lgq6l5@pali>
+References: <20220705000448.14337-1-pali@kernel.org>
+        <20220705155929.25565-1-pali@kernel.org>
+        <20220706131507.353f0bed@thinkpad>
+        <20220706111912.hz2mx4dc35lgq6l5@pali>
+X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
- Thunderbird/96.0
-Subject: Re: [PATCH V3 1/2] dt-bindings: leds: add Broadcom's BCM63138
- controller
-To:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        Rob Herring <robh@kernel.org>
-References: <20211227145905.2905-1-zajec5@gmail.com>
- <1ca1d83d-9803-77a3-e5bb-2380a2dc03b0@gmail.com>
- <223aabc8-7ec3-2719-866a-8f35ab97a11f@gmail.com>
- <1273c272-b6fe-2980-ce66-582738722634@gmail.com>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-In-Reply-To: <1273c272-b6fe-2980-ce66-582738722634@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 9657124978954709818
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeifedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeeuleetudfgkeevfffggeffveevleeutdekkeejueekveevtefhhfegveeggefhudenucfkpheptddrtddrtddrtddpudelgedrudekjedrjeegrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheprhgrfhgrlhesmhhilhgvtghkihdrphhlpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedt
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
+On Wed, 6 Jul 2022 13:19:12 +0200
+Pali Roh=C3=A1r <pali@kernel.org> wrote:
 
-On 27.04.2022 22:47, Rafał Miłecki wrote:
-> On 27.03.2022 11:28, Rafał Miłecki wrote:
->> On 7.03.2022 07:27, Rafał Miłecki wrote:
->>> On 27.12.2021 15:59, Rafał Miłecki wrote:
->>>> From: Rafał Miłecki <rafal@milecki.pl>
->>>>
->>>> Broadcom used 2 LEDs hardware blocks for their BCM63xx SoCs:
->>>> 1. Older one (BCM6318, BCM6328, BCM6362, BCM63268, BCM6838)
->>>> 2. Newer one (BCM6848, BCM6858, BCM63138, BCM63148, BCM63381, BCM68360)
->>>>
->>>> The newer one was also later also used on BCM4908 SoC.
->>>>
->>>> Old block is already documented in the leds-bcm6328.yaml. This binding
->>>> documents the new one which uses different registers & programming. It's
->>>> first used in BCM63138 thus the binding name.
->>>>
->>>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
->>>> Reviewed-by: Rob Herring <robh@kernel.org>
->>>> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
->>>
->>> Pavel: can I get this patchset finally accepted, please?
->>
->> It has been 3 months now. I kindly pinged you in January, February and
->> March. Please let me know how can I get those patches accepted.
-> 
-> did you maybe have a chance to look at my patches?
+> On Wednesday 06 July 2022 13:15:07 Marek Beh=C3=BAn wrote:
+> > On Tue,  5 Jul 2022 17:59:28 +0200
+> > Pali Roh=C3=A1r <pali@kernel.org> wrote:
+> >  =20
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/leds/common.h>
+> > > +
+> > > +    cpld@3,0 { =20
+> >=20
+> > The generic node name should be just "bus". That it is a CPLD
+> > implementation should come from compatible string. =20
+>=20
+> Sorry, I do not understand why "bus". Why other memory chips are named
+> e.g. "nand" or "nor" and not "bus" too?
 
-I'm asking to get this reviewed / accepted for half a year.
+As far as I understand this is because that is the preferred name for
+busses and this is a bus, since there is also the simple-bus compatible.
+
+> By this logic should not be _every_ node called just "bus"? Hm... and=20
+> are names needed at all then?
+
+:-)
+
+The schema
+  https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/si=
+mple-bus.yaml
+allows for different names (soc|axi|ahb|*-bus) to avoid warnings on
+existing old dts files.
+
+The preferred way is to not have the implementation in nodename,
+similar to how we use 'switch' instead of 'mv88e6xxx', or
+'ethernet-phy' instead of 'mv88e151x', or 'led-controller', ...
+
+I wasn't there when people started requesting for this to be that way,
+but I guess it makes some sense to make it more readable and less
+redundant (the generic name in nodename and the implementation in
+compatible string...).
+
+Marek
