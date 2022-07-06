@@ -2,56 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C57568CB8
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 17:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42651568DA0
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 17:44:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232377AbiGFP1t (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 11:27:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41222 "EHLO
+        id S229822AbiGFPng (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 11:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231500AbiGFP1s (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 11:27:48 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A36C29;
-        Wed,  6 Jul 2022 08:27:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id C9DE6CE1FF3;
-        Wed,  6 Jul 2022 15:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A993EC3411C;
-        Wed,  6 Jul 2022 15:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657121263;
-        bh=pzDkkZF4zwiLIMVduMcEQXRah9THlaVSc9/xibzqO6w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kpKrtpkIIHrOr2yO/+Ok6rPw50lR92dFVr8RjKtD2T3XE+XGs/yh7qem2hvYYkmpI
-         UYgJ4/LStRM9ZAd7ddEWAQJciintk4J0HXlmt2OFiJUKUntODyKVo+iCnkmMs3iHaO
-         7PAb8GuIuMeZD8q+bUQ15EhFFGxccev3QjgTqnv6eUgm5LnJ2AqbonImE2NjGvMCYt
-         mf1x1iKNjrTz/WGwKtxfbZUy/16HBne7F6rG91NFN+mAZLy31B4rIyieH5EZweRWRA
-         Lc65a1XiU62XXny+RW1NWHdO8gk8MZNktBpLuhv7eJDXGUZ1+xyqyvBgkXHe3x69+2
-         AHUtumixbliug==
-Date:   Wed, 6 Jul 2022 17:27:32 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>
+        with ESMTP id S235022AbiGFPnD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 11:43:03 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E77F2F038
+        for <linux-leds@vger.kernel.org>; Wed,  6 Jul 2022 08:36:49 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id bu42so6729982lfb.0
+        for <linux-leds@vger.kernel.org>; Wed, 06 Jul 2022 08:36:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/3bPZqTRdflIiXLL8U8luN1bqZnH5disuECgPvDTbyA=;
+        b=t6VexcMz2hiUMyqtZuYA6IFPdq58Ama0cu9nzuLM1kCROsn3lKYCy4HLSvTkNkrbPv
+         Ml58v86Sw6WzVq6H4DVXaUNJhYDIh49X4+29ovyHHT1VvawTprk96QRRG+jyPd81h+o8
+         HqRyoiarsRM5fSv8c4wSXK8HUMl4EMVa4wxeBT/m+9TzxpO+Q5Niy75fXQv4XOqYPmKM
+         6ZHrfWK5Qii+6zDHZBdBQU7xomGbh3zOuVZ78QBivosuTRxT28O1iSCbdz6Zb58CS+iO
+         LZS5U/StKayEh7MfIF9leyUE7VugAU+N49GwzXVCwhC3KdTFw4RE6gw50pQtWlMr2nhR
+         g2Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=/3bPZqTRdflIiXLL8U8luN1bqZnH5disuECgPvDTbyA=;
+        b=04XrrUGVwd1GYPNYzlkuRhRJ3G43HGiaJBZ5g3OxuQRKbI3xafFSmbyolBkFniBjEx
+         YRXT116SY+5M7t2T6jAfNleY695SMfhakIN8l5Yin6Zqar/YtPznWvxLPs6fOmGlmPFN
+         1HJPmlHM7cn3CGHx8QAtEaCN52ru+TFceaCaLxlzRbWfSYU80kKkimLBW5GU+9PWLwNg
+         PaY5HLcLiOL9z1MfNksk8MYI4lFQFW7fZiE133HkSRAQZRRBgBOycHL1W3S9GnnpHIE6
+         /mSEx2AFwlbOAqcRa47Wdwn+v1uqqKBzxnoLX8gyLmAwIPmhzNSZ+IB8vQpW3iaORVhi
+         yedQ==
+X-Gm-Message-State: AJIora9SisTx+Ud7DJGWaJAcOykYBfJrhp+gNbha4T++7VorUlefPIRF
+        AslO1u/thrK2009tDnmXZmxfoQ==
+X-Google-Smtp-Source: AGRyM1stEUKNw32v0KSUxSuBpHNUbaQ6rT8pQqskgO/HGl45Idq4x3SKxz3EcjiXU2ySPZR+XqCFaw==
+X-Received: by 2002:a05:6512:3ca0:b0:47f:a9f3:f26 with SMTP id h32-20020a0565123ca000b0047fa9f30f26mr28314150lfv.297.1657121805528;
+        Wed, 06 Jul 2022 08:36:45 -0700 (PDT)
+Received: from [192.168.1.52] ([84.20.121.239])
+        by smtp.gmail.com with ESMTPSA id h15-20020a2eb0ef000000b00255500154fasm6270992ljl.52.2022.07.06.08.36.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 08:36:44 -0700 (PDT)
+Message-ID: <25b43586-eeb3-4b7b-7362-2d599aa89cf0@linaro.org>
+Date:   Wed, 6 Jul 2022 17:36:43 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add
+ cznic,turris1x-leds.yaml binding
+Content-Language: en-US
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add
- cznic,turris1x-leds.yaml binding
-Message-ID: <20220706172732.6228d180@thinkpad>
-In-Reply-To: <20220706111912.hz2mx4dc35lgq6l5@pali>
 References: <20220705000448.14337-1-pali@kernel.org>
-        <20220705155929.25565-1-pali@kernel.org>
-        <20220706131507.353f0bed@thinkpad>
-        <20220706111912.hz2mx4dc35lgq6l5@pali>
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+ <20220705155929.25565-1-pali@kernel.org> <20220706131507.353f0bed@thinkpad>
+ <20220706111912.hz2mx4dc35lgq6l5@pali> <20220706172732.6228d180@thinkpad>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220706172732.6228d180@thinkpad>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,46 +79,60 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 6 Jul 2022 13:19:12 +0200
-Pali Roh=C3=A1r <pali@kernel.org> wrote:
+On 06/07/2022 17:27, Marek Behún wrote:
+> On Wed, 6 Jul 2022 13:19:12 +0200
+> Pali Rohár <pali@kernel.org> wrote:
+> 
+>> On Wednesday 06 July 2022 13:15:07 Marek Behún wrote:
+>>> On Tue,  5 Jul 2022 17:59:28 +0200
+>>> Pali Rohár <pali@kernel.org> wrote:
+>>>   
+>>>> +examples:
+>>>> +  - |
+>>>> +    #include <dt-bindings/leds/common.h>
+>>>> +
+>>>> +    cpld@3,0 {  
+>>>
+>>> The generic node name should be just "bus". That it is a CPLD
+>>> implementation should come from compatible string.  
+>>
+>> Sorry, I do not understand why "bus". Why other memory chips are named
+>> e.g. "nand" or "nor" and not "bus" too?
+> 
+> As far as I understand this is because that is the preferred name for
+> busses and this is a bus, since there is also the simple-bus compatible.
+> 
+>> By this logic should not be _every_ node called just "bus"? Hm... and 
+>> are names needed at all then?
+> 
+> :-)
+> 
+> The schema
+>   https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/simple-bus.yaml
+> allows for different names (soc|axi|ahb|*-bus) to avoid warnings on
+> existing old dts files.
+> 
+> The preferred way is to not have the implementation in nodename,
+> similar to how we use 'switch' instead of 'mv88e6xxx', or
+> 'ethernet-phy' instead of 'mv88e151x', or 'led-controller', ...
 
-> On Wednesday 06 July 2022 13:15:07 Marek Beh=C3=BAn wrote:
-> > On Tue,  5 Jul 2022 17:59:28 +0200
-> > Pali Roh=C3=A1r <pali@kernel.org> wrote:
-> >  =20
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/leds/common.h>
-> > > +
-> > > +    cpld@3,0 { =20
-> >=20
-> > The generic node name should be just "bus". That it is a CPLD
-> > implementation should come from compatible string. =20
->=20
-> Sorry, I do not understand why "bus". Why other memory chips are named
-> e.g. "nand" or "nor" and not "bus" too?
+Thanks Marek for detailed explanation.
+The cases above rather trigger my comments and this one here, after
+Pali's explanation, do not fit them. pld is a generic class of a device,
+so it is okay here. cpld probably as well (although one could argue that
+it is a subset of pld, so the generic name is pld, but then one would
+say fpga also should be called pld). For me it does not have to be bus,
+just don't want mv88e6xxx or any other vendor/model names. Therefore
+cpld is fine.
 
-As far as I understand this is because that is the preferred name for
-busses and this is a bus, since there is also the simple-bus compatible.
+> 
+> I wasn't there when people started requesting for this to be that way,
+> but I guess it makes some sense to make it more readable and less
+> redundant (the generic name in nodename and the implementation in
+> compatible string...).
 
-> By this logic should not be _every_ node called just "bus"? Hm... and=20
-> are names needed at all then?
 
-:-)
 
-The schema
-  https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/si=
-mple-bus.yaml
-allows for different names (soc|axi|ahb|*-bus) to avoid warnings on
-existing old dts files.
 
-The preferred way is to not have the implementation in nodename,
-similar to how we use 'switch' instead of 'mv88e6xxx', or
-'ethernet-phy' instead of 'mv88e151x', or 'led-controller', ...
-
-I wasn't there when people started requesting for this to be that way,
-but I guess it makes some sense to make it more readable and less
-redundant (the generic name in nodename and the implementation in
-compatible string...).
-
-Marek
+Best regards,
+Krzysztof
