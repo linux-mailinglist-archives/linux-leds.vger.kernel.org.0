@@ -2,65 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF02F568EF7
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 18:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CCB8568F01
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 18:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233312AbiGFQVV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 12:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48132 "EHLO
+        id S229927AbiGFQXm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 12:23:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232523AbiGFQVQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 12:21:16 -0400
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC24313D1E;
-        Wed,  6 Jul 2022 09:21:15 -0700 (PDT)
-Received: by mail-io1-f42.google.com with SMTP id v185so14445190ioe.11;
-        Wed, 06 Jul 2022 09:21:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=46WFx0LHKHo7IAjx9SQsto+DNFSa6rkI9h3YC0DlQ/0=;
-        b=bgqFOdwH1VqsnFwXFXuF1zFEqPWatdgv33CfgxiZsS8XU8CMuzOUktLEQpgTgOgonF
-         qvBVKpWCD0dNEmRpJyFsDSiufxKgNuxnobBZUpy5P8iq5FxLdVwLfItn8nlbgBrLP3j4
-         u80fGIs1fLIIpzxDh/EETpEkVhX+UnsdEHT2iVI1iLPMRxiiGKYIhlPxEKhAnwru3RGm
-         AX3i14Q9wNERuWjJfWtM2KGTWi7dj1QSGLf3Hp2qyKmrDfs70OnOBKrDsscaHCpNnaHL
-         wvI5fhlBUChtK+0gsjBUTBHQ7SaX8KHqKMO/KvU5yvBYZJOeU18htsDhmdoaWE5o5RTI
-         YlhA==
-X-Gm-Message-State: AJIora/IBopWcz2zOIwKf3gVmWzkzzg4ZLeJ+iTHqrUhyrCRZYGrK6wP
-        l2clu6N2KvfrGexh1k9ApjINNYNYdw==
-X-Google-Smtp-Source: AGRyM1uzgpPbhEro+IwOoGJCq5wslAcjXi1VJdWM93SO/U9U4sSTIx/BH4UE5y/3LRenbByBT6eqIw==
-X-Received: by 2002:a05:6638:2110:b0:33b:b100:551e with SMTP id n16-20020a056638211000b0033bb100551emr26646242jaj.116.1657124473556;
-        Wed, 06 Jul 2022 09:21:13 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id r16-20020a02b110000000b0032e271a558csm15967124jah.168.2022.07.06.09.21.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 09:21:13 -0700 (PDT)
-Received: (nullmailer pid 151818 invoked by uid 1000);
-        Wed, 06 Jul 2022 16:21:11 -0000
-Date:   Wed, 6 Jul 2022 10:21:11 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+        with ESMTP id S229723AbiGFQXm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 12:23:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507831D0D5;
+        Wed,  6 Jul 2022 09:23:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 042D4B81ADB;
+        Wed,  6 Jul 2022 16:23:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83B9CC3411C;
+        Wed,  6 Jul 2022 16:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657124618;
+        bh=E94CHoe4nJY8KaW5wk7Skqvv5P2Zf38aYdSKiyagHDg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lOyZD6X+mJZZAfd982nC3hM4EB71f6D3hD5QE5OXiAoCuBgb7nS+zDyCB/sWZgqda
+         MMGW6dJi9kHb/dB+3UXiSyW1dsWnzh42NIxyqxj7g3N4i9GjiC+F9R1Y/bixvs5F1b
+         6Un822/c6bbMg6wBtKyr13pjFFFFJuTnLvxIALTG+tiNh//43cq3wbb9uDA2/gytOb
+         63OgU72JIeJumm0pCRw9NyjGsCepgvsjkjgH6IXHSCq0YGnoEQ8BZ3DnvcvllkYHut
+         MHnsEhv32nUJMZR3z5iBKtWfRYB94ttiPmSAeXQjehBJG7Ac7TrkrwcDlfBplJjJAS
+         OjALc7l3wKnLg==
+Received: by pali.im (Postfix)
+        id 89B9A7BA; Wed,  6 Jul 2022 18:23:35 +0200 (CEST)
+Date:   Wed, 6 Jul 2022 18:23:35 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Rob Herring <robh@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/2] dt-bindings: leds: register-bit-led: Add value
  property
-Message-ID: <20220706162111.GA145516-robh@kernel.org>
+Message-ID: <20220706162335.2eewgf7l3xghdjtr@pali>
 References: <20220706112828.27278-1-pali@kernel.org>
+ <20220706162111.GA145516-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220706112828.27278-1-pali@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+In-Reply-To: <20220706162111.GA145516-robh@kernel.org>
+User-Agent: NeoMutt/20180716
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,44 +63,47 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Jul 06, 2022 at 01:28:27PM +0200, Pali Roh·r wrote:
-> Allow to define inverted logic (0 - enable LED, 1 - disable LED) via value
-> property. This property name is already used by other syscon drivers, e.g.
-> syscon-reboot.
+On Wednesday 06 July 2022 10:21:11 Rob Herring wrote:
+> On Wed, Jul 06, 2022 at 01:28:27PM +0200, Pali Roh√°r wrote:
+> > Allow to define inverted logic (0 - enable LED, 1 - disable LED) via value
+> > property. This property name is already used by other syscon drivers, e.g.
+> > syscon-reboot.
+> 
+> Yes, but those are potentially multi-bit values. This is a single bit 
+> value, and the only value that's ever needed is 0. Why not just use 
+> 'active-low' here?
 
-Yes, but those are potentially multi-bit values. This is a single bit 
-value, and the only value that's ever needed is 0. Why not just use 
-'active-low' here?
+Just because to have uniform definitions across more syscon nodes.
 
-> 
-> Signed-off-by: Pali Roh·r <pali@kernel.org>
-> ---
->  .../devicetree/bindings/leds/register-bit-led.yaml    | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/register-bit-led.yaml b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
-> index 79b8fc0f9d23..d6054a3f9087 100644
-> --- a/Documentation/devicetree/bindings/leds/register-bit-led.yaml
-> +++ b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
-> @@ -43,6 +43,17 @@ properties:
->          0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
->          0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
->  
-> +  value:
-> +    description:
-> +      bit value of ON state for the bit controlling this LED in the register
-> +      when not specified it is same as the mask
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      [ 0x0, 0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800,
-> +        0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000,
-> +        0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
-> +        0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
-> +
->    offset:
->      description:
->        register offset to the register controlling this LED
-> -- 
-> 2.20.1
-> 
-> 
+> > 
+> > Signed-off-by: Pali Roh√°r <pali@kernel.org>
+> > ---
+> >  .../devicetree/bindings/leds/register-bit-led.yaml    | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/register-bit-led.yaml b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> > index 79b8fc0f9d23..d6054a3f9087 100644
+> > --- a/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> > @@ -43,6 +43,17 @@ properties:
+> >          0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
+> >          0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
+> >  
+> > +  value:
+> > +    description:
+> > +      bit value of ON state for the bit controlling this LED in the register
+> > +      when not specified it is same as the mask
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    enum:
+> > +      [ 0x0, 0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800,
+> > +        0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000,
+> > +        0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
+> > +        0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
+> > +
+> >    offset:
+> >      description:
+> >        register offset to the register controlling this LED
+> > -- 
+> > 2.20.1
+> > 
+> > 
