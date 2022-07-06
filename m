@@ -2,130 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3F15686B1
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 13:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E74E568C7F
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 17:19:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232050AbiGFL3M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 07:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33190 "EHLO
+        id S232584AbiGFPTx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 11:19:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbiGFL3M (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 07:29:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8FD25C49;
-        Wed,  6 Jul 2022 04:29:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2590561E72;
-        Wed,  6 Jul 2022 11:29:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C32EC341C0;
-        Wed,  6 Jul 2022 11:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657106950;
-        bh=4ASXZQVP9AzJtJ0hy++BPz1LtZi0DXsVgS0qlgbwSbA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZbCf7YAm60jIpENUSEoVes5cgy39ZTGG4d0Nlncn6DWpQHhL4pyJyJzhqiDW45j6v
-         W+dDhR1R5dKHCCugt0BGOYP29VX/ruqj3uiGC419sEYRLPAWyPmanSOrTmWl1g04Fn
-         d/SrR/g8458dK3JjC78mBMMCfFUt9wADGcXUGpcdNlGWEf8fVSjDbC6SNRbsUfJpPT
-         wR/Egc5HIgPhDlGKPg0/1B7qeyPhoZUwCeHRoTpF+jQhVZYJrc4XCGlpu0orv0j5OK
-         Va+5eXFgtNW0cQudJXHg5TXao3RtGIXOaIn9OZKeJr/bR+JenjDzrAaurMan82yp/F
-         NCoTRY3YQWsow==
-Received: by pali.im (Postfix)
-        id C51F87F1; Wed,  6 Jul 2022 13:29:07 +0200 (CEST)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] leds: syscon: Implement support for value property
-Date:   Wed,  6 Jul 2022 13:28:28 +0200
-Message-Id: <20220706112828.27278-2-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220706112828.27278-1-pali@kernel.org>
-References: <20220706112828.27278-1-pali@kernel.org>
+        with ESMTP id S232562AbiGFPTw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 11:19:52 -0400
+X-Greylist: delayed 7794 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 06 Jul 2022 08:19:51 PDT
+Received: from 3.mo560.mail-out.ovh.net (3.mo560.mail-out.ovh.net [46.105.58.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EE4DFE9
+        for <linux-leds@vger.kernel.org>; Wed,  6 Jul 2022 08:19:50 -0700 (PDT)
+Received: from player759.ha.ovh.net (unknown [10.110.115.111])
+        by mo560.mail-out.ovh.net (Postfix) with ESMTP id C48A12401A
+        for <linux-leds@vger.kernel.org>; Wed,  6 Jul 2022 12:54:29 +0000 (UTC)
+Received: from milecki.pl (ip-194-187-74-233.konfederacka.maverick.com.pl [194.187.74.233])
+        (Authenticated sender: rafal@milecki.pl)
+        by player759.ha.ovh.net (Postfix) with ESMTPSA id 23AA82C62D3DC;
+        Wed,  6 Jul 2022 12:54:19 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-98R0021715cc91-ca2c-4e6d-985b-220cb5972dbf,
+                    9C20F4AFB6E1A5C03E66B265D4B61152F87D618A) smtp.auth=rafal@milecki.pl
+X-OVh-ClientIp: 194.187.74.233
+Message-ID: <361c9fc9-e982-55d3-f780-405505fd4389@milecki.pl>
+Date:   Wed, 6 Jul 2022 14:54:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH V3 1/2] dt-bindings: leds: add Broadcom's BCM63138
+ controller
+To:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Rob Herring <robh@kernel.org>
+References: <20211227145905.2905-1-zajec5@gmail.com>
+ <1ca1d83d-9803-77a3-e5bb-2380a2dc03b0@gmail.com>
+ <223aabc8-7ec3-2719-866a-8f35ab97a11f@gmail.com>
+ <1273c272-b6fe-2980-ce66-582738722634@gmail.com>
+From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+In-Reply-To: <1273c272-b6fe-2980-ce66-582738722634@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Ovh-Tracer-Id: 9657124978954709818
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeifedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeeuleetudfgkeevfffggeffveevleeutdekkeejueekveevtefhhfegveeggefhudenucfkpheptddrtddrtddrtddpudelgedrudekjedrjeegrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheprhgrfhgrlhesmhhilhgvtghkihdrphhlpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedt
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This new value property specify when is LED enabled. By default its value
-is from the mask and therefore LED is enabled when bit is set. This change
-allows to define inverted logic (0 - enable LED, 1 - disable LED) by
-setting value property to zero.
+Hi Pavel,
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- drivers/leds/leds-syscon.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+On 27.04.2022 22:47, Rafał Miłecki wrote:
+> On 27.03.2022 11:28, Rafał Miłecki wrote:
+>> On 7.03.2022 07:27, Rafał Miłecki wrote:
+>>> On 27.12.2021 15:59, Rafał Miłecki wrote:
+>>>> From: Rafał Miłecki <rafal@milecki.pl>
+>>>>
+>>>> Broadcom used 2 LEDs hardware blocks for their BCM63xx SoCs:
+>>>> 1. Older one (BCM6318, BCM6328, BCM6362, BCM63268, BCM6838)
+>>>> 2. Newer one (BCM6848, BCM6858, BCM63138, BCM63148, BCM63381, BCM68360)
+>>>>
+>>>> The newer one was also later also used on BCM4908 SoC.
+>>>>
+>>>> Old block is already documented in the leds-bcm6328.yaml. This binding
+>>>> documents the new one which uses different registers & programming. It's
+>>>> first used in BCM63138 thus the binding name.
+>>>>
+>>>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+>>>
+>>> Pavel: can I get this patchset finally accepted, please?
+>>
+>> It has been 3 months now. I kindly pinged you in January, February and
+>> March. Please let me know how can I get those patches accepted.
+> 
+> did you maybe have a chance to look at my patches?
 
-diff --git a/drivers/leds/leds-syscon.c b/drivers/leds/leds-syscon.c
-index 7eddb8ecb44e..337a0bada967 100644
---- a/drivers/leds/leds-syscon.c
-+++ b/drivers/leds/leds-syscon.c
-@@ -29,6 +29,7 @@ struct syscon_led {
- 	struct regmap *map;
- 	u32 offset;
- 	u32 mask;
-+	u32 value;
- 	bool state;
- };
- 
-@@ -41,10 +42,10 @@ static void syscon_led_set(struct led_classdev *led_cdev,
- 	int ret;
- 
- 	if (value == LED_OFF) {
--		val = 0;
-+		val = ~sled->value;
- 		sled->state = false;
- 	} else {
--		val = sled->mask;
-+		val = sled->value;
- 		sled->state = true;
- 	}
- 
-@@ -85,6 +86,8 @@ static int syscon_led_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	if (of_property_read_u32(np, "mask", &sled->mask))
- 		return -EINVAL;
-+	if (of_property_read_u32(np, "value", &sled->value))
-+		sled->value = sled->mask;
- 
- 	state = of_get_property(np, "default-state", NULL);
- 	if (state) {
-@@ -94,18 +97,19 @@ static int syscon_led_probe(struct platform_device *pdev)
- 			ret = regmap_read(map, sled->offset, &val);
- 			if (ret < 0)
- 				return ret;
--			sled->state = !!(val & sled->mask);
-+			sled->state = (val & sled->mask) == sled->value;
- 		} else if (!strcmp(state, "on")) {
- 			sled->state = true;
- 			ret = regmap_update_bits(map, sled->offset,
- 						 sled->mask,
--						 sled->mask);
-+						 sled->value);
- 			if (ret < 0)
- 				return ret;
- 		} else {
- 			sled->state = false;
- 			ret = regmap_update_bits(map, sled->offset,
--						 sled->mask, 0);
-+						 sled->mask,
-+						 ~sled->value);
- 			if (ret < 0)
- 				return ret;
- 		}
--- 
-2.20.1
-
+I'm asking to get this reviewed / accepted for half a year.
