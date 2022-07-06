@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FCD1567FDE
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B9E567FE6
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231173AbiGFHar (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 03:30:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49056 "EHLO
+        id S230362AbiGFHdV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 03:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbiGFHar (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:30:47 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F4F22B08;
-        Wed,  6 Jul 2022 00:30:46 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id ck6so17090448qtb.7;
-        Wed, 06 Jul 2022 00:30:46 -0700 (PDT)
+        with ESMTP id S230211AbiGFHdU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:33:20 -0400
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F1B22B12;
+        Wed,  6 Jul 2022 00:33:19 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id i11so17117985qtr.4;
+        Wed, 06 Jul 2022 00:33:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=l7jdNwqUxVmvsNaO4xkKTr+IxISvnOUVGzWu8CWMy8I=;
-        b=NpA85b0lUlGtmA2c7o6s1IDA1zJ/BdNO4PNqEUf03xhjacbEewcTaadStrmxhvgb0g
-         fhR+eT5Vs+CQA5KAqL0OFyGNlB7N2E3J63c4SsHfdrw9VO2SAXW1o1e6+75rUvcU7d8V
-         K89LfkKH5qEThT/qoY6wQIn6db60yUUGPQuoywc4ATIe0GObc+Xks8bJ8BhlAa2w/rMi
-         tauQmyHUnmcHt4tSl8qYP48lAOr8AZsLOktpdSOmsAW6mZsak/me8VGKIpgLUYOKP391
-         EpEhYuA9fl3oCtQwzMD1F+iXAJ/cww94jjg5+AblJv9XDcKYYt0mfYzbW4Bf7xIXRZET
-         jFZQ==
-X-Gm-Message-State: AJIora/mhKqmdk9YTdkdY4ayHPn9lriFD0MLmXh84QGxAdNPY18WuRSQ
-        6BzjsIe0AuQX0mhStyYqsfonwJTA0j2cWQ==
-X-Google-Smtp-Source: AGRyM1sualVkhVTr9IE8GyKTkUsyvaESHEGFY+rjVtUptztEZR3aldwXsxCh5rxPWbi88m9V5F5bTQ==
-X-Received: by 2002:a05:6214:27ce:b0:470:596b:4e82 with SMTP id ge14-20020a05621427ce00b00470596b4e82mr35691966qvb.118.1657092645093;
-        Wed, 06 Jul 2022 00:30:45 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id c19-20020a05622a059300b00304edcfa109sm25649620qtb.33.2022.07.06.00.30.43
+        bh=8+b8wn8V7G4tAXt0NI6X/wOz7J1o+6frUT4H0oHfhEM=;
+        b=jjiHX9PhsWiNs6debtBaPXWCSI+w04jPaPC35bT3BOU5i2CzXGu0EhbUYtVrVnRQ1P
+         ov69vpKJS1Lb4nr7XtS8WJ3GoiZHFFJRRu3x5NpigoF7RXPiJCqUTlbTGtndpkE4O7+8
+         F0o8xO2kT+NgIl3GznIo20ZtzymRn2H1pVVIDPDc1N4Y8SZJRZqU5NpDTTfiA+pky8/Z
+         DkwLGxtHDKZUZ/dkT/nKKO5A0baEhi/uY5h0PtNtusL7WFDUBbNQq7lU7pu/whS+Yf3d
+         SnTJDrDdZuIhpSGRk6oh421wrWKiE/NsL75Hnx+mRZXS6yuQ9qv6TCFfdAeR7A3jmfxW
+         FiWQ==
+X-Gm-Message-State: AJIora9yK6ys7cW3r6k04jdPuDIoqphaWFXuPOeeYc9buww5r4MweAHK
+        Ic5LOdEabR2uOSYOIc81LWtMY11pJL4SwQ==
+X-Google-Smtp-Source: AGRyM1vD/yKELU6fzItMdDmfa4FHS3qzsqMVpIhuUrMQRgdOGuficeXR3mOxBEEfvftIMpAS251z0Q==
+X-Received: by 2002:a05:6214:519a:b0:470:99b0:bc4f with SMTP id kl26-20020a056214519a00b0047099b0bc4fmr35303399qvb.57.1657092798534;
+        Wed, 06 Jul 2022 00:33:18 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id az8-20020a05620a170800b006b14b303b37sm16565430qkb.102.2022.07.06.00.33.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 00:30:44 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31c89653790so80232737b3.13;
-        Wed, 06 Jul 2022 00:30:43 -0700 (PDT)
-X-Received: by 2002:a81:9209:0:b0:31c:b1b7:b063 with SMTP id
- j9-20020a819209000000b0031cb1b7b063mr12871303ywg.383.1657092643442; Wed, 06
- Jul 2022 00:30:43 -0700 (PDT)
+        Wed, 06 Jul 2022 00:33:18 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id e69so19354652ybh.2;
+        Wed, 06 Jul 2022 00:33:17 -0700 (PDT)
+X-Received: by 2002:a05:6902:1143:b0:66e:8ad6:34c with SMTP id
+ p3-20020a056902114300b0066e8ad6034cmr4850012ybu.89.1657092797591; Wed, 06 Jul
+ 2022 00:33:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-2-emil.renner.berthing@canonical.com>
-In-Reply-To: <20220705210143.315151-2-emil.renner.berthing@canonical.com>
+References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-3-emil.renner.berthing@canonical.com>
+In-Reply-To: <20220705210143.315151-3-emil.renner.berthing@canonical.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 6 Jul 2022 09:30:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU3q4W+azwo5sAUHfsL7Se9vGftHxRdmu1c5-j5fPrwow@mail.gmail.com>
-Message-ID: <CAMuHMdU3q4W+azwo5sAUHfsL7Se9vGftHxRdmu1c5-j5fPrwow@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] leds: pwm-multicolor: Don't show -EPROBE_DEFER as errors
+Date:   Wed, 6 Jul 2022 09:33:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUtK0-sDcFhPuaeRBnRn8=Bc7FDH+sfPFL55s7G7hdMvw@mail.gmail.com>
+Message-ID: <CAMuHMdUtK0-sDcFhPuaeRBnRn8=Bc7FDH+sfPFL55s7G7hdMvw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] dt-bindings: leds: pwm-multicolor: Add active-low property
 To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
@@ -84,12 +84,9 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Tue, Jul 5, 2022 at 11:01 PM Emil Renner Berthing
 <emil.renner.berthing@canonical.com> wrote:
-> When requesting a PWM it might return -EPROBE_DEFER if it hasn't probed
-> yet. This is not an error, so just propagate the -EPROBE_DEFER without
-> logging anything. There is already dev_err_probe for exactly this
-> situation.
+> Add the active-low property to LEDs that are part of a multicolor LED
+> just like the regular PWM LEDs have.
 >
-> Fixes: 9fa2762110dd ("leds: Add PWM multicolor driver")
 > Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
