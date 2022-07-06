@@ -2,63 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 709BC56791A
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Jul 2022 23:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FCD1567FDE
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbiGEVCC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Jul 2022 17:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40364 "EHLO
+        id S231173AbiGFHar (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 03:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232258AbiGEVCA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Jul 2022 17:02:00 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7407B65D9
-        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 14:01:54 -0700 (PDT)
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id E945940AAF
-        for <linux-leds@vger.kernel.org>; Tue,  5 Jul 2022 21:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1657054911;
-        bh=AoMSkRbSsal7DXav6tHJCoGyFX+s+KqI3+R+nsluk4Y=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version;
-        b=pq+i759s1MMIuM8KXCy0nSQLmIEOddZl1NwwLUzj+gcmP2ev/tCZiW18mueKImxPc
-         zRXSUMvUfRMzNkZ63mkN5mlUp9/wUaeRKWBavTtYFEZnL9NAG0Wm3pT3jhUzY/ZlgU
-         YIJp57eK5hIZLuuFdUDPJ0mL7VQ89JCefN+IIh+L/D4Afszx6T13e/oOVO2R1L1INt
-         QbynsJb+BYqVVBQV3pBLuVbQkv5QvhKTa+FZ8mG7uBK2C4+dj+v558Vm6wyGLRe8Ye
-         1McpJCe6Lhws7L4FDKVl7K/NF5693zHHbi9CR7qLp8PCjgz+zIUaTvIfhVFOWZ6fJJ
-         DdNfekfzy73yg==
-Received: by mail-wm1-f69.google.com with SMTP id z11-20020a05600c0a0b00b003a043991610so7280850wmp.8
-        for <linux-leds@vger.kernel.org>; Tue, 05 Jul 2022 14:01:50 -0700 (PDT)
+        with ESMTP id S231164AbiGFHar (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:30:47 -0400
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F4F22B08;
+        Wed,  6 Jul 2022 00:30:46 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id ck6so17090448qtb.7;
+        Wed, 06 Jul 2022 00:30:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AoMSkRbSsal7DXav6tHJCoGyFX+s+KqI3+R+nsluk4Y=;
-        b=I+zXp8XEgCpF9dMr7eBR+t/MVpXCvpBl3jsPXlhGsdE1egLaEdKxasEayfDM+ARm+1
-         fxIz5Jjz+FOlmOXGwANkRlUiwhQoA/dMrGItlNemnYhYy0dnxcY2JNePr2DKMGPW0cN9
-         qQXsM/gKbMg459SEq//4hOTKz2VhlZUwO8Bmr484pZdchdfsmTQd5LMZNcYjaESD5iGw
-         qeLcd3DyFSXlUloiZ5K/BxeG5u+ZAj3Hxpin72dNfkKOwZ7Sv12vvq+1EpY26USIdpV7
-         +Oju/1tqkyuVpfEnbgnqflCECobOyGMzL0RQFNWgRkCcVheZcGCoHUmVEsFgCPnodJCo
-         bWhg==
-X-Gm-Message-State: AJIora/J76eFf473ZJqzKCYP14DxAmdqUAtxc1KBTUbMBY6ElPmmMIXt
-        0p/MmyrbCvYpXo3rdgFx/3NDVqItYEW6ujBF6fPeDle7XyXToI4lRnl1HG+tUiUE7+w4vpou8Co
-        6sabiS608trPADiRimcjE+P48+vQtzqaelKRMdcI=
-X-Received: by 2002:a5d:64ad:0:b0:21b:b412:a34b with SMTP id m13-20020a5d64ad000000b0021bb412a34bmr34737453wrp.161.1657054910464;
-        Tue, 05 Jul 2022 14:01:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1utl+vdlW/hT+y0u8P/5xgHHhGX/aEi5Iu3pv5PVf+eB3fFB+ZuQGqJZ0/RfxSFhjz/+hEgCA==
-X-Received: by 2002:a5d:64ad:0:b0:21b:b412:a34b with SMTP id m13-20020a5d64ad000000b0021bb412a34bmr34737424wrp.161.1657054910311;
-        Tue, 05 Jul 2022 14:01:50 -0700 (PDT)
-Received: from stitch.. (80.71.140.73.ipv4.parknet.dk. [80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id r15-20020a0560001b8f00b0021d74906683sm2517667wru.28.2022.07.05.14.01.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 14:01:50 -0700 (PDT)
-From:   Emil Renner Berthing <emil.renner.berthing@canonical.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l7jdNwqUxVmvsNaO4xkKTr+IxISvnOUVGzWu8CWMy8I=;
+        b=NpA85b0lUlGtmA2c7o6s1IDA1zJ/BdNO4PNqEUf03xhjacbEewcTaadStrmxhvgb0g
+         fhR+eT5Vs+CQA5KAqL0OFyGNlB7N2E3J63c4SsHfdrw9VO2SAXW1o1e6+75rUvcU7d8V
+         K89LfkKH5qEThT/qoY6wQIn6db60yUUGPQuoywc4ATIe0GObc+Xks8bJ8BhlAa2w/rMi
+         tauQmyHUnmcHt4tSl8qYP48lAOr8AZsLOktpdSOmsAW6mZsak/me8VGKIpgLUYOKP391
+         EpEhYuA9fl3oCtQwzMD1F+iXAJ/cww94jjg5+AblJv9XDcKYYt0mfYzbW4Bf7xIXRZET
+         jFZQ==
+X-Gm-Message-State: AJIora/mhKqmdk9YTdkdY4ayHPn9lriFD0MLmXh84QGxAdNPY18WuRSQ
+        6BzjsIe0AuQX0mhStyYqsfonwJTA0j2cWQ==
+X-Google-Smtp-Source: AGRyM1sualVkhVTr9IE8GyKTkUsyvaESHEGFY+rjVtUptztEZR3aldwXsxCh5rxPWbi88m9V5F5bTQ==
+X-Received: by 2002:a05:6214:27ce:b0:470:596b:4e82 with SMTP id ge14-20020a05621427ce00b00470596b4e82mr35691966qvb.118.1657092645093;
+        Wed, 06 Jul 2022 00:30:45 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id c19-20020a05622a059300b00304edcfa109sm25649620qtb.33.2022.07.06.00.30.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 00:30:44 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-31c89653790so80232737b3.13;
+        Wed, 06 Jul 2022 00:30:43 -0700 (PDT)
+X-Received: by 2002:a81:9209:0:b0:31c:b1b7:b063 with SMTP id
+ j9-20020a819209000000b0031cb1b7b063mr12871303ywg.383.1657092643442; Wed, 06
+ Jul 2022 00:30:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-2-emil.renner.berthing@canonical.com>
+In-Reply-To: <20220705210143.315151-2-emil.renner.berthing@canonical.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 6 Jul 2022 09:30:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3q4W+azwo5sAUHfsL7Se9vGftHxRdmu1c5-j5fPrwow@mail.gmail.com>
+Message-ID: <CAMuHMdU3q4W+azwo5sAUHfsL7Se9vGftHxRdmu1c5-j5fPrwow@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] leds: pwm-multicolor: Don't show -EPROBE_DEFER as errors
+To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -67,102 +60,47 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Aurelien Jarno <aurelien@aurel32.net>,
         Ron Economos <w6rz@comcast.net>,
         Qiu Wenbo <qiuwenbo@kylinos.com.cn>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
         Stephen L Arnold <nerdboy@gentoo.org>,
         Jianlong Huang <jianlong.huang@starfivetech.com>,
         Mark Kettenis <kettenis@openbsd.org>,
         Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         David Abdurachmanov <davidlt@rivosinc.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH v1 4/4] riscv: dts: sifive unmatched: Add PWM controlled LEDs
-Date:   Tue,  5 Jul 2022 23:01:43 +0200
-Message-Id: <20220705210143.315151-5-emil.renner.berthing@canonical.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220705210143.315151-1-emil.renner.berthing@canonical.com>
-References: <20220705210143.315151-1-emil.renner.berthing@canonical.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        linux-leds <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This adds the two PWM controlled LEDs to the HiFive Unmatched device
-tree. D12 is just a regular green diode, but D2 is an RGB diode with 3
-PWM inputs controlling the three different colours.
+On Tue, Jul 5, 2022 at 11:01 PM Emil Renner Berthing
+<emil.renner.berthing@canonical.com> wrote:
+> When requesting a PWM it might return -EPROBE_DEFER if it hasn't probed
+> yet. This is not an error, so just propagate the -EPROBE_DEFER without
+> logging anything. There is already dev_err_probe for exactly this
+> situation.
+>
+> Fixes: 9fa2762110dd ("leds: Add PWM multicolor driver")
+> Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
-Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
----
- .../boot/dts/sifive/hifive-unmatched-a00.dts  | 42 +++++++++++++++++++
- 1 file changed, 42 insertions(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts b/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
-index c4ed9efdff03..beaefe74755a 100644
---- a/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
-+++ b/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
-@@ -4,6 +4,8 @@
- #include "fu740-c000.dtsi"
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
-+#include <dt-bindings/pwm/pwm.h>
- 
- /* Clock frequency (in Hz) of the PCB crystal for rtcclk */
- #define RTCCLK_FREQ		1000000
-@@ -44,6 +46,46 @@ gpio-poweroff {
- 		compatible = "gpio-poweroff";
- 		gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
- 	};
-+
-+	led-controller-1 {
-+		compatible = "pwm-leds";
-+
-+		led-d12 {
-+			pwms = <&pwm0 0 7812500 PWM_POLARITY_INVERTED>;
-+			active-low;
-+			color = <LED_COLOR_ID_GREEN>;
-+			max-brightness = <255>;
-+			label = "d12";
-+		};
-+	};
-+
-+	led-controller-2 {
-+		compatible = "pwm-leds-multicolor";
-+
-+		multi-led {
-+			color = <LED_COLOR_ID_RGB>;
-+			max-brightness = <255>;
-+			label = "d2";
-+
-+			led-red {
-+				pwms = <&pwm0 2 7812500 PWM_POLARITY_INVERTED>;
-+				active-low;
-+				color = <LED_COLOR_ID_RED>;
-+			};
-+
-+			led-green {
-+				pwms = <&pwm0 1 7812500 PWM_POLARITY_INVERTED>;
-+				active-low;
-+				color = <LED_COLOR_ID_GREEN>;
-+			};
-+
-+			led-blue {
-+				pwms = <&pwm0 3 7812500 PWM_POLARITY_INVERTED>;
-+				active-low;
-+				color = <LED_COLOR_ID_BLUE>;
-+			};
-+		};
-+	};
- };
- 
- &uart0 {
--- 
-2.37.0
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
