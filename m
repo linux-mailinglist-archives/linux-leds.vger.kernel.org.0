@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B9E567FE6
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA516568061
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230362AbiGFHdV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 03:33:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
+        id S231874AbiGFHnn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 03:43:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbiGFHdU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:33:20 -0400
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F1B22B12;
-        Wed,  6 Jul 2022 00:33:19 -0700 (PDT)
-Received: by mail-qt1-f170.google.com with SMTP id i11so17117985qtr.4;
-        Wed, 06 Jul 2022 00:33:19 -0700 (PDT)
+        with ESMTP id S231965AbiGFHn3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:43:29 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD1B22BE1;
+        Wed,  6 Jul 2022 00:43:28 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id o26so3362911qkl.6;
+        Wed, 06 Jul 2022 00:43:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8+b8wn8V7G4tAXt0NI6X/wOz7J1o+6frUT4H0oHfhEM=;
-        b=jjiHX9PhsWiNs6debtBaPXWCSI+w04jPaPC35bT3BOU5i2CzXGu0EhbUYtVrVnRQ1P
-         ov69vpKJS1Lb4nr7XtS8WJ3GoiZHFFJRRu3x5NpigoF7RXPiJCqUTlbTGtndpkE4O7+8
-         F0o8xO2kT+NgIl3GznIo20ZtzymRn2H1pVVIDPDc1N4Y8SZJRZqU5NpDTTfiA+pky8/Z
-         DkwLGxtHDKZUZ/dkT/nKKO5A0baEhi/uY5h0PtNtusL7WFDUBbNQq7lU7pu/whS+Yf3d
-         SnTJDrDdZuIhpSGRk6oh421wrWKiE/NsL75Hnx+mRZXS6yuQ9qv6TCFfdAeR7A3jmfxW
-         FiWQ==
-X-Gm-Message-State: AJIora9yK6ys7cW3r6k04jdPuDIoqphaWFXuPOeeYc9buww5r4MweAHK
-        Ic5LOdEabR2uOSYOIc81LWtMY11pJL4SwQ==
-X-Google-Smtp-Source: AGRyM1vD/yKELU6fzItMdDmfa4FHS3qzsqMVpIhuUrMQRgdOGuficeXR3mOxBEEfvftIMpAS251z0Q==
-X-Received: by 2002:a05:6214:519a:b0:470:99b0:bc4f with SMTP id kl26-20020a056214519a00b0047099b0bc4fmr35303399qvb.57.1657092798534;
-        Wed, 06 Jul 2022 00:33:18 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id az8-20020a05620a170800b006b14b303b37sm16565430qkb.102.2022.07.06.00.33.17
+        bh=kjnCdbt6inqH5uX2FYdrJz59MYQX17h31Der8YuPd8E=;
+        b=WMYG/kOWoAlZyRMbEILO7QNILBaSnADuRgWs2gaOwGqJ972RlKP67uA+3JFOGKq14k
+         fKjbvMZUuMOc6aH0DNbwgI4hE4kzor9PcSLNef4WV8GuwQqIXavIfKyMGDNR0mMeqJWz
+         AHhDZ/ALTae3xqJtWimZgCSvoJnoKSGScFy7K69I26IDNoHS0Qty393wd1AOiMRoYyIj
+         +O9X916bWQhFnb+eLL5uejTRy+AT33Lsocvy+BY2PcdpQUV9orpMsm6QGQDXTO+LbheC
+         iWEdLXe0v/lYZqzg92mv/pmHfkgFLWtvnu+fUFhAvCmwMkCGHMn4DQegIfUZYB3ferNe
+         n95w==
+X-Gm-Message-State: AJIora8UxxKebHj5Fyy4xXEI3EOgaakRz1lN8XEzJ5aJd4bvFFL0i8bY
+        wRVqukBoM7WFTy2di1rCAmZclZR8mFMtAg==
+X-Google-Smtp-Source: AGRyM1uHPHoOk+wyT+BH/wmqkxdIhsHz5Txnvb42inmI3c1qCLUfdkq0dlSP7E/FE00K3rK3Pryk7g==
+X-Received: by 2002:a05:620a:2845:b0:6ab:8e0c:1938 with SMTP id h5-20020a05620a284500b006ab8e0c1938mr25700778qkp.315.1657093407102;
+        Wed, 06 Jul 2022 00:43:27 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id bm9-20020a05620a198900b006a73ad95d40sm28610139qkb.55.2022.07.06.00.43.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 00:33:18 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id e69so19354652ybh.2;
-        Wed, 06 Jul 2022 00:33:17 -0700 (PDT)
-X-Received: by 2002:a05:6902:1143:b0:66e:8ad6:34c with SMTP id
- p3-20020a056902114300b0066e8ad6034cmr4850012ybu.89.1657092797591; Wed, 06 Jul
- 2022 00:33:17 -0700 (PDT)
+        Wed, 06 Jul 2022 00:43:26 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 64so16684183ybt.12;
+        Wed, 06 Jul 2022 00:43:26 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr41944626ybq.543.1657093406099; Wed, 06
+ Jul 2022 00:43:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-3-emil.renner.berthing@canonical.com>
-In-Reply-To: <20220705210143.315151-3-emil.renner.berthing@canonical.com>
+References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-4-emil.renner.berthing@canonical.com>
+In-Reply-To: <20220705210143.315151-4-emil.renner.berthing@canonical.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 6 Jul 2022 09:33:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUtK0-sDcFhPuaeRBnRn8=Bc7FDH+sfPFL55s7G7hdMvw@mail.gmail.com>
-Message-ID: <CAMuHMdUtK0-sDcFhPuaeRBnRn8=Bc7FDH+sfPFL55s7G7hdMvw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] dt-bindings: leds: pwm-multicolor: Add active-low property
+Date:   Wed, 6 Jul 2022 09:43:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV4QVoN53cqrbmVn3YJVHSdbB78xd120AO0FNz74qeGyA@mail.gmail.com>
+Message-ID: <CAMuHMdV4QVoN53cqrbmVn3YJVHSdbB78xd120AO0FNz74qeGyA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/4] leds: pwm-multicolor: Support active-low LEDs
 To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
@@ -73,9 +73,8 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -84,8 +83,8 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Tue, Jul 5, 2022 at 11:01 PM Emil Renner Berthing
 <emil.renner.berthing@canonical.com> wrote:
-> Add the active-low property to LEDs that are part of a multicolor LED
-> just like the regular PWM LEDs have.
+> Add support for LEDs wired up to light when the PWM output is low, just
+> like the regular PWM LEDs.
 >
 > Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
