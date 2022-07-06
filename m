@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA516568061
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 295D456808F
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbiGFHnn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 03:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
+        id S229935AbiGFH4c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 03:56:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231965AbiGFHn3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:43:29 -0400
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD1B22BE1;
-        Wed,  6 Jul 2022 00:43:28 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id o26so3362911qkl.6;
-        Wed, 06 Jul 2022 00:43:28 -0700 (PDT)
+        with ESMTP id S229599AbiGFH4b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:56:31 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CE3BC9E;
+        Wed,  6 Jul 2022 00:56:30 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id k20so10502239qkj.1;
+        Wed, 06 Jul 2022 00:56:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kjnCdbt6inqH5uX2FYdrJz59MYQX17h31Der8YuPd8E=;
-        b=WMYG/kOWoAlZyRMbEILO7QNILBaSnADuRgWs2gaOwGqJ972RlKP67uA+3JFOGKq14k
-         fKjbvMZUuMOc6aH0DNbwgI4hE4kzor9PcSLNef4WV8GuwQqIXavIfKyMGDNR0mMeqJWz
-         AHhDZ/ALTae3xqJtWimZgCSvoJnoKSGScFy7K69I26IDNoHS0Qty393wd1AOiMRoYyIj
-         +O9X916bWQhFnb+eLL5uejTRy+AT33Lsocvy+BY2PcdpQUV9orpMsm6QGQDXTO+LbheC
-         iWEdLXe0v/lYZqzg92mv/pmHfkgFLWtvnu+fUFhAvCmwMkCGHMn4DQegIfUZYB3ferNe
-         n95w==
-X-Gm-Message-State: AJIora8UxxKebHj5Fyy4xXEI3EOgaakRz1lN8XEzJ5aJd4bvFFL0i8bY
-        wRVqukBoM7WFTy2di1rCAmZclZR8mFMtAg==
-X-Google-Smtp-Source: AGRyM1uHPHoOk+wyT+BH/wmqkxdIhsHz5Txnvb42inmI3c1qCLUfdkq0dlSP7E/FE00K3rK3Pryk7g==
-X-Received: by 2002:a05:620a:2845:b0:6ab:8e0c:1938 with SMTP id h5-20020a05620a284500b006ab8e0c1938mr25700778qkp.315.1657093407102;
-        Wed, 06 Jul 2022 00:43:27 -0700 (PDT)
+        bh=nFnExDmVG8iUyhRWe8k5w8cOxRLhlolbcIWrBxu+DeM=;
+        b=KN3V6kqJKP2UMm7lQMcZQ/+mqOmA7MxnFAAZuv1d3KNR2ef6BdVCBXzERn9Cg6IG0O
+         iXZVTjHl0YLyIohzIcmClmVVBQIEAZLBmcEcCkNIp47MIDS9ets1FhiiPFqty6Fp333s
+         O4RCr3aKgZtey2Scfb2ymZaTob927bsLP3Dkfn70dj7MLDIo3897IWBYgKwjrRefIMwX
+         KSc4G23L6AdX1t0FF+157ABgJNxpvs8GzaCvLw5OOnVrOg/5etiZyp/xmluuNNtUNA1v
+         WnFfd5i/Z5wrlf4GnMzED4T0OnQb3sQFXDPzwpK2q539soh/bLeGZqCJmZ6f3X2e+mZT
+         BIZQ==
+X-Gm-Message-State: AJIora8ZGko2K0eVye/BBxFiuDSQHJfjSz0TaR3p7VzE/tgIlpCCMpac
+        iFenS/X/M8JFCZHIAlJUqG2UE4hnp+fb9w==
+X-Google-Smtp-Source: AGRyM1tsmRxfo5BxvAG8cJRBJNXZVTFdS1KVS6l6lcFic8Ha3vr8i9VA71BY4BdAGuS+na0/R18sXQ==
+X-Received: by 2002:a05:620a:2296:b0:6af:46d:1671 with SMTP id o22-20020a05620a229600b006af046d1671mr26200088qkh.417.1657094189544;
+        Wed, 06 Jul 2022 00:56:29 -0700 (PDT)
 Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id bm9-20020a05620a198900b006a73ad95d40sm28610139qkb.55.2022.07.06.00.43.26
+        by smtp.gmail.com with ESMTPSA id l21-20020a37f915000000b006b470422c78sm5849140qkj.121.2022.07.06.00.56.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 00:43:26 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 64so16684183ybt.12;
-        Wed, 06 Jul 2022 00:43:26 -0700 (PDT)
-X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
- r1-20020a5b06c1000000b00669a7c34c33mr41944626ybq.543.1657093406099; Wed, 06
- Jul 2022 00:43:26 -0700 (PDT)
+        Wed, 06 Jul 2022 00:56:28 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id o2so20747130yba.7;
+        Wed, 06 Jul 2022 00:56:28 -0700 (PDT)
+X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
+ l10-20020a056902000a00b0065cb38e6d9fmr44011964ybh.36.1657094187854; Wed, 06
+ Jul 2022 00:56:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-4-emil.renner.berthing@canonical.com>
-In-Reply-To: <20220705210143.315151-4-emil.renner.berthing@canonical.com>
+References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-5-emil.renner.berthing@canonical.com>
+In-Reply-To: <20220705210143.315151-5-emil.renner.berthing@canonical.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 6 Jul 2022 09:43:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV4QVoN53cqrbmVn3YJVHSdbB78xd120AO0FNz74qeGyA@mail.gmail.com>
-Message-ID: <CAMuHMdV4QVoN53cqrbmVn3YJVHSdbB78xd120AO0FNz74qeGyA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] leds: pwm-multicolor: Support active-low LEDs
+Date:   Wed, 6 Jul 2022 09:56:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV0VJh8Um2zM=kDTPPeLPci1OxU75mqkJgFSwhBZ1NR8w@mail.gmail.com>
+Message-ID: <CAMuHMdV0VJh8Um2zM=kDTPPeLPci1OxU75mqkJgFSwhBZ1NR8w@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] riscv: dts: sifive unmatched: Add PWM controlled LEDs
 To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
@@ -81,13 +81,43 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Emil,
+
 On Tue, Jul 5, 2022 at 11:01 PM Emil Renner Berthing
 <emil.renner.berthing@canonical.com> wrote:
-> Add support for LEDs wired up to light when the PWM output is low, just
-> like the regular PWM LEDs.
+> This adds the two PWM controlled LEDs to the HiFive Unmatched device
+> tree. D12 is just a regular green diode, but D2 is an RGB diode with 3
+> PWM inputs controlling the three different colours.
 >
 > Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
+Thanks for your patch!
+
+> --- a/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
+> +++ b/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
+> @@ -44,6 +46,46 @@ gpio-poweroff {
+>                 compatible = "gpio-poweroff";
+>                 gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+>         };
+> +
+> +       led-controller-1 {
+> +               compatible = "pwm-leds";
+> +
+> +               led-d12 {
+> +                       pwms = <&pwm0 0 7812500 PWM_POLARITY_INVERTED>;
+> +                       active-low;
+
+The first thing that came into my mind was "why not drop the
+PWM_POLARITY_INVERTED flag instead?".
+
+But it turns out drivers/pwm/pwm-sifive.c does not support
+non-inverted PWMs, and returns -EINVAL if PWM_POLARITY_INVERSED
+(no typo) is not set.  I think it would be good if
+Documentation/devicetree/bindings/pwm/pwm-sifive.yaml would mention
+this limitation, and perhaps even enforce it, if possible?
+
+I didn't check this against the schematics, but the generic structure
+LGTM, so
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
