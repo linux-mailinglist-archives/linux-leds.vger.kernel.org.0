@@ -2,131 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 295D456808F
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 09:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A27B56831E
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Jul 2022 11:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbiGFH4c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 6 Jul 2022 03:56:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S233240AbiGFJOH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Jul 2022 05:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbiGFH4b (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 03:56:31 -0400
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5CE3BC9E;
-        Wed,  6 Jul 2022 00:56:30 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id k20so10502239qkj.1;
-        Wed, 06 Jul 2022 00:56:30 -0700 (PDT)
+        with ESMTP id S232759AbiGFJNs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Jul 2022 05:13:48 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3931A3B1;
+        Wed,  6 Jul 2022 02:13:20 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id k30so10305959edk.8;
+        Wed, 06 Jul 2022 02:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=WKlacHhWVR2IblvCAgYMcCw7cvtmo7gBzlhxFpijOWM=;
+        b=UyINPEp8aUU7+iO4UvYReAysG8acJi4s0lW7fYS990hIHuI2KgReqshlPjlC0FcdQX
+         RWLEJ1iagzj5JHTLAwg1Tfl34CjKErUg06qCwRi5FpbuqXpIfRK0B8kuUc2l5x+40o+8
+         2YldATzAdsq2GhIZIL2D0cZi8oKOkVG5Y5xLvvP4kajNiX5yCXAJSyEYBx1RvA9W9SdO
+         piij5Lfa0VXVwqnHofYdHxRPOmYTBO/NXTATLm6C9JRKYr2iRvgzlsZTZRGqO8gtc9pI
+         zkPBxco6Fa5B8qkZy3WblPhpXY+1PsQ3ol/zLxC+L8wAov5SdI1JA4byrn/VHyXJavbs
+         ZPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nFnExDmVG8iUyhRWe8k5w8cOxRLhlolbcIWrBxu+DeM=;
-        b=KN3V6kqJKP2UMm7lQMcZQ/+mqOmA7MxnFAAZuv1d3KNR2ef6BdVCBXzERn9Cg6IG0O
-         iXZVTjHl0YLyIohzIcmClmVVBQIEAZLBmcEcCkNIp47MIDS9ets1FhiiPFqty6Fp333s
-         O4RCr3aKgZtey2Scfb2ymZaTob927bsLP3Dkfn70dj7MLDIo3897IWBYgKwjrRefIMwX
-         KSc4G23L6AdX1t0FF+157ABgJNxpvs8GzaCvLw5OOnVrOg/5etiZyp/xmluuNNtUNA1v
-         WnFfd5i/Z5wrlf4GnMzED4T0OnQb3sQFXDPzwpK2q539soh/bLeGZqCJmZ6f3X2e+mZT
-         BIZQ==
-X-Gm-Message-State: AJIora8ZGko2K0eVye/BBxFiuDSQHJfjSz0TaR3p7VzE/tgIlpCCMpac
-        iFenS/X/M8JFCZHIAlJUqG2UE4hnp+fb9w==
-X-Google-Smtp-Source: AGRyM1tsmRxfo5BxvAG8cJRBJNXZVTFdS1KVS6l6lcFic8Ha3vr8i9VA71BY4BdAGuS+na0/R18sXQ==
-X-Received: by 2002:a05:620a:2296:b0:6af:46d:1671 with SMTP id o22-20020a05620a229600b006af046d1671mr26200088qkh.417.1657094189544;
-        Wed, 06 Jul 2022 00:56:29 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id l21-20020a37f915000000b006b470422c78sm5849140qkj.121.2022.07.06.00.56.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 00:56:28 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id o2so20747130yba.7;
-        Wed, 06 Jul 2022 00:56:28 -0700 (PDT)
-X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
- l10-20020a056902000a00b0065cb38e6d9fmr44011964ybh.36.1657094187854; Wed, 06
- Jul 2022 00:56:27 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=WKlacHhWVR2IblvCAgYMcCw7cvtmo7gBzlhxFpijOWM=;
+        b=QxR5OpPe3NgjVZHkxNID4w7Mgvcw6XaQKzgi6rmn5TdcUkdgaBseRGdfsFVHDfK+LW
+         qhe6gUqffxKYBwr8jvHWxccaa/ThR1eRottwfKm2NQmkTLT10ajPqMSVzGrGZZaNbfSG
+         ornZME+JmgmlRk5r1vYTpZ8jQF3eEmPw3seTG0dsDKCTXCpG90vpF2NV/bTtBNQ0jo/r
+         Cb/OfvKw5bcMuJ+BRqb9+3CIzWMmEcQ/1X77PlHpLxmiK7TnDOOxNF2f5hWrdOj8ijIm
+         b0bKL/Ab/riiu2JY5h2t0CwqmoaY6Z57nESze7yZBTjtdV2/PF7odfLK7dF3yv5IRI8Q
+         mqsQ==
+X-Gm-Message-State: AJIora808hsnV+UdsynlkTYT6KRbYaZklCtQ/r1z67l8sQQwRm1XoMiS
+        PqE6mIIEjoGD9C62az3dzFg=
+X-Google-Smtp-Source: AGRyM1tgzHocOxIjG9HexS+g9z9ap2nsem/HblqVyMjIbl5ZbLhG8nAvflW5PCvUObUWjIPHfLadCA==
+X-Received: by 2002:a05:6402:350a:b0:435:df44:30aa with SMTP id b10-20020a056402350a00b00435df4430aamr51209856edd.403.1657098799156;
+        Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
+Received: from skbuf ([188.26.185.61])
+        by smtp.gmail.com with ESMTPSA id er13-20020a056402448d00b0043a5bcf80a2sm6350790edb.60.2022.07.06.02.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 02:13:18 -0700 (PDT)
+Date:   Wed, 6 Jul 2022 12:13:15 +0300
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20220705210143.315151-1-emil.renner.berthing@canonical.com> <20220705210143.315151-5-emil.renner.berthing@canonical.com>
-In-Reply-To: <20220705210143.315151-5-emil.renner.berthing@canonical.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 6 Jul 2022 09:56:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV0VJh8Um2zM=kDTPPeLPci1OxU75mqkJgFSwhBZ1NR8w@mail.gmail.com>
-Message-ID: <CAMuHMdV0VJh8Um2zM=kDTPPeLPci1OxU75mqkJgFSwhBZ1NR8w@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] riscv: dts: sifive unmatched: Add PWM controlled LEDs
-To:     Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Vincent Pelletier <plr.vincent@gmail.com>,
-        Bin Meng <bin.meng@windriver.com>,
-        Aurelien Jarno <aurelien@aurel32.net>,
-        Ron Economos <w6rz@comcast.net>,
-        Qiu Wenbo <qiuwenbo@kylinos.com.cn>,
-        Stephen L Arnold <nerdboy@gentoo.org>,
-        Jianlong Huang <jianlong.huang@starfivetech.com>,
-        Mark Kettenis <kettenis@openbsd.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        David Abdurachmanov <davidlt@rivosinc.com>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Emil,
+On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <uwe@kleine-koenig.org>
+> 
+> The value returned by an i2c driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+> 
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
 
-On Tue, Jul 5, 2022 at 11:01 PM Emil Renner Berthing
-<emil.renner.berthing@canonical.com> wrote:
-> This adds the two PWM controlled LEDs to the HiFive Unmatched device
-> tree. D12 is just a regular green diode, but D2 is an RGB diode with 3
-> PWM inputs controlling the three different colours.
->
-> Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Assuming you remove the spurious kasan change:
 
-Thanks for your patch!
-
-> --- a/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
-> +++ b/arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dts
-> @@ -44,6 +46,46 @@ gpio-poweroff {
->                 compatible = "gpio-poweroff";
->                 gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
->         };
-> +
-> +       led-controller-1 {
-> +               compatible = "pwm-leds";
-> +
-> +               led-d12 {
-> +                       pwms = <&pwm0 0 7812500 PWM_POLARITY_INVERTED>;
-> +                       active-low;
-
-The first thing that came into my mind was "why not drop the
-PWM_POLARITY_INVERTED flag instead?".
-
-But it turns out drivers/pwm/pwm-sifive.c does not support
-non-inverted PWMs, and returns -EINVAL if PWM_POLARITY_INVERSED
-(no typo) is not set.  I think it would be good if
-Documentation/devicetree/bindings/pwm/pwm-sifive.yaml would mention
-this limitation, and perhaps even enforce it, if possible?
-
-I didn't check this against the schematics, but the generic structure
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
