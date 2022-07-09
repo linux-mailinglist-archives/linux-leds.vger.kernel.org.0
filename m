@@ -2,128 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68D156BF21
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Jul 2022 20:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 666A156C876
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Jul 2022 11:47:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239088AbiGHQaS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Jul 2022 12:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43354 "EHLO
+        id S229491AbiGIJr1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 9 Jul 2022 05:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239341AbiGHQ3s (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Jul 2022 12:29:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083AF208;
-        Fri,  8 Jul 2022 09:29:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AEDEDB828A6;
-        Fri,  8 Jul 2022 16:29:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBF9C341C6;
-        Fri,  8 Jul 2022 16:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657297764;
-        bh=bnYt7XSKQbcRefHIMdh+InQ9CqN2VQX7nimG9Okphro=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WomL5vW9a8IMxo80M+xawgDmjrK4aQEofHM5wARWcZI3nmY8mvW+pUSgA3j4jvMHx
-         3uDUpjNmfWdXC7CoDq9d3/M1Do/B+1JNrk+f5IQyv031tmQBWDJeuvfssvcLwthm/y
-         Ym9oHPbagYNWXUvK7MRD2FSKo/DdGTxPBSHNOEi6uoqqbTT2QwhaJ5cryZiC7nrqd/
-         Dqt/kFUzUAGEg4QrbVNJq/+/pbJeEiOMlf3TFPbhJ7KIPM6LvZpI9sEUCfChmsMBvR
-         UYt0F33WWEfHs8UYvp6diua1X/c7m26CKRgEPSJiJeDpfSdKOjeOlKuSg3YGmCSoL+
-         oF1qDHA092R6g==
-Date:   Fri, 8 Jul 2022 18:29:19 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S229508AbiGIJr0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 9 Jul 2022 05:47:26 -0400
+Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2682166B9A;
+        Sat,  9 Jul 2022 02:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1657360019; bh=PZMiRCw/3zOUWfsTqtEzWFw9v3Kdr/HClpegfsoasT8=;
+        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+         MIME-Version:Content-Transfer-Encoding;
+        b=H6kPXhS5umLYUmnvzE7s4oh6TYgLNcXqzWySi9SVqPo+sc/EFBfdJDvJy/oKi6Z9s
+         yQbODAJmdywq6e/kQXYgqQvd9v9rySgvpfSKlAoXE+xZ0pzve3N96K8uAo64p+0S6O
+         iGxNc56F+mFcptSgfvIRQZYZPG4Tr2Il855o1968=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+        via [213.182.55.207]
+        Sat,  9 Jul 2022 11:46:58 +0200 (CEST)
+X-EA-Auth: Tq1NwqQf3cKl0ayS9KOZB72Yo48GGq+JVy58jxPysDU38vUqGO++HUGexVYA7WQ3BqUBuAOFhnoOce1EKu46eCBXiu68vm3PCwbN5jhI9kg=
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] [RFT] dt-bindings: leds: Add
- cznic,turris1x-leds.yaml binding
-Message-ID: <20220708182919.2a1e4a52@thinkpad>
-In-Reply-To: <20220708160528.ysy4lzxfpwobfiwr@pali>
-References: <20220705000448.14337-1-pali@kernel.org>
-        <20220705155929.25565-1-pali@kernel.org>
-        <20220706131507.353f0bed@thinkpad>
-        <20220706111912.hz2mx4dc35lgq6l5@pali>
-        <20220706172732.6228d180@thinkpad>
-        <25b43586-eeb3-4b7b-7362-2d599aa89cf0@linaro.org>
-        <20220708160528.ysy4lzxfpwobfiwr@pali>
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        hns@goldelico.com
+Subject: [PATCH v4 0/7] leds: Fix/Add is31fl319{0,1,3} support
+Date:   Sat,  9 Jul 2022 11:46:33 +0200
+Message-Id: <20220709094642.4078222-1-vincent.knecht@mailoo.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 8 Jul 2022 18:05:28 +0200
-Pali Roh=C3=A1r <pali@kernel.org> wrote:
+v4:
+- took Andy's comments into account
+- add patch 7 for cleanup and formatting fixes
 
-> On Wednesday 06 July 2022 17:36:43 Krzysztof Kozlowski wrote:
-> > On 06/07/2022 17:27, Marek Beh=C3=BAn wrote: =20
-> > > On Wed, 6 Jul 2022 13:19:12 +0200
-> > > Pali Roh=C3=A1r <pali@kernel.org> wrote:
-> > >  =20
-> > >> On Wednesday 06 July 2022 13:15:07 Marek Beh=C3=BAn wrote: =20
-> > >>> On Tue,  5 Jul 2022 17:59:28 +0200
-> > >>> Pali Roh=C3=A1r <pali@kernel.org> wrote:
-> > >>>    =20
-> > >>>> +examples:
-> > >>>> +  - |
-> > >>>> +    #include <dt-bindings/leds/common.h>
-> > >>>> +
-> > >>>> +    cpld@3,0 {   =20
-> > >>>
-> > >>> The generic node name should be just "bus". That it is a CPLD
-> > >>> implementation should come from compatible string.   =20
-> > >>
-> > >> Sorry, I do not understand why "bus". Why other memory chips are nam=
-ed
-> > >> e.g. "nand" or "nor" and not "bus" too? =20
-> > >=20
-> > > As far as I understand this is because that is the preferred name for
-> > > busses and this is a bus, since there is also the simple-bus compatib=
-le.
-> > >  =20
-> > >> By this logic should not be _every_ node called just "bus"? Hm... an=
-d=20
-> > >> are names needed at all then? =20
-> > >=20
-> > > :-)
-> > >=20
-> > > The schema
-> > >   https://github.com/devicetree-org/dt-schema/blob/main/dtschema/sche=
-mas/simple-bus.yaml
-> > > allows for different names (soc|axi|ahb|*-bus) to avoid warnings on
-> > > existing old dts files.
-> > >=20
-> > > The preferred way is to not have the implementation in nodename,
-> > > similar to how we use 'switch' instead of 'mv88e6xxx', or
-> > > 'ethernet-phy' instead of 'mv88e151x', or 'led-controller', ... =20
-> >=20
-> > Thanks Marek for detailed explanation.
-> > The cases above rather trigger my comments and this one here, after
-> > Pali's explanation, do not fit them. pld is a generic class of a device,
-> > so it is okay here. cpld probably as well (although one could argue that
-> > it is a subset of pld, so the generic name is pld, but then one would
-> > say fpga also should be called pld). For me it does not have to be bus,
-> > just don't want mv88e6xxx or any other vendor/model names. Therefore
-> > cpld is fine. =20
->=20
-> Exactly. cpld, fpga, nor, nand, soc... all of them are not real buses.
->=20
-> simple-bus here is just name invented by device tree and without which
-> existing kernel drivers refuse to work.
+v3:
+- pick up Rob's R-b for patches 1 and 2
+- reinstate bindings docs license and maintainer
+  changes with Nikolaus agreement
+- took Andy's comments on patch 4 into account
 
-OK, then cpld seems correct. I thought it was considered a bus in a way,
-since "simple-bus" is used in compatible.
+v2:
+- keep original bindings license and maintainer/owner (Rob)
+- squash bindings patches 2 & 4 (Krzysztof)
 
-Marek
+v1-resend:
+- no change, resending after configuring git to accomodate
+  for smtp provider limit of 5 emails per batch
+- just change cover-letter to mention si-en chip for idol347
+
+
+The is31fl3190, is31fl3191 and is31fl3193 chips (1 or 3 PWM channels)
+cannot be handled the same as is31fl3196 and is31fl3199,
+if only because the register map is different.
+Also:
+- the software shutdown bit is reversed
+- and additional field needs to be set to enable all channels
+- the led-max-microamp current values and setting are not the same
+
+Datasheets:
+https://lumissil.com/assets/pdf/core/IS31FL3190_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3191_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3193_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3196_DS.pdf
+https://lumissil.com/assets/pdf/core/IS31FL3199_DS.pdf
+
+This series:
+
+- converts dt-bindings to dtschema, adding all si-en compatibles
+  for convenience and consistency, and adding constraints on
+  supported values for eg. reg address and led-max-microamp
+
+- changes vars, structs and defines to not use 319X suffix
+  but 3190 for 319{0,1,3} and 3196 for 319{6,9}
+
+- adds fields in chipdef struct for chip-specific values
+
+- only in patch 6, adds is31fl319{0,1,3} specific values
+  so those chips can work.
+
+- patch 7 cleanups parts non touched in previous patches
+
+Tested on msm8916-alcatel-idol347, which probably has an
+si-en,sn3190 or si-en,sn3191 (only one white led indicator).
+
+Vincent Knecht (7):
+  dt-bindings: leds: Convert is31fl319x to dtschema
+  dt-bindings: leds: is31fl319x: Document variants specificities
+  leds: is31fl319x: Add missing si-en compatibles
+  leds: is31fl319x: Use non-wildcard names for vars, structs and defines
+  leds: is31fl319x: Move chipset-specific values in chipdef struct
+  leds: is31fl319x: Add support for is31fl319{0,1,3} chips
+  leds: is31fl319x: Cleanup formatting and dev_dbg calls
+
+ .../bindings/leds/issi,is31fl319x.yaml        | 193 ++++++++
+ .../bindings/leds/leds-is31fl319x.txt         |  61 ---
+ drivers/leds/leds-is31fl319x.c                | 425 +++++++++++++-----
+ 3 files changed, 495 insertions(+), 184 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
+
+-- 
+2.35.3
+
+
+
