@@ -2,135 +2,191 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC3F85736DF
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Jul 2022 15:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D133E573B60
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Jul 2022 18:40:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235818AbiGMNHr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 13 Jul 2022 09:07:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
+        id S236860AbiGMQkk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Jul 2022 12:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbiGMNHp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Jul 2022 09:07:45 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42082C7C
-        for <linux-leds@vger.kernel.org>; Wed, 13 Jul 2022 06:07:40 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id v16so15399165wrd.13
-        for <linux-leds@vger.kernel.org>; Wed, 13 Jul 2022 06:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ZDp5NtLIxNT/y/y4TV28JKQZE5KPsmeDwau7U2nvfbI=;
-        b=ykcE/L76OyKjfmB6gW/9PEIXPb7KX9wbY5QZt6rzoJ7cx+NshQnf3zYFk9CJJmZ/WM
-         Yjn5tpbDrFkjNkWS+WFrkqjSfGYuauzrhkLnPgPWJ+ijDPIFajS1TTDtmC2uQEI2eXJq
-         v/PjSpgG/525Lm1jJ94ez4EFFEytapEdMWKLq79xQRBWSawK2YgrGJjhf+6mviSVU3q3
-         kOx9C54FFQzStrBSdTBuFlQdgkenCIZH2XWgb8DLkaqKQZ3XbPUtvaJN7A3d1aNdPv+L
-         MOY47XiJ+MoxEz7XvBmRhEiBH0MhBUFHBMZQFzRyd4+1IQ/e0LRFMgzPqoPQQ++2EeCE
-         bFRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZDp5NtLIxNT/y/y4TV28JKQZE5KPsmeDwau7U2nvfbI=;
-        b=FKRT2JhqFeI6jG13WXW29wt5rHoROW91VrvoS6FbYjC5f34m06s5XDR4dSVSvQankM
-         sZlbIof/g4ZzJxkHHUG6j2/1zlr/jLeRiAmNiwInCwBGtGdYhGPNeY1CEm3x3xUyxnH4
-         V3sPpKQckevjDdlflhw7VWqJs8OzEbXU5Lf/h82XudjiwxJwcciDxNHUHQwhiyaCz7Aj
-         CJhwurUxZJHCAUPAMVB1Dx/Ym7Ga0tA6z1hJdSHFzwfLM2EzKMiHKPj+pKxna/I/y0Nh
-         wJ5hgbB7d9u63lC4l5s/cBJJ0qvnV9mPjd+mdSXwadYJ1cSrteKjXbG7oiT708p0lZT0
-         aQig==
-X-Gm-Message-State: AJIora9oMiSy9iyeK09sZCMButiQ7SMG0R2I+ABOU8W8DfdYgMT5tisa
-        rTjqeweYtwK4+4abqp1o5jdpuQ==
-X-Google-Smtp-Source: AGRyM1v3Wejcmcef1+JLx2OGnt8FIDdBIQxbNYoMtF21Qn+Urzq7T2tg4YCX+P2hq8vPNX2sKjEQ7Q==
-X-Received: by 2002:a5d:5747:0:b0:21d:65e9:be07 with SMTP id q7-20020a5d5747000000b0021d65e9be07mr3162978wrw.215.1657717658781;
-        Wed, 13 Jul 2022 06:07:38 -0700 (PDT)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id l29-20020a05600c1d1d00b0039749b01ea7sm2628398wms.32.2022.07.13.06.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 06:07:38 -0700 (PDT)
-Date:   Wed, 13 Jul 2022 14:07:35 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        with ESMTP id S229913AbiGMQkj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Jul 2022 12:40:39 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60DB82E6B7;
+        Wed, 13 Jul 2022 09:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657730435; x=1689266435;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fnQOCgmmuU1mQ1zCnnmtaPsBptE0xg9rGXhM5D+1Tlk=;
+  b=hWU4FroW9OMoBpYUTMolV51NOTFZscGW/KnSVAVP/TbOmUICHknoe1Nr
+   UCb+ZaOPwJqHDEL+uOHM5CED5pHsJn4HhPLhZhqQ1Wa+1ubLjjgMVU0+i
+   1sTK+ypcxUsKhTNoHnvK0S5t25KpyoW7m+N9Jru7ABKRBoRqg/T39Nsnu
+   JlIBmj9ILsF8YAXUIIM1YzFIvhgD7e5cPyZ3r+9gNHA/AYur1WfpPOoJp
+   fzAIQpUuenkNitYEeLzo9Q1OKPNPvgnm8P5oEV1pWSHyEolQ8IyomQB44
+   vyS1DtlLo9LctL82Xl79KJu5XD53Wz3uXEqtakrxJnM2oM9fhQWOGxTGB
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="265066890"
+X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; 
+   d="scan'208";a="265066890"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 09:40:34 -0700
+X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; 
+   d="scan'208";a="722416355"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 09:40:27 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oBfPT-001CUH-2s;
+        Wed, 13 Jul 2022 19:40:23 +0300
+Date:   Wed, 13 Jul 2022 19:40:23 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
-Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370
- support
-Message-ID: <Ys7Dl1oApfww27MJ@google.com>
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-14-peterwu.pub@gmail.com>
- <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
- <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com>
- <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
+Message-ID: <Ys71dyMdozGUAto0@smile.fi.intel.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+ <YqBS8I62YBPFC9iS@google.com>
+ <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
+ <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+ <YryAXlZqcr/liN7n@smile.fi.intel.com>
+ <20220629191406.35965d5b@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220629191406.35965d5b@md1za8fc.ad001.siemens.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 13 Jul 2022, Andy Shevchenko wrote:
+On Wed, Jun 29, 2022 at 07:14:06PM +0200, Henning Schild wrote:
+> Am Wed, 29 Jun 2022 19:39:58 +0300
+> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+> 
+> > +Cc: Rafael
+> > 
+> > On Tue, Jun 21, 2022 at 02:58:16PM +0300, Andy Shevchenko wrote:
+> > > On Wed, Jun 08, 2022 at 12:50:44PM +0200, Andy Shevchenko wrote:  
+> > > > On Wed, Jun 8, 2022 at 9:42 AM Lee Jones <lee.jones@linaro.org>
+> > > > wrote:  
+> > > > > On Mon, 06 Jun 2022, Andy Shevchenko wrote:
+> > > > >  
+> > > > > > There are a few users that would like to utilize P2SB
+> > > > > > mechanism of hiding and unhiding a device from the PCI
+> > > > > > configuration space.
+> > > > > >
+> > > > > > Here is the series to consolidate p2sb handling code for
+> > > > > > existing users and to provide a generic way for new comer(s).
+> > > > > >
+> > > > > > It also includes a patch to enable GPIO controllers on Apollo
+> > > > > > Lake when it's used with ABL bootloader w/o ACPI support.
+> > > > > >
+> > > > > > The patch that brings the helper ("platform/x86/intel: Add
+> > > > > > Primary to Sideband (P2SB) bridge support") has a commit
+> > > > > > message that sheds a light on what the P2SB is and why this
+> > > > > > is needed.
+> > > > > >
+> > > > > > I have tested this on Apollo Lake platform (I'm able to see
+> > > > > > SPI NOR and since we have an ACPI device for GPIO I do not
+> > > > > > see any attempts to recreate one).
+> > > > > >
+> > > > > > The series is ready to be merged via MFD tree, but see below.
+> > > > > >
+> > > > > > The series also includes updates for Simatic IPC drivers that
+> > > > > > partially tagged by respective maintainers (the main question
+> > > > > > is if Pavel is okay with the last three patches, since I
+> > > > > > believe Hans is okay with removing some code under PDx86).
+> > > > > > Hence the first 8 patches can be merged right away and the
+> > > > > > rest when Pavel does his review.  
+> > > > >
+> > > > > Can we just wait for Pavel's review, then merge them all at
+> > > > > once?  
+> > > > 
+> > > > Sure, it would be the best course of action.  
+> > > 
+> > > Pavel, do you have a chance to review the patches (last three) that
+> > > touch LED drivers? What would be your verdict?  
+> > 
+> > Lee, Rafael,
+> > 
+> > It seems quite hard to get Pavel's attention to this series [1]. It's
+> > already passed more than 3 weeks for any sign of review of three top
+> > patches of the series that touched LED subsystem. The entire series
+> > has all necessary tags, but for LED changes.
+> > 
+> > Note, that the top of this series is not done by me and was sent for
+> > preliminary review much earlier [2], altogether it makes months of no
+> > response from the maintainer.
+> > 
+> > The nature of patches is pretty simple and doesn't touch any of other
+> > than Simatic LED drivers nor LED core. Moreover, it was written by
+> > Siemens, who produces the H/W in question and very well tested as a
+> > separate change and as part of the series.
+> 
+> The code has been reviewed and is in fact pretty simple. The only
+> questionable but pragmatic change that might catch the attention of a
+> pedantic reviewer is that i did put the gpio implementation of the
+> driver under the same/existing kernel config switch.
+> 
+> > I think to move forward we may ask Rafael to review it on behalf of
+> > good maintainer and with his approval apply entire series.
+> > 
+> > Thoughts?
+> 
+> Thanks for pushing this Andy. I was wondering how and when that story
+> would continue. Technically these changes should really go in one badge
+> or we need to find a way to separate them somehow. I would try to go
+> that extra mile to get out of your way. But i am kind of afraid such an
+> effort might also end up touching the same files and block us at the
+> same maintainer.
+> 
+> Did anyone check whether Pavel was active at all in those last months
+> and maybe other patches waiting for review? Hope he is fine and active
+> and just somehow forgot/overlooked/ignored this one.
 
-> On Wed, Jul 13, 2022 at 12:53 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > Andy Shevchenko <andy.shevchenko@gmail.com> 於 2022年7月5日 週二 清晨5:14寫道：
-> > > On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> 
-> Please, remove unneeded context when replying!
-> 
-> ...
-> 
-> > > > +               brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
-> > > > +               brightness_val[1] = (brightness - 1)
-> > > > +                                   >> fls(MT6370_BL_DIM2_MASK);
-> > >
-> > > Bad indentation. One line?
-> >
-> > Well... if indent to one line, it will be over 80 characters(or called columns?)
-> > From my understanding, it is not allowed, right??
-> 
-> It's allowed to some extent.Use your common sense.
-> Here it's obviously broken indentation.
+I have send a private mail to Pavel and have got no response.
+Can we move this forward, let's say, by applying first 8 patches?
 
-Refrain from going crazy though - hard limit is 100 chars.
+> > [1]:
+> > https://lore.kernel.org/all/20220606164138.66535-1-andriy.shevchenko@linux.intel.com/
+> > [2]:
+> > https://lore.kernel.org/linux-leds/20220513083652.974-1-henning.schild@siemens.com/
+> 
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+With Best Regards,
+Andy Shevchenko
+
+
