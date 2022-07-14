@@ -2,152 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBD4574A5A
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 12:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4029574A8E
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 12:23:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234232AbiGNKQh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jul 2022 06:16:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
+        id S237923AbiGNKX1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jul 2022 06:23:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbiGNKQh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 06:16:37 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C4F120A5;
-        Thu, 14 Jul 2022 03:16:36 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id y195so2487074yby.0;
-        Thu, 14 Jul 2022 03:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DAB/V2thJrX7oNWAiw69xQ9s2yER1z6zgaPEDVTbARY=;
-        b=WzDjqq1pRDiX/e0JhdlBpio8zOrckRWFWYoqqx6oFzHppl1HXZKC0K0Vo9UvICBDx4
-         1IgGFxPhaOdHa0ijcMRnAWpg15ZqdMXn+A4AN+KbbyLfV+DLK/zGUswdeyoa6I/gMSWB
-         mLZcWexKeicX3ZsiBj8qG9KhT504M9qLDNPa+/3b4OVXUQmkey6iL5NUBSkO06Ql9xqx
-         7ABvX+TuwC6gjV6lZglt+ptPstfpEqlr1Yg9+65NKMHYYSOzn23aEysk+sSCVoQV5iL6
-         RIo+DgXA1m8aiBJ1aC+G2pOf803m52JzwysZxxKXTmLKrJdLDZZrFNf6ymvczZtUZHNx
-         NC+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DAB/V2thJrX7oNWAiw69xQ9s2yER1z6zgaPEDVTbARY=;
-        b=zd0TXa3ccyOwBBJjB+uQo+lzRSumxdbxEoV3qr/dCPj55C2RbbWDifNraEZm609qu0
-         w1QvJbffkV2WGGFkjggR4ZRI0Tb5w1O8PyrBoZcfILoHtN8621+mLzP6989YbrOaEFir
-         XVdMdrDPw4bN+fOZUSGWg4HmivMQHFqmU6w+5orxmrTaC4c+2fM+YtzsBVSNF/Wi8NYL
-         zznjtl6dwodcR2TGJwEpaCJ4RMMC2X6LYD3DhYvl+TfKTX+s9KRWu2yfxJ0cNZboDLHb
-         406SMFaviorzsXpObR8aQyJZSrubJhNBovqSc6d1tS74oC9wALA3XxgOSKHH1TJO/HaA
-         DYOw==
-X-Gm-Message-State: AJIora9n0DiigPni0fiNksHx987JPA6i7BH6qczxLrbSgkVRddkU6fGm
-        F9LhETRK4YMzSYuT6VG4aA0vySQCwqAg8E2ZLTw=
-X-Google-Smtp-Source: AGRyM1tsa04XdX6EoBLAKq/4vJYddIuWfRGN796P9MIbmkVyYowmMMx33Ee2ini1a+JW/8CzKBWdXOgF/S8Hwfl8jYQ=
-X-Received: by 2002:a05:6902:686:b0:66e:627f:4d29 with SMTP id
- i6-20020a056902068600b0066e627f4d29mr7320510ybt.385.1657793795448; Thu, 14
- Jul 2022 03:16:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220704053901.728-1-peterwu.pub@gmail.com> <20220704053901.728-14-peterwu.pub@gmail.com>
- <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
- <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com>
- <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
- <CABtFH5LT1Ct_9-B_XRrGwYFmL5kGS6KHR7dNVyUO5z4sTy_6oA@mail.gmail.com>
- <CAHp75VcU_9Ao2CoqiUDZHqhVOjEMZor+hctPp3YYP4HOjYLDUg@mail.gmail.com> <CAHp75VeMP4zDMmGfdya5Y1C0Hkb7=jeOQGE_HqyDdZcmd_Uyyg@mail.gmail.com>
-In-Reply-To: <CAHp75VeMP4zDMmGfdya5Y1C0Hkb7=jeOQGE_HqyDdZcmd_Uyyg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 14 Jul 2022 12:15:58 +0200
-Message-ID: <CAHp75VdXGJtPd_oZPGkS1=DoWjFYxbQu_7Vtfj547QQkpz2KNA@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370 support
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        with ESMTP id S229923AbiGNKX0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 06:23:26 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30396222B3;
+        Thu, 14 Jul 2022 03:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657794205; x=1689330205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UbzX0APp7Mo6B5jHE+G1Jm7JNvJbZu+NCDrRJ18nxbk=;
+  b=A078pS08PsHSUlv4nV1RA/3Meh7UKv8tMDzhnCopKBi1AqqJFv7+jDUi
+   CltXs6sXLwxyNsDURN/Y9hkUGPmFrKKbJLA12ALWhH0HjtVhh2ZtoWcXL
+   hFGIO2nLZfdtoN4G/WptmUWed2pikR5W7HOBflzghnz5/w3yFvnwAMzmL
+   o9jodb4x6g0xD+KMJfllGlS5yJqduK4iD/Xtinax7bCoVB0iXQdkSxhiE
+   in2QmOadHvQwT5gqkog9jjLrabH4vUXv1ldJcdYl43a3/gAbL0k7DiZR5
+   aE0dTKZtCLQVg3Z5abmPO/b/66uzCfyCIAWHWI9h3uzNVv/yWOrivgCao
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="265262673"
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="265262673"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 03:23:23 -0700
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="596044416"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 03:23:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oBw01-001D7R-0H;
+        Thu, 14 Jul 2022 13:23:13 +0300
+Date:   Thu, 14 Jul 2022 13:23:12 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Henning Schild <henning.schild@siemens.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
+Message-ID: <Ys/ukP8dqnwUoou4@smile.fi.intel.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+ <YqBS8I62YBPFC9iS@google.com>
+ <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
+ <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+ <YryAXlZqcr/liN7n@smile.fi.intel.com>
+ <20220629191406.35965d5b@md1za8fc.ad001.siemens.net>
+ <Ys71dyMdozGUAto0@smile.fi.intel.com>
+ <20220713204827.0b290fd7@md1za8fc.ad001.siemens.net>
+ <Ys/jz7HqhrxSCOnV@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ys/jz7HqhrxSCOnV@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 11:43 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Thu, Jul 14, 2022 at 11:27 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Thu, Jul 14, 2022 at 9:13 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote=
-:
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=
-=E6=9C=8813=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A8:07=E5=AF=AB=E9=
-=81=93=EF=BC=9A
+On Thu, Jul 14, 2022 at 10:37:19AM +0100, Lee Jones wrote:
+> On Wed, 13 Jul 2022, Henning Schild wrote:
+> > Am Wed, 13 Jul 2022 19:40:23 +0300
+> > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
 
 ...
 
-> > >  * prop_val =3D  1      -->  1 steps --> b'00
-> > >  * prop_val =3D  2 ~  4 -->  4 steps --> b'01
-> > >  * prop_val =3D  5 ~ 16 --> 16 steps --> b'10
-> > >  * prop_val =3D 17 ~ 64 --> 64 steps --> b'11
-> >
-> > So, for 1 --> 0, for 2 --> 1, for 5 --> 2, and for 17 --> 3.
-> > Now, consider x - 1:
-> > 0  ( 0 ) --> 0
-> > 1  (2^0) --> 1
-> > 4  (2^2) --> 2
-> > 16 (2^4) --> 3
-> > 64 (2^6) --> ? (but let's consider that the range has been checked alre=
-ady)
-> >
-> > Since we take the lower limit, it means ffs():
-> >
-> >   y =3D (ffs(x - 1) + 1) / 2;
-> >
-> > Does it work for you?
->
-> It wouldn't, because we need to use fls() against it actually.
->
-> So,
-> 0..1   (-1..0)   --> 0
-> 2..4   (1..3)   --> 1
-> 5..16  (4..15)  --> 2
-> 17..64 (16..63) --> 3
->
-> y =3D x ? ((fls(x - 1) + 1) / 2 : 0;
+> > And maybe there is a way/process to escalate to another maintainer.
+> > Does anyone even know what is going on with Pavel? 
+> 
+> I'll take the hit.  He had his chance.
+> 
+> I'm happy to move forward with Andy's review.
 
-Okay, I nailed it down, but Daniel is right, it's simpler to have just
-conditionals.
+Thank you, Lee, much appreciated!
+The patches (9..12) have my SoB, I think it should be enough, but if you thinks
+they need my Rb tag, I can reply to them with it.
 
-y =3D x >=3D2 ? __fls(x - 1) / 2 + 1 : 0;
+> (Side note: Seeing as Pavel hasn't been seen for 2 months, I'll also
+>  follow-up on  the LED ML to offer to become temporary maintainer for a
+>  bit)
 
+This is good news as well, because I noticed there are a few series there stuck
+as well.
 
---
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
