@@ -2,94 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55271574BD6
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 13:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53BE2574C0F
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 13:28:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237264AbiGNLXz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jul 2022 07:23:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59100 "EHLO
+        id S238813AbiGNL2I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jul 2022 07:28:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238691AbiGNLXl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 07:23:41 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624765886A;
-        Thu, 14 Jul 2022 04:23:29 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id CC6311C0001; Thu, 14 Jul 2022 13:23:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1657797806;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6QT5nX5UXBXiE8i6HmCkJes0OQrNQW7DZj7NVeDSXy0=;
-        b=IhdRsDS+o3dILqWj9iIbW+mzvQyS+T8yXxkcUAt8uVVojWKyRaVXk+++XRdfkbc7sdH8oj
-        gKuScfnSldyZxQmsKpM8jYwCNi7ngORxsNWVesVzDJCu8ZZgeCHUYjndwgPlrjV3paKZHm
-        r061Ja9dTCrCJagQ98oocEgxmBkaS6w=
-Date:   Thu, 14 Jul 2022 13:23:26 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Lee Jones <lee.jones@linaro.org>, marek.behun@nic.cz
-Cc:     linux-leds@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: LED Maintainership
-Message-ID: <20220714112326.GA16407@duo.ucw.cz>
-References: <Ys/kruf8DE4ISo8M@google.com>
+        with ESMTP id S238862AbiGNL2B (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 07:28:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB57459266;
+        Thu, 14 Jul 2022 04:27:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2196C61CC2;
+        Thu, 14 Jul 2022 11:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F4A4C341C6;
+        Thu, 14 Jul 2022 11:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657798078;
+        bh=tOGmD5u/m9ilA/glyEAQrd2KlEkkAMsHW3drN8WKV/I=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=I5WiL4mTT1a43S+B3rLO5E5wkRqZ3KWIFX4R+bXiXL2Dewy3zBY4HJfc42nlDyF57
+         Y0UnraujQsDkAAXNarcSHVn8LnM2BnOJqIDPWwwrr1lwfjB6VkqPRcdfG6umF9GqtS
+         KtOjOylKy/v0UOHIQ6ohhK/u7hrFUychRoxN34Ns0ivWRC/W18x3z9Rkw+YVIACThW
+         W6InZslRmF/LCFxydbfpYAqiG3Bvy/TiP6kd6Adxn01TAAAyuehyU/yjaj5OjZAAXE
+         pGXZ396EXSEnUgKimKA7VZ/aowwQDpuM2hFZ0wRPiATw+Jgs+kitZ4+yzeGhfRlVZ+
+         G4OBG8DTzCyvA==
+From:   Lee Jones <lee@kernel.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 6/8] dt-bindings: backlight: Update Lee Jones' email address
+Date:   Thu, 14 Jul 2022 12:25:31 +0100
+Message-Id: <20220714112533.539910-7-lee@kernel.org>
+X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
+In-Reply-To: <20220714112533.539910-1-lee@kernel.org>
+References: <20220714112533.539910-1-lee@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="X1bOJ3K7DJ5YkBrT"
-Content-Disposition: inline
-In-Reply-To: <Ys/kruf8DE4ISo8M@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Going forward, I'll be using my kernel.org for upstream work.
 
---X1bOJ3K7DJ5YkBrT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ Documentation/devicetree/bindings/leds/backlight/common.yaml    | 2 +-
+ .../devicetree/bindings/leds/backlight/gpio-backlight.yaml      | 2 +-
+ .../devicetree/bindings/leds/backlight/led-backlight.yaml       | 2 +-
+ .../devicetree/bindings/leds/backlight/lm3630a-backlight.yaml   | 2 +-
+ .../devicetree/bindings/leds/backlight/pwm-backlight.yaml       | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-Hi!
+diff --git a/Documentation/devicetree/bindings/leds/backlight/common.yaml b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+index 702ba350d8698..3b60afbab68ba 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/common.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/common.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Common backlight properties
+ 
+ maintainers:
+-  - Lee Jones <lee.jones@linaro.org>
++  - Lee Jones <lee@kernel.org>
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+index 75cc569b9c558..3300451fcfd5e 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: gpio-backlight bindings
+ 
+ maintainers:
+-  - Lee Jones <lee.jones@linaro.org>
++  - Lee Jones <lee@kernel.org>
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+index f5822f4ea6679..0793d0adc4ec9 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: led-backlight bindings
+ 
+ maintainers:
+-  - Lee Jones <lee.jones@linaro.org>
++  - Lee Jones <lee@kernel.org>
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+index 08fe5cf8614a8..3c9b4054ed9a5 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: TI LM3630A High-Efficiency Dual-String White LED
+ 
+ maintainers:
+-  - Lee Jones <lee.jones@linaro.org>
++  - Lee Jones <lee@kernel.org>
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+index fcb8429f3088c..78fbe20a17580 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: pwm-backlight bindings
+ 
+ maintainers:
+-  - Lee Jones <lee.jones@linaro.org>
++  - Lee Jones <lee@kernel.org>
+   - Daniel Thompson <daniel.thompson@linaro.org>
+   - Jingoo Han <jingoohan1@gmail.com>
+ 
+-- 
+2.37.0.144.g8ac04bfd2-goog
 
-> Not sure what's going on behind the scenes, but it looks as though the
-> LED subsystem has been left unmaintained for at least 2 months now.
-
-> Does anyone have any objection to me stepping in as temporary
-> maintainer until the situation is resolved?
-
-Yes, I'm a bit busy and would not mind help.
-
-There's a lot of easy stuff in the LED -- drivers not introducing new
-APIs -- and some quite tricky stuff -- userland API leaves... a lot to
-be desired, and we are in the middle of defining multicolor API.
-
-I wanted to ask Marek (in cc now) if he would be interested in
-helping. He knows the APIs / issues, and actually has multicolor LEDs
-he cares about. Marek, are you interested?
-
-If Marek is not interested, yes, help with the driver stuff would be
-welcome.
-
-Best regards,
-
-							Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---X1bOJ3K7DJ5YkBrT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYs/8rgAKCRAw5/Bqldv6
-8qPIAKCgDLaOK+oDxPPVYgY5z1KneqhDewCgwh2RI1gZ2R2SuxHFxpWq+CFaTV4=
-=Ipbn
------END PGP SIGNATURE-----
-
---X1bOJ3K7DJ5YkBrT--
