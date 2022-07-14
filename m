@@ -2,173 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F575574591
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 09:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB6DA574709
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 10:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235651AbiGNHNf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jul 2022 03:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
+        id S234965AbiGNIhG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jul 2022 04:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbiGNHNe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 03:13:34 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 193049E;
-        Thu, 14 Jul 2022 00:13:32 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id v5so836724qvq.8;
-        Thu, 14 Jul 2022 00:13:32 -0700 (PDT)
+        with ESMTP id S236576AbiGNIg6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 04:36:58 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE4483FA06
+        for <linux-leds@vger.kernel.org>; Thu, 14 Jul 2022 01:36:51 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id o7so1622224lfq.9
+        for <linux-leds@vger.kernel.org>; Thu, 14 Jul 2022 01:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Q5UuNt5TPK0IuG39xN+NMro5LKgIqNbr9Zx7mA/mPiM=;
-        b=b0E3JTU5pYWhoLa3ap7YFqzgEMsmY9DzPinFwRbVIUxY93YXyUx7ZCDKj7KmfhQ21C
-         rbLfBjhA9+2Iw8+wRoHdzOZmhqnsY+50XpmOdqNkHbt1cSMSHEnAu5vgSo2cTU4Vp00E
-         OzftT9WeV+jRXDaaNmeyjhArEApdAVnDvnAaK0sb17BX1/wJ+erATO6cVT2LmSg5zo1C
-         AkB0gsToiInDLayKBxHHJLxYpaxBz2afFFQmHItaY08Jtmauimz5lnfp+bStbZf1nc6w
-         aPm7pRJ9mU/zUvlfPRnxcyejhyXF2kYZj0eimP7+p17pN8EvNWU5/v59Wtwmk5hE8TwL
-         aWyQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=XrPG1uZaQRn1UCA0WJJ2pmJQ1csZW3HabgB7E+QXuACfRhko5FjAocWwoGAFMQM+4K
+         maoBv4gTZQXqu9EJzYUg27HWYGn7H4ps8X1YfFKAamIhhLSUESO1F6QG9mJgGHe0KMpr
+         yS6EmWRT7znGhWAi5CHDysnG1OxosqIxRYFf098GB0Xs4T6zMcBwQ+Ijt6ciUPeVVUwm
+         NwEO+Wz1v4Oa+mBtHNRupxuLErGpDho6oqFPRIm2MU+57eHEreDtv9TWX6BBq17KbV3w
+         UCTpqQeOnk576xhvUmMdcgTy5b4PgstjqS11/4Py/0diTc9tD3MngzVuJ3uMtq9Qr/CL
+         qkvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Q5UuNt5TPK0IuG39xN+NMro5LKgIqNbr9Zx7mA/mPiM=;
-        b=H2H0Hsh08lIl9isbT+fqX3nrppbpkgndA5kcwZBTP2zSZKk9UGbhT8rHlvYi4jXFYr
-         7fPQenKSeYkJNQx06LmB1pgkWEE3Kq/JYmEFMSpaO6lk5Lybisar1f2ynNayEsDqIfSY
-         c5BR2Ay+hdoWCJSX8cr4sAc3cpwP95sksn0veU/oM/yJcuo+id8EDWVCZYL12mMA6OSf
-         21slym93QeRbtzeRVEz2xju9enlIHq7I+Z++T15bxUOpHUQxIXxOO9Ix6GmBDN5fxhYV
-         s/ufVVA0tJXSIsy1HYQLG5TiO+1rQzKlzLu8MGjlc9L9DVvv9hLXWQBoCQ16P59Tq/0V
-         Lm0g==
-X-Gm-Message-State: AJIora+IrAq/ZLuM7OhYsw/pH3i9jr02WdTCP6aykSQuCeQfSvwSddn7
-        a1qHJ+WBzCD2fAIGRV6G994esdpGxksiKGfKGwY=
-X-Google-Smtp-Source: AGRyM1vJRbWeeJQDQ5VsDhXvc8TWmApQquCsp5U/iybMpcD3LNzACs5RVUGTHl5IJiCF7b4f25ZlvyBfRyQDbXD00iQ=
-X-Received: by 2002:a0c:9a0c:0:b0:470:54d7:cfd5 with SMTP id
- p12-20020a0c9a0c000000b0047054d7cfd5mr6903769qvd.46.1657782811193; Thu, 14
- Jul 2022 00:13:31 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=gulphO1A5He1sArRYZnzkTM6qGaBiCzG4edWnpAcxiDqlDBTKX33mXmoWHU3iNtOHe
+         2Hoof4hFyYTv8MIPEsY0S7rkBvygGQpU7JZ5L5JRApli8mlFmz131+64xTygFxy14UU9
+         G+k9Il7BrfsbGo6v3YZMIHFZaw1TReO3gjaKnSW071PRpeqHUkU4DjeHi+KqybeW7bFy
+         jHQLc9omYvREnGGyH2C9UOwFXeAFykyUXWF2++3PYISwfzs2mJrTpsDBSEM35/V5NCDY
+         gzUCJ2cGkHIt4R8MekyZsA7E7o1uverBiWly1pV8Wf0G/5GtXi3njQ/D6n+nz+MhF1+M
+         d1hg==
+X-Gm-Message-State: AJIora9aD37MW8ytKdAYxoEdL2Zw6gMNadTWxQcV+iEDhTxB2/cc0MSS
+        aJDXkzVilN1VBGWrWWlLvqvrIhfRPLx15QIy80k=
+X-Google-Smtp-Source: AGRyM1u3j4Kh8ROf600mZ9n+2mzPHZx1NFVtrSntlSiwIK2NP6HVto6IIpM3hlWxyt39lgmrdSwWdCXGiGrSzCPb6JE=
+X-Received: by 2002:a05:6512:3d27:b0:489:e623:f244 with SMTP id
+ d39-20020a0565123d2700b00489e623f244mr4930609lfv.236.1657787809582; Thu, 14
+ Jul 2022 01:36:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220704053901.728-1-peterwu.pub@gmail.com> <20220704053901.728-14-peterwu.pub@gmail.com>
- <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
- <CABtFH5K-2+2hbpvpq2nPE5AsznkQxZF2r3MVC64Q39DJhVuUtA@mail.gmail.com> <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
-In-Reply-To: <CAHp75VevDwdAKLYEWJgnMDvzuPuFibLuVqH-GKazEOT76wM6_A@mail.gmail.com>
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Thu, 14 Jul 2022 15:13:19 +0800
-Message-ID: <CABtFH5LT1Ct_9-B_XRrGwYFmL5kGS6KHR7dNVyUO5z4sTy_6oA@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370 support
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
+Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:36:48
+ -0700 (PDT)
+Reply-To: abdwabbomaddahm@gmail.com
+From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
+Date:   Thu, 14 Jul 2022 09:36:48 +0100
+Message-ID: <CAFC-3ifKFkAVLmD=8z4VAKFLX0pV+_h5OJ=Ks62m+0uk+DimKQ@mail.gmail.com>
+Subject: Get back to me... URGENT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:136 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4924]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [abdwabbomaddah746[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [abdwabbomaddah746[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=
-=8813=E6=97=A5 =E9=80=B1=E4=B8=89 =E6=99=9A=E4=B8=8A8:07=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Wed, Jul 13, 2022 at 12:53 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=
-=9C=885=E6=97=A5 =E9=80=B1=E4=BA=8C =E6=B8=85=E6=99=A85:14=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > > On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrot=
-e:
->
-> Please, remove unneeded context when replying!
->
-> ...
->
-> > > > +               brightness_val[0] =3D (brightness - 1) & MT6370_BL_=
-DIM2_MASK;
-> > > > +               brightness_val[1] =3D (brightness - 1)
-> > > > +                                   >> fls(MT6370_BL_DIM2_MASK);
-> > >
-> > > Bad indentation. One line?
-> >
-> > Well... if indent to one line, it will be over 80 characters(or called =
-columns?)
-> > From my understanding, it is not allowed, right??
->
-> It's allowed to some extent.Use your common sense.
-> Here it's obviously broken indentation.
->
-> ...
->
-> > > > +               prop_val =3D (ilog2(roundup_pow_of_two(prop_val)) +=
- 1) >> 1;
-> > >
-> > > Isn't something closer to get_order() or fls()?
-> >
-> > I will revise it to "(get_order(prop_va * PAGE_SIZE) + 1) / 2" and
-> > this change is meet your expectations??
->
-> Nope. Try again. What about fls()?
-
-I have tried two methods so far, as follows
--------------------------------------------------------------
-/*
- * prop_val =3D  1      -->  1 steps --> b'00
- * prop_val =3D  2 ~  4 -->  4 steps --> b'01
- * prop_val =3D  5 ~ 16 --> 16 steps --> b'10
- * prop_val =3D 17 ~ 64 --> 64 steps --> b'11
-*/
-
-// 1. use fls() and ffs() combination
-prop_val =3D ffs(prop_val) =3D=3D fls(prop_val) ? fls(prop_val) >> 1 :
-(fls(prop_val) + 1) >> 1;
-
-// 2. use one line for-loop, but without fls()
-for (i =3D --prop_val, prop_val =3D 0; i >> 2 * prop_val !=3D 0; prop_val++=
-);
--------------------------------------------------------------
-Do these changes meet your expectations??
-
->
-> ...
->
-> > > > +       props->max_brightness =3D min_t(u32, brightness,
-> > > > +                                     MT6370_BL_MAX_BRIGHTNESS);
-> > >
-> > > One line?
-> >
-> >  Ditto, it will be over 80 characters...
->
-> As per above.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+-- 
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Abd-Wabbo Maddah
