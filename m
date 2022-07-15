@@ -2,165 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B13B5762A3
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Jul 2022 15:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC635762F8
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Jul 2022 15:43:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233199AbiGONS5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Jul 2022 09:18:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S234533AbiGONnE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Jul 2022 09:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiGONSz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Jul 2022 09:18:55 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89EC10FE2;
-        Fri, 15 Jul 2022 06:18:53 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id f73so8362859yba.10;
-        Fri, 15 Jul 2022 06:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RIDFbj9Nm/Hc84YphLe1TSejCss5csMsL3XGmdeREuc=;
-        b=LjTUeU/VvjExiFE7qVdoTT66INknzaksBvLAL0QX/hhMGm1S/DCmWjGAqEm1RDjTt0
-         nrI4wHZo/WK5aG8U5fIPVbESm+g18hEELTujXpx69+Azj8qnUnYXhFafWvDdYrxJWF8Q
-         n4alCS65LacwduwaUDBvHdbTO5eZ4k4tWaJ199RDLEdi+Nnbu8tJ4UTjcA2YPJBeHBKH
-         hWc3HEBwkV0/ygom4+Ivyr3ViE5siRsP8CdzKAgWRXLBXaArht7DgMtJUJb/WrGYsYt8
-         eWv+sETgNCGjxIJCtjEQJk1vVPGobtuRYELM3bihPsOKaqDcf5qzy1Ry+AVMll6TrQxi
-         eYjQ==
+        with ESMTP id S232707AbiGONnC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Jul 2022 09:43:02 -0400
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F8F7E006;
+        Fri, 15 Jul 2022 06:43:01 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id z132so3906892iof.0;
+        Fri, 15 Jul 2022 06:43:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RIDFbj9Nm/Hc84YphLe1TSejCss5csMsL3XGmdeREuc=;
-        b=VxgiEGoFQGUYqSko+lJKnHxVGH2zZsKKIQ9+fWl5TxvFC5y30oyYNFiJiWM7qvcf/8
-         wgwp1K8xIJJaXJdX9tCKzsfm3phCcmJ8mn4KJgVmLKfgUaW8scedC4sDAnZLKvPa605J
-         Xuf6pJD58ZF1Uq0SiLTwAMC41+W9qucdY3imNc1goVEWJk+yv7ELXTuqzLpXctX4h627
-         6Lx5ATaLA/TKD/lMhN21bMGyH1IWyg+s8bol5BjNho6iSX3WeTGJRDKyemoCfAUju24d
-         SL+yk0pm9MaL8GAym0K3eMQjngBLoyRpIHnFKRNOiBj0VfNEQ/UeeZcjFVYKEv9XfV9g
-         UJGw==
-X-Gm-Message-State: AJIora8ahXY1qyFHIc3AhbqzjH9ZZJ6SH3aoUgptYOIiV2Qf7yH0i2ZL
-        +DxNEioZC3N5G67lqSRU5M1RnxHjoBI+bES87pM=
-X-Google-Smtp-Source: AGRyM1tX0Yj4hhKwKn8Wh56LVxsUs+zEZtzzOqfyiqtoMPojzsjlQH4dKqby9pg3kc6AYzvHnWHIojiIQybijv0fZ+I=
-X-Received: by 2002:a25:cbcf:0:b0:66e:8893:a02c with SMTP id
- b198-20020a25cbcf000000b0066e8893a02cmr14089485ybg.460.1657891133149; Fri, 15
- Jul 2022 06:18:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220715112607.591-1-peterwu.pub@gmail.com> <20220715112607.591-10-peterwu.pub@gmail.com>
-In-Reply-To: <20220715112607.591-10-peterwu.pub@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 15 Jul 2022 15:18:16 +0200
-Message-ID: <CAHp75VfiBcaSbZy67Puwb2pBW2MHN8iQj3upA=h3VkKSFJbs0g@mail.gmail.com>
-Subject: Re: [PATCH v5 09/13] iio: adc: mt6370: Add MediaTek MT6370 support
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=03wcnwqW6SswNVSW3NYFh+nPKkFyDcywCPMc3nrTTzo=;
+        b=TdH2JtsYB6QRHzBN/92KFqwdGYKhHjdyXCuZM2aotId2+++XH3D5mX4a+RmDrIHJRF
+         U4WJ9tIylHXl9VKUOX+NGL0TfB5FLrH9wpgzuy5jCNZP3Bp1MvzEIyGmLVFCqex+W12A
+         uUfauLWZrk6jRc/cI9hyxAyiHbFvvnWXIUSlZ2tWlV/osLK4UY2HQ8WDYbbXKS1RXVzk
+         n9QIzRg0xTloij76/vYsdCDaR38UuSPuRM2MVjLNdufq4oovPcj8Zb1+4HM8a5lorraU
+         Vg8TpjKC53Hv9mK2T4PgQmtUAKxEGVQiH/a2spjezQg9AWtDY4PZHNiK4mpFgvQQ7FTu
+         8jZA==
+X-Gm-Message-State: AJIora/9WOi3jRjfzDpdyk4s5MK2mprVAmOXui7m4wYtI7++wX9Ubv8G
+        yMtc6M7C56PWWWEK8sF3MQ==
+X-Google-Smtp-Source: AGRyM1uzHWN8yj4iBWno2bNl4tSBHdD45HjKJL19BAJUQTQyoHWpBthV9k3/tF7H+HVOqQ0U4hzPtA==
+X-Received: by 2002:a02:ac0a:0:b0:33f:713a:9589 with SMTP id a10-20020a02ac0a000000b0033f713a9589mr7633647jao.289.1657892580691;
+        Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id g7-20020a92dd87000000b002dc789a3dddsm1703976iln.5.2022.07.15.06.42.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 06:43:00 -0700 (PDT)
+Received: (nullmailer pid 520291 invoked by uid 1000);
+        Fri, 15 Jul 2022 13:42:55 -0000
+From:   Rob Herring <robh@kernel.org>
 To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        lee.jones@linaro.org, heikki.krogerus@linux.intel.com,
+        broonie@kernel.org, cy_huang@richtek.com, deller@gmx.de,
+        linux@roeck-us.net,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        szunichen@gmail.com, matthias.bgg@gmail.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        linux-fbdev@vger.kernel.org, jingoohan1@gmail.com,
+        chunfeng.yun@mediatek.com, lgirdwood@gmail.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        jic23@kernel.org, pavel@ucw.cz, gregkh@linuxfoundation.org,
+        robh+dt@kernel.org, lars@metafoo.de, alice_chen@richtek.com,
+        linux-iio@vger.kernel.org, linux-pm@vger.kernel.org,
+        sre@kernel.org, chiaen_wu@richtek.com,
+        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+In-Reply-To: <20220715112607.591-7-peterwu.pub@gmail.com>
+References: <20220715112607.591-1-peterwu.pub@gmail.com> <20220715112607.591-7-peterwu.pub@gmail.com>
+Subject: Re: [PATCH v5 06/13] dt-bindings: mfd: Add MediaTek MT6370
+Date:   Fri, 15 Jul 2022 07:42:55 -0600
+Message-Id: <1657892575.865405.520290.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 1:28 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
->
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
->
-> MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> driver, display bias voltage supply, one general purpose LDO, and the
-> USB Type-C & PD controller complies with the latest USB Type-C and PD
-> standards.
->
-> This adds support the MT6370 ADC driver for system monitoring, including
+On Fri, 15 Jul 2022 19:26:00 +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add MediaTek MT6370 binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
+>  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
+>  2 files changed, 298 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+>  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+> 
 
-This adds --> Add a
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> charger current, voltage, and temperature.
+yamllint warnings/errors:
 
-...
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: pmic@34: indicator:multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@0: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@1: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: indicator: multi-led@0:led@2: Unevaluated properties are not allowed ('reg' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
 
-> +#include <linux/bits.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/sysfs.h>
+doc reference errors (make refcheckdocs):
 
-...
+See https://patchwork.ozlabs.org/patch/
 
-> +#define MT6370_AICR_400MA              0x6
-> +#define MT6370_ICHG_500MA              0x4
-> +#define MT6370_ICHG_900MA              0x8
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-_mA ?
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-...
+pip3 install dtschema --upgrade
 
-> +       ret = regmap_read_poll_timeout(priv->regmap,
-> +                                      MT6370_REG_CHG_ADC, reg_val,
-> +                                      !(reg_val & MT6370_ADC_START_MASK),
-> +                                      ADC_CONV_POLLING_TIME_US,
-> +                                      ADC_CONV_TIME_MS * 1000 * 3);
+Please check and re-submit.
 
-1000 --> MILLI ?
-
-...
-
-> +static int mt6370_adc_probe(struct platform_device *pdev)
-> +{
-
-Given comment in one place in the entire series would be good to use
-in another where appropriate. For example, here it would also be nice
-to have a temporary variable
-
-  struct device *dev = &pdev->dev;
-
-It will shorten some lines.
-
-> +       struct mt6370_adc_data *priv;
-> +       struct iio_dev *indio_dev;
-> +       struct regmap *regmap;
-> +       int ret;
-
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
