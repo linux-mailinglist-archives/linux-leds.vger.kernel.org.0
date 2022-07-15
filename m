@@ -2,99 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63D49575655
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jul 2022 22:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7931F575954
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Jul 2022 04:00:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232143AbiGNUZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jul 2022 16:25:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44660 "EHLO
+        id S241178AbiGOCAC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jul 2022 22:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231793AbiGNUZs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 16:25:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27D71E3E4;
-        Thu, 14 Jul 2022 13:25:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8BE8A6222E;
-        Thu, 14 Jul 2022 20:25:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F839C34115;
-        Thu, 14 Jul 2022 20:25:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657830346;
-        bh=FhIKhIYhRK71ucJvwaPwDTehtabRlgM5Sr6TUUsrpgY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FzCWQTznCPdsJxZOTczXvJx5TTOzK27deQ7SBg4/OtI1DglpOHA9o7H4JFkBlqMCE
-         FDTDIbvd/RmSnELUw01L4uXNaSzRH8LvHanOUuEOi148ruZU4UYOjh/LOulyfP5mQf
-         pwBxx/lYri9z6BZQR9xei5jDYNo/Emaip0Ow3ygDbn2G5UQbm/lhKpX7aPyIkDBR64
-         1hPDguOHVh88XzLpzBmbe0n4Lgco/7ofBOumLRKK2Dz+xuhuzNZVZvbtAeOcuAvPz0
-         xoxbOMhS93UctLq+Sc4aQlH/vzLa7jatULlm8RkSWBQ97n8mfOdxjGOBN+X5IUisdh
-         bLFxwzd9ZWIEQ==
-Date:   Thu, 14 Jul 2022 22:25:41 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: LED Maintainership
-Message-ID: <20220714222541.232eadfb@thinkpad>
-In-Reply-To: <YtAIm+X2XchcSkFX@google.com>
-References: <Ys/kruf8DE4ISo8M@google.com>
-        <20220714112326.GA16407@duo.ucw.cz>
-        <YtAIm+X2XchcSkFX@google.com>
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S241155AbiGOB7z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jul 2022 21:59:55 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD34B71BC4;
+        Thu, 14 Jul 2022 18:59:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=U1Pnkjl1TQvDGHeLMcLaMQ6UHR2dQ4Eet6DoluHtc8w=; b=oAbK8Hqr9z3GSd9gMw9LIaf4lT
+        UnyUuHneSq9/6nknXPylHb3FkbIKxuTPpxPWVxbqhcdPPgox0PS3P68k3lfCWeEt/oa8v2yjMKFkm
+        HWefJpLuM2umRgY4yJ41ONJ9/1I+LHF7O473r//LadRAGHvHBpXyQOBQHhRG+4D/fKZZX14uEADxJ
+        rlkAGF1qA+XvekYAPVg3SfAF+2TvHpFZZusTtgDXc7+Fp3sZ8iqI5K07eMivlJeVuiWOygKc0aQqY
+        Maa+XRpICvGU4xWBuzsjSO8lQwlcTqNW1s7CxiClWrRhc7dTNfs7AYYpTVmr6dOSznxrNMw+PFOKE
+        t/hZeScg==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oCAcS-009scA-F4; Fri, 15 Jul 2022 01:59:53 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org
+Subject: [PATCH] leds: clevo-mail: fix Kconfig "its" grammar
+Date:   Thu, 14 Jul 2022 18:59:48 -0700
+Message-Id: <20220715015948.12643-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 14 Jul 2022 13:14:19 +0100
-Lee Jones <lee.jones@linaro.org> wrote:
+Use the possessive "its" instead of the contraction "it's"
+where appropriate.
 
-> On Thu, 14 Jul 2022, Pavel Machek wrote:
->=20
-> > Hi!
-> >  =20
-> > > Not sure what's going on behind the scenes, but it looks as though the
-> > > LED subsystem has been left unmaintained for at least 2 months now. =
-=20
-> >  =20
-> > > Does anyone have any objection to me stepping in as temporary
-> > > maintainer until the situation is resolved? =20
-> >=20
-> > Yes, I'm a bit busy and would not mind help.
-> >=20
-> > There's a lot of easy stuff in the LED -- drivers not introducing new
-> > APIs -- and some quite tricky stuff -- userland API leaves... a lot to
-> > be desired, and we are in the middle of defining multicolor API.
-> >=20
-> > I wanted to ask Marek (in cc now) if he would be interested in
-> > helping. He knows the APIs / issues, and actually has multicolor LEDs
-> > he cares about. Marek, are you interested?
-> >=20
-> > If Marek is not interested, yes, help with the driver stuff would be
-> > welcome. =20
->=20
-> No problem.  The offer still stands.
->=20
-> I guess Marek and I aren't mutually exclusive either.
->=20
-> Any harm in us both helping out (if Marek is also interested that is)?
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linux-leds@vger.kernel.org
+---
+ drivers/leds/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hello Lee, Pavel,
-
-I am interested, but unfortunately I won't have much time for reviewing
-patches until september.
-
-=46rom september, I would be open to co-maintaining.
-
-Marek
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -456,7 +456,7 @@ config LEDS_CLEVO_MAIL
+ 
+ 	  The driver supports two kinds of interface: using ledtrig-timer
+ 	  or through /sys/class/leds/clevo::mail/brightness. As this LED
+-	  cannot change it's brightness it blinks instead. The brightness
++	  cannot change its brightness it blinks instead. The brightness
+ 	  value 0 means off, 1..127 means blink at 0.5Hz and 128..255 means
+ 	  blink at 1Hz.
+ 
