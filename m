@@ -2,106 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD720577637
-	for <lists+linux-leds@lfdr.de>; Sun, 17 Jul 2022 14:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B2A057763A
+	for <lists+linux-leds@lfdr.de>; Sun, 17 Jul 2022 14:44:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232873AbiGQMnI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 17 Jul 2022 08:43:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
+        id S232868AbiGQMos (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 17 Jul 2022 08:44:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232868AbiGQMnH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 17 Jul 2022 08:43:07 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657AB1572F;
-        Sun, 17 Jul 2022 05:43:06 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id ez10so16713367ejc.13;
-        Sun, 17 Jul 2022 05:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YYzoacsZMoWFZstDTYaMwcaR8lS9+roWWLsiPfEpSnk=;
-        b=e4uJUwKO+QuZiIwn6MC8rXU63K4IQnrySJmVyWBlaYif3fEz+/I8FexF02N7TDtzwA
-         zHQmFzbKcC93LA0JZiHT89zqpF8q04j3rxXpaIvh8yselMOnEWl3fZSN7p87Top8KD+1
-         Ijkpgvmnde3BdhbD75TOHeFc2y+z6j7wvxTassSQY9kf7CdS/Ehe1bS7pjq5Y1B0+8VO
-         LpEilgind89SzZKFYbSuPpOvdjAr3RejDAxvejRx6ZmfU5f+seWqjMbbArt9fgvLrH5u
-         VIi6MJ8Eece+DJ0vZquVDkEU6XX131ME3J4wWi4FXqXoJYFmiYFUTl5MOYDL2bISl38o
-         8yDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YYzoacsZMoWFZstDTYaMwcaR8lS9+roWWLsiPfEpSnk=;
-        b=zLlEJJk2toEa1vVvoJqBAv9LgI07NN3ubgoPFEzp/opMepW0nfmSxR5sYJswXoXz6w
-         9e4I7toydCDbNVm49xC44wueIoKq+n5sd4T4vdwq0DSqtHsAHYDvnjOIRxiolk+BSl7u
-         H9yRLJEJJl+I3IheYukRWyJVkJncXUudI3JeLTxoxtDX84m/Pwd9Nh8w8cxpIH2N2Kra
-         d66elJKSfgEtZStRaQ1awC5beCVauQQn4AgDEcz6whX6HbPjsJgM4IYgep9UqI9rYdXB
-         mh2WYYY4Dc06CfSQWU4/f5h2eNrfIaOqeWmr5afkIFU3WGfw0JkG4sd4uNqHyyYrn936
-         qwZg==
-X-Gm-Message-State: AJIora+yZWmMq+K9zxFRp0qSeXdC8KUAm9KyaEfLs+YCgJHoTD2B6ZGM
-        cX3yPJmhW7lokHftRbUz0vU=
-X-Google-Smtp-Source: AGRyM1sttkl1O/1N7usBItncy6DZS9ukz2ekFShxJ2xUrrGYNYHYHmSTZlR9vyWolD2P98D++QtOfA==
-X-Received: by 2002:a17:907:1def:b0:72b:33e6:46d6 with SMTP id og47-20020a1709071def00b0072b33e646d6mr21444035ejc.414.1658061784949;
-        Sun, 17 Jul 2022 05:43:04 -0700 (PDT)
-Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.gmail.com with ESMTPSA id i22-20020aa7c716000000b0043a64eee322sm4520588edq.28.2022.07.17.05.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 05:43:04 -0700 (PDT)
-From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S230188AbiGQMos (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 17 Jul 2022 08:44:48 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7164113CE5;
+        Sun, 17 Jul 2022 05:44:47 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 29AD51C000A; Sun, 17 Jul 2022 14:44:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1658061886;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yHr1snlX95yLCx8+MNxlNwwABS7Wxx3b42Uc4yfpS2c=;
+        b=Nd9+JVscQH6ZQXIPFOwOa9SUpZ/KbM4fKYicsanpnVsB21SGiHhLcg2wKrhuIhPAywIe+r
+        FLGYznSAuez4EVsBPL7196YzunsCKVL6yhjwURaYu4fTYqgxmDEeB+//ydVa6zPEjc4KCZ
+        iIcF6Qgww441QkJOSUU3oyCrXQVE11c=
+Date:   Sun, 17 Jul 2022 14:44:45 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        William Zhang <william.zhang@broadcom.com>,
-        Anand Gore <anand.gore@broadcom.com>,
-        Kursad Oney <kursad.oney@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-leds@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH 3/3] leds: leds-bcm63138: get rid of LED_OFF
-Date:   Sun, 17 Jul 2022 14:42:48 +0200
-Message-Id: <20220717124248.13562-4-zajec5@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220717124248.13562-1-zajec5@gmail.com>
-References: <20220717124248.13562-1-zajec5@gmail.com>
+        Dan Murphy <dmurphy@ti.com>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: class-multicolor: reference class
+ directly in multi-led node
+Message-ID: <20220717124445.GL14285@duo.ucw.cz>
+References: <20220624112106.111351-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Pz0BBB9QxoYXlT+x"
+Content-Disposition: inline
+In-Reply-To: <20220624112106.111351-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Rafał Miłecki <rafal@milecki.pl>
 
-The whole "enum led_brightness" is marked as obsolete. Replace it with a
-(non-)zero check.
+--Pz0BBB9QxoYXlT+x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
- drivers/leds/blink/leds-bcm63138.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi!
 
-diff --git a/drivers/leds/blink/leds-bcm63138.c b/drivers/leds/blink/leds-bcm63138.c
-index c083cb1332cb..2cf2761e4914 100644
---- a/drivers/leds/blink/leds-bcm63138.c
-+++ b/drivers/leds/blink/leds-bcm63138.c
-@@ -113,8 +113,7 @@ static void bcm63138_leds_enable_led(struct bcm63138_leds *leds,
- {
- 	u32 bit = BIT(led->pin);
- 
--	bcm63138_leds_update_bits(leds, BCM63138_SW_DATA, bit,
--				  value == LED_OFF ? 0 : bit);
-+	bcm63138_leds_update_bits(leds, BCM63138_SW_DATA, bit, value ? bit : 0);
- }
- 
- /*
--- 
-2.34.1
+> The leds/common.yaml is referenced directly in each LED node, which
+> leads to people doing the same with leds/leds-class-multicolor.yaml.
+> This is not correct because leds-class-multicolor.yaml defined multi-led
+> property and its children.  Some schemas implemented this incorrect.
+>=20
+> Rework this to match same behavior common.yaml, so expect the multi-led
+> node to reference the leds-class-multicolor.yaml.  Fixing allows to add
+> unevaluatedProperties:false.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+Thanks, applied.
+
+Best regards,
+							Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--Pz0BBB9QxoYXlT+x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYtQEPQAKCRAw5/Bqldv6
+8r6BAJ9GwstFtXDawy1RB7K1TUUoyHCadwCfWRst2PJWT6CuTpsKsq4oLNnkWtg=
+=4igj
+-----END PGP SIGNATURE-----
+
+--Pz0BBB9QxoYXlT+x--
