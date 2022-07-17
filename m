@@ -2,42 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9B825775B3
-	for <lists+linux-leds@lfdr.de>; Sun, 17 Jul 2022 12:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7335775B7
+	for <lists+linux-leds@lfdr.de>; Sun, 17 Jul 2022 12:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiGQKW1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 17 Jul 2022 06:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36810 "EHLO
+        id S229739AbiGQKYJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 17 Jul 2022 06:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbiGQKW0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 17 Jul 2022 06:22:26 -0400
+        with ESMTP id S229731AbiGQKYI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 17 Jul 2022 06:24:08 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26D114018;
-        Sun, 17 Jul 2022 03:22:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2F664FA;
+        Sun, 17 Jul 2022 03:24:08 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 756D41C0003; Sun, 17 Jul 2022 12:22:21 +0200 (CEST)
+        id 0EB441C0003; Sun, 17 Jul 2022 12:24:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1658053341;
+        t=1658053447;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=C24lRPvgfQ0aRPm/iVNf09abZ83+jvm2un6bvI2eZho=;
-        b=fRzoXjj72YbjZbspZXb7EkLYyf7uWc8QWnpQj2Ohmy+TkgP1qVWsnng9kORlsAj+tWv5T1
-        /tnR1NhkU+K9IW2s3nBd4vdMHdPsVzgrbxeG86RL6zC4pJ/jl3V/Z+dBgmlt2TtjYfpGlF
-        tvGIuA0VzxxThHmLGlgt16lRviyBi5o=
-Date:   Sun, 17 Jul 2022 12:22:21 +0200
+        bh=cz/G+c2AGMxFEDwxsaEiPePiAf+y8BVJI6soaHR5kss=;
+        b=T0KoFQX/GqrV3NWfENN0lJqx6df8hjibziTGvXZzcJK5KvTMxWIj055I9GwUrYI5y+xdkT
+        5vtqb8c8rcgbPzo2eQDPAoRXpIkeXAyQDOaNEqOzNB44N5XLJKOCCNAlTO9jAS1qWtL24T
+        /QEbmFp907AmBYA/q3IYgZqIXe53p24=
+Date:   Sun, 17 Jul 2022 12:24:06 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Randy Dunlap <rdunlap@infradead.org>, nm127@freemail.hu
-Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: clevo-mail: fix Kconfig "its" grammar
-Message-ID: <20220717102221.GB14285@duo.ucw.cz>
-References: <20220715015948.12643-1-rdunlap@infradead.org>
+To:     Lee Jones <lee@kernel.org>
+Cc:     lee.jones@linaro.org, linux-kernel@vger.kernel.org,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 6/8] dt-bindings: backlight: Update Lee Jones' email
+ address
+Message-ID: <20220717102406.GC14285@duo.ucw.cz>
+References: <20220714112533.539910-1-lee@kernel.org>
+ <20220714112533.539910-7-lee@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="CdrF4e02JqNVZeln"
+        protocol="application/pgp-signature"; boundary="adJ1OR3c6QgCpb/j"
 Content-Disposition: inline
-In-Reply-To: <20220715015948.12643-1-rdunlap@infradead.org>
+In-Reply-To: <20220714112533.539910-7-lee@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
@@ -49,67 +56,33 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---CdrF4e02JqNVZeln
+--adJ1OR3c6QgCpb/j
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu 2022-07-14 18:59:48, Randy Dunlap wrote:
-> Use the possessive "its" instead of the contraction "it's"
-> where appropriate.
+Hi!
 
-Thank you, applied.
+> Going forward, I'll be using my kernel.org for upstream work.
+>
 
-Hu. Hmm. Wow.
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-What is that? Kconfig describes very non-standard kernel interface,
-and has several other typos in the it. I can fix the typos; but is
-there someone still using this who would be willing to fix it?
+Let me know if you want to take it through the LED tree.
 
 Best regards,
 								Pavel
-> @@ -456,7 +456,7 @@ config LEDS_CLEVO_MAIL
-> =20
->  	  The driver supports two kinds of interface: using ledtrig-timer
->  	  or through /sys/class/leds/clevo::mail/brightness. As this LED
-> -	  cannot change it's brightness it blinks instead. The brightness
-> +	  cannot change its brightness it blinks instead. The brightness
->  	  value 0 means off, 1..127 means blink at 0.5Hz and 128..255 means
->  	  blink at 1Hz.
-> =20
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index acd4f754c919..eaba0a8347fa 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -447,12 +447,12 @@ config LEDS_LP8860
-=20
- config LEDS_CLEVO_MAIL
- 	tristate "Mail LED on Clevo notebook"
--	depends on LEDS_CLASS
-+	depends on LEDS_CLASS && BROKEN
- 	depends on X86 && SERIO_I8042 && DMI
- 	help
- 	  This driver makes the mail LED accessible from userspace
--	  programs through the leds subsystem. This LED have three
--	  known mode: off, blink at 0.5Hz and blink at 1Hz.
-+	  programs through the LEDs subsystem. This LED has three
-+	  known modes: off, blink at 0.5Hz and blink at 1Hz.
-=20
- 	  The driver supports two kinds of interface: using ledtrig-timer
- 	  or through /sys/class/leds/clevo::mail/brightness. As this LED
-
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---CdrF4e02JqNVZeln
+--adJ1OR3c6QgCpb/j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYtPi3QAKCRAw5/Bqldv6
-8vVPAJ0c+/9lBN+yClhEwM/AphtNXuM4UgCgk8JzdYGXLETG9A3hXK7gJzwXM+4=
-=cgYu
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYtPjRgAKCRAw5/Bqldv6
+8nV7AKCbxH4jIosCzuAbU3zYw4DixJz3RwCgve3ZW6VcKjjtgrbbPxAGoqtl3Ss=
+=JbF+
 -----END PGP SIGNATURE-----
 
---CdrF4e02JqNVZeln--
+--adJ1OR3c6QgCpb/j--
