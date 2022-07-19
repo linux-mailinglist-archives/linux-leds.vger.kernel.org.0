@@ -2,103 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5670579475
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Jul 2022 09:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BE1F57A717
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Jul 2022 21:18:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232986AbiGSHpt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Jul 2022 03:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
+        id S239518AbiGSTSt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Jul 2022 15:18:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiGSHps (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 03:45:48 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D97B9586
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:45:47 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id e28so23324264lfj.4
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Wh0dgiKmSiILClmOpbIfSiljIy7KFxVZW+Mg5DvdEm4=;
-        b=iOBmtlwR2YHnnMd4hQU4t995VjKvc70SYAH5Bxg96bAAoubB4j2x71LZALgXuoXXbg
-         Oy6+1EC3Gh4Jnx0hCOP+Exm5pKPBVLJljRENg0rzBQi7nPdCbhpr8NVDBJPJKQ6HhfMy
-         mgQH2/OqK7RRbYnZau06KVgzDrZGuEbVGiXIuxsqOxl3guTX2j9kUPpCt7heGqg2Rft4
-         yy656IRVOtK3EKeAtxAq4AtWVN69vWVPbO7BIzPKepQqVztGZGFndHqwMjvdQdbSSDj5
-         eMf2GGnoHtpf5J2d4fwpTd0bztUowowNpkDtpCSCBOsCUlgtd8leOAA2fo+MHNwAHf8Q
-         9Q9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Wh0dgiKmSiILClmOpbIfSiljIy7KFxVZW+Mg5DvdEm4=;
-        b=2pfi1gOkKZA6xdZCaIhuFEhXfkcX1tN/PF2LkbzplkYOtmK1PDk33/3Hza7FL5qpn3
-         3pVN1CljyUo1VmuaiEH6qBD74EfjgJQy7bCSeLQA/tDV0Q1Gpf9VoKWSL3RoNW1DtLoM
-         7498w1FetnDBoYQaXXyB4u1GNfDF4peG/fF2dGATkWRcakEzS90k5X0Ls82FvSTXN6dh
-         pz7yI7QiNMEtjMxb4sHESFeoceiVJj3An37Qidgm81WuLO1AvdWIJR+iz5qxo36FFe5W
-         egTRuG1fMBgee9/GIgBLKWIpHrLZimIxJ7XZ3j5sZCfF4IkuvX1f+t1CSkg59M+pb0SD
-         mYxg==
-X-Gm-Message-State: AJIora88XNkOEf2Qqv20i1I45/9B9z+RCipasbM0GPG5uk8taD7G6JK8
-        vsO9gDZ1Mbs7U/sb9BaTggq3UPycp8Dem7/N
-X-Google-Smtp-Source: AGRyM1ui8UUtjT+BR0tutTilm3Q52rq8nnNUwsiME5hBr5XnCxp4ScxwagX3WCuj6dfULdtSJj2ZoA==
-X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id p36-20020a05651213a400b004793b9ff13cmr16529483lfa.380.1658216745492;
-        Tue, 19 Jul 2022 00:45:45 -0700 (PDT)
-Received: from krzk-bin.. (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id v23-20020a2e9257000000b0025a7338317esm2449669ljg.64.2022.07.19.00.45.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jul 2022 00:45:45 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH] dt-bindings: leds: pwm-multicolor: document max-brigthness
-Date:   Tue, 19 Jul 2022 09:45:42 +0200
-Message-Id: <20220719074542.24581-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S234436AbiGSTSo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 15:18:44 -0400
+Received: from smtpout1.mo3004.mail-out.ovh.net (smtpout1.mo3004.mail-out.ovh.net [79.137.123.219])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32ED8550BD;
+        Tue, 19 Jul 2022 12:18:38 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.109.156.240])
+        by mo3004.mail-out.ovh.net (Postfix) with ESMTPS id 90D0D23D75D;
+        Tue, 19 Jul 2022 19:18:36 +0000 (UTC)
+Received: from localhost.localdomain (88.161.25.233) by DAG1EX1.emp2.local
+ (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 19 Jul
+ 2022 21:18:35 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <sven.schwermer@disruptive-technologies.com>,
+        <krzysztof.kozlowski+dt@linaro.org>
+CC:     <johan+linaro@kernel.org>, <marijn.suijten@somainline.org>,
+        <bjorn.andersson@linaro.org>, <andy.shevchenko@gmail.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v2 0/4] Add a multicolor LED driver for groups of monochromatic LEDs
+Date:   Tue, 19 Jul 2022 21:17:57 +0200
+Message-ID: <20220719191801.345773-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG2EX1.emp2.local (172.16.2.11) To DAG1EX1.emp2.local
+ (172.16.2.1)
+X-Ovh-Tracer-Id: 255579279810181595
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeltddgudefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjeeuhfeklefghfelhfethfegkedtvedvgfekledtheegueejuedtheekuefhffdtnecukfhppedtrddtrddtrddtpdekkedrudeiuddrvdehrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehprhhovddrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhofedttdeg
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,
+        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The Multicolor PWM LED uses max-brigthness property (in the example and
-in the driver), so document it to fixi dt_binding_check warning like:
+Some HW design implement multicolor LEDs with several monochromatic LEDs.
+Grouping the monochromatic LEDs allows to configure them in sync and use
+the triggers.
+The PWM multicolor LED driver implements such grouping but only for
+PWM-based LEDs. As this feature is also desirable for the other types of
+LEDs, this series implements it for any kind of LED device.
 
-  leds/leds-pwm-multicolor.example.dtb:
-    led-controller: multi-led: Unevaluated properties are not allowed ('max-brightness' was unexpected)
+changes v1->v2:
+ - Followed Rob Herrings's suggestion to make the dt binding much simpler.
+ - Added a patch to store the color property of a LED in its class
+   structure (struct led_classdev).
 
-Reported-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/leds/leds-pwm-multicolor.yaml       | 6 ++++++
- 1 file changed, 6 insertions(+)
+Jean-Jacques Hiblot (4):
+  leds: class: simplify the implementation of devm_of_led_get()
+  leds: class: store the color index in struct led_classdev
+  dt-bindings: leds: Add binding for a multicolor group of LEDs
+  leds: Add a multicolor LED driver to group monochromatic LEDs
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-index d0f846cd019d..bd6ec04a8727 100644
---- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
-@@ -22,6 +22,12 @@ properties:
-     $ref: leds-class-multicolor.yaml#
-     unevaluatedProperties: false
- 
-+    properties:
-+      max-brightness:
-+        description:
-+          Maximum brightness possible for the LED
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+
-     patternProperties:
-       "^led-[0-9a-z]+$":
-         type: object
+ .../bindings/leds/leds-group-multicolor.yaml  |  61 +++++++
+ drivers/leds/led-class.c                      |  27 ++--
+ drivers/leds/rgb/Kconfig                      |   6 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-group-multicolor.c      | 153 ++++++++++++++++++
+ include/linux/leds.h                          |   1 +
+ 6 files changed, 235 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+ create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
+
 -- 
-2.34.1
+2.25.1
 
