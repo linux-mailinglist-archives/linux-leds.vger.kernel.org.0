@@ -2,121 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDFD579467
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Jul 2022 09:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5670579475
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Jul 2022 09:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236853AbiGSHlu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Jul 2022 03:41:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
+        id S232986AbiGSHpt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Jul 2022 03:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236946AbiGSHlc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 03:41:32 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2891D325
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:41:30 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id z25so23385931lfr.2
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:41:30 -0700 (PDT)
+        with ESMTP id S229798AbiGSHps (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 03:45:48 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D97B9586
+        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:45:47 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id e28so23324264lfj.4
+        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 00:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Pow3Bvq1QnIMbABTn4g+l1ECYFTe6DuApp72EHRRsis=;
-        b=MC4ZNpu5Fx0FBu0jaBATWNQPFRcyiOES1z83LivlcgeGA7JyA/vFhMW+wjd8+c9AWZ
-         q5XXorB216ENCofihsTllOBSyurDez7q5kp1sYuDfhFUA6fa6HJTI0MykumqXk+w1CcM
-         FpVVQE4gCLU8iRvx4XmC2j35lX53KE7gzWNW6PIblK1/voeGqs069cShuqtUGCgxe738
-         k2znSRHeGenGhpqbhD82UpCyXLyjVXe1w/sp19kF3NzEFbh1hEca5jAyp5H8v/PDfyrY
-         vrn5qrokEnYvtSSqamjNjwya31K6/cbDGCAVqeYpAOCUNe6VJsHBn3EJib+Nt8jJw0JO
-         WloA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Wh0dgiKmSiILClmOpbIfSiljIy7KFxVZW+Mg5DvdEm4=;
+        b=iOBmtlwR2YHnnMd4hQU4t995VjKvc70SYAH5Bxg96bAAoubB4j2x71LZALgXuoXXbg
+         Oy6+1EC3Gh4Jnx0hCOP+Exm5pKPBVLJljRENg0rzBQi7nPdCbhpr8NVDBJPJKQ6HhfMy
+         mgQH2/OqK7RRbYnZau06KVgzDrZGuEbVGiXIuxsqOxl3guTX2j9kUPpCt7heGqg2Rft4
+         yy656IRVOtK3EKeAtxAq4AtWVN69vWVPbO7BIzPKepQqVztGZGFndHqwMjvdQdbSSDj5
+         eMf2GGnoHtpf5J2d4fwpTd0bztUowowNpkDtpCSCBOsCUlgtd8leOAA2fo+MHNwAHf8Q
+         9Q9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Pow3Bvq1QnIMbABTn4g+l1ECYFTe6DuApp72EHRRsis=;
-        b=yKjz3TyczZCGg9XQMDr6EIq3cqPJudTY7abpjBV03TLQBCIqtLGdlhkjX+453K6fDg
-         0wPvRnOUddMDjWQ7MbytK+miRDkliL+C4GuxNwrdX3s3mFDjgbvmUn0Lo6WNkmEQPnNM
-         2SOp94gQQ7nb4nUr9tVligNzIkzz4/TcqH8335Y9MlurdzUZffz4KYdW5yz7fs6xhEw8
-         CTmf90ejRuo+dq/CfEgMTKJkZnCJw7/U9VnsyU4PWgrI+Dk403kgTaxr1s0aT6fYpGZz
-         7/oZWVWSEOY2VEq/2+njUGBOFp7Kpl5BK7pb1Rj+/mH3lVuU05ZObufBydVxuyUqX7vg
-         Wx4w==
-X-Gm-Message-State: AJIora/lE0c2jP96OtphACJRtTdsoraAywBYmhosJFn0osEzDX89VrwO
-        L4oNIkPVuCkymXZfXgAPelREQg==
-X-Google-Smtp-Source: AGRyM1sWz8Ev6wrovXjFB97kjohahEQG/Ckmt7jJEhzbahAoyI2p/S4WSqNZmZ5rRo/Nq4CAcM6dbQ==
-X-Received: by 2002:a05:6512:2096:b0:48a:1edc:956 with SMTP id t22-20020a056512209600b0048a1edc0956mr11063833lfr.365.1658216489019;
-        Tue, 19 Jul 2022 00:41:29 -0700 (PDT)
-Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id x26-20020a19e01a000000b0047f8fd27402sm3061693lfg.146.2022.07.19.00.41.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 00:41:28 -0700 (PDT)
-Message-ID: <4a6e1a6a-78aa-62a9-1df0-4c707a1a8ec9@linaro.org>
-Date:   Tue, 19 Jul 2022 09:41:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] dt-bindings: leds: class-multicolor: reference class
- directly in multi-led node
-Content-Language: en-US
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        ChiaEn Wu <peterwu.pub@gmail.com>
-References: <20220624112106.111351-1-krzysztof.kozlowski@linaro.org>
- <CAL_JsqK--sXnVCm1cQPP5-_URzYjANdA1UBvUVF6zdanrscrkQ@mail.gmail.com>
+        bh=Wh0dgiKmSiILClmOpbIfSiljIy7KFxVZW+Mg5DvdEm4=;
+        b=2pfi1gOkKZA6xdZCaIhuFEhXfkcX1tN/PF2LkbzplkYOtmK1PDk33/3Hza7FL5qpn3
+         3pVN1CljyUo1VmuaiEH6qBD74EfjgJQy7bCSeLQA/tDV0Q1Gpf9VoKWSL3RoNW1DtLoM
+         7498w1FetnDBoYQaXXyB4u1GNfDF4peG/fF2dGATkWRcakEzS90k5X0Ls82FvSTXN6dh
+         pz7yI7QiNMEtjMxb4sHESFeoceiVJj3An37Qidgm81WuLO1AvdWIJR+iz5qxo36FFe5W
+         egTRuG1fMBgee9/GIgBLKWIpHrLZimIxJ7XZ3j5sZCfF4IkuvX1f+t1CSkg59M+pb0SD
+         mYxg==
+X-Gm-Message-State: AJIora88XNkOEf2Qqv20i1I45/9B9z+RCipasbM0GPG5uk8taD7G6JK8
+        vsO9gDZ1Mbs7U/sb9BaTggq3UPycp8Dem7/N
+X-Google-Smtp-Source: AGRyM1ui8UUtjT+BR0tutTilm3Q52rq8nnNUwsiME5hBr5XnCxp4ScxwagX3WCuj6dfULdtSJj2ZoA==
+X-Received: by 2002:a05:6512:13a4:b0:479:3b9f:f13c with SMTP id p36-20020a05651213a400b004793b9ff13cmr16529483lfa.380.1658216745492;
+        Tue, 19 Jul 2022 00:45:45 -0700 (PDT)
+Received: from krzk-bin.. (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id v23-20020a2e9257000000b0025a7338317esm2449669ljg.64.2022.07.19.00.45.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jul 2022 00:45:45 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAL_JsqK--sXnVCm1cQPP5-_URzYjANdA1UBvUVF6zdanrscrkQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH] dt-bindings: leds: pwm-multicolor: document max-brigthness
+Date:   Tue, 19 Jul 2022 09:45:42 +0200
+Message-Id: <20220719074542.24581-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 18/07/2022 17:22, Rob Herring wrote:
-> On Fri, Jun 24, 2022 at 5:21 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> The leds/common.yaml is referenced directly in each LED node, which
->> leads to people doing the same with leds/leds-class-multicolor.yaml.
->> This is not correct because leds-class-multicolor.yaml defined multi-led
->> property and its children.  Some schemas implemented this incorrect.
->>
->> Rework this to match same behavior common.yaml, so expect the multi-led
->> node to reference the leds-class-multicolor.yaml.  Fixing allows to add
->> unevaluatedProperties:false.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> This will conflict with any new users of leds-class-multicolor, e.g.:
->> https://lore.kernel.org/all/20220623115631.22209-4-peterwu.pub@gmail.com/
->>
->> The new users should be updated to match the usage introduced here.
->> ---
->>  .../leds/cznic,turris-omnia-leds.yaml         |  2 ++
->>  .../bindings/leds/leds-class-multicolor.yaml  | 32 +++++++++----------
->>  .../devicetree/bindings/leds/leds-lp50xx.yaml |  2 ++
->>  .../bindings/leds/leds-pwm-multicolor.yaml    |  5 ++-
->>  .../bindings/leds/leds-qcom-lpg.yaml          |  2 ++
->>  5 files changed, 24 insertions(+), 19 deletions(-)
-> 
-> Looks like this introduced a new warning:
-> 
+The Multicolor PWM LED uses max-brigthness property (in the example and
+in the driver), so document it to fixi dt_binding_check warning like:
 
-I'll fix it.
+  leds/leds-pwm-multicolor.example.dtb:
+    led-controller: multi-led: Unevaluated properties are not allowed ('max-brightness' was unexpected)
 
+Reported-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/leds/leds-pwm-multicolor.yaml       | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+index d0f846cd019d..bd6ec04a8727 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-pwm-multicolor.yaml
+@@ -22,6 +22,12 @@ properties:
+     $ref: leds-class-multicolor.yaml#
+     unevaluatedProperties: false
+ 
++    properties:
++      max-brightness:
++        description:
++          Maximum brightness possible for the LED
++        $ref: /schemas/types.yaml#/definitions/uint32
++
+     patternProperties:
+       "^led-[0-9a-z]+$":
+         type: object
+-- 
+2.34.1
+
