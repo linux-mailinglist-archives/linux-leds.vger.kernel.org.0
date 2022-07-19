@@ -2,127 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81CB857A9B5
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 00:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41EE157AA53
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 01:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236834AbiGSWTd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Jul 2022 18:19:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52688 "EHLO
+        id S238226AbiGSXP7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Jul 2022 19:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiGSWTc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 18:19:32 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B30254640
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 15:19:29 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id u76so8593521oie.3
-        for <linux-leds@vger.kernel.org>; Tue, 19 Jul 2022 15:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CRBhHPNd8lkmJ/xyyV0gCO7YkNC1yX8SCs8PR5uQJIQ=;
-        b=tSY7/OtHYLqnxjYX7qF+CiOMHcE4AiqiraYqXnuB2wZu9Z3IsdH5Tj5WYfS8R55Kcm
-         PqPeMzZ6NTAiID6lp6MPyhnWvXNpNxpFGUrp5EeqcGGyYpGSCsD1Yr3gTZKDV9xX99PM
-         uy5I8KF9watPaMYZLrXxeQkoCvHPHnTy5sCkepBJz9NqaykwG+bbm3brIH/Vygl1ozxx
-         f6tZVmSXRvQnzU8FrlGW1koqtjR8gIQ/rxvjH0BDRs5nKNjXo47FfEbYsXklcI2doN2H
-         Nmj6sI/A9RXphA0LZjRJREM3/XL/nUnA07qCeV4EBDU145le06PG2+zQgsjh12P4LZLp
-         VkoQ==
+        with ESMTP id S231350AbiGSXP7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Jul 2022 19:15:59 -0400
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514B819C1A;
+        Tue, 19 Jul 2022 16:15:58 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id l24so13069202ion.13;
+        Tue, 19 Jul 2022 16:15:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CRBhHPNd8lkmJ/xyyV0gCO7YkNC1yX8SCs8PR5uQJIQ=;
-        b=OQmHGP4s31mLx8l1u1pTK0qoExvQtZxrs9afe4WNSvzkgiQaQsLaaLS1wDUav5v183
-         kZeUGm/oKecol13B0dq++NzabzqSjs2hDIsti0bASsBafs+GJoPH1bd18L6rTp696nGg
-         zMPkgNrOeOfXPSHHCHj4/9AkqBh5fnzxOz9cRN9cMlKJ4zgqvrw9QG30L9wHPg9T6Zll
-         dPIRnRPCZjZYsDk6tJatQOjux0I17nlvzLu8zIJ6CLoF9+/QmmRKx3Ui+9vRRzMm4oP0
-         KP2qS7RlvcbVsLXlgV6tiZSZMojdiZI8cNER+mT2kTGUfAQSqFuPOZdutSI7A/mG+vxB
-         JK3Q==
-X-Gm-Message-State: AJIora+gZym/zyx05P6viPthxFk3Zdty60zLwHpLrS5oJc8/lPgtGssb
-        Ewix+1Ce4c7v5HeFuJSmH66faDItcX1dng==
-X-Google-Smtp-Source: AGRyM1tHME1bRoBD15TC5jZn2/JyI3PJMNYV0SSySQZH9tYLXGVz2G4SriJU0tXmlpR34OVN8Juu1Q==
-X-Received: by 2002:a05:6808:1885:b0:33a:74ac:8b79 with SMTP id bi5-20020a056808188500b0033a74ac8b79mr868009oib.237.1658269168799;
-        Tue, 19 Jul 2022 15:19:28 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id z34-20020a056870d6a200b0010c5005d427sm8194177oap.33.2022.07.19.15.19.27
+        bh=x7zrOa5/ktmoB5oxXsEeidEAZIQuHoj85mXI/04gaag=;
+        b=zgYeeZolex6Du4B1LS+ZdZeY3WrRT7yz96/K7eKsMu4csYnhCLm8Vb4lVZG4J1Fu0N
+         J/AKYrPuLfrwfO8mX7ngiHmZ23M0c1RnHHUn0hpIpAxjqMfKws206EwYE5CaUrr2viKY
+         8Y8P/nmgIqr9Kd0BXbUP4n3+FeQ02J2aN3E4c0d+J4SJTo95GW0WgJ297NDIkNdeNS12
+         ljD16bRJZKKyY6czzzGxgg+NbqUYTEZ0t286543KBxAiSPNulWDUbEXvSWEWZVvkDybY
+         cQkvD657Bz3S2fljInGS2cI/zoBeNFfJEq3tw3rU3BVhec47A335UCqwK0yozRrCbO27
+         p2Vg==
+X-Gm-Message-State: AJIora+mti50dkd5lEtN66veo/9Vgqz6jp3w+7SsWS0wSyOrxBu3A13T
+        XWGonSb/WBmeJbpg1UQ1Lw==
+X-Google-Smtp-Source: AGRyM1sKqEUwbdyTaYgehIaHgky8kBPT9go08h2ItbuBmzqTE4pl9HkOYuSs3jgORKoDhSftgu6XZQ==
+X-Received: by 2002:a05:6638:25c7:b0:33f:27ae:22f8 with SMTP id u7-20020a05663825c700b0033f27ae22f8mr17940809jat.51.1658272557630;
+        Tue, 19 Jul 2022 16:15:57 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id p13-20020a02c80d000000b00339e2f0a9bfsm7164837jao.13.2022.07.19.16.15.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jul 2022 15:19:27 -0700 (PDT)
-Date:   Tue, 19 Jul 2022 17:19:25 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Bhupesh Sharma <bhupesh.sharma@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        robh@kernel.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
-        bhupesh.linux@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] arm64: dts: qcom: Fix 'dtbs_check' errors for
- pm8350c & sc8280xp pwm nodes
-Message-ID: <Ytct7QzHOlvXH7s3@builder.lan>
-References: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
+        Tue, 19 Jul 2022 16:15:57 -0700 (PDT)
+Received: (nullmailer pid 2014837 invoked by uid 1000);
+        Tue, 19 Jul 2022 23:15:55 -0000
+Date:   Tue, 19 Jul 2022 17:15:55 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     marijn.suijten@somainline.org, krzysztof.kozlowski+dt@linaro.org,
+        sven.schwermer@disruptive-technologies.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, pavel@ucw.cz,
+        andy.shevchenko@gmail.com, bjorn.andersson@linaro.org,
+        johan+linaro@kernel.org
+Subject: Re: [PATCH v2 3/4] dt-bindings: leds: Add binding for a multicolor
+ group of LEDs
+Message-ID: <20220719231555.GA2005680-robh@kernel.org>
+References: <20220719191801.345773-1-jjhiblot@traphandler.com>
+ <20220719191801.345773-4-jjhiblot@traphandler.com>
+ <1658265913.899205.1852593.nullmailer@robh.at.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <1658265913.899205.1852593.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue 19 Jul 15:50 CDT 2022, Bhupesh Sharma wrote:
-
-> make dtbs_check currently reports the following errors
-> with pm8350c & sc8280xp pwm nodes:
+On Tue, Jul 19, 2022 at 03:25:13PM -0600, Rob Herring wrote:
+> On Tue, 19 Jul 2022 21:18:00 +0200, Jean-Jacques Hiblot wrote:
+> > This allows to group multiple monochromatic LEDs into a multicolor
+> > LED, e.g. RGB LEDs.
+> > 
+> > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> > ---
+> >  .../bindings/leds/leds-group-multicolor.yaml  | 61 +++++++++++++++++++
+> >  1 file changed, 61 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> > 
 > 
-> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb:
->  pwm@e800: 'reg' does not match any of the regexes:
->  '^led@[0-9a-f]$', 'pinctrl-[0-9]+'
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 > 
-> Fix the same.
+> yamllint warnings/errors:
 > 
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/pm8350c.dtsi        | 1 -
->  arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi | 1 -
->  2 files changed, 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> index e0bbb67717fe..33f939132571 100644
-> --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> @@ -32,7 +32,6 @@ pm8350c_gpios: gpio@8800 {
->  
->  		pm8350c_pwm: pwm@e800 {
+> dtschema/dtc warnings/errors:
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-group-multicolor.example.dtb: multi-led: Unevaluated properties are not allowed ('color', 'function' were unexpected)
+> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
 
-You need to also drop the unit address.
+Looks like this is fixed by commit de40c8496ead ("dt-bindings: leds: 
+class-multicolor: reference class directly in multi-led node") in next.
 
-That said, looking at the dts it's quite nice to have the address of
-these nodes. So perhaps we should fix up the binding and populate reg
-instead?
-
-Regards,
-Bjorn
-
->  			compatible = "qcom,pm8350c-pwm";
-> -			reg = <0xe800>;
->  			#pwm-cells = <2>;
->  			status = "disabled";
->  		};
-> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> index ae90b97aecb8..69f5bc8127b2 100644
-> --- a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> @@ -62,7 +62,6 @@ pmc8280c_gpios: gpio@8800 {
->  
->  		pmc8280c_lpg: lpg@e800 {
->  			compatible = "qcom,pm8350c-pwm";
-> -			reg = <0xe800>;
->  
->  			#address-cells = <1>;
->  			#size-cells = <0>;
-> -- 
-> 2.35.3
-> 
+Rob
