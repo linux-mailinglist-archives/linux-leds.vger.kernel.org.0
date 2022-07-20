@@ -2,69 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC4D57BB7E
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 18:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05F1C57BC69
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 19:13:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiGTQhi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Jul 2022 12:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37420 "EHLO
+        id S230102AbiGTRNe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Jul 2022 13:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231625AbiGTQhg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 12:37:36 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6809358854
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 09:37:32 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id bp17so31181978lfb.3
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 09:37:32 -0700 (PDT)
+        with ESMTP id S236798AbiGTRNd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 13:13:33 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7A46E882
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-f2a4c51c45so36946944fac.9
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kp8iCiN1Lxt5s2kzJFzxbS/dwJfrlU9B2NVr6P7nJY4=;
-        b=cw76WH5XkBndt8XkuIVyL5Z10zdQ9KgHP3PcvXoTiEC3ELZK8dHW/cgRWjpusfaNAP
-         yr2HqqYHUgj1WnflMsZa+nxp5qe8ACM2Ao4tsH4SS8NpGRvCJmD3c3XMcSmZoa5gTRV6
-         FjF9mG5o4Yui7CqgkyMTD88qrKxhaqwDCbQZrcR/4+kCVj+G3EJ/CfYeiLW2aBFlyVbU
-         ffFnGFK9K9hfUS60ffYlTfbs/LSvvZrYWtYzeatqJO3tTxCdQWV4ozrBljSo+pgfrddy
-         lKyaQA4mxWe/AYbAYWemtU8efbW921gTgT1oKA/kcWdf0HkrNTVkUmxsDnvXfA7DGrHR
-         oZbA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HoP+LDu/HU1wF9IJGHDMn+kWOAJedFh1FJBO+Y+m9wI=;
+        b=mogf7qsz00X1dIofsTzhlhaPLNxuzV7xf5lmsre8ViU0i14/IFMwJON2x3AZlcT1Au
+         o6zaNwrOtvUSqHpzvxHEtcEhQaosccc1HW4J+orBHHbHQXVGc1pSS04IoBfLs3lwYUDU
+         sjzdr+wnIOF8jWNcxL21HMLCo3iT8rxTnsKi1sX+RQ8+1LzKPwOflVqFNRpP8+n0vPO6
+         4PpGJz/xmINnvdF4VD7L4b+eB1zQJNT4jT4FFQbhzbXxaWW2QFAJ2uoRYlaxegEwhQOa
+         2XFlyOh5tEPw8cuJjuCUbrf/siSDhYUrRmu8KNAvaTWUjNueicTdFdmUUL5zFFrvQ71J
+         P2Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kp8iCiN1Lxt5s2kzJFzxbS/dwJfrlU9B2NVr6P7nJY4=;
-        b=hgNG+wqe4k+WeKNr1PPgkwMDTLvAzdEMt7HBX0nfme+hmvuxB34g7B1BhTDLcvDbYR
-         9+5eGpvSBhiiHKhv4oL+JWqviNJZbsVt3TrW/wrrd+hFlsN+/I0UbjK6GTo32VXCI21/
-         veLIHXk9YNCkvUNAErXZpc1yy7HJwgwkQix3YdxPwe9WAEG53KQ4pEyQYVYK+aFzY8Ce
-         3U1ZFF9SX8v2rCCJhTfsUSc/g1t7kCRO4XpADScIjOWcL+gAnAh6VnRMNX9Ew9DQv3IC
-         +GE4fe7TswsHCioZo4wc1PsfDOKONi0th/fkYUe9LeQR4Fl70eAt+oyuMq3rVUY2g86I
-         ZS9g==
-X-Gm-Message-State: AJIora9Wpjoa0j9TAL+PFMLehUtoPahxJbdIAiZPGd6ICrKQxIg2k/3U
-        F2z5K24QOleCzxuGCSFydHYV8A==
-X-Google-Smtp-Source: AGRyM1u7LbBSTLIdP8XMWj8CWDvGif493sK4UA0Un1erHq3+g9Xxi6JABJUt6y0RHWcWjfA3cBeN+w==
-X-Received: by 2002:a19:dc06:0:b0:48a:103a:82ee with SMTP id t6-20020a19dc06000000b0048a103a82eemr19275725lfg.87.1658335050731;
-        Wed, 20 Jul 2022 09:37:30 -0700 (PDT)
-Received: from krzk-bin.. (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id 27-20020ac25f5b000000b0047255d210e4sm3913409lfz.19.2022.07.20.09.37.29
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HoP+LDu/HU1wF9IJGHDMn+kWOAJedFh1FJBO+Y+m9wI=;
+        b=2xAVFAWwUbtb0COGYX2qa6uJxKiGXMGIIsxge/7rY01pAqE7H/4pPLdoUK0Md8tOe8
+         4PTAM1DC4LxrcUhFvV7feZL/OHQRetJ6tOKpC0/0KLTNNf+S6laoK4CEMkA20HqfNh3b
+         zFrtMmsh03sEo1lNn7yroX8SX7XBV4WQabL+FjS2275dilVPdJVlq9pBTFcWdz5GNQsB
+         Llko/Rb5IAKT4V9UI6ChuBUnPoa8r5C3/u/qp89vBwIbgLTtlO9yOIMIWUOuGnPF1mDW
+         P5XQxkWSzVhp4dmuYz75mPNr17aLwPMD13OV0c3n7mCXWQC3wVsum9qDnp8hqqs4poCr
+         tIVw==
+X-Gm-Message-State: AJIora8QYeveEbVF+xvhhvkpJoULcaBNptEnajmNGwlvcLk55O9kjR4K
+        knDqMlqmCRDR4Lt/Kicrbv5C0Q==
+X-Google-Smtp-Source: AGRyM1tnBFgAG96T7IMdNWYNomxwnFUGQntX/YkIBjaKisDyxSyyf069GIvfZFr1FyzvGFm1JGOfLw==
+X-Received: by 2002:a05:6870:d5a3:b0:f2:c923:682f with SMTP id u35-20020a056870d5a300b000f2c923682fmr3081371oao.120.1658337208046;
+        Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id 189-20020aca07c6000000b00334c2e81dfbsm6831525oih.0.2022.07.20.10.13.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 09:37:30 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kiran Gunda <kgunda@codeaurora.org>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH RESEND] dt-bindings: leds: qcom-wled: fix number of addresses
-Date:   Wed, 20 Jul 2022 18:37:20 +0200
-Message-Id: <20220720163720.7099-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Wed, 20 Jul 2022 10:13:27 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 12:13:24 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     bhupesh.sharma@linaro.org
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        robh@kernel.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
+        bhupesh.linux@gmail.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] arm64: dts: qcom: Fix 'dtbs_check' errors for
+ pm8350c & sc8280xp pwm nodes
+Message-ID: <Ytg3tIaL5h5b9ewH@builder.lan>
+References: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
+ <Ytct7QzHOlvXH7s3@builder.lan>
+ <60483c44-bc24-2b18-f93d-b67e437b5b72@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60483c44-bc24-2b18-f93d-b67e437b5b72@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -75,51 +73,95 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On PM660L, PMI8994 and PMI8998, the WLED has two address spaces.  This
-also fixes dtbs_check warnings like:
+On Wed 20 Jul 02:31 CDT 2022, bhupesh.sharma@linaro.org wrote:
 
-  arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: leds@d800: reg: [[55296], [55552]] is too long
+> Hi Bjorn,
+> 
+> On 7/20/22 3:49 AM, Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
+> > On Tue 19 Jul 15:50 CDT 2022, Bhupesh Sharma wrote:
+> > 
+> > > make dtbs_check currently reports the following errors
+> > > with pm8350c & sc8280xp pwm nodes:
+> > >
+> > > arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb:
+> > >   pwm@e800: 'reg' does not match any of the regexes:
+> > >   '^led@[0-9a-f]$', 'pinctrl-[0-9]+'
+> > >
+> > > Fix the same.
+> > >
+> > > Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
+> > > ---
+> > >   arch/arm64/boot/dts/qcom/pm8350c.dtsi        | 1 -
+> > >   arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi | 1 -
+> > >   2 files changed, 2 deletions(-)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > > index e0bbb67717fe..33f939132571 100644
+> > > --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > > +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > > @@ -32,7 +32,6 @@ pm8350c_gpios: gpio@8800 {
+> > >   >   		pm8350c_pwm: pwm@e800 {
+> > 
+> > You need to also drop the unit address.
+> > 
+> > That said, looking at the dts it's quite nice to have the address of
+> > these nodes. So perhaps we should fix up the binding and populate reg
+> > instead?
+> 
+> Well, leaving the unit address in the node label was done to
+> preserve the address information which might be needed later
+> (for better readibility).
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/leds/backlight/qcom-wled.yaml    | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Right, I like this part.
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-index 5d66c3e4def5..4c15693f7a01 100644
---- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-@@ -26,7 +26,8 @@ properties:
-       - qcom,pm8150l-wled
- 
-   reg:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
- 
-   default-brightness:
-     description: |
-@@ -171,6 +172,9 @@ allOf:
- 
-     then:
-       properties:
-+        reg:
-+          maxItems: 1
-+
-         qcom,current-boost-limit:
-           enum: [ 105, 385, 525, 805, 980, 1260, 1400, 1680 ]
-           default: 805
-@@ -189,6 +193,9 @@ allOf:
- 
-     else:
-       properties:
-+        reg:
-+          minItems: 2
-+
-         qcom,current-boost-limit:
-           enum: [ 105, 280, 450, 620, 970, 1150, 1300, 1500 ]
-           default: 970
--- 
-2.34.1
+> However, fixing up the binding and populating reg property would
+> make more sense if the driver actually needs it. Looking at the
+> qcom led driver in its current form, it doesn't seem to require the
+> same. Please correct me if I am wrong (as I just had a quick look
+> at the same).
+> 
 
+That is correct, the current Linux implementation does not make use of
+this information.
+
+> However, if we still want to have the unit addresses and the reg
+> property for better readibility in the dts, may be we can mark reg
+> as an optional property in the binding and leave it up to the
+> driver to use it (with a future update) optionally.
+> 
+
+Requiring the property only means that the dts is required to have it
+specified, not that the driver actually needs to read and use it.
+
+So I'm in favor of amending the DT binding to have the reg specified -
+and leaving the Linux driver as is.
+
+Thanks,
+Bjorn
+
+> Please let me know your views.
+> 
+> Regards,
+> Bhupesh
+> 
+> 
+> > >   			compatible = "qcom,pm8350c-pwm";
+> > > -			reg = <0xe800>;
+> > >   			#pwm-cells = <2>;
+> > >   			status = "disabled";
+> > >   		};
+> > > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > > index ae90b97aecb8..69f5bc8127b2 100644
+> > > --- a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > > @@ -62,7 +62,6 @@ pmc8280c_gpios: gpio@8800 {
+> > >   >   		pmc8280c_lpg: lpg@e800 {
+> > >   			compatible = "qcom,pm8350c-pwm";
+> > > -			reg = <0xe800>;
+> > >   >   			#address-cells = <1>;
+> > >   			#size-cells = <0>;
+> > > -- > 2.35.3
+> > >
+> > 
