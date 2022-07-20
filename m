@@ -2,91 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EE8557B909
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 16:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC4D57BB7E
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 18:37:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbiGTO7k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Jul 2022 10:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37114 "EHLO
+        id S229456AbiGTQhi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Jul 2022 12:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237346AbiGTO7j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 10:59:39 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A5B4F19A
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 07:59:38 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id x185so11175773oig.1
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 07:59:38 -0700 (PDT)
+        with ESMTP id S231625AbiGTQhg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 12:37:36 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6809358854
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 09:37:32 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id bp17so31181978lfb.3
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 09:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TvmCMcvB/AQLSDyyk2y4pjMIoqRBDrfZeqPEyK/hmJ0=;
-        b=QVxsFy3kJlbhszY4TNk1sZzCHzD034fBJdifXc7DLEiok9mVC1Nmavyc6BHrVmP+wp
-         hLHbXgcspKEeSAkOg9sD6CO4cCENplrMyWUXu5yPQJELztbO4n6XNolW6B/oga68oC1x
-         8PONDs6/GYEzhzSE+926BVcLIY2G1CK7lYd4jWjEmzwhSgqCeRo5vf0uqUf/RfiqJegS
-         dFULnr+5PFtrmoSRcUjQ3XcqmTltq217hY1QxLFgNRvF1L8llivVEeHGshfhs0sqHt6y
-         S6qDBfi76RBSkIXnyfGdIs/QphPTWfa0lu/gEoe1zQkj1ADIV/pYqFx38jXW//W/TkRd
-         oa0g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kp8iCiN1Lxt5s2kzJFzxbS/dwJfrlU9B2NVr6P7nJY4=;
+        b=cw76WH5XkBndt8XkuIVyL5Z10zdQ9KgHP3PcvXoTiEC3ELZK8dHW/cgRWjpusfaNAP
+         yr2HqqYHUgj1WnflMsZa+nxp5qe8ACM2Ao4tsH4SS8NpGRvCJmD3c3XMcSmZoa5gTRV6
+         FjF9mG5o4Yui7CqgkyMTD88qrKxhaqwDCbQZrcR/4+kCVj+G3EJ/CfYeiLW2aBFlyVbU
+         ffFnGFK9K9hfUS60ffYlTfbs/LSvvZrYWtYzeatqJO3tTxCdQWV4ozrBljSo+pgfrddy
+         lKyaQA4mxWe/AYbAYWemtU8efbW921gTgT1oKA/kcWdf0HkrNTVkUmxsDnvXfA7DGrHR
+         oZbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TvmCMcvB/AQLSDyyk2y4pjMIoqRBDrfZeqPEyK/hmJ0=;
-        b=HKosV2Yv9ZA3+f0dIllt3SQwDzpZk9iZabg3jtHrvNNoFXhTNvNBs2zSrdJe78na9N
-         Opku8WAMI0Zjnq7W679MeIOV5DPRuhfyJBNSpX66O/d7l8RJ1mICWBHfH7un1kRraUqJ
-         cG86DhefOhWEYHDm4BP8B/o4rHhKsIqG45coRWlElitAPDgcYpm4yc4zNYS+YqmacEGG
-         ffy3Ddi5vwv3/yh4deqEPXsIciYXmRsQ40eJBj16OFGqU1FZbVZdoGmmhMBPoomW0SRQ
-         FRO8YDXW/Aa9T50vv5AzB0xTeWMHIxt7ii9l9rH9kGOrFEzM4g2DQALUD5132r++iDBG
-         11sg==
-X-Gm-Message-State: AJIora8O+Se5owuLVT4akae5WFAr9Cs00RWETP0E/NSJM8+0tWETAn0a
-        2h2UPZaeDApoaLEhJkhRGvqTfA==
-X-Google-Smtp-Source: AGRyM1uTA6q9Pb8g7Ft79aTK48JPXo1IE67FiP/bUIX4qNug68HwmPUpe1AGHDfMv+ZFlzqqTuBROg==
-X-Received: by 2002:a05:6808:1313:b0:335:cad6:715c with SMTP id y19-20020a056808131300b00335cad6715cmr2593756oiv.130.1658329178091;
-        Wed, 20 Jul 2022 07:59:38 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id x18-20020a056870331200b0010c7487aa73sm9262100oae.50.2022.07.20.07.59.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kp8iCiN1Lxt5s2kzJFzxbS/dwJfrlU9B2NVr6P7nJY4=;
+        b=hgNG+wqe4k+WeKNr1PPgkwMDTLvAzdEMt7HBX0nfme+hmvuxB34g7B1BhTDLcvDbYR
+         9+5eGpvSBhiiHKhv4oL+JWqviNJZbsVt3TrW/wrrd+hFlsN+/I0UbjK6GTo32VXCI21/
+         veLIHXk9YNCkvUNAErXZpc1yy7HJwgwkQix3YdxPwe9WAEG53KQ4pEyQYVYK+aFzY8Ce
+         3U1ZFF9SX8v2rCCJhTfsUSc/g1t7kCRO4XpADScIjOWcL+gAnAh6VnRMNX9Ew9DQv3IC
+         +GE4fe7TswsHCioZo4wc1PsfDOKONi0th/fkYUe9LeQR4Fl70eAt+oyuMq3rVUY2g86I
+         ZS9g==
+X-Gm-Message-State: AJIora9Wpjoa0j9TAL+PFMLehUtoPahxJbdIAiZPGd6ICrKQxIg2k/3U
+        F2z5K24QOleCzxuGCSFydHYV8A==
+X-Google-Smtp-Source: AGRyM1u7LbBSTLIdP8XMWj8CWDvGif493sK4UA0Un1erHq3+g9Xxi6JABJUt6y0RHWcWjfA3cBeN+w==
+X-Received: by 2002:a19:dc06:0:b0:48a:103a:82ee with SMTP id t6-20020a19dc06000000b0048a103a82eemr19275725lfg.87.1658335050731;
+        Wed, 20 Jul 2022 09:37:30 -0700 (PDT)
+Received: from krzk-bin.. (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id 27-20020ac25f5b000000b0047255d210e4sm3913409lfz.19.2022.07.20.09.37.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 07:59:37 -0700 (PDT)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, bhupesh.sharma@linaro.org
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        pavel@ucw.cz, bhupesh.linux@gmail.com, robh@kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: (subset) [PATCH 1/3] arm64: dts: qcom: Fix 'dtbs_check' errors for pm8350c & sc8280xp pwm nodes
-Date:   Wed, 20 Jul 2022 09:59:36 -0500
-Message-Id: <165832916913.2078047.694864679825238718.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
-References: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
+        Wed, 20 Jul 2022 09:37:30 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kiran Gunda <kgunda@codeaurora.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH RESEND] dt-bindings: leds: qcom-wled: fix number of addresses
+Date:   Wed, 20 Jul 2022 18:37:20 +0200
+Message-Id: <20220720163720.7099-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 20 Jul 2022 02:20:56 +0530, Bhupesh Sharma wrote:
-> make dtbs_check currently reports the following errors
-> with pm8350c & sc8280xp pwm nodes:
-> 
-> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb:
->  pwm@e800: 'reg' does not match any of the regexes:
->  '^led@[0-9a-f]$', 'pinctrl-[0-9]+'
-> 
-> [...]
+On PM660L, PMI8994 and PMI8998, the WLED has two address spaces.  This
+also fixes dtbs_check warnings like:
 
-Applied, thanks!
+  arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: leds@d800: reg: [[55296], [55552]] is too long
 
-[2/3] arm64: dts: qcom: qrb5165-rb5: Fix 'dtbs_check' error for lpg nodes
-      commit: 1282fa32d71633bce5330a592db6e53cf73d2c28
-[3/3] arm64: dts: qcom: qrb5165-rb5: Fix 'dtbs_check' error for led nodes
-      commit: 360d9526761270f2497893946bb48de468a229cc
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/leds/backlight/qcom-wled.yaml    | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+index 5d66c3e4def5..4c15693f7a01 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+@@ -26,7 +26,8 @@ properties:
+       - qcom,pm8150l-wled
+ 
+   reg:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
+ 
+   default-brightness:
+     description: |
+@@ -171,6 +172,9 @@ allOf:
+ 
+     then:
+       properties:
++        reg:
++          maxItems: 1
++
+         qcom,current-boost-limit:
+           enum: [ 105, 385, 525, 805, 980, 1260, 1400, 1680 ]
+           default: 805
+@@ -189,6 +193,9 @@ allOf:
+ 
+     else:
+       properties:
++        reg:
++          minItems: 2
++
+         qcom,current-boost-limit:
+           enum: [ 105, 280, 450, 620, 970, 1150, 1300, 1500 ]
+           default: 970
 -- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+2.34.1
+
