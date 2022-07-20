@@ -2,286 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E52957B1BF
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 09:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E07057B1C8
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 09:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235749AbiGTH21 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Jul 2022 03:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47946 "EHLO
+        id S229984AbiGTHbe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Jul 2022 03:31:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbiGTH20 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 03:28:26 -0400
-Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr [80.12.242.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E461466BB9
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 00:28:21 -0700 (PDT)
-Received: from [192.168.1.18] ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id E481onGS9kootE481oqtP3; Wed, 20 Jul 2022 09:28:20 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Wed, 20 Jul 2022 09:28:20 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <afdbabde-50e4-19f4-122c-dd2571523fdb@wanadoo.fr>
-Date:   Wed, 20 Jul 2022 09:28:17 +0200
+        with ESMTP id S231143AbiGTHbd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 03:31:33 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05D43F333
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 00:31:32 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id y9so15770506pff.12
+        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 00:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:from:to:subject:references
+         :in-reply-to:content-transfer-encoding;
+        bh=OlI5K6hu0PIeIC5kQr6NxkHuZecsOQMdSETH93bObWI=;
+        b=JlLadA0btMp8/Wt2su+XdXo3jJ6NeFh8YCR6NPg7ELulYq4egINo2hjtIavkawWNYa
+         zxdCfZgQ5GuIdiiJ8NkXVPqO221C6D7ncIO5EPDun5BURqITg2gV5ceKG7cp5shLswyq
+         44joKw4hb5KXLTX3Ku8wmzwws2TJdn5h2RBXDB4cdW4dbl/cpEqveU6b2RZ1jOE44Za+
+         VGY82r1xeqd8KOT380+UcgMSdSbef/BOQmgnvGqg8hA30xeKqWkMJoT80AkmdVHZCwb1
+         8uEBStlxEBHFD1wj5cGdvnnhRsG6o+0hJAtQg3sVsrS2rwSQMQoj8GdllKQHl3v32ks4
+         3fbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from:to
+         :subject:references:in-reply-to:content-transfer-encoding;
+        bh=OlI5K6hu0PIeIC5kQr6NxkHuZecsOQMdSETH93bObWI=;
+        b=fSLb6njq4+U1ByxaAg4tjqgk1YuRA5aVJEVaexPieAj3rB7nE0GqtZIo49MGXK18xI
+         wBr1430pZgMvhXgEqpwiVCqd1yFIJnMF/lBEnWpbi3Vldgg3aAnXIbmMmKVYFGnr6Gvf
+         Vd29mOuAZLACq0Mf0t/ggauwBQYaUYCpXUkEM+TP7uGvSDY8886BpzioAIwSIN/kR7lC
+         tbh3duatFuRPFaAGeD6UkA8IqRpqeLrEcVfZP4uQ+UBoarTCNSdSw0smSrc/vL6IHr36
+         IfdHGpf/RMI2Y+B7bucKG9asftUS/RgHuPK2byh0IT0nqDHuh68o1BeOk8qaGWtqxuFJ
+         eStg==
+X-Gm-Message-State: AJIora+MLQSc9Ju9Y+h2UgUnNXYdkYSJStfq9I4RfSRJBGY/hC7L9LJH
+        ku3YoLp15Qf2ZcG/hiYD3Hy8Gw==
+X-Google-Smtp-Source: AGRyM1uyvRWCfiAYoI2uRyF7TOSUjHofkF+4bMoix38rm0MUBTo+VbC92LtKHDUz2f5ngGhfoSd5TA==
+X-Received: by 2002:a05:6a00:24cc:b0:50d:58bf:5104 with SMTP id d12-20020a056a0024cc00b0050d58bf5104mr37881853pfv.36.1658302292028;
+        Wed, 20 Jul 2022 00:31:32 -0700 (PDT)
+Received: from ?IPV6:2401:4900:1f3b:709e:6fec:df37:6562:5a80? ([2401:4900:1f3b:709e:6fec:df37:6562:5a80])
+        by smtp.gmail.com with ESMTPSA id s12-20020a17090a948c00b001f21f7821e0sm543535pjo.2.2022.07.20.00.31.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jul 2022 00:31:31 -0700 (PDT)
+Message-ID: <60483c44-bc24-2b18-f93d-b67e437b5b72@linaro.org>
+Date:   Wed, 20 Jul 2022 13:01:26 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 4/4] leds: Add a multicolor LED driver to group
- monochromatic LEDs
-Content-Language: fr
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, sven.schwermer@disruptive-technologies.com,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     johan+linaro@kernel.org, marijn.suijten@somainline.org,
-        bjorn.andersson@linaro.org, andy.shevchenko@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220719191801.345773-1-jjhiblot@traphandler.com>
- <20220719191801.345773-5-jjhiblot@traphandler.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220719191801.345773-5-jjhiblot@traphandler.com>
+ Thunderbird/91.11.0
+From:   bhupesh.sharma@linaro.org
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        robh@kernel.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
+        bhupesh.linux@gmail.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] arm64: dts: qcom: Fix 'dtbs_check' errors for pm8350c
+ & sc8280xp pwm nodes
+References: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
+ <Ytct7QzHOlvXH7s3@builder.lan>
+In-Reply-To: <Ytct7QzHOlvXH7s3@builder.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi Bjorn,
 
-a few nitpick below.
-
-
-Le 19/07/2022 à 21:18, Jean-Jacques Hiblot a écrit :
-> By allowing to group multiple monochrome LED into multicolor LEDs,
-> all involved LEDs can be controlled in-sync. This enables using effects
-> using triggers, etc.
+On 7/20/22 3:49 AM, Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
+> On Tue 19 Jul 15:50 CDT 2022, Bhupesh Sharma wrote:
 > 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> ---
->   drivers/leds/rgb/Kconfig                 |   6 +
->   drivers/leds/rgb/Makefile                |   1 +
->   drivers/leds/rgb/leds-group-multicolor.c | 153 +++++++++++++++++++++++
->   3 files changed, 160 insertions(+)
->   create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
+> > make dtbs_check currently reports the following errors
+> > with pm8350c & sc8280xp pwm nodes:
+> >
+> > arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb:
+> >   pwm@e800: 'reg' does not match any of the regexes:
+> >   '^led@[0-9a-f]$', 'pinctrl-[0-9]+'
+> >
+> > Fix the same.
+> >
+> > Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
+> > ---
+> >   arch/arm64/boot/dts/qcom/pm8350c.dtsi        | 1 -
+> >   arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi | 1 -
+> >   2 files changed, 2 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > index e0bbb67717fe..33f939132571 100644
+> > --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> > @@ -32,7 +32,6 @@ pm8350c_gpios: gpio@8800 {
+> >   
+> >   		pm8350c_pwm: pwm@e800 {
 > 
-> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> index 204cf470beae..70b157d1fdca 100644
-> --- a/drivers/leds/rgb/Kconfig
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -2,6 +2,12 @@
->   
->   if LEDS_CLASS_MULTICOLOR
->   
-> +config LEDS_GRP_MULTICOLOR
-> +	tristate "multi-color LED grouping Support"
+> You need to also drop the unit address.
+> 
+> That said, looking at the dts it's quite nice to have the address of
+> these nodes. So perhaps we should fix up the binding and populate reg
+> instead?
 
-Why "Support" and not "support"?
+Well, leaving the unit address in the node label was done to
+preserve the address information which might be needed later
+(for better readibility).
 
-> +	help
-> +	  This option enables support for monochrome LEDs that are
-> +	  grouped into multicolor LEDs.
-> +
->   config LEDS_PWM_MULTICOLOR
->   	tristate "PWM driven multi-color LED Support"
->   	depends on PWM
-> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-> index 0675bc0f6e18..4de087ad79bc 100644
-> --- a/drivers/leds/rgb/Makefile
-> +++ b/drivers/leds/rgb/Makefile
-> @@ -1,4 +1,5 @@
->   # SPDX-License-Identifier: GPL-2.0
->   
-> +obj-$(CONFIG_LEDS_GRP_MULTICOLOR)	+= leds-group-multicolor.o
->   obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
->   obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
-> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
-> new file mode 100644
-> index 000000000000..be71b85edfb5
-> --- /dev/null
-> +++ b/drivers/leds/rgb/leds-group-multicolor.c
-> @@ -0,0 +1,153 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * multi-color LED built with monochromatic LED devices
-> + *
-> + * Copyright 2022 Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/led-class-multicolor.h>
-> +#include <linux/leds.h>
-> +#include <linux/math.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/property.h>
-> +
-> +struct led_mcg_priv {
-> +	struct led_classdev_mc mc_cdev;
-> +	struct led_classdev **monochromatics;
-> +};
-> +
-> +static int led_mcg_set(struct led_classdev *cdev,
-> +			  enum led_brightness brightness)
-> +{
-> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-> +	struct led_mcg_priv *priv =
-> +		container_of(mc_cdev, struct led_mcg_priv, mc_cdev);
-> +	int i;
-> +
-> +	led_mc_calc_color_components(mc_cdev, brightness);
-> +
-> +	for (i = 0; i < mc_cdev->num_colors; i++) {
-> +		struct led_classdev *mono = priv->monochromatics[i];
-> +		int actual_led_brightness;
-> +
-> +		/*
-> +		 * Scale the intensity according the max brightness of the
-> +		 * monochromatic LED
-> +		 */
-> +		actual_led_brightness = DIV_ROUND_CLOSEST(
-> +			mono->max_brightness * mc_cdev->subled_info[i].brightness,
-> +			mc_cdev->led_cdev.max_brightness);
-> +
-> +		led_set_brightness(mono, actual_led_brightness);
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int led_mcg_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct led_init_data init_data = {};
-> +	struct led_classdev *cdev;
-> +	struct mc_subled *subled;
-> +	struct led_mcg_priv *priv;
-> +	int i, count, ret;
-> +	unsigned int max_brightness;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return  -ENOMEM;
+However, fixing up the binding and populating reg property would
+make more sense if the driver actually needs it. Looking at the
+qcom led driver in its current form, it doesn't seem to require the
+same. Please correct me if I am wrong (as I just had a quick look
+at the same).
 
-Extra space between "return" and "-ENOMEM".
+However, if we still want to have the unit addresses and the reg
+property for better readibility in the dts, may be we can mark reg
+as an optional property in the binding and leave it up to the
+driver to use it (with a future update) optionally.
 
-> +
-> +	dev_set_drvdata(&pdev->dev, priv);
+Please let me know your views.
 
-Is it needed?
-(apparently, there is no dev_get_drvdata())
+Regards,
+Bhupesh 
 
-> +
-> +
 
-One empty line is enough.
-
-> +	count = 0;
-> +	max_brightness = 0;
-
-Could be initialized when the variable are declared, as already done 
-with "init_data". I guess it is a matter of taste.
-
-> +	for (;;) {
-> +		struct led_classdev *led_cdev;
-> +
-> +		led_cdev = devm_of_led_get(dev, count);
-> +		if (IS_ERR(led_cdev)) {
-> +			/* Reached the end of the list ? */
-> +			if (PTR_ERR(led_cdev) == -ENOENT)
-> +				break;
-> +			return dev_err_probe(dev, PTR_ERR(led_cdev),
-> +					     "Unable to get led #%d", i);
-
-"i" is not used yet. "count"?
-
-> +		}
-> +		count++;
-> +
-> +		/* Make the sysfs of the monochromatic LED read-only */
-> +		led_cdev->flags |= LED_SYSFS_DISABLE;
-> +
-> +		priv->monochromatics = devm_krealloc(dev, priv->monochromatics,
-> +					count * sizeof(*priv->monochromatics),
-> +					GFP_KERNEL);
-> +		if (!priv->monochromatics)
-> +			return -ENOMEM;
-> +
-> +		priv->monochromatics[count - 1] = led_cdev;
-> +
-> +		max_brightness = max(max_brightness, led_cdev->max_brightness);
-> +	}
-> +
-> +	subled = devm_kzalloc(dev, count * sizeof(*subled), GFP_KERNEL);
-> +	if (!subled)
-> +		return -ENOMEM;
-> +	priv->mc_cdev.subled_info = subled;
-> +
-> +	for (i = 0; i < count; i++) {
-> +		struct led_classdev *led_cdev = priv->monochromatics[i];
-> +
-> +		subled[i].color_index = led_cdev->color;
-> +		/* by default all LEDs have full intensity */
-> +		subled[i].intensity = max_brightness;
-> +
-
-Uneeded empty line.
-
-> +	}
-> +
-> +	/* init the multicolor's LED class device */
-> +	cdev = &priv->mc_cdev.led_cdev;
-> +	cdev->flags = LED_CORE_SUSPENDRESUME;
-> +	cdev->brightness_set_blocking = led_mcg_set;
-> +	cdev->max_brightness = max_brightness;
-> +	cdev->color = LED_COLOR_ID_MULTI;
-> +	priv->mc_cdev.num_colors = count;
-> +
-> +	init_data.fwnode = of_fwnode_handle(dev_of_node(dev));
-> +	ret = devm_led_classdev_multicolor_register_ext(dev, &priv->mc_cdev,
-> +							&init_data);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +			"failed to register multicolor led for %s: %d\n",
-> +			cdev->name, ret);
-
-No need to add 'ret' in the message, dev_err_probe() already display it.
-
-> +
-> +	ret = led_mcg_set(cdev, cdev->brightness);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to set led value for %s: %d",
-> +				     cdev->name, ret);
-
-same here.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id of_led_mcg_match[] = {
-> +	{ .compatible = "leds-group-multicolor" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, of_led_mcg_match);
-> +
-> +static struct platform_driver led_mcg_driver = {
-> +	.probe		= led_mcg_probe,
-> +	.driver		= {
-> +		.name	= "leds_group_multicolor",
-> +		.of_match_table = of_led_mcg_match,
-> +	}
-> +};
-> +module_platform_driver(led_mcg_driver);
-> +
-> +MODULE_AUTHOR("Jean-Jacques Hiblot <jjhiblot@traphandler.com>");
-> +MODULE_DESCRIPTION("multi-color LED group driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:leds-group-multicolor");
-
+> >   			compatible = "qcom,pm8350c-pwm";
+> > -			reg = <0xe800>;
+> >   			#pwm-cells = <2>;
+> >   			status = "disabled";
+> >   		};
+> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > index ae90b97aecb8..69f5bc8127b2 100644
+> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
+> > @@ -62,7 +62,6 @@ pmc8280c_gpios: gpio@8800 {
+> >   
+> >   		pmc8280c_lpg: lpg@e800 {
+> >   			compatible = "qcom,pm8350c-pwm";
+> > -			reg = <0xe800>;
+> >   
+> >   			#address-cells = <1>;
+> >   			#size-cells = <0>;
+> > -- 
+> > 2.35.3
+> >
+> 
