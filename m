@@ -2,58 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B6F157D23A
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Jul 2022 19:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 945A057D23C
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Jul 2022 19:12:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbiGURLW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Jul 2022 13:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42398 "EHLO
+        id S230056AbiGURMi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Jul 2022 13:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiGURLV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Jul 2022 13:11:21 -0400
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3DBF86C05;
-        Thu, 21 Jul 2022 10:11:19 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id z132so1866466iof.0;
-        Thu, 21 Jul 2022 10:11:19 -0700 (PDT)
+        with ESMTP id S229436AbiGURMi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Jul 2022 13:12:38 -0400
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7708886C0F;
+        Thu, 21 Jul 2022 10:12:37 -0700 (PDT)
+Received: by mail-io1-f53.google.com with SMTP id 125so1829744iou.6;
+        Thu, 21 Jul 2022 10:12:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fSQEs0HZT/Xo4GRuc/+cXwXUWYe3250eMC7wwm7xlLA=;
-        b=fAcVC3WfjtBK9m6o70UQQybxracHTmVt5qQpnruhiihppBWTeCYM1m26bXM9vv+Q5s
-         nAbKkGG2hQiY2SLAyNfrn7aELmyn8smzs0yBBPlELvlX6x63N6kHyP+zSoWJDOXQCgj4
-         DHnkO27kev6FKqqH89GG8JhXxOr7NmtIzJXkiyx94KfseoZv63+93w7vYutcfFhTrk+e
-         pYbSIy7GMDwwQPDXMcmQDTdkA7WtEpUWtqQnCTBJToCxi0zbkQJAM6ps4YeZEq64+ffT
-         30KEquum88jZPby3XMqYp+h4fCwjbjx2z27sd0pRYaFJA1a8bO0pVj/ASq1/V+BngTGe
-         WV4g==
-X-Gm-Message-State: AJIora97UptJQWpuKoSacN3K4Y5fYFEH9ms9gz9GZfXNk0ihBOyRYw2J
-        Q6AhuAxL6/wZbIosgqtAVg==
-X-Google-Smtp-Source: AGRyM1ucM/EQx0eoqGUm5wI1e/jwVXy8rvyogOxt9R7tRyBHkIPkte+FCtzBASWtJVf3dZxlXaxt9w==
-X-Received: by 2002:a05:6638:3589:b0:33f:88f2:2545 with SMTP id v9-20020a056638358900b0033f88f22545mr21953911jal.229.1658423479176;
-        Thu, 21 Jul 2022 10:11:19 -0700 (PDT)
+        bh=NXW5mr/tm3w88vzFpDdrwOq+yoOKyhp6WYF1llgfXiU=;
+        b=KM6UaB71/wUu3x4jl6qBtKxCH6u4tcivFfWWvEwupBoqwVIskOeQlAkslIOhsvNp/c
+         xfVPH8mdaRK0IlEW5Z5uhEXWBaB47M17FXU4S/jEG3UbgET39rfEkwBmbI+KT5LXRcek
+         UOKcbYAKt9dHtn8YdHsK3v7FtLLkoLaFOY4DTnlBLyiVish6mlBZ6Wen7SolnCHAE7hr
+         cQ/EkrV55QdW408pfgiA+yXNexy0ddHH3cK2tcLglTp6xwSHPnCDLekr0bkRCW+nWKLY
+         0Bt6mjW73oXJ82nJMQLIV0i2piPwkyl2AYbQNJ2SZZZoz0z9X1KYAQSprfTYHOtYoPgr
+         Rzsw==
+X-Gm-Message-State: AJIora9fVzCU8WhvQYIouympsSrhFCIc9tcsbabLJXdfOmPZmARWL62a
+        /c151MaZEtkV7BRvWxlUUw==
+X-Google-Smtp-Source: AGRyM1sKkq06wlrz9tYdzXzFQIDky9vf1ktv1R/s38hzIfF70Bb2Bf0HPO3kjqNaeCGXMgXdZiRTgA==
+X-Received: by 2002:a05:6638:250c:b0:341:3fc3:a830 with SMTP id v12-20020a056638250c00b003413fc3a830mr20413533jat.195.1658423556742;
+        Thu, 21 Jul 2022 10:12:36 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id t10-20020a02b18a000000b0032e2996cadesm1004329jah.66.2022.07.21.10.11.18
+        by smtp.gmail.com with ESMTPSA id y27-20020a056638229b00b003416ac35529sm1012628jas.26.2022.07.21.10.12.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 10:11:18 -0700 (PDT)
-Received: (nullmailer pid 1578546 invoked by uid 1000);
-        Thu, 21 Jul 2022 17:11:17 -0000
-Date:   Thu, 21 Jul 2022 11:11:17 -0600
+        Thu, 21 Jul 2022 10:12:36 -0700 (PDT)
+Received: (nullmailer pid 1580571 invoked by uid 1000);
+        Thu, 21 Jul 2022 17:12:33 -0000
+Date:   Thu, 21 Jul 2022 11:12:33 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+To:     Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Jami Kettunen <jami.kettunen@somainline.org>,
+        phone-devel@vger.kernel.org,
+        Bhupesh Sharma <bhupesh.sharma@linaro.org>,
         devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [RESEND PATCH v2] dt-bindings: leds: skyworks,aat1290: convert
- to dtschema
-Message-ID: <20220721171117.GA1578234-robh@kernel.org>
-References: <20220721160611.250274-1-krzysztof.kozlowski@linaro.org>
+        Martin Botka <martin.botka@somainline.org>,
+        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: leds: qcom-lpg: Add compatible for
+ PM660L LPG block
+Message-ID: <20220721171233.GA1580186-robh@kernel.org>
+References: <20220719211848.1653920-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220721160611.250274-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220719211848.1653920-1-marijn.suijten@somainline.org>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -64,31 +72,17 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 21 Jul 2022 18:06:11 +0200, Krzysztof Kozlowski wrote:
-> Convert the Skyworks Solutions, Inc. AAT1290 Current Regulator bindings
-> to DT Schema.
+On Tue, 19 Jul 2022 23:18:47 +0200, Marijn Suijten wrote:
+> Document the availability of an LPG configuration for the PM660L PMIC in
+> the Qualcomm Light Pulse Generator driver.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
-> 
-> Hi,
-> 
-> This is waiting on the lists for a month:
-> https://lore.kernel.org/all/20220620175033.130468-2-krzysztof.kozlowski@linaro.org/
-> 
-> so maybe it could be merged via LED or DT binding tree?
-> 
-> Best regards,
-> Krzysztof
-> ---
->  .../devicetree/bindings/leds/leds-aat1290.txt | 77 ---------------
->  .../bindings/leds/skyworks,aat1290.yaml       | 95 +++++++++++++++++++
->  2 files changed, 95 insertions(+), 77 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-aat1290.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/skyworks,aat1290.yaml
+>  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
 Applied, thanks!
