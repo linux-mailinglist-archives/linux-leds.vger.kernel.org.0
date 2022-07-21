@@ -2,101 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A02CC57D172
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Jul 2022 18:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C2457D236
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Jul 2022 19:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbiGUQZV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Jul 2022 12:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58838 "EHLO
+        id S229601AbiGURKW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Jul 2022 13:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232142AbiGUQZU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Jul 2022 12:25:20 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FBA1181D
-        for <linux-leds@vger.kernel.org>; Thu, 21 Jul 2022 09:25:18 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id u19so3664116lfs.0
-        for <linux-leds@vger.kernel.org>; Thu, 21 Jul 2022 09:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=+5w2kCWbiC330rvkCcrHBwYtYDOwOOIM+ek+CZX2IZU=;
-        b=C2dPGVdib4gHSgKqXWo7lbP32kBLTZ7m3VCnfUZF9ZBYMVkBBPoCycUxE6tZpnuSB8
-         a01yTy5UrA46lfth+mpOkBCkemrjiLReKj1CywlHWTJrZB5gwA1D8kCNdmtaLbqUdmHE
-         6cqin0NYm8xABa+3ip+w7KQK28HcEITRfAqvTqkH05DtuQQrGYXR6Ffv1mWUjCeNyPFD
-         A8lmDyjOka7tV7C7l2H2UlxWg3IAyAh7eSUlpyNtR7tQrtb7X6sjUTYhVy7+yL8BNhZW
-         Jv2UKQpxGNl4j6m4c5EK7AgLA5GtPC2YQdT0LDgfFGQ56hFkLH6aFjMxWUju1+Yp44HB
-         z5JQ==
+        with ESMTP id S229436AbiGURKV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Jul 2022 13:10:21 -0400
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A92DFB4;
+        Thu, 21 Jul 2022 10:10:19 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id h145so1818184iof.9;
+        Thu, 21 Jul 2022 10:10:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=+5w2kCWbiC330rvkCcrHBwYtYDOwOOIM+ek+CZX2IZU=;
-        b=xwGPB6jQ706o6zD5MLzuvLUu/vB0XoltDaG0hQsLQAgircS4DVAZNqcx0kUjgms9cC
-         7uB4xt+9k87j9BdsBy7I7QVDPIu9JvhLLCw/BD1hg1Wb+pkpaDYfReHTBPTrkOIPBARM
-         BrEywWnhzP08RvsuZJSTvioBlxJMFlStV2VASI56KrUD+qe4OzWU3VH2ZS4kqNL18sNs
-         Q2CCz0ZwcydM8ZLxUtbiQNC7faKbSWkKPPgEyO1kO6moXGC+TkE3HhpQNpOZhCLLNGlc
-         4gKOVaRn8RyxxIsMfFCX6B0DwS4L5cUCK+w5M975RAgIY2Fh5U/SX5PkyTFedTM4/P94
-         RS3w==
-X-Gm-Message-State: AJIora+c6bsCHkR7zr/N4RxaUYJx3MsSEmZE+niYHOIxtzC5bhoNCubw
-        PWczDja1cGpWOzBmQ68AuPQz06HP3vxSseci
-X-Google-Smtp-Source: AGRyM1tjmebrMpVdPOqP5Prs+9RUuOZB2mA105NFmj9S+Uy3RFoTqwkXo++oShwTLQmC1gsnXShKmg==
-X-Received: by 2002:ac2:494f:0:b0:48a:6875:f8f1 with SMTP id o15-20020ac2494f000000b0048a6875f8f1mr2126512lfi.47.1658420716550;
-        Thu, 21 Jul 2022 09:25:16 -0700 (PDT)
-Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id s2-20020a19ad42000000b00489cc0dd59esm528810lfd.90.2022.07.21.09.25.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 09:25:15 -0700 (PDT)
-Message-ID: <58ce0419-7da7-7528-9afc-822e3f4ab40b@linaro.org>
-Date:   Thu, 21 Jul 2022 18:25:15 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VkJPhvS+uSo0bY5B3qcOZxndCJqg8Ex2QXcqdMU/IXY=;
+        b=MRrNyoUEUGJy1n1Vo5/LKW9v1nPTn6/BR8zuQDyeoFO2i6ZNFyqCWlKV6T2TF1slHI
+         elUfgC7FEd+63sSpCsGNx5pi45DNIZDFJ5o+PvvWQjR2S1IMkjYAUziLFaQVnHPm/Exn
+         e5/m2pNFF/2SXk/wmPRxK0mq6lbkAsW/1VO+M1rwSMr606MuHyjRF14L78KyUXhh7ixZ
+         qbdU69HAvVcwYvFeJrCgz3JoPy+DpWVF2YECfBiOV3V4mWz3+y5nEvpGewVb/sGvk8+u
+         iNDfvs61InAu7h9Y3oQZbiIkwIv4oYkOJIZ4m3sqkd5cnToAYKHgBhfey7BLuEo8p3kr
+         G6zg==
+X-Gm-Message-State: AJIora/aLGP78x3uNCA6t7dvNs/eZT+YnaR1899V2JtIxR4xwNc0M6wA
+        7lMCxQT8dg3wpXaADUPgCU7Esew+EA==
+X-Google-Smtp-Source: AGRyM1ukzDccfjVcOfIuRZcPN3cqoN09BU15NWdF8GcitKzP+XwaSu0KzvJBTRkWmZaUfKuT/6CFFA==
+X-Received: by 2002:a05:6638:16cf:b0:341:4543:b354 with SMTP id g15-20020a05663816cf00b003414543b354mr19414487jat.114.1658423418378;
+        Thu, 21 Jul 2022 10:10:18 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id z9-20020a05663822a900b00339c855eb15sm1015110jas.27.2022.07.21.10.10.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 10:10:17 -0700 (PDT)
+Received: (nullmailer pid 1577020 invoked by uid 1000);
+        Thu, 21 Jul 2022 17:10:16 -0000
+Date:   Thu, 21 Jul 2022 11:10:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kyle Swenson <kyle.swenson@est.tech>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] dt-bindings: leds: fix indentation in examples
+Message-ID: <20220721171016.GA1576632-robh@kernel.org>
+References: <20220607075247.58048-1-krzysztof.kozlowski@linaro.org>
+ <20220607075247.58048-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: DT bindings patches for LEDs
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607075247.58048-2-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Rob,
+On Tue, 07 Jun 2022 09:52:47 +0200, Krzysztof Kozlowski wrote:
+> The examples were mixing 4-space with 2- and 3-space indentations, so
+> correct them to use 4-space one.  No functional change.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> ---
+> 
+> Changes since v2:
+> 1. Add Rb tag.
+> 
+> Changes since v1:
+> 1. None
+> 
+> Cc: Kyle Swenson <kyle.swenson@est.tech>
+> ---
+>  .../devicetree/bindings/leds/leds-lp50xx.yaml | 110 ++++-----
+>  .../devicetree/bindings/leds/leds-lp55xx.yaml | 222 +++++++++---------
+>  .../bindings/leds/leds-pwm-multicolor.yaml    |  36 +--
+>  3 files changed, 184 insertions(+), 184 deletions(-)
+> 
 
-It seems Pavel is recently quite busy [A] and few DT bindings patches
-are still pending. Maybe you could pick up instead:
-
-1.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220607075247.58048-2-krzysztof.kozlowski@linaro.org/
-2.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220721160611.250274-1-krzysztof.kozlowski@linaro.org/
-3.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220719074542.24581-1-krzysztof.kozlowski@linaro.org/
-
-4.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220719211848.1653920-1-marijn.suijten@somainline.org/
-5.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220705163136.2278662-2-vincent.knecht@mailoo.org/
-6.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220705163136.2278662-3-vincent.knecht@mailoo.org/
-
-Optionally:
-7.
-http://patchwork.ozlabs.org/project/devicetree-bindings/patch/20220607075247.58048-1-krzysztof.kozlowski@linaro.org/
-which was sent some time ago, to correct example with the bindings.
-However in LEDs tree there is a commit (multicolor) which exposes issue
-in original example, thus this maybe should go via LEDs tree as well.
-They are not strictly related, as this patch makes sense on its own.
-
-[A] https://lore.kernel.org/lkml/20220714222541.232eadfb@thinkpad/
-
-Best regards,
-Krzysztof
+Applied both patches, thanks!
