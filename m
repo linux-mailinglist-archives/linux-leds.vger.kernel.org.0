@@ -2,166 +2,323 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F1C57BC69
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Jul 2022 19:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 445C657C7AD
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Jul 2022 11:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbiGTRNe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Jul 2022 13:13:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
+        id S232385AbiGUJbq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Jul 2022 05:31:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236798AbiGTRNd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Jul 2022 13:13:33 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7A46E882
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-f2a4c51c45so36946944fac.9
-        for <linux-leds@vger.kernel.org>; Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
+        with ESMTP id S232465AbiGUJbo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Jul 2022 05:31:44 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD9680529;
+        Thu, 21 Jul 2022 02:31:42 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id p26-20020a1c545a000000b003a2fb7c1274so2928785wmi.1;
+        Thu, 21 Jul 2022 02:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HoP+LDu/HU1wF9IJGHDMn+kWOAJedFh1FJBO+Y+m9wI=;
-        b=mogf7qsz00X1dIofsTzhlhaPLNxuzV7xf5lmsre8ViU0i14/IFMwJON2x3AZlcT1Au
-         o6zaNwrOtvUSqHpzvxHEtcEhQaosccc1HW4J+orBHHbHQXVGc1pSS04IoBfLs3lwYUDU
-         sjzdr+wnIOF8jWNcxL21HMLCo3iT8rxTnsKi1sX+RQ8+1LzKPwOflVqFNRpP8+n0vPO6
-         4PpGJz/xmINnvdF4VD7L4b+eB1zQJNT4jT4FFQbhzbXxaWW2QFAJ2uoRYlaxegEwhQOa
-         2XFlyOh5tEPw8cuJjuCUbrf/siSDhYUrRmu8KNAvaTWUjNueicTdFdmUUL5zFFrvQ71J
-         P2Ig==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=CqoqFDcKzQdjJafb6yVEzJIruLZ/32AbmJegq9jmsDE=;
+        b=YAkXHOcznZLGmCMQ1RWcJzQ3Z/GteinQw/AfYqo5ctFERCkDoFahq79y6Y0pwx44gl
+         GLoaT+TWNd0oMAh4jyhZmDSdFHC/Zftc1EEUiFnzxuN6N1LpjDVSm9lKMqXV2EhRL0Ry
+         G079IVg2a7gAS5xznVv2gq67UufdW4WSzlQZ9DXRqk91zH4iPyHriQNKu1M+wNlTEo1n
+         2zA0wZW0tNCpwEP/8UlLssY+QSaTfOjTnzVQJG4SXW9SEcPXN7mdEmbdei940aVuSXGZ
+         guttcy1i/xfOMU5uu8eMfPDPGBLtmZOrxqajlos3sDC8OOgUFvJKwBYbuLu6PcMURAyn
+         KT6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HoP+LDu/HU1wF9IJGHDMn+kWOAJedFh1FJBO+Y+m9wI=;
-        b=2xAVFAWwUbtb0COGYX2qa6uJxKiGXMGIIsxge/7rY01pAqE7H/4pPLdoUK0Md8tOe8
-         4PTAM1DC4LxrcUhFvV7feZL/OHQRetJ6tOKpC0/0KLTNNf+S6laoK4CEMkA20HqfNh3b
-         zFrtMmsh03sEo1lNn7yroX8SX7XBV4WQabL+FjS2275dilVPdJVlq9pBTFcWdz5GNQsB
-         Llko/Rb5IAKT4V9UI6ChuBUnPoa8r5C3/u/qp89vBwIbgLTtlO9yOIMIWUOuGnPF1mDW
-         P5XQxkWSzVhp4dmuYz75mPNr17aLwPMD13OV0c3n7mCXWQC3wVsum9qDnp8hqqs4poCr
-         tIVw==
-X-Gm-Message-State: AJIora8QYeveEbVF+xvhhvkpJoULcaBNptEnajmNGwlvcLk55O9kjR4K
-        knDqMlqmCRDR4Lt/Kicrbv5C0Q==
-X-Google-Smtp-Source: AGRyM1tnBFgAG96T7IMdNWYNomxwnFUGQntX/YkIBjaKisDyxSyyf069GIvfZFr1FyzvGFm1JGOfLw==
-X-Received: by 2002:a05:6870:d5a3:b0:f2:c923:682f with SMTP id u35-20020a056870d5a300b000f2c923682fmr3081371oao.120.1658337208046;
-        Wed, 20 Jul 2022 10:13:28 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 189-20020aca07c6000000b00334c2e81dfbsm6831525oih.0.2022.07.20.10.13.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 10:13:27 -0700 (PDT)
-Date:   Wed, 20 Jul 2022 12:13:24 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     bhupesh.sharma@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        robh@kernel.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
-        bhupesh.linux@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] arm64: dts: qcom: Fix 'dtbs_check' errors for
- pm8350c & sc8280xp pwm nodes
-Message-ID: <Ytg3tIaL5h5b9ewH@builder.lan>
-References: <20220719205058.1004942-1-bhupesh.sharma@linaro.org>
- <Ytct7QzHOlvXH7s3@builder.lan>
- <60483c44-bc24-2b18-f93d-b67e437b5b72@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CqoqFDcKzQdjJafb6yVEzJIruLZ/32AbmJegq9jmsDE=;
+        b=TKMOepghT0oAhdKPVW/ErTaiGtAXmt5ygOmv9fb8c30WaruO1TSPY5qqqKen4jFVyq
+         bPVWVDhhPU6zHalL10ut2+BtS2j+P4hCOeE6Rs90clh98HtWlh8bb17EZHHZH15x+W6t
+         3ToPrZFxrCNtMmCjNu3neqZ27KjRl9pgzEiYACONgxLF8wNX/Pw1/DT6nWqDeHmC/XQa
+         zZQxFn1lGYFOL3vGVyyfAS7GthaAuGnZ1glzK8HG8Yl/AuE4XXRJ5Sk3hlBIlOCtDIcl
+         amLFpxCWoXFn0WOMEFGNewraWaI4wBLARRnf+DbtT3sGFnTmaJM4L0SmbqFsi8hzdaHL
+         8gEw==
+X-Gm-Message-State: AJIora+pJ//BMvTDtgjCvysMywj4VUEx2spwg8aHwXB4O8tzkyOpyI/+
+        733K2FVB3zrLKjLHIdfAm+psbDQ6Q2oyMg9bTALEYNYoRtY=
+X-Google-Smtp-Source: AGRyM1uth3ZszQR4Y69c6/F2fcYkQehI7TUvzonlMhEKjh0dv2rEa6EpJ0tm1xDP06OICuKvouAgditDjMYoi6Y6Kko=
+X-Received: by 2002:a05:600c:2110:b0:3a3:1a69:aa7b with SMTP id
+ u16-20020a05600c211000b003a31a69aa7bmr7190128wml.186.1658395901183; Thu, 21
+ Jul 2022 02:31:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60483c44-bc24-2b18-f93d-b67e437b5b72@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20220715112607.591-1-peterwu.pub@gmail.com> <20220715112607.591-12-peterwu.pub@gmail.com>
+ <CAHp75VfyVufzf7CK38BVu_j0B4ax_d1gLAGYDE3H1zaKkuUB=A@mail.gmail.com>
+ <20220720094510.GA29755@cyhuang-hp-elitebook-840-g3.rt> <CADiBU3_rtVXFX3qdSoc=F-zs9CYiNRmNPOa3RffRJD1Qc5N-bA@mail.gmail.com>
+In-Reply-To: <CADiBU3_rtVXFX3qdSoc=F-zs9CYiNRmNPOa3RffRJD1Qc5N-bA@mail.gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Thu, 21 Jul 2022 17:31:29 +0800
+Message-ID: <CADiBU39=kJXLuBd=3reeEVCaAhvkZXASsFYtsi6oEYJjc79dhA@mail.gmail.com>
+Subject: Re: [PATCH v5 11/13] leds: mt6370: Add MediaTek MT6370 current sink
+ type LED Indicator support
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
+        cy_huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        szuni chen <szunichen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed 20 Jul 02:31 CDT 2022, bhupesh.sharma@linaro.org wrote:
-
-> Hi Bjorn,
-> 
-> On 7/20/22 3:49 AM, Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
-> > On Tue 19 Jul 15:50 CDT 2022, Bhupesh Sharma wrote:
-> > 
-> > > make dtbs_check currently reports the following errors
-> > > with pm8350c & sc8280xp pwm nodes:
+ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8820=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:48=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> ChiYuan Huang <u0084500@gmail.com> =E6=96=BC 2022=E5=B9=B47=E6=9C=8820=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Fri, Jul 15, 2022 at 08:29:42PM +0200, Andy Shevchenko wrote:
+> > > On Fri, Jul 15, 2022 at 1:29 PM ChiaEn Wu <peterwu.pub@gmail.com> wro=
+te:
+> > > >
+> > > > From: ChiYuan Huang <cy_huang@richtek.com>
+> > > >
+> > > > The MediaTek MT6370 is a highly-integrated smart power management I=
+C,
+> > > > which includes a single cell Li-Ion/Li-Polymer switching battery
+> > > > charger, a USB Type-C & Power Delivery (PD) controller, dual
+> > > > Flash LED current sources, a RGB LED driver, a backlight WLED drive=
+r,
+> > > > a display bias driver and a general LDO for portable devices.
+> > > >
+> > > > In MediaTek MT6370, there are four channel current-sink RGB LEDs th=
+at
+> > > > support hardware pattern for constant current, PWM, and breath mode=
+.
+> > > > Isink4 channel can also be used as a CHG_VIN power good indicator.
 > > >
-> > > arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb:
-> > >   pwm@e800: 'reg' does not match any of the regexes:
-> > >   '^led@[0-9a-f]$', 'pinctrl-[0-9]+'
+> > > ...
 > > >
-> > > Fix the same.
+> > > > +         This driver can also be built as a module. If so the modu=
+le
 > > >
-> > > Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > Signed-off-by: Bhupesh Sharma <bhupesh.sharma@linaro.org>
-> > > ---
-> > >   arch/arm64/boot/dts/qcom/pm8350c.dtsi        | 1 -
-> > >   arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi | 1 -
-> > >   2 files changed, 2 deletions(-)
+> > > so, the
 > > >
-> > > diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> > > index e0bbb67717fe..33f939132571 100644
-> > > --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> > > +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> > > @@ -32,7 +32,6 @@ pm8350c_gpios: gpio@8800 {
-> > >   >   		pm8350c_pwm: pwm@e800 {
-> > 
-> > You need to also drop the unit address.
-> > 
-> > That said, looking at the dts it's quite nice to have the address of
-> > these nodes. So perhaps we should fix up the binding and populate reg
-> > instead?
-> 
-> Well, leaving the unit address in the node label was done to
-> preserve the address information which might be needed later
-> (for better readibility).
-> 
-
-Right, I like this part.
-
-> However, fixing up the binding and populating reg property would
-> make more sense if the driver actually needs it. Looking at the
-> qcom led driver in its current form, it doesn't seem to require the
-> same. Please correct me if I am wrong (as I just had a quick look
-> at the same).
-> 
-
-That is correct, the current Linux implementation does not make use of
-this information.
-
-> However, if we still want to have the unit addresses and the reg
-> property for better readibility in the dts, may be we can mark reg
-> as an optional property in the binding and leave it up to the
-> driver to use it (with a future update) optionally.
-> 
-
-Requiring the property only means that the dts is required to have it
-specified, not that the driver actually needs to read and use it.
-
-So I'm in favor of amending the DT binding to have the reg specified -
-and leaving the Linux driver as is.
-
-Thanks,
-Bjorn
-
-> Please let me know your views.
-> 
-> Regards,
-> Bhupesh
-> 
-> 
-> > >   			compatible = "qcom,pm8350c-pwm";
-> > > -			reg = <0xe800>;
-> > >   			#pwm-cells = <2>;
-> > >   			status = "disabled";
-> > >   		};
-> > > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> > > index ae90b97aecb8..69f5bc8127b2 100644
-> > > --- a/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> > > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-pmics.dtsi
-> > > @@ -62,7 +62,6 @@ pmc8280c_gpios: gpio@8800 {
-> > >   >   		pmc8280c_lpg: lpg@e800 {
-> > >   			compatible = "qcom,pm8350c-pwm";
-> > > -			reg = <0xe800>;
-> > >   >   			#address-cells = <1>;
-> > >   			#size-cells = <0>;
-> > > -- > 2.35.3
+> > > > +         will be called "leds-mt6370.ko".
 > > >
-> > 
+> > > No ".ko".
+> > >
+> > > Why did you ignore these comments? Please go and fix _everywhere_ in
+> > > your series.
+> > > It's basically the rule of thumb, if the reviewer gives a comment
+> > > against an occurrence of something, go through entire series and chec=
+k
+> > > if there are other places like commented one and address them all.
+> > >
+> > > ...
+> > >
+> > > > + * Author: Alice Chen <alice_chen@richtek.com>
+> > >
+> > > Strange, the commit message doesn't have a corresponding SoB, why?
+> > >
+> > Yes, there're two authors Alice and me.
+> > I'll correct it in next.
+> > > ...
+> > >
+> > > > +#define MT6370_PWM_DUTY                                31
+> > > > +#define MT6372_PMW_DUTY                                255
+> > >
+> > > Looks like these are limits by hardware?
+> > > Check with the datasheet if (BIT(x) - 1) makes more sense here.
+> > >
+> > > ...
+> > >
+> > > > +       switch (led_no) {
+> > > > +       case MT6370_LED_ISNK1:
+> > > > +               sel_field =3D F_LED1_DUTY;
+> > > > +               break;
+> > > > +       case MT6370_LED_ISNK2:
+> > > > +               sel_field =3D F_LED2_DUTY;
+> > > > +               break;
+> > > > +       case MT6370_LED_ISNK3:
+> > > > +               sel_field =3D F_LED3_DUTY;
+> > > > +               break;
+> > > > +       default:
+> > > > +               sel_field =3D F_LED4_DUTY;
+> > >
+> > > Missed break;
+> > >
+> > > > +       }
+> > >
+> > > ...
+> > >
+> > > > +       switch (led_no) {
+> > > > +       case MT6370_LED_ISNK1:
+> > > > +               sel_field =3D F_LED1_FREQ;
+> > > > +               break;
+> > > > +       case MT6370_LED_ISNK2:
+> > > > +               sel_field =3D F_LED2_FREQ;
+> > > > +               break;
+> > > > +       case MT6370_LED_ISNK3:
+> > > > +               sel_field =3D F_LED3_FREQ;
+> > > > +               break;
+> > > > +       default:
+> > > > +               sel_field =3D F_LED4_FREQ;
+> > >
+> > > Ditto.
+> > >
+> > > > +       }
+> > >
+> > > ...
+> > >
+> > > > +       switch (led_no) {
+> > > > +       case MT6370_LED_ISNK1:
+> > > > +       case MT6370_LED_ISNK2:
+> > > > +       case MT6370_LED_ISNK3:
+> > > > +               *base =3D MT6370_REG_RGB1_TR + led_no * 3;
+> > > > +               break;
+> > > > +       default:
+> > > > +               *base =3D MT6370_REG_RGB_CHRIND_TR;
+> > >
+> > > Ditto.
+> > > It seems you dropped them for all switch-cases. It's not goot, please
+> > > restore them back.
+> > >
+> > > > +       }
+> > >
+> > > ...
+> > >
+> > > > +       u8 val[P_MAX_PATTERNS / 2] =3D {0};
+> > >
+> > > { } should suffice
+> > >
+> > >
+> > In the above range selector, we use the 'logic or' to generate the
+> typo, it's 'below'.
+> > pattern values.
+> >
+Ah, found in c11 standard 6.7.9 item 21
+It is the same as 'static storage duration'.
+I will follow your comment to revise it.
+Thanks.
+> > If to change it from '{0} to '{ }', is it correct?
+> > > > +       /*
+> > > > +        * Pattern list
+> > > > +        * tr1: byte 0, b'[7: 4]
+> > > > +        * tr2: byte 0, b'[3: 0]
+> > > > +        * tf1: byte 1, b'[7: 4]
+> > > > +        * tf2: byte 1, b'[3: 0]
+> > > > +        * ton: byte 2, b'[7: 4]
+> > > > +        * toff: byte 2, b'[3: 0]
+> > > > +        */
+> > > > +       for (i =3D 0; i < P_MAX_PATTERNS; i++) {
+> > > > +               curr =3D pattern + i;
+> > > > +
+> > > > +               sel_range =3D i =3D=3D P_LED_TOFF ? R_LED_TOFF : R_=
+LED_TRFON;
+> > > > +
+> > > > +               linear_range_get_selector_within(priv->ranges + sel=
+_range,
+> > > > +                                                curr->delta_t, &se=
+l);
+> > > > +
+> > > > +               val[i / 2] |=3D sel << (4 * ((i + 1) % 2));
+> > > > +       }
+> > > > +
+> > > > +       memcpy(pattern_val, val, 3);
+> > > > +       return 0;
+> > > > +}
+> > >
+> > > ...
+> > >
+> > > > +out:
+> > >
+> > > out_unlock:
+> > >
+> > > > +       mutex_unlock(&priv->lock);
+> > > > +
+> > > > +       return ret;
+> > >
+> > > ...
+> > >
+> > > > +out:
+> > >
+> > > Ditto. And so on.
+> > >
+> > > > +       mutex_unlock(&priv->lock);
+> > > > +
+> > > > +       return ret;
+> > >
+> > > ...
+> > >
+> > > > +               sub_led =3D devm_kzalloc(priv->dev,
+> > > > +                                      sizeof(*sub_led) * MC_CHANNE=
+L_NUM,
+> > > > +                                      GFP_KERNEL);
+> > >
+> > > NIH devm_kcalloc(). Also check if you really need zeroed data.
+> > >
+> > Ok, and after the check, I also need to add one line to set the intensi=
+ty to 0.
+> > > > +               if (!sub_led)
+> > > > +                       return -ENOMEM;
+> > >
+> > > ...
+> > >
+> > > > +                       ret =3D fwnode_property_read_u32(child, "co=
+lor", &color);
+> > > > +                       if (ret) {
+> > > > +                               dev_err(priv->dev,
+> > > > +                                       "led %d, no color specified=
+\n",
+> > > > +                                       led->index);
+> > > > +                               return ret;
+> > >
+> > > return dev_err_probe(...) ; ?
+> > >
+> > > Ditto for many places in your entire series.
+> > >
+> > > > +                       }
+> > >
+> > > ...
+> > >
+> > > > +       priv =3D devm_kzalloc(&pdev->dev,
+> > > > +                           struct_size(priv, leds, count), GFP_KER=
+NEL);
+> > >
+> > > At least one parameter can be placed on the previous line.
+> > >
+> > > > +       if (!priv)
+> > > > +               return -ENOMEM;
+> > >
+> > > --
+> > > With Best Regards,
+> > > Andy Shevchenko
