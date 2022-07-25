@@ -2,90 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ED1657E2F5
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Jul 2022 16:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C56BC57F9DD
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Jul 2022 09:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234831AbiGVOTt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Jul 2022 10:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51530 "EHLO
+        id S230333AbiGYHHD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Jul 2022 03:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbiGVOTt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Jul 2022 10:19:49 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FE9A6FBB;
-        Fri, 22 Jul 2022 07:19:48 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id c6so608041plc.5;
-        Fri, 22 Jul 2022 07:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=T1q/5UEvjKnmrGkeFgZRytr5DU5kdabjES1IFoO/gqw=;
-        b=N5b2E48s3MFxEm4zDb2HCPhQHt4Urn8emhJOhYSUlZ5Y57Ig163ukqY7GWAh8urYCS
-         HoNK8KFmrEWeuERbb5IRJDMLkwGWh8d6gFpumktZTx0iitGevy10Z/qaTUWKsPNCQefi
-         tgBpDzACKUqQ3W04Vse8a3Ym5LbgWuccclVvYtR+iXeeBcT8306sbxShnNhR+FkoELQE
-         RgJE3w9ydSuqJoeZ5XqQT8lRdGQe7VOQ9EYrs+whGEOfoUv54IzpxHuvLRMOI+Y7qnjJ
-         0ZTHyjIGqCWUJ4pDWCaeRp19ymx/h7u0u11UzLCg29nhJyqlZ4YsiPxey1skCyps7Zm9
-         f8Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=T1q/5UEvjKnmrGkeFgZRytr5DU5kdabjES1IFoO/gqw=;
-        b=MlfIlU20NUsVVV1N6hgkyh9Zqbxk1/HGNG+MfsJ8GetCLkYOvra05Uk3wah+9eH0eq
-         MlYwQMV/hDPQ7TEMNoDc78N+iGfooTBHIa3XbzT1uUhXVorueFkAR9rzPjGviBUV2opX
-         /NXM4sstVqwFn2vi3bZgnUDbsB+y5SJaJJdAE3s9Nutc3vk94+RZnrnHdqnFkk/FHvMv
-         NGHIHwD75pHig5oHWgHhZ3dAFBlyWndZ8TDO52buo6eOty/1zODzkuEXu2nGnF/wmNyg
-         ZZkR6gGFIRS5vgEroNjL8g1GB9hzeGvK9nmgmZ2Z6a3ReW9rw6EpZ4iF1xJpcQtKResS
-         YM/g==
-X-Gm-Message-State: AJIora+s0aIpMf6y+1h/LZta50HaoWBrjODjZTqD012812gdokdfNfgO
-        s5pbW2QkkqyXchirb/qQixw=
-X-Google-Smtp-Source: AGRyM1tXVqYNUy+NFgrAHlDcM01iNexAN7CaAL0uAROXCpeeVwkXmKhPFoUuKttLJzcQ4dpaFH8V7g==
-X-Received: by 2002:a17:903:120f:b0:15f:99f:9597 with SMTP id l15-20020a170903120f00b0015f099f9597mr651270plh.45.1658499587396;
-        Fri, 22 Jul 2022 07:19:47 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y12-20020aa79aec000000b005252a06750esm3913898pfp.182.2022.07.22.07.19.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 07:19:45 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d0c94078-eec5-5924-a2c1-8c94c06364b8@roeck-us.net>
-Date:   Fri, 22 Jul 2022 07:19:42 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+        with ESMTP id S229694AbiGYHHC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Jul 2022 03:07:02 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94140DEC7;
+        Mon, 25 Jul 2022 00:06:54 -0700 (PDT)
+X-UUID: 90b453bb580944f8883dbe434af52809-20220725
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8,REQID:33a33025-2038-4ef5-a669-3b329abc2c66,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:45
+X-CID-INFO: VERSION:1.1.8,REQID:33a33025-2038-4ef5-a669-3b329abc2c66,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+        N:release,TS:45
+X-CID-META: VersionHash:0f94e32,CLOUDID:b6ae67b3-06d2-48ef-b2dd-540836705165,C
+        OID:d24ea36d58f7,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 90b453bb580944f8883dbe434af52809-20220725
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 49096496; Mon, 25 Jul 2022 15:06:46 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Mon, 25 Jul 2022 15:06:45 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 25 Jul 2022 15:06:43 +0800
+Message-ID: <1f1a37daf6f3c19a2506f53689c8efbed2b716c3.camel@mediatek.com>
 Subject: Re: [PATCH v6 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
  tcpci driver
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-        lgirdwood@gmail.com, broonie@kernel.org,
-        heikki.krogerus@linux.intel.com, deller@gmx.de,
-        andy.shevchenko@gmail.com
-Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com,
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>, <lee.jones@linaro.org>,
+        <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
+        <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
+        <sre@kernel.org>, <gregkh@linuxfoundation.org>, <jic23@kernel.org>,
+        <lars@metafoo.de>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+        <linux@roeck-us.net>, <heikki.krogerus@linux.intel.com>,
+        <deller@gmx.de>, <andy.shevchenko@gmail.com>
+CC:     <chiaen_wu@richtek.com>, <alice_chen@richtek.com>,
+        <cy_huang@richtek.com>, <dri-devel@lists.freedesktop.org>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>, <szunichen@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-References: <20220722102407.2205-1-peterwu.pub@gmail.com>
- <20220722102407.2205-9-peterwu.pub@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
+Date:   Mon, 25 Jul 2022 15:06:43 +0800
 In-Reply-To: <20220722102407.2205-9-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20220722102407.2205-1-peterwu.pub@gmail.com>
+         <20220722102407.2205-9-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,7 +77,7 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/22/22 03:24, ChiaEn Wu wrote:
+On Fri, 2022-07-22 at 18:24 +0800, ChiaEn Wu wrote:
 > From: ChiYuan Huang <cy_huang@richtek.com>
 > 
 > The MediaTek MT6370 is a highly-integrated smart power management IC,
@@ -106,31 +90,32 @@ On 7/22/22 03:24, ChiaEn Wu wrote:
 > MediaTek MT6370 IC.
 > 
 > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
 > ---
 > 
 > v6
-> - Convert tcpci as device resource managed with 'devm_add_action_or_reset' API.
+> - Convert tcpci as device resource managed with
+> 'devm_add_action_or_reset' API.
 > - Refine remvoe callback.
 > - Refine the commit text from 'This commit add' to 'Add'.
 > ---
->   drivers/usb/typec/tcpm/Kconfig        |  11 ++
->   drivers/usb/typec/tcpm/Makefile       |   1 +
->   drivers/usb/typec/tcpm/tcpci_mt6370.c | 208 ++++++++++++++++++++++++++++++++++
->   3 files changed, 220 insertions(+)
->   create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
+>  drivers/usb/typec/tcpm/Kconfig        |  11 ++
+>  drivers/usb/typec/tcpm/Makefile       |   1 +
+>  drivers/usb/typec/tcpm/tcpci_mt6370.c | 208
+> ++++++++++++++++++++++++++++++++++
+>  3 files changed, 220 insertions(+)
+>  create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
 > 
-> diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
+> diff --git a/drivers/usb/typec/tcpm/Kconfig
+> b/drivers/usb/typec/tcpm/Kconfig
 > index 073fd2e..e6b88ca 100644
 > --- a/drivers/usb/typec/tcpm/Kconfig
 > +++ b/drivers/usb/typec/tcpm/Kconfig
 > @@ -35,6 +35,17 @@ config TYPEC_MT6360
->   	  USB Type-C. It works with Type-C Port Controller Manager
->   	  to provide USB PD and USB Type-C functionalities.
->   
+>  	  USB Type-C. It works with Type-C Port Controller Manager
+>  	  to provide USB PD and USB Type-C functionalities.
+>  
 > +config TYPEC_TCPCI_MT6370
 > +	tristate "MediaTek MT6370 Type-C driver"
 > +	depends on MFD_MT6370
@@ -142,20 +127,22 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +	  This driver can also be built as a module. The module
 > +	  will be called "tcpci_mt6370".
 > +
->   config TYPEC_TCPCI_MAXIM
->   	tristate "Maxim TCPCI based Type-C chip driver"
->   	help
-> diff --git a/drivers/usb/typec/tcpm/Makefile b/drivers/usb/typec/tcpm/Makefile
+>  config TYPEC_TCPCI_MAXIM
+>  	tristate "Maxim TCPCI based Type-C chip driver"
+>  	help
+> diff --git a/drivers/usb/typec/tcpm/Makefile
+> b/drivers/usb/typec/tcpm/Makefile
 > index 7d499f3..906d9dc 100644
 > --- a/drivers/usb/typec/tcpm/Makefile
 > +++ b/drivers/usb/typec/tcpm/Makefile
 > @@ -6,4 +6,5 @@ typec_wcove-y				:= wcove.o
->   obj-$(CONFIG_TYPEC_TCPCI)		+= tcpci.o
->   obj-$(CONFIG_TYPEC_RT1711H)		+= tcpci_rt1711h.o
->   obj-$(CONFIG_TYPEC_MT6360)		+= tcpci_mt6360.o
+>  obj-$(CONFIG_TYPEC_TCPCI)		+= tcpci.o
+>  obj-$(CONFIG_TYPEC_RT1711H)		+= tcpci_rt1711h.o
+>  obj-$(CONFIG_TYPEC_MT6360)		+= tcpci_mt6360.o
 > +obj-$(CONFIG_TYPEC_TCPCI_MT6370)	+= tcpci_mt6370.o
->   obj-$(CONFIG_TYPEC_TCPCI_MAXIM)		+= tcpci_maxim.o
-> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c b/drivers/usb/typec/tcpm/tcpci_mt6370.c
+>  obj-$(CONFIG_TYPEC_TCPCI_MAXIM)		+= tcpci_maxim.o
+> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c
+> b/drivers/usb/typec/tcpm/tcpci_mt6370.c
 > new file mode 100644
 > index 0000000..4f53319
 > --- /dev/null
@@ -211,7 +198,8 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +	REG_SEQ(0x9B, 0x3A, 1000),
 > +};
 > +
-> +static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data *data)
+> +static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data
+> *data)
 > +{
 > +	u16 did;
 > +	int ret;
@@ -221,17 +209,20 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +	if (ret)
 > +		return ret;
 > +
-> +	ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did, sizeof(u16));
+> +	ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did,
+> sizeof(u16));
 > +	if (ret)
 > +		return ret;
 > +
 > +	if (did == MT6370_TCPC_DID_A)
-> +		return regmap_write(data->regmap, TCPC_FAULT_CTRL, 0x80);
+> +		return regmap_write(data->regmap, TCPC_FAULT_CTRL,
+> 0x80);
 > +
 > +	return 0;
 > +}
 > +
-> +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
+> +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct
+> tcpci_data *data,
 > +				 bool enable)
 > +{
 > +	return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
@@ -239,10 +230,14 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +				  !enable ? MT6370_AUTOIDLE_MASK : 0);
 > +}
 > +
-> +static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data,
+> +static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct
+> tcpci_data *data,
 > +				bool source, bool sink)
+@sink is not used in this function?
+
 > +{
-> +	struct mt6370_priv *priv = container_of(data, struct mt6370_priv,
+> +	struct mt6370_priv *priv = container_of(data, struct
+> mt6370_priv,
 > +						tcpci_data);
 > +	int ret;
 > +
@@ -272,13 +267,15 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +	u16 vid;
 > +	int ret;
 > +
-> +	ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
+> +	ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid,
+> sizeof(u16));
 > +	if (ret)
 > +		return ret;
 > +
 > +	if (vid != MT6370_VENDOR_ID)
 > +		return dev_err_probe(priv->dev, -ENODEV,
-> +				     "Vendor ID not correct 0x%02x\n", vid);
+> +				     "Vendor ID not correct 0x%02x\n",
+> vid);
 > +
 > +	return 0;
 > +}
@@ -302,7 +299,8 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +
 > +	priv->tcpci_data.regmap = dev_get_regmap(dev->parent, NULL);
 > +	if (!priv->tcpci_data.regmap)
-> +		return dev_err_probe(dev, -ENODEV, "Failed to init regmap\n");
+> +		return dev_err_probe(dev, -ENODEV, "Failed to init
+> regmap\n");
 > +
 > +	ret = mt6370_check_vendor_info(priv);
 > +	if (ret)
@@ -324,17 +322,22 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +	priv->tcpci = tcpci_register_port(dev, &priv->tcpci_data);
 > +	if (IS_ERR(priv->tcpci))
 > +		return dev_err_probe(dev, PTR_ERR(priv->tcpci),
-> +				     "Failed to register tcpci port\n");
+> +				     "Failed to register tcpci
+> port\n");
 > +
-> +	ret = devm_add_action_or_reset(dev, mt6370_unregister_tcpci_port,
+> +	ret = devm_add_action_or_reset(dev,
+> mt6370_unregister_tcpci_port,
 > +				       priv->tcpci);
 > +	if (ret)
 > +		return ret;
 > +
-> +	ret = devm_request_threaded_irq(dev, irq, NULL, mt6370_irq_handler,
-> +					IRQF_ONESHOT, dev_name(dev), priv);
+> +	ret = devm_request_threaded_irq(dev, irq, NULL,
+> mt6370_irq_handler,
+> +					IRQF_ONESHOT, dev_name(dev),
+> priv);
 > +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to allocate irq\n");
+> +		return dev_err_probe(dev, ret, "Failed to allocate
+> irq\n");
 > +
 > +	device_init_wakeup(dev, true);
 > +	dev_pm_set_wake_irq(dev, irq);
@@ -367,6 +370,7 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > +module_platform_driver(mt6370_tcpc_driver);
 > +
 > +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-> +MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface Driver");
+> +MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface
+> Driver");
 > +MODULE_LICENSE("GPL v2");
 
