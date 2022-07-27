@@ -2,59 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D74E458213C
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Jul 2022 09:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B855823BC
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Jul 2022 12:04:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbiG0Hhk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 27 Jul 2022 03:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40460 "EHLO
+        id S229963AbiG0KEj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 Jul 2022 06:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbiG0Hhh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Jul 2022 03:37:37 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27D63B950;
-        Wed, 27 Jul 2022 00:37:36 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id y9so12106192qtv.5;
-        Wed, 27 Jul 2022 00:37:36 -0700 (PDT)
+        with ESMTP id S229449AbiG0KEi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Jul 2022 06:04:38 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8503D1707A;
+        Wed, 27 Jul 2022 03:04:37 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id s9so1513421edd.8;
+        Wed, 27 Jul 2022 03:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7wBtopi5nrrnF3/tK6d3mUXKRzW2T+DIHWRi/Z/g55U=;
-        b=JrXv07SnypKXIiO9c1hDaO1ve2XFoCQh3YJA9N0xzJ8VKdcy+NOWbVByEfE93yA1bT
-         Tl79vU21bY1Riyh5vdmQjiXNRM6Y+lisVzjlFGA12N5TkfsJVvBTZVM+DXhLMCRLgtAT
-         CWazI0B5gaYgTPfT/LBhBjVu7eM5hrdl/RUhg4FDmsUWR19oAbFy6HoE9edFHPyenD8T
-         Qf2WPKI/e5SPnIeUMPrpopEK3VVMRKkcz81I6LE01vsC+va5BFGobzRlWIltgg+x4gCQ
-         EHVJv70L2zauSaiZEF5yiD6RME26xNIBHXc93G+wfeZxZyIdgW4ZKl6QFkorqrFDfTKD
-         6LhA==
+        bh=B+itH6nCjnZkG3yJTUkgH3T3RkzlJIEijujwFkNTeHs=;
+        b=cG/IRfZwWO83wiK8SoAZgFegp/oSsSTdk6uMQXsyEzBbyDQ15vq0yzVYGG9pEdfz0Z
+         ZOOouCQXEYxdPO6EleD7jGQocetQsqrcx2C7y57nBleaH3XWNh/p9EZXeeMxomYeea0n
+         ccGpQbPM3KyJhbgX8FqfpXge+UD+lyXVuyBlv7AUvzyTYioFKkLUVdtqpGd8x6O73yOd
+         o3BHcOkkAf6zj76YWhjS7ePObKwBxNP5KslRU9Zg6sRbYapoWTeSb3rLO4m4qR/dd5mY
+         Xo/AD9faus7q33rPJGp/5b3BvXu4+tVOAzawSfBgIW64yo4mi098uiZmqwCRYHPukGG4
+         n1TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7wBtopi5nrrnF3/tK6d3mUXKRzW2T+DIHWRi/Z/g55U=;
-        b=6Jat2MyN2X/bCcy4KChsFEgToktjw+TM2nIp1GsWV6ZzmD6Rvuyrj1WVCZLEay7Yy8
-         q74Yij3pzdIaz/b3Dx1814Y7F7SZ4G/HV33u1NUwo1HFCib9KKUGzmTEDTFzeUjfU0Bs
-         QX31Xn8Ix8XeXydaf8AcdSF3TvwfwPs2BaLCmimOEG8poqkdfChiJgGU3sbSMzaEOAPp
-         tjrZy4no79UXKPkp/eBai9E81Hw5Bzcf2HNvuOYOYl0cPXcPSChnTM9IDK5Jn7McZXoP
-         xHO/bCA9YNSGqGzehOVJ5hVsFJnBC1xruUQWUOhNGDVuRflhxLBmPlRaFHVf97VUhQHe
-         GsuA==
-X-Gm-Message-State: AJIora+ycXd0R3vO91GJKaKDVU9HJPaB0TnRR6u89peGwkCT5WgXMS1m
-        XRVpcxeT3Rf2n10XEOj8napxn7O9AWFngkOo0UeP0b2UjH0=
-X-Google-Smtp-Source: AGRyM1sXpKQZrYG0IbOgoxNKanSErlzr5LcY9lrHn4FGhRFmisG96yuJDLZQZGtegCOB6F8ydUZqqM5XWqwFIZtxfFQ=
-X-Received: by 2002:a05:622a:6098:b0:2f0:f0d2:b5f0 with SMTP id
- hf24-20020a05622a609800b002f0f0d2b5f0mr17361865qtb.583.1658907456035; Wed, 27
- Jul 2022 00:37:36 -0700 (PDT)
+        bh=B+itH6nCjnZkG3yJTUkgH3T3RkzlJIEijujwFkNTeHs=;
+        b=WZvdnm+5h1mw7E7184OppTLgdI+dpROLmMCyx5DBGjK/s80lN7hvcVQI+oj4ijVu/Q
+         U4dDqaslZPcIQSTZTNBqHNyt7PlVm51pJDfIFXczr6RwYbT0QHOvS04HopHySpRF5UCq
+         9c8dP2KT5jWGqgSq9Q9C04l4sp7OzPGptXAsbRD04zI/TV//5afpOaB1k+CRyfw/pUre
+         bC1L8TGz5SzKC7rm7Fga6ocYtemAPWsqUcgc62QBKsh0cJVAuTnYlWsXWvnbysMBOi/L
+         6fwPu65OLjoeDnX9yCYsccd5hQMQ4zmMiR/jV9lHcNxucQblpkj6aAxQh0RHmBtdb7Dr
+         VzbA==
+X-Gm-Message-State: AJIora8gA4iaqKaVRMNGG8fVnCyEJHFxIQO4B38XkaQtAB3q4kbM+SkH
+        l5KStbo1QYRQPa3HInvHJTaz5Z1pCP6Cg2eppd0=
+X-Google-Smtp-Source: AGRyM1uwEejs5nDWqG+s979XFdwYwQmE2ZsEpW0n4nQQ7TCJsCqlYSNktlo34cJclnigei8K3rZk9qCXUcGHByv5Ilw=
+X-Received: by 2002:a05:6402:501d:b0:437:e000:a898 with SMTP id
+ p29-20020a056402501d00b00437e000a898mr22474219eda.265.1658916275876; Wed, 27
+ Jul 2022 03:04:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220722102407.2205-1-peterwu.pub@gmail.com> <20220722102407.2205-12-peterwu.pub@gmail.com>
  <CAHp75VewxvEDGoPdRBvLSLQOQ6OZzVft1ce3DkF7MK_O1VXZkQ@mail.gmail.com>
- <CABtFH5+im7=vyKLUqztYeAX81e7ETFc+9o7y0seg2pxH0PEnUQ@mail.gmail.com> <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com>
-In-Reply-To: <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com>
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Wed, 27 Jul 2022 15:36:59 +0800
-Message-ID: <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
+ <CABtFH5+im7=vyKLUqztYeAX81e7ETFc+9o7y0seg2pxH0PEnUQ@mail.gmail.com>
+ <CAHp75Vd4ApTju2LCCHQ1skgOjttwWo5b2NF3u+zbGyVnnFKNhA@mail.gmail.com> <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
+In-Reply-To: <CABtFH5+bQx5ym5jOzCPJWbZ23WtGYYwS7cMRt2g3ipEEqTb3JA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 27 Jul 2022 12:03:59 +0200
+Message-ID: <CAHp75Vf7jeG_DmD3sZnerFDEVpMxDiL9DkMBddAk-kJH7Hfttg@mail.gmail.com>
 Subject: Re: [PATCH v6 11/13] leds: rgb: mt6370: Add MediaTek MT6370 current
  sink type LED Indicator support
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
 Cc:     Lee Jones <lee.jones@linaro.org>,
         Daniel Thompson <daniel.thompson@linaro.org>,
         Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
@@ -97,46 +98,51 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 8:18 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-
-...
-
-> > Just for saving memory space.
-> > Because these led_classdevs do not be used at the same time.
-> > Or do you think it would be better to rewrite it as follows?
-> > -------------------------------------------------------------------------------------
-> > struct mt6370_led {
-> >        struct led_classdev isink;
-> >        struct led_classdev_mc mc;
-> >        struct mt6370_priv *priv;
-> >        u32 default_state;
-> >        u32 index;
-> > };
-> > -------------------------------------------------------------------------------------
+On Wed, Jul 27, 2022 at 9:37 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> On Tue, Jul 26, 2022 at 8:18 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
 >
-> You obviously didn't get what I'm talking about...
-> Each union to work properly should have an associated variable that
-> holds the information of which field of the union is in use. Do you
-> have such a variable? If not, how does your code know which one to
-> use? If yes, add a proper comment there.
+> ...
 >
+> > > Just for saving memory space.
+> > > Because these led_classdevs do not be used at the same time.
+> > > Or do you think it would be better to rewrite it as follows?
+> > > -------------------------------------------------------------------------------------
+> > > struct mt6370_led {
+> > >        struct led_classdev isink;
+> > >        struct led_classdev_mc mc;
+> > >        struct mt6370_priv *priv;
+> > >        u32 default_state;
+> > >        u32 index;
+> > > };
+> > > -------------------------------------------------------------------------------------
+> >
+> > You obviously didn't get what I'm talking about...
+> > Each union to work properly should have an associated variable that
+> > holds the information of which field of the union is in use. Do you
+> > have such a variable? If not, how does your code know which one to
+> > use? If yes, add a proper comment there.
+> >
+>
+> Ummm... from my understanding,
+> if the colors of these four LEDs are set to 'LED_COLOR_ID_RGB' or
+> 'LED_COLOR_ID_MULTI' in DT,
+> their 'led->index' will be set to 'MT6370_VIRTUAL_MULTICOLOR' in
+> 'mt6370_leds_probe()'.
+> If so, these led devices will be set as 'struct led_classdev_mc' and
+> use related ops functions in 'mt6370_init_led_properties()'.
+> Instead, they whose 'led->index' is not 'MT6370_VIRTUAL_MULTICOLOR'
+> will be set as 'struct led_classdev'.
+> So, maybe the member 'index' of the 'struct mt6370_led' is what you
+> describe the information of which field of the union is in use?
 
-Ummm... from my understanding,
-if the colors of these four LEDs are set to 'LED_COLOR_ID_RGB' or
-'LED_COLOR_ID_MULTI' in DT,
-their 'led->index' will be set to 'MT6370_VIRTUAL_MULTICOLOR' in
-'mt6370_leds_probe()'.
-If so, these led devices will be set as 'struct led_classdev_mc' and
-use related ops functions in 'mt6370_init_led_properties()'.
-Instead, they whose 'led->index' is not 'MT6370_VIRTUAL_MULTICOLOR'
-will be set as 'struct led_classdev'.
-So, maybe the member 'index' of the 'struct mt6370_led' is what you
-describe the information of which field of the union is in use?
-I will add the proper comment here to describe this thing. I'm so
-sorry for misunderstanding your mean last time.
-Thanks again for your review.
+From this description it sounds like it is.
+
+> I will add the proper comment here to describe this thing. I'm so
+> sorry for misunderstanding your mean last time.
+
+Yes, please add a compressed version of what you said above to the code.
 
 -- 
-Best Regards,
-ChiaEn Wu
+With Best Regards,
+Andy Shevchenko
