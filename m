@@ -2,62 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78860588532
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 02:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72909588543
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 03:05:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235143AbiHCAzp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Aug 2022 20:55:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55692 "EHLO
+        id S235364AbiHCBFt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 2 Aug 2022 21:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234882AbiHCAzp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Aug 2022 20:55:45 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A617A62EC;
-        Tue,  2 Aug 2022 17:55:43 -0700 (PDT)
+        with ESMTP id S234910AbiHCBFp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Aug 2022 21:05:45 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4314911476;
+        Tue,  2 Aug 2022 18:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659488143; x=1691024143;
+  t=1659488743; x=1691024743;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4ZfF/etMJCz1X4rARTMDWBQFVurQgR01wP/BTASJ5OE=;
-  b=W3zHSY4gkxq0w8Bhb8rKXJxHy8AEkaplX4QApyeN5QFh85hqvxLbEb1U
-   AOggsvz0aYiwV4voGMw8RTl1AHGWI+4wb3Bf9SFmYco1Luc+35XW2gRij
-   QFYRFwemYrcV9XfC7YUdyD8KqrDxAdA0036F3nTZqe7LMkKq2wozNjmis
-   M8Jbg5URCi65eJoZsmhVbdhHqjAFOm6s2TGnI62tnhFk1nSjhK9BPC/QP
-   o7NrfawXhUfOWxoZ5lRosO1cAD441rzE3KP9lCw8G0T/FybLe8rjKWKAc
-   bSKIdRsGI1WOBLkFAIM22lVvL0++eFIoy1WYSc/3bI7X1GtPaDvg95CPi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="290767989"
+  bh=fG0SfUv60QUrMeLSFbWDuntgIs0PdphLkGOfDYE6X84=;
+  b=Tc/UIbXHMrk6IAKp7jHHFZ5svXOs1p305QZ/b/CRMzzSS8KaKmRMTJXA
+   oPOX5xkYAvv2lDlCRcKaiXeBmIR3JXKpRftHK3r/UaGc+vHoNQlmv+6vh
+   f/ykU4Px/Y4kPuuyVBFT89XsJ2rcphLXEhGsqpoOBG11r59kD/h7QGDa5
+   U03/PmotFhJn2vY2iiIGnZ/GJSklDHA0pSB8I7kGJmd7M1YJ5VTOiPyfp
+   WnE7TZQXLoem7PefczyU5fRyOwXWX+Sem31S3GwHWCPQR+bhEjJ8WxA0O
+   3/lcU05/MQ2VyQWE8kh/REKZKcojit5lnX9Y5Gk38RxDi2+aR5DTXtZo/
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="269325497"
 X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; 
-   d="scan'208";a="290767989"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 17:55:43 -0700
+   d="scan'208";a="269325497"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 18:05:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; 
-   d="scan'208";a="630937106"
+   d="scan'208";a="930189178"
 Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 17:55:41 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Aug 2022 18:05:41 -0700
 Received: from kbuild by e0eace57cfef with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oJ2fk-000GdB-2F;
-        Wed, 03 Aug 2022 00:55:40 +0000
-Date:   Wed, 3 Aug 2022 08:55:12 +0800
+        id 1oJ2pQ-000GdT-2k;
+        Wed, 03 Aug 2022 01:05:40 +0000
+Date:   Wed, 3 Aug 2022 09:05:33 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
         Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v1 1/1] leds: syscon: Get rid of custom
+Subject: Re: [PATCH v1 1/1] leds: bcm6328: Get rid of custom
  led_init_default_state_get()
-Message-ID: <202208030858.VhHvPCPM-lkp@intel.com>
-References: <20220802212507.6995-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <202208030838.PJKVWL10-lkp@intel.com>
+References: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220802212507.6995-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,17 +74,17 @@ I love your patch! Yet something to improve:
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-syscon-Get-rid-of-custom-led_init_default_state_get/20220803-052528
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
 base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: hexagon-randconfig-r041-20220801 (https://download.01.org/0day-ci/archive/20220803/202208030858.VhHvPCPM-lkp@intel.com/config)
+config: hexagon-randconfig-r045-20220802 (https://download.01.org/0day-ci/archive/20220803/202208030838.PJKVWL10-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/485abd71bd954b7a2d1ea89818ca5c925714b1e1
+        # https://github.com/intel-lab-lkp/linux/commit/514383e5dd28e25f812c88b0454a02d59e4d205c
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/leds-syscon-Get-rid-of-custom-led_init_default_state_get/20220803-052528
-        git checkout 485abd71bd954b7a2d1ea89818ca5c925714b1e1
+        git fetch --no-tags linux-review Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
+        git checkout 514383e5dd28e25f812c88b0454a02d59e4d205c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/leds/
@@ -94,83 +94,79 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/leds/leds-syscon.c:92:10: error: call to undeclared function 'led_init_default_state_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>> drivers/leds/leds-bcm6328.c:353:10: error: call to undeclared function 'led_init_default_state_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
            state = led_init_default_state_get(init_data.fwnode);
                    ^
    1 error generated.
 
 
-vim +/led_init_default_state_get +92 drivers/leds/leds-syscon.c
+vim +/led_init_default_state_get +353 drivers/leds/leds-bcm6328.c
 
-    55	
-    56	static int syscon_led_probe(struct platform_device *pdev)
-    57	{
-    58		struct led_init_data init_data = {};
-    59		struct device *dev = &pdev->dev;
-    60		struct device_node *np = dev_of_node(dev);
-    61		struct device *parent;
-    62		struct regmap *map;
-    63		struct syscon_led *sled;
-    64		enum led_default_state state;
-    65		u32 value;
-    66		int ret;
-    67	
-    68		parent = dev->parent;
-    69		if (!parent) {
-    70			dev_err(dev, "no parent for syscon LED\n");
-    71			return -ENODEV;
-    72		}
-    73		map = syscon_node_to_regmap(dev_of_node(parent));
-    74		if (IS_ERR(map)) {
-    75			dev_err(dev, "no regmap for syscon LED parent\n");
-    76			return PTR_ERR(map);
-    77		}
-    78	
-    79		sled = devm_kzalloc(dev, sizeof(*sled), GFP_KERNEL);
-    80		if (!sled)
-    81			return -ENOMEM;
-    82	
-    83		sled->map = map;
-    84	
-    85		if (of_property_read_u32(np, "offset", &sled->offset))
-    86			return -EINVAL;
-    87		if (of_property_read_u32(np, "mask", &sled->mask))
-    88			return -EINVAL;
-    89	
-    90		init_data.fwnode = of_fwnode_handle(np);
-    91	
-  > 92		state = led_init_default_state_get(init_data.fwnode);
-    93		switch (state) {
-    94		case LEDS_DEFSTATE_ON:
-    95			ret = regmap_update_bits(map, sled->offset, sled->mask, sled->mask);
-    96			if (ret < 0)
-    97				return ret;
-    98			sled->state = true;
-    99			break;
-   100		case LEDS_DEFSTATE_KEEP:
-   101			ret = regmap_read(map, sled->offset, &value);
-   102			if (ret < 0)
-   103				return ret;
-   104			sled->state = !!(value & sled->mask);
-   105			break;
-   106		default:
-   107			ret = regmap_update_bits(map, sled->offset, sled->mask, 0);
-   108			if (ret < 0)
-   109				return ret;
-   110			sled->state = false;
-   111		}
-   112		sled->cdev.brightness_set = syscon_led_set;
-   113	
-   114		ret = devm_led_classdev_register_ext(dev, &sled->cdev, &init_data);
-   115		if (ret < 0)
-   116			return ret;
-   117	
-   118		platform_set_drvdata(pdev, sled);
-   119		dev_info(dev, "registered LED %s\n", sled->cdev.name);
-   120	
-   121		return 0;
-   122	}
-   123	
+   326	
+   327	static int bcm6328_led(struct device *dev, struct device_node *nc, u32 reg,
+   328			       void __iomem *mem, spinlock_t *lock,
+   329			       unsigned long *blink_leds, unsigned long *blink_delay)
+   330	{
+   331		struct led_init_data init_data = {};
+   332		struct bcm6328_led *led;
+   333		enum led_default_state state;
+   334		unsigned long val, shift;
+   335		void __iomem *mode;
+   336		int rc;
+   337	
+   338		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+   339		if (!led)
+   340			return -ENOMEM;
+   341	
+   342		led->pin = reg;
+   343		led->mem = mem;
+   344		led->lock = lock;
+   345		led->blink_leds = blink_leds;
+   346		led->blink_delay = blink_delay;
+   347	
+   348		if (of_property_read_bool(nc, "active-low"))
+   349			led->active_low = true;
+   350	
+   351		init_data.fwnode = of_fwnode_handle(nc);
+   352	
+ > 353		state = led_init_default_state_get(init_data.fwnode);
+   354		switch (state) {
+   355		case LEDS_DEFSTATE_ON:
+   356			led->cdev.brightness = LED_FULL;
+   357			break;
+   358		case LEDS_DEFSTATE_KEEP:
+   359			shift = bcm6328_pin2shift(led->pin);
+   360			if (shift / 16)
+   361				mode = mem + BCM6328_REG_MODE_HI;
+   362			else
+   363				mode = mem + BCM6328_REG_MODE_LO;
+   364	
+   365			val = bcm6328_led_read(mode) >> BCM6328_LED_SHIFT(shift % 16);
+   366			val &= BCM6328_LED_MODE_MASK;
+   367			if ((led->active_low && val == BCM6328_LED_MODE_OFF) ||
+   368			    (!led->active_low && val == BCM6328_LED_MODE_ON))
+   369				led->cdev.brightness = LED_FULL;
+   370			else
+   371				led->cdev.brightness = LED_OFF;
+   372			break;
+   373		default:
+   374			led->cdev.brightness = LED_OFF;
+   375		}
+   376	
+   377		bcm6328_led_set(&led->cdev, led->cdev.brightness);
+   378	
+   379		led->cdev.brightness_set = bcm6328_led_set;
+   380		led->cdev.blink_set = bcm6328_blink_set;
+   381	
+   382		rc = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+   383		if (rc < 0)
+   384			return rc;
+   385	
+   386		dev_dbg(dev, "registered LED %s\n", led->cdev.name);
+   387	
+   388		return 0;
+   389	}
+   390	
 
 -- 
 0-DAY CI Kernel Test Service
