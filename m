@@ -2,65 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEAED588544
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 03:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB17588551
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 03:16:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiHCBFu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Aug 2022 21:05:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33624 "EHLO
+        id S234882AbiHCBQq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 2 Aug 2022 21:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235306AbiHCBFr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Aug 2022 21:05:47 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B84CA1C123;
-        Tue,  2 Aug 2022 18:05:45 -0700 (PDT)
+        with ESMTP id S234911AbiHCBQp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Aug 2022 21:16:45 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303DE54647;
+        Tue,  2 Aug 2022 18:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659488745; x=1691024745;
+  t=1659489404; x=1691025404;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=m2MupJwe/gULHtIjsCr/h/eqv3CTg1GXXXRhryy/IkU=;
-  b=PyWf7IRuVwkq9vYWgp3nTw3Djusn5RhhsSYBlt2MjxT+t5BJV3aU5azx
-   dXPkNEnDU3e6qAnCmfq7olr08nguY/GiN61KP1VyEfWNu++xWofQ0NtQS
-   g0SM2WlgblfsrCxu2JVKEu2l2pMPvRSvDSLS86rxJ847re78ZE3EEERWs
-   wWVe7WNgAJugFWfCO42Caho17dfbvoWJDHDLfKFdAquIbB7DmZ1tQYzFk
-   ctkycCBsa2AXQR/a/nPXPjPDk/g7QGrSOKxHMvvSdNeudig71gPMv/Ob8
-   35qnb/7Bl4YCtpgfXF/J90f1vtNR4znq8Xt/y/NHfJsTJ3+Vl5othyghX
+  bh=z30jiwqxYungx4RUyICnlg/pLFR417/GCMVuPX0HlwI=;
+  b=E3nxrkVvZx83Z7YlqXfFUJI8ZHy9tTxCDnm0siJKppnW1jg320VuWy4s
+   8xh33EthREnl0McC5O+3K0OAQRukrVq9MX1IVtH8ClZVAfH/VZoXoGP+V
+   NJkAZtAm2WThtj/bCvgnoQRAEqmIePTCFGUGURfJKF6ey8nAhPhxvxwah
+   V1VRCtrdfzL+XnFK7cwrVX0+WvwGraALnWQ3o29RpPxS911MbXbas2YnF
+   PngJNE8822BL9ncCjqN/JREFo4ryaqtcioNGkeTBgWtF/V20iywbC1rOX
+   yBIvuBuaMIgSNCNBpfLMPG8Hw5UKIz1j7aLSs4doqoxy3f9YBJC+vg+Cm
    Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="269325507"
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="353559020"
 X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; 
-   d="scan'208";a="269325507"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 18:05:44 -0700
+   d="scan'208";a="353559020"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 18:16:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,212,1654585200"; 
-   d="scan'208";a="635493707"
+   d="scan'208";a="692058813"
 Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Aug 2022 18:05:41 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Aug 2022 18:16:41 -0700
 Received: from kbuild by e0eace57cfef with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oJ2pQ-000GdX-2t;
-        Wed, 03 Aug 2022 01:05:40 +0000
-Date:   Wed, 3 Aug 2022 09:05:34 +0800
+        id 1oJ305-000Ge3-0x;
+        Wed, 03 Aug 2022 01:16:41 +0000
+Date:   Wed, 3 Aug 2022 09:16:14 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Sean Wang <sean.wang@mediatek.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v1 1/1] leds: mt6323: Get rid of custom
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v1 1/1] leds: pm8058: Get rid of custom
  led_init_default_state_get()
-Message-ID: <202208030841.jfVsINQD-lkp@intel.com>
-References: <20220802212537.7122-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <202208030942.Sh3TajDz-lkp@intel.com>
+References: <20220802212513.7029-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220802212537.7122-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220802212513.7029-1-andriy.shevchenko@linux.intel.com>
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -77,61 +74,104 @@ I love your patch! Yet something to improve:
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-mt6323-Get-rid-of-custom-led_init_default_state_get/20220803-052811
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-pm8058-Get-rid-of-custom-led_init_default_state_get/20220803-052610
 base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: x86_64-randconfig-a005-20220801 (https://download.01.org/0day-ci/archive/20220803/202208030841.jfVsINQD-lkp@intel.com/config)
+config: arm-buildonly-randconfig-r002-20220801 (https://download.01.org/0day-ci/archive/20220803/202208030942.Sh3TajDz-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00cabf479aa7eb6dbb063b7ba41ea57bce9e)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/30cc6458329b3d5a593e0d2173dc63d8dc6446f5
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/58bf03fa835e906a28c49e4aef6060d140239d7f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/leds-mt6323-Get-rid-of-custom-led_init_default_state_get/20220803-052811
-        git checkout 30cc6458329b3d5a593e0d2173dc63d8dc6446f5
+        git fetch --no-tags linux-review Andy-Shevchenko/leds-pm8058-Get-rid-of-custom-led_init_default_state_get/20220803-052610
+        git checkout 58bf03fa835e906a28c49e4aef6060d140239d7f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/leds/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/leds/leds-mt6323.c:345:10: error: call to undeclared function 'led_init_default_state_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           state = led_init_default_state_get(of_fwnode_handle(np));
+>> drivers/leds/leds-pm8058.c:130:10: error: call to undeclared function 'led_init_default_state_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           state = led_init_default_state_get(init_data.fwnode);
                    ^
    1 error generated.
 
 
-vim +/led_init_default_state_get +345 drivers/leds/leds-mt6323.c
+vim +/led_init_default_state_get +130 drivers/leds/leds-pm8058.c
 
-   337	
-   338	static int mt6323_led_set_dt_default(struct led_classdev *cdev,
-   339					     struct device_node *np)
-   340	{
-   341		struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
-   342		enum led_default_state state;
-   343		int ret = 0;
-   344	
- > 345		state = led_init_default_state_get(of_fwnode_handle(np));
-   346		switch (state) {
-   347		case LEDS_DEFSTATE_ON:
-   348			ret = mt6323_led_set_brightness(cdev, cdev->max_brightness);
-   349			break;
-   350		case LEDS_DEFSTATE_KEEP:
-   351			ret = mt6323_get_led_hw_brightness(cdev);
-   352			if (ret < 0)
-   353				return ret;
-   354			led->current_brightness = ret;
-   355			ret = 0;
-   356			break;
-   357		default:
-   358			ret = mt6323_led_set_brightness(cdev, LED_OFF);
-   359		}
-   360	
-   361		return ret;
-   362	}
-   363	
+    87	
+    88	static int pm8058_led_probe(struct platform_device *pdev)
+    89	{
+    90		struct led_init_data init_data = {};
+    91		struct device *dev = &pdev->dev;
+    92		struct pm8058_led *led;
+    93		struct device_node *np;
+    94		int ret;
+    95		struct regmap *map;
+    96		enum led_brightness maxbright;
+    97		enum led_default_state state;
+    98	
+    99		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+   100		if (!led)
+   101			return -ENOMEM;
+   102	
+   103		led->ledtype = (u32)(unsigned long)of_device_get_match_data(dev);
+   104	
+   105		map = dev_get_regmap(dev->parent, NULL);
+   106		if (!map) {
+   107			dev_err(dev, "Parent regmap unavailable.\n");
+   108			return -ENXIO;
+   109		}
+   110		led->map = map;
+   111	
+   112		np = dev_of_node(dev);
+   113	
+   114		ret = of_property_read_u32(np, "reg", &led->reg);
+   115		if (ret) {
+   116			dev_err(dev, "no register offset specified\n");
+   117			return -EINVAL;
+   118		}
+   119	
+   120		led->cdev.brightness_set = pm8058_led_set;
+   121		led->cdev.brightness_get = pm8058_led_get;
+   122		if (led->ledtype == PM8058_LED_TYPE_COMMON)
+   123			maxbright = 31; /* 5 bits */
+   124		else
+   125			maxbright = 15; /* 4 bits */
+   126		led->cdev.max_brightness = maxbright;
+   127	
+   128		init_data.fwnode = of_fwnode_handle(np);
+   129	
+ > 130		state = led_init_default_state_get(init_data.fwnode);
+   131		switch (state) {
+   132		case LEDS_DEFSTATE_ON:
+   133			led->cdev.brightness = maxbright;
+   134			pm8058_led_set(&led->cdev, maxbright);
+   135			break;
+   136		case LEDS_DEFSTATE_KEEP:
+   137			led->cdev.brightness = pm8058_led_get(&led->cdev);
+   138			break;
+   139		default:
+   140			led->cdev.brightness = LED_OFF;
+   141			pm8058_led_set(&led->cdev, LED_OFF);
+   142		}
+   143	
+   144		if (led->ledtype == PM8058_LED_TYPE_KEYPAD ||
+   145		    led->ledtype == PM8058_LED_TYPE_FLASH)
+   146			led->cdev.flags	= LED_CORE_SUSPENDRESUME;
+   147	
+   148		ret = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+   149		if (ret)
+   150			dev_err(dev, "Failed to register LED for %pOF\n", np);
+   151	
+   152		return ret;
+   153	}
+   154	
 
 -- 
 0-DAY CI Kernel Test Service
