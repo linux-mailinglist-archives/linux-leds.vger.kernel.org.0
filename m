@@ -2,180 +2,174 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35830588B70
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 13:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD6CC588BE5
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 14:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234887AbiHCLoO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 3 Aug 2022 07:44:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60760 "EHLO
+        id S237843AbiHCMWJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 3 Aug 2022 08:22:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234710AbiHCLoN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 3 Aug 2022 07:44:13 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE41E8A;
-        Wed,  3 Aug 2022 04:44:12 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id l19so1824127wms.1;
-        Wed, 03 Aug 2022 04:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=LUgPmzfFrSU+sgyYZ7FLrRfFna9TgeCoupYf3hfmbVM=;
-        b=I5iSeXD2E2HuW+RNmn6sqrIRZoU+oUnjHcoBMjjcK4Fg829T1o0xuSuO8J8DhWV7ED
-         vEEgRzHzWk8Hf5b0vVxS0E+I/ioiSjXGxTdpFo84jTNaNHHkTLBbMNXwkUbAFukospM1
-         f2ra3pCkANb2SQe17MGW1JGk3eLcjLZh6ORaMEWvR0Sdv+6uztD+KE6v+j2u34NNWqDk
-         WzmS8bf3SUBYUpN/flrHKDDvUrEuXDKgajCogUm/R+jn6rLi5bYgl6TEVHQmLlEI5Le/
-         Iz0cY1QqZlAcGiCkmE6Da3h8OW+kzCLhXHoQ0vZuCoMp/Xq/ZjO5LGpCcadpFevI8Dej
-         KXTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=LUgPmzfFrSU+sgyYZ7FLrRfFna9TgeCoupYf3hfmbVM=;
-        b=C6FLilupqZG6VVWbgjX48ZG9Pld6ROa2CO3peRFQVSBVtyxRmBjjjH4Uc4HZUdyfmj
-         Yi1Oafg+/9uwP0vYB8RZ8KI8Q89jOT92MPWt+1IrRwfjchaA+Qmsle34swkdmvNpbzm8
-         SCEcHrYxzEcw9H+MPkfc4LyNNbrZymqYLsAZs6Wry7gCa+ZSBv/UvB3syIyBT4digNzr
-         9DjVST/nrrWcvIL5T/cgE5DyVAasravWbL+X7Iy1GOxjN/kMASylNMGeTdww3SHbhbvC
-         4ZozLqVXja2JxNjPqiTpfrmxJDxmITKu74sYkmC6VPEPxosgAuwbCB0gVKdyoVvMYZIJ
-         CIzw==
-X-Gm-Message-State: ACgBeo0mRh6PUdiE4+JtEHbaru7ul3w7TamSwi3/xG3Qs/mfus7P4qh0
-        P+S9WfhlnNYTWzH+r9MVAvAt/YczCqMgqw==
-X-Google-Smtp-Source: AA6agR7Vug208ac1x5wt34gy+nfQqrOWgxntapVKh5V13+9AI/VPo4Tyuie4HoKDtGIXcWNmktMXzw==
-X-Received: by 2002:a05:600c:34c9:b0:3a4:f1d7:edbd with SMTP id d9-20020a05600c34c900b003a4f1d7edbdmr2569978wmq.128.1659527050494;
-        Wed, 03 Aug 2022 04:44:10 -0700 (PDT)
-Received: from [192.168.1.145] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id p36-20020a05600c1da400b003a2eacc8179sm2307934wms.27.2022.08.03.04.44.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Aug 2022 04:44:09 -0700 (PDT)
-Message-ID: <cb74e4d0-8170-0837-fa43-d269a8db4d90@gmail.com>
-Date:   Wed, 3 Aug 2022 13:44:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 1/1] leds: mt6360: Get rid of custom
- led_init_default_state_get()
-Content-Language: en-US
+        with ESMTP id S235994AbiHCMWI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 3 Aug 2022 08:22:08 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFF512AA6;
+        Wed,  3 Aug 2022 05:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659529327; x=1691065327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X8fFu9QSmU9cXPCoF4NzSuBKpuk/b4Qx3+SeEQCPSlY=;
+  b=CYHPWRKey6ScoDu0srGvqAk8hx5IHEHjJmB2RieiPQc7qNOmFHDV0uqj
+   Px4UaNSNhVdDfGSU1iSUjmCQ2mvAHBdfs9E337R2EQwhUA/TlPale///7
+   A2M1m9LrC8NUvibBHNIWeyDs8FgmI84CpWS6IGG6n+ejeQeMHUEjbmFq7
+   C7wjaoU4IwQ9y3Xa5y/jXGFHWMFp7qrwXEjaw1zLhDOLVVJmNpoIy+N7A
+   TKyG+ByeIojeVpU9eEtMd9ifZNlC8Jb/4bdK8VtWXIgijVkZBFlJw40MH
+   XRJRwkjPOAfQmaZ6JR6K3fM38NLS9SWM9uw6iRWBLAoR4YslkgkOgl0x9
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="290431412"
+X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
+   d="scan'208";a="290431412"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 05:22:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
+   d="scan'208";a="635664871"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 03 Aug 2022 05:22:05 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oJDO1-000HFd-0Q;
+        Wed, 03 Aug 2022 12:22:05 +0000
+Date:   Wed, 3 Aug 2022 20:21:38 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>
-References: <20220802212532.7091-1-andriy.shevchenko@linux.intel.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220802212532.7091-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v1 1/1] leds: bcm6328: Get rid of custom
+ led_init_default_state_get()
+Message-ID: <202208032042.E6WmErcY-lkp@intel.com>
+References: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Andy,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on pavel-leds/for-next]
+[also build test ERROR on linus/master v5.19 next-20220802]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+config: openrisc-randconfig-r035-20220801 (https://download.01.org/0day-ci/archive/20220803/202208032042.E6WmErcY-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/514383e5dd28e25f812c88b0454a02d59e4d205c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
+        git checkout 514383e5dd28e25f812c88b0454a02d59e4d205c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/leds/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-bcm6328.c: In function 'bcm6328_led':
+>> drivers/leds/leds-bcm6328.c:353:17: error: implicit declaration of function 'led_init_default_state_get'; did you mean 'led_get_default_pattern'? [-Werror=implicit-function-declaration]
+     353 |         state = led_init_default_state_get(init_data.fwnode);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 led_get_default_pattern
+   cc1: some warnings being treated as errors
 
 
-On 02/08/2022 23:25, Andy Shevchenko wrote:
-> LED core provides a helper to parse default state from firmware node.
-> Use it instead of custom implementation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+vim +353 drivers/leds/leds-bcm6328.c
 
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+   326	
+   327	static int bcm6328_led(struct device *dev, struct device_node *nc, u32 reg,
+   328			       void __iomem *mem, spinlock_t *lock,
+   329			       unsigned long *blink_leds, unsigned long *blink_delay)
+   330	{
+   331		struct led_init_data init_data = {};
+   332		struct bcm6328_led *led;
+   333		enum led_default_state state;
+   334		unsigned long val, shift;
+   335		void __iomem *mode;
+   336		int rc;
+   337	
+   338		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+   339		if (!led)
+   340			return -ENOMEM;
+   341	
+   342		led->pin = reg;
+   343		led->mem = mem;
+   344		led->lock = lock;
+   345		led->blink_leds = blink_leds;
+   346		led->blink_delay = blink_delay;
+   347	
+   348		if (of_property_read_bool(nc, "active-low"))
+   349			led->active_low = true;
+   350	
+   351		init_data.fwnode = of_fwnode_handle(nc);
+   352	
+ > 353		state = led_init_default_state_get(init_data.fwnode);
+   354		switch (state) {
+   355		case LEDS_DEFSTATE_ON:
+   356			led->cdev.brightness = LED_FULL;
+   357			break;
+   358		case LEDS_DEFSTATE_KEEP:
+   359			shift = bcm6328_pin2shift(led->pin);
+   360			if (shift / 16)
+   361				mode = mem + BCM6328_REG_MODE_HI;
+   362			else
+   363				mode = mem + BCM6328_REG_MODE_LO;
+   364	
+   365			val = bcm6328_led_read(mode) >> BCM6328_LED_SHIFT(shift % 16);
+   366			val &= BCM6328_LED_MODE_MASK;
+   367			if ((led->active_low && val == BCM6328_LED_MODE_OFF) ||
+   368			    (!led->active_low && val == BCM6328_LED_MODE_ON))
+   369				led->cdev.brightness = LED_FULL;
+   370			else
+   371				led->cdev.brightness = LED_OFF;
+   372			break;
+   373		default:
+   374			led->cdev.brightness = LED_OFF;
+   375		}
+   376	
+   377		bcm6328_led_set(&led->cdev, led->cdev.brightness);
+   378	
+   379		led->cdev.brightness_set = bcm6328_led_set;
+   380		led->cdev.blink_set = bcm6328_blink_set;
+   381	
+   382		rc = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+   383		if (rc < 0)
+   384			return rc;
+   385	
+   386		dev_dbg(dev, "registered LED %s\n", led->cdev.name);
+   387	
+   388		return 0;
+   389	}
+   390	
 
-> ---
->   drivers/leds/flash/leds-mt6360.c | 38 +++++---------------------------
->   1 file changed, 6 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/leds/flash/leds-mt6360.c b/drivers/leds/flash/leds-mt6360.c
-> index e1066a52d2d2..1af6c5898343 100644
-> --- a/drivers/leds/flash/leds-mt6360.c
-> +++ b/drivers/leds/flash/leds-mt6360.c
-> @@ -71,10 +71,6 @@ enum {
->   #define MT6360_STRBTO_STEPUS		32000
->   #define MT6360_STRBTO_MAXUS		2432000
->   
-> -#define STATE_OFF			0
-> -#define STATE_KEEP			1
-> -#define STATE_ON			2
-> -
->   struct mt6360_led {
->   	union {
->   		struct led_classdev isnk;
-> @@ -84,7 +80,7 @@ struct mt6360_led {
->   	struct v4l2_flash *v4l2_flash;
->   	struct mt6360_priv *priv;
->   	u32 led_no;
-> -	u32 default_state;
-> +	enum led_default_state default_state;
->   };
->   
->   struct mt6360_priv {
-> @@ -405,10 +401,10 @@ static int mt6360_isnk_init_default_state(struct mt6360_led *led)
->   		level = LED_OFF;
->   
->   	switch (led->default_state) {
-> -	case STATE_ON:
-> +	case LEDS_DEFSTATE_ON:
->   		led->isnk.brightness = led->isnk.max_brightness;
->   		break;
-> -	case STATE_KEEP:
-> +	case LEDS_DEFSTATE_KEEP:
->   		led->isnk.brightness = min(level, led->isnk.max_brightness);
->   		break;
->   	default:
-> @@ -443,10 +439,10 @@ static int mt6360_flash_init_default_state(struct mt6360_led *led)
->   		level = LED_OFF;
->   
->   	switch (led->default_state) {
-> -	case STATE_ON:
-> +	case LEDS_DEFSTATE_ON:
->   		flash->led_cdev.brightness = flash->led_cdev.max_brightness;
->   		break;
-> -	case STATE_KEEP:
-> +	case LEDS_DEFSTATE_KEEP:
->   		flash->led_cdev.brightness =
->   			min(level, flash->led_cdev.max_brightness);
->   		break;
-> @@ -760,25 +756,6 @@ static int mt6360_init_flash_properties(struct mt6360_led *led,
->   	return 0;
->   }
->   
-> -static int mt6360_init_common_properties(struct mt6360_led *led,
-> -					 struct led_init_data *init_data)
-> -{
-> -	const char *const states[] = { "off", "keep", "on" };
-> -	const char *str;
-> -	int ret;
-> -
-> -	if (!fwnode_property_read_string(init_data->fwnode,
-> -					 "default-state", &str)) {
-> -		ret = match_string(states, ARRAY_SIZE(states), str);
-> -		if (ret < 0)
-> -			ret = STATE_OFF;
-> -
-> -		led->default_state = ret;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->   static void mt6360_v4l2_flash_release(struct mt6360_priv *priv)
->   {
->   	int i;
-> @@ -852,10 +829,7 @@ static int mt6360_led_probe(struct platform_device *pdev)
->   
->   		led->led_no = reg;
->   		led->priv = priv;
-> -
-> -		ret = mt6360_init_common_properties(led, &init_data);
-> -		if (ret)
-> -			goto out_flash_release;
-> +		led->default_state = led_init_default_state_get(child);
->   
->   		if (reg == MT6360_VIRTUAL_MULTICOLOR ||
->   		    reg <= MT6360_LED_ISNKML)
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
