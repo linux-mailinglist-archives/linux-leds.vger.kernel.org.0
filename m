@@ -2,173 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7CE9588BE8
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Aug 2022 14:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32A5D589A23
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Aug 2022 11:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235994AbiHCMWP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 3 Aug 2022 08:22:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
+        id S234442AbiHDJxg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Aug 2022 05:53:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237851AbiHCMWM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 3 Aug 2022 08:22:12 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A6513E35;
-        Wed,  3 Aug 2022 05:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659529331; x=1691065331;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8HOQd1wDQcuWohstXq9pTpJMEGYQijbNIPB9ABdU6tw=;
-  b=Wja+KGDF6ED1c/PFQeHRmrG6r5ex49D9qR0bCosND93NnD/0oGUlhxqm
-   DbDk0X7YVb1BXT92IvVGxosw2xj2SlrjQngSutyuI+mKkZwq9AKcifusJ
-   F1PlvUVHP6DHDG9O3kkv4Bp5S6Id9J6gxGXHOAjdk6QFzs9UBHqVTl79D
-   zbENzpk8tKVUgKyc0CpMZ8NWIXT8G94+pDaTiZaBHcXip7BR4hIAuV36p
-   25o5zofNGsJ3VtJ/nQyzIcCjCOejLyjIANZA6JhCmvqIi71PH0Os7W8+m
-   GlRjIUsCJdQVqzjzMLngLRwJXzkn/X0g6gcxgZYJWzv2TK3i8elyVIyxq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="269427567"
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
-   d="scan'208";a="269427567"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 05:22:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
-   d="scan'208";a="848562337"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Aug 2022 05:22:05 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oJDO1-000HFi-0X;
-        Wed, 03 Aug 2022 12:22:05 +0000
-Date:   Wed, 3 Aug 2022 20:21:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v1 1/1] leds: bcm6328: Get rid of custom
- led_init_default_state_get()
-Message-ID: <202208032028.jurRnUDS-lkp@intel.com>
-References: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S232333AbiHDJxf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Aug 2022 05:53:35 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1B926AE5;
+        Thu,  4 Aug 2022 02:53:34 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id w185so18902174pfb.4;
+        Thu, 04 Aug 2022 02:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=Yj4LnoCipKdQooHDqQkSzfPq9k+SbXM64sol04d/ofU=;
+        b=qVUuazv80uczwDUpa1W45XFLKQkv6E85jaluDS0qPCqx5UqLWXVRj7NNS3iB1u5yMk
+         BpAyrdAWbjN4xan/ozEhpBngVBm4vusnJrSXS6B5BtALu4Q7w0WkatMFosToCwAp0pxw
+         peyWEmojG15dUtIHplxLrARzYTKP87+hpzEs+qJ1Skx6IUC8ArRBWfpqh5foE/L0KuT3
+         5dl0vT47WvE/YFBfLMbib+8Ia4pPLthO02aty10gTq/7cMx0IUzGT+JIGnvuHvmlqhSG
+         +z4BOs0ydQYyC+O9uk363r+pOvEqCbU9PsjpybnRv4n2q2RjbjTJIV3fBXw17xudaCYj
+         TyKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=Yj4LnoCipKdQooHDqQkSzfPq9k+SbXM64sol04d/ofU=;
+        b=ewahLd3VOGPtQ3GZMq/EPtODImi2jZTqphBuCCDYg+JCH5gVokPpOQObRCVpDdMgUZ
+         rEDXp/jLA+GDqHdHEzM0xeHS6T7qcU/Tb2cHcDerozYtbX1mfGtwFns/f4GBTml2jBHK
+         s1fI0aoUNEXiLsd/GcQFwT9/b+aSb24lxmcP92hBelwINzw8MLks2NsUgyjEJQdKiwNK
+         mr0NMxeE9j7nsHXRNhor+MFJKynV8t3R5EHgB4GZjx+/Izh982dQ/nl4a+/lK9hrJWKB
+         ctDDGc79cK+1mjFcB3VMIagU8H7XjPVcvB6S/Q0OD9FgwhaQ2AQUGmkUd0mpNO/Njezz
+         l3gg==
+X-Gm-Message-State: ACgBeo3FtQjUtk8qNh02MJ6yiePvxaMUoVzkNrLu2YZLHGh2Qp95MOJY
+        P3QB1NLgFCVKolQTZYK8T/KQnEpiSWgQ4NuIvt8=
+X-Google-Smtp-Source: AA6agR6qwy7xIi0BGj0KdaE31bzJZvJiNHMC9+UQ+P/hml7eIyhBore8DXxCh12e0tZqDO9pfcvT3sY1+E56wep5ub0=
+X-Received: by 2002:a65:694f:0:b0:41c:cc1f:4440 with SMTP id
+ w15-20020a65694f000000b0041ccc1f4440mr1024346pgq.318.1659606814308; Thu, 04
+ Aug 2022 02:53:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802212549.7184-1-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220722102407.2205-1-peterwu.pub@gmail.com> <20220722102407.2205-13-peterwu.pub@gmail.com>
+ <20220730214205.GK23307@duo.ucw.cz>
+In-Reply-To: <20220730214205.GK23307@duo.ucw.cz>
+From:   Alice Chen <szunichen@gmail.com>
+Date:   Thu, 4 Aug 2022 17:53:22 +0800
+Message-ID: <CA+hk2fbEvU2yJbowqKoozb2M0aQc9TFCaxAn++YrmEx+eWt_4w@mail.gmail.com>
+Subject: Re: [PATCH v6 12/13] leds: flash: mt6370: Add MediaTek MT6370
+ flashlight support
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de,
+        andy.shevchenko@gmail.com, chiaen_wu@richtek.com,
+        alice_chen@richtek.com, cy_huang@richtek.com,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
+Pavel Machek <pavel@ucw.cz> =E6=96=BC 2022=E5=B9=B47=E6=9C=8831=E6=97=A5 =
+=E9=80=B1=E6=97=A5 =E6=B8=85=E6=99=A85:42=E5=AF=AB=E9=81=93=EF=BC=9A
 
-I love your patch! Yet something to improve:
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (C) 2022 Richtek Technology Corp.
+> > + *
+> > + * Author: Alice Chen <alice_chen@richtek.com
+>
+> Add ">" at end of line.
+>
+> The series is quite big, would it be possible to submit LED changes
+> in separate series?
+>
+Hi Pavel,
 
-[auto build test ERROR on pavel-leds/for-next]
-[also build test ERROR on linus/master v5.19 next-20220802]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Our mfd dt-bindings depends on flash and LED dt-bindings,
+but our flash and LED config depend on mfd config.
+For the dependency consideration,
+we think submitting them in a patch series is better.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: arc-randconfig-r016-20220801 (https://download.01.org/0day-ci/archive/20220803/202208032028.jurRnUDS-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/514383e5dd28e25f812c88b0454a02d59e4d205c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andy-Shevchenko/leds-bcm6328-Get-rid-of-custom-led_init_default_state_get/20220803-052959
-        git checkout 514383e5dd28e25f812c88b0454a02d59e4d205c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/leds/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/leds/leds-bcm6328.c: In function 'bcm6328_led':
->> drivers/leds/leds-bcm6328.c:353:17: error: implicit declaration of function 'led_init_default_state_get'; did you mean 'led_get_default_pattern'? [-Werror=implicit-function-declaration]
-     353 |         state = led_init_default_state_get(init_data.fwnode);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 led_get_default_pattern
-   cc1: some warnings being treated as errors
-
-
-vim +353 drivers/leds/leds-bcm6328.c
-
-   326	
-   327	static int bcm6328_led(struct device *dev, struct device_node *nc, u32 reg,
-   328			       void __iomem *mem, spinlock_t *lock,
-   329			       unsigned long *blink_leds, unsigned long *blink_delay)
-   330	{
-   331		struct led_init_data init_data = {};
-   332		struct bcm6328_led *led;
-   333		enum led_default_state state;
-   334		unsigned long val, shift;
-   335		void __iomem *mode;
-   336		int rc;
-   337	
-   338		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
-   339		if (!led)
-   340			return -ENOMEM;
-   341	
-   342		led->pin = reg;
-   343		led->mem = mem;
-   344		led->lock = lock;
-   345		led->blink_leds = blink_leds;
-   346		led->blink_delay = blink_delay;
-   347	
-   348		if (of_property_read_bool(nc, "active-low"))
-   349			led->active_low = true;
-   350	
-   351		init_data.fwnode = of_fwnode_handle(nc);
-   352	
- > 353		state = led_init_default_state_get(init_data.fwnode);
-   354		switch (state) {
-   355		case LEDS_DEFSTATE_ON:
-   356			led->cdev.brightness = LED_FULL;
-   357			break;
-   358		case LEDS_DEFSTATE_KEEP:
-   359			shift = bcm6328_pin2shift(led->pin);
-   360			if (shift / 16)
-   361				mode = mem + BCM6328_REG_MODE_HI;
-   362			else
-   363				mode = mem + BCM6328_REG_MODE_LO;
-   364	
-   365			val = bcm6328_led_read(mode) >> BCM6328_LED_SHIFT(shift % 16);
-   366			val &= BCM6328_LED_MODE_MASK;
-   367			if ((led->active_low && val == BCM6328_LED_MODE_OFF) ||
-   368			    (!led->active_low && val == BCM6328_LED_MODE_ON))
-   369				led->cdev.brightness = LED_FULL;
-   370			else
-   371				led->cdev.brightness = LED_OFF;
-   372			break;
-   373		default:
-   374			led->cdev.brightness = LED_OFF;
-   375		}
-   376	
-   377		bcm6328_led_set(&led->cdev, led->cdev.brightness);
-   378	
-   379		led->cdev.brightness_set = bcm6328_led_set;
-   380		led->cdev.blink_set = bcm6328_blink_set;
-   381	
-   382		rc = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-   383		if (rc < 0)
-   384			return rc;
-   385	
-   386		dev_dbg(dev, "registered LED %s\n", led->cdev.name);
-   387	
-   388		return 0;
-   389	}
-   390	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best Regards,
+Alice
