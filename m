@@ -2,511 +2,383 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BC158A6B7
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Aug 2022 09:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A871D58A9B0
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Aug 2022 12:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240445AbiHEHJY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 5 Aug 2022 03:09:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42188 "EHLO
+        id S240003AbiHEKvj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 5 Aug 2022 06:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240336AbiHEHIs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Aug 2022 03:08:48 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AFAA74E2C;
-        Fri,  5 Aug 2022 00:08:01 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id q9-20020a17090a2dc900b001f58bcaca95so662840pjm.3;
-        Fri, 05 Aug 2022 00:08:01 -0700 (PDT)
+        with ESMTP id S237666AbiHEKvi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Aug 2022 06:51:38 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E6811C03;
+        Fri,  5 Aug 2022 03:51:36 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id b21so1707818qte.12;
+        Fri, 05 Aug 2022 03:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=YAxk3vL6GhIczbGpfuIOdQos3fVrmEMM0piPGUYBRuE=;
-        b=f3HiBRo1T6HLpmHCMCMclFqR4rWqJdxfFnb9dccg/7SgesO/uwgcoWCvnb6WJ14sph
-         CRBGMHqRZPe0Qa7M96E8Asm9dPDxTOsHxHnG7KV0rjJ8Wqz0yIhSNquH1x6TbpwNDXqB
-         8WXIaJTdxHpEsfJslZbdpTCI0r6WGP3GXOiu2m4+QLk3BDR96Kx+XLoxdL/7tvL8CI63
-         UMaVh52KUIRi7MNGoDDI6ScYDHQkD5fZIFDIp6hvVk0hZLhLs3b3QnchYlNggW8MBdha
-         NxM/xWIBOptnHoZ8gO/2qH+ecxVHjKQ4zjr1MNbM/u9AMmcQ3Aj3q7Q+OAV9bWhFSgwM
-         DU2Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=t6fXAhWVUFAuj9fGZxy9SW8dxs2cVUbQslkXYvZLT+w=;
+        b=O9VzxhCkEHHB8OFxr9GvZKHnDiomK3qEuWR7pUzw2hB+0X9CBFlifvyIaM9mDy4nCO
+         la/vWCEN6rpYojHsH4rEKsMQZsIHjToOoqEHu0Af3R8eq2qZAqnOVaM1H+97rdouLwkx
+         Ozt0YL23GvxiQP7RVfJJG58KFwIOsknow2DXLTfHBQGlz36jhezD5F24tUBd0OMioQge
+         OSrUOHyghaXqQoTFy69qcTwKHUVY3EOIQL80GOl27jDh27LFQsXr/iukdVdUSUp7gfCJ
+         oUwSwk3ntoO8FtXaOvWeiGPycaUw2QqTjfWuavbPDSR0pncTLyDrRlQYA46Vq1Ex+/oL
+         He6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=YAxk3vL6GhIczbGpfuIOdQos3fVrmEMM0piPGUYBRuE=;
-        b=ZfJ49miq2Os0UDtznVftRpj1/tuXlPCvkSQ8QFW1e5lAgoYK4XOIiRR2MSt7IhNkxd
-         VB/DO+3yiNKpGb4U2UI3i1QtecDo4sCJ8CpJDkJnF7pcYxjtqAhDHIKnfx1QcGxeG7Pi
-         C+OKD+wQ39OGGjIVwQwkPFKHiCNIoQ0zOWvSwj4lyASPR17vSFXdlUYEcUAg6RWDPhZI
-         r2+cCCIywlizmeK/sDp0rMKScZYh7IPIX3FU1GFkf3qYr9zbYRiX7coQkgonSMu39MIF
-         vLNgB21von6Ejv22MLBc1FgVrg9g+fa6+2yt/HVvWi9pprnxu0a2j2wSDZtTAhBdoeDI
-         ijew==
-X-Gm-Message-State: ACgBeo10caeUeFNe0Vdu7gZwCYVzH3nP1z1UafL3wNQkzAYmsDNOhg1O
-        GEf9ujEzKrUMyh4ECAwYZus=
-X-Google-Smtp-Source: AA6agR56i3Fk4n3QeMAgHOhxMv+xUpTa7UverxJGsNiNwDxGlivCt9PBfwYkI7x9fsX/I5UuVDmkkA==
-X-Received: by 2002:a17:90b:1b11:b0:1f2:2d70:70d7 with SMTP id nu17-20020a17090b1b1100b001f22d7070d7mr14630865pjb.59.1659683281010;
-        Fri, 05 Aug 2022 00:08:01 -0700 (PDT)
-Received: from RD-3580-24288.rt.l (42-72-229-62.emome-ip.hinet.net. [42.72.229.62])
-        by smtp.gmail.com with ESMTPSA id i5-20020a056a00224500b00525343b5047sm2191616pfu.76.2022.08.05.00.07.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 00:08:00 -0700 (PDT)
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-To:     lee.jones@linaro.org, daniel.thompson@linaro.org,
-        jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
-        heikki.krogerus@linux.intel.com, deller@gmx.de,
-        andy.shevchenko@gmail.com
-Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com
-Subject: [PATCH v7 13/13] video: backlight: mt6370: Add MediaTek MT6370 support
-Date:   Fri,  5 Aug 2022 15:06:10 +0800
-Message-Id: <20220805070610.3516-14-peterwu.pub@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220805070610.3516-1-peterwu.pub@gmail.com>
-References: <20220805070610.3516-1-peterwu.pub@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=t6fXAhWVUFAuj9fGZxy9SW8dxs2cVUbQslkXYvZLT+w=;
+        b=G3syfdSy/NkriZd7wRYTS+KmPi8LiBGATTu5wFGvpVzQxzdVwnLE9IiJYTNeqhKjWR
+         TOllPC6GjspT1nGqsM7C/BTXwiTw+/fxlmUVc77Gh0LWj/tEezWqynj/jOxxKSG7k27A
+         gz1BOit7N1iA527PCx6MfkuHCeWdFlWYuUu7X4xQEMhNpjoxe33BPhr/n2zAIwtnmrz7
+         bhyYX/i0mtLecwOeABbG++DpJJSA5TScaz7E40kbrcXSrqQOSqCmCkZ0jyiecpH3MUgI
+         xU2l1HoXvov7+pAb0CkfiVQqhPQoCOyK9iwmt4RsnphFmB1hDwAt2GMJbiVvW9axAWdm
+         b3Og==
+X-Gm-Message-State: ACgBeo1IRhw8E1aUwYNiWwbZl9A/3hmcZC7HJIbAUMvWc7fi2KoMXe5c
+        RpZp9VzqQmavMTOapZPS2ebrwAzvsYF0Hmy2bmk=
+X-Google-Smtp-Source: AA6agR5K3dv/wqvSJHsdvtimgpDw6LDloHXKTbPrFyY/hLxfC65YOp0ehjqgYs6C7QzUOyT9KMDQsDyHqMEiIgtFDo0=
+X-Received: by 2002:ac8:7d49:0:b0:340:81b1:e320 with SMTP id
+ h9-20020ac87d49000000b0034081b1e320mr5211944qtb.61.1659696695901; Fri, 05 Aug
+ 2022 03:51:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220805070610.3516-1-peterwu.pub@gmail.com> <20220805070610.3516-9-peterwu.pub@gmail.com>
+In-Reply-To: <20220805070610.3516-9-peterwu.pub@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 5 Aug 2022 12:50:59 +0200
+Message-ID: <CAHp75Ve7OOaVU=Xm5D7nRsCAhDYi3Eq3x4YscPYdJrBqO+AM-g@mail.gmail.com>
+Subject: Re: [PATCH v7 08/13] usb: typec: tcpci_mt6370: Add MediaTek MT6370
+ tcpci driver
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Helge Deller <deller@gmx.de>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
+        cy_huang <cy_huang@richtek.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        szuni chen <szunichen@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: ChiaEn Wu <chiaen_wu@richtek.com>
+On Fri, Aug 5, 2022 at 9:07 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>
+> Add a support for the Type-C & Power Delivery controller in
+> MediaTek MT6370 IC.
 
-MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-driver, display bias voltage supply, one general purpose LDO, and the
-USB Type-C & PD controller complies with the latest USB Type-C and PD
-standards.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Add a support for the MediaTek MT6370 backlight driver.
-It controls 4 channels of 8 series WLEDs in
-2048 (only for MT6370/MT6371) / 16384 (only for MT6372)
-current steps (30 mA) in exponential or linear mapping curves.
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> ---
+>
+> v7
+> - Revise 'devm_add_action_or_reset(dev, ...)' to one line
+> - Revise 'return regmap_update_bits(...)' with using positive
+>   conditional
+> ---
+>  drivers/usb/typec/tcpm/Kconfig        |  11 ++
+>  drivers/usb/typec/tcpm/Makefile       |   1 +
+>  drivers/usb/typec/tcpm/tcpci_mt6370.c | 207 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 219 insertions(+)
+>  create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
+>
+> diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
+> index 073fd2e..e6b88ca 100644
+> --- a/drivers/usb/typec/tcpm/Kconfig
+> +++ b/drivers/usb/typec/tcpm/Kconfig
+> @@ -35,6 +35,17 @@ config TYPEC_MT6360
+>           USB Type-C. It works with Type-C Port Controller Manager
+>           to provide USB PD and USB Type-C functionalities.
+>
+> +config TYPEC_TCPCI_MT6370
+> +       tristate "MediaTek MT6370 Type-C driver"
+> +       depends on MFD_MT6370
+> +       help
+> +         MediaTek MT6370 is a multi-functional IC that includes
+> +         USB Type-C. It works with Type-C Port Controller Manager
+> +         to provide USB PD and USB Type-C functionalities.
+> +
+> +         This driver can also be built as a module. The module
+> +         will be called "tcpci_mt6370".
+> +
+>  config TYPEC_TCPCI_MAXIM
+>         tristate "Maxim TCPCI based Type-C chip driver"
+>         help
+> diff --git a/drivers/usb/typec/tcpm/Makefile b/drivers/usb/typec/tcpm/Makefile
+> index 7d499f3..906d9dc 100644
+> --- a/drivers/usb/typec/tcpm/Makefile
+> +++ b/drivers/usb/typec/tcpm/Makefile
+> @@ -6,4 +6,5 @@ typec_wcove-y                           := wcove.o
+>  obj-$(CONFIG_TYPEC_TCPCI)              += tcpci.o
+>  obj-$(CONFIG_TYPEC_RT1711H)            += tcpci_rt1711h.o
+>  obj-$(CONFIG_TYPEC_MT6360)             += tcpci_mt6360.o
+> +obj-$(CONFIG_TYPEC_TCPCI_MT6370)       += tcpci_mt6370.o
+>  obj-$(CONFIG_TYPEC_TCPCI_MAXIM)                += tcpci_maxim.o
+> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c b/drivers/usb/typec/tcpm/tcpci_mt6370.c
+> new file mode 100644
+> index 0000000..c5bb201
+> --- /dev/null
+> +++ b/drivers/usb/typec/tcpm/tcpci_mt6370.c
+> @@ -0,0 +1,207 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2022 Richtek Technology Corp.
+> + *
+> + * Author: ChiYuan Huang <cy_huang@richtek.com>
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_wakeup.h>
+> +#include <linux/pm_wakeirq.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/usb/tcpci.h>
+> +#include <linux/usb/tcpm.h>
+> +
+> +#define MT6370_REG_SYSCTRL8    0x9B
+> +
+> +#define MT6370_AUTOIDLE_MASK   BIT(3)
+> +
+> +#define MT6370_VENDOR_ID       0x29CF
+> +#define MT6370_TCPC_DID_A      0x2170
+> +
+> +struct mt6370_priv {
+> +       struct device *dev;
+> +       struct regulator *vbus;
+> +       struct tcpci *tcpci;
+> +       struct tcpci_data tcpci_data;
+> +};
+> +
+> +static const struct reg_sequence mt6370_reg_init[] = {
+> +       REG_SEQ(0xA0, 0x1, 1000),
+> +       REG_SEQ(0x81, 0x38, 0),
+> +       REG_SEQ(0x82, 0x82, 0),
+> +       REG_SEQ(0xBA, 0xFC, 0),
+> +       REG_SEQ(0xBB, 0x50, 0),
+> +       REG_SEQ(0x9E, 0x8F, 0),
+> +       REG_SEQ(0xA1, 0x5, 0),
+> +       REG_SEQ(0xA2, 0x4, 0),
+> +       REG_SEQ(0xA3, 0x4A, 0),
+> +       REG_SEQ(0xA4, 0x01, 0),
+> +       REG_SEQ(0x95, 0x01, 0),
+> +       REG_SEQ(0x80, 0x71, 0),
+> +       REG_SEQ(0x9B, 0x3A, 1000),
+> +};
+> +
+> +static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data *data)
+> +{
+> +       u16 did;
+> +       int ret;
+> +
+> +       ret = regmap_register_patch(data->regmap, mt6370_reg_init,
+> +                                   ARRAY_SIZE(mt6370_reg_init));
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did, sizeof(u16));
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (did == MT6370_TCPC_DID_A)
+> +               return regmap_write(data->regmap, TCPC_FAULT_CTRL, 0x80);
+> +
+> +       return 0;
+> +}
+> +
+> +static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
+> +                                bool enable)
+> +{
+> +       return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
+> +                                 MT6370_AUTOIDLE_MASK,
+> +                                 enable ? 0 : MT6370_AUTOIDLE_MASK);
+> +}
+> +
+> +static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data,
+> +                               bool source, bool sink)
+> +{
+> +       struct mt6370_priv *priv = container_of(data, struct mt6370_priv,
+> +                                               tcpci_data);
+> +       int ret;
+> +
+> +       ret = regulator_is_enabled(priv->vbus);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (ret && !source)
+> +               return regulator_disable(priv->vbus);
+> +
+> +       if (!ret && source)
+> +               return regulator_enable(priv->vbus);
+> +
+> +       return 0;
+> +}
+> +
+> +static irqreturn_t mt6370_irq_handler(int irq, void *dev_id)
+> +{
+> +       struct mt6370_priv *priv = dev_id;
+> +
+> +       return tcpci_irq(priv->tcpci);
+> +}
+> +
+> +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+> +{
+> +       struct regmap *regmap = priv->tcpci_data.regmap;
+> +       u16 vid;
+> +       int ret;
+> +
+> +       ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (vid != MT6370_VENDOR_ID)
+> +               return dev_err_probe(priv->dev, -ENODEV,
+> +                                    "Vendor ID not correct 0x%02x\n", vid);
+> +
+> +       return 0;
+> +}
+> +
+> +static void mt6370_unregister_tcpci_port(void *tcpci)
+> +{
+> +       tcpci_unregister_port(tcpci);
+> +}
+> +
+> +static int mt6370_tcpc_probe(struct platform_device *pdev)
+> +{
+> +       struct mt6370_priv *priv;
+> +       struct device *dev = &pdev->dev;
+> +       int irq, ret;
+> +
+> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->dev = dev;
+> +
+> +       priv->tcpci_data.regmap = dev_get_regmap(dev->parent, NULL);
+> +       if (!priv->tcpci_data.regmap)
+> +               return dev_err_probe(dev, -ENODEV, "Failed to init regmap\n");
+> +
+> +       ret = mt6370_check_vendor_info(priv);
+> +       if (ret)
+> +               return ret;
+> +
+> +       irq = platform_get_irq(pdev, 0);
+> +       if (irq < 0)
+> +               return dev_err_probe(dev, irq, "Failed to get irq\n");
+> +
+> +       /* Assign TCPCI feature and ops */
+> +       priv->tcpci_data.auto_discharge_disconnect = 1;
+> +       priv->tcpci_data.init = mt6370_tcpc_init;
+> +       priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
+> +
+> +       priv->vbus = devm_regulator_get_optional(dev, "vbus");
+> +       if (!IS_ERR(priv->vbus))
+> +               priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
+> +
+> +       priv->tcpci = tcpci_register_port(dev, &priv->tcpci_data);
+> +       if (IS_ERR(priv->tcpci))
+> +               return dev_err_probe(dev, PTR_ERR(priv->tcpci),
+> +                                    "Failed to register tcpci port\n");
+> +
+> +       ret = devm_add_action_or_reset(dev, mt6370_unregister_tcpci_port, priv->tcpci);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = devm_request_threaded_irq(dev, irq, NULL, mt6370_irq_handler,
+> +                                       IRQF_ONESHOT, dev_name(dev), priv);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Failed to allocate irq\n");
+> +
+> +       device_init_wakeup(dev, true);
+> +       dev_pm_set_wake_irq(dev, irq);
+> +
+> +       return 0;
+> +}
+> +
+> +static int mt6370_tcpc_remove(struct platform_device *pdev)
+> +{
+> +       dev_pm_clear_wake_irq(&pdev->dev);
+> +       device_init_wakeup(&pdev->dev, false);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct of_device_id mt6370_tcpc_devid_table[] = {
+> +       { .compatible = "mediatek,mt6370-tcpc" },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, mt6370_tcpc_devid_table);
+> +
+> +static struct platform_driver mt6370_tcpc_driver = {
+> +       .driver = {
+> +               .name = "mt6370-tcpc",
+> +               .of_match_table = mt6370_tcpc_devid_table,
+> +       },
+> +       .probe = mt6370_tcpc_probe,
+> +       .remove = mt6370_tcpc_remove,
+> +};
+> +module_platform_driver(mt6370_tcpc_driver);
+> +
+> +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
+> +MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface Driver");
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.7.4
+>
 
-Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
----
 
-v7
-- Add support 'exponential mode' property parsing
-- Add 'return dev_err_probe()' after 'if (IS_ERR(priv->enable_gpio))'
-- Add 'mt6372' compatible string
-- Revise Kconfig help text
-- Revise update()/get() for supporting 16384 steps (MT6372)
-- Revise all shift usages form using 'ffs() and fls()' to defining the
-  _SHIFT macros.
-- Revise 'brightness ? 1 : 0' to '!!brightness' in gpiod_set_value()
----
- drivers/video/backlight/Kconfig            |  13 ++
- drivers/video/backlight/Makefile           |   1 +
- drivers/video/backlight/mt6370-backlight.c | 351 +++++++++++++++++++++++++++++
- 3 files changed, 365 insertions(+)
- create mode 100644 drivers/video/backlight/mt6370-backlight.c
-
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index a003e02..936ba1e 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -268,6 +268,19 @@ config BACKLIGHT_MAX8925
- 	  If you have a LCD backlight connected to the WLED output of MAX8925
- 	  WLED output, say Y here to enable this driver.
- 
-+config BACKLIGHT_MT6370
-+	tristate "MediaTek MT6370 Backlight Driver"
-+	depends on MFD_MT6370
-+	help
-+	  This enables support for Mediatek MT6370 Backlight driver.
-+	  It's commonly used to drive the display WLED. There are 4 channels
-+	  inside, and each channel supports up to 30mA of current capability
-+	  with 2048 current steps (only for MT6370/MT6371) or 16384 current
-+	  steps (only for MT6372) in exponential or linear mapping curves.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called "mt6370-backlight".
-+
- config BACKLIGHT_APPLE
- 	tristate "Apple Backlight Driver"
- 	depends on X86 && ACPI
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index cae2c83..e815f3f 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
- obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
- obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
- obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
-+obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
- obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
- obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
- obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
-diff --git a/drivers/video/backlight/mt6370-backlight.c b/drivers/video/backlight/mt6370-backlight.c
-new file mode 100644
-index 0000000..4c889b4
---- /dev/null
-+++ b/drivers/video/backlight/mt6370-backlight.c
-@@ -0,0 +1,351 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022 Richtek Technology Corp.
-+ *
-+ * Author: ChiaEn Wu <chiaen_wu@richtek.com>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/kernel.h>
-+#include <linux/minmax.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define MT6370_REG_DEV_INFO		0x100
-+#define MT6370_REG_BL_EN		0x1A0
-+#define MT6370_REG_BL_BSTCTRL		0x1A1
-+#define MT6370_REG_BL_PWM		0x1A2
-+#define MT6370_REG_BL_DIM2		0x1A4
-+
-+#define MT6370_VENID_MASK		GENMASK(7, 4)
-+#define MT6370_BL_EXT_EN_MASK		BIT(7)
-+#define MT6370_BL_EN_MASK		BIT(6)
-+#define MT6370_BL_CODE_MASK		BIT(0)
-+#define MT6370_BL_CH_MASK		GENMASK(5, 2)
-+#define MT6370_BL_CH_SHIFT		2
-+#define MT6370_BL_DIM2_COMMON_MASK	GENMASK(2, 0)
-+#define MT6370_BL_DIM2_COMMON_SHIFT	3
-+#define MT6370_BL_DIM2_6372_MASK	GENMASK(5, 0)
-+#define MT6370_BL_DIM2_6372_SHIFT	6
-+#define MT6370_BL_PWM_EN_MASK		BIT(7)
-+#define MT6370_BL_PWM_HYS_EN_MASK	BIT(2)
-+#define MT6370_BL_PWM_HYS_SEL_MASK	GENMASK(1, 0)
-+#define MT6370_BL_OVP_EN_MASK		BIT(7)
-+#define MT6370_BL_OVP_SEL_MASK		GENMASK(6, 5)
-+#define MT6370_BL_OVP_SEL_SHIFT		5
-+#define MT6370_BL_OC_EN_MASK		BIT(3)
-+#define MT6370_BL_OC_SEL_MASK		GENMASK(2, 1)
-+#define MT6370_BL_OC_SEL_SHIFT		1
-+
-+#define MT6370_BL_PWM_HYS_TH_MIN_STEP	1
-+#define MT6370_BL_PWM_HYS_TH_MAX_STEP	64
-+#define MT6370_BL_OVP_MIN_UV		17000000
-+#define MT6370_BL_OVP_MAX_UV		29000000
-+#define MT6370_BL_OVP_STEP_UV		4000000
-+#define MT6370_BL_OCP_MIN_UA		900000
-+#define MT6370_BL_OCP_MAX_UA		1800000
-+#define MT6370_BL_OCP_STEP_UA		300000
-+#define MT6370_BL_MAX_COMMON_BRIGHTNESS	2048
-+#define MT6370_BL_MAX_6372_BRIGHTNESS	16384
-+#define MT6370_BL_MAX_CH		15
-+
-+enum {
-+	MT6370_VID_COMMON = 1,
-+	MT6370_VID_6372,
-+};
-+
-+struct mt6370_priv {
-+	u8 dim2_mask;
-+	u8 dim2_shift;
-+	int def_max_brightness;
-+	struct backlight_device *bl;
-+	struct device *dev;
-+	struct gpio_desc *enable_gpio;
-+	struct regmap *regmap;
-+};
-+
-+static int mt6370_bl_update_status(struct backlight_device *bl_dev)
-+{
-+	struct mt6370_priv *priv = bl_get_data(bl_dev);
-+	int brightness = backlight_get_brightness(bl_dev);
-+	unsigned int enable_val;
-+	u8 brightness_val[2];
-+	int ret;
-+
-+	if (brightness) {
-+		brightness_val[0] = (brightness - 1) & priv->dim2_mask;
-+		brightness_val[1] = (brightness - 1) >> priv->dim2_shift;
-+
-+		ret = regmap_raw_write(priv->regmap, MT6370_REG_BL_DIM2,
-+				       brightness_val, sizeof(brightness_val));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	gpiod_set_value(priv->enable_gpio, !!brightness);
-+
-+	enable_val = brightness ? MT6370_BL_EN_MASK : 0;
-+	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN,
-+				  MT6370_BL_EN_MASK, enable_val);
-+}
-+
-+static int mt6370_bl_get_brightness(struct backlight_device *bl_dev)
-+{
-+	struct mt6370_priv *priv = bl_get_data(bl_dev);
-+	unsigned int enable;
-+	u8 brightness_val[2];
-+	int brightness, ret;
-+
-+	ret = regmap_read(priv->regmap, MT6370_REG_BL_EN, &enable);
-+	if (ret)
-+		return ret;
-+
-+	if (!(enable & MT6370_BL_EN_MASK))
-+		return 0;
-+
-+	ret = regmap_raw_read(priv->regmap, MT6370_REG_BL_DIM2,
-+			      brightness_val, sizeof(brightness_val));
-+	if (ret)
-+		return ret;
-+
-+	brightness = brightness_val[1] << priv->dim2_shift;
-+	brightness += brightness_val[0] & priv->dim2_mask;
-+
-+	return brightness + 1;
-+}
-+
-+static const struct backlight_ops mt6370_bl_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = mt6370_bl_update_status,
-+	.get_brightness = mt6370_bl_get_brightness,
-+};
-+
-+static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
-+					    struct backlight_properties *props)
-+{
-+	struct device *dev = priv->dev;
-+	u8 prop_val;
-+	u32 brightness, ovp_uV, ocp_uA;
-+	unsigned int mask, val;
-+	int ret;
-+
-+	/* Vendor optional properties */
-+	val = 0;
-+	if (device_property_read_bool(dev, "mediatek,bled-pwm-enable"))
-+		val |= MT6370_BL_PWM_EN_MASK;
-+
-+	if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"))
-+		val |= MT6370_BL_PWM_HYS_EN_MASK;
-+
-+	ret = device_property_read_u8(dev,
-+				      "mediatek,bled-pwm-hys-input-th-steps",
-+				      &prop_val);
-+	if (!ret) {
-+		prop_val = clamp_val(prop_val,
-+				     MT6370_BL_PWM_HYS_TH_MIN_STEP,
-+				     MT6370_BL_PWM_HYS_TH_MAX_STEP);
-+		prop_val = prop_val <= 1 ? 0 :
-+			   prop_val <= 4 ? 1 :
-+			   prop_val <= 16 ? 2 : 3;
-+		val |= prop_val;
-+	}
-+
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_PWM,
-+				 val, val);
-+	if (ret)
-+		return ret;
-+
-+	val = 0;
-+	if (device_property_read_bool(dev, "mediatek,bled-ovp-shutdown"))
-+		val |= MT6370_BL_OVP_EN_MASK;
-+
-+	ret = device_property_read_u32(dev, "mediatek,bled-ovp-microvolt",
-+				       &ovp_uV);
-+	if (!ret) {
-+		ovp_uV = clamp_val(ovp_uV, MT6370_BL_OVP_MIN_UV,
-+				   MT6370_BL_OVP_MAX_UV);
-+		ovp_uV = DIV_ROUND_UP(ovp_uV - MT6370_BL_OVP_MIN_UV,
-+				      MT6370_BL_OVP_STEP_UV);
-+		val |= ovp_uV << MT6370_BL_OVP_SEL_SHIFT;
-+	}
-+
-+	if (device_property_read_bool(dev, "mediatek,bled-ocp-shutdown"))
-+		val |= MT6370_BL_OC_EN_MASK;
-+
-+	ret = device_property_read_u32(dev, "mediatek,bled-ocp-microamp",
-+				       &ocp_uA);
-+	if (!ret) {
-+		ocp_uA = clamp_val(ocp_uA, MT6370_BL_OCP_MIN_UA,
-+				   MT6370_BL_OCP_MAX_UA);
-+		ocp_uA = DIV_ROUND_UP(ocp_uA - MT6370_BL_OCP_MIN_UA,
-+				      MT6370_BL_OCP_STEP_UA);
-+		val |= ocp_uA << MT6370_BL_OC_SEL_SHIFT;
-+	}
-+
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_BSTCTRL,
-+				 val, val);
-+	if (ret)
-+		return ret;
-+
-+	/* Common properties */
-+	ret = device_property_read_u32(dev, "max-brightness", &brightness);
-+	if (ret)
-+		brightness = priv->def_max_brightness;
-+
-+	props->max_brightness = min_t(u32, brightness, priv->def_max_brightness);
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = props->max_brightness;
-+
-+	props->brightness = min_t(u32, brightness, props->max_brightness);
-+
-+	val = 0;
-+	if (device_property_read_bool(dev, "mediatek,bled-exponential-mode-enable")) {
-+		val |= MT6370_BL_CODE_MASK;
-+		props->scale = BACKLIGHT_SCALE_NON_LINEAR;
-+	} else
-+		props->scale = BACKLIGHT_SCALE_LINEAR;
-+
-+	ret = device_property_read_u8(dev, "mediatek,bled-channel-use",
-+				      &prop_val);
-+	if (ret) {
-+		dev_err(dev, "mediatek,bled-channel-use DT property missing\n");
-+		return ret;
-+	}
-+
-+	if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
-+		dev_err(dev,
-+			"No channel specified or over than upper bound (%d)\n",
-+			prop_val);
-+		return -EINVAL;
-+	}
-+
-+	mask = MT6370_BL_EXT_EN_MASK | MT6370_BL_CH_MASK;
-+	val |= prop_val << MT6370_BL_CH_SHIFT;
-+
-+	if (priv->enable_gpio)
-+		val |= MT6370_BL_EXT_EN_MASK;
-+
-+	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN, mask, val);
-+}
-+
-+static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-+{
-+	/*
-+	 * MT6372 uses 14 bits to control the brightness but MT6370 and MT6371
-+	 * use 11 bits. They are different so we have to use this function to
-+	 * check the vendor ID and use different mask, shift and default
-+	 * maxiimum brightness value.
-+	 */
-+	unsigned int dev_info, hw_vid, of_vid;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &dev_info);
-+	if (ret)
-+		return ret;
-+
-+	of_vid = (uintptr_t)of_device_get_match_data(priv->dev);
-+	hw_vid = FIELD_GET(MT6370_VENID_MASK, dev_info);
-+	hw_vid = hw_vid == 0x9 || hw_vid == 0xb ? MT6370_VID_6372 : MT6370_VID_COMMON;
-+	if (hw_vid != of_vid) {
-+		dev_err(priv->dev, "Buggy DT, wrong compatible string\n");
-+		return -EINVAL;
-+	}
-+
-+	if (hw_vid == MT6370_VID_6372) {
-+		priv->dim2_mask = MT6370_BL_DIM2_6372_MASK;
-+		priv->dim2_shift = MT6370_BL_DIM2_6372_SHIFT;
-+		priv->def_max_brightness = MT6370_BL_MAX_6372_BRIGHTNESS;
-+	} else {
-+		priv->dim2_mask = MT6370_BL_DIM2_COMMON_MASK;
-+		priv->dim2_shift = MT6370_BL_DIM2_COMMON_SHIFT;
-+		priv->def_max_brightness = MT6370_BL_MAX_COMMON_BRIGHTNESS;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mt6370_bl_probe(struct platform_device *pdev)
-+{
-+	struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+	};
-+	struct device *dev = &pdev->dev;
-+	struct mt6370_priv *priv;
-+	int ret;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = dev;
-+
-+	priv->regmap = dev_get_regmap(dev->parent, NULL);
-+	if (!priv->regmap)
-+		return dev_err_probe(dev, -ENODEV, "Failed to get regmap\n");
-+
-+	ret = mt6370_check_vendor_info(priv);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to check vendor info\n");
-+
-+	priv->enable_gpio = devm_gpiod_get_optional(dev, "enable",
-+						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->enable_gpio))
-+		return dev_err_probe(dev, PTR_ERR(priv->enable_gpio),
-+				     "Failed to get 'enable' gpio\n");
-+
-+	ret = mt6370_init_backlight_properties(priv, &props);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to init backlight properties\n");
-+
-+	priv->bl = devm_backlight_device_register(dev, pdev->name, dev, priv,
-+						  &mt6370_bl_ops, &props);
-+	if (IS_ERR(priv->bl))
-+		return dev_err_probe(dev, PTR_ERR(priv->bl),
-+				     "Failed to register backlight\n");
-+
-+	backlight_update_status(priv->bl);
-+	platform_set_drvdata(pdev, priv);
-+
-+	return 0;
-+}
-+
-+static int mt6370_bl_remove(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv = platform_get_drvdata(pdev);
-+	struct backlight_device *bl_dev = priv->bl;
-+
-+	bl_dev->props.brightness = 0;
-+	backlight_update_status(priv->bl);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id __maybe_unused mt6370_bl_of_match[] = {
-+	{ .compatible = "mediatek,mt6370-backlight", .data = (void *)MT6370_VID_COMMON },
-+	{ .compatible = "mediatek,mt6372-backlight", .data = (void *)MT6370_VID_6372 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mt6370_bl_of_match);
-+
-+static struct platform_driver mt6370_bl_driver = {
-+	.driver = {
-+		.name = "mt6370-backlight",
-+		.of_match_table = mt6370_bl_of_match,
-+	},
-+	.probe = mt6370_bl_probe,
-+	.remove = mt6370_bl_remove,
-+};
-+module_platform_driver(mt6370_bl_driver);
-+
-+MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
-+MODULE_DESCRIPTION("MediaTek MT6370 Backlight Driver");
-+MODULE_LICENSE("GPL v2");
 -- 
-2.7.4
-
+With Best Regards,
+Andy Shevchenko
