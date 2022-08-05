@@ -2,192 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CA4F58A9EB
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Aug 2022 13:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B8FB58AA75
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Aug 2022 14:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236199AbiHELH5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 5 Aug 2022 07:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
+        id S231192AbiHEMEB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 5 Aug 2022 08:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232506AbiHELH4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Aug 2022 07:07:56 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7278606A1;
-        Fri,  5 Aug 2022 04:07:55 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id h22so1772775qta.3;
-        Fri, 05 Aug 2022 04:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=xevi7s0+mr+ptfy7uVrWQvtAVkuN9tBhA8DON7VF3hc=;
-        b=a9+SkJgUlA0b0/BHR/ZnCRMvTgWWiTfbn+7hCLvZBsaMMCRDTPxUJBAC7vZNjxq/vo
-         k8OLi0uQ406lmhmpDT6bTA8Ln7hcqHBvrfJ6793g1OGhONtOUz8WZFu//S4D+ajPvm+/
-         HiavKm1cieEdFkxt1ha+nayBdzC2mzMdgbZG3PWagP1NkKBygX5opsEMSZg7lLxmqjo8
-         LBS37LwpObC3ROrIeGlDwWsw0zgdY3DWHlzFAJgr2ZjpMu5E7HGDXRWesXtLS8v9Z+Us
-         O4BT37Ii/msU+LJssnGZn5Y8/ZMnoo5h2TyNnno4biJLWE9r//68n4cVGwG19hhQqWRQ
-         N3Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=xevi7s0+mr+ptfy7uVrWQvtAVkuN9tBhA8DON7VF3hc=;
-        b=sm5JrA6bYdtj87Ckqd8aZ8RxoIv3GyG38CZ8N7UmJFNpjIxZb3FmKdl8gfzW4nn6k3
-         7KcSZsLfpo1+dYFn639RMKnLI8QdjTDqAaRgsAfY/f4HBpBIF4MPMNRzzlo2276KReGz
-         AN/CO/oeQ+/v4mSeO1eB9t7O2Mk7K1hsy609OzmMw48+q2L6LjzmZe5cPbymL/w6Mc4+
-         uqJ/0Gjr8QOCn5t83Pi0pEsdIlyK7pekwFNUUQPchH0UvEUIVfHDE+DLYE2hAaPZTdej
-         WzR97EgX9aCPpQ6IwprcjHUViM/laq8Mpt7KhXp3+ATbTRnqObe2PhfFrBSyMLDoS8Ar
-         /XFw==
-X-Gm-Message-State: ACgBeo3JmxB5VDOC+Ob7cqtgv1SMy0kEQ3LHNtUg3UipsyiY3U6uID0i
-        kGhvFFg7x7va8tgDO+dNqSfAD8aoOxTwMJe/wt4=
-X-Google-Smtp-Source: AA6agR616g5NuJiBX7N2EN5Udk4icnJWQWfoN9qnVhTU27eNGicOdpHWiuxBhRNAeZcqXVc1r4KkqHm9jBQr5PV+ypI=
-X-Received: by 2002:ac8:5784:0:b0:31f:24e:93f5 with SMTP id
- v4-20020ac85784000000b0031f024e93f5mr5286928qta.429.1659697674792; Fri, 05
- Aug 2022 04:07:54 -0700 (PDT)
+        with ESMTP id S230169AbiHEMEB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Aug 2022 08:04:01 -0400
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-eopbgr80043.outbound.protection.outlook.com [40.107.8.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E96140ED;
+        Fri,  5 Aug 2022 05:03:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QL1Eb22yzLGU1z76UJcfyWb1PGTbjaK95ajYf5H5m0OwKbcJBw2yiCj9POpU/L8A5GVXNsJpe6jbSZKa/5C7CPFgMozI/9mZLT+7+ngsVmPFdygWk7LiMTZdltD/Ghh3/m7HOufi675bw1r8ofsIavFmUzmcaneaTuTi9Cdwo49gVZMmfCNiXM2K30lik5+5NLiIVfwT41DO0Vzjfc+0/6JHPy/Mq+lcOZLFupGfr/gUhhoqyfTMfE5RkQE/kNStiAFjnXSqxIedFLTcDa05nbf3+HqPAT0zNJ4t+52+ZkzMJr6pISX9gjMKuHwTJnsgyVqrBQtbt5QykX8N+WUfZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wrqnvOYYg3EExQWLYkdvzrKyXZv0psz6SCt5+a1YYww=;
+ b=X/8M/qqvqpsqUVMBZPafKUHljfmdPuTA+yKDOFHPiqYCFpchFNN7C/ufj4gNjimdnmmuzXy8pbk+D6N50ff5ZQHNEve6xnMPlb+6EDW09eM7/jFfUCw9no3VyI6nHuee4LdtmbRHOz4QWz5hsl5Er10fbsPl8EGw3Y1JT/lho4BrFOozDLWWIR2Frhgt96DIMzwIsHsaJEs3g7c+zJkZUr9pjunkoJD47EdSQy2ncArddIg05OoQ9ckymsXjF/skvZo6dYcjYm8nW1y998Hi+jHgVbWBBagI3OJ5iznr343h3f5fVAAxTovTKhZm6IVR3nAHyqRFWU9ZX5DQ+Naf4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.73) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=siemens.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=siemens.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wrqnvOYYg3EExQWLYkdvzrKyXZv0psz6SCt5+a1YYww=;
+ b=zwIU0U8ryYHh1ReMwimQjYr+LQkFSEUMfzxIc/g+03tbcGWTjKmi4Kev/esKzvYm1XqoS/OmLPDda/bM9xqUUlMqGEWUyreQ1z85umBHFodoIi1pA9hsj8n9AVkjK4jF0KKGM20KCsy//uskUpBLLk4tjNh2NvYnvd47RcTMlZ9dSZp5aUVwL4+hdPSqcCdcxWdODOMlHztHfuY/nD40BOmpsHUa7dnbqDvhJw5ry4lWdOy9rZVtJoyJYCk+IJUiKJl8PpkZqA0WydIPTjAvv31d5pSlUl4EMJ/2peV/hMHTIeJcQWWI8gWSmjUauvriCC31T7zmuL2lhqldH7bGLQ==
+Received: from GV3P280CA0111.SWEP280.PROD.OUTLOOK.COM (2603:10a6:150:8::28) by
+ AS1PR10MB5413.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4af::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Fri, 5 Aug
+ 2022 12:03:56 +0000
+Received: from HE1EUR01FT004.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:150:8:cafe::a4) by GV3P280CA0111.outlook.office365.com
+ (2603:10a6:150:8::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14 via Frontend
+ Transport; Fri, 5 Aug 2022 12:03:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.73)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.73 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.73; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.73) by
+ HE1EUR01FT004.mail.protection.outlook.com (10.152.1.233) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5504.14 via Frontend Transport; Fri, 5 Aug 2022 12:03:55 +0000
+Received: from DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) by
+ DEMCHDC9SNA.ad011.siemens.net (194.138.21.73) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.9; Fri, 5 Aug 2022 14:03:55 +0200
+Received: from md1za8fc.ad001.siemens.net (139.25.0.80) by
+ DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.9; Fri, 5 Aug 2022 14:03:54 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Henning Schild <henning.schild@siemens.com>
+Subject: [PATCH] leds: simatic-ipc-leds-gpio: make sure we have the GPIO providing driver
+Date:   Fri, 5 Aug 2022 14:03:43 +0200
+Message-ID: <20220805120343.5027-1-henning.schild@siemens.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220805070610.3516-1-peterwu.pub@gmail.com> <20220805070610.3516-12-peterwu.pub@gmail.com>
-In-Reply-To: <20220805070610.3516-12-peterwu.pub@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 5 Aug 2022 13:07:18 +0200
-Message-ID: <CAHp75VeL=GVMSQaxePwc47FsQczs10m0ZFc-Y3Z2rGx45vLnuQ@mail.gmail.com>
-Subject: Re: [PATCH v7 11/13] leds: rgb: mt6370: Add MediaTek MT6370 current
- sink type LED Indicator support
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Helge Deller <deller@gmx.de>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        cy_huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        USB <linux-usb@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [139.25.0.80]
+X-ClientProxiedBy: DEMCHDC89XA.ad011.siemens.net (139.25.226.103) To
+ DEMCHDC8A0A.ad011.siemens.net (139.25.226.106)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 15e9dfe4-9f90-4630-e6ca-08da76da9289
+X-MS-TrafficTypeDiagnostic: AS1PR10MB5413:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YHJaVW6vbEFC57cdQI0gpP2jA/CB0aquNtr/i9bHGk1td+hglSpZr9KNDn1DuY3Jlpl7uumHpitwZN92xgEe9XzC57NVciaG1RdTZ5d5XCmMaVUvHeTmkqsItD8meOFS0W0vAInOT/EkfPNMns56GIBps0gZx7+fYhWC0Mmgi9S+tq5mJVl1oWV/GQbd9Z1Ez5+KfIEWkRe9lDHh6XnuPdnfAiNnqnCCkS3o4nxz8SjLWLzQooJQUSVX2rlNIjUwYfwTql2RfTIMlkDhtsTgVtrwPUXEwfEySmET1URTm11CCEi+lkv1aSzbfPTvNi3kXZi7M7dRozqXnavn12O2hw1+8bl3k8Z/1a+hrxMDIk9Js4GSVOalJCKvor17/FKMWoxB3VnY2DYSo9nwrj64D3blwsxclrz4kAIOLar2VyonaBuyYy/2f5PH9CYmeEGG2Tb5O/RDxsk+f0z/VkQaLlScYsB/BMRIUaPt4qpaxA9P2sP77bLNhQ4uowv0jeW1oEax5wdO+YbcGeE3HGiFRLENSWqgi/pQN41urHrVZeNsKMTIOHu2/CIDR0ZWGciHkrbfRAQOP84uV3kybnZUvryHDBqlOrWUpzfJ67V18E1aOeStylxi9NssY/c1/MsJ+iKHCnsKQqJNeKlklGtd4axOUn7Rpi1yY1p5wTUjYLhhbe2QfSqrhu4Zkg6vfkIggKBLoGSLzy38yEEtfTzgMu2ojg/Y8dRm+HIGpvy7pTUwB2UhuLl1w0Z+MkMwngzoWfjiMqoBQdG5JdHC5YzUc6s7/R/9rKjfUyH4U4uHRoKB91nM6Gk5s4Vi9KmanvKOdFDNpD5yqiWpTXfntDj+hw==
+X-Forefront-Antispam-Report: CIP:194.138.21.73;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(136003)(346002)(376002)(36840700001)(46966006)(40470700004)(40480700001)(36860700001)(83380400001)(186003)(82310400005)(956004)(2616005)(36756003)(16526019)(110136005)(336012)(47076005)(82740400003)(356005)(1076003)(107886003)(26005)(82960400001)(81166007)(316002)(478600001)(86362001)(41300700001)(6666004)(2906002)(5660300002)(40460700003)(44832011)(8936002)(8676002)(4326008)(70586007)(70206006)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2022 12:03:55.8868
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15e9dfe4-9f90-4630-e6ca-08da76da9289
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.73];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT004.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5413
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Aug 5, 2022 at 9:07 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
->
-> From: ChiYuan Huang <cy_huang@richtek.com>
->
-> The MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery
-> charger, a USB Type-C & Power Delivery (PD) controller, dual
-> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> a display bias driver and a general LDO for portable devices.
->
-> Add a support for the MediaTek MT6370 Current Sink Type LED Indicator
+If we register a "leds-gpio" platform device for GPIO pins that do not
+exist we get a -EPROBE_DEFER and the probe will be tried again later.
+If there is not driver to provide that pin we will poll forever and also
+create a lot of log messages.
 
-Add support
+So check if that GPIO driver is configured, if so it will come up
+eventually. If not we exit our probe function early and do not even
+bother registering the "leds-gpio". This method was chosen over "Kconfig
+depends" since this way we can add support for more devices and GPIO
+backends more easily without "depends"ing on all GPIO backends.
 
-(This is also for all other commit messages)
+Signed-off-by: Henning Schild <henning.schild@siemens.com>
+---
+ drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> driver. It can control four channels current-sink RGB LEDs with 3 modes,
-
-3 modes:
-
-> constant current, PWM, and breath mode.
-
-...
-
-> +static int mt6370_gen_breath_pattern(struct mt6370_priv *priv,
-> +                                    struct led_pattern *pattern, u32 len,
-> +                                    u8 *pattern_val, u32 val_len)
-> +{
-> +       enum mt6370_led_ranges sel_range;
-> +       struct led_pattern *curr;
-> +       unsigned int sel;
-> +       u32 val = 0;
-> +       int i;
-> +
-> +       if (len < P_MAX_PATTERNS && val_len < P_MAX_PATTERNS / 2)
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * Pattern list
-> +        * tr1:  byte 0, b'[7: 4]
-> +        * tr2:  byte 0, b'[3: 0]
-> +        * tf1:  byte 1, b'[7: 4]
-> +        * tf2:  byte 1, b'[3: 0]
-> +        * ton:  byte 2, b'[7: 4]
-> +        * toff: byte 2, b'[3: 0]
-> +        */
-> +       for (i = 0; i < P_MAX_PATTERNS; i++) {
-> +               curr = pattern + i;
-> +
-> +               sel_range = i == P_LED_TOFF ? R_LED_TOFF : R_LED_TRFON;
-> +
-> +               linear_range_get_selector_within(priv->ranges + sel_range,
-> +                                                curr->delta_t, &sel);
-> +
-> +               val <<= i % 2 == 0 ? 8 : 0;
-> +               val |= sel << (i % 2 == 0 ? 4 : 0);
-
-It's too cryptic, why not simply:
-
-  if (i % 2) {
-    val |= sel;
-  } else {
-    val <<= 8;
-    val |= sel << 4;
-  }
-
-?
-
-> +       }
-> +
-> +       put_unaligned_be24(val, pattern_val);
-> +
-> +       return 0;
-> +}
-
-...
-
-> +       const char * const states[] = { "off", "keep", "on" };
-
-> +       ret = fwnode_property_read_string(init_data->fwnode, "default-state",
-> +                                         &stat_str);
-> +       if (!ret) {
-> +               ret = match_string(states, ARRAY_SIZE(states), stat_str);
-> +               if (ret < 0)
-> +                       ret = STATE_OFF;
-> +
-> +               led->default_state = ret;
-> +       }
-
-Replace this by using led_init_default_state_get().
-
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c b/drivers/leds/simple/simatic-ipc-leds-gpio.c
+index 4c9e663a90ba..0c96ba98e338 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio.c
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio.c
+@@ -57,6 +57,8 @@ static int simatic_ipc_leds_gpio_probe(struct platform_device *pdev)
+ 	struct gpio_desc *gpiod;
+ 	int err;
+ 
++	if (!IS_ENABLED(CONFIG_PINCTRL_BROXTON))
++		return -ENODEV;
+ 	gpiod_add_lookup_table(&simatic_ipc_led_gpio_table);
+ 	simatic_leds_pdev = platform_device_register_resndata(NULL,
+ 		"leds-gpio", PLATFORM_DEVID_NONE, NULL, 0,
 -- 
-With Best Regards,
-Andy Shevchenko
+2.35.1
+
