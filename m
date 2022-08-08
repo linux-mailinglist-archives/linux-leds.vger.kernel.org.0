@@ -2,145 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0B2E58C9C3
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 15:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C9A58C9DA
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 15:56:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242602AbiHHNwL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Aug 2022 09:52:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
+        id S243183AbiHHN4R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Aug 2022 09:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237479AbiHHNwG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 09:52:06 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AA2DEC2;
-        Mon,  8 Aug 2022 06:52:04 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 335EC1C0001; Mon,  8 Aug 2022 15:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1659966722;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=ZJed1eg0BR3JFaZDVZSq8BNrfezpKyNl8ClpnC7ndWM=;
-        b=eV2K0sDO4MbvF+WKr91/UOn58Gcym1/3jsssNgsPG3hNjW2vwMZ3HpBmSzuiT8TkY4W35D
-        s+nIHY6JKSvqCtZIzbVbR2CXiQqSn4BcyjaLD8MNQkYesnW+gT3YrK2pCSBeM4eR6kAgD/
-        kHZl36aP4bDohWc9oSjjhYUH8c+9Hjs=
-Date:   Mon, 8 Aug 2022 15:52:01 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs changes for v5.20-rc1
-Message-ID: <20220808135201.GA22949@duo.ucw.cz>
+        with ESMTP id S237479AbiHHN4P (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 09:56:15 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBCA2D113;
+        Mon,  8 Aug 2022 06:56:12 -0700 (PDT)
+Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M1d5j361Yz6H74W;
+        Mon,  8 Aug 2022 21:56:09 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Mon, 8 Aug 2022 15:56:09 +0200
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 8 Aug
+ 2022 14:56:09 +0100
+Date:   Mon, 8 Aug 2022 14:56:08 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC:     Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Tim Harvey" <tharvey@gateworks.com>,
+        Robert Jones <rjones@gateworks.com>,
+        "Lee Jones" <lee@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric Dumazet" <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        "Liam Girdwood" <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Ricardo Rivera-Matos" <r-rivera-matos@ti.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH 5/5] dt-bindings: Drop Dan Murphy
+Message-ID: <20220808145608.00002bf8@huawei.com>
+In-Reply-To: <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
+References: <20220808104712.54315-1-krzysztof.kozlowski@linaro.org>
+        <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon,  8 Aug 2022 13:47:12 +0300
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Emails to Dan Murphy bounce ("550 Invalid recipient <dmurphy@ti.com>
+> (#5.1.1)").
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml     | 2 +-
+>  .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
+>  Documentation/devicetree/bindings/leds/leds-lp50xx.yaml         | 2 +-
+>  Documentation/devicetree/bindings/net/ti,dp83822.yaml           | 2 +-
+>  Documentation/devicetree/bindings/net/ti,dp83867.yaml           | 2 +-
+>  Documentation/devicetree/bindings/net/ti,dp83869.yaml           | 2 +-
+>  Documentation/devicetree/bindings/power/supply/bq2515x.yaml     | 1 -
+>  Documentation/devicetree/bindings/power/supply/bq25980.yaml     | 1 -
+>  Documentation/devicetree/bindings/sound/tas2562.yaml            | 2 +-
+>  Documentation/devicetree/bindings/sound/tlv320adcx140.yaml      | 2 +-
+>  10 files changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml b/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
+> index 9f5e96439c01..8f50f0f719df 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: Texas Instruments' ads124s08 and ads124s06 ADC chip
+>  
+>  maintainers:
+> -  - Dan Murphy <dmurphy@ti.com>
+> +  - Jonathan Cameron <jic23@kernel.org>
+For this one,
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
+(I'm fine with using my kernel.org address for bindings)
 
-  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-5.20-rc1
-
-for you to fetch changes up to 38ba0bb291aacd92d8eaa4a1aa8b63ce4286e797:
-
-  leds: is31fl319x: use simple i2c probe function (2022-08-02 16:43:31 +020=
-0)
-
-----------------------------------------------------------------
-LED updates for 5.20: new driver for bcm63138, is31fl319x updates,
-fixups for multicolor. Clevo-mail driver got disabled, it needs API
-fix.
-
-----------------------------------------------------------------
-Andy Shevchenko (4):
-      leds: is31fl319x: Make use of device properties
-      leds: is31fl319x: Make use of dev_err_probe()
-      leds: is31fl319x: Fix devm vs. non-devm ordering
-      leds: is31fl319x: use simple i2c probe function
-
-Emil Renner Berthing (3):
-      leds: pwm-multicolor: Don't show -EPROBE_DEFER as errors
-      dt-bindings: leds: pwm-multicolor: Add active-low property
-      leds: pwm-multicolor: Support active-low LEDs
-
-Greg Kroah-Hartman (1):
-      leds: turris-omnia: convert to use dev_groups
-
-Krzysztof Kozlowski (3):
-      dt-bindings: leds: class-multicolor: reference class directly in mult=
-i-led node
-      dt-bindings: leds: lp50xx: fix LED children names
-      dt-bindings: leds: pwm-multicolor: document max-brigthness
-
-Pavel Machek (1):
-      leds: clevo-mail: Mark as broken pending interface fix
-
-Rafa=C5=82 Mi=C5=82ecki (5):
-      dt-bindings: leds: add Broadcom's BCM63138 controller
-      leds: bcm63138: add support for BCM63138 controller
-      dt-bindings: leds: leds-bcm63138: unify full stops in descriptions
-      leds: add help info about BCM63138 module name
-      leds: leds-bcm63138: get rid of LED_OFF
-
-Randy Dunlap (1):
-      leds: clevo-mail: fix Kconfig "its" grammar
-
-Vincent Knecht (5):
-      leds: is31fl319x: Add missing si-en compatibles
-      leds: is31fl319x: Use non-wildcard names for vars, structs and defines
-      leds: is31fl319x: Move chipset-specific values in chipdef struct
-      leds: is31fl319x: Add support for is31fl319{0,1,3} chips
-      leds: is31fl319x: Cleanup formatting and dev_dbg calls
-
- .../bindings/leds/cznic,turris-omnia-leds.yaml     |   2 +
- .../devicetree/bindings/leds/leds-bcm63138.yaml    |  95 ++++
- .../bindings/leds/leds-class-multicolor.yaml       |  32 +-
- .../devicetree/bindings/leds/leds-lp50xx.yaml      |  10 +-
- .../bindings/leds/leds-pwm-multicolor.yaml         |  15 +-
- .../devicetree/bindings/leds/leds-qcom-lpg.yaml    |   2 +
- drivers/leds/Kconfig                               |  10 +-
- drivers/leds/blink/Kconfig                         |  14 +
- drivers/leds/blink/Makefile                        |   1 +
- drivers/leds/blink/leds-bcm63138.c                 | 307 ++++++++++++
- drivers/leds/leds-is31fl319x.c                     | 529 +++++++++++++----=
-----
- drivers/leds/leds-turris-omnia.c                   |   4 +-
- drivers/leds/rgb/leds-pwm-multicolor.c             |   8 +-
- 13 files changed, 811 insertions(+), 218 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-bcm63138.ya=
-ml
- create mode 100644 drivers/leds/blink/leds-bcm63138.c
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYvEVAQAKCRAw5/Bqldv6
-8oE7AJ93lneTAVUA7FJRNPblZjCtJps6JwCfRXV65hBkErtzrJVyyptaF62Cfc8=
-=lgHM
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
