@@ -2,52 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE69958C6EB
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 12:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426E858C742
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 13:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242651AbiHHKtE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Aug 2022 06:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36526 "EHLO
+        id S241832AbiHHLIL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Aug 2022 07:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242822AbiHHKsJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 06:48:09 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CADF1403F
-        for <linux-leds@vger.kernel.org>; Mon,  8 Aug 2022 03:47:58 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id d14so12012933lfl.13
-        for <linux-leds@vger.kernel.org>; Mon, 08 Aug 2022 03:47:58 -0700 (PDT)
+        with ESMTP id S242568AbiHHLIK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 07:08:10 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1C31DE
+        for <linux-leds@vger.kernel.org>; Mon,  8 Aug 2022 04:08:07 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id v10so5930633ljh.9
+        for <linux-leds@vger.kernel.org>; Mon, 08 Aug 2022 04:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MC2v6NUHdyQnnZYkJCn4LjAypKIo0C8pXGhVxCJJimA=;
-        b=W9rPnh7bC1E2NKlPctj5CJl6XHy4ZUkYXokDx3/Y5yxoMPcuCFr+UQ2ZLBxyRfBHpx
-         2fAykpcZDEMCmok4jhq1A0Q7r822Vw7OIwnhxgOOyUAyl5usH7tCnO2N4vJ1cAAdmrKr
-         8t01asrDC5BVRDPZXYPeeR/SuAx+2SnbyK+jPWbNJDMA25+O7EP5otc5w2ClcuCblXGV
-         sR/adjLroM+SMGlbNTsPmF79C0Y7gBjkIvdrKPM3uMZP9qk0t1qECLfuDdgqrAbW8Xv0
-         dGfKVARp5SdlZvePRidCQGD8wavpowmm6cfXdPpItSs3NfoydSY5fhvk6+DfrMhH93sq
-         SQNQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=G5McPA5IZBMFjJ0FWkBGoduD3K8bZspnlviNAqde1yc=;
+        b=U/8GdIPAOfjfBSkPjG5qZxEpHYx+/y1PqJjkW7q9XPKi+rNH9/dxiBi1yihCy+h293
+         iNwxkcW7qy7LPeMGxSs5rHpkJQq5EwzuHdr+LCPHKjOeQ83rg8iKzV3zZarNThEsWH0w
+         CmC/o7Zp4FC1+BWdTxPiNp8JkSwzUoXh7tQIU56sUavV8iNgWPijx/uuF0xZaPPcxocb
+         /f7wX+tz8FQi5OrTmy4E+tsl100B6B6g7NsVYajrm5YYsymY0zrRboDLbi4cvxNVYAbc
+         0EoeM/cP8He8woq/BuYMI7uO1xTTlUTwupdPNkoU6aX4x7Uw/vfB35BO1qPupE6jKKH6
+         esHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MC2v6NUHdyQnnZYkJCn4LjAypKIo0C8pXGhVxCJJimA=;
-        b=VXMPP7K1YlfP0n8IRS1P9QjVFr8qPic39vs/qzJPS4+CVuatGYeGpF5M4LFFN3XIQ0
-         RKKF4rfMvtSyT7FBvWY5XZxs/SXu72ugSH7IHsAtys8YobBEIUDnixuKcqyTyM3ekTXd
-         l9LnpHvenbxe/Tlre/fnaNEhZYzkIYLBkgx0qkUxZR1M+x6zvpuIj52621pkET6DR/TO
-         GvBhuPGYsuI1GOq090OSJ+1ULgyBv/6w7IKceErLs4pCYlPc1s74LdnNoe7NlVOvTuY6
-         fJ2DTU6MlWhmMeFzcK4RXSx/i0SkavsCL+8QCkJVyXIAIu/+TM5InPd83jOHI1s/FV+O
-         gRAQ==
-X-Gm-Message-State: ACgBeo0w0gtHgAr5khfI2p5vWQXlEzoCIrChpge3BtDZbuHVSImjAEph
-        FKTrKCt1EaxjIyrgIjsyfLfx1A==
-X-Google-Smtp-Source: AA6agR4QI9l+GRE03Zrm7i5mh9rcgI/S73YecChrNB3PcmYXz2UlrE8dBO5icUSF5md8laPwJNDO4w==
-X-Received: by 2002:a05:6512:2989:b0:48a:f4b9:84bf with SMTP id du9-20020a056512298900b0048af4b984bfmr6611596lfb.39.1659955677840;
-        Mon, 08 Aug 2022 03:47:57 -0700 (PDT)
-Received: from localhost.localdomain ([83.146.140.105])
-        by smtp.gmail.com with ESMTPSA id l18-20020a2ea312000000b0025e040510e7sm1314321lje.74.2022.08.08.03.47.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 03:47:54 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=G5McPA5IZBMFjJ0FWkBGoduD3K8bZspnlviNAqde1yc=;
+        b=pHwHqTwLu/tbTFdL05xvlcsyfQMmsLrRVUgWwbiD+aPoBGLP7Qc6GB397Ekyqs8nuQ
+         UQNmfshAd7u+M4b9t4KkMtXg8xivw3Tb9YyZxDdP/fARGzJT13F5p9GaHY0pDTZja5Si
+         a7uVwg0YPYN+qwZzTRp5zt8hr5CzAXMgRv86/gAfCfp0WZD2648xdF9zGOoE4EY48p1W
+         +7BStd9EWanSDBaozxBFPR16jym6eDU6X1I6VkvuG92ODiNwLrTZ9tWz2YWJJSllU9c2
+         Jucaa1otk93V1fqCvfITKbm56rjuKPZSa4zk/AJxTVIdmOxRn5+WStHSzL9UxHrHSTPt
+         PS3g==
+X-Gm-Message-State: ACgBeo1MNLQtptWOSsWn6YX0y9Yu27qR6U3AMb53d2BVYyW4EVJJ2C7Q
+        VhPscCehdojEV5cpxhpwP4aCpA==
+X-Google-Smtp-Source: AA6agR5I5A6dxgwMS+V5R6U4to3TDtNl7lNnpi0SFDGcuvZCIrUri2LyMgMT9eOhaBiYlWL8+eDong==
+X-Received: by 2002:a2e:2ac1:0:b0:25e:4b39:e3cb with SMTP id q184-20020a2e2ac1000000b0025e4b39e3cbmr5854240ljq.458.1659956886352;
+        Mon, 08 Aug 2022 04:08:06 -0700 (PDT)
+Received: from [192.168.1.39] ([83.146.140.105])
+        by smtp.gmail.com with ESMTPSA id t16-20020a2e9d10000000b0025e6a598019sm1338801lji.131.2022.08.08.04.08.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Aug 2022 04:08:05 -0700 (PDT)
+Message-ID: <43b3c497-97fd-29aa-a07b-bcd6413802c4@linaro.org>
+Date:   Mon, 8 Aug 2022 14:08:03 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 5/5] dt-bindings: Drop Dan Murphy
+Content-Language: en-US
 To:     Michael Hennerich <Michael.Hennerich@analog.com>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -72,17 +79,14 @@ To:     Michael Hennerich <Michael.Hennerich@analog.com>,
         linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
         netdev@vger.kernel.org, linux-pm@vger.kernel.org,
         alsa-devel@alsa-project.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 5/5] dt-bindings: Drop Dan Murphy
-Date:   Mon,  8 Aug 2022 13:47:12 +0300
-Message-Id: <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220808104712.54315-1-krzysztof.kozlowski@linaro.org>
 References: <20220808104712.54315-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -91,151 +95,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Emails to Dan Murphy bounce ("550 Invalid recipient <dmurphy@ti.com>
-(#5.1.1)").
+On 08/08/2022 13:47, Krzysztof Kozlowski wrote:
+> Emails to Dan Murphy bounce ("550 Invalid recipient <dmurphy@ti.com>
+> (#5.1.1)").
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml     | 2 +-
- .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
- Documentation/devicetree/bindings/leds/leds-lp50xx.yaml         | 2 +-
- Documentation/devicetree/bindings/net/ti,dp83822.yaml           | 2 +-
- Documentation/devicetree/bindings/net/ti,dp83867.yaml           | 2 +-
- Documentation/devicetree/bindings/net/ti,dp83869.yaml           | 2 +-
- Documentation/devicetree/bindings/power/supply/bq2515x.yaml     | 1 -
- Documentation/devicetree/bindings/power/supply/bq25980.yaml     | 1 -
- Documentation/devicetree/bindings/sound/tas2562.yaml            | 2 +-
- Documentation/devicetree/bindings/sound/tlv320adcx140.yaml      | 2 +-
- 10 files changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml b/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
-index 9f5e96439c01..8f50f0f719df 100644
---- a/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/ti,ads124s08.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Texas Instruments' ads124s08 and ads124s06 ADC chip
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - Jonathan Cameron <jic23@kernel.org>
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-index 12693483231f..1a9e5bd352c1 100644
---- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Common properties for the multicolor LED class.
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - Pavel Machek <pavel@ucw.cz>
- 
- description: |
-   Bindings for multi color LEDs show how to describe current outputs of
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-index e0b658f07973..7fdda32d0ff4 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: LED driver for LP50XX RGB LED from Texas Instruments.
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - Pavel Machek <pavel@ucw.cz>
- 
- description: |
-   The LP50XX is multi-channel, I2C RGB LED Drivers that can group RGB LEDs into
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83822.yaml b/Documentation/devicetree/bindings/net/ti,dp83822.yaml
-index 75e8712e903a..ac329a9555bf 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83822.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83822.yaml
-@@ -8,7 +8,7 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
- title: TI DP83822 ethernet PHY
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - David S. Miller <davem@davemloft.net>
- 
- description: |
-   The DP83822 is a low-power, single-port, 10/100 Mbps Ethernet PHY. It
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83867.yaml b/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-index 76ff08a477ba..b7a651443543 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83867.yaml
-@@ -11,7 +11,7 @@ allOf:
-   - $ref: "ethernet-controller.yaml#"
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - David S. Miller <davem@davemloft.net>
- 
- description: |
-   The DP83867 device is a robust, low power, fully featured Physical Layer
-diff --git a/Documentation/devicetree/bindings/net/ti,dp83869.yaml b/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-index 1b780dce61ab..4f6ad9d30d44 100644
---- a/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-+++ b/Documentation/devicetree/bindings/net/ti,dp83869.yaml
-@@ -11,7 +11,7 @@ allOf:
-   - $ref: "ethernet-phy.yaml#"
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - David S. Miller <davem@davemloft.net>
- 
- description: |
-   The DP83869HM device is a robust, fully-featured Gigabit (PHY) transceiver
-diff --git a/Documentation/devicetree/bindings/power/supply/bq2515x.yaml b/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-index 27db38577822..4376e6dca48d 100644
---- a/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-+++ b/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-@@ -8,7 +8,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: TI bq2515x 500-mA Linear charger family
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-   - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
- 
- description: |
-diff --git a/Documentation/devicetree/bindings/power/supply/bq25980.yaml b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-index 4883527ab5c7..509a0667b04e 100644
---- a/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-+++ b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-@@ -8,7 +8,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: TI BQ25980 Flash Charger
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-   - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
- 
- description: |
-diff --git a/Documentation/devicetree/bindings/sound/tas2562.yaml b/Documentation/devicetree/bindings/sound/tas2562.yaml
-index 5f7dd5d6cbca..3655d3077dc9 100644
---- a/Documentation/devicetree/bindings/sound/tas2562.yaml
-+++ b/Documentation/devicetree/bindings/sound/tas2562.yaml
-@@ -8,7 +8,7 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
- title: Texas Instruments TAS2562 Smart PA
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - Mark Brown <broonie@kernel.org>
- 
- description: |
-   The TAS2562 is a mono, digital input Class-D audio amplifier optimized for
-diff --git a/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
-index bc2fb1a80ed7..4ab57c835ba3 100644
---- a/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
-+++ b/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
-@@ -8,7 +8,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Texas Instruments TLV320ADCX140 Quad Channel Analog-to-Digital Converter
- 
- maintainers:
--  - Dan Murphy <dmurphy@ti.com>
-+  - Mark Brown <broonie@kernel.org>
- 
- description: |
-   The TLV320ADCX140 are multichannel (4-ch analog recording or 8-ch digital
--- 
-2.34.1
+(...)
 
+>  description: |
+> diff --git a/Documentation/devicetree/bindings/power/supply/bq25980.yaml b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+> index 4883527ab5c7..509a0667b04e 100644
+> --- a/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+> @@ -8,7 +8,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  title: TI BQ25980 Flash Charger
+>  
+>  maintainers:
+> -  - Dan Murphy <dmurphy@ti.com>
+>    - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
+
+Ricardo's also bounces... Does it mean TI is not interested in
+maintaining mainline support for its drivers?
+
+Best regards,
+Krzysztof
