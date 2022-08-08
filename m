@@ -2,76 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7976958BA93
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Aug 2022 12:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 786B558C2E0
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 07:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232509AbiHGKkr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 7 Aug 2022 06:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36962 "EHLO
+        id S234060AbiHHFcZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Aug 2022 01:32:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232071AbiHGKkr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Aug 2022 06:40:47 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C840F22E;
-        Sun,  7 Aug 2022 03:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1659868838; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:references; bh=q0iCh5uIlcUWx769Xlap9uF9I3kZ/wVQv4SF/RfY30c=;
-        b=jBkPtZmLIjOBQMs6R/bHNoG+8VDe3eBGaXRXxMv6asYSibty24L+lnLis1EcqP/zcfRIe2
-        FAGlSVF8hsCld/vFy2zfLy30CHt3IsA1rbO5t9Bs6qvj3z8drKnZ+F8PGXF8lzNBXZ14W7
-        TqJ9hq7bBfhZIP1T3O1ht2HBU8VAQp4=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH] leds: max8997: Don't error if there is no pdata
-Date:   Sun,  7 Aug 2022 12:40:27 +0200
-Message-Id: <20220807104027.10808-1-paul@crapouillou.net>
+        with ESMTP id S233256AbiHHFcY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 01:32:24 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D5D641F;
+        Sun,  7 Aug 2022 22:32:23 -0700 (PDT)
+From:   Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1659936741;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yXDllftD4QyDeHUS/2Bf32lao56WYMz9aqKNaMzbgow=;
+        b=l/5g3LBSyqvi5Gjq24ubCHcG7qabOObZZ8TLuSHVu2BIS/VvakzjFtEQzYJYQ0lDr+avMs
+        7ha3lBTXkBnoZ8oWULns3TlaqjljCBjGq+WL03HR0ADPqlEiEWZvI/x/SOW+FVa1UDqex7
+        QtPg0TFpK7O5ymQK226DLAuGBh9h9uc+2WvyRYBko+ntO6EUGXioGIjWrdL6ODchFkrPBA
+        1q38Gh9yFYqx3jzDx0SvzialxaNYXmqKisF81Dc9IuxkXl4ikfpPK3Dqt7uTDWyH9hdKZJ
+        iGZDBuriYVlgNQyTi3vtvqCbdOMerfu7sbWIqYzFg3d5Bkn0EBdaZXPSSYf9FA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1659936741;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yXDllftD4QyDeHUS/2Bf32lao56WYMz9aqKNaMzbgow=;
+        b=E3qbUOAt5/fCLiyUb7VbZKltnLl6fdQbVp8zwrGHw4tcKTuoetrcDyMMnH9thcn2pMs8d8
+        Bcn/GPkyAKeOPQAA==
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Gene Chen <gene_chen@richtek.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Eddie James <eajames@linux.ibm.com>,
+        Denis Osterland-Heim <Denis.Osterland@diehl.com>,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH v2 11/11] net: dsa: hellcreek: Get rid of custom
+ led_init_default_state_get()
+In-Reply-To: <20220805154907.32263-12-andriy.shevchenko@linux.intel.com>
+References: <20220805154907.32263-1-andriy.shevchenko@linux.intel.com>
+ <20220805154907.32263-12-andriy.shevchenko@linux.intel.com>
+Date:   Mon, 08 Aug 2022 07:32:19 +0200
+Message-ID: <87pmhbxpuk.fsf@kurt>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The driver will works just fine if no platform data was supplied.
+--=-=-=
+Content-Type: text/plain
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/leds/leds-max8997.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+On Fri Aug 05 2022, Andy Shevchenko wrote:
+> LED core provides a helper to parse default state from firmware node.
+> Use it instead of custom implementation.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/drivers/leds/leds-max8997.c b/drivers/leds/leds-max8997.c
-index c0bddb33888d..c8d7f55c9dec 100644
---- a/drivers/leds/leds-max8997.c
-+++ b/drivers/leds/leds-max8997.c
-@@ -238,11 +238,6 @@ static int max8997_led_probe(struct platform_device *pdev)
- 	char name[20];
- 	int ret = 0;
- 
--	if (pdata == NULL) {
--		dev_err(&pdev->dev, "no platform data\n");
--		return -ENODEV;
--	}
--
- 	led = devm_kzalloc(&pdev->dev, sizeof(*led), GFP_KERNEL);
- 	if (led == NULL)
- 		return -ENOMEM;
-@@ -258,7 +253,7 @@ static int max8997_led_probe(struct platform_device *pdev)
- 	led->iodev = iodev;
- 
- 	/* initialize mode and brightness according to platform_data */
--	if (pdata->led_pdata) {
-+	if (pdata && pdata->led_pdata) {
- 		u8 mode = 0, brightness = 0;
- 
- 		mode = pdata->led_pdata->mode[led->id];
--- 
-2.35.1
+Reviewed-by: Kurt Kanzenbach <kurt@linutronix.de>
 
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmLwn+MTHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzgrNzEACnffyzXSC3y5NLX9wOxrvEQH/DTqkA
+DHNJ4NaHmLifJPoqkqY1sRe4pxQFV9KDhKMC+qThd8MRDy06JgCEFjbyeM5RqI5i
+V2OF0kF4iX9cZ9e6FE+Tw3usDLSMuTUZiFgQqGD4FfKExaa1ARa7e1ODhrlOcQm3
+qwv++kbeU/tao2jCnVdhiKfkT68fuBY9wnfRdul0bjiDv5x9olsrktbDvJTKCsC3
+kAF/cfOQBv6f1Q06OMr1wCskw1Je7dGFehq5FkjtZ5xWZoIPpLkV858nI4rfn+DO
+M6AxtrnZMr8KJAir4YhU1NDvYGSrL5wQv3nqc/NJoaeUkg8nj0wVqeXuIsgsznBC
+BkH0VJ0RHtENu6p4NKCJaGnjW5RNPDmZu8CeanDhtTDAnhkhnfhe8t1Y8+pTa2Lk
+mdaolZRJf7N+E/nKx9RiKkHh7goa5xrzVRHkIgYKwWb/Zu8z7I3uhhQiYfzVgC60
+Jpscye/KxPMt/bc82k3Rn5iUaqd64KKLuF0K0p/1zV7I0XbcYHK33M0IiI3cz8Vx
+xdMA1JoNz1zTR/SSgkjObfO2m/Xk+bUkk9LHjBONUhBrsK4UPcLlO3baUgVhk2vs
++p4DC2UHEV3jzSH9G0cMJHhgJEej2hnp5qcp2Ij3F19ywVEbEmgSkTnZbUXu/rPh
+i4tkTsGrGWwQhg==
+=o6fN
+-----END PGP SIGNATURE-----
+--=-=-=--
