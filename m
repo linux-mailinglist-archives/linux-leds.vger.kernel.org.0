@@ -2,33 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A7A58CF48
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Aug 2022 22:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 790AF58D2F2
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Aug 2022 06:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244435AbiHHUmP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Aug 2022 16:42:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57672 "EHLO
+        id S232047AbiHIEeY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 9 Aug 2022 00:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236282AbiHHUmO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Aug 2022 16:42:14 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF0A10FDF;
-        Mon,  8 Aug 2022 13:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ZgX1+MCfF/NQe7YV4mbEzfn++YyLm+UWvyG7V14DLis=; b=Pfpag1Q+1mAb5ZtJYQawOMXgQn
-        OZvFLMYkavguq+1zGabZnEWkneHoBQqVWWji7PZvNWv+BItB0EceSVLsNHS+hpPDDWmHKeaZ7rIaT
-        q8JaLhyby8v1vHiyXONUKSr2NVY9gZxB9xxWkt9jvn81d+w4Oj1pAORjRrL7HKZin3eE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1oL9Yv-00ClV1-To; Mon, 08 Aug 2022 22:41:21 +0200
-Date:   Mon, 8 Aug 2022 22:41:21 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        with ESMTP id S230194AbiHIEeX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 9 Aug 2022 00:34:23 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF471AD95
+        for <linux-leds@vger.kernel.org>; Mon,  8 Aug 2022 21:34:20 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id v2so6811389lfi.6
+        for <linux-leds@vger.kernel.org>; Mon, 08 Aug 2022 21:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=A2cJx4TzfVfLcjEZf5Am6QDuHfwBw6Iwol89LnoU7nc=;
+        b=Jj76Z/jKDUcmTCulxZCqo/LuRjfbdQf1qvEHt1HWkgnmwQAefjhDHIaaiCqEFvEYTN
+         LIRqrtBLpyDQ8XmzpE1wcv+p+OKdW6SOW/w9GO5PylbeCuI0ZpiUAHUNJLq5Gkzmwhv/
+         6n1C7kFTUqpWcEJ8OAyQ+Ang5aSyQJE6G0fB1tWDKiErdTS3TLHiMS4avkS+93E8vxaW
+         aqjdfDBBywZwi8o2eJWlhThCoJNNrrRzb4W5HfyWBg3IquciIg+hMO42TV9o6XKvXVys
+         s32eXG5huF8fXFNYFtyZcqyKdwWUDqkztx7dK4X0ml/kis8bFJll6EFESaMA9Q3vxNBi
+         GiNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=A2cJx4TzfVfLcjEZf5Am6QDuHfwBw6Iwol89LnoU7nc=;
+        b=fBZcnJCdVnxfxUuR3CvVwg0yXHi3XHHmriCv1ZeZJOnGoNLoWklEMLiki9+gUQVcaB
+         E+QQxvuHg346GD+nfvosLqP4ZpstEMph4ZSXazSbmQZmCOWIzWv+z0jlyyVHLPB46r35
+         ulnDV5xR4EwT+G09d99+Ake/M8pOkB/8+PQZNVn0vELj0bIaA8AgGMow5b2qTIiXPmlB
+         cxS6DLopA3Dtw4MtlakiRLatHv1IQuqJ6z60vlv7sk2aJdcjsZU1wIajOmkWD15bZNVr
+         DkalkSKrRmGSmgef8ayZ3zuLaLE74aHTczNCL3NErY3C98ABGrCkjvJ6R+m8Gk/KyfDS
+         131g==
+X-Gm-Message-State: ACgBeo1w+IBfz2cwSniDhEFq6U8wnmtTCQYCqELDAJ5BGq1EPxFjFAVo
+        BPZAmiXe1VwF15XzCe7eD4JdoA==
+X-Google-Smtp-Source: AA6agR4BZyPN7vBEUxb+Ezny+n+osGnBvWSa4FG9wknX3U75cx2BkOZ/jdDmNcMZm3gyQUiR3bv27A==
+X-Received: by 2002:a05:6512:ac5:b0:48c:ecd1:4f14 with SMTP id n5-20020a0565120ac500b0048cecd14f14mr2407443lfu.287.1660019659041;
+        Mon, 08 Aug 2022 21:34:19 -0700 (PDT)
+Received: from [192.168.1.39] ([83.146.140.105])
+        by smtp.gmail.com with ESMTPSA id s30-20020a05651c201e00b0025e778f6f13sm1431364ljo.4.2022.08.08.21.34.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Aug 2022 21:34:18 -0700 (PDT)
+Message-ID: <a2136b83-2c96-27c4-c262-d4e75614f9a7@linaro.org>
+Date:   Tue, 9 Aug 2022 07:34:16 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 5/5] dt-bindings: Drop Dan Murphy
+Content-Language: en-US
+To:     Andrew Davis <afd@ti.com>,
         Michael Hennerich <Michael.Hennerich@analog.com>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -51,33 +78,66 @@ Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
         linux-leds@vger.kernel.org, netdev@vger.kernel.org,
         linux-pm@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 5/5] dt-bindings: Drop Dan Murphy
-Message-ID: <YvF08ft7GiXr6Hd2@lunn.ch>
 References: <20220808104712.54315-1-krzysztof.kozlowski@linaro.org>
  <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
  <43b3c497-97fd-29aa-a07b-bcd6413802c4@linaro.org>
  <6ae15e00-36a4-09a8-112e-553ed8c5f4da@ti.com>
- <YvFtJRJHToDrfpkN@lunn.ch>
- <8b577a8e-26e3-c9db-dae1-7d74fc3334ad@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b577a8e-26e3-c9db-dae1-7d74fc3334ad@ti.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <6ae15e00-36a4-09a8-112e-553ed8c5f4da@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> I'm not seeing his name in the latest MAINTAINERS, seem they all got
-> dropped in 57a9006240b2.
+On 08/08/2022 18:04, Andrew Davis wrote:
+> On 8/8/22 6:08 AM, Krzysztof Kozlowski wrote:
+>> On 08/08/2022 13:47, Krzysztof Kozlowski wrote:
+>>> Emails to Dan Murphy bounce ("550 Invalid recipient <dmurphy@ti.com>
+>>> (#5.1.1)").
+>>
+>>
+>> (...)
+>>
+>>>   description: |
+>>> diff --git a/Documentation/devicetree/bindings/power/supply/bq25980.yaml b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+>>> index 4883527ab5c7..509a0667b04e 100644
+>>> --- a/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+>>> +++ b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
+>>> @@ -8,7 +8,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>   title: TI BQ25980 Flash Charger
+>>>   
+>>>   maintainers:
+>>> -  - Dan Murphy <dmurphy@ti.com>
+>>>     - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
+>>
+>> Ricardo's also bounces... Does it mean TI is not interested in
+>> maintaining mainline support for its drivers?
+>>
+> 
+> TI is still interested in maintaining support here. But as we know folks
+> come and go, so giving specific emails might not be the best option.
+> Doesn't look like the schema here allows free-form strings, but if it did
+> I'd recommend the TI E2E Power-Management support forum[0] added. Any
+> questions on Linux/DT for these parts posted there would land on my desk
+> just the same, or to whomever is assigned in the future with maintaining
+> these drivers.
 
-Ah, great.
+Currently an email address is required. I am not sure if there is
+intention to change it, because similarly to MAINTAINERS file email is
+the way of our communication. Also in MAINTAINERS we expect to have
+person's address (with M:) and for the lists there is a separate entry.
 
-And there does not appear to be a MAINTAINERS entry for any of the TI
-PHYs, so giving the correct impression they are without a Maintainer.
+> Either way, I have several of these parts and can support these. Feel free
+> to replace Dan's email with my email if that works better.
 
-	Andrew
+Yes, that would be great, thanks!
+
+Best regards,
+Krzysztof
