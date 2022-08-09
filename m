@@ -2,61 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 790AF58D2F2
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Aug 2022 06:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CA958D321
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Aug 2022 07:25:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbiHIEeY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 9 Aug 2022 00:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
+        id S234415AbiHIFZh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 9 Aug 2022 01:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbiHIEeX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 9 Aug 2022 00:34:23 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF471AD95
-        for <linux-leds@vger.kernel.org>; Mon,  8 Aug 2022 21:34:20 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id v2so6811389lfi.6
-        for <linux-leds@vger.kernel.org>; Mon, 08 Aug 2022 21:34:20 -0700 (PDT)
+        with ESMTP id S233383AbiHIFZg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 9 Aug 2022 01:25:36 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC4D5183B9
+        for <linux-leds@vger.kernel.org>; Mon,  8 Aug 2022 22:25:33 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id x19so7272987lfq.7
+        for <linux-leds@vger.kernel.org>; Mon, 08 Aug 2022 22:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=A2cJx4TzfVfLcjEZf5Am6QDuHfwBw6Iwol89LnoU7nc=;
-        b=Jj76Z/jKDUcmTCulxZCqo/LuRjfbdQf1qvEHt1HWkgnmwQAefjhDHIaaiCqEFvEYTN
-         LIRqrtBLpyDQ8XmzpE1wcv+p+OKdW6SOW/w9GO5PylbeCuI0ZpiUAHUNJLq5Gkzmwhv/
-         6n1C7kFTUqpWcEJ8OAyQ+Ang5aSyQJE6G0fB1tWDKiErdTS3TLHiMS4avkS+93E8vxaW
-         aqjdfDBBywZwi8o2eJWlhThCoJNNrrRzb4W5HfyWBg3IquciIg+hMO42TV9o6XKvXVys
-         s32eXG5huF8fXFNYFtyZcqyKdwWUDqkztx7dK4X0ml/kis8bFJll6EFESaMA9Q3vxNBi
-         GiNg==
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MN/PfmZxhZGkUDtNPw5NWgDuHq3bhLxgM7464BOCO7A=;
+        b=XZrgPN9JLTKg8atSdFLRTYNXR78mzwUKGoKE9+m3YvMPYebYYnJTS2thkWjAOgWbk5
+         Gp59g/B0MEDTGRnUhfBxEFnRud/VlvToqjXrovIy0Www+xC4rMQN3M3WlpGAbdXu09r6
+         ZpdXLzv7X/df/4F54dEYXnKNlQcjkeSqIKEs9oRRrN9KDCqhEqsNKlPW5qpnFWxw93a2
+         fD6udybTtwWNYP6Qi8hXEoBOF9+yyEZKAkAw1EcPulVs4hk6FaEf1LKr6fnW8Y4DVqPe
+         7HU6MNS2/1x5Zi85kq9xobr759btcJdBQJgsSBzQgBwkk/zspIwOMZRYwN818GbG+x2+
+         T5RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=A2cJx4TzfVfLcjEZf5Am6QDuHfwBw6Iwol89LnoU7nc=;
-        b=fBZcnJCdVnxfxUuR3CvVwg0yXHi3XHHmriCv1ZeZJOnGoNLoWklEMLiki9+gUQVcaB
-         E+QQxvuHg346GD+nfvosLqP4ZpstEMph4ZSXazSbmQZmCOWIzWv+z0jlyyVHLPB46r35
-         ulnDV5xR4EwT+G09d99+Ake/M8pOkB/8+PQZNVn0vELj0bIaA8AgGMow5b2qTIiXPmlB
-         cxS6DLopA3Dtw4MtlakiRLatHv1IQuqJ6z60vlv7sk2aJdcjsZU1wIajOmkWD15bZNVr
-         DkalkSKrRmGSmgef8ayZ3zuLaLE74aHTczNCL3NErY3C98ABGrCkjvJ6R+m8Gk/KyfDS
-         131g==
-X-Gm-Message-State: ACgBeo1w+IBfz2cwSniDhEFq6U8wnmtTCQYCqELDAJ5BGq1EPxFjFAVo
-        BPZAmiXe1VwF15XzCe7eD4JdoA==
-X-Google-Smtp-Source: AA6agR4BZyPN7vBEUxb+Ezny+n+osGnBvWSa4FG9wknX3U75cx2BkOZ/jdDmNcMZm3gyQUiR3bv27A==
-X-Received: by 2002:a05:6512:ac5:b0:48c:ecd1:4f14 with SMTP id n5-20020a0565120ac500b0048cecd14f14mr2407443lfu.287.1660019659041;
-        Mon, 08 Aug 2022 21:34:19 -0700 (PDT)
+        bh=MN/PfmZxhZGkUDtNPw5NWgDuHq3bhLxgM7464BOCO7A=;
+        b=nPmHo8rgRpa7iO8dHw1RHeDyDLEtcZgrvIHjPpzfPoQfV940kx1276Nlsq3SogsUed
+         4gkvSgBRJw3nLwt4YHO1x1s99sJzKlnXVWzdqZ7eHqUgdDIV2D8CHPMfSWQ02F9GcApg
+         KdlvJpmGwD6PzVSvbxmYA46tYBrFn5RN9HYsVSXzeMU9pzbwU6NMHi0v4oDhA74pSsks
+         QjjM0DJlvQiNFVFTbYyEPpUzlMdEM7kqKB6kCRf+WOOmKL9VaSifq25j3JTXv3qj5KkC
+         3CVy1AYBZ/MACyZVMLPBhRy65FykNrokx8hw5BIlM3xMDVJ5fs27a6Z6oWtOH1PqP0c+
+         42hA==
+X-Gm-Message-State: ACgBeo3OWTslCSfU4Qw3zuN5hya+6rg6sIoq7oKL67iaqSnKhQaXnT7D
+        blTxeB+TG0OCm3vkP9x+Fr4ffA==
+X-Google-Smtp-Source: AA6agR6hw1vEdUjRQW20Lnu2pJAqZx/55rR0g6ua4dI5DTsbMqQXBvmrnt/fWy/9kP3zcmoMbyohMQ==
+X-Received: by 2002:a05:6512:3b85:b0:48b:36d0:6cde with SMTP id g5-20020a0565123b8500b0048b36d06cdemr7082766lfv.247.1660022732045;
+        Mon, 08 Aug 2022 22:25:32 -0700 (PDT)
 Received: from [192.168.1.39] ([83.146.140.105])
-        by smtp.gmail.com with ESMTPSA id s30-20020a05651c201e00b0025e778f6f13sm1431364ljo.4.2022.08.08.21.34.17
+        by smtp.gmail.com with ESMTPSA id j3-20020a056512344300b0048a921664e8sm1632860lfr.37.2022.08.08.22.25.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 21:34:18 -0700 (PDT)
-Message-ID: <a2136b83-2c96-27c4-c262-d4e75614f9a7@linaro.org>
-Date:   Tue, 9 Aug 2022 07:34:16 +0300
+        Mon, 08 Aug 2022 22:25:31 -0700 (PDT)
+Message-ID: <c6b890b6-e72f-0377-f0ae-cd15d29c23a1@linaro.org>
+Date:   Tue, 9 Aug 2022 08:25:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH 5/5] dt-bindings: Drop Dan Murphy
+Subject: Re: [PATCH 0/5] iio/hwmon/mfd/leds/net/power/ASoC: dt-bindings: few
+ stale maintainers cleanup
 Content-Language: en-US
-To:     Andrew Davis <afd@ti.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
@@ -69,21 +70,20 @@ To:     Andrew Davis <afd@ti.com>,
         Lee Jones <lee@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Sebastian Reichel <sre@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, alsa-devel@alsa-project.org
+        Mark Brown <broonie@kernel.org>,
+        Ricardo Rivera-Matos <r-rivera-matos@ti.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
 References: <20220808104712.54315-1-krzysztof.kozlowski@linaro.org>
- <20220808104712.54315-6-krzysztof.kozlowski@linaro.org>
- <43b3c497-97fd-29aa-a07b-bcd6413802c4@linaro.org>
- <6ae15e00-36a4-09a8-112e-553ed8c5f4da@ti.com>
+ <20220808115202.3175eb1f@kernel.org>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <6ae15e00-36a4-09a8-112e-553ed8c5f4da@ti.com>
+In-Reply-To: <20220808115202.3175eb1f@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -96,48 +96,26 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 08/08/2022 18:04, Andrew Davis wrote:
-> On 8/8/22 6:08 AM, Krzysztof Kozlowski wrote:
->> On 08/08/2022 13:47, Krzysztof Kozlowski wrote:
->>> Emails to Dan Murphy bounce ("550 Invalid recipient <dmurphy@ti.com>
->>> (#5.1.1)").
+On 08/08/2022 21:52, Jakub Kicinski wrote:
+> On Mon,  8 Aug 2022 13:47:07 +0300 Krzysztof Kozlowski wrote:
+>> Several of the bindings here had only one
+>> maintainer and history does not always point to a new one (although I did not
+>> perform extensive digging). I added subsystem maintainer, because dtschema
+>> requires such entry. This is not the best choice as simply subsystem maintainer
+>> might not have the actual device (or its datasheets or any interest in it).
 >>
->>
->> (...)
->>
->>>   description: |
->>> diff --git a/Documentation/devicetree/bindings/power/supply/bq25980.yaml b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
->>> index 4883527ab5c7..509a0667b04e 100644
->>> --- a/Documentation/devicetree/bindings/power/supply/bq25980.yaml
->>> +++ b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
->>> @@ -8,7 +8,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->>>   title: TI BQ25980 Flash Charger
->>>   
->>>   maintainers:
->>> -  - Dan Murphy <dmurphy@ti.com>
->>>     - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
->>
->> Ricardo's also bounces... Does it mean TI is not interested in
->> maintaining mainline support for its drivers?
->>
+>> However dtschema requires a maintainer. Maybe we could add some
+>> "orphaned" entry in such case?
 > 
-> TI is still interested in maintaining support here. But as we know folks
-> come and go, so giving specific emails might not be the best option.
-> Doesn't look like the schema here allows free-form strings, but if it did
-> I'd recommend the TI E2E Power-Management support forum[0] added. Any
-> questions on Linux/DT for these parts posted there would land on my desk
-> just the same, or to whomever is assigned in the future with maintaining
-> these drivers.
+> Integrating it with MAINTAINERS would be another option worth exploring
+> although slightly tangential.
+> 
+> How do you want this merged? It's all over the place subsystem-wise.
 
-Currently an email address is required. I am not sure if there is
-intention to change it, because similarly to MAINTAINERS file email is
-the way of our communication. Also in MAINTAINERS we expect to have
-person's address (with M:) and for the lists there is a separate entry.
+I was thinking this could go via Rob's tree as fixes for current cycle,
+so your Ack would be great. If there is preference, I can split it per
+subsystem, but for such trivial updates it's a bit of a churn.
 
-> Either way, I have several of these parts and can support these. Feel free
-> to replace Dan's email with my email if that works better.
-
-Yes, that would be great, thanks!
 
 Best regards,
 Krzysztof
