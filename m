@@ -2,73 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAAAB58EC8D
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Aug 2022 14:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A1AC58FD86
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Aug 2022 15:40:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbiHJM6a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 10 Aug 2022 08:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
+        id S234070AbiHKNkB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 11 Aug 2022 09:40:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232378AbiHJM6H (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 10 Aug 2022 08:58:07 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D6160525;
-        Wed, 10 Aug 2022 05:57:59 -0700 (PDT)
-Received: from mercury (dyndsl-095-033-155-153.ewe-ip-backbone.de [95.33.155.153])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 968926601C2A;
-        Wed, 10 Aug 2022 13:57:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1660136277;
-        bh=AXUViYjkfsjlWnyiLgWqWN9MZttYpnjGIynZu5rUAaw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jDXgdsOidzYTu2oNC1erHn44vbS2vts5ReWdZHenahU9BENWCkA4038OA+Nwkkb+4
-         /kUOsqVguBjz/1jC3F/3t7A+gXlSVVaUyNWk07nXB7dJANymSbUxRqRYy/NimPHiiS
-         8TexTLunA86QqT9HLoeMK639uFUaEd+QyFrVsOa8lUvBsCK6Y53MhOqGIF8FJ/oDvL
-         0jPcOgPamgd6afMYuUC20rxuBlJHdk02soJI8TezMQTsf0BgCoubktSvLhHNq9SOpi
-         tgbaI3K6qgahfLujBtUwX+9h/7FcziktKvhn7YNwpMiqeyYQmJGwfD5r9CrDeT5NAS
-         42j7pvI156W/A==
-Received: by mercury (Postfix, from userid 1000)
-        id E7D8A1060840; Wed, 10 Aug 2022 14:57:55 +0200 (CEST)
-Date:   Wed, 10 Aug 2022 14:57:55 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
+        with ESMTP id S231452AbiHKNkB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Aug 2022 09:40:01 -0400
+Received: from vm3.sequanux.org (static.55.155.9.5.clients.your-server.de [5.9.155.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D8D888B980;
+        Thu, 11 Aug 2022 06:39:59 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by vm3.sequanux.org (Postfix) with ESMTP id 8A7711085A5;
+        Thu, 11 Aug 2022 15:32:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at vm3.sequanux.org
+Received: from vm3.sequanux.org ([127.0.0.1])
+        by localhost (vm3.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 2HP3EqOom_St; Thu, 11 Aug 2022 15:31:53 +0200 (CEST)
+Received: from localhost (softwrestling.org [95.216.36.37])
+        by vm3.sequanux.org (Postfix) with ESMTPSA id 7C0FC1086FD;
+        Thu, 11 Aug 2022 15:31:53 +0200 (CEST)
+Date:   Thu, 11 Aug 2022 15:31:39 +0200
+From:   simon.guinot@sequanux.org
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Pavel Machek <pavel@ucw.cz>,
-        Tim Harvey <tharvey@gateworks.com>, Lee Jones <lee@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Andrew Davis <afd@ti.com>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2 5/5] dt-bindings: Drop Dan Murphy and Ricardo
- Rivera-Matos
-Message-ID: <20220810125755.l6ou6imgbeuj37ir@mercury.elektranox.org>
-References: <20220809162752.10186-1-krzysztof.kozlowski@linaro.org>
- <20220809162752.10186-6-krzysztof.kozlowski@linaro.org>
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+        Tasanakorn Phaipool <tasanakorn@gmail.com>
+Subject: Re: [PATCH v2 1/4] gpio-f7188x: Add GPIO support for Nuvoton NCT6116
+Message-ID: <YvUEu8bUc2RgtRpi@76cbfcf04d45>
+References: <20220809150442.3525-1-henning.schild@siemens.com>
+ <20220809150442.3525-2-henning.schild@siemens.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="qodvu6jzbg5jdb43"
+        protocol="application/pgp-signature"; boundary="u8GkZxC+9/sjoLN4"
 Content-Disposition: inline
-In-Reply-To: <20220809162752.10186-6-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220809150442.3525-2-henning.schild@siemens.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -76,101 +57,134 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---qodvu6jzbg5jdb43
+--u8GkZxC+9/sjoLN4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Aug 09, 2022 at 05:04:39PM +0200, Henning Schild wrote:
+> Add GPIO support for Nuvoton NCT6116 chip. Nuvoton SuperIO chips are
+> very similar to the ones from Fintek. In other subsystems they also
+> share drivers and are called a family of drivers.
+>=20
+> For the GPIO subsystem the only difference is that the direction bit is
+> reversed and that there is only one data bit per pin. On the SuperIO
+> level the logical device is another one.
+>=20
+> Signed-off-by: Henning Schild <henning.schild@siemens.com>
 
-On Tue, Aug 09, 2022 at 07:27:52PM +0300, Krzysztof Kozlowski wrote:
-> Emails to Dan Murphy and Ricardo Rivera-Matos bounce ("550 Invalid
-> recipient").  Andrew Davis agreed to take over the bindings.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
+Hi Henning,
+
+This patch is looking good to me. I only have a couple of minor
+comments. Please see them below.
+
 > ---
+>  drivers/gpio/gpio-f7188x.c | 70 +++++++++++++++++++++++++++-----------
+>  1 file changed, 51 insertions(+), 19 deletions(-)
 >=20
-> Changes since v1:
-> 1. Add Andrew Davis instead.
-> 2. Not adding accumulated ack due to change above.
-> ---
-=2E..
->  Documentation/devicetree/bindings/power/supply/bq2515x.yaml    | 3 +--
->  Documentation/devicetree/bindings/power/supply/bq256xx.yaml    | 2 +-
->  Documentation/devicetree/bindings/power/supply/bq25980.yaml    | 3 +--
+> diff --git a/drivers/gpio/gpio-f7188x.c b/drivers/gpio/gpio-f7188x.c
+> index 18a3147f5a42..4d8f38bc3b45 100644
+> --- a/drivers/gpio/gpio-f7188x.c
+> +++ b/drivers/gpio/gpio-f7188x.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+>   * GPIO driver for Fintek Super-I/O F71869, F71869A, F71882, F71889 and =
+F81866
+> + * and Nuvoton Super-I/O NCT6116D
+>   *
+>   * Copyright (C) 2010-2013 LaCie
+>   *
+> @@ -22,13 +23,11 @@
+>  #define SIO_LDSEL		0x07	/* Logical device select */
+>  #define SIO_DEVID		0x20	/* Device ID (2 bytes) */
+>  #define SIO_DEVREV		0x22	/* Device revision */
+> -#define SIO_MANID		0x23	/* Fintek ID (2 bytes) */
+> =20
+> -#define SIO_LD_GPIO		0x06	/* GPIO logical device */
+>  #define SIO_UNLOCK_KEY		0x87	/* Key to enable Super-I/O */
+>  #define SIO_LOCK_KEY		0xAA	/* Key to disable Super-I/O */
+> =20
+> -#define SIO_FINTEK_ID		0x1934	/* Manufacturer ID */
+> +#define SIO_LD_GPIO_FINTEK	0x06	/* GPIO logical device */
+>  #define SIO_F71869_ID		0x0814	/* F71869 chipset ID */
+>  #define SIO_F71869A_ID		0x1007	/* F71869A chipset ID */
+>  #define SIO_F71882_ID		0x0541	/* F71882 chipset ID */
+> @@ -38,6 +37,8 @@
+>  #define SIO_F81804_ID		0x1502  /* F81804 chipset ID, same for f81966 */
+>  #define SIO_F81865_ID		0x0704	/* F81865 chipset ID */
+> =20
+> +#define SIO_LD_GPIO_NUVOTON	0x07	/* GPIO logical device */
+> +#define SIO_NCT6116D_ID		0xD283  /* NCT6116D chipset ID */
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Can we do better to make the definitions above more readable ? With the
+new additions I find it a little bit unclear.
 
--- Sebastian
+Maybe we could add a comment on the top of the Fintek and Nuvoton
+specific sections ? Or maybe we could group the LD_GPIO_ definitions
+in a dedicated section ? Or something else :)
 
-> [...]
-> diff --git a/Documentation/devicetree/bindings/power/supply/bq2515x.yaml =
-b/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-> index 27db38577822..1a1b240034ef 100644
-> --- a/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/bq2515x.yaml
-> @@ -8,8 +8,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: TI bq2515x 500-mA Linear charger family
 > =20
->  maintainers:
-> -  - Dan Murphy <dmurphy@ti.com>
-> -  - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
-> +  - Andrew Davis <afd@ti.com>
+>  enum chips {
+>  	f71869,
+> @@ -48,6 +49,7 @@ enum chips {
+>  	f81866,
+>  	f81804,
+>  	f81865,
+> +	nct6116d,
+>  };
 > =20
->  description: |
->    The BQ2515x family is a highly integrated battery charge management IC=
- that
-> diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml =
-b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> index 91abe5733c41..82f382a7ffb3 100644
-> --- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> @@ -8,7 +8,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: TI bq256xx Switch Mode Buck Charger
+>  static const char * const f7188x_names[] =3D {
+> @@ -59,10 +61,12 @@ static const char * const f7188x_names[] =3D {
+>  	"f81866",
+>  	"f81804",
+>  	"f81865",
+> +	"nct6116d",
+>  };
 > =20
->  maintainers:
-> -  - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
-> +  - Andrew Davis <afd@ti.com>
+>  struct f7188x_sio {
+>  	int addr;
+> +	int device;
+>  	enum chips type;
+>  };
 > =20
->  description: |
->    The bq256xx devices are a family of highly-integrated battery charge
-> diff --git a/Documentation/devicetree/bindings/power/supply/bq25980.yaml =
-b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-> index 4883527ab5c7..b687b8bcd705 100644
-> --- a/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/bq25980.yaml
-> @@ -8,8 +8,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: TI BQ25980 Flash Charger
+> @@ -170,6 +174,9 @@ static int f7188x_gpio_set_config(struct gpio_chip *c=
+hip, unsigned offset,
+>  /* Output mode register (0:open drain 1:push-pull). */
+>  #define gpio_out_mode(base) (base + 3)
 > =20
->  maintainers:
-> -  - Dan Murphy <dmurphy@ti.com>
-> -  - Ricardo Rivera-Matos <r-rivera-matos@ti.com>
-> +  - Andrew Davis <afd@ti.com>
-> =20
->  description: |
->    The BQ25980, BQ25975, and BQ25960 are a series of flash chargers inten=
-ded
-> [...]
+> +#define gpio_needs_invert(device)	((device) !=3D SIO_LD_GPIO_FINTEK)
+> +#define gpio_single_data(device)	((device) !=3D SIO_LD_GPIO_FINTEK)
 
---qodvu6jzbg5jdb43
+Since this macros are only used to get/set GPIO direction, then I think
+we should use the "gpio_dir_" prefix.
+
+Also is there any reason to match the LD GPIO value rather than the
+chipset type ?
+
+I think we should enable this specific path only for a Nuvoton NCT6116
+device for now (by matching the NCT6116 chipset type). So if more
+devices are added later then we are sure they still go on the original
+path.
+
+--u8GkZxC+9/sjoLN4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmLzq1MACgkQ2O7X88g7
-+prR3RAAguNXBrOMU277Ao4ijuGi+QU6SzrNjySRdOiRVoG9Jn3Zo3D6969KokAP
-JfuYQLSClNfcDgaNVQPpXT5TG377q5ZerWaqfEFCXAy+cp0RIZWXdpDhb+2A5gCU
-gISuq5p61V0AQM6xyU+E9q+q9ZzQ8Qjjo2ckVFCqfcxe3pX4YUUXYu39ieKJqX7G
-juQsf03XgmKXT9PfPpBvMpPe7PqYlFzZqkuvfpNILNtksDBasHS2Tm998RXq3OTe
-hTlItrD65Mb4EEkhtuhj4Xkm6VbW6PXMAJiTCWraJsBZV+aZMdPWeoC5RsnhEDjM
-XcwnQGGy7VZYotwFMBYv1AtxiP6YNim1aYyReT/LA/+HBcIBGmD8Q0v3tgO9ruou
-Gx3DlkUgoo+q1cOLP0dzb+BWxSEx1VlNwONhIv/5bciur7BLTgVPt/1Vt2qLle0V
-1oEq90rdpUTv2poZn3cTd7+Qt99Eld3cVZ/JUFxrXywZkDuKMXB0Krnbg+sOeLfn
-dCWCe7fKeqgEIL71rna2j5BwCGFazcU3JeB2WdncDLqpFQaeb/0OPB8zw6RnC+oM
-PA+3qhtyhYYbcRMP7enDBV4skvpNTlJMD+tYQdzFWkcotVCvXho+7mI/Us+KZwBC
-+CQWd+WnX+l91INLir3KpF7b3yR5BZeo5MYQND5yD7ZKylUXcRo=
-=yGj8
+iQIzBAABCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAmL1BLcACgkQzyg/RDPm
+szpkKA//UQnR2WkJ/05sTGuUUABp8ZNqdzlUn4UEVH1axTVZlodh01QYnDXNl8uL
+CqVbUeLGRCaDGXrK+3VKJaHKX/xqRcahcvQczi/3PqinKqJy3/drKje4swJE8YnF
+9Y9gaS7LHg6N2c6bdhOhDfX3mV+vHPAWQZ+9k9gMRcTxcSi0YuIlYxDQSn0bU2nf
+fV5syydD4fvNz97rPAdNqKf/URaVcuXzsuT8mBso5sTn7AWh3JGJV5qOZwFL6GmE
+2Ykt0e4vEseGjFl+2NdefLQsL0IZJ90TrT7LBXWSVsPSKFxXB0yLRFyGz4S30hB3
+43/mDZOYwzFR/2FA1gj4kA6mYLZv7+WB/vQ8WYZkO/RHaMZ5166dbEhWGRw+2W7t
+nerAGCz22aTIVHdaSBp5ZFUrQA0mFfDs0KwkdhJR3QWe1jvf6P7bY77EBBsLaP5k
+unsj7YSJe2VaDtdRJ/TzC+rFf2Hr1QViguh8Rgnci8GoP9nuj1xRd92f3CWy8mEy
+s8w4fyMrRrlUPeoZRhkLxXOAK0UONDOTIT8n8HSNTNHPOipsE/yIExXudltyZRd6
+/iwjksBJwWo/cSpCK35Kbim2iOgqsDJiB5bakhrQtoUevyRalcySrx4ZY2D9PvKt
+Oj+h+M67ThdzVcx2irks2z8DiOU3aWExTgNnakkbNHjCSWj2xWw=
+=Xin6
 -----END PGP SIGNATURE-----
 
---qodvu6jzbg5jdb43--
+--u8GkZxC+9/sjoLN4--
