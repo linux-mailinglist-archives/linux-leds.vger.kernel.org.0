@@ -2,252 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71DCE5906B3
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Aug 2022 21:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CBFE5907D2
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Aug 2022 23:08:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236098AbiHKSxi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Aug 2022 14:53:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
+        id S236577AbiHKVIC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 11 Aug 2022 17:08:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236101AbiHKSxa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Aug 2022 14:53:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 00E859E102
-        for <linux-leds@vger.kernel.org>; Thu, 11 Aug 2022 11:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660244008;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ozah201mnfEEDkVFShrVs48byUP3DGG4fcUS7109nSU=;
-        b=MHR15G1PInDUWUMNmzmaSdZaH1ixrJ2LRE1mKO8Wde2jE7N4OxbrjpAiSbBry5B66H4r8v
-        qGFvhhLbRgE7Ogih2ANBnSJAsk/o+SsJd8NZdtdj+sVf90yBeh5wvfrywYS4uyFLvQcoUi
-        9/ZyHU5C3ugdGewgExzdie5iN0RgAOk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-496-qZj6hDm1P3WQ6eVbAzTE4g-1; Thu, 11 Aug 2022 14:53:26 -0400
-X-MC-Unique: qZj6hDm1P3WQ6eVbAzTE4g-1
-Received: by mail-ej1-f70.google.com with SMTP id gn23-20020a1709070d1700b0073094d0e02cso5911206ejc.20
-        for <linux-leds@vger.kernel.org>; Thu, 11 Aug 2022 11:53:26 -0700 (PDT)
+        with ESMTP id S236466AbiHKVHp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Aug 2022 17:07:45 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC9498CB4
+        for <linux-leds@vger.kernel.org>; Thu, 11 Aug 2022 14:07:03 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id h21-20020a17090aa89500b001f31a61b91dso6519460pjq.4
+        for <linux-leds@vger.kernel.org>; Thu, 11 Aug 2022 14:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc;
+        bh=DVb1z5kbBA1ujjv+xteyYloR7hoULhfIuEQt2vBqJwI=;
+        b=pNYmvDNysYVnE4y5bj1U2pPQKZhnczdw1WnTDfu9aNj1/nEdGinf042LPTih/OaFlE
+         V4h26+g7TJFlK35T0cyNlZpbfK3Mv0wvUrHmErAczQbmnLnnGvLm0Hdy7G2rbWhAY99N
+         7gIzo5l+Uz9j7uJ61XUPc3O1uP3nlXc4IEic3n/xnfDrqfeKp78nopWEkgHXFENdgQ10
+         17Pt9pzKV1a38XwgA1ZwNNdJR+L5JYcwLBZhYaCpHBw5j+E4XTkEUtGAaiWdYIMSE6WC
+         kcqJCw04jzdvuHwAd4Nr0qPOaknSJVD+aJ8gyRtaul0GqOGYqX8mP6LvqkV3aYssrBIU
+         W1QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Ozah201mnfEEDkVFShrVs48byUP3DGG4fcUS7109nSU=;
-        b=i9RjxeI1LkQ6cWPDvZagca/yreW++8d8GqV/V+wnkqbNxO7rDuU3n5+Qt3zMIw3WMX
-         f9L6iFYmHiw6UJBYbtUlACq15yc1nf36L38yRsjZKGt3iuEQee2XIrWqrfaoHHMi99Pg
-         j1Cd32Svw0l0Y2x+4a4vpxFBUZfe9EYQnCfeEfRlDNKUIQ+9CEqU9sUqr5q9As1/+SjH
-         jwS4tR/hlq/mU6Pk0AAGQviUWcnzWNrPjrEXjZSClVk7SQwFUIkEKW4qXp1p8G+6W476
-         stXCckzKBfaqvZj1P4u/pqhjbSZWMvBanoE9SYEa4Z8PzZTuj3lUh2Z11w1c2p+vO3OS
-         mdrg==
-X-Gm-Message-State: ACgBeo09aqc+Ovnk2WAwm26h1jDuxgXorlGRB2yF48iqnUbz+OmBJA/N
-        kV/koRumNExiTq1iFj9sx6DVago51Z8bmrS2eX85YdnoPTjI549Lw6JHnDZODpXvsnQLuKvcGdV
-        oI5aeOsLkFyCfQqk3ibxLxQ==
-X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id ew10-20020a056402538a00b0043a298ebc2bmr407773edb.125.1660244005845;
-        Thu, 11 Aug 2022 11:53:25 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Hf0C3qERg79013qKBqVwC7oHyWQmFquBERdgftTvV6Wvyxf06qOEovcWRBXcfm3s3neBGlw==
-X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id ew10-20020a056402538a00b0043a298ebc2bmr407757edb.125.1660244005666;
-        Thu, 11 Aug 2022 11:53:25 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id f2-20020a17090660c200b007317ad29921sm3879701ejk.13.2022.08.11.11.53.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 11:53:25 -0700 (PDT)
-Message-ID: <23778397-8080-da39-fbde-22a10c820fbd@redhat.com>
-Date:   Thu, 11 Aug 2022 20:53:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 3/4] leds: simatic-ipc-leds-gpio: add new model 227G
-Content-Language: en-US
-To:     Henning Schild <henning.schild@siemens.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Cc:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-        Tasanakorn Phaipool <tasanakorn@gmail.com>,
-        simon.guinot@sequanux.org
-References: <20220811153908.31283-1-henning.schild@siemens.com>
- <20220811153908.31283-4-henning.schild@siemens.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220811153908.31283-4-henning.schild@siemens.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc;
+        bh=DVb1z5kbBA1ujjv+xteyYloR7hoULhfIuEQt2vBqJwI=;
+        b=vS0q1MwAVkBx6EA4gozNc6lNEiWKMPErBQCOJm5+9mxKb0MUTrUoxTE9e2r4pDoCPt
+         Gf6TRwoiAfuAPVwIrkHtOT+m2gGy5Ia7UGM418HH/WfPBfSIqLv2X93UzoL19WOf28k1
+         Dsa0rJiHF1vj1TAwyLCM3P4ueB5ovqZ0efZCJFaPbQHgOm4yPc0KMId30maC8wdYJIRW
+         7iqJi+fZnQjtk4qEQ1JY8xT98CoCxEoI+KgxXxIxt33Idqv7jGAHVlO29kbYg7Te4bAg
+         FP2Uu9D006BvatDOLUA5f06Erpr6k2ZaAsstRyB1JxX5D1HONOBop2QOhzw/qpOkgGEI
+         HwfA==
+X-Gm-Message-State: ACgBeo3Nhh6XjvvZ9NMPzNjSwmVnkVZzZNK4fcDjqZSKoVCrXeBRZt6R
+        6HlvjAjI3yD3Ms3A8hXYgCZW4A==
+X-Google-Smtp-Source: AA6agR721/2w32bRDonI7TCGaPitO08W/FFsdL1xIehUgwWUxXReEgXRnl8nsgo7Emy01/s6+rWZSg==
+X-Received: by 2002:a17:90a:2b42:b0:1f4:fc9a:be32 with SMTP id y2-20020a17090a2b4200b001f4fc9abe32mr10310074pjc.221.1660252015738;
+        Thu, 11 Aug 2022 14:06:55 -0700 (PDT)
+Received: from localhost ([50.221.140.186])
+        by smtp.gmail.com with ESMTPSA id y22-20020a170902b49600b0016ee4b0bd60sm107352plr.166.2022.08.11.14.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Aug 2022 14:06:55 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 14:06:55 -0700 (PDT)
+X-Google-Original-Date: Thu, 11 Aug 2022 11:35:28 PDT (-0700)
+Subject:     Re: [PATCH v1 0/4] Add HiFive Unmatched LEDs
+In-Reply-To: <20220717110249.GF14285@duo.ucw.cz>
+CC:     emil.renner.berthing@canonical.com, linux-kernel@vger.kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        plr.vincent@gmail.com, bin.meng@windriver.com,
+        aurelien@aurel32.net, w6rz@comcast.net, qiuwenbo@kylinos.com.cn,
+        geert@linux-m68k.org, nerdboy@gentoo.org,
+        jianlong.huang@starfivetech.com, kettenis@openbsd.org,
+        sven.schwermer@disruptive-technologies.com,
+        andy.shevchenko@gmail.com, davidlt@rivosinc.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     pavel@ucw.cz
+Message-ID: <mhng-ac0025f9-3572-432f-9e8d-64ef87730b45@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Sun, 17 Jul 2022 04:02:49 PDT (-0700), pavel@ucw.cz wrote:
+> Hi!
+>
+>> This series adds support for the two LEDs on the HiFive Unmatched
+>> RISC-V board.
+>> 
+>> Emil Renner Berthing (4):
+>>   leds: pwm-multicolor: Don't show -EPROBE_DEFER as errors
+>>   dt-bindings: leds: pwm-multicolor: Add active-low property
+>>   leds: pwm-multicolor: Support active-low LEDs
+>
+> Thank you, applied. Not taking the dts change
 
-On 8/11/22 17:39, Henning Schild wrote:
-> This adds support of the Siemens Simatic IPC227G. Its LEDs are connected
-> to GPIO pins provided by the gpio-f7188x module. We make sure that
-> gets loaded, if not enabled in the kernel config no LED support will be
-> available.
-> 
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/leds/simple/simatic-ipc-leds-gpio.c   | 42 ++++++++++++++++---
->  drivers/platform/x86/simatic-ipc.c            |  4 +-
->  .../platform_data/x86/simatic-ipc-base.h      |  1 +
->  include/linux/platform_data/x86/simatic-ipc.h |  1 +
->  4 files changed, 42 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c b/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> index 4c9e663a90ba..0d73dcbeec2d 100644
-> --- a/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> +++ b/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> @@ -13,28 +13,45 @@
->  #include <linux/leds.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/platform_data/x86/simatic-ipc-base.h>
->  
-> -static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-> +struct gpiod_lookup_table *simatic_ipc_led_gpio_table;
-> +
-> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e = {
->  	.dev_id = "leds-gpio",
->  	.table = {
-> -		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 0, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 52, NULL, 1, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 53, NULL, 2, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 57, NULL, 3, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 58, NULL, 4, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 60, NULL, 5, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 0, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 56, NULL, 6, GPIO_ACTIVE_LOW),
->  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 59, NULL, 7, GPIO_ACTIVE_HIGH),
->  	},
->  };
->  
-> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
-> +	.dev_id = "leds-gpio",
-> +	.table = {
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 0, NULL, 0, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 1, NULL, 1, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 2, NULL, 2, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 3, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 4, NULL, 4, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-2", 5, NULL, 5, GPIO_ACTIVE_LOW),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("gpio-f7188x-3", 7, NULL, 7, GPIO_ACTIVE_HIGH),
-> +	}
-> +};
-> +
->  static const struct gpio_led simatic_ipc_gpio_leds[] = {
-> -	{ .name = "green:" LED_FUNCTION_STATUS "-3" },
->  	{ .name = "red:" LED_FUNCTION_STATUS "-1" },
->  	{ .name = "green:" LED_FUNCTION_STATUS "-1" },
->  	{ .name = "red:" LED_FUNCTION_STATUS "-2" },
->  	{ .name = "green:" LED_FUNCTION_STATUS "-2" },
->  	{ .name = "red:" LED_FUNCTION_STATUS "-3" },
-> +	{ .name = "green:" LED_FUNCTION_STATUS "-3" },
->  };
->  
->  static const struct gpio_led_platform_data simatic_ipc_gpio_leds_pdata = {
-> @@ -46,7 +63,7 @@ static struct platform_device *simatic_leds_pdev;
->  
->  static int simatic_ipc_leds_gpio_remove(struct platform_device *pdev)
->  {
-> -	gpiod_remove_lookup_table(&simatic_ipc_led_gpio_table);
-> +	gpiod_remove_lookup_table(simatic_ipc_led_gpio_table);
->  	platform_device_unregister(simatic_leds_pdev);
->  
->  	return 0;
-> @@ -54,10 +71,25 @@ static int simatic_ipc_leds_gpio_remove(struct platform_device *pdev)
->  
->  static int simatic_ipc_leds_gpio_probe(struct platform_device *pdev)
->  {
-> +	const struct simatic_ipc_platform *plat = pdev->dev.platform_data;
->  	struct gpio_desc *gpiod;
->  	int err;
->  
-> -	gpiod_add_lookup_table(&simatic_ipc_led_gpio_table);
-> +	switch (plat->devmode) {
-> +	case SIMATIC_IPC_DEVICE_127E:
-> +		simatic_ipc_led_gpio_table = &simatic_ipc_led_gpio_table_127e;
-> +		break;
-> +	case SIMATIC_IPC_DEVICE_227G:
-> +		if (!IS_ENABLED(CONFIG_GPIO_F7188X))
-> +			return -ENODEV;
-> +		request_module("gpio-f7188x");
-> +		simatic_ipc_led_gpio_table = &simatic_ipc_led_gpio_table_227g;
-> +		break;
-> +	default:
-> +		return -ENODEV;
-> +	}
-> +
-> +	gpiod_add_lookup_table(simatic_ipc_led_gpio_table);
->  	simatic_leds_pdev = platform_device_register_resndata(NULL,
->  		"leds-gpio", PLATFORM_DEVID_NONE, NULL, 0,
->  		&simatic_ipc_gpio_leds_pdata,
-> diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/simatic-ipc.c
-> index ca3647b751d5..1825ef21a86d 100644
-> --- a/drivers/platform/x86/simatic-ipc.c
-> +++ b/drivers/platform/x86/simatic-ipc.c
-> @@ -41,6 +41,7 @@ static struct {
->  	{SIMATIC_IPC_IPC127E, SIMATIC_IPC_DEVICE_127E, SIMATIC_IPC_DEVICE_NONE},
->  	{SIMATIC_IPC_IPC227D, SIMATIC_IPC_DEVICE_227D, SIMATIC_IPC_DEVICE_NONE},
->  	{SIMATIC_IPC_IPC227E, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_227E},
-> +	{SIMATIC_IPC_IPC227G, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_NONE},
->  	{SIMATIC_IPC_IPC277E, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_227E},
->  	{SIMATIC_IPC_IPC427D, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_NONE},
->  	{SIMATIC_IPC_IPC427E, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_427E},
-> @@ -65,7 +66,8 @@ static int register_platform_devices(u32 station_id)
->  	}
->  
->  	if (ledmode != SIMATIC_IPC_DEVICE_NONE) {
-> -		if (ledmode == SIMATIC_IPC_DEVICE_127E)
-> +		if (ledmode == SIMATIC_IPC_DEVICE_127E ||
-> +		    ledmode == SIMATIC_IPC_DEVICE_227G)
->  			pdevname = KBUILD_MODNAME "_leds_gpio";
->  		platform_data.devmode = ledmode;
->  		ipc_led_platform_device =
-> diff --git a/include/linux/platform_data/x86/simatic-ipc-base.h b/include/linux/platform_data/x86/simatic-ipc-base.h
-> index 39fefd48cf4d..57d6a10dfc9e 100644
-> --- a/include/linux/platform_data/x86/simatic-ipc-base.h
-> +++ b/include/linux/platform_data/x86/simatic-ipc-base.h
-> @@ -19,6 +19,7 @@
->  #define SIMATIC_IPC_DEVICE_427E 2
->  #define SIMATIC_IPC_DEVICE_127E 3
->  #define SIMATIC_IPC_DEVICE_227E 4
-> +#define SIMATIC_IPC_DEVICE_227G 5
->  
->  struct simatic_ipc_platform {
->  	u8	devmode;
-> diff --git a/include/linux/platform_data/x86/simatic-ipc.h b/include/linux/platform_data/x86/simatic-ipc.h
-> index f3b76b39776b..7a2e79f3be0b 100644
-> --- a/include/linux/platform_data/x86/simatic-ipc.h
-> +++ b/include/linux/platform_data/x86/simatic-ipc.h
-> @@ -31,6 +31,7 @@ enum simatic_ipc_station_ids {
->  	SIMATIC_IPC_IPC427E = 0x00000A01,
->  	SIMATIC_IPC_IPC477E = 0x00000A02,
->  	SIMATIC_IPC_IPC127E = 0x00000D01,
-> +	SIMATIC_IPC_IPC227G = 0x00000F01,
->  };
->  
->  static inline u32 simatic_ipc_get_station_id(u8 *data, int max_len)
-
+I took the DTS change (#4) on riscv/for-next.  Thanks!
