@@ -2,57 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1CD5595A1D
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Aug 2022 13:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 979B9595A49
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Aug 2022 13:35:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234038AbiHPL3c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Aug 2022 07:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33458 "EHLO
+        id S229696AbiHPLfs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Aug 2022 07:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234013AbiHPL3P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Aug 2022 07:29:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078CE27B0A;
-        Tue, 16 Aug 2022 03:46:06 -0700 (PDT)
+        with ESMTP id S234917AbiHPLfW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Aug 2022 07:35:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F7E213;
+        Tue, 16 Aug 2022 03:59:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3DA3360F9D;
-        Tue, 16 Aug 2022 10:37:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6BA5C433D6;
-        Tue, 16 Aug 2022 10:37:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B5B116108F;
+        Tue, 16 Aug 2022 10:59:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50996C433D6;
+        Tue, 16 Aug 2022 10:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660646277;
-        bh=wpYi5pDRiQCdE8efj5ruAv3hVpNToekjxnrynO23AOc=;
+        s=k20201202; t=1660647563;
+        bh=Q14GK1ttq7bdP+vgMrGUxvdBjHDjlBElsRQ7/2qJ/QA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K7/hRsyMVCTnqx9m2rihin79CkCmnS/vzWti5yESwhsjavhkqZq/KyWspDCX2eWDN
-         7Posq4v38UzvuZjgNnOS9i8c3kL/15UymUkDPTmTq2j/5lvpJDbcHmX/1mW6iVOrwM
-         xobGBP0JxQC8N2rRKfyydRbKZiWOceL9FFqtHrEy36TjvAmcuACSwoBIaWEoZPpwOD
-         5tmqzmENOCNRafk2TORWiUtFL+q5VDs6Pbr1RoOH2/WTuRYOQz+/cpAZVI7iHzM+K2
-         1KHzAcpGvJD/fiFdYIqxZSl1GAXdkmnmuPw5M0/H6WwMJFYbjRKGe8Lw+hb8hrY7mi
-         P81UgjwnZhZNA==
-Date:   Tue, 16 Aug 2022 12:37:53 +0200
+        b=Uy9Qbv1B+24CwNtwFT1jyubs/ylb9Egk9oGGmnFC+8IwME7fZgoLOETAICQIA3h2U
+         ihGW4+ir2mvRyUlIsHeVK0lf9kqCcqU2p7oPskknfJIdUivw86e3YWm2tUX8gydppB
+         LcfrRmcRQ8SQ1IBrjEv/ZdlahjM7/fsGSMywUcSu4uMZYnkIg7UL/A03zMoyLw3mu2
+         P0WGFiHpiVfJ8dH6A8Bi8wtoWIKgKqKulvVtG8g2anDE9bO+p4QJGnEr6qYRaGWrNv
+         O91BqmZ/HNK8e9h/qF8ptHxuIrX0IytbM6w9EMS7TvEi3IEGnxXVP4Zhal/weNUa37
+         xgbPTSdQhylMA==
+Date:   Tue, 16 Aug 2022 12:59:19 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] leds: lm3697: Remove duplicated error reporting
- in .remove()
-Message-ID: <Yvtzge4/7fGHAwKc@shikoro>
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Matt Johnston <matt@codeconstruct.com.au>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Crt Mori <cmo@melexis.com>,
+        Jeremy Kerr <jk@codeconstruct.com.au>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Petr Machata <petrm@nvidia.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Ajay Gupta <ajayg@nvidia.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Peter Rosin <peda@axentia.se>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Corey Minyard <cninyard@mvista.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Subject: Re: [PATCH v2 0/6] i2c: Make remove callback return void
+Message-ID: <Yvt4h3L8oPBGOIs9@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
         linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+        David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Matt Johnston <matt@codeconstruct.com.au>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Crt Mori <cmo@melexis.com>, Jeremy Kerr <jk@codeconstruct.com.au>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Petr Machata <petrm@nvidia.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Ajay Gupta <ajayg@nvidia.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Peter Rosin <peda@axentia.se>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Corey Minyard <cninyard@mvista.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
 References: <20220815080230.37408-1-u.kleine-koenig@pengutronix.de>
- <20220815080230.37408-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5SG9bP+z7o7IZTy1"
+        protocol="application/pgp-signature"; boundary="0fosoJa+IeyaZHMB"
 Content-Disposition: inline
-In-Reply-To: <20220815080230.37408-3-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220815080230.37408-1-u.kleine-koenig@pengutronix.de>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,47 +123,42 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---5SG9bP+z7o7IZTy1
-Content-Type: text/plain; charset=utf-8
+--0fosoJa+IeyaZHMB
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 15, 2022 at 10:02:26AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Returning an error value from an i2c remove callback results in an error
-> message being emitted by the i2c core, but otherwise it doesn't make a
-> difference. The device goes away anyhow and the devm cleanups are
-> called.
->=20
-> As lm3697_remove() already emits an error message on failure and the
-> additional error message by the i2c core doesn't add any useful
-> information, don't pass the error value up the stack. Instead continue
-> to clean up and return 0.
->=20
-> This patch is a preparation for making i2c remove callbacks return void.
->=20
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Applied to an immutable branch, thanks!
+> As some conflicts are expected I sent this early after -rc1 such that it
+> can be included early into next and be put on an immutable branch for
+> subsystems to resolve merge conflicts.
 
---5SG9bP+z7o7IZTy1
+I pushed the series out now, so it should hit -next tomorrow.
+
+The immutable branch is here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/make_remove_callback_void-immutable
+
+Enjoy!
+
+
+--0fosoJa+IeyaZHMB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmL7c4EACgkQFA3kzBSg
-KbYDQQ/8D7P5RUvEdfwi6/WF1Ladvrty0+GzItTq4lbCj6/IBTVdy4TtvfYyf3XO
-YiG1CwzqOwE/uRMwxvGT2kRIsVRyt+eF4Gy35hnak/t+4WmE+5kBe+jhBTKziEKB
-wLso2ZgC3SHcyVc46EET5IOBbGh59obqUxsvcYiD0XCSJTY7Kv8C39TH6bihZYjx
-Ha4mmBzsWu7MMEIrY9BwoXqWcELhJmKGSUZZjDfqrVPZXAuT34cEAvB6GblkwPlW
-ZwG+186wmFgKkm4G4LH6P1CYoyEY5pfRa80aWitufzhNpst9j6TVUQ7CZHsZjdfM
-pEu6wQxxN6qiRrZSDPx6O31qCrP/aOOtQSo5UXBhIbbIWeFnL92vxfuJi1+BkdDK
-tkUVe1D4B+a/SvKQ/YeX8Zk4Axan/E4JvCFJNGJgq+PK71QyqCpE4+9Ewr8+IyvB
-s8qTiUOvEAaEi9wKdZyBfIiOoisuxrUy24JF8Q9ZA9zWSRhQptbHXi+vJ5kj+XIt
-ZSzx0kg380UMsmSTVCOfiJvAEXGXixWiuNGq/YHlYRaUt76J+0alR3ymS2ZtseLd
-u2hfC8x2PXDwAGX6AE+JHjlq5z+eOznrs43ziaSO7zar/FSK+aFK6KPWfIrUKuxC
-b9OC0dAyJAcgbM5wS0Gwv0kwezcV3YtUX6Wde3ZIonsL6EHmqpU=
-=36ZB
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmL7eIMACgkQFA3kzBSg
+KbaSSg//ZLEFXJ2AC4iQCquvREXL77sq8aBYuMF1drDpCKCcirvajM+cix8mBAAv
+1RyNuz86FIJts0gipoB3pI5sWJFZUbyzrEe63PIS9ZJgoaXrhfpNnWtI7HS5dVpm
+lY5AbbbG8lNBpzqjdSOrVYBgK7V4xgez/RPqHGM+zaStX2Hsfyqi1nk+qVhsBmhp
+5ZrnP6Ccw6jjOaJCB9f1uuMLbqXY87PC++y6Dl9voZEfPJuW7Abv821n/sYhXc2Y
+bdwh9f8eVbW7ImBR2pDcAUNKrTHT1QzRROkumB9uKQ+Tlljf7NhHleKjTuIsJJyL
+GXaxTOcD0SEE71cuEmIKBeL3aKRFLGrklpKPiWtG6F5nuKFYeynOZf7cc/jBEF7Y
+f7LtnW0yS9/oZEsLY2lbUW/OzzBF4Dk+CoqDV9TFcZgyPbpMuupDQa9soCE8P0MW
+pRu7FCGH+zASyoerYPZ/HHEg9Y6v0VfhsBm71+utgP6HPEfBbLn/yE3xLvalbN58
+bt7zDI5nyWScDcOHDwBqI4qwbYCrNPetiVVUoic2sl7ASDVNZe3jGcnr0fTpljSj
+693qZgMk/tqzS2EI0eabivGDzXl/zp1qubjTqZJOsL/Nu1nIq5jIGFTfuo2LbnQb
+2vw3h55QjleuUINeAkulhjcKtHGf1AS9A1vAJ9rB7skoivdhvWI=
+=phI+
 -----END PGP SIGNATURE-----
 
---5SG9bP+z7o7IZTy1--
+--0fosoJa+IeyaZHMB--
