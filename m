@@ -2,116 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 979B9595A49
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Aug 2022 13:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26778595F6B
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Aug 2022 17:41:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbiHPLfs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Aug 2022 07:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54828 "EHLO
+        id S236274AbiHPPjF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Aug 2022 11:39:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234917AbiHPLfW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Aug 2022 07:35:22 -0400
+        with ESMTP id S236119AbiHPPiU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Aug 2022 11:38:20 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F7E213;
-        Tue, 16 Aug 2022 03:59:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4276514034;
+        Tue, 16 Aug 2022 08:37:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B5B116108F;
-        Tue, 16 Aug 2022 10:59:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50996C433D6;
-        Tue, 16 Aug 2022 10:59:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AE22C611EB;
+        Tue, 16 Aug 2022 15:37:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10ACCC433C1;
+        Tue, 16 Aug 2022 15:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660647563;
-        bh=Q14GK1ttq7bdP+vgMrGUxvdBjHDjlBElsRQ7/2qJ/QA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Uy9Qbv1B+24CwNtwFT1jyubs/ylb9Egk9oGGmnFC+8IwME7fZgoLOETAICQIA3h2U
-         ihGW4+ir2mvRyUlIsHeVK0lf9kqCcqU2p7oPskknfJIdUivw86e3YWm2tUX8gydppB
-         LcfrRmcRQ8SQ1IBrjEv/ZdlahjM7/fsGSMywUcSu4uMZYnkIg7UL/A03zMoyLw3mu2
-         P0WGFiHpiVfJ8dH6A8Bi8wtoWIKgKqKulvVtG8g2anDE9bO+p4QJGnEr6qYRaGWrNv
-         O91BqmZ/HNK8e9h/qF8ptHxuIrX0IytbM6w9EMS7TvEi3IEGnxXVP4Zhal/weNUa37
-         xgbPTSdQhylMA==
-Date:   Tue, 16 Aug 2022 12:59:19 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Matt Johnston <matt@codeconstruct.com.au>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Crt Mori <cmo@melexis.com>,
-        Jeremy Kerr <jk@codeconstruct.com.au>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Petr Machata <petrm@nvidia.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Ajay Gupta <ajayg@nvidia.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Peter Rosin <peda@axentia.se>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Corey Minyard <cninyard@mvista.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Subject: Re: [PATCH v2 0/6] i2c: Make remove callback return void
-Message-ID: <Yvt4h3L8oPBGOIs9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Matt Johnston <matt@codeconstruct.com.au>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Crt Mori <cmo@melexis.com>, Jeremy Kerr <jk@codeconstruct.com.au>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Petr Machata <petrm@nvidia.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Ajay Gupta <ajayg@nvidia.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Peter Rosin <peda@axentia.se>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Corey Minyard <cninyard@mvista.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-References: <20220815080230.37408-1-u.kleine-koenig@pengutronix.de>
+        s=k20201202; t=1660664272;
+        bh=V49dgqu/RAkWRS3001yah3EjBpkjCkpA7y5OPLHrM9Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HM6nA176MfOgvwM4aYzgxrXtkZNsyPzieWFtOM7wfa7Y6HbUs11ekwRDWDVFGGXGw
+         27V34YIPzdRIqrOl8k53roAb4tMeD5UDDV3RvxJs4/nEufjpEz3ytpRzUlb75UoX7f
+         SROELHAJ8Mbne9KSmP6mgvraDA/lHVPnonXJXTuB2h/9bkscGKgJ5nrdhIZtDpIjEo
+         kBNP11wnL1imt6wjN99dVad9lNWWj9FE1BCqH6GH4kVXnOR+yujHEy4YqWd9AVAx0H
+         WxHwbprxicMp3T+ovVm4DD6URYmFQxUHfQ68vJnbup2ojgM6/H6z1HwLET+nn0RO97
+         fcXe1fZzFaopQ==
+Received: by mail-ua1-f41.google.com with SMTP id s18so4160730uac.10;
+        Tue, 16 Aug 2022 08:37:51 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0ajzHlMuRIr+AeGlSE5R8WgtFK0ktXaZCMoN2zXAc19FX9wQp2
+        +PVs+UzAGu/wzazL6+zG2WxB/szrdxviIa7vtw==
+X-Google-Smtp-Source: AA6agR6P6tx9Y0Tb4qmdIdqjNQDONt+9JZtqem7UsItHKI1hbGP9NpYbZ5qL4HTr0AbwT9oos2Tvh2M0MtkHzHMsHgQ=
+X-Received: by 2002:ab0:2b06:0:b0:384:c4af:107c with SMTP id
+ e6-20020ab02b06000000b00384c4af107cmr8599136uar.77.1660664270971; Tue, 16 Aug
+ 2022 08:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0fosoJa+IeyaZHMB"
-Content-Disposition: inline
-In-Reply-To: <20220815080230.37408-1-u.kleine-koenig@pengutronix.de>
+References: <20220805070610.3516-1-peterwu.pub@gmail.com> <20220805070610.3516-7-peterwu.pub@gmail.com>
+ <YvJdpq0MWNPQZw5c@google.com>
+In-Reply-To: <YvJdpq0MWNPQZw5c@google.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 16 Aug 2022 09:37:39 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJriSbJvejCi7n50T-NaOW+GF8yb6Fi4m-GvUkggf-9kw@mail.gmail.com>
+Message-ID: <CAL_JsqJriSbJvejCi7n50T-NaOW+GF8yb6Fi4m-GvUkggf-9kw@mail.gmail.com>
+Subject: Re: [PATCH v7 06/13] dt-bindings: mfd: Add MediaTek MT6370
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com, pavel@ucw.cz,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        sre@kernel.org, chunfeng.yun@mediatek.com,
+        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+        lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, deller@gmx.de,
+        andy.shevchenko@gmail.com, chiaen_wu@richtek.com,
+        alice_chen@richtek.com, cy_huang@richtek.com,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        szunichen@gmail.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Lee Jones <lee@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -122,43 +77,80 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, Aug 9, 2022 at 7:14 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Fri, 05 Aug 2022, ChiaEn Wu wrote:
+>
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add MediaTek MT6370 binding documentation.
+> >
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > ---
+> >  .../devicetree/bindings/mfd/mediatek,mt6370.yaml   | 280 +++++++++++++++++++++
+> >  include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |  18 ++
+> >  2 files changed, 298 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+> >  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+>
+> Applied, thanks.
 
---0fosoJa+IeyaZHMB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Without the backlight schema applied, this is the result:
 
-
-> As some conflicts are expected I sent this early after -rc1 such that it
-> can be included early into next and be put on an immutable branch for
-> subsystems to resolve merge conflicts.
-
-I pushed the series out now, so it should hit -next tomorrow.
-
-The immutable branch is here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/make_remove_callback_void-immutable
-
-Enjoy!
-
-
---0fosoJa+IeyaZHMB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmL7eIMACgkQFA3kzBSg
-KbaSSg//ZLEFXJ2AC4iQCquvREXL77sq8aBYuMF1drDpCKCcirvajM+cix8mBAAv
-1RyNuz86FIJts0gipoB3pI5sWJFZUbyzrEe63PIS9ZJgoaXrhfpNnWtI7HS5dVpm
-lY5AbbbG8lNBpzqjdSOrVYBgK7V4xgez/RPqHGM+zaStX2Hsfyqi1nk+qVhsBmhp
-5ZrnP6Ccw6jjOaJCB9f1uuMLbqXY87PC++y6Dl9voZEfPJuW7Abv821n/sYhXc2Y
-bdwh9f8eVbW7ImBR2pDcAUNKrTHT1QzRROkumB9uKQ+Tlljf7NhHleKjTuIsJJyL
-GXaxTOcD0SEE71cuEmIKBeL3aKRFLGrklpKPiWtG6F5nuKFYeynOZf7cc/jBEF7Y
-f7LtnW0yS9/oZEsLY2lbUW/OzzBF4Dk+CoqDV9TFcZgyPbpMuupDQa9soCE8P0MW
-pRu7FCGH+zASyoerYPZ/HHEg9Y6v0VfhsBm71+utgP6HPEfBbLn/yE3xLvalbN58
-bt7zDI5nyWScDcOHDwBqI4qwbYCrNPetiVVUoic2sl7ASDVNZe3jGcnr0fTpljSj
-693qZgMk/tqzS2EI0eabivGDzXl/zp1qubjTqZJOsL/Nu1nIq5jIGFTfuo2LbnQb
-2vw3h55QjleuUINeAkulhjcKtHGf1AS9A1vAJ9rB7skoivdhvWI=
-=phI+
------END PGP SIGNATURE-----
-
---0fosoJa+IeyaZHMB--
+./Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml: Unable
+to find schema file matching $id:
+http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-backlight.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: backlight: False schema does not allow {'compatible':
+['mediatek,mt6370-backlight'], 'mediatek,bled-channel-use': b'\x0f'}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: charger: False schema does not allow {'compatible':
+['mediatek,mt6370-charger'], 'interrupts': [[48], [68], [6]],
+'interrupt-names': ['attach_i', 'uvp_d_evt', 'mivr'], 'io-channels':
+[[1, 5]], 'usb-otg-vbus-regulator': {'regulator-name':
+['mt6370-usb-otg-vbus'], 'regulator-min-microvolt': [[4350000]],
+'regulator-max-microvolt': [[5800000]], 'regulator-min-microamp':
+[[500000]], 'regulator-max-microamp': [[3000000]], 'phandle': [[2]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: tcpc: False schema does not allow {'compatible':
+['mediatek,mt6370-tcpc'], 'interrupts-extended': [[4294967295, 4, 8]],
+'connector': {'compatible': ['usb-c-connector'], 'label': ['USB-C'],
+'vbus-supply': [[2]], 'data-role': ['dual'], 'power-role': ['dual'],
+'try-power-role': ['sink'], 'source-pdos': [[570527844]], 'sink-pdos':
+[[570527944]], 'op-sink-microwatt': [[10000000]], 'ports':
+{'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg':
+[[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1':
+{'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}},
+'port@2': {'reg': [[2]], 'endpoint': {'remote-endpoint':
+[[4294967295]]}}}}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: indicator: False schema does not allow {'compatible':
+['mediatek,mt6370-indicator'], '#address-cells': [[1]], '#size-cells':
+[[0]], 'multi-led@0': {'reg': [[0]], 'function': ['indicator'],
+'color': [[9]], 'led-max-microamp': [[24000]], '#address-cells':
+[[1]], '#size-cells': [[0]], 'led@0': {'reg': [[0]], 'color': [[1]]},
+'led@1': {'reg': [[1]], 'color': [[2]]}, 'led@2': {'reg': [[2]],
+'color': [[3]]}}, 'led@3': {'reg': [[3]], 'function': ['indicator'],
+'color': [[0]], 'led-max-microamp': [[6000]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+pmic@34: flashlight: False schema does not allow {'compatible':
+['mediatek,mt6370-flashlight'], '#address-cells': [[1]],
+'#size-cells': [[0]], 'led@0': {'reg': [[0]], 'led-sources': [[0]],
+'function': ['flash'], 'color': [[0]], 'function-enumerator': [[1]],
+'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]],
+'flash-max-timeout-us': [[1248000]]}, 'led@1': {'reg': [[1]],
+'led-sources': [[1]], 'function': ['flash'], 'color': [[0]],
+'function-enumerator': [[2]], 'led-max-microamp': [[200000]],
+'flash-max-microamp': [[500000]], 'flash-max-timeout-us':
+[[1248000]]}}
+ From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:
+backlight: mediatek,bled-channel-use: b'\x0f' is not of type 'object',
+'array', 'boolean', 'null'
+ From schema: /usr/local/lib/python3.10/dist-packages/dtschema/schemas/dt-core.yaml
