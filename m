@@ -2,151 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AF5B592E9C
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Aug 2022 14:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1CD5595A1D
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Aug 2022 13:30:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232120AbiHOMC7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Aug 2022 08:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45516 "EHLO
+        id S234038AbiHPL3c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Aug 2022 07:29:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbiHOMC6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Aug 2022 08:02:58 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 367B822B3F;
-        Mon, 15 Aug 2022 05:02:57 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id o2so10363165lfb.1;
-        Mon, 15 Aug 2022 05:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc;
-        bh=/XsHCAAUo/oLtA4l5n4XUmocauuvUzyU7VbH9wcjXcQ=;
-        b=ErUX/iJM60mg/GIhgD9m2o8Zsimzt51AWru/dx19gtiQS8+UJAccBHKTCddaet4TL/
-         rEMwij3r1MnT4WMxRr+n8tI+hgQvFYSU4A+na+zrazwGfgyPwI2qpZ6NcVpZgYBQU1vw
-         YnYlPGp8CSlmgHsuOypQ+2k2G75mzmpUIAyAQblYZWsbHoZ3D7uBunM2iAEjxonZUruq
-         XmQvyKmgrdxBuqrUSY5a5XnpN/CCCP/7/hdlyeD+ChsNjOc1+g5KERM6GSB1gIbDR8ZM
-         elh7UJtmD8U4ToCIwcM8PvG0qMTtWsCzvISExiM7RTPenDiFEYWS5gDjaJp7M3FiYxci
-         wuDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=/XsHCAAUo/oLtA4l5n4XUmocauuvUzyU7VbH9wcjXcQ=;
-        b=LFFj5s08rSZp3sXCny7WCK5034M0l/8oHJlWATkNeff2f3qBL2FfBMcwXOUbhnOcXt
-         SsZVzMV+GR6l1EKroSvENxU+oN3jEW9V9G+9VO1HFwgAh75VbCrJUjv5+6XEyUyTVhiS
-         LihtREIiNkBr4onWiGCNCPD4hI7gBYXcYlAuK5B/m1JZPl56P4ObRuo6osqchmy5qq6n
-         bRk3KLWdN5WdzjFLSlqZgXiWIvfOKqBZc+cN/ZXE8TZUi22acMyZCCk5NPmQa++BPo3l
-         1EnV2FvqPbJPAdZf0hFND/Q5CW94pfGo2d5EU6ZzYodM9s4Bmk5cnhmckK1PAiOkBdN1
-         bKHw==
-X-Gm-Message-State: ACgBeo3YVFrvkJpPG9f9a+tUMxAJ4+VByHBiw6XgyDqxfCA3kj7bXfK2
-        YZLaNBDQojTm5UZoFT3LzBw=
-X-Google-Smtp-Source: AA6agR5bn+jCdjoc5L3WS7gsgG/DC+Ia6If8+ihGn5S9bGfb+XvBKScyMfO5upO4+SQ2quD69RF6Lg==
-X-Received: by 2002:a05:6512:1581:b0:492:8c61:5bef with SMTP id bp1-20020a056512158100b004928c615befmr1251567lfb.518.1660564975422;
-        Mon, 15 Aug 2022 05:02:55 -0700 (PDT)
-Received: from [172.16.192.210] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id f26-20020a2e381a000000b0025e2e70b41fsm1384223lja.71.2022.08.15.05.02.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Aug 2022 05:02:54 -0700 (PDT)
-Message-ID: <5a1a5a80-526c-2f76-0086-15cc76e88a06@gmail.com>
-Date:   Mon, 15 Aug 2022 15:02:53 +0300
+        with ESMTP id S234013AbiHPL3P (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Aug 2022 07:29:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078CE27B0A;
+        Tue, 16 Aug 2022 03:46:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3DA3360F9D;
+        Tue, 16 Aug 2022 10:37:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6BA5C433D6;
+        Tue, 16 Aug 2022 10:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660646277;
+        bh=wpYi5pDRiQCdE8efj5ruAv3hVpNToekjxnrynO23AOc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K7/hRsyMVCTnqx9m2rihin79CkCmnS/vzWti5yESwhsjavhkqZq/KyWspDCX2eWDN
+         7Posq4v38UzvuZjgNnOS9i8c3kL/15UymUkDPTmTq2j/5lvpJDbcHmX/1mW6iVOrwM
+         xobGBP0JxQC8N2rRKfyydRbKZiWOceL9FFqtHrEy36TjvAmcuACSwoBIaWEoZPpwOD
+         5tmqzmENOCNRafk2TORWiUtFL+q5VDs6Pbr1RoOH2/WTuRYOQz+/cpAZVI7iHzM+K2
+         1KHzAcpGvJD/fiFdYIqxZSl1GAXdkmnmuPw5M0/H6WwMJFYbjRKGe8Lw+hb8hrY7mi
+         P81UgjwnZhZNA==
+Date:   Tue, 16 Aug 2022 12:37:53 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] leds: lm3697: Remove duplicated error reporting
+ in .remove()
+Message-ID: <Yvtzge4/7fGHAwKc@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+References: <20220815080230.37408-1-u.kleine-koenig@pengutronix.de>
+ <20220815080230.37408-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, lee@kernel.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
-        gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
-        linux@roeck-us.net, heikki.krogerus@linux.intel.com, deller@gmx.de,
-        broonie@kernel.org, lgirdwood@gmail.com,
-        andriy.shevchenko@linux.intel.com
-Cc:     chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        szunichen@gmail.com
-References: <20220815090125.27705-1-peterwu.pub@gmail.com>
- <20220815090125.27705-7-peterwu.pub@gmail.com>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [RESEND PATCH v8 06/12] lib: add linear range index macro
-In-Reply-To: <20220815090125.27705-7-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5SG9bP+z7o7IZTy1"
+Content-Disposition: inline
+In-Reply-To: <20220815080230.37408-3-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi ChiaEn,
 
-On 8/15/22 12:01, ChiaEn Wu wrote:
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
-> 
-> Add linear_range_idx macro for declaring the linear_range struct simply.
-> 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
->   include/linux/linear_range.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/linux/linear_range.h b/include/linux/linear_range.h
-> index fd3d0b358f22..fb53ea13c593 100644
-> --- a/include/linux/linear_range.h
-> +++ b/include/linux/linear_range.h
-> @@ -26,6 +26,14 @@ struct linear_range {
->   	unsigned int step;
->   };
->   
-> +#define LINEAR_RANGE_IDX(_min, _min_sel, _max_sel, _step)	\
-> +	{							\
-> +		.min = _min,					\
-> +		.min_sel = _min_sel,				\
-> +		.max_sel = _max_sel,				\
-> +		.step = _step,					\
-> +	}
-> +
+--5SG9bP+z7o7IZTy1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think this somewhat differs from what you had originally scetched. Eg, 
-if I didn't misread the patch earlier - you had:
+On Mon, Aug 15, 2022 at 10:02:26AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> Returning an error value from an i2c remove callback results in an error
+> message being emitted by the i2c core, but otherwise it doesn't make a
+> difference. The device goes away anyhow and the devm cleanups are
+> called.
+>=20
+> As lm3697_remove() already emits an error message on failure and the
+> additional error message by the i2c core doesn't add any useful
+> information, don't pass the error value up the stack. Instead continue
+> to clean up and return 0.
+>=20
+> This patch is a preparation for making i2c remove callbacks return void.
+>=20
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-#define MT6370_CHG_LINEAR_RANGE(_rfd, _min, _min_sel, _max_sel, _step) \
-[_rfd] = {                                                             \
-	...
+Applied to an immutable branch, thanks!
 
-instead of the
- > +#define LINEAR_RANGE_IDX(_min, _min_sel, _max_sel, _step)	\
- > +	{							\
+--5SG9bP+z7o7IZTy1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I think the latter (without the []-index) is more generic, and very 
-welcome. However, the IDX-suffix does no longer make much sense, right? 
-I suggested name LINEAR_RANGE_IDX for macro taking the array index as it 
-would also be useful when dealing with arrays.
+-----BEGIN PGP SIGNATURE-----
 
-Do you think you could still drop the IDX from macro name or keep the 
-array index as the original did?
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmL7c4EACgkQFA3kzBSg
+KbYDQQ/8D7P5RUvEdfwi6/WF1Ladvrty0+GzItTq4lbCj6/IBTVdy4TtvfYyf3XO
+YiG1CwzqOwE/uRMwxvGT2kRIsVRyt+eF4Gy35hnak/t+4WmE+5kBe+jhBTKziEKB
+wLso2ZgC3SHcyVc46EET5IOBbGh59obqUxsvcYiD0XCSJTY7Kv8C39TH6bihZYjx
+Ha4mmBzsWu7MMEIrY9BwoXqWcELhJmKGSUZZjDfqrVPZXAuT34cEAvB6GblkwPlW
+ZwG+186wmFgKkm4G4LH6P1CYoyEY5pfRa80aWitufzhNpst9j6TVUQ7CZHsZjdfM
+pEu6wQxxN6qiRrZSDPx6O31qCrP/aOOtQSo5UXBhIbbIWeFnL92vxfuJi1+BkdDK
+tkUVe1D4B+a/SvKQ/YeX8Zk4Axan/E4JvCFJNGJgq+PK71QyqCpE4+9Ewr8+IyvB
+s8qTiUOvEAaEi9wKdZyBfIiOoisuxrUy24JF8Q9ZA9zWSRhQptbHXi+vJ5kj+XIt
+ZSzx0kg380UMsmSTVCOfiJvAEXGXixWiuNGq/YHlYRaUt76J+0alR3ymS2ZtseLd
+u2hfC8x2PXDwAGX6AE+JHjlq5z+eOznrs43ziaSO7zar/FSK+aFK6KPWfIrUKuxC
+b9OC0dAyJAcgbM5wS0Gwv0kwezcV3YtUX6Wde3ZIonsL6EHmqpU=
+=36ZB
+-----END PGP SIGNATURE-----
 
-Maybe ideally introduce both macros (unless Mark has objections), one 
-with the [_rfd] and suffix IDX, and the other w/o the suffix and w/o the 
-[_rfd]?
-
-Thanks for the improvements and the patience! ;)
-
-Yours
-   -- Matti
-
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+--5SG9bP+z7o7IZTy1--
