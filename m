@@ -2,128 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA3BD598A68
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Aug 2022 19:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B536598EA9
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Aug 2022 23:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343673AbiHRR0B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Aug 2022 13:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41644 "EHLO
+        id S1346333AbiHRVCH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Aug 2022 17:02:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345590AbiHRRZy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Aug 2022 13:25:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4FCE48;
-        Thu, 18 Aug 2022 10:25:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4536D616FD;
-        Thu, 18 Aug 2022 17:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767AFC433C1;
-        Thu, 18 Aug 2022 17:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660843552;
-        bh=U4ulU7LUfIxOOKY+jPEQdeirsitxhl7mzZqSCLj9pLk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DI/wDz+hwFetaviDPUx/S35ihafJz/fiirF4hzWGi7bbpJIGg0lMUybl5TenFCb/j
-         JKqXVUHPN7WspTnqf7Efoo75RAUb8y3cHEwfZBT22+0Z76MdwvJSJ9zlVAR9Sl+wEm
-         5tOcALdJgW3DV5+62WeoqvaUTKkVx1DVfWl+tjnkj1zWqHMdOnnmphf8ypMqzgsmzx
-         QSPHUXWyB646qiVqtHnR9l9E1AUBebDkaUyYWtM9NCKC8STKCs7nUl7ZqqxuckF4lz
-         ouFexmlD9E1CAR0cNYa0GUttQwFXLGdGTdiYoV5X8mKgWj6uN8Y/Y82SWKEatrrFrs
-         x1De1mfYJt6hg==
-Received: by pali.im (Postfix)
-        id E05782868; Thu, 18 Aug 2022 19:25:49 +0200 (CEST)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] leds: syscon: Implement support for active-low property
-Date:   Thu, 18 Aug 2022 19:25:28 +0200
-Message-Id: <20220818172528.23062-2-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220818172528.23062-1-pali@kernel.org>
-References: <20220818172528.23062-1-pali@kernel.org>
+        with ESMTP id S1346331AbiHRVA5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Aug 2022 17:00:57 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F75D3E75
+        for <linux-leds@vger.kernel.org>; Thu, 18 Aug 2022 14:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=q+7y6OO7vVpB9j8AWpzNjTa7QMG
+        hKSJ4rMcNs5QyAj8=; b=t6Vsp/lqsc8ar7L3hg5WYioOft7sYUqst/jlAz8UUXL
+        SKUkvNcYe76Y42aNiXBFIUzn8PT+RuGHzbCnJQutnZQazycNcQt8C+msv4xntPtb
+        TmeiB61L4JORPEf+rQHOj2PcLWEgJd0wjxRfukdtYszNgwwVe+U6eXKVSIqMayO4
+        =
+Received: (qmail 3960437 invoked from network); 18 Aug 2022 23:00:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 23:00:25 +0200
+X-UD-Smtp-Session: l3s3148p1@kBs9RYrmlPQucref
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jan-Simon Moeller <jansimon.moeller@gmx.de>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] leds: move from strlcpy with unused retval to strscpy
+Date:   Thu, 18 Aug 2022 23:00:24 +0200
+Message-Id: <20220818210024.6913-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This new active-low property specify that LED has inverted logic
-(0 - enable LED, 1 - disable LED).
+Follow the advice of the below link and prefer 'strscpy' in this
+subsystem. Conversion is 1:1 because the return value is not used.
+Generated by a coccinelle script.
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
+Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/leds/leds-syscon.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/leds/flash/leds-aat1290.c | 2 +-
+ drivers/leds/flash/leds-as3645a.c | 4 ++--
+ drivers/leds/led-class.c          | 2 +-
+ drivers/leds/leds-blinkm.c        | 2 +-
+ drivers/leds/leds-spi-byte.c      | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/leds/leds-syscon.c b/drivers/leds/leds-syscon.c
-index 7eddb8ecb44e..5e605d8438e9 100644
---- a/drivers/leds/leds-syscon.c
-+++ b/drivers/leds/leds-syscon.c
-@@ -29,6 +29,7 @@ struct syscon_led {
- 	struct regmap *map;
- 	u32 offset;
- 	u32 mask;
-+	bool active_low;
- 	bool state;
- };
+diff --git a/drivers/leds/flash/leds-aat1290.c b/drivers/leds/flash/leds-aat1290.c
+index 589484b22c79..f12ecb2c6580 100644
+--- a/drivers/leds/flash/leds-aat1290.c
++++ b/drivers/leds/flash/leds-aat1290.c
+@@ -425,7 +425,7 @@ static void aat1290_init_v4l2_flash_config(struct aat1290_led *led,
+ 	struct led_classdev *led_cdev = &led->fled_cdev.led_cdev;
+ 	struct led_flash_setting *s;
  
-@@ -41,10 +42,10 @@ static void syscon_led_set(struct led_classdev *led_cdev,
- 	int ret;
+-	strlcpy(v4l2_sd_cfg->dev_name, led_cdev->dev->kobj.name,
++	strscpy(v4l2_sd_cfg->dev_name, led_cdev->dev->kobj.name,
+ 		sizeof(v4l2_sd_cfg->dev_name));
  
- 	if (value == LED_OFF) {
--		val = 0;
-+		val = sled->active_low ? sled->mask : 0;
- 		sled->state = false;
- 	} else {
--		val = sled->mask;
-+		val = sled->active_low ? 0 : sled->mask;
- 		sled->state = true;
+ 	s = &v4l2_sd_cfg->intensity;
+diff --git a/drivers/leds/flash/leds-as3645a.c b/drivers/leds/flash/leds-as3645a.c
+index aa3f82be0a9c..570c5cdfb611 100644
+--- a/drivers/leds/flash/leds-as3645a.c
++++ b/drivers/leds/flash/leds-as3645a.c
+@@ -651,8 +651,8 @@ static int as3645a_v4l2_setup(struct as3645a *flash)
+ 		},
+ 	};
+ 
+-	strlcpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
+-	strlcpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
++	strscpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
++	strscpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
+ 		sizeof(cfgind.dev_name));
+ 
+ 	flash->vf = v4l2_flash_init(
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 6a8ea94834fa..71b47c081b37 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -310,7 +310,7 @@ static int led_classdev_next_name(const char *init_name, char *name,
+ 	int ret = 0;
+ 	struct device *dev;
+ 
+-	strlcpy(name, init_name, len);
++	strscpy(name, init_name, len);
+ 
+ 	while ((ret < len) &&
+ 	       (dev = class_find_device_by_name(leds_class, name))) {
+diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+index bd7d0d5cf3b6..883f39e17f2f 100644
+--- a/drivers/leds/leds-blinkm.c
++++ b/drivers/leds/leds-blinkm.c
+@@ -561,7 +561,7 @@ static int blinkm_detect(struct i2c_client *client, struct i2c_board_info *info)
+ 		return -ENODEV;
  	}
  
-@@ -85,6 +86,8 @@ static int syscon_led_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	if (of_property_read_u32(np, "mask", &sled->mask))
- 		return -EINVAL;
-+	if (of_find_property(np, "active-low", NULL))
-+		sled->active_low = true;
+-	strlcpy(info->type, "blinkm", I2C_NAME_SIZE);
++	strscpy(info->type, "blinkm", I2C_NAME_SIZE);
+ 	return 0;
+ }
  
- 	state = of_get_property(np, "default-state", NULL);
- 	if (state) {
-@@ -95,17 +98,20 @@ static int syscon_led_probe(struct platform_device *pdev)
- 			if (ret < 0)
- 				return ret;
- 			sled->state = !!(val & sled->mask);
-+			if (sled->active_low)
-+				sled->state = !sled->state;
- 		} else if (!strcmp(state, "on")) {
- 			sled->state = true;
- 			ret = regmap_update_bits(map, sled->offset,
- 						 sled->mask,
--						 sled->mask);
-+						 sled->active_low ? 0 : sled->mask);
- 			if (ret < 0)
- 				return ret;
- 		} else {
- 			sled->state = false;
- 			ret = regmap_update_bits(map, sled->offset,
--						 sled->mask, 0);
-+						 sled->mask,
-+						 sled->active_low ? sled->mask : 0);
- 			if (ret < 0)
- 				return ret;
- 		}
+diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
+index 2bc5c99daf51..2c7ffc3c78e6 100644
+--- a/drivers/leds/leds-spi-byte.c
++++ b/drivers/leds/leds-spi-byte.c
+@@ -98,7 +98,7 @@ static int spi_byte_probe(struct spi_device *spi)
+ 		return -ENOMEM;
+ 
+ 	of_property_read_string(child, "label", &name);
+-	strlcpy(led->name, name, sizeof(led->name));
++	strscpy(led->name, name, sizeof(led->name));
+ 	led->spi = spi;
+ 	mutex_init(&led->mutex);
+ 	led->cdef = device_get_match_data(dev);
 -- 
-2.20.1
+2.35.1
 
