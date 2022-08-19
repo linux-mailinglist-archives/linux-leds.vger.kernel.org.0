@@ -2,133 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B536598EA9
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Aug 2022 23:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6AB0599575
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Aug 2022 08:47:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346333AbiHRVCH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Aug 2022 17:02:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36890 "EHLO
+        id S1345508AbiHSGrD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Aug 2022 02:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346331AbiHRVA5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Aug 2022 17:00:57 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F75D3E75
-        for <linux-leds@vger.kernel.org>; Thu, 18 Aug 2022 14:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=q+7y6OO7vVpB9j8AWpzNjTa7QMG
-        hKSJ4rMcNs5QyAj8=; b=t6Vsp/lqsc8ar7L3hg5WYioOft7sYUqst/jlAz8UUXL
-        SKUkvNcYe76Y42aNiXBFIUzn8PT+RuGHzbCnJQutnZQazycNcQt8C+msv4xntPtb
-        TmeiB61L4JORPEf+rQHOj2PcLWEgJd0wjxRfukdtYszNgwwVe+U6eXKVSIqMayO4
-        =
-Received: (qmail 3960437 invoked from network); 18 Aug 2022 23:00:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 23:00:25 +0200
-X-UD-Smtp-Session: l3s3148p1@kBs9RYrmlPQucref
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jan-Simon Moeller <jansimon.moeller@gmx.de>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH] leds: move from strlcpy with unused retval to strscpy
-Date:   Thu, 18 Aug 2022 23:00:24 +0200
-Message-Id: <20220818210024.6913-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S242340AbiHSGrB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Aug 2022 02:47:01 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D146DEB78
+        for <linux-leds@vger.kernel.org>; Thu, 18 Aug 2022 23:47:00 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id e15so5000177lfs.0
+        for <linux-leds@vger.kernel.org>; Thu, 18 Aug 2022 23:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=/S1tz/z9q53akDDlJ2L7xnkzIfj8YPOZ9tcDhYR4k/4=;
+        b=x82xYJrLDxRocbayh/Xxsh851wWeeGYo+LY4tkInvGc5+Kgl83/M4IAggvo8T8GARM
+         7kCVIb0AOrjskGgt7xoAd4t4Ih2H4qy7rkZP4Cs0e7CJ8HoUf5hi024IuUllwzd5cNQN
+         lvNbpDyxWMxhfKB2k2PnTGdYS0y/Cjsu4jRUbyqBYx8hvIlluCwOOzy6Kp2L+BE0L7qC
+         BGvQq/TwYO24/vbUgVANnrXrQBA3PDc1Oy9ZWxlEfQZTMFY30Gk67Up1lbe2S+E9Bpql
+         JXtUeEIPyFVaO9NJqsGZbvMDCZF07dgBUBlb8lmV4MwBEheyGwdmL+0CiHuTPJ51xadB
+         aLWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=/S1tz/z9q53akDDlJ2L7xnkzIfj8YPOZ9tcDhYR4k/4=;
+        b=D8tW8YfPdffCOk0KPQ6Eem/QImQhBdxBkFxVKMYQkoRl9/qdktqHO5/S4UvhDFi/Hn
+         o2CEAGn1lXebO6hQCBWKnavVz/+WCSEGq8GhN9DVxvBuIkmaUJjReDVFbwE0jYodq5J6
+         6/SVfjHgoWhaE10lVhLY1bhB4k2jhvw2Rg04mQfTZINjRcw1piJh+9siIpzvtgawwY2L
+         kslkdX0v0oqVCK2MnpcMDcw2OXmK4ZQxq2LfHbYJaGUanVhRJeE++nwt+tFXHuDvoQ6R
+         ragDGtbzJpIfVH6b/2yS/0RZ1HGR6BD4gGCx9O8QjuieAdZRt8KImzo5VYxj5wUZajIE
+         JgZA==
+X-Gm-Message-State: ACgBeo3WVknaAhjiVNt7v5nfFDCRaymX0DnQZHEwvduSKvvvEgDPZIoG
+        C2a5FU4iPKN0dk7Ti+e+ZCMMIw==
+X-Google-Smtp-Source: AA6agR4iC/0eCh1N8uUFS7LEyixMg5FbqCCSo3m9sA5x/UDVRytbgt+vF9lnh6F+UUPPj1+SwP1zug==
+X-Received: by 2002:ac2:4da2:0:b0:492:c6a9:f430 with SMTP id h2-20020ac24da2000000b00492c6a9f430mr843801lfe.96.1660891618428;
+        Thu, 18 Aug 2022 23:46:58 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ac:e5a8:ef73:73ed:75b3:8ed5? (d1xw6v77xrs23np8r6z-4.rev.dnainternet.fi. [2001:14bb:ac:e5a8:ef73:73ed:75b3:8ed5])
+        by smtp.gmail.com with ESMTPSA id u21-20020a2eb815000000b00261bf4e9f90sm61296ljo.66.2022.08.18.23.46.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 23:46:57 -0700 (PDT)
+Message-ID: <f635d5a7-6817-cd62-e395-63e346775716@linaro.org>
+Date:   Fri, 19 Aug 2022 09:46:56 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/2] dt-bindings: leds: register-bit-led: Add active-low
+ property
+Content-Language: en-US
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220818172528.23062-1-pali@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220818172528.23062-1-pali@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Follow the advice of the below link and prefer 'strscpy' in this
-subsystem. Conversion is 1:1 because the return value is not used.
-Generated by a coccinelle script.
+On 18/08/2022 20:25, Pali Rohár wrote:
+> Allow to define inverted logic (0 - enable LED, 1 - disable LED) via
+> active-low property.
+> 
+> Signed-off-by: Pali Rohár <pali@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/leds/register-bit-led.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/register-bit-led.yaml b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> index 79b8fc0f9d23..5c6ef26f1a94 100644
+> --- a/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> +++ b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
+> @@ -43,6 +43,11 @@ properties:
+>          0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
+>          0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
+>  
+> +  active-low:
+> +    $ref: /schemas/types.yaml#/definitions/flag
 
-Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/leds/flash/leds-aat1290.c | 2 +-
- drivers/leds/flash/leds-as3645a.c | 4 ++--
- drivers/leds/led-class.c          | 2 +-
- drivers/leds/leds-blinkm.c        | 2 +-
- drivers/leds/leds-spi-byte.c      | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
+This could be shorter: type: boolean
 
-diff --git a/drivers/leds/flash/leds-aat1290.c b/drivers/leds/flash/leds-aat1290.c
-index 589484b22c79..f12ecb2c6580 100644
---- a/drivers/leds/flash/leds-aat1290.c
-+++ b/drivers/leds/flash/leds-aat1290.c
-@@ -425,7 +425,7 @@ static void aat1290_init_v4l2_flash_config(struct aat1290_led *led,
- 	struct led_classdev *led_cdev = &led->fled_cdev.led_cdev;
- 	struct led_flash_setting *s;
- 
--	strlcpy(v4l2_sd_cfg->dev_name, led_cdev->dev->kobj.name,
-+	strscpy(v4l2_sd_cfg->dev_name, led_cdev->dev->kobj.name,
- 		sizeof(v4l2_sd_cfg->dev_name));
- 
- 	s = &v4l2_sd_cfg->intensity;
-diff --git a/drivers/leds/flash/leds-as3645a.c b/drivers/leds/flash/leds-as3645a.c
-index aa3f82be0a9c..570c5cdfb611 100644
---- a/drivers/leds/flash/leds-as3645a.c
-+++ b/drivers/leds/flash/leds-as3645a.c
-@@ -651,8 +651,8 @@ static int as3645a_v4l2_setup(struct as3645a *flash)
- 		},
- 	};
- 
--	strlcpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
--	strlcpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
-+	strscpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
-+	strscpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
- 		sizeof(cfgind.dev_name));
- 
- 	flash->vf = v4l2_flash_init(
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 6a8ea94834fa..71b47c081b37 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -310,7 +310,7 @@ static int led_classdev_next_name(const char *init_name, char *name,
- 	int ret = 0;
- 	struct device *dev;
- 
--	strlcpy(name, init_name, len);
-+	strscpy(name, init_name, len);
- 
- 	while ((ret < len) &&
- 	       (dev = class_find_device_by_name(leds_class, name))) {
-diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
-index bd7d0d5cf3b6..883f39e17f2f 100644
---- a/drivers/leds/leds-blinkm.c
-+++ b/drivers/leds/leds-blinkm.c
-@@ -561,7 +561,7 @@ static int blinkm_detect(struct i2c_client *client, struct i2c_board_info *info)
- 		return -ENODEV;
- 	}
- 
--	strlcpy(info->type, "blinkm", I2C_NAME_SIZE);
-+	strscpy(info->type, "blinkm", I2C_NAME_SIZE);
- 	return 0;
- }
- 
-diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index 2bc5c99daf51..2c7ffc3c78e6 100644
---- a/drivers/leds/leds-spi-byte.c
-+++ b/drivers/leds/leds-spi-byte.c
-@@ -98,7 +98,7 @@ static int spi_byte_probe(struct spi_device *spi)
- 		return -ENOMEM;
- 
- 	of_property_read_string(child, "label", &name);
--	strlcpy(led->name, name, sizeof(led->name));
-+	strscpy(led->name, name, sizeof(led->name));
- 	led->spi = spi;
- 	mutex_init(&led->mutex);
- 	led->cdef = device_get_match_data(dev);
--- 
-2.35.1
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+Although the question is - where is the user of it?
+
+Best regards,
+Krzysztof
