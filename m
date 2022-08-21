@@ -2,46 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6448459B3A5
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Aug 2022 13:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B787D59B5E2
+	for <lists+linux-leds@lfdr.de>; Sun, 21 Aug 2022 20:18:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbiHUL4d (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 21 Aug 2022 07:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44502 "EHLO
+        id S231652AbiHUSSq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 21 Aug 2022 14:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiHUL4d (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Aug 2022 07:56:33 -0400
+        with ESMTP id S231631AbiHUSSp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Aug 2022 14:18:45 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3142B13EBB
-        for <linux-leds@vger.kernel.org>; Sun, 21 Aug 2022 04:56:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B62415FF5
+        for <linux-leds@vger.kernel.org>; Sun, 21 Aug 2022 11:18:42 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 757281C0005; Sun, 21 Aug 2022 13:56:29 +0200 (CEST)
+        id C693B1C0005; Sun, 21 Aug 2022 20:18:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1661082989;
+        t=1661105920;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=pwZjwHzhHzPEJW7yD0f1MC4sSUHR4h1hSBxUfHMOw30=;
-        b=bbVqbpfkJ3A47Yx+y25KodbIVCMFbwq1ZquUO/d174JnUgTUm9RYIuoN2qs0+q8gq4yb32
-        OIXkDXNesdCydoVwn33lPyFN6R77Q/IQ601+uN8rH9ocwVjc5XregTkLCGi+veuSpo1/aa
-        ukAL2WemNjBBe5P53sRP8abuw7hNurc=
-Date:   Sun, 21 Aug 2022 13:56:28 +0200
+        bh=5wcTNVffofuWj+bAe1yLcENMfVZbc12q4CcwXswKT2I=;
+        b=D5biLc4IjjbE8UdbtRQDfroehoqI5FZZ3haSfKljnlFWK2Hh9Z//F7hRRUD7RxCFcHl0PT
+        BZgS8L+gD4TX1HCcb/T+5ZgOFt4Nor+/jxfE5ddSAts876dokzaVZGMP+R3Z6sERYJkZaa
+        beBQM2+EScVnkw1h0oLA7TPlV/nA2XA=
+Date:   Sun, 21 Aug 2022 20:18:40 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Joseph Strauss <jstrauss16@proton.me>
+To:     Werner Sembach <wse@tuxedocomputers.com>
 Cc:     linux-leds@vger.kernel.org
-Subject: Re: Implementing missing BlinkM LED features
-Message-ID: <20220821115628.GA7663@duo.ucw.cz>
-References: <20220820230337.wp7gaxzzz4qi56eb@libretux>
+Subject: Re: Clarification questions regarding multicolor leds
+Message-ID: <20220821181840.GA19796@duo.ucw.cz>
+References: <30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
 Content-Disposition: inline
-In-Reply-To: <20220820230337.wp7gaxzzz4qi56eb@libretux>
+In-Reply-To: <30cbbf20-08cf-a69b-4f58-359a9802e86f@tuxedocomputers.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_GREY autolearn=no autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -49,47 +48,91 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---UugvWAfsgieZRqgk
+--9jxsPFA5p3P2qPhR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
-
-> The BlinkM LED is a programmable full-color RGB LED with use cases includ=
-ing industrial design, hobbyist projects, automotive lighting, and wearable=
-s. The device is programmable in that specific commands can be send over I2=
-C, including scripts, for more complicated lighting effects. The datasheet =
-can be found here: https://static1.squarespace.com/static/5c155684f407b4100=
-552994c/t/5c2d20ca0e2e7292108eadf8/1546461407535/BlinkM_datasheet.pdf
 >=20
-> After glancing through the source code for the existing driver, leds-blin=
-km.c, I noticed a TODO for implementing several of the device's key feature=
-s, including setting the time adjust, fade speed, and writing and reading s=
-cript lines. I would be happy to try implementing and contributing those fe=
-atures, but I wanted to hear some of your thoughts on it before I get start=
-ed and if you think it would be worth everyone's time.
+> I'm currently implementing the multicolors sysfs leds interface for sever=
+al
+> Clevo and Tongfang barebones, but I'm unsure how to actually map the leds=
+ to
+> the multicolor interface:
 >=20
+> The keyboards come in 5 variants:
+>=20
+> Single zone RGB + Brightness
+>=20
+> Single Zone RGB
+>=20
+> 3 Zone RGB + Shared Brightness
+>=20
+> Per Key RGB
+>=20
+> Per Key RGB + Shared Brightness
+>=20
+> First question: How do I map multiple zones or per-key leds?
+>=20
+> Should I register a seperate ::kbd_backlight for zone/key? resulting in
+> ::kbd_backlight, ::kbd_backlight_1, ::kbd_backlight_2, ::kbd_backlight_3,
+> etc?
 
-Take a look at pattern trigger. If you can implement that with hw
-acceleration...
+For a zone, yes.
 
-Actually first step may be rgb-aware pattern trigger, then same
-interface with hw acceleration.
+> Should I give them more desciptive names like ::kbd_backlight_left,
+> ::kbd_backlight_center, ::kbd_backlight_right, ::kbd_backlight_a,
+> ::kbd_backlight_b, ::kbd_backlight_enter?
+>=20
+> Or Should I only create a single ::kbd_backlight instance and map the
+> different zones to subleds? So there are number of zones * 3 subleds, with
+> each tripplet controlling the rgb values of one zone/key? This would help
+> performance, as for the per-key backlight, the firmware in the backend wa=
+nts
+> an array for all keys at once. So setting each key seperatly would mean
+> sending the whole array for each key individually. And I think what most
+> people want to do is to set the whole keyboard at once anyway and nit key=
+ by
+> key.
+
+Not sure what to do there. And not sure if LED subsystem is suitable
+for this, actually. This starts to look like a display...
+
+> Second question: For the keyboards with shared brightness, is it ok to ha=
+ve
+> the brightness values of ::kbd_backlight, ::kbd_backlight_1 etc. just in
+> sync? I did not see a way to have a ::kbd_backlight without the brightness
+> sysfs entry (then I would have just given the brightness switch to
+> ::kbd_backlight and not to ::kbd_backlight_1 and ::kbd_backlight_2)
+
+Can we simply ignore shared brightness to get reasonable API?
+
+> Third question: The 3 zone RGB and the per-key keyboards have firmware
+> accelerated modes, like breathing and rainbow. How do I make them accessi=
+ble
+> via the multicolor leds interface? the blinking pattern interface does not
+> really match the usecase as these modes are a simple single value toggle
+> (0=3Dstatic color, 1=3Dbreathing, 2=3Dignore color settings and play pred=
+efined
+> moving rainbow pattern, etc).
+
+Take a look at drivers/leds/trigger/ledtrig-pattern.c . That's
+interface we'd like.
 
 Best regards,
 								Pavel
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---UugvWAfsgieZRqgk
+--9jxsPFA5p3P2qPhR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYwIdbAAKCRAw5/Bqldv6
-8tspAJ9e1rWNtt/XJQs3vn/CbI4cQFODtgCeKTuVk/6n9a3s/LkOZgcImuiGKDM=
-=nQnf
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYwJ3AAAKCRAw5/Bqldv6
+8mQdAJ4uokCHdl8lZsHLM6zGCcro3wsnZwCePrhiaBmyaM8cCCYCvJylvtWZgt8=
+=w/iL
 -----END PGP SIGNATURE-----
 
---UugvWAfsgieZRqgk--
+--9jxsPFA5p3P2qPhR--
