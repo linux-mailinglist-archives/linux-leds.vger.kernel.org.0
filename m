@@ -2,25 +2,25 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45A3959E457
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Aug 2022 15:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC6C59E5EA
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Aug 2022 17:23:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241388AbiHWN1Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Aug 2022 09:27:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40746 "EHLO
+        id S240930AbiHWPXV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Aug 2022 11:23:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241072AbiHWN0y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Aug 2022 09:26:54 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on20624.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1b::624])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2236152408;
-        Tue, 23 Aug 2022 03:26:51 -0700 (PDT)
+        with ESMTP id S244651AbiHWPQB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Aug 2022 11:16:01 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70072.outbound.protection.outlook.com [40.107.7.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1501665B9;
+        Tue, 23 Aug 2022 03:33:06 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AkDZawPpu95EOeyTz97gzk/BkkJr8IBcEQqZR3HH+XSJjMYUigHwgYG6Vv94LT4G5eLTbYy4QoT3AC3+EfAmL1I82Y+yWxhs/50wKCUZYIruBxDV2OkTHVxwVL+5V8ggqKD9LD4BaNKJSsJWf2qchVCMYUFe4pdDg/nuYMs2S8/ziTMlo+gFQ2izqQuXIJQ3z/FMxcue19h7IY7HBdB8PWlY7N4W+iPehcK7+QStWWMb4bdP6ujqYRucvD5xwVr4DEzPD68+m7xd0yoIHp7+VcrvW03L+2TnROKz9c4CV46GaWP1pO2mR3rgh0OZAYCXJfiBC8UsvIQUGHbtxekkTA==
+ b=VfIrjBK1Ay25VnwiuVkeq5VbeyZmCqouyfkZgjt0GELQrqOPd3hCsRhNGDcSbNf+EGwKqCIEU3srba9qvtZUTxULnVnpu1TCYcRG8g6WHEfRmGi4kAmc6t7Ko9Qut8Cx8EjWLBIc9wbPh6ABVpakyJP2mJaRcSK9CdV6dpUlcjM5kedsKChNzs8JDYB3m4nvEC06DoAmzxZXwK3QbNegIS4Q8qyymm7QKFWIvKgRyhxYLoFwKHILyufEfsaB2T8OfVjULiZegFQiMHmd9YT6j8MaYBjn9sxRUqqplz6Vbk2Tz7A95XPqGKGc4IcplNMTe0zMWNByQE9WGBmlfpJVLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ig+9ZYMBm2YHvnFvLRT991etlN1SNWpA3AH0N8kLqgg=;
- b=AZwmqC2mSXz4gc5CQvnsxBXoa2iFEkn1HUeYohfjSjL6CnB4CjumK2ptoCjPsVX9wuBnPCLtgj/b/kTzciWrjK73qq5qghsE36DYYq/b1P6fBt8EE99IhGAJs/myX6/+8yMb41sGUrgvmSwR95LJSxHe7U19EU2uPfPaJtDWm6j1+va4lRbY+ZKmofS5/+b2JPEiXmSbHl+dOSzXfEk1CFOpD8LKZsRVbJ7T4n9n846zw1BpsDJ9li1Cc/UfjGXs7YqGuKqBPSL3aUyOmnlR2zgK2BSqITixyj8Xse7URvixgc7HBS1t1rXEMGr38y0EYlpIq8llROGG3rjxk5rJag==
+ bh=Q/SIkLdlwCfAKaSHnpyBQjoFHswi4PZziFDzWcXh9Yo=;
+ b=VBJUZqEYWashTny5uuCO8svj5qfG0WOxnInOmxbmaTPopuihx9WGxjBHlBFt+IhF9zVg1Q9q1IwpLU0jTJ7OspXtjrI/PPrSXZM4gHZZ8JilD2MWJQVPtoSQGDWfmlrIeFMdKyeDgHXDjB4ifae4tQ3Mem1ztlqhwPwNhCvw+gT32aTbiVSrYO/i/1WTg7gbxJPZR2kCfq2002ZRyhY3H/Q/UyF8EKJsbYONL/RDng18Jbf/zDDvv5k6uamCJI02mAi3Kuok24s2tW7opg1kRZAliYCI7MLDUXECSsuM6PreYF+AJwjsivG8b+3DuMpM+xZEDhapWqGvS9GmHbxXBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  194.138.21.75) smtp.rcpttodomain=linaro.org smtp.mailfrom=siemens.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=siemens.com;
@@ -28,18 +28,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ig+9ZYMBm2YHvnFvLRT991etlN1SNWpA3AH0N8kLqgg=;
- b=Cb6Jq7ZfhntfWuUus8vCzU2/c7zR/vZeKBX/hd5a9aPTHFz6PykBCNaDK8w12vjy5Q+sF+ihFug7hYtrGlwlEqe0Ng+7s0oWTcnCc0O2WDw+DdJ+jujSE8VThpfU/JE6H1LBBa24E5topuR2zeuko2w9uJVYdKbwmysjDzpmTOysr2WNjmkpyWOzXBQvQfc2RLMSYcblXMihzmWxCTr7CWtxNCHa686r6Bfa08qADlz/oFN05DClvcJSCivyOt8ZcSyqUZXmvsx96HukIXdOi1c1q2s2aJWRhDoFU9bGRm0btiAiSx1Kk2ZlSh3QTF70BsJGOmz9jbRvffsXfJGoJg==
-Received: from GV3P280CA0046.SWEP280.PROD.OUTLOOK.COM (2603:10a6:150:9::17) by
- VI1PR1001MB1455.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:e7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Tue, 23 Aug
- 2022 10:24:08 +0000
+ bh=Q/SIkLdlwCfAKaSHnpyBQjoFHswi4PZziFDzWcXh9Yo=;
+ b=qzJezurO6Gvp6kVORMpgYR6Euw/3NVBc/+bkcFVBf2cavrDZiENLHIF6p4rLFaarxxhOTrgg0S44Xxwp8MwM6if5cf29VKoPCrjcp8ZGVuBOxrc9iy3HokWGmSsch2IUubvOtdiZ7wKzGndwMYpG7lCWvcv+U7dq58Yye+t6Ll+OfiujNQLxV5O4V19Z0Wh+RyeE3fMBl7hzKEpvEH6CA8HLwplUrUqeAv5LC/8kClYT6+FAk3SCSgc9MaCg8djDLUMNu4jpoDo3jZiDpuhsWVPsk2rHjBXzN1uy4VbP38GHXFyWnrXPnaajQlhlLj8P+PSIz13OMWoHggNc832LdQ==
+Received: from GV3P280CA0058.SWEP280.PROD.OUTLOOK.COM (2603:10a6:150:9::28) by
+ DB9PR10MB4846.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:2c2::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5546.16; Tue, 23 Aug 2022 10:24:07 +0000
 Received: from HE1EUR01FT029.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:150:9:cafe::e) by GV3P280CA0046.outlook.office365.com
- (2603:10a6:150:9::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16 via Frontend
- Transport; Tue, 23 Aug 2022 10:24:08 +0000
+ (2603:10a6:150:9:cafe::7) by GV3P280CA0058.outlook.office365.com
+ (2603:10a6:150:9::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11 via Frontend
+ Transport; Tue, 23 Aug 2022 10:24:07 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 194.138.21.75)
  smtp.mailfrom=siemens.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=siemens.com;
@@ -72,9 +71,9 @@ CC:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
         Tasanakorn Phaipool <tasanakorn@gmail.com>,
         <simon.guinot@sequanux.org>,
         Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH v4 5/5] platform/x86: simatic-ipc: add new model 427G
-Date:   Tue, 23 Aug 2022 12:23:44 +0200
-Message-ID: <20220823102344.17624-6-henning.schild@siemens.com>
+Subject: [PATCH v4 4/5] platform/x86: simatic-ipc: enable watchdog for 227G
+Date:   Tue, 23 Aug 2022 12:23:43 +0200
+Message-ID: <20220823102344.17624-5-henning.schild@siemens.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220823102344.17624-1-henning.schild@siemens.com>
 References: <20220823102344.17624-1-henning.schild@siemens.com>
@@ -85,108 +84,67 @@ X-Originating-IP: [139.25.0.80]
 X-ClientProxiedBy: DEMCHDC89XA.ad011.siemens.net (139.25.226.103) To
  DEMCHDC89XA.ad011.siemens.net (139.25.226.103)
 X-TM-AS-Product-Ver: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-AS-Result: No-10--11.432500-8.000000
-X-TMASE-MatchedRID: DRSU/fc/F+JM7wVZoURWlF0WokuUDzPm55gySjxbin5+J3gtIe0gA0+c
-        rEA4+nhZ6Mw4RnkAvRLIk1roNguAzWxgjTXTl/F39YmJ+rCjjhEh4UgUH4JX7APZZctd3P4B2Ll
-        btF/6zpCeEPi9wVyFrqzIaRs+qc7T7pA1TBPNQ93oszdb+c82BXBgpI59xlp2x5sgyUhLCNt9LQ
-        inZ4QefPcjNeVeWlqY+gtHj7OwNO0LH2qjGZLbHROhkFlKRCzwLsiJq/wF5KQuSJb6i9HMGxiCF
-        Are61nE
+X-TM-AS-Result: No-10--11.447500-8.000000
+X-TMASE-MatchedRID: L90KqhDWgfOUYAP3WXIsZ3Cm15xQGrnE2mwVXKpQ3BdHg88w74mNDktc
+        8DbogbSE31GU/N5W5BDT/pFzauZLmXEK4P8QtiVHs3gZaLIY9no/aaS8hrB/2J4CIKY/Hg3AaZG
+        o0EeYG97Gr09tQ7Cw/1BIVsvVu9ABIAcCikR3vq9vibMxAqYXjWHFPUyW8t4AX3DcTx0UaPNCEh
+        brM/bogi6eQ3HQcWnw
 X-TM-AS-User-Approved-Sender: No
 X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.432500-8.000000
+X-TMASE-Result: 10--11.447500-8.000000
 X-TMASE-Version: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-SNTS-SMTP: 7F726871172C5A8D85E1A005B314EAA269C188B499D1A4300ED37D24E2E1A0702000:8
+X-TM-SNTS-SMTP: 06510759FC19E0F5CCD4FBDB51AA4970CD0F36EA6E75AE5B40D375318C7AA1562000:8
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 196fec99-1354-4693-1260-08da84f19cda
-X-MS-TrafficTypeDiagnostic: VI1PR1001MB1455:EE_
+X-MS-Office365-Filtering-Correlation-Id: a25ec1f1-5b42-4212-908f-08da84f19c54
+X-MS-TrafficTypeDiagnostic: DB9PR10MB4846:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: deGXeoZulfYVusQsOMffLGUbURMRtW7T63B4Dx0b4Gs+GE6NNkSeK9gEkMXKW/JdSh1DYWDLrVBWcu0aEQKAxyGQ0kyYkvs7OLI2b3V1X5Bs2bid8Ckx/ziwQiCrcizjhU2aQrMwhP7G8Aq5smZOtHg26e7/GUVoV2RrIAZJI0y6rBpaHMZ4f2Uv/kevEPtnnWmZQIR+Lt+UHz6gxPV5PoU4Jh2LxgkACGuQ3RB0IVhZ5wYnNLMPZs8Bv7wkRoUOZLAeS2Cq6ILVc1kcrAScjLRtLr3l7UwR3aIeHPP23+8vptxrAADdGyp7Pn4pQKeVQRGMmzsvFTAgt6c0+bYHcnToGeA6ea/ifgdI50spMqh/Fm2fisjyn98rVoqv7IYoqWWkFsdblMd9VhcLoha09CoN1GgVcZyl8RaL70e9H+WYqVRBwago/TgjXKjh3N3TfcQbP1h7hz1YSRHqyj+3ldGzNQ/TajrjPLmFCp4s/AASkEk5ERpqX0NTroP9fOfelETTYvfcy6MuFB8P6Q2Vf4iMkYHWm3xJu5HEyTsD99d570PEUKbTzSG1HNdBeTa4hSTRUm1j+6XQ+fHpabrIjbgMcJvRjCU16U5fnOKLIZ8T0UvyYQVIil6TmzDL8ILpO6vICi3u1A8NCRB9TqqYlf+nLEop8zUi0pTio80RSaU5tarrcsOuyXZZ5wtviRo0gqoXbdafRjUmkJfimAWkj0/92CUBvgrvUoS+pCvMjBPmeLOggwiHrZrV3BmH4u8G8aCr+NV1fkcmxov0zXKPoq990JqXCbWHPrLBIfgZljUg/djZGphlwcUVODfvJ7Fwdz0cSmhSZSM3uMYtJ4h2QYqsxw3bMoSmE9TErkfaggxyg5+oN8KBLubiaqwexXcYUugNxOWOoLFVHgqRFwMPgg==
-X-Forefront-Antispam-Report: CIP:194.138.21.75;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(136003)(346002)(376002)(40470700004)(46966006)(36840700001)(82960400001)(921005)(356005)(107886003)(6666004)(86362001)(81166007)(36756003)(83380400001)(26005)(16526019)(956004)(2616005)(336012)(1076003)(41300700001)(186003)(47076005)(478600001)(110136005)(70586007)(82310400005)(40460700003)(40480700001)(54906003)(316002)(4326008)(8676002)(70206006)(82740400003)(34020700004)(36860700001)(44832011)(5660300002)(7416002)(8936002)(2906002)(36900700001)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 6xdsrH1gmrKCcNeGeKdMaFs6BX7eaMSt46g9aQ8vtrD75gcvqhAv5do4ki5AV5YEBPnv8brz7Vs87P6A3vl8gDrHR98an5eNxoiK027kRCmiJ0vjG4HGbgeINGe04cPguU5tcsPEZWXVT38JZE+zwCRAobs4OWgTTgvLeDP4u1+piYBPPWqkg+oXMWizfEZq/wW0OvNrgCSPXffVlrcCjCZ202I9mXIlf2VZ/CfxYaRz0ZI9WSjxGQK+asjRyHibLeOs8atpuDSjggy+A+aY28Poq2hmsY4IsoJCsaEwpgmESj9ZhX7cGe1WtDDOZNTcM2QHrgl1bTYpVgZLftITTYWukQ64jaoyHwIVXJ7D4zdtRKr98Av87elHkzs8CWdJ43+J5vpbWwXe5ieYXFLrZo2UgBWwd262zS8vz2mdXNUKW375nwImk64g5TlwrGeJ6vDFE1qK6va4MBSCWiEXgmXjje40Vk1o6G2VcTcJIlJKJmfgQRUxXuLBnVg1NWvU9a6yUeaj7+yba8vMeGQYCFoT3fVnk66Jenk7DZlRGhuF0rdffUcqHAmG9TR4MgxfrW4eDJSpNRbU+hp1t7PGD/Mq8HnLGJmVg1bgz2nUtNi8MrtjfCxQoec30GRZMrf/WJJo1QlnAOv0dYJc1P7gyf34Shxwo/70EDXaV743nS51R+f4jK6nPcXxAFv9bgha+IPelXjbr9LCdic6eLGbskSXYttEha7H/m7KVEsnzPWwAW+Wn9TzeHD0RjdLno5gY/I1xUW8Yc7LhajOofaKN6Sv4N5ipoVUuKkHBU0oUqMXe1T0xd3Ma5fYzYpFUq/CNQTSVvkULusSfFNoEBE3kMi4F5L7yvbgz/ye+5orpXBf6YyXOMsjx89vApVmCDRBkj+QvFkOZkrF32YREZqikQ==
+X-Forefront-Antispam-Report: CIP:194.138.21.75;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(136003)(376002)(39860400002)(36840700001)(46966006)(40470700004)(2906002)(36756003)(82310400005)(5660300002)(40480700001)(8676002)(4326008)(70586007)(70206006)(6666004)(316002)(107886003)(110136005)(54906003)(41300700001)(478600001)(26005)(82740400003)(81166007)(82960400001)(356005)(921005)(186003)(86362001)(16526019)(47076005)(336012)(956004)(2616005)(36860700001)(8936002)(7416002)(44832011)(4744005)(1076003)(34020700004)(83380400001)(40460700003)(36900700001)(83996005)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 10:24:07.8931
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 10:24:07.0025
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 196fec99-1354-4693-1260-08da84f19cda
+X-MS-Exchange-CrossTenant-Network-Message-Id: a25ec1f1-5b42-4212-908f-08da84f19c54
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.75];Helo=[hybrid.siemens.com]
 X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT029.eop-EUR01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR1001MB1455
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB4846
 X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This adds support for the Siemens Simatic IPC427G. A board which
-basically works like the 227G added in a previous patch. So all there is
-to do is to add the station_id and make it take all the 227G branches.
+Just load the watchdog module, after having identified that machine.
+That watchdog module does not have any autoloading support.
 
 Signed-off-by: Henning Schild <henning.schild@siemens.com>
 ---
- drivers/platform/x86/simatic-ipc.c            | 11 +++++++----
- include/linux/platform_data/x86/simatic-ipc.h |  1 +
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/platform/x86/simatic-ipc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/simatic-ipc.c
-index 8dd686d1c9f1..ca76076fc706 100644
+index 1825ef21a86d..8dd686d1c9f1 100644
 --- a/drivers/platform/x86/simatic-ipc.c
 +++ b/drivers/platform/x86/simatic-ipc.c
-@@ -41,11 +41,12 @@ static struct {
- 	{SIMATIC_IPC_IPC127E, SIMATIC_IPC_DEVICE_127E, SIMATIC_IPC_DEVICE_NONE},
- 	{SIMATIC_IPC_IPC227D, SIMATIC_IPC_DEVICE_227D, SIMATIC_IPC_DEVICE_NONE},
- 	{SIMATIC_IPC_IPC227E, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_227E},
--	{SIMATIC_IPC_IPC227G, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_NONE},
-+	{SIMATIC_IPC_IPC227G, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_227G},
- 	{SIMATIC_IPC_IPC277E, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_227E},
- 	{SIMATIC_IPC_IPC427D, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_NONE},
- 	{SIMATIC_IPC_IPC427E, SIMATIC_IPC_DEVICE_427E, SIMATIC_IPC_DEVICE_427E},
- 	{SIMATIC_IPC_IPC477E, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_427E},
-+	{SIMATIC_IPC_IPC427G, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_227G},
- };
- 
- static int register_platform_devices(u32 station_id)
-@@ -82,6 +83,11 @@ static int register_platform_devices(u32 station_id)
- 			 ipc_led_platform_device->name);
- 	}
- 
-+	if (wdtmode == SIMATIC_IPC_DEVICE_227G) {
-+		request_module("w83627hf_wdt");
-+		return 0;
-+	}
-+
- 	if (wdtmode != SIMATIC_IPC_DEVICE_NONE) {
- 		platform_data.devmode = wdtmode;
- 		ipc_wdt_platform_device =
-@@ -96,9 +102,6 @@ static int register_platform_devices(u32 station_id)
+@@ -96,6 +96,9 @@ static int register_platform_devices(u32 station_id)
  			 ipc_wdt_platform_device->name);
  	}
  
--	if (station_id == SIMATIC_IPC_IPC227G)
--		request_module("w83627hf_wdt");
--
++	if (station_id == SIMATIC_IPC_IPC227G)
++		request_module("w83627hf_wdt");
++
  	if (ledmode == SIMATIC_IPC_DEVICE_NONE &&
  	    wdtmode == SIMATIC_IPC_DEVICE_NONE) {
  		pr_warn("unsupported IPC detected, station id=%08x\n",
-diff --git a/include/linux/platform_data/x86/simatic-ipc.h b/include/linux/platform_data/x86/simatic-ipc.h
-index 7a2e79f3be0b..632320ec8f08 100644
---- a/include/linux/platform_data/x86/simatic-ipc.h
-+++ b/include/linux/platform_data/x86/simatic-ipc.h
-@@ -32,6 +32,7 @@ enum simatic_ipc_station_ids {
- 	SIMATIC_IPC_IPC477E = 0x00000A02,
- 	SIMATIC_IPC_IPC127E = 0x00000D01,
- 	SIMATIC_IPC_IPC227G = 0x00000F01,
-+	SIMATIC_IPC_IPC427G = 0x00001001,
- };
- 
- static inline u32 simatic_ipc_get_station_id(u8 *data, int max_len)
 -- 
 2.35.1
 
