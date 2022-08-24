@@ -2,58 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45DD959EC6A
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Aug 2022 21:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3DFC59F56D
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Aug 2022 10:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbiHWTef (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Aug 2022 15:34:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56624 "EHLO
+        id S235175AbiHXIj0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Aug 2022 04:39:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232410AbiHWTeQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Aug 2022 15:34:16 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA648138795;
-        Tue, 23 Aug 2022 11:28:00 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7FBBC1C0005; Tue, 23 Aug 2022 20:27:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1661279277;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yklnFjZgD43o0mSrBqTG5ikYsePHVB8TnZYM1NtY/cU=;
-        b=hb2AzFqYFN9CE4hRDZadbcwtd03KTFOkWhK1CwPavMIu123Qk2cgbwtz3QtillQFoSDNVl
-        UXav3t14w6KFqvL31aIkKwRdzaRadPwL6GWlsqMwZctRYFuGgjEE9Qi2zWorAFGtCL1WNI
-        nbnYOVCtDrEtEje3YW5vgzbDDX+jqKY=
-Date:   Tue, 23 Aug 2022 20:27:57 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Vincent Knecht <vincent.knecht@mailoo.org>,
-        Nikita Travkin <nikitos.tr@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Yi Xin <Yixin.zhu@intel.com>,
-        Mallikarjuna reddy <mallikarjunax.reddy@intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        - NeilBrown <neilb@suse.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: Add missing
- (unevaluated|additional)Properties on child nodes
-Message-ID: <20220823182756.GA13402@duo.ucw.cz>
-References: <20220823145649.3118479-13-robh@kernel.org>
+        with ESMTP id S231146AbiHXIjZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Aug 2022 04:39:25 -0400
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D1D67CAE;
+        Wed, 24 Aug 2022 01:39:22 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.109.138.102])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id A0B49122094DA;
+        Wed, 24 Aug 2022 10:39:20 +0200 (CEST)
+Received: from [192.168.1.41] (88.161.25.233) by DAG1EX1.emp2.local
+ (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Wed, 24 Aug
+ 2022 10:39:20 +0200
+Message-ID: <0663c616-97c8-444c-f390-275fae402453@traphandler.com>
+Date:   Wed, 24 Aug 2022 10:39:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
-Content-Disposition: inline
-In-Reply-To: <20220823145649.3118479-13-robh@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RESEND PATCH v6 2/3] leds: Add driver for the TLC5925 LED
+ controller
+Content-Language: en-US
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220722081146.47262-1-jjhiblot@traphandler.com>
+ <20220722081146.47262-3-jjhiblot@traphandler.com>
+ <CAHp75Vdu-EJRRxkK7+TfuE=zEDkJye1QCXSB+cDLrqxuykJjkA@mail.gmail.com>
+ <5ba34982-52c7-e41a-fba8-d88d93529e47@traphandler.com>
+ <20220804210412.GA30210@duo.ucw.cz>
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+In-Reply-To: <20220804210412.GA30210@duo.ucw.cz>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG2EX1.emp2.local (172.16.2.11) To DAG1EX1.emp2.local
+ (172.16.2.1)
+X-Ovh-Tracer-Id: 16408865246057806299
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepvdehueeuffduudelieefvedttdefgeeuueduteetgeethfevudetgedviefgtdeknecuffhomhgrihhnpehtihdrtghomhenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehvdek
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -61,79 +62,50 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---4Ckj6UjgE2iN1+kY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 04/08/2022 23:04, Pavel Machek wrote:
+> On Thu 2022-08-04 22:23:00, Jean-Jacques Hiblot wrote:
+>> On 31/07/2022 21:28, Andy Shevchenko wrote:
+>>> On Fri, Jul 22, 2022 at 10:14 AM Jean-Jacques Hiblot
+>>> <jjhiblot@traphandler.com> wrote:
+>>>> The TLC5925 is a 16-channels constant-current LED sink driver.
+>>>> It is controlled via SPI but doesn't offer a register-based interface.
+>>>> Instead it contains a shift register and latches that convert the
+>>>> serial input into a parallel output.
+>>>>
+>>>> Datasheet: https://www.ti.com/lit/ds/symlink/tlc5925.pdf
+>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+>>>> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>>> Sorry for my slowpokeness, but I just realized that this driver may
+>>> not be needed. What is the difference to existing gpio-74x164?
+>> It might work. However it might not be as practical and efficient as the
+>> dedicated LED driver.
+>>
+>> I'll give a try.
+> It is certainly preffered solution. If you decide to re-submit the
+> driver anyway, please mention that we already have GPIO driver for
+> compatible chip, and explain why this is superior.
 
-Hi!
+Hi all,
 
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
+sorry for the delay. I tried with the  74x164 gpio driver and it works 
+as expected.
+
+The only drawbacks are:
+
+- as-is the 74x164 gpio driver supports only one output-enable gpio. 
+However in practice I don't think multiple OE GPIOs will ever be used.
+
+- with this approach, every time a LED status is changed the whole 
+register has to be sent on the SPI bus. In other words, changes cannot 
+be coalesced.
+
+
+I don't know if this is enough to make a dedicated TLC5925 driver 
+desirable in the kernel.
+
+JJ
+
 >
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Patch does way more than that:
-
-Can we get some explanation why that's correct?
-
-Best regards,
-								Pavel
-
-> index f8d7963c3a13..8b3b3bf1eaf2 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lgm.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-lgm.yaml
-> @@ -56,7 +56,8 @@ properties:
-> =20
->      patternProperties:
->        "^led@[0-2]$":
-> -        type: object
-> +        $ref: common.yaml#
-> +        unevaluatedProperties: false
-> =20
->          properties:
->            reg:
-> @@ -64,6 +65,9 @@ properties:
->              minimum: 0
->              maximum: 2
-> =20
-> +          led-gpios:
-> +            maxItems: 1
-> +
->            intel,sso-hw-trigger:
->              type: boolean
->              description: This property indicates Hardware driven/control=
- LED.
-> @@ -118,14 +122,14 @@ examples:
->            reg =3D <0>;
->            function =3D "gphy";
->            color =3D <LED_COLOR_ID_GREEN>;
-> -          led-gpio =3D <&ssogpio 0 0>;
-> +          led-gpios =3D <&ssogpio 0 0>;
->          };
-> =20
->          led@2 {
->            reg =3D <2>;
->            function =3D LED_FUNCTION_POWER;
->            color =3D <LED_COLOR_ID_GREEN>;
-> -          led-gpio =3D <&ssogpio 23 0>;
-> +          led-gpios =3D <&ssogpio 23 0>;
->          };
->        };
->      };
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---4Ckj6UjgE2iN1+kY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYwUcLAAKCRAw5/Bqldv6
-8ky9AJ9P4Ex4545/zifOiwMeA2XQFpMf8ACfZljZ6R8cY/VTkyid1n336KObjaQ=
-=zYWp
------END PGP SIGNATURE-----
-
---4Ckj6UjgE2iN1+kY--
+> Thanks,
+> 								Pavel
+>
