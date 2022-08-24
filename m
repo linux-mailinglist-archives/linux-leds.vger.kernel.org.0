@@ -2,214 +2,151 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E0B059F8D0
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Aug 2022 13:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8CA59F9DB
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Aug 2022 14:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235764AbiHXLtv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Aug 2022 07:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38688 "EHLO
+        id S236822AbiHXMWI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Aug 2022 08:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235888AbiHXLtt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Aug 2022 07:49:49 -0400
-Received: from mail.sberdevices.ru (mail.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20F038BF;
-        Wed, 24 Aug 2022 04:49:46 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mail.sberdevices.ru (Postfix) with ESMTP id 281835FD0D;
-        Wed, 24 Aug 2022 14:49:45 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1661341785;
-        bh=Gc1Ehx0muehVG5YGju2xkrdTmR1ENRgiKV3WzwoEykI=;
-        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=J/Y4E53t3As/HZ+Zwly3fui6Tv7C2xxii6luazqq9hmhfTJM4uzT89jRPeQ7x2bi2
-         06QKV2d3ANNd29LS/zCb0N0w248We8z+ZZwuin/MWaWBA8cameFkrfQn+iVW/PlUrh
-         LMMV44GQkGnNktvFZHSC1QD9VNBkzYb17kqbPs8Ionwbgpvk2G+KRvW+0PrVDvFc6r
-         +pCSAkZw7mRHBW7BT1miqWfMMICxcJkxmdW8eydb105IIOBqzmeayuWBCb4ueNEmXc
-         S8B1RdH9YdVkyw1gUQOxXl+13j8GulnO9TKEqzAystvt184EpKTphmS8jUKkwo0j8m
-         eBxbRdaDX98XQ==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mail.sberdevices.ru (Postfix) with ESMTP;
-        Wed, 24 Aug 2022 14:49:44 +0300 (MSK)
-From:   Martin Kurbanov <mmkurbanov@sberdevices.ru>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Raphael Teysseyre <rteysseyre@gmail.com>,
-        Baolin Wang <baolin.wang@linaro.org>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@sberdevices.ru>,
-        Martin Kurbanov <mmkurbanov@sberdevices.ru>
-Subject: [PATCH v1] leds: trigger: pattern: notify userpace if pattern finished
-Date:   Wed, 24 Aug 2022 14:49:27 +0300
-Message-ID: <20220824114927.79231-1-mmkurbanov@sberdevices.ru>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S237225AbiHXMWI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Aug 2022 08:22:08 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163134A12E
+        for <linux-leds@vger.kernel.org>; Wed, 24 Aug 2022 05:22:06 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1oQpOP-0000Sq-TT; Wed, 24 Aug 2022 14:21:57 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1oQpOO-000805-Ho; Wed, 24 Aug 2022 14:21:56 +0200
+Date:   Wed, 24 Aug 2022 14:21:56 +0200
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     pavel@ucw.cz, robh+dt@kernel.org,
+        sven.schwermer@disruptive-technologies.com,
+        krzysztof.kozlowski+dt@linaro.org, johan+linaro@kernel.org,
+        marijn.suijten@somainline.org, bjorn.andersson@linaro.org,
+        andy.shevchenko@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 3/4] dt-bindings: leds: Add binding for a multicolor
+ group of LEDs
+Message-ID: <20220824122156.GQ17485@pengutronix.de>
+References: <20220824103032.163451-1-jjhiblot@traphandler.com>
+ <20220824103032.163451-4-jjhiblot@traphandler.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/08/24 08:05:00 #20147978
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220824103032.163451-4-jjhiblot@traphandler.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+From:   Sascha Hauer <sha@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-In the current moment, userspace caller can schedule led pattern with
-appropriate parameters, but it doesn't have ability to listen any events
-indicated pattern finished. This patch implements such an event using
-sysfs node and sysfs_notify_dirent() call.
+On Wed, Aug 24, 2022 at 12:30:31PM +0200, Jean-Jacques Hiblot wrote:
+> This allows to group multiple monochromatic LEDs into a multicolor
+> LED, e.g. RGB LEDs.
+> 
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/leds/leds-group-multicolor.yaml  | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> new file mode 100644
+> index 000000000000..79e5882a08e2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Multi-color LED built with monochromatic LEDs
+> +
+> +maintainers:
+> +  - Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> +
+> +description: |
+> +  This driver combines several monochromatic LEDs into one multi-color
+> +  LED using the multicolor LED class.
+> +
+> +properties:
+> +  compatible:
+> +    const: leds-group-multicolor
+> +
+> +  leds:
+> +    description:
+> +      An aray of monochromatic leds
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +required:
+> +  - leds
+> +
+> +allOf:
+> +  - $ref: leds-class-multicolor.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    monochromatic-leds {
+> +        compatible = "gpio-leds";
+> +
+> +        led0: led-0 {
+> +            gpios = <&mcu_pio 0 GPIO_ACTIVE_LOW>;
+> +        };
+> +
+> +        led1: led-1 {
+> +            gpios = <&mcu_pio 1 GPIO_ACTIVE_HIGH>;
+> +        };
+> +
+> +        led2: led-2 {
+> +            gpios = <&mcu_pio 1 GPIO_ACTIVE_HIGH>;
+> +        };
 
-Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
----
- drivers/leds/trigger/ledtrig-pattern.c | 64 +++++++++++++++++++++++++-
- 1 file changed, 63 insertions(+), 1 deletion(-)
+led-2 has the same GPIO as led-1, should likely be <&mcu_pio 2 GPIO_ACTIVE_HIGH>;
 
-diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
-index 43a265dc4696..54c4b957052f 100644
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -33,7 +33,9 @@ struct pattern_trig_data {
- 	int delta_t;
- 	bool is_indefinite;
- 	bool is_hw_pattern;
-+	bool running;
- 	struct timer_list timer;
-+	struct kernfs_node *pattern_ended;
- };
+> +    };
+> +
+> +    multi-led {
+> +        compatible = "leds-group-multicolor";
+> +        color = <LED_COLOR_ID_RGB>;
+> +        function = LED_FUNCTION_INDICATOR;
+> +        leds = <&led0>, <&led1>, <&led2>;
+> +    };
 
- static void pattern_trig_update_patterns(struct pattern_trig_data *data)
-@@ -76,8 +78,14 @@ static void pattern_trig_timer_function(struct timer_list *t)
- 	struct pattern_trig_data *data = from_timer(data, t, timer);
+When reading this I wondered how the driver knows which LED has which
+color. Should you assign colors to the individual LEDs to make that
+clear in the example?
 
- 	for (;;) {
--		if (!data->is_indefinite && !data->repeat)
-+		if (!data->is_indefinite && !data->repeat) {
-+			data->running = false;
-+
-+			if (data->pattern_ended)
-+				sysfs_notify_dirent(data->pattern_ended);
-+
- 			break;
-+		}
+Sascha
 
- 		if (data->curr->brightness == data->next->brightness) {
- 			/* Step change of brightness */
-@@ -137,6 +145,7 @@ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
- 	data->curr = data->patterns;
- 	data->next = data->patterns + 1;
- 	data->timer.expires = jiffies;
-+	data->running = true;
- 	add_timer(&data->timer);
-
- 	return 0;
-@@ -176,6 +185,7 @@ static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
- 	mutex_lock(&data->lock);
-
- 	del_timer_sync(&data->timer);
-+	data->running = false;
-
- 	if (data->is_hw_pattern)
- 		led_cdev->pattern_clear(led_cdev);
-@@ -268,6 +278,7 @@ static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
- 	mutex_lock(&data->lock);
-
- 	del_timer_sync(&data->timer);
-+	data->running = false;
-
- 	if (data->is_hw_pattern)
- 		led_cdev->pattern_clear(led_cdev);
-@@ -330,6 +341,17 @@ static ssize_t hw_pattern_store(struct device *dev,
-
- static DEVICE_ATTR_RW(hw_pattern);
-
-+static ssize_t pattern_ended_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", !data->running);
-+}
-+
-+static DEVICE_ATTR_RO(pattern_ended);
-+
- static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
- 				       struct attribute *attr, int index)
- {
-@@ -385,9 +407,41 @@ static void pattern_init(struct led_classdev *led_cdev)
- 	kfree(pattern);
- }
-
-+static int pattern_trig_add_pattern_ended(struct led_classdev *led_cdev)
-+{
-+	struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-+	struct device *dev = led_cdev->dev;
-+	int ret;
-+
-+	ret = device_create_file(dev, &dev_attr_pattern_ended);
-+	if (ret) {
-+		dev_err(dev,
-+			"Error creating pattern_ended (%pe)\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	data->pattern_ended = sysfs_get_dirent(dev->kobj.sd, "pattern_ended");
-+	if (!data->pattern_ended) {
-+		dev_err(dev, "Error getting pattern_ended kernelfs\n");
-+		device_remove_file(dev, &dev_attr_pattern_ended);
-+		return -ENXIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static void pattern_trig_remove_pattern_ended(struct led_classdev *led_cdev)
-+{
-+	struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-+
-+	sysfs_put(data->pattern_ended);
-+	device_remove_file(led_cdev->dev, &dev_attr_pattern_ended);
-+}
-+
- static int pattern_trig_activate(struct led_classdev *led_cdev)
- {
- 	struct pattern_trig_data *data;
-+	int err;
-
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
-@@ -406,6 +460,13 @@ static int pattern_trig_activate(struct led_classdev *led_cdev)
- 	data->led_cdev = led_cdev;
- 	led_set_trigger_data(led_cdev, data);
- 	timer_setup(&data->timer, pattern_trig_timer_function, 0);
-+
-+	err = pattern_trig_add_pattern_ended(led_cdev);
-+	if (err)
-+		dev_warn(led_cdev->dev,
-+			 "pattern ended notifications disabled (%pe)\n",
-+			 ERR_PTR(err));
-+
- 	led_cdev->activated = true;
-
- 	if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
-@@ -431,6 +492,7 @@ static void pattern_trig_deactivate(struct led_classdev *led_cdev)
- 		led_cdev->pattern_clear(led_cdev);
-
- 	del_timer_sync(&data->timer);
-+	pattern_trig_remove_pattern_ended(led_cdev);
-
- 	led_set_brightness(led_cdev, LED_OFF);
- 	kfree(data);
---
-2.37.2
-
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
