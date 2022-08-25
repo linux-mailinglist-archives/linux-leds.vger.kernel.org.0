@@ -2,174 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 120A45A0FDD
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Aug 2022 14:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E415A1101
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Aug 2022 14:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240893AbiHYMDZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 Aug 2022 08:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41854 "EHLO
+        id S241441AbiHYMtE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 Aug 2022 08:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241021AbiHYMDW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Aug 2022 08:03:22 -0400
-Received: from vm3.sequanux.org (static.55.155.9.5.clients.your-server.de [5.9.155.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D1109F8E1;
-        Thu, 25 Aug 2022 05:03:20 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vm3.sequanux.org (Postfix) with ESMTP id 2343410880C;
-        Thu, 25 Aug 2022 14:02:58 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at vm3.sequanux.org
-Received: from vm3.sequanux.org ([127.0.0.1])
-        by localhost (vm3.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id QeA1dTuyiUkp; Thu, 25 Aug 2022 14:02:20 +0200 (CEST)
-Received: from localhost (softwrestling.org [95.216.36.37])
-        by vm3.sequanux.org (Postfix) with ESMTPSA id 49FBF1086FC;
-        Thu, 25 Aug 2022 14:02:20 +0200 (CEST)
-Date:   Thu, 25 Aug 2022 14:02:06 +0200
-From:   simon.guinot@sequanux.org
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-        Tasanakorn Phaipool <tasanakorn@gmail.com>
-Subject: Re: [PATCH v6 1/7] gpio-f7188x: switch over to using pr_fmt
-Message-ID: <Ywdkvu0VNWti1WTe@76cbfcf04d45>
-References: <20220825104422.14156-1-henning.schild@siemens.com>
- <20220825104422.14156-2-henning.schild@siemens.com>
+        with ESMTP id S241386AbiHYMtE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Aug 2022 08:49:04 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B99AE200
+        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 05:49:02 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id s1so25276214lfp.6
+        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 05:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=UJPLpT2XcBKMANzNpVXlkK/AnxD3KVjPku+NRJRnKeE=;
+        b=k+G/oX+tvXRqJzetOeviAPzbgrL5egIXfBvmKIq5DAMokEGsJbf7+FjfewZPAKLxtG
+         9A0ZwzR5cxdj1yVttE4Kjl5Zo+Kq9whxkrYyo0uPvZQbvcH5tqTauCnW8hVNXVto6QNY
+         oVvf9FVo+kSjS48LgQeaAlUre1eAe5TWgkZ2kWwZ6Eon03gXCSNth9suEYho74Q2lUBs
+         xHIHrjn8IazmmRIwdr+Sf9fzW5EmmBjEPM5gtHm0ndTYDJqX8oD5lE/Z7V2IVC75lvx9
+         GvNyJC0ZNLt5CwCUpquEm9bVouh1W/dMU1xQgqrF+Y0nO8O0W+ZLCODsv9u59pMuoySu
+         mVaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=UJPLpT2XcBKMANzNpVXlkK/AnxD3KVjPku+NRJRnKeE=;
+        b=p10l6EfEfjR0GRgF4K8d2Su/izrKZhwH7HdwO40PLPk/jyETXihg2cQqxABjn26i/N
+         7EUV4/TYmRalxBO53nt+ER54S7hc/rKKLN3T0AqH3RThu0eoKs7wMGp6c0ylf2jmvu0o
+         /2NOg9y4qw3BjHvwCnJUKi8ZKuK6kDQ+szmN34iBAOwjo1Lt1vL4SFawK47tV2sxka7G
+         /foX1SBmu7Lmnurq59YOCDdC1agBQrj3rlyHsRIky/tfOqG2tlN6UOIWxHph76paczN+
+         OtW8J7UcsWs0cfh7LwpbjGFg/l3/ldLA8hjSE29BKApb2vZ7AKzSnx4ksHrBYcQK2OxK
+         QArA==
+X-Gm-Message-State: ACgBeo3RWVQ8BefvYRH712ana67lvcAYOf8s6x4hz0UHOhBSxyWAi6Ur
+        GauoSaGlASTAqjMe2i5frln4FQ==
+X-Google-Smtp-Source: AA6agR6AgoXqICDhxJTbQc5viluo1tBN0fKOt4yUAyXgLOl/1YmAvzY3+oRl8yr7gVtpdjtYOrQmuw==
+X-Received: by 2002:a05:6512:6d6:b0:492:b3df:a71 with SMTP id u22-20020a05651206d600b00492b3df0a71mr1250703lff.117.1661431741037;
+        Thu, 25 Aug 2022 05:49:01 -0700 (PDT)
+Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
+        by smtp.gmail.com with ESMTPSA id y12-20020ac24e6c000000b00492cdba2903sm486980lfs.97.2022.08.25.05.48.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Aug 2022 05:49:00 -0700 (PDT)
+Message-ID: <5db5da26-3689-928b-433e-72c690014b64@linaro.org>
+Date:   Thu, 25 Aug 2022 15:48:57 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8eVkuOeCNQZeK+6U"
-Content-Disposition: inline
-In-Reply-To: <20220825104422.14156-2-henning.schild@siemens.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH RESEND] dt-bindings: leds: qcom-wled: fix number of
+ addresses
+Content-Language: en-US
+To:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kiran Gunda <kgunda@codeaurora.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Rob Herring <robh@kernel.org>
+References: <20220720163720.7099-1-krzysztof.kozlowski@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220720163720.7099-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---8eVkuOeCNQZeK+6U
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 25, 2022 at 12:44:16PM +0200, Henning Schild wrote:
-> Subsequent patches will touch that file, apply some nice to have style
-> changes before actually adding functional changes.
->=20
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-
-Acked-by: Simon Guinot <simon.guinot@sequanux.org>
-
+On 20/07/2022 19:37, Krzysztof Kozlowski wrote:
+> On PM660L, PMI8994 and PMI8998, the WLED has two address spaces.  This
+> also fixes dtbs_check warnings like:
+> 
+>   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: leds@d800: reg: [[55296], [55552]] is too long
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/gpio/gpio-f7188x.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpio/gpio-f7188x.c b/drivers/gpio/gpio-f7188x.c
-> index 18a3147f5a42..fef539bbc03a 100644
-> --- a/drivers/gpio/gpio-f7188x.c
-> +++ b/drivers/gpio/gpio-f7188x.c
-> @@ -7,6 +7,9 @@
->   * Author: Simon Guinot <simon.guinot@sequanux.org>
->   */
-> =20
-> +#define DRVNAME "gpio-f7188x"
-> +#define pr_fmt(fmt) DRVNAME ": " fmt
-> +
->  #include <linux/module.h>
->  #include <linux/init.h>
->  #include <linux/platform_device.h>
-> @@ -14,8 +17,6 @@
->  #include <linux/gpio/driver.h>
->  #include <linux/bitops.h>
-> =20
-> -#define DRVNAME "gpio-f7188x"
-> -
->  /*
->   * Super-I/O registers
->   */
-> @@ -110,7 +111,7 @@ static inline int superio_enter(int base)
->  {
->  	/* Don't step on other drivers' I/O space by accident. */
->  	if (!request_muxed_region(base, 2, DRVNAME)) {
-> -		pr_err(DRVNAME "I/O address 0x%04x already in use\n", base);
-> +		pr_err("I/O address 0x%04x already in use\n", base);
->  		return -EBUSY;
->  	}
-> =20
-> @@ -487,7 +488,7 @@ static int __init f7188x_find(int addr, struct f7188x=
-_sio *sio)
->  	err =3D -ENODEV;
->  	devid =3D superio_inw(addr, SIO_MANID);
->  	if (devid !=3D SIO_FINTEK_ID) {
-> -		pr_debug(DRVNAME ": Not a Fintek device at 0x%08x\n", addr);
-> +		pr_debug("Not a Fintek device at 0x%08x\n", addr);
->  		goto err;
->  	}
-> =20
-> @@ -518,13 +519,13 @@ static int __init f7188x_find(int addr, struct f718=
-8x_sio *sio)
->  		sio->type =3D f81865;
->  		break;
->  	default:
-> -		pr_info(DRVNAME ": Unsupported Fintek device 0x%04x\n", devid);
-> +		pr_info("Unsupported Fintek device 0x%04x\n", devid);
->  		goto err;
->  	}
->  	sio->addr =3D addr;
->  	err =3D 0;
-> =20
-> -	pr_info(DRVNAME ": Found %s at %#x, revision %d\n",
-> +	pr_info("Found %s at %#x, revision %d\n",
->  		f7188x_names[sio->type],
->  		(unsigned int) addr,
->  		(int) superio_inb(addr, SIO_DEVREV));
-> @@ -548,13 +549,13 @@ f7188x_gpio_device_add(const struct f7188x_sio *sio)
->  	err =3D platform_device_add_data(f7188x_gpio_pdev,
->  				       sio, sizeof(*sio));
->  	if (err) {
-> -		pr_err(DRVNAME "Platform data allocation failed\n");
-> +		pr_err("Platform data allocation failed\n");
->  		goto err;
->  	}
-> =20
->  	err =3D platform_device_add(f7188x_gpio_pdev);
->  	if (err) {
-> -		pr_err(DRVNAME "Device addition failed\n");
-> +		pr_err("Device addition failed\n");
->  		goto err;
->  	}
-> =20
-> --=20
-> 2.35.1
+>  .../devicetree/bindings/leds/backlight/qcom-wled.yaml    | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
---8eVkuOeCNQZeK+6U
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+The resent was a month ago. I assume this won't go via LEDs tree, so I
+will resend (again) without Rob's review, so it could go via Rob's tree.
 
-iQIzBAABCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAmMHZLoACgkQzyg/RDPm
-szpxxBAAmtKLLqa5vkTy0Ur+b3aTcHHH0Mb/j+RbTY1y+onlBpjc5i//1MCNBDiU
-w0AMTQFUBuvlGW/kvs8JoZTsnU2kMGjxwBCL+KbQVvNCmHb2A6J/+ccmJ5WAuNxx
-LKkwj3tjnsUxH34brPOp6CVJJkSJUhlwL/7AocQfC4KjvZ48FYjvp+ZQZIzrOLGc
-9YZpHD5ByjvRAoaDNqGpzPvCP+rUgA/OUF8UaTjv9ReV4wJqlpd1T0mQgocAcAx9
-wgibepOyck1koj5aW66uYYg+8EZ648yW8MV4mNdS5pBaRyOOZoln+LfSIlmPClbF
-sHULNz0tF6zOzULRbMDAG8J4X0hjzyeQSm7V6ieJ8HrfSrCM9yEoJELo1qezN8YK
-+dS/ayy2mRCzbynr4/PorSAJbC7a0kZZ8teLLmbg6L40NFu3KbdRpLDUwh4cfntK
-1jBy+v2UMueJ7MhxhgRm6mi4RmS8OL0qt+1WivkSVtIFPM6UlsnEKanpxgoMg18m
-cgmX5XOnu8Ejx0KVNIAi8Rx0XmwsxIxx54M4C2jCXOqSAiashUKQfSoSqpLt1xfe
-NSgI9W/Q0hpAQZQw3KqA8mJfHJw19i2DF9vRq/4LX8smoNlnQwvQwo/xAljwwg2i
-QzL0SgK3MoykWb7vHZtWgF8+zSC5t+21POY57CleZsJYvV8ZggI=
-=6jNd
------END PGP SIGNATURE-----
-
---8eVkuOeCNQZeK+6U--
+Best regards,
+Krzysztof
