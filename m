@@ -2,77 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 665DF5A1128
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Aug 2022 14:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 997755A138E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Aug 2022 16:27:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238069AbiHYMyV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 Aug 2022 08:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51338 "EHLO
+        id S241979AbiHYO1F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 Aug 2022 10:27:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241345AbiHYMyS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Aug 2022 08:54:18 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFB65EDF9
-        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 05:54:16 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id l8so10584924lfc.12
-        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 05:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=EOx+15ISuVM78YfbcntTjxV0FVrXSMFcqt6tM497CRo=;
-        b=yHP+BN/UKDYtDzYiq/rIXsIA18QX/NrZzsC/CPWwBgG5EYw9zcr1Hqre9vwCG5qBaZ
-         l/WruHi0u2t/doB0slX0BRaM2q+F8Uzu5G+D9dEkoVwUQjxa7EHYXsNUkXiUIsBFQvbK
-         MpWkZQZM02eStdniO3G14wGL/qxvf7RnFDfip2PHstqL7ii6tiX4wcQxz+w3NUZm39Ud
-         2y4fZW3FhbHNBZROFpKRWESv+U/bKsGF7x3NK+C+6Nv3UFvZN6imHw5TujfY22f8Jirv
-         YKQOCswFojEbNcErt+Ju+SSUnn9LJBC8jL45Tts0INAEq0s3ypoAa5k/qmwW8kDPFbvR
-         GzGw==
+        with ESMTP id S242058AbiHYO0p (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Aug 2022 10:26:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6C8B7750
+        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 07:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661437554;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=q49EiEhu4KKBgImNE6Kk4TPrRnh4uj8GAAC4ty7YwzQ=;
+        b=Sbk5a/roJBLk0uJyMolbB7tcZjoLZCTiFlx2e+KSf3ldl+hzIpv/fxv0eaQe9Z+YJAF8jT
+        G3HWvAFn8Fl+lw5I69/MGf6nYZEfP/6GQxH6zvELe5+k9s2FZElEeukxqY7nwTk+8jS22c
+        0EqpvuAVG58g7UmEvnfNw99mGO/vXLY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-437-2vhpNzvvONWR2LtWBzqMdQ-1; Thu, 25 Aug 2022 10:25:52 -0400
+X-MC-Unique: 2vhpNzvvONWR2LtWBzqMdQ-1
+Received: by mail-ej1-f71.google.com with SMTP id hd35-20020a17090796a300b0073d67a500e6so4329894ejc.7
+        for <linux-leds@vger.kernel.org>; Thu, 25 Aug 2022 07:25:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=EOx+15ISuVM78YfbcntTjxV0FVrXSMFcqt6tM497CRo=;
-        b=PCQ7mlXnGRW+zestGSoDoOlNEsdN6yaZE/CjrXSzO6hUwGwkRkp7lTied7YMxKZXyX
-         nLGDzv0x3w1OVgDVpxEAtMK9sbSUEnzAokn916K5CKgbJjw9DVBZd6jUA8priFkN8Q32
-         xSLErV0oTV2ESEO7+y/5ZPZ4C7U9c4XU+jKecP+GN0dAtWB7YY7MT2xnws24JLLEgxBg
-         d/EOYWU9OgA8CjiOiypt8GNY8okssR+BllZG5oyhQ3YzISjjOyLdxmRV0cDExPBTCYQv
-         5uFK4L/Y37wN6lbm9U564J4QiM7O5Yy0pf2AvlErEeBVYTFmKY8tI72UQbIXSlNccjCq
-         3z+Q==
-X-Gm-Message-State: ACgBeo3dQ2X9RFXTzrf+6u2ujpQZ3bM9vfI11uExDhRNI6gcY9lgWziB
-        lCVHrOAMcdz/IimKbUyqrC7GNw==
-X-Google-Smtp-Source: AA6agR6BP1BgBSeSUEslZV2i7sVqW03Iw1CWgpxNG11S8Ggo1zhlJ2LC3F/gYAgRr4rC3hZIjeGYdA==
-X-Received: by 2002:a05:6512:681:b0:489:d509:e076 with SMTP id t1-20020a056512068100b00489d509e076mr1279352lfe.618.1661432054902;
-        Thu, 25 Aug 2022 05:54:14 -0700 (PDT)
-Received: from krzk-bin.starman.ee (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id z14-20020a056512370e00b00492e3a8366esm494304lfr.9.2022.08.25.05.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 05:54:14 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Kiran Gunda <kgunda@codeaurora.org>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH RESEND - dt 2/2] dt-bindings: leds: qcom-wled: fix number of addresses
-Date:   Thu, 25 Aug 2022 15:54:10 +0300
-Message-Id: <20220825125410.232377-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
-References: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=q49EiEhu4KKBgImNE6Kk4TPrRnh4uj8GAAC4ty7YwzQ=;
+        b=8DSIzXh58lH1Qz6TiJ9UDITePGsoX5DMhGv/IAsjlK+TRZrgvxCvatFLbWVlalyTOg
+         L1tS0bZU31mlT1giQIX+pEUb95GguoM8nLufIWjTOFzgxFV2yFNuaxrXmYaB/CLJlalo
+         ImaEHqLju9lHwzEwnLNT6waJukAA7NNwN6+UxFXm44hLSSUCENloN6MYuNNoLSihWGJu
+         tGQwxHjyJrgK0hiUrf5TGjHOTW/CXsJr1ACJ1NjiSlav6PAccthOe0xUgb1UKH/l1gF3
+         YjzIwFkVO9oGorymq5khPThA8X6v1cwDKLGTY6G6dDxhPnXjilbr7mvoFo+S4wlqhxjO
+         vajQ==
+X-Gm-Message-State: ACgBeo0VO0arXuSIlGrubn/OYsYbDUkxevNLMhKHG1u9FjfIHSLCa2pC
+        vERiQkU+0CjeM6wGyDDD3gJhv8F6er/XQpwwabOHms9vYbD39KqHWF/veKbEsFByGGUwsOPX3el
+        56cBKexLxcO3w8i6/seLn1A==
+X-Received: by 2002:a17:906:5d04:b0:722:f46c:b891 with SMTP id g4-20020a1709065d0400b00722f46cb891mr2735321ejt.4.1661437551538;
+        Thu, 25 Aug 2022 07:25:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5E5uCelGZZVL2PStU0q6L4cU1QZeOKGrToalPkIi67JvXZz2A4Dkd4yrB6s0Xp+yWSQ3O/jw==
+X-Received: by 2002:a17:906:5d04:b0:722:f46c:b891 with SMTP id g4-20020a1709065d0400b00722f46cb891mr2735313ejt.4.1661437551289;
+        Thu, 25 Aug 2022 07:25:51 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id d14-20020a50fb0e000000b00447d4109e16sm107170edq.87.2022.08.25.07.25.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Aug 2022 07:25:50 -0700 (PDT)
+Message-ID: <34315356-f23e-34ff-98e6-a152b588f201@redhat.com>
+Date:   Thu, 25 Aug 2022 16:25:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v6 0/7] add support for another simatic board
+Content-Language: en-US
+To:     Henning Schild <henning.schild@siemens.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Cc:     Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+        Tasanakorn Phaipool <tasanakorn@gmail.com>,
+        simon.guinot@sequanux.org
+References: <20220825104422.14156-1-henning.schild@siemens.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220825104422.14156-1-henning.schild@siemens.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,50 +88,88 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On PM660L, PMI8994 and PMI8998, the WLED has two address spaces.  This
-also fixes dtbs_check warnings like:
+Hi,
 
-  arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: leds@d800: reg: [[55296], [55552]] is too long
+On 8/25/22 12:44, Henning Schild wrote:
+> changes since v5:
+>   - adding patch to convert to pr_fmt
+>   - adding patch to prefix macros with "f7188x_"
+>   - rebased p1v4 to be p3v5 and added tag
+> 
+> changes since v4:
+>   - remove int case from a printk in p1
+>   - include tags into commit messages
+> 
+> changes since v3:
+>   - update Kconfig as well
+>   - drop chip names from comment in driver header
+>   - add manufacturer check for Fintek again, Nuvoton not possible
+>   - drop revision printing for Nuvoton
+>   - restructure defines again
+>   - add new model 427G
+> 
+> changes since v2: (p1 only)
+>   - rename macros that change behavior
+>   - use chip type not device id in the macros
+>   - reorder defines a bit
+> 
+> changes since v1:
+>   - remove unused define
+>   - fix bug where (base + 2) was used as second data bit
+>   - add macros for "inverted" and "single data bit"
+> 
+> The first two patches apply some style refactorings before actual
+> functional changes are made.
+> 
+> Later, This series enables a SuperIO GPIO driver to support a chip from
+> the vendor Nuvoton, the driver is for Fintek devices but those just are
+> very similar. And in watchdog and hwmon subsystems these SuperIO drivers
+> also share code and are sometimes called a family.
+> 
+> In another step the individual banks receive a label to tell them apart,
+> a step which potentially changes an interface to legacy users that might
+> rely on all banks having the same label, or an exact label. But since a
+> later patch wants to use GPIO_LOOKUP unique labels are needed and i
+> decided to assign them for all supported chips.
+> 
+> In a following patch the Simatic GPIO LED driver is extended to provide
+> LEDs in case that SuperIO GPIO driver can be loaded.
+> 
+> Last but not least the watchdog module of that same SuperIO gets loaded
+> on a best effort basis.
+> 
+> The very last patch enables a second model of that same board type.
+> 
+> Henning Schild (7):
+>   gpio-f7188x: switch over to using pr_fmt
+>   gpio-f7188x: add a prefix to macros to keep gpio namespace clean
+>   gpio-f7188x: Add GPIO support for Nuvoton NCT6116
+>   gpio-f7188x: use unique labels for banks/chips
+>   leds: simatic-ipc-leds-gpio: add new model 227G
+>   platform/x86: simatic-ipc: enable watchdog for 227G
+>   platform/x86: simatic-ipc: add new model 427G
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/leds/backlight/qcom-wled.yaml    | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+So it looks like all these patches are ready for merging now,
+the only thing which is missing is an Ack from Pavel or
+one of the other LED people for patch 5/7.
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-index 5d66c3e4def5..4c15693f7a01 100644
---- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-@@ -26,7 +26,8 @@ properties:
-       - qcom,pm8150l-wled
- 
-   reg:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 2
- 
-   default-brightness:
-     description: |
-@@ -171,6 +172,9 @@ allOf:
- 
-     then:
-       properties:
-+        reg:
-+          maxItems: 1
-+
-         qcom,current-boost-limit:
-           enum: [ 105, 385, 525, 805, 980, 1260, 1400, 1680 ]
-           default: 805
-@@ -189,6 +193,9 @@ allOf:
- 
-     else:
-       properties:
-+        reg:
-+          minItems: 2
-+
-         qcom,current-boost-limit:
-           enum: [ 105, 280, 450, 620, 970, 1150, 1300, 1500 ]
-           default: 970
--- 
-2.34.1
+Pavel can have your ack for merging this through another tree
+please?
+
+So what is the plan for merging this?
+
+I see 2 options:
+
+Option a:
+1. Merge the GPIO changes (patches 1-4) through the GPIO tree; and
+2. Merge the leds + pdx86 changes through the pdx86 tree
+
+Option b:
+Merge everything through the pdx86 tree, and I will then provide
+an immutable branch + signed tag for other subsystems to pull
+(if they want to).
+
+Regards,
+
+Hans
 
