@@ -2,88 +2,155 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51FAA5A1AE5
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Aug 2022 23:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 997105A2024
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Aug 2022 07:09:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243243AbiHYVRP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 Aug 2022 17:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60356 "EHLO
+        id S235408AbiHZFJw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 Aug 2022 01:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbiHYVRO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Aug 2022 17:17:14 -0400
-Received: from mail.sberdevices.ru (mail.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1E4B6D2A;
-        Thu, 25 Aug 2022 14:17:10 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mail.sberdevices.ru (Postfix) with ESMTP id 979285FD03;
-        Fri, 26 Aug 2022 00:17:07 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1661462227;
-        bh=NdYu6S8So3OlWwAWfrtI2SZFnmdWOENE4S4SPr1oh5w=;
-        h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-        b=NmW7QyOl+uzyY404KQ2ScjrkTm2xWbVJrA2qMvcRuELRU5gp3g6qWbrjOSuSJ1WrU
-         z2GRLiSdjA18RyctCXoj9Y/OYF6HS7mquekj+QqCfaxTI+VOUYdjq47pFoN88LcUm8
-         8gPQZczixoZvqNTp/el/r9qh95nZqJaBxZOPiRX66LJ/Vx2nP6OHB/a99H0a8ytBce
-         1AZgcPqUkO6PRD7+rJ5Swf7I4lOVg3OEK6mTqO8sUUMDnCrVlTsrHkj6zI5yQqmKUF
-         piMrHDkyDzgUjLgS+VMqiSm7EuyZTlnHKXOnlMgGCG/waYdrw2u4crBjYtpihkXhjG
-         fZiOwG8gax2EA==
-Received: from S-MS-EXCH02.sberdevices.ru (S-MS-EXCH02.sberdevices.ru [172.16.1.5])
-        by mail.sberdevices.ru (Postfix) with ESMTP;
-        Fri, 26 Aug 2022 00:17:06 +0300 (MSK)
-From:   Martin Kurbanov <MMKurbanov@sberdevices.ru>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Pavel Machek <pavel@ucw.cz>,
-        Raphael Teysseyre <rteysseyre@gmail.com>,
-        Baolin Wang <baolin.wang@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel <kernel@sberdevices.ru>
-Subject: Re: [PATCH v1] leds: trigger: pattern: notify userpace if pattern
- finished
-Thread-Topic: [PATCH v1] leds: trigger: pattern: notify userpace if pattern
- finished
-Thread-Index: AQHYt6+SAK0reQB1UU+HPUIqOWYrVa2+AQyAgAHtWAA=
-Date:   Thu, 25 Aug 2022 21:16:42 +0000
-Message-ID: <a8af665d-8248-4315-fe03-0ac91a1f4230@sberdevices.ru>
-References: <20220824114927.79231-1-mmkurbanov@sberdevices.ru>
- <CAHp75VeQX_8niAu4uORW1YEfjxhLJFWsnm_JccECfAOAzAh32A@mail.gmail.com>
-In-Reply-To: <CAHp75VeQX_8niAu4uORW1YEfjxhLJFWsnm_JccECfAOAzAh32A@mail.gmail.com>
-Accept-Language: ru-RU, en-US
-Content-Language: ru-RU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.1.12]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <22BC21E6A2F1164D8497786E5B649B53@sberdevices.ru>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229556AbiHZFJv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Aug 2022 01:09:51 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F67960CE;
+        Thu, 25 Aug 2022 22:09:49 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 208683200A8A;
+        Fri, 26 Aug 2022 01:09:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 26 Aug 2022 01:09:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1661490584; x=1661576984; bh=NEvgS4Y1TGOoJYMfZcyVI7VSq
+        u0kF4KmZH4aP8oll78=; b=f8802ZT0NXEE+nsRnbik4K9cWZcHki4hnSdjJZfGn
+        PBgM6nwfWv691zRaAK77mn+43zu0xFXjMGA0i3QLNI3hpTnweYHI0Kw4LmqWLZfC
+        QUgZBj80ayu+BYuBKHbbz1em3Yj+qNSeTIb8XcLfQ0qcoUGAn3timDgkhC6OpMXI
+        OYBSh47xGcrHvLt06VsQILSSNKkRNuqMlB2/iRZdPmka+6LYrqlx3u1bFJE1nNFZ
+        +bxcvtcXdl2sBqgR/LU0d5RAiBSquFv4mUhWh34CETvoJRNPNCqSw23rOj4DM70h
+        iU4Zro3OgouG3TE6fLRRwmBsixTWucDiE9o6YYzVhbZLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1661490584; x=1661576984; bh=NEvgS4Y1TGOoJYMfZcyVI7VSqu0kF4KmZH4
+        aP8oll78=; b=YNSmRSML2ldp/e9zXzgdBhzVPrRhlFXUacx2mCIlkJAreIK24FV
+        hS9ey9XNCPCMjJC5aYYH8DvK66X2S7p8g2iID9nS0fJ6ChkEIylObpCwlYSiWgsd
+        TKtD4D3M0K2enCV19wFxQHgghdj7PAOi3VP55RfZfBTCRzIQXCfI6c0sjbuTNa0X
+        BvJuPQOxtk8s11tYWyQCs/Bwkd7EtNBloFPatWNNLlMx27pi70TB8sZ3K74fDy0D
+        rEGoQ7MmM5MOnebfjSSGjYFmPRTOetk8S+HTTtggi+OUQtgq1spszhCnGz8pOX/O
+        1a1LcAj4f3nXBlH4R0Jv52wp3S7UqhemBsw==
+X-ME-Sender: <xms:mFUIY8MBMQnlzLkG6OGsoaFw6qLEeQjNBa6mjRpimGauLfmPn_hF3w>
+    <xme:mFUIYy8OLfPPugBExTwKIuB30LAkBZGMfJ5r7zOZTHLFqjHrbI5l29R0ywSsjiDCi
+    Lp3OFSf020YfI49BQ>
+X-ME-Received: <xmr:mFUIYzScodFYc7oMlO-7JoltIBvDkLmNZDeZBE-3O91LmxLDFUuK43hW35flrPHpNDIwsFVFwkLryOefjmibzGemc7KW9bTV8E1Ei95YRiFAaXoFykHok1YwEpS-W_z8m7Ev1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
+    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:mFUIY0um-dA0-TUql_kJQgsSGpbfeo_bURQjsilFxtJ6gEt1c8voyw>
+    <xmx:mFUIY0f0GtmvgtYxBLAxh6kjP-2RZA4fH_RZMcz-SRfqjMButhNp8A>
+    <xmx:mFUIY41oTOzbWnPgFdIe_Yt_p6OvPe7HYVMyelx76C1zaGJYdGl11Q>
+    <xmx:mFUIY1UmUzaDG3fFjkAm4cvTI90F4Qdt5xPqeHdmMpp5v5ba7RNlew>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Aug 2022 01:09:43 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v5 0/6] leds: Allwinner A100 LED controller support
+Date:   Fri, 26 Aug 2022 00:09:36 -0500
+Message-Id: <20220826050942.20067-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/08/25 17:43:00 #20154524
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkuIFRoYW5rIHlvdSBmb3IgcXVpY2sgcmVwbHkuDQoNCk9uIDIwMjItMDgtMjQgMTg6NTEsIEFu
-ZHkgU2hldmNoZW5rbyB3cm90ZToNCi4uLg0KPj4gK3N0YXRpYyB2b2lkIHBhdHRlcm5fdHJpZ19y
-ZW1vdmVfcGF0dGVybl9lbmRlZChzdHJ1Y3QgbGVkX2NsYXNzZGV2ICpsZWRfY2RldikNCj4+ICt7
-DQo+PiArICAgICAgIHN0cnVjdCBwYXR0ZXJuX3RyaWdfZGF0YSAqZGF0YSA9IGxlZF9nZXRfdHJp
-Z2dlcl9kYXRhKGxlZF9jZGV2KTsNCj4+ICsNCj4+ICsgICAgICAgc3lzZnNfcHV0KGRhdGEtPnBh
-dHRlcm5fZW5kZWQpOw0KPj4gKyAgICAgICBkZXZpY2VfcmVtb3ZlX2ZpbGUobGVkX2NkZXYtPmRl
-diwgJmRldl9hdHRyX3BhdHRlcm5fZW5kZWQpOw0KPj4gK30NCj4gDQo+IEknbSB3b25kZXJpbmcg
-aWYgeW91IGNhbiBhbHdheXMgaGF2ZSBhIGZpbGUgYW5kIGluc3RlYWQgcHJvdmlkZSBhDQo+IHZh
-bHVlIHRoZXJlLCBzbyB1c2VyIHNwYWNlIG1heSB1c2UgZXBvbGwoKSBtZWNoYW5pc20gb24gdGhh
-dC4gSXQgd2lsbA0KPiBzaW1wbGlmeSB5b3VyIGNvZGUgaGVyZS4NCj4gDQpEbyB5b3UgbWVhbiB0
-byBhZGQgJ2Rldl9hdHRyX3BhdHRlcm5fZW5kZWQnIHRvICdwYXR0ZXJuX3RyaWdfYXR0cnMnLA0K
-YW5kIHVzZSAnc3lzZnNfbm90aWZ5JyBpbnN0ZWFkIG9mICdzeXNmc19ub3RpZnlfZGlyZW50JyBj
-YWxsJz8NCg0KLS0gDQpCZXN0IFJlZ2FyZHMsDQpLdXJiYW5vdiBNYXJ0aW4NCg0K
+This series adds bindings and a driver for the RGB LED controller found
+in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+D1 SoCs appears to be identical.
+
+Patch 3 is included because the LED controller binding requires the DMA
+properties. That patch was sent previously[1], but never got merged.
+
+Patches 5-6 depend on the D1 devicetree series[2], but the rest of this
+series can be merged without them.
+
+This driver was tested on the D1 Nezha board.
+
+[1]: https://lore.kernel.org/linux-arm-kernel/20201110040553.1381-7-frank@allwinnertech.com/
+[2]: https://lore.kernel.org/linux-riscv/20220815050815.22340-1-samuel@sholland.org/
+
+Changes in v5:
+ - A100 contains the original implementation, so use that as the base
+   compatible string, and rename the binding to match
+ - Add "unevaluatedProperties: false" to the child multi-led binding
+ - Rename the driver R329 -> A100, since that is the actual original
+   implementation
+
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+ - Depend on LEDS_CLASS_MULTICOLOR
+
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
+
+Changes in v2:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+ - Renamed from sunxi-ledc to sun50i-r329-ledc
+ - Added missing "static" to functions/globals as reported by 0day bot
+
+Samuel Holland (5):
+  dt-bindings: leds: Add Allwinner A100 LED controller
+  leds: sun50i-a100: New driver for the A100 LED controller
+  arm64: dts: allwinner: a100: Add LED controller node
+  riscv: dts: allwinner: d1: Add LED controller node
+  riscv: dts: allwinner: d1: Add RGB LEDs to boards
+
+Yangtao Li (1):
+  arm64: dts: allwinner: a100: Add device node for DMA controller
+
+ .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  26 +
+ .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+ .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |  21 +
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-sun50i-a100.c               | 554 ++++++++++++++++++
+ 8 files changed, 775 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+ create mode 100644 drivers/leds/leds-sun50i-a100.c
+
+-- 
+2.35.1
+
