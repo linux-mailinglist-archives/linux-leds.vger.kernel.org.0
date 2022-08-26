@@ -2,68 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 065265A23CE
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Aug 2022 11:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9F735A2896
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Aug 2022 15:31:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245703AbiHZJL3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Aug 2022 05:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59072 "EHLO
+        id S1344335AbiHZNaz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 Aug 2022 09:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245541AbiHZJLZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Aug 2022 05:11:25 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFD0D11F8
-        for <linux-leds@vger.kernel.org>; Fri, 26 Aug 2022 02:11:14 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id og21so1994325ejc.2
-        for <linux-leds@vger.kernel.org>; Fri, 26 Aug 2022 02:11:14 -0700 (PDT)
+        with ESMTP id S229715AbiHZNay (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Aug 2022 09:30:54 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8052DB7D2
+        for <linux-leds@vger.kernel.org>; Fri, 26 Aug 2022 06:30:52 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-3378303138bso35841597b3.9
+        for <linux-leds@vger.kernel.org>; Fri, 26 Aug 2022 06:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=EHyZfx9f30GYvoWGWrL1/d31tZ2j1jnuSexhcB0B028=;
-        b=H4E8O/FZWenOUNLemv28DGZCdkWQLC1IHud8bPn1Zt5jaLswZKwZ4GWY7Kc+M5rne0
-         tpnyVWL+K70RTKeP6Bi8rlmmmKFJoH2Mr2fMWrJ6n7yZt6SXe/jVP4fIlidg2biWXXN0
-         Y8rKFfD9nTJwjEPs7e7k//u4sUtCL0mi9DCoCyyN5qUUwXJ1jiNv7YgjeURYOUbaviXg
-         pa7H5LGylpM4+N7+ZDMbT9UESKOsCUS4rQUGz7Nal5bwJmhHY8tHsZ4YysgvyYJzqJQw
-         7fqodXyghB4EZTmrIPPiAqhO3pE0vXrgJCRjYWOmJ8cPMSL+azcEJDf5q6VpSkMBPq7L
-         rtxQ==
+        bh=0ooGIQ5Kg7jlU4lI2Cbblsvn4XORFVsSck/7vKrYV5k=;
+        b=RthvJZDD6WkH/T8xq6gxuM0kxfn7dYAeAVlAoyWlAGa6oC5TBs3ldeTFWpU5c2ojYk
+         6C8+ArPTWOen8U0ibf8dSx+uOdtUUhhuiEeVvE5EHccd+rLY5LQCY7kioajwXmfDlU7D
+         jvP9UeVcAIVfqtPPvTIiyBekGgNpgL0dZTrABnoHSISTEiX8svH0SChx20NSoDQS3nT/
+         lhGy68aW6si8WsUJAMdM34A8/CtXlDWDSRwyy9Twsy/STg5EBfH06dDm+b6vY0Kt3hjw
+         kBpSy17EFr7e2h76G1xdsb+qg7Nn5MgIsnGv7xDl1BLksZ4cnIik9I2LbHS4n118sSr4
+         EHHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=EHyZfx9f30GYvoWGWrL1/d31tZ2j1jnuSexhcB0B028=;
-        b=t98rDiDENsCEPot945eFHSU6MG+hpcuVpr78X3bLKYLNwH+6uQQsjwpA006V8+O+l0
-         VLwC1kD3sb5gH3jM0DEboANMIj+8bf7aDgy3qeByk9smSK1Rf8GCh8oNXe2uXRob4WPa
-         A37TO2/O+1jAHvv6frq3FTUDA4kQW+Da/Pz0CDFSL28wGEug3o5ayu6c4ibQQdM5qR2y
-         dINRDrCmqXHQN63kYVJ3emHprCgXXTeXrzqghDrKCngJ76RU567dMD9Az4wLAcpSQtp6
-         3puknJvq/aBoUtpaI4Wu8hNrK4AHSSHGfLm6IypO5TzZXltpIvZjhwXeNOdufdy3s8Mo
-         jVIA==
-X-Gm-Message-State: ACgBeo3/B+zNd4S4Ou5FLRLs77nGk/QI9Xoi+VUSOSqkvMaLm9kDQIHd
-        c+tbU7lnckoAn/XD65gWRiVv4CC/+cB6igFUH2fFhw==
-X-Google-Smtp-Source: AA6agR5U9DH1rbFPNvHxj4z3/uS3uREKQVB/qGqSV8z1JZu3or4hPsIAC6EDv2Kf4X2wkJYTbMZlZ+2xYACgMT5wbTI=
-X-Received: by 2002:a17:906:478f:b0:73d:7919:b23 with SMTP id
- cw15-20020a170906478f00b0073d79190b23mr4546844ejc.690.1661505073018; Fri, 26
- Aug 2022 02:11:13 -0700 (PDT)
+        bh=0ooGIQ5Kg7jlU4lI2Cbblsvn4XORFVsSck/7vKrYV5k=;
+        b=CFenxhL0MIl6mGMUj0HBrX06vnSaGO6KyVmc5xnYNnKm7OGNucaAVG/JqDlqmicI5y
+         JwwDl3BBIOskmarw6696n7IfqZEnOjIiUKexXeasfN3C3HYg0n06SNEWbEGnE/xXwj4R
+         1vqsDtaj6E+46COW593MkfNIlijSYfVOL3JhL3IVPUE+JCztHIRnDWb3VawEVeE20vP2
+         Deh2mU4IXtTGuvVo2UUB8O4qmeWLQFtRGr5OaA/5YuBoMIgoC9BbB5Z/bZoC8xSoxOgz
+         qKGWKsA16OzGAJFGNy39lMmU/UYXDvaixhA28sC+mXGGS81D8NiQ0PougABjj/tDak9F
+         vHdg==
+X-Gm-Message-State: ACgBeo3aE3k1bc601jjCJ8AK63DwO2n5ViOJf+KbtxfLWzovogNE4m/r
+        4jv/d+YDBCvVtDAt166kdwsDqkk67huB72LimgiO2Q==
+X-Google-Smtp-Source: AA6agR5YXZgq6kN4fV1MxKqyc0vTIjMz0GJ4TdquA00/dxmzeThXpKF5sia/6ppI0ut+CScaGfjZ9OH1Rt8W2wuX5a4=
+X-Received: by 2002:a81:594:0:b0:33d:a498:167c with SMTP id
+ 142-20020a810594000000b0033da498167cmr8974402ywf.59.1661520651973; Fri, 26
+ Aug 2022 06:30:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722081146.47262-1-jjhiblot@traphandler.com>
- <20220722081146.47262-3-jjhiblot@traphandler.com> <CAHp75Vdu-EJRRxkK7+TfuE=zEDkJye1QCXSB+cDLrqxuykJjkA@mail.gmail.com>
- <5ba34982-52c7-e41a-fba8-d88d93529e47@traphandler.com> <20220804210412.GA30210@duo.ucw.cz>
- <0663c616-97c8-444c-f390-275fae402453@traphandler.com> <CAHp75Vf1cT81cx38VQ80PbyG9i9xbiegMnQoMWwZEZf+7fWJuQ@mail.gmail.com>
- <5bb9955e-4c2f-ca55-0e77-c082a868371a@traphandler.com> <CAHp75Vc5g0OL6YUY2WsUZA6bovB+sdJE3Bv3SWp-1pRh3kyiow@mail.gmail.com>
-In-Reply-To: <CAHp75Vc5g0OL6YUY2WsUZA6bovB+sdJE3Bv3SWp-1pRh3kyiow@mail.gmail.com>
+References: <20220823102344.17624-1-henning.schild@siemens.com>
+ <20220823102344.17624-2-henning.schild@siemens.com> <YwToilxquEZGqzQD@smile.fi.intel.com>
+ <20220823165459.143e1c30@md1za8fc.ad001.siemens.net> <YwYjXzsSHNe+J3aO@76cbfcf04d45>
+ <20220824155038.5aa19495@md1za8fc.ad001.siemens.net> <a001efb5-95a3-d89d-32bd-557b6f11bb80@redhat.com>
+ <20220824161757.4ca3bb97@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20220824161757.4ca3bb97@md1za8fc.ad001.siemens.net>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 26 Aug 2022 11:11:01 +0200
-Message-ID: <CACRpkdYs03HhXNwx3BmzrvNx6biGc1FPEUE2eoc9XZ-9O5M4Rg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 2/3] leds: Add driver for the TLC5925 LED controller
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-        Linus Walleij <linusw@kernel.org>,
+Date:   Fri, 26 Aug 2022 15:30:39 +0200
+Message-ID: <CACRpkdbKzoVoch+hRJtp=vaCQvKSt+=HMJYZ4WxWjFr+-tZ4KQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] gpio-f7188x: Add GPIO support for Nuvoton NCT6116
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, simon.guinot@sequanux.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Sheng-Yuan Huang <syhuang3@nuvoton.com>,
+        Tasanakorn Phaipool <tasanakorn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -75,43 +76,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 12:19 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Wed, Aug 24, 2022 at 4:18 PM Henning Schild
+<henning.schild@siemens.com> wrote:
 
-> > >> I don't know if this is enough to make a dedicated TLC5925 driver
-> > >> desirable in the kernel.
-> > > I don't think you have enough justification for a new driver.
+> > You did not write it, but you are using it to do hw-enablement for
+> > your company's products. So being asked to also some touch-ups
+> > left and right while you are at it really is not unexpected IMHO.
+>
+> Sure thing. Dropping a few characters from a line i touch anyhow is
+> easy enough. But i.e a refactoring to pr_fmt would feel like asking too
+> much in my book. That feels like work of the author or maintainer.
+>
+> In fact i am just doing the homework of what i think should have long
+> been done by Nuvoton.
 
-One thing to keep in mind is that LEDs are MMI (man-machine-interface)
-and designed as such, so small glitches etc are fine as long as they are
-not noticeable by human perception...
+A lot of vendors don't have much active upstream participation, they
+outsource that work to people like yourself by just ignoring it.
 
-> After this message I first must withdraw my Rb tag, and turn my voice
-> against this driver because of the above. On the contrary we might ask
-> the GPIO library for a specific API to have what you do with the
-> user's consent of side effects. Linus, Bart, I'm talking of the
-> delayed (async) version of gpio_set_multiple(). But personally I think
-> it's not so easy to implement in a bugless manner (because we need to
-> synchronize it forcibly at any time we call another GPIO API against
-> the same chip).
+> I hope that v5 will be acceptable.
 
-I suppose this can just be a gpio-led using the GPIO driver
-underneath?
-
-If the usecase for TLC5925 is such that it is often (as defined by
-experienced developers having seen it on boards in the wild) used
-as a GPIO expander rather than a pure LED driver, then it is better
-to have this in the GPIO subsystem in some or other form.
-
-If it is always just used for LEDs then my first comment about
-this being MMI applies I suppose. Or rather, ask the question
-from an operator point of view rather than a logic level point of
-view. (I think that was Andy's point though.)
-
-I agree that we probably need some generic library to properly handle
-the jungle of funny TTL-type constructs that is popping up left and
-right for GPIO. Someone should ideally sit down and think about
-what is common among these.
+Bartosz is applying GPIO patches now, but my principle was that
+when I feel a patch makes the kernel look better after than before the
+patch and no new version is coming, I just apply the patch.
+This is how we deal with "perfect is the enemy of good" in practice.
+That said, we are all grateful for any improvements you manage to
+sneak in!
 
 Yours,
 Linus Walleij
