@@ -2,125 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5305F5A63A5
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Aug 2022 14:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5639D5A659F
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Aug 2022 15:53:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbiH3Mkk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Aug 2022 08:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51758 "EHLO
+        id S230440AbiH3NxV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Aug 2022 09:53:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiH3Mkc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Aug 2022 08:40:32 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D6DB15FD6
-        for <linux-leds@vger.kernel.org>; Tue, 30 Aug 2022 05:40:30 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id az27so14048566wrb.6
-        for <linux-leds@vger.kernel.org>; Tue, 30 Aug 2022 05:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=7z9Pqzt9hk2WN83EB611zYm/PTUAOC0jcQmMgCYGpxg=;
-        b=bZUmg+pmdT2tolVXR9Fqgn9LcYt521sI6D19Q0iJ0JmJKpypHGbARM6gqzgJ61VGw/
-         5H2ImJrOAMvCqAEfeEJa+rGQLnSjsfuey0s8q1KKlgVJsY99fmskBh36hGxoFAKDJohG
-         SyjSk3iGn+jPXgwMFCg/ktLV+HUoHo/CyHNCd/AwAbtpzZMa1+eumfA/FRIasHFnfFWW
-         PW98m0aEzOyrwGb+tTT/QfxHTdRQTy8OTplnYJIHFDscogHkRwomH8UAxIYl/qiWtYPn
-         3/W3fPlznQMCcwZkLtsQ06mZKhCvzxITJ3upljmWSsdjFecSNpVi7R2TmwoQUlqSFB11
-         XrWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=7z9Pqzt9hk2WN83EB611zYm/PTUAOC0jcQmMgCYGpxg=;
-        b=pVHXP2NTla6zFDIKPGp+xrJfxLtzT28X/L5zOrKX2t0aRoj660S5RahS4/54FKO9qM
-         TeCAX4qjwSuWf6q7GoxNI0uVE8HeRu/ncJwTC+N2Ch2+XQzSYx5QKSzPNb0d8WH80chr
-         MWm+Pnw+lK3Xbunk8i9bBm424GcDZJr3lDDU/y3Oyr+vQMUHOgfGlla3KCdfE4mTxBe8
-         gXsZCf5ORqSPhSFwsvS+T0ybE72o9D60bQfBsLUB6MJGZTrdMY7wah+CefvhzrOmCyeV
-         /UtVXfC2Tka2Al86gALFa4skdWReZsaySWPThcSWgrrbgctFfCtvh3rHey6lqlwMdBHh
-         EvvQ==
-X-Gm-Message-State: ACgBeo1Dm4ytEy7H+/hcUl7sNKSgTCyfpW4U2lU05LTRRycX8Sdbgd71
-        qkaQ1FV1pI4AzCenwK1CNkb+cA==
-X-Google-Smtp-Source: AA6agR6G6biZprUethAunY+sacCBtYPcpWnzVd7O9AZ4u3KtieS3HHgUJbMoHeyDhGYDnzpQ/Fdl7Q==
-X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id bz4-20020a056000090400b0021a3dca4297mr8789004wrb.487.1661863229217;
-        Tue, 30 Aug 2022 05:40:29 -0700 (PDT)
-Received: from [192.168.86.238] (cpc90716-aztw32-2-0-cust825.18-1.cable.virginm.net. [86.26.103.58])
-        by smtp.googlemail.com with ESMTPSA id x14-20020a5d60ce000000b002252e5a6841sm9671188wrt.57.2022.08.30.05.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 05:40:28 -0700 (PDT)
-Message-ID: <8b03a71a-6b5d-e84a-4ea1-351b46954f12@linaro.org>
-Date:   Tue, 30 Aug 2022 13:40:27 +0100
+        with ESMTP id S231171AbiH3Nw6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Aug 2022 09:52:58 -0400
+Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC4327E;
+        Tue, 30 Aug 2022 06:51:41 -0700 (PDT)
+Received: from [10.2.12.24] (unknown [10.2.12.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by 7of9.schinagl.nl (Postfix) with ESMTPSA id 460C5186AE58;
+        Tue, 30 Aug 2022 15:42:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
+        t=1661866978; bh=VGw2Qzyj3OF2DuUcVdIgndrfA7vp4cP/flSebzN5Nhw=;
+        h=Date:Subject:To:References:From:In-Reply-To;
+        b=FrDLdcWtc/a0geROqdLM6MqQbXUDZWXwWK1rBR9Q5J9CzRNuL6X1XpYfL49GqULLG
+         hpzweGZUX/tshrvI4tLDgW/vBKqFINnUAcrvxFO9ljf2VLQZeN7/SM/hdDRWeiM1bJ
+         LalZzZAOcK3/1Ik4q/CsRJiZT8JkiIfIQrZEQzx8=
+Message-ID: <81566e5b-297a-4db4-b741-3a80dbf875ac@schinagl.nl>
+Date:   Tue, 30 Aug 2022 15:42:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH RESEND - dt 1/2] dt-bindings: nvmem: qfprom: add IPQ8064
- and SDM630 compatibles
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3] dt-bindings: leds: Expand LED_COLOR_ID definitions
+Content-Language: nl
+To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Kiran Gunda <kgunda@codeaurora.org>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20220825125410.232377-1-krzysztof.kozlowski@linaro.org>
- <20220825125410.232377-2-krzysztof.kozlowski@linaro.org>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20220825125410.232377-2-krzysztof.kozlowski@linaro.org>
+        Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, Daniel Mack <daniel@zonque.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Olliver Schinagl <oliver+list@schinagl.nl>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220830084454.1133369-1-oliver@schinagl.nl>
+ <Yw37exBark8pCE2p@ada.ifak-system.com>
+From:   Olliver Schinagl <oliver@schinagl.nl>
+In-Reply-To: <Yw37exBark8pCE2p@ada.ifak-system.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Krzysztof,
+On 30-08-2022 13:58, Alexander Dahl wrote:
+> Hello Olliver,
+>
+> Am Tue, Aug 30, 2022 at 10:44:54AM +0200 schrieb Olliver Schinagl:
+>> In commit 853a78a7d6c7 (dt-bindings: leds: Add LED_COLOR_ID definitions,
+>> Sun Jun 9 20:19:04 2019 +0200) the most basic color definitions where
+>> added. However, there's a little more very common LED colors.
+>>
+>> While the documentation states 'add what is missing', engineers tend to
+>> be lazy and will just use what currently exists. So this patch will take
+>> (a) list from online retailers [0], [1], [2] and use the common LED colors from
+>> there, this being reasonable as this is what is currently available to purchase.
+>>
+>> Note, that LIME seems to be the modern take to 'Yellow-green' or
+>> 'Yellowish-green' from some older datasheets.
+>>
+>> [0]: https://www.digikey.com/en/products/filter/led-lighting-color/125
+>> [1]: https://eu.mouser.com/c/optoelectronics/led-lighting/led-emitters/standard-leds-smd
+>> [2]: https://nl.farnell.com/en-NL/c/optoelectronics-displays/led-products/standard-single-colour-leds-under-75ma
+>>
+>> Signed-off-by: Olliver Schinagl <oliver@schinagl.nl>
+>> ---
+>> No chances since v2: Re-send with the proper e-mails.
+>> Changes since v1: Unbreak existing definitions.
+>>
+>>   include/dt-bindings/leds/common.h | 28 ++++++++++++++++------------
+>>   1 file changed, 16 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+>> index 3be89a7c20a9..04bf94523ea3 100644
+>> --- a/include/dt-bindings/leds/common.h
+>> +++ b/include/dt-bindings/leds/common.h
+>> @@ -22,18 +22,22 @@
+>>   #define LEDS_BOOST_FIXED	2
+>>   
+>>   /* Standard LED colors */
+>> -#define LED_COLOR_ID_WHITE	0
+>> -#define LED_COLOR_ID_RED	1
+>> -#define LED_COLOR_ID_GREEN	2
+>> -#define LED_COLOR_ID_BLUE	3
+>> -#define LED_COLOR_ID_AMBER	4
+>> -#define LED_COLOR_ID_VIOLET	5
+>> -#define LED_COLOR_ID_YELLOW	6
+>> -#define LED_COLOR_ID_IR		7
+>> -#define LED_COLOR_ID_MULTI	8	/* For multicolor LEDs */
+>> -#define LED_COLOR_ID_RGB	9	/* For multicolor LEDs that can do arbitrary color,
+>> -					   so this would include RGBW and similar */
+>> -#define LED_COLOR_ID_MAX	10
+>> +#define LED_COLOR_ID_WHITE      0
+>> +#define LED_COLOR_ID_RED        1
+>> +#define LED_COLOR_ID_GREEN      2
+>> +#define LED_COLOR_ID_BLUE       3
+>> +#define LED_COLOR_ID_AMBER      4
+>> +#define LED_COLOR_ID_VIOLET     5
+>> +#define LED_COLOR_ID_YELLOW     6
+>> +#define LED_COLOR_ID_IR         7
+>> +#define LED_COLOR_ID_MULTI      8 /* For multicolor LEDs */
+>> +#define LED_COLOR_ID_RGB        9 /* For multicolor LEDs that can do arbitrary color, including RGBW etc. */
+>> +#define LED_COLOR_ID_PUPRPLE   10
+> This is still a typo, isn't it? Purple?
+Yes sir, And the spacing too, as you mentioned on the v2;
+>
+> Greets
+> Alex
+>
+>> +#define LED_COLOR_ID_ORANGE    11
+>> +#define LED_COLOR_ID_PINK      12
+>> +#define LED_COLOR_ID_CYAN      13
+>> +#define LED_COLOR_ID_LIME      14
+>> +#define LED_COLOR_ID_MAX       15
+>>   
+>>   /* Standard LED functions */
+>>   /* Keyboard LEDs, usually it would be input4::capslock etc. */
+>> -- 
+>> 2.37.2
+>>
 
-I seems to have missed this one,
-
-
-On 25/08/2022 13:54, Krzysztof Kozlowski wrote:
-> Document compatibles for QFPROM used on IPQ8064 and SDM630.  They are
-> compatible with generic QFPROM fallback.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Applied thanks,
-Srini
-> ---
->   Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> index dede8892ee01..b4163086a5be 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> @@ -18,6 +18,7 @@ properties:
->         - enum:
->             - qcom,apq8064-qfprom
->             - qcom,apq8084-qfprom
-> +          - qcom,ipq8064-qfprom
->             - qcom,msm8974-qfprom
->             - qcom,msm8916-qfprom
->             - qcom,msm8996-qfprom
-> @@ -25,6 +26,7 @@ properties:
->             - qcom,qcs404-qfprom
->             - qcom,sc7180-qfprom
->             - qcom,sc7280-qfprom
-> +          - qcom,sdm630-qfprom
->             - qcom,sdm845-qfprom
->         - const: qcom,qfprom
->   
