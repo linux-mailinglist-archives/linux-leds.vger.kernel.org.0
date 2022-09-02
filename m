@@ -2,113 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6D45AA343
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Sep 2022 00:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CACD55AA748
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Sep 2022 07:35:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235188AbiIAWn7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Sep 2022 18:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47214 "EHLO
+        id S232878AbiIBFfu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Sep 2022 01:35:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234971AbiIAWnu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Sep 2022 18:43:50 -0400
-Received: from mail.sberdevices.ru (mail.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1000067CBE;
-        Thu,  1 Sep 2022 15:43:49 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mail.sberdevices.ru (Postfix) with ESMTP id 76C1E5FD02;
-        Fri,  2 Sep 2022 01:43:47 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1662072227;
-        bh=tiivwTGQBmCxotgiy0V8eJaCuzD7tL79bR3lZGF2GrU=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-        b=OyFLhiazQM0FRzeBxxUxs7FyRzcMBEjWiuHTjfnpZKiY0iizu1IyOiCbQAsoV8wSX
-         L+Mfxfo+UM9DncvdoaLace1Gjvl3rDNVOvbqMSWdQu58pb2cyMeHs/9eJ70JqqmbpI
-         UneJPZsC4S1rhAtM3yGGORhymI17rYg2lsK0fnpdqYdtJSKAo8SWJhYOoadRSjvdKk
-         x7nIYWlZfX4Gz2TXpAm8uDzLobNw8wFIe5bIOM3UugVRebJKU6O/1jpIgz/CBw+T24
-         DwRe9xMzuH8T+oBJPDpS8d2NThhfbPyj8o1ptkDRKO9BYSUyAanOTR48J4M6dIX7dI
-         1PcsoxO1D1ocQ==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mail.sberdevices.ru (Postfix) with ESMTP;
-        Fri,  2 Sep 2022 01:43:46 +0300 (MSK)
-Date:   Fri, 2 Sep 2022 01:43:45 +0300
-From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+        with ESMTP id S232771AbiIBFft (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Sep 2022 01:35:49 -0400
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FA647B86;
+        Thu,  1 Sep 2022 22:35:48 -0700 (PDT)
+Received: by mail-qt1-x830.google.com with SMTP id r6so731506qtx.6;
+        Thu, 01 Sep 2022 22:35:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=CjdSnX8tKDWhdJtdqaneyF+qDLboAux9fkOeHQPAim8=;
+        b=TlcQlare3b/VilolwjEXzA6BdpmoQkz/xdaauz/exhPyFGr6lkRGvTCygYknIv+vAj
+         XJvFfnhlxEp6PtoLzl8yG51c3s1m6mC7c8juPVL3zkBhdNqFxbXnXZaiOMhlsLD0pLoX
+         R4/+SR11V9ydjoLqIrYx5fylgPlv8Pizf8nnhgGdqiSX6p+a5sncIqO/BdCEAstda1n5
+         YIASWyzrnaoF0L7S2vJlsONM+VrH7iWGpbuVxBh98rahNbmrDgoxJAVDyDPQVmluWFil
+         XarB8oM3mcu76xMForVvySFcfLisYRuyQwpXoqVZooGxGicqU273tSN3GzcT8BhaP35Y
+         Ai/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=CjdSnX8tKDWhdJtdqaneyF+qDLboAux9fkOeHQPAim8=;
+        b=8NQxIIbPs0SPOcyb3Nl5NHdcGJIvyZvZTukeKlHL0yiAHtIUZfS8mcSRb6h4sgTyEJ
+         tmBM859RNEf4FYHUDLZBmE9mKM4j6Rjm8fCtyvYvAMj19Cw1PnyBmUB2NbAgIBYiylqB
+         iNMTdV6m854JvfKT/xsaTDH/9daBs3Z+7LDpYr1hbO8q1IchJOSRiVbONtqfnYm0oSYV
+         Fd2L0NAAE9CSClUXptIm0o9e0gjiWiCGsq8HmMaOJLSg+FxryRHnEIkUy31K7iN8Da4O
+         JNy0u+K7f0y96ply2+WLrx6uiGO1lRZ9MEbH/9dN9uL5gS/og3TaRVZX8whOot09z/Cw
+         x63g==
+X-Gm-Message-State: ACgBeo1ZRjVxHKs4kjhe6oUz4kFDHlUqeActAnmbr7tNqmJK/rOFtZs1
+        rrj+mCWkcFBkRJbzsmSb/yavwUkak4cQ+ebvrPOBRQRQjOQ=
+X-Google-Smtp-Source: AA6agR7yIMcv9vUmOX6g2X8yfXaDp4ZpkgrkSgBnCp/9iMBfw7CFygF2IXMmPkAqS253JisPwYuDdo88eihKZ87SYpA=
+X-Received: by 2002:a05:622a:40a:b0:343:77ba:727f with SMTP id
+ n10-20020a05622a040a00b0034377ba727fmr27146665qtx.481.1662096947294; Thu, 01
+ Sep 2022 22:35:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220824114927.79231-1-mmkurbanov@sberdevices.ru>
+ <CAHp75VeQX_8niAu4uORW1YEfjxhLJFWsnm_JccECfAOAzAh32A@mail.gmail.com> <20220901224345.fy6xvbpdn4axtlks@Rockosov-MBP>
+In-Reply-To: <20220901224345.fy6xvbpdn4axtlks@Rockosov-MBP>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 2 Sep 2022 08:35:12 +0300
+Message-ID: <CAHp75VeFT4coDG-fpZ2sErBxnhOpgU98Ctf+vcGcgLRTO6YMuQ@mail.gmail.com>
+Subject: Re: [PATCH v1] leds: trigger: pattern: notify userpace if pattern finished
+To:     Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Cc:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
         Pavel Machek <pavel@ucw.cz>,
         Raphael Teysseyre <rteysseyre@gmail.com>,
         Baolin Wang <baolin.wang@linaro.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         kernel <kernel@sberdevices.ru>
-Subject: Re: [PATCH v1] leds: trigger: pattern: notify userpace if pattern
- finished
-Message-ID: <20220901224345.fy6xvbpdn4axtlks@Rockosov-MBP>
-References: <20220824114927.79231-1-mmkurbanov@sberdevices.ru>
- <CAHp75VeQX_8niAu4uORW1YEfjxhLJFWsnm_JccECfAOAzAh32A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeQX_8niAu4uORW1YEfjxhLJFWsnm_JccECfAOAzAh32A@mail.gmail.com>
-User-Agent: NeoMutt/20220429
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/09/01 19:49:00 #20211246
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-[...]
+On Fri, Sep 2, 2022 at 1:43 AM Dmitry Rokosov <ddrokosov@sberdevices.ru> wrote:
 
-> > +static int pattern_trig_add_pattern_ended(struct led_classdev *led_cdev)
-> > +{
-> > +       struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-> > +       struct device *dev = led_cdev->dev;
-> > +       int ret;
-> > +
-> > +       ret = device_create_file(dev, &dev_attr_pattern_ended);
-> > +       if (ret) {
-> > +               dev_err(dev,
-> > +                       "Error creating pattern_ended (%pe)\n", ERR_PTR(ret));
-> > +               return ret;
-> > +       }
-> > +
-> > +       data->pattern_ended = sysfs_get_dirent(dev->kobj.sd, "pattern_ended");
-> > +       if (!data->pattern_ended) {
-> > +               dev_err(dev, "Error getting pattern_ended kernelfs\n");
-> > +               device_remove_file(dev, &dev_attr_pattern_ended);
-> > +               return -ENXIO;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void pattern_trig_remove_pattern_ended(struct led_classdev *led_cdev)
-> > +{
-> > +       struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-> > +
-> > +       sysfs_put(data->pattern_ended);
-> > +       device_remove_file(led_cdev->dev, &dev_attr_pattern_ended);
-> > +}
-> 
-> I'm wondering if you can always have a file and instead provide a
-> value there, so user space may use epoll() mechanism on that. It will
-> simplify your code here.
+...
 
-Could you please explain what you mean? In the current implementation
-userspace can use epoll() already.
+> > > +static void pattern_trig_remove_pattern_ended(struct led_classdev *led_cdev)
+> > > +{
+> > > +       struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
+> > > +
+> > > +       sysfs_put(data->pattern_ended);
+> > > +       device_remove_file(led_cdev->dev, &dev_attr_pattern_ended);
+> > > +}
+> >
+> > I'm wondering if you can always have a file and instead provide a
+> > value there, so user space may use epoll() mechanism on that. It will
+> > simplify your code here.
+>
+> Could you please explain what you mean? In the current implementation
+> userspace can use epoll() already.
+
+On the suddenly disappeared file?
 
 -- 
-Thank you,
-Dmitry
+With Best Regards,
+Andy Shevchenko
