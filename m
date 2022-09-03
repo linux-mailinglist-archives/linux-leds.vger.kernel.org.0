@@ -2,91 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7D915ABE5C
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Sep 2022 12:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2C775ABEF5
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Sep 2022 14:27:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230160AbiICKAP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 3 Sep 2022 06:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
+        id S229681AbiICM1M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 3 Sep 2022 08:27:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbiICKAO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Sep 2022 06:00:14 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A613357C2;
-        Sat,  3 Sep 2022 03:00:12 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id c9so3455326qkk.6;
-        Sat, 03 Sep 2022 03:00:12 -0700 (PDT)
+        with ESMTP id S229694AbiICM1M (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Sep 2022 08:27:12 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7A34D146
+        for <linux-leds@vger.kernel.org>; Sat,  3 Sep 2022 05:27:10 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id b44so5857907edf.9
+        for <linux-leds@vger.kernel.org>; Sat, 03 Sep 2022 05:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=eIvSaUS74WCbxqQm0wgPs0M7RkM/w20HZGOfg7cVeFk=;
-        b=hd3p6+efVudsTYMcznatjZDKB2UTlcameqXBLdQNKEiChBpwpDjjUUo97j9ncaGdb2
-         AqgBQHDnDiNCLesO5ANYzzzxg9uLaDSjZuZMdQyxO5+va4gu/u9IAtJfIcVF97eouQh1
-         gDrCOJtSmN7RzZmW07ybvdQbMRLNnyY0QcgPOngzEqN7F/wSRYNNMonKPoD8xPgtZfEu
-         n0WwR6M13YqdjY3Xhu7y9qGpUOOWa5Kcywh5aNU7NZFyl0hCRX51jHkUcibPBztUD3Uz
-         xZ2AXyNShyrfwzNziA3rYf+vOynvCINCWhhRoCr/wZckmDuOYNre1ebNBNIKciwKY7z9
-         GlwA==
+        bh=3DotglGBHM7VJB0LjM1ubq7vljUnAoT1LI636XYafbc=;
+        b=G6xL2PZ3vB0BMGI1sojRXbqpRLDu7OTsHlu3XUKj+RpCCoYTyCOQma5941SG7Yf+ud
+         asPKHScrlAiRdSewyRjOyJUtDu63d26gIQVL8SjbC+0lIA43Yn7l634JxbJvi4in4mG4
+         eAFajdYYKC7r9jfF3ATT2SxG8gmSuTYP/jy5btmjeZ++XCmxrWm0nOH4YQVxiH1KTlmt
+         /PS0uiDWSB+ICcYkREMejsCyxU2sn8FBWuMMLJ4H4S0CgvSszNaFdiWzu2ATsIl0C0iC
+         QRaUJp7KSxQvtRGGhSBx0IDuT7FoGycZmEXFLxElek1nCqh7mMYlwnOo3kmS+QKJIBzw
+         zKfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=eIvSaUS74WCbxqQm0wgPs0M7RkM/w20HZGOfg7cVeFk=;
-        b=TzvjGvg/e5Fdu7kkxcu6NlWshXQ4K/ORlIUEu27XLkbSvyWr160i1doDnMNekR04BX
-         vd+MMWOpVzLC0HRm61/x5p4qY7BCcZf8bFnKiVLiWpZe22478ImBgo5mtUYMKVebpGdD
-         jXfYfJLTcvjRZHRd+gu5zYIUR9zK5TVlQuQ3rXLfu8s3uT1phTlcPYkzYtyAEXtnxqPp
-         Y8a9wH0eY6gEeUgsx11RXC0kUnJOgLWcMbfrHe36yC6tQgAvrZf9nNRZeTArnzISU3gA
-         PfMYTlrMNMi2ly2dCv70KcAKJ6RcT65d7JNNtYTsXwIyaqSsEDpCUrGfW6aa6cL/C2Z0
-         Xa/w==
-X-Gm-Message-State: ACgBeo1fd2S1ByzXdVWzuIJVS1SwNVgQBXEGwgEpQVvMw2Ee9g3Z5T/x
-        uIPGXq0zg43Bap38ztK/wsaXF6swKg3aCXIVm64=
-X-Google-Smtp-Source: AA6agR7bc0aNf1qMTLPs6ApPcKggpasv5/RD+VFeZKCP1aSbFPW5yXsOJaJNTFz0drsemN/PZ1mBnK8SevsrbKcvciU=
-X-Received: by 2002:a05:620a:254d:b0:6ab:84b8:25eb with SMTP id
- s13-20020a05620a254d00b006ab84b825ebmr26106520qko.383.1662199211678; Sat, 03
- Sep 2022 03:00:11 -0700 (PDT)
+        bh=3DotglGBHM7VJB0LjM1ubq7vljUnAoT1LI636XYafbc=;
+        b=UgYVgRb15dWUWbuaj6RShPq4lC4FYt/I5c6rz1PC3oz9eXUCIrC/7lcvbyMGlpGArD
+         y92LXJtK1DcsGc0r1pO0qxRbxg0lM6IdDat8uk8vr2Rq9SjhL0I1nB9d8QpBajYSYXb+
+         TRlcAGVhcvtkxlp8jH3TCwdeB2XXvqIq5srC8boNBBmfnNFpgcV3GnZTfIQS9qprSep2
+         0t4AVmfzhY5+s9h0tJHGsaNWH8bu67eS1pIkPcRk5FYv3P/cXQHihw5iO4WuTSJ3SaFj
+         jcemEau3Orzj3hRUFDFPtfXYRWUyU30tggnpNUuG0bvNZANUvhq/oYPbH9kI7WoyjRsB
+         hvAQ==
+X-Gm-Message-State: ACgBeo2zkVjqDbRoL/Q4V+9SF2ie1jEZzTcYH/jF/nTPx3s/KH1vjSjp
+        k4Nt3APlbErP+lNqk2RHfPDNB4Ug8x6rEhzVIMh/SA==
+X-Google-Smtp-Source: AA6agR6be9CbDkzLs7qa7+1LbKxQx6HLvkZ6aSdq5ssKIXtBmlw5SoiEzkNGY3rjlnc1B/0oXbfZ/PJC2Mtnj5XZaZg=
+X-Received: by 2002:a05:6402:5384:b0:431:6d84:b451 with SMTP id
+ ew4-20020a056402538400b004316d84b451mr36269197edb.46.1662208028952; Sat, 03
+ Sep 2022 05:27:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220902-get_gpiod_from_child-remove-v1-0-1e47125df20f@gmail.com>
 In-Reply-To: <20220902-get_gpiod_from_child-remove-v1-0-1e47125df20f@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 3 Sep 2022 12:59:35 +0300
-Message-ID: <CAHp75Vf5Law7suOPRW=LGrBacv=WfFBmhOae+frBdj46dT-KCg@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 3 Sep 2022 14:26:57 +0200
+Message-ID: <CACRpkdat-5T8wv9QH+sVa4pU7u_rf+FTq40pQejpCtqv+YzdYA@mail.gmail.com>
 Subject: Re: [PATCH v1 0/3] Get rid of devm_fwnode_get_[index_]gpiod_from_child()
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, Sep 3, 2022 at 3:59 AM Dmitry Torokhov
+On Sat, Sep 3, 2022 at 2:56 AM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
->
+
 > This drops the last uses of devm_fwnode_get_[index_]gpiod_from_child()
 > from the tree and drops the stubs implementing this API on top of
 > devm_fwnode_gpiod_get_index().
 >
 > Note that the bulk of users were converted in 2019, the couple of LED
 > drivers are all that have remained.
-
-Full support and green light from me, thanks!
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-P.S. More of the similar is welcome, if you have any!
-
+>
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
+Oh that's neat.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Yours,
+Linus Walleij
