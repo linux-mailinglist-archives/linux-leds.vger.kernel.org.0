@@ -2,55 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC605AD5EE
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Sep 2022 17:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 340F65AD5E4
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Sep 2022 17:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238778AbiIEPKe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Sep 2022 11:10:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58640 "EHLO
+        id S235786AbiIEPNj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Sep 2022 11:13:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238777AbiIEPKU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Sep 2022 11:10:20 -0400
+        with ESMTP id S238683AbiIEPNK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Sep 2022 11:13:10 -0400
 Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 185452AF5;
-        Mon,  5 Sep 2022 08:09:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9507D1B7A1;
+        Mon,  5 Sep 2022 08:12:47 -0700 (PDT)
 Received: from mail02.huawei.com (unknown [172.30.67.143])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MLsMF1HL1zKH4P;
-        Mon,  5 Sep 2022 23:07:37 +0800 (CST)
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MLsRR6mDYzkq6l;
+        Mon,  5 Sep 2022 23:11:15 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.102.38])
-        by APP2 (Coremail) with SMTP id Syh0CgC3VW8hERZjhLKnAQ--.57944S6;
-        Mon, 05 Sep 2022 23:09:22 +0800 (CST)
+        by APP2 (Coremail) with SMTP id Syh0CgBH53DtERZj1M+nAQ--.47246S4;
+        Mon, 05 Sep 2022 23:12:45 +0800 (CST)
 From:   Wei Yongjun <weiyongjun@huaweicloud.com>
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Christian Mauderer <oss@c-mauderer.de>
 Cc:     Wei Yongjun <weiyongjun1@huawei.com>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] leds: spi-byte: silent no spi_device_id warning
-Date:   Mon,  5 Sep 2022 15:26:59 +0000
-Message-Id: <20220905152659.4152483-3-weiyongjun@huaweicloud.com>
+Subject: [PATCH] leds: spi-byte: fix unbalanced of_node_get()/of_node_put()
+Date:   Mon,  5 Sep 2022 15:30:23 +0000
+Message-Id: <20220905153023.4152525-1-weiyongjun@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220905152659.4152483-1-weiyongjun@huaweicloud.com>
-References: <20220905152659.4152483-1-weiyongjun@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgC3VW8hERZjhLKnAQ--.57944S6
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4kCryrtrWDJw1DKF45Wrg_yoWDZwc_Cr
-        y7Xr9rZFWUCr1xtFy8ur15Zryv9a15Xr1vqa1293s0qF4fXr1YkFZFvry7t348ZrWfJrZr
-        AFs8XFyrCr43WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbsAYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
-        Y4v20xvaj40_Jr0_Jr4l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M2
-        8IrcIa0xkI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK
-        021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F
-        4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0
-        oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
-        C0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
-        6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-        67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-        x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-        UI43ZEXa7IU1Wlk3UUUUU==
+X-CM-TRANSID: Syh0CgBH53DtERZj1M+nAQ--.47246S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryUGr4DZFW5ZFy3XF4UXFb_yoW8AF1fpF
+        WYk343Aw43W3yxua1FyFykXFyDKa18KFWUJFWxuay5Zw1DZ34UX3WxAFyUAa47ZFyfu3WF
+        vF1UJa47ZF48ZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgCb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6r1j6r18M7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+        0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+        x7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+        0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr
+        1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsG
+        vfC2KfnxnUUI43ZEXa7IU189N3UUUUU==
 X-CM-SenderInfo: 5zhl50pqjm3046kxt4xhlfz01xgou0bp/
 X-CFilter-Loop: Reflected
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
@@ -64,36 +61,52 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Wei Yongjun <weiyongjun1@huawei.com>
 
-Add spi_device_id entries to silent following SPI warning:
+Enabling CONFIG_OF_DYNAMIC triggers the following error at device remove:
 
-SPI driver leds_spi_byte has no spi_device_id for ubnt,acb-spi-led
+OF: ERROR: memory leak, expected refcount 1 instead of 2, \
+ of_node_get()/of_node_put() unbalanced - destroy cset entry: \
+ attach overlay node /spi/led-controller@0/led
+
+of_get_next_available_child() is used to get child node with refcount
+incremented in spi_byte_probe(), but missing of_node_put() on it when
+done. This patch fix it.
 
 Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/leds/leds-spi-byte.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/leds/leds-spi-byte.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index 2bc5c99daf51..9d23dc9e7639 100644
+index 9d23dc9e7639..eaad227b4542 100644
 --- a/drivers/leds/leds-spi-byte.c
 +++ b/drivers/leds/leds-spi-byte.c
-@@ -137,9 +137,16 @@ static void spi_byte_remove(struct spi_device *spi)
- 	mutex_destroy(&led->mutex);
- }
+@@ -91,12 +91,12 @@ static int spi_byte_probe(struct spi_device *spi)
+ 		dev_err(dev, "Device must have exactly one LED sub-node.");
+ 		return -EINVAL;
+ 	}
+-	child = of_get_next_available_child(dev_of_node(dev), NULL);
  
-+static const struct spi_device_id spi_byte_spi_ids[] = {
-+	{ "acb-spi-led", (kernel_ulong_t)&ubnt_acb_spi_led_cdef },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, spi_byte_spi_ids);
-+
- static struct spi_driver spi_byte_driver = {
- 	.probe		= spi_byte_probe,
- 	.remove		= spi_byte_remove,
-+	.id_table	= spi_byte_spi_ids,
- 	.driver = {
- 		.name		= KBUILD_MODNAME,
- 		.of_match_table	= spi_byte_dt_ids,
+ 	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+ 	if (!led)
+ 		return -ENOMEM;
+ 
++	child = of_get_next_available_child(dev_of_node(dev), NULL);
+ 	of_property_read_string(child, "label", &name);
+ 	strlcpy(led->name, name, sizeof(led->name));
+ 	led->spi = spi;
+@@ -113,10 +113,12 @@ static int spi_byte_probe(struct spi_device *spi)
+ 			led->ldev.brightness = led->ldev.max_brightness;
+ 		} else if (strcmp(state, "off")) {
+ 			/* all other cases except "off" */
++			of_node_put(child);
+ 			dev_err(dev, "default-state can only be 'on' or 'off'");
+ 			return -EINVAL;
+ 		}
+ 	}
++	of_node_put(child);
+ 	spi_byte_brightness_set_blocking(&led->ldev,
+ 					 led->ldev.brightness);
+ 
 -- 
 2.34.1
 
