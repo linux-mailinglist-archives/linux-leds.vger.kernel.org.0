@@ -2,46 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B82C15AECC8
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Sep 2022 16:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 356BC5AF633
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Sep 2022 22:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241488AbiIFOU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Sep 2022 10:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37214 "EHLO
+        id S229564AbiIFUid (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Sep 2022 16:38:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241942AbiIFOTE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Sep 2022 10:19:04 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A326D72EF8;
-        Tue,  6 Sep 2022 06:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662472210; x=1694008210;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WhGrjx6LzV2jk/LAfomo4zdb3Tdn1LBofxlORU1JDv0=;
-  b=jo8khdHDdPFN+CGj7Ow/ElVWwUJ11vwSf8AIUrgPCTIrlkEOF8CJxPiM
-   mRhII4nJTfS5Jr6BRI8zIxnuKsanZ/eiIZCi5UZcXQwdsOvgvjN476S5b
-   niT4medvkBVW2w/GatGnEqj/xamAqreu0lj/6rCIjZYooh+zMVmO6dMBm
-   Q4l4zWON5cW95dtFJn+za7oTPCIoLxuiSgi+EGPAqXeoXnIoXu5kCp9FW
-   6hPdLZJ9gHR0ETFJZcd7g8x0hiQUAYtMGprf74cDD9QdLwtyje/9cMvIh
-   6xxzZrxiVe1rXadROgKSnE36Ox6Z/7tOy4JhqcwaPIylP0BcfMMdYHV3R
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="276990322"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="276990322"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 06:50:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="614098830"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 06 Sep 2022 06:50:00 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id D6828781; Tue,  6 Sep 2022 16:50:10 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Gene Chen <gene_chen@richtek.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S230426AbiIFUi3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Sep 2022 16:38:29 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA45895C7;
+        Tue,  6 Sep 2022 13:38:27 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id s13so6034237qvq.10;
+        Tue, 06 Sep 2022 13:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=h237n7/UKMUwrtK2SdW8VgK2awMEb5gtKYbegstNBYY=;
+        b=lCUlfk1RNpuxwAiYCvs/3Af6ZbW9gCaXR/t4W5EZj0lvBH2IGsJKDmR0RcAgRSdjbG
+         FIpDo9RB+OvUpMm3j3sp0ux9UB/EVGw6dw13YTCzjzUwUEUN8MpSur1hoUcF8dI+74ED
+         BdnCwwU3de5L7GIapuk4DTxRQ5GvNLcLJak13f6Pzq46uyjgbaNchtVelkZ0LouCTEtk
+         XinXrlCwiEKpdYkM7tWtGyPZUnAKprJ2+bTbUMnVyHrKJagiLap86OFpO5+gsHHG5YvD
+         iWNkKF+Z0KCIagRozUWrRO9QgDLOHaoW2xn1lFtbOEB1DfDwB85A0OMG14DiKOH1JJau
+         TEXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=h237n7/UKMUwrtK2SdW8VgK2awMEb5gtKYbegstNBYY=;
+        b=GH/gVftDPrN1Y/G3odNLpnI/hmn0mLqaSdHQviMxmFJ/Tt8h9afEEEKNM2Ny0OtZpH
+         a+BM3CeKCtercFALQXFr63qXYd9rbNvlLPRMjUs32FXe8su/VFjkxEE/UITBPuTZpSXN
+         JZrQ7noD+RBhFmju3e4Unw1dQSwMCrQTjwYjaiAc0WEKOWyfNycjY6bG/eXZWFQ/7c1v
+         VvRWdB2Nq9C2aIpF2Q17qTqiHRaTTAn4P/onV3bssgUnWfPlf8iz2EcQ93SqcH8P2Fqf
+         hRWk+9pkFXNwY2BmsfrnGjwaX3+b5Hd3wLeUhkwuouzjWdt7Eqlrv6kjS5Co6Slbi4tV
+         Xneg==
+X-Gm-Message-State: ACgBeo1FGfmQNGXY2c8clYODAEYrH9aQFx0YcwIT5AeUCTQa/9u2LhbP
+        Z1r3++HR1p4ey9E+4V1cNTA=
+X-Google-Smtp-Source: AA6agR4/gnXe/kw9M8c9Ft8wZy+DRa7WhO497d/AyApMFfagKNLbUVb7qzJX/XoqxQvZyYcORdmRMg==
+X-Received: by 2002:a0c:b2de:0:b0:499:363f:222f with SMTP id d30-20020a0cb2de000000b00499363f222fmr319781qvf.73.1662496706717;
+        Tue, 06 Sep 2022 13:38:26 -0700 (PDT)
+Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id bn5-20020a05620a2ac500b006bb41ac3b6bsm12005175qkb.113.2022.09.06.13.38.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 13:38:26 -0700 (PDT)
+Message-ID: <9df7311e-3b8c-40e0-d100-b8dbeb24373e@gmail.com>
+Date:   Tue, 6 Sep 2022 13:38:19 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3 04/11] leds: bcm6328: Get rid of custom
+ led_init_default_state_get()
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Gene Chen <gene_chen@richtek.com>,
         Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -52,109 +69,35 @@ Cc:     Pavel Machek <pavel@ucw.cz>,
         Kurt Kanzenbach <kurt@linutronix.de>,
         Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, Lee Jones <lee@kernel.org>
-Subject: [PATCH v3 11/11] net: dsa: hellcreek: Get rid of custom led_init_default_state_get()
-Date:   Tue,  6 Sep 2022 16:50:04 +0300
-Message-Id: <20220906135004.14885-12-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
 References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+ <20220906135004.14885-5-andriy.shevchenko@linux.intel.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220906135004.14885-5-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-LED core provides a helper to parse default state from firmware node.
-Use it instead of custom implementation.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Kurt Kanzenbach <kurt@linutronix.de>
----
- drivers/net/dsa/hirschmann/hellcreek_ptp.c | 45 ++++++++++++----------
- 1 file changed, 24 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/net/dsa/hirschmann/hellcreek_ptp.c b/drivers/net/dsa/hirschmann/hellcreek_ptp.c
-index b28baab6d56a..793b2c296314 100644
---- a/drivers/net/dsa/hirschmann/hellcreek_ptp.c
-+++ b/drivers/net/dsa/hirschmann/hellcreek_ptp.c
-@@ -297,7 +297,8 @@ static enum led_brightness hellcreek_led_is_gm_get(struct led_classdev *ldev)
- static int hellcreek_led_setup(struct hellcreek *hellcreek)
- {
- 	struct device_node *leds, *led = NULL;
--	const char *label, *state;
-+	enum led_default_state state;
-+	const char *label;
- 	int ret = -EINVAL;
- 
- 	of_node_get(hellcreek->dev->of_node);
-@@ -318,16 +319,17 @@ static int hellcreek_led_setup(struct hellcreek *hellcreek)
- 	ret = of_property_read_string(led, "label", &label);
- 	hellcreek->led_sync_good.name = ret ? "sync_good" : label;
- 
--	ret = of_property_read_string(led, "default-state", &state);
--	if (!ret) {
--		if (!strcmp(state, "on"))
--			hellcreek->led_sync_good.brightness = 1;
--		else if (!strcmp(state, "off"))
--			hellcreek->led_sync_good.brightness = 0;
--		else if (!strcmp(state, "keep"))
--			hellcreek->led_sync_good.brightness =
--				hellcreek_get_brightness(hellcreek,
--							 STATUS_OUT_SYNC_GOOD);
-+	state = led_init_default_state_get(of_fwnode_handle(led));
-+	switch (state) {
-+	case LEDS_DEFSTATE_ON:
-+		hellcreek->led_sync_good.brightness = 1;
-+		break;
-+	case LEDS_DEFSTATE_KEEP:
-+		hellcreek->led_sync_good.brightness =
-+				hellcreek_get_brightness(hellcreek, STATUS_OUT_SYNC_GOOD);
-+		break;
-+	default:
-+		hellcreek->led_sync_good.brightness = 0;
- 	}
- 
- 	hellcreek->led_sync_good.max_brightness = 1;
-@@ -344,16 +346,17 @@ static int hellcreek_led_setup(struct hellcreek *hellcreek)
- 	ret = of_property_read_string(led, "label", &label);
- 	hellcreek->led_is_gm.name = ret ? "is_gm" : label;
- 
--	ret = of_property_read_string(led, "default-state", &state);
--	if (!ret) {
--		if (!strcmp(state, "on"))
--			hellcreek->led_is_gm.brightness = 1;
--		else if (!strcmp(state, "off"))
--			hellcreek->led_is_gm.brightness = 0;
--		else if (!strcmp(state, "keep"))
--			hellcreek->led_is_gm.brightness =
--				hellcreek_get_brightness(hellcreek,
--							 STATUS_OUT_IS_GM);
-+	state = led_init_default_state_get(of_fwnode_handle(led));
-+	switch (state) {
-+	case LEDS_DEFSTATE_ON:
-+		hellcreek->led_is_gm.brightness = 1;
-+		break;
-+	case LEDS_DEFSTATE_KEEP:
-+		hellcreek->led_is_gm.brightness =
-+				hellcreek_get_brightness(hellcreek, STATUS_OUT_IS_GM);
-+		break;
-+	default:
-+		hellcreek->led_is_gm.brightness = 0;
- 	}
- 
- 	hellcreek->led_is_gm.max_brightness = 1;
+On 9/6/2022 6:49 AM, Andy Shevchenko wrote:
+> LED core provides a helper to parse default state from firmware node.
+> Use it instead of custom implementation.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.35.1
-
+Florian
