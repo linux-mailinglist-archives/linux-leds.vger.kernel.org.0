@@ -2,113 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAE2A5B06DD
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Sep 2022 16:33:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC5C35B081E
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Sep 2022 17:12:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbiIGOdF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Sep 2022 10:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46982 "EHLO
+        id S229967AbiIGPMA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Sep 2022 11:12:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiIGOcU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Sep 2022 10:32:20 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD8BB0B22
-        for <linux-leds@vger.kernel.org>; Wed,  7 Sep 2022 07:32:11 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id z8so20015110edb.6
-        for <linux-leds@vger.kernel.org>; Wed, 07 Sep 2022 07:32:11 -0700 (PDT)
+        with ESMTP id S229831AbiIGPL7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Sep 2022 11:11:59 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6223F303D7;
+        Wed,  7 Sep 2022 08:11:58 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id 6-20020a9d0106000000b0063963134d04so10487940otu.3;
+        Wed, 07 Sep 2022 08:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=F9yMmaIgSJ7x+iStBVtJEVNXfuHmNuRwH0oeGQZVEKjdO6DhdtNMd/isOm61Mbr/sg
-         xfKr3XSywaIr4UtWLvFYPLTvFzJ7h/Hm2dTXLAIBAXs8GSUGrRcaGfrF44kItgvLNssI
-         mdCrrU6xo0k06TKggYMVy8FOcAbkBgo1wC5PjqDsVEhsblNCO7wJZs+Uz3UyfKMq66jc
-         LBZlB+02LZPjcLDn2rXew+EJosOoyYb0qI+DEdM9Q7gGpQpAuWFiAiGu2xaPJNPE8Z0z
-         1dPz+Ukvd+R1N2c6VsiSc8mvEG74skD4zo8WmW09cr/Ve033R6BY3xgueFtUzfnE1WmC
-         UQAw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=wDtnxWX9qH0SSn7z37VDylIPQhTtMeAWDDFIYde2ERM=;
+        b=nZqw9OO01h+bN8a7lUuJNisfk4bwlZA1AnnNYpcpySnF7hBTYT8K36NVMXOm2pEcjw
+         0/eWNhoPo/UuX2ho3uPqHee4L1EebC505c3Z9CV8c0QF/kXPbivYvxeUz1Ef+OxXt59o
+         l38gmpmYekBNesuAXu9/sM3Ut4VcfjIAqB7glYR/tjsmrJ6q0hNUaOOfezCC4pqh/vHe
+         hsNbPguIbqIXsZlwD25n62o6a/LOLwhE92RPW0WWQosX2jVo3puO9bbln6NdiddqyyNN
+         YjApCdHlS1O8O582u/rch7EtjRRXUgtv/r+MevTY6rrElqQIwCUGEy6Z/262mtHeXTc8
+         /TeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
-        b=KMwPWZgPcODz0q3YVleujfINQX2/HlPIP8VVdeZat1Xr+JgG8t/f6zAa8hp5yoHKvm
-         st4Vtb7ICnJ87Na0NwTdYQ1R/K0eh2nlO4qW/fTFqwudVyo7BLIUP8XSyJWMcmFIMTjD
-         OReNIQ1wszFuS2YIyzzu8zHA6faVUKfYRbCUVTb6WWVmdLrzbW+UAeSNvlLUOOrgoOyy
-         WyDxuUONve07iCzBkRc+YQSb0RFnqTwNN5UxpXZHviYfNmCPjW887e+xm2i/WwImsrTI
-         f9huwYai68iqM8RDNW+8oCeCNV9i0wYHOVrp8mgD5XOQWGLuHGcAQ7vtERKqzePuxr0O
-         XDGQ==
-X-Gm-Message-State: ACgBeo2t/25UCQCz7lNPlAtXZ/5xvbYbxWPF2ArNJ30FUZrZPxnitDC7
-        ImcOUHlmY0bRM1notGaKXWW6skXRz4LNH+8zg3Y=
-X-Google-Smtp-Source: AA6agR4uPOOUp+ayJg7njU0xYMAyBPmGFYJGRdL33Bi7R249qZwUmqVQ08qkjiR05GuTGJWJL9HGuiFQ37xnsFlHbf4=
-X-Received: by 2002:aa7:db8b:0:b0:44e:5ce1:f29a with SMTP id
- u11-20020aa7db8b000000b0044e5ce1f29amr3424831edt.109.1662561128989; Wed, 07
- Sep 2022 07:32:08 -0700 (PDT)
+        bh=wDtnxWX9qH0SSn7z37VDylIPQhTtMeAWDDFIYde2ERM=;
+        b=U+BDHMXSWaRkvputIzNh6c2x6bX7n4cm4rYUhWJMrGShvSiPyykSyUFWc2YfEAHx41
+         l3Xo/J3Jakm1rKwE5iS4+E6tiPkwjxeSSRTtnNO9wKESSfmh3fibvKiT9w16blDhMswu
+         vRHNfgJI314naZUo7ugSpo9LLwpTLor+AhXvsoJWD4OYdMdh/GvV647vsYw0V08McuVC
+         QRq8A4u/+f2/xPBf3A/pIATtf3dqLhvCC+VlsAwmZFiEugRjpX2DcVKfsDNQTNi3VP3+
+         jkAH2+S0kRBhKKG0yrdZKTOnvBzxD20Y1kWn8ObChC58kJ2USYTrzv0TRy6AgRdtSwkD
+         Edbg==
+X-Gm-Message-State: ACgBeo1S1v/jPKeZabBPG2uF/YJE0miaitnFaB2CAPLBXCgPF9T3vZpB
+        g0LDyFu1OdyRSrU5wlbs5KrPCnQ7pMU=
+X-Google-Smtp-Source: AA6agR49JXgz8161h9dV2enWeSGpFBSuIfyjFOTru7WIIt69r/JS20Cv9Xke1P6aRnU8kO1o0Dw+1A==
+X-Received: by 2002:a9d:6391:0:b0:651:26ae:3604 with SMTP id w17-20020a9d6391000000b0065126ae3604mr1349204otk.311.1662563517598;
+        Wed, 07 Sep 2022 08:11:57 -0700 (PDT)
+Received: from [172.31.250.1] ([47.184.51.90])
+        by smtp.gmail.com with ESMTPSA id 101-20020a9d086e000000b0063696cbb6bdsm7165899oty.62.2022.09.07.08.11.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Sep 2022 08:11:57 -0700 (PDT)
+Message-ID: <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
+Date:   Wed, 7 Sep 2022 10:11:56 -0500
 MIME-Version: 1.0
-Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:32:07 -0700 (PDT)
-Reply-To: lumar.casey@outlook.com
-From:   LUMAR CASEY <miriankushrat@gmail.com>
-Date:   Wed, 7 Sep 2022 16:32:07 +0200
-Message-ID: <CAO4StN3iFKypeHLByNWR98VPw-8s6UHDJYgBRpLm-4kdPR=60w@mail.gmail.com>
-Subject: ATTENTION/PROPOSAL
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:542 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [miriankushrat[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
-X-Spam-Level: ******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v10 0/2] Introduce block device LED trigger
+Content-Language: en-US
+To:     torvic9@mailbox.org
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+References: <2047607620.67144.1662552964865@office.mailbox.org>
+From:   Ian Pilcher <arequipeno@gmail.com>
+In-Reply-To: <2047607620.67144.1662552964865@office.mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-ATTENTION
+On 9/7/22 07:16, torvic9@mailbox.org wrote:
+> Hi Ian,
+> 
+> with a heavily patched Linux 6.0-rc4 with kfence, kmemleak and slub_debug I get the
+> following splat at boot:
 
-BUSINESS PARTNER,
+Sorry about that!  I'm not sure how that slipped throgh, as I was sure
+that I tested the new version before I sent it off.
 
-I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
-MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
-PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
-DIPLOMATIC OUTLET.
+Basically, I messed up while cleaning up the function parameter names,
+so you need to apply this:
 
-I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
-PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
-YOUR COUNTRY.
+--- drivers/leds/trigger/ledtrig-blkdev.c.old   2022-09-07 
+10:00:26.194484681 -0500
++++ drivers/leds/trigger/ledtrig-blkdev.c       2022-09-04 
+11:36:16.107690614 -0500
+@@ -540,7 +540,7 @@
+                 return ERR_PTR(-ENOMEM);
 
-I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
+         bdev = blkdev_get_by_path(strim(buf), BLKDEV_TRIG_FMODE, 
+THIS_MODULE);
+-       kfree(path);
++       kfree(buf);
+         return bdev;
+  }
 
-REGARDS,
+> I'm not 100% sure if this is an issue with ledtrig_blkdev or something else,
+> but I thought I'll let you know about it.
+> I have not been able to test this on a vanilla kernel yet.
 
-LUMAR CASEY
+Defnintely my fault.
+
+> Other than that, I hope this patchset gets included in upstream.
+> I have been using it for a long time now and found it very useful.
+
+It's really hard to know if anyone is interested in/using this, so
+that's great to hear.
+
+-- 
+========================================================================
+Google                                      Where SkyNet meets Idiocracy
+========================================================================
+
