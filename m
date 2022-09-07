@@ -2,71 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5C35B081E
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Sep 2022 17:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9FD5B0F3F
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Sep 2022 23:38:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbiIGPMA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Sep 2022 11:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
+        id S230229AbiIGVi2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Sep 2022 17:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229831AbiIGPL7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Sep 2022 11:11:59 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6223F303D7;
-        Wed,  7 Sep 2022 08:11:58 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id 6-20020a9d0106000000b0063963134d04so10487940otu.3;
-        Wed, 07 Sep 2022 08:11:58 -0700 (PDT)
+        with ESMTP id S229925AbiIGVi1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Sep 2022 17:38:27 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F485C12DE
+        for <linux-leds@vger.kernel.org>; Wed,  7 Sep 2022 14:38:25 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id q8so11721126qvr.9
+        for <linux-leds@vger.kernel.org>; Wed, 07 Sep 2022 14:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=wDtnxWX9qH0SSn7z37VDylIPQhTtMeAWDDFIYde2ERM=;
-        b=nZqw9OO01h+bN8a7lUuJNisfk4bwlZA1AnnNYpcpySnF7hBTYT8K36NVMXOm2pEcjw
-         0/eWNhoPo/UuX2ho3uPqHee4L1EebC505c3Z9CV8c0QF/kXPbivYvxeUz1Ef+OxXt59o
-         l38gmpmYekBNesuAXu9/sM3Ut4VcfjIAqB7glYR/tjsmrJ6q0hNUaOOfezCC4pqh/vHe
-         hsNbPguIbqIXsZlwD25n62o6a/LOLwhE92RPW0WWQosX2jVo3puO9bbln6NdiddqyyNN
-         YjApCdHlS1O8O582u/rch7EtjRRXUgtv/r+MevTY6rrElqQIwCUGEy6Z/262mtHeXTc8
-         /TeQ==
+        d=broadcom.com; s=google;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date;
+        bh=TOZDun7rDdLc3xtdrHgM7epR0twDlE5lVaSgXhHLyi0=;
+        b=B7OryfaOhYnKMETcEv3vfNyeYlSxb7ul+hT3RmxDdrIUxQvnfFT6fH5XpLc2O60X0Z
+         tL3oCp3Ph8XkrTkIJTzZxMegsiugUKZO3r4SLjcp9JcmDu0ae8NK2Ou6R16mBjmWDy+u
+         hAORRyEj9RC0ZJ/a555lFhG4gxN/5W3VvogE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=wDtnxWX9qH0SSn7z37VDylIPQhTtMeAWDDFIYde2ERM=;
-        b=U+BDHMXSWaRkvputIzNh6c2x6bX7n4cm4rYUhWJMrGShvSiPyykSyUFWc2YfEAHx41
-         l3Xo/J3Jakm1rKwE5iS4+E6tiPkwjxeSSRTtnNO9wKESSfmh3fibvKiT9w16blDhMswu
-         vRHNfgJI314naZUo7ugSpo9LLwpTLor+AhXvsoJWD4OYdMdh/GvV647vsYw0V08McuVC
-         QRq8A4u/+f2/xPBf3A/pIATtf3dqLhvCC+VlsAwmZFiEugRjpX2DcVKfsDNQTNi3VP3+
-         jkAH2+S0kRBhKKG0yrdZKTOnvBzxD20Y1kWn8ObChC58kJ2USYTrzv0TRy6AgRdtSwkD
-         Edbg==
-X-Gm-Message-State: ACgBeo1S1v/jPKeZabBPG2uF/YJE0miaitnFaB2CAPLBXCgPF9T3vZpB
-        g0LDyFu1OdyRSrU5wlbs5KrPCnQ7pMU=
-X-Google-Smtp-Source: AA6agR49JXgz8161h9dV2enWeSGpFBSuIfyjFOTru7WIIt69r/JS20Cv9Xke1P6aRnU8kO1o0Dw+1A==
-X-Received: by 2002:a9d:6391:0:b0:651:26ae:3604 with SMTP id w17-20020a9d6391000000b0065126ae3604mr1349204otk.311.1662563517598;
-        Wed, 07 Sep 2022 08:11:57 -0700 (PDT)
-Received: from [172.31.250.1] ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id 101-20020a9d086e000000b0063696cbb6bdsm7165899oty.62.2022.09.07.08.11.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 08:11:57 -0700 (PDT)
-Message-ID: <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
-Date:   Wed, 7 Sep 2022 10:11:56 -0500
+        bh=TOZDun7rDdLc3xtdrHgM7epR0twDlE5lVaSgXhHLyi0=;
+        b=7M8jU2JyoJuP6Ln5HRkSOXdYCjRfU0HCKtDOsR0SetovYcOwdgpoHB2DAAJfRqhlAx
+         ndwur0/fNdrunHezbtofaUktMyEAdJEUbRvhvrnNNepPaCILFplQjiPz26nBOj/bD7Cw
+         UkDWSEqjmeIunL2WMnu6NN6HqqaUDKVR8x/N8T2IwU6KSdVi9BemyfZRiMdOwY0tZSFW
+         zz9RI/mspGxUp4w3uhj8WHoZpZBUDZbaT57s6FbjEHitFr1YzxrG7J5gR6FSShgoFbAe
+         7KnEdnrMKoauF+o+XXfRXRfpyiyN05I5nbPPTXiBAXDBtYr/BtXyrxvH+nNzZ5OA/L9F
+         GzNg==
+X-Gm-Message-State: ACgBeo3Mb6yqwIXpR4ra0yUEHQ2aWe9e+vfqlO/XpC1sw5pepWOKPQdM
+        rpLMzPRyCEtaoUV9Ym42ghlQsQ==
+X-Google-Smtp-Source: AA6agR7YOBlb/nsisMChCpUhmjMJZG3zU1WV/qrHkl//JfgmT5tKxkDcgdMY+WpAGXoTPSJLiQttwQ==
+X-Received: by 2002:a05:6214:d4b:b0:498:f95b:108b with SMTP id 11-20020a0562140d4b00b00498f95b108bmr4935871qvr.88.1662586704750;
+        Wed, 07 Sep 2022 14:38:24 -0700 (PDT)
+Received: from bcacpedev-irv-3.lvn.broadcom.net ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id l21-20020a37f915000000b006bbe7ded98csm14857692qkj.112.2022.09.07.14.38.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 07 Sep 2022 14:38:24 -0700 (PDT)
+Subject: Re: [PATCH] leds: bcm63138: refer to ARCH_BCMBCA instead of
+ ARCH_BCM4908
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-leds@vger.kernel.org
+Cc:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220907070001.19867-1-lukas.bulwahn@gmail.com>
+From:   William Zhang <william.zhang@broadcom.com>
+Message-ID: <4db771de-8978-4910-9396-2d4437b30ab7@broadcom.com>
+Date:   Wed, 7 Sep 2022 14:38:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.4.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v10 0/2] Introduce block device LED trigger
+In-Reply-To: <20220907070001.19867-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     torvic9@mailbox.org
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <2047607620.67144.1662552964865@office.mailbox.org>
-From:   Ian Pilcher <arequipeno@gmail.com>
-In-Reply-To: <2047607620.67144.1662552964865@office.mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,46 +75,44 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/7/22 07:16, torvic9@mailbox.org wrote:
-> Hi Ian,
+
+
+On 09/07/2022 12:00 AM, Lukas Bulwahn wrote:
+> Commit dd5c672d7ca9 ("arm64: bcmbca: Merge ARCH_BCM4908 to ARCH_BCMBCA")
+> removes config ARCH_BCM4908 as config ARCH_BCMBCA has the same intent.
 > 
-> with a heavily patched Linux 6.0-rc4 with kfence, kmemleak and slub_debug I get the
-> following splat at boot:
+> Probably due to concurrent development, commit a0ba692072d8 ("leds:
+> bcm63138: add support for BCM63138 controller") introduces 'LED Support
+> for Broadcom BCM63138 SoC' that depends on ARCH_BCM4908, but this use was
+> not visible during the config refactoring from the commit above. Hence,
+> these two changes create a reference to a non-existing config symbol.
+> 
+> Adjust the LEDS_BCM63138 definition to refer to ARCH_BCMBCA instead of
+> ARCH_BCM4908 to remove the reference to the non-existing config symbol
+> ARCH_BCM4908.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>   drivers/leds/blink/Kconfig | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/blink/Kconfig b/drivers/leds/blink/Kconfig
+> index 945c84286a4e..bdcb7377cd4e 100644
+> --- a/drivers/leds/blink/Kconfig
+> +++ b/drivers/leds/blink/Kconfig
+> @@ -1,10 +1,10 @@
+>   config LEDS_BCM63138
+>   	tristate "LED Support for Broadcom BCM63138 SoC"
+>   	depends on LEDS_CLASS
+> -	depends on ARCH_BCM4908 || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
+> +	depends on ARCH_BCMBCA || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
+>   	depends on HAS_IOMEM
+>   	depends on OF
+> -	default ARCH_BCM4908
+> +	default ARCH_BCMBCA
+>   	help
+>   	  This option enables support for LED controller that is part of
+>   	  BCM63138 SoC. The same hardware block is known to be also used
+> 
 
-Sorry about that!  I'm not sure how that slipped throgh, as I was sure
-that I tested the new version before I sent it off.
-
-Basically, I messed up while cleaning up the function parameter names,
-so you need to apply this:
-
---- drivers/leds/trigger/ledtrig-blkdev.c.old   2022-09-07 
-10:00:26.194484681 -0500
-+++ drivers/leds/trigger/ledtrig-blkdev.c       2022-09-04 
-11:36:16.107690614 -0500
-@@ -540,7 +540,7 @@
-                 return ERR_PTR(-ENOMEM);
-
-         bdev = blkdev_get_by_path(strim(buf), BLKDEV_TRIG_FMODE, 
-THIS_MODULE);
--       kfree(path);
-+       kfree(buf);
-         return bdev;
-  }
-
-> I'm not 100% sure if this is an issue with ledtrig_blkdev or something else,
-> but I thought I'll let you know about it.
-> I have not been able to test this on a vanilla kernel yet.
-
-Defnintely my fault.
-
-> Other than that, I hope this patchset gets included in upstream.
-> I have been using it for a long time now and found it very useful.
-
-It's really hard to know if anyone is interested in/using this, so
-that's great to hear.
-
--- 
-========================================================================
-Google                                      Where SkyNet meets Idiocracy
-========================================================================
-
+Acked-by: William Zhang <william.zhang@broadcom.com>
