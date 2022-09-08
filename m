@@ -2,75 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B015B0F57
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Sep 2022 23:43:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1BB5B173E
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Sep 2022 10:37:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbiIGVnx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Sep 2022 17:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56332 "EHLO
+        id S230488AbiIHIh5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 8 Sep 2022 04:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiIGVnv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Sep 2022 17:43:51 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310BEB6562;
-        Wed,  7 Sep 2022 14:43:50 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id d1so11788299qvs.0;
-        Wed, 07 Sep 2022 14:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=19EtCFA5s8dlvMjTCYlt8bRgViJnvOmLBpnbxYbIks0=;
-        b=SCjK0rr97dJdDcG1xA2fT4a5g3Z0WQcpohVAn4ncqszVFmy0+4pJJ0J5aL6/0fL6Qg
-         73VzSNcGuM0EePwwVCQR3hDyIPRHWgO1twzA8Fw0quzubHd61KaMTTGpH+9L8VA5OvmT
-         SgdZTpx1N5cNDPK4mM5vRWrTvjelPGMA8e4iMCrAl/nkrTY6NXENsLjnybXR93ICFmNy
-         JBq0a+/Qt3GcO0xdR4w6eWM7Zt7ZTeRAoZ80qZOiR12ydsLaQ8+SqbtfYBLSBOGI4OZd
-         s8eaGgYnMuJHfL/hA6lBkjbtbNhz9fd44flddM8vgXg17pBwfzuVkwdd4uosDhQHQen6
-         4nlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=19EtCFA5s8dlvMjTCYlt8bRgViJnvOmLBpnbxYbIks0=;
-        b=uWNrAP9enMpkYj7vZtoIgeSdKTwUHZameEgXEQH0vtibactBUL0uzTVQd2kZIg7T38
-         tCtwRMw1jEEN0NCiLtwrVv7eZq5GixxEsV2iPewqtf9Wje7LiPs567fnC3ypAmABh9Qx
-         6PhGJFMkT6WPfNBn6Gzf7fqBC44qFmL63NLq4K+kImQkLaW2BMygo7O2xqgveWNVC5ml
-         o/XclWPb/N/RLk3t9Igb8NWlvF1845kInSZwTf3uBdJpZhF5Avc0JPr9NnuH6ynoLdu8
-         aw13GjI/gDhbCpN1JyQ65VaV5CNBMsjujB4LR1SEuMSATUWc1IhCuG58uZZ8tUw0a4fN
-         Ta5w==
-X-Gm-Message-State: ACgBeo0t//2AMjECRPIh/BUXdY54/r70l2kEo229O1tnUE1PeHxPFxRo
-        xViKGNNdvMQr62KjLr9idR8=
-X-Google-Smtp-Source: AA6agR4Wlof4Aw4KP2Br5u8ULITmo0xIRzW7RLjWxPAI4Oks3A1rGJ3jXiRv6IMBXLC7n6uClfo3wA==
-X-Received: by 2002:a0c:aa9e:0:b0:4a0:4909:6742 with SMTP id f30-20020a0caa9e000000b004a049096742mr5236515qvb.100.1662587029324;
-        Wed, 07 Sep 2022 14:43:49 -0700 (PDT)
-Received: from [192.168.1.102] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id a2-20020ac81082000000b0034454aff529sm13131611qtj.80.2022.09.07.14.43.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 14:43:48 -0700 (PDT)
-Message-ID: <fb03a0f3-8e0e-3b04-b68f-d586e21f72fd@gmail.com>
-Date:   Wed, 7 Sep 2022 14:43:46 -0700
+        with ESMTP id S230040AbiIHIhz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Sep 2022 04:37:55 -0400
+X-Greylist: delayed 73302 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 08 Sep 2022 01:37:51 PDT
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050:0:465::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C25A3D25;
+        Thu,  8 Sep 2022 01:37:51 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4MNXZ51Zd7z9sc3;
+        Thu,  8 Sep 2022 10:37:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1662626269;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=f4us+pJEqzub7wmeH+UhTxueIPZj885ZENsFSgxJanI=;
+        b=hEVG/3rasu7nuJRAgrNApsUR9JXXpeO1wjgSPt87DlmP+kOBlUR0p+jz0J14+Hp1IpEJtA
+        9+J7koOccn3frfMFLFCgKfbLqjnOhcC2J+gJJA8oPn91c9PKGn1nHdrr9+MHAlp579o+83
+        1RcEGWTVTtb0jwXogIS8JkULwSuqvRIIooJufDwkvdXdw9Dr50dX9XmNKRUwitjVRHuFjr
+        c9rngQ9L15QKRKB9YeEozqr5HtLlW6fj14r80UwUyefKwp9HbLToYiWzH45SRdcZFVGEM7
+        Wxn7JDIfmps1ACdNxt2c7kNq07REq1B5V9fJZvp5AvuCr7mAaWKtetIqBlDMrw==
+Date:   Thu, 8 Sep 2022 10:37:48 +0200 (CEST)
+From:   torvic9@mailbox.org
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Message-ID: <147120848.119190.1662626268898@office.mailbox.org>
+In-Reply-To: <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
+References: <2047607620.67144.1662552964865@office.mailbox.org>
+ <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
+Subject: Re: [PATCH v10 0/2] Introduce block device LED trigger
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] leds: bcm63138: refer to ARCH_BCMBCA instead of
- ARCH_BCM4908
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Cc:     William Zhang <william.zhang@broadcom.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220907070001.19867-1-lukas.bulwahn@gmail.com>
-Content-Language: en-US
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20220907070001.19867-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Priority: 3
+Importance: Normal
+X-MBO-RS-ID: 4abf74c99d295bc50e7
+X-MBO-RS-META: mwoerzmbfhsm6tpk4cec81kee4d5rh6d
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,23 +61,56 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
+> Ian Pilcher <arequipeno@gmail.com> hat am 07.09.2022 15:11 GMT geschrieben:
+> 
+>  
+> On 9/7/22 07:16, torvic9@mailbox.org wrote:
+> > Hi Ian,
+> > 
+> > with a heavily patched Linux 6.0-rc4 with kfence, kmemleak and slub_debug I get the
+> > following splat at boot:
+> 
+> Sorry about that!  I'm not sure how that slipped throgh, as I was sure
+> that I tested the new version before I sent it off.
+> 
+> Basically, I messed up while cleaning up the function parameter names,
+> so you need to apply this:
+> 
+> --- drivers/leds/trigger/ledtrig-blkdev.c.old   2022-09-07 
+> 10:00:26.194484681 -0500
+> +++ drivers/leds/trigger/ledtrig-blkdev.c       2022-09-04 
+> 11:36:16.107690614 -0500
+> @@ -540,7 +540,7 @@
+>                  return ERR_PTR(-ENOMEM);
+> 
+>          bdev = blkdev_get_by_path(strim(buf), BLKDEV_TRIG_FMODE, 
+> THIS_MODULE);
+> -       kfree(path);
+> +       kfree(buf);
+>          return bdev;
+>   }
+> 
 
-On 9/7/2022 12:00 AM, Lukas Bulwahn wrote:
-> Commit dd5c672d7ca9 ("arm64: bcmbca: Merge ARCH_BCM4908 to ARCH_BCMBCA")
-> removes config ARCH_BCM4908 as config ARCH_BCMBCA has the same intent.
-> 
-> Probably due to concurrent development, commit a0ba692072d8 ("leds:
-> bcm63138: add support for BCM63138 controller") introduces 'LED Support
-> for Broadcom BCM63138 SoC' that depends on ARCH_BCM4908, but this use was
-> not visible during the config refactoring from the commit above. Hence,
-> these two changes create a reference to a non-existing config symbol.
-> 
-> Adjust the LEDS_BCM63138 definition to refer to ARCH_BCMBCA instead of
-> ARCH_BCM4908 to remove the reference to the non-existing config symbol
-> ARCH_BCM4908.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+This fixes the issue, no more errors.
+Thank you!
 
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+> > I'm not 100% sure if this is an issue with ledtrig_blkdev or something else,
+> > but I thought I'll let you know about it.
+> > I have not been able to test this on a vanilla kernel yet.
+> 
+> Defnintely my fault.
+> 
+> > Other than that, I hope this patchset gets included in upstream.
+> > I have been using it for a long time now and found it very useful.
+> 
+> It's really hard to know if anyone is interested in/using this, so
+> that's great to hear.
+
+When and if you send a v11, you can add my
+  Tested-by: Tor Vic <torvic9@mailbox.org>
+
+> 
+> -- 
+> ========================================================================
+> Google                                      Where SkyNet meets Idiocracy
+> ========================================================================
