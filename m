@@ -2,115 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1BB5B173E
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Sep 2022 10:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 560DD5B2573
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Sep 2022 20:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbiIHIh5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 8 Sep 2022 04:37:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
+        id S230105AbiIHSQS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 8 Sep 2022 14:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbiIHIhz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Sep 2022 04:37:55 -0400
-X-Greylist: delayed 73302 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 08 Sep 2022 01:37:51 PDT
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050:0:465::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C25A3D25;
-        Thu,  8 Sep 2022 01:37:51 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4MNXZ51Zd7z9sc3;
-        Thu,  8 Sep 2022 10:37:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1662626269;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=f4us+pJEqzub7wmeH+UhTxueIPZj885ZENsFSgxJanI=;
-        b=hEVG/3rasu7nuJRAgrNApsUR9JXXpeO1wjgSPt87DlmP+kOBlUR0p+jz0J14+Hp1IpEJtA
-        9+J7koOccn3frfMFLFCgKfbLqjnOhcC2J+gJJA8oPn91c9PKGn1nHdrr9+MHAlp579o+83
-        1RcEGWTVTtb0jwXogIS8JkULwSuqvRIIooJufDwkvdXdw9Dr50dX9XmNKRUwitjVRHuFjr
-        c9rngQ9L15QKRKB9YeEozqr5HtLlW6fj14r80UwUyefKwp9HbLToYiWzH45SRdcZFVGEM7
-        Wxn7JDIfmps1ACdNxt2c7kNq07REq1B5V9fJZvp5AvuCr7mAaWKtetIqBlDMrw==
-Date:   Thu, 8 Sep 2022 10:37:48 +0200 (CEST)
-From:   torvic9@mailbox.org
-To:     Ian Pilcher <arequipeno@gmail.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Message-ID: <147120848.119190.1662626268898@office.mailbox.org>
-In-Reply-To: <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
-References: <2047607620.67144.1662552964865@office.mailbox.org>
- <3097d4b8-a9d0-878c-3b95-5499ed943576@gmail.com>
-Subject: Re: [PATCH v10 0/2] Introduce block device LED trigger
+        with ESMTP id S229826AbiIHSQR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Sep 2022 14:16:17 -0400
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC869C6FF6;
+        Thu,  8 Sep 2022 11:16:13 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id t11-20020a05683014cb00b0063734a2a786so12861790otq.11;
+        Thu, 08 Sep 2022 11:16:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=eDGoGCLlcgFGg9hAmkw1n8adhCvK7wFgfBY6+eUsHWg=;
+        b=Xkf5CDZWww8/QzRwvhqL4ZMe/qWDxIOisy5xIwiBrIjkejdM+eOHqD+LYP5jnx/eF8
+         MyRhNg5xRk9g+kkVidQXDyPDg5v2K6NEbh8+BjFpja1BuVYMjGaO8u/QcdTL2axci4XJ
+         JnL7TPohF+fnuzhRBbNP5Yqa47mLURA0NyH6RZOB1WSu0/h5s0o/ajh3L7wwHsEytRPx
+         bjKWzht6azrH/i9BTWXVC6rZLRFQQl5IWg+u2SvsGzi1aD/Qku637C7FtDGIPnkkMJLX
+         bVojisxDU0PlBvYygaQVSLvZBW5+E4FtkuN3ctNE5PxgOU5rYP3azms2ssqJb6cBXD2N
+         LnAA==
+X-Gm-Message-State: ACgBeo0R/7E6QFfdfI7Qx1dH7GkSloqxi7fkkUI43KJV9ngj5Zpq0sS8
+        v87qwx2nj1TV+XsIxbQwDg==
+X-Google-Smtp-Source: AA6agR42S8+FgwPtXh3ZFOSPxpzL1Jh449dSw+4HdwAQ39gFsTEn0b/1gn71yDHQSy3W8UBgeYRQyw==
+X-Received: by 2002:a05:6830:3482:b0:638:92b7:f09b with SMTP id c2-20020a056830348200b0063892b7f09bmr3854213otu.140.1662660973077;
+        Thu, 08 Sep 2022 11:16:13 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id n26-20020a4ac71a000000b0044528e04cdasm6514800ooq.23.2022.09.08.11.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Sep 2022 11:16:12 -0700 (PDT)
+Received: (nullmailer pid 3001911 invoked by uid 1000);
+        Thu, 08 Sep 2022 18:16:11 -0000
+Date:   Thu, 8 Sep 2022 13:16:11 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Olliver Schinagl <oliver@schinagl.nl>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Olliver Schinagl <oliver+list@schinagl.nl>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, Daniel Mack <daniel@zonque.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v4] dt-bindings: leds: Expand LED_COLOR_ID definitions
+Message-ID: <20220908181611.GA3001858-robh@kernel.org>
+References: <20220830134613.1564059-1-oliver@schinagl.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-MBO-RS-ID: 4abf74c99d295bc50e7
-X-MBO-RS-META: mwoerzmbfhsm6tpk4cec81kee4d5rh6d
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220830134613.1564059-1-oliver@schinagl.nl>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
-> Ian Pilcher <arequipeno@gmail.com> hat am 07.09.2022 15:11 GMT geschrieben:
+On Tue, 30 Aug 2022 15:46:13 +0200, Olliver Schinagl wrote:
+> In commit 853a78a7d6c7 (dt-bindings: leds: Add LED_COLOR_ID definitions,
+> Sun Jun 9 20:19:04 2019 +0200) the most basic color definitions where
+> added. However, there's a little more very common LED colors.
 > 
->  
-> On 9/7/22 07:16, torvic9@mailbox.org wrote:
-> > Hi Ian,
-> > 
-> > with a heavily patched Linux 6.0-rc4 with kfence, kmemleak and slub_debug I get the
-> > following splat at boot:
+> While the documentation states 'add what is missing', engineers tend to
+> be lazy and will just use what currently exists. So this patch will take
+> (a) list from online retailers [0], [1], [2] and use the common LED colors from
+> there, this being reasonable as this is what is currently available to purchase.
 > 
-> Sorry about that!  I'm not sure how that slipped throgh, as I was sure
-> that I tested the new version before I sent it off.
+> Note, that LIME seems to be the modern take to 'Yellow-green' or
+> 'Yellowish-green' from some older datasheets.
 > 
-> Basically, I messed up while cleaning up the function parameter names,
-> so you need to apply this:
+> [0]: https://www.digikey.com/en/products/filter/led-lighting-color/125
+> [1]: https://eu.mouser.com/c/optoelectronics/led-lighting/led-emitters/standard-leds-smd
+> [2]: https://nl.farnell.com/en-NL/c/optoelectronics-displays/led-products/standard-single-colour-leds-under-75ma
 > 
-> --- drivers/leds/trigger/ledtrig-blkdev.c.old   2022-09-07 
-> 10:00:26.194484681 -0500
-> +++ drivers/leds/trigger/ledtrig-blkdev.c       2022-09-04 
-> 11:36:16.107690614 -0500
-> @@ -540,7 +540,7 @@
->                  return ERR_PTR(-ENOMEM);
-> 
->          bdev = blkdev_get_by_path(strim(buf), BLKDEV_TRIG_FMODE, 
-> THIS_MODULE);
-> -       kfree(path);
-> +       kfree(buf);
->          return bdev;
->   }
+> Signed-off-by: Olliver Schinagl <oliver@schinagl.nl>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> Changes since v3: Fix typo in purple; Fix whitespacing
+> No changes since v2: Re-send with the proper e-mails.
+> Changes since v1: Unbreak existing definitions.
+>  include/dt-bindings/leds/common.h | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
 
-This fixes the issue, no more errors.
-Thank you!
-
-> > I'm not 100% sure if this is an issue with ledtrig_blkdev or something else,
-> > but I thought I'll let you know about it.
-> > I have not been able to test this on a vanilla kernel yet.
-> 
-> Defnintely my fault.
-> 
-> > Other than that, I hope this patchset gets included in upstream.
-> > I have been using it for a long time now and found it very useful.
-> 
-> It's really hard to know if anyone is interested in/using this, so
-> that's great to hear.
-
-When and if you send a v11, you can add my
-  Tested-by: Tor Vic <torvic9@mailbox.org>
-
-> 
-> -- 
-> ========================================================================
-> Google                                      Where SkyNet meets Idiocracy
-> ========================================================================
+Applied, thanks!
