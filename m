@@ -2,35 +2,35 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 656735B9724
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Sep 2022 11:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB18E5B9727
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Sep 2022 11:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiIOJNM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Sep 2022 05:13:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
+        id S230096AbiIOJNL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Sep 2022 05:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbiIOJNA (ORCPT
+        with ESMTP id S229907AbiIOJNA (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Sep 2022 05:13:00 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B4A98CBD;
-        Thu, 15 Sep 2022 02:12:27 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A415498C87;
+        Thu, 15 Sep 2022 02:12:28 -0700 (PDT)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id ACF846601FC7;
-        Thu, 15 Sep 2022 10:12:25 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7586B6602024;
+        Thu, 15 Sep 2022 10:12:26 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1663233146;
-        bh=/0hxytC5IdEV5zwBBnvu5ZfC6n4vqovx/9pJ7hE+aMw=;
+        s=mail; t=1663233147;
+        bh=4/Xh1ohuebKIvwC0AY9uFYUnkjduE8QIlQvHvl8T/XU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VPTDGcy+4Ve1DjYXxC3eFf7MIwZ84qJe2sE1p11OcZU5S/+fACvlyCqwpCFS+RE00
-         7yWKVVQdsGa3qyG6usy9dBZS929sEBJgDGDopnDONsUNEI1UszkVkaNL0jmgMRMrrd
-         FtqTz+kXnfF8NS8JWJ8qdXpTKdhHMYjRFOQM7FiiPftQzwPq/zhfBXzBZqBK4PEmBG
-         6f/3goaw/wfIdm65+XS+ZoVqNEafUG+AHLRqyspPZNYx0MyVKnRNg1ImvbIT2Dylei
-         jdATSLCD5fXlvx65n+DrPUEsynEaJM7kGLazLIeh7mOLzMhBEZYgjYl1RCuomYOsJw
-         KLnjQxMxdHHvQ==
+        b=JEVh4ujoePpJ2IoUdJlXxb+O+ySGtNP5u+CNq05Y9IHbyLTKXwflYEnzmuP4N6lfK
+         Y8xs1XuQ5o/c6Yu7NHZjcyRMyKawU/OowkmJ4WdFnd9jeL5WF+FSJJYFAQX6+E17XO
+         688eoFUNi7LzLfw2NSgXjkE9l6fO20a/Nq4N22ADlJCrEwcxwBIFax2R3edtEjFbB3
+         CxcTIaV4zphisAzaT3HmJ1UjkFeWeMbzWqBAks76KpvalnulVAbKTuorq6eKkwn2tU
+         N7JCsFnoPTro7ZvDSB7ze0HcE6uXPzeuW/JYiREXBKC2tdQV2LnWhyA+Ey567/oklG
+         XA13kC4xeL8xg==
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
 To:     sean.wang@mediatek.com
@@ -41,9 +41,9 @@ Cc:     pavel@ucw.cz, robh+dt@kernel.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 5/7] leds: leds-mt6323: Add support for MT6331 leds
-Date:   Thu, 15 Sep 2022 11:12:12 +0200
-Message-Id: <20220915091214.59673-6-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 6/7] dt-bindings: leds: leds-mt6323: Document mt6332 compatible
+Date:   Thu, 15 Sep 2022 11:12:13 +0200
+Message-Id: <20220915091214.59673-7-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220915091214.59673-1-angelogioacchino.delregno@collabora.com>
 References: <20220915091214.59673-1-angelogioacchino.delregno@collabora.com>
@@ -58,50 +58,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the register offsets for MT6331. The hwspec is the same as MT6323.
+Add support for MT6332 LEDs/WLEDs with compatible "mediatek,mt6332-led".
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/leds/leds-mt6323.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/devicetree/bindings/leds/leds-mt6323.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
-index 26f06452a860..16b5ac60a487 100644
---- a/drivers/leds/leds-mt6323.c
-+++ b/drivers/leds/leds-mt6323.c
-@@ -531,6 +531,17 @@ static const struct mt6323_regs mt6323_registers = {
- 	.isink_en_ctrl = 0x356,
- };
+diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+index 08dcb237a8c2..f33c2f391ad1 100644
+--- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
++++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+@@ -15,6 +15,7 @@ Required properties:
+ - compatible : Must be one of
+   - "mediatek,mt6323-led"
+   - "mediatek,mt6331-led"
++  - "mediatek,mt6332-led"
+ - address-cells : Must be 1
+ - size-cells : Must be 0
  
-+static const struct mt6323_regs mt6331_registers = {
-+	.top_ckpdn = (const u16[]){ 0x138, 0x13e, 0x144 },
-+	.num_top_ckpdn = 3,
-+	.top_ckcon = (const u16[]){ 0x14c, 0x14a },
-+	.num_top_ckcon = 2,
-+	.isink_con = (const u16[]){ 0x40c, 0x40e, 0x410, 0x412, 0x414 },
-+	.num_isink_con = 5,
-+	.isink_max_regs = 4, /* ISINK[0..3] */
-+	.isink_en_ctrl = 0x43a,
-+};
-+
- static const struct mt6323_hwspec mt6323_spec = {
- 	.max_period = 10000,
- 	.max_leds = 4,
-@@ -543,8 +554,14 @@ static const struct mt6323_data mt6323_pdata = {
- 	.spec = &mt6323_spec,
- };
- 
-+static const struct mt6323_data mt6331_pdata = {
-+	.regs = &mt6331_registers,
-+	.spec = &mt6323_spec,
-+};
-+
- static const struct of_device_id mt6323_led_dt_match[] = {
- 	{ .compatible = "mediatek,mt6323-led", .data = &mt6323_pdata},
-+	{ .compatible = "mediatek,mt6331-led", .data = &mt6331_pdata },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mt6323_led_dt_match);
 -- 
 2.37.2
 
