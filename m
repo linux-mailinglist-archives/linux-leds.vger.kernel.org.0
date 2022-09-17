@@ -2,55 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6349B5BB733
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Sep 2022 10:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A8B5BB739
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Sep 2022 10:25:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbiIQIYJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Sep 2022 04:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
+        id S229658AbiIQIZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Sep 2022 04:25:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbiIQIYI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Sep 2022 04:24:08 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFEE94DF08;
-        Sat, 17 Sep 2022 01:24:06 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id s13so18320722qvq.10;
-        Sat, 17 Sep 2022 01:24:06 -0700 (PDT)
+        with ESMTP id S229877AbiIQIZm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Sep 2022 04:25:42 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45443AE4F;
+        Sat, 17 Sep 2022 01:25:41 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id c11so17540427qtw.8;
+        Sat, 17 Sep 2022 01:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=qbcnscgbXlnx/VthFKwUQQtGIklihJr0+Aj2GEclzE4=;
-        b=N99iXbB0KSwbZ5ywZGr73/OGP3+8+3/7ZYXD8jFOVMZ+xEkWO9++jg25CP80nYNCPS
-         KITuUA3c6MnYtcICZpAATL7rnPYOkLgkn/wSz0rlWmJ2ANtPnI5QADPNyKHVEaS66Zdt
-         IxFYmKdxR3KLXOZv5zJw93maWYOqLgqpzhwvUvlSmzj+A6avIf5Fw9E6mUkA8NtNCKcN
-         B+SH2J2UznuhKibThEb/UoLpQhIkw7//XkalPFF0nw5daKT5WmRgINuIzeEu2YaBguVv
-         CaogL/xuHvoVjU8HkEv6pN96+htciLYBkBzQw/7ZNiYX0NJLuQkyxSR4rtCOrZgfAME4
-         8axw==
+        bh=2s5Im8YH2uK7U63hireyouAIO+Pt2Pckui2xkKi8Z/g=;
+        b=fZCnFg5L8MRWwZp9wRVSN+BuEj1eR7Hy9B/D2j3lB6VFiEOLXITAQYWiunBt9jVxZX
+         LxA0qk2YnqLzAUxE7xxXchiknHxUdLZgRE42UoCiwKhYWANS9BhaAk6G/MH8Qc8YysnZ
+         MKNrU5NrxS95B7Qie4RDfYxvtggm92cDKe84YGVn8eQKxlj88mDMWEKWSpV0/yyPeLfD
+         92LL24ZJ6VDt/bSHhfAfz0HnqzcwAdpITWL0xIUN0iGxPya+QMk6WxLNyVgNoCtBBGhe
+         u6Dr9E61a6fwbUwWQpJcQ5RORivcoudZgaalzty+6o5OMrHUcCn0r9LGGTFUD2JKh2W6
+         hThQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=qbcnscgbXlnx/VthFKwUQQtGIklihJr0+Aj2GEclzE4=;
-        b=iXmbKTgn1wmADVYdjiU0ALZ4jpCxqODEW6rsr/0E5Hope9+TLgSocPNsX1brRL5CAf
-         nl2QwJ27zZtfTA6uxpR6OkmqZRufLibc22DdkOYuROIsM4y5JRr3foWaTEnENnZJbLBV
-         2aqIR9GeGB0+PYXaMNLAVzVLYXUMB91fRIsrCYx/Os0Vi3UjMrSLZOOQv1O5gdcwnC1K
-         Fim3KxGO+2pL88jmP3/GccV6GdGmy+kdgdtQV7cjVyvYsRO3t+rsD6iTVStUNwGVJ1Un
-         KvX6qKnKXkiNnG0SvMPDQc8UTUSFiSZGz4995zazaIh0uUA1Ci/x/ELPUgsL/UHxmhsg
-         sOEg==
-X-Gm-Message-State: ACrzQf0S5cpgD7TwADo0uGW2MF8bFth7bh9nwvghIL84Q7iwl8paoWKR
-        xWmj/gCOuq4p52ws+ZwL5Np8oTKpcdOZ5zMLsGA=
-X-Google-Smtp-Source: AMsMyM57bJfAaZYhl8xi9KuDqcpsLcgwfzyHSLBWcacgwyzEBG4YON5o/1nnCpjOZNF+SNVbabmOf/yYKW1OJwF0iEE=
-X-Received: by 2002:a05:6214:19cf:b0:4a9:4241:2399 with SMTP id
- j15-20020a05621419cf00b004a942412399mr6976820qvc.64.1663403045831; Sat, 17
- Sep 2022 01:24:05 -0700 (PDT)
+        bh=2s5Im8YH2uK7U63hireyouAIO+Pt2Pckui2xkKi8Z/g=;
+        b=1RtXN5sJPziutf658bPV+jdfKUJ5gyUyskcmBnoA7AMR8XnQwOrqCvQINq7oYoZcrr
+         ey2iBfiM17NVya2GsvLl0JLhzAbhh6qKtrTVfhqHeT755jGOra1fcbGfwMJIws4T7uzz
+         LZY7LcTjl7vFANwB9Q/Fzpggm1rV/pyxLsR8creVZQ2hvz4Pum96ykw4jX1I0uoIHGv+
+         n16rAixoDeV/dljWUXsC6h7YilRlLUI6HB0LrI90t7IvLXk5fSdnDuOKGy3kiZwDPCQ+
+         6+9pUTCO6W+KmVwGealB1LK6YpPciSAQ5Ctlr5CkOyQVH1khUXczZaIVDlQPMoZVYTNZ
+         nC6Q==
+X-Gm-Message-State: ACrzQf00xmlBrsWnXioxdE2Rp4ySCCL7GAeYgWLag5NjxVC6Zu6IjFEr
+        qkzo50K/zKKZiFHQy25Taa3ctgbdjH5XSI2M74o=
+X-Google-Smtp-Source: AMsMyM4IOOYQcGlpaTyFt1tkVZ4e1cDxij1c+XecvRaK9eAydYy5u1odf+ik5hk1qXlOR//gClwJmLAceEHelTDpy5M=
+X-Received: by 2002:ac8:7f92:0:b0:344:8cd8:59a1 with SMTP id
+ z18-20020ac87f92000000b003448cd859a1mr7703789qtj.384.1663403140990; Sat, 17
+ Sep 2022 01:25:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220917081339.3354075-1-jjhiblot@traphandler.com> <20220917081339.3354075-2-jjhiblot@traphandler.com>
-In-Reply-To: <20220917081339.3354075-2-jjhiblot@traphandler.com>
+References: <20220917081339.3354075-1-jjhiblot@traphandler.com>
+In-Reply-To: <20220917081339.3354075-1-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 17 Sep 2022 11:23:29 +0300
-Message-ID: <CAHp75VfcpM9rVkWTZzytLgEqM5TOrhYHhntAFKa220AJbshxzw@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 1/4] leds: class: simplify the implementation of devm_of_led_get()
+Date:   Sat, 17 Sep 2022 11:25:05 +0300
+Message-ID: <CAHp75VcpgVyAmzZ4hRXgUKN9vjbO-5yaJS0V28ZfSwJ7qwqxkg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 0/4] Add a multicolor LED driver for groups of
+ monochromatic LEDs
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     pavel@ucw.cz, robh+dt@kernel.org,
         sven.schwermer@disruptive-technologies.com,
@@ -72,61 +73,53 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Sat, Sep 17, 2022 at 11:14 AM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> Use the devm_add_action_or_reset() helper.
+> Hi,
+>
+> Resending this series with only a minor modification in the binding
+> example after the comments from Sascha Hauer.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+I would suggest to Cc a new version (if required a new version) to
+Lee. It was a discussion about advancing the LED subsystem patch queue
+with his help.
 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> ---
->  drivers/leds/led-class.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
+> Original v3 message:
 >
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 6a8ea94834fa..2c0d979d0c8a 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -258,11 +258,9 @@ void led_put(struct led_classdev *led_cdev)
->  }
->  EXPORT_SYMBOL_GPL(led_put);
+> Some HW design implement multicolor LEDs with several monochromatic LEDs.
+> Grouping the monochromatic LEDs allows to configure them in sync and use
+> the triggers.
+> The PWM multicolor LED driver implements such grouping but only for
+> PWM-based LEDs. As this feature is also desirable for the other types of
+> LEDs, this series implements it for any kind of LED device.
 >
-> -static void devm_led_release(struct device *dev, void *res)
-> +static void devm_led_release(void *cdev)
->  {
-> -       struct led_classdev **p = res;
-> -
-> -       led_put(*p);
-> +       led_put(cdev);
->  }
+> changes v2->v3, only minor changes:
+>  - rephrased the Kconfig descritpion
+>  - make the sysfs interface of underlying LEDs read-only only if the probe
+>    is successful.
+>  - sanitize the header files
+>  - removed the useless call to dev_set_drvdata()
+>  - use dev_fwnode() to get the fwnode to the device.
 >
->  /**
-> @@ -280,7 +278,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->                                                   int index)
->  {
->         struct led_classdev *led;
-> -       struct led_classdev **dr;
-> +       int ret;
+> changes v1->v2:
+>  - Followed Rob Herrings's suggestion to make the dt binding much simpler.
+>  - Added a patch to store the color property of a LED in its class
+>    structure (struct led_classdev).
 >
->         if (!dev)
->                 return ERR_PTR(-EINVAL);
-> @@ -289,15 +287,9 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->         if (IS_ERR(led))
->                 return led;
+> Jean-Jacques Hiblot (4):
+>   leds: class: simplify the implementation of devm_of_led_get()
+>   leds: class: store the color index in struct led_classdev
+>   dt-bindings: leds: Add binding for a multicolor group of LEDs
+>   leds: Add a multicolor LED driver to group monochromatic LEDs
 >
-> -       dr = devres_alloc(devm_led_release, sizeof(struct led_classdev *),
-> -                         GFP_KERNEL);
-> -       if (!dr) {
-> -               led_put(led);
-> -               return ERR_PTR(-ENOMEM);
-> -       }
-> -
-> -       *dr = led;
-> -       devres_add(dev, dr);
-> +       ret = devm_add_action_or_reset(dev, devm_led_release, led);
-> +       if (ret)
-> +               return ERR_PTR(ret);
+>  .../bindings/leds/leds-group-multicolor.yaml  |  64 ++++++++
+>  drivers/leds/led-class.c                      |  27 ++--
+>  drivers/leds/rgb/Kconfig                      |   6 +
+>  drivers/leds/rgb/Makefile                     |   1 +
+>  drivers/leds/rgb/leds-group-multicolor.c      | 153 ++++++++++++++++++
+>  include/linux/leds.h                          |   1 +
+>  6 files changed, 238 insertions(+), 14 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+>  create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
 >
->         return led;
->  }
 > --
 > 2.25.1
 >
