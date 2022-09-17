@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A8B5BB739
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Sep 2022 10:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 370955BB744
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Sep 2022 10:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbiIQIZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Sep 2022 04:25:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
+        id S229515AbiIQIiX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Sep 2022 04:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbiIQIZm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Sep 2022 04:25:42 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45443AE4F;
-        Sat, 17 Sep 2022 01:25:41 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id c11so17540427qtw.8;
-        Sat, 17 Sep 2022 01:25:41 -0700 (PDT)
+        with ESMTP id S229511AbiIQIiW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Sep 2022 04:38:22 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F075A2D2;
+        Sat, 17 Sep 2022 01:38:21 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id o13so18348959qvw.12;
+        Sat, 17 Sep 2022 01:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=2s5Im8YH2uK7U63hireyouAIO+Pt2Pckui2xkKi8Z/g=;
-        b=fZCnFg5L8MRWwZp9wRVSN+BuEj1eR7Hy9B/D2j3lB6VFiEOLXITAQYWiunBt9jVxZX
-         LxA0qk2YnqLzAUxE7xxXchiknHxUdLZgRE42UoCiwKhYWANS9BhaAk6G/MH8Qc8YysnZ
-         MKNrU5NrxS95B7Qie4RDfYxvtggm92cDKe84YGVn8eQKxlj88mDMWEKWSpV0/yyPeLfD
-         92LL24ZJ6VDt/bSHhfAfz0HnqzcwAdpITWL0xIUN0iGxPya+QMk6WxLNyVgNoCtBBGhe
-         u6Dr9E61a6fwbUwWQpJcQ5RORivcoudZgaalzty+6o5OMrHUcCn0r9LGGTFUD2JKh2W6
-         hThQ==
+        bh=I74yKbbEKIm/62gbVurzxkM05YVP2M1gGHJOakj6RhM=;
+        b=UzJAxgBK88Q9X98yO6Ry9S576TEhYe8m6bW24XhKVf8UrDUtkQLAWVNMgHXZpxIpSu
+         9/Bt3ZWrBTQqK3ApqsYLh5coQOsYLZwK09pJl+pUPXIPmj3wgKRyxwL/858eMEa0Dkaj
+         c+ttL9iUnxPs64IoN2DXODHddnsKpyBo9EPPOO3RBRmatuS86bMvzhVFqh42UtcSx8VI
+         JaJsXCMyokuukvZPmhMd4e0VAT1bBOYRqlYKfsNEprfNFM4u86z3icZl5qMtWG7b2K7+
+         1MIpc04emAJz3/t+pxa5mkpwXWmPt3NRPLV8P2Me/ipHDYjtGewgDI6+Ww1JDPcYz8ru
+         sKfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=2s5Im8YH2uK7U63hireyouAIO+Pt2Pckui2xkKi8Z/g=;
-        b=1RtXN5sJPziutf658bPV+jdfKUJ5gyUyskcmBnoA7AMR8XnQwOrqCvQINq7oYoZcrr
-         ey2iBfiM17NVya2GsvLl0JLhzAbhh6qKtrTVfhqHeT755jGOra1fcbGfwMJIws4T7uzz
-         LZY7LcTjl7vFANwB9Q/Fzpggm1rV/pyxLsR8creVZQ2hvz4Pum96ykw4jX1I0uoIHGv+
-         n16rAixoDeV/dljWUXsC6h7YilRlLUI6HB0LrI90t7IvLXk5fSdnDuOKGy3kiZwDPCQ+
-         6+9pUTCO6W+KmVwGealB1LK6YpPciSAQ5Ctlr5CkOyQVH1khUXczZaIVDlQPMoZVYTNZ
-         nC6Q==
-X-Gm-Message-State: ACrzQf00xmlBrsWnXioxdE2Rp4ySCCL7GAeYgWLag5NjxVC6Zu6IjFEr
-        qkzo50K/zKKZiFHQy25Taa3ctgbdjH5XSI2M74o=
-X-Google-Smtp-Source: AMsMyM4IOOYQcGlpaTyFt1tkVZ4e1cDxij1c+XecvRaK9eAydYy5u1odf+ik5hk1qXlOR//gClwJmLAceEHelTDpy5M=
-X-Received: by 2002:ac8:7f92:0:b0:344:8cd8:59a1 with SMTP id
- z18-20020ac87f92000000b003448cd859a1mr7703789qtj.384.1663403140990; Sat, 17
- Sep 2022 01:25:40 -0700 (PDT)
+        bh=I74yKbbEKIm/62gbVurzxkM05YVP2M1gGHJOakj6RhM=;
+        b=nrhnnCxonR2TDpy4IiA/Ig1ngTVe37uq2sNxwF0ee139UjB7Pfgkk3uwz8btdfhJTi
+         jVsjg0FsbXAyhlgfXHYlXbMU6N+5csw9LO6mvBTBMzZCx2JEV1JQKEUvfINvAUpyKSod
+         S6copGqDqz5usgb6cUOi7FPe7P/FudWaYrILY81mitLBFH5lFFcMpndx/IdZUxKd4gJe
+         Ln9b/5nVa+re7xXRcReNQrskvgXA+9/WL9mLxDArYaDWEupTeATjKXNz+mXCf9NyriFd
+         x7d9mgfbtcEsFCbBgM1QYKnOAyUeNKpjbEyQ4Ly0veT55I4rthkBVh5hsEzigvXOkgJT
+         TwCA==
+X-Gm-Message-State: ACrzQf0QdpnzpnnREpZoU2Hy6MqiXGSv0pMjony6o55x/v+IZG/E4tN+
+        ythNi9c18L0BYFxWKySCJkryJKoeiLZ3iFazId8=
+X-Google-Smtp-Source: AMsMyM6Nut1PvGPyZJQY1STA9ugOVAi671m8yr/TdAPuzXvmcGey3RmevAnlc6+5wuQvtZwYUzIjdLCxC6Wj2435vR0=
+X-Received: by 2002:ad4:5b8d:0:b0:4ad:22e7:ae4c with SMTP id
+ 13-20020ad45b8d000000b004ad22e7ae4cmr1530243qvp.48.1663403900104; Sat, 17 Sep
+ 2022 01:38:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220917081339.3354075-1-jjhiblot@traphandler.com>
-In-Reply-To: <20220917081339.3354075-1-jjhiblot@traphandler.com>
+References: <20220917081339.3354075-1-jjhiblot@traphandler.com> <20220917081339.3354075-5-jjhiblot@traphandler.com>
+In-Reply-To: <20220917081339.3354075-5-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 17 Sep 2022 11:25:05 +0300
-Message-ID: <CAHp75VcpgVyAmzZ4hRXgUKN9vjbO-5yaJS0V28ZfSwJ7qwqxkg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 0/4] Add a multicolor LED driver for groups of
+Date:   Sat, 17 Sep 2022 11:37:44 +0300
+Message-ID: <CAHp75VeAnJQt7kS8UE+OKcqnScYnmHnVvL+QNW6jR=yF0=oMAA@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 4/4] leds: Add a multicolor LED driver to group
  monochromatic LEDs
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     pavel@ucw.cz, robh+dt@kernel.org,
@@ -73,58 +73,92 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Sat, Sep 17, 2022 at 11:14 AM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> Hi,
->
-> Resending this series with only a minor modification in the binding
-> example after the comments from Sascha Hauer.
+> By allowing to group multiple monochrome LED into multicolor LEDs,
+> all involved LEDs can be controlled in-sync. This enables using effects
+> using triggers, etc.
 
-I would suggest to Cc a new version (if required a new version) to
-Lee. It was a discussion about advancing the LED subsystem patch queue
-with his help.
+...
 
-> Original v3 message:
->
-> Some HW design implement multicolor LEDs with several monochromatic LEDs.
-> Grouping the monochromatic LEDs allows to configure them in sync and use
-> the triggers.
-> The PWM multicolor LED driver implements such grouping but only for
-> PWM-based LEDs. As this feature is also desirable for the other types of
-> LEDs, this series implements it for any kind of LED device.
->
-> changes v2->v3, only minor changes:
->  - rephrased the Kconfig descritpion
->  - make the sysfs interface of underlying LEDs read-only only if the probe
->    is successful.
->  - sanitize the header files
->  - removed the useless call to dev_set_drvdata()
->  - use dev_fwnode() to get the fwnode to the device.
->
-> changes v1->v2:
->  - Followed Rob Herrings's suggestion to make the dt binding much simpler.
->  - Added a patch to store the color property of a LED in its class
->    structure (struct led_classdev).
->
-> Jean-Jacques Hiblot (4):
->   leds: class: simplify the implementation of devm_of_led_get()
->   leds: class: store the color index in struct led_classdev
->   dt-bindings: leds: Add binding for a multicolor group of LEDs
->   leds: Add a multicolor LED driver to group monochromatic LEDs
->
->  .../bindings/leds/leds-group-multicolor.yaml  |  64 ++++++++
->  drivers/leds/led-class.c                      |  27 ++--
->  drivers/leds/rgb/Kconfig                      |   6 +
->  drivers/leds/rgb/Makefile                     |   1 +
->  drivers/leds/rgb/leds-group-multicolor.c      | 153 ++++++++++++++++++
->  include/linux/leds.h                          |   1 +
->  6 files changed, 238 insertions(+), 14 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
->  create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
->
-> --
-> 2.25.1
->
+> +config LEDS_GRP_MULTICOLOR
+> +       tristate "Multi-color LED grouping support"
+> +       help
+> +         This option enables support for monochrome LEDs that are
+> +         grouped into multicolor LEDs.
+
+What will be the module name in case of "m" choice?
+
+...
+
+> +       struct led_mcg_priv *priv =
+> +               container_of(mc_cdev, struct led_mcg_priv, mc_cdev);
+
+One line?
+
+...
+
+> +               /*
+> +                * Scale the intensity according the max brightness of the
+> +                * monochromatic LED
+
+Usually we put a grammar period at the end of sentences in multi-line comments.
+
+> +                */
+
+...
+
+> +               actual_led_brightness = DIV_ROUND_CLOSEST(
+> +                       mono->max_brightness * mc_cdev->subled_info[i].brightness,
+> +                       mc_cdev->led_cdev.max_brightness);
+
+Can you fix an indentation, so it won't leave the line ending by open
+parenthesis? I believe with the help of a temporary variable it can be
+easily achieved.
+
+...
+
+> +       for (;;) {
+> +               struct led_classdev *led_cdev;
+
+> +               led_cdev = devm_of_led_get(dev, count);
+
+Why _of_ variant? Please, make this OF independent since it's
+pretending to cover not only OF-based systems.
 
 
--- 
+> +               if (IS_ERR(led_cdev)) {
+
+> +                       /* Reached the end of the list ? */
+> +                       if (PTR_ERR(led_cdev) == -ENOENT)
+> +                               break;
+
+Looks like the above needs an _optional() variant
+
+> +                       return dev_err_probe(dev, PTR_ERR(led_cdev),
+> +                                            "Unable to get led #%d", count);
+> +               }
+
+...
+
+> +               priv->monochromatics = devm_krealloc(dev, priv->monochromatics,
+> +                                       count * sizeof(*priv->monochromatics),
+> +                                       GFP_KERNEL);
+
+This needs at minimum to use one of the helpers from overflow.h,
+ideally you may implement devm_krealloc_array() as a suitable wrapper
+for that.
+
+> +               if (!priv->monochromatics)
+> +                       return -ENOMEM;
+
+...
+
+> +       subled = devm_kzalloc(dev, count * sizeof(*subled), GFP_KERNEL);
+
+NIH devm_kcalloc()
+
+> +       if (!subled)
+> +               return -ENOMEM;
+
+--
 With Best Regards,
 Andy Shevchenko
