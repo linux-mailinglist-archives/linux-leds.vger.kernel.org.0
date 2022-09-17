@@ -2,118 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8F75BB002
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Sep 2022 17:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67AE15BB71E
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Sep 2022 10:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230483AbiIPPPj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Sep 2022 11:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54634 "EHLO
+        id S229714AbiIQIOV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Sep 2022 04:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiIPPPi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Sep 2022 11:15:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC974B49D
-        for <linux-leds@vger.kernel.org>; Fri, 16 Sep 2022 08:15:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oZD3p-0003yS-JO; Fri, 16 Sep 2022 17:15:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oZD3l-0016t7-EM; Fri, 16 Sep 2022 17:15:15 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1oZD3i-001KHo-TK; Fri, 16 Sep 2022 17:15:14 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-pwm@vger.kernel.org, kernel@pengutronix.de,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Douglas Anderson <dianders@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-gpio@vger.kernel.org
-Subject: [PATCH 3/3] pwm: Handle .get_state() failures
-Date:   Fri, 16 Sep 2022 17:15:06 +0200
-Message-Id: <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
-References: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229591AbiIQIOR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Sep 2022 04:14:17 -0400
+Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14CC93E740;
+        Sat, 17 Sep 2022 01:14:15 -0700 (PDT)
+Received: from pro2.mail.ovh.net (unknown [10.109.156.240])
+        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id DED98128726EB;
+        Sat, 17 Sep 2022 10:13:54 +0200 (CEST)
+Received: from localhost.localdomain (88.161.25.233) by DAG1EX1.emp2.local
+ (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Sat, 17 Sep
+ 2022 10:13:54 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <sven.schwermer@disruptive-technologies.com>,
+        <krzysztof.kozlowski+dt@linaro.org>
+CC:     <johan+linaro@kernel.org>, <marijn.suijten@somainline.org>,
+        <bjorn.andersson@linaro.org>, <andy.shevchenko@gmail.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sha@pengutronix.de>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [RESEND PATCH v3 0/4] Add a multicolor LED driver for groups of monochromatic LEDs
+Date:   Sat, 17 Sep 2022 10:13:35 +0200
+Message-ID: <20220917081339.3354075-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1545; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=yRNfMNUl3EWYauPtdr8Q5dOzGtnTvg1riQcLCuuQwro=; b=owGbwMvMwMV48I9IxdpTbzgZT6slMSSrTPrubcN224Djq8gEu7yr52o0UwQV7R/Utndef8XX9eqM vVpYJ6MxCwMjF4OsmCJLXZGW2ASJNf/tSpZwwwxiZQKZwsDFKQAT2VnM/ldO1MlmZQ/n5hm5UtwfTH 8fCnMs39J9X7n78UVRDgvGxNL8i+28bXlJ89Lrje8ziYtWJX786VL0v0L10faISEar+B1fBTdJ2nse V4378K1D00X0w7SdZu/5yt7mrz+lbTjb7LtA4t25N4MOcj7imWo6sTeL61d6JeP07zMro5vZpRoX/w o0+388Nedof5/BrWcesx8u/mml27D0wSaOrSpOv+3+HKgRMtSUkGdMv6s4VU8gZ8om49sVpd0LnWRu 9+ke2XBHvU5Jku1O9q/SX4eeGjdXM822MOnmdI2z23gtZLHgXDnO/ZZsV0RzhL3i7h0OcO2+LxnG9Z lJsfD54uKICL5LOuLqttPttVwB
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG1EX2.emp2.local (172.16.2.2) To DAG1EX1.emp2.local
+ (172.16.2.1)
+X-Ovh-Tracer-Id: 9350317254453311767
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvvddgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeejuefhkeelgffhlefhtefhgeektdevvdfgkeeltdehgeeujeeutdehkeeuhffftdenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhrohdvrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhhrgesphgvnhhguhhtrhhonhhigidruggvpdfovfetjfhoshhtpehmohehvdek
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This suppresses diagnosis for PWM_DEBUG routines and makes sure that
-pwm->state isn't modified in pwm_device_request() if .get_state() fails.
+Hi,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/pwm/core.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Resending this series with only a minor modification in the binding
+example after the comments from Sascha Hauer.
 
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 381db04cfa00..421573590613 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -108,9 +108,14 @@ static int pwm_device_request(struct pwm_device *pwm, const char *label)
- 	}
- 
- 	if (pwm->chip->ops->get_state) {
--		err = pwm->chip->ops->get_state(pwm->chip, pwm, &pwm->state);
-+		struct pwm_state state;
-+
-+		err = pwm->chip->ops->get_state(pwm->chip, pwm, &state);
- 		trace_pwm_get(pwm, &pwm->state, err);
- 
-+		if (!err)
-+			pwm->state = state;
-+
- 		if (IS_ENABLED(CONFIG_PWM_DEBUG))
- 			pwm->last = pwm->state;
- 	}
-@@ -459,6 +464,9 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
- 
- 	err = chip->ops->get_state(chip, pwm, &s1);
- 	trace_pwm_get(pwm, &s1, err);
-+	if (err)
-+		/* If that failed there isn't much to debug */
-+		return;
- 
- 	/*
- 	 * The lowlevel driver either ignored .polarity (which is a bug) or as
-@@ -523,6 +531,8 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
- 
- 	err = chip->ops->get_state(chip, pwm, last);
- 	trace_pwm_get(pwm, last, err);
-+	if (err)
-+		return;
- 
- 	/* reapplication of the current state should give an exact match */
- 	if (s1.enabled != last->enabled ||
+Thanks,
+JJ
+
+
+Original v3 message:
+
+Some HW design implement multicolor LEDs with several monochromatic LEDs.
+Grouping the monochromatic LEDs allows to configure them in sync and use
+the triggers.
+The PWM multicolor LED driver implements such grouping but only for
+PWM-based LEDs. As this feature is also desirable for the other types of
+LEDs, this series implements it for any kind of LED device.
+
+changes v2->v3, only minor changes:
+ - rephrased the Kconfig descritpion
+ - make the sysfs interface of underlying LEDs read-only only if the probe
+   is successful.
+ - sanitize the header files
+ - removed the useless call to dev_set_drvdata()
+ - use dev_fwnode() to get the fwnode to the device.
+
+changes v1->v2:
+ - Followed Rob Herrings's suggestion to make the dt binding much simpler.
+ - Added a patch to store the color property of a LED in its class
+   structure (struct led_classdev).
+
+Jean-Jacques Hiblot (4):
+  leds: class: simplify the implementation of devm_of_led_get()
+  leds: class: store the color index in struct led_classdev
+  dt-bindings: leds: Add binding for a multicolor group of LEDs
+  leds: Add a multicolor LED driver to group monochromatic LEDs
+
+ .../bindings/leds/leds-group-multicolor.yaml  |  64 ++++++++
+ drivers/leds/led-class.c                      |  27 ++--
+ drivers/leds/rgb/Kconfig                      |   6 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-group-multicolor.c      | 153 ++++++++++++++++++
+ include/linux/leds.h                          |   1 +
+ 6 files changed, 238 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+ create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
+
 -- 
-2.37.2
+2.25.1
 
