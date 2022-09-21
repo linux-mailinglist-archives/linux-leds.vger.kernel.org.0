@@ -2,133 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFBBE5BF310
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Sep 2022 03:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA175BF888
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Sep 2022 10:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231512AbiIUBtA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Sep 2022 21:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40636 "EHLO
+        id S229893AbiIUIB4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Sep 2022 04:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiIUBs7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Sep 2022 21:48:59 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE797C1D3;
-        Tue, 20 Sep 2022 18:48:57 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id ay9so3206024qtb.0;
-        Tue, 20 Sep 2022 18:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=30wLobZRnFv5zggcZVF2u6wy/96nEdpY/Ifl53dhDFM=;
-        b=KPvreMS9cTD4YrMaMm0W35RXTuEm5G6cH9FqS5KKO/LdRVMrIzDCLbnnVsrr0aTF+M
-         N637xD82AWRAKw0fe2ZZFejrBD5iZfaLPj7akR8TDl8QqRK0Yc5StwWzkJAPUv82OBe5
-         /c2X2yf41KWii3ok0Kn/9kOU36HeBguY2Dz/Nekfnnij3EQIY9nBLl/PaKGQDi4oi4Pv
-         sFFueSJMtV98szCHTj+aEUPa7E9SkqEuBaE5mBsjXhajCK1zmtmoHLWetEldHrvED/r1
-         niPKxhRbwuOMZGoYphFO68twpl4C32uW7DWmlFLSVhE+W8Kl2AE0vv97jtpm6LZp1X+0
-         OkuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=30wLobZRnFv5zggcZVF2u6wy/96nEdpY/Ifl53dhDFM=;
-        b=4MXmWQ8o6VB7a7PHM66oXmBJE7SyE4b8MhskixzkslgKDYI9gVaujUjD+kceTgFJsX
-         3FMSWvly2HZOPTxP1YxOpQHtS1xv0BW+9Q45ET8gspfWBcnD9YJ8iiMt4X/pD/NsttyG
-         5fVoAKozHSX6BM4AKnTkVevrYPFu5oepYFdUur4m4O6j/bqucRn4Vw3eqDSLsVLMyAZn
-         S9qq3GnYLZ1TY+Ag1ekEmaEBDzoYaIoLvMFE6bJ/51XbOLqgNA5tagY3Iw5EE/dicpvE
-         1ijm4ArWEKiijXZple/mYW/WrsTFoIfROmgurK3bJdZU+P4LKxo/N7SGNwxvV8/NtmLF
-         XPDw==
-X-Gm-Message-State: ACrzQf2G9o9MmC1j8yGLRU8ULiWDQfFWm1hS953zimbK4J6G5UYNtsGA
-        d0vYI1oGPMCNLZFOd+c/b6OlUjtSPqrR1U9sbkA=
-X-Google-Smtp-Source: AMsMyM7bBhxaQAfT+rCoAiTyYG/eF3l1J9PoSVv3K9nIjI5BkzQczZAqbJin74KiibXz/4K0z0LmAcynXI+rqdfngVA=
-X-Received: by 2002:a05:622a:48c:b0:35c:d99a:3002 with SMTP id
- p12-20020a05622a048c00b0035cd99a3002mr17703201qtx.564.1663724937128; Tue, 20
- Sep 2022 18:48:57 -0700 (PDT)
+        with ESMTP id S231348AbiIUIBe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Sep 2022 04:01:34 -0400
+Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A31868BC
+        for <linux-leds@vger.kernel.org>; Wed, 21 Sep 2022 01:01:32 -0700 (PDT)
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+        id BAE0022DCC; Wed, 21 Sep 2022 08:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+        t=1663747290; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+        h=Date:From:To:Subject:From;
+        b=mMJIsGVyN4/YuIdVHBRovRcWAbBm/TU11RZ47kO98Hduf2IGPc6+FZlz4BrKKi3C7
+         vqFiBKcYCYZmP+Y2RMQKMxP2lCQYO5B6vD/vBcJsJ8ue31Rqtmsc5mfrdI3/HBaKBJ
+         pYhXYzgk8cLk/Y/gqWIR5biMRUzmJTTnT8R0ckEP2+ksPcD9m2wtzuI2DD090FnNby
+         s27beCNdYms5YTWAeuFpzNys8HimHytpuxv2ryQEoRptGVVV7glkDjwyhKQcGI3pHW
+         8NAu/NOY8ozpHWHIq2W7tYsX0qTHhlRjti+GCY21nGKj4z5AQWxzyvbzVAt9a2i3/y
+         tURJtYLgWsOEQ==
+Received: by mail.fadrush.pl for <linux-leds@vger.kernel.org>; Wed, 21 Sep 2022 08:00:31 GMT
+Message-ID: <20220921064500-0.1.1r.gsv3.0.peb0hsdfjf@fadrush.pl>
+Date:   Wed, 21 Sep 2022 08:00:31 GMT
+From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To:     <linux-leds@vger.kernel.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
-References: <20220830034042.9354-2-peterwu.pub@gmail.com> <20220830034042.9354-10-peterwu.pub@gmail.com>
- <CAPOBaE7rz2F-sij-LbYau6TRxFoOfmoUc=R__Z7iUrFWmZPgrg@mail.gmail.com>
-In-Reply-To: <CAPOBaE7rz2F-sij-LbYau6TRxFoOfmoUc=R__Z7iUrFWmZPgrg@mail.gmail.com>
-From:   ChiaEn Wu <peterwu.pub@gmail.com>
-Date:   Wed, 21 Sep 2022 09:48:21 +0800
-Message-ID: <CABtFH5+PuK4vptVNmpn4h2FCxNFp3wWvhUrOxgqArx4YxCY99w@mail.gmail.com>
-Subject: Re: [PATCH v9 09/10] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-To:     Han Jingoo <jingoohan1@gmail.com>
-Cc:     lee@kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        mazziesaccount@gmail.com, andriy.shevchenko@linux.intel.com,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Alice Chen <alice_chen@richtek.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        szuni chen <szunichen@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Sep 18, 2022 at 3:22 AM Han Jingoo <jingoohan1@gmail.com> wrote:
->
-> On Mon, Aug 29, 2022 ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+Dzie=C5=84 dobry,
 
-...
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
+proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
+stwa firmie stabilny rozw=C3=B3j.=20
 
-> > +#define MT6370_ITORCH_MIN_uA           25000
-> > +#define MT6370_ITORCH_STEP_uA          12500
-> > +#define MT6370_ITORCH_MAX_uA           400000
-> > +#define MT6370_ITORCH_DOUBLE_MAX_uA    800000
-> > +#define MT6370_ISTRB_MIN_uA            50000
-> > +#define MT6370_ISTRB_STEP_uA           12500
-> > +#define MT6370_ISTRB_MAX_uA            1500000
-> > +#define MT6370_ISTRB_DOUBLE_MAX_uA     3000000
->
-> Use upper letters as below:
->
-> #define MT6370_ITORCH_MIN_UA           25000
-> #define MT6370_ITORCH_STEP_UA          12500
-> #define MT6370_ITORCH_MAX_UA           400000
-> #define MT6370_ITORCH_DOUBLE_MAX_UA    800000
-> #define MT6370_ISTRB_MIN_UA            50000
-> #define MT6370_ISTRB_STEP_UA           12500
-> #define MT6370_ISTRB_MAX_UA            1500000
-> #define MT6370_ISTRB_DOUBLE_MAX_UA     3000000
->
->
-> > +#define MT6370_STRBTO_MIN_US           64000
-> > +#define MT6370_STRBTO_STEP_US          32000
-> > +#define MT6370_STRBTO_MAX_US           2432000
-> > +
+Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
+a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
+nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
+po rozwoju firmy.
 
-Hi Jingoo,
+Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
+nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
+adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
+j=C4=85 je innym.
 
-This coding style is in accordance with Andy's opinion in this mail:
-https://lore.kernel.org/linux-arm-kernel/CAHp75Vciq4M4kVrabNV9vTLLcd1vR=bMe8JLEdAF9MkRTpcB5g@mail.gmail.com/
+Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
+o=C5=9Bwiadczonego doradcy finansowego?
 
-And I will revise other parts in v12.
-Thanks for your review!
 
---
-Best Regards,
-ChiaEn Wu
+Pozdrawiam
+Jakub Olejniczak
