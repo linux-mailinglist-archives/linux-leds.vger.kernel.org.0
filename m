@@ -2,123 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97CD85ED8E2
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Sep 2022 11:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8B85EDCE9
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Sep 2022 14:38:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233908AbiI1JYj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Sep 2022 05:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
+        id S234037AbiI1Miq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Sep 2022 08:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233916AbiI1JYZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Sep 2022 05:24:25 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E53ED74DF;
-        Wed, 28 Sep 2022 02:23:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B01DACE1DF1;
-        Wed, 28 Sep 2022 09:23:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82805C433C1;
-        Wed, 28 Sep 2022 09:23:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664357030;
-        bh=9Y7blUAL5zN9+EQU3Z3W3p8hWMps5aDqv5Tab1GFLWw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bKKOYjthvdVJdkp/WgUPyyIY6j5diqFOr36p4LlYd98uxj1Y9e/lUHtbTqi98vgyQ
-         KbRS16fpU145hd3vMZQdmELdiDLMGpX8oUnpC6Y7HhKrvI+DAXOp1Tm9DK0N44XL80
-         mdFstae3oCw2JsYi4Sw3KJbhe3HwkElht+CJ4kpn9MhojQ2oiyppWZXSjQeRYlrQSX
-         BKyF327yD4FFDPGj+fuNVpeUQ4KPGVY5bXC1MfKLj2L6YNGIBOhJkk3hHOjFVVmLNb
-         qweGNfgGyDXDw0TL9Gsif0eqTs8PORFJji2tzGF6cr8+tGLT3NT8J+3GJZe5BvY+uS
-         EHNa/rwudrMgw==
-Date:   Wed, 28 Sep 2022 10:23:42 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        ChiaEn Wu <peterwu.pub@gmail.com>, pavel@ucw.cz,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        lars@metafoo.de, andriy.shevchenko@linux.intel.com,
-        chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, szunichen@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v12 3/5] iio: adc: mt6370: Add MediaTek MT6370 support
-Message-ID: <YzQSnuwPjzJIgsYq@google.com>
-References: <cover.1663926551.git.chiaen_wu@richtek.com>
- <9bf36f09bc5f002f2b09b7cc26edccf109516465.1663926551.git.chiaen_wu@richtek.com>
- <20220924155525.5663bed8@jic23-huawei>
- <YzFY5FI0PrZqdAiZ@google.com>
- <CAL_JsqKKJGtacbzGqCupFniSGha610L1cay2V+AK8vehTA=F=g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqKKJGtacbzGqCupFniSGha610L1cay2V+AK8vehTA=F=g@mail.gmail.com>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233263AbiI1Mip (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Sep 2022 08:38:45 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C75FDF;
+        Wed, 28 Sep 2022 05:38:43 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id o64so15189548oib.12;
+        Wed, 28 Sep 2022 05:38:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=MVE7K3TrhAl4+bBgRcalQ9xAo1RSSurrDIzau4FAdiA=;
+        b=J9HUrJ6Z3bmfY36G1y0e+yZTpqwYPCVpzYdolYvn3oYEf7G5jCEUdoyforxyd/+eNM
+         DJK9DkApjj+uiJqOLtgmOoHKrdz0xQOKRkwHiugS1cByLGiWyFipV2CbRi10RF4lH5ZY
+         lHoY7uBxz1IkvUh7ubwZEASn8zQpB5/Va4XL4FqUXxvZ/d2VB7mqSAPuZ63CjNmG7VB1
+         fnd2utfdhRZqTarCjUJff+Cj45U/hhFNHeBvHd4lHi7YcBchHGKo7mFpAshXlRJeHoVb
+         ZFQBYzCJG+iNEER2Epdj6mP1uTNK8sUJPIQEfYMFtrvBNVkd++zhXWb2me+7rnFfO1+e
+         cB5A==
+X-Gm-Message-State: ACrzQf1LnRjBt8rWwgRZ8BmW6HrNQz3nnha6H2G4/Mmbvb7y3l0ncmTF
+        NBXm67FrhLAM4NJ8lho5PC2z3N0BJQ==
+X-Google-Smtp-Source: AMsMyM6gmQL+Dwu1iC9t3a9GqCF7S4OOJ6ebtc4RVLBssqrpheYyby+MPcboUXEzzAY54JgKCPmtLw==
+X-Received: by 2002:a54:4105:0:b0:351:6350:5f73 with SMTP id l5-20020a544105000000b0035163505f73mr3024696oic.226.1664368722083;
+        Wed, 28 Sep 2022 05:38:42 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id i42-20020a056870892a00b00127a6357bd5sm2382714oao.49.2022.09.28.05.38.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 05:38:41 -0700 (PDT)
+Received: (nullmailer pid 4136674 invoked by uid 1000);
+        Wed, 28 Sep 2022 12:38:41 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        quic_subbaram@quicinc.com, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        quic_collinsd@quicinc.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+References: <20220928024239.3843909-1-quic_fenglinw@quicinc.com> <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+Subject: Re: [PATCH v1 2/2] dt-bindings: add bindings for QCOM flash LED
+Date:   Wed, 28 Sep 2022 07:38:41 -0500
+Message-Id: <1664368721.029242.4136673.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 26 Sep 2022, Rob Herring wrote:
+On Wed, 28 Sep 2022 10:42:39 +0800, Fenglin Wu wrote:
+> Add binding document for flash LED module inside Qualcomm Technologies,
+> Inc. PMICs.
+> 
+> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+> ---
+>  .../bindings/leds/leds-qcom-flash.yaml        | 108 ++++++++++++++++++
+>  1 file changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+> 
 
-> On Mon, Sep 26, 2022 at 2:46 AM Lee Jones <lee@kernel.org> wrote:
-> >
-> > On Sat, 24 Sep 2022, Jonathan Cameron wrote:
-> >
-> > > On Fri, 23 Sep 2022 10:51:24 +0800
-> > > ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > >
-> > > > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > >
-> > > > MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> > > > with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> > > > driver, display bias voltage supply, one general purpose LDO, and the
-> > > > USB Type-C & PD controller complies with the latest USB Type-C and PD
-> > > > standards.
-> > > >
-> > > > Add support for the MT6370 ADC driver for system monitoring, including
-> > > > charger current, voltage, and temperature.
-> > > >
-> > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > >
-> > > This will have to either wait for next cycle, or go through mfd because
-> > > of the dt-bindings include which is in the mfd tree.
-> > >
-> > > Please make those dependencies clear in new versions.
-> >
-> > If the bindings come together in -next, then subsequently in Mainline,
-> > it shouldn't really matter.
-> 
-> Except that the bindings haven't come together and at this point may
-> not for 6.1. linux-next has been warning for weeks because the child
-> device schemas haven't been applied. I've said it before, all the
-> schemas for MFD devices need to be applied together. Or at least the
-> MFD schema needs to get applied last.
-> 
-> Furthermore, subsequent versions of this don't get tested and we end
-> up with more warnings[1].
-> 
-> It's only your IIO tree that the DT
-> > tooling with complain about, right?
-> 
-> And the MFD tree...
-> 
-> Please apply the LED bindings (patches 1 and 2) so we can get the
-> existing warnings fixed and address any new warnings.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Who usually applies LED bindings?  Looks as though they're good to go.
+yamllint warnings/errors:
 
--- 
-Lee Jones [李琼斯]
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dts:21.17-32: Warning (reg_format): /example-0/flash-led@ee00:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dts:23.23-31.19: Warning (unit_address_vs_reg): /example-0/flash-led@ee00/led@0: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dts:33.23-41.19: Warning (unit_address_vs_reg): /example-0/flash-led@ee00/led@1: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+Documentation/devicetree/bindings/leds/leds-qcom-flash.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
