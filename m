@@ -2,205 +2,241 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83CC05ED31C
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Sep 2022 04:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B67C5ED791
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Sep 2022 10:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232823AbiI1Cnj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Sep 2022 22:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44770 "EHLO
+        id S233243AbiI1IV2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Sep 2022 04:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbiI1Cnh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Sep 2022 22:43:37 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21CE10B5AF;
-        Tue, 27 Sep 2022 19:43:35 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S0DaQh028294;
-        Wed, 28 Sep 2022 02:43:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=WAV2Vg7f6CUq/WnEQZXIQKXJMUc1AhCzxB0OWsDh3RQ=;
- b=FlouJ/E2BEmfD3sjQj5qHcqkx36V6u+vVwNt6J0rVMytK3KhCasOWdX89foZmugM6IP4
- /jk3liRZU1h5IwSR++1L70MB4kJ3Kw7EjJpgOYMPuXzaWTT9SS67JAK2dY3RvfAsEP3w
- uQogYp9jRCZVX3iUC+9YfD8vkcbw4KZt3q5k25LjjTNUD0nVUdnDKP+n14C1xA5oyJR6
- YjPYpo+nrafeeDjowOT4tiYALtaOR4G04Og0empZowT0l4y7TDZUVP3ecoD1v/rzcgg3
- AvJEP/GQQgMfC7rA0fjD3tladW/Cz9V7vfNVWyNHfpvJfOGPQ5DFfEv315bJDb/hi8n7 VQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3juw51ke70-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Sep 2022 02:43:29 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28S2hSwG018236
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Sep 2022 02:43:28 GMT
-Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Tue, 27 Sep 2022 19:43:26 -0700
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Pavel Machek" <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>
-Subject: [PATCH v1 2/2] dt-bindings: add bindings for QCOM flash LED
-Date:   Wed, 28 Sep 2022 10:42:39 +0800
-Message-ID: <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220928024239.3843909-1-quic_fenglinw@quicinc.com>
-References: <20220928024239.3843909-1-quic_fenglinw@quicinc.com>
+        with ESMTP id S233298AbiI1IVY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Sep 2022 04:21:24 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35296B7DF
+        for <linux-leds@vger.kernel.org>; Wed, 28 Sep 2022 01:21:23 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id z4so1431972lft.2
+        for <linux-leds@vger.kernel.org>; Wed, 28 Sep 2022 01:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=DtaeztIrrIzwT8HQvbhHdjPsoL/H4rgicGhMwxKC4II=;
+        b=OxiiOTx9Pj3tiohl/bJruvaujHKf9ySjOM8OGkIdzuVJVuZMAGvhWIxAyP7vJZngPp
+         OjEEMQbfdemj/bx2w8rAIUs9pauUoMZLvrKAhiEj6/twbrBIeqCerlN20Sc/Bb5p4qvV
+         n7nGI/RWpIqlWKi8bHDp0cuLM5yucXIdN2JsOIQ2/CbLyNBzoLXwOMWc0wP0sNqcEiio
+         KjwlM2bb7A8msH76qoQyTig+gjd1JguNzdwhirBBdZ5i6vPrtV5bGMogGJrH/5k2JuNy
+         fMUt8Co4EjqCt5ZlTbeaT0N6eh+FzZiJznytT/j5Fcb27osx3Q26DaGS0ltLKncjpg/f
+         4+fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=DtaeztIrrIzwT8HQvbhHdjPsoL/H4rgicGhMwxKC4II=;
+        b=fPBp4rkkXKa8NBaSjC3USOozn+35uJzS5subXPMVfY1wWhRi/qBduylneDso0KrZb3
+         24aPQbb7PBoogYwZRM9F+m6LZP2zvZHk2jhF4/cUdm9f5XCNMmPNaEYKn6nwBxAi0z/k
+         fiXcSKP3TARjumVFcwvIYP9LTFHAENM4x9ruvke227hiua+fZZCC7Z3Qy09LVrlmgl5C
+         5Y8S3c6pasnqijJusU+m16uNAdi6tj9GHANNfGkQHu26i7zBqcTylip0/T0Vsbgq+WFb
+         ZIszLjrMQFcPUtnrWRmEBbvYCOYz1na1MF2Bon/cQom3WfN8gSWYeqOvKsWi03/E9F5Q
+         vAuQ==
+X-Gm-Message-State: ACrzQf2VhrYDvppHdG8xW1PGus6eb+yhPcwRKHZ309w2NBIAEVtcvCq8
+        ZQ4iWJGAdp9UOeCHAGPBA85CXg==
+X-Google-Smtp-Source: AMsMyM4Vww4M+L2QadcO2FI7avwu0F5XJAHW8f40JBLJky9T1PEbO0NYMRUU2pOvpAQF/d9npZfpcA==
+X-Received: by 2002:a05:6512:280d:b0:498:fd40:51d4 with SMTP id cf13-20020a056512280d00b00498fd4051d4mr14146684lfb.167.1664353281518;
+        Wed, 28 Sep 2022 01:21:21 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id 5-20020a2eb945000000b0026c81c76294sm370168ljs.74.2022.09.28.01.21.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Sep 2022 01:21:21 -0700 (PDT)
+Message-ID: <6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org>
+Date:   Wed, 28 Sep 2022 10:21:19 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 0loG-lmSJcDsbykBWY2Et9QT5LgU33J6
-X-Proofpoint-GUID: 0loG-lmSJcDsbykBWY2Et9QT5LgU33J6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-27_12,2022-09-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- lowpriorityscore=0 malwarescore=0 mlxlogscore=932 mlxscore=0
- impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- phishscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2209280015
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v1 2/2] dt-bindings: add bindings for QCOM flash LED
+Content-Language: en-US
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com
+References: <20220928024239.3843909-1-quic_fenglinw@quicinc.com>
+ <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add binding document for flash LED module inside Qualcomm Technologies,
-Inc. PMICs.
+On 28/09/2022 04:42, Fenglin Wu wrote:
+> Add binding document for flash LED module inside Qualcomm Technologies,
+> Inc. PMICs.
+> 
+> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
----
- .../bindings/leds/leds-qcom-flash.yaml        | 108 ++++++++++++++++++
- 1 file changed, 108 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+You did not Cc me on first patch, so difficult to say how much it
+matches the driver... There is also no DTS.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
-new file mode 100644
-index 000000000000..52a99182961b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
-@@ -0,0 +1,108 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-qcom-flash.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
-+
-+maintainers:
-+  - Fenglin Wu <quic_fenglinw@quicinc.com>
-+
-+description: |
-+  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
-+  The flash LED module can have different number of LED channels supported
-+  e.g. 3 or 4. There are some different registers between them but they can
-+  both support maximum current up to 1.5 A per channel and they can also support
-+  ganging 2 channels together to supply maximum current up to 2 A. The current
-+  will be split symmetrically on each channel and they will be enabled and
-+  disabled at the same time.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,spmi-flash-led
-+          - qcom,pm8150c-flash-led
-+          - qcom,pm8150l-flash-led
-+          - qcom,pm8350c-flash-led
-+
-+  reg:
-+    description: address offset of the flash LED controller
-+    maxItems: 1
-+
-+patternProperties:
-+  "^led@[0-3]$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+    description:
-+      Represents the physical LED components which are connected to the flash LED channels' output.
-+
-+    properties:
-+      led-sources:
-+        description: The HW indices of the flash LED channels that connect to the physical LED
-+        allOf:
-+          - minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2, 3, 4]
-+
-+      led-max-microamp:
-+        description: |
-+          The maximum current value when LED is not operating in flash mode (i.e. torch mode)
-+          Valid values when an LED is connected to one flash LED channel:
-+            5000 - 500000, step by 5000
-+          Valid values when an LED is connected to two flash LED channels:
-+            10000 - 1000000, step by 10000
-+
-+      flash-max-microamp:
-+        description: |
-+          The maximum current value when LED is operating in flash mode.
-+          Valid values when an LED is connected to one flash LED channel:
-+            12500 - 1500000, step by 12500
-+          Valid values when an LED is connected to two flash LED channels:
-+            25000 - 2000000, step by 12500
-+
-+      flash-max-timeout-us:
-+        description: |
-+          The maximum timeout value when LED is operating in flash mode.
-+          Valid values: 10000 - 1280000, step by 10000
-+
-+    required:
-+      - led-sources
-+      - led-max-microamp
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    flash-led@ee00 {
-+            compatible = "qcom,spmi-flash-led";
-+            reg = <0xee00>;
-+
-+            led@0 {
-+                    function = LED_FUNCTION_FLASH;
-+                    color = <LED_COLOR_ID_WHITE>;
-+                    led-sources = <1>, <4>;
-+                    led-max-microamp = <300000>;
-+                    flash-max-microamp = <2000000>;
-+                    flash-max-timeout-us = <1280000>;
-+                    function-enumerator = <0>;
-+            };
-+
-+            led@1 {
-+                    function = LED_FUNCTION_FLASH;
-+                    color = <LED_COLOR_ID_YELLOW>;
-+                    led-sources = <2>, <3>;
-+                    led-max-microamp = <300000>;
-+                    flash-max-microamp = <2000000>;
-+                    flash-max-timeout-us = <1280000>;
-+                    function-enumerator = <1>;
-+            };
-+    };
--- 
-2.25.1
+> ---
+>  .../bindings/leds/leds-qcom-flash.yaml        | 108 ++++++++++++++++++
+>  1 file changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+> new file mode 100644
+> index 000000000000..52a99182961b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+
+
+Filename matching compatible if there is one fallback (e.g.
+qcom,spmi-flash-led.yaml).
+
+> @@ -0,0 +1,108 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-qcom-flash.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
+> +
+> +maintainers:
+> +  - Fenglin Wu <quic_fenglinw@quicinc.com>
+> +
+> +description: |
+> +  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
+> +  The flash LED module can have different number of LED channels supported
+> +  e.g. 3 or 4. There are some different registers between them but they can
+> +  both support maximum current up to 1.5 A per channel and they can also support
+> +  ganging 2 channels together to supply maximum current up to 2 A. The current
+> +  will be split symmetrically on each channel and they will be enabled and
+> +  disabled at the same time.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - qcom,spmi-flash-led
+> +          - qcom,pm8150c-flash-led
+> +          - qcom,pm8150l-flash-led
+> +          - qcom,pm8350c-flash-led
+
+I doubt these are all different. You should use fallback, which also
+will make use of the "items" you used...
+
+> +
+> +  reg:
+> +    description: address offset of the flash LED controller
+> +    maxItems: 1
+> +
+> +patternProperties:
+> +  "^led@[0-3]$":
+> +    type: object
+> +    $ref: common.yaml#
+> +    unevaluatedProperties: false
+> +    description:
+> +      Represents the physical LED components which are connected to the flash LED channels' output.
+
+Does not look like wrapped at 80.
+
+Other places as well.
+
+> +
+> +    properties:
+
+Does not look like you tested the bindings...
+
+You miss here reg.
+
+> +      led-sources:
+> +        description: The HW indices of the flash LED channels that connect to the physical LED
+> +        allOf:
+> +          - minItems: 1
+> +            maxItems: 2
+> +            items:
+> +              enum: [1, 2, 3, 4]
+> +
+> +      led-max-microamp:
+> +        description: |
+> +          The maximum current value when LED is not operating in flash mode (i.e. torch mode)
+> +          Valid values when an LED is connected to one flash LED channel:
+> +            5000 - 500000, step by 5000> +          Valid values when an LED is connected to two flash LED
+channels:
+> +            10000 - 1000000, step by 10000
+
+You need minimum and maximum.
+
+> +
+> +      flash-max-microamp:
+> +        description: |
+> +          The maximum current value when LED is operating in flash mode.
+> +          Valid values when an LED is connected to one flash LED channel:
+> +            12500 - 1500000, step by 12500
+> +          Valid values when an LED is connected to two flash LED channels:
+> +            25000 - 2000000, step by 12500
+
+You need minimum and maximum.
+
+
+> +
+> +      flash-max-timeout-us:
+> +        description: |
+> +          The maximum timeout value when LED is operating in flash mode.
+> +          Valid values: 10000 - 1280000, step by 10000
+
+You need minimum and maximum.
+
+> +
+> +    required:
+> +      - led-sources
+> +      - led-max-microamp
+
+reg.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    flash-led@ee00 {
+
+Node name: led-controller
+
+> +            compatible = "qcom,spmi-flash-led";
+> +            reg = <0xee00>;
+> +
+> +            led@0 {
+
+Test your bindings...
+
+> +                    function = LED_FUNCTION_FLASH;
+
+Use 4 spaces for indentation of example.
+
+> +                    color = <LED_COLOR_ID_WHITE>;
+> +                    led-sources = <1>, <4>;
+> +                    led-max-microamp = <300000>;
+> +                    flash-max-microamp = <2000000>;
+> +                    flash-max-timeout-us = <1280000>;
+> +                    function-enumerator = <0>;
+> +            };
+> +
+
+Best regards,
+Krzysztof
 
