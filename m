@@ -2,83 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC3355EDD3A
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Sep 2022 14:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE6A5EEBA9
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 04:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233980AbiI1Mz7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Sep 2022 08:55:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
+        id S233938AbiI2CVq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Sep 2022 22:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233621AbiI1Mz5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Sep 2022 08:55:57 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476334A81A;
-        Wed, 28 Sep 2022 05:55:54 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id rk17so13735894ejb.1;
-        Wed, 28 Sep 2022 05:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=Te5x3E57m7cOxR02iErARIkX0eaDD14Z91rfL50K4UE=;
-        b=VZs37zWVN7illdyOhUS5P/ohuurX/YrDbuqtXuJ8fz3n8/iX2si6QM3+1Np6yAEh6b
-         5qfOdzaE1GzIYH9tCXlM351Z1Mbz9nVpiuFcUS6iwlh3IZp1bswtFyjhPftz9IpiWQpk
-         XxdVWmwaBJEWJFhwAo/Es2wuUHX2Ax5N+6J0cblbDooIOSAHbJFZQT8lAhvFYpjYUvCo
-         f26E1gY2ryq98RM65f9OAJ36x3mLtDbZbynnRorb18saGCFG1eBhsZKipZM0BPzcXHvL
-         qf+V/Ty1gQoJmPl8x9a2NDwa7t8wv7X3MgSpv7YCKID6X8ZnO96N0OxQOeF7999mEC6Q
-         i57A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Te5x3E57m7cOxR02iErARIkX0eaDD14Z91rfL50K4UE=;
-        b=NTElxgj8sdNh1XBdVLek3x63eTOxzAdp4fVBJ+p9eNiqUEXzRO7OQEFnH5Jae12SVa
-         j/dQcFbPEhEQKlDRwE8276PkTU9c1UDsa7KPCEBYyTWN9ZuFZzBEsSqEA+D4mtKVTbUo
-         pBpObBsmDkFke4F/rQJv1DN1llRj6gZ5f10+Fp8U5LTrAI+DakzlabruvdGMrH9nNrOt
-         GBKcYdaU9mMKrDEU9M7qV9FtvYweYBKPBVc0WZW1hBPEp1KVdZ44DJCq6wJrpfxnXvE8
-         I9U6WizVp9fnAX+Bla+0dUDk8+nDQ16JNLdWc0+dxPd2kNVTzzGLYM1LJBoMmsj8H7Kl
-         LngQ==
-X-Gm-Message-State: ACrzQf1JuKIFtPU3BdBfhB5bgsMxAh9Xj71533iyFq35Us8zMKgmhVYU
-        yFU9duW/FLdB38jBU1MLt28=
-X-Google-Smtp-Source: AMsMyM7OXe0/T+3lsZ2mP27MAf2iIGhR3xg9qM/R3946y2uNjo9NFKytzOuyM+b/vFjywh8BT+gkeA==
-X-Received: by 2002:a17:907:a05c:b0:772:eb61:904b with SMTP id gz28-20020a170907a05c00b00772eb61904bmr27861699ejc.237.1664369753063;
-        Wed, 28 Sep 2022 05:55:53 -0700 (PDT)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ez23-20020a1709070bd700b00780a26edfcesm2324189ejc.60.2022.09.28.05.55.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 05:55:51 -0700 (PDT)
-Date:   Wed, 28 Sep 2022 14:55:49 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     linux-pwm@vger.kernel.org, kernel@pengutronix.de,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Douglas Anderson <dianders@chromium.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 3/3] pwm: Handle .get_state() failures
-Message-ID: <YzREVarafbsRUl4t@orome>
-References: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
- <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S234837AbiI2CV0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Sep 2022 22:21:26 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C72B124751;
+        Wed, 28 Sep 2022 19:20:59 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SNTBBU008607;
+        Thu, 29 Sep 2022 02:20:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=hhwIaG05I+vjp+zpF69jrGv/z7cENff/DU0sjIfbwqI=;
+ b=jdvz8yZ4+gc4XK5k6+K+Q5uEinNdAq5u8Q0JZyBXm4cK7swVxzp/Fka9/pyFLYCIiXrl
+ QW0InxHBmR9wkNeV6R+oFkz7VaKGThh5y8q2CVr4tqoU2stLUaRrwioVwXSOb58Fo3h9
+ qn93qgNvwv3eH61mFSSM9eL0h9RQh/iFiQzVKtXFYuUlYY1E/TqsOKX6/j+Rrznb9qNq
+ inZ9TdT/XLByGrAFhjtpLzu0ERjW5ad/sU8XRpD3ozpD9ZXxSWXzNmVLlpZR2y9dfSW/
+ g9I5td3PPQVQYTFgN4chz6AA85KGOyee+HT6OBxDYlEe+d0cT9Ir+UzPR4zLsZTn1GVL iQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvkbahy70-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 02:20:50 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28T2Km42017661
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 02:20:48 GMT
+Received: from [10.233.23.112] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 28 Sep
+ 2022 19:20:45 -0700
+Message-ID: <2d6fac8d-0ac1-75bb-0b4c-c2c34583b09e@quicinc.com>
+Date:   Thu, 29 Sep 2022 10:20:04 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="e50AYHBveDjKXIgT"
-Content-Disposition: inline
-In-Reply-To: <20220916151506.298488-3-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v1 2/2] dt-bindings: add bindings for QCOM flash LED
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>
+References: <20220928024239.3843909-1-quic_fenglinw@quicinc.com>
+ <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+ <6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org>
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _U0xUoQlL-pRfK8IYpJAQoNQ7AI1AnVD
+X-Proofpoint-ORIG-GUID: _U0xUoQlL-pRfK8IYpJAQoNQ7AI1AnVD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_11,2022-09-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2209290013
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,66 +83,188 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---e50AYHBveDjKXIgT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 16, 2022 at 05:15:06PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> This suppresses diagnosis for PWM_DEBUG routines and makes sure that
-> pwm->state isn't modified in pwm_device_request() if .get_state() fails.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/pwm/core.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index 381db04cfa00..421573590613 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -108,9 +108,14 @@ static int pwm_device_request(struct pwm_device *pwm=
-, const char *label)
->  	}
-> =20
->  	if (pwm->chip->ops->get_state) {
-> -		err =3D pwm->chip->ops->get_state(pwm->chip, pwm, &pwm->state);
-> +		struct pwm_state state;
-> +
-> +		err =3D pwm->chip->ops->get_state(pwm->chip, pwm, &state);
->  		trace_pwm_get(pwm, &pwm->state, err);
-> =20
-> +		if (!err)
-> +			pwm->state =3D state;
+On 2022/9/28 16:21, Krzysztof Kozlowski wrote:
+> On 28/09/2022 04:42, Fenglin Wu wrote:
+>> Add binding document for flash LED module inside Qualcomm Technologies,
+>> Inc. PMICs.
+>>
+>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+> 
+> You did not Cc me on first patch, so difficult to say how much it
+> matches the driver... There is also no DTS.
+Thanks for reviewing the binding change, I sent the driver changes in 
+the same series and you can check it here:
+https://lore.kernel.org/linux-leds/6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org/T/#m97f71ce3f291f62d65f8107352d8ab9507093ab2
 
-So basically this means that callers of pwm_get_state() will get the
-zeroed out pwm->state. This can cause issues with the likes of
-pwm_set_relative_duty_cycle() which many drivers would use. Do we
-perhaps want to set an internal error in this case so that it can be
-propagated to callers in pwm_get_state()? That would allow them to fall
-back to some default configuration rather than potentially breaking
-altogether.
+I will add you in email to list when sending next patchset.
+> 
+>> ---
+>>   .../bindings/leds/leds-qcom-flash.yaml        | 108 ++++++++++++++++++
+>>   1 file changed, 108 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+>> new file mode 100644
+>> index 000000000000..52a99182961b
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+> 
+> 
+> Filename matching compatible if there is one fallback (e.g.
+> qcom,spmi-flash-led.yaml).
+> 
+Sure, I will update the file name to match with the fallback compatible 
+string.
+>> @@ -0,0 +1,108 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/leds/leds-qcom-flash.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
+>> +
+>> +maintainers:
+>> +  - Fenglin Wu <quic_fenglinw@quicinc.com>
+>> +
+>> +description: |
+>> +  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
+>> +  The flash LED module can have different number of LED channels supported
+>> +  e.g. 3 or 4. There are some different registers between them but they can
+>> +  both support maximum current up to 1.5 A per channel and they can also support
+>> +  ganging 2 channels together to supply maximum current up to 2 A. The current
+>> +  will be split symmetrically on each channel and they will be enabled and
+>> +  disabled at the same time.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - qcom,spmi-flash-led
+>> +          - qcom,pm8150c-flash-led
+>> +          - qcom,pm8150l-flash-led
+>> +          - qcom,pm8350c-flash-led
+> 
+> I doubt these are all different. You should use fallback, which also
+> will make use of the "items" you used...
+pm8150c and pm8150l are different PMIC variants which have same flash 
+LED module with 3 flash LED channels, while pm8350c has a different 
+flash LED module with 4 flash LED channels. They can all use 
+"qcom,spmi-flash-led" as the fallback because the driver has code logic 
+to detect HW sub-types. But I was thinking to give out the PMIC names 
+here so anyone who is using the driver could easily identify if the 
+driver is suitable for the HW that he/she is using.
+> 
+>> +
+>> +  reg:
+>> +    description: address offset of the flash LED controller
+>> +    maxItems: 1
+>> +
+>> +patternProperties:
+>> +  "^led@[0-3]$":
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    unevaluatedProperties: false
+>> +    description:
+>> +      Represents the physical LED components which are connected to the flash LED channels' output.
+> 
+> Does not look like wrapped at 80.
+> 
+> Other places as well.
+> Sure, will wrap the lines at 80, I thought not exceeding 110 is also 
+acceptable.
+>> +
+>> +    properties:
+> 
+> Does not look like you tested the bindings...
+> 
+> You miss here reg.
+> 
+will update the node name without using unit name.
 
-Thierry
-
---e50AYHBveDjKXIgT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmM0RFUACgkQ3SOs138+
-s6Hu/w//cFpzkzV1FZ3sHLAMgkA+dobRGgpdOP62XrOaTSHVIWizW8u3OJmkXQjY
-1xYExTJ6OvncXH0DB+pMxM3Uvsb4N5A7K/iEYKA5SlTLG8DJSv59VXDtEAbPKFVC
-I3hMh0DwlZkJzl010tJ/3FQqUipFylqonRmKaIONqFHGRsYQNylw1K3CqH0yYDG0
-LjFaz5eYJtqK2Nrzt5BjUalfjDKdtL6AsaePTYEKFymMfqjlWCbmafrIzF7X2j4y
-7QwoFg4AXrOSRbvV8qeoMqToVD0EWfyND12OZxOtaqFipQIZcUK6XAOPyyKxGiiv
-1PnbqDioH9S1e+iCMPgibUHeyn5z9YaQu43S9BclAPB/66kUuC+pHlOy6XWbRnAm
-hXpuptlzCdib8B/tRG0ltl0ZxR3etiInFEPROFxB313S989rv+G5rh63vDuRKDQ0
-cGGrZ/uNhUjZRvTn6rdOBYuaZLkqA+aYPqXLo1orwrDgULjzVi3EE5sucZDibrGv
-aSiHQOvaRVrej5pARbL0hAuXC94Fz27mefri57MPdSuMBAejJSKs/HVdzYIPWmSz
-KjH4U9nBDQo4B8rYeltC7BS21zD7vdJW12DWd4F1fk0Ix/bknFaT/2XgflLi0qP2
-KLfXjVYERi56Db0xzT4ufVA8qqbAlYIU/tLp5LmLdgxdQMt0N9w=
-=CAO3
------END PGP SIGNATURE-----
-
---e50AYHBveDjKXIgT--
+>> +      led-sources:
+>> +        description: The HW indices of the flash LED channels that connect to the physical LED
+>> +        allOf:
+>> +          - minItems: 1
+>> +            maxItems: 2
+>> +            items:
+>> +              enum: [1, 2, 3, 4]
+>> +
+>> +      led-max-microamp:
+>> +        description: |
+>> +          The maximum current value when LED is not operating in flash mode (i.e. torch mode)
+>> +          Valid values when an LED is connected to one flash LED channel:
+>> +            5000 - 500000, step by 5000> +          Valid values when an LED is connected to two flash LED
+> channels:
+>> +            10000 - 1000000, step by 10000
+> 
+> You need minimum and maximum.
+> 
+Sure, I will add them
+>> +
+>> +      flash-max-microamp:
+>> +        description: |
+>> +          The maximum current value when LED is operating in flash mode.
+>> +          Valid values when an LED is connected to one flash LED channel:
+>> +            12500 - 1500000, step by 12500
+>> +          Valid values when an LED is connected to two flash LED channels:
+>> +            25000 - 2000000, step by 12500
+> 
+> You need minimum and maximum.
+Sure, I will add them
+> 
+> 
+>> +
+>> +      flash-max-timeout-us:
+>> +        description: |
+>> +          The maximum timeout value when LED is operating in flash mode.
+>> +          Valid values: 10000 - 1280000, step by 10000
+> 
+> You need minimum and maximum.
+> 
+>> +
+>> +    required:
+>> +      - led-sources
+>> +      - led-max-microamp
+> 
+> reg.
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/leds/common.h>
+>> +    flash-led@ee00 {
+> 
+> Node name: led-controller
+> 
+>> +            compatible = "qcom,spmi-flash-led";
+>> +            reg = <0xee00>;
+>> +
+>> +            led@0 {
+> 
+> Test your bindings...
+> 
+>> +                    function = LED_FUNCTION_FLASH;
+> 
+> Use 4 spaces for indentation of example.
+> 
+sure, I will update it.
+>> +                    color = <LED_COLOR_ID_WHITE>;
+>> +                    led-sources = <1>, <4>;
+>> +                    led-max-microamp = <300000>;
+>> +                    flash-max-microamp = <2000000>;
+>> +                    flash-max-timeout-us = <1280000>;
+>> +                    function-enumerator = <0>;
+>> +            };
+>> +
+> 
+> Best regards,
+> Krzysztof
+> 
