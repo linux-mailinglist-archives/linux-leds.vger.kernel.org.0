@@ -2,220 +2,320 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 628395EF511
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 14:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9185A5EF551
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 14:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235152AbiI2MRQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Sep 2022 08:17:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40602 "EHLO
+        id S235546AbiI2MX4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Sep 2022 08:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233332AbiI2MRN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 08:17:13 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15E912969D;
-        Thu, 29 Sep 2022 05:17:12 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TC6a0N011217;
-        Thu, 29 Sep 2022 12:16:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=Ig3jvnmNG9tfXnK/SbLfElPIPtLnqMM2dqS2NOO1tDQ=;
- b=lwgvxAA6Q92JgvBXmWQsVlaAsf5ThMP6KbguE5i4ChRdpjRV13g88YqOH19x8OTIQB8n
- qa1u8HZYfD/f6u3ZwquzlDxyuWtpH/64sHfduoTqfeQ39YqEi/0N6QfSEco6JejjRtc3
- Fq4d2kf8pfi0jKg+gqwlrgt6Xhc9/xt1D2VvJP2cYwNL5OtnNuoXHcmiFzaY/lzlctVq
- fIGxFl889yv2q8+NlQVvjB6jzS1JUtwPAKAtnQ/m6Hsqwn9pL3ziNuAfw4yeopei5RKa
- J6Woa+hV9+gbYXg6izvD7woaGNM3os2AVRqQzuaRqY1xNyCwcHN9ZT+rFyMVNyfNv6Kh cw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvbf0maes-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Sep 2022 12:16:40 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28TCGdBC029902
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Sep 2022 12:16:39 GMT
-Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Thu, 29 Sep 2022 05:16:36 -0700
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <krzysztof.kozlowski@linaro.org>, Andy Gross <agross@kernel.org>,
-        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <collinsd@codeaurora.org>, <subbaram@codeaurora.org>
-Subject: [PATCH v2 2/2] dt-bindings: add bindings for QCOM flash LED
-Date:   Thu, 29 Sep 2022 20:15:44 +0800
-Message-ID: <20220929121544.1064279-3-quic_fenglinw@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929121544.1064279-1-quic_fenglinw@quicinc.com>
-References: <20220929121544.1064279-1-quic_fenglinw@quicinc.com>
+        with ESMTP id S235596AbiI2MXp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 08:23:45 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48322153EC4
+        for <linux-leds@vger.kernel.org>; Thu, 29 Sep 2022 05:23:43 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id b24so1348644ljk.6
+        for <linux-leds@vger.kernel.org>; Thu, 29 Sep 2022 05:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=n/5/pYQpRGDy2mv9ns/n156cTdp3Mvzokxp6QAwl6m4=;
+        b=kp7iXbx6QGFrgrN1vA9EgOBqg/sUm837+39JYAcBsA5PMFphWdd/2v1l4ZSQgJ1wIO
+         ybxuN87nDkipKDHYXzucCcR52nKXQV0UwpRkk6MJBfNEDaDYqRCzAPsHqtIBywGyrGbv
+         jZZuGykqL2lpcnxgIMO5RrykpeNamk/c4wHvzYPgECM+eW93c2ozoEo1prY0DX6MH0EX
+         O5RnXYUrrH8TTZlBE9RcOZmvh7F+HCFPQPakdIBzihuW5mRqDFUfOU96UukkkvaxdyQh
+         +iCrYbcdEI8g4Az3x/bEVT6SjiFtnuUCGCvY9UTiVmYqSrrQwcnlJr38IYFP4Gfi771D
+         rOwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=n/5/pYQpRGDy2mv9ns/n156cTdp3Mvzokxp6QAwl6m4=;
+        b=py3kqbtEQzFUPCPiZQpc8lwMs/zJVURAel7leSqaegbkqIXeYI5Q3lneL4LVlDli9p
+         isPzOFrTKlNEcrJK52R55l7YRDo29r7ypUlUCTIOMINpZ0krcBqE97lXCb/erD7p0F56
+         QvubnFc+6nT0o1lZJPdBaOGig7TuOsJXFRsgBlID9GUuE4hPpuCK/Jegnh13inMjW6wV
+         hbKIeEirFQ8Jo+0MLz1/COU8qgld67IQuke/NxNL0T5CEAcm+9H9UGLMczig/K1xUiuL
+         ue9dG9fpTaKRj9k0CDaZTTMMCQ3T5pi+r/LhLyCnt6rKuBH9SOjMl+3VMQmGHNsdJzBM
+         ujLw==
+X-Gm-Message-State: ACrzQf2FK7C8rXt6JEnoB/mLlmgld9pdTsrXYU46YXjPMyUuXFkC8w+p
+        M0VtYiEKLVF8N02jQcEcJ2S5iw==
+X-Google-Smtp-Source: AMsMyM68JPDf/S7zrLziS3/7lBhQxFHfddZz9Wtu8Qa4Mqk65aMutbBZ8LAzIbWyz+iRSI4JkjeHkQ==
+X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id e8-20020a05651c150800b0026c622eabe1mr1061707ljf.228.1664454221567;
+        Thu, 29 Sep 2022 05:23:41 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id f15-20020a056512360f00b004a03e7e8019sm768712lfs.289.2022.09.29.05.23.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 05:23:40 -0700 (PDT)
+Message-ID: <5b326c52-90e4-6779-8b76-6137309c6f20@linaro.org>
+Date:   Thu, 29 Sep 2022 14:23:40 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: JISlVWSgcyyNyMVBp3EUsS3Ezr6JXz18
-X-Proofpoint-ORIG-GUID: JISlVWSgcyyNyMVBp3EUsS3Ezr6JXz18
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-29_06,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209290076
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 1/2] leds: flash: add driver to support flash LED
+ module in QCOM PMICs
+Content-Language: en-US
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Gene Chen <gene_chen@richtek.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org
+Cc:     collinsd@codeaurora.org, subbaram@codeaurora.org
+References: <20220929121544.1064279-1-quic_fenglinw@quicinc.com>
+ <20220929121544.1064279-2-quic_fenglinw@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220929121544.1064279-2-quic_fenglinw@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add binding document for flash LED module inside Qualcomm Technologies,
-Inc. PMICs.
+On 29/09/2022 14:15, Fenglin Wu wrote:
+> Add initial driver to support flash LED module found in Qualcomm
+> Technologies, Inc. PMICs. The flash module can have 3 or 4 channels
+> and each channel can be controlled indepedently and support full scale
+> current up to 1.5 A. It also supports connecting two channels together
+> to supply one LED component with full scale current up to 2 A. In that
+> case, the current will be split on each channel symmetrically and the
+> channels will be enabled and disabled at the same time.
+> 
+> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+> ---
+>  drivers/leds/flash/Kconfig           |  14 +
+>  drivers/leds/flash/Makefile          |   1 +
+>  drivers/leds/flash/leds-qcom-flash.c | 707 +++++++++++++++++++++++++++
+>  3 files changed, 722 insertions(+)
+>  create mode 100644 drivers/leds/flash/leds-qcom-flash.c
+> 
+> diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
+> index d3eb689b193c..92773fa872dc 100644
+> --- a/drivers/leds/flash/Kconfig
+> +++ b/drivers/leds/flash/Kconfig
+> @@ -61,6 +61,20 @@ config LEDS_MT6360
+>  	  Independent current sources supply for each flash LED support torch
+>  	  and strobe mode.
+>  
+> +config LEDS_QCOM_FLASH
+> +	tristate "LED support for flash module inside Qualcomm Technologies, Inc. PMIC"
+> +	depends on MFD_SPMI_PMIC
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
----
- .../bindings/leds/qcom,spmi-flash-led.yaml    | 120 ++++++++++++++++++
- 1 file changed, 120 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+|| COMPILE_TEST
 
-diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-new file mode 100644
-index 000000000000..3ab1113a7b28
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-@@ -0,0 +1,120 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/qcom,spmi-flash-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
-+
-+maintainers:
-+  - Fenglin Wu <quic_fenglinw@quicinc.com>
-+
-+description: |
-+  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
-+  The flash LED module can have different number of LED channels supported
-+  e.g. 3 or 4. There are some different registers between them but they can
-+  both support maximum current up to 1.5 A per channel and they can also support
-+  ganging 2 channels together to supply maximum current up to 2 A. The current
-+  will be split symmetrically on each channel and they will be enabled and
-+  disabled at the same time.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,pm8150c-flash-led
-+          - qcom,pm8150l-flash-led
-+          - qcom,pm8350c-flash-led
-+      - const: qcom,spmi-flash-led
-+  reg:
-+    description: address offset of the flash LED controller
-+    maxItems: 1
-+
-+patternProperties:
-+  "^led[0-3]$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+    description: |
-+      Represents the physical LED components which are connected to the
-+      flash LED channels' output.
-+
-+    properties:
-+      led-sources:
-+        description: |
-+          The HW indices of the flash LED channels that connect to the
-+          physical LED
-+        allOf:
-+          - minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2, 3, 4]
-+
-+      led-max-microamp:
-+        description: |
-+          The maximum current value when LED is not operating in flash mode (i.e. torch mode)
-+          Valid values when an LED is connected to one flash LED channel:
-+            5000 - 500000, step by 5000
-+          Valid values when an LED is connected to two flash LED channels:
-+            10000 - 1000000, step by 10000
-+        minimum: 5000
-+        maximum: 1000000
-+
-+      flash-max-microamp:
-+        description: |
-+          The maximum current value when LED is operating in flash mode.
-+          Valid values when an LED is connected to one flash LED channel:
-+            12500 - 1500000, step by 12500
-+          Valid values when an LED is connected to two flash LED channels:
-+            25000 - 2000000, step by 12500
-+        minimum: 12500
-+        maximum: 2000000
-+
-+      flash-max-timeout-us:
-+        description: |
-+          The maximum timeout value when LED is operating in flash mode.
-+          Valid values: 10000 - 1280000, step by 10000
-+        minimum: 10000
-+        maximum: 1280000
-+
-+    required:
-+      - led-sources
-+      - led-max-microamp
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    spmi_bus {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        led-controller@ee00 {
-+            compatible = "qcom,pm8350c-flash-led", "qcom,spmi-flash-led";
-+            reg = <0xee00>;
-+
-+            led0 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_WHITE>;
-+                led-sources = <1>, <4>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <0>;
-+            };
-+
-+            led1 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_YELLOW>;
-+                led-sources = <2>, <3>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <1>;
-+            };
-+        };
-+    };
--- 
-2.25.1
+(and actually test it, e.g. you might need here "select REGMAP")
+
+> +	depends on LEDS_CLASS && OF
+> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> +	help
+> +	  This option enables support for the flash module found in Qualcomm
+> +	  Technologies, Inc. PMICs. The flash module can have 3 or 4 flash LED
+> +	  channels and each channel is programmable to support up to 1.5 A full
+> +	  scale current. It also supports connecting two channels' output together
+> +	  to supply one LED component to achieve current up to 2 A. In such case,
+> +	  the total LED current will be split symmetrically on each channel and
+> +	  they will be enabled/disabled at the same time.
+> +
+
+>  config LEDS_RT4505
+>  	tristate "LED support for RT4505 flashlight controller"
+>  	depends on I2C && OF
+> diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
+> index 0acbddc0b91b..8a60993f1a25 100644
+> --- a/drivers/leds/flash/Makefile
+> +++ b/drivers/leds/flash/Makefile
+> @@ -6,6 +6,7 @@ obj-$(CONFIG_LEDS_AS3645A)	+= leds-as3645a.o
+>  obj-$(CONFIG_LEDS_KTD2692)	+= leds-ktd2692.o
+>  obj-$(CONFIG_LEDS_LM3601X)	+= leds-lm3601x.o
+>  obj-$(CONFIG_LEDS_MAX77693)	+= leds-max77693.o
+> +obj-$(CONFIG_LEDS_QCOM_FLASH)	+= leds-qcom-flash.o
+>  obj-$(CONFIG_LEDS_RT4505)	+= leds-rt4505.o
+>  obj-$(CONFIG_LEDS_RT8515)	+= leds-rt8515.o
+>  obj-$(CONFIG_LEDS_SGM3140)	+= leds-sgm3140.o
+> diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+> new file mode 100644
+> index 000000000000..7b941eb769fe
+> --- /dev/null
+> +++ b/drivers/leds/flash/leds-qcom-flash.c
+> @@ -0,0 +1,707 @@
+> +//SPDX-License-Identifier: GPL-2.0-only
+
+Missing space after //
+
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/leds.h>
+> +#include <linux/led-class-flash.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +#include <media/v4l2-flash-led-class.h>
+> +
+> +/* registers definitions */
+> +#define FLASH_TYPE_REG			0x04
+> +#define FLASH_TYPE_VAL			0x18
+> +
+> +#define FLASH_SUBTYPE_REG		0x05
+> +#define FLASH_SUBTYPE_3CH_VAL		0x04
+> +#define FLASH_SUBTYPE_4CH_VAL		0x07
+> +
+> +#define FLASH_MODULE_EN_BIT		BIT(7)
+> +
+> +#define FLASH_TIMER_EN_BIT		BIT(7)
+> +#define FLASH_TIMER_VAL_MASK		GENMASK(6, 0)
+> +#define FLASH_TIMER_STEP_MS		10
+> +
+> +#define FLASH_ITARGET_CURRENT_MASK	GENMASK(6, 0)
+> +
+> +#define FLASH_STROBE_HW_SW_SEL_BIT	BIT(2)
+> +#define SW_STROBE_VAL			0
+> +#define HW_STROBE_VAL			1
+> +#define FLASH_HW_STROBE_TRIGGER_SEL_BIT	BIT(1)
+> +#define STROBE_LEVEL_TRIGGER_VAL	0
+> +#define STROBE_EDGE_TRIGGER_VAL		1
+> +#define FLASH_STROBE_POLARITY_BIT	BIT(0)
+> +#define STROBE_ACTIVE_HIGH_VAL		1
+> +
+> +#define FLASH_IRES_MASK_4CH		BIT(0)
+> +#define FLASH_IRES_MASK_3CH		GENMASK(1, 0)
+> +#define FLASH_IRES_12P5MA_VAL		0
+> +#define FLASH_IRES_5MA_VAL_4CH		1
+> +#define FLASH_IRES_5MA_VAL_3CH		3
+> +
+> +/* constants */
+> +#define FLASH_CURRENT_MAX_UA		1500000
+> +#define TORCH_CURRENT_MAX_UA		500000
+> +#define FLASH_TOTAL_CURRENT_MAX_UA	2000000
+> +#define FLASH_CURRENT_DEFAULT_UA	1000000
+> +#define TORCH_CURRENT_DEFAULT_UA	200000
+> +
+> +#define TORCH_IRES_UA			5000
+> +#define FLASH_IRES_UA			12500
+> +
+> +#define FLASH_TIMEOUT_MAX_US		1280000
+> +#define FLASH_TIMEOUT_STEP_US		10000
+> +
+> +enum hw_type {
+> +	QCOM_MVFLASH_3CH,
+> +	QCOM_MVFLASH_4CH,
+> +};
+> +
+> +enum led_mode {
+> +	FLASH_MODE,
+> +	TORCH_MODE,
+> +};
+> +
+> +enum led_strobe {
+> +	SW_STROBE,
+> +	HW_STROBE,
+> +};
+> +
+> +struct qcom_flash_reg {
+> +	u8 module_en;
+> +	u8 chan_timer;
+> +	u8 itarget;
+> +	u8 iresolution;
+> +	u8 chan_strobe;
+> +	u8 chan_en;
+> +	u8 status1;
+> +	u8 status2;
+> +	u8 status3;
+> +};
+> +
+> +struct qcom_flash_led {
+> +	struct qcom_flash_chip		*chip;
+> +	struct led_classdev_flash	flash;
+> +	struct v4l2_flash		*v4l2_flash;
+> +	u32				max_flash_current_ma;
+> +	u32				max_torch_current_ma;
+> +	u32				max_timeout_ms;
+> +	u32				flash_current_ma;
+> +	u32				flash_timeout_ms;
+> +	u8				*chan_id;
+> +	u8				chan_count;
+> +	bool				enabled;
+> +};
+> +
+> +struct qcom_flash_chip {
+> +	struct qcom_flash_led		*leds;
+> +	const struct qcom_flash_reg	*reg;
+> +	struct device			*dev;
+> +	struct regmap			*regmap;
+> +	struct mutex			lock;
+> +	enum hw_type			hw_type;
+> +	u32				reg_base;
+> +	u8				leds_count;
+> +	u8				max_channels;
+> +	u8				chan_en_bits;
+> +};
+> +
+> +static const struct qcom_flash_reg mvflash_3ch_reg = {
+> +	.chan_timer	= 0x40,
+> +	.itarget	= 0x43,
+> +	.module_en	= 0x46,
+> +	.iresolution	= 0x47,
+> +	.chan_strobe	= 0x49,
+> +	.chan_en	= 0x4c,
+> +	.status1	= 0x08,
+> +	.status2	= 0x09,
+> +	.status3	= 0x0a,
+> +};
+> +
+> +static const struct qcom_flash_reg mvflash_4ch_reg = {
+> +	.chan_timer	= 0x3e,
+> +	.itarget	= 0x42,
+> +	.module_en	= 0x46,
+> +	.iresolution	= 0x49,
+> +	.chan_strobe	= 0x4a,
+> +	.chan_en	= 0x4e,
+> +	.status1	= 0x06,
+> +	.status2	= 0x07,
+> +	.status3	= 0x09,
+
+Don't reinvent the wheel. Use regmap fields.
+
+> +};
+> +
+> +static int __set_flash_module_en(struct qcom_flash_led *led, bool en)
+
+Drop __ prefix here and in other functions.
+
+(...)
+
+> +
+> +static int qcom_flash_led_remove(struct platform_device *pdev)
+> +{
+> +	struct qcom_flash_chip *chip = platform_get_drvdata(pdev);
+> +
+> +	while (chip->leds_count--)
+> +		v4l2_flash_release(chip->leds[chip->leds_count].v4l2_flash);
+> +
+> +	mutex_destroy(&chip->lock);
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id qcom_flash_led_match_table[] = {
+> +	{ .compatible = "qcom,spmi-flash-led" },
+
+Only this one is needed. Remove the rest:
+
+> +	{ .compatible = "qcom,pm8150c-flash-led" },
+> +	{ .compatible = "qcom,pm8150l-flash-led" },
+> +	{ .compatible = "qcom,pm8350c-flash-led" },
+
+
+
+Best regards,
+Krzysztof
 
