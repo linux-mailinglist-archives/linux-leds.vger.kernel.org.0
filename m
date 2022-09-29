@@ -2,144 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 748715EFC44
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 19:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6607D5EFF1D
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 23:10:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbiI2Rvm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Sep 2022 13:51:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
+        id S229891AbiI2VKL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Sep 2022 17:10:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiI2Rvl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 13:51:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089A813BCDC;
-        Thu, 29 Sep 2022 10:51:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A259620E1;
-        Thu, 29 Sep 2022 17:51:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05048C43141;
-        Thu, 29 Sep 2022 17:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664473900;
-        bh=/rgIw13/q7gyzY3HDMRyadzYlUbWim4MSs3xVb/+10A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cAPtwETm/aNpnZV6tOadVoZyzaLVgAp4tlpn3dyhJLP3q+4PFIkxYNT/0O8FRhkPn
-         l5q6g8iLtBP72jHr5JGT0tggqRRjsi6k4VVB0CrYu3whpcm+6sMtyQ7GVtr31R3sg9
-         zfC81dKmHz1WjsoFjX3nJ6bljXM2dcFpM+jY5UGQUR3++1AoWHsUPnZhZnPpQKKH+a
-         fzcHvsK+jjGVs5nZCGcsLrnUczCfF9jdhaorVLMaOhR29fIJ42H+P7mJVAFrz6Nl2Y
-         J0xljmp6Yc4eDfV4uWgCMKmy/FkyV2sjclCWf9sQ9hxWqdVb/VRoAZ3Nfi766oBrwa
-         xdRv+OghfH5Og==
-Date:   Thu, 29 Sep 2022 18:51:32 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        ChiaEn Wu <peterwu.pub@gmail.com>, pavel@ucw.cz,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        lars@metafoo.de, andriy.shevchenko@linux.intel.com,
-        chiaen_wu@richtek.com, alice_chen@richtek.com,
-        cy_huang@richtek.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, szunichen@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v12 3/5] iio: adc: mt6370: Add MediaTek MT6370 support
-Message-ID: <YzXbJM31s0P0nLD5@google.com>
-References: <cover.1663926551.git.chiaen_wu@richtek.com>
- <9bf36f09bc5f002f2b09b7cc26edccf109516465.1663926551.git.chiaen_wu@richtek.com>
- <20220924155525.5663bed8@jic23-huawei>
- <YzFY5FI0PrZqdAiZ@google.com>
- <CAL_JsqKKJGtacbzGqCupFniSGha610L1cay2V+AK8vehTA=F=g@mail.gmail.com>
- <YzQSnuwPjzJIgsYq@google.com>
- <20220929163418.GA2270491-robh@kernel.org>
+        with ESMTP id S229551AbiI2VKD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 17:10:03 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C7CE8C021;
+        Thu, 29 Sep 2022 14:09:55 -0700 (PDT)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TKVhOP001222;
+        Thu, 29 Sep 2022 21:09:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=yNZUu2LJdmI9H29m47wzKtJehjZJo5SxjaJa8plhun8=;
+ b=OeUNmv0WYhlvdXJCrRKGPB1UyO0Xx3L7HtDtrq0htC3KM2MMNNM0xryluh3ggzEU0TT2
+ j+qWTykU3Hq15w1RGvNNTF0kgN+qBV6XTZRc+QhVNKLthQzEHubECqKYxVfp2mZO70r6
+ xgPi6odup1ItAOgAHkUTIzpUWAGQxr8ZDwO6dll4u0Fr2/hB8WKr/+o/lZpAppAP19Oh
+ UyCzd067uE2EWpYYbm9UfAe+ux5ybVZmbL9f9zZuU4kH6lE9q87lqnh6+SQTZL1VDamL
+ Dzfkyaqtw3vpTgcbme1g8gzdWQEDiPD1Nxm679md7Y2Up0TMAPNrhbu4HLpqAw8EA1DY 5A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jwjfshb8u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 21:09:41 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28TL1Rad003053;
+        Thu, 29 Sep 2022 21:09:41 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jwjfshb89-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 21:09:41 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28TL6w5m014054;
+        Thu, 29 Sep 2022 21:09:40 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+        by ppma01dal.us.ibm.com with ESMTP id 3jsshawkqf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 21:09:40 +0000
+Received: from smtpav01.dal12v.mail.ibm.com ([9.208.128.133])
+        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 28TL9dbv6423050
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Sep 2022 21:09:39 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9C5EE5805D;
+        Thu, 29 Sep 2022 21:09:38 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BE0F858059;
+        Thu, 29 Sep 2022 21:09:37 +0000 (GMT)
+Received: from slate16.aus.stglabs.ibm.com (unknown [9.77.146.111])
+        by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+        Thu, 29 Sep 2022 21:09:37 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andy.shevchenko@gmail.com, joel@jms.id.au,
+        dan.carpenter@oracle.com, eajames@linux.ibm.com,
+        potin.lai.pt@gmail.com
+Subject: [PATCH v7 0/4] leds: pca955x: Add HW blink support
+Date:   Thu, 29 Sep 2022 16:09:33 -0500
+Message-Id: <20220929210937.253048-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220929163418.GA2270491-robh@kernel.org>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wD9ejJZnCDh7P-vI6dDAHYA5Z7pxSauW
+X-Proofpoint-ORIG-GUID: bVP1IJIhsEGgJRc9Tq9wp4vQnixRBBG9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-29_11,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 mlxlogscore=789 clxscore=1011 impostorscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209290129
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 29 Sep 2022, Rob Herring wrote:
+This series adds support for blinking using the PCA955x chip, falling
+back to software blinking if another LED on the chip is already blinking
+at a different rate, or if the requested rate isn't representable with
+the PCA955x.
+Also included are some minor clean up and optimization changes that make
+the HW blinking a bit easier.
 
-> On Wed, Sep 28, 2022 at 10:23:42AM +0100, Lee Jones wrote:
-> > On Mon, 26 Sep 2022, Rob Herring wrote:
-> > 
-> > > On Mon, Sep 26, 2022 at 2:46 AM Lee Jones <lee@kernel.org> wrote:
-> > > >
-> > > > On Sat, 24 Sep 2022, Jonathan Cameron wrote:
-> > > >
-> > > > > On Fri, 23 Sep 2022 10:51:24 +0800
-> > > > > ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > > > >
-> > > > > > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > > >
-> > > > > > MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> > > > > > with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> > > > > > driver, display bias voltage supply, one general purpose LDO, and the
-> > > > > > USB Type-C & PD controller complies with the latest USB Type-C and PD
-> > > > > > standards.
-> > > > > >
-> > > > > > Add support for the MT6370 ADC driver for system monitoring, including
-> > > > > > charger current, voltage, and temperature.
-> > > > > >
-> > > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > > > > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > > > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > >
-> > > > > This will have to either wait for next cycle, or go through mfd because
-> > > > > of the dt-bindings include which is in the mfd tree.
-> > > > >
-> > > > > Please make those dependencies clear in new versions.
-> > > >
-> > > > If the bindings come together in -next, then subsequently in Mainline,
-> > > > it shouldn't really matter.
-> > > 
-> > > Except that the bindings haven't come together and at this point may
-> > > not for 6.1. linux-next has been warning for weeks because the child
-> > > device schemas haven't been applied. I've said it before, all the
-> > > schemas for MFD devices need to be applied together. Or at least the
-> > > MFD schema needs to get applied last.
-> > > 
-> > > Furthermore, subsequent versions of this don't get tested and we end
-> > > up with more warnings[1].
-> > > 
-> > > It's only your IIO tree that the DT
-> > > > tooling with complain about, right?
-> > > 
-> > > And the MFD tree...
-> > > 
-> > > Please apply the LED bindings (patches 1 and 2) so we can get the
-> > > existing warnings fixed and address any new warnings.
-> > 
-> > Who usually applies LED bindings?  Looks as though they're good to go.
-> 
-> Pavel. The issue would be I don't know if the driver side is ready and 
-> those usually go together. Other than my complaining here, how's he 
-> supposed to know that the bindings at least need to be applied?
-> 
-> Again, the process here is not working. I've said before, all the 
-> bindings for an MFD need to go via 1 tree. You obviously don't agree, so 
-> propose something. The current process of no coordination doesn't work.
+Changes since v6:
+ - Fix erroneous return value check of smbus block read
 
-The solution would be for someone to create succinct immutable branches, like
-I do for real code.  If someone would be happy to do that, I'd be more than
-happy to pull from them.
+Changes since v5:
+ - Use auto-incrementing control register to read all the led selectors
+   at once during initialization
 
-I go to the effort of creating them to prevent actual build breakages,
-however doing so to keep a documentation helper script happy is a step
-too far for me personally, sorry.
+Changes since v4:
+ - Set duty cycle to fifty percent for blinked LEDs in order to maintain
+   the specified blink rate.
+
+Changes since v3:
+ - Initialize return value in the blink function
+   Thanks Dan Carpenter and kernel test robot
+
+Changes since v2:
+ - Split the cleanup patch
+ - Prettier dev_err calls
+ - Include units for blink period and use defined unit translations
+   rather than just a number.
+ - Use positive conditionals.
+
+Changes since v1:
+ - Rework the blink function to fallback to software blinking if the
+   period is out of range of the chip's capabilities or if another LED
+   on the chip is already blinking at a different rate.
+ - Add the cleanup patch
+
+Eddie James (4):
+  leds: pca955x: Refactor with helper functions and renaming
+  leds: pca955x: Use pointers to driver data rather than I2C client
+  leds: pca955x: Optimize probe led selection
+  leds: pca955x: Add HW blink support
+
+ drivers/leds/leds-pca955x.c | 350 ++++++++++++++++++++++++------------
+ 1 file changed, 239 insertions(+), 111 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.31.1
+
