@@ -2,232 +2,173 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D49FE5EEE22
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 08:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCD95EEE6C
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Sep 2022 09:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234964AbiI2G4E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Sep 2022 02:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44302 "EHLO
+        id S235140AbiI2HHD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Sep 2022 03:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234939AbiI2G4C (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 02:56:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0383610BB3C
-        for <linux-leds@vger.kernel.org>; Wed, 28 Sep 2022 23:55:59 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1odnSN-0007ad-HW; Thu, 29 Sep 2022 08:55:39 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1odnSJ-003Yiv-PN; Thu, 29 Sep 2022 08:55:34 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1odnSH-004JPt-Gz; Thu, 29 Sep 2022 08:55:33 +0200
-Date:   Thu, 29 Sep 2022 08:55:32 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        kernel@pengutronix.de, Neil Armstrong <narmstrong@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Douglas Anderson <dianders@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-gpio@vger.kernel.org,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-leds@vger.kernel.org,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/3] pwm: Change prototype of .get_state() callback to
- return an error
-Message-ID: <20220929065532.n3kc44zimshufe4c@pengutronix.de>
-References: <20220916151506.298488-1-u.kleine-koenig@pengutronix.de>
- <YzRCvGNpWXKyO/PE@orome>
+        with ESMTP id S234959AbiI2HGm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Sep 2022 03:06:42 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2E911265D
+        for <linux-leds@vger.kernel.org>; Thu, 29 Sep 2022 00:06:17 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id bu25so898304lfb.3
+        for <linux-leds@vger.kernel.org>; Thu, 29 Sep 2022 00:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=kaeNPsRWMl3Iqw+3/K7c46xI8ltqOrZ2hG4WVH/9Q3A=;
+        b=hKjEhVTZ5ga7vMXjhWjmzmPc2W/eEybKJTIDj0b1rj5ot00VMfjY22pdn4d13ksPmR
+         HOSTpTI2cDxlceOUTXsaH0KZHpVhbsdxz1Tabcr7ms8U+zHBxoa4d3SV+jcXdPQuaTAW
+         0PBw1kYnI4ofsntMqgUX2SMDyZFUOximqeqlyOnL3VMnCi7wzwhzMzc99nMvCf03tlzf
+         7PlRAIGMRNxJkqpWUTEwI0V0C80aozNi40abRUGwd0BMmPJsXv45p92TZf8Q+cYE+DtZ
+         F5CWEz6IXvgQT2tXNtrTY9gtDVvl1iDpKXePbfqKPZ96RyJCadlLZZuTnd03AxZu8TrC
+         PZ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=kaeNPsRWMl3Iqw+3/K7c46xI8ltqOrZ2hG4WVH/9Q3A=;
+        b=I4DncIgNIAGB8xWTV1IKyhkOzwVc4AKkof7hIDXEGZVKuxw03tJuHlBcAd4Tib/zLC
+         ykIcYzDrAJ8qwvSLnS15b4nCp/Q5Yx/KqWAs10zeEJgvryuXiPO5daXVQVOT4DvmyzV2
+         pbaNXEZW48Fi3sXf3WhgEuwLsL2ayWEcjpW46F2Rjaj37/pER/sV/lqBZSE0u7sG10qU
+         JA9nMF8p/qkAPiWDDsW+kD4NrIcWxz5ozs0nJKmH6rmdBNue9yYVMt9rrOl/P+auBdXe
+         I8DRyYqYl9zcjJ13QVAbVZs5EHvmSiPS0KnGVzBLQciAMtn0Udxe3bsue01KA+BWdOr9
+         v3Wg==
+X-Gm-Message-State: ACrzQf2fPs/uL6Tn3nNqHcOr15zfCPXtqYUnwSUGvNOo1ONgMtAx2/TT
+        MQbZv5ZlShx62w8+sFGgF5xCIg==
+X-Google-Smtp-Source: AMsMyM5RSglTdnGHG03FMHcm8GTzJEO/zRHOg8h1SuPzp+9oy5QGv/Vx90N6IrsvwZoYzYLf2dZHVQ==
+X-Received: by 2002:a05:6512:3409:b0:499:faa6:edb0 with SMTP id i9-20020a056512340900b00499faa6edb0mr716949lfr.682.1664435176026;
+        Thu, 29 Sep 2022 00:06:16 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id p19-20020ac24ed3000000b004a03d5c2140sm695157lfr.136.2022.09.29.00.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 00:06:15 -0700 (PDT)
+Message-ID: <d6dc534f-2dc4-979c-ddad-c2122db7923a@linaro.org>
+Date:   Thu, 29 Sep 2022 09:06:14 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6w6u3nfxl4bcy3e3"
-Content-Disposition: inline
-In-Reply-To: <YzRCvGNpWXKyO/PE@orome>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v1 2/2] dt-bindings: add bindings for QCOM flash LED
+Content-Language: en-US
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     quic_collinsd@quicinc.com, quic_subbaram@quicinc.com
+References: <20220928024239.3843909-1-quic_fenglinw@quicinc.com>
+ <20220928024239.3843909-3-quic_fenglinw@quicinc.com>
+ <6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org>
+ <2d6fac8d-0ac1-75bb-0b4c-c2c34583b09e@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <2d6fac8d-0ac1-75bb-0b4c-c2c34583b09e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 29/09/2022 04:20, Fenglin Wu wrote:
+> 
+> 
+> On 2022/9/28 16:21, Krzysztof Kozlowski wrote:
+>> On 28/09/2022 04:42, Fenglin Wu wrote:
+>>> Add binding document for flash LED module inside Qualcomm Technologies,
+>>> Inc. PMICs.
+>>>
+>>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>>
+>> You did not Cc me on first patch, so difficult to say how much it
+>> matches the driver... There is also no DTS.
+> Thanks for reviewing the binding change, I sent the driver changes in 
+> the same series and you can check it here:
+> https://lore.kernel.org/linux-leds/6c0e5083-baae-3ed3-5eed-e08bbb9e7576@linaro.org/T/#m97f71ce3f291f62d65f8107352d8ab9507093ab2
+> 
+> I will add you in email to list when sending next patchset.
 
---6w6u3nfxl4bcy3e3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Don't add just mine. Use instead scripts/get_maintainers.pl. For small
+patchsets recipients should get everything. For big patchsets it is
+usually split, where everyone receive only cover letter. It's not the
+case here...
 
-On Wed, Sep 28, 2022 at 02:49:00PM +0200, Thierry Reding wrote:
-> On Fri, Sep 16, 2022 at 05:15:04PM +0200, Uwe Kleine-K=F6nig wrote:
-> [...]
-> > diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
-> > index 7b357d1cf642..811e6f424927 100644
-> > --- a/drivers/pwm/pwm-crc.c
-> > +++ b/drivers/pwm/pwm-crc.c
-> > @@ -121,8 +121,8 @@ static int crc_pwm_apply(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
-> >  	return 0;
-> >  }
-> > =20
-> > -static void crc_pwm_get_state(struct pwm_chip *chip, struct pwm_device=
- *pwm,
-> > -			      struct pwm_state *state)
-> > +static int crc_pwm_get_state(struct pwm_chip *chip, struct pwm_device =
-*pwm,
-> > +			     struct pwm_state *state)
-> >  {
-> >  	struct crystalcove_pwm *crc_pwm =3D to_crc_pwm(chip);
-> >  	struct device *dev =3D crc_pwm->chip.dev;
-> > @@ -132,13 +132,13 @@ static void crc_pwm_get_state(struct pwm_chip *ch=
-ip, struct pwm_device *pwm,
-> >  	error =3D regmap_read(crc_pwm->regmap, PWM0_CLK_DIV, &clk_div_reg);
-> >  	if (error) {
-> >  		dev_err(dev, "Error reading PWM0_CLK_DIV %d\n", error);
-> > -		return;
-> > +		return -EIO;
-> >  	}
-> > =20
-> >  	error =3D regmap_read(crc_pwm->regmap, PWM0_DUTY_CYCLE, &duty_cycle_r=
-eg);
-> >  	if (error) {
-> >  		dev_err(dev, "Error reading PWM0_DUTY_CYCLE %d\n", error);
-> > -		return;
-> > +		return -EIO;
-> >  	}
->=20
-> In other drivers you propagate errors from regmap_read(), why not here?
+>>
+>>> ---
+>>>   .../bindings/leds/leds-qcom-flash.yaml        | 108 ++++++++++++++++++
+>>>   1 file changed, 108 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+>>> new file mode 100644
+>>> index 000000000000..52a99182961b
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-flash.yaml
+>>
+>>
+>> Filename matching compatible if there is one fallback (e.g.
+>> qcom,spmi-flash-led.yaml).
+>>
+> Sure, I will update the file name to match with the fallback compatible 
+> string.
+>>> @@ -0,0 +1,108 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/leds/leds-qcom-flash.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
+>>> +
+>>> +maintainers:
+>>> +  - Fenglin Wu <quic_fenglinw@quicinc.com>
+>>> +
+>>> +description: |
+>>> +  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
+>>> +  The flash LED module can have different number of LED channels supported
+>>> +  e.g. 3 or 4. There are some different registers between them but they can
+>>> +  both support maximum current up to 1.5 A per channel and they can also support
+>>> +  ganging 2 channels together to supply maximum current up to 2 A. The current
+>>> +  will be split symmetrically on each channel and they will be enabled and
+>>> +  disabled at the same time.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - qcom,spmi-flash-led
+>>> +          - qcom,pm8150c-flash-led
+>>> +          - qcom,pm8150l-flash-led
+>>> +          - qcom,pm8350c-flash-led
+>>
+>> I doubt these are all different. You should use fallback, which also
+>> will make use of the "items" you used...
+> pm8150c and pm8150l are different PMIC variants which have same flash 
+> LED module with 3 flash LED channels, while pm8350c has a different 
+> flash LED module with 4 flash LED channels. They can all use 
+> "qcom,spmi-flash-led" as the fallback because the driver has code logic 
+> to detect HW sub-types. 
 
-Oh, this is indeed wrong and should be "return error".
+If driver binds to only one compatible, it is expected to be the
+fallback for all others. There might be exception for this rule but it
+does not look like here.
 
->=20
-> > diff --git a/drivers/pwm/pwm-sprd.c b/drivers/pwm/pwm-sprd.c
-> > index 7004f55bbf11..aa06b3ce81a6 100644
-> > --- a/drivers/pwm/pwm-sprd.c
-> > +++ b/drivers/pwm/pwm-sprd.c
-> > @@ -65,8 +65,8 @@ static void sprd_pwm_write(struct sprd_pwm_chip *spc,=
- u32 hwid,
-> >  	writel_relaxed(val, spc->base + offset);
-> >  }
-> > =20
-> > -static void sprd_pwm_get_state(struct pwm_chip *chip, struct pwm_devic=
-e *pwm,
-> > -			       struct pwm_state *state)
-> > +static int sprd_pwm_get_state(struct pwm_chip *chip, struct pwm_device=
- *pwm,
-> > +			      struct pwm_state *state)
-> >  {
-> >  	struct sprd_pwm_chip *spc =3D
-> >  		container_of(chip, struct sprd_pwm_chip, chip);
-> > @@ -80,11 +80,8 @@ static void sprd_pwm_get_state(struct pwm_chip *chip=
-, struct pwm_device *pwm,
-> >  	 * reading to the registers.
-> >  	 */
-> >  	ret =3D clk_bulk_prepare_enable(SPRD_PWM_CHN_CLKS_NUM, chn->clks);
-> > -	if (ret) {
-> > -		dev_err(spc->dev, "failed to enable pwm%u clocks\n",
-> > -			pwm->hwpwm);
->=20
-> This might be useful information, so perhaps leave it in?
+> But I was thinking to give out the PMIC names 
+> here so anyone who is using the driver could easily identify if the 
+> driver is suitable for the HW that he/she is using.
 
-Ok, I don't like .get_state emitting an error, but agreed, that's an
-orthogonal issue that shouldn't be addressed en passant in this change.
+I did not say to remove other compatibles, but to use one fallback for
+all of them.
 
-> [...]
-> > diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-> > index c8445b0a3339..ead909400e64 100644
-> > --- a/drivers/pwm/pwm-sun4i.c
-> > +++ b/drivers/pwm/pwm-sun4i.c
-> > @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct sun4i_pw=
-m_chip *chip,
-> >  	writel(val, chip->base + offset);
-> >  }
-> > =20
-> > -static void sun4i_pwm_get_state(struct pwm_chip *chip,
-> > -				struct pwm_device *pwm,
-> > -				struct pwm_state *state)
-> > +static int sun4i_pwm_get_state(struct pwm_chip *chip,
-> > +			       struct pwm_device *pwm,
-> > +			       struct pwm_state *state)
-> >  {
-> >  	struct sun4i_pwm_chip *sun4i_pwm =3D to_sun4i_pwm_chip(chip);
-> >  	u64 clk_rate, tmp;
-> > @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *ch=
-ip,
-> >  		state->duty_cycle =3D DIV_ROUND_UP_ULL(state->period, 2);
-> >  		state->polarity =3D PWM_POLARITY_NORMAL;
-> >  		state->enabled =3D true;
-> > -		return;
-> > +		return 0;
-> >  	}
-> > =20
-> >  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) =3D=3D PWM_PRESCAL_MASK) &&
-> > @@ -142,7 +142,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *ch=
-ip,
-> >  		prescaler =3D prescaler_table[PWM_REG_PRESCAL(val, pwm->hwpwm)];
-> > =20
-> >  	if (prescaler =3D=3D 0)
-> > -		return;
-> > +		/* huh? is this an error? */
-> > +		return 0;
->=20
-> Yeah, I think this would count as an error. The prescaler value returned
-> from that table is 0 in what seems to be "invalid" configurations. If
-> you look at how this is used in sun4i_pwm_calculate(), these entries are
-> skipped for the computation of the duty cycle. So I would expect this to
-> happen in either an invalidly configured or completely unconfigured PWM.
->=20
-> That raises the question about what to do in these cases. If we return
-> an error, that could potentially throw off consumers. So perhaps the
-> closest would be to return a disabled PWM? Or perhaps it'd be up to the
-> consumer to provide some fallback configuration for invalidly configured
-> or unconfigured PWMs.
+Best regards,
+Krzysztof
 
-This is something I'd address on the framework level. i.e. don't care in
-the lowlevel driver about setting .enabled =3D false (or whatever we
-choose to do) but care for that in drivers/pwm/core.c.
-
-Note that the status quo is that if that error happens the consumer sees
-whatever state the lowlevel driver stored in pwm->state, without an
-error indication.
-
-Will send a v2.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6w6u3nfxl4bcy3e3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmM1QWEACgkQwfwUeK3K
-7AnVsgf+Ldl2tUGY9LFOCK2ERWS85VthgpwLbNMQlzHq7y/5oI2/DogWTP3xDZ8y
-Bbxo+AhFrbHTizo5c7SgHrWIAb1G2I+tHmJbBym+oZd6Tx33aS+8gHsha4WWRjm3
-OVZuFQnivYrgRyIbihT8CpeEOH+vyfo7vQHQeYE/8+YtgODsiSdu2TRWSkzhaXCC
-iTtNUPhvbn8iMRSciSYaUAMS4LwmACM+GVQ0+zAQUFMwbMKQiGgsq9We527pOFCT
-RkxTVKHr7hWaB92iSuDcIC2FLOeQfTKKwXHWCjuqef+OPnLhpuXsSbVHvDlqdwTa
-V/JINGn/9VpPyw25hZ/WAqlEr/10MA==
-=CHS4
------END PGP SIGNATURE-----
-
---6w6u3nfxl4bcy3e3--
