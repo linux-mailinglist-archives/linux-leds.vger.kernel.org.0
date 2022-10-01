@@ -2,153 +2,193 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F715F1E40
-	for <lists+linux-leds@lfdr.de>; Sat,  1 Oct 2022 19:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 936865F1F5C
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Oct 2022 22:29:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbiJARLV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 1 Oct 2022 13:11:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41444 "EHLO
+        id S229503AbiJAU3Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 1 Oct 2022 16:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiJARLL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 1 Oct 2022 13:11:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCE65A882;
-        Sat,  1 Oct 2022 10:11:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229620AbiJAU3X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 1 Oct 2022 16:29:23 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D774419A0;
+        Sat,  1 Oct 2022 13:29:22 -0700 (PDT)
+Received: from mercury (unknown [185.209.196.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 520BDB8076E;
-        Sat,  1 Oct 2022 17:11:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392F2C433D6;
-        Sat,  1 Oct 2022 17:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664644266;
-        bh=8/44+tCSDFyhjA92zaYauwO92/g0g3Xh1rsDr7QVWcU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qmheUtIfr5JybckX7f7bA9Sd3Py8wBG14xJCadq/+nk6NPIk5qQI/rioK0VZT9Ou3
-         qLzTCn/nLQAlNGDG6JpXFxnVCavpzpB2/OvcNreWI6yqLH9LIKn8rjUs/6cTHgI++k
-         9D58XicM9lDLXIcDIywsUITbNqDeKwLeGntsiHqKNaAp+doEnWZaEhD637mab7dlux
-         OwMPtsOK9QULS9GD6Tlcy+qKFSkh+Ojg4eoi6EDB3ymwYDjsXT/2Bpaed0JnB5LB4F
-         mov9I9irgRKH0x6IfWtrvmD/hFKht/ZbdV7jcHjeQITd2EMzJTxQRQEQ+059ise5pA
-         P5Ks5UgL1YkRg==
-Date:   Sat, 1 Oct 2022 18:11:17 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Rob Herring <robh@kernel.org>, ChiaEn Wu <peterwu.pub@gmail.com>,
-        pavel@ucw.cz, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, lars@metafoo.de,
-        andriy.shevchenko@linux.intel.com, chiaen_wu@richtek.com,
-        alice_chen@richtek.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DE0BC6602056;
+        Sat,  1 Oct 2022 21:29:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1664656161;
+        bh=GbqOd45+B69iop5KOZFk6L2zfF4jSUmsDB16falyAG8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dVfAgPTN/qSyC+mo0Cuken4g9GkZJyX8Oju5sSBYkj7Y29KkeotlRyOdR7Hh21f78
+         Bv3IYyztUKcQk7NURth6D2uPiC8h4e4zQNWcGgL6ZlKI3zZCwiyFLyyIL2icUdO0BR
+         wZKrLoow4cZZ4bFX0WfsFSOqV/QKQPHtu0zqRo+9ZS2Of9ooYHm4ecR0A1CwUAhFU+
+         5BlzRcYxflUolxcRwMxPUv/d0BeSqH/uw8TbSa1ef+qwDk2HxZCt/T3kg2/Z5JkKan
+         9HFES3rz1A6478uzPB6u7dUfdyDJ0vOMIgMENIypeybPZdSlld5iU9BZ6CVtkNiMZD
+         W79scUmn3wZaA==
+Received: by mercury (Postfix, from userid 1000)
+        id 89FB1106090C; Sat,  1 Oct 2022 22:29:18 +0200 (CEST)
+Date:   Sat, 1 Oct 2022 22:29:18 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     ChiaEn Wu <peterwu.pub@gmail.com>, pavel@ucw.cz,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        jic23@kernel.org, lars@metafoo.de, broonie@kernel.org,
+        mazziesaccount@gmail.com, andriy.shevchenko@linux.intel.com,
+        chiaen_wu@richtek.com, alice_chen@richtek.com,
+        cy_huang@richtek.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, szunichen@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v12 3/5] iio: adc: mt6370: Add MediaTek MT6370 support
-Message-ID: <20221001181117.7b3f3297@jic23-huawei>
-In-Reply-To: <YzXbJM31s0P0nLD5@google.com>
-References: <cover.1663926551.git.chiaen_wu@richtek.com>
-        <9bf36f09bc5f002f2b09b7cc26edccf109516465.1663926551.git.chiaen_wu@richtek.com>
-        <20220924155525.5663bed8@jic23-huawei>
-        <YzFY5FI0PrZqdAiZ@google.com>
-        <CAL_JsqKKJGtacbzGqCupFniSGha610L1cay2V+AK8vehTA=F=g@mail.gmail.com>
-        <YzQSnuwPjzJIgsYq@google.com>
-        <20220929163418.GA2270491-robh@kernel.org>
-        <YzXbJM31s0P0nLD5@google.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
+        szunichen@gmail.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v11 1/8] dt-bindings: power: supply: Add MediaTek MT6370
+ Charger
+Message-ID: <20221001202918.me7z2qzm7cmrkzsg@mercury.elektranox.org>
+References: <cover.1663254344.git.chiaen_wu@richtek.com>
+ <9382254831bb6ed8c228398a68896b0e8e61c7c4.1663254344.git.chiaen_wu@richtek.com>
+ <CAL_Jsq+Zkgfq0q_XgpLEjHLPGSuG06L6y5YbzbiberNMWtAuJw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ubomutkj3cdfuzuy"
+Content-Disposition: inline
+In-Reply-To: <CAL_Jsq+Zkgfq0q_XgpLEjHLPGSuG06L6y5YbzbiberNMWtAuJw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 29 Sep 2022 18:51:32 +0100
-Lee Jones <lee@kernel.org> wrote:
 
-> On Thu, 29 Sep 2022, Rob Herring wrote:
-> 
-> > On Wed, Sep 28, 2022 at 10:23:42AM +0100, Lee Jones wrote:  
-> > > On Mon, 26 Sep 2022, Rob Herring wrote:
-> > >   
-> > > > On Mon, Sep 26, 2022 at 2:46 AM Lee Jones <lee@kernel.org> wrote:  
-> > > > >
-> > > > > On Sat, 24 Sep 2022, Jonathan Cameron wrote:
-> > > > >  
-> > > > > > On Fri, 23 Sep 2022 10:51:24 +0800
-> > > > > > ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > > > > >  
-> > > > > > > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > > > >
-> > > > > > > MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> > > > > > > with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> > > > > > > driver, display bias voltage supply, one general purpose LDO, and the
-> > > > > > > USB Type-C & PD controller complies with the latest USB Type-C and PD
-> > > > > > > standards.
-> > > > > > >
-> > > > > > > Add support for the MT6370 ADC driver for system monitoring, including
-> > > > > > > charger current, voltage, and temperature.
-> > > > > > >
-> > > > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > > > > > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > > > > > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>  
-> > > > > >
-> > > > > > This will have to either wait for next cycle, or go through mfd because
-> > > > > > of the dt-bindings include which is in the mfd tree.
-> > > > > >
-> > > > > > Please make those dependencies clear in new versions.  
-> > > > >
-> > > > > If the bindings come together in -next, then subsequently in Mainline,
-> > > > > it shouldn't really matter.  
-> > > > 
-> > > > Except that the bindings haven't come together and at this point may
-> > > > not for 6.1. linux-next has been warning for weeks because the child
-> > > > device schemas haven't been applied. I've said it before, all the
-> > > > schemas for MFD devices need to be applied together. Or at least the
-> > > > MFD schema needs to get applied last.
-> > > > 
-> > > > Furthermore, subsequent versions of this don't get tested and we end
-> > > > up with more warnings[1].
-> > > > 
-> > > > It's only your IIO tree that the DT  
-> > > > > tooling with complain about, right?  
-> > > > 
-> > > > And the MFD tree...
-> > > > 
-> > > > Please apply the LED bindings (patches 1 and 2) so we can get the
-> > > > existing warnings fixed and address any new warnings.  
-> > > 
-> > > Who usually applies LED bindings?  Looks as though they're good to go.  
-> > 
-> > Pavel. The issue would be I don't know if the driver side is ready and 
-> > those usually go together. Other than my complaining here, how's he 
-> > supposed to know that the bindings at least need to be applied?
-> > 
-> > Again, the process here is not working. I've said before, all the 
-> > bindings for an MFD need to go via 1 tree. You obviously don't agree, so 
-> > propose something. The current process of no coordination doesn't work.  
-> 
-> The solution would be for someone to create succinct immutable branches, like
-> I do for real code.  If someone would be happy to do that, I'd be more than
-> happy to pull from them.
-> 
-> I go to the effort of creating them to prevent actual build breakages,
-> however doing so to keep a documentation helper script happy is a step
-> too far for me personally, sorry.
-> 
+--ubomutkj3cdfuzuy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In this case the bindings include is included from the driver - not just the
-binding.  Obviously there are dances to get around that by using the values
-and replacing in following cycle, but that's not the case here!
+Hi,
 
-Jonathan
+On Mon, Sep 26, 2022 at 09:52:06AM -0500, Rob Herring wrote:
+> On Thu, Sep 15, 2022 at 4:49 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> >
+> > From: ChiaEn Wu <chiaen_wu@richtek.com>
+> >
+> > Add MediaTek MT6370 Charger binding documentation.
+> >
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > ---
+> > v11
+> > - Add more detailed description of irqs.
+> > - Adujust the order of irqs
+> > ---
+> >  .../power/supply/mediatek,mt6370-charger.yaml      | 96 ++++++++++++++=
+++++++++
+> >  1 file changed, 96 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/power/supply/medi=
+atek,mt6370-charger.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt=
+6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek=
+,mt6370-charger.yaml
+> > new file mode 100644
+> > index 0000000..fd491c5
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-ch=
+arger.yaml
+> > @@ -0,0 +1,96 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charge=
+r.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MediaTek MT6370 Battery Charger
+> > +
+> > +maintainers:
+> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> > +
+> > +description: |
+> > +  This module is part of the MT6370 MFD device.
+> > +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt6370-charger
+> > +
+> > +  interrupts:
+> > +    description: |
+> > +      Specify what irqs are needed to be handled by MT6370 Charger dri=
+ver.
+> > +      We need to use the IRQ "MT6370_IRQ_OVPCTRL_UVP_D" to know when U=
+SB
+> > +      is plugged in, and then the driver will enable BC1.2 detection.
+> > +      After the hardware of MT6370 completes the BC1.2 detection,
+> > +      IRQ "MT6370_IRQ_ATTACH" will be triggered, and the driver will k=
+now
+> > +      the result of BC1.2 detection.
+> > +      When the IRQ "MT6370_IRQ_CHG_MIVR" is triggered, it means that t=
+he
+> > +      hardware enters the "Minimum Input Voltage Regulation loop" and
+> > +      a workaround needs to be applied at this time.
+> > +      In summary, "MT6370_IRQ_OVPCTRL_UVP_D", "MT6370_IRQ_ATTACH" and
+> > +      "MT6370_IRQ_CHG_MIVR" are required in this charger driver.
+> > +    items:
+> > +      - description: irq of "USB is plugged in"
+> > +      - description: irq of "BC1.2 is done"
+> > +      - description: irq of "Minimum Input Voltage Regulation loop is =
+active"
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: uvp_d_evt
+> > +      - const: attach_i
+> > +      - const: mivr
+>=20
+> Now warning in linux-next:
+>=20
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediate=
+k,mt6370.example.dtb:
+> charger: interrupt-names:0: 'uvp_d_evt' was expected
+>  From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindin=
+gs/power/supply/mediatek,mt6370-charger.yaml
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/mfd/mediate=
+k,mt6370.example.dtb:
+> charger: interrupt-names:1: 'attach_i' was expected
+>  From schema: /builds/robherring/linux-dt/Documentation/devicetree/bindin=
+gs/power/supply/mediatek,mt6370-charger.yaml
 
+Looks like the example in the MFD binding has the order of uvp_d_evt
+and attach_i swapped. ChiaEn Wu, please send a fix.
+
+-- Sebastian
+
+--ubomutkj3cdfuzuy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmM4ox4ACgkQ2O7X88g7
++pqiyA/9HXF36bAyC9iIpST8niA6muqyZfyOveLj5kVZ3S11bsd/z4T/M/R2UqOY
+DxCrfDzDFEk9oaG4yQfnEkhsTQDpcKnXsHtvKYOtL3M69BN+jS5yNiUE8BaD+imk
+ZCEHfb58sLh+qUavxwpTbSoCD8pN/sorE/gN2XDf0CC6lV0dq2+AlIYsk1zmzTnX
+iOi6267Gkzq10oZKQYBIV95AjBBUhdDLKwF1fY9ZDLI8sqce94u51+bc0UxPrVSg
+ebcTLn+AfEShc46x8gDJciFVefpyTLG7QUSpp9TFq1uCqVLjzK7avE4nNyL20Sfb
+UqTcywtvGR+hBrZwNY/XWZlRznUHX9Sf0VwrDcG6HrNtyAMCRk4m7PM6NQ9NEe6A
+jgQcVKnSvaVzUsgfsPSCU1UjiB0CcdOyhhjw5rhFX7Jw5Vm6oNODADMkkGeyPGdV
+uJh2Oy17rAa79UjG/uvqiwawqF3OouO3T4IhGlX1Oe0SEuDngmg4nXhXpR8fLCbf
+Lbikea2i0bwfwEroIgOA7lSrQsvBBHE5oaCMbKn7niPa44eg+FRqu52XQQtVV/eP
+CEnvMXqEIoFOJuK+0rqZdaVaiIMAjdS0GXL1reeKSchutJb60HkasffA7YuFytGr
+Jg9UGEuC8GkNWwp8EETNu45A5pKaq35hzV/E8WfSPaAQ9t6sa2I=
+=bCC4
+-----END PGP SIGNATURE-----
+
+--ubomutkj3cdfuzuy--
