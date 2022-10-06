@@ -2,83 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6AF5F621B
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Oct 2022 09:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B554E5F6DA0
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Oct 2022 20:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbiJFHxb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Oct 2022 03:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        id S229683AbiJFSnG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Oct 2022 14:43:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbiJFHxa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Oct 2022 03:53:30 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04DF28FD5C
-        for <linux-leds@vger.kernel.org>; Thu,  6 Oct 2022 00:53:29 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id a12so1279237ljr.7
-        for <linux-leds@vger.kernel.org>; Thu, 06 Oct 2022 00:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=gbl2sqAncpllKGuOCbPF4knZ+D81ldDQn9qCCcipX7g=;
-        b=KJikq2u4YaMAiclDPOqBu7az8d5be3+5ghPcv1oUClRdCp8sawmrjfcQNiVxvJJO0S
-         I/Io/7dkU86k8naUE/KMJZyoeV8W3QWHUFhzFcaPkbYEWjV/r7PsLE2+DiCuVt9S9Tmq
-         zotrYr7KXIO+tZ6DZcTIP6kICfHlNfSQTSzh1RG1Ai1pfq6d+/WpFlQpHQLek6iujPz4
-         yIes+husiLc21yJjNMqgchyGvXpweIFAXxmAD0GONQEqIhs57xjpFH8CxFExds15GCtW
-         BRyXo5uNphwlw/DfRBS90yHJd4iilCdxlLMKIhB++iTwiI8IhL1Id1uR/n3JRV6pbV8/
-         Ua9g==
+        with ESMTP id S229511AbiJFSnF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Oct 2022 14:43:05 -0400
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386F6C5111;
+        Thu,  6 Oct 2022 11:43:04 -0700 (PDT)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1326637be6eso3173726fac.13;
+        Thu, 06 Oct 2022 11:43:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=gbl2sqAncpllKGuOCbPF4knZ+D81ldDQn9qCCcipX7g=;
-        b=ndUeiIrt6wLzYVrjJ7zR6bUfeJdJTgaIOF61uX2oT1Oo9w1sEsbgAMAI7/Pyd6Chsa
-         R48YX9WMwj3PpMDZxgmFBNb6CZ/twafTcL3QW9jkAH2JbniRgSU4QN7h327vNnvXxN3L
-         Os/pUzCgHRMR0Ysda5fwX7xG7p2zbC7GqAc2qdvHNME37nZPZOWRTOQGkAzNJUoOdbL6
-         CAIkjnIvKQXJnTImxN4hvQ02ldMMe9gKu1veoh0VIdfTK8FjUWo0iXosagA9u/6O6Tc6
-         y97Pml2kF+TfebJIYt4+Mbd8jGYywZF/ixVl+fph9ZHnW77ZUmsuRqrp6WtLYFV2iySq
-         Flag==
-X-Gm-Message-State: ACrzQf3kOii7/FsgZPXxqKDGH8BNk5xWvh5TmCmANZk1wgulxz3eKMDa
-        wPy8mP7d6C9KUisPt67CVu+iuw==
-X-Google-Smtp-Source: AMsMyM63+lsKjqS9rbt0n60RV+mLp4etB8Di6xPlg3WpquQtq7M5ay9DT1wK45eOy53hn25eJwctwA==
-X-Received: by 2002:a05:651c:158e:b0:26b:46a6:bf63 with SMTP id h14-20020a05651c158e00b0026b46a6bf63mr1155856ljq.21.1665042807390;
-        Thu, 06 Oct 2022 00:53:27 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id o20-20020a056512231400b0049f54c5f2a4sm2600306lfu.229.2022.10.06.00.53.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Oct 2022 00:53:26 -0700 (PDT)
-Message-ID: <6bca0fd0-395e-0fae-f500-d9c78a5dc719@linaro.org>
-Date:   Thu, 6 Oct 2022 09:53:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gdAt9/qLW5IR5INzlShOk7D7K7dX/WFEcR7pwh4Zg64=;
+        b=aqMOkOcMQWaSPHP1Re52Tdk67xLRkyKz3d26Gr2uRJVtGyMWlrScmhaS/ukwLLaAjv
+         Z4cgrd9FgURSJcud5HV0v3OT6z+JntQP1o/+UfVabD2nL7e5m29Cu2tmPPCuvnaw7y34
+         77Obe36PMr6UMak7y/ho+p1KhlAs+W+l7RYu++5CDTG/40r+c+oSlecMWQgdeC5L4y/6
+         jhTFcFD4xP/Pbfbp7aGKuhoxZhB26W4WrG3fNcd/NdrQJ1lxDiAb5Xifr5iGBBfmhT52
+         90bh8MYL9er74DR6cPVuHdOLJ+7I8/ueGEHXP3Dn39qtYvEPTWvgEQdOlui/jNEvN9Gf
+         gU4w==
+X-Gm-Message-State: ACrzQf08nT5+bil/MO+uKWul/oZLXGbYJtttrb3aOVCuOpeXPeRSh14W
+        d/RgOLtUgfb9VrNZquJbSQ==
+X-Google-Smtp-Source: AMsMyM55YDTxBklF/F1OYqyNGI1pGr12gI6xwgyldyXHl8kwNwKlvT/IyxyprHweGspqsaAZBnXH/A==
+X-Received: by 2002:a05:6870:178e:b0:126:7055:fc78 with SMTP id r14-20020a056870178e00b001267055fc78mr661154oae.58.1665081783067;
+        Thu, 06 Oct 2022 11:43:03 -0700 (PDT)
+Received: from robh_at_kernel.org ([2607:fb90:8a65:c536:245:842:a3a4:9017])
+        by smtp.gmail.com with ESMTPSA id t188-20020aca5fc5000000b0034fbbce2932sm6078021oib.42.2022.10.06.11.43.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 11:43:02 -0700 (PDT)
+Received: (nullmailer pid 16909 invoked by uid 1000);
+        Thu, 06 Oct 2022 18:42:59 -0000
+Date:   Thu, 6 Oct 2022 13:42:59 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     ChiaEn Wu <peterwu.pub@gmail.com>
+Cc:     krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+        chiaen_wu@richtek.com, pavel@ucw.cz, cy_huang@richtek.com,
+        linux-mediatek@lists.infradead.org, robh+dt@kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] dt-bindings: leds: mt6370: Fix MT6370 LED indicator DT
  warning
-Content-Language: en-US
-To:     ChiaEn Wu <peterwu.pub@gmail.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, pavel@ucw.cz,
-        matthias.bgg@gmail.com
-Cc:     chiaen_wu@richtek.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Message-ID: <166508150927.12105.8845851165188366469.robh@kernel.org>
 References: <435f6888ebc20c5abae63eb9cb3a055b60db2ed1.1665050503.git.chiaen_wu@richtek.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <435f6888ebc20c5abae63eb9cb3a055b60db2ed1.1665050503.git.chiaen_wu@richtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 06/10/2022 05:16, ChiaEn Wu wrote:
+On Thu, 06 Oct 2022 11:16:13 +0800, ChiaEn Wu wrote:
 > From: ChiaEn Wu <chiaen_wu@richtek.com>
 > 
 > Add '$ref' and 'unevaluatedProperties: false' in 'multi-led', and remove
@@ -87,10 +76,8 @@ On 06/10/2022 05:16, ChiaEn Wu wrote:
 > Fixes: 440c57dabb45 ("dt-bindings: leds: mt6370: Add MediaTek MT6370 current sink type LED indicator")
 > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 > ---
+>  .../devicetree/bindings/leds/mediatek,mt6370-indicator.yaml          | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Applied, thanks!
