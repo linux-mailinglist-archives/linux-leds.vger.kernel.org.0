@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F0935F7B5C
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Oct 2022 18:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F9295F7B67
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Oct 2022 18:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiJGQZC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Oct 2022 12:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52862 "EHLO
+        id S229638AbiJGQ1W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Oct 2022 12:27:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbiJGQZA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Oct 2022 12:25:00 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B77C2F38B;
-        Fri,  7 Oct 2022 09:24:58 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id o22so2786265qkl.8;
-        Fri, 07 Oct 2022 09:24:58 -0700 (PDT)
+        with ESMTP id S229701AbiJGQ1V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Oct 2022 12:27:21 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A65BF12BB9F;
+        Fri,  7 Oct 2022 09:27:20 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id i9so3416879qvo.0;
+        Fri, 07 Oct 2022 09:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iKT+wdRexw/JjQOAd3/flUgevUBDOrgkhpmB6roT2ak=;
-        b=qj7ooJnN6e+ZwRZMl6qqsenjlYJ7OztD8FNgRYb6Fafep9VxsflFZ7Z2/SjBiBgs9Z
-         RFDJPepY1mHfRjnzTu8p0C6WNyBzebyeZpzz5x9uR7nkdyP/dch9VDVqqRg5gkpfpf3W
-         Qs4g7zb0XVgIk9e/QCEEr4UaD3adeOFxF1kTvitV3VGrKMFPjpuRDLZglOysK5nXLKCP
-         cWYUwPgcK4wWoyasFU/ElKGT1dWQWYqnhsSJoqGYTuobsBJUb+nM00UyX6cZRVT8OU75
-         IT0RgmpAQuoNFcIpzlSwlrmMuEUCkN0F483IN9zuiaPaKqp7Kbh6ehGl/SLAgF/5+Phs
-         73Qg==
+        bh=Rv1RyPQRKBD5gQsueT4Um5of6W7PIDtW7ZzPJrLZ/0U=;
+        b=mhvdu9R4OSJAmuL4ryfTsbUj85Rlj5e7y3DtKuO+tdM4dFzozUN6Sa50bx8HJSV3vt
+         4XJEs1mgfJqd9zTnWMxuGilYCBTumHSOCItHRrcqnxieOaPI0Ksf3kAPUpIS0rB/q67U
+         ZzjqGElgMXqWH5ZgTkN81Gw8Xfh5jurPavkc9WJyF8TUGUE9YY8GTp4xomxKnyXNWYTE
+         hZr6Lto3un5qD3zB8fnK+c9Busa6K6qbcUTnh8WE8HNrGxVj+5ibbf0Tm3D4Yn/8/dsS
+         M2XOqmnaYyp2QOqjzmtZkYo6puj0QhblsEtT0h2hWbtqaEqzZqd03rfU9pnl6k7Ueo3R
+         45SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iKT+wdRexw/JjQOAd3/flUgevUBDOrgkhpmB6roT2ak=;
-        b=fkcHNYcSPO6hZpE9oJZqeu0M0c9A6Nief/C8iu0Vtp/n5I1XVt5OqczBY1TpIg2x7q
-         czyXK8WAJUFhzT2G89Bgn1hxttjfjsyx+hogPz6+Op3LUeV2O4+hKcb70Dhop2OHgnzr
-         l/6yw1vY8djdn1uHR4371fJEb8jXPMhePJ92Tdp2m4WeRJrvmKesIDj6Ga5sR2pjPwQ/
-         aHR8FF/rQ2TQ2Vvw6zYBUy1JhUA3ZDMGYco2+3tyQQQGzucWaIOHL6dtRahq/jS5OVWq
-         /LxhtPRR48RrOJmbKI1nXKqtRfMTctIc6DbTQWcGCW2PzLN1riYEyepgiGjo3xbiSgs1
-         BSxQ==
-X-Gm-Message-State: ACrzQf1Q3pRLkQugMIE0bpr69YPQRWqRBleQJ6h4YgG8Dhpv/NXLN+4o
-        HyVFxWjVYZORWcxdNVlZP//68T6rntFIoY2ucC8=
-X-Google-Smtp-Source: AMsMyM5pvo30eHPRQ5wPaC2Y7IDx7ogLgaibNazJSu09wD3RD1Y7tGassO91a0w40+9wGOy29vGvwRtmTvErS1eOdFI=
-X-Received: by 2002:a05:620a:4454:b0:6ce:bfbf:7e3f with SMTP id
- w20-20020a05620a445400b006cebfbf7e3fmr4253002qkp.748.1665159897817; Fri, 07
- Oct 2022 09:24:57 -0700 (PDT)
+        bh=Rv1RyPQRKBD5gQsueT4Um5of6W7PIDtW7ZzPJrLZ/0U=;
+        b=aek3VfyV75vgqmvDo8w8NMX2KsyuOwtmYC9cHdvybblvzC86LzW+FLc9D7C/X0bDIv
+         ELgmgizvme67vCwVgVKapCqvKskO0l40Nm7RVcyp97JaYpeiForfzR+vg7UlgomZfOMC
+         k+Lt8tYcrxY/xdSH6/KBzy9+QYrypy/CzzFcC+PzeVU8ig+ERrVsmFbpR9y03QJr8s/Q
+         JPivH2DpM5XpiwlkHmFHlzIYPBCgi/V1rjQIbiguCtdGo6TG9FM2evxkcCJHp4Sy2qqN
+         jedn1HgrYaRIcJl/005yD73LXx5KWQ6X6FNiFUVT3dYVL2WuzoBmG/yR3zuKVY7m8fg8
+         UxCQ==
+X-Gm-Message-State: ACrzQf0JbScLMmU1a9M9ZHaLOOlq40zfIM80l6FQ22/EWOCtyorUqDCZ
+        ympbtixu3hDy3jH19QihxSJiTlkI/mnW6cGCR0o=
+X-Google-Smtp-Source: AMsMyM7kGPffcldw0lkzc4fVpS1Uvw1UqFYRJ2j7bvsr/2xuqOW6EKpraeCo01vxjqu4AjStmZG1ELYXMfcm7kMoqdw=
+X-Received: by 2002:a05:6214:19cf:b0:4a9:4241:2399 with SMTP id
+ j15-20020a05621419cf00b004a942412399mr4896091qvc.64.1665160039173; Fri, 07
+ Oct 2022 09:27:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221007145641.3307075-1-jjhiblot@traphandler.com> <20221007145641.3307075-4-jjhiblot@traphandler.com>
-In-Reply-To: <20221007145641.3307075-4-jjhiblot@traphandler.com>
+References: <20221007145641.3307075-1-jjhiblot@traphandler.com> <20221007145641.3307075-5-jjhiblot@traphandler.com>
+In-Reply-To: <20221007145641.3307075-5-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 7 Oct 2022 19:24:21 +0300
-Message-ID: <CAHp75VdUt-SZxesD-f+647vG8ZANkC4mrtJ4VGu5b=q4PN+d-g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] leds: provide devm_of_led_get_optional()
+Date:   Fri, 7 Oct 2022 19:26:43 +0300
+Message-ID: <CAHp75Vc=4zyRUpeZ_-P4VZpSyX5tRbw6Bj6iKR0FHgOM=vic9g@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] leds: class: store the color index in struct led_classdev
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     lee.jones@linaro.org, pavel@ucw.cz, robh+dt@kernel.org,
         sven.schwermer@disruptive-technologies.com,
@@ -70,85 +70,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 7, 2022 at 5:56 PM Jean-Jacques Hiblot
+On Fri, Oct 7, 2022 at 6:03 PM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> This version of devm_of_led_get() doesn't fail if a LED is not found.
-> Instead it returns a NULL pointer.
+> This information might be useful for more than only deriving the led's
+> name.
+> And since we have this information, we can expose it in the sysfs.
 
-Yep, thanks!
+Not sure why you haven't continued a new sentence on the previous line.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+...
 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-> ---
->  drivers/leds/led-class.c | 25 +++++++++++++++++++++++++
->  include/linux/leds.h     |  2 ++
->  2 files changed, 27 insertions(+)
->
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 2c0d979d0c8a..2fea79a2300d 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -295,6 +295,31 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->  }
->  EXPORT_SYMBOL_GPL(devm_of_led_get);
->
-> +/**
-> + * devm_of_led_get_optional - Resource-managed request of an optional LED device
-
-I'm not sure we need to keep "_of" here in the name, but it's not
-harmful anyway.
-
-> + * @dev:       LED consumer
-> + * @index:     index of the LED to obtain in the consumer
-> + *
-> + * The device node of the device is parse to find the request LED device.
-
-I guess you copy'n'pasted this, but this has some spelling issues, I
-would change
-
-parse --> parsed
-request --> requested
-
-> + * The LED device returned from this function is automatically released
-> + * on driver detach.
-> + *
-> + * @return a pointer to a LED device, ERR_PTR(errno) on failure and NULL if the
-> + * led was not found.
-> + */
-> +struct led_classdev *__must_check devm_of_led_get_optional(struct device *dev,
-> +                                                       int index)
+> +static ssize_t color_show(struct device *dev,
+> +               struct device_attribute *attr, char *buf)
 > +{
-> +       struct led_classdev *led;
+> +       const char *color_text = "invalid";
+> +       struct led_classdev *led_cdev = dev_get_drvdata(dev);
 > +
-> +       led = devm_of_led_get(dev, index);
-> +       if (IS_ERR(led) && PTR_ERR(led) == -ENOENT)
-> +               return NULL;
-> +
-> +       return led;
+> +       if (led_cdev->color < LED_COLOR_ID_MAX)
+> +               color_text = led_colors[led_cdev->color];
+
+> +       return sprintf(buf, "%s\n", color_text);
+
+According to the Documentation you must use sysfs_emit() here. It
+might be good to update existing code as well (as a separate change).
+
 > +}
-> +EXPORT_SYMBOL_GPL(devm_of_led_get_optional);
-> +
->  static int led_classdev_next_name(const char *init_name, char *name,
->                                   size_t len)
->  {
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index ba4861ec73d3..41df18f42d00 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -215,6 +215,8 @@ extern struct led_classdev *of_led_get(struct device_node *np, int index);
->  extern void led_put(struct led_classdev *led_cdev);
->  struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->                                                   int index);
-> +struct led_classdev *__must_check devm_of_led_get_optional(struct device *dev,
-> +                                                 int index);
->
->  /**
->   * led_blink_set - set blinking with software fallback
-> --
-> 2.25.1
->
+> +static DEVICE_ATTR_RO(color);
 
 
 -- 
