@@ -2,68 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 081795F7B7F
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Oct 2022 18:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6628C5F83E4
+	for <lists+linux-leds@lfdr.de>; Sat,  8 Oct 2022 08:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiJGQcg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Oct 2022 12:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
+        id S229614AbiJHG7m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 8 Oct 2022 02:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiJGQcf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Oct 2022 12:32:35 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED3F102DE8;
-        Fri,  7 Oct 2022 09:32:33 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id de14so3394968qvb.5;
-        Fri, 07 Oct 2022 09:32:33 -0700 (PDT)
+        with ESMTP id S229452AbiJHG7l (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 Oct 2022 02:59:41 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C4B26CD;
+        Fri,  7 Oct 2022 23:59:40 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id 10so6401264pli.0;
+        Fri, 07 Oct 2022 23:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QqBD3ksm/42W3ZOFARVPpcH3gaO+fK+GYGFaj+UPlDI=;
-        b=h8LZ7ri8UcgOJHgobw3oPpAa4rlYp4LWGdqt/eYl4Pl7EFSv+cgBTP0Slsz8mnuF/e
-         3ffTnLA5Y56rRQRO1p/ymA0XPK/bNeRVkAVRid2y8BjWpAKkvszaYFZtwM5iax1NUsFl
-         /SQK7RsL99oGAxMYld4xhQ4Kp7Cyh9EuTbyXxTlj0B9yGbLUjPBL6cjD2GL0niL8I9aO
-         aEkIhXe6kWWGjWv75xvsUQ5+Ekl3auCZY0xgGSnxcfNXcszUeIOQJbnLF0Sx7HEdrp9B
-         uKJMXx/6YBOOdNKQ8/s8E129r8NFt5h3grqUZqXNuhd4PbyrWLY61Ymbk/+jA+IYbHpK
-         tKlA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bSvlYX8e1v8IcVa7ZdS+LbOU2TiaIvYeSlxWuVBo8Oo=;
+        b=H1fGSKe7R4b/cSt8qy60T/JfI3VvuIYnGsruIlFvA3rf0J67og4dQBHcOWlTaNMEz9
+         0IwD9Y7v7uPTotHLciTOh0CXxusBke6aSf8ZCqJqY14HlqDEk+uk3ZS7Wmh685NPXkQN
+         p0CNXzHxzPupiI763vpRxS8UgjaZECKx2RX+AG8h36qE091YzbIHi4nghzS7Mc1xTgMv
+         Cl7mrFn4ygGu2xkJUQsjsrU27rnwr7WNjJLv4n5G0CV03BuQTctgurRu8Bh7Ypnd/b5e
+         LP7XgDe1iaATog4PWqBc6STToO6MT6vzXWCvdX9qyrXg8sbe2VGsL5g1E9qFJ7OM+i7y
+         3Ouw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QqBD3ksm/42W3ZOFARVPpcH3gaO+fK+GYGFaj+UPlDI=;
-        b=jlFWafOXZEIQekRd0RznVI2NR5STTYCl0oj+E9Wo6LwzkxL91ldAzyVXHOw9DUECzs
-         UcbLZaDMgRMvSM1Bxn/V51KM3GBs88fibbo8tmezJu65XrEd0cLTeUzUG9mC10s8/4wG
-         A7J/yKiVGeGtWRESDS9OpwcObtcI1KeAwMrzWNSb/gv3A2Mtkt1EArpngt7kqWmSV0+B
-         80lJpPLmWMg/G+duLKrpZbD6HwnjAhtXvwHrklrqYGBdhFqwEGIZD4DBqg44/mhYN20r
-         aeSIX8qacui8NhXtmUTuldxzemFrzCX34UQY7L9I28HNYf13FH8OATPh06XnWKioiTSw
-         e1Dg==
-X-Gm-Message-State: ACrzQf1SnMszRDwdxZaG4EDdsj6srrnNuq9ejn7MNM9UPmAZnLLo/4L3
-        2AfGNdf9e2+zqYOaE0nKQjfPElJ3GCi195lUmSU=
-X-Google-Smtp-Source: AMsMyM4FrN/lLzBMdXd6EEVNCo60otuO1WIl9EytSx8UsuYUcHVCyRwaUVrQdaNHZjtkwlB62cmyl4Otb7WMHqX0xzg=
-X-Received: by 2002:a05:6214:762:b0:4b1:c5d2:3fd0 with SMTP id
- f2-20020a056214076200b004b1c5d23fd0mr4873243qvz.97.1665160352745; Fri, 07 Oct
- 2022 09:32:32 -0700 (PDT)
+        bh=bSvlYX8e1v8IcVa7ZdS+LbOU2TiaIvYeSlxWuVBo8Oo=;
+        b=t43CP4x+l975Nkx7yz2+xEc8p0r1l25NPIHBSqJlZFdNJEY6yu557/aJx6kCV83OK4
+         JWCujtzrBhGfutsY/NtZMdLfPbE76lwtx+0Rh+ggsjI/OBHLsefAtALihvVTtb42hTt8
+         HTROXu/Qz4j5pJyEvIgjazMyV/LX1A4l20kO63gPHC+/yFU2W65y2/tNpj2gRvA2mkxQ
+         bt0cs8ohOQk6X3QNDVOdZrGj2LKmJw7Qr4mh+OBVFJbLo0A6UmjiWQVM51Sk8F2dN5Qm
+         D1Z/719PPx+bmKN6IPGUT3tEYv4Zuc2CMzH7VOhaPZuRO7NpgwJz8RSR6LsiM7CQ2nNZ
+         FJRg==
+X-Gm-Message-State: ACrzQf0OkVxpNvnHXleXx1SVFD+CnBCqaiSxmaPb3UfLd9FDoKITMrnQ
+        inwhWVWFH8J8zi8l1lhBSDW44vm1H5Q=
+X-Google-Smtp-Source: AMsMyM7ksHv23h9s5VSaF0uLKlsI143oa9T5yDfVaU7PTsLPVlqJzDIZo07Thv4oZf8D1XppCj6w5g==
+X-Received: by 2002:a17:90b:4c45:b0:202:6308:d9c4 with SMTP id np5-20020a17090b4c4500b002026308d9c4mr9406978pjb.40.1665212379990;
+        Fri, 07 Oct 2022 23:59:39 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id c6-20020a170903234600b0017f9147983asm2598996plh.175.2022.10.07.23.59.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 23:59:39 -0700 (PDT)
+From:   yexingchen116@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To:     pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ye xingchen <ye.xingchen@zte.com.cn>
+Subject: [PATCH linux-next] leds: leds-bd2802: replace strcmp with sysfs_streq
+Date:   Sat,  8 Oct 2022 06:59:34 +0000
+Message-Id: <20221008065934.308408-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221007145641.3307075-1-jjhiblot@traphandler.com> <20221007145641.3307075-7-jjhiblot@traphandler.com>
-In-Reply-To: <20221007145641.3307075-7-jjhiblot@traphandler.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 7 Oct 2022 19:31:56 +0300
-Message-ID: <CAHp75VcwcOqz_8yCYL09Nh7vqw5ZWOUR+1EJjpiNEz_tis-s+A@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] leds: Add a multicolor LED driver to group
- monochromatic LEDs
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     lee.jones@linaro.org, pavel@ucw.cz, robh+dt@kernel.org,
-        sven.schwermer@disruptive-technologies.com,
-        krzysztof.kozlowski+dt@linaro.org, johan+linaro@kernel.org,
-        marijn.suijten@somainline.org, bjorn.andersson@linaro.org,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,120 +69,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 7, 2022 at 5:56 PM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
->
-> By allowing to group multiple monochrome LED into multicolor LEDs,
-> all involved LEDs can be controlled in-sync. This enables using effects
-> using triggers, etc.
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-...
+Replace the open-code with sysfs_streq().
 
-> +config LEDS_GRP_MULTICOLOR
-> +       tristate "Multi-color LED grouping support"
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/leds/leds-bd2802.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +       depends on OF
-
-But there is no compilation requirement for that.
-If you want to tell that this is functional requirement, you may use
-
-    depends on COMPILE_TEST || OF
-
-pattern
-
-...
-
-> +       struct device *dev = &pdev->dev;
-> +       struct led_init_data init_data = {};
-> +       struct led_classdev *cdev;
-> +       struct mc_subled *subled;
-> +       struct led_mcg_priv *priv;
-
-> +       int i, count, ret;
-
-> +       unsigned int max_brightness;
-
-Perhaps keep it before previous line?
-
-> +       count = 0;
-> +       max_brightness = 0;
-> +       for (;;) {
-> +               struct led_classdev *led_cdev;
-> +
-> +               led_cdev = devm_of_led_get_optional(dev, count);
-
-> +               if (!led_cdev)
-
-> +                       /* Reached the end of the list */
-> +                       break;
-
-This will require {} according to the style guide. Maybe move the
-comment on top of the if (!led_cdev) check?
-
-> +               if (IS_ERR(led_cdev))
-> +                       return dev_err_probe(dev, PTR_ERR(led_cdev),
-> +                                            "Unable to get led #%d", count);
-
-I would check for an error first, this is a common pattern in the Linux kernel.
-
-> +               count++;
-> +
-> +               priv->monochromatics = devm_krealloc_array(dev, priv->monochromatics,
-> +                                       count, sizeof(*priv->monochromatics),
-> +                                       GFP_KERNEL);
-> +               if (!priv->monochromatics)
-> +                       return -ENOMEM;
-> +
-> +               priv->monochromatics[count - 1] = led_cdev;
-> +
-> +               max_brightness = max(max_brightness, led_cdev->max_brightness);
-> +       }
-> +
-> +       subled = devm_kcalloc(dev, count, sizeof(*subled), GFP_KERNEL);
-> +       if (!subled)
-> +               return -ENOMEM;
-> +       priv->mc_cdev.subled_info = subled;
-> +
-> +       for (i = 0; i < count; i++) {
-> +               struct led_classdev *led_cdev = priv->monochromatics[i];
-> +
-> +               subled[i].color_index = led_cdev->color;
-> +               /* configure the LED intensity to its maximum */
-> +               subled[i].intensity = max_brightness;
-> +       }
-> +
-> +       /* init the multicolor's LED class device */
-> +       cdev = &priv->mc_cdev.led_cdev;
-> +       cdev->flags = LED_CORE_SUSPENDRESUME;
-> +       cdev->brightness_set_blocking = led_mcg_set;
-> +       cdev->max_brightness = max_brightness;
-> +       cdev->color = LED_COLOR_ID_MULTI;
-> +       priv->mc_cdev.num_colors = count;
-> +
-> +       init_data.fwnode = dev_fwnode(dev);
-> +       ret = devm_led_classdev_multicolor_register_ext(dev, &priv->mc_cdev,
-> +                                                       &init_data);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret,
-> +                       "failed to register multicolor led for %s.\n",
-> +                       cdev->name);
-> +
-> +       ret = led_mcg_set(cdev, cdev->brightness);
-> +       if (ret)
-> +               return dev_err_probe(dev, ret,
-> +                                    "failed to set led value for %s.",
-> +                                    cdev->name);
-> +
-> +       for (i = 0; i < count; i++) {
-> +               struct led_classdev *led_cdev = priv->monochromatics[i];
-> +
-> +               /* Make the sysfs of the monochromatic LED read-only */
-> +               led_cdev->flags |= LED_SYSFS_DISABLE;
-> +       }
-> +
-> +       return 0;
-> +}
-
+diff --git a/drivers/leds/leds-bd2802.c b/drivers/leds/leds-bd2802.c
+index 2b6678f6bd56..cbbda0cccf46 100644
+--- a/drivers/leds/leds-bd2802.c
++++ b/drivers/leds/leds-bd2802.c
+@@ -451,9 +451,9 @@ static ssize_t bd2802_store_adv_conf(struct device *dev,
+ 		return -EINVAL;
+ 
+ 	down_write(&led->rwsem);
+-	if (!led->adf_on && !strncmp(buf, "on", 2))
++	if (!led->adf_on && sysfs_streq(buf, "on"))
+ 		bd2802_enable_adv_conf(led);
+-	else if (led->adf_on && !strncmp(buf, "off", 3))
++	else if (led->adf_on && sysfs_streq(buf, "off"))
+ 		bd2802_disable_adv_conf(led);
+ 	up_write(&led->rwsem);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
