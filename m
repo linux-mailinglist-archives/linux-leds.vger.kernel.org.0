@@ -2,57 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C29F5FEB6D
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Oct 2022 11:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2165FEE55
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Oct 2022 15:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbiJNJRK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Oct 2022 05:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58942 "EHLO
+        id S229544AbiJNNFs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Oct 2022 09:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiJNJRK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Oct 2022 05:17:10 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net (smtpout1.mo528.mail-out.ovh.net [46.105.34.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8672AF1A6;
-        Fri, 14 Oct 2022 02:17:08 -0700 (PDT)
-Received: from pro2.mail.ovh.net (unknown [10.108.4.248])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id 74978130870B3;
-        Fri, 14 Oct 2022 11:17:07 +0200 (CEST)
-Received: from [192.168.1.41] (88.161.25.233) by DAG1EX1.emp2.local
- (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 14 Oct
- 2022 11:17:06 +0200
-Message-ID: <fb513ce8-3c2a-6b67-7abe-1d5671b682d0@traphandler.com>
-Date:   Fri, 14 Oct 2022 11:17:06 +0200
+        with ESMTP id S229504AbiJNNFs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Oct 2022 09:05:48 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183242A24C;
+        Fri, 14 Oct 2022 06:05:46 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 273211C0025; Fri, 14 Oct 2022 15:05:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1665752745;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=9TRlQOWWegS83pe5Ve1QmWfEX50i/wCXwds1kTs2jhA=;
+        b=PbV7q3lfA/AYFwLtyb8NkiROnqkkKtUE3fNIhh1beLrnml3lg3hh816V8/7ysXaKusPkZO
+        EOfxgwHhd6BqovWkklziVbrnaR+pe7UwNRpOnESyFvnb45N0yV3RVWaM1XgKJn7N64IxUE
+        6IgPq8qImGjuC/Pbb2vVDs/UtwiKm+4=
+Date:   Fri, 14 Oct 2022 15:05:44 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v6.1-rc
+Message-ID: <20221014130544.GA10424@duo.ucw.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 1/6] devres: provide devm_krealloc_array()
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-CC:     <lee.jones@linaro.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <sven.schwermer@disruptive-technologies.com>,
-        <krzysztof.kozlowski+dt@linaro.org>, <johan+linaro@kernel.org>,
-        <marijn.suijten@somainline.org>, <bjorn.andersson@linaro.org>,
-        <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221007145641.3307075-1-jjhiblot@traphandler.com>
- <20221007145641.3307075-2-jjhiblot@traphandler.com>
- <CAHp75VcX2w9mdzbKtfRpc-4zrz8tp33Q5uHyBfds8MJfyeVYvQ@mail.gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-In-Reply-To: <CAHp75VcX2w9mdzbKtfRpc-4zrz8tp33Q5uHyBfds8MJfyeVYvQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [88.161.25.233]
-X-ClientProxiedBy: CAS4.emp2.local (172.16.1.4) To DAG1EX1.emp2.local
- (172.16.2.1)
-X-Ovh-Tracer-Id: 2959709381908183515
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekvddgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepieejfedukeevudfghfetudevhffhhfekjeeiudegtdehueevgfdvgeeivdeifedvnecukfhppeduvdejrddtrddtrddupdekkedrudeiuddrvdehrddvfeefnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrnhguhidrshhhvghvtghhvghnkhhosehgmhgrihhlrdgtohhmpdgsrhhglhessghguggvvhdrphhlpdhlvggvrdhjohhnvghssehlihhnrghrohdrohhrghdpphgrvhgvlhesuhgtfidrtgiipdhrohgshhdoughtsehkvghrnhgvlhdrohhrghdpshhvvghnrdhstghhfigvrhhmvghrseguihhsrhhuphhtihhvvgdqthgvtghhnhholhhoghhivghsrdgtohhmpdhkrhiihihsiihtohhfrdhkohiilhhofihskh
- hiodgutheslhhinhgrrhhordhorhhgpdhjohhhrghnodhlihhnrghroheskhgvrhhnvghlrdhorhhgpdhmrghrihhjnhdrshhuihhjthgvnhesshhomhgrihhnlhhinhgvrdhorhhgpdgsjhhorhhnrdgrnhguvghrshhsohhnsehlihhnrghrohdrohhrghdpjhgrtggvkhdrrghnrghsiigvfihskhhisehgmhgrihhlrdgtohhmpdhlihhnuhigqdhlvggushesvhhgvghrrdhkvghrnhgvlhdrohhrghdpuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhohedvkedpmhhouggvpehsmhhtphhouhht
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,43 +46,54 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
-On 07/10/2022 18:18, Andy Shevchenko wrote:
->>   {
->>          return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
->>   }
-> Missed blank line?
+--8t9RHnE3ZwKMSgU+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is no blank line after the definitions of devm_kzalloc(), 
-devm_kmalloc_array() and devm_kcalloc() defined just above.
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
 
->
->> +static inline void *devm_krealloc_array(struct device *dev,
->> +                                       void *p,
->> +                                       size_t new_n,
->> +                                       size_t new_size,
->> +                                       gfp_t flags)
->> +{
->> +       size_t bytes;
->> +
->> +       if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
->> +               return NULL;
-> I'm not sure it is what we want, but I have read the man realloc and found this:
->
->        ... reallocarray() fails safely in the case where the multiplication
->        would overflow.  If such an overflow occurs, reallocarray() returns NULL,
->        sets  errno  to  ENOMEM,  and leaves the original block of memory
->        unchanged.
->
-> So, perhaps you can add that this behaviour mimics reallocarray()?
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
 
-except for the errno part, that is what is does. I don't think we should 
-use ERR_PTR in this case as the other allocation functions don't use it.
+are available in the Git repository at:
 
->
->> +       return devm_krealloc(dev, p, bytes, flags);
->> +}
-> ...
->
-> All comments are minor, feel free to add
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-6.1-rc1
+
+for you to fetch changes up to 4d1632151bde847230a0bd2318806380d309655f:
+
+  leds: pca963: fix misleading indentation (2022-09-26 23:16:37 +0200)
+
+----------------------------------------------------------------
+This is very quiet release for LEDs, pca963 got blinking support and
+that's pretty much it.
+
+----------------------------------------------------------------
+Bernardo Rodrigues (1):
+      leds: pca963x: fix blink with hw acceleration
+
+Marek Vasut (1):
+      dt-bindings: leds: Document mmc trigger
+
+Pavel Machek (1):
+      leds: pca963: fix misleading indentation
+
+ Documentation/devicetree/bindings/leds/common.yaml | 39 ++++++++++++------=
+----
+ drivers/leds/leds-pca963x.c                        | 22 ++++++++++--
+ 2 files changed, 41 insertions(+), 20 deletions(-)
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--8t9RHnE3ZwKMSgU+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY0leqAAKCRAw5/Bqldv6
+8s1cAKCaZvXwLC+T6kkORuBk04wArQjxDwCgl3UsJuVlon0zN6exh7TnZgl5oqU=
+=VqEr
+-----END PGP SIGNATURE-----
+
+--8t9RHnE3ZwKMSgU+--
