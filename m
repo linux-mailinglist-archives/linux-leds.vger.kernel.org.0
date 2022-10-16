@@ -2,452 +2,449 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA845FFAEE
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Oct 2022 17:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C30A60002B
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Oct 2022 17:00:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiJOPWA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 15 Oct 2022 11:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
+        id S229734AbiJPPAc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 16 Oct 2022 11:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiJOPV7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 15 Oct 2022 11:21:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9133B49B75;
-        Sat, 15 Oct 2022 08:21:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 20EDAB80A06;
-        Sat, 15 Oct 2022 15:21:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F41BEC433D6;
-        Sat, 15 Oct 2022 15:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665847314;
-        bh=XqJ+Ya45bfBqmPUOP/AnWVAZhZKGA0M9nYrRHHLeszQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UozE3u5MaohXza2BTbnJqjAuVL2RasIstKUoBJma0PNislgH0ZrWpkUwMkLidePPv
-         JkXUSfE/ipII4wV2WjDGDv+9oHuPkl31aW5nslIYSWuWBVI8kSGdpULOulJFLdGVxB
-         ADTCFKHjrnBt+vq836JgnehqsS97kK3szF5MlLZp/FawZyFPeejRHAFoSHnwWmawh7
-         bcr+yQJNIpc3G1v4Y+AuiFySbbJAQAmsPd6sqg+7aM9YAJSMNGmdnnEnugbxsNVOjx
-         Uri+SXfBPA34hpl1pLOIIRM+nxbw382CZcIai2KjZxdMiX7e3GrJzy9YXMzEUXg67G
-         aqZX+o1qtENVw==
-Date:   Sat, 15 Oct 2022 16:22:17 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     pavel@ucw.cz, matthias.bgg@gmail.com, lars@metafoo.de,
-        andriy.shevchenko@linux.intel.com, chiaen_wu@richtek.com,
-        alice_chen@richtek.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, szunichen@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v14 1/3] iio: adc: mt6370: Add MediaTek MT6370 support
-Message-ID: <20221015162217.41c4c112@jic23-huawei>
-In-Reply-To: <81ec58ae89030e48508d6810396de2679c40d26c.1665488982.git.chiaen_wu@richtek.com>
-References: <cover.1665488982.git.chiaen_wu@richtek.com>
-        <81ec58ae89030e48508d6810396de2679c40d26c.1665488982.git.chiaen_wu@richtek.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        with ESMTP id S229687AbiJPPAa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 Oct 2022 11:00:30 -0400
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163C42793F
+        for <linux-leds@vger.kernel.org>; Sun, 16 Oct 2022 08:00:25 -0700 (PDT)
+Date:   Sun, 16 Oct 2022 15:00:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+        s=protonmail; t=1665932420; x=1666191620;
+        bh=j3uDQHZAb3xkZ02mboGAYcQAQzRk7CeakxvRlHiuQto=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID;
+        b=ivoV/1W1z5bW+NxVN7uMLymhd4gOn4IlDiARO8SsHss1W5SQJG9+C61b1iDyt8SWH
+         AP6XJ0/Izl+R2EPHcm1IJ4WPinH9HOUgGt7llUAOyBHwEFk+OZgppTPIJALB8lgK1g
+         qsUCv9PxJrDGTZLrezorZXW5o92Lf1J4DBix4CgjySyKmjLb5xbMzVLlacqSmRsWfi
+         61jth3SxXwXS/46P+emn96h5lXwQV6YrmIDS0vOfw+UEDAcjeKzszZ0+mZYxWGxldG
+         T38yeZq0P3TtYMYXcMNGpxscmS8eLBaA0b1FgDDidGamo5WLqeUpqmyPxnrqh64IDh
+         /3yChuYLe4Oxw==
+To:     pavel@ucw.cz, jansimon.moeller@gmx.de
+From:   Joseph Strauss <jstrauss16@proton.me>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joseph Strauss <jstrauss16@proton.me>
+Subject: [PATCH] Add multicolor support to BlinkM LED driver
+Message-ID: <20221016145827.8516-1-jstrauss16@proton.me>
+Feedback-ID: 52406082:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 11 Oct 2022 12:05:45 +0800
-ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+Added multicolor support to the BlinkM driver, making it easier to
+control from userspace. The BlinkM LED is a programmable RGB LED. The
+driver currently supports only the regular LED sysfs class, resulting in
+the creation of three distinct classes, one for red, green, and blue.
+The user then has to input three values into the three seperate
+brightness files within those classes. The multicolor LED framework
+makes the device easier to control with the multi_intensity file: the
+user can input three values at once to form a color, while still
+controlling the lightness with the brightness file.
 
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
-> 
-> MediaTek MT6370 is a SubPMIC consisting of a single cell battery charger
-> with ADC monitoring, RGB LEDs, dual channel flashlight, WLED backlight
-> driver, display bias voltage supply, one general purpose LDO, and the
-> USB Type-C & PD controller complies with the latest USB Type-C and PD
-> standards.
-> 
-> Add support for the MT6370 ADC driver for system monitoring, including
-> charger current, voltage, and temperature.
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+The main struct blinkm_led has changed slightly. A struct
+led_classdev_mc has been added to represent the multicolor sysfs class,
+and an additional struct led_classdev pointer has been added for
+convenience, which points to the struct led_classdev within struct
+led_classdev_mc. The struct led_classdev for the regular sysfs classes
+remain. Additionally, a field representing the multicolor LED has been
+added to the struct blinkm_data, seperate from the blinkm_leds[3] array.
 
-The header is now upstream so applied to the togreg branch of iio.git but
-only pushing that out as testing until I can rebase it on rc1.
+In the blinkm_probe function, the multicolor LED class is registered
+after the regular LED classes. The blinkm_set_brightness_mc() function
+had to be added to calculate the three color components and then set the
+fields of the blinkm_data structure accordingly.
 
-For now it's based on somewhere random, mid merge window.
+Signed-off-by: Joseph Strauss <jstrauss16@proton.me>
 
-Thanks,
+---
+ Documentation/leds/leds-blinkm.rst |  24 ++++-
+ drivers/leds/Kconfig               |   1 +
+ drivers/leds/leds-blinkm.c         | 154 ++++++++++++++++++++++++-----
+ 3 files changed, 151 insertions(+), 28 deletions(-)
 
-Jonathan
+diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-b=
+linkm.rst
+index c74b5bc877b1..3f5dbd5e97b0 100644
+--- a/Documentation/leds/leds-blinkm.rst
++++ b/Documentation/leds/leds-blinkm.rst
+@@ -13,9 +13,27 @@ The device accepts RGB and HSB color values through sepa=
+rate commands.
+ Also you can store blinking sequences as "scripts" in
+ the controller and run them. Also fading is an option.
 
-> ---
-> 
-> v14
-> - Revise the scale value of 'VBUSDIV2' in 'mt6370_adc_read_scale()'
->   (50 --> 10)
-> - Revise the return value of 'TEMP_JC' in 'mt6370_adc_read_scale()'
->   (return IIO_VAL_FRACTIONAL; --> return IIO_VAL_INT;)
-> ---
->  drivers/iio/adc/Kconfig      |  12 ++
->  drivers/iio/adc/Makefile     |   1 +
->  drivers/iio/adc/mt6370-adc.c | 305 +++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 318 insertions(+)
->  create mode 100644 drivers/iio/adc/mt6370-adc.c
-> 
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 791612c..f4fdca8 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -752,6 +752,18 @@ config MEDIATEK_MT6360_ADC
->  	  is used in smartphones and tablets and supports a 11 channel
->  	  general purpose ADC.
->  
-> +config MEDIATEK_MT6370_ADC
-> +	tristate "MediaTek MT6370 ADC driver"
-> +	depends on MFD_MT6370
-> +	help
-> +	  Say yes here to enable MediaTek MT6370 ADC support.
-> +
-> +	  This ADC driver provides 9 channels for system monitoring (charger
-> +	  current, voltage, and temperature).
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called "mt6370-adc".
-> +
->  config MEDIATEK_MT6577_AUXADC
->  	tristate "MediaTek AUXADC driver"
->  	depends on ARCH_MEDIATEK || COMPILE_TEST
-> diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
-> index 46caba7..953fada 100644
-> --- a/drivers/iio/adc/Makefile
-> +++ b/drivers/iio/adc/Makefile
-> @@ -69,6 +69,7 @@ obj-$(CONFIG_MCP320X) += mcp320x.o
->  obj-$(CONFIG_MCP3422) += mcp3422.o
->  obj-$(CONFIG_MCP3911) += mcp3911.o
->  obj-$(CONFIG_MEDIATEK_MT6360_ADC) += mt6360-adc.o
-> +obj-$(CONFIG_MEDIATEK_MT6370_ADC) += mt6370-adc.o
->  obj-$(CONFIG_MEDIATEK_MT6577_AUXADC) += mt6577_auxadc.o
->  obj-$(CONFIG_MEN_Z188_ADC) += men_z188_adc.o
->  obj-$(CONFIG_MESON_SARADC) += meson_saradc.o
-> diff --git a/drivers/iio/adc/mt6370-adc.c b/drivers/iio/adc/mt6370-adc.c
-> new file mode 100644
-> index 0000000..bc62e5a
-> --- /dev/null
-> +++ b/drivers/iio/adc/mt6370-adc.c
-> @@ -0,0 +1,305 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2022 Richtek Technology Corp.
-> + *
-> + * Author: ChiaEn Wu <chiaen_wu@richtek.com>
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/sysfs.h>
-> +#include <linux/units.h>
-> +
-> +#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
-> +
-> +#define MT6370_REG_CHG_CTRL3		0x113
-> +#define MT6370_REG_CHG_CTRL7		0x117
-> +#define MT6370_REG_CHG_ADC		0x121
-> +#define MT6370_REG_ADC_DATA_H		0x14C
-> +
-> +#define MT6370_ADC_START_MASK		BIT(0)
-> +#define MT6370_ADC_IN_SEL_MASK		GENMASK(7, 4)
-> +#define MT6370_AICR_ICHG_MASK		GENMASK(7, 2)
-> +
-> +#define MT6370_AICR_100_mA		0x0
-> +#define MT6370_AICR_150_mA		0x1
-> +#define MT6370_AICR_200_mA		0x2
-> +#define MT6370_AICR_250_mA		0x3
-> +#define MT6370_AICR_300_mA		0x4
-> +#define MT6370_AICR_350_mA		0x5
-> +
-> +#define MT6370_ICHG_100_mA		0x0
-> +#define MT6370_ICHG_200_mA		0x1
-> +#define MT6370_ICHG_300_mA		0x2
-> +#define MT6370_ICHG_400_mA		0x3
-> +#define MT6370_ICHG_500_mA		0x4
-> +#define MT6370_ICHG_600_mA		0x5
-> +#define MT6370_ICHG_700_mA		0x6
-> +#define MT6370_ICHG_800_mA		0x7
-> +
-> +#define ADC_CONV_TIME_MS		35
-> +#define ADC_CONV_POLLING_TIME_US	1000
-> +
-> +struct mt6370_adc_data {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	/*
-> +	 * This mutex lock is for preventing the different ADC channels
-> +	 * from being read at the same time.
-> +	 */
-> +	struct mutex adc_lock;
-> +};
-> +
-> +static int mt6370_adc_read_channel(struct mt6370_adc_data *priv, int chan,
-> +				   unsigned long addr, int *val)
-> +{
-> +	unsigned int reg_val;
-> +	__be16 be_val;
-> +	int ret;
-> +
-> +	mutex_lock(&priv->adc_lock);
-> +
-> +	reg_val = MT6370_ADC_START_MASK |
-> +		  FIELD_PREP(MT6370_ADC_IN_SEL_MASK, addr);
-> +	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, reg_val);
-> +	if (ret)
-> +		goto adc_unlock;
-> +
-> +	msleep(ADC_CONV_TIME_MS);
-> +
-> +	ret = regmap_read_poll_timeout(priv->regmap,
-> +				       MT6370_REG_CHG_ADC, reg_val,
-> +				       !(reg_val & MT6370_ADC_START_MASK),
-> +				       ADC_CONV_POLLING_TIME_US,
-> +				       ADC_CONV_TIME_MS * MILLI * 3);
-> +	if (ret) {
-> +		dev_err(priv->dev, "Failed to read ADC register (%d)\n", ret);
-> +		goto adc_unlock;
-> +	}
-> +
-> +	ret = regmap_raw_read(priv->regmap, MT6370_REG_ADC_DATA_H,
-> +			      &be_val, sizeof(be_val));
-> +	if (ret)
-> +		goto adc_unlock;
-> +
-> +	*val = be16_to_cpu(be_val);
-> +	ret = IIO_VAL_INT;
-> +
-> +adc_unlock:
-> +	mutex_unlock(&priv->adc_lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
-> +				 int chan, int *val1, int *val2)
-> +{
-> +	unsigned int reg_val;
-> +	int ret;
-> +
-> +	switch (chan) {
-> +	case MT6370_CHAN_VBAT:
-> +	case MT6370_CHAN_VSYS:
-> +	case MT6370_CHAN_CHG_VDDP:
-> +		*val1 = 5;
-> +		return IIO_VAL_INT;
-> +	case MT6370_CHAN_IBUS:
-> +		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL3, &reg_val);
-> +		if (ret)
-> +			return ret;
-> +
-> +		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-> +		switch (reg_val) {
-> +		case MT6370_AICR_100_mA:
-> +		case MT6370_AICR_150_mA:
-> +		case MT6370_AICR_200_mA:
-> +		case MT6370_AICR_250_mA:
-> +		case MT6370_AICR_300_mA:
-> +		case MT6370_AICR_350_mA:
-> +			*val1 = 3350;
-> +			break;
-> +		default:
-> +			*val1 = 5000;
-> +			break;
-> +		}
-> +
-> +		*val2 = 100;
-> +
-> +		return IIO_VAL_FRACTIONAL;
-> +	case MT6370_CHAN_IBAT:
-> +		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL7, &reg_val);
-> +		if (ret)
-> +			return ret;
-> +
-> +		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-> +		switch (reg_val) {
-> +		case MT6370_ICHG_100_mA:
-> +		case MT6370_ICHG_200_mA:
-> +		case MT6370_ICHG_300_mA:
-> +		case MT6370_ICHG_400_mA:
-> +			*val1 = 2375;
-> +			break;
-> +		case MT6370_ICHG_500_mA:
-> +		case MT6370_ICHG_600_mA:
-> +		case MT6370_ICHG_700_mA:
-> +		case MT6370_ICHG_800_mA:
-> +			*val1 = 2680;
-> +			break;
-> +		default:
-> +			*val1 = 5000;
-> +			break;
-> +		}
-> +
-> +		*val2 = 100;
-> +
-> +		return IIO_VAL_FRACTIONAL;
-> +	case MT6370_CHAN_VBUSDIV5:
-> +		*val1 = 25;
-> +		return IIO_VAL_INT;
-> +	case MT6370_CHAN_VBUSDIV2:
-> +		*val1 = 10;
-> +		return IIO_VAL_INT;
-> +	case MT6370_CHAN_TS_BAT:
-> +		*val1 = 25;
-> +		*val2 = 10000;
-> +		return IIO_VAL_FRACTIONAL;
-> +	case MT6370_CHAN_TEMP_JC:
-> +		*val1 = 2000;
-> +		return IIO_VAL_INT;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int mt6370_adc_read_offset(struct mt6370_adc_data *priv,
-> +				  int chan, int *val)
-> +{
-> +	*val = -20;
-> +
-> +	return IIO_VAL_INT;
-> +}
-> +
-> +static int mt6370_adc_read_raw(struct iio_dev *iio_dev,
-> +			       const struct iio_chan_spec *chan,
-> +			       int *val, int *val2, long mask)
-> +{
-> +	struct mt6370_adc_data *priv = iio_priv(iio_dev);
-> +
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_RAW:
-> +		return mt6370_adc_read_channel(priv, chan->channel,
-> +					       chan->address, val);
-> +	case IIO_CHAN_INFO_SCALE:
-> +		return mt6370_adc_read_scale(priv, chan->channel, val, val2);
-> +	case IIO_CHAN_INFO_OFFSET:
-> +		return mt6370_adc_read_offset(priv, chan->channel, val);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
-> +	[MT6370_CHAN_VBUSDIV5] = "vbusdiv5",
-> +	[MT6370_CHAN_VBUSDIV2] = "vbusdiv2",
-> +	[MT6370_CHAN_VSYS] = "vsys",
-> +	[MT6370_CHAN_VBAT] = "vbat",
-> +	[MT6370_CHAN_TS_BAT] = "ts_bat",
-> +	[MT6370_CHAN_IBUS] = "ibus",
-> +	[MT6370_CHAN_IBAT] = "ibat",
-> +	[MT6370_CHAN_CHG_VDDP] = "chg_vddp",
-> +	[MT6370_CHAN_TEMP_JC] = "temp_jc",
-> +};
-> +
-> +static int mt6370_adc_read_label(struct iio_dev *iio_dev,
-> +				 struct iio_chan_spec const *chan, char *label)
-> +{
-> +	return sysfs_emit(label, "%s\n", mt6370_channel_labels[chan->channel]);
-> +}
-> +
-> +static const struct iio_info mt6370_adc_iio_info = {
-> +	.read_raw = mt6370_adc_read_raw,
-> +	.read_label = mt6370_adc_read_label,
-> +};
-> +
-> +#define MT6370_ADC_CHAN(_idx, _type, _addr, _extra_info) {	\
-> +	.type = _type,						\
-> +	.channel = MT6370_CHAN_##_idx,				\
-> +	.address = _addr,					\
-> +	.scan_index = MT6370_CHAN_##_idx,			\
-> +	.indexed = 1,						\
-> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |		\
-> +			      BIT(IIO_CHAN_INFO_SCALE) |	\
-> +			      _extra_info,			\
-> +}
-> +
-> +static const struct iio_chan_spec mt6370_adc_channels[] = {
-> +	MT6370_ADC_CHAN(VBUSDIV5, IIO_VOLTAGE, 1, 0),
-> +	MT6370_ADC_CHAN(VBUSDIV2, IIO_VOLTAGE, 2, 0),
-> +	MT6370_ADC_CHAN(VSYS, IIO_VOLTAGE, 3, 0),
-> +	MT6370_ADC_CHAN(VBAT, IIO_VOLTAGE, 4, 0),
-> +	MT6370_ADC_CHAN(TS_BAT, IIO_VOLTAGE, 6, 0),
-> +	MT6370_ADC_CHAN(IBUS, IIO_CURRENT, 8, 0),
-> +	MT6370_ADC_CHAN(IBAT, IIO_CURRENT, 9, 0),
-> +	MT6370_ADC_CHAN(CHG_VDDP, IIO_VOLTAGE, 11, 0),
-> +	MT6370_ADC_CHAN(TEMP_JC, IIO_TEMP, 12, BIT(IIO_CHAN_INFO_OFFSET)),
-> +};
-> +
-> +static int mt6370_adc_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct mt6370_adc_data *priv;
-> +	struct iio_dev *indio_dev;
-> +	struct regmap *regmap;
-> +	int ret;
-> +
-> +	regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +	if (!regmap)
-> +		return dev_err_probe(dev, -ENODEV, "Failed to get regmap\n");
-> +
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*priv));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	priv = iio_priv(indio_dev);
-> +	priv->dev = dev;
-> +	priv->regmap = regmap;
-> +	mutex_init(&priv->adc_lock);
-> +
-> +	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, 0);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to reset ADC\n");
-> +
-> +	indio_dev->name = "mt6370-adc";
-> +	indio_dev->info = &mt6370_adc_iio_info;
-> +	indio_dev->modes = INDIO_DIRECT_MODE;
-> +	indio_dev->channels = mt6370_adc_channels;
-> +	indio_dev->num_channels = ARRAY_SIZE(mt6370_adc_channels);
-> +
-> +	return devm_iio_device_register(dev, indio_dev);
-> +}
-> +
-> +static const struct of_device_id mt6370_adc_of_id[] = {
-> +	{ .compatible = "mediatek,mt6370-adc", },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mt6370_adc_of_id);
-> +
-> +static struct platform_driver mt6370_adc_driver = {
-> +	.driver = {
-> +		.name = "mt6370-adc",
-> +		.of_match_table = mt6370_adc_of_id,
-> +	},
-> +	.probe = mt6370_adc_probe,
-> +};
-> +module_platform_driver(mt6370_adc_driver);
-> +
-> +MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
-> +MODULE_DESCRIPTION("MT6370 ADC Driver");
-> +MODULE_LICENSE("GPL v2");
+-The interface this driver provides is 2-fold:
++The interface this driver provides is 3-fold:
+
+-a) LED class interface for use with triggers
++a) LED multicolor class interface for use with triggers
++#######################################################
++
++The registration follows the scheme::
++
++  blinkm-<i2c-bus-nr>-<i2c-device-nr>-multi
++
++  $ ls -h /sys/class/leds/blinkm-1-9-multi
++  brightness  device  max_brightness  multi_index  multi_intensity  power =
+ subsystem  trigger  uevent
++
++The order in which to write the intensity values can be found in multi_ind=
+ex.
++Exactly three values between 0 and 255 must be written to multi_intensity =
+to change the color::
++
++  $ echo 255 100 50 > multi_intensity
++
++The overall brightness of the color that you choose can also be changed by
++writing a value between 0 and 255 to the brightness file.
++
++b) LED class interface for use with triggers
+ ############################################
+
+ The registration follows the scheme::
+@@ -50,7 +68,7 @@ E.g.::
+   $
+
+
+-b) Sysfs group to control rgb, fade, hsb, scripts ...
++c) Sysfs group to control rgb, fade, hsb, scripts ...
+ #####################################################
+
+ This extended interface is available as folder blinkm
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 499d0f215a8b..710a34e9f398 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -731,6 +731,7 @@ comment "LED driver for blink(1) USB RGB LED is under S=
+pecial HID drivers (HID_T
+ config LEDS_BLINKM
+ =09tristate "LED support for the BlinkM I2C RGB LED"
+ =09depends on LEDS_CLASS
++=09depends on LEDS_CLASS_MULTICOLOR
+ =09depends on I2C
+ =09help
+ =09  This option enables support for the BlinkM RGB LED connected
+diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+index bd7d0d5cf3b6..afebe2b12ad5 100644
+--- a/drivers/leds/leds-blinkm.c
++++ b/drivers/leds/leds-blinkm.c
+@@ -15,6 +15,9 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/leds.h>
+ #include <linux/delay.h>
++#include <linux/led-class-multicolor.h>
++
++#define NUM_LEDS 3
+
+ /* Addresses to scan - BlinkM is on 0x09 by default*/
+ static const unsigned short normal_i2c[] =3D { 0x09, I2C_CLIENT_END };
+@@ -22,19 +25,26 @@ static const unsigned short normal_i2c[] =3D { 0x09, I2=
+C_CLIENT_END };
+ static int blinkm_transfer_hw(struct i2c_client *client, int cmd);
+ static int blinkm_test_run(struct i2c_client *client);
+
++/* Contains data structures for both the color-seperated sysfs classes, an=
+d the new multicolor class */
+ struct blinkm_led {
+ =09struct i2c_client *i2c_client;
+-=09struct led_classdev led_cdev;
++=09struct led_classdev monochrome_led_cdev;
++=09/* points to struct led_classdev inside of struct led_classdev_mc */
++=09struct led_classdev *led_cdev;
++=09struct led_classdev_mc mcled_cdev;
+ =09int id;
+ };
+
+-#define cdev_to_blmled(c)          container_of(c, struct blinkm_led, led_=
+cdev)
++#define monochrome_led_cdev_to_blmled(c)=09container_of(c, struct blinkm_l=
+ed, monochrome_led_cdev)
++#define mcled_cdev_to_led(c)=09=09=09=09container_of(c, struct blinkm_led,=
+ mcled_cdev)
+
+ struct blinkm_data {
+ =09struct i2c_client *i2c_client;
+ =09struct mutex update_lock;
+ =09/* used for led class interface */
++=09struct blinkm_led mc_blinkm_led;
+ =09struct blinkm_led blinkm_leds[3];
++
+ =09/* used for "blinkm" sysfs interface */
+ =09u8 red;=09=09=09/* color red */
+ =09u8 green;=09=09/* color green */
+@@ -260,9 +270,9 @@ static ssize_t test_show(struct device *dev, struct dev=
+ice_attribute *attr,
+ static ssize_t test_store(struct device *dev, struct device_attribute *att=
+r,
+ =09=09=09  const char *buf, size_t count)
+ {
+-
+ =09struct i2c_client *client;
+ =09int ret;
++
+ =09client =3D to_i2c_client(dev);
+
+ =09/*test */
+@@ -317,6 +327,7 @@ static int blinkm_read(struct i2c_client *client, int c=
+md, u8 *arg)
+ =09int result;
+ =09int i;
+ =09int retlen =3D blinkm_cmds[cmd].nr_ret;
++
+ =09for (i =3D 0; i < retlen; i++) {
+ =09=09/* repeat for retlen */
+ =09=09result =3D i2c_smbus_read_byte(client);
+@@ -419,11 +430,53 @@ static int blinkm_transfer_hw(struct i2c_client *clie=
+nt, int cmd)
+ =09return 0;
+ }
+
++static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
++=09=09=09=09 enum led_brightness value)
++{
++=09struct led_classdev_mc *mcled_cdev;
++=09struct blinkm_led *led;
++=09struct blinkm_data *data;
++=09int i;
++
++=09mcled_cdev =3D lcdev_to_mccdev(led_cdev);
++=09led =3D mcled_cdev_to_led(mcled_cdev);
++=09data =3D i2c_get_clientdata(led->i2c_client);
++
++=09led_mc_calc_color_components(mcled_cdev, value);
++
++=09for (i =3D 0; i < NUM_LEDS; i++) {
++=09=09switch (i) {
++=09=09case RED:
++=09=09=09if (data->next_red =3D=3D (u8) mcled_cdev->subled_info[i].brightn=
+ess)
++=09=09=09=09break;
++=09=09=09data->next_red =3D (u8) mcled_cdev->subled_info[i].brightness;
++=09=09=09break;
++=09=09case GREEN:
++=09=09=09if (data->next_green =3D=3D (u8) mcled_cdev->subled_info[i].brigh=
+tness)
++=09=09=09=09break;
++=09=09=09data->next_green =3D (u8) mcled_cdev->subled_info[i].brightness;
++=09=09=09break;
++=09=09case BLUE:
++=09=09=09if (data->next_blue =3D=3D (u8) mcled_cdev->subled_info[i].bright=
+ness)
++=09=09=09=09break;
++=09=09=09data->next_blue =3D (u8) mcled_cdev->subled_info[i].brightness;
++=09=09=09break;
++=09=09}
++=09}
++=09blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
++=09dev_dbg(&led->i2c_client->dev,
++=09=09=09"# DONE # next_red =3D %d, next_green =3D %d,"
++=09=09=09" next_blue =3D %d\n",
++=09=09=09data->next_red, data->next_green,
++=09=09=09data->next_blue);
++=09return 0;
++}
++
+ static int blinkm_led_common_set(struct led_classdev *led_cdev,
+ =09=09=09=09 enum led_brightness value, int color)
+ {
+ =09/* led_brightness is 0, 127 or 255 - we just use it here as-is */
+-=09struct blinkm_led *led =3D cdev_to_blmled(led_cdev);
++=09struct blinkm_led *led =3D monochrome_led_cdev_to_blmled(led_cdev);
+ =09struct blinkm_data *data =3D i2c_get_clientdata(led->i2c_client);
+
+ =09switch (color) {
+@@ -569,7 +622,11 @@ static int blinkm_probe(struct i2c_client *client,
+ =09=09=09const struct i2c_device_id *id)
+ {
+ =09struct blinkm_data *data;
+-=09struct blinkm_led *led[3];
++=09/* For multicolor support */
++=09struct blinkm_led *mc_led;
++=09struct mc_subled *mc_led_info;
++=09/* 3 seperate classes for red, green, and blue respectively */
++=09struct blinkm_led *leds[3];
+ =09int err, i;
+ =09char blinkm_led_name[28];
+
+@@ -580,6 +637,12 @@ static int blinkm_probe(struct i2c_client *client,
+ =09=09goto exit;
+ =09}
+
++=09mc_led_info =3D devm_kmalloc_array(&client->dev, 3, sizeof(*mc_led_info=
+),
++=09=09=09=09=09GFP_KERNEL | __GFP_ZERO);
++=09if (!mc_led_info) {
++=09=09err =3D -ENOMEM;
++=09=09goto exit;
++=09}
+ =09data->i2c_addr =3D 0x08;
+ =09/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
+ =09data->fw_ver =3D 0xfe;
+@@ -598,28 +661,30 @@ static int blinkm_probe(struct i2c_client *client,
+ =09=09goto exit;
+ =09}
+
++
++=09/* Register red, green, and blue sysfs classes */
+ =09for (i =3D 0; i < 3; i++) {
+ =09=09/* RED =3D 0, GREEN =3D 1, BLUE =3D 2 */
+-=09=09led[i] =3D &data->blinkm_leds[i];
+-=09=09led[i]->i2c_client =3D client;
+-=09=09led[i]->id =3D i;
+-=09=09led[i]->led_cdev.max_brightness =3D 255;
+-=09=09led[i]->led_cdev.flags =3D LED_CORE_SUSPENDRESUME;
++=09=09leds[i] =3D &data->blinkm_leds[i];
++=09=09leds[i]->i2c_client =3D client;
++=09=09leds[i]->id =3D i;
++=09=09leds[i]->monochrome_led_cdev.max_brightness =3D 255;
++=09=09leds[i]->monochrome_led_cdev.flags =3D LED_CORE_SUSPENDRESUME;
+ =09=09switch (i) {
+ =09=09case RED:
+ =09=09=09snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+ =09=09=09=09=09 "blinkm-%d-%d-red",
+ =09=09=09=09=09 client->adapter->nr,
+ =09=09=09=09=09 client->addr);
+-=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
+-=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
++=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
++=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
+ =09=09=09=09=09=09=09blinkm_led_red_set;
+ =09=09=09err =3D led_classdev_register(&client->dev,
+-=09=09=09=09=09=09    &led[i]->led_cdev);
++=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
+ =09=09=09if (err < 0) {
+ =09=09=09=09dev_err(&client->dev,
+ =09=09=09=09=09"couldn't register LED %s\n",
+-=09=09=09=09=09led[i]->led_cdev.name);
++=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
+ =09=09=09=09goto failred;
+ =09=09=09}
+ =09=09=09break;
+@@ -628,15 +693,15 @@ static int blinkm_probe(struct i2c_client *client,
+ =09=09=09=09=09 "blinkm-%d-%d-green",
+ =09=09=09=09=09 client->adapter->nr,
+ =09=09=09=09=09 client->addr);
+-=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
+-=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
++=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
++=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
+ =09=09=09=09=09=09=09blinkm_led_green_set;
+ =09=09=09err =3D led_classdev_register(&client->dev,
+-=09=09=09=09=09=09    &led[i]->led_cdev);
++=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
+ =09=09=09if (err < 0) {
+ =09=09=09=09dev_err(&client->dev,
+ =09=09=09=09=09"couldn't register LED %s\n",
+-=09=09=09=09=09led[i]->led_cdev.name);
++=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
+ =09=09=09=09goto failgreen;
+ =09=09=09}
+ =09=09=09break;
+@@ -645,34 +710,72 @@ static int blinkm_probe(struct i2c_client *client,
+ =09=09=09=09=09 "blinkm-%d-%d-blue",
+ =09=09=09=09=09 client->adapter->nr,
+ =09=09=09=09=09 client->addr);
+-=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
+-=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
++=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
++=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
+ =09=09=09=09=09=09=09blinkm_led_blue_set;
+ =09=09=09err =3D led_classdev_register(&client->dev,
+-=09=09=09=09=09=09    &led[i]->led_cdev);
++=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
+ =09=09=09if (err < 0) {
+ =09=09=09=09dev_err(&client->dev,
+ =09=09=09=09=09"couldn't register LED %s\n",
+-=09=09=09=09=09led[i]->led_cdev.name);
++=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
+ =09=09=09=09goto failblue;
+ =09=09=09}
+ =09=09=09break;
+ =09=09}=09=09/* end switch */
+ =09}=09=09=09/* end for */
+
++
++
++=09/* Register multicolor sysfs class */
++=09mc_led =3D &data->mc_blinkm_led;
++=09mc_led->i2c_client =3D client;
++=09mc_led->id =3D 4;
++
++=09mc_led_info[0].color_index =3D LED_COLOR_ID_RED;
++=09mc_led_info[0].channel =3D 0;
++=09mc_led_info[1].color_index =3D LED_COLOR_ID_GREEN;
++=09mc_led_info[1].channel =3D 1;
++=09mc_led_info[2].color_index =3D LED_COLOR_ID_BLUE;
++=09mc_led_info[2].channel =3D 2;
++=09mc_led->mcled_cdev.subled_info =3D mc_led_info;
++=09mc_led->mcled_cdev.num_colors =3D NUM_LEDS;
++
++=09mc_led->led_cdev =3D &mc_led->mcled_cdev.led_cdev;
++=09mc_led->led_cdev->brightness =3D 255;
++=09mc_led->led_cdev->max_brightness =3D 255;
++=09mc_led->led_cdev->flags =3D LED_CORE_SUSPENDRESUME;
++=09snprintf(blinkm_led_name, sizeof(blinkm_led_name),
++=09=09 "blinkm-%d-%d-multi",
++=09=09 client->adapter->nr,
++=09=09 client->addr);
++=09mc_led->led_cdev->name =3D blinkm_led_name;
++=09mc_led->led_cdev->brightness_set_blocking =3D
++=09=09=09=09=09blinkm_set_mc_brightness;
++
++=09err =3D led_classdev_multicolor_register(&client->dev, &mc_led->mcled_c=
+dev);
++=09if (err < 0) {
++=09=09dev_err(&client->dev, "couldn't register LED %s\n",
++=09=09=09=09mc_led->led_cdev->name);
++=09=09goto failmulti;
++=09}
+ =09/* Initialize the blinkm */
+ =09blinkm_init_hw(client);
+
+ =09return 0;
+
++failmulti:
++=09led_classdev_unregister(&leds[BLUE]->monochrome_led_cdev);
++
+ failblue:
+-=09led_classdev_unregister(&led[GREEN]->led_cdev);
++=09led_classdev_unregister(&leds[GREEN]->monochrome_led_cdev);
+
+ failgreen:
+-=09led_classdev_unregister(&led[RED]->led_cdev);
++=09led_classdev_unregister(&leds[RED]->monochrome_led_cdev);
+
+ failred:
+ =09sysfs_remove_group(&client->dev.kobj, &blinkm_group);
++
+ exit:
+ =09return err;
+ }
+@@ -684,8 +787,9 @@ static int blinkm_remove(struct i2c_client *client)
+ =09int i;
+
+ =09/* make sure no workqueue entries are pending */
++=09led_classdev_unregister(&data->mc_blinkm_led.mcled_cdev.led_cdev);
+ =09for (i =3D 0; i < 3; i++)
+-=09=09led_classdev_unregister(&data->blinkm_leds[i].led_cdev);
++=09=09led_classdev_unregister(&data->blinkm_leds[i].monochrome_led_cdev);
+
+ =09/* reset rgb */
+ =09data->next_red =3D 0x00;
+--
+2.37.2
+
 
