@@ -2,107 +2,178 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11F8360522A
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Oct 2022 23:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E987605759
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Oct 2022 08:33:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230461AbiJSVoG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Oct 2022 17:44:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46870 "EHLO
+        id S230137AbiJTGdh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Oct 2022 02:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbiJSVoG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Oct 2022 17:44:06 -0400
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8EEF19B65A
-        for <linux-leds@vger.kernel.org>; Wed, 19 Oct 2022 14:44:04 -0700 (PDT)
-Received: from sopl295.home ([109.220.248.156])
-        by smtp.orange.fr with ESMTPA
-        id lGNoo1NB2g7y2lGNpocFOd; Wed, 19 Oct 2022 23:13:51 +0200
-X-ME-Helo: sopl295.home
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 19 Oct 2022 23:13:51 +0200
-X-ME-IP: 109.220.248.156
-From:   Robert Jarzmik <jarzmik.robert@orange.fr>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        stern@rowland.harvard.edu, alexandre.belloni@bootlin.com,
-        brgl@bgdev.pl, damien.lemoal@opensource.wdc.com,
-        dmitry.torokhov@gmail.com, linux@dominikbrodowski.net,
-        balbi@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
-        perex@perex.cz, jingoohan1@gmail.com, lee@kernel.org,
-        kernel@wantstofly.org, lgirdwood@gmail.com,
-        linus.walleij@linaro.org, marek.vasut@gmail.com,
-        broonie@kernel.org, mkpetch@internode.on.net,
-        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
-        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
-        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
-        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
-        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
-        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
-In-Reply-To: <20221019161831.3864786-1-arnd@kernel.org> (Arnd Bergmann's
-        message of "Wed, 19 Oct 2022 18:17:53 +0200")
-References: <20221019161831.3864786-1-arnd@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Wed, 19 Oct 2022 23:13:48 +0200
-Message-ID: <m2r0z3h5yr.fsf@sopl295.home>
+        with ESMTP id S229615AbiJTGdg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Oct 2022 02:33:36 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AAB215B303;
+        Wed, 19 Oct 2022 23:33:34 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29K5oH7Z009106;
+        Thu, 20 Oct 2022 06:33:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0UYnmYoL+d89Orz6iaNY/DjHRjYVyMl063fYMgg13s8=;
+ b=fsIaTrsH3vzcn1Zowyt/TwOq4hYJYTTHafg/yS9Ai0l/tJ/wCGSaMKVMT/KSRO4k9vCw
+ Yg1CgIqwQpM1+WmXI7eYj2KAbgwoO5NFxCZ0mojOm15Q6z+FrTOloqy4hFbi+/eZjwTy
+ kvSfBMPqWCYHrcD7ydKDCcDrN+1Ok28pRU+zXKeNS32saij0t1AnBgNI9jprb6HTKuLk
+ SzFFDW4hTXIZDowsBXGiW9CL9XDqp9aTSjX5D7R17L79CDw77A/yUjkk9HCKrxum0YJh
+ rdx458Guk/7/6aeT3Rp3fmoGuVfSVnGtjmtGyxSA0yXvQP3tkwC6nCdjYNECXSpEPOWx iA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ka6brukhj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Oct 2022 06:33:24 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29K6XMR2011139
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Oct 2022 06:33:22 GMT
+Received: from [10.239.155.106] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 19 Oct
+ 2022 23:33:19 -0700
+Message-ID: <f1ae1f37-ab94-d0ae-289f-08d8b1cae772@quicinc.com>
+Date:   Thu, 20 Oct 2022 14:33:16 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v3 2/2] dt-bindings: add bindings for QCOM flash LED
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Konrad Dybcio" <konrad.dybcio@somainline.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>
+References: <20221018014024.948731-1-quic_fenglinw@quicinc.com>
+ <20221018014024.948731-3-quic_fenglinw@quicinc.com>
+ <b335e842-0dd9-851a-9876-8ee4711609c0@linaro.org>
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <b335e842-0dd9-851a-9876-8ee4711609c0@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 5_GkBqJhkKvSeCvFarFHW0Z2lzvFH2rt
+X-Proofpoint-GUID: 5_GkBqJhkKvSeCvFarFHW0Z2lzvFH2rt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-20_01,2022-10-19_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210200037
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
 
-> From: Arnd Bergmann <arnd@arndb.de>
-...zip...
 
-> A good number of drivers become impossible to select after this, so
-> each of these also get dropped. I'm including the driver patches in the
-> series here and can either merge them through the soc tree, or they
-> can get picked up by the individual subsystem maintainers. Since both
-> the platform and the drivers get removed, the order should not matter.
-This part is a bit ... bothering.
-I at least identified these :
->  delete mode 100644 drivers/input/touchscreen/wm9705.c
->  delete mode 100644 drivers/input/touchscreen/wm9712.c
->  delete mode 100644 drivers/input/touchscreen/wm9713.c
->  delete mode 100644 drivers/input/touchscreen/wm97xx-core.c
->  delete mode 100644 drivers/mfd/wm97xx-core.c
->  delete mode 100644 sound/ac97/bus.c
->  delete mode 100644 sound/ac97/codec.c
->  delete mode 100644 sound/ac97/snd_ac97_compat.c
-
-For the existing platforms working with devicetree support (mioa701 for
-example), the wm9713 was properly used, providing both sound support and input
-touchscreen.
-So was the a97 part, providing a framework to make the wm9713 work.
-
-So I'm wondering how the choice to chop these drivers was done, and it is
-necessary to remove them. If so, maybe pxa support in the kernel should be
-removed all together, as people playing with it loose part of the working DT
-platforms they had.
-
-As for the removal of defconfigs and arch-pxa, sure, this was PXA's destiny.
-
-Cheers.
-
---
-Robert
-
-PS: If this mail is sent twice, sorry in advance, my mailer is a bad mood
-lately.
+On 2022/10/19 21:36, Krzysztof Kozlowski wrote:
+> On 17/10/2022 21:40, Fenglin Wu wrote:
+>> Add binding document for flash LED module inside Qualcomm Technologies,
+>> Inc. PMICs.
+> 
+> Use subject prefixes matching the subsystem (git log --oneline -- ...).
+> 
+> This means:
+> 1. you miss subsystem prefix
+> 2. drop redundant second "bindings"
+> 
+>>
+>> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
+>> ---
+>>   .../bindings/leds/qcom,spmi-flash-led.yaml    | 116 ++++++++++++++++++
+>>   1 file changed, 116 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+>> new file mode 100644
+>> index 000000000000..d8efde02db72
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+>> @@ -0,0 +1,116 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/leds/qcom,spmi-flash-led.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
+>> +
+>> +maintainers:
+>> +  - Fenglin Wu <quic_fenglinw@quicinc.com>
+>> +
+>> +description: |
+>> +  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
+>> +  The flash LED module can have different number of LED channels supported
+>> +  e.g. 3 or 4. There are some different registers between them but they can
+>> +  both support maximum current up to 1.5 A per channel and they can also support
+>> +  ganging 2 channels together to supply maximum current up to 2 A. The current
+>> +  will be split symmetrically on each channel and they will be enabled and
+>> +  disabled at the same time.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - qcom,pm8150c-flash-led
+>> +          - qcom,pm8150l-flash-led
+>> +          - qcom,pm8350c-flash-led
+>> +      - const: qcom,spmi-flash-led
+> 
+> Blank line
+> 
+>> +  reg:
+>> +    description: address offset of the flash LED controller
+> 
+> Drop description, it's obvious.
+> 
+>> +    maxItems: 1
+>> +
+>> +patternProperties:
+>> +  "^led-[0-3]$":
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    unevaluatedProperties: false
+>> +    description: |
+> 
+> No need for |
+> 
+>> +      Represents the physical LED components which are connected to the
+>> +      flash LED channels' output.
+>> +
+>> +    properties:
+>> +      led-sources:
+>> +        description: |
+> 
+> No need for |
+> 
+> Rest looks good:
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> Best regards,
+> Krzysztof
+> 
+Thanks you Krzysztof! I will address them when pushing next patch.
