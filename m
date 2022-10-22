@@ -2,91 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F89608BE9
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Oct 2022 12:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E52B608DF5
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Oct 2022 17:19:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbiJVKsp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 22 Oct 2022 06:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
+        id S229542AbiJVPS7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 22 Oct 2022 11:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiJVKsF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Oct 2022 06:48:05 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE6C736DF4;
-        Sat, 22 Oct 2022 03:05:42 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 42D611C09E5; Sat, 22 Oct 2022 12:04:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1666433091;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dglD9eYSoY+3krortBgXrhoLYnL9pFjbZFahJEBGrus=;
-        b=jxD7H1772uFc+xkDEUXOUxBX27YukDMzrm02WH+qL6K+4jZpBm1L5ruhpOlDDRiaQAZeir
-        KJtHd1k3R/xh+mcnTUgeuwTtZxLGOqbvWtv+mD1yOefh0HA65FNeRFDfWHtDrYtvMu2jJV
-        3PqU5vBktC1N4TFkfKMSBirTMEFzrHc=
-Date:   Sat, 22 Oct 2022 12:04:50 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
-        Simtec Linux Team <linux@simtec.co.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        linux-leds@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 12/21] leds: remove s3c24xx driver
-Message-ID: <20221022100450.GD10427@duo.ucw.cz>
-References: <20221021202254.4142411-1-arnd@kernel.org>
- <20221021203329.4143397-12-arnd@kernel.org>
+        with ESMTP id S229460AbiJVPS6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Oct 2022 11:18:58 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B0F6658E
+        for <linux-leds@vger.kernel.org>; Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-1364357a691so7080006fac.7
+        for <linux-leds@vger.kernel.org>; Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gz0LxUsOUlJDcIAW5bPu+WDjpQGro2FyWxGKpu7r8bo=;
+        b=gWrs34NeTJPV2fQ1MVoQY+zpFojHR3D/A6fVxaEOoPyaG1lz86TK/RINtSik3ihs6m
+         epr6PhFlnoD33CCeTfWoNQCRee99kzlwRupaR937A3VU5HU4OTIvs/zluF82SMnywl6D
+         HdEJ7m7PbwxapFaNOFa9ppWW4y91iGtKkwoLpnocgDPBTYKE8ItremNKc8YrHhceRIZp
+         h3VMtehI1AqTwZwEWQcTgFOjDVRQQngjmAnbv2gz4Ef/Bbck+zcB6GCOTs8PKUKrqPeL
+         49sPdfcCEYUyqTEphtRdJczJc984b2NmTshEFvs/XiFALWDOPilFuaMHYm7NR6Fhz+qX
+         X9nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gz0LxUsOUlJDcIAW5bPu+WDjpQGro2FyWxGKpu7r8bo=;
+        b=hGwkYqCuSiFMgmARJpzbDAvqs6mDY6oCFhYQf/6c9trHDwcWstTgHFzmFumhmtgrIc
+         wfD7dJoNfKV8hQ75nz0zW8+nPdPkdbYRETTNXiykiyjsw6+Zat+HVVigXuI00b1v73Ct
+         0eZ7MQ004N7KNskkLyPtefmZ4F1AopWLfxpYbPmO1bPQYb0sQ05FXPCU18bMPVjhPv9b
+         dS2JELqCwPXp5cKTDgjlTIgnG1dhuCwtxyO42TwNERtEV8VgVXcRimVB09xNWCISk9Z1
+         1V9cIhJImOMYB388FAEgFpM7O+uPlqbsrwbGZa2VR7pE1TpNTfZxBdCCTK1ApkKpn4EJ
+         j7ng==
+X-Gm-Message-State: ACrzQf0ve9Chn1/LSmj5ndJhXcs4ULg71vyVfUkFh6hodaKJmA5PwB9o
+        L3PskJH4nrGl3NT25UzdqjLtpQ==
+X-Google-Smtp-Source: AMsMyM4Ums0et6AQMZox+xdB7Wz2plUu78klbaMd0EOzV1OnnwGbhhl8/BymyNDqbBFL+Y+cBT/t0g==
+X-Received: by 2002:a05:6870:f288:b0:131:de71:3eb6 with SMTP id u8-20020a056870f28800b00131de713eb6mr31239483oap.63.1666451935002;
+        Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
+Received: from [10.203.8.70] ([205.153.95.177])
+        by smtp.gmail.com with ESMTPSA id v5-20020a056870310500b00136c20b1c59sm11538284oaa.43.2022.10.22.08.18.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Oct 2022 08:18:54 -0700 (PDT)
+Message-ID: <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
+Date:   Sat, 22 Oct 2022 11:18:49 -0400
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ieNMXl1Fr3cevapt"
-Content-Disposition: inline
-In-Reply-To: <20221021203329.4143397-12-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
+To:     Arnd Bergmann <arnd@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
+        Simtec Linux Team <linux@simtec.co.uk>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org
+References: <20221021202254.4142411-1-arnd@kernel.org>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221021202254.4142411-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---ieNMXl1Fr3cevapt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
+On 21/10/2022 16:22, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The s3c24xx platform is gone, so the led driver can be
-> removed as well.
->=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> The s3c24xx platform was marked as deprecated a while ago,
+> and for the s3c64xx platform, we marked all except one legacy
+> board file as unused.
+> 
+> This series removes all of those, leaving only s3c64xx support
+> for DT based boots as well as the cragg6410 board file.
+> 
+> About half of the s3c specific drivers were only used on
+> the now removed machines, so these drivers can be retired
+> as well. I can either merge the driver removal patches through
+> the soc tree along with the board file patches, or subsystem
+> maintainers can pick them up into their own trees, whichever
+> they prefer.
 
-git am failed, but I guess this is not critical...
+Just to be sure - do you expect me to ack the series, or rather as usual
+pick them up?
+
 
 Best regards,
-								Pavel
-							=09
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Krzysztof
 
---ieNMXl1Fr3cevapt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY1PAQgAKCRAw5/Bqldv6
-8j2UAJ9TSLqUb87pUMzXln9X7UAKeZvTRgCfWgHUaFpSlcgtO7F7LJE9R5khcUs=
-=pSY8
------END PGP SIGNATURE-----
-
---ieNMXl1Fr3cevapt--
