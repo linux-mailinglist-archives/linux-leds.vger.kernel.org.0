@@ -2,86 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2089A608060
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Oct 2022 22:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5F95608BBE
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Oct 2022 12:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbiJUUyn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Oct 2022 16:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60120 "EHLO
+        id S230124AbiJVKjz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 22 Oct 2022 06:39:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbiJUUym (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Oct 2022 16:54:42 -0400
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E6A2CE13;
-        Fri, 21 Oct 2022 13:54:39 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id r13-20020a056830418d00b0065601df69c0so2528024otu.7;
-        Fri, 21 Oct 2022 13:54:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lphddxkNoZDL8Y2telQIcmqQFZtL44QNsGbFg6V8vGQ=;
-        b=Tz5C6eHkxBF+nXJLL0kFyALRMVobGAE4HVP2gSnbZjAS1dvwoTyJ21kE9pwdtxAnJm
-         OPbIuV/i3NTjeyZ/3DYpwtq2VUCvL4ZfpAhp2NSNY50v3+nC3iWWyba18tifIomHhCeu
-         XZH6city9FhZwhITxoycIeHMVHjCxlFX3z3tjloVglMEjk5YS/zxst5EbxNAKgDrDVqp
-         IXbyy+9EzPfcoNawyEPk3Q1mmH7Mg/6lp/iVV7nPR5DZxbPytSwSYWX3GA82hv8yPiKP
-         z2K6wHLWajd24gl7cgzMMhVMR4+lcUK5MbDb1S4AmTqvOO54gWxBY9Rn1xzgbGgA7Tjm
-         rmgQ==
-X-Gm-Message-State: ACrzQf1D2nPm7n/NN9nMBb9fGwj9pPy0zQoOtkRGaOi1DJ/rmd8nnj4H
-        WpiLRXDOlITa5bjOgnS67w==
-X-Google-Smtp-Source: AMsMyM4J0jsICzG6PLSszDHGXgcCVxk4Dtro0+PHiqqqPZnGRwHQVzDkBl7+pXWAIsyOLBqyL55tWg==
-X-Received: by 2002:a9d:64c3:0:b0:656:d706:1df with SMTP id n3-20020a9d64c3000000b00656d70601dfmr10394439otl.212.1666385678708;
-        Fri, 21 Oct 2022 13:54:38 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k22-20020a056870149600b00127d2005ea1sm10848827oab.18.2022.10.21.13.54.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 13:54:38 -0700 (PDT)
-Received: (nullmailer pid 304654 invoked by uid 1000);
-        Fri, 21 Oct 2022 20:54:39 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: leds: Add 'cpuX' to 'linux,default-trigger'
-Date:   Fri, 21 Oct 2022 15:54:28 -0500
-Message-Id: <20221021205428.304422-1-robh@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S230047AbiJVKjf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Oct 2022 06:39:35 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A06EE4D81B;
+        Sat, 22 Oct 2022 02:57:05 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 5BF0A1C09E5; Sat, 22 Oct 2022 11:55:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1666432557;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3VXcTy4dq33vF1Lw5N+gimui6R5xNr99W5cU2xOMgEc=;
+        b=k2zcvC8MJnqwGgPO5l+yOAAOtuoTRLM/xm7iKdUkJDIHH5oHYAORwxubH6dYAnO+IgiJPL
+        X11DQNjjenSPrJR7fOiT7MgbhA1A2s4InzFtOkgYpdDsObwVZLEJkwwH1FK4QPHMHvUXXn
+        NjsSEmCmBayAEwSZA3Hyvi1+1PDS554=
+Date:   Sat, 22 Oct 2022 11:55:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v2] leds: max8997: Don't error if there is no pdata
+Message-ID: <20221022095556.GA10427@duo.ucw.cz>
+References: <20221020114442.22215-1-paul@crapouillou.net>
+ <20221021131145.GB16264@duo.ucw.cz>
+ <ADU3KR.HZPTLZCKPHT63@crapouillou.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
+Content-Disposition: inline
+In-Reply-To: <ADU3KR.HZPTLZCKPHT63@crapouillou.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add 'cpu' and 'cpuN' to possible values for 'linux,default-trigger'.
-There's 45 cases of them in upstream dts files.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/leds/common.yaml | 1 +
- 1 file changed, 1 insertion(+)
+--17pEHd4RhPHOinZp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index 3c14a98430e1..f5c57a580078 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -100,6 +100,7 @@ properties:
-           - pattern
-         # LED is triggered by SD/MMC activity
-       - pattern: "^mmc[0-9]+$"
-+      - pattern: "^cpu[0-9]*$"
- 
-   led-pattern:
-     description: |
--- 
-2.35.1
+Hi!
 
+> > >  The driver works just fine if no platform data is supplied.
+> > >=20
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >  Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> >=20
+> > Does it? Bad Paul, bad Andy.
+>=20
+> Yes, it does.
+
+Sorry, I misread the patch. Applied now.
+
+Best regards,
+							Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--17pEHd4RhPHOinZp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY1O+LAAKCRAw5/Bqldv6
+8tY9AJ4qH2WFR1LgBtpTzKMQOvH8E++gvgCgomNJ4BSK068ZjOv1z3gfG5+glqA=
+=horM
+-----END PGP SIGNATURE-----
+
+--17pEHd4RhPHOinZp--
