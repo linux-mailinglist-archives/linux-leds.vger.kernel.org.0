@@ -2,113 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F140A60D0F5
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Oct 2022 17:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE22B60D24F
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Oct 2022 19:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232151AbiJYPsP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Oct 2022 11:48:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
+        id S232330AbiJYRQ5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Oct 2022 13:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230179AbiJYPsO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Oct 2022 11:48:14 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3AC13A7FD
-        for <linux-leds@vger.kernel.org>; Tue, 25 Oct 2022 08:48:13 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id 3so11385807vsh.5
-        for <linux-leds@vger.kernel.org>; Tue, 25 Oct 2022 08:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DRklvTSahTsKtUv05Ip6fTYXC/GiTk1gTx2Lpsmla4g=;
-        b=et3zIUNtsRafG/x6jhertmWMocfgIbsDsG6SuZQVTS+0lhlV/dEk5ju0yz2311v3y1
-         bmZ7KQJC3YJAR8XlimIvrthFbhbMojRQi7AbML3RsjoAp0YFtyyMwFezdGd7q6KV+S8W
-         CpH7GmHRHFtWO93cznf8+PigdrXNDehDYEEAZW4P1jXHLW0lkKrwkdzRQEA9xqbYSJUu
-         mnYa39ce/5RC9Nj76FpJBOfQuL9QXpIgtjEAUQIehxThxEilqiqvU4CsSuFOwhoCU4ce
-         nzM2XnwceHXWO3/NgOT8d+paexguBqwHWk1RASH/3j2eGgXTmt716TquLKJaWjMwo9uY
-         0J0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DRklvTSahTsKtUv05Ip6fTYXC/GiTk1gTx2Lpsmla4g=;
-        b=zu75TW407byDSk5TYK7MkiD68FByXN03bW9rz4At0mEKMG5jMsvjf7nDh8GJFnB3Hh
-         VDTiqxfM61NMFS9eLlfZbjj9cGHfek5TERyTGLRCrBAEEeIzb3encLgU/kfV9CiC4sSP
-         RqdSD/woRJCxVSsKPs3/mzqbVBZ1Ffq39XONZNJzql3C7E2jt3k5xxPCqxc6Esqrw123
-         zTs1SPTUtB355Uhpm3xFk1I+ynYhf3aBZJNmPH2T1qIbUrOLygq7AN5n6R2Gk6RgtH65
-         feJr1iQqWvG9Nga0W2knKSyPbUbKtuVa2YKPmK6wthq94RCeyplz2jR28s1Pt6X0TtGo
-         vVCA==
-X-Gm-Message-State: ACrzQf2BYswwK4VvsItkdAUlUSupnfRLPZcRfDZd42sZHtrUxiIAKQpm
-        l7IvjAeu48IUBMewPmu+7caD5OId99i8kM0K2kOQXQ==
-X-Google-Smtp-Source: AMsMyM6BXcmeI5Sp/cpJEziPSJp66D3AaV6wCyDtZq/noXvDUWVjfO9d4hV13GHO3gCutl/S7eeBIMtMWepWhj4tduA=
-X-Received: by 2002:a67:ac0c:0:b0:3a9:e899:3b9b with SMTP id
- v12-20020a67ac0c000000b003a9e8993b9bmr16130296vse.9.1666712892973; Tue, 25
- Oct 2022 08:48:12 -0700 (PDT)
+        with ESMTP id S232227AbiJYRQ4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Oct 2022 13:16:56 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3085B157F55;
+        Tue, 25 Oct 2022 10:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666718216; x=1698254216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tWI0CC/wYBfwZBoYYtn6VEm9PD6POSQYRocuvbf90tQ=;
+  b=TkI/nSaj1OZJ1Gsd8EHSz7QId2rmeJeb1B4u3SvyOegvh1EUoeOky7nF
+   NwWBvvKyFZESujTnRFTUx1ZD6jhLGIFIC0RglJBmTi6xjiVv7rfe3nAU8
+   nvUtT7vfL2rO/w/pPDR7lCrlXklTd3O135tMw7FuU5Erd48NHR7PGxbn/
+   C0nVo32LOfTHKZCpldxkQmZq7v25hFJZP6L1pG099n0u7Qe6f1phTkCo7
+   z6rJYYb4sRlGcFIive4gP39DKKm9Dp7ilXEyJzbZxNWki8JArj56swlrk
+   zejMB3qZBO1HBFt/TCbhU7TkpXCAFFM5T7RkTzRq3t72X7wTM7pzUSOtU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="288136398"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; 
+   d="scan'208";a="288136398"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 10:16:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="609646608"
+X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; 
+   d="scan'208";a="609646608"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 25 Oct 2022 10:16:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1onNXj-002Aw0-1l;
+        Tue, 25 Oct 2022 20:16:47 +0300
+Date:   Tue, 25 Oct 2022 20:16:47 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Gene Chen <gene_chen@richtek.com>,
+        Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v3 00/11] leds: deduplicate led_init_default_state_get()
+Message-ID: <Y1gZ/zBtc2KgXlbw@smile.fi.intel.com>
+References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <20220902-get_gpiod_from_child-remove-v1-0-1e47125df20f@gmail.com>
- <YyzYKmsjKflqT1xZ@google.com> <Y1aCgJihNIqExUR2@google.com>
-In-Reply-To: <Y1aCgJihNIqExUR2@google.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 25 Oct 2022 17:48:02 +0200
-Message-ID: <CAMRc=McvJ7AvhKdP7cv8K1+rzMf8-ptg2SnU+XOAwERhRx1Eyw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] Get rid of devm_fwnode_get_[index_]gpiod_from_child()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 2:18 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Thu, Sep 22, 2022 at 02:48:26PM -0700, Dmitry Torokhov wrote:
-> > Hi Pavel, Marek,
-> >
-> > On Fri, Sep 02, 2022 at 05:55:24PM -0700, Dmitry Torokhov wrote:
-> > > This drops the last uses of devm_fwnode_get_[index_]gpiod_from_child()
-> > > from the tree and drops the stubs implementing this API on top of
-> > > devm_fwnode_gpiod_get_index().
-> > >
-> > > Note that the bulk of users were converted in 2019, the couple of LED
-> > > drivers are all that have remained.
-> > >
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > >
-> > > ---
-> > > Dmitry Torokhov (3):
-> > >       leds: gpio: switch to using devm_fwnode_gpiod_get()
-> > >       leds: lgm-sso: switch to using devm_fwnode_gpiod_get()
-> > >       gpiolib: remove devm_fwnode_get_[index_]gpiod_from_child()
-> > >
-> > >  drivers/leds/blink/leds-lgm-sso.c |  5 ++---
-> > >  drivers/leds/leds-gpio.c          |  5 ++---
-> > >  include/linux/gpio/consumer.h     | 21 ---------------------
-> > >  3 files changed, 4 insertions(+), 27 deletions(-)
-> > > ---
-> > > base-commit: 7fd22855300e693668c3397771b3a2b3948f827a
-> > > change-id: 20220902-get_gpiod_from_child-remove-a62638849e91
-> > >
-> >
-> > Could you please consider picking this up for 6.1? Or would you be OK
-> > with this going through other tree (GPIO maybe)?
->
-> *ping* Could this go through GPIO tree? Dropping this API helps with
-> some outstanding work that I have...
->
+On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
+> There are several users of LED framework that reimplement the
+> functionality of led_init_default_state_get(). In order to
+> deduplicate them move the declaration to the global header
+> (patch 2) and convert users (patche 3-11).
 
-Sure! I'll let it wait for another week - it would be great to get an
-ack from Pavel - but in case of no response I'll take it through my
-tree.
+Dear LED maintainers, is there any news on this series? It's hanging around
+for almost 2 months now...
 
-Bart
+> Changelog v3:
+> - added tag to patch 11 (Kurt)
+> - Cc'ed to Lee, who might help with LED subsystem maintenance
+> 
+> Changelog v2:
+> - added missed patch 2 and hence make it the series
+> - appended tag to patch 7
+> - new patch 1
+> 
+> Andy Shevchenko (11):
+>   leds: add missing includes and forward declarations in leds.h
+>   leds: Move led_init_default_state_get() to the global header
+>   leds: an30259a: Get rid of custom led_init_default_state_get()
+>   leds: bcm6328: Get rid of custom led_init_default_state_get()
+>   leds: bcm6358: Get rid of custom led_init_default_state_get()
+>   leds: mt6323: Get rid of custom led_init_default_state_get()
+>   leds: mt6360: Get rid of custom led_init_default_state_get()
+>   leds: pca955x: Get rid of custom led_init_default_state_get()
+>   leds: pm8058: Get rid of custom led_init_default_state_get()
+>   leds: syscon: Get rid of custom led_init_default_state_get()
+>   net: dsa: hellcreek: Get rid of custom led_init_default_state_get()
+> 
+>  drivers/leds/flash/leds-mt6360.c           | 38 +++--------------
+>  drivers/leds/leds-an30259a.c               | 21 ++--------
+>  drivers/leds/leds-bcm6328.c                | 49 +++++++++++-----------
+>  drivers/leds/leds-bcm6358.c                | 32 +++++++-------
+>  drivers/leds/leds-mt6323.c                 | 30 ++++++-------
+>  drivers/leds/leds-pca955x.c                | 26 +++---------
+>  drivers/leds/leds-pm8058.c                 | 29 ++++++-------
+>  drivers/leds/leds-syscon.c                 | 49 ++++++++++------------
+>  drivers/leds/leds.h                        |  1 -
+>  drivers/net/dsa/hirschmann/hellcreek_ptp.c | 45 ++++++++++----------
+>  include/linux/leds.h                       | 15 ++++---
+>  11 files changed, 143 insertions(+), 192 deletions(-)
+> 
+> -- 
+> 2.35.1
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
