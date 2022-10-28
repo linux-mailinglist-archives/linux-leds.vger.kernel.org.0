@@ -2,81 +2,163 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91937610D45
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Oct 2022 11:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0785610F28
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Oct 2022 12:56:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbiJ1Jbd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Oct 2022 05:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
+        id S229441AbiJ1K4z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Oct 2022 06:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbiJ1Jba (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 05:31:30 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D401C712B
-        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 02:31:27 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id z18so2028494edb.9
-        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 02:31:27 -0700 (PDT)
+        with ESMTP id S229850AbiJ1K4x (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 06:56:53 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEAAC3575
+        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 03:56:49 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id k8so6135842wrh.1
+        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 03:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Lm1ZzdruD63kc8Lu9yZolcwPX0GFkqVJfsYWplvWyA=;
-        b=q5fNg9qPUgV2wJYu0ykWoJy5Uc5FOAMuGTwC4i1QNTIdLtqhPKzCbSgIAJwuhMTHZT
-         +LWjGkDghhAuT4z5gLdXNPZl/HZ1kEPOqJ4oug1XY+Zwv5WUVyDshuqF2ESg9+ySxQAl
-         VukQ9VNmooo7mkKrwf/i1viHjjSdlNyKM0qL3Lyb4VzGfFNTuK2uhKnrce9E6EchBRoU
-         1MCt09Z7oirFNsxp8n8jqsLOr0wYYK+e6+NG1u73ODBwgcCm4h0/SWJZo95EAfXs74Qj
-         txg1CU4JO7G6E7tboS1foYvE6jn6uaeO7AdlkwEOq8HJJbHzmPbcMPThkcZIaMHnOIYM
-         gzew==
+        d=mind.be; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mybn9+3Djhak9wQ9DmBiM46mD4JHeRWPgXYCo3h5f5w=;
+        b=Q/+GNkhTtkLn0ybO6bFbX3iOCxcV5fyw/9MuV0v5MMjsp1XDrO2Y+EC0A2RNJnA2VJ
+         JHpf46HOduMlEnYgixSscesqrTf0CKNYeLEWYG4s6cv+C8eCrPSSaxB9/AK05v8wl5z1
+         iX5HAxVOVXLJiLwslWeHm/k96HNDP5E/viZco55XgIXkjit2T/8LqwpFTSfrb5jJdg5Z
+         VI3YSW0GFIFRZVnqpguoipul3MqI1w8wdHUqmHH2I/+PuX565O9E38CIgrkhSkHdHJXT
+         Kj7RFVUdld2LRUrlA0+pj8l3ogDAkGKt2WVkj/2qXb9LEZ2kyg61jC+oBh7ENelylDY0
+         kSYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4Lm1ZzdruD63kc8Lu9yZolcwPX0GFkqVJfsYWplvWyA=;
-        b=hO86RxSoD3vbiMrYvqQ3RRpuHKUI32pbqc4Fxu1A6rNX97Qzkxa+pnEiujRMqVMVjp
-         HpsDucOm/KqdrV1CFxgIqhB8dfo60NWtBbNu3iEVclmY6EY7Hz5igPdGW5u+6IKdqmKX
-         v3qdSkzsBUuRdMEbSeAH/GS8c/qv59VscJ1tU2hp90W02UEOPkQkekTyzaurGgcK3Jh0
-         SA5Hp8/zsW6x1KPa4dRvtjwyfVfReMc3Sif1qx9Sy/A439ZDnIhca6GuIXYM9hG75s2X
-         bHPbV17LrLhO6j/I8A6+P84SGToE1W3kqg9bMghmef5aYovYVsOOM69Rx4bU8FZ1Fgry
-         h6kA==
-X-Gm-Message-State: ACrzQf0tFDa/Yqaa3YkA6dpc96qYKX8lvAN3gsu8DXnamv4aQDbX/zdI
-        jppq3/cfqdai/YDGfzLA6z6UEwBKOtWzWqk7TFM7QA==
-X-Google-Smtp-Source: AMsMyM5PS5EadMoEdDZ5URmNKAAi+8gaymEs0BLIFB7oUDJmLB1acmQDp9HEPUCVWJjk9WCnNs9km5nos2JqIdHlgwM=
-X-Received: by 2002:a05:6402:4029:b0:45b:d50c:b9b0 with SMTP id
- d41-20020a056402402900b0045bd50cb9b0mr49617649eda.126.1666949486408; Fri, 28
- Oct 2022 02:31:26 -0700 (PDT)
+        bh=mybn9+3Djhak9wQ9DmBiM46mD4JHeRWPgXYCo3h5f5w=;
+        b=O0tF5ofYt86/LX0hHj4899dds4Md9EIxyo+pMp6FRMTf+WU0y5iv9qiuw+IYjbER+J
+         Qe0ekYMyhgCiNUqZHzcTvbpqB6tPIhgrCtc6vVH9vjPyYhkl93PNbSVPtEQTOITthnIh
+         u4BlIrKkVKwnVlXhTf8xW5qQcTtgppuYM1UZz/FXkS6ebUWyWN6tcyxbP4jZf7f3AFEO
+         fOx6pADvCN2eXPMiF2OkpeurZD6HLlIykywi/2DrynanmlyNxFum23KM9YtUl9eBdLxG
+         XQJl74fY1hpWKPJoMJQsHWhXK9eQmcAHMz2rvmXKXtyKl4oFt1UIMpWU4lCWjlE259jI
+         4JOA==
+X-Gm-Message-State: ACrzQf0p9LzAusr09QgjV2TssPQGLjKBqgpVYgKnuRJlXzQZmhNQMHN0
+        cp9p6aseaQTrcJ2lKqt9ikq+li6QnfU3DX+r
+X-Google-Smtp-Source: AMsMyM7MpmCsvPQEd7FYVkmRjOE4Wft0AXUPXYN8BOmP4u7Qym5ebJPKeWw3IzetZWbGmly5kygvTQ==
+X-Received: by 2002:a05:6000:1a8d:b0:236:4810:9966 with SMTP id f13-20020a0560001a8d00b0023648109966mr27100200wry.366.1666954608551;
+        Fri, 28 Oct 2022 03:56:48 -0700 (PDT)
+Received: from dtpc.zanders.be (78-22-137-109.access.telenet.be. [78.22.137.109])
+        by smtp.gmail.com with ESMTPSA id r10-20020a05600c35ca00b003cf4ec90938sm4375956wmq.21.2022.10.28.03.56.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Oct 2022 03:56:48 -0700 (PDT)
+From:   Maarten Zanders <maarten.zanders@mind.be>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Maarten Zanders <maarten.zanders@mind.be>,
+        Arne Staessen <a.staessen@televic.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: lp5523: fix out-of-bounds bug in lp5523_selftest()
+Date:   Fri, 28 Oct 2022 12:56:43 +0200
+Message-Id: <20221028105643.45300-1-maarten.zanders@mind.be>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221028064141.2171405-1-clabbe@baylibre.com> <20221028064141.2171405-2-clabbe@baylibre.com>
-In-Reply-To: <20221028064141.2171405-2-clabbe@baylibre.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 28 Oct 2022 11:31:14 +0200
-Message-ID: <CACRpkdaoTq6HTCtv8mjwW0piZM29Ofo=ZfKb7scEUxZgohg1XA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] leds: remove ide-disk trigger
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 8:41 AM Corentin Labbe <clabbe@baylibre.com> wrote:
+When not all LED channels of the led chip are configured, the
+sysfs selftest functionality gives erroneous results and tries to
+test all channels of the chip.
+There is a potential for LED overcurrent conditions since the
+test current will be set to values from out-of-bound regions.
 
-> No user of ide-disk remains, so remove this deprecated trigger.
-> Only a few platforms used this and were fixed in 2016.
->
-> Acked-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+It is wrong to use pdata->led_config[i].led_current to skip absent
+channels as led_config[] only contains the configured LED channels.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Instead of iterating over all the physical channels of the device,
+loop over the available LED configurations and use led->chan_nr to
+access the correct i2c registers. Keep the zero-check for the LED
+current as existing users might depend on this to disable a channel.
 
-Yours,
-Linus Walleij
+Reported-by: Arne Staessen <a.staessen@televic.com>
+Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
+---
+ drivers/leds/leds-lp5523.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index 369d40b0b65b..e08e3de1428d 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -581,8 +581,8 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+ 	struct lp55xx_chip *chip = led->chip;
+ 	struct lp55xx_platform_data *pdata = chip->pdata;
+-	int i, ret, pos = 0;
+-	u8 status, adc, vdd;
++	int ret, pos = 0;
++	u8 status, adc, vdd, i;
+ 
+ 	mutex_lock(&chip->lock);
+ 
+@@ -612,20 +612,21 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 
+ 	vdd--;	/* There may be some fluctuation in measurement */
+ 
+-	for (i = 0; i < LP5523_MAX_LEDS; i++) {
+-		/* Skip non-existing channels */
++	for (i = 0; i < pdata->num_channels; i++) {
++		/* Skip disabled channels */
+ 		if (pdata->led_config[i].led_current == 0)
+ 			continue;
+ 
+ 		/* Set default current */
+-		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
++		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
+ 			pdata->led_config[i].led_current);
+ 
+-		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0xff);
++		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr,
++			     0xff);
+ 		/* let current stabilize 2 - 4ms before measurements start */
+ 		usleep_range(2000, 4000);
+ 		lp55xx_write(chip, LP5523_REG_LED_TEST_CTRL,
+-			     LP5523_EN_LEDTEST | i);
++			     LP5523_EN_LEDTEST | led->chan_nr);
+ 		/* ADC conversion time is 2.7 ms typically */
+ 		usleep_range(3000, 6000);
+ 		ret = lp55xx_read(chip, LP5523_REG_STATUS, &status);
+@@ -633,20 +634,22 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 			goto fail;
+ 
+ 		if (!(status & LP5523_LEDTEST_DONE))
+-			usleep_range(3000, 6000);/* Was not ready. Wait. */
++			usleep_range(3000, 6000); /* Was not ready. Wait. */
+ 
+ 		ret = lp55xx_read(chip, LP5523_REG_LED_TEST_ADC, &adc);
+ 		if (ret < 0)
+ 			goto fail;
+ 
+ 		if (adc >= vdd || adc < LP5523_ADC_SHORTCIRC_LIM)
+-			pos += sprintf(buf + pos, "LED %d FAIL\n", i);
++			pos += sprintf(buf + pos, "LED %d FAIL\n",
++				       led->chan_nr);
+ 
+-		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0x00);
++		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr,
++			     0x00);
+ 
+ 		/* Restore current */
+-		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
+-			led->led_current);
++		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
++			     led->led_current);
+ 		led++;
+ 	}
+ 	if (pos == 0)
+-- 
+2.37.3
+
