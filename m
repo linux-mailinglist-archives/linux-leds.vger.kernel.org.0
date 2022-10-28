@@ -2,119 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43E0F60FB5C
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Oct 2022 17:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95723610A6A
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Oct 2022 08:42:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236264AbiJ0PJ1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Oct 2022 11:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56776 "EHLO
+        id S229914AbiJ1GmO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Oct 2022 02:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236026AbiJ0PJQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Oct 2022 11:09:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF25718F0E9;
-        Thu, 27 Oct 2022 08:09:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 773B1623A7;
-        Thu, 27 Oct 2022 15:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526EFC433D7;
-        Thu, 27 Oct 2022 15:09:13 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1oo4Vc-00Bvb5-1j;
-        Thu, 27 Oct 2022 11:09:28 -0400
-Message-ID: <20221027150928.367913405@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Thu, 27 Oct 2022 11:05:42 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: [RFC][PATCH v2 17/31] timers: leds: Use del_timer_shutdown() before freeing timer
-References: <20221027150525.753064657@goodmis.org>
+        with ESMTP id S229872AbiJ1Glw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 02:41:52 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 107B815B309
+        for <linux-leds@vger.kernel.org>; Thu, 27 Oct 2022 23:41:49 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id l32so2438395wms.2
+        for <linux-leds@vger.kernel.org>; Thu, 27 Oct 2022 23:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pW67w54VW6hMiwBpE+8e4feStlkLZps5VX75c4wE11Q=;
+        b=vzESmk/pqrKW0wWW8snVPstmmTABNdIAlBU5Vnebpsdu9zEU/vvi0ukbWnHaddtL+j
+         1m1Hyk6dxr+NCsQL4QBnO05peXndx8IWFxZCIutHo1M/6cy23CQyJj71po6K/fWwXoC7
+         Poh2RFiv6FypKR/8IYfEVoeKWxYKi8qfy8W3RO6HEhbrXx1KJf7XRm2Svc8xE+EgU3R9
+         lOBKTbsvATwvgdVEY3ryAkMnxOZ46XVndz+AB1xnrJVMaO+fHCI8OR3y9mTlEpxre4Ke
+         Z8Ss2e45hN0Y6xzH15MgGRMf6bI5LfLFAW8tRYmtD2PDGlC9lYQKKB+uRKjQTs/6J8gm
+         1/LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pW67w54VW6hMiwBpE+8e4feStlkLZps5VX75c4wE11Q=;
+        b=iB5SWHXVsdLF9R55gDvxrc20EPYUv5acgpwC322wneBT7BsptYZIdd1l9b+fXx5dng
+         EY+e2OmGMns0Oufwmpwy7/uHc9RPFb5yXuV7TcWIRkkyxc5zfj3qnS/Mbxecl8B6Td3q
+         RVly4T8c0TYNlSa7SOB//LdYKsA4dZ10wH919t89vWj2B2/yAKZQzx6m5huT3D3LaaBq
+         Tc6lH4td+rg778gt+mEWCaD6V0SgX9+v+elHDyFsvgP8IR7XrqX77DKMdryqwfWiVKLW
+         j4T6xN/Ep8ied8/Ffhtm/J/+sdk+tuumLHAXTGaFVyj29LV2215p2Z6LiR8NVgo9I6Tb
+         nb1A==
+X-Gm-Message-State: ACrzQf2IaTbdi1z7sFqxjs2x/ABl9UcpbT2XxNmEU9XDPK1KoKdFXS12
+        z5qL99/fSkfdihq5t0zBTgyw/A==
+X-Google-Smtp-Source: AMsMyM6MF6iXF3Vbr8+9LVdv/dLucMkGE6IxQEIr1BfhoAdfJj2zxG0tSODIPtiImospUL3ffmOGSg==
+X-Received: by 2002:a7b:c34a:0:b0:3c6:e069:d41c with SMTP id l10-20020a7bc34a000000b003c6e069d41cmr8316994wmj.180.1666939307626;
+        Thu, 27 Oct 2022 23:41:47 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id h17-20020a05600c351100b003c7087f6c9asm7253979wmq.32.2022.10.27.23.41.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 23:41:47 -0700 (PDT)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 1/2] dt-bindings: leds: common: add disk write/read and usb-host/usb-gadget
+Date:   Fri, 28 Oct 2022 06:41:40 +0000
+Message-Id: <20221028064141.2171405-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+The triggers enum misses 3 cases used by gemini DT.
+usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
+so we add also as valid trigger usb-gadget which was added along in this
+commit.
 
-Before a timer is freed, del_timer_shutdown() must be called.
+disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
 
-Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home/
-
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: linux-leds@vger.kernel.org
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/leds/trigger/ledtrig-activity.c  | 2 +-
- drivers/leds/trigger/ledtrig-heartbeat.c | 2 +-
- drivers/leds/trigger/ledtrig-pattern.c   | 2 +-
- drivers/leds/trigger/ledtrig-transient.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+V1 can be seen at https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210508193654.2596119-1-clabbe@baylibre.com/
+Changes since v1:
+- rebased on recent tree
 
-diff --git a/drivers/leds/trigger/ledtrig-activity.c b/drivers/leds/trigger/ledtrig-activity.c
-index 30bc9df03636..dc2c7b5ef67e 100644
---- a/drivers/leds/trigger/ledtrig-activity.c
-+++ b/drivers/leds/trigger/ledtrig-activity.c
-@@ -208,7 +208,7 @@ static void activity_deactivate(struct led_classdev *led_cdev)
- {
- 	struct activity_data *activity_data = led_get_trigger_data(led_cdev);
- 
--	del_timer_sync(&activity_data->timer);
-+	del_timer_shutdown(&activity_data->timer);
- 	kfree(activity_data);
- 	clear_bit(LED_BLINK_SW, &led_cdev->work_flags);
- }
-diff --git a/drivers/leds/trigger/ledtrig-heartbeat.c b/drivers/leds/trigger/ledtrig-heartbeat.c
-index 7fe0a05574d2..7c46457f31a1 100644
---- a/drivers/leds/trigger/ledtrig-heartbeat.c
-+++ b/drivers/leds/trigger/ledtrig-heartbeat.c
-@@ -151,7 +151,7 @@ static void heartbeat_trig_deactivate(struct led_classdev *led_cdev)
- 	struct heartbeat_trig_data *heartbeat_data =
- 		led_get_trigger_data(led_cdev);
- 
--	del_timer_sync(&heartbeat_data->timer);
-+	del_timer_shutdown(&heartbeat_data->timer);
- 	kfree(heartbeat_data);
- 	clear_bit(LED_BLINK_SW, &led_cdev->work_flags);
- }
-diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
-index 43a265dc4696..f50da27fea47 100644
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -430,7 +430,7 @@ static void pattern_trig_deactivate(struct led_classdev *led_cdev)
- 	if (led_cdev->pattern_clear)
- 		led_cdev->pattern_clear(led_cdev);
- 
--	del_timer_sync(&data->timer);
-+	del_timer_shutdown(&data->timer);
- 
- 	led_set_brightness(led_cdev, LED_OFF);
- 	kfree(data);
-diff --git a/drivers/leds/trigger/ledtrig-transient.c b/drivers/leds/trigger/ledtrig-transient.c
-index 80635183fac8..1f28f13b1764 100644
---- a/drivers/leds/trigger/ledtrig-transient.c
-+++ b/drivers/leds/trigger/ledtrig-transient.c
-@@ -180,7 +180,7 @@ static void transient_trig_deactivate(struct led_classdev *led_cdev)
- {
- 	struct transient_trig_data *transient_data = led_get_trigger_data(led_cdev);
- 
--	del_timer_sync(&transient_data->timer);
-+	del_timer_shutdown(&transient_data->timer);
- 	led_set_brightness_nosleep(led_cdev, transient_data->restore_state);
- 	kfree(transient_data);
- }
+Changes since v2:
+- rebased on recent tree
+
+ Documentation/devicetree/bindings/leds/common.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index f5c57a580078..8ebe602419b5 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -90,6 +90,8 @@ properties:
+           - heartbeat
+             # LED indicates disk activity
+           - disk-activity
++          - disk-read
++          - disk-write
+             # LED indicates IDE disk activity (deprecated), in new implementations
+             # use "disk-activity"
+           - ide-disk
+@@ -98,6 +100,8 @@ properties:
+             # LED alters the brightness for the specified duration with one software
+             # timer (requires "led-pattern" property)
+           - pattern
++          - usb-gadget
++          - usb-host
+         # LED is triggered by SD/MMC activity
+       - pattern: "^mmc[0-9]+$"
+       - pattern: "^cpu[0-9]*$"
 -- 
-2.35.1
+2.37.4
+
