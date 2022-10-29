@@ -2,76 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D31561211B
-	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 09:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3228361220C
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 11:54:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbiJ2Hs2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 29 Oct 2022 03:48:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47214 "EHLO
+        id S229850AbiJ2Jyo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 29 Oct 2022 05:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbiJ2HsR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 Oct 2022 03:48:17 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D202BE2E7
-        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 00:48:15 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id a5so10832907edb.11
-        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 00:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pg+RytIDlq54zISxpQtl2L8fZN1+m9I00gnazEQCvBw=;
-        b=VZRajbXPCAtrrJfcWiqzHT9mbVUjHfnuf9m3BveCxFmOAp0ZyKxznlo5NXRV9jfpjm
-         tdswy1Dc8Gwwdr9bSgLmhB5Lp+rtEYHjKEY2CjKHzqpWHxtEfJg08482LckxO435gbTz
-         QIndJA3KIrJh21NXJTOBBrRJTbPb1lbvT0W4AfasLiZWgJhD6bbOh95K08gz7wEMM3Mr
-         vC5+zaX8PfVbmRpWLyn1ByH1d3RhiYUZKbme1ECUiaGh5sRjfG2jkzL4IHoxQ3hPW5YN
-         xt1dwzz6PCCdQ1MZJoPtoDUOWd6fFi1H77ICXLwMZ10AfC5QAqvMuOe6xnvosin/gpUY
-         v1bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pg+RytIDlq54zISxpQtl2L8fZN1+m9I00gnazEQCvBw=;
-        b=RL/iIoxkewqcm33/o+JssiKkgI6l+RfXoV8kZBZKlQUyUfotvQPEi8R6VxtCq/zXfB
-         WGMHt3/AO5RLI5m/kkhiXjIaXggeWQE8Z/7jVISlUCYTrbawRq1CFdcbsE2oP9utLCKI
-         0PYmqvoKIc6ISHHcj9ZWkQglZwXY7sCelRXvmq2p2hqvaVAvDKRCyVXgAV0iuffqZIIO
-         4EezUL9urOHGUxdiX6rS2EAQSPqhtWDlBhXNZByhhndQ++PrO6nM0/2q26JDNSzQaEex
-         xgwERT1OpLVqNmXNlMAyuKPYzgmhWDxfhpdRFy5TX5YgOAU9N7eecKvGrH57FHSucSyt
-         IQdg==
-X-Gm-Message-State: ACrzQf03nK52Rsjk6rKBl+W5KM2GmjEya0HS8FLWSih6RzD/DY5gp1Nz
-        jYZuwgxaMcJiDfwVnXgT7ogWAej2XjcKNJ8Xc1g=
-X-Google-Smtp-Source: AMsMyM580yL+VrmPLJoT1pN0Qr+g2h9lTiNJM6CALSo57nrSxd+LUPZJvrxkCwrilpLOTIvui9gUBA==
-X-Received: by 2002:a05:6402:5489:b0:43b:b935:db37 with SMTP id fg9-20020a056402548900b0043bb935db37mr3320635edb.347.1667029694230;
-        Sat, 29 Oct 2022 00:48:14 -0700 (PDT)
-Received: from [192.168.2.9] (78-22-137-109.access.telenet.be. [78.22.137.109])
-        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b0078c468bd604sm396505ejc.57.2022.10.29.00.48.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Oct 2022 00:48:13 -0700 (PDT)
-Message-ID: <7cbb1cc5-e333-db25-77e2-7a1ebda70e24@mind.be>
-Date:   Sat, 29 Oct 2022 09:48:12 +0200
+        with ESMTP id S229767AbiJ2Jyh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 Oct 2022 05:54:37 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3DD10B783
+        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 02:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1667037254; bh=9sZ2S19e7PyWsMM2dxOOA9UEQHeNkIUm4TPk2z08ejc=;
+        h=X-UI-Sender-Class:From:Date:Subject:To;
+        b=jvLksWmt1JZrtcPETbL2vZ6udS76FfZqcRDFHblvDGHqi77k83VAwA/BIZ5cChWg8
+         eBB62oxUyyiEvZ6AL5/JIUK8s1tXCkO4Mba21IS3s3EScBkGcmSG+ScQ6mPlcX/DDi
+         /Xcz+GcHEQ+FoQyND6yN+ZtY8cs7uTGdPKs4/VhniZ3GN8Q8sheQgz+bKrONDDH2y9
+         nBA/xJMcZLaYBgC+vSuyn1zYEmtnD6dUI9uQ+5J72rKH55BqabzphpB4vDESxAk17x
+         2B0Q74uBUsTiK8nDsinbsUZCWS0AFSTZOgnuPkyptx5m2NpH5woarutOd6RzDcBCSC
+         yg+DL4nIvNCwg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mail-ej1-f45.google.com ([209.85.218.45]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MDywo-1owO3O29Ce-009uuF for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022
+ 11:54:14 +0200
+Received: by mail-ej1-f45.google.com with SMTP id y14so18313289ejd.9
+        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 02:54:14 -0700 (PDT)
+X-Gm-Message-State: ACrzQf240DZ677oQl+0ezaCyUsHumpO1u/+I53RS5LVbRgn3TqOf3aRU
+        0FqePcxz0kJDiq4/ld5HBNWHnCYXtA1EhPNu0Co=
+X-Google-Smtp-Source: AMsMyM4YTkg2VyK1YblxdcSWxQ3RphH3xtX+ZKXwaEpXFGHzlDpH68fRoe/mmFUvySFYzwR9AxWOBKjCqR9IdPZxCk8=
+X-Received: by 2002:a17:907:7244:b0:78d:cedc:7a9e with SMTP id
+ ds4-20020a170907724400b0078dcedc7a9emr3231374ejc.600.1667037254141; Sat, 29
+ Oct 2022 02:54:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 1/2] dt-bindings: leds-lp55xx: add ti,disable-charge-pump
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221028133501.95833-1-maarten.zanders@mind.be>
- <20221028133501.95833-2-maarten.zanders@mind.be>
- <34c4037b-d152-412d-e551-dd3ea27b6b46@linaro.org>
-Content-Language: en-US
-From:   Maarten Zanders <maarten.zanders@mind.be>
-In-Reply-To: <34c4037b-d152-412d-e551-dd3ea27b6b46@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+From:   Andreas Bergmeier <abergmeier@gmx.net>
+Date:   Sat, 29 Oct 2022 11:54:03 +0200
+X-Gmail-Original-Message-ID: <CABfF9mNvf93FAxX7MWVe5KxhrBTV4_ZBzhJPs-JT+tXdyaja1g@mail.gmail.com>
+Message-ID: <CABfF9mNvf93FAxX7MWVe5KxhrBTV4_ZBzhJPs-JT+tXdyaja1g@mail.gmail.com>
+Subject: Proposal: Add color_temperature support
+To:     linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:BQ6VlRXDkOOVLU7J85limTARO/JvQfhRT4xWRaUIs40fBRv8jeT
+ //gucO7w1pvkeF/iajUZhGMNdyq1herrryr6UQXhh0zJfnli9azZ/GG6mkZGZEYv38tdvVV
+ aKFVAsZztsIhNflRCZiuFVu4+9WYE756ilksFJaVTRB5hOj/5MjdklpYVJ8C2sQxotaBE5x
+ E/bAgqRpWgmoiscINAwYg==
+UI-OutboundReport: notjunk:1;M01:P0:IahkcIvt44Q=;uwIgiV1KuIEt7Qt6uc3e0j/NrQZ
+ M++Ga5G1hvOse8py0b9oQnTfm5SrofGQk1dDGv2yfwc0fgoc7qSLwOVf0E7FRkR/VdV5nLAYU
+ PhwU0dl+FvG2qnxyjdopkGkNqPKe2xy7X0twbqY5w0FSMtmMPwVqTPKW04Tt5ZmPUwbbIFpOr
+ lBiij+1lRsUNRFNMxRw6X5kvLqlaFlTZYdaTyFRNzP3LF+7Uj6TJ+unnBskYtC9EIaJOPZcTf
+ LFqaxrq98NIYIC/mQVo4czNKuZjTED0TXHkWU6VZx17RN2yevV5CKCRrHTMM9PoLweRKfXln4
+ I0uioJuklJJh44Fv4+x0rWhoRuEXKxYu7QAbRcgd/kobZF6v9acjyuqY8tlMwp9N+20FvCIl+
+ yoYtfygsweBkjiVrY7Z0IWxij/Lz/3VMimffLLayJtvC8F6rXiztz0dpFY28g0RQz8JKtUDlk
+ gNmvW9iJpfTkzhJ2NKmc6AA/xiC2gGSJx3OGrY4Hyro+I6qo64QKbq+DUFLUtiPDbbe/EqW9D
+ Uk5ZrLEH/uIAspUxImOz5vTeT4ulornrXr24WoaiWc7IvIi9odDmNQRf+5Bn6szmeesw2lzjk
+ WNXxTvO/5q9wyXYnF1sU5HPRkLfZiZzdVpqIHoxhpeSU92QOy2H4dT2EqfCMSKPsEBJyEL8C9
+ XHNLgIKlFTJejfh+ZnnRFYZw/SciSrh+jnb+A3w05jYUrx0aPxkSJpOEepctGhwRGWCUTr6JH
+ 5TFkyaTreVTycpv+1AP5URVQgFBt8R9h4vPp1dQIcSmglWWm6S8D4f0GjALOKE8NwWwlLS3h6
+ 37G7ZzwO8iLKtOwPNriSEASqhHZ27TPPkFhknmGJNX5icAopfBgUboqlP4KDHL4mPIvBfvPS6
+ T7bI4sPW32gN6T3DiXP4zz3fMdd6CK0lkqNDeB+XTLl0+R9r60OnPWpWzKFnIHfQsrnq3D2hM
+ eDihlqW8yjx+vbJ9v6EFfg/RBJ4=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,19 +73,79 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On the device Logitech Litra Glow it is possible to set not only the
+brightness but also the color temperature (both via usb as well as via
+hardware).
+I am currently trying to add support for the device - and expose it
+via LED - into the kernel.
+So to support all device capabilities I am proposing to extend LEDs by
+color temperature:
+And initial patch for the headers:
 
-On 10/29/22 00:07, Krzysztof Kozlowski wrote:
-> Drop | 
-OK.
->> +      Disable the internal charge pump.
-> Does it mean that it is enabled by default?
+ diff --git a/include/linux/leds.h b/include/linux/leds.h
+index ba4861ec7..494eab49b 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -72,6 +72,9 @@ struct led_classdev {
+unsigned int brightness;
+unsigned int max_brightness;
+int flags;
++ unsigned int color_temperature;
++ unsigned int min_color_temperature;
++ unsigned int max_color_temperature;
+/* Lower 16 bits reflect status */
+#define LED_SUSPENDED BIT(0)
+@@ -123,6 +126,21 @@ struct led_classdev {
+unsigned long *delay_on,
+unsigned long *delay_off);
++ /* Set LED color temperature
++ * Must not sleep. Use color_temperature_set_blocking for drivers
++ * that can sleep while setting color temperature.
++ */
++ void (*color_temperature_set)(struct led_classdev *led_cdev,
++ unsigned int color_temperature);
++ /*
++ * Set LED color temperature immediately - it can block the caller for
++ * the time required for accessing a LED device register.
++ */
++ int (*color_temperature_set_blocking)(struct led_classdev *led_cdev,
++ unsigned int color_temperature);
++ /* Get LED color temperature */
++ unsigned int (*color_temperature_get)(struct led_classdev *led_cdev);
++
+int (*pattern_set)(struct led_classdev *led_cdev,
+struct led_pattern *pattern, u32 len, int repeat);
+int (*pattern_clear)(struct led_classdev *led_cdev);
+@@ -140,6 +158,7 @@ struct led_classdev {
+void (*flash_resume)(struct led_classdev *led_cdev);
+struct work_struct set_brightness_work;
++ struct work_struct set_color_temperature_work;
+int delayed_set_value;
+#ifdef CONFIG_LEDS_TRIGGERS
+@@ -160,6 +179,10 @@ struct led_classdev {
+int brightness_hw_changed;
+struct kernfs_node *brightness_hw_changed_kn;
+#endif
++#ifdef CONFIG_LEDS_COLOR_TEMPERATURE_HW_CHANGED
++ int color_temperature_hw_changed;
++ struct kernfs_node *color_temperature_hw_changed_kn;
++#endif
+/* Ensures consistent access to the LED Flash Class device */
+struct mutex led_access;
+@@ -574,6 +597,14 @@ void led_classdev_notify_brightness_hw_changed(
+static inline void led_classdev_notify_brightness_hw_changed(
+struct led_classdev *led_cdev, enum led_brightness brightness) { }
+#endif
++#ifdef CONFIG_LEDS_COLOR_TEMPERATURE_HW_CHANGED
++void led_classdev_notify_color_temperature_hw_changed(
++ struct led_classdev *led_cdev, unsigned int color_temperature);
++#else
++static inline void led_classdev_notify_color_temperature_hw_changed(
++ struct led_classdev *led_cdev, unsigned int color_temperature) { }
++#endif
++
+/**
+* struct led_pattern - pattern interval settings
 
-The device default after reset is "off".
-The current implementation sets it to "auto".
-Other possible modes are "bypass" and "boost".
-
-Should I change to an optional "ti,charge_pump_mode" as string and set 
-default to "auto"?
-
-Thanks!
-
+What do you think?
+Cheers
