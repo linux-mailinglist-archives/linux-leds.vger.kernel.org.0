@@ -2,74 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C213E611D32
-	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 00:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0FF611EF6
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 03:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiJ1WHd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Oct 2022 18:07:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
+        id S229785AbiJ2BPz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Oct 2022 21:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbiJ1WHU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 18:07:20 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B39A224D880
-        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 15:07:19 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id mi9so4962774qvb.8
-        for <linux-leds@vger.kernel.org>; Fri, 28 Oct 2022 15:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l4Zjzz+NmO6ZHHFaizEHCjrG04Xj0VbUFmDsHVrZ9aU=;
-        b=c4nDWMablbhQJCxDEPvgkxypSIQLq4xcT3gmYe+nK6OTGhNY2Zs7Bgsqtm4O/X4ARV
-         yyIfgh3doG28AvK52GL9kW1jyEs5Y/yCN9afEoKZ/sXD/M4/L96Idojf52gCL86lqnzi
-         ilK/0+BQGchPX2PRvQMgnbaryCSBhc78Jf+rHpsR1PlHxuAh4DxSV+YvqMd3NNR5kldW
-         Ij+Ffn3jV7ZGomF3l7PRSZLyzmsdl/pPCblv8Fr4gWHOZa0x1k2lvwugbULp/Z+MkJWw
-         smF6wiUEMmDg7MguA6JBrvarjDBgF4+oVgVYE9o24y+bmYUWgrV5sYpiIXJbrVjkMuKi
-         Fixw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l4Zjzz+NmO6ZHHFaizEHCjrG04Xj0VbUFmDsHVrZ9aU=;
-        b=UoJ+Wp9xOyBIhKOrkFfigYO1QO1cB7soOGvCzJoXxS8wXdQZ8c0xEmRvo9PWKHw1v+
-         GwMJYmwCPsXV/H4CAk/QimSkXNs+ArerqXJ+yAJfWmR2DsmxsohihEBtqPFUBmZmp0C2
-         qTD+b2IrusrF6O0c6KUJr4VqLCjZxePzKr0EhvQEzgO8/EVk5xe4jJ1AplGW5BqiDppa
-         BiUSH52xKZ/gu/vnnSuIKLkJbAbUpw/sv7dLPI0q412DvKLrHhDSFCQ/o5OIMyPR5b9P
-         Lx7c1jYdvYLfUdVl5c1XZ6Ou0lvrEwiZealbqKe/8VmlSL0A1EBx4XrsEdkADu5XxA3J
-         B6Vw==
-X-Gm-Message-State: ACrzQf0eBj2WVv1UBnWA7KIVMupcVbSlfhjQPwtMvmNOHD+CW09shONC
-        jaDdixPLYzgcbFkMsmbrs9/3EQ==
-X-Google-Smtp-Source: AMsMyM7qdsCaCR3n2UT1c8MifaiLfbwiITEqLguFAdOAnkkneQ5LNEJtabdAtXUtryo2KVicgQHefA==
-X-Received: by 2002:a05:6214:c2a:b0:4ba:170c:1929 with SMTP id a10-20020a0562140c2a00b004ba170c1929mr1435139qvd.21.1666994838746;
-        Fri, 28 Oct 2022 15:07:18 -0700 (PDT)
-Received: from [192.168.1.11] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id br16-20020a05620a461000b006bbb07ebd83sm3701555qkb.108.2022.10.28.15.07.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 15:07:18 -0700 (PDT)
-Message-ID: <34c4037b-d152-412d-e551-dd3ea27b6b46@linaro.org>
-Date:   Fri, 28 Oct 2022 18:07:16 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 1/2] dt-bindings: leds-lp55xx: add ti,disable-charge-pump
-Content-Language: en-US
-To:     Maarten Zanders <maarten.zanders@mind.be>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S229776AbiJ2BPx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 21:15:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08C91C9071;
+        Fri, 28 Oct 2022 18:15:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A30E5B82DFA;
+        Sat, 29 Oct 2022 01:15:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18489C433D6;
+        Sat, 29 Oct 2022 01:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667006150;
+        bh=G5DfkOYR4GEKvpQ1aCgkGIW+8LgRyBABtCSTZJPZAeU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U2QnWe2DTnTz3ta8WVtIq72nabdAL4o7okHGbi0zmiAfLniXSF9Xp+IZnwvwADb+R
+         qyzHeIg0H1kRbScHfs22K1zH5ovxWYgiVetcyhl3XmgVHcXF+Vbef5qEglI4c+sCZU
+         ldA42qH2n+hNavq57A15lP1Acxz6sYBd0EA4wOPcnQ8w8ddZ5X8TgVnOL49LMmAzud
+         ipqAYh4Zsd0y3xCM5yBGYxExevxI0NyCESXtP8AYjkHwkNf1ngVRtx+Dqgzo3IYsTp
+         JcUY4F23bSdLKXvKcZ2/V4uhSTMnL28Cr7HMdc6IyittAS+guOK4RxHr/0pq7rlD+l
+         I1TjKpo0jJNcw==
+Date:   Sat, 29 Oct 2022 09:15:40 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221028133501.95833-1-maarten.zanders@mind.be>
- <20221028133501.95833-2-maarten.zanders@mind.be>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221028133501.95833-2-maarten.zanders@mind.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Markus Niebel <Markus.Niebel@ew.tq-group.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        phone-devel@vger.kernel.org, kernel@puri.sm
+Subject: Re: [PATCH v1 2/3] arm64: dts: librem5-devkit: Make LED use PWM
+Message-ID: <20221029011540.GF125525@dragon>
+References: <cover.1665318256.git.agx@sigxcpu.org>
+ <fac9bc2b1a7c5505d863783726a9b4110e518a8f.1665318256.git.agx@sigxcpu.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fac9bc2b1a7c5505d863783726a9b4110e518a8f.1665318256.git.agx@sigxcpu.org>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,31 +69,9 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 28/10/2022 09:34, Maarten Zanders wrote:
-> Add a binding to disable the internal charge pump for lp55xx.
+On Sun, Oct 09, 2022 at 02:26:54PM +0200, Guido Günther wrote:
+> We can use PWM instead of just GPIO allowing us to control brightness.
 > 
-> Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
-> ---
->  Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> index 7ec676e53851..9eb8d1017402 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> @@ -64,6 +64,11 @@ properties:
->    '#size-cells':
->      const: 0
->  
-> +  ti,disable-charge-pump:
-> +    description: |
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
 
-Drop |
-
-> +      Disable the internal charge pump.
-
-Does it mean that it is enabled by default?
-
-Best regards,
-Krzysztof
-
+Applied, thanks!
