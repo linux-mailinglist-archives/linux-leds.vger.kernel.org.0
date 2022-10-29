@@ -2,36 +2,36 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0FF611EF6
-	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 03:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8736B611EFD
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 03:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbiJ2BPz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Oct 2022 21:15:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42720 "EHLO
+        id S229767AbiJ2BSx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Oct 2022 21:18:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbiJ2BPx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 21:15:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08C91C9071;
-        Fri, 28 Oct 2022 18:15:52 -0700 (PDT)
+        with ESMTP id S229572AbiJ2BSw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Oct 2022 21:18:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C040B20FB09;
+        Fri, 28 Oct 2022 18:18:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A30E5B82DFA;
-        Sat, 29 Oct 2022 01:15:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18489C433D6;
-        Sat, 29 Oct 2022 01:15:45 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AA6762976;
+        Sat, 29 Oct 2022 01:18:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 307D0C433B5;
+        Sat, 29 Oct 2022 01:18:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667006150;
-        bh=G5DfkOYR4GEKvpQ1aCgkGIW+8LgRyBABtCSTZJPZAeU=;
+        s=k20201202; t=1667006330;
+        bh=/2Wc5OD2XyLapd2X9sypJNrvSP9/MDQPgKJDh6cmt4s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U2QnWe2DTnTz3ta8WVtIq72nabdAL4o7okHGbi0zmiAfLniXSF9Xp+IZnwvwADb+R
-         qyzHeIg0H1kRbScHfs22K1zH5ovxWYgiVetcyhl3XmgVHcXF+Vbef5qEglI4c+sCZU
-         ldA42qH2n+hNavq57A15lP1Acxz6sYBd0EA4wOPcnQ8w8ddZ5X8TgVnOL49LMmAzud
-         ipqAYh4Zsd0y3xCM5yBGYxExevxI0NyCESXtP8AYjkHwkNf1ngVRtx+Dqgzo3IYsTp
-         JcUY4F23bSdLKXvKcZ2/V4uhSTMnL28Cr7HMdc6IyittAS+guOK4RxHr/0pq7rlD+l
-         I1TjKpo0jJNcw==
-Date:   Sat, 29 Oct 2022 09:15:40 +0800
+        b=uZU700ClSKx8vyyx0hwxnB66BGCZoqFeSLwpoHV03ZeESVdjpjGHSn+ok3GTXpkf9
+         42J0jk/0QmoU4AVxUgyHav1d9pQDqdpz7EH/nk9lZ23mTXx2ovbHMGSaX2hO5toSKV
+         Wtoh8WfBwyJ8nvozDkgMl47lpKgIaRSuEIm6wYQh8p+n8ab2x5aofw5BLb+MUhIs34
+         m5NOWxqefGBWDBNA/VeUQ3s79WM+2NROAeEnx16GuC47rIToBHuW0HfcsgKkdXop6L
+         FnjwVs99ZgqUbYutDmVogUWLGwA4ZB8zfsAoB2soHcshQPtnHbJd4Mp1EAeVWLFFjz
+         dd/FPUFqfLcSg==
+Date:   Sat, 29 Oct 2022 09:18:41 +0800
 From:   Shawn Guo <shawnguo@kernel.org>
 To:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -51,15 +51,16 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         phone-devel@vger.kernel.org, kernel@puri.sm
-Subject: Re: [PATCH v1 2/3] arm64: dts: librem5-devkit: Make LED use PWM
-Message-ID: <20221029011540.GF125525@dragon>
+Subject: Re: [PATCH v1 3/3] arm64: dts: librem5-devkit: Use function and
+ color rather than label
+Message-ID: <20221029011841.GG125525@dragon>
 References: <cover.1665318256.git.agx@sigxcpu.org>
- <fac9bc2b1a7c5505d863783726a9b4110e518a8f.1665318256.git.agx@sigxcpu.org>
+ <2d249e5fbb3a77a6ca8eb6ecbbf97ac8ce3ef371.1665318256.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fac9bc2b1a7c5505d863783726a9b4110e518a8f.1665318256.git.agx@sigxcpu.org>
+In-Reply-To: <2d249e5fbb3a77a6ca8eb6ecbbf97ac8ce3ef371.1665318256.git.agx@sigxcpu.org>
 X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -69,8 +70,8 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Oct 09, 2022 at 02:26:54PM +0200, Guido Günther wrote:
-> We can use PWM instead of just GPIO allowing us to control brightness.
+On Sun, Oct 09, 2022 at 02:26:55PM +0200, Guido Günther wrote:
+> Use predefined colors and function rather than making up a random label.
 > 
 > Signed-off-by: Guido Günther <agx@sigxcpu.org>
 
