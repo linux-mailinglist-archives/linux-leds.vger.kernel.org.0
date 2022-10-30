@@ -2,68 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B6A9612AD7
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Oct 2022 15:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF83612C98
+	for <lists+linux-leds@lfdr.de>; Sun, 30 Oct 2022 21:15:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbiJ3OCI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Oct 2022 10:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42772 "EHLO
+        id S229500AbiJ3UPc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Oct 2022 16:15:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiJ3OCH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Oct 2022 10:02:07 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9626DB49D;
-        Sun, 30 Oct 2022 07:02:04 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 34B0E5FD02;
-        Sun, 30 Oct 2022 17:02:00 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1667138520;
-        bh=c/VAlILCV2DaqKfQvynv+mBTbvN0iJjo5y/Ygka3gBk=;
-        h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-        b=sfcMMDISlKbfkEdl6G6OLNATtbrzDnudkTBxX+e+SAoSebf7glcDWz1qm5JXuXQys
-         rzBxBUwpzhiv/ex/8BVlXpBuwnEIBM0WYSiINzG9ugLHCT+X42gIc5PieePIlQTOCF
-         dpUKL6xGUebWlTzuoRGLKRaHif1vKX5H512LIxPRz3hdqLJkvKFpxKH13r0j8yyHGP
-         k6w9xoaejHfHoZyvQJd6WcGCgf1zU5F/EFZ0HH7J7fegqzdou9tZaVMSfZxO80Nc5I
-         EN+ZIjXXLKAA3Flm/8Kgx3JUcyrT4MbHJOkWD31N7dzoN1xiXpIOgqTEfUWerrKx2A
-         Coy4Lp7jBhT1w==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Sun, 30 Oct 2022 17:02:00 +0300 (MSK)
-From:   Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        with ESMTP id S229476AbiJ3UPb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Oct 2022 16:15:31 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594CAA185;
+        Sun, 30 Oct 2022 13:15:30 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 81C001C0049; Sun, 30 Oct 2022 21:15:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1667160928;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SRUdneXHxh/Cv6fvYSjs07wKwz7JXwgYVVxDoXQty8s=;
+        b=eqHxQA1emI0dt09Uf566QBHKNMWni+R6zQZbJvKogxPJquSKsnd+IPfrLMxFT7V//xgQmv
+        luoikPnbPz2F2gcOyhOL5MOvA4CutdR6miiuiGneuzQO6zTG6VGBVcw9QtlKF03rYdgPL7
+        YLddMeumTV/qvZ2GZyxlBBHz7nS8WoY=
+Date:   Sun, 30 Oct 2022 21:15:27 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         kernel <kernel@sberdevices.ru>
 Subject: Re: [RFC PATCH v1 1/1] leds: support to use own workqueue for each
  LED
-Thread-Topic: [RFC PATCH v1 1/1] leds: support to use own workqueue for each
- LED
-Thread-Index: AQHY7CXVXNE+VpHZTEOLMCYP8pPo3a4mqWiAgAAcMYA=
-Date:   Sun, 30 Oct 2022 14:01:23 +0000
-Message-ID: <b7304844-a654-2120-2159-29f6134dbadb@sberdevices.ru>
+Message-ID: <20221030201527.GA23195@duo.ucw.cz>
 References: <9a0a70a8-0886-1115-6151-72d2cba842cf@sberdevices.ru>
  <33d05330-7c52-e873-bf32-209d40c77632@sberdevices.ru>
  <20221030122029.GA8017@duo.ucw.cz>
-In-Reply-To: <20221030122029.GA8017@duo.ucw.cz>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.1.12]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <01ED6DA5BE8A624492A4C0A8ECBE6C23@sberdevices.ru>
-Content-Transfer-Encoding: base64
+ <b7304844-a654-2120-2159-29f6134dbadb@sberdevices.ru>
 MIME-Version: 1.0
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/10/30 06:59:00 #20535378
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
+Content-Disposition: inline
+In-Reply-To: <b7304844-a654-2120-2159-29f6134dbadb@sberdevices.ru>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,19 +53,53 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-T24gMzAuMTAuMjAyMiAxNToyMCwgUGF2ZWwgTWFjaGVrIHdyb3RlOg0KPiBPbiBTdW4gMjAyMi0x
-MC0zMCAwNjowNzowNSwgQXJzZW5peSBLcmFzbm92IHdyb3RlOg0KPj4gVGhpcyBhbGxvd3MgdG8g
-c2V0IG93biB3b3JrcXVldWUgZm9yIGVhY2ggTEVELiBUaGlzIG1heSBiZSB1c2VmdWwsIGJlY2F1
-c2UNCj4+IGRlZmF1bHQgJ3N5c3RlbV93cScgZG9lcyBub3QgZ3VhcmFudGVlIGV4ZWN1dGlvbiBv
-cmRlciBvZiBlYWNoIHdvcmtfc3RydWN0LA0KPj4gdGh1cyBmb3Igc2V2ZXJhbCBicmlnaHRuZXNz
-IHVwZGF0ZSByZXF1ZXN0cyAoZm9yIG11bHRpcGxlIGxlZHMpLCByZWFsDQo+PiBicmlnaHRuZXNz
-IHN3aXRjaCBjb3VsZCBiZSBpbiByYW5kb20gb3JkZXIuDQo+IA0KPiBTby4uIHdoYXQ/DQo+IA0K
-PiBFdmVuIGlmIGV4ZWN1dGlvbiBvcmRlciBpcyBzd2l0Y2hlZCwgaHVtYW4gZXllIHdpbGwgbm90
-IGJlIGFibGUgdG8NCj4gdGVsbCB0aGUgZGlmZmVyZW5jZS4NCkhlbGxvLA0KDQpQcm9ibGVtIGFy
-aXNlcyBvbiBvbmUgb2Ygb3VyIGJvYXJkcyB3aGVyZSB3ZSBoYXZlIDE0IHRyaXBsZXMgb2YgbGVk
-cyhlYWNoDQp0cmlwbGUgY29udGFpbnMgUiBHIEIpLiBUZXN0IGNhc2UgaXMgdG8gcGxheSBjb21w
-bGV4IGFuaW1hdGlvbiBvbiBhbGwgbGVkczoNCnNtb290aCBzd2l0Y2ggZnJvbSBvbiBSR0Igc3Rh
-dGUgdG8gYW5vdGhlci4gU29tZXRpbWVzIHRoZXJlIGFyZSBnbGl0Y2hlcyBpbg0KdGhpcyBwcm9j
-ZXNzIC0gZGl2ZXJnZW5jZSBmcm9tIGV4cGVjdGFibGUgUkdCIHN0YXRlLiBXZSBmaXhlZCB0aGlz
-IGJ5IHVzaW5nDQpvcmRlcmVkIHdvcmtxdWV1ZS4NCg0KVGhhbmtzLCBBcnNlbml5DQoNCj4gCQkJ
-CQkJCQlQYXZlbA0KDQo=
+
+--ZGiS0Q5IWpPtfppv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> >> This allows to set own workqueue for each LED. This may be useful, bec=
+ause
+> >> default 'system_wq' does not guarantee execution order of each work_st=
+ruct,
+> >> thus for several brightness update requests (for multiple leds), real
+> >> brightness switch could be in random order.
+> >=20
+> > So.. what?
+> >=20
+> > Even if execution order is switched, human eye will not be able to
+> > tell the difference.
+> Hello,
+>=20
+> Problem arises on one of our boards where we have 14 triples of leds(each
+> triple contains R G B). Test case is to play complex animation on all led=
+s:
+> smooth switch from on RGB state to another. Sometimes there are glitches =
+in
+> this process - divergence from expectable RGB state. We fixed this by usi=
+ng
+> ordered workqueue.
+
+Are there other solutions possible? Like batch and always apply _all_
+the updates you have queued from your the worker code?
+
+Best regards,
+								Pavel
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--ZGiS0Q5IWpPtfppv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY17bXwAKCRAw5/Bqldv6
+8nHqAJ460FAvTohZFx62OjyLkAZzcTBWuwCdEuMPpqEQExkcrAlv3eJJ2vF6Yx4=
+=fMSI
+-----END PGP SIGNATURE-----
+
+--ZGiS0Q5IWpPtfppv--
