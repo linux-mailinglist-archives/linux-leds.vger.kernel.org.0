@@ -2,138 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5B961250F
-	for <lists+linux-leds@lfdr.de>; Sat, 29 Oct 2022 21:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CF8E6127A0
+	for <lists+linux-leds@lfdr.de>; Sun, 30 Oct 2022 07:05:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiJ2TSb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 29 Oct 2022 15:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        id S229597AbiJ3GFm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Oct 2022 02:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiJ2TSb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 Oct 2022 15:18:31 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8E85A8CE
-        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 12:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1667071107; bh=ghfVNpIoDRXOGPpcBaWZ5UxSddO2IwfhlmrkEx6QHYY=;
-        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=aDGT8ysOpBumU3tCo3RTu4q4V+wa6zTIL01kShQ/kqH41rWIDggDkBzFF0xImK/4e
-         10tYDBxE1Xc6zpLVd7aCtj0k1E3pf3VL7ZWMZSJH9NYLaffSNFFXz04g4jdJTLzmQ5
-         IenJ4pH17qim5qQZQP25l3Q8mGe/AMWClarn4NGxns5gRKaEaT0YIcsE0Cpwu2w7al
-         7jn0uS/JGMhfCV+BrJp+ZHYiAfBxsZSwydYmMF2gdo/sa3GPt5iGp1D2vTfKSoBVAz
-         YmxolQDU76AwD4bfCk/sHunWF7WujPNPWobMuvz7L51cUvX70ApTpTS9Nwd2aLYvwq
-         OnyGPpCUETJoQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mail-ej1-f48.google.com ([209.85.218.48]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MHXFx-1osvxq3ISv-00DWMh for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022
- 21:18:27 +0200
-Received: by mail-ej1-f48.google.com with SMTP id t25so20366824ejb.8
-        for <linux-leds@vger.kernel.org>; Sat, 29 Oct 2022 12:18:27 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2cgIcyytRvHhOFDSt71RucFM0K5A78kzXh1kOrQxeXxW76N8PQ
-        PN3AUtewHHY1fVNyn4FqHZUpemYKIOeNdW2cuuU=
-X-Google-Smtp-Source: AMsMyM4V+iFo6hl85FXA+KOS/yGnz3V6mFPbaLmA/cqS9AM2qhiDhu3m4tPBXaj94hsZexDXkd5+4oB8bMQx3Op3I2Q=
-X-Received: by 2002:a17:907:2cd1:b0:7ad:90dc:e7f4 with SMTP id
- hg17-20020a1709072cd100b007ad90dce7f4mr5105301ejc.489.1667071107447; Sat, 29
- Oct 2022 12:18:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <CABfF9mNvf93FAxX7MWVe5KxhrBTV4_ZBzhJPs-JT+tXdyaja1g@mail.gmail.com>
- <20221029165218.GA3337@duo.ucw.cz> <CABfF9mNcem--3Yf3wZ8Pgmvq3A4AgAj1tFN9bsQOqfJLtnqhkQ@mail.gmail.com>
- <20221029183211.GA14351@duo.ucw.cz>
-In-Reply-To: <20221029183211.GA14351@duo.ucw.cz>
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-Date:   Sat, 29 Oct 2022 21:18:16 +0200
-X-Gmail-Original-Message-ID: <CABfF9mOBB10+LDX9xTdJsbBC-hRs3yPXQyt91QszRhwKNQCjpw@mail.gmail.com>
-Message-ID: <CABfF9mOBB10+LDX9xTdJsbBC-hRs3yPXQyt91QszRhwKNQCjpw@mail.gmail.com>
-Subject: Re: Proposal: Add color_temperature support
+        with ESMTP id S229562AbiJ3GFm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Oct 2022 02:05:42 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A79FBB;
+        Sat, 29 Oct 2022 23:05:38 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 981FA5FD0D;
+        Sun, 30 Oct 2022 09:05:34 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1667109934;
+        bh=Mj6XeGhibfGmSiEoTN5jf4ujH17LQ75QJnsy4cgB8Go=;
+        h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+        b=c+ccjpSE8FDHp9W8PipF45eu6bKB8Wp2qvhDjbOlJoJ7WHzFwAS7h8coDc63s7/wo
+         c64/QtpDpI2hWLMzp3+uVg5HGLuqjaCkSfAb7uigfg3eUvJXNDr4dS3bWHTlIB+F93
+         e2s1YCwcYWayCSfDtBd+46thh0AnvQER97mE9RxVu0JUwgN4MmBGzFxikrAyCh9RAG
+         P8wN+6MarQkUJvuj14asjJT+4j57SV2sCyV29cRCabwoU16CZv7CQuhMNU5fa3xZHP
+         OcpEoIuuufL60rPa1aJ6EjSeK2jxgfoi5ziO+epUwPqhOW8P/vo+5nA6PEbqm42kQk
+         bH5Oc+iRDBuag==
+Received: from S-MS-EXCH02.sberdevices.ru (S-MS-EXCH02.sberdevices.ru [172.16.1.5])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Sun, 30 Oct 2022 09:05:33 +0300 (MSK)
+From:   Arseniy Krasnov <AVKrasnov@sberdevices.ru>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:rGt7Tnxy466EMKw7L/NNjZ0sdoJDRTScgtDyQ6jFckjiCR0ooy4
- vJRG5d+8KsYUdRdbfw0NudLCLKMrIWedah+BZQAipnw2u0rdLCHmqAgP0L2CmjvqF7PbTeO
- zmLkR5qwMJ58jUsXJPw/RAcSh7Ye+93aPxg8CiqzDV0sQ/MgvN+Ip99DFrUXKLCJbeFOpxX
- o3VLiyQxR14v9zYXLfW7w==
-UI-OutboundReport: notjunk:1;M01:P0:mXLPdPknvB8=;C7HKlIRKmvnPS0WnY3nmjKtBDa7
- 27U+j0PYoSKIhaPQk15+YIM591h/hllFfiIv+mSPtOp5Rraqo5wFO8jGyih8czeHbcCSvisze
- 59HOBi6GuRaBMRYPfpy/3PFv/cgq5c3mM80LpsCPvLLCeDAEHmCMuDiFz6LOQVvMj8F/I//22
- jsjZ7Rcw0/1/FOfm8JnP+Voaw+ezDWynWC2M3RV7m6BBmzPOKcC96Owfcnp7qgmv9VqQ5B0mQ
- Kr8pkfiTtLuvTZmbYnXg0RYOsTk6yyo2EIlfdxxxX0ubIw3Dgd7EF7CuRgk7QSrMlyMUyfwej
- p9v8rRr1xdseAo7riL45/ZIaeoOn5J/I6h6j3hCcexJqMz+qzieBYI80W8zO4V1CHg19MGesG
- mhzl3MB+m6CG6eLlF9CCA8gK+Qv/lgEzt8UHgkYbRsMeuc6uKw+rToUCHkHgg0r2rkYQtrPLU
- C0l4XGXGS1TyiC0m8yT/p+gmjQbCOKmbt3W0Z3D0VLWl8qqu5VrQ/PWF2IP2t4d0sCAiChV+a
- Ef6S4x64et2dJPPxElcypTIdXXTj0OKiGQtiK/ITcmAvGQ5v5k59E7AfN6zoIijH5210BDKKw
- TtDALJbS/e/S+6OMKwzNMslbzxWbqelBZ3ibAN7kJvRYX9z+xEf/Y67xDtn8OTEfu4HnPnDVb
- figQQQj5Klp/5rIWzf3C3mhEeP4t8JCJjAFpjp/C0ADfhVz02dOqEWp54zyY8V6HR0RwY6Lbd
- qwPVbfyZ/H/vI85qPr+WpYxBURoDSYPP3vmv9NELtp8FQuuExzFnWWXxYAUhUlDeIByTD/v4b
- tmgPQlc2ZAOLkIyghNjLbpEL1KzJHSFUVqtVerIwT6p1USB4pmEEkkMd/8yjv8bueUjoVH1H4
- O32iZP7Q5aEASBG5ZNTFxStcjBUlrkURQbLWKXm7EpCUK4u0CLxDC4GaAlIPBJzKM4S7MTRi+
- QlNEyS4nd2SpR6lpO3aI+kVwnrM=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        kernel <kernel@sberdevices.ru>
+Subject: [RFC PATCH v1 0/1] Support to use own workqueue for each LED
+Thread-Topic: [RFC PATCH v1 0/1] Support to use own workqueue for each LED
+Thread-Index: AQHY7CWKPTqYZU7OvEqkn9ySnKgCJg==
+Date:   Sun, 30 Oct 2022 06:04:59 +0000
+Message-ID: <9a0a70a8-0886-1115-6151-72d2cba842cf@sberdevices.ru>
+Accept-Language: en-US, ru-RU
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.1.12]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9C39020E49B98E4B9770742F765209BE@sberdevices.ru>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/10/30 00:33:00 #20534548
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 29 Oct 2022 at 20:32, Pavel Machek <pavel@ucw.cz> wrote:
-> Hmm, and there are likely to be more lights like this, right?
-Indeed
-
-> I guess it makes sense to support this in LED subsystem. I believe it
-> should be only supported for "white" LEDs. I believe first step is
-> defining an userspace API in Documentation.
-
-RFC:
-diff --git a/Documentation/leds/leds-class.rst
-b/Documentation/leds/leds-class.rst
-index cd155ead8..92127336e 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -3,10 +3,13 @@ LED handling under Linux
-========================
-In its simplest form, the LED class just allows control of LEDs from
--userspace. LEDs appear in /sys/class/leds/. The maximum brightness of the
--LED is defined in max_brightness file. The brightness file will set
-the brightness
-+userspace. LEDs appear in ``/sys/class/leds/``. The maximum brightness of the
-+LED is defined in ``max_brightness`` file. The ``brightness`` file
-will set the brightness
-of the LED (taking a value 0-max_brightness). Most LEDs don't have hardware
-brightness support so will just be turned on for non-zero brightness settings.
-+If setting Color Temperature is supported there will be three files:
-``color_temp``,
-+``lower_color_temp`` and ``upper_color_temp``. The acceptable values
-for ``color_temp`` are in the
-+range of (lower_color_temp-upper_color_temp).
-The class also introduces the optional concept of an LED trigger. A trigger
-is a kernel based source of led events. Triggers can either be simple or
-@@ -121,16 +124,29 @@ Brightness setting API
-LED subsystem core exposes following API for setting brightness:
-- - led_set_brightness:
-+ - ``led_set_brightness``:
-it is guaranteed not to sleep, passing LED_OFF stops
-blinking,
-- - led_set_brightness_sync:
-+ - ``led_set_brightness_sync``:
-for use cases when immediate effect is desired -
-it can block the caller for the time required for accessing
-device registers and can sleep, passing LED_OFF stops hardware
-blinking, returns -EBUSY if software blink fallback is enabled.
-+Color Temperature setting API
-+=============================
-+
-+LED subsystem core exposes following API for setting Color Temperature:
-+
-+ - ``led_set_color_temp``:
-+ it is guaranteed not to sleep
-+
-+ - ``led_set_color_temp_sync``:
-+ for use cases when immediate effect is desired -
-+ it can block the caller for the time required for accessing
-+ device registers and can sleep. It returns -EBUSY if
-+ software blink fallback is enabled.
-LED registration API
-====================
+VGhpcyBhbGxvd3MgdG8gdXNlIG93biB3b3JrcXVldWUgZm9yIGVhY2ggTEVELiBUaGlzIGNvdWxk
+IGJlIHVzZWZ1bCB3aGVuIHdlDQpoYXZlIG11bHRpcGxlIExFRHMgd2hpY2ggbXVzdCB3b3JrIG11
+dHVhbGx5IChmcm9tIHVzZXIncyBwb2ludCBvZiB2aWV3KSwgZm9yDQpleGFtcGxlIHdoZW4gY29t
+cGxleCBhbmltYXRpb24gbXVzdCBiZSBwbGF5ZWQuIFByb2JsZW0gaXMgdGhhdCBkZWZhdWx0IHdx
+IC0NCidzeXN0ZW1fd3EnIGRvZXMgbm90IGd1YXJhbnRlZSBvcmRlciBvZiBjYWxsYmFja3MgZXhl
+Y3V0aW9uLCB3aGljaCBjb250cm9sDQpicmlnaHRuZXNzIG9mIGV2ZXJ5IExFRC4gU28gd2hlbiB1
+c2Vyc3BhY2Ugb3IgcGF0dGVybiBsb2dpYyB3YW50cyB0byBjaGFuZ2UNCmJyaWdodG5lc3MgaW4g
+b25lIG9yZGVyLCBrd29ya2VycyBtYXkgZG8gaXQgaW4gcmFuZG9tIHdheSwgdGh1cyBicmVha2lu
+Zw0Kc21vb3RobmVzcyBvZiBhbmltYXRpb24uDQoNCkhlcmUgaXMgZXhhbXBsZSBob3cgdG8gdXNl
+IHRoaXMgcGF0Y2g6DQoNCi0tLSBhL2RyaXZlcnMvbGVkcy9sZWRzLWF3MjAxMy5jDQorKysgYi9k
+cml2ZXJzL2xlZHMvbGVkcy1hdzIwMTMuYw0KQEAgLTI2NCwxMSArMjY0LDE3IEBAIHN0YXRpYyBp
+bnQgYXcyMDEzX3Byb2JlX2R0KHN0cnVjdCBhdzIwMTMgKmNoaXApDQogCXN0cnVjdCBkZXZpY2Vf
+bm9kZSAqbnAgPSBkZXZfb2Zfbm9kZSgmY2hpcC0+Y2xpZW50LT5kZXYpLCAqY2hpbGQ7DQogCWlu
+dCBjb3VudCwgcmV0ID0gMCwgaSA9IDA7DQogCXN0cnVjdCBhdzIwMTNfbGVkICpsZWQ7DQorCXN0
+cnVjdCB3b3JrcXVldWVfc3RydWN0ICp3cTsNCg0KIAljb3VudCA9IG9mX2dldF9hdmFpbGFibGVf
+Y2hpbGRfY291bnQobnApOw0KIAlpZiAoIWNvdW50IHx8IGNvdW50ID4gQVcyMDEzX01BWF9MRURT
+KQ0KIAkJcmV0dXJuIC1FSU5WQUw7DQoNCisJd3EgPSBhbGxvY19vcmRlcmVkX3dvcmtxdWV1ZSgi
+YXcyMDEzX3dxIiwgMCk7DQorDQorCWlmICghd3EpDQorCQlyZXR1cm4gLUVOT01FTTsNCisNCiAJ
+cmVnbWFwX3dyaXRlKGNoaXAtPnJlZ21hcCwgQVcyMDEzX1JTVFIsIEFXMjAxM19SU1RSX1JFU0VU
+KTsNCg0KIAlmb3JfZWFjaF9hdmFpbGFibGVfY2hpbGRfb2Zfbm9kZShucCwgY2hpbGQpIHsNCkBA
+IC0yOTksNiArMzA1LDcgQEAgc3RhdGljIGludCBhdzIwMTNfcHJvYmVfZHQoc3RydWN0IGF3MjAx
+MyAqY2hpcCkNCg0KIAkJbGVkLT5jZGV2LmJyaWdodG5lc3Nfc2V0X2Jsb2NraW5nID0gYXcyMDEz
+X2JyaWdodG5lc3Nfc2V0Ow0KIAkJbGVkLT5jZGV2LmJsaW5rX3NldCA9IGF3MjAxM19ibGlua19z
+ZXQ7DQorCQlsZWQtPmNkZXYuc2V0X2JyaWdodG5lc3Nfd3EgPSB3cTsNCg0KIAkJcmV0ID0gZGV2
+bV9sZWRfY2xhc3NkZXZfcmVnaXN0ZXJfZXh0KCZjaGlwLT5jbGllbnQtPmRldiwNCiAJCQkJCQkg
+ICAgICZsZWQtPmNkZXYsICZpbml0X2RhdGEpOw0KDQpFLmcuIHNwZWNpYWwgd29ya3F1ZXVlIG11
+c3QgYmUgYWxsb2NhdGVkIGFuZCBzZXQgZm9yIGVhY2ggTEVEIGR1cmluZyBpbml0IG9mDQonbGVk
+X2NsYXNzZGV2Jy4gVGhlbiBsYXRlciBpbiAnbGVkX2luaXRfY29yZSgpJywgJ3N5c3RlbV93cScg
+d29uJ3QgYmUgdXNlZCBmb3INCnN1Y2ggTEVEcy4NCg0KQXJzZW5peSBLcmFzbm92KDEpOg0KIGRy
+aXZlcnMvbGVkcy9sZWQtY29yZS5jIHwgOCArKysrKystLQ0KIGluY2x1ZGUvbGludXgvbGVkcy5o
+ICAgIHwgMSArDQogMiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pDQoNCi0tIA0KMi4zNS4wDQo=
