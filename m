@@ -2,135 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29CE661387C
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Oct 2022 14:56:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD1E613942
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Oct 2022 15:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbiJaN4z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 31 Oct 2022 09:56:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
+        id S231267AbiJaOrM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 31 Oct 2022 10:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbiJaN4z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Oct 2022 09:56:55 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F6410557
-        for <linux-leds@vger.kernel.org>; Mon, 31 Oct 2022 06:56:54 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id l11so16367931edb.4
-        for <linux-leds@vger.kernel.org>; Mon, 31 Oct 2022 06:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZcCKYUH9Lbw/pHPSk6/2WqMZQyQUMyuhsXpUiDfOF6A=;
-        b=MHShAiwKTrTKgezu8b/h1HoWiKmRbMo2Se7Cqp0JBdChjeixK+L0le1H3GXkvigB+s
-         tl1nb+Pnb1oJjdpb/LjPiD9TJUKR7TUUPFUHxlwjWN1j2ruklEG3lDaWN19Q5V7o8i2Q
-         9ae1VwZkDTRFRsksktZlCLJ7ukCegJxsj2IP1C3+23KdkS872MiAqMHYUaA0Y8tj5X4m
-         pZxEweYicWfz1f3HCYMGqWP4u+oouDxlrGb0/RU3S8kFR02V3F6lk405m4PmD4WUR2LO
-         CsbLxLDBTKjBBFeQBWhgZz7hrFJuiMpeZOa+wHqM5IfSZLG4v481jSWye7Gm9kURvhmJ
-         Gl3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZcCKYUH9Lbw/pHPSk6/2WqMZQyQUMyuhsXpUiDfOF6A=;
-        b=bfRfhbXd/Q87Yh+JIc8vQldxvDPdFaaA4pY46qxA6YU1Xt0lF406cnhsP3kecQginP
-         /hgUD8h/tZX4iEWg4+JojBvwZDQRKqQRZv01PCEHCD+LoHtFtta3wd/N+19DTs5W2leu
-         rbrnhLynBzB+bjvWBeQab+csqy2Tj2i1RDM8VSCjQwJ6weUB/Rk0qvCBvpUNor0hSoAt
-         qUkySSbB9ZCKkQx7RD0xmgrfJsGx6Q8UQz4kxCPngLH4N0SaAwW7ElS+vdKAn+E8nn7X
-         ElOVsqQgEyZhxxlovOm8wbfRWGZSlrOtYSi80hsLHE/rs56Lg2jQDI8he3XVMy7hfvnP
-         SCHA==
-X-Gm-Message-State: ACrzQf1fEzBo/7j0NZL4rvP6Oor0tB1On17Xmn9e/PXxwiQRJRDv3kyi
-        BXaCUAGldNsxUPU90sw+DukrTw==
-X-Google-Smtp-Source: AMsMyM6u3JAX6R+7QqE3QY18S43gVSOpaUsIoIZwvU1h8v4fcdHEBIhKdyE7CRGMaOBEy+diJLl18Q==
-X-Received: by 2002:a50:ec99:0:b0:462:2c1c:8764 with SMTP id e25-20020a50ec99000000b004622c1c8764mr13656055edr.325.1667224612782;
-        Mon, 31 Oct 2022 06:56:52 -0700 (PDT)
-Received: from localhost (31-151-115-246.dynamic.upc.nl. [31.151.115.246])
-        by smtp.gmail.com with ESMTPSA id t31-20020a056402241f00b00459cd13fd34sm3214246eda.85.2022.10.31.06.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 06:56:52 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 31 Oct 2022 14:56:50 +0100
-Message-Id: <CO05SSJUFW72.1PUZJ0FMJH3DF@otso>
-Cc:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>,
-        "Dylan Van Assche" <me@dylanvanassche.be>
-Subject: Re: [PATCH v4 1/2] leds: flash: add driver to support flash LED
- module in QCOM PMICs
-From:   "Luca Weiss" <luca.weiss@fairphone.com>
-To:     "Fenglin Wu" <quic_fenglinw@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <krzysztof.kozlowski@linaro.org>, "Pavel Machek" <pavel@ucw.cz>,
-        "Gene Chen" <gene_chen@richtek.com>,
-        "Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
-        <linux-leds@vger.kernel.org>
-X-Mailer: aerc 0.12.0
-References: <20221025073802.2662564-1-quic_fenglinw@quicinc.com>
- <20221025073802.2662564-2-quic_fenglinw@quicinc.com>
-In-Reply-To: <20221025073802.2662564-2-quic_fenglinw@quicinc.com>
+        with ESMTP id S229826AbiJaOrL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Oct 2022 10:47:11 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36A9101CB;
+        Mon, 31 Oct 2022 07:47:08 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id D824A5FD02;
+        Mon, 31 Oct 2022 17:47:05 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1667227625;
+        bh=SeJYjN77aPqX/3EXkPRnl1QHObia9YG9ubqX8i1Rtus=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=mACcP4LNjmwzSPF1W5P46YOa0c5TjJiAGp+Zb9IKHcd+HBIgYCcFBJuRJsUVCmSwN
+         CcIowButSgXyytXGbJGbwM4WTnI36xUivMoHSXx8gow3j+OlvE3g6uDgVeehJgqKNI
+         iRdrHJ1lBvK0N6PYzFV2zU62YcVGYowuv7ljvBa790dEbdkNULbDXgNO1zSku5UuRI
+         u369MglWYEtM7rTJrV5C0dhZfqNctzeJ52o8wbupy+RE02lXdNQjx8lLQJJzdreSJi
+         67yzr4udlHddVkxo7/KWJIOKdkoYhc3UaghVZVjfKi14IGJ/9g4nMKtXx1cL4Pr3o6
+         hGLjAb0Ufo7Zg==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Mon, 31 Oct 2022 17:47:05 +0300 (MSK)
+Date:   Mon, 31 Oct 2022 17:47:04 +0300
+From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
+To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        kernel <kernel@sberdevices.ru>
+Subject: Re: [RFC PATCH v1 1/1] leds: support to use own workqueue for each
+ LED
+Message-ID: <20221031144704.ir5iks6ohh3negsx@CAB-WSD-L081021>
+References: <9a0a70a8-0886-1115-6151-72d2cba842cf@sberdevices.ru>
+ <33d05330-7c52-e873-bf32-209d40c77632@sberdevices.ru>
+ <20221030122029.GA8017@duo.ucw.cz>
+ <b7304844-a654-2120-2159-29f6134dbadb@sberdevices.ru>
+ <20221030201527.GA23195@duo.ucw.cz>
+ <03bc76b5-4e2e-5d4d-96b5-53a1f95ffd0c@sberdevices.ru>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <03bc76b5-4e2e-5d4d-96b5-53a1f95ffd0c@sberdevices.ru>
+User-Agent: NeoMutt/20220415
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/10/31 05:11:00 #20539587
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Fenglin,
+Hello Pavel and Arseniy,
 
-On Tue Oct 25, 2022 at 9:38 AM CEST, Fenglin Wu wrote:
-> Add initial driver to support flash LED module found in Qualcomm
-> Technologies, Inc. PMICs. The flash module can have 3 or 4 channels
-> and each channel can be controlled indepedently and support full scale
-> current up to 1.5 A. It also supports connecting two channels together
-> to supply one LED component with full scale current up to 2 A. In that
-> case, the current will be split on each channel symmetrically and the
-> channels will be enabled and disabled at the same time.
->
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sm7225-fairphone-fp4 +=
- pm6150l
-> ---
->  drivers/leds/flash/Kconfig           |  15 +
->  drivers/leds/flash/Makefile          |   1 +
->  drivers/leds/flash/leds-qcom-flash.c | 700 +++++++++++++++++++++++++++
->  3 files changed, 716 insertions(+)
->  create mode 100644 drivers/leds/flash/leds-qcom-flash.c
->
+Please find my thoughts below.
 
-<snip>
+On Mon, Oct 31, 2022 at 10:01:28AM +0300, Arseniy Krasnov wrote:
+> On 30.10.2022 23:15, Pavel Machek wrote:
+> > Hi!
+> > 
+> >>>> This allows to set own workqueue for each LED. This may be useful, because
+> >>>> default 'system_wq' does not guarantee execution order of each work_struct,
+> >>>> thus for several brightness update requests (for multiple leds), real
+> >>>> brightness switch could be in random order.
+> >>>
+> >>> So.. what?
+> >>>
+> >>> Even if execution order is switched, human eye will not be able to
+> >>> tell the difference.
+> >> Hello,
+> >>
+> >> Problem arises on one of our boards where we have 14 triples of leds(each
+> >> triple contains R G B). Test case is to play complex animation on all leds:
+> >> smooth switch from on RGB state to another. Sometimes there are glitches in
+> >> this process - divergence from expectable RGB state. We fixed this by using
+> >> ordered workqueue.
+> > 
+> > Are there other solutions possible? Like batch and always apply _all_
+> > the updates you have queued from your the worker code?
+> 
+> IIUC You, it is possible to do this if brightness update requests are performed using
+> write to "brightness" file in /sys/class/led/. But if pattern trigger mode is used(in my
+> case) - I can't synchronize these requests as they are created internally in kernel on
+> timer tick.
 
-> +static const struct of_device_id qcom_flash_led_match_table[] =3D {
-> +	{ .compatible =3D "qcom,spmi-flash-led" },
-> +	{ }
-> +};
+Even more, system_wq is used when you push brightness changing requests
+to sysfs node, and it could be re-ordered as well. In other words, from
+queue perspective sysfs iface and trigger iface have the same behavior.
 
-Dylan has noticed that auto-loading the module based on dt match doesn't
-work currently. It seems that this line is missing here to enable that:
+Also we can be faced with another big problem here: let's imagine you have
+I2C based LED controller driver. Usually, in such drivers you're stuck
+to the one driver owned mutex, which protects I2C transactions from each
+other.
 
-  MODULE_DEVICE_TABLE(of, qcom_flash_led_match_table);
+When you change brightness very often (let's say a hundred thousand times
+per minute) you schedule many workers to system_wq. Due to system_wq is
+multicore and unordered it creates many kworkers. Each kworker stucks on
+the driver mutex and goes to TASK_UNINTERRUPTIBLE state. It affects Load
+Average value so much. On the our device LA maximum could reach 30-35
+units due to such idle kworkers.
 
-Please add it for v5!
+I'm not sure custom workqueue initialization from specific HW driver is
+a good solution... But it's much better than nothing.
 
-Regards
-Luca
+Pavel, please share your thoughts about above problems? Maybe you have
+more advanced and scalable solution idea, I would appreciate if you
+could share it with us.
 
-> +
-> +static struct platform_driver qcom_flash_led_driver =3D {
-> +	.driver =3D {
-> +		.name =3D "leds-qcom-flash",
-> +		.of_match_table =3D qcom_flash_led_match_table,
-> +	},
-> +	.probe =3D qcom_flash_led_probe,
-> +	.remove =3D qcom_flash_led_remove,
-> +};
-> +
-> +module_platform_driver(qcom_flash_led_driver);
-> +
-> +MODULE_DESCRIPTION("QCOM Flash LED driver");
-> +MODULE_LICENSE("GPL");
-> --=20
-> 2.25.1
-
+-- 
+Thank you,
+Dmitry
