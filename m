@@ -2,67 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD1E613942
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Oct 2022 15:47:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 920CB613A0C
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Oct 2022 16:32:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231267AbiJaOrM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 31 Oct 2022 10:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
+        id S230175AbiJaPc5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 31 Oct 2022 11:32:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiJaOrL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Oct 2022 10:47:11 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36A9101CB;
-        Mon, 31 Oct 2022 07:47:08 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id D824A5FD02;
-        Mon, 31 Oct 2022 17:47:05 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1667227625;
-        bh=SeJYjN77aPqX/3EXkPRnl1QHObia9YG9ubqX8i1Rtus=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-        b=mACcP4LNjmwzSPF1W5P46YOa0c5TjJiAGp+Zb9IKHcd+HBIgYCcFBJuRJsUVCmSwN
-         CcIowButSgXyytXGbJGbwM4WTnI36xUivMoHSXx8gow3j+OlvE3g6uDgVeehJgqKNI
-         iRdrHJ1lBvK0N6PYzFV2zU62YcVGYowuv7ljvBa790dEbdkNULbDXgNO1zSku5UuRI
-         u369MglWYEtM7rTJrV5C0dhZfqNctzeJ52o8wbupy+RE02lXdNQjx8lLQJJzdreSJi
-         67yzr4udlHddVkxo7/KWJIOKdkoYhc3UaghVZVjfKi14IGJ/9g4nMKtXx1cL4Pr3o6
-         hGLjAb0Ufo7Zg==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Mon, 31 Oct 2022 17:47:05 +0300 (MSK)
-Date:   Mon, 31 Oct 2022 17:47:04 +0300
-From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
-To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
-        Pavel Machek <pavel@ucw.cz>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        kernel <kernel@sberdevices.ru>
-Subject: Re: [RFC PATCH v1 1/1] leds: support to use own workqueue for each
- LED
-Message-ID: <20221031144704.ir5iks6ohh3negsx@CAB-WSD-L081021>
-References: <9a0a70a8-0886-1115-6151-72d2cba842cf@sberdevices.ru>
- <33d05330-7c52-e873-bf32-209d40c77632@sberdevices.ru>
- <20221030122029.GA8017@duo.ucw.cz>
- <b7304844-a654-2120-2159-29f6134dbadb@sberdevices.ru>
- <20221030201527.GA23195@duo.ucw.cz>
- <03bc76b5-4e2e-5d4d-96b5-53a1f95ffd0c@sberdevices.ru>
+        with ESMTP id S231313AbiJaPcx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Oct 2022 11:32:53 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF311180C;
+        Mon, 31 Oct 2022 08:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667230373; x=1698766373;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=njbyewzlB0I61UcEx1gvn+c62w1UHRxU4mCpMpRMQrs=;
+  b=BGjKoZZzymt0S+u2dDNjrPIjUxF9104QNVg9JNSr5aCsrBOuUT+g6vnT
+   Clc5CFiQ/Z/6oTmVLo+ZRQFqBCZpYIuDTRCRKcSj+JGnqK99IPVVEtwpO
+   HDSzSHijiAh0iHitSlTYc+iGAoVUl5/9/pxJGQpRsZ0JSfyucGR4wAkdS
+   77n2Sn+hY8UedT+o77sT+dnQla1dQFwxwPNq8wyzPH49scuK2OuAzn30i
+   /ROPn2gZARyuoNpPbxp6gP7oO4NkedZCR4C6FeMdRPH+kUr6nvBFXhuDJ
+   vc25iYuEka0yQX+Ho35pP08+p23gz0yEw/G3q0s1xMU5B4HDMgEt8DVMc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="292220951"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; 
+   d="scan'208";a="292220951"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 08:32:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="611527071"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; 
+   d="scan'208";a="611527071"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 31 Oct 2022 08:32:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1opWm2-005Av2-1x;
+        Mon, 31 Oct 2022 17:32:26 +0200
+Date:   Mon, 31 Oct 2022 17:32:26 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Gene Chen <gene_chen@richtek.com>,
+        Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH v3 00/11] leds: deduplicate led_init_default_state_get()
+Message-ID: <Y1/qisszTjUL9ngU@smile.fi.intel.com>
+References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
+ <Y1gZ/zBtc2KgXlbw@smile.fi.intel.com>
+ <Y1+NHVS5ZJLFTBke@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03bc76b5-4e2e-5d4d-96b5-53a1f95ffd0c@sberdevices.ru>
-User-Agent: NeoMutt/20220415
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/10/31 05:11:00 #20539587
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <Y1+NHVS5ZJLFTBke@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,62 +80,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Pavel and Arseniy,
-
-Please find my thoughts below.
-
-On Mon, Oct 31, 2022 at 10:01:28AM +0300, Arseniy Krasnov wrote:
-> On 30.10.2022 23:15, Pavel Machek wrote:
-> > Hi!
-> > 
-> >>>> This allows to set own workqueue for each LED. This may be useful, because
-> >>>> default 'system_wq' does not guarantee execution order of each work_struct,
-> >>>> thus for several brightness update requests (for multiple leds), real
-> >>>> brightness switch could be in random order.
-> >>>
-> >>> So.. what?
-> >>>
-> >>> Even if execution order is switched, human eye will not be able to
-> >>> tell the difference.
-> >> Hello,
-> >>
-> >> Problem arises on one of our boards where we have 14 triples of leds(each
-> >> triple contains R G B). Test case is to play complex animation on all leds:
-> >> smooth switch from on RGB state to another. Sometimes there are glitches in
-> >> this process - divergence from expectable RGB state. We fixed this by using
-> >> ordered workqueue.
-> > 
-> > Are there other solutions possible? Like batch and always apply _all_
-> > the updates you have queued from your the worker code?
+On Mon, Oct 31, 2022 at 08:53:49AM +0000, Lee Jones wrote:
+> On Tue, 25 Oct 2022, Andy Shevchenko wrote:
 > 
-> IIUC You, it is possible to do this if brightness update requests are performed using
-> write to "brightness" file in /sys/class/led/. But if pattern trigger mode is used(in my
-> case) - I can't synchronize these requests as they are created internally in kernel on
-> timer tick.
+> > On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
+> > > There are several users of LED framework that reimplement the
+> > > functionality of led_init_default_state_get(). In order to
+> > > deduplicate them move the declaration to the global header
+> > > (patch 2) and convert users (patche 3-11).
+> > 
+> > Dear LED maintainers, is there any news on this series? It's hanging around
+> > for almost 2 months now...
+> 
+> My offer still stands if help is required.
 
-Even more, system_wq is used when you push brightness changing requests
-to sysfs node, and it could be re-ordered as well. In other words, from
-queue perspective sysfs iface and trigger iface have the same behavior.
+From my point of view the LED subsystem is quite laggish lately (as shown by
+this patch series, for instance), which means that _in practice_ the help is
+needed, but I haven't got if we have any administrative agreement on that.
 
-Also we can be faced with another big problem here: let's imagine you have
-I2C based LED controller driver. Usually, in such drivers you're stuck
-to the one driver owned mutex, which protects I2C transactions from each
-other.
-
-When you change brightness very often (let's say a hundred thousand times
-per minute) you schedule many workers to system_wq. Due to system_wq is
-multicore and unordered it creates many kworkers. Each kworker stucks on
-the driver mutex and goes to TASK_UNINTERRUPTIBLE state. It affects Load
-Average value so much. On the our device LA maximum could reach 30-35
-units due to such idle kworkers.
-
-I'm not sure custom workqueue initialization from specific HW driver is
-a good solution... But it's much better than nothing.
-
-Pavel, please share your thoughts about above problems? Maybe you have
-more advanced and scalable solution idea, I would appreciate if you
-could share it with us.
+Pavel?
 
 -- 
-Thank you,
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
