@@ -2,44 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E930B615D94
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Nov 2022 09:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0869F61616D
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Nov 2022 12:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbiKBIXL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Nov 2022 04:23:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
+        id S230306AbiKBLHT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Nov 2022 07:07:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbiKBIXJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Nov 2022 04:23:09 -0400
+        with ESMTP id S229598AbiKBLHR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Nov 2022 07:07:17 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D6920F68;
-        Wed,  2 Nov 2022 01:23:06 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A27P7Fs021293;
-        Wed, 2 Nov 2022 08:22:49 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EBD24969;
+        Wed,  2 Nov 2022 04:07:14 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A2Av2re009165;
+        Wed, 2 Nov 2022 11:06:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qDSQmrVK7zweVdGxeSPJ9WZkY15nIbQ4eUMuQGAH00M=;
- b=Q9anvja7KII3pMgUvPRaCTmXZE7nl+22Lro9Rutpkc33lA7zTQdIPflvGAAAefjTAKl9
- 93dZ2CB68K+N03RAsuu7ntIUxZaAGaaYQ6qF9K1vtsC2k1Caj60AKLxFRg9rc7RMifXs
- A7ueocEWDmINoZa59mb1gMwpjtBMLQbiUGamye8HN2q8K1z3Q9Cc3/KDS9MyZ66pyxU5
- h2ZqD6NWIbib0E+2aUsR98AOtgtaXAdA+LQXrpwlFCJYipagEDODctMMxOK/9QbMump5
- 1Kmpk89aapjBZRGO9mrO3VSpsG0C9jDLYhVheEwCqeN0XtN1wHKmuiXECCpdwndRcRcK eg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkj1s0ce4-1
+ bh=d4AfVhPanCSgGUILhg3HnZsXcF5KG62HY7w19NJ4c8E=;
+ b=UPl2PpfH9BviqGBq+mKiYKj4GzNQN43UMVgqeZGNuM42JcAkMySS+88amB/HFuopvudm
+ UJgBMkZRXvkvFWPxTDeb53IFoW+yCF+TVdY6B1Hbq+0RMwtKwltN+CHy85Zt53/b3C7k
+ OS2P3UW0DPwj5UVGqp7o2WFYmN/EKvi3Lvb9OMzIYpj2GP4mAxxjMwq9Crz1JL7+l9se
+ FbaMPLpw/yqVAa46c232Bej8pxKrSyo8R/uTDET5sKAMDufEugvoxdOTbVPGGo8PVvpz
+ tnmxLvhfiGNxfzjGptCgut3Tovg2hH1DtXDjO/3VMw0rUzewLP+XOaLMZAFMH/Hju1Nj 9Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkq7qg0st-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Nov 2022 08:22:48 +0000
+        Wed, 02 Nov 2022 11:06:54 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A28Mlgf008388
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A2B6rOf008091
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 2 Nov 2022 08:22:47 GMT
+        Wed, 2 Nov 2022 11:06:53 GMT
 Received: from [10.239.155.106] (10.80.80.8) by nalasex01c.na.qualcomm.com
  (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 2 Nov 2022
- 01:22:44 -0700
-Message-ID: <ef950cae-66fc-f49e-1427-eb270a74704d@quicinc.com>
-Date:   Wed, 2 Nov 2022 16:22:41 +0800
+ 04:06:50 -0700
+Message-ID: <54442085-5e72-dd12-2eed-3cda261fcbe0@quicinc.com>
+Date:   Wed, 2 Nov 2022 19:06:47 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
@@ -70,16 +70,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: gDMyXPaDmg4RWulJ5BHa8xq9vubjFZmJ
-X-Proofpoint-ORIG-GUID: gDMyXPaDmg4RWulJ5BHa8xq9vubjFZmJ
+X-Proofpoint-ORIG-GUID: z-joO0phZD4v_Y-z1Jh-d3GXNvZc490I
+X-Proofpoint-GUID: z-joO0phZD4v_Y-z1Jh-d3GXNvZc490I
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-02_04,2022-11-01_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 suspectscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 impostorscore=0
+ definitions=2022-11-02_07,2022-11-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211020049
+ definitions=main-2211020067
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -89,7 +89,7 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dylan,
+
 
 On 2022/11/2 16:14, Dylan Van Assche wrote:
 > 
@@ -780,9 +780,42 @@ On 2022/11/2 16:14, Dylan Van Assche wrote:
 > 
 > Maybe a register needs to be reset when the brightness changes?
 > 
-Thanks for the information, this is helpful! Let me check in the team 
-internally and get back if any special sequence is required for the 
-flash module inside PMI8998.
+
+Hi Dylan,
+
+Would you mind to help me testing this small change on PMI8998? It 
+simply toggles the CHANNEL_EN bit when updating LED brightness. If it 
+works, I will add it specifically for PMI8998 in patch v5.
+
+@@ -241,8 +243,21 @@ static int set_flash_strobe(struct qcom_flash_led 
+*led, enum led_strobe s
+trobe,
+                 chan_mask |= BIT(chan_id - 1);
+         }
+
+-       /* enable/disable flash channels */
+         mask = chan_mask;
++       /*
++        * For flash module inside PMI8998, if strobe(true) is called when
++        * the LED is already enabled, disable the channel 1st and then
++        * enable it again.  This could happen when updating LED brightness
++        * after LED is turned on.
++        */
++       if (led->enabled && (led->enabled == state)) {
++               rc = 
+regmap_field_update_bits(chip->r_fields[REG_CHAN_EN], mask, 0);
++               if (rc < 0)
++                       return rc;
++       }
++
++       /* enable/disable flash channels */
+         val = state ? mask : 0;
+         rc = regmap_field_update_bits(chip->r_fields[REG_CHAN_EN], 
+mask, val);
+         if (rc < 0)
+
+Thanks
+Fenglin Wu
 
 >>>
 >>>>
