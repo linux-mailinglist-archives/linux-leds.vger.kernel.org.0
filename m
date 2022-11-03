@@ -2,87 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D488616ABC
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Nov 2022 18:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 436C3617414
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Nov 2022 03:14:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbiKBR3d (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Nov 2022 13:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        id S230214AbiKCCOl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Nov 2022 22:14:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbiKBR33 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Nov 2022 13:29:29 -0400
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6955FD5;
-        Wed,  2 Nov 2022 10:29:22 -0700 (PDT)
-Received: by mail-ot1-f53.google.com with SMTP id 16-20020a9d0490000000b0066938311495so10654217otm.4;
-        Wed, 02 Nov 2022 10:29:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LEpRB2dhc51/gCDHhrS4K+eUaEu05u03r4bcPUfjBNY=;
-        b=bwIekMpFoAYtBrfBQ5QNSBKvxaFcBeRucYijLCjwArwAHEXj2Tlo8ODcxHKkm9VCKw
-         aIldED8yyBmcKtJ5z7oCTMJ5yoTB46aF4SwB36csYABd5efz4k6THqomvxaDalLmsN9i
-         8HNSJxM2sQDDU5FTtkIciXtG8e9LrPX241lAGnJpCDGP0goFdQsjQ1BLoB0NFzk/R0Pz
-         r3IDDL3In8W28icedCzXCQi4FH5+pIVYP8SnSrtIIUg/0OUxk4cIEdsdSBvs6ywhXk0n
-         iQYjg0tAkY+RLXI7bTzXK7zSPNATU3udmDwlCOpPmNx2ASVr0x3KVhXluGi7wP3ZbTrr
-         U9Uw==
-X-Gm-Message-State: ACrzQf2ZsFxfNytskQ6ixsvABtJ6HZIc8R9v2dS3y6eo3WMSVIWUno51
-        TO9mjQ2P06EubBycnH0gaw==
-X-Google-Smtp-Source: AMsMyM70U1ELYK0+O7pqLeORhCvc6X7y6ep05YXLtd19VAaeHVJOLJpBotoWzAb5C71Jea3ggzrG6Q==
-X-Received: by 2002:a05:6830:6203:b0:65c:39a9:4007 with SMTP id cd3-20020a056830620300b0065c39a94007mr12686538otb.92.1667410161329;
-        Wed, 02 Nov 2022 10:29:21 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bl8-20020a056808308800b0035028730c90sm4724159oib.1.2022.11.02.10.29.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 10:29:20 -0700 (PDT)
-Received: (nullmailer pid 4192956 invoked by uid 1000);
-        Wed, 02 Nov 2022 17:29:22 -0000
-Date:   Wed, 2 Nov 2022 12:29:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Bjorn Andersson <andersson@kernel.org>,
-        Kiran Gunda <kgunda@codeaurora.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: qcom-wled: Add PMI8950
- compatible
-Message-ID: <166741016166.4192902.16881683175503637947.robh@kernel.org>
-References: <20221101161801.1058969-1-luca@z3ntu.xyz>
+        with ESMTP id S230196AbiKCCOj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Nov 2022 22:14:39 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B3C6377
+        for <linux-leds@vger.kernel.org>; Wed,  2 Nov 2022 19:14:39 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N2nPk2qxdzHvKF;
+        Thu,  3 Nov 2022 10:14:18 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 3 Nov 2022 10:14:37 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 3 Nov
+ 2022 10:14:37 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-leds@vger.kernel.org>
+CC:     <pavel@ucw.cz>, <corbet@lwn.net>, <yangyingliang@huawei.com>
+Subject: [PATCH] Documentation: devres: add missing LED helpers
+Date:   Thu, 3 Nov 2022 10:13:31 +0800
+Message-ID: <20221103021331.1007699-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221101161801.1058969-1-luca@z3ntu.xyz>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Add some missing device-managed helpers of led to devres.rst.
 
-On Tue, 01 Nov 2022 17:17:59 +0100, Luca Weiss wrote:
-> Document the compatible for the wled block found in PMI8950.
-> 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
-> Changes since v2:
-> * New patch
-> 
->  Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+devm_led_classdev_register_ext() is introduced by commit b2b998c0f944 ("leds:
+class: Improve LED and LED flash class registration API").
 
-Acked-by: Rob Herring <robh@kernel.org>
+devm_led_trigger_register() is introduced by commit 9534cc31dda2 ("leds: core:
+add managed version of led_trigger_register").
+
+devm_of_led_get() is introduced by commit e389240ad992 ("leds: Add managed
+API to get a LED from a device driver").
+
+Fixes: b2b998c0f944 ("leds: class: Improve LED and LED flash class registration API")
+Fixes: 9534cc31dda2 ("leds: core: add managed version of led_trigger_register")
+Fixes: e389240ad992 ("leds: Add managed API to get a LED from a device driver")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ Documentation/driver-api/driver-model/devres.rst | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 08e5ba810eb0..e0cb7df0f782 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -339,7 +339,10 @@ IRQ
+ 
+ LED
+   devm_led_classdev_register()
++  devm_led_classdev_register_ext()
+   devm_led_classdev_unregister()
++  devm_led_trigger_register()
++  devm_of_led_get()
+ 
+ MDIO
+   devm_mdiobus_alloc()
+-- 
+2.25.1
+
