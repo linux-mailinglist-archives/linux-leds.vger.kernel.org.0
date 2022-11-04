@@ -2,603 +2,197 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC670619228
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Nov 2022 08:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D92CD619352
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Nov 2022 10:20:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231182AbiKDHqI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Nov 2022 03:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34524 "EHLO
+        id S230491AbiKDJUr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Nov 2022 05:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiKDHqH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Nov 2022 03:46:07 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D617E1144;
-        Fri,  4 Nov 2022 00:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1667547964; bh=m9kw+eOVEMdxZMfWtRsPrNpHzgjWjdBNKVTETR3AFZY=;
-        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=mbopFBLtrisnwUDu9empzYaASJXvs2QfjHuMmj8T2kur6UvfAxUW8eSBhUb6pMNe6
-         727jnlGLA7+aFx4c2Se+0yz6Dj2M0cSQX5IYFRIKIC1Mvf63zt/keCb1eWSMycj/LZ
-         KkjyiI48CeuhgleliR/bhETlfj5mILI7W4zj1Z26Q7pPmpyVZG/0L3Vxd6a5K8bkML
-         YVBB81VJ34dxyLQXlDUHZDUUt9R0vspidwi3QBgsZmalRzzaT73uuCZnipSAz0atL9
-         NbdISx/P3y8IB9NJLcR5Vjmo5WlvB/5N8N8mu1vjcvYvKf07WXmILK2//CA96AcJhh
-         1HG8CEnsOLIGQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mail-ed1-f42.google.com ([209.85.208.42]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MBlxM-1ojCx53fhs-00C9Xi; Fri, 04 Nov 2022 08:46:03 +0100
-Received: by mail-ed1-f42.google.com with SMTP id z18so6406126edb.9;
-        Fri, 04 Nov 2022 00:46:03 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1WFRh+SMajjaJexB8fRtHeYKTzE3hBZbe4vDWNhU4d7L19JHjI
-        KQqblSo8MozT0jbXWeV0oNR7zayq37sxDuD46ls=
-X-Google-Smtp-Source: AMsMyM6yBtDlThZrV2LPwiHjlYGwYrW/D7SVC+5hIEsxjhqxqCsGzSTH9zpwEMePuRRnZApJSsaIaPxX5rptlUBP9vo=
-X-Received: by 2002:a05:6402:5419:b0:457:c955:a40f with SMTP id
- ev25-20020a056402541900b00457c955a40fmr33669821edb.391.1667547963397; Fri, 04
- Nov 2022 00:46:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
- <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
- <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
- <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com>
- <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com> <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com>
-In-Reply-To: <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com>
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-Date:   Fri, 4 Nov 2022 08:45:52 +0100
-X-Gmail-Original-Message-ID: <CABfF9mMf433M=kXjqG85rdavFXHRqn0hyBujbMTfEoUG7vZD-g@mail.gmail.com>
-Message-ID: <CABfF9mMf433M=kXjqG85rdavFXHRqn0hyBujbMTfEoUG7vZD-g@mail.gmail.com>
-Subject: Re: Litra Glow on Linux
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        USB mailing list <linux-usb@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
-        Nestor Lopez Casado <nlopezcasad@logitech.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:zQ7N6pLnrv8Pqz/wJ/sRFchKV3vPu3c8niii/Q3+a8aVgOm+KHQ
- xpTFDWByo4g4XozHY2V/HBujlpwghEGaymD2wJFl9TMsbYsRMDsJNqxt3XQ3QyoPThHzIpm
- Nx4+XOhunSuymun/r4RLusipdK08RZTeCN2OS9JhG6cn2tO3Lf0uZkZ7P7qU/7vZnBTwbcB
- 5Mp3dCn+btF6s/C+k9v9w==
-UI-OutboundReport: notjunk:1;M01:P0:hBn7EThuB7M=;p9a9Dm5E8BImlT52J2tNDhCnbDW
- bVW0yQ9cAiW3WGiJC80dl0YNnXsR7PIr3FE7fC+wOOu/XnrXxF5zbvILkwy8YzvMnrby/lai2
- S3tHBOy12i4Wff1WbEIBgtN7kUMNGQEUXs/Va/+5op1E5vEsfO4qHwEAvNzkaXcifldu5kKFc
- +43kSqslM4hERExVVOmXdhpablFJmuPZ/+MDCJKvL+JH/1c8oUM0UbszJQq0BXWtQkcr+9zcA
- Ea3ZKeOsc2zMu+HidQDOxBxab9JO6HP1figKnvPhjZ4UQLBjg8BsXeIekxqEwt4q8HcKPpHFq
- l7gbC4mLd2APD6GUJlMBU96pXc6kSmsnV8O5iYS2LXuNMenb7PqFd6CGEB6+ufi3/Aj32EKzZ
- coVCvNA3o8dz+Ox9IwMxvLnXjyb96Rugn+zdIHUe6Z2EDbYEPm+RkPNzhRsveIY7fpG76kXcb
- u0pFWIGGkO+4YYnlX1Egs0q0Yeefpbb7ZTtDArfeVxoyDFPI6QSPsXQNW4oGGnHcQbu4XwDqY
- icTYhgMdmMI1xHhnZqVer41UEcWQ4O00WdmrtGxxcJ2Yd2LbUKtyFsqUJMZeq4ELHZQYHWqkT
- D8mJfEez2VV5wiBRO3FPGaU2a7Af9fCKGzBssqClX0NMluH1bVRm1koLBoY5UTf9A+UjTr3+z
- ZnerAWTV8CqXb19J33Gdpp+uBBVxN5figIRzT9vXm8d6/I40RbRR7DdQZ7ukHfVfuj0M/LIvK
- SdV2Y7vByr/xkh2F1pVwfpCUKwDzdVYUaLfHLfBtfeyVwcOMzohr6dgajj6xRq+WDkLMGfadE
- yO9pd2s6aqnZP6DOQGGRhwQq9RE+6EDVpmmse/2F+4tvy4/Zd6AS5xFmjt1U/U8Hp7dx8b6K0
- YE4hNHADGiH0yoaaDH9vlj5NKslnUrWsRpzPokHkXFrFeUTxbQJVIJJLXme9UUvOwTLM9WrZh
- g5SsH2JrR6cMg+SLWCtjvWtrPpo=
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLACK autolearn=no autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229572AbiKDJUp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Nov 2022 05:20:45 -0400
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05466248DB;
+        Fri,  4 Nov 2022 02:20:43 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 8B17F580511;
+        Fri,  4 Nov 2022 05:20:41 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Fri, 04 Nov 2022 05:20:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1667553641; x=1667560841; bh=SJoBz4HEVE
+        RiFUnQzb3ZIub9dT0AONhBbUZgzTI8xuQ=; b=jOAioEcqTCQaB6i99azVot5cAk
+        gre11Ve+vBmc+Fs/vkDIrNjCSzfHPOUS4wzGCXwfIKJy9biOGQnW4iqxv75LAqbt
+        RdYq92O8WI8weSFAZzxtnrW2XuUukmSBN8KcaYYLkhR8/jLD6oh6MJQ9cwWd7yl8
+        mH21fZUTzBP3gaoYiV4qH0o52fq8RuYFTCOdHa7Soal92hUHyLnB5uIHP9R7ZXTY
+        yrk8ucJVboxa6GlUfb8qItPWrs5N4B3xbNfDaXknJzA5ZsbLT0XMXiOZj0LDZKk8
+        6WHRFTqWjdbWEHnXA5Wxg4OS34kfyJ+czE32JS893SSJ8vebcjylW97lvLOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1667553641; x=1667560841; bh=SJoBz4HEVERiFUnQzb3ZIub9dT0A
+        ONhBbUZgzTI8xuQ=; b=BmHXv8dWgMDB3A30MW7r0ER+x2KPnCs67D5Tm4znOHms
+        KOvE21G5Qhp1IrhrNpstSMDDbjbRSKKI+wikCsrQUA1D/bc3nhsP6Pfph0Q2sq/L
+        w5xrS9CVegwYB6hNxnfcyAYSDOlMngVd/4QaY9exxV3aeJMS+7bUlXh8ZFR6fpSK
+        gPa2Xr8LydLZo5vJzfOV1L/TUvE6+ISJhz2GoZweOm3SeuEKaa51K7Ium5W5K020
+        eA1TNoxWdJRVK08gDXfqjSbR39bjBE0aJEu+l1hoD12ykpSVSlQ8ZDa9eXuaf1Sv
+        VIUPNFOv24w/xRDpe00prXWHte2pkStlJDT70gy7rw==
+X-ME-Sender: <xms:Z9lkYzSrjU71xNBk6_zqZw7_YH6JI0yUseZ9KPinXiiMwa2ms5wZNA>
+    <xme:Z9lkY0y5CO55EwHV9Y6MI53sDiK8VD6-UVJ3Kx8hhf4HE2ApNz1-y8IkyXw6-f9C2
+    r627sGDwec4-VUhbl4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Z9lkY42FoeE9AWZWaTBjKK0WgCtTsBwtE9dvMmUqE911tjOLuc_EpQ>
+    <xmx:Z9lkYzD3odg97j_NLZJAinYScUOubW4GrxI_Sg6mxaH40a00usXu3A>
+    <xmx:Z9lkY8gjj31U7LlNshlCvQUZGUTi1_xePFBMFsKDj6YaX8-3AvZpfA>
+    <xmx:adlkYxI9rlur3V1K3bRsxhvV5OL9Go-r-JYQNksdhAr5r8wa1PdT3g>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 17FD1B603ED; Fri,  4 Nov 2022 05:20:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+Mime-Version: 1.0
+Message-Id: <6b35d496-2313-4fd9-851b-2ba469bc9261@app.fastmail.com>
+In-Reply-To: <803778517.2279639.1667493436959.JavaMail.open-xchange@opme11oxm02aub.pom.fr.intraorange>
+References: <20221019161831.3864786-1-arnd@kernel.org>
+ <m2r0z3h5yr.fsf@sopl295.home>
+ <7d9eebc8-39b6-4dc1-9ffc-f17ec584bee2@app.fastmail.com>
+ <803778517.2279639.1667493436959.JavaMail.open-xchange@opme11oxm02aub.pom.fr.intraorange>
+Date:   Fri, 04 Nov 2022 10:20:20 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Robert Jarzmik" <jarzmik.robert@orange.fr>,
+        "Arnd Bergmann" <arnd@kernel.org>,
+        "Robert Jarzmik" <robert.jarzmik@free.fr>
+Cc:     jingoohan1@gmail.com, "Linus Walleij" <linus.walleij@linaro.org>,
+        "Sudip Mukherjee" <sudipm.mukherjee@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        marek.vasut@gmail.com,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "Ulf Hansson" <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org,
+        "Sergey Shtylyov" <s.shtylyov@omp.ru>, alsa-devel@alsa-project.org,
+        philipp.zabel@gmail.com, linux-usb@vger.kernel.org,
+        linux-leds@vger.kernel.org, slapin@ossfans.org,
+        "Bartosz Golaszewski" <brgl@bgdev.pl>,
+        "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        "Mark Brown" <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+        "Lee Jones" <lee@kernel.org>,
+        "Russell King" <linux@armlinux.org.uk>,
+        "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
+        linux-input@vger.kernel.org, mkpetch@internode.on.net,
+        lgirdwood@gmail.com, "Vignesh Raghavendra" <vigneshr@ti.com>,
+        "Daniel Mack" <daniel@zonque.org>, kernel@wantstofly.org,
+        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, sre@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        patches@opensource.cirrus.com, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, "Felipe Balbi" <balbi@kernel.org>,
+        "Helge Deller" <deller@gmx.de>,
+        "Alan Stern" <stern@rowland.harvard.edu>,
+        "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, perex@perex.cz,
+        linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-rtc@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        lost.distance@yahoo.com,
+        "Haojian Zhuang" <haojian.zhuang@gmail.com>,
+        "Viresh Kumar" <viresh.kumar@linaro.org>, tiwai@suse.com,
+        "Dominik Brodowski" <linux@dominikbrodowski.net>,
+        "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH 00/30] ARM: pxa: remove all unused boards&drivers
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-See my first stab at the problem below.
+On Thu, Nov 3, 2022, at 17:37, Jarzmik Robert wrote:
+> I'm sorry Arnd, my mailer messed up again, and instead of using my 
+> normal robert.jarzmik@free.fr, it used my ISP mail ...
+>>
+>
+> The reason you're not seeing the AC97_BUS_NEW used is because this 
+> becomes visible only in device-tree files, which were posted (for 
+> mioa701 for example) but never properly reviewed nor merged.
+>
+> As from memory, at least mioa701, zylonite, em_x270 are DT ported, ie. 
+> there is a DT file which makes them boot. For the mioa701, the DT file 
+> offers the same functionnality, ie. all drivers in mioa701.c legacy 
+> file are working as well in a DT variant (not using mioa701.c 
+> obviously).
 
-On Mon, 31 Oct 2022 at 10:29, Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
-> On Sat, Oct 29, 2022 at 9:21 AM Andreas Bergmeier <abergmeier@gmx.net> wrote:
-> >
-> > Sorry, another set of questions - seems like I am a bit dense.
-> >
-> > On Thu, 27 Oct 2022 at 11:44, Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > > It's just Logitech's common HID protocol. The advantage is that if
-> > > Logitech reuses the feature on a different hardware, we won't have to
-> > > implement anything new in the kernel.
-> > Started implementing some illumination code but will take a while
-> > until I figure out the driver I think.
-> >
-> > > But from where you are now, you should probably be able to implement
-> > > the basic on/off feature by looking at the function 0x1000 in the
-> > > hid-logitech-hidpp code:
-> > > - you need define a few macros for your functionality (the class, the
-> > > commands, the events)
-> > So my approach would be to identify the GLOW device and then at some
-> > later point create the
-> > illumination state and from there only handle common illumination.
->
-> For identifying the GLOW device you should be adding an id in the
-> table of hid-logitech-hidpp, with a driver data that tells the driver
-> to look for 0x1990.
-Currently compiles and should have all handling that seemed necessary to me.
-Will now try to get the compiled kernel running on an Ubuntu - that
-might take a while.
-RFC:
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 71a9c258a20b..bdc2949d1be5 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -11,6 +11,7 @@
-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-#include <linux/device.h>
-+#include <linux/dmi.h>
-#include <linux/input.h>
-#include <linux/usb.h>
-#include <linux/hid.h>
-@@ -99,6 +100,7 @@ MODULE_PARM_DESC(disable_tap_to_click,
-#define HIDPP_CAPABILITY_HIDPP20_HI_RES_WHEEL BIT(7)
-#define HIDPP_CAPABILITY_HIDPP20_HI_RES_SCROLL BIT(8)
-#define HIDPP_CAPABILITY_HIDPP10_FAST_SCROLL BIT(9)
-+#define HIDPP_CAPABILITY_ILLUMINATION_LIGHT BIT(10)
-#define lg_map_key_clear(c) hid_map_usage_clear(hi, usage, bit, max,
-EV_KEY, (c))
-@@ -206,7 +208,10 @@ struct hidpp_device {
-struct hidpp_battery battery;
-struct hidpp_scroll_counter vertical_wheel_counter;
-- u8 wireless_feature_index;
-+ union {
-+ u8 wireless_feature_index;
-+ u8 illumination_feature_index;
-+ };
-};
-/* HID++ 1.0 error codes */
-@@ -862,6 +867,8 @@ static int hidpp_unifying_init(struct hidpp_device *hidpp)
-#define CMD_ROOT_GET_FEATURE 0x00
-#define CMD_ROOT_GET_PROTOCOL_VERSION 0x10
-+#define HIDPP_FEATURE_TYPE_HIDDEN 0x70
-+
-static int hidpp_root_get_feature(struct hidpp_device *hidpp, u16 feature,
-u8 *feature_index, u8 *feature_type)
-{
-@@ -1729,6 +1736,294 @@ static int
-hidpp_set_wireless_feature_index(struct hidpp_device *hidpp)
-return ret;
-}
-+/* --------------------------------------------------------------------------
-*/
-+/* 0x1990: Illumination Light */
-+/* --------------------------------------------------------------------------
-*/
-+
-+#define HIDPP_PAGE_ILLUMINATION_LIGHT 0x1990
-+
-+#define HIDPP_ILLUMINATION_FUNC_GET 0x00
-+#define HIDPP_ILLUMINATION_FUNC_SET 0x10
-+#define HIDPP_ILLUMINATION_FUNC_GET_BRIGHTNESS_INFO 0x20
-+#define HIDPP_ILLUMINATION_FUNC_GET_BRIGHTNESS 0x30
-+#define HIDPP_ILLUMINATION_FUNC_SET_BRIGHTNESS 0x40
-+
-+/* Not yet supported
-+#define HIDPP_ILLUMINATION_FUNC_GET_BRIGHTNESS_LEVELS 0x50
-+#define HIDPP_ILLUMINATION_FUNC_SET_BRIGHTNESS_LEVELS 0x60
-+*/
-+
-+#define HIDPP_ILLUMINATION_FUNC_GET_COLOR_TEMPERATURE_INFO 0x70
-+#define HIDPP_ILLUMINATION_FUNC_GET_COLOR_TEMPERATURE 0x80
-+#define HIDPP_ILLUMINATION_FUNC_SET_COLOR_TEMPERATURE 0x90
-+
-+#define HIDPP_ILLUMINATION_EVENT_CHANGE 0x00
-+#define HIDPP_ILLUMINATION_EVENT_BRIGHTNESS_CHANGE 0x10
-+#define HIDPP_ILLUMINATION_EVENT_COLOR_TEMPERATURE_CHANGE 0x20
-+
-+#define HIDPP_ILLUMINATION_CAP_NON_LINEAR_LEVELS 0x04
-+#define HIDPP_ILLUMINATION_CAP_LINEAR_LEVELS 0x02
-+#define HIDPP_ILLUMINATION_CAP_EVENTS 0x01
-+
-+struct led_data {
-+ struct led_classdev cdev;
-+ struct hidpp_device *drv_data;
-+ struct hid_device *hdev;
-+ struct work_struct work;
-+ u16 feature_index;
-+ bool on;
-+ unsigned int brightness;
-+ unsigned int color_temperature;
-+ bool removed;
-+};
-+
-+static enum led_brightness led_brightness_get(struct led_classdev *led_cdev) {
-+ struct led_data *led = container_of(led_cdev, struct led_data,
-+ cdev);
-+
-+ if (!led->on) {
-+ return LED_OFF;
-+ }
-+
-+ return led->brightness + 1;
-+}
-+
-+static void led_brightness_set(struct led_classdev *led_cdev, enum
-led_brightness brightness) {
-+ struct led_data *led = container_of(led_cdev, struct led_data,
-+ cdev);
-+ led->on = brightness != 0;
-+ if (led->on) {
-+ led->brightness = brightness - 1;
-+ }
-+
-+ schedule_work(&led->work);
-+}
-+
-+static unsigned int led_color_temperature_get(struct led_classdev *led_cdev) {
-+ struct led_data *led = container_of(led_cdev, struct led_data,
-+ cdev);
-+ return led->color_temperature;
-+}
-+
-+static void led_color_temperature_set(struct led_classdev *led_cdev,
-unsigned int color_temperature) {
-+ struct led_data *led = container_of(led_cdev, struct led_data,
-+ cdev);
-+
-+ led->color_temperature = color_temperature;
-+ schedule_work(&led->work);
-+}
-+
-+static void led_work(struct work_struct *work)
-+{
-+ struct hidpp_device *hidpp;
-+ u8 params[20];
-+ int ret;
-+ struct hidpp_report report;
-+ struct led_data *led = container_of(work, struct led_data, work);
-+
-+ if (led->removed)
-+ return;
-+
-+ hidpp = led->drv_data;
-+
-+ memset(&params, 0, sizeof(params)/sizeof(*params));
-+ if (!led->on) {
-+ ret = hidpp_send_fap_command_sync(hidpp,
-hidpp->illumination_feature_index, HIDPP_ILLUMINATION_FUNC_SET,
-params, 20, &report);
-+ if (ret) {
-+ return;
-+ }
-+ }
-+
-+ ret = hidpp_send_fap_command_sync(hidpp,
-hidpp->illumination_feature_index,
-HIDPP_ILLUMINATION_FUNC_SET_BRIGHTNESS, params, 20, &report);
-+ if (ret) {
-+ return;
-+ }
-+
-+ ret = hidpp_send_fap_command_sync(hidpp,
-hidpp->illumination_feature_index,
-HIDPP_ILLUMINATION_FUNC_SET_COLOR_TEMPERATURE, params, 20, &report);
-+ if (ret) {
-+ return;
-+ }
-+}
-+
-+struct control_info{
-+ u16 min;
-+ u16 max;
-+ u16 res;
-+ u8 capabilities;
-+ u8 max_levels;
-+};
-+
-+static int get_brightness_info_sync(struct hidpp_device *hidpp,
-struct control_info* info) {
-+ struct hidpp_report resp;
-+ int ret = hidpp_send_fap_command_sync(hidpp,
-hidpp->illumination_feature_index,
-HIDPP_ILLUMINATION_FUNC_GET_BRIGHTNESS_INFO, NULL, 0, &resp);
-+ if (ret)
-+ return ret;
-+
-+ info->capabilities = resp.fap.params[0];
-+ info->min = be16_to_cpu(resp.fap.params[1] << 8 | resp.fap.params[2] << 0);
-+ info->max = be16_to_cpu(resp.fap.params[3] << 8 | resp.fap.params[4] << 0);
-+ info->res = be16_to_cpu(resp.fap.params[5] << 8 | resp.fap.params[6] << 0);
-+ info->max_levels = resp.fap.params[7];
-+ return 0;
-+}
-+
-+static int get_color_temperature_info_sync(struct hidpp_device
-*hidpp, struct control_info* info) {
-+ struct hidpp_report resp;
-+ int ret = hidpp_send_fap_command_sync(hidpp,
-hidpp->illumination_feature_index,
-HIDPP_ILLUMINATION_FUNC_GET_COLOR_TEMPERATURE_INFO, NULL, 0, &resp);
-+ if (ret)
-+ return ret;
-+
-+ info->capabilities = resp.fap.params[0];
-+ info->min = be16_to_cpu(resp.fap.params[1] << 8 | resp.fap.params[2] << 0);
-+ info->max = be16_to_cpu(resp.fap.params[3] << 8 | resp.fap.params[4] << 0);
-+ info->res = be16_to_cpu(resp.fap.params[5] << 8 | resp.fap.params[6] << 0);
-+ info->max_levels = resp.fap.params[7];
-+ return 0;
-+}
-+
-+static int register_led(struct hidpp_device *hidpp)
-+{
-+ struct control_info bi, cti;
-+ struct led_data *ld;
-+ int ret = get_brightness_info_sync(hidpp, &bi);
-+ if (ret)
-+ return ret;
-+
-+ if (bi.res != 1) {
-+ // FAIL - not supported
-+ return -1;
-+ }
-+
-+ ret = get_color_temperature_info_sync(hidpp, &cti);
-+ if (ret)
-+ return ret;
-+
-+ if (cti.res != 1) {
-+ // FAIL - not supported
-+ return -1;
-+ }
-+
-+ ld = devm_kzalloc(&hidpp->hid_dev->dev,
-+ sizeof(struct led_data),
-+ GFP_KERNEL);
-+ if (!ld)
-+ return -ENOMEM;
-+
-+ ld->drv_data = hidpp;
-+ ld->removed = false;
-+ ld->cdev.name = hidpp->name;
-+ ld->cdev.flags = LED_HW_PLUGGABLE | LED_BRIGHT_HW_CHANGED |
-LED_COLOR_TEMP_HW_CHANGED;
-+ /* kernel led interface designates 0 as off. To not lose the ability to chose
-+ * minimal brightness, we thus need to increase the reported range by 1
-+ */
-+ ld->cdev.max_brightness = bi.max - bi.min + 1;
-+ if (bi.max == bi.min) {
-+ /* According to docs set value is not supported under these
-+ * conditions
-+ */
-+ ld->cdev.brightness_set = NULL;
-+ } else {
-+ ld->cdev.brightness_set = led_brightness_set;
-+ }
-+ ld->cdev.brightness_get = led_brightness_get;
-+
-+ ld->cdev.min_color_temperature = cti.min;
-+ ld->cdev.max_color_temperature = cti.max;
-+ if (bi.max == bi.min) {
-+ /* According to docs set value is not supported under these
-+ * conditions
-+ */
-+ ld->cdev.color_temperature_set = NULL;
-+ } else {
-+ ld->cdev.color_temperature_set = led_color_temperature_set;
-+ }
-+ ld->cdev.color_temperature_get = led_color_temperature_get;
-+ INIT_WORK(&ld->work, led_work);
-+ ret = devm_led_classdev_register(&hidpp->hid_dev->dev, &ld->cdev);
-+ if (ret < 0) {
-+ /* No need to have this still around */
-+ devm_kfree(&hidpp->hid_dev->dev, ld);
-+ }
-+ hidpp->private_data = ld;
-+ return 0;
-+}
-+
-+/* TODO: Do we need this
-+static int unregister_led(struct hidpp_device *hidpp,) {
-+ devm_led_classdev_unregister(&hdev->dev, &ld->cdev);
-+}
-+*/
-+
-+static int hidpp20_illumination_raw_event(struct hidpp_device *hidpp,
-u8 *data, int size) {
-+
-+ struct led_data *led;
-+ struct hidpp_report *report = (struct hidpp_report *)data;
-+ switch (report->report_id) {
-+ case REPORT_ID_HIDPP_LONG:
-+ /* size is already checked in hidpp_raw_event.
-+ * only leave long through
-+ */
-+ break;
-+ default:
-+ return 0;
-+ }
-+
-+ if (report->fap.feature_index != hidpp->illumination_feature_index) {
-+ return 0;
-+ }
-+
-+ led = (struct led_data*)hidpp->private_data;
-+
-+ if (report->fap.funcindex_clientid == HIDPP_ILLUMINATION_EVENT_CHANGE) {
-+ led->on = report->fap.params[0] & 0x1;
-+ if (led->on )
-+ led_classdev_notify_brightness_hw_changed(&led->cdev, led->brightness + 1);
-+ else
-+ led_classdev_notify_brightness_hw_changed(&led->cdev, LED_OFF);
-+ return 0;
-+ }
-+
-+ if (report->fap.funcindex_clientid ==
-HIDPP_ILLUMINATION_EVENT_BRIGHTNESS_CHANGE) {
-+ u16 brightness = be16_to_cpu(report->fap.params[0] << 8 |
-report->fap.params[1] << 0);
-+ led->brightness = brightness;
-+ led_classdev_notify_brightness_hw_changed(&led->cdev, led->brightness + 1);
-+ return 0;
-+ }
-+
-+ if (report->fap.funcindex_clientid ==
-HIDPP_ILLUMINATION_EVENT_COLOR_TEMPERATURE_CHANGE) {
-+ u16 color_temperature = be16_to_cpu(report->fap.params[0] << 8 |
-report->fap.params[1] << 0);
-+ led->color_temperature = color_temperature;
-+ led_classdev_notify_color_temperature_hw_changed(&led->cdev,
-led->color_temperature);
-+ return 0;
-+ }
-+
-+ return 0;
-+}
-+
-+static int hidpp20_illumination_connect(struct hidpp_device *hidpp) {
-+
-+ u8 feature_index, feature_type;
-+ int ret = hidpp_root_get_feature(hidpp,
-+ HIDPP_PAGE_ILLUMINATION_LIGHT,
-+ &feature_index,
-+ &feature_type);
-+ if (ret)
-+ return ret;
-+
-+ if (feature_type & HIDPP_FEATURE_TYPE_HIDDEN) {
-+ /* According to docs the host should ignore this feature */
-+ return -ENOENT;
-+ }
-+
-+ hidpp->illumination_feature_index = feature_index;
-+
-+ ret = register_led(hidpp);
-+ if (!ret)
-+ hidpp->capabilities |= HIDPP_CAPABILITY_ILLUMINATION_LIGHT;
-+
-+ return ret;
-+}
-+
-/* -------------------------------------------------------------------------- */
-/* 0x2120: Hi-resolution scrolling */
-/* -------------------------------------------------------------------------- */
-@@ -3648,6 +3943,12 @@ static int hidpp_raw_hidpp_event(struct
-hidpp_device *hidpp, u8 *data,
-return ret;
-}
-+ if (hidpp->capabilities & HIDPP_CAPABILITY_ILLUMINATION_LIGHT) {
-+ ret = hidpp20_illumination_raw_event(hidpp, data, size);
-+ if (ret != 0)
-+ return ret;
-+ }
-+
-if (hidpp->quirks & HIDPP_QUIRK_HIDPP_WHEELS) {
-ret = hidpp10_wheel_raw_event(hidpp, data, size);
-if (ret != 0)
-@@ -4013,6 +4314,8 @@ static void hidpp_connect_event(struct
-hidpp_device *hidpp)
-}
-hidpp->delayed_input = input;
-+
-+ ret = hidpp20_illumination_connect(hidpp);
-}
-static DEVICE_ATTR(builtin_power_supply, 0000, NULL, NULL);
+Ok, I see. I need a little clarification here, so I can adapt
+my patch series to keep the necessary files in place:
 
+- Zylonite has both PXA300 and PXA320 variants. I removed the PXA320
+  code because nothing selected it any more and it is not hooked
+  up to the MACH_PXA3XX_DT Kconfig symbol. Should I undo this and
+  keep all three PXA3xx variant, removing only PXA930 but selecting
+  CPU_PXA310/320 from MACH_PXA3XX_DT?
 
+- The em_x270 board file was already removed as part of 9d3239147d6d
+  ("ARM: pxa: remove Compulab pxa2xx boards"), which already removed
+  the associated drivers. Is it correct to assume that the DT support
+  for it has also become unusable at that point, or would you expect
+  it to still have some use? I now remove the related CM-X300 machine
+  as well, but it sounds like you did not have DT support for that,
+  right?
+
+- I'm not sure how the probing of the ASoC drivers works in the
+  DT case. Do I only need to make SND_PXA2XX_SOC_AC97 user-visible
+  to let everything get probed automatically from DT, or do we
+  need to also keep SND_PXA2XX_SOC_MIOA701 and SND_SOC_ZYLONITE?
+
+>> Any idea where I went wrong here? Did I make a mistake in following the Kconfig dependencies, or are some parts of this
+> incorrectly annotated?
 >
-> >
-> > > - you need to add a hook in connect_event to register the led class
-> > > device that will hook on to the actual LED of the device
-> > I did read all the LED specs/headers that I could find and from what I
-> > have seen all you can currently do with this interface is control
-> > brightness. There seems to be no way of controlling the Color
-> > temperature, though.
->
-> Leds can be multicolor. See drivers/hid/hid-playstation.c for an example.
->
-> So I think you should be able to give a color to the LED that can be
-> controlled as a separate channel, different from the brightness. The
-> LEDs folks will know better.
->
-> > So either this then would have to be exposed as a special device or
-> > get handled entirely in userspace.
-> > The latter seems to work against "implementing illumination handling
-> > once in driver and reusing it".
->
-> I would rather have it handled as a standard LED class, a colored LED
-> one. There might be a special structure for colored LEDs, and if not
-> you should probably be able to use a multi-color led with just one
-> color channel.
->
-> >
-> > > [0] https://pwr-solaar.github.io/Solaar
-> > > [1] https://github.com/pwr-Solaar/Solaar/blob/master/docs/hidpp-documentation.txt
-> > Thanks. Never would have found the specs on my own.
-> > That said - I read x1990 spec and tried to access getIllumination from
-> > userspace.
->
-> Oh, good point, Nestor added that spec back in May :)
-> Thanks, Nestor!
->
-> > The spec seems a bit vague for my limited experience level.
-> > For example I have not yet figured out what the communication (bytes)
-> > difference between _getIllumination()_ and _illuminationChangedEvent_
-> > is.
-> > What seems to work is accessing events:
-> >
-> > So I tried:
-> > ```c
-> >
-> > #define LONG_REPORT_ID 0x11
-> >
-> >     struct hiddev_usage_ref_multi multi;
-> >     memset(&multi, 0, sizeof(multi));
-> >     multi.uref.report_type = HID_REPORT_TYPE_INPUT;
-> >     multi.uref.report_id = LONG_REPORT_ID;
-> >     multi.uref.field_index = 0x0;
-> >     multi.uref.usage_index = 0x03;
-> >     multi.uref.usage_code = 0xff430002;
-> >     multi.num_values = 1;
-> >
-> >     if (ioctl(fd, HIDIOCGUSAGES, &multi) < 0)
-> >     {
-> >         perror("HIDIOCGUSAGES getIllumination");
-> >         return -11;
-> >     }
-> >
-> >     printf("VALUE: %0x\n", multi.values[0]);
-> >
-> > ```
-> > Which seems to report the illumination state until I press another
-> > hardware button. So this seems to access the last event, which seems
-> > to be _illuminationChangedEvent_ in my case.
-> > No idea currently how to get _getIllumination_ to work.
->
-> IIRC, HIDIOCGUSAGES doesn't do anything with the device, you are
-> querying the kernel of its current state. Which explains why you are
-> not getting the current state, but the previous known state.
->
-> What you need to do, is actually emit a command to the device
-> (completely untested, of course):
-> ---
-> #define APPLICATION_ID 0x06 // can be anything between 0x01  and 0xF,
-> 0x1 being the ID from the kernel
->
-> #define HIDPP_1990_GET_ILLUMINATION 0x00
-> #define HIDPP_1990_SET_ILLUMINATION 0x10
-> #define ....
->
-> unsigned char cmd = HIDPP_1990_GET_ILLUMINATION | APPLICATION_ID;
-> unsigned char buf[20] = {0x11, 0xff, 0x04}; // HIDPP ID, DEVICE INDEX,
-> FEATURE INDEX in the feature table
->
-> buf[3] = cmd;
-> write(fd, buf, sizeof(buf));
-> memset(buf, sizeof(buf), 0);
-> while (buf[3] != cmd)
->   read(fd, buf, sizeof(buf));
->
-> printf("VALUE: %0x\n", buf[4]);
-> ---
->
-> It is important to set an application id so you can differentiate your
-> requests from the events (the application ID from an event is always
-> 0).
->
-> With that in mind, you should now be able to understand why you had to
-> send {0x11, 0xff, 0x04, 0x10, 0x01} to set the illumination. And
-> again, for being sure you can get the feedback you should use 0x16 as
-> the fourth byte here, so you can detect your answer.
->
-> I hope it makes more sense now.
->
-> Cheers,
-> Benjamin
->
+> I don't think you did a mistake, I think I did. When I saw the patch of 
+> "deprecation" of mioa701 and all the other pxa files, I took it that 
+> the platform-device was deprecated, and was to be removed. This is the 
+> right thing to do in my opinion. I wouldn't mind if all board file go 
+> actually (expect the QEMU one), as this would leave only the boards 
+> with proper DT support, and would remove some clutter from the kernel.
+
+Right, this is the plan: the only board files I left in place are
+'gumstix' family that is supported by qemu and has the largest amount
+of RAM in there, and the 'spitz' family that is also supported by
+qemu and apparently had at least one user that was interested in
+working on DT (I can't find a record of who that was now). 
+
+> I also thought the drivers won't get touched by the purge, exception 
+> made of "platform similar ones", such as in the sound tree 
+> (sound/soc/pxa) where we have some of them, and maybe mfd tree.
+
+I made two lists of drivers here: the first list is for those that
+become invisible in Kconfig and can no longer even be compile tested.
+My reasoning here was that these are likely already dead and will
+only get worse without compile testing. If anyone ends up doing
+a new DT conversion of a removed board later on, these can obviously
+get resurrected. The current state of the patches is in [1],
+I'll go through them again based on your feedback, but let me know
+if you see anything else that I'm removing that you think should be
+kept.
+
+The second list of drivers is for those that have no DT support and
+are impossible to get used without anyone declaring a (platform, spi,
+i2c, ...) device in source code somewhere. The list is still
+incomplete because this is hard to check automatically. I have
+included a few patches to remove drivers that have been obviously
+unused for a long time, or never had an in-tree user at all, but
+I left the majority of these drivers for a later series.
+
+       Arnd
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=boardfile-remove&id=73c4b7cfbc2b2ef0
