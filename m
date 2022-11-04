@@ -2,171 +2,257 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59E316189A5
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Nov 2022 21:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34925619037
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Nov 2022 06:49:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiKCUhW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 3 Nov 2022 16:37:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44102 "EHLO
+        id S231387AbiKDFs4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Nov 2022 01:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbiKCUhV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 3 Nov 2022 16:37:21 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD94201B6
-        for <linux-leds@vger.kernel.org>; Thu,  3 Nov 2022 13:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1667507834; bh=1LP8ioBEilvsapHqbnxmNv9j4o6mp3WmM+fx8WAKxjY=;
-        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=Tyt4P4d5JsNhBI572qZb1MDmZBx2uTSRoDdiB/iLRD6HGDqO4RQT/KVt+5DfJIGIf
-         ALamwHardXrtFCOWJ6ZS669bt/OcWOdhnwBpvx9u0I99L6KgOp6kfFM67J8RMFUCx0
-         KiUdlZrKmErS+KTQU62KJEppbxmMcM2k1vqOF1tdum09aTPdPCzb8Dj9VMPOB196Nn
-         HcroJPR+XVHx5wA93k/NJc1JiEjJh1tjejOf/01rMVsDQP0YEjAQkh/ph660w0SPPu
-         qxJ/X5z2NKXD3errEllWgDBZ0ZaAfmia5bvgCzaE2XV6U9XaCmNv9PGR8Jce6zSs/1
-         YritKSurxr/kw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mail-ej1-f44.google.com ([209.85.218.44]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1M26vB-1otAzz2jl3-002WLH for <linux-leds@vger.kernel.org>; Thu, 03 Nov 2022
- 21:37:14 +0100
-Received: by mail-ej1-f44.google.com with SMTP id 13so8496833ejn.3
-        for <linux-leds@vger.kernel.org>; Thu, 03 Nov 2022 13:37:14 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3cBjL1BGrS1tBcX0KHxySViW/3Ob4E7kJduzkv8TI1IHylc4mk
-        y6dhhPmSQz3hTolOT7NrkmS5awPBB21Vw4Uwd4I=
-X-Google-Smtp-Source: AMsMyM4kdkqtgJEBuFZ3RcG/DHrd4h1q9Eg4z1md2ndGsrMtFRCrkA8rwM3YPewKVPOIKnHu0rBVQQ689Dm7KlloGr0=
-X-Received: by 2002:a17:907:7244:b0:78d:cedc:7a9e with SMTP id
- ds4-20020a170907724400b0078dcedc7a9emr30908116ejc.600.1667507834332; Thu, 03
- Nov 2022 13:37:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <CABfF9mNvf93FAxX7MWVe5KxhrBTV4_ZBzhJPs-JT+tXdyaja1g@mail.gmail.com>
- <20221029165218.GA3337@duo.ucw.cz> <CABfF9mNcem--3Yf3wZ8Pgmvq3A4AgAj1tFN9bsQOqfJLtnqhkQ@mail.gmail.com>
- <20221029183211.GA14351@duo.ucw.cz> <CABfF9mOBB10+LDX9xTdJsbBC-hRs3yPXQyt91QszRhwKNQCjpw@mail.gmail.com>
-In-Reply-To: <CABfF9mOBB10+LDX9xTdJsbBC-hRs3yPXQyt91QszRhwKNQCjpw@mail.gmail.com>
-From:   Andreas Bergmeier <abergmeier@gmx.net>
-Date:   Thu, 3 Nov 2022 21:37:03 +0100
-X-Gmail-Original-Message-ID: <CABfF9mMGnrsSHOYK8oKCmCmc4qJMxsv=wTOuiGFf+kftcuNNTw@mail.gmail.com>
-Message-ID: <CABfF9mMGnrsSHOYK8oKCmCmc4qJMxsv=wTOuiGFf+kftcuNNTw@mail.gmail.com>
-Subject: Re: Proposal: Add color_temperature support
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:LFqpeCqy/K4iQIfsJ5g9RTuMAJ7eabNi2VYopVv/Ym+KuETxXPj
- s/q7IDS+uTX8QoDXZ119QGNTlcQ6H2torJVvQbskB1SzoEX02x5Kk31HOK0yGD3uvSrqwFE
- YMjmpmr757yAmz4sLQVapR8EUYlJ0PinIGFBIUM9+VAnsg5D+ONpj55sUcYqZnGHdSbePm3
- aC1bm69RvD4KU5aj4X/WQ==
-UI-OutboundReport: notjunk:1;M01:P0:vS7ds2+gkUo=;jgQo/DM7Rs/O5rZ8AS36ivzuvNN
- BbZ72vNuBdIMD/W1krhnxIMsNz+CGkRso9szvc5Jqs8U4iNW8ulKjTtRmsaRSFFdLuovHCTOW
- myQP1KMT4qB8SQEeFm5xhujMYNc9fnVCNpgAhudPyTUXgbVYhpIdrQsS/ccuuBkyV5hbdkD73
- ME96Az7pBNypYAqdSxebNAaxB/TfdCk0JVaF59gr5zXXCuIMcaDN7EqOehKrg67XPCMJRbmHd
- 14w99f4CgcluHZIzJbbyBmeoFi/2mfVgvU1vM7Yl5nEYBzNPznXtOecVI42fF9dkAqKYf9yiw
- a7F81UpbSVQ5+2YLFGxlpNX/NRxowaOC6iS3dFYy+pZO6s/WVlEW3iMuRIVrYTzvTqtNrdWpq
- U86vJKYyMEqU/M89aI7bP4kXYxJFAVZnuwBPbYEUFWKM2YAHX4J+lP/LbkqaUOMnd7ExeyuTl
- tiJ1SO3WqCnaze1FtpJIMpEwI5YZ91qrBEYeFuk3mDQjsw+niuJsWf8K7ql7bKOAa/KeP++2M
- IeX0B+HhJsNUhyeSQnK9qm+8umgTFNx9swArF4V3Rd1EYwMmtkZyxSrOcNdyngmPpq++ARkUc
- ISkBL5V2sn09GZDtoRRB/BoO/JyuXV1+OSReyF/9U6FjKvBwede5umKb/bwLaHTsnEpuYa5td
- bGDbvIew9IKqQTypxpqYIbUpSpeCbOlKyyw14CKj9B9/wbCbrHbFd8hcX+ynvsTqLLonCbNVJ
- BkzsNirutVC9xpAr0dqW5tgBer6LfbSd7EK+chCUUJ1rnod/JOF84GWmSi/I7Lj/xVMuik2TL
- 8y0p4Q3muastpgh/hgueaDrIBnYNzAYNCK/KCRZjHo33mz1rUbARPo7I2ziW3tJ3frd/fODrp
- ZA8D4QSVRCnH8xH55viKlL35j1sc2vrPCDGwySOHC1KsRZ2iEUi7mZGd1FXaF8EAYxuX+xMNn
- BatnrpgrEAqeSkDFH52LwZnK0ZM=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S231150AbiKDFsu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Nov 2022 01:48:50 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3FBA28E11;
+        Thu,  3 Nov 2022 22:48:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 460CCB82BFA;
+        Fri,  4 Nov 2022 05:48:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4911C433D6;
+        Fri,  4 Nov 2022 05:48:45 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+        (envelope-from <rostedt@goodmis.org>)
+        id 1oqpZo-0070xm-08;
+        Fri, 04 Nov 2022 01:49:12 -0400
+Message-ID: <20221104054053.431922658@goodmis.org>
+User-Agent: quilt/0.66
+Date:   Fri, 04 Nov 2022 01:40:53 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-edac@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before freeing timers
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-CC Benjamin
 
-On Sat, 29 Oct 2022 at 21:18, Andreas Bergmeier <abergmeier@gmx.net> wrote:
->
-> On Sat, 29 Oct 2022 at 20:32, Pavel Machek <pavel@ucw.cz> wrote:
-> > Hmm, and there are likely to be more lights like this, right?
-> Indeed
->
-> > I guess it makes sense to support this in LED subsystem. I believe it
-> > should be only supported for "white" LEDs. I believe first step is
-> > defining an userspace API in Documentation.
->
-> RFC:
-I refined the RFC a bit more (was missing hw changes before):
+Back in April, I posted an RFC patch set to help mitigate a common issue
+where a timer gets armed just before it is freed, and when the timer
+goes off, it crashes in the timer code without any evidence of who the
+culprit was. I got side tracked and never finished up on that patch set.
+Since this type of crash is still our #1 crash we are seeing in the field,
+it has become a priority again to finish it.
 
-diff --git a/Documentation/leds/leds-class.rst
-b/Documentation/leds/leds-class.rst
-index cd155ead8703..c3645adfe12d 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -3,10 +3,13 @@ LED handling under Linux
-========================
-In its simplest form, the LED class just allows control of LEDs from
--userspace. LEDs appear in /sys/class/leds/. The maximum brightness of the
--LED is defined in max_brightness file. The brightness file will set
-the brightness
-+userspace. LEDs appear in ``/sys/class/leds/``. The maximum brightness of the
-+LED is defined in ``max_brightness`` file. The ``brightness`` file
-will set the brightness
-of the LED (taking a value 0-max_brightness). Most LEDs don't have hardware
-brightness support so will just be turned on for non-zero brightness settings.
-+If setting Color Temperature is supported there will be three files:
-``color_temp``,
-+``lower_color_temp`` and ``upper_color_temp``. The acceptable values
-for ``color_temp`` are in the
-+range of (lower_color_temp-upper_color_temp).
-The class also introduces the optional concept of an LED trigger. A trigger
-is a kernel based source of led events. Triggers can either be simple or
-@@ -121,16 +124,29 @@ Brightness setting API
-LED subsystem core exposes following API for setting brightness:
-- - led_set_brightness:
-+ - ``led_set_brightness``:
-it is guaranteed not to sleep, passing LED_OFF stops
-blinking,
-- - led_set_brightness_sync:
-+ - ``led_set_brightness_sync``:
-for use cases when immediate effect is desired -
-it can block the caller for the time required for accessing
-device registers and can sleep, passing LED_OFF stops hardware
-blinking, returns -EBUSY if software blink fallback is enabled.
-+Color Temperature setting API
-+=============================
-+
-+LED subsystem core exposes following API for setting Color Temperature:
-+
-+ - ``led_set_color_temp``:
-+ it is guaranteed not to sleep
-+
-+ - ``led_set_color_temp_sync``:
-+ for use cases when immediate effect is desired -
-+ it can block the caller for the time required for accessing
-+ device registers and can sleep. It returns -EBUSY if
-+ software blink fallback is enabled.
-LED registration API
-====================
-@@ -138,14 +154,20 @@ LED registration API
-A driver wanting to register a LED classdev for use by other drivers /
-userspace needs to allocate and fill a led_classdev struct and then call
-`[devm_]led_classdev_register`. If the non devm version is used the driver
--must call led_classdev_unregister from its remove function before
--free-ing the led_classdev struct.
-+must call ``led_classdev_unregister`` from its remove function before
-+free-ing the ``led_classdev`` struct.
-If the driver can detect hardware initiated brightness changes and thus
--wants to have a brightness_hw_changed attribute then the LED_BRIGHT_HW_CHANGED
-+wants to have a ``brightness_hw_changed`` attribute then the
-``LED_BRIGHT_HW_CHANGED``
-+flag must be set in flags before registering. Calling
-+``led_classdev_notify_brightness_hw_changed`` on a classdev not registered with
-+the ``LED_BRIGHT_HW_CHANGED`` flag is a bug and will trigger a WARN_ON.
-+
-+If the driver can detect hardware initiated color temperature changes and thus
-+wants to have a ``color_temp_hw_changed`` attribute then the
-``LED_COLOR_TEMP_HW_CHANGED``
-flag must be set in flags before registering. Calling
--led_classdev_notify_brightness_hw_changed on a classdev not registered with
--the LED_BRIGHT_HW_CHANGED flag is a bug and will trigger a WARN_ON.
-+``led_classdev_notify_color_temp_hw_changed`` on a classdev not registered with
-+the ``LED_COLOR_TEMP_HW_CHANGED`` flag is a bug and will trigger a WARN_ON.
-Hardware accelerated blink of LEDs
-==================================
+This is v3 of that patch set. Thomas Gleixner posted an untested version
+that makes timer->function NULL as the flag that it is shutdown. I took that
+code, tested it (fixed it up), added more comments, and changed the
+name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
+instead of just WARN_ON() as Linus asked for.
+
+I then created a trivial coccinelle script to find where del_timer*()
+is called before being freed, and converted them all to timer_shutdown*()
+(There was a couple that still used del_timer() instead of del_timer_sync()).
+
+I also updated DEBUG_OBJECTS_TIMERS to check from where the timer is ever
+armed, to calling of timer_shutdown_sync(), and it will trigger if a timer
+is freed in between. The current way is to only check if the timer is armed,
+but that means it only triggers if the race condition is hit, and with
+experience, it's not run on enough machines to catch all of them. By triggering
+it from the time the timer is armed to the time it is shutdown, it catches
+all potential cases even if the race condition is not hit.
+
+I went though the result of the cocinelle script, and updated the locations.
+Some locations were caught by DEBUG_OBJECTS_TIMERS as the coccinelle script
+only checked for timers being freed in the same function as the del_timer*().
+
+Ideally, I would have the first patch go into this rc cycle, which is mostly
+non functional as it will allow the other patches to come in via the respective
+subsystems in the next merge window.
+
+Changes since v2: https://lore.kernel.org/all/20221027150525.753064657@goodmis.org/
+
+ - Talking with Thomas Gleixner, he wanted a better name space and to remove
+   the "del_" portion of the API.
+
+ - Since there's now a shutdown interface that does not synchronize, to keep
+   it closer to del_timer() and del_timer_sync(), the API is now:
+
+    timer_shutdown() - same as del_timer() but deactivates the timer.
+
+    timer_shutdown_sync() - same as del_timer_sync() but deactivates the timer.
+
+ - Added a few more locations that got converted.
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+trace/timers
+
+Head SHA1: 25106f0bb7968b3e8c746a7853f44b51840746c3
+
+
+Steven Rostedt (Google) (33):
+      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
+      timers: s390/cmm: Use timer_shutdown_sync() before freeing timer
+      timers: sh: Use timer_shutdown_sync() before freeing timer
+      timers: block: Use timer_shutdown_sync() before freeing timer
+      timers: ACPI: Use timer_shutdown_sync() before freeing timer
+      timers: atm: Use timer_shutdown_sync() before freeing timer
+      timers: PM: Use timer_shutdown_sync()
+      timers: Bluetooth: Use timer_shutdown_sync() before freeing timer
+      timers: hangcheck: Use timer_shutdown_sync() before freeing timer
+      timers: ipmi: Use timer_shutdown_sync() before freeing timer
+      random: use timer_shutdown_sync() before freeing timer
+      timers: dma-buf: Use timer_shutdown_sync() before freeing timer
+      timers: drm: Use timer_shutdown_sync() before freeing timer
+      timers: HID: Use timer_shutdown_sync() before freeing timer
+      timers: Input: Use timer_shutdown_sync() before freeing timer
+      timers: mISDN: Use timer_shutdown_sync() before freeing timer
+      timers: leds: Use timer_shutdown_sync() before freeing timer
+      timers: media: Use timer_shutdown_sync() before freeing timer
+      timers: net: Use timer_shutdown_sync() before freeing timer
+      timers: usb: Use timer_shutdown_sync() before freeing timer
+      timers: cgroup: Use timer_shutdown_sync() before freeing timer
+      timers: workqueue: Use timer_shutdown_sync() before freeing timer
+      timers: nfc: pn533: Use timer_shutdown_sync() before freeing timer
+      timers: pcmcia: Use timer_shutdown_sync() before freeing timer
+      timers: scsi: Use timer_shutdown_sync() and timer_shutdown() before freeing timer
+      timers: tty: Use timer_shutdown_sync() before freeing timer
+      timers: ext4: Use timer_shutdown_sync() before freeing timer
+      timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
+      timers: ALSA: Use timer_shutdown_sync() before freeing timer
+      timers: jbd2: Use timer_shutdown() before freeing timer
+      timers: sched/psi: Use timer_shutdown_sync() before freeing timer
+      timers: x86/mce: Use __init_timer() for resetting timers
+      timers: Expand DEBUG_OBJECTS_TIMER to check if it ever was used
+
+----
+ .../RCU/Design/Requirements/Requirements.rst       |   2 +-
+ Documentation/core-api/local_ops.rst               |   2 +-
+ Documentation/kernel-hacking/locking.rst           |   5 +
+ arch/s390/mm/cmm.c                                 |   4 +-
+ arch/sh/drivers/push-switch.c                      |   2 +-
+ arch/x86/kernel/cpu/mce/core.c                     |  14 ++-
+ block/blk-iocost.c                                 |   2 +-
+ block/blk-iolatency.c                              |   2 +-
+ block/blk-stat.c                                   |   2 +-
+ block/blk-throttle.c                               |   2 +-
+ block/kyber-iosched.c                              |   2 +-
+ drivers/acpi/apei/ghes.c                           |   2 +-
+ drivers/atm/idt77105.c                             |   4 +-
+ drivers/atm/idt77252.c                             |   4 +-
+ drivers/atm/iphase.c                               |   2 +-
+ drivers/base/power/wakeup.c                        |   7 +-
+ drivers/block/drbd/drbd_main.c                     |   2 +-
+ drivers/block/loop.c                               |   2 +-
+ drivers/block/sunvdc.c                             |   2 +-
+ drivers/bluetooth/hci_bcsp.c                       |   2 +-
+ drivers/bluetooth/hci_h5.c                         |   2 +-
+ drivers/bluetooth/hci_qca.c                        |   4 +-
+ drivers/char/hangcheck-timer.c                     |   4 +-
+ drivers/char/ipmi/ipmi_msghandler.c                |   2 +-
+ drivers/char/ipmi/ipmi_ssif.c                      |   4 +-
+ drivers/char/random.c                              |   2 +-
+ drivers/dma-buf/st-dma-fence.c                     |   2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |   2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |   2 +-
+ drivers/hid/hid-wiimote-core.c                     |   2 +-
+ drivers/input/keyboard/locomokbd.c                 |   2 +-
+ drivers/input/keyboard/omap-keypad.c               |   2 +-
+ drivers/input/mouse/alps.c                         |   2 +-
+ drivers/input/serio/hil_mlc.c                      |   2 +-
+ drivers/input/serio/hp_sdc.c                       |   2 +-
+ drivers/isdn/hardware/mISDN/hfcmulti.c             |   6 +-
+ drivers/isdn/mISDN/l1oip_core.c                    |   4 +-
+ drivers/isdn/mISDN/timerdev.c                      |   4 +-
+ drivers/leds/trigger/ledtrig-activity.c            |   2 +-
+ drivers/leds/trigger/ledtrig-heartbeat.c           |   2 +-
+ drivers/leds/trigger/ledtrig-pattern.c             |   2 +-
+ drivers/leds/trigger/ledtrig-transient.c           |   2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |   2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c            |  18 ++--
+ drivers/media/usb/s2255/s2255drv.c                 |   4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |   6 +-
+ drivers/net/ethernet/marvell/sky2.c                |   2 +-
+ drivers/net/ethernet/sun/sunvnet.c                 |   2 +-
+ drivers/net/usb/sierra_net.c                       |   2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |   2 +-
+ drivers/net/wireless/intersil/hostap/hostap_ap.c   |   2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c        |   2 +-
+ drivers/net/wireless/microchip/wilc1000/hif.c      |   8 +-
+ drivers/nfc/pn533/pn533.c                          |   2 +-
+ drivers/nfc/pn533/uart.c                           |   2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                    |   2 +-
+ drivers/pcmcia/electra_cf.c                        |   2 +-
+ drivers/pcmcia/omap_cf.c                           |   2 +-
+ drivers/pcmcia/pd6729.c                            |   4 +-
+ drivers/pcmcia/yenta_socket.c                      |   4 +-
+ drivers/scsi/qla2xxx/qla_edif.c                    |   4 +-
+ drivers/scsi/scsi_lib.c                            |   1 +
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |   2 +-
+ drivers/tty/n_gsm.c                                |   2 +-
+ drivers/tty/sysrq.c                                |   2 +-
+ drivers/usb/gadget/udc/m66592-udc.c                |   2 +-
+ drivers/usb/serial/garmin_gps.c                    |   2 +-
+ drivers/usb/serial/mos7840.c                       |   2 +-
+ fs/ext4/super.c                                    |   2 +-
+ fs/jbd2/journal.c                                  |   2 +
+ fs/nilfs2/segment.c                                |   2 +-
+ include/linux/timer.h                              | 100 +++++++++++++++++--
+ include/linux/workqueue.h                          |   4 +-
+ kernel/cgroup/cgroup.c                             |   2 +-
+ kernel/sched/psi.c                                 |   1 +
+ kernel/time/timer.c                                | 106 ++++++++++++++-------
+ kernel/workqueue.c                                 |   4 +-
+ net/802/garp.c                                     |   2 +-
+ net/802/mrp.c                                      |   2 +-
+ net/bridge/br_multicast.c                          |   6 +-
+ net/bridge/br_multicast_eht.c                      |   4 +-
+ net/core/gen_estimator.c                           |   2 +-
+ net/core/neighbour.c                               |   2 +
+ net/ipv4/inet_connection_sock.c                    |   2 +-
+ net/ipv4/inet_timewait_sock.c                      |   3 +-
+ net/ipv4/ipmr.c                                    |   2 +-
+ net/ipv6/ip6mr.c                                   |   2 +-
+ net/mac80211/mesh_pathtbl.c                        |   2 +-
+ net/netfilter/ipset/ip_set_list_set.c              |   2 +-
+ net/netfilter/ipvs/ip_vs_lblc.c                    |   2 +-
+ net/netfilter/ipvs/ip_vs_lblcr.c                   |   2 +-
+ net/netfilter/xt_LED.c                             |   2 +-
+ net/rxrpc/conn_object.c                            |   2 +-
+ net/sched/cls_flow.c                               |   2 +-
+ net/sunrpc/svc.c                                   |   2 +-
+ net/sunrpc/xprt.c                                  |   2 +-
+ net/tipc/discover.c                                |   2 +-
+ net/tipc/monitor.c                                 |   2 +-
+ sound/i2c/other/ak4117.c                           |   2 +-
+ sound/synth/emux/emux.c                            |   2 +-
+ 100 files changed, 310 insertions(+), 175 deletions(-)
