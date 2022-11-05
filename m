@@ -2,93 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6173161D7D4
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Nov 2022 07:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E501F61DA0B
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Nov 2022 13:39:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiKEGBw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 5 Nov 2022 02:01:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
+        id S229487AbiKEMjI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 5 Nov 2022 08:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiKEGBc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Nov 2022 02:01:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14E030F46;
-        Fri,  4 Nov 2022 23:01:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B5A0B60A25;
-        Sat,  5 Nov 2022 06:01:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900FAC43470;
-        Sat,  5 Nov 2022 06:01:29 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1orCFh-007OnI-2T;
-        Sat, 05 Nov 2022 02:01:57 -0400
-Message-ID: <20221105060157.600537824@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Sat, 05 Nov 2022 02:00:39 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: [PATCH v4a 15/38] timers: leds: Use timer_shutdown_sync() before freeing timer
-References: <20221105060024.598488967@goodmis.org>
+        with ESMTP id S229681AbiKEMiy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Nov 2022 08:38:54 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1166517E1F
+        for <linux-leds@vger.kernel.org>; Sat,  5 Nov 2022 05:38:51 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id v4-20020a17090a088400b00212cb0ed97eso6659782pjc.5
+        for <linux-leds@vger.kernel.org>; Sat, 05 Nov 2022 05:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=ZV2TcGDoVIbq1v5Mx1L1rUnUNhUQbze72wuOuh+wa69lbnQcoFfWFbkhfb7gZAMr2W
+         ByUyHxmNJ+EgAzfkEbgt2p4DOLQzRBGtUuogzeUQqAM9RqI4JEUvU9sSGNzhT5Afew3Q
+         d4OngWwLOFgISkd6x5vooHRKK9Az4aJczFzroYPLH7Dt+vGVCRowVZ5uZAV52Cgy+A2F
+         D3j8/lIwVLi3bxecncjVVFxwzOJ1xg3DK6jhFVflm1wFbGzu0e/ikP7247t4mqip1Jkf
+         Njk6WVMatLJ/Jf10pKJi5H9vXXx7mlCmIY7ZKhF8dEeWXppRLVuVdsqFZujt6LQJeXIn
+         5+hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=H/NRdagAuSznRLZ1bi7pObEvI7rT1AF01z074b97VxBagUSeQYaYmiagULpoYBKa/8
+         li+UE4ruPI/x0bcB97x18B8bOFf0V2XUH3vDKSOfvd6vyV5lt0pORXm0H9DDs8Yueczu
+         fOH5wVANch7Udwinv67bVptHB4a2TLs5ahZftAYj38jiyXnryjsuwbZkH5tS/sO7kcAE
+         PDVyLfhRq4yNiEU2wXItCgqfnKICLrvIescroU0Cl2A1+f+hJ2Esf8TxFAm7W+xaVATF
+         byKaf34tTgJROuqlfWEV6VVWgYvuM/UvDRKxbI9u0xg5By10M2ZCmHb3UQkkdrec5hP9
+         FxTg==
+X-Gm-Message-State: ACrzQf1bWer3/lsB5Ob/dneRpVRGbvQdYuY3T7VbLvuMoNANEccIdz69
+        l3g1W/6g4N0EHWW++U5MEI+abSythr383dfjIOo=
+X-Google-Smtp-Source: AMsMyM4kXiQfEHD7xTnbuAFjuPJHm46vGSi/KRiuWhPRjTwiHbLpMEWmL5EuXvVkMsm5T5CXDTvs4U+iY+YcWl58B1s=
+X-Received: by 2002:a17:90b:4ac3:b0:213:3918:f276 with SMTP id
+ mh3-20020a17090b4ac300b002133918f276mr57019553pjb.19.1667651930232; Sat, 05
+ Nov 2022 05:38:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
+ 05:38:49 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <wamathaibenard@gmail.com>
+Date:   Sat, 5 Nov 2022 15:38:49 +0300
+Message-ID: <CAN7bvZJ4rp_NOu942tGepXyrWhRuYBiZxGOwGAGice4B=GS3aA@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
-Before a timer is freed, timer_shutdown_sync() must be called.
-
-Link: https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
-
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: linux-leds@vger.kernel.org
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- drivers/leds/trigger/ledtrig-pattern.c   | 2 +-
- drivers/leds/trigger/ledtrig-transient.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
-index 43a265dc4696..e996d61e3bd6 100644
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -430,7 +430,7 @@ static void pattern_trig_deactivate(struct led_classdev *led_cdev)
- 	if (led_cdev->pattern_clear)
- 		led_cdev->pattern_clear(led_cdev);
- 
--	del_timer_sync(&data->timer);
-+	timer_shutdown_sync(&data->timer);
- 
- 	led_set_brightness(led_cdev, LED_OFF);
- 	kfree(data);
-diff --git a/drivers/leds/trigger/ledtrig-transient.c b/drivers/leds/trigger/ledtrig-transient.c
-index 80635183fac8..f111fa7635e5 100644
---- a/drivers/leds/trigger/ledtrig-transient.c
-+++ b/drivers/leds/trigger/ledtrig-transient.c
-@@ -180,7 +180,7 @@ static void transient_trig_deactivate(struct led_classdev *led_cdev)
- {
- 	struct transient_trig_data *transient_data = led_get_trigger_data(led_cdev);
- 
--	del_timer_sync(&transient_data->timer);
-+	timer_shutdown_sync(&transient_data->timer);
- 	led_set_brightness_nosleep(led_cdev, transient_data->restore_state);
- 	kfree(transient_data);
- }
--- 
-2.35.1
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
