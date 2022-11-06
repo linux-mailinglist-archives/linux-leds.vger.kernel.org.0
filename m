@@ -2,93 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C353D61DEE9
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Nov 2022 22:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 477B261E278
+	for <lists+linux-leds@lfdr.de>; Sun,  6 Nov 2022 14:58:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiKEVsF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 5 Nov 2022 17:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
+        id S229940AbiKFN6F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 6 Nov 2022 08:58:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiKEVsD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Nov 2022 17:48:03 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB6F13CCD;
-        Sat,  5 Nov 2022 14:48:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 264E6B801BF;
-        Sat,  5 Nov 2022 21:48:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37383C433D6;
-        Sat,  5 Nov 2022 21:47:58 +0000 (UTC)
-Date:   Sat, 5 Nov 2022 17:47:56 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <20221105174756.38062fce@rorschach.local.home>
-In-Reply-To: <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-References: <20221105060024.598488967@goodmis.org>
-        <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
-        <20221105123642.596371c7@rorschach.local.home>
-        <Y2bPlllkHo5DUmLY@zx2c4.com>
-        <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229883AbiKFN6E (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 6 Nov 2022 08:58:04 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5837D630D;
+        Sun,  6 Nov 2022 05:58:03 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id a67so13838465edf.12;
+        Sun, 06 Nov 2022 05:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oTWv8Arpvhk+VLNvjiohfLLFMW1gdUFZvUNXxvts/P4=;
+        b=fLZWYaPs3BvKAMSnliZpz8SCMlAxLVAt0qRaQFn7Veqy637jbTTimpKW+oeC9HnBMk
+         4yk+vSLB3gRkM8Ap64ZiuHPfpAGwlMbRJRIQX9ve6HxlUJ9naOkJlemR39Zqco1Jy3DL
+         5M3SzSpVWtan25TtB6tdBzb58kQh++5b8aDqnzLE7rsEGaqmnybF2SPzucmaOvD/PfzE
+         qi4NarNKH64ebh6eDvaIvqcS7Wv4UmOsaZEOWiQhznE5HEqrSUnWIXWFRQZl+aM1pNDo
+         ImPWOO0vfyPuO9/EfYAPmLZaZZL1q2Q3maMEW4sCwchj3RH2HZP4F0NkdsROZnSLQDre
+         l7+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oTWv8Arpvhk+VLNvjiohfLLFMW1gdUFZvUNXxvts/P4=;
+        b=wl7v1t4Bu1DSL2yytQKFPPQ47vFxtqgfFq/L9ahRyhLe8QBXkOiTYzMXsPsVHKNJDg
+         07nih1wP9ci8ePlR19DVyVQa5Lt0F/ZmkdEYFEOf1sGbAcUINah9NmzYXuJ2nR1BmOZ4
+         g5r3x0SM2Jwb+V7f8lg5wHYB7cuHE68GzXj0vJJCcMQ7OxVXpEQ6hRRr6AbdN38KHPV6
+         OkB+49XJoFoAfRVUZ264d8XHBaW5QeNB4+U9F7wZZ5eEvBkihIjPe/y6vsO5Kut5JiiS
+         DelFaqlM0TAHizyDz6duT1qjlCoSjNDwOHYbevpKlJAh1Qbi+thdnODUzXSetsoaAPId
+         A64g==
+X-Gm-Message-State: ACrzQf1ZwIb7YRksZoFwRmo4K6JIzVyCY8/P6ml3ATUHhbAnZIccnZnJ
+        tjuFU3uv3hod56e9VS/bExQ=
+X-Google-Smtp-Source: AMsMyM40H2rY3rMrCtAOedxUz5U7Vh/Tl/zMTEFk2kQG3BLvYaGYUyg4eNktKI/PH/bQRLkWkJ+Mkg==
+X-Received: by 2002:aa7:d44b:0:b0:464:2fa2:3359 with SMTP id q11-20020aa7d44b000000b004642fa23359mr18272772edr.409.1667743081807;
+        Sun, 06 Nov 2022 05:58:01 -0800 (PST)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id k8-20020a1709062a4800b007ad9c826d75sm2169089eje.61.2022.11.06.05.58.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Nov 2022 05:58:00 -0800 (PST)
+Message-ID: <1ca5fc04-f16b-f98a-0373-c61c258aa8bd@gmail.com>
+Date:   Sun, 6 Nov 2022 14:57:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v5 6/6] leds: Add a multicolor LED driver to group
+ monochromatic LEDs
+Content-Language: en-US
+To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+        lee.jones@linaro.org, pavel@ucw.cz, robh+dt@kernel.org,
+        sven.schwermer@disruptive-technologies.com,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     johan+linaro@kernel.org, marijn.suijten@somainline.org,
+        bjorn.andersson@linaro.org, andy.shevchenko@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221028170308.2676734-1-jjhiblot@traphandler.com>
+ <20221028170308.2676734-7-jjhiblot@traphandler.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20221028170308.2676734-7-jjhiblot@traphandler.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 5 Nov 2022 14:13:14 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+Hi Jean,
 
-> (Comparing output is also fun because the ordering of the patches is
-> random, so consecutive runs with the same rule will give different
-> patches. I assume that it's just because it's done in parallel, but it
-> doesn't help the "try to see what changes when you change the script"
-> ;)
+On 10/28/22 19:03, Jean-Jacques Hiblot wrote:
+> By allowing to group multiple monochrome LED into multicolor LEDs,
+> all involved LEDs can be controlled in-sync. This enables using effects
+> using triggers, etc.
+> 
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+> ---
+>   drivers/leds/rgb/Kconfig                 |  10 ++
+>   drivers/leds/rgb/Makefile                |   1 +
+>   drivers/leds/rgb/leds-group-multicolor.c | 154 +++++++++++++++++++++++
+>   3 files changed, 165 insertions(+)
+>   create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
+> 
+> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+> index 204cf470beae..1a87f53faa8a 100644
+> --- a/drivers/leds/rgb/Kconfig
+> +++ b/drivers/leds/rgb/Kconfig
+> @@ -2,6 +2,16 @@
+>   
+[...]
+> +
+> +	for (i = 0; i < count; i++) {
+> +		struct led_classdev *led_cdev = priv->monochromatics[i];
+> +
+> +		/* Make the sysfs of the monochromatic LED read-only */
+> +		led_cdev->flags |= LED_SYSFS_DISABLE;
 
-What I do to compare is:
+Clearing these on remove is needed as well.
 
- patch -p1 < cocci1.patch
- git commit -a
- git show | patch -p1 -R
- patch -p1 < cocci2.patch
- git diff
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id of_led_mcg_match[] = {
+> +	{ .compatible = "leds-group-multicolor" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, of_led_mcg_match);
+> +
+> +static struct platform_driver led_mcg_driver = {
+> +	.probe		= led_mcg_probe,
+> +	.driver		= {
+> +		.name	= "leds_group_multicolor",
+> +		.of_match_table = of_led_mcg_match,
+> +	}
+> +};
+> +module_platform_driver(led_mcg_driver);
+> +
+> +MODULE_AUTHOR("Jean-Jacques Hiblot <jjhiblot@traphandler.com>");
+> +MODULE_DESCRIPTION("multi-color LED group driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:leds-group-multicolor");
 
-Then I see how things changed. This is how I was able to show you the
-tweaks I made.
-
--- Steve
+-- 
+Best regards,
+Jacek Anaszewski
