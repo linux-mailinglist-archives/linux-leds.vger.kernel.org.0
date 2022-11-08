@@ -2,97 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EDDC62108B
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 13:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90B1B621121
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 13:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234229AbiKHM1L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 07:27:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46560 "EHLO
+        id S233749AbiKHMmt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Nov 2022 07:42:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233633AbiKHM1K (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 07:27:10 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF69949B6B
-        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 04:27:09 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id z6so8531390qtv.5
-        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 04:27:09 -0800 (PST)
+        with ESMTP id S233613AbiKHMms (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 07:42:48 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF0F50F38
+        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 04:42:46 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id a67so22239656edf.12
+        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 04:42:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=pIKifzYsm2Cgt7CW/bcOJ93WkTm1io3rPOOj+9f1zC6lB7sB67wYnxEUpuBnKyRUlx
-         SfPF0u2wYyxrahkLf1yQ4tczFc9SERo96uDfYcaPNAXoIHaf7KHDnu3+cnAraUwmacwy
-         VAFhVk2dzd3MkxiKbkHoW6bYs2GCGvW2LoGPOcG8zOQoGLs0IRYb7QJV8Jf5wwcAAPKF
-         6opWpaP0l0/M1d8GRF5HZe+ZhAaixOT9G9L3scITKM5AvX0MEmxapsBUnFRINNqPx0z9
-         hRwzprOAdKhZJZluY4nIVCI0h/cAKkj7lKkzOXQfAECrtKSZl2XwwTS7PNjxU1hJ3tYb
-         O/Ug==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1NAwkd5gvafBd9aj3NDsmPd7fQCXQtLGmi5pO3EUXBs=;
+        b=eEG90ipC8yImPAY3uFD8QLSUoEXgAoFv6K64zitJ8kXVIrIgC6p1DWoWSiXZwHsN4L
+         3dq1PuI+nuTyhq4v7byubmLh2P9/WixKct1VKlitOiryyDcIUUUBTtoazFf/m3Go+CjR
+         4cGAyhkanz+alVEidSSPNzWLyGiagwm8ywpjZQLI4uM0KqsqSENxHFqk3zXeQpzAmhbn
+         MNfmsCdmX6JsWJFjPYV3X68XjKlu2nnZM2xDyYDzjx2MEiDMJjcAHRicUyZe2DxeYjNb
+         K5IjjDvS32KrnkY63tSQGpk2lGrSdu6kgAbXXWIU5iQeNIvMFkV8eTO9tozBWWX+wTld
+         6meQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=R5jR1sP4resCgkg7o3672fo211LwpYavq0eQ0uJe+/OA7bFkRYacx00cCW7B2ylWOt
-         LbDx/u1baNRaDJUv6MHCvbe/n1ByQ5mALoyiJqISAaHVWdnOpkis1jMqx9aISwb5jZ81
-         2BNbiGirl0ysFfAus0Fj3E2xLnCTfVp+jCsciSsilS4IRO4GZYVys70vzw3IzXAN1zUJ
-         132904RMSIWN5TGVEgG0iBQS2GrPuNBu6MvGeR5Wunjg1hozDco170GfJqRWAc/9W3qO
-         LljKc1l1hRvJHcWOu3evWlXdvlzB3j7ltSZoe60IbFg1wTup1UPX7GZuKzhCt++53QbF
-         mo7g==
-X-Gm-Message-State: ANoB5plZ+vocV7ubX+6zzMCO2CUNcd+UGN5w5iUDF7lRrDVeeeka4nN0
-        KSGMaCjXpV4AlY/zwK8KilkRSLcHSm+c5f119C0iX7BGNxg=
-X-Google-Smtp-Source: AA0mqf6hQM49zFskzAz7fucTuSO+Uh4xEcuAvShEmJ0YEAzJb3ts/0We8X6dQ/FpepotXXedScNq7tnCGKvOzxlQ1kM=
-X-Received: by 2002:ac8:5ccd:0:b0:3a5:92a5:4427 with SMTP id
- s13-20020ac85ccd000000b003a592a54427mr6193386qta.391.1667910428928; Tue, 08
- Nov 2022 04:27:08 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1NAwkd5gvafBd9aj3NDsmPd7fQCXQtLGmi5pO3EUXBs=;
+        b=0gbhY9NxWPpLM9XHby4PB2xNT6Yvh8YVvbRDPB5XUwnXthFE9y8c0MZf5P7twlxtUz
+         HtAEokP5brftvdIfvQG6y0GZDrCS+dHRRwxItkPBRy1k98Pyj+RAKcX20pvFLFcwicR8
+         1fOaw4U8ybGLhx5JytGdX6OilrMXuabI4dkWN1uRLDc7GVuYAEZTosywgrHCso7bU2wh
+         UZajwAK65Sdf5x6aMGBkrRkn0IcEbZDCmPqQP8Q3R0ynh+v305+1Qr5SwJ6Mt4B8etHL
+         6+B186Xeb9r0g/dPbbe66s4iCsbteYGFGjXUYxp7VhwSUmRTToGf5UEztQPbVf66bdQI
+         ooNQ==
+X-Gm-Message-State: ACrzQf2eI4VmUKCGDAgFFyxFt34sagWowJY8uGqegwCFFQjGXAe/hDbu
+        U65r7oJbI/QXXE4gQfGvIrwqyxYCnhA9NR/4Zdd+SQ==
+X-Google-Smtp-Source: AMsMyM4X463PCUWbCEJ9/WMIHfY6oheXBJQ6mxshnNqJwtlvyN0tlU11yHLyFhWP5bFEE6kg2MWl76/sJjnM1TB+FC4=
+X-Received: by 2002:a05:6402:d0b:b0:458:a244:4e99 with SMTP id
+ eb11-20020a0564020d0b00b00458a2444e99mr55679890edb.46.1667911365383; Tue, 08
+ Nov 2022 04:42:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6214:2f8a:b0:4bb:6e86:8303 with HTTP; Tue, 8 Nov 2022
- 04:27:08 -0800 (PST)
-Reply-To: mr.abraham022@gmail.com
-From:   Mr Abraham <mr.abraham2021@gmail.com>
-Date:   Tue, 8 Nov 2022 12:27:08 +0000
-Message-ID: <CAJ2UK+bZ1hTEGrQ+FFXS4roEQsVOuz8=6tjXvgADsoAsEO7csQ@mail.gmail.com>
-Subject: Greeting
-To:     undisclosed-recipients:;
+References: <20220818172528.23062-1-pali@kernel.org> <20220818172528.23062-2-pali@kernel.org>
+ <CACRpkdYWQVW_akJS7hvtU2=c063LCMfjN22X-neTfuTZRbt+yw@mail.gmail.com>
+ <20220831114936.vukjsovdxw3cmj6h@pali> <20221009114043.6rdgpgzkngd527o7@pali> <20221101223255.rhzerarzld45xfjh@pali>
+In-Reply-To: <20221101223255.rhzerarzld45xfjh@pali>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 8 Nov 2022 13:42:34 +0100
+Message-ID: <CACRpkdad6WDo7rGfa4MW8zz0mLXmcPHo+SEC-yLQnRz_kdrryA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] leds: syscon: Implement support for active-low property
+To:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:831 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4994]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mr.abraham022[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [mr.abraham2021[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mr.abraham2021[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-My Greeting, Did you receive the letter i sent to you. Please answer me.
-Regard, Mr.Abraham
+On Tue, Nov 1, 2022 at 11:33 PM Pali Roh=C3=A1r <pali@kernel.org> wrote:
+> On Sunday 09 October 2022 13:40:43 Pali Roh=C3=A1r wrote:
+> > On Wednesday 31 August 2022 13:49:36 Pali Roh=C3=A1r wrote:
+> > > On Friday 26 August 2022 10:05:26 Linus Walleij wrote:
+> > > > On Thu, Aug 18, 2022 at 7:25 PM Pali Roh=C3=A1r <pali@kernel.org> w=
+rote:
+> > > >
+> > > > > This new active-low property specify that LED has inverted logic
+> > > > > (0 - enable LED, 1 - disable LED).
+> > > > >
+> > > > > Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
+> > > >
+> > > > Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> > > >
+> > > > Yours,
+> > > > Linus Walleij
+> > >
+> > > Is something else needed for this patch series?
+> >
+> > PING?
+>
+> PING?
+
+If the LED subsystem isn't working consider sending the patch to the
+SoC tree with a notice that they apply it instead and why.
+
+Yours,
+Linus Walleij
