@@ -2,97 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BFC1621664
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 15:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F41E621997
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 17:40:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233809AbiKHO1M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 09:27:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36244 "EHLO
+        id S233742AbiKHQkF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Nov 2022 11:40:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234114AbiKHO0p (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 09:26:45 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA991182E
-        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 06:25:31 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id v3so13533818pgh.4
-        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 06:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=dj7L8L4Tt3T52fNCiLgU1wmk4q3GKw+FgtxNNdpNZejQJQ1k3Xi+uLyqI46mZtlAe9
-         HLOA9P1jXmiTZuSDq5pdxRxdF0a/HoEZnGcKQ3YQ37POKm1J5RjeTmEaXOGvNGsQ/aCd
-         x8X3wRq447BygztmxjMMFJOJydFOJUOGXobl/qzDVFAJS2xNGHdVGGQVxwZyaR/NBt0/
-         bE+cdHmQ/pyeyXGzJcY+3ABqxwuM8e+fvQz2jyAv1cJHWTFyjffI5j3/3Sk+yOdlf96H
-         6ymXuWHpJpL3yt30UdlgfE5yAEKuZaLtj9+SPJvm7HvWfCahTeKPqye7UyLe1WT7erj+
-         Thwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=UHBsFobreVSc1hPoFlCUAvBTtn5T7clso069MCloWpWZB5GLRmfG0HAupGYAqFguMd
-         p2cwCKjcXGZCQqeLZTVc6jy6F9XhqfM2jJPhHXjBtGLfeJEWHv8C3yUkLmH18iDvVQo4
-         P6K1PRAFz9QXDwIQtX/2X7onxnlBH02T0GXT726YITra87xKpFG98vne2uKv9PLZX/L7
-         yad9ZWZLdMaOtUihM802sG3DLx2UjN1Y2CSC9sBUP+x9DCTHfO73orBaRx/FFpOgOlf8
-         PvUP9c7Puzuv6K/bdtB4VUDssZpZ4zn624ImSfOJE5C+Hvtbq68p7aVN3aDll5YYtBfl
-         LPvg==
-X-Gm-Message-State: ACrzQf2Go6+fa0c0YfI+6vcEZH6Z/tc9/90qvEvkiuY00AXeVHFgA39S
-        t3faVpDf9Qk74sl+pOWIub+1paR8O+PLs3Q5EDQ=
-X-Google-Smtp-Source: AMsMyM5/o8Tv1jtvv5i5ish68BM3WfS9X9eqWOTVG2elMlgZjohDVk/23K/5zEIB58o7eHSGPzDyTC5sLFDQxOS4ibc=
-X-Received: by 2002:a63:2c8b:0:b0:41c:5f9e:a1d6 with SMTP id
- s133-20020a632c8b000000b0041c5f9ea1d6mr47624667pgs.601.1667917531062; Tue, 08
- Nov 2022 06:25:31 -0800 (PST)
+        with ESMTP id S232031AbiKHQkE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 11:40:04 -0500
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2128.outbound.protection.outlook.com [40.107.215.128])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1858149B5C;
+        Tue,  8 Nov 2022 08:40:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NDP/DiT4gYywgf15PKzVEjllUxBBiqt0LEDTOVEI95p8Bk4W8z5tQzoSwLY00Hr78WV15bYIuz0GHrVOWgojHqSx9OX5isfy6a4coUQhbK8euMkGTIkGzNMXcU2nQUX9BnlPC/vfzP+cKxe2OClYVQeUkrpJom2WwRHLL/3OmyiZ0wwBUEW1WNBkx+Hk6p66+0/wFOA5CYMfTsxFRC366JgOJz76A4V9EGTDN/ChL7guZIlrHm3e4AdXhYz/Ys01XU/OFuDb3mWb3St/Zu2Ebb1rxcwlf8zvzYlUBEuIneyERiScEpc0KiaIZaZAY8sFlis9mjLdy48csVq6+M2R1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uqLJiN1mWpZA2nRvUOPQnuS+o0OX9y1gDcn3qU8xRbc=;
+ b=WoQDTkacywCexmqvSiqQ3yWyd2h4mBKhrjiHEpPKSTexxm1LSYlhMESnpDj3poU1S+lTicLWceATKtwRMnNzbl68URQR37aXpvKsA0m7F5l1fz57qOdBmCQVwQ9ClQgk9lrlWV5SNCfUPWvBUF1wWOBK9C7Dxdpxkt+bhGwNtiTsZdjATpb8NNvQxlV0sozpJ/ccOdTN3uqOlerD7cT1ZsUbmL88fasvsZJ12UIUQAm40LyKDpZoSQuanzHS50ccGPKQMRnpeIAQh3ufCgBsWGamHRFOOWHQ4HgLkJnhNbyDEImNlgyHxHEpXxm0pxsVriOVjiaN+Ke9ccW520YdhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=yunjingtech.com; dmarc=pass action=none
+ header.from=yunjingtech.com; dkim=pass header.d=yunjingtech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yunjingtech.com;
+Received: from SG2PR06MB3742.apcprd06.prod.outlook.com (2603:1096:4:d8::14) by
+ PSAPR06MB4454.apcprd06.prod.outlook.com (2603:1096:301:8a::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.27; Tue, 8 Nov 2022 16:39:56 +0000
+Received: from SG2PR06MB3742.apcprd06.prod.outlook.com
+ ([fe80::9ac2:8b0a:9ad:24b5]) by SG2PR06MB3742.apcprd06.prod.outlook.com
+ ([fe80::9ac2:8b0a:9ad:24b5%5]) with mapi id 15.20.5791.025; Tue, 8 Nov 2022
+ 16:39:56 +0000
+From:   chengwei <larry.lai@yunjingtech.com>
+To:     lee@kernel.org, andriy.shevchenko@linux.intel.com,
+        linus.walleij@linaro.org, pavel@ucw.cz
+Cc:     linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
+        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
+        noah.hung@yunjingtech.com, chengwei <larry.lai@yunjingtech.com>
+Subject: [PATCH V2 0/3] Add support control UP board CPLD/FPGA pin control
+Date:   Wed,  9 Nov 2022 00:38:49 +0800
+Message-Id: <20221108163852.15926-1-larry.lai@yunjingtech.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0001.apcprd02.prod.outlook.com
+ (2603:1096:4:194::10) To SG2PR06MB3742.apcprd06.prod.outlook.com
+ (2603:1096:4:d8::14)
 MIME-Version: 1.0
-Received: by 2002:a05:7300:5388:b0:85:81c6:896c with HTTP; Tue, 8 Nov 2022
- 06:25:29 -0800 (PST)
-Reply-To: mr.abraham022@gmail.com
-From:   "Mr.Abraham" <davidkekeli11@gmail.com>
-Date:   Tue, 8 Nov 2022 14:25:29 +0000
-Message-ID: <CAPBO+FLUDBD86dHQM6-TOwtKbf996Qz13VQWrvY27T9ETbCTEA@mail.gmail.com>
-Subject: Greeting
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:534 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4915]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mr.abraham022[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [davidkekeli11[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [davidkekeli11[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PR06MB3742:EE_|PSAPR06MB4454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 564a95df-70b1-4fc9-53e9-08dac1a7de8f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t6CdMTzufVsP7yWKov7SHihkw/lp8c3nuF3vKHv+YxkN4bxUb49ir/HaDKXY9ejafZaXdDmQ+XgjzF0Sh7+a6QVgptuAAsvfN8QM573RRynOEXbltoQZP18DqPDEbotLojpcjtEsnHDUx9B9IwiQsLZ2IidijNHSeRWs6ZPWnsBMzHN826eqy67lYBGXDS29P4zX1HP3NjeMYFI2IQShr+ISeQpbrR/kz4HPkZeqosCbPSeDdmPIptNozZ+yYt1p6h9pJ9vGFLE5FhvtWpO3ZerWc6ylGArRXzdDAqeRTKdTjP36nuqFvttfv9Cz97Ssun3mGzs7jvy25tNaIWCdA1qpKJl9tiHc54+z5X40bYCURcHJX+VtF+QbewS1dpyiacHjg9SO0PNBgBYLgslvRauMDEv6/gyrGTlAeUhI7RvzLncLQDNV7NIL9cyW+Ck/Wbcr/mQAm0L6vQ//4Zl4hGF1pomwcAbXojkhrtF/jWU0RntIagJJ40mteHJJi5iNkraoHsEv/s3FG35hXsn78j7fR1tjr7MDb+wjkC4XWlisSjQKvdx6sRo6OWr1QVYRgXfbGTvnZuXdmyQ6S1r9+l6k68Uw/jbIXXKQLSQMdBd+wBq6BXpPtnIvhHQp42xbv5QEKqb74aI7ZsPPGsLqUoibYIFVIyzsVddDbL5Y/RAYTTMfOP4xXp0kNVmkqhGk+ExbRvTWtMvhXwjOrvwNkMXToJTaeib9DSS7Fdy2C1xpXFXjRKBDOaxUK7Gtl9BkPXkb86fP0I4f831M2fYut1h5xZOCBQ7wzPgLRjMqLDo/UMtDOIEgchPtleHTv7wB
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3742.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(376002)(39830400003)(396003)(366004)(136003)(451199015)(8936002)(41300700001)(38350700002)(38100700002)(52116002)(6666004)(6506007)(4326008)(66946007)(83380400001)(2906002)(66556008)(66476007)(6512007)(26005)(316002)(5660300002)(86362001)(478600001)(107886003)(6486002)(186003)(36756003)(2616005)(8676002)(1076003)(43062005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OFJf3q44pU/o4tyzPQcoa/CI9jPSrsZzT/yxOrSGUz6h1OWtZVn+OC3CKfdP?=
+ =?us-ascii?Q?+bKKL42dGRRhVk000ceZMbWTbYLSppGNy3oy4QQRTP+1mIm0rvosyLkA9J9p?=
+ =?us-ascii?Q?MWe8FbvY3nAhzKjdlcbVCIA7z2/P8Z+FAQJYe51Hbd3Jv9r1ZvY4ZWSjy+CO?=
+ =?us-ascii?Q?GTw14VHSQVmzgiFJnM6KhdHtZ1APRfx26aM9C8nFyWyriW7IAXAE+VH9jCza?=
+ =?us-ascii?Q?0d13jNpmvCm9oLhmq15dt67tOxLOK8GHZxNsdi35QvyqOJRWqqyj+koTHOe0?=
+ =?us-ascii?Q?r4R/cTfdLDOsgCHOTvB6wL25Ne+DwpLajV12WGHgtMB1qfkuCuxG9q0a/G8/?=
+ =?us-ascii?Q?KdO7UjGs2fcB6dHVSU34Y8EB4jujvpEgn/PBOEDB82iMemiF5XkhQI1xxVKy?=
+ =?us-ascii?Q?qIhEAELJBPgibVReqaUFkoYQDJopqMotWUHYtwbwVz5c/CX+mc98UD59O9Ya?=
+ =?us-ascii?Q?zYDZl4RwVVftKUPNii+llOoJocYtsGQCL9CLv7cYlheDLWRlkMF0mvRTaW/W?=
+ =?us-ascii?Q?9AVodir9aSIaUB23SnYHJ1ENzfkzSWGbVYlv/VQNIdH9uAzFxRE2QYQ+RZby?=
+ =?us-ascii?Q?XIbf/7SgAyfnD9HEunvRsjddIa2bv9OHw708ITeqtfPUGbavIDOK5ZctULFF?=
+ =?us-ascii?Q?tDVlMwY2peYREQ+RDCWYxGotP/LyXAQt8KHCo/hKLLKVHRc2q5eldrnAdgIR?=
+ =?us-ascii?Q?Nl3strZjH0ElFP6IHEsefsf2S98axHql8+4t3ss/5A9xXQXBGWvXFQwlY1x8?=
+ =?us-ascii?Q?grXX2+Y7/hcknvuaVTLKbi70DDUnpz0sb9FigxHxGLRLj34tfvnt5i1mZ8vT?=
+ =?us-ascii?Q?QibH4GDOXj7kVCj+NM8Pkv+dyLED1FHtHeOnf1Blpmg1hweRlmhVrYz8lVwV?=
+ =?us-ascii?Q?stbijxaHaK1YQjS/9+Yn0c0LKcW9duknnQGH8SKp1B8auQk9bwq6nE2YJh62?=
+ =?us-ascii?Q?7FF9LIa3HwOLEz5JfmbE2DPXdWnYT8dq96G1cX+hDxL1jOTkxqfa0apP/ci1?=
+ =?us-ascii?Q?bW5iVBmO5wr8Dhezx7UMTBg2KiV4vXnfnWn0C/EQI0ukABnSzObDi/M7KJrD?=
+ =?us-ascii?Q?4aDiv4SoX7sDEQsdNP0wQjEACMy7tYE9qOr9/vJGVPwQ1Okt05e1x7d80e7S?=
+ =?us-ascii?Q?fldU6FSXLIjlH5CVg1cj1mws3nZIiUZuUHrjhUL9mRfsgxU3tvRsx+6FYoC6?=
+ =?us-ascii?Q?/Ov2jUgLXTFWxj3tKVR2sEMeso0cwyugnlpY5eS69P3deK0ZUU4pFLAft0CN?=
+ =?us-ascii?Q?FJJCTCggicqdol/+HAA+NSNA2RgXzS/OgXeA5ghKrkZzFdTcxJHPAylK7k2u?=
+ =?us-ascii?Q?oGAEQNR1Ba1CWnUtu4dXkkvdRkaELJtYcSKc733M5CtHFwpSKWaF07DG10c+?=
+ =?us-ascii?Q?Hi/S6LkwlmqgVN17i3AO55ocv2CbkDg42/TiuvNyPWPeiUBIre6UbONEffNp?=
+ =?us-ascii?Q?4bJR9ATQAg6Ti61Lh7uBWViQrEvuSg6bxL8LMK8KHD/PXBeaJmoYgVmh+2lu?=
+ =?us-ascii?Q?+kjsCyDBm2xe3Zdh5k9FCf4L11zH7k8+aavdapeI+jVSUPRj+Y0IODYngZx1?=
+ =?us-ascii?Q?hhS4LHd9RLNDwXEg+xXM2EYtGz0NQGVnu2ZTSrbGEvy9g51+nb3JWTos6fF1?=
+ =?us-ascii?Q?mg=3D=3D?=
+X-OriginatorOrg: yunjingtech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 564a95df-70b1-4fc9-53e9-08dac1a7de8f
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3742.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 16:39:56.6168
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: be2d5505-f7e6-4600-bbe2-b3201c91b344
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q/Uij3wPGroCLr2WzNbL2Vt3yu9FC278B1UnOwbVIdI1Jr4A55+LOIUgqzQtiZF5QvQjXON0IG1IWq5+cQEL4+qEqamGqeRAAnOZVes7HBg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4454
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_PERMERROR
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-My Greeting, Did you receive the letter i sent to you. Please answer me.
-Regard, Mr.Abraham
+The UP board <http://www.upboard.com> is the computer board for 
+Professional Makers and Industrial Applications. We want to upstream 
+the UP board 40-pin GP-bus Kernel driver for giving the users better 
+experience on the software release. (not just download from UP board 
+github)
+
+These patches are generated from the Linux kernel mainline tag v6.0.
+
+Change history:
+(1) PATCH V2 1 (mfd: Add support for UP board CPLD/FPGA)
+Refer 2022/10/31 Lee Jones review, fixed some of the issues.
+
+(2) PATCH V2 2 (pinctrl: Add support pin control for UP board CPLD/FPGA)
+Refer 2022/10/19 Mark Brown and Andy Shevchenko review, fixed some of 
+the issues.
+
+(3) PATCH V2 3 (leds : Add support for UP board CPLD onboard LEDS)
+We did git send-email this patch to maintainer on 2022/10/11 for reviewing.
+there's no change on this LED PATCH V2.
+
+chengwei (3):
+  mfd: Add support for UP board CPLD/FPGA
+  pinctrl: Add support pin control for UP board CPLD/FPGA
+  leds: Add support for UP board CPLD onboard LEDS
+
+ drivers/leds/Kconfig              |   10 +
+ drivers/leds/Makefile             |    1 +
+ drivers/leds/leds-upboard.c       |   78 ++
+ drivers/mfd/Kconfig               |   12 +
+ drivers/mfd/Makefile              |    1 +
+ drivers/mfd/upboard-fpga.c        |  632 ++++++++++++
+ drivers/pinctrl/Kconfig           |   15 +
+ drivers/pinctrl/Makefile          |    1 +
+ drivers/pinctrl/pinctrl-upboard.c | 1588 +++++++++++++++++++++++++++++
+ include/linux/mfd/upboard-fpga.h  |   56 +
+ 10 files changed, 2394 insertions(+)
+ create mode 100644 drivers/leds/leds-upboard.c
+ create mode 100644 drivers/mfd/upboard-fpga.c
+ create mode 100644 drivers/pinctrl/pinctrl-upboard.c
+ create mode 100644 include/linux/mfd/upboard-fpga.h
+
+-- 
+2.17.1
+
