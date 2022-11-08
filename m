@@ -2,119 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83FD7620DD6
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 11:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA774620E93
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 12:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233643AbiKHKyG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 05:54:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42672 "EHLO
+        id S233770AbiKHLU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Nov 2022 06:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233763AbiKHKyF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 05:54:05 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC2E45A15
-        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 02:54:03 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id n12so37454728eja.11
-        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 02:54:03 -0800 (PST)
+        with ESMTP id S234090AbiKHLUS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 06:20:18 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600724876C
+        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 03:20:17 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id r3so16995482yba.5
+        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 03:20:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=u8F2u7XnHXSi02ZUPPzRhyN9LzC+uyXpgjAwUMrqCak=;
-        b=gD3OYiXGpaEE83Zt07u3m3HEcjDa0jisiiEZhbfrrX1/Kc5NTf4xodx4W7Z9IbRN9N
-         YjrviVX5NrAc+NH3m0ChzppmMKfsi72Kgvms+j08FWYT75M/DZ7+Y9i5VJXLjK9Z/cQH
-         6Bxd3vwj+yn9tPyeg01cB6mSD72Jat9Ig1/96Uy8iFXjsdvZUKZqOZ6GY2B6CnVirLL2
-         YIO+/CM3j4o4na7Zurq0hnV64f3E3O61UwnRaA2hXVAB/5cpmlPxWI5F/YxYcbAQv75G
-         madN9Z+sLRnNCwhLbpPKES4kvN15zXxnue3LZKkswKUXPYYdQmUGUz0Syv0H2/nxFvUI
-         GW9w==
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jD/YBCtOhOa1ipEyheDVa6geA3XolzkSqDbroMLmTEw=;
+        b=TaVZcPyhcwvIKT0DspQYPF3nABsR4h6/WYqtToRKSRCFTH8BMrS5G882LsPATtbyzV
+         jzoE7h4dSUKPl3F10D6hGFtoxLxRO3JjGzimChEHHR37w8BiLh44apmVl5x0RvYhItpf
+         oeGU7HxBUHUm1o36s9LWVhFUaykEEg9sc/Z7HU/wMzausH5yKTH9sezeXlPzn50MahG1
+         ZIKcdUmXzCwpbikCF4LxO30nfdEjdBgReLkKHBJTOIhH6B8ANJBrYlVADnKmbQddY8t1
+         mJ5tfk+3w20UwsLl4AI/3Ce+oFCq3FGgoFdM0ZHa7RUZenWCpqto8Or6dPJBWre0dfpP
+         yzJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u8F2u7XnHXSi02ZUPPzRhyN9LzC+uyXpgjAwUMrqCak=;
-        b=TdJZwbBxf4AduFsz/TKNZY1JNLLRmekP0aMNQv9RjkOo96D6V8foojPGmYqoGLVkXj
-         79uhpFNT7k7qiGnSEvJj0g9t/5eMl6ZYQ16ZKDXJelTOt8/Fi3zTPdZCvI3T80DmUhU7
-         rRes0X7+XVdClTG0xOF2p8hMDXh+PqP8oCvHJsd7Zrx0nVcVqGso9Xsh52BZkKY+GJ63
-         ZAiq3NOOBq6ztQqIPPXYY55SsvDqBExRWAXOEwqnog5qX8IkiL6HV3rosiOXz+O5pQMA
-         1WPJ7anDTRvvrTv7WhsLK9nEhVYSVRD4E+rLjWL4TujxrFPkRVicXBw19LimGpVNcILo
-         RYDA==
-X-Gm-Message-State: ACrzQf1mwEZ1clvVZ+RH969qxdK4um+xv5g2tn0CTrIzCk0yZ6S4YJqV
-        2SPOCIkzVskC6vgH+6Giojoffe5v7sCI5gZOFHckNQ==
-X-Google-Smtp-Source: AMsMyM6nL/sRXxi8Er3YBIrohBZBjtg7i8lTHUQTzLz+CTq7An/c8884aPIg9B8VfXWHYn1xJt/hK/lhb337tElLW/8=
-X-Received: by 2002:a17:907:c1e:b0:7ae:31a0:571e with SMTP id
- ga30-20020a1709070c1e00b007ae31a0571emr20575365ejc.690.1667904841694; Tue, 08
- Nov 2022 02:54:01 -0800 (PST)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jD/YBCtOhOa1ipEyheDVa6geA3XolzkSqDbroMLmTEw=;
+        b=UJcI2p2I9WuUWKFKYF0YRrpqFsULTBgyKb5JOxlWeB/UiGf02dHCDQyFCVAygdsVE8
+         PbXHrcGUpmszYEi925hDlVtJ0CbHYKaJmmf4gUMq1J0+sOpsng5cjs54VrkmL3ayLKp/
+         aaqbuT7rz+FgrWFU0b/HhLv/1K0OBV3I30/IY/rFRH3VKKsEBR3Uu2EZoBbHvmnb31al
+         YSw1wYvz5D12mXx5GxQrrcHm87eZfENtZFaZfaOSn0t3GxGlGH05kYqJVO/MMWmEG5zU
+         76UC5WsXd15ZYmQ3L5mtzFef7G/+dTIGj06YcGdFv2Q36G5nS7OvtD4qIUn2NHiN2Dlm
+         2t6Q==
+X-Gm-Message-State: ACrzQf1Qrg63f2deO1x9fFfmbBx8O1j3ri4q7ZwWd8x4nv7DkEdHQliK
+        ictSocbHOismDRrB0GV37/390FTwJdBcHTzV9ys=
+X-Google-Smtp-Source: AMsMyM4b/VnhkUlWUIvpD6nfWhxjBvkRFiS4/EBA5Gb2bB1MsklPspBej0wnSrb7b6dGbERMKZFLhKx47dy1Q4tjdxI=
+X-Received: by 2002:a25:9808:0:b0:6cc:127b:cad7 with SMTP id
+ a8-20020a259808000000b006cc127bcad7mr51498130ybo.384.1667906416555; Tue, 08
+ Nov 2022 03:20:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20220902-get_gpiod_from_child-remove-v1-0-1e47125df20f@gmail.com>
- <YyzYKmsjKflqT1xZ@google.com> <Y1aCgJihNIqExUR2@google.com> <CAMRc=McvJ7AvhKdP7cv8K1+rzMf8-ptg2SnU+XOAwERhRx1Eyw@mail.gmail.com>
-In-Reply-To: <CAMRc=McvJ7AvhKdP7cv8K1+rzMf8-ptg2SnU+XOAwERhRx1Eyw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Nov 2022 11:53:50 +0100
-Message-ID: <CACRpkdaPDXBWKQgNnmBLBmaXDo6roEDSpe1wrvMi_aG5F52K4g@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] Get rid of devm_fwnode_get_[index_]gpiod_from_child()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org
+Received: by 2002:a05:7010:a38a:b0:313:c983:1d7e with HTTP; Tue, 8 Nov 2022
+ 03:20:16 -0800 (PST)
+Reply-To: mrinvest1010@gmail.com
+From:   "K. A. Mr. Kairi" <ctocik2@gmail.com>
+Date:   Tue, 8 Nov 2022 03:20:16 -0800
+Message-ID: <CAC9COZdia0vBX33ov6ex2S9EP+TnWa=HZmEwSo=EgS7XLZW7CQ@mail.gmail.com>
+Subject: Re: My Response..
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b29 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrinvest1010[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [ctocik2[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ctocik2[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 5:48 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+-- 
+Hi
 
-> On Mon, Oct 24, 2022 at 2:18 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Thu, Sep 22, 2022 at 02:48:26PM -0700, Dmitry Torokhov wrote:
-> > > Hi Pavel, Marek,
-> > >
-> > > On Fri, Sep 02, 2022 at 05:55:24PM -0700, Dmitry Torokhov wrote:
-> > > > This drops the last uses of devm_fwnode_get_[index_]gpiod_from_child()
-> > > > from the tree and drops the stubs implementing this API on top of
-> > > > devm_fwnode_gpiod_get_index().
-> > > >
-> > > > Note that the bulk of users were converted in 2019, the couple of LED
-> > > > drivers are all that have remained.
-> > > >
-> > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > >
-> > > > ---
-> > > > Dmitry Torokhov (3):
-> > > >       leds: gpio: switch to using devm_fwnode_gpiod_get()
-> > > >       leds: lgm-sso: switch to using devm_fwnode_gpiod_get()
-> > > >       gpiolib: remove devm_fwnode_get_[index_]gpiod_from_child()
-> > > >
-> > > >  drivers/leds/blink/leds-lgm-sso.c |  5 ++---
-> > > >  drivers/leds/leds-gpio.c          |  5 ++---
-> > > >  include/linux/gpio/consumer.h     | 21 ---------------------
-> > > >  3 files changed, 4 insertions(+), 27 deletions(-)
-> > > > ---
-> > > > base-commit: 7fd22855300e693668c3397771b3a2b3948f827a
-> > > > change-id: 20220902-get_gpiod_from_child-remove-a62638849e91
-> > > >
-> > >
-> > > Could you please consider picking this up for 6.1? Or would you be OK
-> > > with this going through other tree (GPIO maybe)?
-> >
-> > *ping* Could this go through GPIO tree? Dropping this API helps with
-> > some outstanding work that I have...
-> >
->
-> Sure! I'll let it wait for another week - it would be great to get an
-> ack from Pavel - but in case of no response I'll take it through my
-> tree.
+How are you with your family, I have a serious client, whom will be
+interested to invest in your country, I got your Details through the
+Investment Network and world Global Business directory.
 
-I'd say just apply it at this point.
+If you are interested for more details.....
 
-Yours,
-Linus Walleij
+Sincerely,
+Kairi Andrew
