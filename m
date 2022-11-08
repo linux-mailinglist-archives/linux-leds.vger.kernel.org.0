@@ -2,102 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B1B621121
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 13:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 674BD621644
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 15:26:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233749AbiKHMmt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 07:42:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
+        id S234009AbiKHO0Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Nov 2022 09:26:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233613AbiKHMms (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 07:42:48 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF0F50F38
-        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 04:42:46 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id a67so22239656edf.12
-        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 04:42:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1NAwkd5gvafBd9aj3NDsmPd7fQCXQtLGmi5pO3EUXBs=;
-        b=eEG90ipC8yImPAY3uFD8QLSUoEXgAoFv6K64zitJ8kXVIrIgC6p1DWoWSiXZwHsN4L
-         3dq1PuI+nuTyhq4v7byubmLh2P9/WixKct1VKlitOiryyDcIUUUBTtoazFf/m3Go+CjR
-         4cGAyhkanz+alVEidSSPNzWLyGiagwm8ywpjZQLI4uM0KqsqSENxHFqk3zXeQpzAmhbn
-         MNfmsCdmX6JsWJFjPYV3X68XjKlu2nnZM2xDyYDzjx2MEiDMJjcAHRicUyZe2DxeYjNb
-         K5IjjDvS32KrnkY63tSQGpk2lGrSdu6kgAbXXWIU5iQeNIvMFkV8eTO9tozBWWX+wTld
-         6meQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1NAwkd5gvafBd9aj3NDsmPd7fQCXQtLGmi5pO3EUXBs=;
-        b=0gbhY9NxWPpLM9XHby4PB2xNT6Yvh8YVvbRDPB5XUwnXthFE9y8c0MZf5P7twlxtUz
-         HtAEokP5brftvdIfvQG6y0GZDrCS+dHRRwxItkPBRy1k98Pyj+RAKcX20pvFLFcwicR8
-         1fOaw4U8ybGLhx5JytGdX6OilrMXuabI4dkWN1uRLDc7GVuYAEZTosywgrHCso7bU2wh
-         UZajwAK65Sdf5x6aMGBkrRkn0IcEbZDCmPqQP8Q3R0ynh+v305+1Qr5SwJ6Mt4B8etHL
-         6+B186Xeb9r0g/dPbbe66s4iCsbteYGFGjXUYxp7VhwSUmRTToGf5UEztQPbVf66bdQI
-         ooNQ==
-X-Gm-Message-State: ACrzQf2eI4VmUKCGDAgFFyxFt34sagWowJY8uGqegwCFFQjGXAe/hDbu
-        U65r7oJbI/QXXE4gQfGvIrwqyxYCnhA9NR/4Zdd+SQ==
-X-Google-Smtp-Source: AMsMyM4X463PCUWbCEJ9/WMIHfY6oheXBJQ6mxshnNqJwtlvyN0tlU11yHLyFhWP5bFEE6kg2MWl76/sJjnM1TB+FC4=
-X-Received: by 2002:a05:6402:d0b:b0:458:a244:4e99 with SMTP id
- eb11-20020a0564020d0b00b00458a2444e99mr55679890edb.46.1667911365383; Tue, 08
- Nov 2022 04:42:45 -0800 (PST)
+        with ESMTP id S233640AbiKHO0H (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 09:26:07 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE235C765;
+        Tue,  8 Nov 2022 06:24:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667917489; x=1699453489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SkQVJcDZAagONBPRjE0wTg4gud81SvHRy4ZcfIKi2yU=;
+  b=aL7vUTeiKCNNx6y7kvHYTX0D+aQguOVfM93x0zgY+6mSrnSWlC0ILq/P
+   b+gzZOkfDs052qhhg/bFLEF4BblJoy+z0qgOer+yEyeHZmoe2bSR7BNYl
+   YcMCVMjr4UIujtnO2qo5jrqy6jcU0bBqEeZwOyjSLZHMhf9P8NUkObwdG
+   hPQR6XPHsxKxvQet4AEd9Lh2rXTLFlbKWEPyGxHv9wgg/Rzq3PHp4/pvj
+   3PY/LZrFrSeEYqcrpx0+47KVsP3LgnC/FGWNvNN2fHLq5/t4iEuvrXrAh
+   39RPe/10rZUn8QZrDEAAEwH+edp1z5HjFKupe/mhK1hN5uynhoMtd6mJp
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="298219735"
+X-IronPort-AV: E=Sophos;i="5.96,148,1665471600"; 
+   d="scan'208";a="298219735"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 06:24:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630884179"
+X-IronPort-AV: E=Sophos;i="5.96,148,1665471600"; 
+   d="scan'208";a="630884179"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2022 06:24:43 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1osPWq-009ANu-2m;
+        Tue, 08 Nov 2022 16:24:40 +0200
+Date:   Tue, 8 Nov 2022 16:24:40 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Gene Chen <gene_chen@richtek.com>,
+        Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH v3 00/11] leds: deduplicate led_init_default_state_get()
+Message-ID: <Y2pmqBXYq3WQa97u@smile.fi.intel.com>
+References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
+ <Y1gZ/zBtc2KgXlbw@smile.fi.intel.com>
+ <Y1+NHVS5ZJLFTBke@google.com>
+ <Y1/qisszTjUL9ngU@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20220818172528.23062-1-pali@kernel.org> <20220818172528.23062-2-pali@kernel.org>
- <CACRpkdYWQVW_akJS7hvtU2=c063LCMfjN22X-neTfuTZRbt+yw@mail.gmail.com>
- <20220831114936.vukjsovdxw3cmj6h@pali> <20221009114043.6rdgpgzkngd527o7@pali> <20221101223255.rhzerarzld45xfjh@pali>
-In-Reply-To: <20221101223255.rhzerarzld45xfjh@pali>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Nov 2022 13:42:34 +0100
-Message-ID: <CACRpkdad6WDo7rGfa4MW8zz0mLXmcPHo+SEC-yLQnRz_kdrryA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] leds: syscon: Implement support for active-low property
-To:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1/qisszTjUL9ngU@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Nov 1, 2022 at 11:33 PM Pali Roh=C3=A1r <pali@kernel.org> wrote:
-> On Sunday 09 October 2022 13:40:43 Pali Roh=C3=A1r wrote:
-> > On Wednesday 31 August 2022 13:49:36 Pali Roh=C3=A1r wrote:
-> > > On Friday 26 August 2022 10:05:26 Linus Walleij wrote:
-> > > > On Thu, Aug 18, 2022 at 7:25 PM Pali Roh=C3=A1r <pali@kernel.org> w=
-rote:
-> > > >
-> > > > > This new active-low property specify that LED has inverted logic
-> > > > > (0 - enable LED, 1 - disable LED).
-> > > > >
-> > > > > Signed-off-by: Pali Roh=C3=A1r <pali@kernel.org>
-> > > >
-> > > > Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> > > >
-> > > > Yours,
-> > > > Linus Walleij
-> > >
-> > > Is something else needed for this patch series?
-> >
-> > PING?
->
-> PING?
+On Mon, Oct 31, 2022 at 05:32:26PM +0200, Andy Shevchenko wrote:
+> On Mon, Oct 31, 2022 at 08:53:49AM +0000, Lee Jones wrote:
+> > On Tue, 25 Oct 2022, Andy Shevchenko wrote:
+> > 
+> > > On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
+> > > > There are several users of LED framework that reimplement the
+> > > > functionality of led_init_default_state_get(). In order to
+> > > > deduplicate them move the declaration to the global header
+> > > > (patch 2) and convert users (patche 3-11).
+> > > 
+> > > Dear LED maintainers, is there any news on this series? It's hanging around
+> > > for almost 2 months now...
+> > 
+> > My offer still stands if help is required.
+> 
+> From my point of view the LED subsystem is quite laggish lately (as shown by
+> this patch series, for instance), which means that _in practice_ the help is
+> needed, but I haven't got if we have any administrative agreement on that.
+> 
+> Pavel?
 
-If the LED subsystem isn't working consider sending the patch to the
-SoC tree with a notice that they apply it instead and why.
+So, Pavel seems quite unresponsive lately... Shall we just move on and take
+maintainership?
 
-Yours,
-Linus Walleij
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
