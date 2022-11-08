@@ -2,244 +2,238 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F256662199D
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 17:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFBA2621C25
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 19:44:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234367AbiKHQk3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 11:40:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
+        id S231678AbiKHSoR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Nov 2022 13:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233914AbiKHQkO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 11:40:14 -0500
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2128.outbound.protection.outlook.com [40.107.215.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D266F57B5B;
-        Tue,  8 Nov 2022 08:40:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ss5C3g9cDAHERxQyGB3Xmz4tyJm6w6X+vcf0FX7RUsc3rUnV/E+3YFk4n4wNjmN+sSwYursHWbsaxWo38q6zZQxsUs6tMM/eWnUQzFVWPJlcrZVkV25snCJx9XOZUEKH7GZ+jQPqEoFfHj6jxdiOWHiM4/mM5IpjcF5Smlnwuo6p9WwGOnjrwPc6xLYQrUzYU4zasnlzHm6HKLD52Ctw3GSq4bmhv3EVtceL8GxygFB8re9PmfVB8j3d7reE/RFuGUc0b73X8JsSf4q9FuWCVrcHaWR1krQAg5skgB9va8pZbzp/wkig+qlLrNe0xHLtpKXtaMzB09v3d0siHVks0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=thpcfEjkT6M3Cbh0jMprMM++zM74T/WSw+KO6E7QZfI=;
- b=cArlejMg4uFprozlJyfi1fQ2fz/IFdwb31GbG3ckMygDLyA/+wqzAuzltTBRdEBm6V6H5+FXSpFxYUPo6Dbfn3gX4jLigv2dvY9DqweB7/VkE7hhyuafAspdwsO+iC+ukTQL/fXCNN74NWdIPoE99OAslYqp1yFYLHetdN7m0RB467CMaW4wg7qxhIjPKoDAj57/AwfhIjaO+hUExNc1yJT5hp9eTrehTCt0yDdehGi33Jbgmb1kEYnw85VzO3pUN6BSp5YyjviSuhZoBPrdtYxp7IVpvdZKqg56asYLDClRf3NVh7e2WTCGaX6s/JOItWTKuclQn/hhK72qWC54Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=yunjingtech.com; dmarc=pass action=none
- header.from=yunjingtech.com; dkim=pass header.d=yunjingtech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=yunjingtech.com;
-Received: from SG2PR06MB3742.apcprd06.prod.outlook.com (2603:1096:4:d8::14) by
- PSAPR06MB4454.apcprd06.prod.outlook.com (2603:1096:301:8a::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.27; Tue, 8 Nov 2022 16:40:06 +0000
-Received: from SG2PR06MB3742.apcprd06.prod.outlook.com
- ([fe80::9ac2:8b0a:9ad:24b5]) by SG2PR06MB3742.apcprd06.prod.outlook.com
- ([fe80::9ac2:8b0a:9ad:24b5%5]) with mapi id 15.20.5791.025; Tue, 8 Nov 2022
- 16:40:06 +0000
-From:   chengwei <larry.lai@yunjingtech.com>
-To:     lee@kernel.org, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, pavel@ucw.cz
-Cc:     linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
-        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
-        noah.hung@yunjingtech.com, chengwei <larry.lai@yunjingtech.com>
-Subject: [PATCH V2 3/3] leds: Add support for UP board CPLD onboard LEDS
-Date:   Wed,  9 Nov 2022 00:38:52 +0800
-Message-Id: <20221108163852.15926-4-larry.lai@yunjingtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221108163852.15926-1-larry.lai@yunjingtech.com>
-References: <20221108163852.15926-1-larry.lai@yunjingtech.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0001.apcprd02.prod.outlook.com
- (2603:1096:4:194::10) To SG2PR06MB3742.apcprd06.prod.outlook.com
- (2603:1096:4:d8::14)
+        with ESMTP id S231740AbiKHSoQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 13:44:16 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7E41D327
+        for <linux-leds@vger.kernel.org>; Tue,  8 Nov 2022 10:44:13 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id l14so22465842wrw.2
+        for <linux-leds@vger.kernel.org>; Tue, 08 Nov 2022 10:44:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8D9/RVdDuV2pZ+DNXsZtuBB7adAeFFAlhmnbxTXvqk=;
+        b=iDzrfTO37pnnR9yFxcVEXrrx3BRg8hTzeGl4FJPU8DrxThdnB1m3KAyRjmlBGlPAE1
+         Vg+PPP/BBYQmb0F06+dmDnjqRgUR8w5BZfHgxWOsLbxJFkCRLSVjKn4St8c/syMKc896
+         jGOZlwWSVg1ld+da7GDNWmKl6YlVedoR2a/h8wHKfVqVKnMkL4YfA6TNrTz6QdDsKYi8
+         N/oPFLTQEbjRAXtRjHBr2YYIwAY1U5INPJ0LHMo695essxg4dDZ6YwsV71RZ8jRPfoT3
+         P3glPEzs1TzxnWYGYsiVKZPL4JxCQhrEaVZKIBwIDwvdKvPYMURdEyQ+EUN1wE3aC4D4
+         ZYEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8D9/RVdDuV2pZ+DNXsZtuBB7adAeFFAlhmnbxTXvqk=;
+        b=bKK8z1moDIR/QdWL/J/7+piAy05DeoP0qDmFXeHJGDkXgId1SElbFHlGdQFGd5JcS4
+         DoOzQhRg1d7fpNvk7u7nXYKtrNw9Z3y+VD5con0EdlpHVlK/AyqJtwizE2tP1TBDzc28
+         OV4ckRWfKnyuSgHiiu8NZ0c+BWh+I4vfso91C7Lao4Sj6bLgolNTdvtBvDIoJSnCEb/S
+         eWz7Cl5Cl9eHm8dLvSrMhnujaKjzPf2z22y1aiWpaFOrjRx8GyGKPoI1LAsSaFWqeJfn
+         2Ku8ZUFq4VKyD/xVFna7+KxiISLgg3ffL4I1ILqRocSgznlSyC2/ikkmQDwW5ZOADrrp
+         ZvVA==
+X-Gm-Message-State: ACrzQf3gkUzoerXaLQnW6R1n+FFtFmBXRCJMy3IVdtrkw4fbU4vUXQ6j
+        FllO1I8IDVBuQXdVYp/y9hPfalgZvF1DTwOrGUg=
+X-Google-Smtp-Source: AMsMyM4Pw/a88iDUdk91jriygXBbx7vziA1KcjbvhTwJTXjUkMQH6uF7UqE6JwKcAvueEVc7v1EWuw==
+X-Received: by 2002:adf:df82:0:b0:236:563b:6f5d with SMTP id z2-20020adfdf82000000b00236563b6f5dmr769877wrl.532.1667933052138;
+        Tue, 08 Nov 2022 10:44:12 -0800 (PST)
+Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+        by smtp.googlemail.com with ESMTPSA id m6-20020a05600c3b0600b003cf6c2f9513sm13564009wms.2.2022.11.08.10.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 10:44:11 -0800 (PST)
+Subject: [PATCH v4 0/9] Add MediaTek MT6357 PMIC support
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PR06MB3742:EE_|PSAPR06MB4454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15baacfb-5a4a-4fba-0642-08dac1a7e453
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x6BajtPAVjCMYqPp/nUVVFH6m+HJgY653mpyMKnj7njkBv6LHVH463IDE503wNM7omgXKMeCtNai+dqDmtp6mzKZvmadtMVejUqpzXBxqV7M9dhvIF3qoRIUJ1Ejw0ZJOJvcBlsVStST2KNxT78BQUhZpLsNSc/0lHF35wI5Ftp5vwc+YNgQPH0AaUIbje/yRvX+99YOqMI1tCBaBH0o/n4C3g0juCz1pXEZm2W6U2nlLT5K5Y9q7Dz53O3ZNuxf+zWGJO4+tNVvYFJpzGIf8Ds4QdwV0tECBxhj+pfC+h/pGaaPMa8opci1TVEK/3Gs+jN1HXZ6JabzFKmnhDUFTAuf1fDDboo9xRRXps1CPKNl2Bl5JvU6hH8EjL2J/OvQar5IuXj9+d7VEtBvvgxza/Bzs9QBEjRY77pU3yiC4oNiojABrmwrs9B2PtA+BAUhYuIRDz4n6P2owG6cJ3pcB7jwkpuL1V/VB5pUA13afbhd++keOjSa3TJhipw63ugOpFe2LKz9hRAovocgP0OzcqZFd0FjCjt2RolaAvoOWf54KxSlBfLtyi5KMQBG7ZTTd7+JXIuoEzzSPHDM05q5L4HQRMffQ0rdyy/msPk8i90w9By7fQq4wHKE9uR/HKkq7b+PDfyj7B5PFSCdnrvspuWpNtgUgnZItIsMaJ7VV7ClmcpS/Zg6X/rPBCcXtCSo2EqRpc8mGmblzo2ohdPcgulW4I/pnesg3BmifCSZZcMZ6M4vBWLLowa5L4xI34Anlyx9jrePSShZi/4aYA1NwA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3742.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(376002)(39830400003)(396003)(366004)(136003)(451199015)(8936002)(41300700001)(38350700002)(38100700002)(52116002)(6666004)(6506007)(4326008)(66946007)(2906002)(66556008)(66476007)(6512007)(26005)(316002)(5660300002)(86362001)(478600001)(107886003)(6486002)(186003)(36756003)(2616005)(8676002)(1076003)(43062005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XBV74zgWRBvsNUnS5Y0ZHvgp7dhgEQcPINHms4bnh3LGNOUk6NbuLJ+o+Agr?=
- =?us-ascii?Q?8tJZuMtRFz2xDwTTkNo0s9zYxvntB1x+YihqovHtlT0A93pSSNEK+jywanxu?=
- =?us-ascii?Q?3pGsu1jEkFgrdT4gXUgTH62evn4F/mNHODbiqxfOYYTC52M51sDZx5cseMhI?=
- =?us-ascii?Q?cfOnhGqFtKRF6pZTP54bNF+gH1/G5omiWtuHZQC2T2cQYdoxF9nXU8ubxB0g?=
- =?us-ascii?Q?Va4pz+fCBFsPEBg57rFvxd9I43E1Qp0xZDoxAYvM/MfkcyQc52bYIEAZlcLc?=
- =?us-ascii?Q?TMGBM3VAN2jhJ9SLT9itKRxg99W74Tx0ih19EWZb0bymoINedmcLwf1TGRvk?=
- =?us-ascii?Q?SZUGHdZYVA0etnDOwBwDauK6nR56tb43Xrdn7Xf7TxPDYffy7h6vHzC2BTAm?=
- =?us-ascii?Q?lHPano0UAd00xn/7j9+0ir6pBDx4RjnPoI6qXwNJlT9Q1vhcFtXzl0lSA/6c?=
- =?us-ascii?Q?H2t4GnTLpP09cFyH8xWjiiEzjmtIEyGs+/zzk35zbqYQXlgIEK3PkDrLG+Ix?=
- =?us-ascii?Q?QVJpsXoZ8Azg2fKBKJmy3Ba4c77tk35GH5u+h01hKbgj1bl2fiwHk5l6vuNF?=
- =?us-ascii?Q?kT4MqQGkNDfqIQQzvTY76G5Rz/r5LoEFihSLT8hODhRbukxL8wn1RJ3Q0bkv?=
- =?us-ascii?Q?HahptxTqltbSGoHqPwZGaTHmyiExyvg4QNp7xtODmABotwcwM5ZwtJZe+ws0?=
- =?us-ascii?Q?C0RQDnU2j5slBa2BPOXPHurFKUmNS8ElGXrlItp6ZoECVV1LI5JvRqs1KwMf?=
- =?us-ascii?Q?eECBdGYlaXkj4O8DHVRKyXsfkDGJMOVu/MN8b1uizdMvJjukHL5KovbE4JkM?=
- =?us-ascii?Q?M1C/m0Awzqlhr6WMyJGtC/aM11s0f2N2j6SJMwRBMkDsTu931X8+iVexP4Eq?=
- =?us-ascii?Q?wiFJRd2besfdEqLaAtNZrHxZW4Gb9CrPZyYhoGJsZOxgtwggI4M5yf7Tdo/O?=
- =?us-ascii?Q?xwT+zVJeZbqP0OqdKAMMGTJvEVnbOnkJsc2fHYYlNYEQySYmewt52gBrzDIF?=
- =?us-ascii?Q?h6mh3ODg3+NVF9IxIWBZ0r33pNW9/y06biOIgMGM7hD2Jpf4UyKnOw5a/IRL?=
- =?us-ascii?Q?hzEFxyJv0LazUKwGil0h/W0XFsJm5Y7zfQv3Vy1A+A9tnFSEHo9S8taBPOVO?=
- =?us-ascii?Q?iKbuYS7/q1FOKVkwSc+tNcMEKQpR7a58hJqxgqvInqwm9+pF5IXyvZovHm6I?=
- =?us-ascii?Q?nknhbcundDKtGtnUVKGtSJbIB/bDJqygV1uQc+2oHtcba+YrYJN4D47EZTsQ?=
- =?us-ascii?Q?19XckVjBGxug8M7H9g4SrDeVCSiYw3C6PBq+h8jbxXlZ40xonOrI+WRwWC+Z?=
- =?us-ascii?Q?2QCdmqRVPT6yQUcM4PmkYiDbKZtV9pRCLfptWaIwRFZH1zVGSDCtnLNoA2KV?=
- =?us-ascii?Q?avevs6R09Z8lPXsGKn5XfZ6esS/umXOe/iFRi9QlpNunLV0PKVo5liayaSt6?=
- =?us-ascii?Q?XEYJ6HyT8Ww3IysYl0up41IOWTzcSQQOQrOJ7fvvCzWQYvnXRs/Vq8LK6PvB?=
- =?us-ascii?Q?XCpmtfwa5ZEArpNJt5dV9RjI0t9+6aqhhK8fg8zjhRwxuosjDExGNN6JXCGh?=
- =?us-ascii?Q?CiO4NfQHfhPXMJeZVT4ryH3MShMDnV2TVW3+7DevlC36Yu74ON36Z+jlfx6o?=
- =?us-ascii?Q?/A=3D=3D?=
-X-OriginatorOrg: yunjingtech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15baacfb-5a4a-4fba-0642-08dac1a7e453
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3742.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 16:40:06.2723
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: be2d5505-f7e6-4600-bbe2-b3201c91b344
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IIXBSawxESFiz4lvXHt2KGXEvHc9O0SwJYKn2Z2Eod70WjL69xuYPVjoSADwJAbSOjo4sWQhdbqIXT7kngmQ8fb10gyzzbvSP58H3zsgdU8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4454
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_PERMERROR
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAFejamMC/33NTQrCMBAF4KtI1kbSiTHVlfcQF/mZ2kCblKQNlNK7O7gUdDW8B++bjRXMAQu7HT
+ aWsYYSUqRwPh6Y6018IQ+eMgMB0Aih+DhfpNK8LNOU8syVkqK1LaCUHaORNQW5zSa6nmZxGQYq+1Dm
+ lNfPkwp0Hj+9ClzwrtHWgAcvzPVuzToEm/Hk0siepFX5X5AkaBTWaycbZeFL2Pf9DS0ZTUj2AAAA
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Tue, 08 Nov 2022 19:43:35 +0100
+Message-Id: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+To:     Fabien Parent <fabien.parent@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-leds@vger.kernel.org,
+        Alexandre Mergnat <amergnat@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+X-Mailer: b4 0.10.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5627; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=KMqIoFMw2ZsnI4pz2WvDUoOJVAdC7AJXJ4JZ68KdWV4=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjaqN6igOZ3wPkALb9neByKV7+WaSiq7dQaGyZmrOz
+ uMI+cTKJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCY2qjegAKCRArRkmdfjHURWWXD/
+ 0SjwYliYD6yObuoeJtg0IJfpDmts8BUvvTNZwhie1u73bGZ+++aqfHjmB5UkQiOq/m8TYBXWc75PJ1
+ KnZTV97qxdUDHrTqQSWV1rqsiLEc3gCUw/5vq8UI5S1tKHafrSoLZJRwT4nQBHe/+gdZlDIhy9coHh
+ bSmYYS48rStiXayUrH9sCwTT5w8vhlokrOp9C4F/ZHc8ml+bTLTJG5jUstA3Ji851lxN1HHg/LgAzD
+ la4e42RFpkZ0BMvUPrfWo8iEFC7Y1jO0GwmRmNBaaCt/G9Wg6Dx6geaDG0MpWwbnE49sy7j9E1sMci
+ VmQVPWlzVvmDn0LrUiUNmn+ruoZfON8tE3BYKwjkoYMW6XToEbp1gehV8H4Y0/DRW4Ks4hXLdjrMnW
+ RzKOaWin6APvF0RkFz96LX2KJJPZzmOE3uEuRfhRKl+U9VAKxXKUSLSYCS4GJrpzRXTimN7qRPtaf7
+ aeKkTNPsHMcokHfJ+7ZbEdz0g+un7jngXPCU53bXs+QXHREc+pGNP6u4dlexOTcv7rcIfD1ARUKNo+
+ FasIgRhDtGsYEo0zl5NEyiWNnpjoVqCUKJovCcd87/zQPi3/zrPgu/tMdMTI2l+38p8YydymE3xg/v
+ d3J4M9igDBzDA5WLdNi071vG+AOuUP9lQW1LVTHBvZKGt5Qb6Gc5wjh/Yxmw==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The UP boards come with a few FPGA-controlled onboard LEDs:
-* UP Board: yellow, green, red
-* UP Squared: blue, yellow, green, red
+Hi,
+This patch series adds MFD, PMIC keys, and regulator support for MT6357.
+MT6357 is a MediaTek PMIC very similar to MT6358.
 
-this patch depends on patch "mfd: Add support for UP board CPLD/FPGA"
+Currently, MTK bindings related to the PMICs are not converted yet (still .txt):
 
-Signed-off-by: chengwei <larry.lai@yunjingtech.com>
+soc/mediatek/pwrap.txt (all PMIC parent)
+      |
+      V
+mfd/mt6397.txt (support lot of mt63XX PMIC)
+      +---------------+----------------+---...
+      V               V                V
+regulator/...      rtc/...          codec/...
+
+1) Convert pwrap to yaml is ok.
+
+2) For the PMIC bindings, there are two option:
+- Convert mt6397.txt to mediatek,mt6397.yaml and continue to support multiple
+  PMIC with only one file. IMO, the file will be hard to read because
+  the supported features aren't the same for each PMIC.
+
+- Make a binding file for each PMIC ref:
+    - mfd/mediatek,mt6357.yaml
+    - mfd/mediatek,mt6358.yaml
+    - ...
+
+3) All PMIC daughter bindings (regulator, rtc, codec, led, ...) aren't fully
+converted yet. Refering to the two PMIC convertion options above:
+- To be clean, all daughter bindings should be converted. This is hard because
+  a good understanding of each device is requiered to write efficient bindings.
+- Only daughter bindings supported by the added PMIC should be converted, that
+  allows to do the task conversion step by step.
+
+In the V4 of this serie, I chose the second option.
+
+Regards,
+Alex
+
+Changes in v4:
+- "dt-bindings: mfd: mt6397: add binding for MT6357" has been applied
+  by Lee Jones
+- All fixed regulator are now refering to fixed-regulator.yaml
+- vfe28 and vcamio18 regulators have been added
+- pwrap binding has been converted and mt8365 support has been added
+- Change node names for mt8173 and mt6358 SoC to be consistent with
+  pwrap documentation.
+- mt6357 PMIC binding has been created
+- mt6397 RTC binding has been converted and mt6357 support has been added
+- Link to v3: https://lore.kernel.org/r/20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com
+
+Changes in v3:
+- To be consistent with regulator/driver.h and helper.c, shift
+  variables have been removed and the mask values have been directly shifted.
+- Remove index tables and rework volt tables to use set/get helper functions.
+- Add comment to structure and function.
+- Fix Fabien Parent mail address.
+- Link to v2: https://lore.kernel.org/r/20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com
+
+Changes in v2:
+- Rebase
+- Fix typo
+- Remove dependencies with https://lore.kernel.org/all/20220415153629.1817202-1-fparent@baylibre.com/
+  which is no longer relevant.
+
+Previous versions:
+v1 - https://lore.kernel.org/all/20220531124959.202787-1-fparent@baylibre.com/
+
+To: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chen Zhong <chen.zhong@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Fabien Parent <fabien.parent@linaro.org>
+To: Alessandro Zummo <a.zummo@towertech.it>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sean Wang <sean.wang@mediatek.com>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: Fabien Parent <fparent@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+
 ---
- drivers/leds/Kconfig        | 10 +++++
- drivers/leds/Makefile       |  1 +
- drivers/leds/leds-upboard.c | 78 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 89 insertions(+)
- create mode 100644 drivers/leds/leds-upboard.c
+Alexandre Mergnat (5):
+      dt-bindings: rtc: mediatek: convert MT6397 rtc documentation
+      dt-bindings: mfd: mediatek: Add bindings for MT6357 PMIC
+      dt-bindings: soc: mediatek: convert pwrap documentation
+      arm64: dts: mt6358: change node names
+      arm64: dts: mt8173: change node name
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 499d0f215a8b..80b9c394c5b6 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -872,6 +872,16 @@ source "drivers/leds/flash/Kconfig"
- comment "RGB LED drivers"
- source "drivers/leds/rgb/Kconfig"
- 
-+config LEDS_UPBOARD
-+	tristate "LED support for the UP board"
-+	depends on LEDS_CLASS
-+	depends on MFD_UPBOARD_FPGA
-+	help
-+	  This option enables support for the UP board LEDs.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-upboard.
-+
- comment "LED Triggers"
- source "drivers/leds/trigger/Kconfig"
- 
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 4fd2f92cd198..e72956645646 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -83,6 +83,7 @@ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
- obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
- obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
- obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
-+obj-$(CONFIG_LEDS_UPBOARD)		+= leds-upboard.o
- obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
- obj-$(CONFIG_LEDS_WM8350)		+= leds-wm8350.o
- obj-$(CONFIG_LEDS_WRAP)			+= leds-wrap.o
-diff --git a/drivers/leds/leds-upboard.c b/drivers/leds/leds-upboard.c
-new file mode 100644
-index 000000000000..214325442f3b
---- /dev/null
-+++ b/drivers/leds/leds-upboard.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * UP Board FPGA-based LED driver
-+ *
-+ * Copyright (c) 2017, Emutex Ltd. All rights reserved.
-+ *
-+ * Author: Javier Arteaga <javier@emutex.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/leds.h>
-+#include <linux/mfd/upboard-fpga.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+struct upboard_led {
-+	struct led_classdev cdev;
-+	struct regmap_field *field;
-+};
-+
-+static enum led_brightness upboard_led_brightness_get(struct led_classdev *cdev)
-+{
-+	struct upboard_led *led = container_of(cdev, struct upboard_led, cdev);
-+	int brightness = 0;
-+
-+	regmap_field_read(led->field, &brightness);
-+
-+	return brightness;
-+};
-+
-+static void upboard_led_brightness_set(struct led_classdev *cdev, enum led_brightness brightness)
-+{
-+	struct upboard_led *led = container_of(cdev, struct upboard_led, cdev);
-+
-+	regmap_field_write(led->field, brightness != LED_OFF);
-+};
-+
-+static int __init upboard_led_probe(struct platform_device *pdev)
-+{
-+	struct upboard_fpga * const up_fpga = dev_get_drvdata(pdev->dev.parent);
-+	struct reg_field fldconf = {
-+		.reg = UPFPGA_REG_FUNC_EN0,
-+	};
-+	struct upboard_led_data * const pdata = pdev->dev.platform_data;
-+	struct upboard_led *led;
-+
-+	led = devm_kzalloc(&pdev->dev, sizeof(*led), GFP_KERNEL);
-+	if (!led)
-+		return -ENOMEM;
-+
-+	fldconf.lsb = pdata->bit;
-+	fldconf.msb = pdata->bit;
-+	led->field = devm_regmap_field_alloc(&pdev->dev, up_fpga->regmap, fldconf);
-+	if (IS_ERR(led->field))
-+		return PTR_ERR(led->field);
-+
-+	led->cdev.brightness_get = upboard_led_brightness_get;
-+	led->cdev.brightness_set = upboard_led_brightness_set;
-+	led->cdev.name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "upboard:%s:",
-+					pdata->colour);
-+	if (!led->cdev.name)
-+		return -ENOMEM;
-+
-+	return devm_led_classdev_register(&pdev->dev, &led->cdev);
-+};
-+
-+static struct platform_driver upboard_led_driver = {
-+	.driver = {
-+		.name = "upboard-led",
-+	},
-+};
-+module_platform_driver_probe(upboard_led_driver, upboard_led_probe);
-+
-+MODULE_AUTHOR("Javier Arteaga <javier@emutex.com>");
-+MODULE_DESCRIPTION("UP Board LED driver");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:upboard-led");
+Fabien Parent (4):
+      dt-bindings: input: mtk-pmic-keys: add binding for MT6357 PMIC
+      dt-bindings: regulator: Add binding schema for mt6357 regulators
+      regulator: add mt6357 regulator
+      Input: mtk-pmic-keys: add MT6357 support
+
+ .../bindings/input/mediatek,pmic-keys.yaml         |   1 +
+ .../devicetree/bindings/leds/leds-mt6323.txt       |   2 +-
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 102 +++++
+ Documentation/devicetree/bindings/mfd/mt6397.txt   |   4 +-
+ .../regulator/mediatek,mt6357-regulator.yaml       | 292 +++++++++++++
+ .../bindings/rtc/mediatek,mt6397-rtc.yaml          |  40 ++
+ .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
+ .../bindings/soc/mediatek/mediatek,pwrap.yaml      | 158 +++++++
+ .../devicetree/bindings/soc/mediatek/pwrap.txt     |  75 ----
+ arch/arm64/boot/dts/mediatek/mt6358.dtsi           |   6 +-
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi       |   2 +-
+ arch/arm64/boot/dts/mediatek/mt8173-evb.dts        |   2 +-
+ drivers/input/keyboard/mtk-pmic-keys.c             |  17 +
+ drivers/regulator/Kconfig                          |   9 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/mt6357-regulator.c               | 453 +++++++++++++++++++++
+ include/linux/regulator/mt6357-regulator.h         |  51 +++
+ 17 files changed, 1132 insertions(+), 114 deletions(-)
+---
+base-commit: e7f535c0775b896befb4f6765c02bc065fd26156
+change-id: 20221005-mt6357-support-55308b82e33f
+
+Best regards,
 -- 
-2.17.1
-
+Alexandre Mergnat <amergnat@baylibre.com>
