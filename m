@@ -2,100 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A121262294F
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 11:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B999622C0C
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 14:00:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiKIK4W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Nov 2022 05:56:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
+        id S230173AbiKINA1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Nov 2022 08:00:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbiKIK4A (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 05:56:00 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F2529CB8;
-        Wed,  9 Nov 2022 02:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667991276; x=1699527276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kZDUrGxLZXD8ZS03E/DY8j/TP1l3/jEAXlKHEYjBUD8=;
-  b=NZOhVjsvKITQbu1GuC4+LuuWB+b1AK/FeoxM1QTVN5Cx89U3HNl7PIaE
-   UV3w6NF3f726ICqheZVsuBh2WnmNLT7+/aaJwFpI4KoOWrc3xEWQtZSjQ
-   uuCr1Qhju/F/Ld/FdlXBlf9XbbwaWpf3t1T5FLxnDuGtgOxq4lrxE3OJC
-   qzY6qXzN3tovqMLro2hEk9Q7vJPp0ulN5QOigk70pwMOTTOC3+ubKeGob
-   kxJ4HIzoq2td7lHM0iUG29G5UQa3r1Wk4xCl+TU72i3hzIl9a/MJeC44A
-   VYCq4VUr+2X/X8Ejvks91o1Mj87tPng89JFndzGZzJ0YCHBqNPrwu7AtN
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="309658674"
-X-IronPort-AV: E=Sophos;i="5.96,150,1665471600"; 
-   d="scan'208";a="309658674"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2022 02:54:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="811591459"
-X-IronPort-AV: E=Sophos;i="5.96,150,1665471600"; 
-   d="scan'208";a="811591459"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 09 Nov 2022 02:54:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1osij0-009huC-0s;
-        Wed, 09 Nov 2022 12:54:30 +0200
-Date:   Wed, 9 Nov 2022 12:54:30 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     chengwei <larry.lai@yunjingtech.com>, lee@kernel.org, pavel@ucw.cz,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
-        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
-        noah.hung@yunjingtech.com, Javier Arteaga <javier@emutex.com>,
-        Nicola Lunghi <nicola.lunghi@emutex.com>
-Subject: Re: [PATCH V3 2/3] pinctrl: Add support pin control for UP board
- CPLD/FPGA
-Message-ID: <Y2uG5jrYeadqMNav@smile.fi.intel.com>
-References: <20221109090957.13167-1-larry.lai@yunjingtech.com>
- <20221109090957.13167-3-larry.lai@yunjingtech.com>
- <CACRpkdZQ7FCtLPEioWXn+MXQhnpuu-EY+CjhEeKqBe=Bvq777g@mail.gmail.com>
+        with ESMTP id S230124AbiKINAR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 08:00:17 -0500
+Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B0A20F51
+        for <linux-leds@vger.kernel.org>; Wed,  9 Nov 2022 05:00:15 -0800 (PST)
+Received: by mail-vk1-xa2e.google.com with SMTP id e16so10959066vkm.9
+        for <linux-leds@vger.kernel.org>; Wed, 09 Nov 2022 05:00:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+S5RqoJR7eNe+UaJkaYqcNTqaJzBg/EYLhKrA3XeTJU=;
+        b=rel5ChBGOWyyPrddCcExdpNk6z2wGkv02sSJ3Ur8AgAiG81XQo6uyS7ekn5oSKkVD/
+         0K2A7M8rKye5Ef9vzj5Q+WX+6PdEllkM5zevX9Y2XeNeOTo5gK3ozm/jCMy6HaV08zLt
+         Jgnjft+gnVJNZa37xueaFYjkxwLXGOUs0MaZ9/RCKaW55DVX02GaFXZYi8qmaP3/NQGo
+         NACh6/96YRotOn/YrO5Z8u8dTj5tT1R3eoG4tWmY4LqHzL7OMTnUNMlB7R2AQZfSZD0F
+         Cklf7yVZx0xKA/oKNLeNdsHmdpqEvzMElzN81Jw0LF7/dw2u44YCixewsXkQbfCsGNeZ
+         sC7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+S5RqoJR7eNe+UaJkaYqcNTqaJzBg/EYLhKrA3XeTJU=;
+        b=DIoHfbJH/cmFmo9IXHKno198uXPO1cg0aBeLKozmoGQh9i6K2cUntEolBJUbDuBUjD
+         oibwdPOuJ6LAa3KaEBMxsw6ERj+02UauUMojPjNv3G3B4EuG4SBYcAgqHMJXB/mLYnwD
+         tacxLJqfkbja+ID3e9cl+BnCcBPfGwppHUIbCh7Q93p3rr0jjeecC0YC08Bvr7iq+RrM
+         P2AuRT373s0F5A3uLGPeI/kEZN0VB4zQ2WaEWUdjssgGvUhOcQBMbSbSk/GD6pf/UIYO
+         uY379dEWWdn++GrUXRcgH5zQaFpjgRXV6PO7nKsmKAtPnAJYib/RPluXxD9jaGJF2k0T
+         asrQ==
+X-Gm-Message-State: ACrzQf1QRoEk6y1ym1GbjEkOei+8o401/Oesh5X36Qb0NBKhs8ny4pXb
+        kmgs4zw8Id7RCQVHs5BKQAg+iAyArdoTa8VESHGYcDlNxCs=
+X-Google-Smtp-Source: AMsMyM4Hv8fvC//1o6S/UqfJLdecKRfXQBgB0zlcBIQd3tRd5vJVClWy+ngarqMcUdi0XfIgwMKO7msMaawfJQHUAPc=
+X-Received: by 2002:a05:6122:2219:b0:3b8:7fbd:9554 with SMTP id
+ bb25-20020a056122221900b003b87fbd9554mr10547205vkb.27.1667998814618; Wed, 09
+ Nov 2022 05:00:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZQ7FCtLPEioWXn+MXQhnpuu-EY+CjhEeKqBe=Bvq777g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220902-get_gpiod_from_child-remove-v1-0-1e47125df20f@gmail.com>
+ <YyzYKmsjKflqT1xZ@google.com> <Y1aCgJihNIqExUR2@google.com>
+ <CAMRc=McvJ7AvhKdP7cv8K1+rzMf8-ptg2SnU+XOAwERhRx1Eyw@mail.gmail.com> <CACRpkdaPDXBWKQgNnmBLBmaXDo6roEDSpe1wrvMi_aG5F52K4g@mail.gmail.com>
+In-Reply-To: <CACRpkdaPDXBWKQgNnmBLBmaXDo6roEDSpe1wrvMi_aG5F52K4g@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 9 Nov 2022 14:00:03 +0100
+Message-ID: <CAMRc=Mf5va=ZbV5zhz30hqEVW_fGi3B4Qe+tBcU-P3DT3zxQmg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] Get rid of devm_fwnode_get_[index_]gpiod_from_child()
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Nov 09, 2022 at 10:27:59AM +0100, Linus Walleij wrote:
-> On Wed, Nov 9, 2022 at 10:11 AM chengwei <larry.lai@yunjingtech.com> wrote:
+On Tue, Nov 8, 2022 at 11:54 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Tue, Oct 25, 2022 at 5:48 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+> > On Mon, Oct 24, 2022 at 2:18 PM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > >
+> > > On Thu, Sep 22, 2022 at 02:48:26PM -0700, Dmitry Torokhov wrote:
+> > > > Hi Pavel, Marek,
+> > > >
+> > > > On Fri, Sep 02, 2022 at 05:55:24PM -0700, Dmitry Torokhov wrote:
+> > > > > This drops the last uses of devm_fwnode_get_[index_]gpiod_from_child()
+> > > > > from the tree and drops the stubs implementing this API on top of
+> > > > > devm_fwnode_gpiod_get_index().
+> > > > >
+> > > > > Note that the bulk of users were converted in 2019, the couple of LED
+> > > > > drivers are all that have remained.
+> > > > >
+> > > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > > >
+> > > > > ---
+> > > > > Dmitry Torokhov (3):
+> > > > >       leds: gpio: switch to using devm_fwnode_gpiod_get()
+> > > > >       leds: lgm-sso: switch to using devm_fwnode_gpiod_get()
+> > > > >       gpiolib: remove devm_fwnode_get_[index_]gpiod_from_child()
+> > > > >
+> > > > >  drivers/leds/blink/leds-lgm-sso.c |  5 ++---
+> > > > >  drivers/leds/leds-gpio.c          |  5 ++---
+> > > > >  include/linux/gpio/consumer.h     | 21 ---------------------
+> > > > >  3 files changed, 4 insertions(+), 27 deletions(-)
+> > > > > ---
+> > > > > base-commit: 7fd22855300e693668c3397771b3a2b3948f827a
+> > > > > change-id: 20220902-get_gpiod_from_child-remove-a62638849e91
+> > > > >
+> > > >
+> > > > Could you please consider picking this up for 6.1? Or would you be OK
+> > > > with this going through other tree (GPIO maybe)?
+> > >
+> > > *ping* Could this go through GPIO tree? Dropping this API helps with
+> > > some outstanding work that I have...
+> > >
+> >
+> > Sure! I'll let it wait for another week - it would be great to get an
+> > ack from Pavel - but in case of no response I'll take it through my
+> > tree.
+>
+> I'd say just apply it at this point.
+>
 
-...
+Right. Applied to gpio/for-next.
 
-> > +config PINCTRL_UPBOARD
-> > +       tristate "UP board FPGA pin controller"
-> > +       depends on ACPI
-> > +       depends on MFD_UPBOARD_FPGA
-> > +       depends on X86
-> 
-> This is Andy territory as it is x86 and ACPI but...
-
-It seems they forgot paying the respect to the reviewers by Cc'ing them.
-
-...
-
-> So this looks like it should be uncommented and used or deleted?
-> It just looks unfinished, and this patch is not an RFC.
-
-I'm wondering why it has v3 and not RFC in the Subject. So, no need to spend
-time right now in reviewing this.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks!
+Bartosz
