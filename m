@@ -2,120 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F138E621F56
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Nov 2022 23:30:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09155622551
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 09:27:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbiKHWar (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Nov 2022 17:30:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58674 "EHLO
+        id S229843AbiKII1x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Nov 2022 03:27:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKHWa1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Nov 2022 17:30:27 -0500
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF19A21A4;
-        Tue,  8 Nov 2022 14:30:13 -0800 (PST)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-13ba86b5ac0so17864096fac.1;
-        Tue, 08 Nov 2022 14:30:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EIyu2ScaB3AbxUJeW+TW/jRCR8cvhLIs+eO6qwh9G40=;
-        b=P8XlboiwnUurHAMOyeikQaRC5CJ4M8kL+K/8obGiuJPAe2wJ7Ez8W422laA/K7knyJ
-         J75/QXoeUImcyB0SqjfoxmZ+lhVtJCcri3HAMv36/IKh7MTZ+B5zli6cik6BLKZCWk6i
-         ICHraCDo05J/F5c/LiooaR8SJy+VSJXbRl2c6fwvgjQuHO/tQCQ+yK3fqqFxoInKVqxv
-         ZCYyTeI2+ap+ktkRFR572eKlF4Wue4FyshpvYv8BLaAgK0LndKdSHFxQivcx8Vnj7Nbm
-         OWG7dLp/o5CB3SN6OHA2ZcoqL2j5+Q1/DtM+ftjlh+GFn8jmMmntqJlJppLfMnL8lK9M
-         +SdA==
-X-Gm-Message-State: ACrzQf0CYcLfnyq9/FUvzcnZffwl1IsFBD7CYs3V1xtVorxmrJiCm9qY
-        Scpaiu/J9aUDyEPmu11eF4KUf9X9iw==
-X-Google-Smtp-Source: AMsMyM4ErTAiEBhhWUnCfkse1uPFXHKxuqvHukpK8jfMZpw4aZEAx3TQfjnc7l2d+tka0EwpvviWtQ==
-X-Received: by 2002:a05:6870:15d0:b0:13c:2aa5:d967 with SMTP id k16-20020a05687015d000b0013c2aa5d967mr34222286oad.143.1667946612838;
-        Tue, 08 Nov 2022 14:30:12 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 89-20020a9d0c62000000b00661946468c6sm4574509otr.31.2022.11.08.14.30.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 14:30:12 -0800 (PST)
-Received: (nullmailer pid 4095486 invoked by uid 1000);
-        Tue, 08 Nov 2022 22:30:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229645AbiKII1v (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 03:27:51 -0500
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD5E13D52;
+        Wed,  9 Nov 2022 00:27:50 -0800 (PST)
+Received: from canpemm500010.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N6dLR2gyvzJnRL;
+        Wed,  9 Nov 2022 16:24:47 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.70) by
+ canpemm500010.china.huawei.com (7.192.105.118) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 9 Nov 2022 16:27:48 +0800
+From:   Wang Yufen <wangyufen@huawei.com>
+To:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <pavel@ucw.cz>, Wang Yufen <wangyufen@huawei.com>
+Subject: [PATCH 00/13] leds: Fix devm vs. non-devm ordering
+Date:   Wed, 9 Nov 2022 16:48:01 +0800
+Message-ID: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Sean Wang <sean.wang@mediatek.com>, linux-rtc@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Fabien Parent <fparent@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
-Message-Id: <166794645623.4092225.9597102589319285416.robh@kernel.org>
-Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
- documentation
-Date:   Tue, 08 Nov 2022 16:30:08 -0600
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ canpemm500010.china.huawei.com (7.192.105.118)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Fault-inject tests reports this issue:
 
-On Tue, 08 Nov 2022 19:43:37 +0100, Alexandre Mergnat wrote:
-> - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
-> - Add mediatek,mt6357-rtc compatible.
-> - Add maintainer
-> - Remove the .txt binding file
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
->  .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
->  .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
->  3 files changed, 41 insertions(+), 32 deletions(-)
-> 
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 2 PID: 52 at kernel/locking/mutex.c:582 __mutex_lock+0x1366/0x15b0
+Call Trace:
+ <TASK>
+   cr0014114_set_sync+0x2d/0x80 [leds_cr0014114 dbd1de3fefae3e163bcc08f4eeaa6d1b243203a9]
+   set_brightness_delayed+0xc2/0x140
+   process_one_work+0x651/0xc30
+   worker_thread+0x30b/0x820
+   kthread+0x1a0/0x1e0
+   ret_from_fork+0x1f/0x30
+ </TASK>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+The issue occurs in the following scenarios:
 
-yamllint warnings/errors:
+.probe()
+  mutex_init()
+  led->brightness_set_blocking = callback  <-- e.g. cr0014114_set_sync()
+  devm_led_classdev_register_ext()
+  <-- dr->node.release = devm_led_classdev_release()
+...
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.example.dtb:0:0: /example-0/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
+.remove()
+  mutex_destroy(lock)         <-- lock destroy
 
-doc reference errors (make refcheckdocs):
+worker_thread()
+  set_brightness_work
+    set_brightness_delayed()
+      __led_set_brightness_blocking()
+        led_cdev->brightness_set_blocking()
+        <-- callback, e.g. cr0014114_set_sync()
+          mutex_lock(lock)              <-- lock is used after destroy
 
-See https://patchwork.ozlabs.org/patch/
+.release()
+  devm_led_classdev_release()
+    led_classdev_unregister()
+      <-- flush set_brightness_work
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+When non-devm resources are allocated they mustn't be followed by devm
+allocations, otherwise it will break the tear down ordering and might
+lead to crashes or other bugs during ->remove() stage. Fix this by
+wrapping mutex_destroy() call with devm_add_action_or_reset().
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Wang Yufen (13):
+  leds: cr0014114: Fix devm vs. non-devm ordering
+  leds: el15203000: Fix devm vs. non-devm ordering
+  leds: lm3532: Fix devm vs. non-devm ordering
+  leds: lm3692x: Fix devm vs. non-devm ordering
+  leds: lm3697: Fix devm vs. non-devm ordering
+  leds: lp50xx: Fix devm vs. non-devm ordering
+  leds: lp8860: Fix devm vs. non-devm ordering
+  leds: mlxreg: Fix devm vs. non-devm ordering
+  leds: mt6323: Fix devm vs. non-devm ordering
+  leds: powernv: Fix devm vs. non-devm ordering
+  leds: sc27xx: Fix devm vs. non-devm ordering
+  leds: spi-byte: Fix devm vs. non-devm ordering
+  leds: rt8515: Fix devm vs. non-devm ordering
 
-pip3 install dtschema --upgrade
+ drivers/leds/flash/leds-rt8515.c | 11 +++++++++--
+ drivers/leds/leds-cr0014114.c    | 11 ++++++++++-
+ drivers/leds/leds-el15203000.c   | 18 +++++++++++-------
+ drivers/leds/leds-lm3532.c       | 10 ++++++++++
+ drivers/leds/leds-lm3692x.c      | 11 ++++++++++-
+ drivers/leds/leds-lm3697.c       | 13 ++++++++++---
+ drivers/leds/leds-lp50xx.c       | 12 ++++++++++--
+ drivers/leds/leds-lp8860.c       | 11 +++++++++--
+ drivers/leds/leds-mlxreg.c       | 20 ++++++++++----------
+ drivers/leds/leds-mt6323.c       | 11 +++++++++--
+ drivers/leds/leds-powernv.c      | 12 +++++++++---
+ drivers/leds/leds-sc27xx-bltc.c  | 27 +++++++++++----------------
+ drivers/leds/leds-spi-byte.c     | 21 ++++++++++-----------
+ 13 files changed, 128 insertions(+), 60 deletions(-)
 
-Please check and re-submit.
+-- 
+1.8.3.1
 
