@@ -2,166 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591DC6226E3
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 10:28:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A45516227B2
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 10:55:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiKIJ2N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Nov 2022 04:28:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
+        id S229763AbiKIJz4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Wed, 9 Nov 2022 04:55:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbiKIJ2M (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 04:28:12 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6EA140F2
-        for <linux-leds@vger.kernel.org>; Wed,  9 Nov 2022 01:28:11 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id t25so45034492ejb.8
-        for <linux-leds@vger.kernel.org>; Wed, 09 Nov 2022 01:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUxkeYIU9Al/BJEtghySGhHTa8YoG9twnWemYdaKDpY=;
-        b=KaUw1Egs6jWdeGwemMMj53SNGL4t1gHJ8bEuXCeBXh7kQVxNOLrzu2p5pqGKhGfkep
-         6qucWyjUG0AjThMPSi8EGYGccQyp3LzQTvjIxQE4HHbsuwZ+HiNvjDibuA83BI7fziOs
-         skSspvXnuXlXOF9EWkNj/J3N+Gp+NDGcfZfUrHw6WhuXuRtGa+4rmCpr+CcTS32dgr9W
-         R5wJD+rvqqn7VGyTDah8XMEvwBiTSsX8bWgOcwtXzCEaNqRVPYfGtX39SiHmwzKcDBP/
-         44FVJBxGm7ic2SqUWzoME1VTVxa4FfuNEVVmqKvX0prCakVmLopUcQmBzoHjB/J8OS0s
-         U+iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUxkeYIU9Al/BJEtghySGhHTa8YoG9twnWemYdaKDpY=;
-        b=yJO7jj0rbJ5UMtb9MNf/msWqpLVUCOqjOMt+UQgzM0gg0QpFveUylxjVsvVZtRkwUl
-         A6j3cIcqgzaDXTty0hyh80AdXwfCJHGutppI34ljgNaHgLfArHCfxjj8EjagWRGeGSJD
-         XRh3cYSgbfrhs3guWV+MY/xWJhHp5jR+5zPKUivCQhg0a/1aotzB0KCNuN0m39J/zReO
-         MemvsqPE/D5UM0Zy/A6khayA3Zx+nLwpVYP3UC34boT5c5LGrFsXlzRFbe4CLE+nRbrg
-         HXVbLSoJF5jlqk4QiMBLwlFIB+uuurREoXCEK8AnXy7UuO1r1f2g9PKkIU85RnwoDqz7
-         J5CA==
-X-Gm-Message-State: ANoB5pkaPtcKdpqVXia2EQB6b0RiE537fDI7Rtpk+Pysggn9AmJWz7OW
-        1R2ANKiP6H8W12gMmYXkIzfDnrR7xCabyh/GsYg4+Q==
-X-Google-Smtp-Source: AA0mqf52kGsf1GPuFDL2NY4eVqhzFBFtgSx5PbdFgLKE+mwz4vKzKVE/ISxz7TDEZVwaHE102YOoWTaMG4rshx8YJVU=
-X-Received: by 2002:a17:906:6acc:b0:7ae:658c:ee45 with SMTP id
- q12-20020a1709066acc00b007ae658cee45mr14533582ejs.190.1667986090153; Wed, 09
- Nov 2022 01:28:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20221109090957.13167-1-larry.lai@yunjingtech.com> <20221109090957.13167-3-larry.lai@yunjingtech.com>
-In-Reply-To: <20221109090957.13167-3-larry.lai@yunjingtech.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 9 Nov 2022 10:27:59 +0100
-Message-ID: <CACRpkdZQ7FCtLPEioWXn+MXQhnpuu-EY+CjhEeKqBe=Bvq777g@mail.gmail.com>
-Subject: Re: [PATCH V3 2/3] pinctrl: Add support pin control for UP board CPLD/FPGA
-To:     chengwei <larry.lai@yunjingtech.com>
-Cc:     lee@kernel.org, andriy.shevchenko@linux.intel.com, pavel@ucw.cz,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
-        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
-        noah.hung@yunjingtech.com, Javier Arteaga <javier@emutex.com>,
-        Nicola Lunghi <nicola.lunghi@emutex.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230458AbiKIJzt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 04:55:49 -0500
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Nov 2022 01:55:48 PST
+Received: from smtp.220.in.ua (smtp.220.in.ua [89.184.67.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1BD02529D;
+        Wed,  9 Nov 2022 01:55:48 -0800 (PST)
+Received: from smtpclient.apple (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 7EED31A21FD2;
+        Wed,  9 Nov 2022 11:39:29 +0200 (EET)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH 02/13] leds: el15203000: Fix devm vs. non-devm ordering
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+In-Reply-To: <1667983694-15040-3-git-send-email-wangyufen@huawei.com>
+Date:   Wed, 9 Nov 2022 11:39:14 +0200
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pavel@ucw.cz
+Content-Transfer-Encoding: 8BIT
+Message-Id: <5D15416B-1866-4031-9958-7CD763C0BD6E@kaa.org.ua>
+References: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
+ <1667983694-15040-3-git-send-email-wangyufen@huawei.com>
+To:     Wang Yufen <wangyufen@huawei.com>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 10:11 AM chengwei <larry.lai@yunjingtech.com> wrote:
+Hello all!
 
-> +config PINCTRL_UPBOARD
-> +       tristate "UP board FPGA pin controller"
-> +       depends on ACPI
-> +       depends on MFD_UPBOARD_FPGA
-> +       depends on X86
-
-This is Andy territory as it is x86 and ACPI but...
-
-> +/*
-> + * Init patches applied to the registers until the BIOS sets proper defaults
-> + */
-> +static const struct reg_sequence upboard_upcore_crex_reg_patches[] __initconst = {
-> +       // enable I2C voltage-level shifters
-> +       { UPFPGA_REG_FUNC_EN0,
-> +               BIT(UPFPGA_I2C0_EN) |
-> +               BIT(UPFPGA_I2C1_EN)
-> +       },
-> +       // HAT function pins initially set as inputs
-> +       { UPFPGA_REG_GPIO_DIR0,
-> +               BIT(UPFPGA_UPCORE_CREX_SPI2_MISO) |
-> +               BIT(UPFPGA_UPCORE_CREX_UART1_RXD) |
-> +               BIT(UPFPGA_UPCORE_CREX_I2S2_FRM) |
-> +               BIT(UPFPGA_UPCORE_CREX_I2S2_CLK) |
-> +               BIT(UPFPGA_UPCORE_CREX_I2S2_RX)
-> +       },
-> +};
-> +
-> +static const struct upboard_bios upboard_upcore_crex_bios_info __initconst = {
-> +       .patches = upboard_upcore_crex_reg_patches,
-> +       .npatches = ARRAY_SIZE(upboard_upcore_crex_reg_patches),
-> +};
-
-This "patches" terminology is quite confusing for kernel developers.
-Writing some sequence of numbers into some registers at init is called
-a "jam table" a term from Bunnie Huang (in his book "Hacking the Xbox" IIRC)
-
-> +static int upboard_get_functions_count(struct pinctrl_dev *pctldev)
+> 9 лист. 2022 р. о 10:48 Wang Yufen <wangyufen@huawei.com> написав(ла):
+> 
+> When non-devm resources are allocated they mustn't be followed by devm
+> allocations, otherwise it will break the tear down ordering and might
+> lead to crashes or other bugs during ->remove() stage. Fix this by
+> wrapping mutex_destroy() call with devm_add_action_or_reset().
+> 
+> Fixes: fc19967bcb8f ("leds: add LED driver for EL15203000 board")
+> Signed-off-by: Wang Yufen <wangyufen@huawei.com>
+> Cc: Oleh Kravchenko <oleg@kaa.org.ua>
+> ---
+> drivers/leds/leds-el15203000.c | 18 +++++++++++-------
+> 1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
+> index 7e7b617..9be934e 100644
+> --- a/drivers/leds/leds-el15203000.c
+> +++ b/drivers/leds/leds-el15203000.c
+> @@ -287,10 +287,16 @@ static int el15203000_probe_dt(struct el15203000 *priv)
+> return ret;
+> }
+> 
+> +static void el15203000_mutex_destroy(void *lock)
 > +{
-> +       //dev_info(pctldev->dev,"upboard_get_functions_count");
-> +       return 0;
+> + mutex_destroy(lock);
 > +}
 > +
-> +static const char *upboard_get_function_name(struct pinctrl_dev *pctldev,
-> +                                            unsigned int selector)
-> +{
-> +       //dev_info(pctldev->dev,"upboard_get_function_name:%d",selector);
-> +       return NULL;
-> +}
+> static int el15203000_probe(struct spi_device *spi)
+> {
+> struct el15203000 *priv;
+> size_t count;
+> + int ret;
+> 
+> count = device_get_child_node_count(&spi->dev);
+> if (!count) {
+> @@ -312,15 +318,14 @@ static int el15203000_probe(struct spi_device *spi)
+> 
+> spi_set_drvdata(spi, priv);
+> 
+> + ret = devm_add_action_or_reset(&spi->dev, el15203000_mutex_destroy,
+> +       &priv->lock);
+> + if (ret)
+> + return ret;
+> +
+> return el15203000_probe_dt(priv);
+> }
+> 
+> -static void el15203000_remove(struct spi_device *spi)
 
-Don't leave this kind of commented out debug code around
-in upstream submissions. Delete or use dev_dbg(), actually
-dev_dbg() is pretty easy to use, just put an extra flag -DDEBUG
-into your Makefile and the debug prints come out.
+Is remove() callback from struct spi_driver deprecated?
 
-> +               //of_pinctrl_get(gc->parent->of_node);
+> -{
+> - struct el15203000 *priv = spi_get_drvdata(spi);
+> -
+> - mutex_destroy(&priv->lock);
+> -}
+> 
+> static const struct of_device_id el15203000_dt_ids[] = {
+> { .compatible = "crane,el15203000", },
+> @@ -331,7 +336,6 @@ static void el15203000_remove(struct spi_device *spi)
+> 
+> static struct spi_driver el15203000_driver = {
+> .probe = el15203000_probe,
+> - .remove = el15203000_remove,
+> .driver = {
+> .name = KBUILD_MODNAME,
+> .of_match_table = el15203000_dt_ids,
+> -- 
+> 1.8.3.1
+> 
 
-What is this even? A commented out call to an OF function in an ACPI driver?
-
-> +       switch (irqd_get_trigger_type(d)) {
-> +       case IRQ_TYPE_LEVEL_HIGH:
-> +               //value |= BYT_TRIG_LVL;
-> +               fallthrough;
-> +       case IRQ_TYPE_EDGE_RISING:
-> +               //value |= BYT_TRIG_POS;
-> +               break;
-> +       case IRQ_TYPE_LEVEL_LOW:
-> +               //value |= BYT_TRIG_LVL;
-> +               fallthrough;
-> +       case IRQ_TYPE_EDGE_FALLING:
-> +               //value |= BYT_TRIG_NEG;
-> +               break;
-> +       case IRQ_TYPE_EDGE_BOTH:
-> +               //value |= (BYT_TRIG_NEG | BYT_TRIG_POS);
-> +               break;
-> +       }
-
-So this looks like it should be uncommented and used or deleted?
-It just looks unfinished, and this patch is not an RFC.
-
-> +       //display mapping info.
-> +       //for(i=0;i<pctldesc->npins;i++){
-> +       //      dev_info(&pdev->dev,"Name:%s, GPIO:%d, IRQ:%d, regs:0x%08x",
-> +       //      pctldesc->pins[i].name,pins[i].gpio, pins[i].irq, pins[i].regs);
-> +       //      if(pins[i].regs)
-> +       //              dev_info(&pdev->dev,"val:%pS", readl(pins[i].regs));
-> +       //}
-
-This isn't helpful, also there are existing debugfs hooks to be used
-for exactly this kind of stuff.
-
-The driver looks a bit unfinished.
-
-Yours,
-Linus Walleij
