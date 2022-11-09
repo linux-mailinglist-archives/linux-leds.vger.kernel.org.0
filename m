@@ -2,40 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A45516227B2
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 10:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6D0622746
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 10:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbiKIJz4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Wed, 9 Nov 2022 04:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
+        id S230029AbiKIJkp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Nov 2022 04:40:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbiKIJzt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 04:55:49 -0500
-X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Nov 2022 01:55:48 PST
-Received: from smtp.220.in.ua (smtp.220.in.ua [89.184.67.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1BD02529D;
-        Wed,  9 Nov 2022 01:55:48 -0800 (PST)
-Received: from smtpclient.apple (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229638AbiKIJko (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 04:40:44 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261D8FACC;
+        Wed,  9 Nov 2022 01:40:44 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id 7EED31A21FD2;
-        Wed,  9 Nov 2022 11:39:29 +0200 (EET)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH 02/13] leds: el15203000: Fix devm vs. non-devm ordering
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-In-Reply-To: <1667983694-15040-3-git-send-email-wangyufen@huawei.com>
-Date:   Wed, 9 Nov 2022 11:39:14 +0200
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B14506602905;
+        Wed,  9 Nov 2022 09:40:41 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667986842;
+        bh=5+SECJlEo7BQZC8NrHGOWqaaKAjZ2nnSt35XWUVSojo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=m8CVH8yhd5O27fE9M+b+hAoSLn0wY/5h5thZ5FV8UPovCxAeZQ+5jtr6gPslB4iwx
+         NtS0elb1yU0JrNGd5hdeB6yV/rMkFGDWbTgOcIExtCcrGc8HmUjrAa/KOxtbzC08u5
+         z20f+G969MK/0qw7PAzfVnO0lbhUUPtW2LnnGDUPyjGNH5QPspKvYdNkXq5y/qM0yn
+         +RSNRIhZDLKxQACTEZbOA5FXlELCewvDPqe0ZcFvccwqyUcPXfpPP0TQdyyf3iSPjM
+         F7w91uU1YlabydGsQcuP+NsObKyEJ3UlIbbJEEIeK/v0yVE9YdIbNEi/5mJ1TMbaYP
+         tYaJHd8s9hOSA==
+Message-ID: <ed298a3e-25dd-af19-437c-f27c160788b3@collabora.com>
+Date:   Wed, 9 Nov 2022 10:40:39 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
+ documentation
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz
-Content-Transfer-Encoding: 8BIT
-Message-Id: <5D15416B-1866-4031-9958-7CD763C0BD6E@kaa.org.ua>
-References: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
- <1667983694-15040-3-git-send-email-wangyufen@huawei.com>
-To:     Wang Yufen <wangyufen@huawei.com>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+ <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,76 +74,29 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello all!
-
-> 9 лист. 2022 р. о 10:48 Wang Yufen <wangyufen@huawei.com> написав(ла):
+Il 08/11/22 19:43, Alexandre Mergnat ha scritto:
+> - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
+> - Add mediatek,mt6357-rtc compatible.
+> - Add maintainer
+> - Remove the .txt binding file
 > 
-> When non-devm resources are allocated they mustn't be followed by devm
-> allocations, otherwise it will break the tear down ordering and might
-> lead to crashes or other bugs during ->remove() stage. Fix this by
-> wrapping mutex_destroy() call with devm_add_action_or_reset().
-> 
-> Fixes: fc19967bcb8f ("leds: add LED driver for EL15203000 board")
-> Signed-off-by: Wang Yufen <wangyufen@huawei.com>
-> Cc: Oleh Kravchenko <oleg@kaa.org.ua>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
-> drivers/leds/leds-el15203000.c | 18 +++++++++++-------
-> 1 file changed, 11 insertions(+), 7 deletions(-)
+>   Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
+>   .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
+>   .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
+>   3 files changed, 41 insertions(+), 32 deletions(-)
 > 
-> diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
-> index 7e7b617..9be934e 100644
-> --- a/drivers/leds/leds-el15203000.c
-> +++ b/drivers/leds/leds-el15203000.c
-> @@ -287,10 +287,16 @@ static int el15203000_probe_dt(struct el15203000 *priv)
-> return ret;
-> }
-> 
-> +static void el15203000_mutex_destroy(void *lock)
-> +{
-> + mutex_destroy(lock);
-> +}
-> +
-> static int el15203000_probe(struct spi_device *spi)
-> {
-> struct el15203000 *priv;
-> size_t count;
-> + int ret;
-> 
-> count = device_get_child_node_count(&spi->dev);
-> if (!count) {
-> @@ -312,15 +318,14 @@ static int el15203000_probe(struct spi_device *spi)
-> 
-> spi_set_drvdata(spi, priv);
-> 
-> + ret = devm_add_action_or_reset(&spi->dev, el15203000_mutex_destroy,
-> +       &priv->lock);
-> + if (ret)
-> + return ret;
-> +
-> return el15203000_probe_dt(priv);
-> }
-> 
-> -static void el15203000_remove(struct spi_device *spi)
 
-Is remove() callback from struct spi_driver deprecated?
+Please split the txt->yaml conversion in one commit and the addition of the
+new mt6357-rtc compatible in another commit.
 
-> -{
-> - struct el15203000 *priv = spi_get_drvdata(spi);
-> -
-> - mutex_destroy(&priv->lock);
-> -}
-> 
-> static const struct of_device_id el15203000_dt_ids[] = {
-> { .compatible = "crane,el15203000", },
-> @@ -331,7 +336,6 @@ static void el15203000_remove(struct spi_device *spi)
-> 
-> static struct spi_driver el15203000_driver = {
-> .probe = el15203000_probe,
-> - .remove = el15203000_remove,
-> .driver = {
-> .name = KBUILD_MODNAME,
-> .of_match_table = el15203000_dt_ids,
-> -- 
-> 1.8.3.1
-> 
+Also, isn't the original maintainer of rtc-mt6397 supposed to be...
+Tianping Fang <tianping.fang@mediatek.com> ?
+
+You can add yourself to the list of maintainers, though, unless Tianping
+explicitly says that he doesn't want to maintain this driver anymore?
+
+Regards,
+Angelo
 
