@@ -2,217 +2,155 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D5A623C23
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Nov 2022 07:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E518623E80
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Nov 2022 10:24:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232439AbiKJGzn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Nov 2022 01:55:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57322 "EHLO
+        id S229723AbiKJJYC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Nov 2022 04:24:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232378AbiKJGzi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Nov 2022 01:55:38 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3942F640;
-        Wed,  9 Nov 2022 22:55:37 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AA6hpUl018212;
-        Thu, 10 Nov 2022 06:55:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=aMykm1529RSRKYLy5BBR1klB9BxD6Lr0yPQ+hOsFZKY=;
- b=OzQMPQecy9g9bqotGWaaz6i1jlkz3Ya26sO0A9Z8yV8MJh24ejFiWNw1ygam8HYNYrhF
- rl9lCBA5op2M8I1/FKBYHDMra283ZVwDrBARmNgIc8FO0VQu/xUe606DilUefMoq111S
- dOJ7m4UMGMZWl9fzqqvza9J9XydJnx7OMm72h0ugGINibhLgvUkpA4yI9RXzywan59QP
- BiwoN+LS5pGaacmhv1Op9uY3ijOL9LgGSXiUTb7lTCPPojWi2ylEiRM7G3EDBjlGzy3S
- sk7UAFQrYahwLwt/EJ1+XX+bgIqTk0Hr7ZeB53R9Krut/hwMpFLsdoNe66Hm3hGZoIkN fg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3krv9980um-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Nov 2022 06:55:27 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2AA6tQrr032287
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Nov 2022 06:55:26 GMT
-Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 9 Nov 2022 22:55:22 -0800
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <krzysztof.kozlowski@linaro.org>, Andy Gross <agross@kernel.org>,
-        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>
-Subject: [PATCH v5 2/2] dt-bindings: leds: add QCOM flash LED controller
-Date:   Thu, 10 Nov 2022 14:54:19 +0800
-Message-ID: <20221110065420.2451436-3-quic_fenglinw@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221110065420.2451436-1-quic_fenglinw@quicinc.com>
-References: <20221110065420.2451436-1-quic_fenglinw@quicinc.com>
+        with ESMTP id S229850AbiKJJYA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Nov 2022 04:24:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65B9C6A6AD
+        for <linux-leds@vger.kernel.org>; Thu, 10 Nov 2022 01:23:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668072182;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YX8VazdZMuqZXYpMnkdqn7btKqnT2/oiOnOG0HPFf+w=;
+        b=D9gzsdSUilHc7hNyXul+C92VqwIO71C5krHOUNqaXmb98k0eny6PcBaNfb5zQXztbEVbIu
+        Ot0vl2jgeQujmaC+Ck2SnbhJ/lHKi8CJsoGguJ825F4g/mKWG9x54Zkcak2nVGA9CqDs90
+        /sl9TRVoENMAzzx3MEJPALNlAFJc0pg=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-387-dBA7CaAxN0ioX4RVbNfn2Q-1; Thu, 10 Nov 2022 04:23:00 -0500
+X-MC-Unique: dBA7CaAxN0ioX4RVbNfn2Q-1
+Received: by mail-pj1-f72.google.com with SMTP id pq17-20020a17090b3d9100b0020a4c65c3a9so889826pjb.0
+        for <linux-leds@vger.kernel.org>; Thu, 10 Nov 2022 01:23:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YX8VazdZMuqZXYpMnkdqn7btKqnT2/oiOnOG0HPFf+w=;
+        b=i2KEiV0YLTGT4w4KIYViR6kc5a/ourVhbbABFV+kySWD66SRLeMkEvvA4Wxcs0VHp5
+         xopw6sv0uj7CAXNseWasRJ08VmtIrcA/VxOqqyIrffTfAqFFnvqAwdeLpHl5jws3nh8a
+         KTxvKCngocE+E5i4OdEqgA+zPsy6MojpxS0XeVYZrvOv7uDEJJ6HkUVTScwatw+2sdjT
+         KHCsP2eWKwgwlQl7DPlmPQ/yE9I3wAe3jRzGzlBt3XZCqgGRiSdA5IxSv7RRzKlO+FgQ
+         C/ACPpvc0CuZ9gCPV1b4Kf4kS7f3Q7l/x5QINinroFPDx1jrptIW6FEQ6jpdEoQpPKTy
+         WEjw==
+X-Gm-Message-State: ACrzQf3wX/DxRRjRhe8eZxlagd0A6rl1lJeJarWg9zmOnCivYKQV8No3
+        CnaekM5KwW909VO7WMLl+I4csWkGML+uryQVnFF1Zh6h0AVOo71OrcegxeNIdnzbIeb58UUSkMK
+        T8dEllzIB9O13LqgTAdF1+2HGCfWA28AArSRF1A==
+X-Received: by 2002:a05:6a00:18a1:b0:56c:411f:b699 with SMTP id x33-20020a056a0018a100b0056c411fb699mr2196441pfh.48.1668072179842;
+        Thu, 10 Nov 2022 01:22:59 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4KIbM4VvR/7LBUPVhwAai8DfJ25QJwPeo5ONkjBoS1/2YMcYTA7TPGpDiUkLFcCBrXfD11HSisIX7/iTURTLc=
+X-Received: by 2002:a05:6a00:18a1:b0:56c:411f:b699 with SMTP id
+ x33-20020a056a0018a100b0056c411fb699mr2196432pfh.48.1668072179550; Thu, 10
+ Nov 2022 01:22:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5fh3u2DdoJT71nJk2WkwdL7I5ho3PR5v
-X-Proofpoint-ORIG-GUID: 5fh3u2DdoJT71nJk2WkwdL7I5ho3PR5v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011
- priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211100051
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
+ <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
+ <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
+ <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com>
+ <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com>
+ <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com>
+ <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com> <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
+In-Reply-To: <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 10 Nov 2022 10:22:45 +0100
+Message-ID: <CAO-hwJ+PysPKFG=a9+L8vwhiw4uY3F3DZmg4FwgPWGZ7LPt4EA@mail.gmail.com>
+Subject: Re: Litra Glow on Linux
+To:     Andreas Bergmeier <abergmeier@gmx.net>
+Cc:     linux-input@vger.kernel.org,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add binding document for flash LED module inside Qualcomm Technologies,
-Inc. PMICs.
+On Thu, Nov 10, 2022 at 4:29 AM Andreas Bergmeier <abergmeier@gmx.net> wrote:
+>
+> On Wed, 9 Nov 2022 at 21:27, Andreas Bergmeier <abergmeier@gmx.net> wrote:
+> >
+> > Finally I have an environment where I can test my kernel code.
+> >
+> > On Mon, 31 Oct 2022 at 10:29, Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > > For identifying the GLOW device you should be adding an id in the
+> > > table of hid-logitech-hidpp, with a driver data that tells the driver
+> > > to look for 0x1990.
+> > >
+> > > >
+> > > > > - you need to add a hook in connect_event to register the led class
+> > > > > device that will hook on to the actual LED of the device
+> > Sadly my tests did not go very far. The code fails already when
+> > calling the `probe` callback (`hidpp_probe`).
+> > When it calls into `hidpp_root_get_protocol_version` it seems to
+> > receive `HIDPP_ERROR_RESOURCE_ERROR`.
+> > Which then leads to an error message: Device not connected
+> > Upon looking at `HIDPP_ERROR_RESOURCE_ERROR` (9) there is no
+> > documentation what it means in code.
+> > From a look into the docs it says that 9 is UNSUPPORTED error for 2.0
+> > devices. Thus I am wondering how the code knows
+> > that it is a problem with connectivity.
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/leds/qcom,spmi-flash-led.yaml    | 116 ++++++++++++++++++
- 1 file changed, 116 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+From the top of my memory, this was told to us that this is the way we
+detect if the device was connected or not in the unifying case. Though
+in your case, it's a USB device, so there is no such thing as "not
+connected"...
 
-diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-new file mode 100644
-index 000000000000..1b273aecaaec
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-@@ -0,0 +1,116 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/qcom,spmi-flash-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
-+
-+maintainers:
-+  - Fenglin Wu <quic_fenglinw@quicinc.com>
-+
-+description: |
-+  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
-+  The flash LED module can have different number of LED channels supported
-+  e.g. 3 or 4. There are some different registers between them but they can
-+  both support maximum current up to 1.5 A per channel and they can also support
-+  ganging 2 channels together to supply maximum current up to 2 A. The current
-+  will be split symmetrically on each channel and they will be enabled and
-+  disabled at the same time.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,pm8150c-flash-led
-+          - qcom,pm8150l-flash-led
-+          - qcom,pm8350c-flash-led
-+      - const: qcom,spmi-flash-led
-+
-+  reg:
-+    maxItems: 1
-+
-+patternProperties:
-+  "^led-[0-3]$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+    description:
-+      Represents the physical LED components which are connected to the
-+      flash LED channels' output.
-+
-+    properties:
-+      led-sources:
-+        description:
-+          The HW indices of the flash LED channels that connect to the
-+          physical LED
-+        allOf:
-+          - minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2, 3, 4]
-+
-+      led-max-microamp:
-+        anyOf:
-+          - minimum: 5000
-+            maximum: 500000
-+            multipleOf: 5000
-+          - minimum: 10000
-+            maximum: 1000000
-+            multipleOf: 10000
-+
-+      flash-max-microamp:
-+        anyOf:
-+          - minimum: 12500
-+            maximum: 1500000
-+            multipleOf: 12500
-+          - minimum: 25000
-+            maximum: 2000000
-+            multipleOf: 25000
-+
-+      flash-max-timeout-us:
-+        minimum: 10000
-+        maximum: 1280000
-+        multipleOf: 10000
-+
-+    required:
-+      - led-sources
-+      - led-max-microamp
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    spmi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        led-controller@ee00 {
-+            compatible = "qcom,pm8350c-flash-led", "qcom,spmi-flash-led";
-+            reg = <0xee00>;
-+
-+            led-0 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_WHITE>;
-+                led-sources = <1>, <4>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <0>;
-+            };
-+
-+            led-1 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_YELLOW>;
-+                led-sources = <2>, <3>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <1>;
-+            };
-+        };
-+    };
--- 
-2.25.1
+> > Couldn't it also mean that the
+> > device is not supporting getting the protocol version?
+
+Probably. What happens if you comment out that protocol version
+request and force connected to be true?
+
+> > And why is protocol version only enforced for non unifying devices?
+
+Unifying devices are wireless, and when we probe the device, we are
+actually talking to the receiver. So The device might not be
+connected, and we should wait for the device to be present and not
+reject it. On non unifying devices, if the device is not connected,
+this likely means that the device is not behaving properly, and so we
+can not handle it in the driver.
+
+In your case though, it would be interesting to know if we should
+bypass that verification.
+
+> Also, looking into `supported_reports` turned out to be 2 (very long).
+
+Oops, you mistook the bit definition with the value:
+#define HIDPP_REPORT_SHORT_SUPPORTED  BIT(0)  -> value of 1
+#define HIDPP_REPORT_LONG_SUPPORTED  BIT(1)  -> value of 2
+#define HIDPP_REPORT_VERY_LONG_SUPPORTED  BIT(2)  -> value of 4
+
+Which is coherent with what your device exports: only one report ID of
+value 0x11, HIDPP_REPORT_LONG.
+
+> Inside of `hidpp_root_get_protocol_version` it does upgrade SHORT to
+> LONG if the former is not supported.
+
+Yep, this should be good for your device.
+
+> On a whim I then added upgrade of LONG to VERY LONG if the former is
+> not supported. Sadly, the results stayed the same.
+>
+
+And this is expected because you don't have VERY_LONG support on your device.
+
+Cheers,
+Benjamin
 
