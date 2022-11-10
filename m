@@ -2,67 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C966236DC
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Nov 2022 23:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B71FF623A6D
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Nov 2022 04:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbiKIW51 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Nov 2022 17:57:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
+        id S232470AbiKJD3x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Nov 2022 22:29:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiKIW51 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 17:57:27 -0500
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14FB61EED1;
-        Wed,  9 Nov 2022 14:57:24 -0800 (PST)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6BDBAFF802;
-        Wed,  9 Nov 2022 22:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668034642;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4qutKClpaMtj7cgQ2BDKv2YC/ArzsyxTBFqjgebWdeE=;
-        b=Wj1QADdKc4kzuieut1F0r5KxBkYYWxjNrJNQK9hOurYpohcXx3snCxMxmQoMuBlHDO7Usd
-        bAuP4MhygFBfrCrUc222hussBxd4Gw+jKFZezkTx0u0q4dq5TsEbPpSrCJfHsoAwBHfrLC
-        B6cdwRgshTy65gyZ8qh6N9yKmBCxckwyuzvikA1Pwkgn4R1++tcKrvbeCrnOE/staWDqk5
-        GFsE2D0Y4f4iY+mKn1/rHBnnDgYnT+0Ti1f8dUOQgUG4BD21C5VwaX3CYsjR1Hz2ESw3JF
-        tU6xpxAePf4T5DIt/cu4ZSu+e+ivp1Lxz63RNurtq4QE2EXMM5pylre+etBRrg==
-Date:   Wed, 9 Nov 2022 23:57:20 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Alexandre Mergnat <amergnat@baylibre.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Pavel Machek <pavel@ucw.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        devicetree@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
- documentation
-Message-ID: <Y2wwUOJ0KZdt1tZ6@mail.local>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
- <20221109222916.GA2985917-robh@kernel.org>
+        with ESMTP id S232426AbiKJD3w (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Nov 2022 22:29:52 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B54A1ADBB;
+        Wed,  9 Nov 2022 19:29:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1668050988; bh=Dn25TDAi743E2aB7e66zeKUGnRW9bsP67aus5L5K+68=;
+        h=X-UI-Sender-Class:References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=dCd99CjqZ6xcEWdrKQHDL3kiuUYPh1AWe51oXb1jyH7fpnjVoiyxCaksv2mfu6d4k
+         pCyNc2WJNfwtnIbj6M0CqodozRQe+WsWZol8mxoluXM1DmumO/y+8jt6OtkBQKnnUv
+         LJRET+L7/q6Hq8+Puh6PtWZWQuxVJj/ZHpKpqe5Tx8oZWjXpucKZ94+Voe/pALBsxu
+         NbgEQkdM8TzmabPsN3HL3c23t2N8xgi10jbBaZoQBuNxqemPgeJTzmVXcRtLyO0G7M
+         htnogB2qDRXfqW+ENr6/O2yt832epQpVy8FOkyDcqxYR/QPWgDxG05FtokPAcIYvEv
+         66Di4IsIN7J7Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mail-ej1-f42.google.com ([209.85.218.42]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M9nxt-1owXAP1iE9-005t4E; Thu, 10 Nov 2022 04:29:48 +0100
+Received: by mail-ej1-f42.google.com with SMTP id q9so2004463ejd.0;
+        Wed, 09 Nov 2022 19:29:48 -0800 (PST)
+X-Gm-Message-State: ACrzQf3Do5vYwrgumY1fAKh4fo07SeCfJISI08XMkXBM4asyj/vfZM50
+        gh0b7mbndpQJnkLvxQOkwNMf1z29+kl6unklvpE=
+X-Google-Smtp-Source: AMsMyM4r7FXSGSTWHrkii3EKJv+k8ERelT4VoHJ7mS64++RFsodc+4q07n+wm7wmbterYi20f3BWggwUWV0MYd+wCYw=
+X-Received: by 2002:a17:906:40c6:b0:78d:4ba6:f65a with SMTP id
+ a6-20020a17090640c600b0078d4ba6f65amr2186907ejk.186.1668050987983; Wed, 09
+ Nov 2022 19:29:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221109222916.GA2985917-robh@kernel.org>
+References: <Y1AVDck5sQf8+QFX@rowland.harvard.edu> <CABfF9mPU52OXTGcsbatJCG4nbP4zaPN3iJnttMg+xRyGY6dUEQ@mail.gmail.com>
+ <CAO-hwJJ7cF-4kd8Mi6bb5n-k5LuMrWbpdMqFs82y7iQOscr-7g@mail.gmail.com>
+ <CABfF9mNfU=swmpVXfVr7pYWs72jrd-HDY8+_NXyBDAKa4CWG5Q@mail.gmail.com>
+ <CAO-hwJ+i3zd=CyU0T+Nb1vGfZfenMBH16ern_ncTTKEpyGAuBA@mail.gmail.com>
+ <CABfF9mNrMx2BzU5tbBeapY15M4Ls_5xYBGfVB=Up5TJu=eWCcg@mail.gmail.com>
+ <CAO-hwJJGAWkhZgGeLBruqCoskY5PBP-STs4kh-P6fBvpuSgpUw@mail.gmail.com> <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
+In-Reply-To: <CABfF9mO3SQZvkQGOC09H5s7EEd2UGhpE=GYB46g_zF3aEOVn=Q@mail.gmail.com>
+From:   Andreas Bergmeier <abergmeier@gmx.net>
+Date:   Thu, 10 Nov 2022 04:29:35 +0100
+X-Gmail-Original-Message-ID: <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
+Message-ID: <CABfF9mNbpTdAnChkZNKFed6C7n=Hyq-69rMUeDENE8ptLjJMSw@mail.gmail.com>
+Subject: Re: Litra Glow on Linux
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jiri Kosina <jikos@kernel.org>, linux-leds@vger.kernel.org,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:CduAreEgIvBa5+VcPGZyYTXyphIl1+J2e47s5K9LSBl2nHE2Vg2
+ mCfej749CwF+EC08iMNH2vdlF+lyYxnvNehi1Ha709BjFLJAWzEkfBlCMT19FdMqZ3wGWPf
+ yjDSsumxwnYyO9+CUOolAaV708GYVM6mWLVeLNNcDCj0hQNFR/NFmDDzVvBajq07i5Ka5kd
+ IMbKdFTeJf1U4Li3nwX9A==
+UI-OutboundReport: notjunk:1;M01:P0:v2tdjNsKgWY=;JPw36RwZF1SG/33Qkv90/yEeaRd
+ SJfuCrWo2ARRh71WRSP+K7oCIze7ryXPE900vM28AvmixVK6a5KUqONEyraYhay2M+98SNhhR
+ dM9AcmqkKBz9kyWBr4QKNchwzP1xlhWxgY0TdMSZZSHP/+5pwWgrXnV26PixwCtYxg4Lf6Y3n
+ 6LYIUqccj7NUtghNlH2Wv6DxIM8RkEC5K540P3sZeBc7NNgH7PAuGx4s6LIWa7XutUo0snj1h
+ gFdFLWjpm3gew32vD9nlKooFdyMM+re5A6Dh48EuX8DaiyeLFIHzlR87DgVMO638Mea5jrngO
+ oOUZuMdV5CAEDxN42I+4UyqK6Q39K8uj6RX7ACnFa71x8hOgSdkeh63C4uiiIYKP8tKn3GvtJ
+ c/gL5pNU+nnPw/v+4Tp/93vnvgKlKFDDAPNvbe9E25eZVu+KbMZEhN6st+gNFe/hAhY1+WFup
+ HcjJpxvVpjgWwjje/t1t0P0Jd1yUrZeYzVoP00OUUYw+Zia5Rf/RXAiyRBBwqfMfU0mZqo8tn
+ sl44wkDcaDNiS+gXbnV496co5ILXxESrKDenzIMPgkq82mVQtFslDwK5WTCVxwdpBgfAiz4Cv
+ sFNo98NtGywPoY4ehM1fXTbOVtr34nz9cDbYtLBiTkowgp5l/rqn6o06cj0XDSnabpVbQXCo8
+ 6T2jg5b9N1exj/1ZXy912IUV6EcKWQrmFdbrjS8PlxviZRWtD1qVq9Od1YgrmWg1PaayOIn+I
+ 5CIaRu21bI0MEIWjKS4Fm1MDv9516/gImfiype5hwe3CnTfiwdcG3fQ7FuNdZ0KsL77767Oxg
+ IZmRsx3Z3zoQCqWGhdi3XImjeinwr6gP3bPOqBkiOA51lfw9X6gkQAXmFleSWjJRvnRxzVXd6
+ vb1slOlPQqsCF7N8BsJhs1FAKM6PbJTTTZ0my1ZhoO4hAaJy0dBlGTbwora+OVEdVNTcTHsuc
+ tfHGOzbDbrhvrD+cUtlWMiXQb3c=
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,88 +84,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 09/11/2022 16:29:16-0600, Rob Herring wrote:
-> On Tue, Nov 08, 2022 at 07:43:37PM +0100, Alexandre Mergnat wrote:
-> > - Convert rtc/rtc-mt6397.txt to rtc/mt6397-rtc.yaml
-> > - Add mediatek,mt6357-rtc compatible.
-> > - Add maintainer
-> > - Remove the .txt binding file
-> > 
-> > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> > ---
-> >  Documentation/devicetree/bindings/mfd/mt6397.txt   |  2 +-
-> >  .../bindings/rtc/mediatek,mt6397-rtc.yaml          | 40 ++++++++++++++++++++++
-> >  .../devicetree/bindings/rtc/rtc-mt6397.txt         | 31 -----------------
-> >  3 files changed, 41 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> > index 0088442efca1..79aaf21af8e9 100644
-> > --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
-> > +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> > @@ -33,7 +33,7 @@ Optional subnodes:
-> >  		- compatible: "mediatek,mt6331-rtc"
-> >  		- compatible: "mediatek,mt6358-rtc"
-> >  		- compatible: "mediatek,mt6397-rtc"
-> > -	For details, see ../rtc/rtc-mt6397.txt
-> > +	For details, see ../rtc/mediatek,mt6397-rtc.yaml
-> >  - regulators
-> >  	Required properties:
-> >  		- compatible: "mediatek,mt6323-regulator"
-> > diff --git a/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
-> > new file mode 100644
-> > index 000000000000..bb48c0150f95
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/rtc/mediatek,mt6397-rtc.yaml
-> > @@ -0,0 +1,40 @@
-> > + # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/rtc/mediatek,mt6397-rtc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MT6397/MT6366/MT6358/MT6357/MT6323 RTC
-> > +
-> > +maintainers:
-> > +  - Alexandre Mergnat <amergnat@baylibre.com>
-> > +
-> > +description: |
-> > +  MediaTek PMIC based RTC is an independent function of MediaTek PMIC that works
-> > +  as a type of multi-function device (MFD). The RTC can be configured and set up
-> > +  with PMIC wrapper bus which is a common resource shared with the other
-> > +  functions found on the same PMIC.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - mediatek,mt6323-rtc
-> > +      - mediatek,mt6357-rtc
-> > +      - mediatek,mt6358-rtc
-> > +      - mediatek,mt6366-rtc
-> > +      - mediatek,mt6397-rtc
-> 
-> As this is only a compatible string, just fold this into the MFD schema 
-> doc.
-
-Actually, it probably also supports the start-year property
-
-> 
-> > +
-> > +additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +
-> > +examples:
-> > +  - |
-> > +    pmic {
-> > +        compatible = "mediatek,mt6397";
-> > +
-> > +        rtc {
-> > +               compatible = "mediatek,mt6397-rtc";
-> > +        };
-> > +    };
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On Wed, 9 Nov 2022 at 21:27, Andreas Bergmeier <abergmeier@gmx.net> wrote:
+>
+> Finally I have an environment where I can test my kernel code.
+>
+> On Mon, 31 Oct 2022 at 10:29, Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> > For identifying the GLOW device you should be adding an id in the
+> > table of hid-logitech-hidpp, with a driver data that tells the driver
+> > to look for 0x1990.
+> >
+> > >
+> > > > - you need to add a hook in connect_event to register the led class
+> > > > device that will hook on to the actual LED of the device
+> Sadly my tests did not go very far. The code fails already when
+> calling the `probe` callback (`hidpp_probe`).
+> When it calls into `hidpp_root_get_protocol_version` it seems to
+> receive `HIDPP_ERROR_RESOURCE_ERROR`.
+> Which then leads to an error message: Device not connected
+> Upon looking at `HIDPP_ERROR_RESOURCE_ERROR` (9) there is no
+> documentation what it means in code.
+> From a look into the docs it says that 9 is UNSUPPORTED error for 2.0
+> devices. Thus I am wondering how the code knows
+> that it is a problem with connectivity. Couldn't it also mean that the
+> device is not supporting getting the protocol version?
+> And why is protocol version only enforced for non unifying devices?
+Also, looking into `supported_reports` turned out to be 2 (very long).
+Inside of `hidpp_root_get_protocol_version` it does upgrade SHORT to
+LONG if the former is not supported.
+On a whim I then added upgrade of LONG to VERY LONG if the former is
+not supported. Sadly, the results stayed the same.
