@@ -2,85 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 560C9625883
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Nov 2022 11:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA84C625D6D
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Nov 2022 15:46:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233267AbiKKKjn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Fri, 11 Nov 2022 05:39:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
+        id S234764AbiKKOqR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Nov 2022 09:46:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233868AbiKKKjk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Nov 2022 05:39:40 -0500
-Received: from smtp.220.in.ua (smtp.220.in.ua [89.184.67.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC521654CC;
-        Fri, 11 Nov 2022 02:39:39 -0800 (PST)
-Received: from smtpclient.apple (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id AA8051A25F73;
-        Fri, 11 Nov 2022 12:39:37 +0200 (EET)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH 02/13] leds: el15203000: Fix devm vs. non-devm ordering
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-In-Reply-To: <c53e4614-eb06-cda8-f9da-2ca58396df54@huawei.com>
-Date:   Fri, 11 Nov 2022 12:39:22 +0200
+        with ESMTP id S234773AbiKKOph (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Nov 2022 09:45:37 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33688DF9B
+        for <linux-leds@vger.kernel.org>; Fri, 11 Nov 2022 06:45:35 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id be13so8648162lfb.4
+        for <linux-leds@vger.kernel.org>; Fri, 11 Nov 2022 06:45:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nKIh7Rn2uY03gvMDxLSAjGI/gyfIpOz2PNRYMB/8BVY=;
+        b=zMLqECAHr+5NcQNla/y7bj36+Jihm72LxNXySqm8xh+3R51WS6kmb8BtZlvnSPqDe/
+         igKUE/GAiR9gOUGc4qHV9tkJW/7sbMSEYiWS0UIQYo1Z7/kmm6k5wASAJOJKomoVAY47
+         Kb2GD5r0gu5itoPz6sZK49pbQhiySjQsFbvaEAnLSVpbI0fwR2LDfRE//v5AjgFf+DD+
+         waGekmsiQWHluWL22/FWNtkd/9TBklGK4p1GLIPqkb8dKq8tCscS52QU5WvSegdzfiVX
+         aYhHp1GTJg5XGXC58x1ppi9ZDqYtjsD7f3qL4rLaZ5BbJqNFlsPuI6//YxkETH8shZdL
+         P8GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nKIh7Rn2uY03gvMDxLSAjGI/gyfIpOz2PNRYMB/8BVY=;
+        b=ciDtgViajbNBRvUwKvq9j3aB2/sqGO8FZf5Xrp15sgv/I0sBUuNkk6mMlvMgZHf4e3
+         qxqj4huwZT7rnhsH/zP9gcmVlyaAvj6kPqduRGA6Qc/MjIJ5UL65vP3Ns+4iBYfYovZ7
+         ulNfhadgk1RYEno/3ZFy7lPUzZlbH8K0m/SXlXwxGNnzjMI3FHvtwqqlHrLo0H39qBTC
+         o735D/US2MBXa7rzCiulCvNBrDxG7eYhk7Mx/WG4GAcOjzAgUiyasZgRXpS7EzXWLCQ0
+         8PGnozKDkAJ+udEaDAUaqlJpqw6EaDypDGzpRZV4WoWH/HEc4QjWqu4zTAbGbZOXKaZt
+         12TQ==
+X-Gm-Message-State: ANoB5pnwMC30/kCd0TMMt4ohNACUogLeMGsi6lCk0/hDmFYjVinWQwrY
+        wNv526o08UkX0MXFzcNYlxEGVg==
+X-Google-Smtp-Source: AA0mqf4sgLsj52HWaY59vMgHa4fGiq4HixM8ZVYXfqlh1s69CeMqoQVflfov72D5yRE0mhynje0tUA==
+X-Received: by 2002:a19:6d0f:0:b0:4a2:23b0:b850 with SMTP id i15-20020a196d0f000000b004a223b0b850mr780143lfc.60.1668177933536;
+        Fri, 11 Nov 2022 06:45:33 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id n26-20020ac2491a000000b00494a603953dsm361574lfi.89.2022.11.11.06.45.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Nov 2022 06:45:32 -0800 (PST)
+Message-ID: <72093230-9da4-665d-c177-055c0a5e33cc@linaro.org>
+Date:   Fri, 11 Nov 2022 15:45:30 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 3/9] dt-bindings: regulator: Add binding schema for
+ mt6357 regulators
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>,
-        "weiyongjun (A)" <weiyongjun1@huawei.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <AA4E5187-59BC-4E04-B392-7BD48F0443A1@kaa.org.ua>
-References: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
- <1667983694-15040-3-git-send-email-wangyufen@huawei.com>
- <5D15416B-1866-4031-9958-7CD763C0BD6E@kaa.org.ua>
- <bbd67e6a-8ce0-dbe8-6ab1-9d4a015f4ee9@huawei.com>
- <6D18A607-EC63-495F-BA2D-78E0DB056D3C@kaa.org.ua>
- <c53e4614-eb06-cda8-f9da-2ca58396df54@huawei.com>
-To:     wangyufen <wangyufen@huawei.com>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
+ <20221005-mt6357-support-v4-3-5d2bb58e6087@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221005-mt6357-support-v4-3-5d2bb58e6087@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Wang,
-
-> 11 лист. 2022 р. о 11:21 wangyufen <wangyufen@huawei.com> написав(ла):
+On 08/11/2022 19:43, Alexandre Mergnat wrote:
+> From: Fabien Parent <fparent@baylibre.com>
 > 
+> Add YAML schema for the MediaTek MT6357 regulators.
+
+Use subject prefixes matching the subsystem (git log --oneline -- ...).
+regulator: dt-bindings:
+
 > 
-> 在 2022/11/9 18:43, Oleh Kravchenko 写道:
->> 
->> 
->>> 9 лист. 2022 р. о 12:25 wangyufen <wangyufen@huawei.com> написав(ла):
->>> 
->>> 
->>> 在 2022/11/9 17:39, Oleh Kravchenko 写道:
->>> 
->>>>> -static void el15203000_remove(struct spi_device *spi)
->>>>> 
->>>> Is remove() callback from struct spi_driver deprecated?
->>>> 
->>> It is not that remove() callback is deprecated,
->>> it's that after wrapping mutex_destroy() call with devm_add_action_or_reset(),
->>> remove() callback is unnecessary here.
->>> 
->> When remove() is called, the memory allocated by devm_*() is valid.
->> So what you try to fix here?
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  .../regulator/mediatek,mt6357-regulator.yaml       | 292 +++++++++++++++++++++
+>  1 file changed, 292 insertions(+)
 > 
-> Fix the &priv->lock used after destroy, for details, please see patch #0
-> LKML: Wang Yufen: [PATCH 00/13] leds: Fix devm vs. non-devm ordering
+> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> new file mode 100644
+> index 000000000000..3997a70a8b6c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6357-regulator.yaml
+> @@ -0,0 +1,292 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6357-regulator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 
-It doesn’t make any sense for me.
-You saying that remove() called before devm_* allocation
-if it true then set_brightness_delayed() will crash the system in anyway.
 
-LED device has a parent SPI device; LED device can’t exist without SPI device.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-So deallocation order should be next:
-1. LED device devm_*()
-2. SPI device remove()
+Best regards,
+Krzysztof
 
