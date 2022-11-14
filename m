@@ -2,35 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF29627AB9
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Nov 2022 11:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B096D627D04
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Nov 2022 12:52:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236171AbiKNKlp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Nov 2022 05:41:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38296 "EHLO
+        id S236796AbiKNLwo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Nov 2022 06:52:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236081AbiKNKlj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Nov 2022 05:41:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8811A22E;
-        Mon, 14 Nov 2022 02:41:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1CDC760FB6;
-        Mon, 14 Nov 2022 10:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5636C433D6;
-        Mon, 14 Nov 2022 10:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1668422494;
-        bh=+NWKJ+0AC8Jgz8dRFVwYfGZ7NuudhxZusORMCmUpF6k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RF2dcXrTT36pZVRaXF0AlMUvVQGzwdW6CpY5JTYmMjEeLeHr0zVCMkIyvprQJq/Qx
-         UDHD/Y8en3Fp5M8JBUazicfZGksvR7QwVMIDPhMnFVRX8A8A8yHRFZTd4ovPKvaX/J
-         YgOBoVx3JASJQAHv6V7UitYZF7sOkCpAnRy9NvAI=
-Date:   Mon, 14 Nov 2022 11:41:31 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        with ESMTP id S236797AbiKNLw3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Nov 2022 06:52:29 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC2F2127A;
+        Mon, 14 Nov 2022 03:48:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668426487; x=1699962487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=et5ooO3+9cxyBYZTT10TA21nSmeMTtt6nI129QLnXM4=;
+  b=i12O5iRViFGHHB9DmqXU4tv9OthhhiyEwxHAQ3tLRvHVm3HUAXwAJvFG
+   w85nHMinwowqHjyPvD5AFdzywFZx/u7cSoNYFPPvi8zABqhYrSlYfdWob
+   /RwyVllGjuFiotXmMV3mNYY9rQQC7Rvx22/gW49S3YqbhkLoL6ul5urDh
+   cQumwU8zPqWNsvBDBZ3YKWVAuenK7aWu36wFD4uvcl+HweKq4TDXoFHmm
+   V1xg4PBY31DFOYHG05EEBY9vibpPwAQ39GqwZzVs30W6pVG/HykAEbZsA
+   dhWgASAiMmSDWpYS4+308IgGASfarn0AzEGOis7lC6ESKKFE+PhEzWI87
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="376214497"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="376214497"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 03:48:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="780896891"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="780896891"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2022 03:48:01 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ouXwU-00C9Kh-33;
+        Mon, 14 Nov 2022 13:47:58 +0200
+Date:   Mon, 14 Nov 2022 13:47:58 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Lee Jones <lee@kernel.org>, Gene Chen <gene_chen@richtek.com>,
         Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
@@ -48,7 +62,7 @@ Cc:     Lee Jones <lee@kernel.org>, Gene Chen <gene_chen@richtek.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>
 Subject: Re: [PATCH v3 00/11] leds: deduplicate led_init_default_state_get()
-Message-ID: <Y3IbW5/yTWE7z0cO@kroah.com>
+Message-ID: <Y3Iq7tuSveejlVEU@smile.fi.intel.com>
 References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
  <Y1gZ/zBtc2KgXlbw@smile.fi.intel.com>
  <Y1+NHVS5ZJLFTBke@google.com>
@@ -56,48 +70,60 @@ References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
  <Y2pmqBXYq3WQa97u@smile.fi.intel.com>
  <Y3IUTUr/MXf9RQEP@google.com>
  <Y3IWMe5nGePMAEFv@smile.fi.intel.com>
+ <Y3IbW5/yTWE7z0cO@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3IWMe5nGePMAEFv@smile.fi.intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y3IbW5/yTWE7z0cO@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 12:19:29PM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 14, 2022 at 10:11:25AM +0000, Lee Jones wrote:
-> > On Tue, 08 Nov 2022, Andy Shevchenko wrote:
-> > > On Mon, Oct 31, 2022 at 05:32:26PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Oct 31, 2022 at 08:53:49AM +0000, Lee Jones wrote:
-> > > > > On Tue, 25 Oct 2022, Andy Shevchenko wrote:
-> > > > > 
-> > > > > > On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
-> > > > > > > There are several users of LED framework that reimplement the
-> > > > > > > functionality of led_init_default_state_get(). In order to
-> > > > > > > deduplicate them move the declaration to the global header
-> > > > > > > (patch 2) and convert users (patche 3-11).
+On Mon, Nov 14, 2022 at 11:41:31AM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Nov 14, 2022 at 12:19:29PM +0200, Andy Shevchenko wrote:
+> > On Mon, Nov 14, 2022 at 10:11:25AM +0000, Lee Jones wrote:
+> > > On Tue, 08 Nov 2022, Andy Shevchenko wrote:
+> > > > On Mon, Oct 31, 2022 at 05:32:26PM +0200, Andy Shevchenko wrote:
+> > > > > On Mon, Oct 31, 2022 at 08:53:49AM +0000, Lee Jones wrote:
+> > > > > > On Tue, 25 Oct 2022, Andy Shevchenko wrote:
 > > > > > > 
-> > > > > > Dear LED maintainers, is there any news on this series? It's hanging around
-> > > > > > for almost 2 months now...
+> > > > > > > On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
+> > > > > > > > There are several users of LED framework that reimplement the
+> > > > > > > > functionality of led_init_default_state_get(). In order to
+> > > > > > > > deduplicate them move the declaration to the global header
+> > > > > > > > (patch 2) and convert users (patche 3-11).
+> > > > > > > 
+> > > > > > > Dear LED maintainers, is there any news on this series? It's hanging around
+> > > > > > > for almost 2 months now...
+> > > > > > 
+> > > > > > My offer still stands if help is required.
 > > > > > 
-> > > > > My offer still stands if help is required.
+> > > > > From my point of view the LED subsystem is quite laggish lately (as shown by
+> > > > > this patch series, for instance), which means that _in practice_ the help is
+> > > > > needed, but I haven't got if we have any administrative agreement on that.
+> > > > > 
+> > > > > Pavel?
 > > > > 
-> > > > From my point of view the LED subsystem is quite laggish lately (as shown by
-> > > > this patch series, for instance), which means that _in practice_ the help is
-> > > > needed, but I haven't got if we have any administrative agreement on that.
-> > > > 
-> > > > Pavel?
+> > > > So, Pavel seems quite unresponsive lately... Shall we just move on and take
+> > > > maintainership?
 > > > 
-> > > So, Pavel seems quite unresponsive lately... Shall we just move on and take
-> > > maintainership?
+> > > I had an off-line conversation with Greg who advised me against that.
 > > 
-> > I had an off-line conversation with Greg who advised me against that.
+> > OK. What the reasonable option we have then?
 > 
-> OK. What the reasonable option we have then?
+> I thought there is now a new LED maintainer, is that not working out?
 
-I thought there is now a new LED maintainer, is that not working out?
+No new (co-)maintainer due to stale mate situation as far as I can read it
+right now.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
