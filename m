@@ -2,128 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B096D627D04
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Nov 2022 12:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB7EC62843D
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Nov 2022 16:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236796AbiKNLwo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Nov 2022 06:52:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
+        id S236973AbiKNPlE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Nov 2022 10:41:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236797AbiKNLw3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Nov 2022 06:52:29 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC2F2127A;
-        Mon, 14 Nov 2022 03:48:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668426487; x=1699962487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=et5ooO3+9cxyBYZTT10TA21nSmeMTtt6nI129QLnXM4=;
-  b=i12O5iRViFGHHB9DmqXU4tv9OthhhiyEwxHAQ3tLRvHVm3HUAXwAJvFG
-   w85nHMinwowqHjyPvD5AFdzywFZx/u7cSoNYFPPvi8zABqhYrSlYfdWob
-   /RwyVllGjuFiotXmMV3mNYY9rQQC7Rvx22/gW49S3YqbhkLoL6ul5urDh
-   cQumwU8zPqWNsvBDBZ3YKWVAuenK7aWu36wFD4uvcl+HweKq4TDXoFHmm
-   V1xg4PBY31DFOYHG05EEBY9vibpPwAQ39GqwZzVs30W6pVG/HykAEbZsA
-   dhWgASAiMmSDWpYS4+308IgGASfarn0AzEGOis7lC6ESKKFE+PhEzWI87
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="376214497"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="376214497"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 03:48:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="780896891"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="780896891"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2022 03:48:01 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ouXwU-00C9Kh-33;
-        Mon, 14 Nov 2022 13:47:58 +0200
-Date:   Mon, 14 Nov 2022 13:47:58 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Lee Jones <lee@kernel.org>, Gene Chen <gene_chen@richtek.com>,
-        Andrew Jeffery <andrew@aj.id.au>, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH v3 00/11] leds: deduplicate led_init_default_state_get()
-Message-ID: <Y3Iq7tuSveejlVEU@smile.fi.intel.com>
-References: <20220906135004.14885-1-andriy.shevchenko@linux.intel.com>
- <Y1gZ/zBtc2KgXlbw@smile.fi.intel.com>
- <Y1+NHVS5ZJLFTBke@google.com>
- <Y1/qisszTjUL9ngU@smile.fi.intel.com>
- <Y2pmqBXYq3WQa97u@smile.fi.intel.com>
- <Y3IUTUr/MXf9RQEP@google.com>
- <Y3IWMe5nGePMAEFv@smile.fi.intel.com>
- <Y3IbW5/yTWE7z0cO@kroah.com>
+        with ESMTP id S236399AbiKNPlD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Nov 2022 10:41:03 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06EE220C9
+        for <linux-leds@vger.kernel.org>; Mon, 14 Nov 2022 07:41:00 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so8214467wmb.0
+        for <linux-leds@vger.kernel.org>; Mon, 14 Nov 2022 07:41:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=C1S/Jfq9a/+oqHK8oEdrDlOiTv1YiUCRRBFftraDcss=;
+        b=k7QESSB9Y9ODkSyoUzsKzxIGlpzATcqoO8++5dUFVsNoF5oUbYBKjFXw/zY2W+0H5A
+         F0o/ubIAcRfuHE9yZjFeIuLpXDQ8/nfLEPjVMWVweGtMAzfwXPwuFrRtCWVhBrVvQMw9
+         krxCAQpauIET/L5RH8uC+BovvZuEx+2hnn9NlCQKOWoNFQi/D4L3KH32lqAZbEiFkU6S
+         em+ztKH/K5TQIhA/vYJzEi6xHVOmL4h/RVgZG/ywrRiBGUcAB/s9MRVh+5srLR5DZf8l
+         XLZZjM75v3bXK8eF5wb175u22zSrmi062pTTdWQkWwQs6C2pbSdbhP7QqfZrqjUd2hOg
+         gYuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C1S/Jfq9a/+oqHK8oEdrDlOiTv1YiUCRRBFftraDcss=;
+        b=wfBvcN9fLQ3XQIDLhUcScrrf4QnDQ1aBr5h86U71MpUliywFqjq3GIdY7lmDU3Jb/3
+         gh1q0SjR4msOZIWcN7kWOoGCkhT1+lpVae2ZfFup2Twugrw0APLq+xYGAefLv/q/ASDL
+         Zr6pITFMSzSRWrIPapKcssK7mSLT6kkjIL6lqLKWYuI0n6AcgmzMAnr+E6RAGKxI70mE
+         8+pTU7kAY82kYNVcIhjkrU8KEuqRO8p0UEDdARDcDLAac0A9fMy06gPPjXhGARVTJcV8
+         V21o+KY1eYnHcRNYpa7cT3p5fUrtjBHoZRcW4K3agaDRg0RU1vQ47jIstw3QQuAZmgNO
+         gz/Q==
+X-Gm-Message-State: ANoB5pkbJ/2ddhbRV+YMrAMamr0pb+eEaTxkXTTAWfjffHrMxSW8fBKH
+        Q9oQf5Xko2oOyP16VzQYrRGqLg==
+X-Google-Smtp-Source: AA0mqf6DME8cgmVAkcTUP9n4+wmGE4tHFsDEqgOeI9l1Uexlq1jJ/V1k5J30DSXTRuIOkLUXBzUDrQ==
+X-Received: by 2002:a05:600c:b41:b0:3b3:3256:647 with SMTP id k1-20020a05600c0b4100b003b332560647mr8349557wmr.197.1668440459561;
+        Mon, 14 Nov 2022 07:40:59 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:4a02:2aff:fe07:1efc])
+        by smtp.googlemail.com with ESMTPSA id m9-20020a05600c4f4900b003b3307fb98fsm14020978wmq.24.2022.11.14.07.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Nov 2022 07:40:59 -0800 (PST)
+Date:   Mon, 14 Nov 2022 16:40:55 +0100
+From:   Corentin LABBE <clabbe@baylibre.com>
+To:     pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: common: add disk write/read
+ and usb-host/usb-gadget
+Message-ID: <Y3Jhh6gxTL0AGzmY@Red>
+References: <20221028064141.2171405-1-clabbe@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y3IbW5/yTWE7z0cO@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221028064141.2171405-1-clabbe@baylibre.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 11:41:31AM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Nov 14, 2022 at 12:19:29PM +0200, Andy Shevchenko wrote:
-> > On Mon, Nov 14, 2022 at 10:11:25AM +0000, Lee Jones wrote:
-> > > On Tue, 08 Nov 2022, Andy Shevchenko wrote:
-> > > > On Mon, Oct 31, 2022 at 05:32:26PM +0200, Andy Shevchenko wrote:
-> > > > > On Mon, Oct 31, 2022 at 08:53:49AM +0000, Lee Jones wrote:
-> > > > > > On Tue, 25 Oct 2022, Andy Shevchenko wrote:
-> > > > > > 
-> > > > > > > On Tue, Sep 06, 2022 at 04:49:53PM +0300, Andy Shevchenko wrote:
-> > > > > > > > There are several users of LED framework that reimplement the
-> > > > > > > > functionality of led_init_default_state_get(). In order to
-> > > > > > > > deduplicate them move the declaration to the global header
-> > > > > > > > (patch 2) and convert users (patche 3-11).
-> > > > > > > 
-> > > > > > > Dear LED maintainers, is there any news on this series? It's hanging around
-> > > > > > > for almost 2 months now...
-> > > > > > 
-> > > > > > My offer still stands if help is required.
-> > > > > 
-> > > > > From my point of view the LED subsystem is quite laggish lately (as shown by
-> > > > > this patch series, for instance), which means that _in practice_ the help is
-> > > > > needed, but I haven't got if we have any administrative agreement on that.
-> > > > > 
-> > > > > Pavel?
-> > > > 
-> > > > So, Pavel seems quite unresponsive lately... Shall we just move on and take
-> > > > maintainership?
-> > > 
-> > > I had an off-line conversation with Greg who advised me against that.
-> > 
-> > OK. What the reasonable option we have then?
+Le Fri, Oct 28, 2022 at 06:41:40AM +0000, Corentin Labbe a écrit :
+> The triggers enum misses 3 cases used by gemini DT.
+> usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
+> so we add also as valid trigger usb-gadget which was added along in this
+> commit.
 > 
-> I thought there is now a new LED maintainer, is that not working out?
+> disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Acked-by: Rob Herring <robh@kernel.org>
+> 
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
 
-No new (co-)maintainer due to stale mate situation as far as I can read it
-right now.
+Hello
 
--- 
-With Best Regards,
-Andy Shevchenko
+Gentle ping
 
-
+Regards
