@@ -2,122 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B9B4629321
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Nov 2022 09:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C666295F6
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Nov 2022 11:34:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiKOIRi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Nov 2022 03:17:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41694 "EHLO
+        id S232897AbiKOKes (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Nov 2022 05:34:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbiKOIRe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Nov 2022 03:17:34 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A2C1EAC8
-        for <linux-leds@vger.kernel.org>; Tue, 15 Nov 2022 00:17:33 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id k19so16530454lji.2
-        for <linux-leds@vger.kernel.org>; Tue, 15 Nov 2022 00:17:33 -0800 (PST)
+        with ESMTP id S229949AbiKOKeq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Nov 2022 05:34:46 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40C2DA6
+        for <linux-leds@vger.kernel.org>; Tue, 15 Nov 2022 02:34:44 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so9950293wmb.0
+        for <linux-leds@vger.kernel.org>; Tue, 15 Nov 2022 02:34:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3GYVEqyWRIb5M8DvqDeUYgwKR6PMorbc+DxpJvheRTc=;
-        b=TqJCj+iF0xcmojTDBuDLqr1AeL6bJ9jOa5Q+rGhcue0HiucpyMr4LZxSGn3fUOgaWN
-         MB546udpmn7GTMK6FamliZ6yOM0xFmEaWZ0FAaB8W4Be+RG4HRSwvt+z/ae+viDoe1d+
-         Qu7Ho6EjyR7PZeIMtvE9rLe97vl5MesO8sFGAR3oSQGTsZ5MaYGGtFjOOAVnGRM07NVA
-         UMf92qW+MN7DXOI+1+r2OIb8dwug4ssjZYHyDrtftTuN5USXfRGFq2pZIi/ITtr8c41o
-         GimrzIiUDLZfP8ZrkDLf3BV5vuktAr1HRDJxRJn+SjR41SNt4C5HgciPnj3LgiXPMUVy
-         3yeA==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=51eyqY8UTV5ywIgQsiHkYmYRRcSexiaefC0ZpHFo2a8=;
+        b=XQhNYO7eEMH/ML6Ek2vWNsT1W4wWTdKTdS4A7rD21XxH+U4UZWYtW4zGE1rAekXTsw
+         jArznlvIdrcFLoYBqFSrc3k9jBKKmtpNPd5VJEerOotNauut47I59zs4LUO9Nofqarru
+         wIbFoP49X4eTJXGdpiwGbzfISJ9J7ng49wYdO7S+wXybs1xV/MA4HkUAM68Hb5Gp1fa5
+         UpMXIwaCuDUi5ZaMFSHDt9uxnEGFv2udkfScPawgxYuEqM0Ch3+qDBZt8Hxzr5n6Xsar
+         1zUbdldqRdKY/QyxoxCUmSlPQSQnIbn/M2lWiuobH/nmms3sAcKDQn5aO0lG0prGddnp
+         faLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3GYVEqyWRIb5M8DvqDeUYgwKR6PMorbc+DxpJvheRTc=;
-        b=EAHT2bYT8JtHTCkvF76e7m8UhZjjlaRE+sF8Jho5frxoRg8o/mmIetji/HER1wzzoY
-         k5JV0V2pNXLEFcr6fGqfzYcx2YUnVd0criwPdA/sYTHL7loB1z+knLKY4VOBDcNQNK17
-         rxgXWmb5MTbwBEegwUiFRvcxlMPjggrT/cIjUaDbSXopWG1nCd6LfPvJDVmzL3xKCSPe
-         ahhLhE8TGagamYozaTXsUbZp6M3UPMrgZERqfb4ZiGx2BYUDw2qk/3J0cPy0ohS/GEdH
-         jBRcI3XUZgICn4nLhEtwZsAe8Pfpq5GsGpzvGq+1P29SuzCSgzT80X/2+F+yXktwqjCo
-         sepA==
-X-Gm-Message-State: ANoB5pleWnFO98ZMYXPKOf8/nITaPaULXDktCvllGSHiIs5oxPD++4sR
-        26neJgfTE9uDfh+C4D5oSP+vXA==
-X-Google-Smtp-Source: AA0mqf5MXWb0JfEc/1mOlUnuRhtFp0aaBS83d/Ar8w4XBbipn6uUq0jtPrZD5niyiXlKAQweBcxJ6A==
-X-Received: by 2002:a05:651c:490:b0:277:5f7e:9cad with SMTP id s16-20020a05651c049000b002775f7e9cadmr5055715ljc.420.1668500252199;
-        Tue, 15 Nov 2022 00:17:32 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id m4-20020a056512358400b0048b003c4bf7sm2112048lfr.169.2022.11.15.00.17.30
+        bh=51eyqY8UTV5ywIgQsiHkYmYRRcSexiaefC0ZpHFo2a8=;
+        b=iRHDOqhi9mvL8tD3pyOWs6DA8F3ZTq0Ue+vrdIESKfAJT1YH6rItC+xSfxXuRs/xuD
+         9xsHvTNDVQUFGDs8VOpWUYle1iqYb5g76XiZ0nDtZFm6jfZs9mstl/st3CKECgKxUIov
+         W4WJ7kIQ3qbmOGlEoqDM+j54VGYH3JQa4JQ7ZJNvOEPnC5U5PT6TC6S/e9oYAcqnqIro
+         NZ1Tk7vLprt7XaiOLzxoPG7FCuE0aCssakJf8NpeG08bvQQdHjA51cl1rabkp0ssToNB
+         Xpj+4z+cU0/dsAm2/WMGjV5Sy2VvERrSLujm45fZbVl4st0E+e/T7bFD4NFVyPoN7ktZ
+         +K2w==
+X-Gm-Message-State: ANoB5pkzkIPoD2P6PPGlPM5DqgKcTC51Z/R9SRqXG2jk+W2N1xHhU/Wa
+        nYyNODEgZjz4xtFxByniYGFtkQ==
+X-Google-Smtp-Source: AA0mqf5wOpmiqEs0k+MjZLqrmjy48gJaqw7MB07dSClzfm9gxF2kTyHEIeCaGZHkqdxGGrgmZhgQDQ==
+X-Received: by 2002:a1c:720f:0:b0:3cf:6f77:375 with SMTP id n15-20020a1c720f000000b003cf6f770375mr92914wmc.102.1668508483147;
+        Tue, 15 Nov 2022 02:34:43 -0800 (PST)
+Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id p5-20020a05600c358500b003c6b9749505sm23742112wmq.30.2022.11.15.02.34.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 00:17:31 -0800 (PST)
-Message-ID: <09495553-e563-e12b-056e-bed95531ab6b@linaro.org>
-Date:   Tue, 15 Nov 2022 09:17:30 +0100
+        Tue, 15 Nov 2022 02:34:42 -0800 (PST)
+Message-ID: <ba0901a0-56c5-4e60-49b3-356899921934@baylibre.com>
+Date:   Tue, 15 Nov 2022 11:34:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
+ Thunderbird/102.2.2
+To:     krzysztof.kozlowski@linaro.org
+Cc:     a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+        amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
+        broonie@kernel.org, chen.zhong@mediatek.com,
+        devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+        fabien.parent@linaro.org, fparent@baylibre.com,
+        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
+        lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-rtc@vger.kernel.org, matthias.bgg@gmail.com,
+        mkorpershoek@baylibre.com, pavel@ucw.cz, robh@kernel.org,
+        sean.wang@mediatek.com
+References: <09495553-e563-e12b-056e-bed95531ab6b@linaro.org>
 Subject: Re: [PATCH v4 2/9] dt-bindings: rtc: mediatek: convert MT6397 rtc
  documentation
 Content-Language: en-US
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Alexandre Mergnat <amergnat@baylibre.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Pavel Machek <pavel@ucw.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        devicetree@vger.kernel.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>
-References: <20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com>
- <20221005-mt6357-support-v4-2-5d2bb58e6087@baylibre.com>
- <20221109222916.GA2985917-robh@kernel.org> <Y2wwUOJ0KZdt1tZ6@mail.local>
- <adf8bc44-4cbc-af2a-4ec8-1859a98146d7@linaro.org>
- <Y3LHxDIzfZWhnQJN@mail.local>
- <37dc4e39-8033-a40f-edd7-4bd30f841e23@linaro.org>
- <Y3NIRbyirJjT7xay@mail.local>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y3NIRbyirJjT7xay@mail.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <09495553-e563-e12b-056e-bed95531ab6b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 15/11/2022 09:05, Alexandre Belloni wrote:
->>> I checked and it doesn't support it but this needs to be fixed.
->>>
->>>> What about rest of rtc.yaml schema?
->>>>
->>>
->>> wakeup-source would make sense but the driver doesn't support it yet.
->>
->> The question is about hardware - does hardware support waking up the
->> system via interrupt? This is usually a domain of PMICs which still are
->> powered on when system sleeps.
->>
-> 
-> I'd say that it is possible that a PMIC is able to wake up the system
-> with or without having an interrupt wired to the SoC so wakeup-source
-> makes sense. We don't need it if it is interrupt only.
+Hi, thanks for your help
 
-Then I propose to reference the rtc.yaml.
+>>>> I checked and it doesn't support it but this needs to be fixed.  >>>> >>>>> What about rest of rtc.yaml schema? >>>>> >>>> >>>> 
+wakeup-source would make sense but the driver doesn't support it yet. 
+ >>> >>> The question is about hardware - does hardware support waking 
+up the >>> system via interrupt? This is usually a domain of PMICs which 
+still are >>> powered on when system sleeps. >>> >> >> I'd say that it 
+is possible that a PMIC is able to wake up the system >> with or without 
+having an interrupt wired to the SoC so wakeup-source >> makes sense. We 
+don't need it if it is interrupt only. >
+>Then I propose to reference the rtc.yaml.
 
-Best regards,
-Krzysztof
+I think I understand my error.
+Actually, the RTC (HW) support the "start-year" feature, then I suggest
+to fix the binding like that:
+
+allOf:
+   - $ref: "rtc.yaml#"
+
+properties:
+   compatible:
+     enum:
+       - mediatek,mt6323-rtc
+       - mediatek,mt6357-rtc
+       - mediatek,mt6358-rtc
+       - mediatek,mt6366-rtc
+       - mediatek,mt6397-rtc
+
+   start-year: true
+
+additionalProperties: false
+
+required:
+   - compatible
+
+examples:
+   - |
+     pmic {
+         rtc {
+             compatible = "mediatek,mt6397-rtc";
+         };
+     };
 
