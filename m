@@ -2,108 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D915362C489
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Nov 2022 17:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C287E62C58A
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Nov 2022 17:56:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238603AbiKPQfQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Nov 2022 11:35:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48024 "EHLO
+        id S234653AbiKPQ4K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Nov 2022 11:56:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230459AbiKPQe4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Nov 2022 11:34:56 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F0A68AE2
-        for <linux-leds@vger.kernel.org>; Wed, 16 Nov 2022 08:26:39 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id s5so11130256edc.12
-        for <linux-leds@vger.kernel.org>; Wed, 16 Nov 2022 08:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/GcqxyNxQ2i04UVF1iE2MHRUWTa6OtN0e3MQ8qjNro8=;
-        b=gqXs9ZRxNaAaMLsaERJlYwPG7r3b24XDY6OQOS3QsEXqGfhw9X43KJLNreM1IYIqub
-         dB9lv/Zk0WN3SHi2xzGk7psL5/Xve6O5ukGpax0UM9QS/C6fKwUSKbS4Y6M67r6NjKBW
-         FLC1c65yVmMR/AkRMoxpEZRWWBFKb+6QVYIAwA/kYTcg2gsgamaq7fgMACv/9AF4mkda
-         J+6xOJpes4DCcqAheTEJJgJQ8KQJKg1pQ8tE80PNT5gvkJlBbe9ActINJEfnUepyRvHw
-         nWZV73NRAvGO7al24DAUSqf6co6okGZYqcgs64bKZfAy7HPZZXYfaA23JVTEJp/vuh9W
-         qpng==
+        with ESMTP id S232190AbiKPQzj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Nov 2022 11:55:39 -0500
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA3AB3E;
+        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
+Received: by mail-oi1-f174.google.com with SMTP id q186so19131756oia.9;
+        Wed, 16 Nov 2022 08:55:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/GcqxyNxQ2i04UVF1iE2MHRUWTa6OtN0e3MQ8qjNro8=;
-        b=7l97skhIxVocfBntWvu2xYhSKBQNyetO59W9pVXhuMpdMFovr5xmxj7OKX0oNDhyLK
-         0w61u4J+vdSgpCd5X5BadejWewudK8i/ixsm/ZbMt6DqVyMwBoirY4Dy4zQumYkPg8Ii
-         rBOt2N6vXcSrkax5rys4rmnbQJtsEBS1YPKQw6WlXDoibF5eV7Mx9YLULCMbwMWCuTPp
-         7u2hJO0FH4tOiVKT9mxVYy4sWKytJACE2nDW5EwoszKYKN7PT2aIAInlexA1yPUoVvGv
-         X5ODcUauxtqt7KMkrreaxQGC9os64ncpZ1jkTaCmRjbvp+EaWe9P7/ddPpnIFj/IEGaI
-         sYjg==
-X-Gm-Message-State: ANoB5plWmBm4pqY4d/JdNKzmaIUrLRSFXweDGWZ8Ms1Qxhu6f1w5W4kv
-        XjERI2oQpNplKrxQokM7//Z6eBbrFWaQxolLaN1CeQ==
-X-Google-Smtp-Source: AA0mqf5yB4S9XPGZ42v1UMyUILQ/PUGJvppH/sS1fbiyT79Tdf9o/FqO2PJG27Yz+Fnrnz8ST33S7OTxVys2IUPOPzU=
-X-Received: by 2002:a50:fd9a:0:b0:461:b279:1175 with SMTP id
- o26-20020a50fd9a000000b00461b2791175mr19892498edt.124.1668615998007; Wed, 16
- Nov 2022 08:26:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com>
- <20221005-mt6357-support-v5-5-8210d955dd3d@baylibre.com> <166861435469.151514.16192567175686360100.robh@kernel.org>
-In-Reply-To: <166861435469.151514.16192567175686360100.robh@kernel.org>
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Wed, 16 Nov 2022 17:26:27 +0100
-Message-ID: <CAFGrd9qz7w=aqiDjfdi_pM_y_1hiRoLs_AJVbptChs8=U66+aA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/10] dt-bindings: mfd: mediatek: Add bindings for
- MT6357 PMIC
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-input@vger.kernel.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org, linux-rtc@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Lee Jones <lee@kernel.org>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        linux-leds@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Flora Fu <flora.fu@mediatek.com>, Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Tianping Fang <tianping.fang@mediatek.com>,
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kiEBJO/YjcMAZi1EqUusiIE2D8QfFJq7eZwFhwMPZso=;
+        b=XUhd1YZINCqUB9+lROHYSr+aR4vQtsGz9YdpG0pjowKyb8r4RcNe13HUxe0q/9E34p
+         kWJY9YLy4JO5fbk7VYMBZohgKhb9oTXOcNKH4HSpfXWTb3Z7wmpWqUnuaPrWWIxwWga+
+         o/+3+VNM2rYqU1HoYen4IuNca3+H4gMW0SlJRVnLk8bajQm+iqjbRaChf7E0LTbxWdp4
+         CkjkivKlZ90PtxWS2olXw7TodOHAuzYjr7ZFk09wKCzH0NxlJDXsirGSxj0dihFPzx/0
+         Zxar/1QF8VyBVKnID3qDjwVV8H+3UZo67IyPrQmgzAyy31GJ9ki0VC4w30ZKVUSTmeXO
+         eAnQ==
+X-Gm-Message-State: ANoB5plir3BqjLx4WAp13yijubhaDGmqzBBYKC+MQ9ehNYzYWJfegn9w
+        N53zbSGjAWrzO1kwu4CZ/g==
+X-Google-Smtp-Source: AA0mqf64Fje3bdOgJ5mS0w+P3LsDO8E8DUlCW+fnA4tU3JbGCGhrmcJnW4mo3simdTwRehr0cYgx7Q==
+X-Received: by 2002:a05:6808:688:b0:354:e358:ad2c with SMTP id k8-20020a056808068800b00354e358ad2cmr2056255oig.130.1668617725518;
+        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bg2-20020a056808178200b0034fd36e95bfsm6367551oib.31.2022.11.16.08.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 08:55:25 -0800 (PST)
+Received: (nullmailer pid 231353 invoked by uid 1000);
+        Wed, 16 Nov 2022 16:55:27 -0000
+Date:   Wed, 16 Nov 2022 10:55:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, linux-bluetooth@vger.kernel.org,
         Rob Herring <robh+dt@kernel.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Chen Zhong <chen.zhong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+Message-ID: <166861772609.231295.14812410099261417331.robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Le mer. 16 nov. 2022 =C3=A0 17:03, Rob Herring <robh@kernel.org> a =C3=A9cr=
-it :
 
-> doc reference errors (make refcheckdocs):
-> Warning: Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml refer=
-ences a file that doesn't exist: Documentation/devicetree/bindings/soc/medi=
-atek/mediatek,pwrap.yaml
-> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml: Documentation=
-/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+On Wed, 09 Nov 2022 15:46:06 +0100, Geert Uytterhoeven wrote:
+> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> are already in active use.
+> 
+> While at it, move the mmc pattern comment where it belongs, and restore
+> alphabetical sort order.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'hci0-power' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'phy0tx' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
-Ok, This should be fixed by swapping the order of the 2 following commits:
-[PATCH v5 05/10] dt-bindings: mfd: mediatek: Add bindings for MT6357 PMIC
-[PATCH v5 06/10] dt-bindings: soc: mediatek: convert pwrap documentation
-
-Regards,
-Alex
+Reviewed-by: Rob Herring <robh@kernel.org>
