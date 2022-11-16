@@ -2,63 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F0662BE2B
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Nov 2022 13:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4002D62C0AF
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Nov 2022 15:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239048AbiKPMer (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Nov 2022 07:34:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53036 "EHLO
+        id S232749AbiKPORL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Nov 2022 09:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238808AbiKPMd7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Nov 2022 07:33:59 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96C964E3
-        for <linux-leds@vger.kernel.org>; Wed, 16 Nov 2022 04:33:47 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id g12so29457706wrs.10
-        for <linux-leds@vger.kernel.org>; Wed, 16 Nov 2022 04:33:47 -0800 (PST)
+        with ESMTP id S233509AbiKPORH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Nov 2022 09:17:07 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8C67DF57;
+        Wed, 16 Nov 2022 06:17:06 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id p8so29699153lfu.11;
+        Wed, 16 Nov 2022 06:17:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GI9uwBLCvWR3OgOlMBN6oypd3UQ7AbJ0Dp0NjT4lxFo=;
-        b=sHnFd/lL5A2cdE7y7gKxWrquE3RvjTfCr4XesYiSwsj5MC9VoE5vwMCKnLLM62elD1
-         zkoE+HytAtoh8YJ2xe8EZpRuVkDhsHgBGY5CLiFBnE2p+ug5GaKgSfnSBHQaHWJSwUrA
-         nusGcFS9EHdF97Ph0NXAeltWw0N9DbQWJLp3F/L2A39KeBvmHpbkxPsY1oyy2folnkqC
-         nQxqlq8v8g8SeJMqiXidepB6RbqCAeah+1Zn975Cs48REyEtmOZjwW4hr0PEfh+itx5q
-         6GbqXuuWWTxK0cy+Y2G4TFZtogXoPDCrQevYEdHMzh48AXsF0hUakW/etOfA162NwUsj
-         uALQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=03AO/d+34sX5YN3fjNIOuZvahaBINhyoO8pKIANrSLg=;
+        b=FdKmOSWs5xFN+58wikER67yYa5Vny4ZcI3G1EZaRA47K3g3cxQSoYX2Rf5H2vc84iv
+         5hYP4a1AOLTId+qe9ZTmuf6dKhq+6CqIPWkHjQFgCulwkXfOlrbnkEV/t+MAbPVoG0hk
+         d8k2SKK1PsulPklunT7RtLkWS560LFjyi1EGSVvH4ymKDViaJdZXdz6xk9ZguePd1R0/
+         s8Nq3AkP+h/E8dzSguyzN0C4v3NzhkyF/xmfOoJzWprJC14pMjq47vQkuQZNU0ECOGG5
+         ePrAG4QUC+b9qEwIvud9lAp0SnxJtnfwGagSY3+BwLIrtQh7Uy55vM1BPeHJi2LDK67b
+         urAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GI9uwBLCvWR3OgOlMBN6oypd3UQ7AbJ0Dp0NjT4lxFo=;
-        b=IPOo4g6Uue2jZLwKdA0hWqdTmvTzT8FwniLo04NFQkZRnT9LEMEUbpFSQnwZHG+bS9
-         bdLVA4NPOUq62I7Mrhl1GopCp4xLBBt4SlWcm3p4aew4YjltCY7UVnjSoBSkI1i5XYKk
-         B4M1F96l3LiFYGK+9/Rj3yamf8Ae/llULAboFT966t8JxEHCsFKvAdOmihYBvCt4MyR+
-         nTAWwxjPx0KRiEsqCeyBF8QyYnGlpB40RwafAsoKcwh3s3WtEguoPkit05VqJ/AwwXAn
-         3mRcE9IcsTPW0fmsa0cN5RT/VGF5mlRAHyru/eAFnLtuWnLB6PP81WlEXN3xcjrG+pdN
-         RUYg==
-X-Gm-Message-State: ANoB5pkV1jnEVns1ip19EGw0DG7jMvd3jTdhAsaMrMHPptyjDQy8M98Q
-        dJRYkGRDE+hAs6vpsPeIX8D7xQ==
-X-Google-Smtp-Source: AA0mqf43ZwqZX4qqGAkOOFpwMHLviKqBuca3ZNbsWFwMMrmY69hMHTVzUqv7KpJe+cRxk8lUEa65xQ==
-X-Received: by 2002:adf:ec83:0:b0:236:86f2:b3fa with SMTP id z3-20020adfec83000000b0023686f2b3famr13712940wrn.457.1668602027406;
-        Wed, 16 Nov 2022 04:33:47 -0800 (PST)
-Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id z13-20020adff1cd000000b0024166413a4fsm15051607wro.37.2022.11.16.04.33.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 04:33:47 -0800 (PST)
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Wed, 16 Nov 2022 13:33:04 +0100
-Subject: [PATCH v5 10/10] Input: mtk-pmic-keys: add MT6357 support
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=03AO/d+34sX5YN3fjNIOuZvahaBINhyoO8pKIANrSLg=;
+        b=uIEU2ylqpDpOdFvv6TlvplLzLphvri+Qm5xnwZeN/coGyrYua96+X6HmZyMgLoyrls
+         x/1/Mtz77vaQwVPBoCpXQMwg9ZSbEXFkrRyWcB7wV3dc+Ynz7iXQA33ersiut10Ygs0k
+         T0Fppz+W35viJvruKMk1IWxYtvqCmXc8JUPNT59I9z7Qj0dhHkQO6aH+kACGDgNcbBS1
+         2zog/+RNuI907e3/wL/Y5ENT/1gZN5L0a3YStSR124zwzA6UFM6RrhEzi80r3y1ZIVo8
+         MfwTDdeU0qMWzqugjSaAfJulWwoUsxsMDqzaK6ONCcueUPA+NpZaD6U56X84V118gHAk
+         kriw==
+X-Gm-Message-State: ANoB5plcIR+QZ/ECPHC49H5tOcD5uy5dTBTKYwLFWXuvpQ35YIIKXxgg
+        E/ABGVR1fpbY9d30RUyPr00=
+X-Google-Smtp-Source: AA0mqf6JWruVUZBOSSlDanBIhDMGzTs2Upx3yEKchOpWuoY6srpCJEpuwyeVU+HZlq5crpJBj2gaAw==
+X-Received: by 2002:a05:6512:3ba8:b0:4b0:7a03:60dc with SMTP id g40-20020a0565123ba800b004b07a0360dcmr6789861lfv.567.1668608224875;
+        Wed, 16 Nov 2022 06:17:04 -0800 (PST)
+Received: from ?IPV6:2001:14ba:16f3:4a00::7? (dc75zzyyyyyyyyyyyyydt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::7])
+        by smtp.gmail.com with ESMTPSA id v15-20020a2ea44f000000b0027738fd1eb6sm3018470ljn.110.2022.11.16.06.17.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Nov 2022 06:17:04 -0800 (PST)
+Message-ID: <d61d8c22-fce5-74d5-6d2b-0eda6f2ace9e@gmail.com>
+Date:   Wed, 16 Nov 2022 16:17:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221005-mt6357-support-v5-10-8210d955dd3d@baylibre.com>
-References: <20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com>
-In-Reply-To: <20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com>
-To:     Flora Fu <flora.fu@mediatek.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Content-Language: en-US
+To:     Alexandre Mergnat <amergnat@baylibre.com>,
+        Flora Fu <flora.fu@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Tianping Fang <tianping.fang@mediatek.com>,
@@ -75,94 +73,141 @@ To:     Flora Fu <flora.fu@mediatek.com>,
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh@kernel.org>,
         Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-mediatek@lists.infradead.org,
-        Alexandre Mergnat <amergnat@baylibre.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        Fabien Parent <fparent@baylibre.com>,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-leds@vger.kernel.org, Fabien Parent <fparent@baylibre.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         linux-rtc@vger.kernel.org, linux-input@vger.kernel.org
-X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2028; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=K2/LktiwnSqpYUY/NYDB7cyyBwW4Kzl5Gx1VcVhpHIg=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjdNieZ404YpNtkYSivYSn+3ZAsowD7kjt8AT8H7pn
- 1beN5/KJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCY3TYngAKCRArRkmdfjHURQ/jEA
- CjBs9hecD71EXvrtGB0GD+Pt3BUK+ISJbtY85IJFzSjCQQeJQ7I3fcY1PGIP3Zl3t6PZJHJAM007AR
- t++htXH/6Q9LEi4UVPwNwVS6x4lE78IPBY8V8g3HBFkx0jPKyh7z937yYSuFvy//jyAJqt4+rN8mGR
- VZJSS7DXwvhG/Nsk2CFUg878ENFvdAgex9eoz+L0SIPoshxX/l++CvPi6TR4jFYlEeMdK14zFXNWSM
- fhRuiz16EqdTJB+yDHMK6GrkpF9ljnr1dqxLIQnD/OHO5/U2XeCtLZ5iiuMmS0ZNwyu+sRffNyemUi
- cNBiSl16AQgUJ3XFq+7coWbMzvvfWjIUa7eqUkVmOCDyYlohpQajGq+H6y50a3ty+CrYc5L9LcGEMv
- qterhaqxmNGaTE31evhakhFX+zZYMh3UAUsj1vV2913t/dHV/QH+wY0C7RowJloevAwZ80Mbt22UWT
- qnCLCzKa0KaDA6Wu01NkgyQlZhQSRshKy94rb1SDCxCQ1Tum8gto6nFxqaOoU5sVpMRiRWOY9fIl0C
- BiaNwxN0VmQZKpPrKtSvNSM1YjRo3tkjM5k4CN2V82s+DmAlDZ2GTto8hqmfoWINgGK1FCKzgEvctF
- VvxlByeamx6OXAnReeR5WsKIcykLMA9EEO3ruMlZtVxS3LNlQBR0zKPuao2Q==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com>
+ <20221005-mt6357-support-v5-9-8210d955dd3d@baylibre.com>
+From:   Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v5 09/10] regulator: add mt6357 regulator
+In-Reply-To: <20221005-mt6357-support-v5-9-8210d955dd3d@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Fabien Parent <fparent@baylibre.com>
+Hi Alexandre, All
 
-Add PMIC Keys support on MT6357 SoC.
+Please, treat my review more as initiation for discussion than 'hard 
+requirements' for this driver. I am in no point or no "confidence level" 
+to give you any requirements ;)
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On 11/16/22 14:33, Alexandre Mergnat wrote:
+> From: Fabien Parent <fparent@baylibre.com>
+> 
+> Add regulator driver for the MT6357 PMIC.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 9b34da0ec260..2a63e0718eb6 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
- #include <linux/mfd/mt6331/registers.h>
-+#include <linux/mfd/mt6357/registers.h>
- #include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
-@@ -90,6 +91,19 @@ static const struct mtk_pmic_regs mt6331_regs = {
- 	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
- };
- 
-+static const struct mtk_pmic_regs mt6357_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x2, MT6357_PSC_TOP_INT_CON0, 0x5,
-+				   MTK_PMIC_PWRKEY_RST),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x8, MT6357_PSC_TOP_INT_CON0, 0xa,
-+				   MTK_PMIC_HOMEKEY_INDEX),
-+	.pmic_rst_reg = MT6357_TOP_RST_MISC,
-+	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
-+};
-+
- static const struct mtk_pmic_regs mt6358_regs = {
- 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
- 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-@@ -276,6 +290,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6331-keys",
- 		.data = &mt6331_regs,
-+	}, {
-+		.compatible = "mediatek,mt6357-keys",
-+		.data = &mt6357_regs,
- 	}, {
- 		.compatible = "mediatek,mt6358-keys",
- 		.data = &mt6358_regs,
+//snip
+
+> +/*
+> + * MT6357 regulators' information
+> + *
+> + * @desc: standard fields of regulator description.
+> + * @da_vsel_reg: Monitor register for query buck's voltage.
+> + * @da_vsel_mask: Mask for query buck's voltage.
+> + */
+> +struct mt6357_regulator_info {
+> +	struct regulator_desc desc;
+> +	u32 da_vsel_reg;
+> +	u32 da_vsel_mask;
+> +};
+> +
+
+//snip
+
+> +/**
+> + * mt6357_get_buck_voltage_sel - get_voltage_sel for regmap users
+> + *
+> + * @rdev: regulator to operate on
+> + *
+> + * Regulators that use regmap for their register I/O can set the
+> + * da_vsel_reg and da_vsel_mask fields in the info structure and
+> + * then use this as their get_voltage_vsel operation.
+> + */
+> +static int mt6357_get_buck_voltage_sel(struct regulator_dev *rdev)
+> +{
+> +	int ret, regval;
+> +	struct mt6357_regulator_info *info = rdev_get_drvdata(rdev);
+> +
+> +	ret = regmap_read(rdev->regmap, info->da_vsel_reg, &regval);
+> +	if (ret != 0) {
+> +		dev_err(&rdev->dev,
+> +			"Failed to get mt6357 Buck %s vsel reg: %d\n",
+> +			info->desc.name, ret);
+> +		return ret;
+> +	}
+> +
+> +	regval &= info->da_vsel_mask;
+> +	regval >>= ffs(info->da_vsel_mask) - 1;
+> +
+> +	return regval;
+> +}
+
+If I read this right, the device has separate register(s) for writing 
+and reading the voltage? I wonder if this is a completely unique setup?
+
+If this is not unique, then it might be worth adding another field for 
+'vsel_get' register and a flag in regulator desc - and modify the 
+generic regmap helpers to handle this in common code if the special 
+register? Not sure if this HW design is common enough to warrant the 
+added confusion though. You and Mark may have more insight.
+
+> +
+> +static const struct linear_range buck_volt_range1[] = {
+> +	REGULATOR_LINEAR_RANGE(518750, 0, 0x7f, 6250),
+> +};
+> +
+> +static const struct linear_range buck_volt_range2[] = {
+> +	REGULATOR_LINEAR_RANGE(500000, 0, 0x7f, 6250),
+> +};
+> +
+> +static const struct linear_range buck_volt_range3[] = {
+> +	REGULATOR_LINEAR_RANGE(500000, 0, 0x3f, 50000),
+> +};
+> +
+> +static const struct linear_range buck_volt_range4[] = {
+> +	REGULATOR_LINEAR_RANGE(1200000, 0, 0x7f, 12500),
+> +};
+
+I am unsure if we should aim for dropping the REGULATOR_LINEAR_RANGE() 
+and using the LINEAR_RANGE(). If yes, then it might simplify things if 
+new drivers used LINEAR_RANGE() from the day 1. If we don't, then it 
+makes sense to keep consistently using REGULATOR_LINEAR_RANGE() for all 
+of the drivers. I am not sure which way is the right way.
+
+> +static int mt6357_regulator_probe(struct platform_device *pdev)
+> +{
+> +	struct mt6397_chip *mt6357 = dev_get_drvdata(pdev->dev.parent);
+
+I am unsure what data do you need from the parent. If it is just the 
+regmap / device-tree node / device, then it does not (in my opinion) 
+really warrant using parent's drvdata. One can often get away with the
+dev_get_regmap(pdev->dev.parent, NULL).
+
+Anyways, the driver looks good to me.
+
+Yours,
+	-- Matti Vaittinen
 
 -- 
-b4 0.10.1
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
