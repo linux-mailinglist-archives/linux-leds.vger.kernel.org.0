@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC69630799
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Nov 2022 01:37:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13EFD630785
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Nov 2022 01:36:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234955AbiKSAhU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Nov 2022 19:37:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
+        id S235756AbiKSAgg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Nov 2022 19:36:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236780AbiKSAgs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Nov 2022 19:36:48 -0500
+        with ESMTP id S236465AbiKSAfm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Nov 2022 19:35:42 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE1D49B54
-        for <linux-leds@vger.kernel.org>; Fri, 18 Nov 2022 15:43:28 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC1161165BC
+        for <linux-leds@vger.kernel.org>; Fri, 18 Nov 2022 15:43:17 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8d-0002Sc-8A; Fri, 18 Nov 2022 23:47:11 +0100
+        id 1owA8d-0002V7-JC; Fri, 18 Nov 2022 23:47:11 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8a-0058T6-FX; Fri, 18 Nov 2022 23:47:09 +0100
+        id 1owA8b-0058TM-B1; Fri, 18 Nov 2022 23:47:10 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1owA8a-000096-Py; Fri, 18 Nov 2022 23:47:08 +0100
+        id 1owA8b-00009D-6K; Fri, 18 Nov 2022 23:47:09 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
@@ -35,9 +35,9 @@ Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 268/606] leds: bd2802: Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:40:02 +0100
-Message-Id: <20221118224540.619276-269-uwe@kleine-koenig.org>
+Subject: [PATCH 270/606] leds: is31fl32xx: Convert to i2c's .probe_new()
+Date:   Fri, 18 Nov 2022 23:40:04 +0100
+Message-Id: <20221118224540.619276-271-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -50,7 +50,7 @@ X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to f
 X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -64,31 +64,31 @@ can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/leds/leds-bd2802.c | 5 ++---
+ drivers/leds/leds-is31fl32xx.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/leds/leds-bd2802.c b/drivers/leds/leds-bd2802.c
-index 2b6678f6bd56..601185ddabcc 100644
---- a/drivers/leds/leds-bd2802.c
-+++ b/drivers/leds/leds-bd2802.c
-@@ -656,8 +656,7 @@ static void bd2802_unregister_led_classdev(struct bd2802_led *led)
- 	led_classdev_unregister(&led->cdev_led1r);
- }
+diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+index 0d219c1ac3b5..799191859ce0 100644
+--- a/drivers/leds/leds-is31fl32xx.c
++++ b/drivers/leds/leds-is31fl32xx.c
+@@ -422,8 +422,7 @@ static const struct of_device_id of_is31fl32xx_match[] = {
  
--static int bd2802_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int bd2802_probe(struct i2c_client *client)
+ MODULE_DEVICE_TABLE(of, of_is31fl32xx_match);
+ 
+-static int is31fl32xx_probe(struct i2c_client *client,
+-			    const struct i2c_device_id *id)
++static int is31fl32xx_probe(struct i2c_client *client)
  {
- 	struct bd2802_led *led;
- 	int ret, i;
-@@ -787,7 +786,7 @@ static struct i2c_driver bd2802_i2c_driver = {
- 		.name	= "BD2802",
- 		.pm	= &bd2802_pm,
+ 	const struct is31fl32xx_chipdef *cdef;
+ 	struct device *dev = &client->dev;
+@@ -489,7 +488,7 @@ static struct i2c_driver is31fl32xx_driver = {
+ 		.name	= "is31fl32xx",
+ 		.of_match_table = of_is31fl32xx_match,
  	},
--	.probe		= bd2802_probe,
-+	.probe_new	= bd2802_probe,
- 	.remove		= bd2802_remove,
- 	.id_table	= bd2802_id,
+-	.probe		= is31fl32xx_probe,
++	.probe_new	= is31fl32xx_probe,
+ 	.remove		= is31fl32xx_remove,
+ 	.id_table	= is31fl32xx_id,
  };
 -- 
 2.38.1
