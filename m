@@ -2,96 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD8D6304E9
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Nov 2022 00:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D71630AC6
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Nov 2022 03:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235177AbiKRXtY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Nov 2022 18:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44620 "EHLO
+        id S235573AbiKSCgX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Nov 2022 21:36:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235414AbiKRXsO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Nov 2022 18:48:14 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9961DE9327
-        for <linux-leds@vger.kernel.org>; Fri, 18 Nov 2022 15:26:20 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8h-0002dW-JH; Fri, 18 Nov 2022 23:47:15 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8e-0058Ui-Tx; Fri, 18 Nov 2022 23:47:13 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1owA8f-0000AO-6u; Fri, 18 Nov 2022 23:47:13 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-leds@vger.kernel.org,
+        with ESMTP id S235241AbiKSCgC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Nov 2022 21:36:02 -0500
+Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397C77C027;
+        Fri, 18 Nov 2022 18:22:43 -0800 (PST)
+Received: from pride-PowerEdge-R740.. ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 2AJ2MJj5008882-2AJ2MJj8008882
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 19 Nov 2022 10:22:24 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Dongliang Mu <dzm91@hust.edu.cn>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 288/606] leds: turris-omnia: Convert to i2c's .probe_new()
-Date:   Fri, 18 Nov 2022 23:40:22 +0100
-Message-Id: <20221118224540.619276-289-uwe@kleine-koenig.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+Subject: [PATCH] leds: leds-lp5521/3: fix uninitialized variable ret
+Date:   Sat, 19 Nov 2022 10:22:16 +0800
+Message-Id: <20221119022217.2474222-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Smatch reports the following uninitialized symbols:
 
-The probe function doesn't make use of the i2c_device_id * parameter so it
-can be trivially converted.
+drivers/leds/leds-lp5521.c:368 lp5521_multicolor_brightness()
+error: uninitialized symbol 'ret'.
+drivers/leds/leds-lp5523.c:811 lp5523_multicolor_brightness()
+error: uninitialized symbol 'ret'.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Fix these issues by initializing ret with zero value.
+
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- drivers/leds/leds-turris-omnia.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/leds/leds-lp5521.c | 2 +-
+ drivers/leds/leds-lp5523.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index c7c9851c894a..013f551b32b2 100644
---- a/drivers/leds/leds-turris-omnia.c
-+++ b/drivers/leds/leds-turris-omnia.c
-@@ -201,8 +201,7 @@ static struct attribute *omnia_led_controller_attrs[] = {
- };
- ATTRIBUTE_GROUPS(omnia_led_controller);
- 
--static int omnia_leds_probe(struct i2c_client *client,
--			    const struct i2c_device_id *id)
-+static int omnia_leds_probe(struct i2c_client *client)
+diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
+index 7ff20c260504..cef46a8b4cab 100644
+--- a/drivers/leds/leds-lp5521.c
++++ b/drivers/leds/leds-lp5521.c
+@@ -352,7 +352,7 @@ static int lp5521_run_selftest(struct lp55xx_chip *chip, char *buf)
+ static int lp5521_multicolor_brightness(struct lp55xx_led *led)
  {
- 	struct device *dev = &client->dev;
- 	struct device_node *np = dev_of_node(dev), *child;
-@@ -272,7 +271,7 @@ static const struct i2c_device_id omnia_id[] = {
- MODULE_DEVICE_TABLE(i2c, omnia_id);
+ 	struct lp55xx_chip *chip = led->chip;
+-	int ret;
++	int ret = 0;
+ 	int i;
  
- static struct i2c_driver omnia_leds_driver = {
--	.probe		= omnia_leds_probe,
-+	.probe_new	= omnia_leds_probe,
- 	.remove		= omnia_leds_remove,
- 	.id_table	= omnia_id,
- 	.driver		= {
+ 	mutex_lock(&chip->lock);
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index 369d40b0b65b..e0387639946e 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -795,7 +795,7 @@ static ssize_t store_master_fader_leds(struct device *dev,
+ static int lp5523_multicolor_brightness(struct lp55xx_led *led)
+ {
+ 	struct lp55xx_chip *chip = led->chip;
+-	int ret;
++	int ret = 0;
+ 	int i;
+ 
+ 	mutex_lock(&chip->lock);
 -- 
-2.38.1
+2.34.1
 
