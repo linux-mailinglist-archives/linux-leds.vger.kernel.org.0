@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC68632366
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Nov 2022 14:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD943632371
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Nov 2022 14:29:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbiKUN0x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Nov 2022 08:26:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60290 "EHLO
+        id S229662AbiKUN3D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Nov 2022 08:29:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbiKUN0q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Nov 2022 08:26:46 -0500
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814D240467;
-        Mon, 21 Nov 2022 05:26:45 -0800 (PST)
-Received: by mail-qv1-xf2f.google.com with SMTP id h10so7959207qvq.7;
-        Mon, 21 Nov 2022 05:26:45 -0800 (PST)
+        with ESMTP id S230197AbiKUN2y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Nov 2022 08:28:54 -0500
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EA91FCFD;
+        Mon, 21 Nov 2022 05:28:53 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id z17so7933413qki.11;
+        Mon, 21 Nov 2022 05:28:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sMCxxZGsTl/DsHAlAb9K2gPcoa3rE0jXnKHh3JJXIr8=;
-        b=YS13pQXfSZuXWTGtO2JghNNEnLBIXl4GpzkpYe0Pxnvv2NdwvzQf9BmmPV9YUoA84A
-         DcLlGdVbJ2YGxAATGLowLxrBrQr7Wvz5fwP63cEtYjZdADMpASzvPLCMiwU5X6pyXdBt
-         d67j6jBLOd+W1P5szjuDer2zUivmDGK4UyNrge4VJVsCjZI22jmi1FO2VfqEo7kLcWLB
-         4CSRqeufeOizAliuLeLWJxsGVvM2g2G/zykbNSmUO/ddlWmYVLPDETbA5uMMpSKMhTIv
-         VrabeN29s3ftXACqPgrHj/wymebD0sj4RQunmrtJjIyFmYyxNDLSGbU2auTkROgOgPlH
-         z6HQ==
+        bh=T7SLOSEmo3c/autUam2NMSke0Dg2eHn3/Wx3yXtrjEQ=;
+        b=YyAsJz2BOFyuEjOkVhDBgTXg77QVJWbBfpISHtBRg9vGfgCmpStkNzRWOxFgSQ7S2P
+         1K51hlzjU5zMihi5cWdm59tzhU0Cu5ANWsWJLVye10EqciN7wGU+M2NRXOAFeTFcAO/7
+         KfI07OnPEEWd9UQM581YCtOJj7fMCos6HDFluFCi7Oqfbzqt0LusAGqHIAVELijOSMpg
+         x8ppcAB2Ty2sYtREDltwm+Ki7Ix22aBK8D3ZHIAzUqri0ofu8PVEesifheusuU8M/Tft
+         MuVay5MR+Wj3ve8MVSntb+7dIFkgHiFaO7mhAgiRlhJynOc9MiHt4o2JzwCm0RhtteFL
+         s73g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sMCxxZGsTl/DsHAlAb9K2gPcoa3rE0jXnKHh3JJXIr8=;
-        b=WGXtbz1oOML7NU5au4EEc6z1CmmgESDp4wcmcAzbFGz7djSzO6/S7Sf2+pvnUsxdix
-         BMplXOnm5Rl84Qxsz/uz1FahOxbz4/Vho0ewG+YqZeyMD0HbbfedjA/XH7pHzRS2+oWc
-         N3sNPstyWSoraMDN3NxWPEAO/sK0l2F6UqWwqBr1Y48pGcY84MKWsAjO2Zrl7aSlQtka
-         4GKM9T9RakPhoyjR7NP9v9h21EY1uZiV1zKCVwBcDcin77IodGwjEnfsrtg8WiSjSXXi
-         mW8n1dvDe2jDY38e069+L4gmd1jwdF27uHfa9hI9skxeoGsl8bTO9fHS7JEAPc05XnAO
-         dMDw==
-X-Gm-Message-State: ANoB5pkvg5N+AqryGRbJ6T+SZn2aVVgLjlGHE8864NzB3HCvWussqah+
-        CLgWBucxcZ2pw7JaWKp3agwgnuGmoVdfIKAngu8=
-X-Google-Smtp-Source: AA0mqf6VSCttlMDQ4ePrIMuuWUop9z+BTcjYAUHqsQZ33364ZUGwjrt/1mDKwx6Oi5wu+AkigSoems+jlC80zO3rZM0=
-X-Received: by 2002:a0c:ef51:0:b0:4bb:7f7a:2a62 with SMTP id
- t17-20020a0cef51000000b004bb7f7a2a62mr2557030qvs.82.1669037204617; Mon, 21
- Nov 2022 05:26:44 -0800 (PST)
+        bh=T7SLOSEmo3c/autUam2NMSke0Dg2eHn3/Wx3yXtrjEQ=;
+        b=kOCM40HBzW2Comb6YJr5Wt37JrR8+8yrFs5ONtojpdlXivoKVpeKcuXJHg1a+rRTL2
+         yjIgJ4PBXe5RplTDsabFrRBTYD5KcbzIvedKuvocsY9ePOc7jiltzvLNbVIAWB27lXWJ
+         BeSFueyitiI8LwmePAszBxBfivg1pSEO8nO1IgUUezbfcTFGAuNLJR/rbAfzGXyflpRI
+         ZRfI+s12LMhoYUq9eNXztCatp43Y1b8+MTNwcDB6iUAll3Tv4f8LbrmwCp/O3bBkm9NI
+         WJigO+PLKl9F3Qov4tUCoDvloB5qFOsWynzkQjSz8+ADKMBZkY9uHRPxdyovmZayoo++
+         wtvg==
+X-Gm-Message-State: ANoB5pnwJB9TfffsGD3hF2bydEtZu64QjJLnhkGHH7ilKj1Wxe6ivfh9
+        MaZsTtXJd7Kec+R2y3bRSADzZbuVwgV3zq5u69k=
+X-Google-Smtp-Source: AA0mqf7bai9IT3izMsbtAYwTLXg//4UesAvpCpijl0TJGAWmZfKrvnq16aIoHrqeyhOvkPpIqqmi1GJplPcb/AXdUpk=
+X-Received: by 2002:a37:b404:0:b0:6fa:4a82:1152 with SMTP id
+ d4-20020a37b404000000b006fa4a821152mr16720179qkf.504.1669037332239; Mon, 21
+ Nov 2022 05:28:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121123833.164614-1-mmkurbanov@sberdevices.ru> <20221121123833.164614-3-mmkurbanov@sberdevices.ru>
-In-Reply-To: <20221121123833.164614-3-mmkurbanov@sberdevices.ru>
+References: <20221121123833.164614-1-mmkurbanov@sberdevices.ru> <20221121123833.164614-2-mmkurbanov@sberdevices.ru>
+In-Reply-To: <20221121123833.164614-2-mmkurbanov@sberdevices.ru>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 21 Nov 2022 15:26:08 +0200
-Message-ID: <CAHp75VfgxHo7YEtfrvvC=yGL28v8-tK4f6Y4ZMnqnw=fj5Q1ew@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] leds: trigger: pattern: notify usespace if pattern finished
+Date:   Mon, 21 Nov 2022 15:28:16 +0200
+Message-ID: <CAHp75VeUDnkjnssO4pjJ5TKw63=YgjqtAruunKA4FiLaHNX1Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] leds: trigger: pattern: minor code style changes
 To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
 Cc:     Pavel Machek <pavel@ucw.cz>,
         Raphael Teysseyre <rteysseyre@gmail.com>,
@@ -71,39 +71,44 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Mon, Nov 21, 2022 at 2:39 PM Martin Kurbanov
 <mmkurbanov@sberdevices.ru> wrote:
 >
-> In the current moment, userspace caller can schedule LED pattern with
-
-a LED pattern
-
-> appropriate parameters, but it doesn't have ability to listen to any
-> events indicated pattern finished. This patch implements such an event
-> using sysfs node and sysfs_notify_dirent() call.
-
-...
-
-> +Date:          October 2022
-> +KernelVersion: 6.1
-
-It can't be. Have you read my previous comments?
+> This patch adds some minor code style changes:
+>     - remove a blank line before DEVICE_ATTR_RW declarations
+>     - convert sysfs scnprintf() to sysfs_emit()/sysfs_emit_at()
+>     - use module_led_trigger instead of pattern_trig_init/exit
+>
+> Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
 
 ...
 
-> +               1 means pattern is running and number 0 are finish or not run.
+> +               count += sysfs_emit_at(buf, count,
+> +                                      "%d %u ",
 
-are finished
+With this getting shorter you may put these to one line.
+
+> +                                      data->patterns[i].brightness,
+> +                                      data->patterns[i].delta_t);
 
 ...
 
-> +static void pattern_trig_remove_is_running(struct led_classdev *led_cdev)
-> +{
-> +       struct pattern_trig_data *data = led_get_trigger_data(led_cdev);
-> +
-> +       sysfs_put(data->is_running_kn);
-> +       device_remove_file(led_cdev->dev, &dev_attr_is_running);
-> +}
+> -static int __init pattern_trig_init(void)
+> -{
+> -       return led_trigger_register(&pattern_led_trigger);
+> -}
+> -
+> -static void __exit pattern_trig_exit(void)
+> -{
+> -       led_trigger_unregister(&pattern_led_trigger);
+> -}
+> -
+> -module_init(pattern_trig_init);
+> -module_exit(pattern_trig_exit);
+> +module_led_trigger(pattern_led_trigger);
 
-If the file is opened at this time, what would happen during execution
-of this function?
+This should be a separate patch.
+
+...
+
+Otherwise this looks good to me.
 
 -- 
 With Best Regards,
