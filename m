@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78310631F42
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Nov 2022 12:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7DC1631F60
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Nov 2022 12:08:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbiKULHJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Nov 2022 06:07:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60836 "EHLO
+        id S230102AbiKULIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Nov 2022 06:08:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbiKULGu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Nov 2022 06:06:50 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B54E97099
-        for <linux-leds@vger.kernel.org>; Mon, 21 Nov 2022 03:06:26 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id t10so14159516ljj.0
-        for <linux-leds@vger.kernel.org>; Mon, 21 Nov 2022 03:06:26 -0800 (PST)
+        with ESMTP id S230107AbiKULGx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Nov 2022 06:06:53 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D0D9B406B
+        for <linux-leds@vger.kernel.org>; Mon, 21 Nov 2022 03:06:28 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id r12so18314411lfp.1
+        for <linux-leds@vger.kernel.org>; Mon, 21 Nov 2022 03:06:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YyWwGeNhRFmvWfv+vCOYlIM/UFkEFOWpWKA/JfKWszY=;
-        b=k1zR2LZGJzgjCfmMp4p4sU+lt9Y/jVgcaRyvmTurxH242gX8IQXQ/MjQg7EUV7qPIt
-         Uocx5kN58tws2Qih7DmeyVqq2zI1PiY7WtbxX0Vqnp47COj5UTsxlGsTBd5Wl+uEIrIM
-         znlDN9X06BKuJ8t3bWEeuK4hDuMdNeiwc7hmSsyJuwHor8VOB+IozAqcJtzsXFTFSqnp
-         BAvpVY23qpQTdFU+5YR6MFtjqOF7YDE9y2+1WIPKLJz8k1FKV7oBPXJ1iT5SNYu8EFn4
-         aIlRvpPlykkiIQhw6Gzo5jqzl0qGOlMgAgnCb/uRZuFaGL67r5tTmVBcXdviOBviPPgy
-         Le7Q==
+        bh=UFWc0lyVlH95oooJGcIUPfd8EfwgVQvFO8qkEV+ffsc=;
+        b=r7hKUlGFZHSmUo8e9T5ttNSJVAtUIkxa+sycNhz6yjMvfgsi4BsfKebzRywymxymx0
+         5u8F1YiUTZQCXcqMn0sfhionqeBApbXWdupVJzyFaxfv5GrU+U3eV6uFF8Uc+bn9QYY9
+         Lms8Y8Dy0jualOb6Q3esqic3f7gurcqjMFZcZ+d9NzQOJ86H32u/XDiWQ2YkDuliRZvv
+         nRAaqsKnXNUtg68nfvEmkjWN8H79Sk3dDjy/u/sisLO3c+s0yeylT32uwz3f7gvWfFaj
+         gF7udl05HElld877JkEGkfP5OdFi8KqGkr7SLX3btVOqu0mHwPCN9Sin0XvK+TjDxtSD
+         nJpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YyWwGeNhRFmvWfv+vCOYlIM/UFkEFOWpWKA/JfKWszY=;
-        b=rFAAKPrDm55/5oldlrN5vpgMkr8KLS6y86gktx2Bvx3VN/e30eX0TmxHbP2IbCv6w3
-         K6BKtyybY+5ziZEFiO2lsXuNhtZO7LQMR5mLJTwonquoS+vj/eLW9goXIgorVmmCTbpG
-         2da3WMe0pJjaBh1wD67raA768lpDpqILR5Qmn1Jz35TDTpfcgfzec15dtWgJKWujk83Q
-         AjEY2f/vEBcIO/3WValFsj6HdwGWSigJ10SudRuLZ6SyuMdtkTFLlp90z0hfAGPs0x59
-         t3dIk1nP8Ed2zNrfc8U3ODSEoMyJ55IU86t5+qcfUtr2+YlFdjqnui63IeC4MchSCQoJ
-         eVLw==
-X-Gm-Message-State: ANoB5pn6fk0sq+2qQnVPHBHCMukIuX6hoc9VGASZaViAVWog0SAloKfP
-        TcNgrnClE9lxTl1W6KA5Ix7KrA==
-X-Google-Smtp-Source: AA0mqf6U7Ox5Cg3AOmfzFZsyMueM2uMreFj1RmdNjod5QJ6XQGeJ0gdoX1HOEA4iywF9yX/nrfBnTw==
-X-Received: by 2002:a2e:9786:0:b0:277:2e8a:bc59 with SMTP id y6-20020a2e9786000000b002772e8abc59mr5136640lji.344.1669028784202;
-        Mon, 21 Nov 2022 03:06:24 -0800 (PST)
+        bh=UFWc0lyVlH95oooJGcIUPfd8EfwgVQvFO8qkEV+ffsc=;
+        b=HQVB2csQMiBMPd9j/SR6HCLevVFvgyEvH4ZbYzEssVIU8vSw7MFbcZ3HjDfWRjsjXE
+         qWg8wN8aHxg3ciQOqLoXFm9VUBiE069xD/bzJVG92YqcYAVGJF0maf8dFmpSj/hSAr5c
+         mqNw7Qu2bZXTZj1tAItS/QPno+PLWxmxbwAowsaFAQwa++h8JBtdVKrtKpCqUtw5LHeD
+         8rbRliCziduDvJosseDcuNGViiJbqOmkuh1YpzPXm+XAxLGuct0QouUdAK+ilM8mHALY
+         0bx9B3/DrLHkUzdMkxFWzeamvVF0MAjtyWMcc3sPQr5gR0cC1XhJytO/vYdWexJfTraT
+         UUQA==
+X-Gm-Message-State: ANoB5pmTUamUQm9o2xWPat8HO6ATfOxFWtla6BHA/LF8jhCfwRBlJsMV
+        ctOe6IdFOW4eIduLsbs/m5yaAw==
+X-Google-Smtp-Source: AA0mqf636Kajsl/vCtaPitrxYhf2ypiEKfsGbHJhGytuU/U+YWfw7NKkZ181BWLvvcggxq6Qzec5vw==
+X-Received: by 2002:a19:dc08:0:b0:4b4:6460:24d with SMTP id t8-20020a19dc08000000b004b46460024dmr5540013lfg.386.1669028786293;
+        Mon, 21 Nov 2022 03:06:26 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id n1-20020a05651203e100b0049313f77755sm1991521lfq.213.2022.11.21.03.06.22
+        by smtp.gmail.com with ESMTPSA id n1-20020a05651203e100b0049313f77755sm1991521lfq.213.2022.11.21.03.06.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 03:06:23 -0800 (PST)
+        Mon, 21 Nov 2022 03:06:25 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -78,9 +78,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Guenter Roeck <linux@roeck-us.net>
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH v2 2/9] dt-bindings: memory-controllers: ti,gpmc-child: drop redundant part of title
-Date:   Mon, 21 Nov 2022 12:06:08 +0100
-Message-Id: <20221121110615.97962-3-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 3/9] dt-bindings: clock: st,stm32mp1-rcc: add proper title
+Date:   Mon, 21 Nov 2022 12:06:09 +0100
+Message-Id: <20221121110615.97962-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221121110615.97962-1-krzysztof.kozlowski@linaro.org>
 References: <20221121110615.97962-1-krzysztof.kozlowski@linaro.org>
@@ -96,28 +96,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The Devicetree bindings document does not have to say in the title that
-it is a "Devicetree binding", but instead just describe the hardware.
+Add device name in the title, because "Reset Clock Controller" sounds
+too generic.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- .../devicetree/bindings/memory-controllers/ti,gpmc-child.yaml   | 2 +-
+ Documentation/devicetree/bindings/clock/st,stm32mp1-rcc.yaml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc-child.yaml b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc-child.yaml
-index 4a257fac577e..383d19e0ba26 100644
---- a/Documentation/devicetree/bindings/memory-controllers/ti,gpmc-child.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/ti,gpmc-child.yaml
+diff --git a/Documentation/devicetree/bindings/clock/st,stm32mp1-rcc.yaml b/Documentation/devicetree/bindings/clock/st,stm32mp1-rcc.yaml
+index 242fe922b035..5194be0b410e 100644
+--- a/Documentation/devicetree/bindings/clock/st,stm32mp1-rcc.yaml
++++ b/Documentation/devicetree/bindings/clock/st,stm32mp1-rcc.yaml
 @@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/memory-controllers/ti,gpmc-child.yaml#
+ $id: http://devicetree.org/schemas/clock/st,stm32mp1-rcc.yaml#
  $schema: http://devicetree.org/meta-schemas/core.yaml#
  
--title: device tree bindings for children of the Texas Instruments GPMC
-+title: Texas Instruments GPMC Bus Child Nodes
+-title: Reset Clock Controller Binding
++title: STMicroelectronics STM32MP1 Reset Clock Controller
  
  maintainers:
-   - Tony Lindgren <tony@atomide.com>
+   - Gabriel Fernandez <gabriel.fernandez@foss.st.com>
 -- 
 2.34.1
 
