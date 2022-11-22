@@ -2,109 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B310C6348E9
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Nov 2022 22:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E08E5634A29
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Nov 2022 23:40:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiKVVFX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Nov 2022 16:05:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
+        id S230365AbiKVWjj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Nov 2022 17:39:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234079AbiKVVFO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Nov 2022 16:05:14 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D838E7C00D;
-        Tue, 22 Nov 2022 13:05:12 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id F107D1C09DB; Tue, 22 Nov 2022 22:05:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1669151109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ttJdIr7VJP72KR28pV2fqwcDiwD/jJbuWCy8v5aljwI=;
-        b=MGLRveaPtLAn1l3DCG/w1EmQQTFxekG3EIlyiVNlB7kLwxC2Pkd7N63JKM4fX2ha30kYhd
-        ZTOAHAVURCGhAfJi3xUXAyUeiBB/xM+vXe1piICnX17egz8bcizMMnyDI25cH4LL1I0MuR
-        Ue+CDl0VqGQUUfsVjkCCZ9wI0s3dBF4=
-Date:   Tue, 22 Nov 2022 22:05:09 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: leds-wm831x-status: init chip_pdata before access
-Message-ID: <Y305hfVdhs9zwOi/@duo.ucw.cz>
-References: <20221122204837.11611-1-skhan@linuxfoundation.org>
+        with ESMTP id S235114AbiKVWjj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Nov 2022 17:39:39 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9554EC67E1
+        for <linux-leds@vger.kernel.org>; Tue, 22 Nov 2022 14:39:38 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id r81so12036567iod.2
+        for <linux-leds@vger.kernel.org>; Tue, 22 Nov 2022 14:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bmk+scxqVxYs6oXV7GDflGOttyPDBA4RMUmP6u7aS30=;
+        b=NHoQcvNHJpe0McPfic5H9vopmoFXyAIBFCbqI90QhOgg7dSGrof7cgpXC28EUK6mzU
+         AsoehfBG8eiF+CSZ+nzOHSuEm2wJsg9JVCLsLwlnSarS7riIS0bWVhFReFRPjagnU9PQ
+         EQy01M86S3TRVllqp5Tg5ZlnTRfutjRcj62GU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bmk+scxqVxYs6oXV7GDflGOttyPDBA4RMUmP6u7aS30=;
+        b=D2nlEwNMBG5aoRNuOWwK/RHU65VJ+CnTYJA01fx5w7LU1nj+QCvp+1ajgJSGoOyejN
+         cu760JLYG5aFVkXRY9S5aq69jos4ZxGbp7S6SXGS9qXCpOGN4VvamSsJaZcEXFk8+25p
+         thBCI1JpvxKL5m+0alHmpe5A3ZSVotlem5lhs26dam0grTUf+ynul9Xoe7vxygB5ydPt
+         N60WEX/YicsnpAZI0Z0LMB8UKRUJwYre1AVwu7Nmnwhj+Ug3qXIb9IPNNLzLawotZyjq
+         o1i/NUgjVbaAiCxtO20DPa4rt6vpRpeIdKiqllSDan0iMakMKu7cYxD0o0Dq5GPnOz++
+         DdMA==
+X-Gm-Message-State: ANoB5ply4urMXTVrMPiNrWQbfzLTyltD0CQJceKNcwtN+LqXgDCkLTEt
+        1gfh40eXBpDo6o+2qxNv7ptNnw==
+X-Google-Smtp-Source: AA0mqf5Fofwv+k8OO/M7Viav1NemCJkzMsZ4VmRb6MqnCqVEarg/NlKe8Qdxxe38J1XJeE0CjvnGBw==
+X-Received: by 2002:a6b:c34b:0:b0:6de:3e40:7ec1 with SMTP id t72-20020a6bc34b000000b006de3e407ec1mr5028962iof.18.1669156777939;
+        Tue, 22 Nov 2022 14:39:37 -0800 (PST)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id q17-20020a0566022f1100b006bbf0466587sm5758671iow.49.2022.11.22.14.39.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Nov 2022 14:39:36 -0800 (PST)
+Message-ID: <a77c38d1-1633-5421-6fab-6886b642fe66@linuxfoundation.org>
+Date:   Tue, 22 Nov 2022 15:39:35 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="FhXHQk6+4qe/wr65"
-Content-Disposition: inline
-In-Reply-To: <20221122204837.11611-1-skhan@linuxfoundation.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] leds: leds-wm831x-status: init chip_pdata before access
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20221122204837.11611-1-skhan@linuxfoundation.org>
+ <Y305hfVdhs9zwOi/@duo.ucw.cz>
+Content-Language: en-US
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <Y305hfVdhs9zwOi/@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 11/22/22 14:05, Pavel Machek wrote:
+> Hi!
+> 
+>> wm831x_status_probe() accesses status from chip_pdata before
+>> initializing it. Fix it.
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+> Does it? ARRAY_SIZE() will be compile-time constant, no?
+> 
+> What is the bug? Did you test the code?
+> 
 
---FhXHQk6+4qe/wr65
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is ARRAY_SIZE() safe when accessing the status chip_pdata->status?
+I wasn't sure. If so, this change isn't necessary.
 
-Hi!
-
-> wm831x_status_probe() accesses status from chip_pdata before
-> initializing it. Fix it.
->=20
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-
-Does it? ARRAY_SIZE() will be compile-time constant, no?
-
-What is the bug? Did you test the code?
-
-Best regards,
-								Pavel
-
-
-> +++ b/drivers/leds/leds-wm831x-status.c
-> @@ -212,7 +212,7 @@ static int wm831x_status_probe(struct platform_device=
- *pdev)
->  	struct wm831x_status_pdata pdata;
->  	struct wm831x_status *drvdata;
->  	struct resource *res;
-> -	int id =3D pdev->id % ARRAY_SIZE(chip_pdata->status);
-> +	int id;
->  	int ret;
-> =20
->  	res =3D platform_get_resource(pdev, IORESOURCE_REG, 0);
-> @@ -229,9 +229,10 @@ static int wm831x_status_probe(struct platform_devic=
-e *pdev)
->  	drvdata->wm831x =3D wm831x;
->  	drvdata->reg =3D res->start;
-> =20
-> -	if (dev_get_platdata(wm831x->dev))
-> +	if (dev_get_platdata(wm831x->dev)) {
->  		chip_pdata =3D dev_get_platdata(wm831x->dev);
-> -	else
-> +		id =3D pdev->id % ARRAY_SIZE(chip_pdata->status);
-> +	} else
->  		chip_pdata =3D NULL;
-> =20
->  	memset(&pdata, 0, sizeof(pdata));
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---FhXHQk6+4qe/wr65
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY305hQAKCRAw5/Bqldv6
-8vzcAKCF1Sez4V/92wP9hgxf2QbQ2Je2mgCgtnjWyFA3hXxYfD2gV32HBrCRHL8=
-=ZoaS
------END PGP SIGNATURE-----
-
---FhXHQk6+4qe/wr65--
+thanks,
+-- Shuah
