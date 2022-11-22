@@ -2,96 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B1A633B4A
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Nov 2022 12:27:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64456633C5C
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Nov 2022 13:23:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiKVL10 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Nov 2022 06:27:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S233548AbiKVMXn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Nov 2022 07:23:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233055AbiKVL0V (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Nov 2022 06:26:21 -0500
-X-Greylist: delayed 408 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 03:20:10 PST
-Received: from mx2.securetransport.de (mx2.securetransport.de [188.68.39.254])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3AE40623A4
-        for <linux-leds@vger.kernel.org>; Tue, 22 Nov 2022 03:20:10 -0800 (PST)
-Received: from mail.dh-electronics.com (unknown [77.24.89.57])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.securetransport.de (Postfix) with ESMTPSA id E08B95E973;
-        Tue, 22 Nov 2022 12:12:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
-        s=dhelectronicscom; t=1669115561;
-        bh=E5rcQ8i8Nv0jd3ZCKpMwbFuP+IDytTQYVBhmzFtWaMo=;
-        h=From:To:CC:Subject:Date:From;
-        b=QgzcDV+jhGdEKBJ+Xm1I24Sb4f0CDkg8wKWAWtmOsgC89sUPqeCAvDhHGZXwoz+3h
-         Xy1BkMWuxAwP8Sn0hPfjoHN3KKCbORThlzwfxgaCLMBZ4d7aUlqdGBVbsgmE90Mthl
-         IDsC2RJuaWdCJfW5sjrO3DcDVk6nTiQVRbuRBmLad9m7x9OjOwM+U+uyICCgNBzTuM
-         Aw0kNIR2pYzdouo0OBGZYXbyYBVky5VKhrK6aIO7DrDVqCtsnlBaSoGMUrxSMoyx/s
-         4jdhPBsHcznV2LYNYKDkzH3ZX2NDNOm7EPijsV8kQK5n+6KTPHmSkHyK8osBJXyJKu
-         fi290OvnmWaHg==
-Received: from DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) by
- DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Tue, 22 Nov 2022 12:12:34 +0100
-Received: from localhost.localdomain (172.16.51.2) by
- DHPWEX01.DH-ELECTRONICS.ORG (10.64.2.30) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20 via Frontend Transport; Tue, 22 Nov 2022 12:12:33 +0100
-From:   Christoph Niedermaier <cniedermaier@dh-electronics.com>
-To:     <linux-kernel@vger.kernel.org>
-CC:     Christoph Niedermaier <cniedermaier@dh-electronics.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S233653AbiKVMXl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Nov 2022 07:23:41 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84ECDFEE;
+        Tue, 22 Nov 2022 04:23:40 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 673F61C09F2; Tue, 22 Nov 2022 13:23:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1669119819;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=B/qC9A+c96fltWQ0jx0zekHGH7vfyaOxpjrp7KPGnco=;
+        b=dNtpYE+qkWfkXFeXDHTrkXuU3GRbui8evW9J4sSqQByyflRCrzVux6dZZzvbFHkzctn+Kw
+        BRiIfk3xEDSIfqnsBsUn9jaB+VHHguxxSlgYrSFJIoXlGtsH8deAuvIbfS69OCFiSiKm7B
+        MZeL/aeaYneFGR4lrSv/OjO6vA3SaNw=
+Date:   Tue, 22 Nov 2022 13:23:39 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Marek Vasut <marex@denx.de>, <kernel@dh-electronics.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH] dt-bindings: leds: Mark label property as deprecated
-Date:   Tue, 22 Nov 2022 12:11:22 +0100
-Message-ID: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
-X-Mailer: git-send-email 2.11.0
-X-klartext: yes
+        Marek Vasut <marex@denx.de>, kernel@dh-electronics.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
+Message-ID: <Y3y/S5COG7VPbsqL@duo.ucw.cz>
+References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="VyfgN6AwUCzyVCrs"
+Content-Disposition: inline
+In-Reply-To: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Mark the label property as deprecated as it is mentioned
-in the description.
 
-Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
----
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: kernel@dh-electronics.com
-Cc: linux-leds@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-To: linux-kernel@vger.kernel.org
----
- Documentation/devicetree/bindings/leds/common.yaml | 1 +
- 1 file changed, 1 insertion(+)
+--VyfgN6AwUCzyVCrs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index f5c57a580078..c1ce846f7676 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -52,6 +52,7 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint32
- 
-   label:
-+    deprecated: true
-     description:
-       The label for this LED. If omitted, the label is taken from the node name
-       (excluding the unit address). It has to uniquely identify a device, i.e.
--- 
-2.11.0
+Hi!
 
+> Mark the label property as deprecated as it is mentioned
+> in the description.
+
+Lets do it the other way around. Functions (etc) don't really provide
+good enough description of LED, and label is still needed.
+
+Best regards,
+								Pavel
+
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -52,6 +52,7 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> =20
+>    label:
+> +    deprecated: true
+>      description:
+>        The label for this LED. If omitted, the label is taken from the no=
+de name
+>        (excluding the unit address). It has to uniquely identify a device=
+, i.e.
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--VyfgN6AwUCzyVCrs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY3y/SgAKCRAw5/Bqldv6
+8obHAJ4rdy+92y95pekz/iaFXd8abIXxLgCgtN2eCbZ/5S8XCtmWj8JwCw2wQXs=
+=e4f1
+-----END PGP SIGNATURE-----
+
+--VyfgN6AwUCzyVCrs--
