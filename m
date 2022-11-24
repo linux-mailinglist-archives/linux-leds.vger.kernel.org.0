@@ -2,90 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 892F56372B1
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Nov 2022 08:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B80B637719
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Nov 2022 12:05:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiKXHMP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Nov 2022 02:12:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
+        id S229922AbiKXLFY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Nov 2022 06:05:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiKXHMN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Nov 2022 02:12:13 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AF3CEFEF
-        for <linux-leds@vger.kernel.org>; Wed, 23 Nov 2022 23:16:36 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id b62so917745pgc.0
-        for <linux-leds@vger.kernel.org>; Wed, 23 Nov 2022 23:16:36 -0800 (PST)
+        with ESMTP id S229919AbiKXLFX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Nov 2022 06:05:23 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2A15C0CC
+        for <linux-leds@vger.kernel.org>; Thu, 24 Nov 2022 03:05:22 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id b9so1596476ljr.5
+        for <linux-leds@vger.kernel.org>; Thu, 24 Nov 2022 03:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9beI1qbDaBEZGBMzOodYXezAJNnkCn943LXJypsps08=;
-        b=jN9Iu2JG6Jbf9f/Vtx6/x8W99mbfvmkmA5JpUTuuOhHuX9hE65G+zwT360z98Yxh2l
-         i6PqDF91yJmzwCKNYEVFuLVfqGCqoHx9I7wNV8pa819eMDoiMR27SZF1GHdGnGDHcMWz
-         pqI4i03rsZDpQ60ONyvQHuYR+N3femATVqrSC4hLc3ih0MmJpf23tjAqEmigk+Q4lN5p
-         TjriD73VK+kqD8Wil5LA1NXQ4waHtGM3IZBFIczk95hCWTGki63dLVXFv0wvyqKSahPp
-         nd3iHhwTtHF7fG/CtXcp1E5PNjqsgHvp71L23Lt4pdmYQDMtQS6xnA3gM9hUIGynee9E
-         kaMQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Rn8gRLitU2bG8xUrjjRIZNkoRWyZ8WxzPo3QWmnRYPU=;
+        b=u8Yf2nhT5P01RksVG/fGGyze9h2f2xrgksiQwhkf3Ah2IaTC02jmSu5JmhHIRz4rGu
+         gFz0/Nawz5pSTpdaCFkfN+t7IK3wES1itdY+MXklXKvNJJAV3qhf/gVM1vkZPc6P0/pv
+         Qh3ybrOhg+fW2idYfu81USNxr90HGPDmVfUGJROV/dlUHQFq4azr3giM9sn6CBHEvv0f
+         t7mxrZuL9uvqPe9yzy2Eoh1tzqPSswtQQ9GdZdWI8Nzf4HqxTiodbrb0Datp3WMl64zT
+         IL/xBtaHUDRfyGcofxtbPkBR1VR0zZ+M5mzfcrN3V8zEHPYlYA+UUMLMq7LYnExsww/T
+         E/rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9beI1qbDaBEZGBMzOodYXezAJNnkCn943LXJypsps08=;
-        b=Od4TNAQnazZ9KjXDa09J/s1a44inQ/zFNuzkn4RR5Q12jdeqC/Xwb1kwX21+T4lKWy
-         ydslIWwJuk+zWaQaOvrTLYPWTvDKBy4ZY4Zah92QS3ST6ZU7IjgJOiAIb02urWYC6oBJ
-         wkrWVMHeHqapzE+oqTEsklxdMeJ0DeozlOgaZkqNfhNU2IJiKM73UCf02K10YT3jsFKM
-         EizPRMayc4HubOtP94JCNxYtu/hGQX4TtoYFwlpdLvXDtWBXMN2WdwVtujCHQoMXYMBK
-         +ZvaRmJEFsEuVXivnvmCVMxgUb3Xf1MIDLq+ybiAdwtvvRE6kHA6d+bFdpfdq4UsIdRi
-         LwyQ==
-X-Gm-Message-State: ANoB5pkQaXpSioj7WzuwDJVhdyy09t1HuEEnEmZ0WdHapRA89df2x8Zl
-        1j8Jo/qTWM8NivDpt3vmelrFuA==
-X-Google-Smtp-Source: AA0mqf539xW7yp+XmSaeh7QyKEx/uI4+Px0TRaTKiiPa7cXAYmK2DoSN46/6FwkQRO+vECyNwcPwTg==
-X-Received: by 2002:aa7:8c19:0:b0:573:620a:3b1c with SMTP id c25-20020aa78c19000000b00573620a3b1cmr13160104pfd.50.1669274195379;
-        Wed, 23 Nov 2022 23:16:35 -0800 (PST)
-Received: from localhost ([122.172.85.60])
-        by smtp.gmail.com with ESMTPSA id k4-20020a170902c40400b001867fdec154sm414181plk.224.2022.11.23.23.16.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 23:16:34 -0800 (PST)
-Date:   Thu, 24 Nov 2022 12:46:32 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-watchdog@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 0/9] dt-bindings: cleanup titles
-Message-ID: <20221124071632.5cadtc6pbdvdv3xb@vireshk-i7>
-References: <20221121110615.97962-1-krzysztof.kozlowski@linaro.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rn8gRLitU2bG8xUrjjRIZNkoRWyZ8WxzPo3QWmnRYPU=;
+        b=PqC4SqE5opeV/3Di/khuOtR76wwGIU7/NWSGPw09ZiV1jeHrXcIe5xTbW8EcjVNOD3
+         fRWn8l97wgFSTbqffo7FL2S7IuynhUNOFlqzUyIlOYy3kh/K1WJHW4EvnWSLBkjfwUun
+         hL9zm4cMcP1wVwXPe5l8fNHLbCbgheUZ95uflgjeAQSgenLOmJbuMyVEXMH/18+i6+8J
+         zv9mlCPnBVlxEcJlyoPIVJutXsRSSwsN+6VEtEbXRRR5DrUpTjDD1JjK73wxOgUej1R6
+         Vtt0LRalSVzgPGpMsgz3AhaiqweLasfaNgmXtwIMXn8sJlBuSUGu48kqx2faq/USAb7E
+         DHTQ==
+X-Gm-Message-State: ANoB5pnUtmD80Gridj7u+2LrJZQr3xGQFAsPp4YWbNNq7+alE1K4o0bf
+        ghzJ7SQle/yY1I4qrJT/xXWleA==
+X-Google-Smtp-Source: AA0mqf6KCtKkTcJv0a7dnVOBWz4yFZ7Dni3PjZVdF2bhA4Fvpn7bpSDWU7lOxYyMprZ4p7eDtkrl6A==
+X-Received: by 2002:a05:651c:50b:b0:26c:5db6:cd84 with SMTP id o11-20020a05651c050b00b0026c5db6cd84mr4791835ljp.114.1669287920605;
+        Thu, 24 Nov 2022 03:05:20 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id g7-20020a0565123b8700b00494978b0caesm84019lfv.276.2022.11.24.03.05.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Nov 2022 03:05:20 -0800 (PST)
+Message-ID: <f13be4fb-da09-cd99-6bf4-03da3da4a64b@linaro.org>
+Date:   Thu, 24 Nov 2022 12:05:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221121110615.97962-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3] dt-bindings: leds: Document commonly used LED triggers
+Content-Language: en-US
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, thunder.leizhen@huawei.com,
+        festevam@gmail.com
+References: <20221123081112.97150-1-manivannan.sadhasivam@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221123081112.97150-1-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -94,16 +77,118 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 21-11-22, 12:06, Krzysztof Kozlowski wrote:
->  .../devicetree/bindings/cpufreq/cpufreq-mediatek-hw.yaml        | 2 +-
->  .../devicetree/bindings/cpufreq/qcom-cpufreq-nvmem.yaml         | 2 +-
->  Documentation/devicetree/bindings/opp/opp-v1.yaml               | 2 +-
->  Documentation/devicetree/bindings/opp/opp-v2-base.yaml          | 2 +-
->  Documentation/devicetree/bindings/opp/opp-v2-kryo-cpu.yaml      | 2 +-
->  Documentation/devicetree/bindings/opp/opp-v2-qcom-level.yaml    | 2 +-
->  Documentation/devicetree/bindings/opp/opp-v2.yaml               | 2 +-
+On 23/11/2022 09:11, Manivannan Sadhasivam wrote:
+> This commit documents the LED triggers used commonly in the SoCs. Not
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Do not use "This commit/patch".
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
--- 
-viresh
+> all triggers are documented as some of them are very application specific.
+> Most of the triggers documented here are currently used in devicetrees
+> of many SoCs.
+> 
+> While at it, let's also sort the triggers in ascending order.
+> 
+> Tested-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+> 
+> Changes in v3:
+> 
+> * Rebased on top of v6.1-rc1
+> * Added WLAN Rx trigger
+> * Added tested tag from Zhen Lei
+> 
+> Changes in v2:
+> 
+> * Added more triggers, fixed the regex
+> * Sorted triggers in ascending order
+> 
+>  .../devicetree/bindings/leds/common.yaml      | 79 ++++++++++++++-----
+>  1 file changed, 59 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index 3c14a98430e1..0ffed6bcbefd 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -80,26 +80,65 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/string
+>  
+>      oneOf:
+> -      - enum:
+> -            # LED will act as a back-light, controlled by the framebuffer system
+> -          - backlight
+> -            # LED will turn on (but for leds-gpio see "default-state" property in
+> -            # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
+> -          - default-on
+> -            # LED "double" flashes at a load average based rate
+> -          - heartbeat
+> -            # LED indicates disk activity
+> -          - disk-activity
+> -            # LED indicates IDE disk activity (deprecated), in new implementations
+> -            # use "disk-activity"
+> -          - ide-disk
+> -            # LED flashes at a fixed, configurable rate
+> -          - timer
+> -            # LED alters the brightness for the specified duration with one software
+> -            # timer (requires "led-pattern" property)
+> -          - pattern
+> -        # LED is triggered by SD/MMC activity
+> -      - pattern: "^mmc[0-9]+$"
+> +      - items:
+
+Why items appeared everywhere? It's not explained in commit msg and you
+do not have multiple items.
+
+> +          - enum:
+> +                # LED indicates mic mute state
+> +              - audio-micmute
+> +                # LED indicates audio mute state
+> +              - audio-mute
+> +                # LED will act as a back-light, controlled by the framebuffer system
+> +              - backlight
+> +                # LED indicates bluetooth power state
+> +              - bluetooth-power
+> +                # LED indicates activity of all CPUs
+> +              - cpu
+> +                # LED will turn on (but for leds-gpio see "default-state" property in
+> +                # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
+> +              - default-on
+> +                # LED indicates disk activity
+> +              - disk-activity
+> +                # LED indicates disk read activity
+> +              - disk-read
+> +                # LED indicates disk write activity
+> +              - disk-write
+> +                # LED indicates camera flash state
+> +              - flash
+> +                # LED "double" flashes at a load average based rate
+> +              - heartbeat
+> +                # LED indicates IDE disk activity (deprecated), in new implementations
+> +                # use "disk-activity"
+> +              - ide-disk
+> +                # LED indicates MTD memory activity
+> +              - mtd
+> +                # LED indicates NAND memory activity (deprecated),
+> +                # in new implementations use "mtd"
+> +              - nand-disk
+> +                # No trigger assigned to the LED. This is the default mode
+> +                # if trigger is absent
+> +              - none
+> +                # LED alters the brightness for the specified duration with one software
+> +                # timer (requires "led-pattern" property)
+> +              - pattern
+> +                # LED flashes at a fixed, configurable rate
+> +              - timer
+> +                # LED indicates camera torch state
+> +              - torch
+> +                # LED indicates USB gadget activity
+> +              - usb-gadget
+> +                # LED indicates USB host activity
+> +              - usb-host
+
+Split sorting from adding new patterns - it's not possible to judge what
+was here and what is new.
+Best regards,
+Krzysztof
+
