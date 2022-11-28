@@ -2,110 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 544C7639CEB
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Nov 2022 21:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FEC463A3BC
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Nov 2022 09:57:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiK0UlY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 27 Nov 2022 15:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
+        id S230245AbiK1I5K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Nov 2022 03:57:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229743AbiK0UlV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Nov 2022 15:41:21 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578B3E021
-        for <linux-leds@vger.kernel.org>; Sun, 27 Nov 2022 12:41:11 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id r12so14592633lfp.1
-        for <linux-leds@vger.kernel.org>; Sun, 27 Nov 2022 12:41:11 -0800 (PST)
+        with ESMTP id S230250AbiK1I5B (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Nov 2022 03:57:01 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3065C17AAF
+        for <linux-leds@vger.kernel.org>; Mon, 28 Nov 2022 00:56:59 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id ha10so24061210ejb.3
+        for <linux-leds@vger.kernel.org>; Mon, 28 Nov 2022 00:56:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o6gNym63NgF+XTZH1xbf0NrIpXmryBatnYIRGs7yiA8=;
-        b=k8oaQKmaomgkAAn4gJZ6oz32ISeg+f7NDfvedrkcJke0EM6slwU20AqrWqz1Qz6RYK
-         fIhTcalN17IvM4dsYhOaQ0fpwL9ECK9z/7la/ySHXY4lly8cV6FufBwEBdFmXxWQOtQb
-         jPKe1cxmxY0r1cbtc12jE6NlqUOf1avSmAsYJJGWZzltlmoNFVaOJHtUthLVbYGZlMNx
-         0pDYFPTG5la8qLXlRG6hTmvbA29MeVOOscMTetTzK0v23Sbc/sQUGGE4sJH4PfFMAfwu
-         T2kurnS+tjWiwrgKn034hotN65ap0OkMKQxTzwG1RrmIL2FrLtspFa7gPjmJRE8HfE7Y
-         aarg==
+        bh=UlT6JqjPReHXe7EcP6Bm9RZ1YVa4h6RI/hRicIEgKs4=;
+        b=62u2Rfj+8hqBycQ942lIdMJxOmRUxzLFS88338/bWaX64SRCze08nOErchZZjD79e9
+         jxBkgmmaQb3aktcKJuwqGmxQRHDn0HXvZJXpscXmgRAEUMeHLbrHyPMYJW/j82zk0XYp
+         6gsJAbx5GUzNoNIIq6D0uaEI3LTbltrvXUIxmJkV5yRRZ5FbMm3Poiyu/RsHYa1lRF0T
+         zAL7YK9GDAm5n9zem/EG7R7+zkUqLeAThB0+xci9RvHt6jIf1rQnf3D7tTwsSt7O+pCo
+         3ZZJhl8mYjGanyUk4utkZbvWtSfrwXeyNwbLSF+ofpay5bEraiGSMglDjxaUVeB5Bns4
+         WJVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o6gNym63NgF+XTZH1xbf0NrIpXmryBatnYIRGs7yiA8=;
-        b=rAA0GstG4yJdg+ybO2zOXWex0PeERKTq/v7Avl8zAC9IQzSKdgKPfEjnSvpXfA0eFt
-         iXT8P9ACPUlrtbiEKSd8Et6obGc8staqBRA30DUIsPUHi6j/WiSEOt3IcntFMFe0ciz6
-         Pf5cOkOsi215eUEZAQC2SxsBGLBjHUXEFpu3wZY+aNl+upA2VCLsNNCvjenuy4ZaTWJ3
-         1fAX3i/WOLWhjpT9+YfrYdS7+tWhliWzKzQVE8JSB5t8GElgQ+QH4iuXtXrKXKuSHv5s
-         gTzcOX4m3i81P8HF58hx9nSAA18ayvf5E36HTyDqqATiCuzIEYCNkQUW9M86NDm3qT89
-         FN5Q==
-X-Gm-Message-State: ANoB5pkaSqMJ0uNEN9p2IezF+DE3GL2Ar2lL5lu5EWq0o/6+6K2WyZoc
-        E/gPX7rffgE43RolXuoeov3OKg==
-X-Google-Smtp-Source: AA0mqf7XYe3dUPoZMSEuEg/TAgy3ISspZE7CBYTflFcarO7QXTtqRm76Xx4NbAeRKrEux9dBLHLiEg==
-X-Received: by 2002:a19:6a14:0:b0:4b4:e24d:c617 with SMTP id u20-20020a196a14000000b004b4e24dc617mr8650030lfu.61.1669581669649;
-        Sun, 27 Nov 2022 12:41:09 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id bi39-20020a05651c232700b002773ac59697sm644607ljb.0.2022.11.27.12.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 12:41:09 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Vincent Knecht <vincent.knecht@mailoo.org>,
-        Nikita Travkin <nikitos.tr@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Andrew Davis <afd@ti.com>, Gene Chen <gene_chen@richtek.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Neil Brown <neilb@suse.de>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 6/6] dt-bindings: leds: ti,tca6507: correct Neil's name
-Date:   Sun, 27 Nov 2022 21:40:58 +0100
-Message-Id: <20221127204058.57111-7-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221127204058.57111-1-krzysztof.kozlowski@linaro.org>
-References: <20221127204058.57111-1-krzysztof.kozlowski@linaro.org>
+        bh=UlT6JqjPReHXe7EcP6Bm9RZ1YVa4h6RI/hRicIEgKs4=;
+        b=XH1Yg9ly7CM7TBCdGHa1A2HR0yvtcGiBKBtKsXeM6b2osuxlDeu1EtW7hNEh+d+B0r
+         XMIqYraWG02wOj6/gSeLwfzLC7fGH/2UqbNFhtCbNkh/0nmbGNL+BHTq4nMl1rTKh8CX
+         x9rKSaAB5tVBJ69WYemUCICKFKtPhCrS/wjV/gnGtFcudsVbFsaQnsxcFl2p/ejj8v/I
+         Wllatw3nMS9sqMNEnfAcjgKB4yQB/helEiN9D6jTngPOpNZoqyq71rLZako1I+i91EEk
+         83AAIF/kxbu9oTnUOlmg7/A13ujwoyruyOQoRvDk8doraFYlyXii48eKl3XH4oitTg21
+         yYLg==
+X-Gm-Message-State: ANoB5plTNX9AYiMZmDzHMOQvkoCwETuJv2/zcMIlyVcHOd5QctKly4uw
+        i4S4AplPVX0dkkjfXPWYl4RJdNdHrumX1NG1FevfcA==
+X-Google-Smtp-Source: AA0mqf7iybltDA7hXJL9yAT+SXbkybtSOfTzeliT8SvsSM8emlSdXZtrfN5+duEiN2skEXcM7mCKyxD7tFoNefo+WI0=
+X-Received: by 2002:a17:906:7f05:b0:7be:26f2:909f with SMTP id
+ d5-20020a1709067f0500b007be26f2909fmr7248255ejr.86.1669625817752; Mon, 28 Nov
+ 2022 00:56:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20221005-mt6357-support-v6-0-4f589756befa@baylibre.com>
+ <20221005-mt6357-support-v6-2-4f589756befa@baylibre.com> <f7f0753c-f0bc-b87c-b99a-8b1bc3ef40b2@linaro.org>
+In-Reply-To: <f7f0753c-f0bc-b87c-b99a-8b1bc3ef40b2@linaro.org>
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Mon, 28 Nov 2022 09:56:46 +0100
+Message-ID: <CAFGrd9rK184_mqpPmHsSRXyE=Y3OxaWe_RaYBh5P1F-aOhPGvg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/10] dt-bindings: rtc: mediatek: convert MT6397 rtc documentation
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Mark Brown <broonie@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Rob Herring <robh@kernel.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-scripts/get_maintainers.pl is confused when name and family name are
-without space:
+Le dim. 27 nov. 2022 =C3=A0 13:59, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> a =C3=A9crit :
+>
+> Regardless of it, Rob suggested squashing it into MFD device schema and
+> I think his proposal is still valid - you have here only two properties..=
+.
+>
 
-  $ scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/ti,tca6507.yaml
-  - NeilBrown <neilb@suse.de> (in file)
+Ok, I thought the conversion was worth it with the latest changes. I
+will remove this patch and write RTC properties directly in the MFD
+schema.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/leds/ti,tca6507.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/leds/ti,tca6507.yaml b/Documentation/devicetree/bindings/leds/ti,tca6507.yaml
-index 9ce5c0f16e17..f2c4e94b33c3 100644
---- a/Documentation/devicetree/bindings/leds/ti,tca6507.yaml
-+++ b/Documentation/devicetree/bindings/leds/ti,tca6507.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: TCA6507 LED and GPIO controller
- 
- maintainers:
--  - NeilBrown <neilb@suse.de>
-+  - Neil Brown <neilb@suse.de>
- 
- description:
-   The TCA6507 is a programmable LED controller connected via I2C that can drive
--- 
-2.34.1
-
+Alex
