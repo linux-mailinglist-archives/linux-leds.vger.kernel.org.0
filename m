@@ -2,177 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FA4F63AA5B
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Nov 2022 15:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE91063B078
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Nov 2022 18:53:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbiK1ODy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 28 Nov 2022 09:03:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
+        id S234038AbiK1Rvt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Nov 2022 12:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232256AbiK1ODv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Nov 2022 09:03:51 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F29B7D3
-        for <linux-leds@vger.kernel.org>; Mon, 28 Nov 2022 06:03:49 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id x2so15584678edd.2
-        for <linux-leds@vger.kernel.org>; Mon, 28 Nov 2022 06:03:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zygFH3C0HCyE/GmLBlI4erRi5TTs6QvY4G7d/Jx5gtk=;
-        b=Dn0wZMFZCBiSUOy3MR8qgPiAfaoxuvZkJTAsFiSrMLVeGFxV9Repk5BiwfPTy3N8XT
-         W9M+0YX8+efYC4xDqmVtNcgexKzjUIL6BPzynngSPCSEId9T+l1GwNc4F2cbOrOIHKjJ
-         wzImkn5Oxu6LkxnQ8nO061HWlzpn5Y3kGlnLE0Bj7byBj+tIEEc3W6bHUYhgOH0vEj14
-         1DyL1CF/DKXYYANdii68cyHjJ8LAnivhF2G3d+oujcYFfqamwUwxaunxpR1HyZp/7zyX
-         TYQB4U+JnOMsrcTOEDej79HpPMXuU6Yhd9uDObPA7efbLEwFfaRDxnbdjbuTI6FQoKOk
-         Qe6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zygFH3C0HCyE/GmLBlI4erRi5TTs6QvY4G7d/Jx5gtk=;
-        b=KaUfCN0lIq6hBn92lfQTgBKXzLeKgIFM5QtSdtzHc8TMUWtHTpgaakSZvA5X+jNvkQ
-         rKF+9yevFnapgnzgIcdAWcMvu1qX61xGB/K4/JXFq+rljAUQwKtUIgI0GF//HEw9Uxg6
-         ICWVFCpa+/i2U6wj0JAGFx9AdLtzuBQSLzEUHpdVfB00+LYYUM/AWyHbKTGFwaZTLvtg
-         9pm/1QuEJNfv1s7lBqmOT1fToJfA8uMUA3UmTMFNgTmpwGmMF77cXteOdRoHdAsPz2Zs
-         CCYwXgECKuSthQKxy8THG4wGucPE+wZbkfJGj6rRsJZzMJLP3qxWx9UblUwtrQ+EGOno
-         kBrA==
-X-Gm-Message-State: ANoB5pmzUtlJlbRKjHyIJfqPjTUKQ6htMWMq9wS9dJ15N8UeGuCb9v6P
-        wehvob06iSuibtqtaCPN75Ucf/c3sPVIBgonyUD97Q==
-X-Google-Smtp-Source: AA0mqf4G4fhVU8w+DttZ3I3UxPAgiaBDQuB51NYNfRQ3JXQ1lw3xInj3Qa9i3uU5+uGApZakiSG/gtoAil6IEl2XlDc=
-X-Received: by 2002:aa7:dbc3:0:b0:461:6b61:81ae with SMTP id
- v3-20020aa7dbc3000000b004616b6181aemr47156519edt.62.1669644222784; Mon, 28
- Nov 2022 06:03:42 -0800 (PST)
+        with ESMTP id S233850AbiK1Rtr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Nov 2022 12:49:47 -0500
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DF929347;
+        Mon, 28 Nov 2022 09:43:26 -0800 (PST)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id E8EE55FD0A;
+        Mon, 28 Nov 2022 20:43:22 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1669657402;
+        bh=uBniatlo47DGx0lnxknS3xJ2KdJNJ8RaoGC2aR+v2RM=;
+        h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+        b=TRnKVvefUaR191+nwFAbtemWiswm77vLpkF7hY/bd3I5covoZGfEkawBQyR+3Tnww
+         cIW+fmUMDfgXVn4WCIMq/0FMoIgRVOJ6jsGMJSBqvNtm4oEFUIUVvU881QcfVEuTwZ
+         8DwgiSA8n5MeDt0kxhAkmvROK3Fd2HRUjK1QBsBTQubFzjGmXjogHIPiTdFd2bkUzh
+         TQE9oW6s8HDj4lFIbvzxUJQJftjwp+bwl+qa2AIR9jt7btbbamFRhPbaozFFWXzYlr
+         DLM6iz3cg6OkgEhp7WEoLB5vu3jUU3zII/aakBGD3eTv4Ui9cK5JBqOeoNZglTepnf
+         csKL9n6d1MDpA==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Mon, 28 Nov 2022 20:43:21 +0300 (MSK)
+From:   Martin Kurbanov <MMKurbanov@sberdevices.ru>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Andy Shevchenko" <andy.shevchenko@gmail.com>
+CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        kernel <kernel@sberdevices.ru>
+Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
+Thread-Topic: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
+Thread-Index: AQHZAEYwBWEF8prNpk6+2LUuJGE9X65PHTAAgAVRwwA=
+Date:   Mon, 28 Nov 2022 17:43:19 +0000
+Message-ID: <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
+References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
+ <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
+ <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
+In-Reply-To: <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.1.12]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8A18C8B1A0353749B852380231CEA62A@sberdevices.ru>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221005-mt6357-support-v6-0-4f589756befa@baylibre.com>
- <20221005-mt6357-support-v6-5-4f589756befa@baylibre.com> <a9a47e08-1a08-abe5-1dbe-1537d3414af6@linaro.org>
- <c94d15bf-c5ed-b400-abdf-8cca4102b078@linaro.org>
-In-Reply-To: <c94d15bf-c5ed-b400-abdf-8cca4102b078@linaro.org>
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Mon, 28 Nov 2022 15:03:31 +0100
-Message-ID: <CAFGrd9pueans7Z_GHassY7ouGOwDmj4oJHAXS4ZtbYK4KH58Bw@mail.gmail.com>
-Subject: Re: [PATCH v6 05/10] dt-bindings: soc: mediatek: convert pwrap documentation
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mark Brown <broonie@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        Rob Herring <robh@kernel.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/11/28 12:12:00 #20620243
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Le dim. 27 nov. 2022 =C3=A0 14:11, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> a =C3=A9crit :
->
-> >> +  pmic:
-> >> +    type: object
-> >
-> > What's here? Other schema? If not then maybe compatible? What about
-> > description?
->
-> I guess this was comment from Rob, so it's fine.
-
-Yes it is.
-
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: mediatek,mt8365-pwrap
-> >> +    then:
-> >> +      properties:
-> >> +        clocks:
-> >> +          minItems: 4
-> >> +
-> >> +        clock-names:
-> >> +          minItems: 4
-> >
-> > else:
-> > ???
->
-> Actually this looks less complete than your previous patch.
->
-> else:
->   clocks:
->     maxItems: 2
-> same for clock-names
->
-
-I think I=E2=80=99ve followed the feedback done here [1]
-I=E2=80=99ve declared `minItems: 2` globally and override it to 4 if
-mediatek,mt8365-pwrap is used. Isn=E2=80=99t it the right way to implement =
-it
-?
-
-> >> +            compatible =3D "mediatek,mt8135-pwrap";
-> >> +            reg =3D <0 0x1000f000 0 0x1000>,
-> >
-> > This does not match your unit address. No warnings when compile testing=
-?
-> >
-
-There are no warnings when compile testing. I will fix the unit
-address anyway, sorry.
-
-> >> +                  <0 0x11017000 0 0x1000>;
-> >> +            reg-names =3D "pwrap", "pwrap-bridge";
-> >> +            interrupts =3D <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>;
-> >> +            clocks =3D <&clk26m>, <&clk26m>;
-> >> +            clock-names =3D "spi", "wrap";
-> >> +            resets =3D <&infracfg MT8135_INFRA_PMIC_WRAP_RST>,
-> >> +                     <&pericfg MT8135_PERI_PWRAP_BRIDGE_SW_RST>;
-> >> +            reset-names =3D "pwrap", "pwrap-bridge";
-> >
-> > Missing pmic. Make your example complete.
->
-> Probably pmic should be skipped, I understand it is described in MFD
-> binding.
->
-
-Put the pmic in the example have 2 constraints:
-- The original pmic "mediatek,mt6397" isn=E2=80=99t supported by a yaml
-schema, so I=E2=80=99ve a dt_binding_check fail: `failed to match any schem=
-a
-with compatible: ['mediatek,mt6397']`
-- If I put another pmic that supports a yaml schema, I need to put all
-required properties for the pmic, which I thought was unnecessary
-since it=E2=80=99s already done in its own schema and can change for anothe=
-r
-pmic, so less consistent.
-
-Then yes, IMHO, PMIC should be skipped in the example.
-
-[1] https://lore.kernel.org/all/fe898d24-54fa-56bb-8067-b422a3a52ff5@collab=
-ora.com/
-
-Alex
+SGkuIFRoYW5rIHlvdSBmb3IgcXVpY2sgcmVwbHkuIA0KDQpPbiAyNS4xMS4yMDIyIDExOjI5LCBL
+cnp5c3p0b2YgS296bG93c2tpIHdyb3RlOg0KPj4gKw0KPj4gKyAgaW1heDoNCj4+ICsgICAgbWF4
+SXRlbXM6IDENCj4+ICsgICAgZGVzY3JpcHRpb246DQo+PiArICAgICAgTWF4aW11bSBzdXBwbHkg
+Y3VycmVudCwgc2VlIGR0LWJpbmRpbmdzL2xlZHMvbGVkcy1hdzIwMHh4LmgNCj4gDQo+IE5vLiBV
+c2UgZXhpc3RpbmcgcHJvcGVydGllcyBmcm9tIGNvbW1vbi55YW1sLiBUaGlzIGxvb2tzIGxpa2UN
+Cj4gbGVkLW1heC1taWNyb2FtcCBhbmQgaXQgaXMgcGVyIExFRCwgbm90IHBlciBlbnRpcmUgZGV2
+aWNlLg0KDQpUaGUgQVcyMDBYWCBMRUQgY2hpcCBkb2VzIG5vdCBzdXBwb3J0IGltYXggc2V0dXAg
+cGVyIGxlZC4NCkltYXggaXMgdGhlIGdsb2JhbCBwYXJhbWV0ZXIgb3ZlciB0aGUgYWxsIGxlZHMu
+IEkgc3VwcG9zZSwgaXQncyBiZXR0ZXINCnRvIGFkZCB2ZW5kb3IgcHJlZml4IG9yIHRha2UgbWlu
+aW11bSBmcm9tIGFsbCBzdWJub2Rlcz8NCkhvdyBkbyB5b3UgdGhpbms/DQoNCg0KPj4gKy8qIEds
+b2JhbCBtYXggY3VycmVudCAoSU1BWCkgKi8NCj4+ICsjZGVmaW5lIEFXMjAwWFhfSU1BWF8zXzNN
+QSAgOA0KPj4gKyNkZWZpbmUgQVcyMDBYWF9JTUFYXzZfN01BICA5DQo+IA0KPiBOby4gQmluZGlu
+Z3MgYXJlIG5vdCBmb3Igc3RvcmluZyByZWdpc3RlciBjb25zdGFudHMuIEZlZWwgZnJlZSB0byBz
+dG9yZQ0KPiBoZXJlIElEcyAoSUQgc3RhcnQgZnJvbSAwIG9yIDEgYW5kIGlzIGluY3JlbWVudGVk
+IGJ5IDEpLi4uIGJ1dCBob3cgdGhlDQo+IElNQVggZXZlbiBtYXRjaGVzIGFueSBuZWVkIGZvciAi
+SUQiPw0KDQpJTUFYIGNhbiBiZSBjaG9zZW4gZnJvbSB0aGUgcHJlZGVmaW5lZCB2YWx1ZXMgaW4g
+dGhlDQpkYXRhc2hlZXQgKDEwbUEsIDIwbUEsIGV0YykuIERvIHlvdSBtZWFuIHRoZSBJTUFYIHNo
+b3VsZCBiZSByb3VuZCBkb3duDQp0byBuZWFyZXN0IHN1cHBvcnRlZCB2YWx1ZSBpbiB0aGUgZHJp
+dmVyPw0KDQotLSANCkJlc3QgUmVnYXJkcywNCkt1cmJhbm92IE1hcnRpbg0KDQo=
