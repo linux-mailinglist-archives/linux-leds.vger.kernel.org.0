@@ -2,82 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEA5D63C5E1
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 17:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55C6163C6BF
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 18:49:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236478AbiK2Q7w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Nov 2022 11:59:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59082 "EHLO
+        id S236256AbiK2Rtf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Nov 2022 12:49:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236487AbiK2Q7Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 11:59:25 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D8B716E5
-        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 08:54:57 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id bp15so22911729lfb.13
-        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 08:54:57 -0800 (PST)
+        with ESMTP id S236319AbiK2RtV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 12:49:21 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC65B69A8A
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 09:49:19 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so7163804pje.5
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 09:49:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UPP5M8nm64GW+AqhpAjDLIzUD1IRtALSKI3rciCxMCg=;
-        b=N/WWddMcTIxfxjPDL2zeasXG7QIhK0D0LbS0jO/30Zd0uWwXJoMNqwJ+VaO5T35WmO
-         YgH9g+/XrUh7HuZyodVn3oCyrXtQYKb8lri9aH22/bcw9UEO1mMx88QezreupIrSaui4
-         2dsr22JT0bcPjvIuQY9fiYbakS2CZVfwXJIOYOzF8YbpNzYTf22PpDdRWZ5b0mZkaGXq
-         /3b3dOauQlfrPI2MNGmLEzFWA6BD9t422FJJhH2HycZg8UABTd0NLw4edOxFOi31mhBk
-         fOYwqy4fXGShNOCf8HawSjotSw6Rb63Cxk2qdVjJmCaOKLgYGb5fzyFJLIb6oW8IMh1t
-         7TnA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=70/eD63Y0IWUOAJT90ZgbeWA+KDFcK6DEdj8lIs5MAg=;
+        b=rQaHWhcip1/xyHCotaGLRwF25yKo8TFHi9SEEUV427xcEckhP0gJHXTSQvWF2dV+ml
+         ZL0FtTFWyPNXMsefQSzmEj4p56pxvDb+0cTBu5IQnD3QFMkKyqYtItaZjaKHdND/DirZ
+         kGq7qPM30uCsPFLxQbw+kXffbVOpPal9IYwtTcE94iu0aP11dzInOH13gMQRbXUfvmga
+         4CKVhYkKRJ0LfOrDYJhTlbO1KVHGENc9rzsXCW8qkdz9ljtTghwgOBlRiJcZiG+8z3b/
+         9zLRTSKJBbKXvnYSb+0x+8J7Ig4HrTiAVn0YBWPpeayvVjyUr9LBSXV+Vfsi0OOkaToA
+         t42A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPP5M8nm64GW+AqhpAjDLIzUD1IRtALSKI3rciCxMCg=;
-        b=FBGwpjS/qNMulm/E2slWCp0fIw3APgBqNEgqToIee3XcssWR+GFL8cVq8kianzBykm
-         aRdIsVKhzFDhuwwkm001G/c18cpi+tvQHJEQUYPYGElsiYaZvDOte+HK2URh2yOj8jdo
-         Spg1DRodSPdUty9+01bwRRHxZqdcKcwaRlqw6sVTNdp8P0aBCCfhlMDTfAsgT3+5Phlz
-         Fx6eN9yxjJcNQ+PaWX9cYS0xlUmnUyANZq6e8ju/y383p8taIQVbAt+W4WgRzjrMwoAF
-         BxfoPr+lJBwbnCCQXM6vAsEaLdPmJnjR/OVTrR8Cu8+EBG7kmwynZAMEFtyyaXJ1AWxY
-         IjfA==
-X-Gm-Message-State: ANoB5plqjwvjjGjp/DnU+NVyAxVW9KxSmoCrFN8G8oVsafCRVNg6WYB4
-        4VohsKU9/pbplbtPce24PL1z9A==
-X-Google-Smtp-Source: AA0mqf7vtzQqNUNhEEIBlVMZhby5QrpufE0j4tOFvXeQEdaJoKxxtvrGJi8QNjObZYnYVUoyaGi79A==
-X-Received: by 2002:a19:ca06:0:b0:4b5:29fd:a58b with SMTP id a6-20020a19ca06000000b004b529fda58bmr1026858lfg.591.1669740893900;
-        Tue, 29 Nov 2022 08:54:53 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id m30-20020ac24ade000000b004947f8b6266sm2266620lfp.203.2022.11.29.08.54.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Nov 2022 08:54:53 -0800 (PST)
-Message-ID: <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org>
-Date:   Tue, 29 Nov 2022 17:54:52 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=70/eD63Y0IWUOAJT90ZgbeWA+KDFcK6DEdj8lIs5MAg=;
+        b=rnZs9vJLH2pE/hDQGdf2S+G/ns35i4a17cQSXsQJWWJ3fUee+s7OL7e/+FINE1LsiC
+         fxvZ4ztiGk88Qa4M5zavd7x9j3siRd2ott6gK35m1Zwn0jn3tAJrylpoqagSJLNPFSTJ
+         RiJa2o2WK2xLtQy/oUS+FYb26se7+1jE66vCQyFnNc9rPKfqKN9kBVemHEyCONACp229
+         RnWqA07mgl3pb5+OR9QxwYCRSFKM1Uax4x04PEc6wgIuEBd8M2DhscHqoJpboyDeisxt
+         +oQ5fGozyKXu2xR1MDJM6OR3y0lSUAcIcYnS1huG5ip4jgHgqNaKaGL/gXUJI04YFrCn
+         2PrA==
+X-Gm-Message-State: ANoB5pmgWVuHdcgHBp1C0cl62jMiroKgwOpB6YvkvfAIk6G80wG8oAA9
+        50YaGOAzfULDinGmTyko3rbvLLsqbvCy
+X-Google-Smtp-Source: AA0mqf5SwjQeTa2dWnKTNHmaU1s3XfC5hwfF4g4aDmQFAllp89FcBTKVsFagRH08lOFJwwfoy3snOQ==
+X-Received: by 2002:a17:903:2112:b0:186:cf82:91d5 with SMTP id o18-20020a170903211200b00186cf8291d5mr51332655ple.87.1669744159116;
+        Tue, 29 Nov 2022 09:49:19 -0800 (PST)
+Received: from localhost.localdomain ([117.217.187.207])
+        by smtp.gmail.com with ESMTPSA id k1-20020a170902c40100b0016d9b101413sm11176333plk.200.2022.11.29.09.49.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Nov 2022 09:49:18 -0800 (PST)
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, thunder.leizhen@huawei.com,
+        festevam@gmail.com,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v4] dt-bindings: leds: Document commonly used LED triggers
+Date:   Tue, 29 Nov 2022 23:19:06 +0530
+Message-Id: <20221129174906.97749-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for
- worldsemi,ws2812b-spi
-Content-Language: en-US
-To:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20221129140955.137361-1-gch981213@gmail.com>
- <20221129140955.137361-3-gch981213@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221129140955.137361-3-gch981213@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,167 +70,86 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 29/11/2022 15:09, Chuanhong Guo wrote:
-> This patch adds dt binding schema for WorldSemi WS2812B driven using SPI
-> bus.
-> 
-> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
-> ---
->  .../bindings/leds/worldsemi,ws2812b-spi.yaml  | 131 ++++++++++++++++++
->  1 file changed, 131 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b-spi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b-spi.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b-spi.yaml
-> new file mode 100644
-> index 000000000000..8544bde4f261
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b-spi.yaml
-> @@ -0,0 +1,131 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b-spi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: WS2812B LEDs driven using SPI
-> +
-> +maintainers:
-> +  - Chuanhong Guo <gch981213@gmail.com>
-> +
-> +description: |
-> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
-> +  together and controlled individually using a single wire.
-> +  This driver simulates the protocol used by this LED chip with SPI bus.
+Document the commonly used LED triggers by the SoCs. Not all triggers
+are documented as some of them are very application specific. Most of the
+triggers documented here are currently used in devicetrees of many SoCs.
 
-Drop references to Linux driver, unless important for the binding.
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
 
-> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
-> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
-> +  for the data pin.
-> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
-> +  and the controller needs to send all the bytes continuously.
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: worldsemi,ws2812b-spi
+Changes in v4:
 
-Drop "-spi". Compatibles are not supposed to include bus information.
-The same for file name.
+* Removed the sorting of triggers
+* Removed the "items" as they were not needed
+* Reworded the description
+* Dropped Zhen Lei's tested-by tag as the patch has changed
+* Added kbd-capslock trigger
 
-> +
-> +  reg:
-> +    description: The chip-select line on the SPI bus
+Changes in v3:
 
-Drop description, it's obvious.
+* Rebased on top of v6.1-rc1
+* Added WLAN Rx trigger
+* Added tested tag from Zhen Lei
 
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Maximum SPI clocking speed of the device in Hz.
+Changes in v2:
 
-No need for ref and description. It comes from spi-peripheral-props.
+* Added more triggers, fixed the regex
+* Sorted triggers in ascending order
 
-> +    minimum: 2105000
-> +    maximum: 2850000
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^multi-led(@[0-9a-f])?$":
+ .../devicetree/bindings/leds/common.yaml      | 40 ++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-Why unit address is optional?
-
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-
-    unevaluatedProperties: false
-
-> +
-> +    properties:
-> +      color-index:
-> +        description: |
-> +          A 3-item array specifying color of each components in this LED. It
-> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
-> +          header include/dt-bindings/leds/common.h. Defaults to
-> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
-> +          if unspecified.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 3
-
-Drop minItems.... but see comment below:
-
-> +        maxItems: 3
-
-Why this is different than other multi-color LEDs? I would expect here
-children with common.yaml.
-
-> +
-> +      default-intensity:
-> +        description: |
-> +          An array of 3 integer specifying the default intensity of each color
-> +          components in this LED. <255 255 255> if unspecified.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        minItems: 3
-
-Drop minItems.... but:
-
-> +        maxItems: 3
-> +        items:
-> +          minimum: 0
-> +          maximum: 255
-
-default: 255
-
-What controls the intensity? Don't you have PWM there?
-
-> +
-> +      reg:
-> +        description: |
-> +          Which LED this node represents. The reg of the first LED on the chain
-> +          is 0.
-
-maxItems: 1
-
-> +
-> +    required:
-> +      - reg
-> +      - color
-> +      - function
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ws2812b@0 {
-
-Node names should be generic.
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            compatible = "worldsemi,ws2812b-spi";
-> +            reg = <0>;
-
-compatible is first property, reg is second.
-
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index 3c14a98430e1..68da651f29a8 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -98,8 +98,44 @@ properties:
+             # LED alters the brightness for the specified duration with one software
+             # timer (requires "led-pattern" property)
+           - pattern
+-        # LED is triggered by SD/MMC activity
+-      - pattern: "^mmc[0-9]+$"
++            # LED indicates mic mute state
++          - audio-micmute
++            # LED indicates audio mute state
++          - audio-mute
++            # LED indicates bluetooth power state
++          - bluetooth-power
++            # LED indicates activity of all CPUs
++          - cpu
++            # LED indicates disk read activity
++          - disk-read
++            # LED indicates disk write activity
++          - disk-write
++            # LED indicates camera flash state
++          - flash
++            # LED indicated keyboard capslock
++          - kbd-capslock
++            # LED indicates MTD memory activity
++          - mtd
++            # LED indicates NAND memory activity (deprecated),
++            # in new implementations use "mtd"
++          - nand-disk
++            # No trigger assigned to the LED. This is the default mode
++            # if trigger is absent
++          - none
++            # LED indicates camera torch state
++          - torch
++            # LED indicates USB gadget activity
++          - usb-gadget
++            # LED indicates USB host activity
++          - usb-host
++        # LED indicates [N]th MMC storage activity
++      - pattern: "^mmc[0-9]{1,2}$"
++        # LED indicates activity of [N]th CPU
++      - pattern: "^cpu[0-9]{1,2}$"
++        # LED indicates power status of [N]th Bluetooth HCI device
++      - pattern: "^hci[0-9]{1,2}-power$"
++        # LED indicates [N]th WLAN Tx/Rx activity
++      - pattern: "^phy[0-9]{1,2}(tx|rx)$"
+ 
+   led-pattern:
+     description: |
+-- 
+2.25.1
 
