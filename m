@@ -2,78 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1926263C1FE
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 15:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA8963C441
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 16:57:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234698AbiK2OKu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Nov 2022 09:10:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45214 "EHLO
+        id S236052AbiK2P5M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Nov 2022 10:57:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235201AbiK2OKX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 09:10:23 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A3160EA2;
-        Tue, 29 Nov 2022 06:10:21 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id k7so13494696pll.6;
-        Tue, 29 Nov 2022 06:10:21 -0800 (PST)
+        with ESMTP id S236093AbiK2P5I (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 10:57:08 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905F33C6FC
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 07:57:06 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so11156140wmi.3
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 07:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t7kNZMgNax6r+KXpe7Ot15O8yiq8q2YUgnIvm3OyPck=;
-        b=jSs5Jrc4JdDy8d7qHWA9Hf8gUyNQsFMgWLI9BEJXlQftFWZAweLu0DdSWF9xutG5b3
-         BMpZAt7lMsAPkzHkR/QxIqSvKttl9Pj85jPLU69ELhe2ljtpdr7CmFBuBiyEKwRGynHp
-         juCFWguTlCI0Q135cfcMutR+mioedtnaOnPM1HVIlAkZUgdzlLH+7+eCrR1jihJWhbCO
-         RSvu8AF5LEMstSAhFL/GExIAmhPST1OaBOTFld1DxcLtWTYM2osgChxLODhjrHcESErK
-         OC9lYj+eV3T7IpCK1zNo1cOHZphQUUsu9xSMaAfWdBqarFBNwEGRJ7QCprtbm9u8mh1p
-         zUSw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=9cT9eY9V1xGeVmdlYi9xsAkTdg7w7/HSLsB4PWNKGgw=;
+        b=GSFjwxVYrOvZnxXeKOG1mXSHFUUjH+6TfW+LuGB/qqkRkRn+pi2370UkFfKGWthhiW
+         NO4yC2Xm5lZpt/NMfXHlSP7gpPhoWCtCmdxRlaX3BA9j0TCxgIZgtCmJK03ixcS8gu0p
+         wA+Kjt0RYZOl6IBxSvXZ/3shPnk7qUD1Mv1ePqi1TE3KSkwvtYQOezuT2eP9VMq+xJXf
+         bmqFKefY6PggAN7pTXAotNmeeuLivo4QcEJkwIyThCipoQISjo/o8tdeiUOmBSaiwxWU
+         VM4Fnbl8UK6ttX91DiC11G/ldK/8cPsFBnZW2DnjQ1+mPfQ0+M/57KYULDMIlhuAhBxR
+         XNcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t7kNZMgNax6r+KXpe7Ot15O8yiq8q2YUgnIvm3OyPck=;
-        b=2RnlzHaxFa1BW6kkloHjBuKvW9b0yJH8m4Y3osyQimiiEC3Sk9qtTNLUlrMj5e4fIS
-         u5I8FdBVE0RYf6lgSlrRPR8bSpV73/m4kPUPYes7uIephmELH4XGw19+qdxiMZgD5gw6
-         0cBrS/REx35c9N8dKRFmXTn9aqFjnZh04KVBw6LUZ3ZsZlZYNfy8P5aZLSwbEZgqIXrb
-         ejbat99jtrJpGiG/W6pTyE9eYtPzrWFY72acszooSXGdCLU/jLL5FZA6SSEY3AUTQxLL
-         h37fzQvxMqK3joqjMNPCqFaW5aRV/YdcJWOSqarY+wFyJUk0hiVfRk9g9BScG+xllAR3
-         IcWQ==
-X-Gm-Message-State: ANoB5pm9s5t9NhElg2dJieEH0w6FhuzWkZeBDexk/ejxYXRwkzLcYrwM
-        tnOGGRw669JpU20VB5pFBMixjdHXM6I=
-X-Google-Smtp-Source: AA0mqf6WEoNe3HIxWVNQ+6AC816MZ1YVnJD2D0PxQF/SzawP2GKBr7UNyx3OzR03GESsj5X8ZA6xDg==
-X-Received: by 2002:a17:90a:62c2:b0:20d:bc7f:4fee with SMTP id k2-20020a17090a62c200b0020dbc7f4feemr66724732pjs.168.1669731020908;
-        Tue, 29 Nov 2022 06:10:20 -0800 (PST)
-Received: from guoguo-omen.scut.edu.cn ([2401:c080:1400:4da2:5400:3ff:feb4:7578])
-        by smtp.gmail.com with ESMTPSA id a5-20020a170902710500b0017854cee6ebsm10932342pll.72.2022.11.29.06.10.15
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9cT9eY9V1xGeVmdlYi9xsAkTdg7w7/HSLsB4PWNKGgw=;
+        b=opcQWhcaSUynZ5uKXPDdRTyK4X0djG4usuRMldHskscH9Q175RXzTy2b2ieW5JJ3VA
+         e/pCQi6YX0JeYEdVMbANaveSBgSgatfkQwo7DyGfmQoyxZ7tt7FiOeuezDwTIb9dFidF
+         wuN1aM84i9+L4yG2OWbI1ZDqbhyOHunHhG1WRX87a3NaeQqXSiR0RxUCdM7atZzZVthO
+         F4RVukM2QefUTqgE+HoEDSGG6Ch31Qa/GRa//LOQMpKC/X2Kd8fCpASDseWtMwYz7YbJ
+         JsXCt0jVE1vluPoq0PEbZqijGBeZe59peNhEiPlg+bwjBkapA80/0gYp0EC5jmuIjPoN
+         nFVA==
+X-Gm-Message-State: ANoB5pnqpKs7Nm/1sbNx7uLWbV+5VzbmLO7WUjgduCkRDIZZNg9MbBPb
+        T0+bj5sGfPX6/3s4lTi8aVjnvg==
+X-Google-Smtp-Source: AA0mqf7a/uNfdsh/7H4r89x7hh5q1/8Z5l3vM7esHKeAiqIvXE2W93f4XnSlqHDEyHPZ0T6Rrps9Ow==
+X-Received: by 2002:a05:600c:42d2:b0:3cf:c907:a05a with SMTP id j18-20020a05600c42d200b003cfc907a05amr44540859wme.177.1669737425037;
+        Tue, 29 Nov 2022 07:57:05 -0800 (PST)
+Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+        by smtp.googlemail.com with ESMTPSA id f2-20020a7bc8c2000000b003cfb7c02542sm2601550wml.11.2022.11.29.07.57.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Nov 2022 06:10:20 -0800 (PST)
-From:   Chuanhong Guo <gch981213@gmail.com>
-To:     linux-leds@vger.kernel.org
-Cc:     Chuanhong Guo <gch981213@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 3/3] leds: add driver for SPI driven WorldSemi WS2812B RGB LEDs
-Date:   Tue, 29 Nov 2022 22:09:55 +0800
-Message-Id: <20221129140955.137361-4-gch981213@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221129140955.137361-1-gch981213@gmail.com>
-References: <20221129140955.137361-1-gch981213@gmail.com>
+        Tue, 29 Nov 2022 07:57:04 -0800 (PST)
+Subject: [PATCH v7 0/8] Add MediaTek MT6357 PMIC support
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-b4-tracking: H4sIAMsrhmMC/33NwWrDMAwG4FcpPs/DkSPb6WnvMXawYmUxpEmx00ApefeJHUeWk/gl/k8vVblkru
+ p6eanCW655mSX4t4vqxzh/s85JsgID0BiD+rY6i17Xx/2+lFUjWhMoAFs7KClRrKypxLkfpTY/pkmW
+ Y67rUp6/TzaQ8fmvt4E2emg8RUiQTOw+KD6nTIXf++WmvkTb7LlgRfBsKPneNkhwILTnQisCJiDCwM
+ 4EfyDguYAiBDmlDjElmw4Edy44EdoBQ+fREQ/xj7Dv+w9+AoIavAEAAA==
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+Date:   Tue, 29 Nov 2022 16:56:59 +0100
+Message-Id: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
+To:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-mediatek@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Alexandre Mergnat <amergnat@baylibre.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-leds@vger.kernel.org
+X-Mailer: b4 0.10.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6769; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=XJ7rH7BqCc/2CFaN/h/E5eGeg1OjcZ68setrFIOtCaQ=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjhivPr8A8ybgzH1k0EI44AOfZwyjUPlUsinHiY5RQ
+ J7VLBiCJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCY4YrzwAKCRArRkmdfjHURZqID/
+ 93t438MbTmhu8y9LJNiU81vhIiJFQGZJonp+/qR0dJgLwAxIS8NVsf6tv6dCBrb47WilqISTf0accb
+ 9tyS9yHOj9rhqkvz27Md1QtOzNbsObad2ljHDcjX2iDTLj8tcr8UpBRsMlEZZT9D0JP5AiEJ5JrnIK
+ fDI6TFyOsh8VpC8VcC4wSpDwkh0kE9p4tsWC1P98KosVHeLJIO17B25KpGT9/AGxflNqUN6x0C2/St
+ SbO+G6jDQAfcxPDetkPX+2745iqSdJI9HdNI7Cah8H2eMJhF/dW52kERjMfeC+BWglj5I8iEaD58/C
+ bnL2DD98GOvY9Dw22BAzv/TkAP4ipzh97lkoky/3T47AC/UlAJxPUdUtXh3jQYnsBv888Rif3hLChp
+ VrTTOJ68Z++IeH1e1VO6TbtZIht46JpmsXziMkoQv/FwgPGYmbbYQdoVDVu+1xpjYjZ/Pkwm6uLAme
+ k6cXRf93bBYsiH8aMSIGlojWCYmd9qjzwqRbB34jXY+mgZJBAY4XBz5U3nuQSUaKMam9dPcfDgm0iB
+ Yh53umXFWr+QXNzfdcfo+GO0GqeIM/gYThOyloiCHHcSwBVBLHNAle80vhUZN4KrqjEST3B/PvPW8W
+ qSTVZOZU0TSiuSaOV/zIRdqS3OjiIoRZiJvtRcdf8z+wF1E+lo5CsA29M8Nw==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,289 +109,161 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch adds support for driving a chain of WS2812B LED chips
-using SPI bus.
+Hi,
+This patch series adds MFD, PMIC keys, and regulator support for MT6357.
+MT6357 is a MediaTek PMIC very similar to MT6358.
 
-WorldSemi WS2812B is a individually addressable LED chip that
-can be chained together and controlled individually using a
-single wire. The chip recognize a long pulse as a bit of 1 and
-a short pulse as a bit of 0. Host sends a continuous stream
-of 24-bits color values, each LED chip takes the first 3 byte
-it receives as its color value and passes the leftover bytes to
-the next LED on the chain.
+Currently, MTK bindings related to the PMICs are not converted yet (still .txt):
 
-This driver simulates this protocol using SPI bus by sending
-a long pulse as 3'b110 and a short pulse as 3'b100. The SPI
-frequency needs to be 2.105MHz~2.85MHz for the timing to be
-correct and the controller needs to transfer all the bytes
-continuously.
+soc/mediatek/pwrap.txt (all PMIC parent)
+      |
+      V
+mfd/mt6397.txt (support lot of mt63XX PMIC)
+      +---------------+----------------+---...
+      V               V                V
+regulator/...      rtc/...          codec/...
 
-Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+1) Convert pwrap to yaml is ok.
+
+2) For the PMIC bindings, there are two option:
+- Convert mt6397.txt to mediatek,mt6397.yaml and continue to support multiple
+  PMIC with only one file. IMO, the file will be hard to read because
+  the supported features aren't the same for each PMIC.
+
+- Make a binding file for each PMIC ref:
+    - mfd/mediatek,mt6357.yaml
+    - mfd/mediatek,mt6358.yaml
+    - ...
+
+3) All PMIC daughter bindings (regulator, rtc, codec, led, ...) aren't fully
+converted yet. Refering to the two PMIC convertion options above:
+- To be clean, all daughter bindings should be converted. This is hard because
+  a good understanding of each device is requiered to write efficient bindings.
+- Only daughter bindings supported by the added PMIC should be converted, that
+  allows to do the task conversion step by step.
+
+In the V4 of this serie, I chose the second option.
+
+Regards,
+Alex
+
+Changes in v7:
+- Drop mt6397 RTC schema conversion.
+- Integrate mt6357 RTC schema directly in mediatek,mt6357.yaml.
+- Fix unit address in mediatek,pwrap.yaml.
+- Link to v6: https://lore.kernel.org/r/20221005-mt6357-support-v6-0-4f589756befa@baylibre.com
+
+Changes in v6:
+- Fix typo in documentations.
+- Remove mediatek,mt6397-rtc.yaml example.
+- Align pwrap convertion with the original .txt file.
+- Remove unecessary include in the mt6357-regulator driver.
+- Link to v5: https://lore.kernel.org/r/20221005-mt6357-support-v5-0-8210d955dd3d@baylibre.com
+
+Changes in v5:
+- Add missing maintainers
+- Improve RTC binding by adding rtc.yaml ref and start-year property
+- Split the txt->yaml conversion in one commit and the addition of the
+  new mt6357-rtc compatible in another commit.
+- Improve PWRAP binding:
+  - clocks and clock-name have been refactored.
+  - reset-names is now properly dependent to resets.
+  - additionalProperties change from true to false.
+  - change example for a most recent and popular SoC.
+  - "allOf" part has been simplified.
+- Pass binding tests with the updated tools. Here the command:
+  "make DT_CHECKER_FLAGS=-m dt_binding_check"
+- Link to v4: https://lore.kernel.org/r/20221005-mt6357-support-v4-0-5d2bb58e6087@baylibre.com
+
+Changes in v4:
+- "dt-bindings: mfd: mt6397: add binding for MT6357" has been applied
+  by Lee Jones
+- All fixed regulator are now refering to fixed-regulator.yaml
+- vfe28 and vcamio18 regulators have been added
+- pwrap binding has been converted and mt8365 support has been added
+- mt6357 PMIC binding has been created
+- mt6397 RTC binding has been converted and mt6357 support has been added
+- Link to v3: https://lore.kernel.org/r/20221005-mt6357-support-v3-0-7e0bd7c315b2@baylibre.com
+
+Changes in v3:
+- To be consistent with regulator/driver.h and helper.c, shift
+  variables have been removed and the mask values have been directly shifted.
+- Remove index tables and rework volt tables to use set/get helper functions.
+- Add comment to structure and function.
+- Fix Fabien Parent mail address.
+- Link to v2: https://lore.kernel.org/r/20221005-mt6357-support-v2-0-f17ba2d2d0a9@baylibre.com
+
+Changes in v2:
+- Rebase
+- Fix typo
+- Remove dependencies with https://lore.kernel.org/all/20220415153629.1817202-1-fparent@baylibre.com/
+  which is no longer relevant.
+
+Previous versions:
+v1 - https://lore.kernel.org/all/20220531124959.202787-1-fparent@baylibre.com/
+
+To: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chen Zhong <chen.zhong@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Fabien Parent <fabien.parent@linaro.org>
+To: Alessandro Zummo <a.zummo@towertech.it>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sean Wang <sean.wang@mediatek.com>
+To: Pavel Machek <pavel@ucw.cz>
+To: Tianping Fang <tianping.fang@mediatek.com>
+To: Flora Fu <flora.fu@mediatek.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: Fabien Parent <fparent@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+
 ---
- drivers/leds/rgb/Kconfig            |  11 ++
- drivers/leds/rgb/Makefile           |   1 +
- drivers/leds/rgb/leds-ws2812b-spi.c | 222 ++++++++++++++++++++++++++++
- 3 files changed, 234 insertions(+)
- create mode 100644 drivers/leds/rgb/leds-ws2812b-spi.c
+Alexandre Mergnat (4):
+      dt-bindings: soc: mediatek: convert pwrap documentation
+      dt-bindings: mfd: mediatek: Add bindings for MT6357 PMIC
+      arm64: dts: mt6358: change node names
+      arm64: dts: mt8173: change node name
 
-diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-index 204cf470beae..09daa90cd30a 100644
---- a/drivers/leds/rgb/Kconfig
-+++ b/drivers/leds/rgb/Kconfig
-@@ -26,4 +26,15 @@ config LEDS_QCOM_LPG
- 
- 	  If compiled as a module, the module will be named leds-qcom-lpg.
- 
-+config LEDS_WS2812B_SPI
-+	tristate "SPI driven WS2812B RGB LED support"
-+	depends on OF
-+	depends on SPI
-+	help
-+	  This option enables support for driving daisy-chained WS2812B RGB
-+	  LED chips using SPI bus. This driver simulates the single-wire
-+	  protocol by sending bits over the SPI MOSI pin. For this to work,
-+	  the SPI frequency should be 2.105MHz~2.85MHz and the controller
-+	  needs to transfer all the bytes continuously.
-+
- endif # LEDS_CLASS_MULTICOLOR
-diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-index 0675bc0f6e18..3af2081ea6c3 100644
---- a/drivers/leds/rgb/Makefile
-+++ b/drivers/leds/rgb/Makefile
-@@ -2,3 +2,4 @@
- 
- obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
- obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
-+obj-$(CONFIG_LEDS_WS2812B_SPI)		+= leds-ws2812b-spi.o
-\ No newline at end of file
-diff --git a/drivers/leds/rgb/leds-ws2812b-spi.c b/drivers/leds/rgb/leds-ws2812b-spi.c
-new file mode 100644
-index 000000000000..1e17bd856474
---- /dev/null
-+++ b/drivers/leds/rgb/leds-ws2812b-spi.c
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * WorldSemi WS2812B individually-addressable LED driver using SPI
-+ *
-+ * Copyright 2022 Chuanhong Guo <gch981213@gmail.com>
-+ *
-+ * This driver simulates WS2812B protocol using SPI MOSI pin. A one pulse
-+ * is transferred as 3'b110 and a zero pulse is 3'b100. For this driver to
-+ * work properly, the SPI frequency should be 2.105MHz~2.85MHz and it needs
-+ * to transfer all the bytes continuously.
-+ */
-+
-+#include <linux/led-class-multicolor.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/spi/spi.h>
-+#include <linux/mutex.h>
-+
-+#define WS2812B_BYTES_PER_COLOR 3
-+#define WS2812B_NUM_COLORS 3
-+#define WS2812B_RESET_LEN 18
-+
-+struct ws2812b_led {
-+	struct led_classdev_mc mc_cdev;
-+	struct mc_subled subled[WS2812B_NUM_COLORS];
-+	struct ws2812b_priv *priv;
-+	int reg;
-+};
-+
-+struct ws2812b_priv {
-+	struct led_classdev ldev;
-+	struct spi_device *spi;
-+	struct mutex mutex;
-+	int num_leds;
-+	size_t data_len;
-+	u8 *data_buf;
-+	struct ws2812b_led leds[];
-+};
-+
-+static void ws2812b_set_byte(u8 *p, u8 val)
-+{
-+	/*
-+	 * Every bit of data is represented using 3 bits: 3'b100 for
-+	 * 0 and 3'b110 for 1.
-+	 * 1 byte of data takes up 3 bytes in a SPI transfer. The higher
-+	 * 3 bits, middle 2 bits and lower 3 bits are represented
-+	 * with the 1st, 2nd and 3rd byte in the SPI transfer.
-+	 * Here's the lookup table for them.
-+	 */
-+	const u8 h3b[] = { 0x92, 0x93, 0x9a, 0x9b, 0xd2, 0xd3, 0xda, 0xdb };
-+	const u8 m2b[] = { 0x49, 0x4d, 0x69, 0x6d };
-+	const u8 l3b[] = { 0x24, 0x26, 0x34, 0x36, 0xa4, 0xa6, 0xb4, 0xb6 };
-+
-+	p[0] = h3b[val >> 5];
-+	p[1] = m2b[(val >> 3) & 0x3];
-+	p[2] = l3b[val & 0x7];
-+}
-+
-+static int ws2812b_set(struct led_classdev *cdev,
-+		       enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-+	struct ws2812b_led *led =
-+		container_of(mc_cdev, struct ws2812b_led, mc_cdev);
-+	struct ws2812b_priv *priv = led->priv;
-+	u8 *buf = priv->data_buf + WS2812B_RESET_LEN +
-+		  led->reg * WS2812B_NUM_COLORS * WS2812B_BYTES_PER_COLOR;
-+	int ret = 0;
-+	int i;
-+
-+	led_mc_calc_color_components(mc_cdev, brightness);
-+
-+	mutex_lock(&priv->mutex);
-+	for (i = 0; i < WS2812B_NUM_COLORS; i++)
-+		ws2812b_set_byte(buf + i * WS2812B_BYTES_PER_COLOR,
-+				 led->subled[i].brightness);
-+	ret = spi_write(priv->spi, priv->data_buf, priv->data_len);
-+	mutex_unlock(&priv->mutex);
-+
-+	return ret;
-+}
-+
-+static int ws2812b_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct device_node *np = dev_of_node(dev);
-+	int ret = 0, cur_led = 0;
-+	struct ws2812b_priv *priv;
-+	struct device_node *led_node;
-+	int num_leds, i;
-+
-+	num_leds = of_get_available_child_count(np);
-+
-+	priv = devm_kzalloc(dev, struct_size(priv, leds, num_leds), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	priv->data_len =
-+		num_leds * WS2812B_BYTES_PER_COLOR * WS2812B_NUM_COLORS +
-+		WS2812B_RESET_LEN;
-+	priv->data_buf = kzalloc(priv->data_len, GFP_KERNEL);
-+	if (!priv->data_buf)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < num_leds * WS2812B_NUM_COLORS; i++)
-+		ws2812b_set_byte(priv->data_buf + WS2812B_RESET_LEN +
-+					 i * WS2812B_BYTES_PER_COLOR,
-+				 0);
-+
-+	mutex_init(&priv->mutex);
-+	priv->num_leds = num_leds;
-+	priv->spi = spi;
-+
-+	for_each_available_child_of_node(np, led_node) {
-+		u32 reg = -1;
-+		struct led_init_data init_data = {
-+			.fwnode = of_fwnode_handle(led_node),
-+		};
-+		/* WS2812B LEDs usually come with GRB color */
-+		u32 color_idx[WS2812B_NUM_COLORS] = {
-+			LED_COLOR_ID_GREEN,
-+			LED_COLOR_ID_RED,
-+			LED_COLOR_ID_BLUE,
-+		};
-+		u32 default_intensity[WS2812B_NUM_COLORS] = { 255, 255, 255 };
-+
-+		ret = of_property_read_u32(led_node, "reg", &reg);
-+		if (ret) {
-+			dev_err(dev, "failed to get reg of the %dth led.",
-+				cur_led);
-+			goto ERR_UNREG_LEDS;
-+		}
-+		if (reg >= num_leds) {
-+			dev_err(dev, "reg of the %dth led is too big.",
-+				cur_led);
-+			ret = -EINVAL;
-+			goto ERR_UNREG_LEDS;
-+		}
-+
-+		of_property_read_u32_array(led_node, "color-index", color_idx,
-+					   WS2812B_NUM_COLORS);
-+		of_property_read_u32_array(led_node, "default-intensity",
-+					   default_intensity,
-+					   WS2812B_NUM_COLORS);
-+
-+		priv->leds[cur_led].mc_cdev.subled_info =
-+			priv->leds[cur_led].subled;
-+		priv->leds[cur_led].mc_cdev.num_colors = WS2812B_NUM_COLORS;
-+		priv->leds[cur_led].mc_cdev.led_cdev.max_brightness = 255;
-+		priv->leds[cur_led].mc_cdev.led_cdev.brightness_set_blocking =
-+			ws2812b_set;
-+
-+		for (i = 0; i < WS2812B_NUM_COLORS; i++) {
-+			priv->leds[cur_led].subled[i].color_index =
-+				color_idx[i];
-+			priv->leds[cur_led].subled[i].intensity =
-+				default_intensity[i];
-+		}
-+
-+		priv->leds[cur_led].priv = priv;
-+		priv->leds[cur_led].reg = reg;
-+
-+		ret = led_classdev_multicolor_register_ext(
-+			dev, &priv->leds[cur_led].mc_cdev, &init_data);
-+		if (ret) {
-+			dev_err(dev, "registration of led@%d failed.", reg);
-+			goto ERR_UNREG_LEDS;
-+		}
-+		cur_led++;
-+	}
-+
-+	spi_set_drvdata(spi, priv);
-+
-+	return 0;
-+ERR_UNREG_LEDS:
-+	for (; cur_led >= 0; cur_led--)
-+		led_classdev_multicolor_unregister(
-+			&priv->leds[cur_led].mc_cdev);
-+	mutex_destroy(&priv->mutex);
-+	kfree(priv->data_buf);
-+	return ret;
-+}
-+
-+static void ws2812b_remove(struct spi_device *spi)
-+{
-+	struct ws2812b_priv *priv = spi_get_drvdata(spi);
-+	int cur_led;
-+
-+	for (cur_led = priv->num_leds - 1; cur_led >= 0; cur_led--)
-+		led_classdev_multicolor_unregister(
-+			&priv->leds[cur_led].mc_cdev);
-+	kfree(priv->data_buf);
-+	mutex_destroy(&priv->mutex);
-+}
-+
-+static const struct spi_device_id ws2812b_spi_ids[] = {
-+	{ "ws2812b-spi" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(spi, ws2812b_spi_ids);
-+
-+static const struct of_device_id ws2812b_dt_ids[] = {
-+	{ .compatible = "worldsemi,ws2812b-spi" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ws2812b_dt_ids);
-+
-+static struct spi_driver ws2812b_driver = {
-+	.probe		= ws2812b_probe,
-+	.remove		= ws2812b_remove,
-+	.id_table	= ws2812b_spi_ids,
-+	.driver = {
-+		.name		= KBUILD_MODNAME,
-+		.of_match_table	= ws2812b_dt_ids,
-+	},
-+};
-+
-+module_spi_driver(ws2812b_driver);
-+
-+MODULE_AUTHOR("Chuanhong Guo <gch981213@gmail.com>");
-+MODULE_DESCRIPTION("WS2812B LED driver using SPI");
-+MODULE_LICENSE("GPL");
+Fabien Parent (4):
+      dt-bindings: input: mtk-pmic-keys: add binding for MT6357 PMIC
+      regulator: dt-bindings: Add binding schema for mt6357 regulators
+      regulator: add mt6357 regulator
+      Input: mtk-pmic-keys: add MT6357 support
+
+ .../bindings/input/mediatek,pmic-keys.yaml         |   1 +
+ .../devicetree/bindings/leds/leds-mt6323.txt       |   2 +-
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 111 +++++
+ Documentation/devicetree/bindings/mfd/mt6397.txt   |   2 +-
+ .../regulator/mediatek,mt6357-regulator.yaml       | 294 +++++++++++++
+ .../bindings/soc/mediatek/mediatek,pwrap.yaml      | 147 +++++++
+ .../devicetree/bindings/soc/mediatek/pwrap.txt     |  75 ----
+ arch/arm64/boot/dts/mediatek/mt6358.dtsi           |   6 +-
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi       |   2 +-
+ arch/arm64/boot/dts/mediatek/mt8173-evb.dts        |   2 +-
+ drivers/input/keyboard/mtk-pmic-keys.c             |  17 +
+ drivers/regulator/Kconfig                          |   9 +
+ drivers/regulator/Makefile                         |   1 +
+ drivers/regulator/mt6357-regulator.c               | 453 +++++++++++++++++++++
+ include/linux/regulator/mt6357-regulator.h         |  51 +++
+ 15 files changed, 1091 insertions(+), 82 deletions(-)
+---
+base-commit: f6e37bb630736d880a319b7845e8837c8536dd59
+change-id: 20221005-mt6357-support-55308b82e33f
+
+Best regards,
 -- 
-2.38.1
-
+Alexandre Mergnat <amergnat@baylibre.com>
