@@ -2,167 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0364663C470
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 16:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0624463C5A1
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Nov 2022 17:50:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236121AbiK2P5k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Nov 2022 10:57:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52864 "EHLO
+        id S236409AbiK2Quz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Nov 2022 11:50:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236071AbiK2P5Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 10:57:16 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5ED3C6FC
-        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 07:57:14 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so11156486wmi.3
-        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 07:57:14 -0800 (PST)
+        with ESMTP id S236322AbiK2Qub (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 11:50:31 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0666F359
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 08:46:38 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id r8so17957139ljn.8
+        for <linux-leds@vger.kernel.org>; Tue, 29 Nov 2022 08:46:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GI9uwBLCvWR3OgOlMBN6oypd3UQ7AbJ0Dp0NjT4lxFo=;
-        b=q5AMfXNq+uEIyJlBR4JMMkREhMsydwCzKt+PI6ZOWnuCDxDC46sM+LhYOuqjwz3EnD
-         MvIvJWH0uX5OqoygLr59MVBrhBGn4zxNvOBAmGOxJCWtvSlfFyAbKjzocozW2irPiXj6
-         R137SUWyTFtJnCd79bN+9OmhsWSWnsZ6V3zvd4pHkctIuP/JE3QjpnroKOi/jLUBKLWE
-         TlK7K35lzOrtnX9XMPQ4vA2AWzPUfT0sgc4WuV/SBrB/XQ5eHfuyi2B2If8p7yqJHTwY
-         qwIRtHF1onChLN7ImTbtjmWCDrVMyCzrh4sRT368ZeiOC2wxS7ftcqYQQ8VoEisKtkOL
-         6EEA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ICtfj5MrFnzqIlXyjbzwB9wa8iSvEdSbaEKexKUEIJc=;
+        b=jMH1IUke8+dAR7OHQd3JnYU1kX0oyrqsEFAWO1oTAiGjsgYoZyM2Ij/fiKahZrVIA+
+         wTmL6piTROPHj3R/PSRKmMC9K07fMjh7EFf/yzaIrIkC182v/dLaAxhMS9UukCYAb7uY
+         glrlCOoUvuegt7zTAxj3A9eMz8sgO6X4I7O3eCRGBZUnhtMXvx0VmQTeMpBM3HjfhcmC
+         4PdiuLvckaEd6TsFR/hQ9ZnTfJqYWIPEvJCVL0Ie4mLNp0TJ8vd678scKQNe0C6OLsbY
+         iUcp5h+T7sI8a+JPTXHd4qGv8vpOgWP3C+ylm7tJZI22Fn36c4F+25MQjwORI9UGjL/x
+         sDOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GI9uwBLCvWR3OgOlMBN6oypd3UQ7AbJ0Dp0NjT4lxFo=;
-        b=wF9uiMqZxW5/DUYRjtKY9QB7o9rABp/OFhTc8ul9iebwWCFdrhCZVO5RZC7MG3874x
-         ZPQ84RWt6mumTr+av31L4ZAj1i6HZqWHcEExmsAnVa00wR4iSBZnxjPJAUHmyaz20idp
-         gyeElbgsZ8EIxQsyIpDIOk+TYrRe/4FuQlxT8U1TJXtR3KTXHdWAxj9eP/0jOTtkvia7
-         cMbMe4v8nifGBFc9bfgZuVIdqba8/2ZL2S3+DjPk3nbCZL1SNEfqFjsPwotTmd5YAT55
-         OAPI62M1drY1OLTPQMHgVU1PsDbfabLSUtUM3bRuJSoCkPCRiHvKf8b32e7i0W4o8Xm1
-         yTDA==
-X-Gm-Message-State: ANoB5plWrP5nZoxJDGCumwnAJCFbi6TfgDkiGikES0o6H57uyM1LTLwG
-        4DBXrjMzLlF5vHNXqiLQaJLx9g==
-X-Google-Smtp-Source: AA0mqf7sdZ4IIewi7If1cBDpEQXvuDOrlh8xL7AZnFA8/lhkuWPov7WbfLsNIp8x1bWjFHnFCxtv5A==
-X-Received: by 2002:a05:600c:554d:b0:3cf:af66:e5b9 with SMTP id iz13-20020a05600c554d00b003cfaf66e5b9mr28316339wmb.107.1669737434173;
-        Tue, 29 Nov 2022 07:57:14 -0800 (PST)
-Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id f2-20020a7bc8c2000000b003cfb7c02542sm2601550wml.11.2022.11.29.07.57.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Nov 2022 07:57:13 -0800 (PST)
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-Date:   Tue, 29 Nov 2022 16:57:07 +0100
-Subject: [PATCH v7 8/8] Input: mtk-pmic-keys: add MT6357 support
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICtfj5MrFnzqIlXyjbzwB9wa8iSvEdSbaEKexKUEIJc=;
+        b=Ngv/g1/Z78UdOHJq7i4oxM4dN86tWnxm202vKgt1fKLl8mDCL4usXcED4at/tM1MYs
+         wtb7EiSiC0hKkayUnCJXW0qwJ3BOHOckhUTaEJ/Z4PvObpMx2icJQlowH+m1fYbFqMIS
+         We+4phS5GwFDCA3cFpFILAxsow3GRky+y/k+hpAs0WXUN6T1v5eoXBUlvPYjwBh05sO2
+         H2D86ttbhe67mwRaLQWIVCwKk3SB3L7xWQP5Fh11+DOBVfPK0qBHH5h6e9mab05dTGfa
+         TTd3dCG2+K512B6oaxyYFyWzhCkf4WC/TJ/YzUNzLBpYJ2fSYL1iJSAg8byPFZG6SSBA
+         +JMA==
+X-Gm-Message-State: ANoB5plrc+GwTKhaEtCWF4JWdVJHtlyhr//wvFl3Dsrg0jyJWGJgkk2P
+        fSRHIlaXCiyJtgGx7TMwKUJjHw==
+X-Google-Smtp-Source: AA0mqf5EPSPsnKesqrD3jEsnaZzm85qklfBTN9kJNC4bwKVrtKwKscKlmyoKtJ/VX7bQ1wuylKSKSw==
+X-Received: by 2002:a05:651c:1070:b0:276:ac05:b821 with SMTP id y16-20020a05651c107000b00276ac05b821mr20048021ljm.84.1669740385895;
+        Tue, 29 Nov 2022 08:46:25 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id s28-20020a056512203c00b0049c29389b98sm2244556lfs.151.2022.11.29.08.46.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Nov 2022 08:46:25 -0800 (PST)
+Message-ID: <bc1086b2-871e-c540-a276-78ff63debbf4@linaro.org>
+Date:   Tue, 29 Nov 2022 17:46:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221005-mt6357-support-v7-8-477e60126749@baylibre.com>
-References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
-In-Reply-To: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
-To:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add an entry for
+ WorldSemi
+Content-Language: en-US
+To:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-mediatek@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Alexandre Mergnat <amergnat@baylibre.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        linux-leds@vger.kernel.org
-X-Mailer: b4 0.10.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2028; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=K2/LktiwnSqpYUY/NYDB7cyyBwW4Kzl5Gx1VcVhpHIg=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBjhivPU87+tCEsv9wKvjsTZ/yHirCJ7tdj091I6KFc
- cLYo/HOJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCY4YrzwAKCRArRkmdfjHURcWdD/
- 48EXWvZZB8DrLR5D/bQxn+KzLEixITXwKeF9W7VwgXTaLu/tau7GP4Ufn0nxnCLdAsDrpdsvzJq0QK
- /v65pGhFyzpnPLEYjjeTH3EOPNut6s/b3hrBjy6ifTG+FPpGc2Kw5An18Yu3zeyyE/ZNOZ+cRtjzWZ
- mIRgdaQ1A1RBphVGCo/V85j69rx5o4bpiO0lG5/824rP0PL0tIY3fEczhcRMdRkjoZh2N3jifZ8bjo
- ydip/Z9ZRBnxUo60n4aBEOPDt4MyyICRaPZxeJPEJMEazM+Lx6uab+GsJfyPsqcVVSoGxfbJh26cL2
- k1qUigspT56CISzWQLajPdY8qfP3Sq7sdXNh7Dn0RirWU4S2sIR6RYqOUyv3+rUL7scCWnyLNyGDM0
- mvNQcd9sJZUS7YDR1Dv5KvUYicEY85mEQkSrXZgWesitz774zn9kJHwY1hnjoojtNbdWzClYFyTOIE
- ptNZy/QSdq7si5NhnoF8R8KxsjuCvjAfCLKVWrTtbmePCfCF2S6z8aH8DkwN+QUH/IJoG0zBlVwJCs
- poPK2zFmYYl7K2/fDUi1GS92cg+3jyLgNC07KZ/vJV1ucdGnfrVt6ZJDziMbBV8Wygk4aOiidIVOSp
- K1AbxZ1piDeC7nz4xEQxNl09oM/hvoJJvFOpjN1OjWNHEouWgkGFmXtLb2IQ==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20221129140955.137361-1-gch981213@gmail.com>
+ <20221129140955.137361-2-gch981213@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221129140955.137361-2-gch981213@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Fabien Parent <fparent@baylibre.com>
+On 29/11/2022 15:09, Chuanhong Guo wrote:
+> WorldSemi is well-known for their WS2812B individually-addressable
 
-Add PMIC Keys support on MT6357 SoC.
+Drop marketing. If they were well known, they would be already in vendor
+prefixes, right?
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Add vendor prefix for WorldSemi that makes WS2812B
+individually-addressable RGB LEDs.
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index 9b34da0ec260..2a63e0718eb6 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
- #include <linux/mfd/mt6331/registers.h>
-+#include <linux/mfd/mt6357/registers.h>
- #include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
-@@ -90,6 +91,19 @@ static const struct mtk_pmic_regs mt6331_regs = {
- 	.rst_lprst_mask = MTK_PMIC_MT6331_RST_DU_MASK,
- };
- 
-+static const struct mtk_pmic_regs mt6357_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x2, MT6357_PSC_TOP_INT_CON0, 0x5,
-+				   MTK_PMIC_PWRKEY_RST),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6357_TOPSTATUS,
-+				   0x8, MT6357_PSC_TOP_INT_CON0, 0xa,
-+				   MTK_PMIC_HOMEKEY_INDEX),
-+	.pmic_rst_reg = MT6357_TOP_RST_MISC,
-+	.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
-+};
-+
- static const struct mtk_pmic_regs mt6358_regs = {
- 	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
- 		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-@@ -276,6 +290,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6331-keys",
- 		.data = &mt6331_regs,
-+	}, {
-+		.compatible = "mediatek,mt6357-keys",
-+		.data = &mt6357_regs,
- 	}, {
- 		.compatible = "mediatek,mt6358-keys",
- 		.data = &mt6358_regs,
+> RGB LEDs on the market.
+> 
+> Add a vendor prefix for it.
+> 
+> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 10c178d97b02..32274d894664 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1462,6 +1462,8 @@ patternProperties:
+>      description: Wondermedia Technologies, Inc.
+>    "^wobo,.*":
+>      description: Wobo
+> +  "^worldsemi,.*":
+> +    description: WorldSemi Co., Limited
+>    "^wanchanglong,.*":
+>      description: Wanchanglong Electronics Technology（SHENZHEN）Co.，Ltd.
+>    "^x-powers,.*":
 
--- 
-b4 0.10.1
+Best regards,
+Krzysztof
+
