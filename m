@@ -2,47 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B8863E094
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 20:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C1AD63E0B8
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 20:27:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbiK3TTO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Nov 2022 14:19:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
+        id S229625AbiK3T06 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Nov 2022 14:26:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiK3TTN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 14:19:13 -0500
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345F18326D;
-        Wed, 30 Nov 2022 11:19:07 -0800 (PST)
-Received: by mail-oi1-f175.google.com with SMTP id q186so19826675oia.9;
-        Wed, 30 Nov 2022 11:19:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sYXjbxoFQehwcsI7KFidJyM7jz5FlBew6fgMc5btlwA=;
-        b=Q/23+aDaqLUHDDBbaBonOfsF7i2K+MiBpMKiOhvTNMCvwiwln1wbyEtgJ+Tr5F3+HB
-         MmPwQMvQj5wkQ6ZksJBF1NFbZ424DBs0axUw0VEeNsiPKmDT7FYfIXpXFYq7nNmTjNS7
-         5hfK+9kf5uHMsPYykmTWdyhRMLvOiuQJEx2PmCleg08/9p46ajmQbWwA10zvPqlnKvFR
-         deCXoIxJWjY/X73bdKLEnZjUEtWa6q1wsZ2ljaJWsom09s/W84wUiuj8r2dZWlE/Lh7D
-         izQ7IOED6UoDt1S/aBEDwC6p5jlN2PbcXPhBjL6PLgZcgR9Cn1J4CsYVEhtncrydBCoF
-         iGAw==
-X-Gm-Message-State: ANoB5pktTc18M+TTSqgdtwbUF7yER+Uw0vhG4hlGNnFkN/Tpp3CQAPaH
-        YkNfuf6S8njglDjsCs89iNqF7yv9fQ==
-X-Google-Smtp-Source: AA0mqf4rKwspdtZ+SMaPu2KJBmHK8BHdPWeidUIEUapjacMCkerAKVk18+BhHcSlwZs26jDT527iUA==
-X-Received: by 2002:aca:4486:0:b0:354:5bc5:17f2 with SMTP id r128-20020aca4486000000b003545bc517f2mr30378230oia.7.1669835946355;
-        Wed, 30 Nov 2022 11:19:06 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x186-20020a4a41c3000000b00494ed04f500sm1031478ooa.27.2022.11.30.11.19.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 11:19:06 -0800 (PST)
-Received: (nullmailer pid 2640013 invoked by uid 1000);
-        Wed, 30 Nov 2022 19:19:05 -0000
-Date:   Wed, 30 Nov 2022 13:19:05 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S229711AbiK3T05 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 14:26:57 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A980286A12;
+        Wed, 30 Nov 2022 11:26:55 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A6E7D1C09DB; Wed, 30 Nov 2022 20:26:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1669836412;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QJszQtTiyPbeAKNAjPIljuAEWHwGT1w0msQ/GnDzVBs=;
+        b=FGKcPWoCjEzXHskO1Fxrb9FnuPUCiLEibcSgcPli6PUht5kvRzPa7FeZZlbRpBhRMegcBb
+        obpgIGyos4Vd1/1bkdIsRPnd7SohblHtFVXC7L5URHcg3US041Axj/WRqfP1W14npJFQ1U
+        OTxMEAIJvDjCcICcPCR78diQudyvco0=
+Date:   Wed, 30 Nov 2022 20:26:52 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Marek Vasut <marex@denx.de>,
         Christoph Niedermaier <cniedermaier@dh-electronics.com>,
         linux-kernel@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,50 +36,80 @@ Cc:     Pavel Machek <pavel@ucw.cz>,
         kernel@dh-electronics.com, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org
 Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
-Message-ID: <20221130191905.GA2631320-robh@kernel.org>
+Message-ID: <Y4eufPCzKbfp9k3z@duo.ucw.cz>
 References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
  <Y3y/S5COG7VPbsqL@duo.ucw.cz>
  <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
+ <20221130191905.GA2631320-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="eQM87O+WVwWbNhd3"
 Content-Disposition: inline
-In-Reply-To: <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20221130191905.GA2631320-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 10:26:30PM +0100, Marek Vasut wrote:
-> On 11/22/22 13:23, Pavel Machek wrote:
-> > Hi!
-> 
-> Hi,
-> 
-> > > Mark the label property as deprecated as it is mentioned
-> > > in the description.
-> > 
-> > Lets do it the other way around. Functions (etc) don't really provide
-> > good enough description of LED, and label is still needed.
-> 
-> Can you please provide a clear explanation which property or approach is the
-> correct one for new DTs ?
-> 
-> So far, the documentation states that "label" is deprecated, and users
-> should replace it with "function" and "color".
 
-'function' is what activity/operation the LED is associated with. It is 
-a fixed set of strings which s/w may use. It is a replacement for 
-'linux,default-trigger'.
+--eQM87O+WVwWbNhd3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-'label' is what is printed next to the LED for a human to read. 'label' 
-can be anything and the OS shouldn't care what it is.
+On Wed 2022-11-30 13:19:05, Rob Herring wrote:
+> On Fri, Nov 25, 2022 at 10:26:30PM +0100, Marek Vasut wrote:
+> > On 11/22/22 13:23, Pavel Machek wrote:
+> > > Hi!
+> >=20
+> > Hi,
+> >=20
+> > > > Mark the label property as deprecated as it is mentioned
+> > > > in the description.
+> > >=20
+> > > Lets do it the other way around. Functions (etc) don't really provide
+> > > good enough description of LED, and label is still needed.
+> >=20
+> > Can you please provide a clear explanation which property or approach i=
+s the
+> > correct one for new DTs ?
+> >=20
+> > So far, the documentation states that "label" is deprecated, and users
+> > should replace it with "function" and "color".
+>=20
+> 'function' is what activity/operation the LED is associated with. It is=
+=20
+> a fixed set of strings which s/w may use. It is a replacement for=20
+> 'linux,default-trigger'.
+>=20
+> 'label' is what is printed next to the LED for a human to read. 'label'=
+=20
+> can be anything and the OS shouldn't care what it is.
 
+Unfortunately, no.
 
-They serve 2 different purposes.
+We use label as a path in /sys/class/leds. And it looks like integer
+"function" is not really adequate for describing what LED does. There
+are too many LEDs and not enough integers, and it is common to have
+same function ("activity") on multiple devices ("wifi", "mmc", "eth").
 
-Rob
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--eQM87O+WVwWbNhd3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY4eufAAKCRAw5/Bqldv6
+8iEKAJ955fdwV606GSRqpigK+uze4DolXQCeJHNIyZz0oT1L+vtwTl8f0gT228w=
+=eoCp
+-----END PGP SIGNATURE-----
+
+--eQM87O+WVwWbNhd3--
