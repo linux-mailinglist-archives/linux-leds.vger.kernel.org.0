@@ -2,60 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70DAF63CD34
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 03:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2456663D0BF
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 09:35:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232206AbiK3CNq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Nov 2022 21:13:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38746 "EHLO
+        id S234464AbiK3IfO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Nov 2022 03:35:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232281AbiK3CNg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Nov 2022 21:13:36 -0500
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1434B76B;
-        Tue, 29 Nov 2022 18:13:26 -0800 (PST)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-13bd2aea61bso19485581fac.0;
-        Tue, 29 Nov 2022 18:13:26 -0800 (PST)
+        with ESMTP id S235577AbiK3Ie7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 03:34:59 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8517D27CD5
+        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 00:33:11 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id bn5so20071044ljb.2
+        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 00:33:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yniSs8Gp8ap1xL/W4FR7VkkouxqMk25DAO1KPxyknP4=;
-        b=mKWTm2Mn3IobvxkVApzoZuOACeslebG2wHvE8Ghnd3uCjNFnUhi/O8wW9H47qxmoX0
-         Jx0yjkXp0KMUdNosSTe22FxiQ32lMayVfT3ntnIyz2PL8dxal+0x7EtaeA+TxH+W9Qho
-         cU7O834g2vfxBigSnPwNHKNCslLwMjLXzb6EJHlz9IVUXPKT0N/7iX6DvdOtNRDy/CLv
-         sDh+KaIjy0hNXvqMMbyTQkP6qllKugAF+EuUbPNOGd2w5DNy+w0bLLzt9fbC3Fh5Yez7
-         +AX4xWcA+hXFzpdBOX79sZ+jIQHUWr8ZnKiPen3V1h1fueXJqnijxfF8Z2ZFFoUJBQBe
-         366g==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3xyoqBbnWI1VD4qfERQYhc2TYfB9goHU//f2T1eH4sA=;
+        b=NE4OZEyIBve2A4/6L97Ksr74YB99GYQP8ru+raeK0Efi/HOro1oQuMn43AcPfLSRqq
+         xpzfn9Ul25PRJjsQtnHhnrS/Q1e2UFtzhJJhSAnOvyA5aWlwum1zbF9LeA1NT1LLqzXg
+         M8TqgKj83qP4NKxA2ySdQDQABTQR9HyRcEB1dBdx3aJPB9Qw/MapLnQ+euq7nIIclleR
+         ZHw2shYKo9vfvMAxFa4WlXNhSPbROPUm7QmlM6AIVYNTaWKNCxuYqWKbbqPAOT6710HJ
+         XngZEjEqcfkzwYdUUtgkqnP7DkvMvukg3abPMlmC86m/y0dc6ZMQDjxUsDdQCdXKO8Mh
+         UWqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yniSs8Gp8ap1xL/W4FR7VkkouxqMk25DAO1KPxyknP4=;
-        b=GDLzBmU+FuBvDAAePflryUvMZWQ4DqGYnveqRQvBO4l7Zvqdy9mxacCJ3bs53cQSB0
-         qFTruplN8zX9G5F1fpA4bZQx2JjU9oh9We+ALUBQ2ByjhoUN8SqmgCE0zzudvWKJGKBF
-         qYNBj1NMw9F76hIUuHwaHNpjSbYDZftJAAUsh50mXORXOD1yFTg2mb2IbeE/HS+rtLdY
-         mtexIMPNeyWrpr+tBeeX97r2kdl58GaYcBL8jtNE4tnoCS/D+PVdd8Y3p57qlpiJDepx
-         Var/c1nNyAwcb+N9wmrdGcig2V6A+2mktjJxs1xWiUapEEvsMeRRmIfXmOczj7+cnNL/
-         9aog==
-X-Gm-Message-State: ANoB5pkbW1N653GPp8EhIv1UWUn/8CQ4m7b3bL9hHsdjwmeTtNEVA+mZ
-        d8PACYGbxNCcGMP0d133PKpsZ0h2sgF/4bEzBzjmk/q8
-X-Google-Smtp-Source: AA0mqf4HUzcAj/pGLURaEHyzNGwwqn+mbj7cJh5IYrKc+9+fa1LeK4TxOAyw/oi7Jma3bWhsosAdsaRCoOrjT66wA1k=
-X-Received: by 2002:a05:6870:ab86:b0:13c:5763:9411 with SMTP id
- gs6-20020a056870ab8600b0013c57639411mr32180814oab.288.1669774405987; Tue, 29
- Nov 2022 18:13:25 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3xyoqBbnWI1VD4qfERQYhc2TYfB9goHU//f2T1eH4sA=;
+        b=EMy9GRKldbLekvgK1MiMKmYFV5jdI41FB6pMEb/HET0C/0DIIaICXjNL66qBpAao2b
+         Byo9F+lXC5QeI3O1wq4C2wDRvQMdk9G3fDFWh/mWgUkUwdHMUvqvcxSSv6bdRNf6lhjC
+         2ykhT1iRmZyTuAxfAiiKtDd+l85vp78BSiRDZxbTYcFP8zj1rKZ3Sqh68Vh8d7b31e0V
+         57bcX055G4/cu+eZU9bddVRkGtGdoXCAW+xew2Cy/Y4h5MtfjYBYdxDQNfN0xmLN3bZf
+         amCKeV7VUfHWH7dTaGCulI5FoX0AqhXWUeHsbptUs2fXHVvTKTOsOyDfqc32DwJ8lMOS
+         ER4Q==
+X-Gm-Message-State: ANoB5plXCL0TK+OGPohF5NtY1j1lTsueKTEAoiuSVeY4ZXgib1R5xImo
+        JPFEz6jwz47qKwmZm1Nkkv5hYA==
+X-Google-Smtp-Source: AA0mqf6E1YVyQ7wWFtFozRvgmCREjNx3M/WigYathuheXoU28TQTHO2oG62fRfkoLQZHx4tnNrIxQw==
+X-Received: by 2002:a05:651c:1586:b0:277:38f:ffad with SMTP id h6-20020a05651c158600b00277038fffadmr12718875ljq.439.1669797189767;
+        Wed, 30 Nov 2022 00:33:09 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id d10-20020a056512368a00b0049e9122bd0esm166301lfs.114.2022.11.30.00.33.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Nov 2022 00:33:09 -0800 (PST)
+Message-ID: <08bd485b-51f6-8249-63a7-a6864a431276@linaro.org>
+Date:   Wed, 30 Nov 2022 09:33:08 +0100
 MIME-Version: 1.0
-References: <20221129140955.137361-1-gch981213@gmail.com> <20221129140955.137361-2-gch981213@gmail.com>
- <bc1086b2-871e-c540-a276-78ff63debbf4@linaro.org>
-In-Reply-To: <bc1086b2-871e-c540-a276-78ff63debbf4@linaro.org>
-From:   Chuanhong Guo <gch981213@gmail.com>
-Date:   Wed, 30 Nov 2022 10:13:14 +0800
-Message-ID: <CAJsYDV+Bm_SjzZ53jdARd3rRGBaai7iKxQp53cLBd30XATOOiA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add an entry for WorldSemi
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for
+ worldsemi,ws2812b-spi
+Content-Language: en-US
+To:     Sebastian Reichel <sre@kernel.org>
+Cc:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Stanislav Jakubek <stano.jakubek@gmail.com>,
         Linus Walleij <linus.walleij@linaro.org>,
@@ -67,34 +71,59 @@ Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221129140955.137361-1-gch981213@gmail.com>
+ <20221129140955.137361-3-gch981213@gmail.com>
+ <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org>
+ <20221130001459.3wyxnwpjaxvla6oj@mercury.elektranox.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221130001459.3wyxnwpjaxvla6oj@mercury.elektranox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+On 30/11/2022 01:14, Sebastian Reichel wrote:
+>>> +      default-intensity:
+>>> +        description: |
+>>> +          An array of 3 integer specifying the default intensity of each color
+>>> +          components in this LED. <255 255 255> if unspecified.
+>>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+>>> +        minItems: 3
+>>
+>> Drop minItems.... but:
+>>
+>>> +        maxItems: 3
+>>> +        items:
+>>> +          minimum: 0
+>>> +          maximum: 255
+>>
+>> default: 255
+> 
+> I would argue, that the default should be 0 (off) instead of 255
+> (full power).
 
-On Wed, Nov 30, 2022 at 12:46 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 29/11/2022 15:09, Chuanhong Guo wrote:
-> > WorldSemi is well-known for their WS2812B individually-addressable
->
-> Drop marketing. If they were well known, they would be already in vendor
-> prefixes, right?
->
-> Add vendor prefix for WorldSemi that makes WS2812B
-> individually-addressable RGB LEDs.
->
+Yes.
 
- OK. I'll do so in v2.
+> 
+>> What controls the intensity? Don't you have PWM there?
+> 
+> WS2812 is a RGB led, which contains a small Microcontroller. The µC
+> takes 24 byte intensity data from a serial input and then passes on
+> any following bits to the next LED. SPI clk and chip-select are
+> ignored (chip-select support can be trivially added though).
+> 
+> You can find them everywhere nowadays, since they are quite cheap
+> (a few cents per LED) and need only one MOSI pin to control hundreds
+> of LEDs.
 
--- 
-Regards,
-Chuanhong Guo
+OK. This should be anyway existing property, so default-brightness.
+
+Best regards,
+Krzysztof
+
