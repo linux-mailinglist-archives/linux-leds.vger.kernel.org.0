@@ -2,107 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA0CD63D93A
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 16:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B8863E094
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 20:19:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbiK3PWN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Nov 2022 10:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45824 "EHLO
+        id S229541AbiK3TTO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Nov 2022 14:19:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbiK3PWM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 10:22:12 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD197E40A
-        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 07:22:10 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p0OuN-00009x-8E; Wed, 30 Nov 2022 16:21:59 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p0OuK-001Ldc-Dn; Wed, 30 Nov 2022 16:21:57 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p0OuK-001Vql-Hb; Wed, 30 Nov 2022 16:21:56 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: [PATCH v2 04/11] leds: qcom-lpg: Propagate errors in .get_state() to the caller
-Date:   Wed, 30 Nov 2022 16:21:41 +0100
-Message-Id: <20221130152148.2769768-5-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229448AbiK3TTN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 14:19:13 -0500
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345F18326D;
+        Wed, 30 Nov 2022 11:19:07 -0800 (PST)
+Received: by mail-oi1-f175.google.com with SMTP id q186so19826675oia.9;
+        Wed, 30 Nov 2022 11:19:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sYXjbxoFQehwcsI7KFidJyM7jz5FlBew6fgMc5btlwA=;
+        b=Q/23+aDaqLUHDDBbaBonOfsF7i2K+MiBpMKiOhvTNMCvwiwln1wbyEtgJ+Tr5F3+HB
+         MmPwQMvQj5wkQ6ZksJBF1NFbZ424DBs0axUw0VEeNsiPKmDT7FYfIXpXFYq7nNmTjNS7
+         5hfK+9kf5uHMsPYykmTWdyhRMLvOiuQJEx2PmCleg08/9p46ajmQbWwA10zvPqlnKvFR
+         deCXoIxJWjY/X73bdKLEnZjUEtWa6q1wsZ2ljaJWsom09s/W84wUiuj8r2dZWlE/Lh7D
+         izQ7IOED6UoDt1S/aBEDwC6p5jlN2PbcXPhBjL6PLgZcgR9Cn1J4CsYVEhtncrydBCoF
+         iGAw==
+X-Gm-Message-State: ANoB5pktTc18M+TTSqgdtwbUF7yER+Uw0vhG4hlGNnFkN/Tpp3CQAPaH
+        YkNfuf6S8njglDjsCs89iNqF7yv9fQ==
+X-Google-Smtp-Source: AA0mqf4rKwspdtZ+SMaPu2KJBmHK8BHdPWeidUIEUapjacMCkerAKVk18+BhHcSlwZs26jDT527iUA==
+X-Received: by 2002:aca:4486:0:b0:354:5bc5:17f2 with SMTP id r128-20020aca4486000000b003545bc517f2mr30378230oia.7.1669835946355;
+        Wed, 30 Nov 2022 11:19:06 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x186-20020a4a41c3000000b00494ed04f500sm1031478ooa.27.2022.11.30.11.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 11:19:06 -0800 (PST)
+Received: (nullmailer pid 2640013 invoked by uid 1000);
+        Wed, 30 Nov 2022 19:19:05 -0000
+Date:   Wed, 30 Nov 2022 13:19:05 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Marek Vasut <marex@denx.de>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        kernel@dh-electronics.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
+Message-ID: <20221130191905.GA2631320-robh@kernel.org>
+References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
+ <Y3y/S5COG7VPbsqL@duo.ucw.cz>
+ <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1689; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=rTgdm7QcRlAMP1sQaYC5ejnejFtK5h3Bb5Wbh9vWlBY=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjh3TsyoxxNhNODW0uhVVOPMVUxb7Ug9yLEluTeZZZ taGw4tyJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY4d07AAKCRDB/BR4rcrsCYrRB/ 98SOdKJxqHQqepn7vCvWI5RREAncDY4tG2CtWL68mXstJCkkBz377zQSvR6KSUlf7nCOnGN1W1qcPu Zrkr+U1+h0RFnnRIbJAl29PjaOPvANnFdKCkSIc08ZNuCQMCk+W3nJOsvSvBmMefUTs2B1Nr7TR73r TMbQCysmrf9tajNzNmHy8PJLbtw78zV4Jf90cZr/bQelQLcC++Mhz4ODltKSdW+50REPOKlwr+Ebez FhjgfZchCl2pBFG1gpW8vptAF9yl6vqnY94Wc+hN8ksj1nJlNNkzsuTXXea4taZHYipN0cyr2w4t8S cKT5SUD/YP5nGMv1+eJSXDH+IJx5vq
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-.get_state() can return an error indication. Make use of it to propagate
-failing hardware accesses.
+On Fri, Nov 25, 2022 at 10:26:30PM +0100, Marek Vasut wrote:
+> On 11/22/22 13:23, Pavel Machek wrote:
+> > Hi!
+> 
+> Hi,
+> 
+> > > Mark the label property as deprecated as it is mentioned
+> > > in the description.
+> > 
+> > Lets do it the other way around. Functions (etc) don't really provide
+> > good enough description of LED, and label is still needed.
+> 
+> Can you please provide a clear explanation which property or approach is the
+> correct one for new DTs ?
+> 
+> So far, the documentation states that "label" is deprecated, and users
+> should replace it with "function" and "color".
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+'function' is what activity/operation the LED is associated with. It is 
+a fixed set of strings which s/w may use. It is a replacement for 
+'linux,default-trigger'.
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 741cc2fd817d..0dcc046a9a19 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -982,20 +982,20 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 
- 	ret = regmap_read(lpg->map, chan->base + LPG_SIZE_CLK_REG, &val);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	refclk = lpg_clk_rates[val & PWM_CLK_SELECT_MASK];
- 	if (refclk) {
- 		ret = regmap_read(lpg->map, chan->base + LPG_PREDIV_CLK_REG, &val);
- 		if (ret)
--			return 0;
-+			return ret;
- 
- 		pre_div = lpg_pre_divs[FIELD_GET(PWM_FREQ_PRE_DIV_MASK, val)];
- 		m = FIELD_GET(PWM_FREQ_EXP_MASK, val);
- 
- 		ret = regmap_bulk_read(lpg->map, chan->base + PWM_VALUE_REG, &pwm_value, sizeof(pwm_value));
- 		if (ret)
--			return 0;
-+			return ret;
- 
- 		state->period = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * LPG_RESOLUTION * pre_div * (1 << m), refclk);
- 		state->duty_cycle = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * pwm_value * pre_div * (1 << m), refclk);
-@@ -1006,7 +1006,7 @@ static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 
- 	ret = regmap_read(lpg->map, chan->base + PWM_ENABLE_CONTROL_REG, &val);
- 	if (ret)
--		return 0;
-+		return ret;
- 
- 	state->enabled = FIELD_GET(LPG_ENABLE_CONTROL_OUTPUT, val);
- 	state->polarity = PWM_POLARITY_NORMAL;
--- 
-2.38.1
+'label' is what is printed next to the LED for a human to read. 'label' 
+can be anything and the OS shouldn't care what it is.
 
+
+They serve 2 different purposes.
+
+Rob
