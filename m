@@ -2,124 +2,220 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D824263D1C8
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 10:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E0F63D2CF
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 11:08:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232373AbiK3J0A (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Nov 2022 04:26:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
+        id S235518AbiK3KIW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Nov 2022 05:08:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbiK3JZ7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 04:25:59 -0500
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9922C2A967;
-        Wed, 30 Nov 2022 01:25:58 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id n205so18140623oib.1;
-        Wed, 30 Nov 2022 01:25:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zbHI1uW0B/bUDnJ0AXXSb3CdFb68rbl4AKwLYqiwj+I=;
-        b=dRrlLbN0dLYqYxMdXq7PcZcM4pdcMPyjUPM2N9Qjrli6oFHMVq7YxmOxGIpd8dSRvH
-         NBF2HhAlED9O8eMR7sNTiEwORU2jjLUjMflfhp5R+zrL8I3/Dt4pTfx2EVgeElo51j+H
-         JPUaZZrF11poDygHcDSfMJWwGFntVzLAxxu2Qoym+YtgtAHUBKbvBuHd+9W1OX3svlwU
-         3jKitxJ8Ib6CzUMJFed9mwvjXPMZ6pj05dpWGgCBYZpuGOLjfm+dFSKNwBzoxafGuBXs
-         iD8OFthAgUF7AW/eBkzmVKY/7tfIXBybf6g+waWeF67esSNNhYTU1w3XgLBX3Som0iS2
-         Md5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zbHI1uW0B/bUDnJ0AXXSb3CdFb68rbl4AKwLYqiwj+I=;
-        b=6EN8JWyWW66NU+yU/rVwRfiaWFdXT+5CibREpjqJcDlfyJBdQ7I5oLebBvd+HNFhwX
-         vFu/Cted8ASUkWG9QQv0v6ywCQEjoQtMe0018fcVq7lipuh/X3InZxy4op3OfhERlWSo
-         GyAkrw143yHVBiVkdo6+eR0ndNQvewwbiXHUqrhZJGZSEKrnnRSlBRIDq+P4gScQ6B9c
-         Qy6so8OYMm0PIgpScYzfsi/QUm6E88TR0liLyf4tedwC6ZfTecvf1t3f99BBN8uyq9n8
-         fzbiNwiKeu2wxYuTl0DSoiSMYz/j1y8BULRJvFmiCxUfEzbUXTn6ENSJKfOQD2R9/als
-         602g==
-X-Gm-Message-State: ANoB5pkwkUH1Zv2uI7oQ0hu/3zL5jazHv964o75yjI6fwz6NWAghE0Rf
-        +Y0qyuWkae6mCML3+3iBSBCifNZ5MfjdTIqL2uJ5C/Yow6OhUw==
-X-Google-Smtp-Source: AA0mqf7CAQ+AKTVLm+ECt9KESEXsJKRM65EWepkH0WhXm5liXbwWk0ortUwnZID/hBWY29xEamAr2C+iGy1fsdT7A1w=
-X-Received: by 2002:a05:6808:2ca:b0:359:ca42:419 with SMTP id
- a10-20020a05680802ca00b00359ca420419mr30927505oid.98.1669800357956; Wed, 30
- Nov 2022 01:25:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20221129140955.137361-1-gch981213@gmail.com> <20221129140955.137361-3-gch981213@gmail.com>
- <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org> <CAJsYDVJknDWKMW1tH0M=85tJOPG-HngxhhMzvJpk5qn_Q9mzAg@mail.gmail.com>
- <7b3f97f9-34af-413c-aaad-9108b4f36c51@linaro.org>
-In-Reply-To: <7b3f97f9-34af-413c-aaad-9108b4f36c51@linaro.org>
-From:   Chuanhong Guo <gch981213@gmail.com>
-Date:   Wed, 30 Nov 2022 17:25:46 +0800
-Message-ID: <CAJsYDVKXvJZaqCBx7RSsfVZkKTGdbp78GHA4mvmUdQwyEyGkBQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S234125AbiK3KIU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 05:08:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B463B248EB;
+        Wed, 30 Nov 2022 02:08:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF5261AA2;
+        Wed, 30 Nov 2022 10:08:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7617C433D7;
+        Wed, 30 Nov 2022 10:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669802896;
+        bh=9FvSvVLzySD8LbTfnoYpcK38CCZwnNYjsIckhInqktQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P0Yd5YZnMurOBSMnc+1boBGbX7+HW/x6DAtfPeXD3vOX+NZu9c/rTJbwa3nYtQfC1
+         5jh51yyT0/rdJ4UyhXfKtJHzmPV9i89AaDWJnydAV4vGaKLbcY0Y5LlPeXTqt9cqvP
+         jFQownQSEWgOAUhX3swf4M67FWa8XssUy2yhee7Z2hpva2KCXq/6vWJSqS59m1nf3W
+         Dze7SR7/FcFULDdvElVuJkbbbgDokuz4ek9aJFqaI2NpZ/nXNu7gNbWqdh2W2b+6AS
+         2nDwZOiWdgh8LV5V5V48cKLdEvX2/0sglK4kNObcAoltdrMboWzfzMN0uXeG2yndoH
+         POpULBl8lpocA==
+Date:   Wed, 30 Nov 2022 10:08:07 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Alexandre Mergnat <amergnat@baylibre.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-mediatek@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v7 4/8] dt-bindings: mfd: mediatek: Add bindings for
+ MT6357 PMIC
+Message-ID: <Y4crh0Ob3sz20s5T@google.com>
+References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
+ <20221005-mt6357-support-v7-4-477e60126749@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221005-mt6357-support-v7-4-477e60126749@baylibre.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+On Tue, 29 Nov 2022, Alexandre Mergnat wrote:
 
-On Wed, Nov 30, 2022 at 5:08 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> And that's exactly what I said - the compatibles should not include bus
-> information. The bus information comes from... the bus!
+> Currently, almost all MT63XX PMIC are documented mfd/mt6397.txt.
+> Unfortunately, the PMICs haven't always similar HW sub-features.
+> To have a better human readable schema, I chose to make one PMIC schema
+> to match the exact HW capabilities instead of convert mt6397.txt to
+> mediatek,mt63xx.yaml and put a bunch of properties behind
+> "if contain ... then ..."
+> 
+> - add interrupt property
+> - change property refs to match with new yaml documentation
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Oh. I thought there will be a conflict if there is a SPI driver and
-, say, an I2C driver with the same compatible string.
+Acked-by: Lee Jones <lee@kernel.org>
 
-> [...]
-> >>
-> >> Why unit address is optional?
-> >
-> > It isn't. I copy-pasted it from led-class-multicolor.yaml and
-> > didn't check the exact regex.
-> > I'll fix it in the next version.
->
-> Make it required and matching your case.
-
-Got it.
-
-> [...]
-> >>> +      default-intensity:
-> >>> +        description: |
-> >>> +          An array of 3 integer specifying the default intensity of each color
-> >>> +          components in this LED. <255 255 255> if unspecified.
-> >>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> >>> +        minItems: 3
-> [...]
-> So this is brightness of each color...
-
-I don't think so.
-See the kernel doc for multicolor LED:
-https://docs.kernel.org/leds/leds-class-multicolor.html
-This property sets the sysfs file multi_intensity while the
-actual LED brightness is controlled with another sysfs
-file called 'brightness'.
-Setting multi_intensity alone doesn't change the LED
-brightness at all.
+> ---
+>  .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 111 +++++++++++++++++++++
+>  1 file changed, 111 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+> new file mode 100644
+> index 000000000000..837a77013d57
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+> @@ -0,0 +1,111 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/mediatek,mt6357.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT6357 PMIC
+> +
+> +maintainers:
+> +  - Flora Fu <flora.fu@mediatek.com>
+> +  - Alexandre Mergnat <amergnat@baylibre.com>
+> +
+> +description: |
+> +  MT6357 is a power management system chip containing 5 buck
+> +  converters and 29 LDOs. Supported features are audio codec,
+> +  USB battery charging, fuel gauge, RTC
+> +
+> +  This is a multifunction device with the following sub modules:
+> +  - Regulator
+> +  - RTC
+> +  - Keys
+> +
+> +  It is interfaced to host controller using SPI interface by a proprietary hardware
+> +  called PMIC wrapper or pwrap. This MFD is a child device of pwrap.
+> +  See the following for pwrap node definitions:
+> +  Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6357
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +  regulators:
+> +    type: object
+> +    $ref: /schemas/regulator/mediatek,mt6357-regulator.yaml
+> +    description:
+> +      List of MT6357 BUCKs and LDOs regulators.
+> +
+> +  rtc:
+> +    type: object
+> +    $ref: /schemas/rtc/rtc.yaml#
+> +    description:
+> +      MT6357 Real Time Clock.
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mt6357-rtc
+> +      start-year: true
+> +    required:
+> +      - compatible
+> +
+> +  keys:
+> +    type: object
+> +    $ref: /schemas/input/mediatek,pmic-keys.yaml
+> +    description:
+> +      MT6357 power and home keys.
+> +
+> +required:
+> +  - compatible
+> +  - regulators
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    pwrap {
+> +        pmic {
+> +            compatible = "mediatek,mt6357";
+> +
+> +            interrupt-parent = <&pio>;
+> +            interrupts = <145 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-controller;
+> +            #interrupt-cells = <2>;
+> +
+> +            regulators {
+> +                mt6357_vproc_reg: buck-vproc {
+> +                    regulator-name = "vproc";
+> +                    regulator-min-microvolt = <518750>;
+> +                    regulator-max-microvolt = <1312500>;
+> +                    regulator-ramp-delay = <6250>;
+> +                    regulator-enable-ramp-delay = <220>;
+> +                    regulator-always-on;
+> +                };
+> +
+> +                // ...
+> +
+> +                mt6357_vusb33_reg: ldo-vusb33 {
+> +                    regulator-name = "vusb33";
+> +                    regulator-min-microvolt = <3000000>;
+> +                    regulator-max-microvolt = <3100000>;
+> +                    regulator-enable-ramp-delay = <264>;
+> +                };
+> +            };
+> +
+> +            rtc {
+> +                compatible = "mediatek,mt6357-rtc";
+> +            };
+> +
+> +            keys {
+> +                compatible = "mediatek,mt6357-keys";
+> +            };
+> +        };
+> +    };
+> 
 
 -- 
-Regards,
-Chuanhong Guo
+Lee Jones [李琼斯]
