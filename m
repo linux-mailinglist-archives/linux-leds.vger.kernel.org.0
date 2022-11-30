@@ -2,87 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D53B63D51D
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 13:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A11E763D946
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Nov 2022 16:22:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234231AbiK3MAB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Nov 2022 07:00:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
+        id S229792AbiK3PW4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Nov 2022 10:22:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235150AbiK3L75 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 06:59:57 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B9270445
-        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 03:59:54 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id b9so20605067ljr.5
-        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 03:59:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2ON5FjK+dwOvFBeCLYK/IKSJQsVy9DHwVDaXKHa528g=;
-        b=PYyOAVgjg/t20ES1VyJBna5xfttRfQZyFma2PetyzaUUMFovuqyOqC37rxYmVZS3T5
-         XzUUsfM55bd83svQTtQhOL35wFLBjt8xG/ABvgyj8kPaw+RvBpcyr+Cwm4kftK8VT4dm
-         l/YYoFOWSuPkeaHkii4vJLLiH/SMkXNkH7h6f8ME05L+8O5q0IZtlHWhFp5xnmZpvayp
-         AP+g+g8KDKLKLv5Ol4TsDX8r3DLRJ9VIfCpvLlufCQBBSQzoP2EGXsxWRTfv+oGnLXyZ
-         nW95Xk6BdkduGqvqrTa4iPR6XbAPxJ1IzyTC+8Lda2MuxVRa3VWzy3R+CfuqHDyxlq/s
-         G9Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ON5FjK+dwOvFBeCLYK/IKSJQsVy9DHwVDaXKHa528g=;
-        b=mu4tFJZPNuT1zvRzrkc4H8pxSdR9o+8sXNc6nviMe4a9lHw98uwHmitThhINWdGc7+
-         zZ2Qv1TX6n0DnthhM8n/ZWTQEARcobenXX/u1viphcsLuMC6h0adACTeV0KyGXEJUs2l
-         dqz1/cCybQ5JfWeOwrVWcdEg8qldRMUJn2fKV/9YrZUNybBIe4cD5K3jnt2Y8xzfek5B
-         wY1v/PSRE1gYZuZVkkTfwQN5B+JJdhKrjIxdnFzl9w/HYsCPhUiSRO0OHaAi35lzxZCR
-         m/b2Mp2R9HfHKqftTqxzkpZ1gIzhbuvIeUsr81fudkZtfSbIxNMaXAV1ZS3YS9HUi6K+
-         WiYg==
-X-Gm-Message-State: ANoB5pk6YK2kzPP5LxffW5q6tKn/LLNGQ0HG5Xznw21ygOnvB01ta1Bv
-        m4iLJZGAUEYfe0X/wnzLFm6VWg==
-X-Google-Smtp-Source: AA0mqf7XGjB6Ub5eyCrIcgsZktv4Dekz8D+amikQ5Wy4MCraS2xhaXmVl57rBX08PU0lRnRGqazSSg==
-X-Received: by 2002:a2e:aaa1:0:b0:277:7678:60dd with SMTP id bj33-20020a2eaaa1000000b00277767860ddmr18323523ljb.147.1669809592747;
-        Wed, 30 Nov 2022 03:59:52 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id b4-20020a2eb904000000b00279cbcfd7dbsm62226ljb.30.2022.11.30.03.59.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 03:59:52 -0800 (PST)
-Message-ID: <c13b67ec-c030-302a-6315-fad18323923a@linaro.org>
-Date:   Wed, 30 Nov 2022 12:59:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for
- worldsemi,ws2812b-spi
-Content-Language: en-US
-To:     Chuanhong Guo <gch981213@gmail.com>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        with ESMTP id S229862AbiK3PWw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Nov 2022 10:22:52 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C472EF36
+        for <linux-leds@vger.kernel.org>; Wed, 30 Nov 2022 07:22:50 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0OuS-00009r-WF; Wed, 30 Nov 2022 16:22:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0OuI-001LdM-Fl; Wed, 30 Nov 2022 16:21:55 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0OuI-001VqY-Bk; Wed, 30 Nov 2022 16:21:54 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
         Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Douglas Anderson <dianders@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Michael Walle <michael@walle.cc>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Michal Simek <michal.simek@xilinx.com>,
         Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20221129140955.137361-1-gch981213@gmail.com>
- <20221129140955.137361-3-gch981213@gmail.com>
- <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org>
- <CAJsYDVJknDWKMW1tH0M=85tJOPG-HngxhhMzvJpk5qn_Q9mzAg@mail.gmail.com>
- <7b3f97f9-34af-413c-aaad-9108b4f36c51@linaro.org>
- <CAJsYDVKXvJZaqCBx7RSsfVZkKTGdbp78GHA4mvmUdQwyEyGkBQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAJsYDVKXvJZaqCBx7RSsfVZkKTGdbp78GHA4mvmUdQwyEyGkBQ@mail.gmail.com>
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Date:   Wed, 30 Nov 2022 16:21:37 +0100
+Message-Id: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4201; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=OJndCEVt3aO3P0WDGIcSb4svVqFYr4L7BRkc05e7KK8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjh3TeeKE42zO/dADA8GIRueUo9ayiBLrzlu5BRvEE w4nESiyJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY4d03gAKCRDB/BR4rcrsCSMiB/ 9P92eEh5i/ykm3IhBfm7shzbMkb/wG7nDkc+vvv70Z73UbyxFvKLzsJ+xK5VXqTCLlo8DUkfo9BJPh gr8T1RvP6HUtOELqCuQE6ruqv9wlN28AYIytMCoO+QvOqLdbM84LW89W1fK1B6ImECmggYrGw60CXE f7Rv+b9z4cETy+dLsOSVyQ0zsix7/7HyoqlinRbwr3R1SJewjSjU++PJ6H8LCe6DcYMwdJkpBaC2Ol hVLwWlo1eF82Cow8M5bd0+XSEZXpG5oFaf6CebgL+JYlfUHRWLzOpJpq6RAXCmfilUqisk0cROhhop q2OYuXh1amqkiMJYz8hRni9/YulIOt
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -91,59 +107,91 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 30/11/2022 10:25, Chuanhong Guo wrote:
-> Hi!
-> 
-> On Wed, Nov 30, 2022 at 5:08 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->> And that's exactly what I said - the compatibles should not include bus
->> information. The bus information comes from... the bus!
-> 
-> Oh. I thought there will be a conflict if there is a SPI driver and
-> , say, an I2C driver with the same compatible string.
+Hello,
 
-We already have such. For example: adi,adxl312
+I forgot about this series and was remembered when I talked to Conor
+Dooley about how .get_state() should behave in an error case.
 
-> 
->> [...]
->>>>
->>>> Why unit address is optional?
->>>
->>> It isn't. I copy-pasted it from led-class-multicolor.yaml and
->>> didn't check the exact regex.
->>> I'll fix it in the next version.
->>
->> Make it required and matching your case.
-> 
-> Got it.
-> 
->> [...]
->>>>> +      default-intensity:
->>>>> +        description: |
->>>>> +          An array of 3 integer specifying the default intensity of each color
->>>>> +          components in this LED. <255 255 255> if unspecified.
->>>>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
->>>>> +        minItems: 3
->> [...]
->> So this is brightness of each color...
-> 
-> I don't think so.
-> See the kernel doc for multicolor LED:
-> https://docs.kernel.org/leds/leds-class-multicolor.html
-> This property sets the sysfs file multi_intensity while the
-> actual LED brightness is controlled with another sysfs
-> file called 'brightness'.
-> Setting multi_intensity alone doesn't change the LED
-> brightness at all.
+Compared to (implicit) v1, sent with Message-Id: 20220916151506.298488-1-u.kleine-koenig@pengutronix.de
+I changed:
 
-If you had brightness, that would be correct. But you do not have
-brightness, right? Therefore the final brightness is always:
+ - Patch #1 which does the prototype change now just adds "return 0" to
+   all implementations and so gets simpler and doesn't change behaviour.
+   The adaptions to the different .get_state() implementations are split
+   out into individual patches to ease review.
+ - One minor inconsistency fixed in "pwm: Handle .get_state() failures"
+   that I noticed while looking into this patch.
+ - I skipped changing sun4i.c as I don't know how to handle the error
+   there. Someone might want to have a look. (That's not ideal, but it's
+   not worse than the same issue before this series.)
 
-subled[i].brightness = 255 * subled[i].intensity / max_brightness (also
-255);
+In v1 Thierry had the concern:
 
-Or your bindings are incomplete...
+| That raises the question about what to do in these cases. If we return
+| an error, that could potentially throw off consumers. So perhaps the
+| closest would be to return a disabled PWM? Or perhaps it'd be up to the
+| consumer to provide some fallback configuration for invalidly configured
+| or unconfigured PWMs.
 
-Best regards,
-Krzysztof
+.get_state() is only called in pwm_device_request on a pwm_state that a
+consumer might see. Before my series a consumer might have seen a
+partial modified pwm_state (because .get_state() might have modified
+.period, then stumbled and returned silently). The last patch ensures
+that this partial modification isn't given out to the consumer. Instead
+they now see the same as if .get_state wasn't implemented at all.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (11):
+  pwm: Make .get_state() callback return an error code
+  pwm/tracing: Also record trace events for failed API calls
+  drm/bridge: ti-sn65dsi86: Propagate errors in .get_state() to the
+    caller
+  leds: qcom-lpg: Propagate errors in .get_state() to the caller
+  pwm: crc: Propagate errors in .get_state() to the caller
+  pwm: cros-ec: Propagate errors in .get_state() to the caller
+  pwm: imx27: Propagate errors in .get_state() to the caller
+  pwm: mtk-disp: Propagate errors in .get_state() to the caller
+  pwm: rockchip: Propagate errors in .get_state() to the caller
+  pwm: sprd: Propagate errors in .get_state() to the caller
+  pwm: Handle .get_state() failures
+
+ drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+ drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+ drivers/pwm/core.c                    | 28 +++++++++++++++++----------
+ drivers/pwm/pwm-atmel.c               |  6 ++++--
+ drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+ drivers/pwm/pwm-crc.c                 | 10 ++++++----
+ drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+ drivers/pwm/pwm-dwc.c                 |  6 ++++--
+ drivers/pwm/pwm-hibvt.c               |  6 ++++--
+ drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+ drivers/pwm/pwm-imx27.c               |  8 +++++---
+ drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+ drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+ drivers/pwm/pwm-keembay.c             |  6 ++++--
+ drivers/pwm/pwm-lpss.c                |  6 ++++--
+ drivers/pwm/pwm-meson.c               |  8 +++++---
+ drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+ drivers/pwm/pwm-pca9685.c             |  8 +++++---
+ drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+ drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+ drivers/pwm/pwm-sifive.c              |  6 ++++--
+ drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+ drivers/pwm/pwm-sprd.c                |  8 +++++---
+ drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+ drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+ drivers/pwm/pwm-sunplus.c             |  6 ++++--
+ drivers/pwm/pwm-visconti.c            |  6 ++++--
+ drivers/pwm/pwm-xilinx.c              |  8 +++++---
+ include/linux/pwm.h                   |  4 ++--
+ include/trace/events/pwm.h            | 20 +++++++++----------
+ 31 files changed, 174 insertions(+), 109 deletions(-)
+
+
+base-commit: 50315945d178eebec4e8e2c50c265767ddb926eb
+-- 
+2.38.1
 
