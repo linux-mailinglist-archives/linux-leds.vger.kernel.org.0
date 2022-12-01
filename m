@@ -2,331 +2,246 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D155663EA09
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 07:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C34063EAC6
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 09:03:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbiLAG6Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 01:58:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53650 "EHLO
+        id S229678AbiLAIDx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 03:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiLAG6P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 01:58:15 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 014CC4B9A6;
-        Wed, 30 Nov 2022 22:58:14 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id j4so1137580lfk.0;
-        Wed, 30 Nov 2022 22:58:13 -0800 (PST)
+        with ESMTP id S229618AbiLAIDw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 03:03:52 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 171832F009
+        for <linux-leds@vger.kernel.org>; Thu,  1 Dec 2022 00:03:50 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id f18so1371447wrj.5
+        for <linux-leds@vger.kernel.org>; Thu, 01 Dec 2022 00:03:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aHk4ubp9Ca3KujkAW0PO2oU0zwiL+OQVBVrVMDS+Mno=;
-        b=OZH8XOvhleFajWJqbCwM2m8XZEAsCFhIkykNg3JiaCM+PNgFxQ5QRNmX2twuE5aDNX
-         G7tFa8SoGtoTXeJx4oRx4OlKjbUtOBX7pzAcIhEqdzBjcOU3F63Rfkicd2Q2p0gIzodQ
-         o+NVwpxLnQWEyYOBpiFH5YESk4+2Zp+SUjZsCIFWDkS0ImhxNDuAiqMbLhZIUrmO3Fyj
-         LiHE3GbzQbrfOB39LBiyh0jgf0lN2jHtBtUW9r1exbC5U8Q/AwmD9kYUaRETf0z1Zzsg
-         K5MxFPFaR1OLl8I8I1DazxqwG/4cM6NvL9ngTX3KDCZDNF2n7J3mvmDDRrpXB3LYSA3R
-         8S+Q==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:reply-to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=RAIQbbxtK2nJ1NbUghrZ93yJMEm2LyReQuktQwQ+yXw=;
+        b=Lo8p+aDFlKlZfG6pP0n7RZNEjwZK+wrouNetRK3rZv63MbeCUctT1ieDjkKZxl3LvQ
+         1IUxcYuylIWjoy7vKgfrNL5bEmzdei5+43ayKtzqRIyOjWYlsoDieQD7IgspPDeYN4Rg
+         g0Tg2r6urLUhUddkFA8F1g+Y6MZ6LYzNVPQKNUdc62bCqGXALe+tEuJdy6U6nHFQ1VTs
+         pd9A/smgMPI5kbQN+yqEnGZNPKCbNRwE4VhlqdS4p01McAPr9GKRJDIzQjVNyphai7am
+         M+pt/qh8ja70rWDWaq5xcHGdzPkZEr0JVoVeIN0FLdIf+5vnAZEi/TDzF6dIxj4puvKU
+         V1rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aHk4ubp9Ca3KujkAW0PO2oU0zwiL+OQVBVrVMDS+Mno=;
-        b=ijFaSV2fQulf2SZXSKpYq/SV1gO3WXfNqjo6Uyso6waQ0TPNCfhdf8yFUdk6ZGIxQU
-         GkgFYrS4CeNQqhwoTphU/WoNaVhYKsHJ3HrOHK0BWcl9o8pmyTkGspJ5ienDRZ75VBJ7
-         gGyTkDXcvVP9UITUGYRkxxVqIF6vs+GoF9FFJkc0J9+t0S1OkJOgUMybitE5/k2Cat0f
-         jjP5F6w2KXXiG6eg0r5fcOk/wJghWFWUnsYxEbRBKaMS5cdjJfSGfEJRKj8IlXcY1YjM
-         tMIL5YJCSuAN0tC+b3jNGe6EFdXAd+N0Pk18HaUFRPrY4WRcfa4UqXMffL+kNLJyn6kB
-         QpVQ==
-X-Gm-Message-State: ANoB5plr04DcwKDlw1LqRBhfIhvw7OZPRekT0z0ya2y0ydV+KtqY5q5g
-        72BOjJbH5C62DfwyLWn6Jj8=
-X-Google-Smtp-Source: AA0mqf7rZYRuKDlBpo9tnOcKFzExqESQgx/4FnXkIR4qz+SE0pcKPX0QOsr7z8F3HMwBfWDbqRVHvA==
-X-Received: by 2002:a19:6a0c:0:b0:4b4:c67:1e8a with SMTP id u12-20020a196a0c000000b004b40c671e8amr20702475lfu.126.1669877892125;
-        Wed, 30 Nov 2022 22:58:12 -0800 (PST)
-Received: from dc75zzyyyyyyyyyyyyygt-3.rev.dnainternet.fi (dc75zzyyyyyyyyyyyyygt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::b])
-        by smtp.gmail.com with ESMTPSA id m20-20020a056512359400b00492d064e8f8sm541094lfr.263.2022.11.30.22.58.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 22:58:11 -0800 (PST)
-Date:   Thu, 1 Dec 2022 08:57:52 +0200
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Markus Laine <markus.laine@fi.rohmeurope.com>,
-        Mikko Mutanen <mikko.mutanen@fi.rohmeurope.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH] dt-bindings: Fix maintainer email for a few ROHM ICs
-Message-ID: <7986d30480df6179a3989fba4cd13817738635c5.1669877740.git.mazziesaccount@gmail.com>
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:reply-to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RAIQbbxtK2nJ1NbUghrZ93yJMEm2LyReQuktQwQ+yXw=;
+        b=GpwjU2746tB138HvmnWSWQGTuldNNCHYfn0IDGq0cUbR2FHcd7vIdy08KPd5IncZYA
+         t9+zeyQutJur5wvjRJTILpnz7QuQq6hybFll/7ywoJJ7UzQNBMsHpFqLKz3BB0Itf6Jo
+         CAr+CfotN6JfGen5ZnYWJiYFai93fogyptLCNRSVHtlcOpmhszVA0Qy9ez4jI2/pOYjE
+         luGhwoPHarExWWed+NTCP+4dA5FmGa/9YeSMpSZtACXZAb79Q72YiyztS+ovYD6SuphA
+         DelSI1H2dv6MnyBMj6vfjx+873aY7DlfHxeRY4BtNKTla0SOqTr82n8HucGb5ZB7MjmB
+         lcqQ==
+X-Gm-Message-State: ANoB5pmHlzNX1t0XVmvUCsQGKqHtufFS4TPyikfPX5rDUfuMkJ0TvSZH
+        0oOZCG5oKXom0qwx52Y8vdYsDQ==
+X-Google-Smtp-Source: AA0mqf54lvafHdVKKM2CGBzb3Ly91fbeS37TZTU/o75hgaix+kcG2rGxchFiaWC/vEjl7eP4KzxYJQ==
+X-Received: by 2002:a05:6000:1d92:b0:241:6e0a:bfe6 with SMTP id bk18-20020a0560001d9200b002416e0abfe6mr31726074wrb.34.1669881828568;
+        Thu, 01 Dec 2022 00:03:48 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:bec0:73a:70e1:228f? ([2a01:e0a:982:cbb0:bec0:73a:70e1:228f])
+        by smtp.gmail.com with ESMTPSA id az39-20020a05600c602700b003cf78aafdd7sm4517313wmb.39.2022.12.01.00.03.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 00:03:48 -0800 (PST)
+Message-ID: <b19c4956-3f92-f6be-7d61-9b826e5d6fe1@linaro.org>
+Date:   Thu, 1 Dec 2022 09:03:45 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2josFjUH3kiM3YoD"
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
+ code
+Content-Language: en-US
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Douglas Anderson <dianders@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Michael Walle <michael@walle.cc>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 30/11/2022 16:21, Uwe Kleine-König wrote:
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+> 
+> This patch was created using coccinelle and the following semantic patch:
+> 
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>   struct pwm_ops driver = {
+>          ...,
+>          .get_state = getstatefunc
+>          ,...
+>   };
+> 
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>   getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_state *state)
+>   {
+>     ...
+> -  return;
+> +  return 0;
+>     ...
+>   }
+> 
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+> 
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>   drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+>   drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+>   drivers/pwm/pwm-atmel.c               |  6 ++++--
+>   drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+>   drivers/pwm/pwm-crc.c                 | 10 ++++++----
+>   drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+>   drivers/pwm/pwm-dwc.c                 |  6 ++++--
+>   drivers/pwm/pwm-hibvt.c               |  6 ++++--
+>   drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+>   drivers/pwm/pwm-imx27.c               |  8 +++++---
+>   drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+>   drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+>   drivers/pwm/pwm-keembay.c             |  6 ++++--
+>   drivers/pwm/pwm-lpss.c                |  6 ++++--
+>   drivers/pwm/pwm-meson.c               |  8 +++++---
+>   drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+>   drivers/pwm/pwm-pca9685.c             |  8 +++++---
+>   drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+>   drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+>   drivers/pwm/pwm-sifive.c              |  6 ++++--
+>   drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+>   drivers/pwm/pwm-sprd.c                |  8 +++++---
+>   drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+>   drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+>   drivers/pwm/pwm-sunplus.c             |  6 ++++--
+>   drivers/pwm/pwm-visconti.c            |  6 ++++--
+>   drivers/pwm/pwm-xilinx.c              |  8 +++++---
+>   include/linux/pwm.h                   |  4 ++--
+>   29 files changed, 146 insertions(+), 89 deletions(-)
+> 
 
---2josFjUH3kiM3YoD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-The email backend used by ROHM keeps labeling patches as spam. This can
-result to missing the patches.
+> diff --git a/drivers/pwm/pwm-meson.c b/drivers/pwm/pwm-meson.c
+> index 57112f438c6d..16d79ca5d8f5 100644
+> --- a/drivers/pwm/pwm-meson.c
+> +++ b/drivers/pwm/pwm-meson.c
+> @@ -318,8 +318,8 @@ static unsigned int meson_pwm_cnt_to_ns(struct pwm_chip *chip,
+>   	return cnt * fin_ns * (channel->pre_div + 1);
+>   }
+>   
+> -static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> -				struct pwm_state *state)
+> +static int meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			       struct pwm_state *state)
+>   {
+>   	struct meson_pwm *meson = to_meson_pwm(chip);
+>   	struct meson_pwm_channel_data *channel_data;
+> @@ -327,7 +327,7 @@ static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+>   	u32 value, tmp;
+>   
+>   	if (!state)
+> -		return;
+> +		return 0;
+>   
+>   	channel = &meson->channels[pwm->hwpwm];
+>   	channel_data = &meson_pwm_per_channel_data[pwm->hwpwm];
+> @@ -357,6 +357,8 @@ static void meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+>   		state->period = 0;
+>   		state->duty_cycle = 0;
+>   	}
+> +
+> +	return 0;
+>   }
+>   
+>   static const struct pwm_ops meson_pwm_ops = {
 
-Switch my mail address from a company mail to a personal one.
+<snip>
 
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+For pwm-meson:
 
----
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-I did this a while ago for my email addresses at the MAINTAINERS. Forgot
-the dt-bindings and doing the conversion for bindings now.
----
- Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml   | 2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml    | 2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml    | 2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml    | 2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd71847-pmic.yaml    | 2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml     | 2 +-
- .../devicetree/bindings/power/supply/rohm,bd99954.yaml          | 2 +-
- .../devicetree/bindings/regulator/rohm,bd71815-regulator.yaml   | 2 +-
- .../devicetree/bindings/regulator/rohm,bd71828-regulator.yaml   | 2 +-
- .../devicetree/bindings/regulator/rohm,bd71837-regulator.yaml   | 2 +-
- .../devicetree/bindings/regulator/rohm,bd71847-regulator.yaml   | 2 +-
- .../devicetree/bindings/regulator/rohm,bd9576-regulator.yaml    | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml =
-b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-index 86a37c92b834..d48c404c848e 100644
---- a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-+++ b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71828 Power Management Integrated Circuit LED driver
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   This module is part of the ROHM BD71828 MFD device. For more details
-diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml b=
-/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml
-index fbface720678..7cda8adc178e 100644
---- a/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71815 Power Management Integrated Circuit bindings
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   BD71815AGW is a single-chip power management ICs for battery-powered
-diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml b=
-/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
-index 8380166d176c..c13730aa34d9 100644
---- a/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71828 Power Management Integrated Circuit bindings
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   BD71828GW is a single-chip power management IC for battery-powered porta=
-ble
-diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml b=
-/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
-index 3bfdd33702ad..3ab8dcf0e8f1 100644
---- a/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd71837-pmic.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71837 Power Management Integrated Circuit bindings
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   BD71837MWV is programmable Power Management ICs for powering single-core,
-diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71847-pmic.yaml b=
-/Documentation/devicetree/bindings/mfd/rohm,bd71847-pmic.yaml
-index 5d531051a153..8ed4390bb43f 100644
---- a/Documentation/devicetree/bindings/mfd/rohm,bd71847-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd71847-pmic.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71847 and BD71850 Power Management Integrated Circuit bindin=
-gs
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   BD71847AMWV and BD71850MWV are programmable Power Management ICs for pow=
-ering
-diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml b/=
-Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-index 6483860da955..e1ebea9ad5da 100644
---- a/Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD9576MUF and BD9573MUF Power Management Integrated Circuit bi=
-ndings
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   BD9576MUF and BD9573MUF are power management ICs primarily intended for
-diff --git a/Documentation/devicetree/bindings/power/supply/rohm,bd99954.ya=
-ml b/Documentation/devicetree/bindings/power/supply/rohm,bd99954.yaml
-index 24b06957b4ca..6a0756e33eb8 100644
---- a/Documentation/devicetree/bindings/power/supply/rohm,bd99954.yaml
-+++ b/Documentation/devicetree/bindings/power/supply/rohm,bd99954.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD99954 Battery charger
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-   - Markus Laine <markus.laine@fi.rohmeurope.com>
-   - Mikko Mutanen <mikko.mutanen@fi.rohmeurope.com>
-=20
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71815-regul=
-ator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71815-regula=
-tor.yaml
-index d61e8675f067..027fab3dc181 100644
---- a/Documentation/devicetree/bindings/regulator/rohm,bd71815-regulator.ya=
-ml
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71815-regulator.ya=
-ml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71815 Power Management Integrated Circuit regulators
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   This module is part of the ROHM BD718215 MFD device. For more details
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71828-regul=
-ator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regula=
-tor.yaml
-index 5ce587fff961..3cbe3b76ccee 100644
---- a/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.ya=
-ml
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.ya=
-ml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71828 Power Management Integrated Circuit regulators
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   This module is part of the ROHM BD71828 MFD device. For more details
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71837-regul=
-ator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71837-regula=
-tor.yaml
-index 1941b36cf1ef..ab842817d847 100644
---- a/Documentation/devicetree/bindings/regulator/rohm,bd71837-regulator.ya=
-ml
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71837-regulator.ya=
-ml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71837 Power Management Integrated Circuit regulators
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   List of regulators provided by this controller. BD71837 regulators node
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71847-regul=
-ator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71847-regula=
-tor.yaml
-index a1b806373853..65fc3d15f693 100644
---- a/Documentation/devicetree/bindings/regulator/rohm,bd71847-regulator.ya=
-ml
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71847-regulator.ya=
-ml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD71847 and BD71850 Power Management Integrated Circuit regula=
-tors
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   List of regulators provided by this controller. BD71847 regulators node
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regula=
-tor.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulato=
-r.yaml
-index 7cb74cc8c5d9..1e41168a4980 100644
---- a/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: ROHM BD9576 and BD9573 Power Management Integrated Circuit regulato=
-rs
-=20
- maintainers:
--  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+  - Matti Vaittinen <mazziesaccount@gmail.com>
-=20
- description: |
-   This module is part of the ROHM BD9576 MFD device. For more details
-
-base-commit: b7b275e60bcd5f89771e865a8239325f86d9927d
---=20
-2.38.1
-
-
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
-
---2josFjUH3kiM3YoD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmOIUGIACgkQeFA3/03a
-ocWX1ggAn7iYEYQUsB1aEk8w52fSQkaebQqwHDFPNUMQCQpoPJTRVsMG/BXLd3Hu
-vXffwrSx26kVHiGM+8lhkZVTSHKDBcVMJp2yhhVr824vHtGmP0wIULlX+v8xmlpM
-jL5Nj4U4oj4gBtkOYdr4pdETzUyQVe1Kez97ncqAQ/AhMsCswjCAkIcUwfRgr7pP
-nCJWDLdU4skM6xZFFeg0CM1dwWkFiD+4iYzQ/dVZhpNjYXAdV5en/JT1a/wUTPP4
-MMdZ9DV/A3tNmrXuwu4J5r8ozpSKISHoj70jIKSqCuCYS6NiIzM8bBkjHp5QEruU
-Ndqku6m3Xfo27EUow04N0asO0y2wHQ==
-=5EM4
------END PGP SIGNATURE-----
-
---2josFjUH3kiM3YoD--
