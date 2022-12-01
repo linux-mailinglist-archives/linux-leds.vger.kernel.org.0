@@ -2,103 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A62B763FC15
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 00:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D270363FC34
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 00:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231904AbiLAXdm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 18:33:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38804 "EHLO
+        id S230484AbiLAXpG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 18:45:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231803AbiLAXd0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 18:33:26 -0500
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 229BEB5C;
-        Thu,  1 Dec 2022 15:33:26 -0800 (PST)
-Received: by mail-oo1-f48.google.com with SMTP id y194-20020a4a45cb000000b004a08494e4b6so490310ooa.7;
-        Thu, 01 Dec 2022 15:33:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EV6CjuoOmDJCrT3HK8JiKWVQT6lYUA0pH9U3EEboe7E=;
-        b=41S7YRolHDBLUzrWldnzlgHCOSlkyfK8SfjWLzALAwtJKjfLOTlMqdDzRDWfprtNVz
-         aXBuMkCzrXzuADwhH6vChQTYXA96XnGFE1h9YFByyR4rvsYFv3iiWwJ2hLFqGWVxbqMA
-         BPQctWC/YrxMMmAO0tZP7RhCElRj/+dMBw/mvbpiYOFSQRc+eD7GVymVzGL1ClOrE3Gk
-         HIAjQHdZ4QH+M5kV2Y0fNOFqJOmLoED3uOQoY1o5Yd+3XK4/ImenXd7FVVOUEBfxdUFe
-         xBaXHKgEPhoe0LaHSCBPj4Y2mYWZ5LHjAUngycab9nWgYlGsXt8QKv5xdKYf5c1vOYAY
-         oWKQ==
-X-Gm-Message-State: ANoB5pmjwARRlgPVskNMmZazVQmbifuB2/uQHoLPKnqGU4oMEa4Hjk+K
-        FvD0VD14F1WaFyxzhjljCg==
-X-Google-Smtp-Source: AA0mqf5M9nJX9KDi3rKXW1IQ32Xx7g8ROHxHwlWwX5hwmRYB/D8rbNNcafvpX5yJhj0k3R6jjdm63A==
-X-Received: by 2002:a4a:ad49:0:b0:49b:c0e:3d5f with SMTP id s9-20020a4aad49000000b0049b0c0e3d5fmr29549672oon.69.1669937605311;
-        Thu, 01 Dec 2022 15:33:25 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id s34-20020a056870612200b0013d9bd4ad2esm3361315oae.12.2022.12.01.15.33.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 15:33:24 -0800 (PST)
-Received: (nullmailer pid 1686225 invoked by uid 1000);
-        Thu, 01 Dec 2022 23:33:23 -0000
-Date:   Thu, 1 Dec 2022 17:33:23 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Fabien Parent <fparent@baylibre.com>,
-        devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Sean Wang <sean.wang@mediatek.com>,
-        Chen Zhong <chen.zhong@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabien Parent <fabien.parent@linaro.org>,
-        Flora Fu <flora.fu@mediatek.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH v7 3/8] dt-bindings: soc: mediatek: convert pwrap
- documentation
-Message-ID: <166993759991.1686069.16535756664012746082.robh@kernel.org>
-References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
- <20221005-mt6357-support-v7-3-477e60126749@baylibre.com>
+        with ESMTP id S231308AbiLAXpG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 18:45:06 -0500
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96F7BE6AE;
+        Thu,  1 Dec 2022 15:45:04 -0800 (PST)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 589FC84225;
+        Fri,  2 Dec 2022 00:45:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1669938302;
+        bh=tVAl2PUlhRY2y4+Skseue/tW4aAWv4TLrxfM05T5iMw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=SXrfF3zm+8KNwwJqNthoMBvIJSRyAakH1WIH34/TPREIWZnazEI1c7qqH8QgI3fC3
+         C0Bde4vtUUOCxo0cZRIq9yFBrLXqp69olbZE1DwffNLa5hB1U66N2f4lxfFbHj/Aut
+         WZjUKD+8/Lq9JmoQC1h+mqxeVI2+BGDzey7EHvwSusOOKYDl3sAaoaUotaUC/39BoU
+         NjER95d29KOx5ICkGBfHwb4XWCk3k/d3OxTWNuLR80vawknQ4OGlM0GdASCy6XcYgY
+         dESBVnpiKSe/19hcfnpdS+iW6aSEBHHoDW16qHlDyhxvELI+revZU40zDILVN58YgQ
+         Q5pCevsko/LKw==
+Message-ID: <4043d693-7739-4709-8551-9f476031db70@denx.de>
+Date:   Fri, 2 Dec 2022 00:41:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221005-mt6357-support-v7-3-477e60126749@baylibre.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        kernel@dh-electronics.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
+ <Y3y/S5COG7VPbsqL@duo.ucw.cz> <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
+ <20221130191905.GA2631320-robh@kernel.org>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <20221130191905.GA2631320-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
-On Tue, 29 Nov 2022 16:57:02 +0100, Alexandre Mergnat wrote:
-> - Convert soc/mediatek/pwrap.txt to soc/mediatek/mediatek,pwrap.yaml
-> - Add syscon compatible const for mt8186 and mt8195 to match the DTS needs,
->   which is missing from pwrap.txt.
+On 11/30/22 20:19, Rob Herring wrote:
+> On Fri, Nov 25, 2022 at 10:26:30PM +0100, Marek Vasut wrote:
+>> On 11/22/22 13:23, Pavel Machek wrote:
+>>> Hi!
+>>
+>> Hi,
+>>
+>>>> Mark the label property as deprecated as it is mentioned
+>>>> in the description.
+>>>
+>>> Lets do it the other way around. Functions (etc) don't really provide
+>>> good enough description of LED, and label is still needed.
+>>
+>> Can you please provide a clear explanation which property or approach is the
+>> correct one for new DTs ?
+>>
+>> So far, the documentation states that "label" is deprecated, and users
+>> should replace it with "function" and "color".
 > 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  .../devicetree/bindings/leds/leds-mt6323.txt       |   2 +-
->  Documentation/devicetree/bindings/mfd/mt6397.txt   |   2 +-
->  .../bindings/soc/mediatek/mediatek,pwrap.yaml      | 147 +++++++++++++++++++++
->  .../devicetree/bindings/soc/mediatek/pwrap.txt     |  75 -----------
->  4 files changed, 149 insertions(+), 77 deletions(-)
-> 
+> 'function' is what activity/operation the LED is associated with. It is
+> a fixed set of strings which s/w may use. It is a replacement for
+> 'linux,default-trigger'.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Isn't this 'function' more of a standardized replacement for 'label' ?
+
+$ git grep LED_FUNCTION_ include/
+...
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_PLAYER5 "player-5"
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_ACTIVITY "activity"
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_ALARM "alarm"
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_BACKLIGHT "backlight"
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_BLUETOOTH "bluetooth"
+include/dt-bindings/leds/common.h:#define LED_FUNCTION_BOOT "boot"
+...
+
+Seems to me that ^ is closer to a "standardized" form of 'label' .
+
+The LED subsystem does not infer any behavior of those LEDs based on 
+their 'function' property as far as I can tell, at least not in the way 
+'linux,default-trigger' behaves.
+
+> 'label' is what is printed next to the LED for a human to read. 'label'
+> can be anything and the OS shouldn't care what it is.
+
+This part I understand. What is not clear to me is, why is 'label' being 
+un-deprecated.
+
+We newly have 'function', 'function-enumerator' and 'color' DT 
+properties for LEDs, which seem to be standardized forms of describing 
+what the LED is used for, which LED it is (if there are multiple), and 
+color of that LED. This was previously described in the 'label' 
+property, usually in free form of e.g. "beaglebone:green:usr2" .
+
+> They serve 2 different purposes.
+
+[...]
