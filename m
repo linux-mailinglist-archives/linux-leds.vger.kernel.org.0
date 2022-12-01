@@ -2,240 +2,150 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4610F63F156
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 14:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 152EC63F160
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 14:16:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbiLANPM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 08:15:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57204 "EHLO
+        id S231339AbiLANQn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 08:16:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiLANPL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 08:15:11 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A019E45D
-        for <linux-leds@vger.kernel.org>; Thu,  1 Dec 2022 05:15:10 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id f21so1554862lfm.9
-        for <linux-leds@vger.kernel.org>; Thu, 01 Dec 2022 05:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=397kbqZIvcY9WZM25zkLtCOQdvj4LqgI2IGa6Y1sONU=;
-        b=NSfaThwXrrMYeqtiOqi8Ur7yJYrt4b6KqyJq0ynfyC1A4Xsj1AptXn96VSW/U7560E
-         w9qEMf8yOKrJkM4DhRIkaTskBZuzNjnifn/BAiFXutvD6v33GABfAXM4LjjeR0++GlpW
-         IvxSTHoS/XtBB0MJh53dYgGmNfWDRxqZOhVKTZ8/yutCVGr1+e6JJaFrzKgQGJPp24ci
-         vwBPALQhWAXc4ENqmP5g/Aw7QK0TK2x/IsEwFNNTwzd4Gk7TTqdd/zQ33Jzfcuy82cCP
-         AfmFZUpBJyGAtAN7m9gO2qvJqI+GjGHu4eZiEMjarerlrSpDynIcNBAeeZH+3EBGR38q
-         SecA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=397kbqZIvcY9WZM25zkLtCOQdvj4LqgI2IGa6Y1sONU=;
-        b=TlMDTeBZ3oHcT2TcP75dsR/MfnXdXk3odmOGpX9E1vs2Qj+pzDiDCAoMJe4k0BUnTX
-         ePj70h/aaRevWgPxqINSBqJ5GarE4UPK3fCGICY9ncd4Qx07/V2dwrixFBdZduR/0VpJ
-         m/ZOv6rdJjAG7CQe+sj90TLl1DQ8DvxVMOzFQtfniFK65sQ6FsxbvBNHAJqYTb/qcS7Z
-         I0zvxD2xeuayuxFmeBPpGzkOyVk1Hf3hbkE2j2ur6EQAmuHLdZ+3sCPGZYAlBaQG4Xor
-         XYawEEr9l8c1QqnamOp8zVnO4YjYRjsdHQ02lPeZCHqtP/IS5biNhsSjn6GliUYeFYGb
-         OxVQ==
-X-Gm-Message-State: ANoB5pmMtcDk1yHuvqViwOP0RvV25vSddodfcFmQ6hzCqwHOmapvkPkJ
-        v8nPU0/v33jNzwRs8/BJSVsk6Q==
-X-Google-Smtp-Source: AA0mqf4vJdo/O26H3KI5RceWwW2GVcGsw7XVgSKr19Bu1LaGEOKlszIGgfHyL6G5vQQN7cbLYpUwyg==
-X-Received: by 2002:ac2:5931:0:b0:4ae:ba01:1f48 with SMTP id v17-20020ac25931000000b004aeba011f48mr16942988lfi.373.1669900508597;
-        Thu, 01 Dec 2022 05:15:08 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id u11-20020a2e9b0b000000b0027712379ec8sm382252lji.28.2022.12.01.05.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 05:15:08 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lee Jones <lee@kernel.org>,
+        with ESMTP id S231263AbiLANQl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 08:16:41 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A085A06E7
+        for <linux-leds@vger.kernel.org>; Thu,  1 Dec 2022 05:16:40 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0jQF-0005k0-SY; Thu, 01 Dec 2022 14:16:15 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0jQ4-001aku-EN; Thu, 01 Dec 2022 14:16:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p0jQ4-001nfp-Ga; Thu, 01 Dec 2022 14:16:04 +0100
+Date:   Thu, 1 Dec 2022 14:16:04 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Andre Przywara <andre.przywara@arm.com>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        dri-devel@lists.freedesktop.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Satya Priya <quic_c_skakit@quicinc.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] leds: qcom,pm8058-led: Convert to DT schema
-Date:   Thu,  1 Dec 2022 14:15:05 +0100
-Message-Id: <20221201131505.42292-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Pavel Machek <pavel@ucw.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-riscv@lists.infradead.org, linux-leds@vger.kernel.org,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        chrome-platform@lists.linux.dev,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Orson Zhai <orsonzhai@gmail.com>, linux-sunxi@lists.linux.dev,
+        linux-pwm@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Stephen Boyd <swboyd@chromium.org>, linux-gpio@vger.kernel.org,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-amlogic@lists.infradead.org,
+        Benson Leung <bleung@chromium.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Scott Branden <sbranden@broadcom.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Michael Walle <michael@walle.cc>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
+ code
+Message-ID: <20221201131604.beq4l22d42tjy6dm@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+ <20221201102252.52ace284@donnerap.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ohce74rjo6dhumlo"
+Content-Disposition: inline
+In-Reply-To: <20221201102252.52ace284@donnerap.cambridge.arm.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the Qualcomm PM8058 PMIC LED bindings to DT schema.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/leds/leds-pm8058.txt  | 67 -------------------
- .../bindings/leds/qcom,pm8058-led.yaml        | 57 ++++++++++++++++
- .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  |  4 ++
- 3 files changed, 61 insertions(+), 67 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.txt
- create mode 100644 Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
+--ohce74rjo6dhumlo
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-pm8058.txt b/Documentation/devicetree/bindings/leds/leds-pm8058.txt
-deleted file mode 100644
-index 89584c49aab2..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-pm8058.txt
-+++ /dev/null
-@@ -1,67 +0,0 @@
--Qualcomm PM8058 LED driver
--
--The Qualcomm PM8058 is a multi-functional device which contains
--an LED driver block for up to six LEDs: three normal LEDs, two
--"flash" LEDs and one "keypad backlight" LED. The names are
--quoted because sometimes these LED drivers are used for wildly
--different things than flash or keypad backlight: their names
--are more of a suggestion than a hard-wired usecase.
--
--Hardware-wise the different LEDs support slightly different
--output currents. The "flash" LEDs do not need to charge nor
--do they support external triggers. They are just powerful LED
--drivers.
--
--The LEDs appear as children to the PM8058 device, with the
--proper compatible string. For the PM8058 bindings see:
--mfd/qcom-pm8xxx.txt.
--
--Each LED is represented as a sub-node of the syscon device. Each
--node's name represents the name of the corresponding LED.
--
--LED sub-node properties:
--
--Required properties:
--- compatible: one of
--  "qcom,pm8058-led" (for the normal LEDs at 0x131, 0x132 and 0x133)
--  "qcom,pm8058-keypad-led" (for the "keypad" LED at 0x48)
--  "qcom,pm8058-flash-led" (for the "flash" LEDs at 0x49 and 0xFB)
--
--Optional properties:
--- label: see Documentation/devicetree/bindings/leds/common.txt
--- default-state: see Documentation/devicetree/bindings/leds/common.txt
--- linux,default-trigger: see Documentation/devicetree/bindings/leds/common.txt
--
--Example:
--
--qcom,ssbi@500000 {
--	pmicintc: pmic@0 {
--		compatible = "qcom,pm8058";
--		led@48 {
--			compatible = "qcom,pm8058-keypad-led";
--			reg = <0x48>;
--			label = "pm8050:white:keypad";
--			default-state = "off";
--		};
--		led@131 {
--			compatible = "qcom,pm8058-led";
--			reg = <0x131>;
--			label = "pm8058:red";
--			default-state = "off";
--		};
--		led@132 {
--			compatible = "qcom,pm8058-led";
--			reg = <0x132>;
--			label = "pm8058:yellow";
--			default-state = "off";
--			linux,default-trigger = "mmc0";
--		};
--		led@133 {
--			compatible = "qcom,pm8058-led";
--			reg = <0x133>;
--			label = "pm8058:green";
--			default-state = "on";
--			linux,default-trigger = "heartbeat";
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml b/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
-new file mode 100644
-index 000000000000..fa03e73622d4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/qcom,pm8058-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm PM8058 PMIC LED
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+
-+description: |
-+  The Qualcomm PM8058 contains an LED block for up to six LEDs:: three normal
-+  LEDs, two "flash" LEDs and one "keypad backlight" LED. The names are quoted
-+  because sometimes these LED drivers are used for wildly different things than
-+  flash or keypad backlight:: their names are more of a suggestion than a
-+  hard-wired usecase.
-+
-+  Hardware-wise the different LEDs support slightly different output currents.
-+  The "flash" LEDs do not need to charge nor do they support external triggers.
-+  They are just powerful LED drivers.
-+
-+allOf:
-+  - $ref: common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,pm8058-led
-+      - qcom,pm8058-keypad-led
-+      - qcom,pm8058-flash-led
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+
-+    pmic {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led@131 {
-+            compatible = "qcom,pm8058-led";
-+            reg = <0x131>;
-+            label = "pm8058:red";
-+            color = <LED_COLOR_ID_RED>;
-+            default-state = "off";
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
-index 84b87f01e029..9acad9d326eb 100644
---- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
-+++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
-@@ -43,6 +43,10 @@ properties:
-   interrupt-controller: true
- 
- patternProperties:
-+  "led@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/leds/qcom,pm8058-led.yaml#
-+
-   "rtc@[0-9a-f]+$":
-     type: object
-     $ref: "../rtc/qcom-pm8xxx-rtc.yaml"
--- 
-2.34.1
+Hello Andre,
 
+On Thu, Dec 01, 2022 at 10:22:52AM +0000, Andre Przywara wrote:
+> Just one comment: I don't see a sunxi specific patch later in the series,
+> though it seems we have at least one error error exit (see prescaler =3D=
+=3D 0
+> above). Plus potentially another exit if clk_get_rate() (at the very
+> beginning) fails.
+> Shall I send a patch for that?
+
+That would we very welcome. I mentioned that shortly in the cover
+letter, I wasn't entirely sure how to handle that prescaler =3D 0 case.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ohce74rjo6dhumlo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOIqREACgkQwfwUeK3K
+7Anj8wf/RTNhxYSv59Ka1mlJPxXTgymtejOcjGY7Mbrq9aaYBt0Hmzz6T20Siom0
+QSRZvBBJxLeC6sMsbo0Fz9qdDLt4Y9eWczlHASjdcke40fNWNcUpjo7GqJ8hMfD9
+/aBk/LIrTHuSJDWkLiUxCXgg/mPhVdSfgltE3xCWRU/+rQxWvEnKjFCDDnQvwGlJ
+XDzUeAMWwhWAOAeq69ypA0qbVXlCnpA7rRbuNpgviLuXPg8B8sCx+fEPtsGCAwh1
+W/lWgOdahAH40o8lldqWf0S/1Bb95qmDKjx/yI1gsCQpycDwDEgQeueUPRTMz912
+rL27K8cypWE75vkt7PMvSDMIkNan0w==
+=aHcT
+-----END PGP SIGNATURE-----
+
+--ohce74rjo6dhumlo--
