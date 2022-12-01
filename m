@@ -2,119 +2,240 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D0363F0B8
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 13:41:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4610F63F156
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 14:15:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiLAMlw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 07:41:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
+        id S230346AbiLANPM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 08:15:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiLAMlv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 07:41:51 -0500
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F805801F;
-        Thu,  1 Dec 2022 04:41:50 -0800 (PST)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1432a5f6468so1947258fac.12;
-        Thu, 01 Dec 2022 04:41:50 -0800 (PST)
+        with ESMTP id S229631AbiLANPL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 08:15:11 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A019E45D
+        for <linux-leds@vger.kernel.org>; Thu,  1 Dec 2022 05:15:10 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id f21so1554862lfm.9
+        for <linux-leds@vger.kernel.org>; Thu, 01 Dec 2022 05:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vVtwBXUP6j6Bf0vdPQcEIuUGWHMzl8hlrxeZxCGBo7o=;
-        b=KhG045o73gAmFqWPVI6b0QexsA2P0qKZqQzejNrLgPsrYZ7qF9JfRssadiaZa8N4j/
-         tIliNbuFS/awGxcUqmszKcLkHMWDCYMU5EnHC5g87WdWxZvV1GBWs1Du9hiipCmNmRsS
-         Znag6Gnz2iWCjRydCFJ8k8yJTdC+27BWPBJ179QhSIliBtfk/3TKIHdnPLyzZ06ib4j0
-         QGGrh7pM/5uqmLlKtipMCh4DxaDLJZ3jIYsiy+95N8o/CYKBVm8/TRPxI5J6HdLUvRdD
-         6koqAseyM+W5OvSaIEabjjJOvq8Uf1tQmhNVHAxtaC6G4pw5RfLTX7xefPMezRB3rx2U
-         WNLw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=397kbqZIvcY9WZM25zkLtCOQdvj4LqgI2IGa6Y1sONU=;
+        b=NSfaThwXrrMYeqtiOqi8Ur7yJYrt4b6KqyJq0ynfyC1A4Xsj1AptXn96VSW/U7560E
+         w9qEMf8yOKrJkM4DhRIkaTskBZuzNjnifn/BAiFXutvD6v33GABfAXM4LjjeR0++GlpW
+         IvxSTHoS/XtBB0MJh53dYgGmNfWDRxqZOhVKTZ8/yutCVGr1+e6JJaFrzKgQGJPp24ci
+         vwBPALQhWAXc4ENqmP5g/Aw7QK0TK2x/IsEwFNNTwzd4Gk7TTqdd/zQ33Jzfcuy82cCP
+         AfmFZUpBJyGAtAN7m9gO2qvJqI+GjGHu4eZiEMjarerlrSpDynIcNBAeeZH+3EBGR38q
+         SecA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vVtwBXUP6j6Bf0vdPQcEIuUGWHMzl8hlrxeZxCGBo7o=;
-        b=nX+d2vyaBELdVq8rre0wQAqAzAa6CqvH0vPRPwFZ4QJLM0VNrweU+cXGsPddkj8NcV
-         5P+6gzCwof7V5nST0JfbxCNmVLOzkgeobr7aD4/07B4j+PWRyEJrZ3H1pPwJvuEHrwKm
-         QVHSh0suly6CcYuoUgB/oNzTgjwWwsBi4Wy9lA2eD4LiBr2E7qk0f9FAiOD9/bOUKqb6
-         7l9RPZmLNOZ0X3mqbPgV/3QSqHDs+Vs9aPx8G+e1ZgTSorZg+hQhj0V4meMtUjkMp+Tz
-         aqggVi4BsMh3Fut02RVHWvK0OZM0TXIpJIHFabrQdPnJ1QCN55y3yQWNP/8GGiERqpfQ
-         oYzg==
-X-Gm-Message-State: ANoB5pk9T64uZugWf7Z7wEcnOtM633QlTDWuWhsOi3fBG03peQ5Es5hw
-        Xb6YNXb2hRXkUeadCzxQNghsgZ2OhQR7E1U70xo=
-X-Google-Smtp-Source: AA0mqf6lkTeE/LUL4X4zuNE/2/zR6AH8fXXx8wCNgAMioaIAtv49JXiRu83pwCnVTMXot34+PdI4JiacLxJtmuBETUo=
-X-Received: by 2002:a05:6870:ab86:b0:13c:5763:9411 with SMTP id
- gs6-20020a056870ab8600b0013c57639411mr36055275oab.288.1669898510141; Thu, 01
- Dec 2022 04:41:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20221129140955.137361-1-gch981213@gmail.com> <20221129140955.137361-3-gch981213@gmail.com>
- <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org> <CAJsYDVJknDWKMW1tH0M=85tJOPG-HngxhhMzvJpk5qn_Q9mzAg@mail.gmail.com>
- <7b3f97f9-34af-413c-aaad-9108b4f36c51@linaro.org> <CAJsYDVKXvJZaqCBx7RSsfVZkKTGdbp78GHA4mvmUdQwyEyGkBQ@mail.gmail.com>
- <c13b67ec-c030-302a-6315-fad18323923a@linaro.org>
-In-Reply-To: <c13b67ec-c030-302a-6315-fad18323923a@linaro.org>
-From:   Chuanhong Guo <gch981213@gmail.com>
-Date:   Thu, 1 Dec 2022 20:41:39 +0800
-Message-ID: <CAJsYDVJyeuHsXFdi-OrMX-1maQbC_wLYko6dz=unmuG6B3DL=g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+        bh=397kbqZIvcY9WZM25zkLtCOQdvj4LqgI2IGa6Y1sONU=;
+        b=TlMDTeBZ3oHcT2TcP75dsR/MfnXdXk3odmOGpX9E1vs2Qj+pzDiDCAoMJe4k0BUnTX
+         ePj70h/aaRevWgPxqINSBqJ5GarE4UPK3fCGICY9ncd4Qx07/V2dwrixFBdZduR/0VpJ
+         m/ZOv6rdJjAG7CQe+sj90TLl1DQ8DvxVMOzFQtfniFK65sQ6FsxbvBNHAJqYTb/qcS7Z
+         I0zvxD2xeuayuxFmeBPpGzkOyVk1Hf3hbkE2j2ur6EQAmuHLdZ+3sCPGZYAlBaQG4Xor
+         XYawEEr9l8c1QqnamOp8zVnO4YjYRjsdHQ02lPeZCHqtP/IS5biNhsSjn6GliUYeFYGb
+         OxVQ==
+X-Gm-Message-State: ANoB5pmMtcDk1yHuvqViwOP0RvV25vSddodfcFmQ6hzCqwHOmapvkPkJ
+        v8nPU0/v33jNzwRs8/BJSVsk6Q==
+X-Google-Smtp-Source: AA0mqf4vJdo/O26H3KI5RceWwW2GVcGsw7XVgSKr19Bu1LaGEOKlszIGgfHyL6G5vQQN7cbLYpUwyg==
+X-Received: by 2002:ac2:5931:0:b0:4ae:ba01:1f48 with SMTP id v17-20020ac25931000000b004aeba011f48mr16942988lfi.373.1669900508597;
+        Thu, 01 Dec 2022 05:15:08 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id u11-20020a2e9b0b000000b0027712379ec8sm382252lji.28.2022.12.01.05.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 05:15:08 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Lee Jones <lee@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] leds: qcom,pm8058-led: Convert to DT schema
+Date:   Thu,  1 Dec 2022 14:15:05 +0100
+Message-Id: <20221201131505.42292-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+Convert the Qualcomm PM8058 PMIC LED bindings to DT schema.
 
-On Wed, Nov 30, 2022 at 7:59 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> >> [...]
-> >> So this is brightness of each color...
-> >
-> > I don't think so.
-> > See the kernel doc for multicolor LED:
-> > https://docs.kernel.org/leds/leds-class-multicolor.html
-> > This property sets the sysfs file multi_intensity while the
-> > actual LED brightness is controlled with another sysfs
-> > file called 'brightness'.
-> > Setting multi_intensity alone doesn't change the LED
-> > brightness at all.
->
-> If you had brightness, that would be correct. But you do not have
-> brightness, right?
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/leds/leds-pm8058.txt  | 67 -------------------
+ .../bindings/leds/qcom,pm8058-led.yaml        | 57 ++++++++++++++++
+ .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  |  4 ++
+ 3 files changed, 61 insertions(+), 67 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
 
-The brightness can be set using sysfs, but I didn't implement a
-default brightness in my driver.
-My original intent for this property is to set a default color for legacy
-led softwares which can only control the brightness and doesn't
-support setting the color value yet.
-
-> Therefore the final brightness is always:
->
-> subled[i].brightness = 255 * subled[i].intensity / max_brightness (also
-> 255);
->
-> Or your bindings are incomplete...
-
-I do agree that adding a default-brightness will make this more
-useful. I'll add this feature in the next version.
-
+diff --git a/Documentation/devicetree/bindings/leds/leds-pm8058.txt b/Documentation/devicetree/bindings/leds/leds-pm8058.txt
+deleted file mode 100644
+index 89584c49aab2..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-pm8058.txt
++++ /dev/null
+@@ -1,67 +0,0 @@
+-Qualcomm PM8058 LED driver
+-
+-The Qualcomm PM8058 is a multi-functional device which contains
+-an LED driver block for up to six LEDs: three normal LEDs, two
+-"flash" LEDs and one "keypad backlight" LED. The names are
+-quoted because sometimes these LED drivers are used for wildly
+-different things than flash or keypad backlight: their names
+-are more of a suggestion than a hard-wired usecase.
+-
+-Hardware-wise the different LEDs support slightly different
+-output currents. The "flash" LEDs do not need to charge nor
+-do they support external triggers. They are just powerful LED
+-drivers.
+-
+-The LEDs appear as children to the PM8058 device, with the
+-proper compatible string. For the PM8058 bindings see:
+-mfd/qcom-pm8xxx.txt.
+-
+-Each LED is represented as a sub-node of the syscon device. Each
+-node's name represents the name of the corresponding LED.
+-
+-LED sub-node properties:
+-
+-Required properties:
+-- compatible: one of
+-  "qcom,pm8058-led" (for the normal LEDs at 0x131, 0x132 and 0x133)
+-  "qcom,pm8058-keypad-led" (for the "keypad" LED at 0x48)
+-  "qcom,pm8058-flash-led" (for the "flash" LEDs at 0x49 and 0xFB)
+-
+-Optional properties:
+-- label: see Documentation/devicetree/bindings/leds/common.txt
+-- default-state: see Documentation/devicetree/bindings/leds/common.txt
+-- linux,default-trigger: see Documentation/devicetree/bindings/leds/common.txt
+-
+-Example:
+-
+-qcom,ssbi@500000 {
+-	pmicintc: pmic@0 {
+-		compatible = "qcom,pm8058";
+-		led@48 {
+-			compatible = "qcom,pm8058-keypad-led";
+-			reg = <0x48>;
+-			label = "pm8050:white:keypad";
+-			default-state = "off";
+-		};
+-		led@131 {
+-			compatible = "qcom,pm8058-led";
+-			reg = <0x131>;
+-			label = "pm8058:red";
+-			default-state = "off";
+-		};
+-		led@132 {
+-			compatible = "qcom,pm8058-led";
+-			reg = <0x132>;
+-			label = "pm8058:yellow";
+-			default-state = "off";
+-			linux,default-trigger = "mmc0";
+-		};
+-		led@133 {
+-			compatible = "qcom,pm8058-led";
+-			reg = <0x133>;
+-			label = "pm8058:green";
+-			default-state = "on";
+-			linux,default-trigger = "heartbeat";
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml b/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
+new file mode 100644
+index 000000000000..fa03e73622d4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
+@@ -0,0 +1,57 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/qcom,pm8058-led.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm PM8058 PMIC LED
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
++
++description: |
++  The Qualcomm PM8058 contains an LED block for up to six LEDs:: three normal
++  LEDs, two "flash" LEDs and one "keypad backlight" LED. The names are quoted
++  because sometimes these LED drivers are used for wildly different things than
++  flash or keypad backlight:: their names are more of a suggestion than a
++  hard-wired usecase.
++
++  Hardware-wise the different LEDs support slightly different output currents.
++  The "flash" LEDs do not need to charge nor do they support external triggers.
++  They are just powerful LED drivers.
++
++allOf:
++  - $ref: common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - qcom,pm8058-led
++      - qcom,pm8058-keypad-led
++      - qcom,pm8058-flash-led
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    pmic {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led@131 {
++            compatible = "qcom,pm8058-led";
++            reg = <0x131>;
++            label = "pm8058:red";
++            color = <LED_COLOR_ID_RED>;
++            default-state = "off";
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+index 84b87f01e029..9acad9d326eb 100644
+--- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
++++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+@@ -43,6 +43,10 @@ properties:
+   interrupt-controller: true
+ 
+ patternProperties:
++  "led@[0-9a-f]+$":
++    type: object
++    $ref: /schemas/leds/qcom,pm8058-led.yaml#
++
+   "rtc@[0-9a-f]+$":
+     type: object
+     $ref: "../rtc/qcom-pm8xxx-rtc.yaml"
 -- 
-Regards,
-Chuanhong Guo
+2.34.1
+
