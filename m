@@ -2,116 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4C2563EF32
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 12:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D0363F0B8
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 13:41:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbiLALRW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 06:17:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S229717AbiLAMlw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 07:41:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbiLALQu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 06:16:50 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC122B2B56;
-        Thu,  1 Dec 2022 03:12:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669893141; x=1701429141;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oqwp1prmygFipaS7+KydzauQtsm23Yws4T/2+sBogyI=;
-  b=v8G6tiH0dwPUW+p3XYtyTbv4LmVyKSzwGtkk1RtBOdAilgPS2Wy+VgJg
-   lpoywgE0PGMFQ0sIy2J4PlDpkk9wYmDxktF5KOGQ9FlpCvxmM8v89BVSS
-   nA/cgKVNF0yxuef2XOn/TyQpHAKLAqU0IQ1IF3/Hb2x7S1NIEvFx3diW0
-   5EFHKlbH0LVTk0EaGakRzXxYNzpYl7osHO9HhQFry9YEFCY/QXqAIotvW
-   Ag7l5Te+CbqBtd5j0i1FtkWIqGL754C+bvSM6BwcyoX95SpEAnACVwpsV
-   FBx0lLQCLu+BLGxGHyQvG+Ibo/I7Fp6niz9vd4YgILK8m0KqzVNFJZ3Cr
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,209,1665471600"; 
-   d="scan'208";a="202161679"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 01 Dec 2022 04:12:19 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 1 Dec 2022 04:12:19 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 1 Dec 2022 04:12:10 -0700
-Date:   Thu, 1 Dec 2022 11:11:51 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        "Douglas Anderson" <dianders@chromium.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        "Broadcom internal kernel review list" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "NXP Linux Team" <linux-imx@nxp.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        "Jerome Brunet" <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "Heiko Stuebner" <heiko@sntech.de>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Michael Walle <michael@walle.cc>,
-        "Orson Zhai" <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Hammer Hsieh <hammerh0314@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Sean Anderson <sean.anderson@seco.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        <linux-pwm@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <chrome-platform@lists.linux.dev>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <Y4iL9xf5bJM5pyeR@wendy>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229572AbiLAMlv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 07:41:51 -0500
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F805801F;
+        Thu,  1 Dec 2022 04:41:50 -0800 (PST)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1432a5f6468so1947258fac.12;
+        Thu, 01 Dec 2022 04:41:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVtwBXUP6j6Bf0vdPQcEIuUGWHMzl8hlrxeZxCGBo7o=;
+        b=KhG045o73gAmFqWPVI6b0QexsA2P0qKZqQzejNrLgPsrYZ7qF9JfRssadiaZa8N4j/
+         tIliNbuFS/awGxcUqmszKcLkHMWDCYMU5EnHC5g87WdWxZvV1GBWs1Du9hiipCmNmRsS
+         Znag6Gnz2iWCjRydCFJ8k8yJTdC+27BWPBJ179QhSIliBtfk/3TKIHdnPLyzZ06ib4j0
+         QGGrh7pM/5uqmLlKtipMCh4DxaDLJZ3jIYsiy+95N8o/CYKBVm8/TRPxI5J6HdLUvRdD
+         6koqAseyM+W5OvSaIEabjjJOvq8Uf1tQmhNVHAxtaC6G4pw5RfLTX7xefPMezRB3rx2U
+         WNLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vVtwBXUP6j6Bf0vdPQcEIuUGWHMzl8hlrxeZxCGBo7o=;
+        b=nX+d2vyaBELdVq8rre0wQAqAzAa6CqvH0vPRPwFZ4QJLM0VNrweU+cXGsPddkj8NcV
+         5P+6gzCwof7V5nST0JfbxCNmVLOzkgeobr7aD4/07B4j+PWRyEJrZ3H1pPwJvuEHrwKm
+         QVHSh0suly6CcYuoUgB/oNzTgjwWwsBi4Wy9lA2eD4LiBr2E7qk0f9FAiOD9/bOUKqb6
+         7l9RPZmLNOZ0X3mqbPgV/3QSqHDs+Vs9aPx8G+e1ZgTSorZg+hQhj0V4meMtUjkMp+Tz
+         aqggVi4BsMh3Fut02RVHWvK0OZM0TXIpJIHFabrQdPnJ1QCN55y3yQWNP/8GGiERqpfQ
+         oYzg==
+X-Gm-Message-State: ANoB5pk9T64uZugWf7Z7wEcnOtM633QlTDWuWhsOi3fBG03peQ5Es5hw
+        Xb6YNXb2hRXkUeadCzxQNghsgZ2OhQR7E1U70xo=
+X-Google-Smtp-Source: AA0mqf6lkTeE/LUL4X4zuNE/2/zR6AH8fXXx8wCNgAMioaIAtv49JXiRu83pwCnVTMXot34+PdI4JiacLxJtmuBETUo=
+X-Received: by 2002:a05:6870:ab86:b0:13c:5763:9411 with SMTP id
+ gs6-20020a056870ab8600b0013c57639411mr36055275oab.288.1669898510141; Thu, 01
+ Dec 2022 04:41:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <20221129140955.137361-1-gch981213@gmail.com> <20221129140955.137361-3-gch981213@gmail.com>
+ <98b72494-3188-76d5-2e24-9dc127a8b31a@linaro.org> <CAJsYDVJknDWKMW1tH0M=85tJOPG-HngxhhMzvJpk5qn_Q9mzAg@mail.gmail.com>
+ <7b3f97f9-34af-413c-aaad-9108b4f36c51@linaro.org> <CAJsYDVKXvJZaqCBx7RSsfVZkKTGdbp78GHA4mvmUdQwyEyGkBQ@mail.gmail.com>
+ <c13b67ec-c030-302a-6315-fad18323923a@linaro.org>
+In-Reply-To: <c13b67ec-c030-302a-6315-fad18323923a@linaro.org>
+From:   Chuanhong Guo <gch981213@gmail.com>
+Date:   Thu, 1 Dec 2022 20:41:39 +0800
+Message-ID: <CAJsYDVJyeuHsXFdi-OrMX-1maQbC_wLYko6dz=unmuG6B3DL=g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -119,56 +80,41 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hey Uwe!
+Hi!
 
-On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
-> Hello,
-> 
-> I forgot about this series and was remembered when I talked to Conor
-> Dooley about how .get_state() should behave in an error case.
+On Wed, Nov 30, 2022 at 7:59 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> >> [...]
+> >> So this is brightness of each color...
+> >
+> > I don't think so.
+> > See the kernel doc for multicolor LED:
+> > https://docs.kernel.org/leds/leds-class-multicolor.html
+> > This property sets the sysfs file multi_intensity while the
+> > actual LED brightness is controlled with another sysfs
+> > file called 'brightness'.
+> > Setting multi_intensity alone doesn't change the LED
+> > brightness at all.
+>
+> If you had brightness, that would be correct. But you do not have
+> brightness, right?
 
-In the context of "my" driver, get_state() the proposal was to fail with
--ETIMEDOUT rather than block a caller, potentially, for seconds or
-report a potentially "random" state.
+The brightness can be set using sysfs, but I didn't implement a
+default brightness in my driver.
+My original intent for this property is to set a default color for legacy
+led softwares which can only control the brightness and doesn't
+support setting the color value yet.
 
-Specifically, values writen to the registers that control the PWM duty
-cycle are not visible to the cpu until the changes have propagated to
-the waveform at the start of a new period.
-The timeout would occur if the bit that signifies that the "shadow
-registers" contain a value which has not yet propagated. This bit is
-per PWM "controller" and not per PWM channel.
+> Therefore the final brightness is always:
+>
+> subled[i].brightness = 255 * subled[i].intensity / max_brightness (also
+> 255);
+>
+> Or your bindings are incomplete...
 
-Returning from apply() without waiting, possibly for seconds, for the
-writes to become visible could cause get_state() to see anything between
-the new and old states, inclusive!
+I do agree that adding a default-brightness will make this more
+useful. I'll add this feature in the next version.
 
-If anyone cares at all, the discussion is here:
-https://lore.kernel.org/linux-pwm/20221110093512.333881-1-conor.dooley@microchip.com/T/#m800eeabad29067940a5684e54106fd0bb7261944
-
-> In v1 Thierry had the concern:
-> 
-> | That raises the question about what to do in these cases. If we return
-> | an error, that could potentially throw off consumers. So perhaps the
-> | closest would be to return a disabled PWM?
-> | Or perhaps it'd be up to the
-> | consumer to provide some fallback configuration for invalidly configured
-> | or unconfigured PWMs.
-> 
-> .get_state() is only called in pwm_device_request on a pwm_state that a
-> consumer might see. Before my series a consumer might have seen a
-> partial modified pwm_state (because .get_state() might have modified
-> .period, then stumbled and returned silently). The last patch ensures
-> that this partial modification isn't given out to the consumer. Instead
-> they now see the same as if .get_state wasn't implemented at all.
-
-Getting the same thing as if get_state() did not exist seems
-preferable to me in this context than "lying" and pretending that a PWM
-is disabled or potentially inconsistent reports from get_state() that I
-mentioned above.
-
-TL;DR, I quite like the ability to return an error and not mislead the
-caller.
-
-Thanks for sending a v2 of this so quickly :)
-Conor.
-
+-- 
+Regards,
+Chuanhong Guo
