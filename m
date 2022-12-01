@@ -2,203 +2,234 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 142C863EADD
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 09:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF02A63ED94
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Dec 2022 11:23:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiLAILq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 03:11:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46472 "EHLO
+        id S230306AbiLAKXF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Thu, 1 Dec 2022 05:23:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbiLAILm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 03:11:42 -0500
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE9321E03;
-        Thu,  1 Dec 2022 00:11:35 -0800 (PST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mxct.zte.com.cn (FangMail) with ESMTPS id 4NN81047nmz4xyCN;
-        Thu,  1 Dec 2022 16:11:32 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.40.50])
-        by mse-fl2.zte.com.cn with SMTP id 2B18BMHB046498;
-        Thu, 1 Dec 2022 16:11:22 +0800 (+08)
-        (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-        by mapi (Zmail) with MAPI id mid31;
-        Thu, 1 Dec 2022 16:11:24 +0800 (CST)
-Date:   Thu, 1 Dec 2022 16:11:24 +0800 (CST)
-X-Zmail-TransId: 2af9638861acffffffff9b0399c2
-X-Mailer: Zmail v1.0
-Message-ID: <202212011611248725166@zte.com.cn>
-Mime-Version: 1.0
-From:   <ye.xingchen@zte.com.cn>
-To:     <jansimon.moeller@gmx.de>
-Cc:     <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBsZWRzOiB1c2Ugc3lzZnNfZW1pdCgpIHRvIGluc3RlYWQgb2Ygc2NucHJpbnRmKCk=?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 2B18BMHB046498
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.251.13.novalocal with ID 638861B4.002 by FangMail milter!
-X-FangMail-Envelope: 1669882292/4NN81047nmz4xyCN/638861B4.002/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 638861B4.002/4NN81047nmz4xyCN
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S230262AbiLAKXE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 05:23:04 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC5E810A1;
+        Thu,  1 Dec 2022 02:23:02 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A95EED1;
+        Thu,  1 Dec 2022 02:23:09 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4DF93F67D;
+        Thu,  1 Dec 2022 02:22:55 -0800 (PST)
+Date:   Thu, 1 Dec 2022 10:22:52 +0000
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Douglas Anderson <dianders@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Michael Walle <michael@walle.cc>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an
+ error code
+Message-ID: <20221201102252.52ace284@donnerap.cambridge.arm.com>
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+        <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+On Wed, 30 Nov 2022 16:21:38 +0100
+Uwe Kleine-König <u.kleine-koenig@pengutronix.de> wrote:
 
-Replace the open-code with sysfs_emit() to simplify the code.
+Hi,
 
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- drivers/leds/leds-blinkm.c             |  8 ++++----
- drivers/leds/leds-lm3533.c             | 12 ++++++------
- drivers/leds/leds-lp5521.c             |  2 +-
- drivers/leds/leds-lp55xx-common.c      |  4 ++--
- drivers/leds/trigger/ledtrig-pattern.c |  2 +-
- 5 files changed, 14 insertions(+), 14 deletions(-)
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+> 
+> This patch was created using coccinelle and the following semantic patch:
+> 
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver = {
+>         ...,
+>         .get_state = getstatefunc
+>         ,...
+>  };
+> 
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_state *state)
+>  {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+> 
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+> 
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
+>  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
+>  drivers/pwm/pwm-atmel.c               |  6 ++++--
+>  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
+>  drivers/pwm/pwm-crc.c                 | 10 ++++++----
+>  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
+>  drivers/pwm/pwm-dwc.c                 |  6 ++++--
+>  drivers/pwm/pwm-hibvt.c               |  6 ++++--
+>  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
+>  drivers/pwm/pwm-imx27.c               |  8 +++++---
+>  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
+>  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
+>  drivers/pwm/pwm-keembay.c             |  6 ++++--
+>  drivers/pwm/pwm-lpss.c                |  6 ++++--
+>  drivers/pwm/pwm-meson.c               |  8 +++++---
+>  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
+>  drivers/pwm/pwm-pca9685.c             |  8 +++++---
+>  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
+>  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
+>  drivers/pwm/pwm-sifive.c              |  6 ++++--
+>  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
+>  drivers/pwm/pwm-sprd.c                |  8 +++++---
+>  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
+>  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
+>  drivers/pwm/pwm-sunplus.c             |  6 ++++--
+>  drivers/pwm/pwm-visconti.c            |  6 ++++--
+>  drivers/pwm/pwm-xilinx.c              |  8 +++++---
+>  include/linux/pwm.h                   |  4 ++--
+>  29 files changed, 146 insertions(+), 89 deletions(-)
+> 
 
-diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
-index 3fb6a2fdaefa..e19cc8a7b7ca 100644
---- a/drivers/leds/leds-blinkm.c
-+++ b/drivers/leds/leds-blinkm.c
-@@ -139,11 +139,11 @@ static ssize_t show_color_common(struct device *dev, char *buf, int color)
- 		return ret;
- 	switch (color) {
- 	case RED:
--		return scnprintf(buf, PAGE_SIZE, "%02X\n", data->red);
-+		return sysfs_emit(buf, "%02X\n", data->red);
- 	case GREEN:
--		return scnprintf(buf, PAGE_SIZE, "%02X\n", data->green);
-+		return sysfs_emit(buf, "%02X\n", data->green);
- 	case BLUE:
--		return scnprintf(buf, PAGE_SIZE, "%02X\n", data->blue);
-+		return sysfs_emit(buf, "%02X\n", data->blue);
- 	default:
- 		return -EINVAL;
- 	}
-@@ -253,7 +253,7 @@ static DEVICE_ATTR_RW(blue);
- static ssize_t test_show(struct device *dev, struct device_attribute *attr,
- 			 char *buf)
- {
--	return scnprintf(buf, PAGE_SIZE,
-+	return sysfs_emit(buf,
- 			 "#Write into test to start test sequence!#\n");
- }
+[ ... ]
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index c8445b0a3339..37d75e252d4e 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct sun4i_pwm_chip *chip,
+>  	writel(val, chip->base + offset);
+>  }
+>  
+> -static void sun4i_pwm_get_state(struct pwm_chip *chip,
+> -				struct pwm_device *pwm,
+> -				struct pwm_state *state)
+> +static int sun4i_pwm_get_state(struct pwm_chip *chip,
+> +			       struct pwm_device *pwm,
+> +			       struct pwm_state *state)
+>  {
+>  	struct sun4i_pwm_chip *sun4i_pwm = to_sun4i_pwm_chip(chip);
+>  	u64 clk_rate, tmp;
+> @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		state->duty_cycle = DIV_ROUND_UP_ULL(state->period, 2);
+>  		state->polarity = PWM_POLARITY_NORMAL;
+>  		state->enabled = true;
+> -		return;
+> +		return 0;
+>  	}
+>  
+>  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) == PWM_PRESCAL_MASK) &&
+> @@ -142,7 +142,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  		prescaler = prescaler_table[PWM_REG_PRESCAL(val, pwm->hwpwm)];
+>  
+>  	if (prescaler == 0)
+> -		return;
+> +		return 0;
+>  
+>  	if (val & BIT_CH(PWM_ACT_STATE, pwm->hwpwm))
+>  		state->polarity = PWM_POLARITY_NORMAL;
+> @@ -162,6 +162,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+>  
+>  	tmp = (u64)prescaler * NSEC_PER_SEC * PWM_REG_PRD(val);
+>  	state->period = DIV_ROUND_CLOSEST_ULL(tmp, clk_rate);
+> +
+> +	return 0;
+>  }
+>  
+>  static int sun4i_pwm_calculate(struct sun4i_pwm_chip *sun4i_pwm,
 
-diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
-index 43d5970d96aa..bcd414eb4724 100644
---- a/drivers/leds/leds-lm3533.c
-+++ b/drivers/leds/leds-lm3533.c
-@@ -314,7 +314,7 @@ static ssize_t show_id(struct device *dev,
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct lm3533_led *led = to_lm3533_led(led_cdev);
+For sunxi:
 
--	return scnprintf(buf, PAGE_SIZE, "%d\n", led->id);
-+	return sysfs_emit(buf, "%d\n", led->id);
- }
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
- /*
-@@ -344,7 +344,7 @@ static ssize_t show_risefalltime(struct device *dev,
- 	if (ret)
- 		return ret;
+Just one comment: I don't see a sunxi specific patch later in the series,
+though it seems we have at least one error error exit (see prescaler == 0
+above). Plus potentially another exit if clk_get_rate() (at the very
+beginning) fails.
+Shall I send a patch for that?
 
--	return scnprintf(buf, PAGE_SIZE, "%x\n", val);
-+	return sysfs_emit(buf, "%x\n", val);
- }
+Cheers,
+Andre.
 
- static ssize_t show_risetime(struct device *dev,
-@@ -415,7 +415,7 @@ static ssize_t show_als_channel(struct device *dev,
 
- 	channel = (val & LM3533_REG_CTRLBANK_BCONF_ALS_CHANNEL_MASK) + 1;
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", channel);
-+	return sysfs_emit(buf, "%u\n", channel);
- }
-
- static ssize_t store_als_channel(struct device *dev,
-@@ -465,7 +465,7 @@ static ssize_t show_als_en(struct device *dev,
-
- 	enable = val & LM3533_REG_CTRLBANK_BCONF_ALS_EN_MASK;
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", enable);
-+	return sysfs_emit(buf, "%d\n", enable);
- }
-
- static ssize_t store_als_en(struct device *dev,
-@@ -518,7 +518,7 @@ static ssize_t show_linear(struct device *dev,
- 	else
- 		linear = 0;
-
--	return scnprintf(buf, PAGE_SIZE, "%x\n", linear);
-+	return sysfs_emit(buf, "%x\n", linear);
- }
-
- static ssize_t store_linear(struct device *dev,
-@@ -564,7 +564,7 @@ static ssize_t show_pwm(struct device *dev,
- 	if (ret)
- 		return ret;
-
--	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-+	return sysfs_emit(buf, "%u\n", val);
- }
-
- static ssize_t store_pwm(struct device *dev,
-diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
-index 7ff20c260504..19478d9c19a7 100644
---- a/drivers/leds/leds-lp5521.c
-+++ b/drivers/leds/leds-lp5521.c
-@@ -469,7 +469,7 @@ static ssize_t lp5521_selftest(struct device *dev,
- 	ret = lp5521_run_selftest(chip, buf);
- 	mutex_unlock(&chip->lock);
-
--	return scnprintf(buf, PAGE_SIZE, "%s\n", ret ? "FAIL" : "OK");
-+	return sysfs_emit(buf, "%s\n", ret ? "FAIL" : "OK");
- }
-
- /* device attributes */
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index ca2e28fb843f..c1940964067a 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -88,7 +88,7 @@ static ssize_t led_current_show(struct device *dev,
- {
- 	struct lp55xx_led *led = dev_to_lp55xx_led(dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", led->led_current);
-+	return sysfs_emit(buf, "%d\n", led->led_current);
- }
-
- static ssize_t led_current_store(struct device *dev,
-@@ -121,7 +121,7 @@ static ssize_t max_current_show(struct device *dev,
- {
- 	struct lp55xx_led *led = dev_to_lp55xx_led(dev);
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", led->max_current);
-+	return sysfs_emit(buf, "%d\n", led->max_current);
- }
-
- static DEVICE_ATTR_RW(led_current);
-diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
-index 43a265dc4696..885ca63f383f 100644
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -155,7 +155,7 @@ static ssize_t repeat_show(struct device *dev, struct device_attribute *attr,
-
- 	mutex_unlock(&data->lock);
-
--	return scnprintf(buf, PAGE_SIZE, "%d\n", repeat);
-+	return sysfs_emit(buf, "%d\n", repeat);
- }
-
- static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
--- 
-2.25.1
