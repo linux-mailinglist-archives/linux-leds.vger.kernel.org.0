@@ -2,66 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A734763FC87
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 01:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9838B63FF26
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 04:43:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231484AbiLBAJB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Dec 2022 19:09:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45116 "EHLO
+        id S231935AbiLBDnJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Dec 2022 22:43:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231197AbiLBAJA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 19:09:00 -0500
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627E2CCEC9;
-        Thu,  1 Dec 2022 16:09:00 -0800 (PST)
-Received: by mail-ot1-f43.google.com with SMTP id db10-20020a0568306b0a00b0066d43e80118so2027572otb.1;
-        Thu, 01 Dec 2022 16:09:00 -0800 (PST)
+        with ESMTP id S231562AbiLBDnI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Dec 2022 22:43:08 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3212935A;
+        Thu,  1 Dec 2022 19:43:07 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id h193so3362492pgc.10;
+        Thu, 01 Dec 2022 19:43:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cOx0w0mnQfQWQTws79m+7TjAlJJBi7acjo8aETWPYBM=;
+        b=ow4Erc3dpaVkQ6cQZa4+ljGr9mDSI4TE/QVw3SftvZryhBd2/e+y4EIjmGnFwEn+Kr
+         FGVDEvxlUS2zqsEob5M4eBVXIBC0I2niqf/wBu8kxRoK8HFGfZ0RGQCGQ622/B1hHv4q
+         HCCYXCtXpk1NVIMCstSS7ICu+nu1Crre/cqo72Fn0LArW7TO/AwyJ56EnknpX9xdhchV
+         sOPYG3kwapdySIFB1ybkwx9WkBPZTp4OWMvDHLrgbTq3r90OrpxD2shZEpAFzmNuR/0z
+         oLqnVHvqJpdOblzm5grbTC2BiE5p5fn3VRnwEprC94epaI25LwlECDsetYaGumatW+ya
+         5W3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HssPrVTZjEipCI/4aT7NF6m5CrrPoRuTr+9Y8kxknAQ=;
-        b=OwlicpdE+tXMhKtRL8uU8NwtPlox4Urj1aschnc5AOGp+WhHsIoqnRSQ+pT2UHfdhS
-         6qXp7cXSSvLZz+nWDzKOGymbrRIbpPQfUh813+tcri48VGWcYb73aAmLQZ/73P5Qb3Bz
-         wFtz9UZaqQM0GAlbNui4D9MTAFSrnO54nQpjB6Lijx79E8+UCdzdtsrx8U++DLOj/r7W
-         EiZonRX+OaZaDG4ecG3LRaTYiJXF+atstD65NFpQ1Glw3yT9li4598MJjozik9A2zILw
-         L7hF3IbRauv4GgRNe+gJ++6LoKx6xc/kONxceBi/ZHmcTz7bkOZsL2datQbtE/w28TTe
-         tL1g==
-X-Gm-Message-State: ANoB5pmDeV9QPpiA/Ep/Mg/b0FVpajoSEyF6BcgXsQ0ZK5/OWWRalw3M
-        YRHd5q+6ouFPVjCTA8OFfA==
-X-Google-Smtp-Source: AA0mqf7JTgDeAUY2oj6yLJ9N14fNuDURF1Wef3u+zBRSmtYdSLKwErQ+faMF3oy/Z8bgVMDLkEfqAw==
-X-Received: by 2002:a9d:2c42:0:b0:66c:754e:869b with SMTP id f60-20020a9d2c42000000b0066c754e869bmr34046461otb.198.1669939739632;
-        Thu, 01 Dec 2022 16:08:59 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id f14-20020a4ad80e000000b0049fb39100a5sm2299024oov.37.2022.12.01.16.08.58
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cOx0w0mnQfQWQTws79m+7TjAlJJBi7acjo8aETWPYBM=;
+        b=ELRcoBDKLFadzU2zSYldWZhEyztglEThMyFGz6KGkgHkJiaLslBH7ND4sqE3pQprVT
+         HTVQu+l3wdUqqxqtHAqbfQQPgH0ow7mSzlecLzUEVVc+ROQG8mw0YzrsPETdDaRiU45Q
+         IwWUy6SA/ka+lEkYJFNZNl0ck7yTC9qbRtVDGBRUI4KWFQMaZ1gjKAxzarb6jAlom0Qw
+         mTqDKPI7ou8e+qu4RTyNdqjBr7uLb4J4sbd2rJCw36WdfiWIHKZj7AI0dtpnLUBDB0TC
+         PE30MilJNV+VeBEg/rQpwzksa1+bw3eOeO016yay3/V5gn1+VbKwwyrdMAUc4QHpFEpX
+         RHJw==
+X-Gm-Message-State: ANoB5pmo7O0+Ey5OCX+lgMuBaiePAbnpX3HR8rTcfk12IQvLUXRWZCp2
+        rg4zSnhKztaEiL5tuabpnaUb1OX6nag=
+X-Google-Smtp-Source: AA0mqf5lejTM9Tko+7AruYXuNLKeWQS9a65+g6HuExEGSjO56XWuhlJnlKzA0ohiGY3d+kA6r9Cg8A==
+X-Received: by 2002:a63:220c:0:b0:46a:e819:216c with SMTP id i12-20020a63220c000000b0046ae819216cmr49893931pgi.155.1669952586681;
+        Thu, 01 Dec 2022 19:43:06 -0800 (PST)
+Received: from guoguo-omen.scut.edu.cn ([2401:c080:1400:4da2:5400:3ff:feb4:7578])
+        by smtp.gmail.com with ESMTPSA id v3-20020a170902e8c300b0017f59ebafe7sm4370636plg.212.2022.12.01.19.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 16:08:59 -0800 (PST)
-Received: (nullmailer pid 1737713 invoked by uid 1000);
-        Fri, 02 Dec 2022 00:08:58 -0000
-Date:   Thu, 1 Dec 2022 18:08:58 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thu, 01 Dec 2022 19:43:06 -0800 (PST)
+From:   Chuanhong Guo <gch981213@gmail.com>
+To:     linux-leds@vger.kernel.org
+Cc:     Chuanhong Guo <gch981213@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lee Jones <lee@kernel.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] leds: qcom,pm8058-led: Convert to DT schema
-Message-ID: <20221202000858.GA1737135-robh@kernel.org>
-References: <20221201131505.42292-1-krzysztof.kozlowski@linaro.org>
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 0/3] leds: add driver for SPI driven WorldSemi WS2812B RGB LEDs
+Date:   Fri,  2 Dec 2022 11:42:37 +0800
+Message-Id: <20221202034240.455831-1-gch981213@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221201131505.42292-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,18 +78,41 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Dec 01, 2022 at 02:15:05PM +0100, Krzysztof Kozlowski wrote:
-> Convert the Qualcomm PM8058 PMIC LED bindings to DT schema.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/leds/leds-pm8058.txt  | 67 -------------------
->  .../bindings/leds/qcom,pm8058-led.yaml        | 57 ++++++++++++++++
->  .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  |  4 ++
->  3 files changed, 61 insertions(+), 67 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/qcom,pm8058-led.yaml
+This patch adds support for driving a chain of WS2812B LED chips
+using SPI bus.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+WorldSemi WS2812B is a individually addressable LED chip that
+can be chained together and controlled individually using a
+single wire. The chip recognize a long pulse as a bit of 1 and
+a short pulse as a bit of 0. Host sends a continuous stream
+of 24-bits color values, each LED chip takes the first 3 byte
+it receives as its color value and passes the leftover bytes to
+the next LED on the chain.
 
-Or should I apply it?
+This driver simulates this protocol using SPI bus by sending
+a long pulse as 3'b110 and a short pulse as 3'b100. The SPI
+frequency needs to be 2.105MHz~2.85MHz for the timing to be
+correct and the controller needs to transfer all the bytes
+continuously.
+
+Changes since v1:
+various dt binding fixes
+add support for default-brightness
+
+Chuanhong Guo (3):
+  dt-bindings: vendor-prefixes: add an entry for WorldSemi
+  dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
+  leds: add driver for SPI driven WorldSemi WS2812B RGB LEDs
+
+ .../bindings/leds/worldsemi,ws2812b.yaml      | 138 ++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/leds/rgb/Kconfig                      |  11 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-ws2812b.c               | 235 ++++++++++++++++++
+ 5 files changed, 387 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+ create mode 100644 drivers/leds/rgb/leds-ws2812b.c
+
+-- 
+2.38.1
+
