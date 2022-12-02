@@ -2,105 +2,249 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 998C9640588
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 12:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20EAA640591
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 12:14:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232068AbiLBLMi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Dec 2022 06:12:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55948 "EHLO
+        id S233000AbiLBLOJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Dec 2022 06:14:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232532AbiLBLMf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 06:12:35 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B9ADB7
-        for <linux-leds@vger.kernel.org>; Fri,  2 Dec 2022 03:12:33 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p13xv-0008Bz-78; Fri, 02 Dec 2022 12:12:23 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p13xt-001maX-8B; Fri, 02 Dec 2022 12:12:22 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p13xt-0021qp-5V; Fri, 02 Dec 2022 12:12:21 +0100
-Date:   Fri, 2 Dec 2022 12:12:21 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 288/606] leds: turris-omnia: Convert to i2c's .probe_new()
-Message-ID: <20221202111221.zl7w6guy4bgqwkdp@pengutronix.de>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-289-uwe@kleine-koenig.org>
+        with ESMTP id S233026AbiLBLOI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 06:14:08 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE85CCED3
+        for <linux-leds@vger.kernel.org>; Fri,  2 Dec 2022 03:14:06 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id bp15so6862772lfb.13
+        for <linux-leds@vger.kernel.org>; Fri, 02 Dec 2022 03:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kfh2uEkgJYQbt4ZY05bMmlo4I+toC+Od514z9x7yJ0k=;
+        b=SkmDWVnXOjLeqsSC4ZOtRofWVZ93d6mCs/ekDDHIWFooXvfvs6MfRpGlopzHiWAlr6
+         Vk4ZfEiyCFPmwf2t+Hb85BEHKcebyK5qr6DF6LU5+WvXkXPF08YdyngSQx/E2rWDf1Ut
+         KJRDJ/dYf6DnvxnR+Sy3L0/eGdsRGVMqj9KcPoTBUFGCfj+WOlPh3N+t2M/AMR1ubXa5
+         rmvbCly7HbX2OK87ZOjEiajksvErHyDoo90irw+OSM1cwxFikrPlXdE8BJsrCBLlV93K
+         rScWtvq23c38FdMGoOBTYWNWVM4s5YieLhID7kg5qGzd3pQU9ydjbTPnqPqE8V7AcN0n
+         IvLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kfh2uEkgJYQbt4ZY05bMmlo4I+toC+Od514z9x7yJ0k=;
+        b=HWGwjBnEVLx7wlmfIXF9AwGMgKm6jDhuL0gUL4lAeIHHNarx2ZICOV/6ci3xdlnFy2
+         elksYEp/v8XGlYRm+Uh3vgIvBexwjorQP7rV56kpH0xvF8seJ5HOc9OaV7LBGZCpnZ8y
+         ieYChDv6usdHUeB0hEHGBpNzYmyrfVk0oj+GFjaLEUqzMmdvq7mdbnIJC7pIHBeRqNqU
+         0gqzssDwxOAkuYb0RNvmEm9v9Y1q35L4m0YzVoL9FrJZhU4inYLcTlTXJ5PjQ+SqNRLm
+         z4QluF6/zvhQOTOAReas0YyDLX/A92E0jDApuL85hGA8KujgnpnOlkEEzWVTr9JxEkp5
+         8ndQ==
+X-Gm-Message-State: ANoB5pm6clhH/2DhEtAXro1hlIiFoP4LUvsnbrwn0NS3xEqUvnMYp6nr
+        Wt4a/ilAPszEgWB6nhAGnwuiYw==
+X-Google-Smtp-Source: AA0mqf7mJhhZCg+x1t1Y5hOsdmMcgg0eIKKgvFfGcYURBsM7OgPVL6InsNZyygYH0zfQsxsaDdpGqg==
+X-Received: by 2002:ac2:5326:0:b0:4b1:5bf0:df51 with SMTP id f6-20020ac25326000000b004b15bf0df51mr26269906lfh.674.1669979645249;
+        Fri, 02 Dec 2022 03:14:05 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id s15-20020a056512214f00b004a6f66eed7fsm979178lfr.165.2022.12.02.03.14.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Dec 2022 03:14:04 -0800 (PST)
+Message-ID: <df8a683a-0df9-c32a-4272-19e7313ef7d7@linaro.org>
+Date:   Fri, 2 Dec 2022 12:14:02 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fa7mmlvm437yiure"
-Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-289-uwe@kleine-koenig.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 2/3] dt-bindings: leds: add dt schema for
+ worldsemi,ws2812b-spi
+Content-Language: en-US
+To:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20221202034240.455831-1-gch981213@gmail.com>
+ <20221202034240.455831-3-gch981213@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221202034240.455831-3-gch981213@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 02/12/2022 04:42, Chuanhong Guo wrote:
+> This patch adds dt binding schema for WorldSemi WS2812B driven using SPI
+> bus.
 
---fa7mmlvm437yiure
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Do not use "This commit/patch".
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-Hello Pavel,
+> 
+> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> ---
+> Changes since v1:
+> remove linux driver reference from description
+> remove some obvious descriptions
+> fix unit address regex in multi-led property
+> drop various minItems
+> add maxItems = 1 to reg
+> fix node names and property orders in binding example
+> drop -spi from compatible string
+> add default-brightness
+> 
+>  .../bindings/leds/worldsemi,ws2812b.yaml      | 138 ++++++++++++++++++
+>  1 file changed, 138 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> new file mode 100644
+> index 000000000000..f91908d0acef
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> @@ -0,0 +1,138 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: WS2812B LEDs driven using SPI
+> +
+> +maintainers:
+> +  - Chuanhong Guo <gch981213@gmail.com>
+> +
+> +description: |
+> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
+> +  together and controlled individually using a single wire.
+> +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
+> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
+> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
+> +  for the data pin.
+> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
+> +  and the controller needs to send all the bytes continuously.
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: worldsemi,ws2812b
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    minimum: 2105000
+> +    maximum: 2850000
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^multi-led@[0-9a-f]+$":
+> +    type: object
+> +    $ref: leds-class-multicolor.yaml#
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      color-index:
+> +        description: |
+> +          A 3-item array specifying color of each components in this LED. It
+> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
+> +          header include/dt-bindings/leds/common.h. Defaults to
+> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
+> +          if unspecified.
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> +        maxItems: 3
+> +
+> +      default-brightness:
+> +        description:
+> +          The default brightness that should be applied to the LED by the operating
+> +          system on start-up. The brightness should not exceed the brightness the
+> +          LED can provide.
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 255
+> +        default: 0
+> +
+> +      default-intensity:
+> +        description: |
+> +          An array of 3 integer specifying the default intensity of each color
+> +          components in this LED. <255 255 255> if unspecified.
+> +        $ref: /schemas/types.yaml#/definitions/uint32-array
 
-On Fri, Nov 18, 2022 at 11:40:22PM +0100, Uwe Kleine-K=F6nig wrote:
-> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> The probe function doesn't make use of the i2c_device_id * parameter so it
-> can be trivially converted.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+I am still not convinced these two properties are correct. Why this LED
+is special and defines default brightness and intensity and other LEDs
+do not? You explained you are doing it for user-space which is usually
+not a valid reason for changes specific to one binding. Either all
+bindings should support it or none.
 
-I didn't get any feedback from your side about this patch set.
+> +        maxItems: 3
+> +        items:
+> +          minimum: 0
+> +          maximum: 255
+> +
+> +      reg:
+> +        description: |
+> +          Which LED this node represents. The reg of the first LED on the chain
+> +          is 0.
+> +        maxItems: 1
+> +
+> +    required:
+> +      - reg
+> +      - color
+> +      - function
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        leds@0 {
 
-In case the problem is "only" to get the led patches out of this
-series, I recommend:
+git grep leds@ -- Documentation/devicetree/ | wc -l
+1
+git grep led@ -- Documentation/devicetree/ | wc -l
+165
 
-	b4 am -l -s -P268-288 20221118224540.619276-1-uwe@kleine-koenig.org
+so rather not the first one ("leds").
 
-Best regards
-Uwe
+There is also:
+git grep led-controller@ -- Documentation/devicetree/ | wc -l
+30
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---fa7mmlvm437yiure
-Content-Type: application/pgp-signature; name="signature.asc"
+> +            compatible = "worldsemi,ws2812b";
+> +            reg = <0>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            spi-max-frequency = <2850000>;
+> +            multi-led@0 {
+> +                reg = <0>;
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOJ3ZEACgkQwfwUeK3K
-7AnKngf9GBKD2FJTsoIxVtNAqIxb7XJiF2rkhbmOFAf4wwfvpzkSHYe5AJMSmejH
-HLi+8RdUhvk1vKCpp8QJkvQ1y6UxrGhc+KiLIeyjcREm0m4ozrU27h/H0DZo1coM
-CY31crVxSNO9Rz1cCwO6q4ZvAZeH+1mbrPng0/NwVuH8k8ak/GypqdXvNAqi6crQ
-ApHC00x3uMGjdy3lNV+CKZYXh7nsM4Q66h6zjYjK0M9NzJ8MtBPFEWuUwo0m/MDj
-ANEpNtEj9/Fj9BdzP5UJHM9dDNACPJhEb7SIVyvbMVCGAZzYHjKwF/5FfBhk2g7I
-KUyBBgCapX8b0/BZB0cfVWUT02N/PQ==
-=pEKn
------END PGP SIGNATURE-----
-
---fa7mmlvm437yiure--
