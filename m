@@ -2,126 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF1CE640345
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 10:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3968C64054D
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 11:54:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232524AbiLBJZv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Dec 2022 04:25:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46556 "EHLO
+        id S233199AbiLBKyS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Dec 2022 05:54:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232292AbiLBJZf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 04:25:35 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E361E3;
-        Fri,  2 Dec 2022 01:25:33 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DD5671C09FE; Fri,  2 Dec 2022 10:25:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1669973131;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eN/M3VFir9/Er0HKbCX2QJULPmPCZJVKZYJsRXCiqME=;
-        b=NbJ8si1POoI7gqgOEk8vRyw/czdZeW5eTXG85BmKdpehvzsa4ALHEYFyEG52a76CnsD89/
-        FXq9KTikHGopROX+4Nl5B+9vHq8gM0fRc2V0MO859uLwJ2R3VH/HexTI5e95CJ4Qu9wKlL
-        32Jyftnr8j2ucovOmqj1/ArUiHpKRB8=
-Date:   Fri, 2 Dec 2022 10:25:31 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Marek Vasut <marex@denx.de>,
-        Christoph Niedermaier <cniedermaier@dh-electronics.com>,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        kernel@dh-electronics.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
-Message-ID: <Y4nEi1Q1iEYFdkht@duo.ucw.cz>
-References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
- <Y3y/S5COG7VPbsqL@duo.ucw.cz>
- <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
- <20221130191905.GA2631320-robh@kernel.org>
- <Y4eufPCzKbfp9k3z@duo.ucw.cz>
- <CAL_JsqK6+Yyn29QNV2tjUM-zm9WbuW57Jb=LKmqCLXHmvEoJYA@mail.gmail.com>
+        with ESMTP id S233231AbiLBKxq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 05:53:46 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2E51027
+        for <linux-leds@vger.kernel.org>; Fri,  2 Dec 2022 02:53:25 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id x11so4989819ljh.7
+        for <linux-leds@vger.kernel.org>; Fri, 02 Dec 2022 02:53:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QSjLefHNHZegI4ZB3gSSmSL4psXmiBZX3/AQmAdB8Ek=;
+        b=ch4jUTh+E3zvsapTjxKlw6JsDVlBzQYaZ5O8kVerM7kpCX2FBvPZYn3qeUr1QQZU3O
+         BjIFqyOVP0VzlZdrYwOBjJWUy9BwBLm4q0E4EMfCHeMcjlKO8Eikcf4ClB+bDLz8iO6/
+         dLAGlkXSDi1FKKzjOcKkuj/04GRP9Hb9gNOq4rFp7hokzk8sVFSx81Xla51/6dDBFqKt
+         V5F8GJph0J2RgpMW3KufXy2TyGgauHvKChv5gYffMgLKMMY1ynixHJ5Qdgya29NyvEfm
+         9prQo3uOdKoPFcIRRxSQ++/CQLwEvWLVmJs2tK62CSHSk515Is2F6Ir/CALtnbdP2L5D
+         0+kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QSjLefHNHZegI4ZB3gSSmSL4psXmiBZX3/AQmAdB8Ek=;
+        b=ZeXkvphtrO2jNM/wnPWS8KoZohB0tw7Lc/mmvd2Z7b/K+igKqIH5v3OjY2Q/EVIGMG
+         wW00NFbJ6i0ZdMMbJSwKSTdiQFwhG4+/1RzeYek1PvnOgMIUiXoZv05oP30xO+8KasV5
+         nFG7IVLylKCRelzwfTJibxwJKD6PhVsn+B+gdmf6DqvbPIiEdRrEkqW+kDvyNq3JepyQ
+         WHzen9zuCL57qA4C2y41GKa1586z6LijzZZkUfTfXI5ygx2Lt9keG70ucWJHoS/cJ1nO
+         60dv5cKNZh05i4pq79Wk3loLQqIR2MvtHhFzVNzAD6SvoUBhLX5n40EVyoiIE8hQaZgt
+         CkDQ==
+X-Gm-Message-State: ANoB5pmHjc4xEz4u0QfqIkiFPwXpaYvAjKPMIjM7i93f0fm55llUxOYt
+        mKrpZUFZAqbZS4/foHRSLAubfA==
+X-Google-Smtp-Source: AA0mqf4kz7feCFmRNFDMS6l36HrfZmoNajxlZNp7L0xiUTayIiHEtz0mWo6MExr869Z4OeFjYceg+Q==
+X-Received: by 2002:a2e:b90a:0:b0:278:ec8b:4783 with SMTP id b10-20020a2eb90a000000b00278ec8b4783mr17773054ljb.91.1669978403987;
+        Fri, 02 Dec 2022 02:53:23 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id f27-20020a19381b000000b004a0589786ddsm981504lfa.69.2022.12.02.02.53.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Dec 2022 02:53:23 -0800 (PST)
+Message-ID: <67a3fb3e-7d27-f0b0-4858-fd66fd3424e0@linaro.org>
+Date:   Fri, 2 Dec 2022 11:53:22 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ll8oqkCr+kIaxupW"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqK6+Yyn29QNV2tjUM-zm9WbuW57Jb=LKmqCLXHmvEoJYA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: add an entry for
+ WorldSemi
+Content-Language: en-US
+To:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20221202034240.455831-1-gch981213@gmail.com>
+ <20221202034240.455831-2-gch981213@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221202034240.455831-2-gch981213@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 02/12/2022 04:42, Chuanhong Guo wrote:
+> Add vendor prefix for WorldSemi that makes WS2812B
+> individually-addressable RGB LEDs.
+> 
+> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> --
+> Change since v1:
+> reword commit message
 
---ll8oqkCr+kIaxupW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> > > > So far, the documentation states that "label" is deprecated, and us=
-ers
-> > > > should replace it with "function" and "color".
-> > >
-> > > 'function' is what activity/operation the LED is associated with. It =
-is
-> > > a fixed set of strings which s/w may use. It is a replacement for
-> > > 'linux,default-trigger'.
-> > >
-> > > 'label' is what is printed next to the LED for a human to read. 'labe=
-l'
-> > > can be anything and the OS shouldn't care what it is.
-> >
-> > Unfortunately, no.
->=20
-> That's why I said 'shouldn't care', not 'doesn't care'.
->=20
-> 'label' is also not just an LED property. It's used elsewhere, but
-> unfortunately the LED subsystem makes more use of it than it perhaps
-> should.
->=20
-> > We use label as a path in /sys/class/leds.
->=20
-> Yes, or node name if no label. That's still not really caring what the
-> value of label is. At least the kernel doesn't. A well behaved
-> userspace wouldn't either and doesn't for most classes.
+Best regards,
+Krzysztof
 
-A well behaved userspace needs that to tell what kind of LED it is. It
-is important to tell keyboard backlight from HDD activity LED and from
-fllash on back camera for example.
-
-> > And it looks like integer
-> > "function" is not really adequate for describing what LED does. There
-> > are too many LEDs and not enough integers, and it is common to have
-> > same function ("activity") on multiple devices ("wifi", "mmc", "eth").
->=20
-> Whatever the problems are, 'label' is not the solution.
->=20
-> There is a way to associate leds with devices. 'trigger-source'
-> IIRC.
-
-Neither is trigger-source a solution.
-
-Can we have linux,sysfs-path or something?
-
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---ll8oqkCr+kIaxupW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY4nEiwAKCRAw5/Bqldv6
-8sLHAJ9mdtKAHeFl8I9YQNzZ0x7r/prTjACgnKZpSbkzl0S7r9tqGBdV4pisN7k=
-=tVtK
------END PGP SIGNATURE-----
-
---ll8oqkCr+kIaxupW--
