@@ -2,63 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20EAA640591
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 12:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC2BB640735
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 13:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233000AbiLBLOJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Dec 2022 06:14:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
+        id S233575AbiLBMzs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Dec 2022 07:55:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233026AbiLBLOI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 06:14:08 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE85CCED3
-        for <linux-leds@vger.kernel.org>; Fri,  2 Dec 2022 03:14:06 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id bp15so6862772lfb.13
-        for <linux-leds@vger.kernel.org>; Fri, 02 Dec 2022 03:14:06 -0800 (PST)
+        with ESMTP id S233584AbiLBMzp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 07:55:45 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21C2D3A33;
+        Fri,  2 Dec 2022 04:55:44 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id v82so5213627oib.4;
+        Fri, 02 Dec 2022 04:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kfh2uEkgJYQbt4ZY05bMmlo4I+toC+Od514z9x7yJ0k=;
-        b=SkmDWVnXOjLeqsSC4ZOtRofWVZ93d6mCs/ekDDHIWFooXvfvs6MfRpGlopzHiWAlr6
-         Vk4ZfEiyCFPmwf2t+Hb85BEHKcebyK5qr6DF6LU5+WvXkXPF08YdyngSQx/E2rWDf1Ut
-         KJRDJ/dYf6DnvxnR+Sy3L0/eGdsRGVMqj9KcPoTBUFGCfj+WOlPh3N+t2M/AMR1ubXa5
-         rmvbCly7HbX2OK87ZOjEiajksvErHyDoo90irw+OSM1cwxFikrPlXdE8BJsrCBLlV93K
-         rScWtvq23c38FdMGoOBTYWNWVM4s5YieLhID7kg5qGzd3pQU9ydjbTPnqPqE8V7AcN0n
-         IvLg==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HMulQtDEYr8StaCD+M2NKtZZtuACwzVH39fWb0WUyQ=;
+        b=eEQQ6uvfOl76Ao5O0QbsLd3+0LQZ2O3gFdB2kh6fVLE3YJOs4VVYyiLKhQU9rUTcr1
+         1olRnVzFXOjq40mdtJXb/44+tzDY9fL+8HjvDbf2xBDWkq15yq0MIh3g6J+orM3XGrfn
+         pPQx/kge9o5aDiJnpS4POr6VBFDbCxDpARtIBpU4ptxhxaUnXvA3Egdt4VjAj0IEJLws
+         A4AUuIBpYpfo4AEIvn+rQWazbii5/MQ4Bj35iT5dr/YHEBKOD3tmo/wtU/2vHYtliZxI
+         QRbfucJ5HTEEABlxb6GF0lWzPgfkNWcRnptv5yDCK5JGeENRD+HdZ10XdwLXYlgwN3Zq
+         yufg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kfh2uEkgJYQbt4ZY05bMmlo4I+toC+Od514z9x7yJ0k=;
-        b=HWGwjBnEVLx7wlmfIXF9AwGMgKm6jDhuL0gUL4lAeIHHNarx2ZICOV/6ci3xdlnFy2
-         elksYEp/v8XGlYRm+Uh3vgIvBexwjorQP7rV56kpH0xvF8seJ5HOc9OaV7LBGZCpnZ8y
-         ieYChDv6usdHUeB0hEHGBpNzYmyrfVk0oj+GFjaLEUqzMmdvq7mdbnIJC7pIHBeRqNqU
-         0gqzssDwxOAkuYb0RNvmEm9v9Y1q35L4m0YzVoL9FrJZhU4inYLcTlTXJ5PjQ+SqNRLm
-         z4QluF6/zvhQOTOAReas0YyDLX/A92E0jDApuL85hGA8KujgnpnOlkEEzWVTr9JxEkp5
-         8ndQ==
-X-Gm-Message-State: ANoB5pm6clhH/2DhEtAXro1hlIiFoP4LUvsnbrwn0NS3xEqUvnMYp6nr
-        Wt4a/ilAPszEgWB6nhAGnwuiYw==
-X-Google-Smtp-Source: AA0mqf7mJhhZCg+x1t1Y5hOsdmMcgg0eIKKgvFfGcYURBsM7OgPVL6InsNZyygYH0zfQsxsaDdpGqg==
-X-Received: by 2002:ac2:5326:0:b0:4b1:5bf0:df51 with SMTP id f6-20020ac25326000000b004b15bf0df51mr26269906lfh.674.1669979645249;
-        Fri, 02 Dec 2022 03:14:05 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id s15-20020a056512214f00b004a6f66eed7fsm979178lfr.165.2022.12.02.03.14.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Dec 2022 03:14:04 -0800 (PST)
-Message-ID: <df8a683a-0df9-c32a-4272-19e7313ef7d7@linaro.org>
-Date:   Fri, 2 Dec 2022 12:14:02 +0100
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5HMulQtDEYr8StaCD+M2NKtZZtuACwzVH39fWb0WUyQ=;
+        b=UwfdifmDfse11UqoXwJTVElK3bu7R0f0BUreLMb2MhhWusJjTa3PeuMyOpvcisu2QE
+         HL+oi5PboAJkI5ToEbo9rGt/JakJMpre5188ojwM+1eiqPWoAmPy5Xn9CuS+XUV30tSV
+         XCJw0Mj+Os/7xKINMgzNnJw/juU/+hjzkxL96/XAO2TbRMnf8HaODEkV2muZ+kjRS337
+         1NVXSjyFRLLzH3ynnDOr0Sjhs/Onbl7RAvH0TK2SfeRvkHT+TDK9n8qz/2dAzkb5jHMJ
+         HZF+LP7Qmcvr9zqGqs11qOId22Mm8IzCuNPdvHvDNx2zhRRJzppA1K+EqMsOAelNCFJB
+         N/wQ==
+X-Gm-Message-State: ANoB5pkXYOB3llzYe8blfdlm3iP020KqXb1cFuE8uyra/zOXrrhHCeZD
+        IJ+uaxJ7GZzB455WBbnR3hiDtgXC1p9zI+QFqA0=
+X-Google-Smtp-Source: AA0mqf6aVBf+NKOWch0Jfc9fmrrRGCBM5i7QIhLaLUn3iF/LlY6ukN9sg76KFvOQTE8JRdrMBKkdiWRi+9drUADmgYI=
+X-Received: by 2002:a05:6808:2ca:b0:359:ca42:419 with SMTP id
+ a10-20020a05680802ca00b00359ca420419mr36163478oid.98.1669985743872; Fri, 02
+ Dec 2022 04:55:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 2/3] dt-bindings: leds: add dt schema for
- worldsemi,ws2812b-spi
-Content-Language: en-US
-To:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+References: <20221202034240.455831-1-gch981213@gmail.com> <20221202034240.455831-3-gch981213@gmail.com>
+ <df8a683a-0df9-c32a-4272-19e7313ef7d7@linaro.org>
+In-Reply-To: <df8a683a-0df9-c32a-4272-19e7313ef7d7@linaro.org>
+From:   Chuanhong Guo <gch981213@gmail.com>
+Date:   Fri, 2 Dec 2022 20:55:32 +0800
+Message-ID: <CAJsYDVLwyCG2xnWXDo72H-T4Tk7Edxmv_GSfJFvvWKrXZgBtCA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Stanislav Jakubek <stano.jakubek@gmail.com>,
         Linus Walleij <linus.walleij@linaro.org>,
@@ -70,181 +67,123 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-References: <20221202034240.455831-1-gch981213@gmail.com>
- <20221202034240.455831-3-gch981213@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221202034240.455831-3-gch981213@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 02/12/2022 04:42, Chuanhong Guo wrote:
-> This patch adds dt binding schema for WorldSemi WS2812B driven using SPI
-> bus.
+Hi!
 
-Do not use "This commit/patch".
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+On Fri, Dec 2, 2022 at 7:14 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 02/12/2022 04:42, Chuanhong Guo wrote:
+> > This patch adds dt binding schema for WorldSemi WS2812B driven using SPI
+> > bus.
+>
+> Do not use "This commit/patch".
+> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-> 
-> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
-> ---
-> Changes since v1:
-> remove linux driver reference from description
-> remove some obvious descriptions
-> fix unit address regex in multi-led property
-> drop various minItems
-> add maxItems = 1 to reg
-> fix node names and property orders in binding example
-> drop -spi from compatible string
-> add default-brightness
-> 
->  .../bindings/leds/worldsemi,ws2812b.yaml      | 138 ++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> new file mode 100644
-> index 000000000000..f91908d0acef
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> @@ -0,0 +1,138 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: WS2812B LEDs driven using SPI
-> +
-> +maintainers:
-> +  - Chuanhong Guo <gch981213@gmail.com>
-> +
-> +description: |
-> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
-> +  together and controlled individually using a single wire.
-> +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
-> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
-> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
-> +  for the data pin.
-> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
-> +  and the controller needs to send all the bytes continuously.
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: worldsemi,ws2812b
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    minimum: 2105000
-> +    maximum: 2850000
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^multi-led@[0-9a-f]+$":
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      color-index:
-> +        description: |
-> +          A 3-item array specifying color of each components in this LED. It
-> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
-> +          header include/dt-bindings/leds/common.h. Defaults to
-> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
-> +          if unspecified.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 3
-> +
-> +      default-brightness:
-> +        description:
-> +          The default brightness that should be applied to the LED by the operating
-> +          system on start-up. The brightness should not exceed the brightness the
-> +          LED can provide.
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 0
-> +        maximum: 255
-> +        default: 0
-> +
-> +      default-intensity:
-> +        description: |
-> +          An array of 3 integer specifying the default intensity of each color
-> +          components in this LED. <255 255 255> if unspecified.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+OK.
 
-I am still not convinced these two properties are correct. Why this LED
-is special and defines default brightness and intensity and other LEDs
-do not? You explained you are doing it for user-space which is usually
-not a valid reason for changes specific to one binding. Either all
-bindings should support it or none.
+> [...]
+> > +
+> > +      default-brightness:
+> > +        description:
+> > +          The default brightness that should be applied to the LED by the operating
+> > +          system on start-up. The brightness should not exceed the brightness the
+> > +          LED can provide.
+> > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > +        minimum: 0
+> > +        maximum: 255
+> > +        default: 0
+> > +
+> > +      default-intensity:
+> > +        description: |
+> > +          An array of 3 integer specifying the default intensity of each color
+> > +          components in this LED. <255 255 255> if unspecified.
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+>
+> I am still not convinced these two properties are correct. Why this LED
+> is special and defines default brightness and intensity and other LEDs
+> do not? You explained you are doing it for user-space which is usually
+> not a valid reason for changes specific to one binding. Either all
+> bindings should support it or none.
 
-> +        maxItems: 3
-> +        items:
-> +          minimum: 0
-> +          maximum: 255
-> +
-> +      reg:
-> +        description: |
-> +          Which LED this node represents. The reg of the first LED on the chain
-> +          is 0.
-> +        maxItems: 1
-> +
-> +    required:
-> +      - reg
-> +      - color
-> +      - function
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        leds@0 {
+There's already a default-state for simple LEDs without brightness
+control so I think it makes sense to add default-brightness for LEDs
+with brightness control and default-intensity for colored LEDs.
+The default-state seems to be implemented in various LED drivers,
+so I implemented these two properties in my LED driver.
+There's nothing device-specific about these two properties.
 
-git grep leds@ -- Documentation/devicetree/ | wc -l
-1
-git grep led@ -- Documentation/devicetree/ | wc -l
-165
+>
+> > +        maxItems: 3
+> > +        items:
+> > +          minimum: 0
+> > +          maximum: 255
+> > +
+> > +      reg:
+> > +        description: |
+> > +          Which LED this node represents. The reg of the first LED on the chain
+> > +          is 0.
+> > +        maxItems: 1
+> > +
+> > +    required:
+> > +      - reg
+> > +      - color
+> > +      - function
+> > +
+> > +required:
+> > +  - compatible
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/leds/common.h>
+> > +    spi {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        leds@0 {
+>
+> git grep leds@ -- Documentation/devicetree/ | wc -l
+> 1
+> git grep led@ -- Documentation/devicetree/ | wc -l
+> 165
+>
+> so rather not the first one ("leds").
 
-so rather not the first one ("leds").
+As you can see, this node describes a chain of LEDs, not
+a single LED, so the plural form is more appropriate than
+the singular form.
 
-There is also:
-git grep led-controller@ -- Documentation/devicetree/ | wc -l
-30
+>
+> There is also:
+> git grep led-controller@ -- Documentation/devicetree/ | wc -l
+> 30
 
+This also isn't appropriate. WS2812B is a single LED package
+of 3 diodes and a microcontroller. If we treat every package
+as a LED, the SPI MOSI is connected directly to the LED
+packages themselves with no controller in between.
+If we treat the microcontroller as a led-controller, every
+LED contains its own controller, instead of one controller
+controlling all LEDs, and the parent node still shouldn't
+be called a led-controller.
 
-> +            compatible = "worldsemi,ws2812b";
-> +            reg = <0>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            spi-max-frequency = <2850000>;
-> +            multi-led@0 {
-> +                reg = <0>;
+Here's a picture of the WS2812B LED package:
+https://cdn-shop.adafruit.com/970x728/1655-00.jpg
+and a chain of them:
+https://cdn-shop.adafruit.com/970x728/1463-00.jpg
 
-Best regards,
-Krzysztof
-
+--
+Regards,
+Chuanhong Guo
