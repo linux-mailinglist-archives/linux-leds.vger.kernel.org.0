@@ -2,38 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FBB1640DEF
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Dec 2022 19:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A008C641604
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Dec 2022 11:44:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234743AbiLBSx7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Dec 2022 13:53:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40794 "EHLO
+        id S229516AbiLCKoJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 3 Dec 2022 05:44:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234744AbiLBSxl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Dec 2022 13:53:41 -0500
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28295F1150;
-        Fri,  2 Dec 2022 10:53:11 -0800 (PST)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id C7ED85FD0D;
-        Fri,  2 Dec 2022 21:53:09 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1670007189;
-        bh=iQuycMZtPbvV3NkGCSrY+6L3hWEFkqI8nUbsdweZv5I=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-        b=PdwMshCwBMAKVTGNeWOXTPj2ABBu4B+QFW/VUvJDRztT4++AWjxWutSaFASALLwZq
-         bEqT3rHN2CxVJ/8lDehljuoOWlksuKZxT9z0J5iCqVcjteJoW7fuJO761V9kbO4oxK
-         eoftSwrKuQWrXBbx4qZEoj0/rPdL2l3x/ScJdW9I+aLvhWKvUwVsEWJLTj8LJrfE/C
-         Jl1diTs38oUToyIcP70K51f3x8I3ahf7X+mXWL0IU+fpn1VRX/mg9dDP3rOe+N3s1J
-         eYJo1Iy1ZWotOurCndP1VDqbU+rPgqoJRFEODrVMJ9dSuo+hfdEnHVT1dUcqWRQ9la
-         WxQUF/1jlhtlg==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Fri,  2 Dec 2022 21:53:08 +0300 (MSK)
-Date:   Fri, 2 Dec 2022 21:53:08 +0300
-From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
+        with ESMTP id S229447AbiLCKoI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Dec 2022 05:44:08 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BF1765C
+        for <linux-leds@vger.kernel.org>; Sat,  3 Dec 2022 02:44:07 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id n1so8084860ljg.3
+        for <linux-leds@vger.kernel.org>; Sat, 03 Dec 2022 02:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VA6bgdS0eWxkTgT0XZ0SoXlx4jS/fw585JN+2qGw6LU=;
+        b=JkYod0TCwxV83odqnX1BI8Nd4HLmNhA21w18fCZuPeRbW5BF5gMZRsztxQU2yxZD15
+         IX9JscIQJHdBEqSDz8WdAofRaFs7XY6Fz6i/Cbg/APN/Zwn3hXSF7hnsuuTlpgs4ilvy
+         sQ61VmIBiuT+Eeo1L9VHIFTQN8FM2AWk+Xt/ADvxRx4tRdL4gFQrNNp6Vc4xCa4Cr6ak
+         JEeS9QKFoi945AMiu/kZCPpMTiKxkMv69T5rYg78v8u77IDwHc3FzDW2F8pS6NgMG2QM
+         erl2d6HprOJNtkdR/rLHHhfarJHm3/skPewUDi+6Yz5UtM3Qt4wFlKTGYj7PkraXy8oy
+         zTcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VA6bgdS0eWxkTgT0XZ0SoXlx4jS/fw585JN+2qGw6LU=;
+        b=n1eaxjxdfNfqhOlG8s6RJOdGbEVjBhNHdvcA8RMmTPXbZT1HdrQqlCeCaowPFqwoFw
+         s6flqUq8/ixFEP3KgGjcPdsBTQrrEpanBodfjYIIgWPBpYqevCwxAkua4C8CGeI6nSSc
+         VVwMZPInZNejU0Afmk7U1rG+lpUkezrk0UNhzLKa6xwZfd9XWHNKTyYn2wtpR0ipZGV4
+         bqx55uooxhnt/j7K8UnOeeMSNy0nit26e6MWsFpmiCz3QAPtd0VY5VCdOweODa5/7m7Y
+         RjkVLFV0LvpbXv73NCEjoLxDXVGLQjsSI2mzeSRgx9IltosXcqeiKf19bnwh5ufmGT8e
+         WatQ==
+X-Gm-Message-State: ANoB5pkfu8SUfmdUfnFcGq77Fvnsnmvl5UGsozMwBFjdaSr73C7Y4tB9
+        xbsyHphirwNVK83J3nm8YKdYiA==
+X-Google-Smtp-Source: AA0mqf65bteWp/5x2VGymOoQTMXDSV6uq3dkYvxgSK7hCEwsZMR8HN1bOyqzRgWw+dQpYM/+lHc/tg==
+X-Received: by 2002:a2e:a0c2:0:b0:279:95c2:c154 with SMTP id f2-20020a2ea0c2000000b0027995c2c154mr12495316ljm.44.1670064245500;
+        Sat, 03 Dec 2022 02:44:05 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id c24-20020a056512239800b004b40c1f1c70sm1351910lfv.212.2022.12.03.02.44.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Dec 2022 02:44:04 -0800 (PST)
+Message-ID: <f4c98f85-a39a-77ff-3b69-e461f482fee7@linaro.org>
+Date:   Sat, 3 Dec 2022 11:44:03 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
+Content-Language: en-US
+To:     Dmitry Rokosov <ddrokosov@sberdevices.ru>
+Cc:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -43,71 +67,72 @@ CC:     Martin Kurbanov <MMKurbanov@sberdevices.ru>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         kernel <kernel@sberdevices.ru>
-Subject: Re: [PATCH v1 1/2] dt-bindings: leds: add binding for aw200xx
-Message-ID: <20221202185308.zh5kesfxvyrco2cr@CAB-WSD-L081021>
 References: <20221124204807.1593241-1-mmkurbanov@sberdevices.ru>
  <20221124204807.1593241-2-mmkurbanov@sberdevices.ru>
  <bb12ea88-b416-7e32-93b9-730b6f009b98@linaro.org>
  <0a9e7d65-4ad7-b753-ec9b-8e58a549b5db@sberdevices.ru>
  <620b19f5-2202-21a5-7e3b-816dcd42d1b4@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <620b19f5-2202-21a5-7e3b-816dcd42d1b4@linaro.org>
-User-Agent: NeoMutt/20220415
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/12/02 17:01:00 #20638911
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <20221202185308.zh5kesfxvyrco2cr@CAB-WSD-L081021>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221202185308.zh5kesfxvyrco2cr@CAB-WSD-L081021>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Krzysztof,
-
-On Fri, Dec 02, 2022 at 05:41:37PM +0100, Krzysztof Kozlowski wrote:
-> On 28/11/2022 18:43, Martin Kurbanov wrote:
-> > Hi. Thank you for quick reply. 
-> > 
-> > On 25.11.2022 11:29, Krzysztof Kozlowski wrote:
-> >>> +
-> >>> +  imax:
-> >>> +    maxItems: 1
-> >>> +    description:
-> >>> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
-> >>
-> >> No. Use existing properties from common.yaml. This looks like
-> >> led-max-microamp and it is per LED, not per entire device.
-> > 
-> > The AW200XX LED chip does not support imax setup per led.
-> > Imax is the global parameter over the all leds. I suppose, it's better
-> > to add vendor prefix or take minimum from all subnodes?
-> > How do you think?
+On 02/12/2022 19:53, Dmitry Rokosov wrote:
+> Hello Krzysztof,
 > 
-> Have in mind that led-max-microamp is a required property in some cases,
-> so skipping it and using per-device properties does not solve the
-> problem of adjusting proper currents. What if each LED you set for
-> something which in total gives more than your imax?
+> On Fri, Dec 02, 2022 at 05:41:37PM +0100, Krzysztof Kozlowski wrote:
+>> On 28/11/2022 18:43, Martin Kurbanov wrote:
+>>> Hi. Thank you for quick reply. 
+>>>
+>>> On 25.11.2022 11:29, Krzysztof Kozlowski wrote:
+>>>>> +
+>>>>> +  imax:
+>>>>> +    maxItems: 1
+>>>>> +    description:
+>>>>> +      Maximum supply current, see dt-bindings/leds/leds-aw200xx.h
+>>>>
+>>>> No. Use existing properties from common.yaml. This looks like
+>>>> led-max-microamp and it is per LED, not per entire device.
+>>>
+>>> The AW200XX LED chip does not support imax setup per led.
+>>> Imax is the global parameter over the all leds. I suppose, it's better
+>>> to add vendor prefix or take minimum from all subnodes?
+>>> How do you think?
+>>
+>> Have in mind that led-max-microamp is a required property in some cases,
+>> so skipping it and using per-device properties does not solve the
+>> problem of adjusting proper currents. What if each LED you set for
+>> something which in total gives more than your imax?
+>>
 > 
+> You are right. From my point of view too, we must build our solutions from
+> HW capabilities. 
 
-You are right. From my point of view too, we must build our solutions from
-HW capabilities. In the current situation, AW200XX chips support global
-Imax value, so it's acceptable decision to use vendor prefix for global
-imax parameter, why not?
+And there was no proposal to go around HW capabilities. We talk only
+about representation.
 
-...
+> In the current situation, AW200XX chips support global
+> Imax value, so it's acceptable decision to use vendor prefix for global
+> imax parameter, why not?
 
--- 
-Thank you,
-Dmitry
+Jacek made his statement some time ago quite clear:
+
+https://lore.kernel.org/all/5785F17D.3010108@samsung.com/
+
+"If you question the idea of having different maximum brightness per
+sub-LEDs controlled by the same device, then it means that you have
+objections to the entire idea of LED subsystem max_brightness property,
+whereas it has been broadly accepted and successfully used for years."
+
+Best regards,
+Krzysztof
+
