@@ -2,173 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B68B364171B
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Dec 2022 14:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 592A7641B0D
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 07:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbiLCNqP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 3 Dec 2022 08:46:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40760 "EHLO
+        id S229800AbiLDGMo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Dec 2022 01:12:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiLCNqO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Dec 2022 08:46:14 -0500
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7C9A1B8;
-        Sat,  3 Dec 2022 05:46:13 -0800 (PST)
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1441d7d40c6so8521858fac.8;
-        Sat, 03 Dec 2022 05:46:13 -0800 (PST)
+        with ESMTP id S229539AbiLDGMn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 01:12:43 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A504ED102
+        for <linux-leds@vger.kernel.org>; Sat,  3 Dec 2022 22:12:41 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id x6so9960274lji.10
+        for <linux-leds@vger.kernel.org>; Sat, 03 Dec 2022 22:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UZUeqVR+YNS254T8ghrOY0br3+YG9kpDkIyVm5x/F6Y=;
-        b=qRGRjM8J5rb2ZDwDTRn79jhnQNreMJM4+wgZxFQ2ktqCJa5uoCvkJLyYapat94blo+
-         ZFkjUp1v6+Akll140+hFahBUvNiKiJkPQMsUzAOPyraZ/nmbz0FYawnmYknzZ4YQg0l2
-         HDg5r3YdkBd1xhewe58Saj9dRAHIvEIJqEflYBzGFYvcmSsl90pynLeWVXk6Ff03KF7J
-         rO2At1ZzLaa9QB1RseJ/uTrF6UW45GEQZnC1fvSALcTSmeR7GckKZiscnyl+7qrddx7H
-         u+jdfXZZ9HpY7APpffFpVkZRjvhISzSOR9rBYHEWEdA7bRdfrnxnALavioLZk0yytspW
-         cGgQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/zPJv0fTLzr1q+VN+M3Bu1MPbuWQ/F54YNQa6Nnzs3I=;
+        b=bbPUcPl7osRML+x7kj1Ub+f/yGmXQfQPBOrLmGQ1R+SwlQsMzARF4I+5FldUvWn1M0
+         9KHccRiyZpNNIgRStx38GCpDgSFWOMsAZI2XjAxa8vfiRqWsjfGrjanS3fKL0IoRz7YK
+         p41F/+MTlmYambM649Mlz84PI+yGXviIiYoUWx1N5ijUCw559jrLKC+ITdFwH8/aUlI7
+         qS8TcIrxtv5LeKFgIr8/NEwl8zOY3z0SwWoYhtLaC7SG5gqkixTwXhW9RrlbYDglOa60
+         PN5Ft1jmVV1lunPNv2xK7j3aAPJxTNUzPJQv73BNNNdegDMc4ici9K6adycbQvJ4d2h6
+         b1bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UZUeqVR+YNS254T8ghrOY0br3+YG9kpDkIyVm5x/F6Y=;
-        b=nDo1jasWAoadzY+QcAAFypfwmatD3aUFgwT/7183u6/swN5kUgDkkxig94fLYEG69f
-         bi0ltX6k7x6a38VEH1BiPDkI0w2fx/xeowQ7ZuiTc+jxXeDjJuV6b+QFw1JhHK0J4yYe
-         rJROzjsXojY7/LqCeZJ7hc4q1tjBaVbvbiDQVtK2fCLLJS+D9ziwxs/Gi59ZDGpzmnAf
-         zV3gCgsqB04MEKG8IlUVXBYgijkrFH7NCjakkZB4FWep03SE+3DFPHIo7JMb0g5rkXvT
-         mUBPD5RriZdJUJ68gOx11P8z3XH7gqH1ac9brLdbzMdggXIGB6B4lzvvayJHGLBS7W5/
-         kPPA==
-X-Gm-Message-State: ANoB5pknbd8CJWrjyLkcgmFj4l1sCp7lGy6LReNtIi9oRuIUMv86uvY1
-        mBPrIuCQzlBb4sLdiI+NJZT/QlJVBtITrSTRK0k=
-X-Google-Smtp-Source: AA0mqf7WM7gwxmrkTyxIs8uTreJx+nLeBeWG+Yvq9dufiFgID0aEFwuQfJwhWKSa1r92UD+zvhhjlhh8IU17p80NCo4=
-X-Received: by 2002:a05:6870:ab86:b0:13c:5763:9411 with SMTP id
- gs6-20020a056870ab8600b0013c57639411mr41158023oab.288.1670075172372; Sat, 03
- Dec 2022 05:46:12 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/zPJv0fTLzr1q+VN+M3Bu1MPbuWQ/F54YNQa6Nnzs3I=;
+        b=zZxdUdXB4mkTnbAA9wOrtPOZ4f8kWvaDpuvmyvDeXPG0hSYt99K8mYnn6Vm1986/oa
+         ZQtl8ykkl8UV4M+/2MoXnJr2YBFZeEDbd6xHjukTl6W44l9ti2R3hYwMWcXnnOQ5PwFM
+         WUUPueWPxXdhGu9tKc5ei5Sy/ZOm/3e1h8NtspSw9zaSyacbjAI6p9TVHhbL1sfQ8PCy
+         Jd68wIKSu6wXCRgMS4POnWFcRnwJfq+0r8RQDO27wQyXlRAt1VcJqctXs35U+GaXL9av
+         2ED3qWUdcEosOPzRSH/exEBpUOq9DevpdOt4qlArSjGX0qQfGzPdVGLfov8rIUpHRDPA
+         UzOg==
+X-Gm-Message-State: ANoB5pms9PtJdHfmKuvngYfGfziyNGRv0jNBXtd/dKAxAlDAz+JFcw7t
+        ALNWZKIFDGRNXcmC3ZbhZLDePw==
+X-Google-Smtp-Source: AA0mqf4u2MjbOsusSUuQyuKanu7jXfRxRm+3xbKewkCPZwdPguWLck4uPeiqSBJ/+ku1tQaLEVLLzw==
+X-Received: by 2002:a2e:82c8:0:b0:279:d247:364d with SMTP id n8-20020a2e82c8000000b00279d247364dmr3967312ljh.330.1670134360062;
+        Sat, 03 Dec 2022 22:12:40 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id t8-20020a056512208800b00496d3e6b131sm1650571lfr.234.2022.12.03.22.12.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Dec 2022 22:12:39 -0800 (PST)
+Message-ID: <af61872c-425e-6b50-d297-0c01f3262ca6@linaro.org>
+Date:   Sun, 4 Dec 2022 08:12:38 +0200
 MIME-Version: 1.0
-References: <20221202034240.455831-1-gch981213@gmail.com> <20221202034240.455831-3-gch981213@gmail.com>
- <df8a683a-0df9-c32a-4272-19e7313ef7d7@linaro.org> <CAJsYDVLwyCG2xnWXDo72H-T4Tk7Edxmv_GSfJFvvWKrXZgBtCA@mail.gmail.com>
- <783fd2ff-cf7a-d820-6be7-9863e1786349@linaro.org> <CAJsYDVLuXG9UiOixxs997QdfeQVitFhhRDRbJ-uQ4Agz7LuMAQ@mail.gmail.com>
- <b4f881aa-a0a6-1ee1-5346-cfc31ab6c1e7@linaro.org>
-In-Reply-To: <b4f881aa-a0a6-1ee1-5346-cfc31ab6c1e7@linaro.org>
-From:   Chuanhong Guo <gch981213@gmail.com>
-Date:   Sat, 3 Dec 2022 21:46:01 +0800
-Message-ID: <CAJsYDV+hZFVej2fk41TphgAbv+zsRKG+KOLjJJCJ9eiuGrOLhw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b-spi
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 2/5] dt-bindings: leds: pm8058: convert from txt to YAML
+ format
+Content-Language: en-GB
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+References: <20221201202144.448694-1-dmitry.baryshkov@linaro.org>
+ <20221201202144.448694-3-dmitry.baryshkov@linaro.org>
+ <dd25f550-aee1-82af-a58d-eedb4b73a546@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <dd25f550-aee1-82af-a58d-eedb4b73a546@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, Dec 3, 2022 at 8:25 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> >>>>> +        maxItems: 3
-> >>>>> +        items:
-> >>>>> +          minimum: 0
-> >>>>> +          maximum: 255
-> >>>>> +
-> >>>>> +      reg:
-> >>>>> +        description: |
-> >>>>> +          Which LED this node represents. The reg of the first LED on the chain
-> >>>>> +          is 0.
-> >>>>> +        maxItems: 1
-> >>>>> +
-> >>>>> +    required:
-> >>>>> +      - reg
-> >>>>> +      - color
-> >>>>> +      - function
-> >>>>> +
-> >>>>> +required:
-> >>>>> +  - compatible
-> >>>>> +
-> >>>>> +additionalProperties: false
-> >>>>> +
-> >>>>> +examples:
-> >>>>> +  - |
-> >>>>> +    #include <dt-bindings/leds/common.h>
-> >>>>> +    spi {
-> >>>>> +        #address-cells = <1>;
-> >>>>> +        #size-cells = <0>;
-> >>>>> +
-> >>>>> +        leds@0 {
-> >>>>
-> >>>> git grep leds@ -- Documentation/devicetree/ | wc -l
-> >>>> 1
-> >>>> git grep led@ -- Documentation/devicetree/ | wc -l
-> >>>> 165
-> >>>>
-> >>>> so rather not the first one ("leds").
-> >>>
-> >>> As you can see, this node describes a chain of LEDs, not
-> >>> a single LED, so the plural form is more appropriate than
-> >>> the singular form.
-> >>>
-> >>>>
-> >>>> There is also:
-> >>>> git grep led-controller@ -- Documentation/devicetree/ | wc -l
-> >>>> 30
-> >>>
-> >>> This also isn't appropriate. WS2812B is a single LED package
-> >>> of 3 diodes and a microcontroller. If we treat every package
-> >>> as a LED, the SPI MOSI is connected directly to the LED
-> >>> packages themselves with no controller in between.
-> >>> If we treat the microcontroller as a led-controller, every
-> >>> LED contains its own controller, instead of one controller
-> >>> controlling all LEDs, and the parent node still shouldn't
-> >>> be called a led-controller.
-> >>>
-> >>> Here's a picture of the WS2812B LED package:
-> >>> https://cdn-shop.adafruit.com/970x728/1655-00.jpg
-> >>> and a chain of them:
-> >>> https://cdn-shop.adafruit.com/970x728/1463-00.jpg
-> >>
-> >> Then your bindings and DTS do not represent the hardware.
-> >
-> > How should this hardware be represented, then?
-> >
-> > The connection can be:
-> >
-> > SPI-MOSI---LED1---LED2---LED3---...---LEDN
-> >
-> > or
-> >
-> > SPI-MOSI---Tri-state signal gate---LED1---LED2---LED3---...---LEDN
-> > SPI-CS-----|
->
-> I would look at it this as either of:
-> 1. serially linked separate LED controllers (so multiple device nodes)
->
-> 2. one LED controller handling the entire LED system of many
-> sub-controllers.
->
-> For the (2) I proposed the name led-controller. If you think this is not
-> (2), then looks like (1) and you should have many devices... which
-> probably is not doable on itself. And how to call this entire set of
-> separate LED controllers? Heh, can be also some controller, like
-> led-controller.
+On 02/12/2022 10:30, Krzysztof Kozlowski wrote:
+> On 01/12/2022 21:21, Dmitry Baryshkov wrote:
+>> Convert the bindings for the leds subdevice of Qualcomm PM8058 PMIC
+>> from text to YAML format.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   .../devicetree/bindings/leds/leds-pm8058.txt  | 67 ---------------
+>>   .../devicetree/bindings/leds/leds-pm8058.yaml | 81 +++++++++++++++++++
+>>   2 files changed, 81 insertions(+), 67 deletions(-)
+>>   delete mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.txt
+>>   create mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.yaml
+>>
+> 
+> This is already done:
+> 
+> https://lore.kernel.org/all/20221201131505.42292-1-krzysztof.kozlowski@linaro.org/
 
-OK. I'll name it led-controller in the next version.
+I'll post next version, rebased on top of your patch
+
+> 
+> Best regards,
+> Krzysztof
+> 
 
 -- 
-Regards,
-Chuanhong Guo
+With best wishes
+Dmitry
+
