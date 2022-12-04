@@ -2,123 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 138E9641DB5
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 16:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4802B641FBA
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 22:04:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230148AbiLDPoM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 4 Dec 2022 10:44:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
+        id S230092AbiLDVEY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Dec 2022 16:04:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiLDPoL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 10:44:11 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D94DA196
-        for <linux-leds@vger.kernel.org>; Sun,  4 Dec 2022 07:44:09 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id b16so2857202yba.0
-        for <linux-leds@vger.kernel.org>; Sun, 04 Dec 2022 07:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Krqz0gztCgfshA/5BVbNzvghLRKl8impaiGjHsH2Zy4=;
-        b=pph5OCBwEmWrbf6VaobaKj1L9oT8lMiq4kIl4kHEEQggsonvIHM9fj0pIIyPqOjuTB
-         yOt/e8ISmr60iMONl0nnA//fw6P7WmM317GsJ64vezzFYU2xgDyNyQkZ6Jjdl8scah12
-         b6RdBuCoSiTPZj5ZK9FpD8Moec/e+jgL97RKLaec1qeY11cdDyavNTkanykmWiRxMwuT
-         amy40hpDqkXOvJt+k+nSEpDr2kfUqNWwJ1Mz7p8WZdEqkFujVBgCkBYdoatISl1tzGsI
-         uF0lyfBTM5QwQ5bMNuKanBOxMFTIsX7rOi2/OLE2jpiky3+YsFCRACzOhO79P4GaBIX3
-         Rm3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Krqz0gztCgfshA/5BVbNzvghLRKl8impaiGjHsH2Zy4=;
-        b=iQuoro4P5N01d7m1xnmvGIREUCyCsHZpBv0B+4nS6JwW0FGZKhxN4Lj7FfSCHIAX6E
-         ZkxJx78nhGCGJRdCLgQ8RsLtJGBdasCxEJ7xc9KS6N9Vb02FU044MeduR9DcY+yoFBYB
-         CFRagvQXlV3b2PNYUpWeMWiumpocy/MixmSZO7wQTs1YDY9/hcv/SEZpQnLya3YwPWL2
-         ymFaJs5glfZSnA47Mvhk1EhBFC/czOUsdNQnKRrPe3msx4JX50+yoZZzB+++xxIfOPqP
-         xUQ5YGRU5Sz4FVqPQX0qi+5EUbtti4UWTVVBFq4M3Yq/jjUA5Y+Ms8AvB6ujqbF3IS32
-         +Ogg==
-X-Gm-Message-State: ANoB5pn4NSBhzPhN+12z11Mi7J/xZraTdvTDd0rgwfXG8GVVYZ2C5qH2
-        mLXDhLvqzdIhSjMKfyGis+ErZ0mwS7V0mmQCr/bcjQ==
-X-Google-Smtp-Source: AA0mqf4w63L6rotcuUr/RKWrLsu/hmBo1nAUaAZch8Huvbe0yTiNcxIaHxsbDQC+TBGNiSY54CZpZkwoVdNrfQFkT+U=
-X-Received: by 2002:a25:8c9:0:b0:6f8:9c91:4503 with SMTP id
- 192-20020a2508c9000000b006f89c914503mr24861496ybi.15.1670168648603; Sun, 04
- Dec 2022 07:44:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
- <20221204061555.1355453-4-dmitry.baryshkov@linaro.org> <20221204153736.610c49ed@jic23-huawei>
-In-Reply-To: <20221204153736.610c49ed@jic23-huawei>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Sun, 4 Dec 2022 17:43:57 +0200
-Message-ID: <CAA8EJpqeSF25y3K3gk0Z=q19==byKOqR4NbR78e=1D28o8yp9A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] dt-bindings: iio: adc: qcom,pm8018-adc: allow
- specifying MPP channels
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
+        with ESMTP id S230159AbiLDVEX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 16:04:23 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB64F593
+        for <linux-leds@vger.kernel.org>; Sun,  4 Dec 2022 13:04:22 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p1w9h-0003xM-4R; Sun, 04 Dec 2022 22:04:09 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p1w9c-002JYK-Rs; Sun, 04 Dec 2022 22:04:05 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p1w9c-002aKh-Nm; Sun, 04 Dec 2022 22:04:04 +0100
+Date:   Sun, 4 Dec 2022 22:04:01 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 04/11] leds: qcom-lpg: Propagate errors in
+ .get_state() to the caller
+Message-ID: <20221204210401.eij5vujwnekjtxch@pengutronix.de>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-5-u.kleine-koenig@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zgjjjl7tfyxxlf2o"
+Content-Disposition: inline
+In-Reply-To: <20221130152148.2769768-5-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 4 Dec 2022 at 17:24, Jonathan Cameron <jic23@kernel.org> wrote:
->
-> On Sun,  4 Dec 2022 08:15:54 +0200
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->
-> > Several ADC channels are bound to the Multi Purpose Pins (MPPs). Allow
-> > specifying such channels using the mppN device node (as used on apq8060
-> > dragonboard).
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> So I understand this more, why do the node names have to have anything to
-> do with the particular pin? I'm assuming the reg value provides that
-> relationship.
 
-Yes, the reg provides this relationship. If I understand correctly,
-the dts authors (see arch/arm/boot/dts/qcom-apq8060-dragonboard.dts)
-wanted to point out that these channels are connected to MPP pins
-rather than raw adc channels (e.g. vcoin, vbat, etc).
+--zgjjjl7tfyxxlf2o
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> > ---
-> >  Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> > index d186b713d6a7..fee30e6ddd62 100644
-> > --- a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> > +++ b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> > @@ -64,7 +64,7 @@ required:
-> >    - adc-channel@f
-> >
-> >  patternProperties:
-> > -  "^(adc-channel@)[0-9a-f]$":
-> > +  "^(adc-channel|mpp[0-9]+)@[0-9a-f]$":
-> >      type: object
-> >      description: |
-> >        ADC channel specific configuration.
->
+Hello Pavel,
 
+On Wed, Nov 30, 2022 at 04:21:41PM +0100, Uwe Kleine-K=F6nig wrote:
+> .get_state() can return an error indication. Make use of it to propagate
+> failing hardware accesses.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qco=
+m-lpg.c
+> index 741cc2fd817d..0dcc046a9a19 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -982,20 +982,20 @@ static int lpg_pwm_get_state(struct pwm_chip *chip,=
+ struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + LPG_SIZE_CLK_REG, &val);
+>  	if (ret)
+> -		return 0;
+> +		return ret;
+> =20
+>  	refclk =3D lpg_clk_rates[val & PWM_CLK_SELECT_MASK];
+>  	if (refclk) {
+>  		ret =3D regmap_read(lpg->map, chan->base + LPG_PREDIV_CLK_REG, &val);
+>  		if (ret)
+> -			return 0;
+> +			return ret;
+> =20
+>  		pre_div =3D lpg_pre_divs[FIELD_GET(PWM_FREQ_PRE_DIV_MASK, val)];
+>  		m =3D FIELD_GET(PWM_FREQ_EXP_MASK, val);
+> =20
+>  		ret =3D regmap_bulk_read(lpg->map, chan->base + PWM_VALUE_REG, &pwm_va=
+lue, sizeof(pwm_value));
+>  		if (ret)
+> -			return 0;
+> +			return ret;
+> =20
+>  		state->period =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * LPG_RESOLUTION =
+* pre_div * (1 << m), refclk);
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * pwm_value *=
+ pre_div * (1 << m), refclk);
+> @@ -1006,7 +1006,7 @@ static int lpg_pwm_get_state(struct pwm_chip *chip,=
+ struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + PWM_ENABLE_CONTROL_REG, &val=
+);
+>  	if (ret)
+> -		return 0;
+> +		return ret;
+> =20
+>  	state->enabled =3D FIELD_GET(LPG_ENABLE_CONTROL_OUTPUT, val);
+>  	state->polarity =3D PWM_POLARITY_NORMAL;
 
--- 
-With best wishes
-Dmitry
+It would be great to get an Ack from you for this patch and the led part
+of patch 1 to take it via the PWM tree.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zgjjjl7tfyxxlf2o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmONCz4ACgkQwfwUeK3K
+7AkmMAf/TzKIWdmNQVQbrEXS1/7yj2YkiYIGwvVSUmmCycAxkefl8iR8/m2onSG7
+X+cAmKKT5DHBK02vG/25wgCClDOZZNjnO0RF1zHB8rv0yC92/XXz1lJOjm5WcX4c
+hWakX+7p6KpZOgIySi8fIYCeMc6M/ElwDTILCpqqPecjuN0nAOOTGK/llxkWE+Mj
+EGatDmXZozpnrtnxSxez+b2wJD3HwNuxELLQUUrKULfjV+hQ5tmMBysSK70i12Ts
+CR7G8MOWstUs6GcpzhCsPIwosMMiilHpC7gx5yrVuTSwhc1xb7mWxVqIc1RZ+ChA
+0sQxUJR2CEsxpWtTWDBALMSQhZflrA==
+=Pfei
+-----END PGP SIGNATURE-----
+
+--zgjjjl7tfyxxlf2o--
