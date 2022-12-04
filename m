@@ -2,190 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03429641C63
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 11:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6308641D75
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 15:27:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230000AbiLDKng (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 4 Dec 2022 05:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36130 "EHLO
+        id S229973AbiLDO1z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Dec 2022 09:27:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbiLDKne (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 05:43:34 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B0EF598
-        for <linux-leds@vger.kernel.org>; Sun,  4 Dec 2022 02:43:32 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id z4so10379904ljq.6
-        for <linux-leds@vger.kernel.org>; Sun, 04 Dec 2022 02:43:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wKxfJBtE9R/RmkSFqJuCs7AeQseJPQiGfkmXFgO8eRE=;
-        b=NygHRy+2Rq2KEujc0x//tVDRPbwYxxkTgX0T8P3Q/v5z3iW/dLE0/BDRYVBawgtseE
-         eL4FgeKIuUuY2tGMaqMlw9fZdNPZZt5ePgAH/Eto9xbh3DkxYud33xSJB0mbnxefpfGU
-         sGu/ZcKSq53vZmHeg6kuu/+i8rdk4dLzICM3EF49ab4hc6THSqcTNkFoACIedqh2yyA8
-         PvQul1RCxyko/hakFADrfzbTHb2my/63HUGLIpbG9/gKzhCn5WlkxUs9yQnDmxWE4cq6
-         0qJqpG35dZ8ctNqOCwJ81nwzpUanTauxvBV9obWzs3HI++tIB48tCyzp5VkEWowh4pKF
-         zfxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wKxfJBtE9R/RmkSFqJuCs7AeQseJPQiGfkmXFgO8eRE=;
-        b=dg5eaWrYzUPcEdGzsDkjY9P8RIsG5ZziWCQYrAROkkGwCNc9AzdglTg1uxackkYtXx
-         9dktzZAEcePwZHR3NDYjmjPEXaZqF3v54MMyy8aE9FCLcV3Y5a08Igxo1rAvlpj3Q5/i
-         neOMUw10R2oHCNFBZRKJRpkwCF5dhhU0ISrxe+bwxLUJJFv/3l102d2GAOXT1xuknNdx
-         RkMY1HXXD0exVh2dd3FdwOKDvFDNXCP4IPE4UzKXfMh59DzxN6M3hqnOJtfw1FQaWsS1
-         ODQHgdBTSHNCO24T/y3IiX0xoS3SS7UGf0NxOnZDbAsjl+0Ydur5eS3dMNoXWMOqMjCq
-         i2sQ==
-X-Gm-Message-State: ANoB5plydbxYqKNcqISeHAh+fzrgXaW6F0+0yXf2pcZnWYUNJGuk3NBD
-        DfnRMvFASIFjK1PEgYtZHyztyQ==
-X-Google-Smtp-Source: AA0mqf7rV6MT2d/H87OYhumdmZsVNt9zVAycKUBv1fuw5Ut5PGBgkF6tBZoRJNoqMP/K0QgxgJWjMg==
-X-Received: by 2002:a05:651c:1187:b0:279:d72d:215e with SMTP id w7-20020a05651c118700b00279d72d215emr3750216ljo.184.1670150611194;
-        Sun, 04 Dec 2022 02:43:31 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id w13-20020a05651c118d00b0026c42f67eb8sm893318ljo.7.2022.12.04.02.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Dec 2022 02:43:30 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S229875AbiLDO1y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 09:27:54 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7089D7643;
+        Sun,  4 Dec 2022 06:27:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6BC3B60D2F;
+        Sun,  4 Dec 2022 14:27:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D9F6C433C1;
+        Sun,  4 Dec 2022 14:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670164071;
+        bh=XSvIDwN3cWxgy86D24e4+Qi0IcagP/e6rbFBtLjZs4Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=grS+Bad4FUKjFI0t2w/D+Rsgr66JLR6vlXdvUDvKT0A+H5hqnZ53coFGu9+kAWqVN
+         yIDbtf6XUrDOLyb5YK6gQbyLm8vhe6BZv+F9YQXgC6k+HuJ10Ac9bL41bMh25LAPc1
+         8TxcoRXp4VWJlD5N7VKeHiE5hvDcV9DZlZE3Ig4mlPju2ifK9GEh/xXPcUjy43XIBM
+         9/HCbsSlIFvrzQ1KNrRZJ5rj1ABmwIfM5P7rayvqMaHFy249OubTjpOoHjlA0PhTQH
+         Y/d/kcnepV+fbYIIPtkRyThsv78hVL8C/CPoInFBkuxYwilsSgDGVZzZaJaISx1yCD
+         0ciNd21PRjNxw==
+Date:   Sun, 4 Dec 2022 14:40:36 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Young <sean@mess.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/3] dt-bindings: leds: irled: ir-spi-led: convert to DT schema
-Date:   Sun,  4 Dec 2022 11:43:23 +0100
-Message-Id: <20221204104323.117974-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221204104323.117974-1-krzysztof.kozlowski@linaro.org>
-References: <20221204104323.117974-1-krzysztof.kozlowski@linaro.org>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: mfd: qcom-pm8xxx: add missing child
+ nodes
+Message-ID: <20221204144036.25da4490@jic23-huawei>
+In-Reply-To: <20221204061555.1355453-3-dmitry.baryshkov@linaro.org>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+        <20221204061555.1355453-3-dmitry.baryshkov@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the SPI IR LED bindings to DT schema.
+On Sun,  4 Dec 2022 08:15:53 +0200
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/leds/irled/ir-spi-led.yaml       | 61 +++++++++++++++++++
- .../bindings/leds/irled/spi-ir-led.txt        | 29 ---------
- 2 files changed, 61 insertions(+), 29 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt
+> Add gpio, keypad, led, mpps, pwrkey, vibrator and xoadc as possible
+> child nodes of qcom,pm8xxx, referencing existint schema files.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  | 26 ++++++++++++++++++-
+>  1 file changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> index 9acad9d326eb..7fe3875a5996 100644
+> --- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
+> @@ -43,13 +43,37 @@ properties:
+>    interrupt-controller: true
+>  
+>  patternProperties:
+> +  "gpio@[0-9a-f]+$":
+> +    type: object
+> +    $ref: /schemas/pinctrl/qcom,pmic-gpio.yaml#
+> +
+> +  "keypad@[0-9a-f]+$":
+> +    type: object
+> +    $ref: /schemas/input/qcom,pm8921-keypad.yaml#
+> +
+>    "led@[0-9a-f]+$":
+>      type: object
+>      $ref: /schemas/leds/qcom,pm8058-led.yaml#
+>  
+> +  "mpps@[0-9a-f]+$":
+> +    type: object
+> +    $ref: /schemas/pinctrl/qcom,pmic-mpp.yaml#
+> +
+> +  "pwrkey@[0-9a-f]+$":
+> +    type: object
+> +    $ref: /schemas/input/qcom,pm8921-pwrkey.yaml#
+> +
+>    "rtc@[0-9a-f]+$":
+>      type: object
+> -    $ref: "../rtc/qcom-pm8xxx-rtc.yaml"
+> +    $ref: /schemas/rtc/qcom-pm8xxx-rtc.yaml#
+> +
+> +  "vibrator@[0-9a-f]+$":
+> +    type: object
+> +    $ref: /schemas/input/qcom,pm8xxx-vib.yaml#
+> +
+> +  "xoadc@[0-9a-f]+$":
 
-diff --git a/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml b/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
-new file mode 100644
-index 000000000000..72cadebf6e3e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/irled/ir-spi-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: IR LED connected through SPI bus
-+
-+maintainers:
-+  - Sean Young <sean@mess.org>
-+
-+description:
-+  IR LED switch is connected to the MOSI line of the SPI device and the data
-+  is delivered through that.
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: ir-spi-led
-+
-+  reg:
-+    maxItems: 1
-+
-+  duty-cycle:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    enum: [50, 60, 70, 75, 80, 90]
-+    description:
-+      Percentage of one period in which the signal is active.
-+
-+  led-active-low:
-+    type: boolean
-+    description:
-+      Output is negated with a NOT gate.
-+
-+  power-supply: true
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        irled@0 {
-+            compatible = "ir-spi-led";
-+            reg = <0x0>;
-+
-+            duty-cycle = /bits/ 8 <60>;
-+            led-active-low;
-+            power-supply = <&irda_regulator>;
-+            spi-max-frequency = <5000000>;
-+        };
-+    };
-+
-diff --git a/Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt b/Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt
-deleted file mode 100644
-index 83ff1b4d70a6..000000000000
---- a/Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Device tree bindings for IR LED connected through SPI bus which is used as
--remote controller.
--
--The IR LED switch is connected to the MOSI line of the SPI device and the data
--are delivered thourgh that.
--
--Required properties:
--	- compatible: should be "ir-spi-led".
--
--Optional properties:
--	- duty-cycle: 8 bit value that represents the percentage of one period
--	  in which the signal is active.  It can be 50, 60, 70, 75, 80 or 90.
--	- led-active-low: boolean value that specifies whether the output is
--	  negated with a NOT gate.
--	- power-supply: specifies the power source. It can either be a regulator
--	  or a gpio which enables a regulator, i.e. a regulator-fixed as
--	  described in
--	  Documentation/devicetree/bindings/regulator/fixed-regulator.yaml
--
--Example:
--
--	irled@0 {
--		compatible = "ir-spi-led";
--		reg = <0x0>;
--		spi-max-frequency = <5000000>;
--		power-supply = <&vdd_led>;
--		led-active-low;
--		duty-cycle = /bits/ 8 <60>;
--	};
--- 
-2.34.1
+Should probably have a generic node name of
+adc@...
+
+
+> +    type: object
+> +    $ref: /schemas/iio/adc/qcom,pm8018-adc.yaml#
+>  
+>  required:
+>    - compatible
 
