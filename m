@@ -2,38 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC79641D9A
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 16:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 138E9641DB5
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Dec 2022 16:44:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbiLDPY4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 4 Dec 2022 10:24:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
+        id S230148AbiLDPoM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Dec 2022 10:44:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiLDPYz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 10:24:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32BD513F7C;
-        Sun,  4 Dec 2022 07:24:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC9CD60E9A;
-        Sun,  4 Dec 2022 15:24:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643AFC433D7;
-        Sun,  4 Dec 2022 15:24:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670167492;
-        bh=ul2+VHkiJxaUIPa/a1hTitbj20YPceGO0/dSKYns2Dc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TA+weilQscJKqqepdmnmkFIcznj5f4OTP/E+mSob4mIQYxCyNLYyMGhSMzOOBZqdO
-         kj/a1ZVPvwMU7kDZIy9QK9vY3pfCuc4x8MKG/CokKJZ4hXpYRHFNMy15Lx1ec4/7ZY
-         1Qttp08uTmlhnmxPNx8QN801GTtYh+xCOp60mr+DjtVitglCFGEbsvoFQlt6JOxgg7
-         BVSsF/maYZ1darIb0ia4Vz27dbHI80ei4rvWBajdIZnBenUAqaesyFrItMvPDkzJaS
-         0MNW3GZEIL5vqgffaPrsMDyJIz0DNZIjQZyjPCIHys0RFHD9jWmIkc5eHU09w4wcqs
-         f7C9NjWEu1MMA==
-Date:   Sun, 4 Dec 2022 15:37:36 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+        with ESMTP id S229995AbiLDPoL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Dec 2022 10:44:11 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D94DA196
+        for <linux-leds@vger.kernel.org>; Sun,  4 Dec 2022 07:44:09 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id b16so2857202yba.0
+        for <linux-leds@vger.kernel.org>; Sun, 04 Dec 2022 07:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Krqz0gztCgfshA/5BVbNzvghLRKl8impaiGjHsH2Zy4=;
+        b=pph5OCBwEmWrbf6VaobaKj1L9oT8lMiq4kIl4kHEEQggsonvIHM9fj0pIIyPqOjuTB
+         yOt/e8ISmr60iMONl0nnA//fw6P7WmM317GsJ64vezzFYU2xgDyNyQkZ6Jjdl8scah12
+         b6RdBuCoSiTPZj5ZK9FpD8Moec/e+jgL97RKLaec1qeY11cdDyavNTkanykmWiRxMwuT
+         amy40hpDqkXOvJt+k+nSEpDr2kfUqNWwJ1Mz7p8WZdEqkFujVBgCkBYdoatISl1tzGsI
+         uF0lyfBTM5QwQ5bMNuKanBOxMFTIsX7rOi2/OLE2jpiky3+YsFCRACzOhO79P4GaBIX3
+         Rm3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Krqz0gztCgfshA/5BVbNzvghLRKl8impaiGjHsH2Zy4=;
+        b=iQuoro4P5N01d7m1xnmvGIREUCyCsHZpBv0B+4nS6JwW0FGZKhxN4Lj7FfSCHIAX6E
+         ZkxJx78nhGCGJRdCLgQ8RsLtJGBdasCxEJ7xc9KS6N9Vb02FU044MeduR9DcY+yoFBYB
+         CFRagvQXlV3b2PNYUpWeMWiumpocy/MixmSZO7wQTs1YDY9/hcv/SEZpQnLya3YwPWL2
+         ymFaJs5glfZSnA47Mvhk1EhBFC/czOUsdNQnKRrPe3msx4JX50+yoZZzB+++xxIfOPqP
+         xUQ5YGRU5Sz4FVqPQX0qi+5EUbtti4UWTVVBFq4M3Yq/jjUA5Y+Ms8AvB6ujqbF3IS32
+         +Ogg==
+X-Gm-Message-State: ANoB5pn4NSBhzPhN+12z11Mi7J/xZraTdvTDd0rgwfXG8GVVYZ2C5qH2
+        mLXDhLvqzdIhSjMKfyGis+ErZ0mwS7V0mmQCr/bcjQ==
+X-Google-Smtp-Source: AA0mqf4w63L6rotcuUr/RKWrLsu/hmBo1nAUaAZch8Huvbe0yTiNcxIaHxsbDQC+TBGNiSY54CZpZkwoVdNrfQFkT+U=
+X-Received: by 2002:a25:8c9:0:b0:6f8:9c91:4503 with SMTP id
+ 192-20020a2508c9000000b006f89c914503mr24861496ybi.15.1670168648603; Sun, 04
+ Dec 2022 07:44:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+ <20221204061555.1355453-4-dmitry.baryshkov@linaro.org> <20221204153736.610c49ed@jic23-huawei>
+In-Reply-To: <20221204153736.610c49ed@jic23-huawei>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Sun, 4 Dec 2022 17:43:57 +0200
+Message-ID: <CAA8EJpqeSF25y3K3gk0Z=q19==byKOqR4NbR78e=1D28o8yp9A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] dt-bindings: iio: adc: qcom,pm8018-adc: allow
+ specifying MPP channels
+To:     Jonathan Cameron <jic23@kernel.org>
 Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -46,53 +67,58 @@ Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] dt-bindings: iio: adc: qcom,pm8018-adc: allow
- specifying MPP channels
-Message-ID: <20221204153736.610c49ed@jic23-huawei>
-In-Reply-To: <20221204061555.1355453-4-dmitry.baryshkov@linaro.org>
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
-        <20221204061555.1355453-4-dmitry.baryshkov@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun,  4 Dec 2022 08:15:54 +0200
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+On Sun, 4 Dec 2022 at 17:24, Jonathan Cameron <jic23@kernel.org> wrote:
+>
+> On Sun,  4 Dec 2022 08:15:54 +0200
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+>
+> > Several ADC channels are bound to the Multi Purpose Pins (MPPs). Allow
+> > specifying such channels using the mppN device node (as used on apq8060
+> > dragonboard).
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+> So I understand this more, why do the node names have to have anything to
+> do with the particular pin? I'm assuming the reg value provides that
+> relationship.
 
-> Several ADC channels are bound to the Multi Purpose Pins (MPPs). Allow
-> specifying such channels using the mppN device node (as used on apq8060
-> dragonboard).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Yes, the reg provides this relationship. If I understand correctly,
+the dts authors (see arch/arm/boot/dts/qcom-apq8060-dragonboard.dts)
+wanted to point out that these channels are connected to MPP pins
+rather than raw adc channels (e.g. vcoin, vbat, etc).
 
-So I understand this more, why do the node names have to have anything to
-do with the particular pin? I'm assuming the reg value provides that
-relationship.
+>
+> > ---
+> >  Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
+> > index d186b713d6a7..fee30e6ddd62 100644
+> > --- a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
+> > +++ b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
+> > @@ -64,7 +64,7 @@ required:
+> >    - adc-channel@f
+> >
+> >  patternProperties:
+> > -  "^(adc-channel@)[0-9a-f]$":
+> > +  "^(adc-channel|mpp[0-9]+)@[0-9a-f]$":
+> >      type: object
+> >      description: |
+> >        ADC channel specific configuration.
+>
 
-> ---
->  Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> index d186b713d6a7..fee30e6ddd62 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/qcom,pm8018-adc.yaml
-> @@ -64,7 +64,7 @@ required:
->    - adc-channel@f
->  
->  patternProperties:
-> -  "^(adc-channel@)[0-9a-f]$":
-> +  "^(adc-channel|mpp[0-9]+)@[0-9a-f]$":
->      type: object
->      description: |
->        ADC channel specific configuration.
 
+-- 
+With best wishes
+Dmitry
