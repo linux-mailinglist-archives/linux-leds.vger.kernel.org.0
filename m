@@ -2,65 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0546437EC
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Dec 2022 23:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86C8F643820
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Dec 2022 23:30:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232444AbiLEWTG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Dec 2022 17:19:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48954 "EHLO
+        id S233484AbiLEWao (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Dec 2022 17:30:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233456AbiLEWTD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Dec 2022 17:19:03 -0500
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481BEB7F2;
-        Mon,  5 Dec 2022 14:19:03 -0800 (PST)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-14449b7814bso10238482fac.3;
-        Mon, 05 Dec 2022 14:19:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ySpEzI3LQzyKP5SFmjnIEUidYwUn3LaQsLW2wzOlic=;
-        b=NqECeUA8q9TyEhR6pehURSTFax1kqJrSdLUplhahw+Mrw+7aBC44NsmUNBcYYOXacQ
-         an+5tfZqoiVHNQ7rHnqDhMkvR3bgwFXsS5NXnXjm4kvM2fiaBXIui44bNvGVyWiWCZsU
-         xegNBI8iHaJjvDJlwLFbQYfxIF9UJ52gcUlneZpCUQC5mJ5kOLKBLUxCYMvKqp7ZLM4h
-         /v7dKE6iwRXMbXEGkRtKuXngjSlivuAQgqrjs7svRNp4l/VsnAZWsWtyjGRT0YyaIQlO
-         +m72E1k1wvc07nMHJyHLFm1iYzvuXAb7/YY1HmJipGW8ZSENgww0Hy20289KW9I6NUXR
-         RVIA==
-X-Gm-Message-State: ANoB5pmGp9O3Dy5ebtc7lPvpHU87fWRwvl5oLTNKpzXFJ4EPQKULM4XN
-        kmOWyRloLT1rjzqT3j+hqTpoaJTfAA==
-X-Google-Smtp-Source: AA0mqf5sKlDmqbc1Mk2eCLtA3OYLAM0/rM2OarTpliWs7h96bLKVsUX+Q6u4yogHFODJsSRgGzlrDw==
-X-Received: by 2002:a05:6870:be9b:b0:144:a46f:e355 with SMTP id nx27-20020a056870be9b00b00144a46fe355mr3029486oab.95.1670278742535;
-        Mon, 05 Dec 2022 14:19:02 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o25-20020a4ad159000000b0049f8801ed22sm7108506oor.30.2022.12.05.14.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 14:19:02 -0800 (PST)
-Received: (nullmailer pid 2789606 invoked by uid 1000);
-        Mon, 05 Dec 2022 22:19:01 -0000
-Date:   Mon, 5 Dec 2022 16:19:01 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Sean Young <sean@mess.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: leds: irled: ir-spi-led: convert to DT
- schema
-Message-ID: <167027872947.2789286.10887556404939879459.robh@kernel.org>
-References: <20221204104323.117974-1-krzysztof.kozlowski@linaro.org>
- <20221204104323.117974-3-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S233178AbiLEWak (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Dec 2022 17:30:40 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5024562C1;
+        Mon,  5 Dec 2022 14:30:39 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 73F5F1C09F4; Mon,  5 Dec 2022 23:30:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1670279436;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0beeeN3x4oja6CoA48n0dgddbavIjL+s5ouQp7TTWtU=;
+        b=Glfr3eDW908ut8l8ZtyxnivFsAwFhKrd91OZ8Hn4B5DsYqkFacSwVHpMdO+0ZJbEke3io+
+        rZJ6H6RfHZXL+x1iQ654lTF809RKZz+X/69jMIvQbgjOVGWGx/4uVo747OBUmRhyZzWmxv
+        I6Gh8EjJUSygmU/FfosMXAkJOwmFGvg=
+Date:   Mon, 5 Dec 2022 23:30:35 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Douglas Anderson <dianders@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Michael Walle <michael@walle.cc>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hammer Hsieh <hammerh0314@gmail.com>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error
+ code
+Message-ID: <Y45xC/Gwhrr+fctN@duo.ucw.cz>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ZBm0pYJnT4srarSL"
 Content-Disposition: inline
-In-Reply-To: <20221204104323.117974-3-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -68,16 +103,136 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
-On Sun, 04 Dec 2022 11:43:23 +0100, Krzysztof Kozlowski wrote:
-> Convert the SPI IR LED bindings to DT schema.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/leds/irled/ir-spi-led.yaml       | 61 +++++++++++++++++++
->  .../bindings/leds/irled/spi-ir-led.txt        | 29 ---------
->  2 files changed, 61 insertions(+), 29 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/irled/ir-spi-led.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt
-> 
+--ZBm0pYJnT4srarSL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+Hi!
+
+> .get_state() might fail in some cases. To make it possible that a driver
+> signals such a failure change the prototype of .get_state() to return an
+> error code.
+>=20
+> This patch was created using coccinelle and the following semantic patch:
+>=20
+> @p1@
+> identifier getstatefunc;
+> identifier driver;
+> @@
+>  struct pwm_ops driver =3D {
+>         ...,
+>         .get_state =3D getstatefunc
+>         ,...
+>  };
+>=20
+> @p2@
+> identifier p1.getstatefunc;
+> identifier chip, pwm, state;
+> @@
+> -void
+> +int
+>  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct pwm_s=
+tate *state)
+>  {
+>    ...
+> -  return;
+> +  return 0;
+>    ...
+>  }
+>=20
+> plus the actual change of the prototype in include/linux/pwm.h (plus some
+> manual fixing of indentions and empty lines).
+>=20
+> So for now all drivers return success unconditionally. They are adapted
+> in the following patches to make the changes easier reviewable.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+LED part:
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+Best regards,
+							Pavel
+
+>  static const struct pwm_ops ti_sn_pwm_ops =3D {
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qco=
+m-lpg.c
+> index 02f51cc61837..741cc2fd817d 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -968,8 +968,8 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struc=
+t pwm_device *pwm,
+>  	return ret;
+>  }
+> =20
+> -static void lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *=
+pwm,
+> -			      struct pwm_state *state)
+> +static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *p=
+wm,
+> +			     struct pwm_state *state)
+>  {
+>  	struct lpg *lpg =3D container_of(chip, struct lpg, pwm);
+>  	struct lpg_channel *chan =3D &lpg->channels[pwm->hwpwm];
+> @@ -982,20 +982,20 @@ static void lpg_pwm_get_state(struct pwm_chip *chip=
+, struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + LPG_SIZE_CLK_REG, &val);
+>  	if (ret)
+> -		return;
+> +		return 0;
+> =20
+>  	refclk =3D lpg_clk_rates[val & PWM_CLK_SELECT_MASK];
+>  	if (refclk) {
+>  		ret =3D regmap_read(lpg->map, chan->base + LPG_PREDIV_CLK_REG, &val);
+>  		if (ret)
+> -			return;
+> +			return 0;
+> =20
+>  		pre_div =3D lpg_pre_divs[FIELD_GET(PWM_FREQ_PRE_DIV_MASK, val)];
+>  		m =3D FIELD_GET(PWM_FREQ_EXP_MASK, val);
+> =20
+>  		ret =3D regmap_bulk_read(lpg->map, chan->base + PWM_VALUE_REG, &pwm_va=
+lue, sizeof(pwm_value));
+>  		if (ret)
+> -			return;
+> +			return 0;
+> =20
+>  		state->period =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * LPG_RESOLUTION =
+* pre_div * (1 << m), refclk);
+>  		state->duty_cycle =3D DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC * pwm_value *=
+ pre_div * (1 << m), refclk);
+> @@ -1006,13 +1006,15 @@ static void lpg_pwm_get_state(struct pwm_chip *ch=
+ip, struct pwm_device *pwm,
+> =20
+>  	ret =3D regmap_read(lpg->map, chan->base + PWM_ENABLE_CONTROL_REG, &val=
+);
+>  	if (ret)
+> -		return;
+> +		return 0;
+> =20
+>  	state->enabled =3D FIELD_GET(LPG_ENABLE_CONTROL_OUTPUT, val);
+>  	state->polarity =3D PWM_POLARITY_NORMAL;
+> =20
+>  	if (state->duty_cycle > state->period)
+>  		state->duty_cycle =3D state->period;
+> +
+> +	return 0;
+>  }
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--ZBm0pYJnT4srarSL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY45xCwAKCRAw5/Bqldv6
+8qEdAKCcIFDwtp8cJpPtW1EpTb0IJOYYKwCdGtyKdQYCFKVLwV+BGw7lryK0MC8=
+=gb+Q
+-----END PGP SIGNATURE-----
+
+--ZBm0pYJnT4srarSL--
