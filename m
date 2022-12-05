@@ -2,122 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8273643607
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Dec 2022 21:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CC0D64379D
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Dec 2022 23:04:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbiLEUub (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Dec 2022 15:50:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52724 "EHLO
+        id S232676AbiLEWEh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Dec 2022 17:04:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbiLEUua (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Dec 2022 15:50:30 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BF528E24;
-        Mon,  5 Dec 2022 12:50:29 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id ud5so1437225ejc.4;
-        Mon, 05 Dec 2022 12:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
-        b=XvJr+2rJm7JOHlq9x+fOv7NDm86bbibMxBpK63VeMD2EMqGdhu2XuWkgvVLdDR0z70
-         rNjTyDDxW9o5ErSENlsUnIfCC0WhZuejJ2yih0mLoHswCM2M58xZp+WRXrhKHNzoDC98
-         eywNrn9703v1hEHCC19pIxnm9UAOmv/ciCyk8aNqL1llwB1pwKlrAN3g0vWuCDVwec3u
-         b2oe64W6gGqXEP/w77AW1mJZUnpIQaflKXXD7S2AxRLNn+kpk5aBgHioUah3AXqYRLz0
-         Ni6YsVblS514+p5ZnwbjXWkaD6uhuoaqZS6tGC11waKPWHF6EekaoetSMeNIEbDaBvy2
-         bqLA==
+        with ESMTP id S231895AbiLEWEg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Dec 2022 17:04:36 -0500
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13D211470;
+        Mon,  5 Dec 2022 14:04:35 -0800 (PST)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-14449b7814bso10197411fac.3;
+        Mon, 05 Dec 2022 14:04:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GVCjiKCCl/VeQNWt8PtvAxtZLBRlpY2z5UZuNcs/Lew=;
-        b=l2M8ynsz2HoWPY5DGl3tECJI4DmuEGNZMu6Qv7RdAfRuDsT5JkJlkzx4OZhhnL63Kg
-         4rDL8aBsmHOHoVFx28hgR6a6H0YYMpS+Z30QNdWQqJLjz1gEgRCGCyUwXjou+DNpWqZy
-         GwFLRVPjfSfPKrzH9P0JlCMq5s1VhPO+UZ/ioiqMvfgARwV9iN4jvTG42HNaQ8A4HMYK
-         5+XHwoJ9St1xVBbcRBherZ8rDD4kvE+JlLzi9fKiIof1LOc2Cj0kX7ujDZUtBU44dgjZ
-         A06ANMScIUG4UXh3ZNVwqAAAfBMNfTCwltPAmraxqCL6W5h3gKQsHgPRYmAFBQFyIYqH
-         asqg==
-X-Gm-Message-State: ANoB5plzBZuTC74h96aTnGlOd5ZV5NVRJBiYcwz9RyaH13HJwXbIStRH
-        gF7L1lxulEy5UG7Yz6GLzR0=
-X-Google-Smtp-Source: AA0mqf5OSt768BV9vzFy9k66tV39xf6Wmy4SS9KX61nTQHi4Fa5yPtn/xJX8Qo/SjgdCekjDSrIRXw==
-X-Received: by 2002:a17:906:4b4a:b0:7c0:e5cb:aad8 with SMTP id j10-20020a1709064b4a00b007c0e5cbaad8mr7371981ejv.407.1670273427580;
-        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id g9-20020a17090670c900b0077f324979absm6580859ejk.67.2022.12.05.12.50.24
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X0o74DAKGRH7Cm9VJkIU43IM86KKjNPrQtB4w12QWbA=;
+        b=sGqzU9+ZxURRohoE2SNQ/14EyCb2k0Cy+7lOJyErZfYbkAFcsDoPIpvnNQVexFgN2s
+         ediQ3fzehZrnF3pD8emD2MfLQfCmgmYomjQu/dNlmS1G+ZawUO1vVx1u2GmfRfwCfzDe
+         h4yUJH70sSA9oUesf48iCdYunkIOWjo+6TyXr2drgU5DQEyoE6htbINVA3EmZXJWgS9J
+         LIKMTf3EQXXZlYhlTZPoSWHIgcXWeZHN9fralygXCnzEmEp3+3Y4OHAO/G8I4m1R63En
+         Ph6kRJdcbOh2/kSz4vzDu73nRrbU2go8CjEQPFk5KQqwiVCvtweC4i+hmkxHXAgeQp3K
+         KC3w==
+X-Gm-Message-State: ANoB5pl9yAenJ6Igg5VkfNU+EZkZPRZyb9E0+PQiVnICx0SN6P8kk//Y
+        wFdfhsVCrmRVcuO3Gqj+yg==
+X-Google-Smtp-Source: AA0mqf5+j5X2a2K39tY4PrzDbQKhAY0J9u3F+3pE3tsRI6votXOld4GH5/oZPKPKFAfPEktnYb/4qg==
+X-Received: by 2002:a05:6870:ea81:b0:144:6881:d7e6 with SMTP id s1-20020a056870ea8100b001446881d7e6mr6088539oap.94.1670277875064;
+        Mon, 05 Dec 2022 14:04:35 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r127-20020aca4485000000b0034d9042758fsm7461646oia.24.2022.12.05.14.04.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 12:50:27 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Douglas Anderson <dianders@chromium.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Michael Walle <michael@walle.cc>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Hammer Hsieh <hammerh0314@gmail.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Sean Anderson <sean.anderson@seco.com>,
-        Michal Simek <michal.simek@xilinx.com>,
+        Mon, 05 Dec 2022 14:04:34 -0800 (PST)
+Received: (nullmailer pid 2709108 invoked by uid 1000);
+        Mon, 05 Dec 2022 22:04:33 -0000
+Date:   Mon, 5 Dec 2022 16:04:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 01/11] pwm: Make .get_state() callback return an error code
-Date:   Mon, 05 Dec 2022 21:50:24 +0100
-Message-ID: <22881769.6Emhk5qWAg@kista>
-In-Reply-To: <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de> <20221130152148.2769768-2-u.kleine-koenig@pengutronix.de>
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
+ to YAML format
+Message-ID: <20221205220433.GA2684995-robh@kernel.org>
+References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
+ <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -125,129 +73,17 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dne sreda, 30. november 2022 ob 16:21:38 CET je Uwe Kleine-K=F6nig napisal(=
-a):
-> .get_state() might fail in some cases. To make it possible that a driver
-> signals such a failure change the prototype of .get_state() to return an
-> error code.
->=20
-> This patch was created using coccinelle and the following semantic patch:
->=20
-> @p1@
-> identifier getstatefunc;
-> identifier driver;
-> @@
->  struct pwm_ops driver =3D {
->         ...,
->         .get_state =3D getstatefunc
->         ,...
->  };
->=20
-> @p2@
-> identifier p1.getstatefunc;
-> identifier chip, pwm, state;
-> @@
-> -void
-> +int
->  getstatefunc(struct pwm_chip *chip, struct pwm_device *pwm, struct
-> pwm_state *state) {
->    ...
-> -  return;
-> +  return 0;
->    ...
->  }
->=20
-> plus the actual change of the prototype in include/linux/pwm.h (plus some
-> manual fixing of indentions and empty lines).
->=20
-> So for now all drivers return success unconditionally. They are adapted
-> in the following patches to make the changes easier reviewable.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpio/gpio-mvebu.c             |  9 ++++++---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 14 ++++++++------
->  drivers/leds/rgb/leds-qcom-lpg.c      | 14 ++++++++------
->  drivers/pwm/pwm-atmel.c               |  6 ++++--
->  drivers/pwm/pwm-bcm-iproc.c           |  8 +++++---
->  drivers/pwm/pwm-crc.c                 | 10 ++++++----
->  drivers/pwm/pwm-cros-ec.c             |  8 +++++---
->  drivers/pwm/pwm-dwc.c                 |  6 ++++--
->  drivers/pwm/pwm-hibvt.c               |  6 ++++--
->  drivers/pwm/pwm-imx-tpm.c             |  8 +++++---
->  drivers/pwm/pwm-imx27.c               |  8 +++++---
->  drivers/pwm/pwm-intel-lgm.c           |  6 ++++--
->  drivers/pwm/pwm-iqs620a.c             |  6 ++++--
->  drivers/pwm/pwm-keembay.c             |  6 ++++--
->  drivers/pwm/pwm-lpss.c                |  6 ++++--
->  drivers/pwm/pwm-meson.c               |  8 +++++---
->  drivers/pwm/pwm-mtk-disp.c            | 12 +++++++-----
->  drivers/pwm/pwm-pca9685.c             |  8 +++++---
->  drivers/pwm/pwm-raspberrypi-poe.c     |  8 +++++---
->  drivers/pwm/pwm-rockchip.c            | 12 +++++++-----
->  drivers/pwm/pwm-sifive.c              |  6 ++++--
->  drivers/pwm/pwm-sl28cpld.c            |  8 +++++---
->  drivers/pwm/pwm-sprd.c                |  8 +++++---
->  drivers/pwm/pwm-stm32-lp.c            |  8 +++++---
->  drivers/pwm/pwm-sun4i.c               | 12 +++++++-----
->  drivers/pwm/pwm-sunplus.c             |  6 ++++--
->  drivers/pwm/pwm-visconti.c            |  6 ++++--
->  drivers/pwm/pwm-xilinx.c              |  8 +++++---
->  include/linux/pwm.h                   |  4 ++--
->  29 files changed, 146 insertions(+), 89 deletions(-)
->=20
-<snip>
-> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-> index c8445b0a3339..37d75e252d4e 100644
-> --- a/drivers/pwm/pwm-sun4i.c
-> +++ b/drivers/pwm/pwm-sun4i.c
-> @@ -108,9 +108,9 @@ static inline void sun4i_pwm_writel(struct
-> sun4i_pwm_chip *chip, writel(val, chip->base + offset);
->  }
->=20
-> -static void sun4i_pwm_get_state(struct pwm_chip *chip,
-> -				struct pwm_device *pwm,
-> -				struct pwm_state *state)
-> +static int sun4i_pwm_get_state(struct pwm_chip *chip,
-> +			       struct pwm_device *pwm,
-> +			       struct pwm_state *state)
->  {
->  	struct sun4i_pwm_chip *sun4i_pwm =3D to_sun4i_pwm_chip(chip);
->  	u64 clk_rate, tmp;
-> @@ -132,7 +132,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
->  		state->duty_cycle =3D DIV_ROUND_UP_ULL(state->period, 2);
->  		state->polarity =3D PWM_POLARITY_NORMAL;
->  		state->enabled =3D true;
-> -		return;
-> +		return 0;
->  	}
->=20
->  	if ((PWM_REG_PRESCAL(val, pwm->hwpwm) =3D=3D PWM_PRESCAL_MASK) &&
-> @@ -142,7 +142,7 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
->  		prescaler =3D prescaler_table[PWM_REG_PRESCAL(val, pwm-
->hwpwm)];
->=20
->  	if (prescaler =3D=3D 0)
-> -		return;
-> +		return 0;
->=20
->  	if (val & BIT_CH(PWM_ACT_STATE, pwm->hwpwm))
->  		state->polarity =3D PWM_POLARITY_NORMAL;
-> @@ -162,6 +162,8 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
->=20
->  	tmp =3D (u64)prescaler * NSEC_PER_SEC * PWM_REG_PRD(val);
->  	state->period =3D DIV_ROUND_CLOSEST_ULL(tmp, clk_rate);
-> +
-> +	return 0;
->  }
->=20
->  static int sun4i_pwm_calculate(struct sun4i_pwm_chip *sun4i_pwm,
+On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
+> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
+> PM8058 PMICs from text to YAML format.
+> 
+> While doing the conversion also change linux,keypad-no-autorepeat
+> property to linux,input-no-autorepeat. The former property was never
+> used by DT and was never handled by the driver.
 
-=46or sun4i:
+Changing from the documented one to one some drivers use. I guess 
+that's a slight improvement. Please see this discussion[1]. 
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Rob
 
-Best regards,
-Jernej
-
-
+[1] https://lore.kernel.org/all/YowEgvwBOSEK+kd2@google.com/
