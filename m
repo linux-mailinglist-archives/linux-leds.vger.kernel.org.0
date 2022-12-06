@@ -2,78 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4445643BCD
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Dec 2022 04:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C44EB644172
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Dec 2022 11:45:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233826AbiLFDUZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Dec 2022 22:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43690 "EHLO
+        id S234126AbiLFKpd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Dec 2022 05:45:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232414AbiLFDUY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Dec 2022 22:20:24 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F6422BD2
-        for <linux-leds@vger.kernel.org>; Mon,  5 Dec 2022 19:20:23 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id f16so4108870ljc.8
-        for <linux-leds@vger.kernel.org>; Mon, 05 Dec 2022 19:20:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oiALkO4rnC9Gu1nW7FKSVg0MUO2Gu598TIaBBm3UFKo=;
-        b=rCBcl63/F6Niuy708YAPQul4O7KNWWu8j2jvlpkOlOMMtqO5pGi9Dd79n37g4h9qPE
-         af00f1jmXlSKao1P1zswJVUsxmBAvlVQEdE3VdKYZxD5xkZDZCE/b9RSX0V04UVXS5Qh
-         rx+6TiDDq36V212RATgVv5bRH2TEz73fITM+n9iJ64jxIM3zAkt8JMQMFFdpATm3+d3A
-         leA3+cEx9YKVEDXzhmkXJbVvJEeVHzfDP/o8N+x45cchcilZqzesv9a4MoKol1qcGwS6
-         cvMG3iTO1gCfE2AEc5Zzi68rvqGg5PFs2jHlms+mYJpRYegJ36BuvljPbuwcutHV+Q1t
-         +aYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oiALkO4rnC9Gu1nW7FKSVg0MUO2Gu598TIaBBm3UFKo=;
-        b=II4p+v0Z8f1TV+HTMMdvbNP998IFcsRGyPWkko4fTz00VA7DthcKrNiEpRzpotEdNU
-         E3iQY/j/K783XWqbNbZ4sGKqS/sZb4f2GinE9iVrkVVRe7hZNiov1bP2cKJtZf1Mc+za
-         rHgXyauusGTeve5tv5dh9xQeg9qbwr6RM0mcJlyUGZVucJe2Fwh5uYvwPXVGUV+ewlyb
-         vW9gxe79xcs371p7eo2AeZypqG1UfojdZfRYxwba6c4hHbwSFMeOQLVfTu3ycSWIVuxN
-         Q+i2RbIKMEW/lBPUEdrIBOfteHV6s9dau8NeYi6zwkT4eP3nDwAZKLM9QR8bT3fcEGR+
-         AbGA==
-X-Gm-Message-State: ANoB5pn7fFOz1UK8cIjBwAGG+RTuLrkW/BYMiSHlhD+RA1GlUVNKQauI
-        8w/PDCXzTKmWtOpzPsByO68e/g==
-X-Google-Smtp-Source: AA0mqf42AaD6LXyoTAuOcqwduDBkwv9Bu13Ho9T18SDcaeo2qdQeywTEBcOV7564vcTH9ojn5OoI0g==
-X-Received: by 2002:a05:651c:b26:b0:277:9847:286a with SMTP id b38-20020a05651c0b2600b002779847286amr20542523ljr.309.1670296821664;
-        Mon, 05 Dec 2022 19:20:21 -0800 (PST)
-Received: from [127.0.0.1] (85-76-34-181-nat.elisa-mobile.fi. [85.76.34.181])
-        by smtp.gmail.com with ESMTPSA id z1-20020a2ebcc1000000b0027711dbd000sm1031505ljp.69.2022.12.05.19.20.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 19:20:21 -0800 (PST)
-Date:   Tue, 06 Dec 2022 05:20:16 +0200
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-CC:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/4=5D_dt-bindings=3A_input=3A_q?= =?US-ASCII?Q?com=2Cpm8921-keypad=3A_convert_to_YAML_format?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221205220433.GA2684995-robh@kernel.org>
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org> <20221204061555.1355453-2-dmitry.baryshkov@linaro.org> <20221205220433.GA2684995-robh@kernel.org>
-Message-ID: <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
+        with ESMTP id S234051AbiLFKpc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Dec 2022 05:45:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EA610B51
+        for <linux-leds@vger.kernel.org>; Tue,  6 Dec 2022 02:45:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6289CB818EF
+        for <linux-leds@vger.kernel.org>; Tue,  6 Dec 2022 10:45:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902FCC433C1;
+        Tue,  6 Dec 2022 10:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670323529;
+        bh=fXRaOV6zUmUR5p2JRVhzmKwuhABkVFz/he3+DaUgoCI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Qee/yAFHD48qAyc/Bo6Bdc85B7G+8mTRc4fVl2o2WNQ4PezpqWU8ICqJRtXKHlZCn
+         JrWO8jQmLMVAHGbGOJmYWNqmrImONNQ8lbU3od6PGf1y39QbfpIsxKYkVGH8kXL1hn
+         ZCPn4rpvAr5RJLlbR1TPGuMz4TnTPeZpsVqxyQptHiU6kQb3icAgN4XjHVoBVj7TE2
+         xFj6b4zwzD0WaTYhRohnie4vjdhPsPCPh4hIFnMplv4YkTTvNIi/Gn6ch0RR7ozeea
+         jCHvyI9P56q6FpKAIdT5GGH2TfH72aXbYwsJ8A849yvl1pr9udddFXAUNRMT9Y7HNz
+         5jfmfweCFQt1Q==
+From:   Lee Jones <lee@kernel.org>
+To:     pavel@ucw.cz
+Cc:     andriy.shevchenko@linux.intel.com, krzysztof.kozlowski@linaro.org,
+        gregkh@linuxfoundation.org, linux-leds@vger.kernel.org,
+        Lee Jones <lee@kernel.org>
+Subject: [PATCH 1/1] MAINTAINERS: Add additional co-maintainer to LEDs
+Date:   Tue,  6 Dec 2022 10:45:10 +0000
+Message-Id: <20221206104510.123817-1-lee@kernel.org>
+X-Mailer: git-send-email 2.39.0.rc0.267.gcb52ba06e7-goog
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,25 +51,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-6 =D0=B4=D0=B5=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2022 =D0=B3=2E 00:04:33 GMT+02=
-:00, Rob Herring <robh@kernel=2Eorg> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
->> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
->> PM8058 PMICs from text to YAML format=2E
->>=20
->> While doing the conversion also change linux,keypad-no-autorepeat
->> property to linux,input-no-autorepeat=2E The former property was never
->> used by DT and was never handled by the driver=2E
->
->Changing from the documented one to one some drivers use=2E I guess=20
->that's a slight improvement=2E Please see this discussion[1]=2E=20
+Add myself as co-maintainer for the LED subsystem,
+in support of Pavel during busy times.
 
-Well, the problem is that the documentation is misleading=2E The driver do=
-esn't handle the documented property, so we should change either the driver=
-, or the docs=2E Which change is the preferred one?
+Suggested-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
->
->Rob
->
->[1] https://lore=2Ekernel=2Eorg/all/YowEgvwBOSEK+kd2@google=2Ecom/
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8bea25ac61964..6591462661d6c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11701,6 +11701,7 @@ F:	scripts/leaking_addresses.pl
+ 
+ LED SUBSYSTEM
+ M:	Pavel Machek <pavel@ucw.cz>
++M:	Lee Jones <lee@kernel.org>
+ L:	linux-leds@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git
+-- 
+2.39.0.rc0.267.gcb52ba06e7-goog
 
