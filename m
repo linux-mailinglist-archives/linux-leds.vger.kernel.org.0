@@ -2,92 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD46F644229
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Dec 2022 12:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31356644800
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Dec 2022 16:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbiLFLc3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Dec 2022 06:32:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36332 "EHLO
+        id S231133AbiLFP2J (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Dec 2022 10:28:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229690AbiLFLc3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Dec 2022 06:32:29 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD762712
-        for <linux-leds@vger.kernel.org>; Tue,  6 Dec 2022 03:32:27 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id n1so16887492ljg.3
-        for <linux-leds@vger.kernel.org>; Tue, 06 Dec 2022 03:32:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/cwq7jnTJOGf4tYvL5VrOxvehozq8GPJ+PWBXNEF2VY=;
-        b=cR4UlJYDZgswaJiaCiTYnl8li5T5EqYdi/Wc98Rt7aVdDZH16/8/EnJoTdHNZAMtAm
-         pe27QIc7DIO6/JXtccVd156W8kRAUE3D7ics31WnofLxyW+a+MM34aWUiwnDI9P9Jz0D
-         ZKljNDaRFVxnVb4iGmtWz+5plmRHMeGdRZg1NTqcW2oFESjzfpbA0WVejkeeU1AICGrR
-         27KchoEN0e9jC2MNDitwo4Io1JD7mZc6xU1Y4tuvOElDzBE8Ic5VW+8vl1GwWAMLyd01
-         gcENbsgV7yPEG+hStWW4CAbr0pShJSkDpaxWiQQUDBxH56MZgcKL3JsD1UzaXohAb6z3
-         OqxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/cwq7jnTJOGf4tYvL5VrOxvehozq8GPJ+PWBXNEF2VY=;
-        b=kIzAVFK/cvcFQhZ82oWb2qrTKrVTJUUroizrfVrvgHtZFKklNHQpfXFRRgW98unsfT
-         TnO9kgIe+tOexCFFwcvudzUTD61fBZ43A/8kkFNoNLrerlwIAfLf9/3IeQJ38hUkIROm
-         jJD9HwCK8O5TYn0+tjEaRkx+n0VslC6/IYw5kaYB7kXawvlJykLlZEB9EKg47UakNVIc
-         rx0JtZmeivwq0WTIuEGyCYurLUnaEXpgZTzvqjcr6O7d7r+8NBWa+5QL0rP8dm6u8ha8
-         S49Br5pMqJ7X5VbE6kq5kj1HZocoiLjM7KhyEVqMmNuyRHbfoBy58JKKnhvAX+7LI/Dy
-         0sKQ==
-X-Gm-Message-State: ANoB5pn9VFvgcLKJtDn7z3JJ+7r6D8dZqnqMiIFIpMBpHNowz1Eb4Qdc
-        oTXPEySuL1tJbs8yz53yUT8QTI5Jn3Ah+kxV5oA=
-X-Google-Smtp-Source: AA0mqf7d2LEc0l8jQcxaw5gHN7vboY1ypKAed422N7YaheCFvcHdvJ+x2VkL0mO7d9WvYJjpWIZW/w==
-X-Received: by 2002:a2e:964c:0:b0:279:f197:440d with SMTP id z12-20020a2e964c000000b00279f197440dmr3909362ljh.517.1670326345718;
-        Tue, 06 Dec 2022 03:32:25 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id v1-20020a056512348100b004b575d239besm727863lfr.237.2022.12.06.03.32.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Dec 2022 03:32:25 -0800 (PST)
-Message-ID: <704cd868-4577-d30e-9736-52186bc46d01@linaro.org>
-Date:   Tue, 6 Dec 2022 12:32:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
+        with ESMTP id S231168AbiLFP2I (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Dec 2022 10:28:08 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9128C28715
+        for <linux-leds@vger.kernel.org>; Tue,  6 Dec 2022 07:28:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670340486; x=1701876486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JcYVbZAtA437yXAVYiQVowJSbWoRgYSP2hEGJ2lFBrc=;
+  b=bjmhRs/Tnau0/Vm8yE+Z3cxiMdTondkZy62q+gGcryf1+sCQJKGMLF+p
+   G38alUU4we4YY6Rqq+MxvJOIWL6FpXs3n/a1ZI3KRl4CihucwJklBg4fS
+   2ZbRnK8rkaf+3PZzKjb7cPUiQE92S3U26qnoQsOxAr2WZIEjCzWm7abOb
+   H3eutw4MVMVRQXzKlsGRndhYA+dRp1IbkNAMlOf29yEZoV6HyA8peEgup
+   CMnUR6gn5ezy6lGoyw8qguGO963cRHhSDwboQQSkXfVSq/ULtI4Ic+LsI
+   J+w6aOeR22rtxjmLwnvjWFpoADI9tX2PMKm3IQSY8Eqph2iDbrD+i5l3H
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="343675643"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; 
+   d="scan'208";a="343675643"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2022 07:28:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10553"; a="596613317"
+X-IronPort-AV: E=Sophos;i="5.96,222,1665471600"; 
+   d="scan'208";a="596613317"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 06 Dec 2022 07:28:04 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1p2ZrW-005MVI-1s;
+        Tue, 06 Dec 2022 17:28:02 +0200
+Date:   Tue, 6 Dec 2022 17:28:02 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     pavel@ucw.cz, krzysztof.kozlowski@linaro.org,
+        gregkh@linuxfoundation.org, linux-leds@vger.kernel.org
 Subject: Re: [PATCH 1/1] MAINTAINERS: Add additional co-maintainer to LEDs
-To:     Lee Jones <lee@kernel.org>, pavel@ucw.cz
-Cc:     andriy.shevchenko@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-leds@vger.kernel.org
+Message-ID: <Y49fgt1i+/RhMKZu@smile.fi.intel.com>
 References: <20221206104510.123817-1-lee@kernel.org>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20221206104510.123817-1-lee@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 06/12/2022 11:45, Lee Jones wrote:
+On Tue, Dec 06, 2022 at 10:45:10AM +0000, Lee Jones wrote:
 > Add myself as co-maintainer for the LED subsystem,
 > in support of Pavel during busy times.
-> 
+
+Thank you for doing this!
+
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
 > Suggested-by: Pavel Machek <pavel@ucw.cz>
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
 >  MAINTAINERS | 1 +
 >  1 file changed, 1 insertion(+)
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8bea25ac61964..6591462661d6c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11701,6 +11701,7 @@ F:	scripts/leaking_addresses.pl
+>  
+>  LED SUBSYSTEM
+>  M:	Pavel Machek <pavel@ucw.cz>
+> +M:	Lee Jones <lee@kernel.org>
+>  L:	linux-leds@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git
+> -- 
+> 2.39.0.rc0.267.gcb52ba06e7-goog
+> 
 
-I think it is a good idea to distribute the load. FWIW:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
 
