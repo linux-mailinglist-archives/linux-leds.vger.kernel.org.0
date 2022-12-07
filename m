@@ -2,44 +2,41 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2433A646235
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 21:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 213E664624A
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 21:20:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiLGUOV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Dec 2022 15:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
+        id S229575AbiLGUUM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Dec 2022 15:20:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiLGUOU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 15:14:20 -0500
+        with ESMTP id S229456AbiLGUUJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 15:20:09 -0500
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A44442E0;
-        Wed,  7 Dec 2022 12:14:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26B87B4CF;
+        Wed,  7 Dec 2022 12:20:08 -0800 (PST)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C72351C09FA; Wed,  7 Dec 2022 21:14:18 +0100 (CET)
+        id C5F6A1C09FA; Wed,  7 Dec 2022 21:20:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1670444058;
+        t=1670444407;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=jPU7AcGoXQuq9EnnDg+2o2KomajND47TAO4axs8c6pI=;
-        b=Udej0jIP2Ew0NXHb4DnXUiwF7NI7ymNiZTu8hj555qc95m/ZvFMtjkjHjfiRgtJTZ68pch
-        e84r990p9ucsMOuqWro+TowJRh1KK1Np5bCoq8ix0T3Fc5Vme68x11wYUeO1rzNhtXcFuv
-        2VZ6EJsFL+Zj1umUnOPb+egzkptPdOI=
-Date:   Wed, 7 Dec 2022 21:14:18 +0100
+        bh=Eh9NhAnoQecLCp7nuLOnthOFNLGPDmhbnX28mSicZBc=;
+        b=QycL77zaG/WL3VgRHdJ0wqN9TQbgn2McpFJ5gCNR5Qvy0DIgf6E+MYTylfi1V4eg/9mIjk
+        AEydDvDvdHhbB+fz2GoaBVuVgP6bltij+/l3lv9Omz+EJbOLspBuwEVhSpV6itahRS2I6x
+        ZL02SAuIuqm19mu8W+HzPmBS9HA5ZDY=
+Date:   Wed, 7 Dec 2022 21:20:07 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Olliver Schinagl <oliver@schinagl.nl>
-Subject: Re: [PATCH] leds: MAINTAINERS: include dt-bindings headers
-Message-ID: <Y5D0Gg86i3eQkC1n@duo.ucw.cz>
-References: <20220830083625.281462-1-krzysztof.kozlowski@linaro.org>
+To:     Wang Yufen <wangyufen@huawei.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] leds: Fix devm vs. non-devm ordering
+Message-ID: <Y5D1d3WhLCpmfo+N@duo.ucw.cz>
+References: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="MfhJ2rgMibF+m8Lp"
+        protocol="application/pgp-signature"; boundary="Dtx9TZ7I9qpyVSaS"
 Content-Disposition: inline
-In-Reply-To: <20220830083625.281462-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1667983694-15040-1-git-send-email-wangyufen@huawei.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
@@ -50,31 +47,48 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---MfhJ2rgMibF+m8Lp
+--Dtx9TZ7I9qpyVSaS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 2022-08-30 11:36:25, Krzysztof Kozlowski wrote:
-> Include the Devicetree binding headers in LED SUBSYSTEM entry.
+Hi!
+
+> Fault-inject tests reports this issue:
 >=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> DEBUG_LOCKS_WARN_ON(lock->magic !=3D lock)
+> WARNING: CPU: 2 PID: 52 at kernel/locking/mutex.c:582 __mutex_lock+0x1366=
+/0x15b0
+> Call Trace:
 
-Thank you, applied.
+Ok, so:
 
-BR,							Pavel
+a) this does not happen in wild
 
+b) you have not actually tested any of this
+
+?
+
+It looks reasonable, but the "Fixes:" tags mean -stable will pick this
+up almost immediately.
+
+Is anyone else willing to say this looks ok to him?
+
+Any testers?
+
+Best regards,
+								Pavel
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---MfhJ2rgMibF+m8Lp
+--Dtx9TZ7I9qpyVSaS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY5D0GgAKCRAw5/Bqldv6
-8gFkAJ9c58DkuXe75sVLM+Md2FE6LrnmewCgptwNcXGdK71mBwK+iNPlW8s7O+w=
-=GjZ6
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY5D1dwAKCRAw5/Bqldv6
+8uu1AJ4gVur77IXI3520H+FU3r8u1VsyvACfSGnZBEhHWc7ZFUK6Gn6UMbXrYOg=
+=IH31
 -----END PGP SIGNATURE-----
 
---MfhJ2rgMibF+m8Lp--
+--Dtx9TZ7I9qpyVSaS--
