@@ -2,157 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B37C64628F
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 21:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B49C96462F7
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 22:08:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbiLGUnm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Dec 2022 15:43:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57186 "EHLO
+        id S229893AbiLGVIX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Dec 2022 16:08:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbiLGUnh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 15:43:37 -0500
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AF927CD9;
-        Wed,  7 Dec 2022 12:43:36 -0800 (PST)
-Received: by mail-ot1-f47.google.com with SMTP id t19-20020a9d7753000000b0066d77a3d474so12037399otl.10;
-        Wed, 07 Dec 2022 12:43:36 -0800 (PST)
+        with ESMTP id S229719AbiLGVIV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 16:08:21 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DAE85B5BF
+        for <linux-leds@vger.kernel.org>; Wed,  7 Dec 2022 13:08:20 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id o127so24340478yba.5
+        for <linux-leds@vger.kernel.org>; Wed, 07 Dec 2022 13:08:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UwDWcN9owuZJs09WFthlVYFZXHoUW46i6bINqQyIAvY=;
+        b=vpbqNkTXD8MjDifxCc6rBxe/TOwdIp8cwUe8WkOb6Zv2M0nUhPH1E7pSBL3fAqhUWW
+         oizMsx+jqjY3bWGgNKeCUsluLANd+SkuUr6CPbOXhQCiSSDipdeeOMtZ1aCpxjrPxCs0
+         s+g1qXGatM+7JuTpRiKdJ55zvq5rL8injVM5XUpEo3hBAuaPUkg+IP87SdVeDP1gxUeH
+         36M7xmOwbdLNK0X+UamKBKY1LnE6b0Uo5VDaQx9Ms+g/U5hBwj50ol4j3AP/A6JxB7PP
+         bpDvkaBnthKmcuxJq7TXozFvcr+MOaGU2HETTpiUCUW+z5mfuYjr2ldu7OBlnHtnhBqR
+         Ocaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FEwpHty4elixafpE9VoyApenzrPDPlvITLCjJ/4fxLg=;
-        b=Uq2lRDPsnii+efMkw4ZrCngFUWEOM5LJRcpYoPiG3y9n20Y9wT+pnNMw0lhpTBeIeR
-         qZerx9FRM2jMBcvK9nq1SMAGLE1O+4STDkiVpceHR9NyCzlC6YIYBA9pXfjPnlsissFf
-         Q9NUFaPcwJdl/7+zHjZQSm0lPaR0gtgK2Hx5iM4sHziH19uyWGvMaYG8ekX/mTXwxEcG
-         dPkOeEt3xmEW6BF+BsV0p+gkmaIEvwT8VpWqObNBGS3KlhM3pnwIv0GQaLcmQfVEGP7R
-         OI3wC/jKEovwezOtXa2EDL+hUxX2DTFqpr9Bh0hzmSLyAwJCWZG5lhrP8vCDSQsjc3xO
-         /+7A==
-X-Gm-Message-State: ANoB5pnDzVfPugdKNfFXzeE4hvFj4RVD5nCn/RF7qGgzskzZonWsPUnU
-        ZBNQatLW6SABmXHQ27lBfA==
-X-Google-Smtp-Source: AA0mqf45B3e2Qmlb+2p55qLWRUyHWXllC5gykTPV7GiGZ6Mr2MN0ZGFh41A6Kzg8pbyOimTIMeEgHQ==
-X-Received: by 2002:a9d:1b10:0:b0:66e:6964:1f20 with SMTP id l16-20020a9d1b10000000b0066e69641f20mr16917173otl.296.1670445815581;
-        Wed, 07 Dec 2022 12:43:35 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w18-20020a056871061200b00144bb1013e6sm3827191oan.4.2022.12.07.12.43.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 12:43:35 -0800 (PST)
-Received: (nullmailer pid 2810197 invoked by uid 1000);
-        Wed, 07 Dec 2022 20:43:34 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Yi Xin <Yixin.zhu@intel.com>,
-        Mallikarjuna reddy <mallikarjunax.reddy@intel.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 2/2] dt-bindings: leds: Add missing references to common LED schema
-Date:   Wed,  7 Dec 2022 14:43:27 -0600
-Message-Id: <20221207204327.2810001-2-robh@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221207204327.2810001-1-robh@kernel.org>
-References: <20221207204327.2810001-1-robh@kernel.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UwDWcN9owuZJs09WFthlVYFZXHoUW46i6bINqQyIAvY=;
+        b=AT+eGiN+6njpga8uJbhkjKp64oP2Nnxamt1o/pVZOhs/Tybn+38Ix1e+fATzoasYRK
+         uYVsxgzAxa7iUH1/pv7pN720NHSHlaVjDyn4l3KGtCFz5LnJjykZK8JQwwUbIlx5p0Sa
+         lYBXEeD9yQXByAKq6ByawNip4SWPNfYDd8ZX1RPscpjEtEh9wc9l6UGY2eT8vScTwRop
+         kN/Z2U+08C10yg66oWIDvkAbW1GZtsuJJwclsoogskNMzOSu+qGHllTbwOvLQHjhcqRa
+         d2rCbOjFf8jLPRiYmD6u7lamnNadjQKSvHcwnjViLDHfbdCtZEDE1Zsd6ndkoMXzA1ZG
+         cRzw==
+X-Gm-Message-State: ANoB5plH4SOMaKbpIEzimqaIwwE9AyH7AdkxN+36NIDKoZGrCE16Wopd
+        kXUmJ16UZ+KJJZ/2yRJzhFbMwb2lSfvEb/3apdHor0ZS5wVoE4uq1Sg=
+X-Google-Smtp-Source: AA0mqf5wljzQYDSt6wezxa7SXx7zvfJyYWr9YBYHL5ne2QihnGHSb/sukRbkVVoKKagMGx73IcMFkhEkGrusW7Li5RA=
+X-Received: by 2002:a5b:7c7:0:b0:702:7a86:31e with SMTP id t7-20020a5b07c7000000b007027a86031emr10784457ybq.506.1670447299498;
+ Wed, 07 Dec 2022 13:08:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20221207163359.26564-1-larry.lai@yunjingtech.com>
+In-Reply-To: <20221207163359.26564-1-larry.lai@yunjingtech.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 7 Dec 2022 22:09:35 +0100
+Message-ID: <CACRpkdYk=dN8P9X=t0JhRuSVormm5fTeAT1Zwy98Q+F0XFTEpQ@mail.gmail.com>
+Subject: Re: [RFC 0/3] Add support control UP board CPLD/FPGA pin control
+To:     "larry.lai" <larry.lai@yunjingtech.com>
+Cc:     lee@kernel.org, andriy.shevchenko@linux.intel.com, pavel@ucw.cz,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
+        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
+        noah.hung@yunjingtech.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-'led' nodes should have a reference to LED common.yaml schema. Add it where
-missing and drop any duplicate properties.
+On Wed, Dec 7, 2022 at 5:36 PM larry.lai <larry.lai@yunjingtech.com> wrote:
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/leds/leds-lgm.yaml       |  3 ++-
- .../devicetree/bindings/leds/leds-max77650.yaml  |  9 ++-------
- .../bindings/leds/rohm,bd71828-leds.yaml         | 16 +++-------------
- 3 files changed, 7 insertions(+), 21 deletions(-)
+> The UP board <http://www.upboard.com> is the computer board for
+> Professional Makers and Industrial Applications. We want to upstream
+> the UP board 40-pin GP-bus Kernel driver for giving the users better
+> experience on the software release. (not just download from UP board
+> github)
+>
+> These patches are generated from the Linux kernel mainline tag v6.0.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lgm.yaml b/Documentation/devicetree/bindings/leds/leds-lgm.yaml
-index 3f13db0dc915..8b3b3bf1eaf2 100644
---- a/Documentation/devicetree/bindings/leds/leds-lgm.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-lgm.yaml
-@@ -56,7 +56,8 @@ properties:
- 
-     patternProperties:
-       "^led@[0-2]$":
--        type: object
-+        $ref: common.yaml#
-+        unevaluatedProperties: false
- 
-         properties:
-           reg:
-diff --git a/Documentation/devicetree/bindings/leds/leds-max77650.yaml b/Documentation/devicetree/bindings/leds/leds-max77650.yaml
-index c6f96cabd4d1..fdb08f44a45d 100644
---- a/Documentation/devicetree/bindings/leds/leds-max77650.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-max77650.yaml
-@@ -30,9 +30,8 @@ properties:
- 
- patternProperties:
-   "^led@[0-2]$":
--    type: object
--    description: |
--      Properties for a single LED.
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
- 
-     properties:
-       reg:
-@@ -41,10 +40,6 @@ patternProperties:
-         minimum: 0
-         maximum: 2
- 
--      label: true
--
--      linux,default-trigger: true
--
- required:
-   - compatible
-   - "#address-cells"
-diff --git a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-index 86a37c92b834..ca92cea56a6f 100644
---- a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-+++ b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-@@ -26,26 +26,16 @@ properties:
- 
- patternProperties:
-   "^led-[1-2]$":
--    type: object
--    description:
--      Properties for a single LED.
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+
-     properties:
--      #allOf:
--        #- $ref: "common.yaml#"
-       rohm,led-compatible:
-         description: LED identification string
-         $ref: "/schemas/types.yaml#/definitions/string"
-         enum:
-           - bd71828-ambled
-           - bd71828-grnled
--      function:
--        description:
--          Purpose of LED as defined in dt-bindings/leds/common.h
--        $ref: "/schemas/types.yaml#/definitions/string"
--      color:
--        description:
--          LED colour as defined in dt-bindings/leds/common.h
--        $ref: "/schemas/types.yaml#/definitions/uint32"
- 
- required:
-   - compatible
--- 
-2.35.1
+Why are these patches tagged RFC now? Weird.
 
+Came to think of this:
+Shouldn't the subdrivers for pin control LED etc have:
+default MFD_INTEL_UPBOARD_FPGA
+i.e become y if the core driver is y, becomes m if the core driver is m.
+Of course it is possible to run around in menuconfig and activate them
+all manually interactively and be frustrated that something is missing
+still but setting them default like this saves everybody's time. Activate
+the MFD core driver and everything else comes with it, then it can
+be turned off at request.
+
+Yours,
+Linus Walleij
