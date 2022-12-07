@@ -2,127 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC566461C0
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 20:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D34A76461D4
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Dec 2022 20:44:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbiLGTcZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Dec 2022 14:32:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50100 "EHLO
+        id S229538AbiLGTo2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Dec 2022 14:44:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbiLGTcY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 14:32:24 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE3C663DC;
-        Wed,  7 Dec 2022 11:32:23 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id q1so17241586pgl.11;
-        Wed, 07 Dec 2022 11:32:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CJ93t0qOhK77peLQli38loBDZSZoHQBfLCudn8XKKkU=;
-        b=SXJMcwQ/DX/x1scl/JInhAOMSXhTgG6NMqn0+f7F4uJvfw1ENl1Owc16iAdMtuKYZV
-         +eUJ6MG53Lh01wqJMd6+BBLGW+ASLyrTILLY/k8fcy3T1q3c0G2guTpUxDEZ+Cw7xiwq
-         5nv71OjcKpcKe1o8yphT4VWCfosowXpVq8F5taWYUqk/X0jcJiSsHJEcfPvqzh70Md7I
-         pVJu4/p2YnToPdRxt7oQFXliv+t6JQHRnhBtkIWmA1PpDjP5ebiwdFx3ie9dbI1oq7T/
-         fVANQn9sC5L4Sogum8Mi1HJ4qls2Do89SgYD/trpNdfJjBuDX56pZV6W0HB7hvxFRpoE
-         /x9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CJ93t0qOhK77peLQli38loBDZSZoHQBfLCudn8XKKkU=;
-        b=P/NlZFRX/34uBIbzxctF94PRLIi1Lhstjs0drm2pHdGq6XsJCSmHYjqb7Tk0zWQRQT
-         zx9K4QMQigwFTLGy0Dp37knnEKH5ugtZTFh7vX432b6fdZPGFGGnWaI0VrlHNHJDXp9k
-         iECYCjLd87GWaNZ027FFQpGQ2TSvP4VVQsB83LSsDiNUWNwUom5vpspaDezPPPRlMvrz
-         5uXiWnTeeL6uItSLepU6q90MMc+f8xUHgIpDkB0sOp7IrlJiyjaKAB0ivDNMl9ChQE4r
-         Z93PQHaZ4PmY+/x1eE4oGzpCMIbfPKNp7nHI/OrARjLM95am1DFfeOo2bl8Z+WQtadAp
-         bJJw==
-X-Gm-Message-State: ANoB5pnPX0XBgM92mEpTOzNX2Z9jyWraiLuVjeiDmt5CWDkJpquJWHO2
-        5ajb+r3D+VY+fzzORthd/d4=
-X-Google-Smtp-Source: AA0mqf5S9Wbej7daA71TN/mdshSxOTWOgPe3L9BDEC6euYukOmVdhOpbd6Jrdw3mr8NfWxb0vDjJEQ==
-X-Received: by 2002:a62:1b05:0:b0:576:91fa:8ed0 with SMTP id b5-20020a621b05000000b0057691fa8ed0mr22190841pfb.15.1670441543186;
-        Wed, 07 Dec 2022 11:32:23 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:7a61:38c7:d37a:7f43])
-        by smtp.gmail.com with ESMTPSA id l16-20020a170903121000b0018157b415dbsm15089573plh.63.2022.12.07.11.32.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 11:32:22 -0800 (PST)
-Date:   Wed, 7 Dec 2022 11:32:19 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-arm-msm@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: qcom,pm8921-keypad: convert
- to YAML format
-Message-ID: <Y5DqQywrM6WjqwWA@google.com>
-References: <20221204061555.1355453-1-dmitry.baryshkov@linaro.org>
- <20221204061555.1355453-2-dmitry.baryshkov@linaro.org>
- <20221205220433.GA2684995-robh@kernel.org>
- <E5C1A37F-5758-4026-9412-F13760C465D0@linaro.org>
- <20221207170753.GA2402110-robh@kernel.org>
+        with ESMTP id S229456AbiLGTo1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Dec 2022 14:44:27 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA382716D3
+        for <linux-leds@vger.kernel.org>; Wed,  7 Dec 2022 11:44:25 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id BB01D1C09FA; Wed,  7 Dec 2022 20:44:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1670442263;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AlOCNHa9dGayHnXn8g3spEzhzZmWNxjhtnanqmJwCJ0=;
+        b=HAxDXj9kpPHvKb0BMderjMSShkpgwZJsDQluMVQJxNLLc2r0OILudtNDWMnvJaSgAZxVGP
+        829oIFlX8dn3c4I/nxwNje4Qz/g5+XM0hhLqakUuvdpKdL76sAKhMEKqo856FPcy7kYn7/
+        d1UUVbURv3EzwH5HdmZMWi7fRaDG1jY=
+Date:   Wed, 7 Dec 2022 20:44:23 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Lee Jones <lee@kernel.org>
+Cc:     andriy.shevchenko@linux.intel.com, krzysztof.kozlowski@linaro.org,
+        gregkh@linuxfoundation.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/1] MAINTAINERS: Add additional co-maintainer to LEDs
+Message-ID: <Y5DtF3XlZhL2V31A@duo.ucw.cz>
+References: <20221206104510.123817-1-lee@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="PrKDH5+shEBQmfiE"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221207170753.GA2402110-robh@kernel.org>
+In-Reply-To: <20221206104510.123817-1-lee@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Dec 07, 2022 at 11:07:53AM -0600, Rob Herring wrote:
-> On Tue, Dec 06, 2022 at 05:20:16AM +0200, Dmitry Baryshkov wrote:
-> > 6 декабря 2022 г. 00:04:33 GMT+02:00, Rob Herring <robh@kernel.org> пишет:
-> > >On Sun, Dec 04, 2022 at 08:15:52AM +0200, Dmitry Baryshkov wrote:
-> > >> Convert the bindings for the keypad subdevices of Qualcomm PM8921 and
-> > >> PM8058 PMICs from text to YAML format.
-> > >> 
-> > >> While doing the conversion also change linux,keypad-no-autorepeat
-> > >> property to linux,input-no-autorepeat. The former property was never
-> > >> used by DT and was never handled by the driver.
-> > >
-> > >Changing from the documented one to one some drivers use. I guess 
-> > >that's a slight improvement. Please see this discussion[1]. 
-> > 
-> > Well, the problem is that the documentation is misleading. The driver 
-> > doesn't handle the documented property, so we should change either 
-> > the driver, or the docs. Which change is the preferred one?
-> 
-> The preference is autorepeat is not the default and setting 
-> 'autorepeat' enables it. You can't really change that unless you don't 
-> really need autorepeat by default. I can't see why it would be 
-> needed for the power button, but I haven't looked what else you have.
-> 
-> Of all the no autorepeat options, I prefer 'linux,no-autorepeat' as I 
-> find 'input' or 'keypad' redundant. But Dmitry T. didn't think it should 
-> be a common property at the time.
 
-Right, I would prefer for new bindings we used assertive "autorepeat",
-instead of negating "no-autorepeat". However here we are dealing with
-existing binding.
+--PrKDH5+shEBQmfiE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The issue is complicated with the driver using one option, binding
-specifying another, and existing in-kernel DTSes not using any and thus
-activating autorepeat as the default driver behavior.
+Hi!
 
-Do we have an idea if there are out-of-tree users of this? If we are
-reasonable sure there are not we could converge on the standard
-"autorepeat" property.
+> Add myself as co-maintainer for the LED subsystem,
+> in support of Pavel during busy times.
+>=20
+> Suggested-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Lee Jones <lee@kernel.org>
 
--- 
-Dmitry
+Thank you, applied.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--PrKDH5+shEBQmfiE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY5DtFwAKCRAw5/Bqldv6
+8hwpAKCCDCtGKzQIZns/2O8ZdVkWUZNTkwCfdIClLKFUpjggXWwUpJFC4QfuCno=
+=MZZq
+-----END PGP SIGNATURE-----
+
+--PrKDH5+shEBQmfiE--
