@@ -2,60 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB97D648301
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Dec 2022 14:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE031648305
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Dec 2022 14:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbiLINyN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S229873AbiLINyN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 9 Dec 2022 08:54:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiLINyL (ORCPT
+        with ESMTP id S229819AbiLINyL (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Dec 2022 08:54:11 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 030CD750A1
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2BAF75094
         for <linux-leds@vger.kernel.org>; Fri,  9 Dec 2022 05:54:10 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id d20so3234996edn.0
-        for <linux-leds@vger.kernel.org>; Fri, 09 Dec 2022 05:54:09 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id a16so3155828edb.9
+        for <linux-leds@vger.kernel.org>; Fri, 09 Dec 2022 05:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=fairphone.com; s=fair;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XRmBhl+xO1didxxTxIpTyo1S+nD5JTfKsPbiV9tkby0=;
-        b=zAQqsdAGFrHDAYMPimScUijNmZ5kuuI8xgkCBHBW6E3YANtmK5YAabM+zCr3V3XDiZ
-         uzKJEgHCrtfXjq5CklbjhLWb6DsPhSiJ3IkBuZ/IbQmNuv/jRkhLNloJnjFeMVTdTL1I
-         afdOgrQdl46z8fpLkaQg1TR85aQUrIjROu1d1Cysk5CK6jx2KnAoLMbB87x+qjV//lws
-         nyL+DZmhv1+edKiBrL1+5eAFywlGEdNy5fdE5ACorPPrelBF8nHW1Rv1uqL+waNzi0b+
-         c0nE086f5ijitn4i3reqLIVfQRUgmHoBICQ/EUTAbxHXFZLD9r1SXCuki4Mg+bPpeFkF
-         1/CA==
+        bh=f4yh5xgjEQoq90Bl89iS4Grp7fPsFxoV4M+wDWpZgpE=;
+        b=T9AMDcmPce0wGjd2pPpDE2xhD/MhpmqUzUpvmRoOTT+76RP0S+fE/RqkE/j85/pdM4
+         YiBAFTw4rHHyO40snTvXwUVOXawyZ+3K5I8AqjJ5EEiW9HndRoTV/EOqZYvDvo1WJboV
+         R41ULrSdSW/Md7gdUykVAGDJ13/VqjlrcKmO0HcAmDp74cIwgCvUjFa32w0uAj7n+hN8
+         BM7ZXBrnOzw12Bjpv8iYeEHmW2yGsDwdBv7mej4QneFqqtZDQnZMx6B7pDJLHHhkMJH1
+         BkaACbwnnFvUpT4+2tDGT7zD3ZSJ0dgDqheUbN0omCxCC4S+oOtyORuOZCcFFrXx4EQZ
+         MPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XRmBhl+xO1didxxTxIpTyo1S+nD5JTfKsPbiV9tkby0=;
-        b=GsB7bdwq9IU28G3IZe2oZXn7jahFWCeuU0ujOiYeijxEdn8WBDBu//Ii6XREM5YpgP
-         owLLFXcwPW1zi2YVsVvfW2gaXqar92wf2oU+tbHnofW6d74pkTPjYkkbcWLlbeMKuBMY
-         WPYNsWmGWqidKULy2Kcaw2ZSS/BybEr6yOCoUsdc8vbbhQnl/sgh+uIn2hiIsCAMOnhU
-         3sWqS7dwiYQrfvQ1PvauUvENhamkstIHQcgbbq4VvdEeRfm+qpOxxXnCPxJzAaZHnA1E
-         MEiN0xNJY+oJJzHyny7AHJCIR1eaj6AxfcLqXAO7w9O3PGKevST0YAJmGS75I4PvO8ei
-         LnVw==
-X-Gm-Message-State: ANoB5pmEv9NIhVSxB8DIv4hPWK27bE+HFvIidNJo2Tr9EJnGJxV4t2rK
-        XlbiTsS+i+W/jJ1zcW4QCWRlzg==
-X-Google-Smtp-Source: AA0mqf4QyULBJSa7csxpJIthmlParQ3a3lsV6kGcszd2vuuNuB4S/570nzFD6QgqVtu0t3W6QttDfA==
-X-Received: by 2002:aa7:d5d4:0:b0:46c:c029:7afc with SMTP id d20-20020aa7d5d4000000b0046cc0297afcmr5323187eds.42.1670594048599;
-        Fri, 09 Dec 2022 05:54:08 -0800 (PST)
+        bh=f4yh5xgjEQoq90Bl89iS4Grp7fPsFxoV4M+wDWpZgpE=;
+        b=niftTIpZJZOn1if2lCVveL7UbckwN8vHhpwTiXdEu3to74TDTO8oD1KPYaBt4IPbUT
+         pvv4381Xh0Oz8/jxozL1QpVeqRbedoXbz5/4CSFVoThe4oM+kc4+qaoIa/sBIV1cpbJM
+         CER37/oBj28UaYEFSf0RUXAEYUQdh7bNY3ENWyYAV7bsTRVXhwcrGZRgECvozSWdzqa+
+         InO9jCNiakMXqnNxZxNMkllFbBrffrSOiKdoNJW13KjW0doCLoBsH4SziWIyJnw9RiZE
+         aSP9WgOQwqd++uKWYyb9p9acSgcTWW5yIO344s0E2GJJ6O7lQ1u1R6avGBJJUnuwSxjj
+         RaQw==
+X-Gm-Message-State: ANoB5pmDMTcn6z9ThFBbq34JI/eGIhukQRFRcj7CbA8E6JVEPeia55xE
+        OH66k2Zn4rSP9EDoTdVbEMAnMQ==
+X-Google-Smtp-Source: AA0mqf7X23tw1uk6uJrsTDNddrFALdnj1e042jncHPzXIju6bC/k236aIcNNV+1TT/qimYb9pExEWg==
+X-Received: by 2002:a05:6402:5483:b0:467:7b2e:8863 with SMTP id fg3-20020a056402548300b004677b2e8863mr3742690edb.12.1670594049274;
+        Fri, 09 Dec 2022 05:54:09 -0800 (PST)
 Received: from [172.16.240.113] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
         by smtp.gmail.com with ESMTPSA id k19-20020aa7c393000000b0045b4b67156fsm656371edq.45.2022.12.09.05.54.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 09 Dec 2022 05:54:08 -0800 (PST)
 From:   Luca Weiss <luca.weiss@fairphone.com>
-Date:   Fri, 09 Dec 2022 14:54:06 +0100
-Subject: [PATCH 1/3] dt-bindings: leds: spmi-flash-led: Add pm6150l compatible
+Date:   Fri, 09 Dec 2022 14:54:07 +0100
+Subject: [PATCH 2/3] arm64: dts: qcom: pm6150l: add spmi-flash-led node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221209-fp4-pm6150l-flash-v1-1-531521eb2a72@fairphone.com>
+Message-Id: <20221209-fp4-pm6150l-flash-v1-2-531521eb2a72@fairphone.com>
 References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
 In-Reply-To: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
 To:     Andy Gross <agross@kernel.org>,
@@ -70,33 +70,37 @@ Cc:     Fenglin Wu <quic_fenglinw@quicinc.com>,
 X-Mailer: b4 0.11.0-dev-64ef0
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the compatible for the flash-led block found on pm6150l PMIC.
+Add a node describing the flash block found on pm6150l.
 
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/pm6150l.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-index 1b273aecaaec..ffacf703d9f9 100644
---- a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-+++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-@@ -22,6 +22,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - qcom,pm6150l-flash-led
-           - qcom,pm8150c-flash-led
-           - qcom,pm8150l-flash-led
-           - qcom,pm8350c-flash-led
+diff --git a/arch/arm64/boot/dts/qcom/pm6150l.dtsi b/arch/arm64/boot/dts/qcom/pm6150l.dtsi
+index 90aac61ad264..86e659fcbba6 100644
+--- a/arch/arm64/boot/dts/qcom/pm6150l.dtsi
++++ b/arch/arm64/boot/dts/qcom/pm6150l.dtsi
+@@ -112,6 +112,12 @@ pm6150l_lsid5: pmic@5 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
++		pm6150l_flash: led-controller@d300 {
++			compatible = "qcom,pm6150l-flash-led", "qcom,spmi-flash-led";
++			reg = <0xd300>;
++			status = "disabled";
++		};
++
+ 		pm6150l_wled: leds@d800 {
+ 			compatible = "qcom,pm6150l-wled";
+ 			reg = <0xd800>, <0xd900>;
 
 -- 
 2.38.1
