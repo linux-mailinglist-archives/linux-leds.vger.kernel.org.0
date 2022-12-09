@@ -2,172 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEC9A64820B
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Dec 2022 13:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3611264827E
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Dec 2022 13:41:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiLIMAt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Dec 2022 07:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37356 "EHLO
+        id S229530AbiLIMlK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Dec 2022 07:41:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiLIMAq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Dec 2022 07:00:46 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6037A30543
-        for <linux-leds@vger.kernel.org>; Fri,  9 Dec 2022 04:00:38 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id fc4so10910648ejc.12
-        for <linux-leds@vger.kernel.org>; Fri, 09 Dec 2022 04:00:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=blV6eki9f/dE3yt8k9vQjmYbdmKqtjXhWL8aRDi0+PTy9DZ7PoASn6Hb4YDawt6/Pq
-         TOTWkNyJ1bQ0LXeAOKmZsgrohPEAxg4I9Vxq8Iql4MCfOpzd9bk59Kg8A1l2aCabzc1i
-         Pwb8zUD5pTagBDWz9wlqw8be8RXHOe4ntLhBEh7HXgPppKgizTPX68btz3fJ69iSfJef
-         zAFAyKFjvCY4s0mBfuw+77i/sj6ivMcyXsKkk5Q+7miuQY1uqqYMcxvazgbad3gQhSeN
-         osKwSC1CYREx2mikz7Rsbjiro/V/gVq1uBZVJYbtUMGcexuFEHFb/xJK0jJPCO1YVyoF
-         GpZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=MY7zSp8X7uAz/R0YVESdZ3WyGOSXY4PIhN+3twoeOuM0dgncl1w3leb11nnrH8Tm9a
-         EPSH4udeBf27QCek4prtA2KVZOC+jnyCq5EXG2ClZdahFkWwAKz0J0rke/xaQvCwM3ym
-         /R3ML2CmXwew9Ks1JbqEuarxxoww3iCEHxRlRgp+6Vofv8PibXy9Yqm94OqtYnPlHl8O
-         pYspF7u+RTCLeqJDU0u20xV4QHNXO0HPeYE1x1qX4fdFgl9eagJh0Bj+74DhKknFQeH7
-         cHtS7JLvthLgL4lE13UGtpyxmqwoAfqRBOHH6xk6fxIri+L8+ISyU5bl2hmcjkKnv3Lq
-         Pe5g==
-X-Gm-Message-State: ANoB5pkbGi6mZCC/Uo5/9+ypUe7eLgWLA1MO01y/ESqRL9yCmtna8PaC
-        xgu6YpNhNOcBKIXZj3424vAGDA==
-X-Google-Smtp-Source: AA0mqf7P1uuFrcKToZQL1Qs7OSMRUELHntqUphTx86r+y9eGx8OMntNtg5Twtz4wxSVo6DNFFYUZgg==
-X-Received: by 2002:a17:906:4907:b0:7c0:d4fa:3151 with SMTP id b7-20020a170906490700b007c0d4fa3151mr4765674ejq.17.1670587236522;
-        Fri, 09 Dec 2022 04:00:36 -0800 (PST)
-Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
-        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b007c0a7286c0asm489597ejx.58.2022.12.09.04.00.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 04:00:35 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Grant Likely <grant.likely@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-spi@vger.kernel.org, kernel@pengutronix.de,
-        Purism Kernel Team <kernel@puri.sm>,
-        linux-rpi-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-actions@lists.infradead.org, netdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-staging@lists.linux.dev, chrome-platform@lists.linux.dev,
-        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linuxppc-dev@lists.ozlabs.org, patches@opensource.cirrus.com,
-        linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date:   Fri,  9 Dec 2022 13:00:14 +0100
-Message-Id: <167058708567.1651663.18170722235132459286.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        with ESMTP id S229550AbiLIMlJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Dec 2022 07:41:09 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3354E7125B
+        for <linux-leds@vger.kernel.org>; Fri,  9 Dec 2022 04:41:04 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p3cgW-0003Sv-Hx; Fri, 09 Dec 2022 13:41:00 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p3cgU-003Mfi-7i; Fri, 09 Dec 2022 13:40:59 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p3cgU-003lnM-7P; Fri, 09 Dec 2022 13:40:58 +0100
+Date:   Fri, 9 Dec 2022 13:40:58 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Qingtao Cao <qingtao.cao.au@gmail.com>
+Cc:     Qingtao Cao <qingtao.cao@digi.com>, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] leds: ledtrig-tty.c: call led_set_brightness() when
+ the blocking callback is not available
+Message-ID: <20221209124058.dwez7wohs7dfeiik@pengutronix.de>
+References: <20221209001039.7287-1-qingtao.cao@digi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="565mh7mmkut75gk2"
+Content-Disposition: inline
+In-Reply-To: <20221209001039.7287-1-qingtao.cao@digi.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
 
-Applied all patches that build.
+--565mh7mmkut75gk2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patches excluded:
- - ps8622
- - ti-sn65dsi83
- - adv7511
+On Fri, Dec 09, 2022 at 10:10:38AM +1000, Qingtao Cao wrote:
+> The Marvell GPIO controller's driver will setup its struct gpio_chip's ca=
+n_sleep
+> false, making create_gpio_led() setting up the brightness_set function po=
+inter
+> instead of the brightness_set_blocking function pointer. In this case the
+> nonblocking version led_set_brightness() should be fallen back on by ledt=
+rig_tty_work()
+>=20
+> Signed-off-by: Qingtao Cao <qingtao.cao@digi.com>
+> ---
+>  drivers/leds/trigger/ledtrig-tty.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/le=
+dtrig-tty.c
+> index f62db7e520b5..e43d285b5d06 100644
+> --- a/drivers/leds/trigger/ledtrig-tty.c
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -122,12 +122,18 @@ static void ledtrig_tty_work(struct work_struct *wo=
+rk)
+> =20
+>  	if (icount.rx !=3D trigger_data->rx ||
+>  	    icount.tx !=3D trigger_data->tx) {
+> -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> +		if (trigger_data->led_cdev->brightness_set_blocking)
+> +			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> +		else if (trigger_data->led_cdev->brightness_set)
+> +			led_set_brightness(trigger_data->led_cdev, LED_ON);
 
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
+I had similar issues in the past where a function call worked for
+sleeping LEDs but not atomic ones (or the other way around? Don't
+remember the details.)
 
+I wonder if there isn't a function that does the right thing no matter
+what type the LED is. The other triggers should have the same issue, and
+doing the above check in all of them just looks wrong.
 
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          (no commit info)
-[015/606] drm/bridge/analogix/anx6345: Convert to i2c's .probe_new()
-          (no commit info)
-[016/606] drm/bridge/analogix/anx78xx: Convert to i2c's .probe_new()
-          (no commit info)
-[017/606] drm/bridge: anx7625: Convert to i2c's .probe_new()
-          (no commit info)
-[018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
-          (no commit info)
-[019/606] drm/bridge: chrontel-ch7033: Convert to i2c's .probe_new()
-          commit: 8dc6de280f01c0f7b8d40435736f3c975368ad70
-[020/606] drm/bridge: it6505: Convert to i2c's .probe_new()
-          (no commit info)
-[021/606] drm/bridge: it66121: Convert to i2c's .probe_new()
-          (no commit info)
-[022/606] drm/bridge: lt8912b: Convert to i2c's .probe_new()
-          (no commit info)
-[023/606] drm/bridge: lt9211: Convert to i2c's .probe_new()
-          (no commit info)
-[024/606] drm/bridge: lt9611: Convert to i2c's .probe_new()
-          (no commit info)
-[025/606] drm/bridge: lt9611uxc: Convert to i2c's .probe_new()
-          (no commit info)
-[026/606] drm/bridge: megachips: Convert to i2c's .probe_new()
-          (no commit info)
-[027/606] drm/bridge: nxp-ptn3460: Convert to i2c's .probe_new()
-          (no commit info)
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          (no commit info)
-[029/606] drm/bridge: sii902x: Convert to i2c's .probe_new()
-          (no commit info)
-[030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
-          (no commit info)
-[031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
-          (no commit info)
-[032/606] drm/bridge: tc358767: Convert to i2c's .probe_new()
-          (no commit info)
-[033/606] drm/bridge: tc358768: Convert to i2c's .probe_new()
-          (no commit info)
-[034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
-          (no commit info)
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          (no commit info)
-[037/606] drm/bridge: tfp410: Convert to i2c's .probe_new()
-          (no commit info)
+Best regards
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--565mh7mmkut75gk2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-rob
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOTLNcACgkQwfwUeK3K
+7AncHgf+MX7UU32R1xOxDn2kHRK45G5QRz1Iog0wvmFwNW3dXft+e8rrIm66X897
+xAc6AleuqAM2Hos8NGFAsehr3StUD1yXSvtR3wAxKCJ3USmF26DOMAXsCZe6UoPb
+Shu1sFSeZApZQRdvWHJxI1OXanh1CjfEbar4i6YLsqa4saGlQ+3tbVVqX75Z8F1O
+J0fWjZk0LO4a0rsaThYj7qPymqm7VsDDuEVfIMiatH3tIOL5PxfUqm/SRenpPDlF
+jJw49kf6xiw6GAJCWdHh3ke3Fo8L0tte+iUpYDLOyW/QOpyxr0akm81Ylc/1Wpnp
+4QGxcs+BQiVBFxIV27xyy+8h8+N0Pw==
+=2hSk
+-----END PGP SIGNATURE-----
+
+--565mh7mmkut75gk2--
