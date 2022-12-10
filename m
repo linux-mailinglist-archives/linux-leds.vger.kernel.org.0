@@ -2,60 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FAB648DE2
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Dec 2022 10:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B3F0648EAC
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Dec 2022 13:32:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbiLJJTE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 10 Dec 2022 04:19:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56088 "EHLO
+        id S229743AbiLJMct (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 10 Dec 2022 07:32:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiLJJTB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Dec 2022 04:19:01 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF8617881
-        for <linux-leds@vger.kernel.org>; Sat, 10 Dec 2022 01:18:53 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p3w0K-0003KC-Jh; Sat, 10 Dec 2022 10:18:44 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p3w0G-003YBp-5Q; Sat, 10 Dec 2022 10:18:40 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p3w0G-003yU4-Bx; Sat, 10 Dec 2022 10:18:40 +0100
-Date:   Sat, 10 Dec 2022 10:18:33 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
-Message-ID: <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
+        with ESMTP id S229728AbiLJMcr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Dec 2022 07:32:47 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BEDDFBA
+        for <linux-leds@vger.kernel.org>; Sat, 10 Dec 2022 04:32:46 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id b3so11158273lfv.2
+        for <linux-leds@vger.kernel.org>; Sat, 10 Dec 2022 04:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bt1IcNSVmqyqXv33Ev5rTYvEXElPqvKitUErcFHS9UE=;
+        b=DtRoMkD32qwCMx4G9MRJapH/ZCgdnOt4mBQI5IUu/FJtRc2K3jri5yxMKTn6FTjZPs
+         4D5YF+i+1zZtG/Ax75L/U96Ex86vsIicVJ9/1xmkbFzNZv+RGiasBnQqNL16/Bh93o81
+         vV1iv0W/agKM+UDU2Z17Re9lBqwymNE3iz0ywIUNgTsZP6jwzUJ0nPHgbjiWbjCjwePQ
+         hSeZ8+ghFIHpP7B/IR1AvqOVQEe8g2dgXynPJ1v0msYCwRNh/5fd60Jf7aiE6QQxf+rG
+         CxuDf550Ur+hBQKUjHniVbYnFB1Oku/X82FTwWjahVK9ImurdExBVxRBSBj/Fbjfb663
+         Kstw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bt1IcNSVmqyqXv33Ev5rTYvEXElPqvKitUErcFHS9UE=;
+        b=Y/prNHeJpiV1xzEPTYgu+xcDlShIH6VmwGaUu4mk5TxOTyBI9OP8dm+qInjwAUMWhM
+         Sy7w5EDnF+xSdUTj/Vr+9dPQoxsNIcJKiSV8A7SXF7Yd9aIE3RaFzy8RrEvL1Dio51E/
+         lr13ZyfEgO3XZUH3HA54HvvmYIAdN3PjDQfmueDHGNegqIuArKlE9HktmMbzBIss9KTa
+         wdW1P9tx45HA7M9rQtBjChQbuWTmw5w9irA22bepWPtxOlWezKhmwngagpDsoZB180Rw
+         eT05nPAPen8ct7J7JBT8pdWNn7hTkxhMUWB4PYZX9kaQIRgOV+l0fJ2DIZ9u5QMeSkTc
+         Tefw==
+X-Gm-Message-State: ANoB5plFOEpiQrX8NodGZFWt3q6LNYeV37dJxeCzu8XkMCWqdKRCXthM
+        4GRH2njx7SLwD87wmizWRMyV2g==
+X-Google-Smtp-Source: AA0mqf56H+QMRP3S56B1qjMyIqh/55KZDkH2G+/pHZd2w2zcCFV7U/WR10Md+4TR2E+bFi5muvEVLA==
+X-Received: by 2002:ac2:559a:0:b0:4b4:e429:e912 with SMTP id v26-20020ac2559a000000b004b4e429e912mr2237863lfg.45.1670675564497;
+        Sat, 10 Dec 2022 04:32:44 -0800 (PST)
+Received: from [192.168.1.101] (abxh44.neoplus.adsl.tpnet.pl. [83.9.1.44])
+        by smtp.gmail.com with ESMTPSA id r26-20020ac25c1a000000b004a03d5c2140sm704411lfp.136.2022.12.10.04.32.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Dec 2022 04:32:44 -0800 (PST)
+Message-ID: <ae00359a-c920-aefd-d657-0c859287207f@linaro.org>
+Date:   Sat, 10 Dec 2022 13:32:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nuqt3gnghpavk6fz"
-Content-Disposition: inline
-In-Reply-To: <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 2/3] arm64: dts: qcom: pm6150l: add spmi-flash-led node
+Content-Language: en-US
+To:     Luca Weiss <luca.weiss@fairphone.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Fenglin Wu <quic_fenglinw@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
+ <20221209-fp4-pm6150l-flash-v1-2-531521eb2a72@fairphone.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20221209-fp4-pm6150l-flash-v1-2-531521eb2a72@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -63,62 +80,33 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---nuqt3gnghpavk6fz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello Andy,
+On 9.12.2022 14:54, Luca Weiss wrote:
+> Add a node describing the flash block found on pm6150l.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-On Fri, Dec 09, 2022 at 11:47:54PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> > In v1 Thierry had the concern:
-> >=20
-> > | That raises the question about what to do in these cases. If we return
-> > | an error, that could potentially throw off consumers. So perhaps the
-> > | closest would be to return a disabled PWM? Or perhaps it'd be up to t=
-he
-> > | consumer to provide some fallback configuration for invalidly configu=
-red
-> > | or unconfigured PWMs.
-> >=20
-> > .get_state() is only called in pwm_device_request on a pwm_state that a
-> > consumer might see. Before my series a consumer might have seen a
-> > partial modified pwm_state (because .get_state() might have modified
-> > .period, then stumbled and returned silently). The last patch ensures
-> > that this partial modification isn't given out to the consumer. Instead
-> > they now see the same as if .get_state wasn't implemented at all.
->=20
-> I'm wondering why we didn't see a compiler warning about mistyped function
-> prototypes in some drivers.
-
-I don't understand where you expected a warning. Care to elaborate?
-
-> P.S. The series is good thing to do, thank you.
-
-It's already too late for an ack, the series is already in Thierry's
-tree.
-
-Best regards
-Uwe
-=20
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---nuqt3gnghpavk6fz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOUTt4ACgkQwfwUeK3K
-7Amt4gf/VCswPgVD5w7pUM72SEpdjhw28hm2YCuu5RxYMTBVbGTdK9rYJjqmB2FI
-ZOQHPgl36sDWhZEM55FY6oZxaGM3XttrjoTnFSk0MuNQmO70aWJtkS+OVmR4UgiR
-vIXRy8KMRWEliVRK4dWubiXzQ3OZl1iEDzgc9c7bccEtcdABRG+Z0zLWDCiT8WMw
-OzDx+FLvT792TNn4oEHONO3lJVeZ64MdM0VPguFtzbArXlpaJlQhlfhxYnvVxR1o
-LkxC6uB5mWT1o1f3+yzw9GD0RJwspghVALqO+g7LoH0oinRso2oaExRDKS5Yt69Z
-bmJURLsdOOyquJFcb6f1NqrKVb8fUw==
-=nBk6
------END PGP SIGNATURE-----
-
---nuqt3gnghpavk6fz--
+Konrad
+>  arch/arm64/boot/dts/qcom/pm6150l.dtsi | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/pm6150l.dtsi b/arch/arm64/boot/dts/qcom/pm6150l.dtsi
+> index 90aac61ad264..86e659fcbba6 100644
+> --- a/arch/arm64/boot/dts/qcom/pm6150l.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/pm6150l.dtsi
+> @@ -112,6 +112,12 @@ pm6150l_lsid5: pmic@5 {
+>  		#address-cells = <1>;
+>  		#size-cells = <0>;
+>  
+> +		pm6150l_flash: led-controller@d300 {
+> +			compatible = "qcom,pm6150l-flash-led", "qcom,spmi-flash-led";
+> +			reg = <0xd300>;
+> +			status = "disabled";
+> +		};
+> +
+>  		pm6150l_wled: leds@d800 {
+>  			compatible = "qcom,pm6150l-wled";
+>  			reg = <0xd800>, <0xd900>;
+> 
