@@ -2,100 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA20F648FF8
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Dec 2022 18:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC90B6490C7
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Dec 2022 21:57:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiLJRQa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 10 Dec 2022 12:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34616 "EHLO
+        id S229475AbiLJU50 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 10 Dec 2022 15:57:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiLJRQ3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Dec 2022 12:16:29 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773F81FB;
-        Sat, 10 Dec 2022 09:16:28 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 399DF1C09F6; Sat, 10 Dec 2022 18:16:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1670692587;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KdQHQ5s+tXy+ERTEJcEFuFB1iLfks/vH0fSWLk/R1XU=;
-        b=dWRl/z/DQFNmcGUBaWofIwuApXxBt7IaiY7S944ChkKAygdKedlqeVYseF8xjEqlWokFQJ
-        xGboTiYgmijEegmXoNXTRBOmyxNym2ra2+/eAwFUINi7AvnUqzvsNBEZJSeyi/yvMf/aCN
-        aaeiYcOZztfN/YsfKftqmtFX/056z7k=
-Date:   Sat, 10 Dec 2022 18:16:26 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Luca Weiss <luca.weiss@fairphone.com>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: configure
- flash LED
-Message-ID: <Y5S+6j1yJ62RJU/v@duo.ucw.cz>
-References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
- <20221209-fp4-pm6150l-flash-v1-3-531521eb2a72@fairphone.com>
+        with ESMTP id S229529AbiLJU5Y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Dec 2022 15:57:24 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2C71705D;
+        Sat, 10 Dec 2022 12:57:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670705843; x=1702241843;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8tRXcUKxGagfde91ZdUSDF88p8/b8+3NQn8nn2kaumc=;
+  b=NcB/GMthv49QkttcaJVa5iz/7pK2kbtiV/PAs9kKRZ9Bmto3zvimo4Bu
+   MD6rD9kttG4K4hiwbvwvlxsCLmV9i6amFqB03xp8U2XlgxV3vMmk5ZLza
+   F0RUSV4K5AJm84AXmaKV5bTahtJ87jB4h6xLK88kia3x7794QZXUJkoOL
+   BC+hfWbH/7p8Z4A9wh/E9qGmFKLLeLFvhs4RwxAlqE8it+0ZF58R1iJ3n
+   TUeMHMIyv6epzi25e4pK0Ad6xYcWZwZ/qYgzjcA18p7rUEvsAr8UvMJ1c
+   IAKhMqIB8OJtO7/QlKfVl88IOG1tlZ/7rt/LADvG9p0RYqdisThCudOQf
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="315286169"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; 
+   d="scan'208";a="315286169"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2022 12:57:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="678489946"
+X-IronPort-AV: E=Sophos;i="5.96,234,1665471600"; 
+   d="scan'208";a="678489946"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 10 Dec 2022 12:57:18 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1p46uK-007g2g-33;
+        Sat, 10 Dec 2022 22:57:16 +0200
+Date:   Sat, 10 Dec 2022 22:57:16 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Message-ID: <Y5TyrO5maz5VYic3@smile.fi.intel.com>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
+ <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HG3oTbixxIVumDLy"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221209-fp4-pm6150l-flash-v1-3-531521eb2a72@fairphone.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,SUSPICIOUS_RECIPS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Sat, Dec 10, 2022 at 10:18:33AM +0100, Uwe Kleine-König wrote:
+> On Fri, Dec 09, 2022 at 11:47:54PM +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
 
---HG3oTbixxIVumDLy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi!
+> > I'm wondering why we didn't see a compiler warning about mistyped function
+> > prototypes in some drivers.
+> 
+> I don't understand where you expected a warning. Care to elaborate?
 
-> Configure the pm6150l flash node for the dual flash LEDs found on FP4.
+intel-lpss.c has the prototype that returns an int. IIRC it was like this
+before your patches. Now the above wondering passage...
 
-> +&pm6150l_flash {
-> +	status =3D "okay";
-> +
-> +	led-0 {
-> +		function =3D LED_FUNCTION_FLASH;
-> +		color =3D <LED_COLOR_ID_YELLOW>;
-> +		led-sources =3D <1>;
-> +		led-max-microamp =3D <180000>;
-> +		flash-max-microamp =3D <1000000>;
-> +		flash-max-timeout-us =3D <1280000>;
-> +	};
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I'm pretty sure the flash is not yellow.
 
-Plus, how is the node in /sys/class/leds called? Can you make an entry
-in Documentation/leds/well-known-leds.txt and ensure the name stays
-consistent across devices?
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---HG3oTbixxIVumDLy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY5S+6gAKCRAw5/Bqldv6
-8mv/AJ0bt0t8Kg/jefzjZ1+T0YiFck3AwQCgm0aNvzYQBqjPy6v98GKiO6emCiw=
-=zhQd
------END PGP SIGNATURE-----
-
---HG3oTbixxIVumDLy--
