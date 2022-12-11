@@ -2,153 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A37BB64939B
-	for <lists+linux-leds@lfdr.de>; Sun, 11 Dec 2022 11:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85791649470
+	for <lists+linux-leds@lfdr.de>; Sun, 11 Dec 2022 14:31:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbiLKKNp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 11 Dec 2022 05:13:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40240 "EHLO
+        id S230094AbiLKNbe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 11 Dec 2022 08:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbiLKKNb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Dec 2022 05:13:31 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B237A11C26
-        for <linux-leds@vger.kernel.org>; Sun, 11 Dec 2022 02:12:32 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id f18so9226403wrj.5
-        for <linux-leds@vger.kernel.org>; Sun, 11 Dec 2022 02:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:to:subject:from
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TsLU1jQOsv043OLRA0M9teI0lsR/6cXmQrEABXZ/FZ8=;
-        b=HWFEw9hzbd1BIEjBGz1OW0Jh8EQzP4uSEJmJJbakuVv+GFIemiEAgvMKjPOkvPA6Z9
-         dy0Zsylewot5Yte+sJObujHCD0IGA6VeQrmKWqIcku/Q9ZzSSCv3LnHKkB+cHe0QQDbb
-         vA+EesT3dA2yL/qSzH3uCA24Sc3K8UIJd3wvXtco9dQ3eroPH2MrZ14hgZ8Ydsayin4E
-         foqEzhiNxnJJDQAH0Kvv/6AbyMqBf0dVgG/x5Jl2aYCezgWb5Djt6QIEbmT1bjKpxOgK
-         h7D4UiXvV6rEWgD0tdnTLBuZ0i6D7sHiLv6dO2ymrjGjLN6LBdcDRfGTDQIwzU/5PddV
-         oPlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:to:subject:from
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TsLU1jQOsv043OLRA0M9teI0lsR/6cXmQrEABXZ/FZ8=;
-        b=DX5iEV08A4DPE8ehoKx8ml2gkTkuWCV9OlbM8hS2vhvUULB86po4H2dmyjBP52arxj
-         /fGFACIb1LT4UEfXxUnq/boiv5UjMg4wkI145VF2w7jLYvvfrMQ5V/fsys5atutzIAdh
-         ANKo9PHmdgh638nRcKTtojcEu03qXxpcBakW5gI3qQsiMRYndrU4X6n6QbMIRC6D5q/D
-         ySL9Cgx4Qf47ZH+sE69QXFSAURY3iXchX93uHe8y/qn+BFoWwReYb1zdh3s0BvtRNRdL
-         P/6JA+3k0+ak9HkOT78/omB34zMQ8ViGpZPZ4K8KnglNNd+wq5jWLxMiEfcUFncaNdrc
-         22JA==
-X-Gm-Message-State: ANoB5pmwmTMT05Qda/CnsjMib36CY/AmQPuAlyKQM3vySU5ny6+q/Kvh
-        b0xL74dgS42hg1+MydvjiIATlWJ/3gB5dRaI
-X-Google-Smtp-Source: AA0mqf6EufieWfov4jpvCLRMtTXnKo+M2eNQAmxU1Iw20SqytAx7wgjQ3km1SfZ0Zat+5exrFAgHSw==
-X-Received: by 2002:adf:d22f:0:b0:242:1fb8:1ca9 with SMTP id k15-20020adfd22f000000b002421fb81ca9mr6511778wrh.37.1670753550754;
-        Sun, 11 Dec 2022 02:12:30 -0800 (PST)
-Received: from [10.1.2.121] ([45.136.198.27])
-        by smtp.gmail.com with ESMTPSA id n3-20020a056000170300b002368f6b56desm7140719wrc.18.2022.12.11.02.12.29
-        for <linux-leds@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Dec 2022 02:12:30 -0800 (PST)
-Message-ID: <303d60df-e72d-5d41-da49-84f43f9a4063@gmail.com>
-Date:   Sun, 11 Dec 2022 12:12:28 +0200
+        with ESMTP id S229845AbiLKNbd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Dec 2022 08:31:33 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C260FD02;
+        Sun, 11 Dec 2022 05:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670765493; x=1702301493;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mzHG/pVGmg236g4ocCottXwf/Vck+AOplcQMPTkzoug=;
+  b=LFRuBEdhdHhddmTY9KdMavYFbOK4EmjwhccQC5PxLgLjjwLXiC62Z4Yv
+   +Y0mXzfPRqIYX+lxZzSMbxKxTY8NbJcaiKTHJPKEXR6YXznIyDUrfnfpr
+   nMqT025Aet/Fy8TAZD7UbhC5nnyeMIJ5iaSB1ZqTccZ5Wy08pc5XtZNGG
+   HZw/gg6VA65Yh2u+PF6lNzx50VkKAgUK0mhba1CuBehktJ/+qgEuC1DQK
+   7dnUN+T7C1I7UhjBm/yZSfrC3Fncei9s0ZkCMvF/Iw+RMjGAin2B4LFln
+   rxxU9oNBF5rJ0qPkvU6sXSEZ7uvhADQy1wo1B496Qy419Ossn53F3M8fM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="318847050"
+X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
+   d="scan'208";a="318847050"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2022 05:31:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="678628772"
+X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
+   d="scan'208";a="678628772"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 11 Dec 2022 05:31:28 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1p4MQQ-0080Nz-0b;
+        Sun, 11 Dec 2022 15:31:26 +0200
+Date:   Sun, 11 Dec 2022 15:31:25 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/11] pwm: Allow .get_state to fail
+Message-ID: <Y5XbrWTicuTxPLwN@smile.fi.intel.com>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <Y5OtCjQOQjjltGPa@smile.fi.intel.com>
+ <20221210091833.vdfir63nq4kpj5cm@pengutronix.de>
+ <Y5TyrO5maz5VYic3@smile.fi.intel.com>
+ <20221210224154.733cd5qnrkpexq22@pengutronix.de>
 MIME-Version: 1.0
-From:   Adam Vodopjan <adam.vodopjan@gmail.com>
-Subject: Bug report for input-leds driver
-To:     linux-leds@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221210224154.733cd5qnrkpexq22@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        SUSPICIOUS_RECIPS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Speaking about laptop Acer 5920G and its numlock led. The keyboard lacks a
-numpad, instead a block of keys acts as a numpad if I press Fn+NumLk.
+On Sat, Dec 10, 2022 at 11:41:54PM +0100, Uwe Kleine-König wrote:
+> On Sat, Dec 10, 2022 at 10:57:16PM +0200, Andy Shevchenko wrote:
+> > On Sat, Dec 10, 2022 at 10:18:33AM +0100, Uwe Kleine-König wrote:
+> > > On Fri, Dec 09, 2022 at 11:47:54PM +0200, Andy Shevchenko wrote:
+> > > > On Wed, Nov 30, 2022 at 04:21:37PM +0100, Uwe Kleine-König wrote:
 
-The problem in short is when I set /sys/class/leds/input4::numlock/trigger
-to some hardware activity like "disk-read" each time the led is ON the
-keyboard behaves weird.
+...
 
-To make everything clear let me introduce some modes keyboards work in
-related to numlock status:
+> > > > I'm wondering why we didn't see a compiler warning about mistyped function
+> > > > prototypes in some drivers.
+> > > 
+> > > I don't understand where you expected a warning. Care to elaborate?
+> > 
+> > intel-lpss.c has the prototype that returns an int. IIRC it was like this
+> 
+> Do you mean drivers/mfd/intel-lpss.c? That one doesn't implement a PWM?!
 
-- numpad_decicated_off: keyboard has a dedicated numpad and numlock is
-OFF. The numpad emits arrows, page up/down etc
+Nope, I meant pwm-lpss.c.
 
-- numpad_dedicated_on: keyboard has a dedicated numpad and numlock is ON.
-The numpad emits numbers
+> And drivers/pwm/pwm-lpss.c is adapted by this series.
 
-- numpad_overlay_off: there is no dedicated numpad, but some keys
-optionally emit numbers, and numlock if OFF. "Overlay" keys emit "normal"
-keypresses
+That's what I didn't see how.
 
-- numpad_overlay_on: there is no dedicated numpad, but some keys
-optionally emit numbers, and numlock if ON. "Overlay" keys emit numbers
+> One of us is confused ...
 
-For my laptop I expect modes numpad_overlay_off and numpad_overlay_on to
-be only available.
+Yes, because when I have checked the branch based on Linux Next I already saw
+that get_state() returns a code and I wasn't aware that the series is already
+there.
 
-Numlock led is available at /sys/class/leds/input4::numlock. I wanted to
-repurpose it. So with the trigger value set to "phy0tpt" instead of
-"kbd-numlock" it works as supposed for the led BUT it makes my keyboard
-work in numpad_decicated_off mode when the led is ON. When the led is OFF
-the keyboard is in mode numpad_overlay_off as it should be.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Here are the keypresses I get from the "overlay" keys.
 
-- the trigger is set to "kbd-numlock", numlock is OFF. As expected, it is
-numpad_overlay_off mode:
-
-7 8 9 0
-u i o p
-j k l ;
-m   . /
-
-- the trigger is set to "kbd-numlock", numlock is ON. As expected, it is
-numpad_overlay_on mode:
-
-7 8 9 /
-4 5 6 *
-1 2 3 -
-0   . +
-
-Now, I have numlock OFF and set the trigger to "phy0tpt". Some ping runs
-in background so the led blinks all the time.
-
-- the led is OFF. As expected, it is numpad_overlay_off mode:
-
-7 8 9 0
-u i o p
-j k l ;
-m   . /
-
-- the led is ON. Surprisingly, it is numpad_decicated_off mode instead of
-numpad_overlay_off:
-
-^[[H  ^[[A ^[[5~ /     =     Home Up   PgUp  /
-^[[D  ^[[E ^[[C  *     =     Left ??   Right *
-^[[F  ^[[B ^[[6~ -     =     End  Down PgDn  -
-^[[2~      ^[[3~ +     =     Ins       Del   +
-
-For example with some ping in background and the trigger set to "phy0tpt"
-here is what I get clicking "p": p***pp***pp***pp**ppp***pppp**p
-
-Mby it is worth to mention I tried such triggers: disk-activity disk-read
-disk-write ide-disk phy0rx phy0tx phy0tpt. All of those demonstrate the
-same behavior.
-
-I tried different kernels starting from 4.2 (when input-leds was
-introduced) up to 6.0.10. It is all the same.
-From 
-Message-ID: <fe3acb26-da86-6e03-d91a-27ebbfafe51e@gmail.com>
-Date: Sun, 11 Dec 2022 12:11:06 +0200
-MIME-Version: 1.0
-From: Adam Vodopjan <adam.vodopjan@gmail.com>
-Subject: Bug report
