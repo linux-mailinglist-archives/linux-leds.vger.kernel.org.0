@@ -2,84 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6FF3649797
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Dec 2022 02:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B26AD6497D5
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Dec 2022 03:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbiLLBGb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 11 Dec 2022 20:06:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
+        id S230474AbiLLCDZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 11 Dec 2022 21:03:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbiLLBG1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Dec 2022 20:06:27 -0500
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26ABDD2CC;
-        Sun, 11 Dec 2022 17:06:24 -0800 (PST)
-Received: by mail-oi1-f177.google.com with SMTP id r11so9877199oie.13;
-        Sun, 11 Dec 2022 17:06:24 -0800 (PST)
+        with ESMTP id S230363AbiLLCDY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Dec 2022 21:03:24 -0500
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693DB5F6D;
+        Sun, 11 Dec 2022 18:03:23 -0800 (PST)
+Received: by mail-ot1-x32e.google.com with SMTP id m6-20020a9d7e86000000b0066ec505ae93so6438066otp.9;
+        Sun, 11 Dec 2022 18:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O3rKZy7knIre59rDn95jpx/diIMmgY2qf/hPmfPVQfg=;
+        b=MtvEX0MLhOl3lgLjdO4WCbSYuXU2lRejclt8S5FVftF+3RHNYM1sDvss4mR1XRVDMN
+         8+49gnHJsqFjnnyfsIB1o7mJiM3nlMY/z9/fk3eOKx1jss4eQ46KkGMZqYnqervFZU+P
+         2+epH7pCzkLYg4suXtZ1dFQNoFh6JGds8DBBj0cSnW1iT0s5Wica5iayzNsZpMQ8xoj+
+         plybaKMoBrQ9gLglzn1kiAsHrH0BNQu7RepURdkRUoQXvKb0povs8ggkYMbfxOEpLxnY
+         39GNRYQFzpP++gUgU6fQ71p4tAV6TP6hSIXLAPHd6UB7mosKHDUTwseqMfy+9PIWr2x5
+         UfkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R095u0ECY7gduOhAdXH+aBPULHXe+RvaEl97K29Dlbc=;
-        b=FCu9qVw9rnxLY/OF46HQyUUqxQrT4krC9E0ukCswU/VoCxeQEa5ZuUGpkKab9cIKWf
-         kuucKOWNTzYCVN2FhSJAjFayaVUtkVWLoFFrIpV+lUuvNghpfCavojStLZ6Aa07HC+rQ
-         5Ikf6IoC4f71T850u1q3FekHYLn31NvhQ+Mhn5nOua96k6Svd/lkJCxoBJ8ozkQF3NBG
-         mbz1EmviGUQdriOZvzsuQUoN6HCtbCxHqegry9GIacBcocWW8Lk7LZT+cpNLz+0CvGkT
-         hr26A8CofXXJ3nSO6P9fbcclBoqqjfN2w8dV1CidZVNv1Od53PZ3dzLreSulF2kWnB2o
-         PbwQ==
-X-Gm-Message-State: ANoB5pkNPemQWzhFG7bOo7nZGodh8l0fCA9eMagOanEw1fFkoTTj9Z0o
-        QAc4jNzkK8wQEk00eTcQ2g==
-X-Google-Smtp-Source: AA0mqf4/W5qvcKB1Y2rauksdOsUJfiC/Fln3B+N4KfJRRrTkSuCiywO02EfmqJ0oV5OYPEYAUPOi1w==
-X-Received: by 2002:aca:db42:0:b0:35e:563:e0d6 with SMTP id s63-20020acadb42000000b0035e0563e0d6mr5827297oig.38.1670807183387;
-        Sun, 11 Dec 2022 17:06:23 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id a14-20020a05680802ce00b0035763a9a36csm83036oid.44.2022.12.11.17.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 17:06:23 -0800 (PST)
-Received: (nullmailer pid 4116798 invoked by uid 1000);
-        Mon, 12 Dec 2022 01:06:22 -0000
-Date:   Sun, 11 Dec 2022 19:06:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        linux-leds@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mallikarjuna reddy <mallikarjunax.reddy@intel.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Yi Xin <Yixin.zhu@intel.com>
-Subject: Re: [PATCH 2/2] dt-bindings: leds: Add missing references to common
- LED schema
-Message-ID: <167080717944.4116695.13591532895115517569.robh@kernel.org>
-References: <20221207204327.2810001-1-robh@kernel.org>
- <20221207204327.2810001-2-robh@kernel.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O3rKZy7knIre59rDn95jpx/diIMmgY2qf/hPmfPVQfg=;
+        b=JqpO1nJlV1AWqtOPHS/S5zGYeem/n+oDGLqYQ2rxXJL30uZztkZtjPHYSX0WQ2kW7Z
+         lNvsUBacBZDPtEwCuNskFf0UHzLgRGjgY0lcur4kfS6qdiZcfuZF6Mb5gtygmXzOve1p
+         S9DwlxQlUmpE1+yF/BSiHdXgjT3h8SUH6y9FXCczsVY5AtW/oFDsYGdxt/hGkq6byqRl
+         YYxbZA2kxFJVKxkNuhTmcriWC1wDFG/5JXJhqjI53cdCosEdceJX/3pTpFt6inxbjTNm
+         hq88ecZa2YoeTff7qp6Bfg5FfyU5v37HuaMcy9XKKxD8ckIs3VnHxDOAwCt21ldmL2ak
+         Cm4Q==
+X-Gm-Message-State: ANoB5pmrZpcpfVFk9d8z2lbwQInAN83gqljKDSi0hh3RzdxqTQPvKomn
+        jWkWblQCt7PfMbOOETCDWvkl662EGFh9wbx5pihXUUaB
+X-Google-Smtp-Source: AA0mqf7Gk0YnBEsh+97aXLYKTsvWsgV77dkdZ74N3EMA9AiXwPw0bflciPXN9PRyDOvWldvhUJrh0Bmn6ThIPpVJfUc=
+X-Received: by 2002:a05:6830:699b:b0:66e:7ba6:5e0f with SMTP id
+ cy27-20020a056830699b00b0066e7ba65e0fmr15750720otb.312.1670810602679; Sun, 11
+ Dec 2022 18:03:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221207204327.2810001-2-robh@kernel.org>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20221207040904.582585-1-gch981213@gmail.com> <20221207040904.582585-3-gch981213@gmail.com>
+ <dc0254dc-ef1b-d5fb-163e-281c725a3dcd@linaro.org>
+In-Reply-To: <dc0254dc-ef1b-d5fb-163e-281c725a3dcd@linaro.org>
+From:   Chuanhong Guo <gch981213@gmail.com>
+Date:   Mon, 12 Dec 2022 10:03:11 +0800
+Message-ID: <CAJsYDVLEFtVeCJBVo5Km4+Msdt=A1H4LZnRnqueqgqgnUhLs+A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] dt-bindings: leds: add dt schema for worldsemi,ws2812b
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi!
 
-On Wed, 07 Dec 2022 14:43:27 -0600, Rob Herring wrote:
-> 'led' nodes should have a reference to LED common.yaml schema. Add it where
-> missing and drop any duplicate properties.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/leds/leds-lgm.yaml       |  3 ++-
->  .../devicetree/bindings/leds/leds-max77650.yaml  |  9 ++-------
->  .../bindings/leds/rohm,bd71828-leds.yaml         | 16 +++-------------
->  3 files changed, 7 insertions(+), 21 deletions(-)
-> 
+On Thu, Dec 8, 2022 at 3:52 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 07/12/2022 05:09, Chuanhong Guo wrote:
+> > Add dt binding schema for WorldSemi WS2812B driven using SPI
+> > bus.
+> >
+> > Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> > ---
+> > Changes since v1:
+> > remove linux driver reference from description
+> > remove some obvious descriptions
+> > fix unit address regex in multi-led property
+> > drop various minItems
+> > add maxItems = 1 to reg
+> > fix node names and property orders in binding example
+> > drop -spi from compatible string
+> > add default-brightness
+> >
+> > Change since v2:
+> > drop "this patch" from commit message
+> > rename leds to led-controller
+> > drop default-brightness and default-intensity
+> >
+> >  .../bindings/leds/worldsemi,ws2812b.yaml      | 116 ++++++++++++++++++
+> >  1 file changed, 116 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> > new file mode 100644
+> > index 000000000000..548c05ac3d31
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> > @@ -0,0 +1,116 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: WS2812B LEDs driven using SPI
+> > +
+> > +maintainers:
+> > +  - Chuanhong Guo <gch981213@gmail.com>
+> > +
+> > +description: |
+> > +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
+> > +  together and controlled individually using a single wire.
+> > +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
+> > +  Typical setups includes connecting the data pin of the LED chain to MOSI as
+> > +  the only device or using CS and MOSI with a tri-state voltage-level shifter
+> > +  for the data pin.
+> > +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
+> > +  and the controller needs to send all the bytes continuously.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: worldsemi,ws2812b
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  spi-max-frequency:
+> > +    minimum: 2105000
+> > +    maximum: 2850000
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +patternProperties:
+> > +  "^multi-led@[0-9a-f]+$":
+> > +    type: object
+> > +    $ref: leds-class-multicolor.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      color-index:
+> > +        description: |
+> > +          A 3-item array specifying color of each components in this LED. It
+> > +          should be one of the LED_COLOR_ID_* prefixed definitions from the
+> > +          header include/dt-bindings/leds/common.h. Defaults to
+> > +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
+> > +          if unspecified.
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+>
+> Hmm, maybe we should add more colors the "color" property, like
+> LED_COLOR_ID_GRB, LED_COLOR_ID_BRG, LED_COLOR_ID_BGR?
 
-Applied, thanks!
+Considering the existence of RGBW LEDs, this approach means adding
+30 more COLOR_IDs. I think that's too many entries and is inconvenient
+to parse in code.
+
+> Rest look ok for me. If there is going to be resend, drop redundant "dt
+> schema for" from the subject.
+
+OK.
+
+-- 
+Regards,
+Chuanhong Guo
