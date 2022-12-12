@@ -2,94 +2,169 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 362C4649F6E
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Dec 2022 14:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0327164A2B5
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Dec 2022 14:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231370AbiLLNIl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 12 Dec 2022 08:08:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38118 "EHLO
+        id S233216AbiLLN7O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 12 Dec 2022 08:59:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232125AbiLLNIe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 12 Dec 2022 08:08:34 -0500
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3435A47A
-        for <linux-leds@vger.kernel.org>; Mon, 12 Dec 2022 05:08:32 -0800 (PST)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-3cbdd6c00adso144534567b3.11
-        for <linux-leds@vger.kernel.org>; Mon, 12 Dec 2022 05:08:32 -0800 (PST)
+        with ESMTP id S233212AbiLLN7M (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 12 Dec 2022 08:59:12 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 318F5CC4
+        for <linux-leds@vger.kernel.org>; Mon, 12 Dec 2022 05:59:10 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id d14so12924772edj.11
+        for <linux-leds@vger.kernel.org>; Mon, 12 Dec 2022 05:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=fairphone.com; s=fair;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VYeWDmjLYcTiLYEYpGdYdeFk+Wlp6dc41MHgDxnHonk=;
-        b=TMVnu4oDVAjwQo2ueybgeBTQaW39HyuM4S/0xkCBZNA9zk/cHROmDWJst9hspswZag
-         QIwXlM0Yb78xudSshA318tgegOZCJLSc27ebupa2J5AFwpmot+icGHKgtGxovMn/ud4M
-         AfLEhbOFco/5T0b6RgquRBFzr3wy5ixwKbGvJk8bC7DojUBbqXgkGPDrU2tasLXQcOLR
-         ntdJkvDsOu1ji7+DFQJoxM4AGllFHdU2jvFmjsV81QkmecaUJaF5sD6KMK+2sOtX+U4L
-         jPueMFT39+2NxCIqboB1xTBwWKHALQlHFwPp3LgZ+L6aTOth7pXuPyKOxQuTXrSk5dpB
-         DoBg==
+        bh=QtYlaqGdtJxrt6tCxnP2pU5hNT62Vr9duNMI743UGxg=;
+        b=uReIWLwHmmMLMnNVhBwF5CLAeppTLhyvi38h3PChAUjN7B1EzzbmGAAA2C9Fn+2eXF
+         Iklh8Gd3mi6X4L+A6Y/GvjIwWnwjtNYszWFL6aIBVhpAuLFxSxS5/2foKo0IOq8Ow2L8
+         GbHOkdb+D0vtsH95Xc6g/gnKBf0SD/1p/z0RSodEcJcQxpxPQVmdOY3BvgJ7kFTCmt2A
+         0hvSzgEfvbe1Tlo1C6peMjTgsHRK9pOgrNFi49n+35bKYgRNH76Ll5pRhe5cPFRk2/OF
+         z6PVEy5eQeUGTV85L58Cn/cVAtIgJ+o93coccOp6yIQi/24G71z6jLjD0oGqT17A4BOc
+         94Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VYeWDmjLYcTiLYEYpGdYdeFk+Wlp6dc41MHgDxnHonk=;
-        b=dTLz+1XEOSOeCmBl2qjPygqO58QghcxzyTacJHDUsZy46djChjJnmVIHhHByftSrGk
-         cxQjg1VgF/jJz/FYGJrwjGD8tnwiAyjFaYQ0WeZloOfOLy7JJz33rdYvCtsDeJb/guT3
-         N9ZGm9IUZwz1taG35QvDFHS6reyYGFJlLevvXDEtn6RkccQsedgcWsQ/uRSpF9yMYYCg
-         FkLOjf5cwhlmZCfq8416ybguzbTWoLPWEI9PXiMyq+mmHxxqUVm6yPpryJ7aLr8gK1+U
-         F/YzT5bmL/lwaXV8dq7Mol5uq0gWeqtpKvuPXnOEIlqaI1Q0XAQXsJHxe1jD01t9NeW7
-         4vbA==
-X-Gm-Message-State: ANoB5pk+dWyzbSZhavk+/I0mXGIBmqU/YsouaefrIr24ZOJIZndrq80d
-        3xLymzVKmodJiRx6UA7a953YT5zW7GQGaI7XCBMUfA==
-X-Google-Smtp-Source: AA0mqf4El+CPKJ9CeoLZ+zzTZHIdrpCgYQdXK9NNf5joMEkI0DVQUMGXqvULtsXeAUtOOc4xLFizwJUzwRHGh3pnOLg=
-X-Received: by 2002:a0d:ebc3:0:b0:3d7:b4:9879 with SMTP id u186-20020a0debc3000000b003d700b49879mr38387562ywe.370.1670850511805;
- Mon, 12 Dec 2022 05:08:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20221028064141.2171405-1-clabbe@baylibre.com> <Y5clqogvKUjk+KN9@Red>
-In-Reply-To: <Y5clqogvKUjk+KN9@Red>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 12 Dec 2022 14:08:20 +0100
-Message-ID: <CACRpkdYF5Y-qVTzojHNiZtT4PndeUzPOT26NY-WWc49+vBbyyw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: common: add disk write/read and usb-host/usb-gadget
-To:     Corentin LABBE <clabbe@baylibre.com>
-Cc:     pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QtYlaqGdtJxrt6tCxnP2pU5hNT62Vr9duNMI743UGxg=;
+        b=a1qn/CemWoJW+OdxbtGRZOx/pWlNAQnt323PrSVhSPnXX6uM/V06/sOrfTDzrZI4bJ
+         eW4r+O/QIgk/F2ntpy9/ViljIYlJIVJKi63BMc6E0l2hEbXqPnYFXZJ6YL//pElVN6cN
+         3g3Xqerm6v/FQGoDcXz+x/N0AWeONr6Ilv6JGrkW8YgF+RVYf7p5dRHpKmcTqpZiIaqN
+         8oiiCGqOXqklbFavaOkXNlR6Tzt3sSY+3scmDsQoepdfzgS86WQJ9Jz4nl9+Ludi71M1
+         sWBI7mm5ITPDraiTYn+qnLHlrnV+whQzaMcuITx+mwddav6PKPsHIntLjy3J/Cs0sXWG
+         ZGfw==
+X-Gm-Message-State: ANoB5pnIuEBiJAAzqJMwjsN6xI1bvpQoo8ahyWZVsA6IZtPy5O4y6cR6
+        SG+RyOxNg0M849OJCPNG7IrKQQ==
+X-Google-Smtp-Source: AA0mqf4tOND28LLNS8ITj5qbVR699j7JeSEtMy91OxQ+pZSLjk9/ltkugQWJCb4SjQKaf1wcFWKgSw==
+X-Received: by 2002:a05:6402:2408:b0:461:f0a7:156 with SMTP id t8-20020a056402240800b00461f0a70156mr14313686eda.36.1670853548686;
+        Mon, 12 Dec 2022 05:59:08 -0800 (PST)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id y15-20020a056402170f00b0045726e8a22bsm3770267edu.46.2022.12.12.05.59.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Dec 2022 05:59:08 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 12 Dec 2022 14:59:07 +0100
+Message-Id: <COZW5FAXA36Z.175ARPIESQSLL@otso>
+To:     "Pavel Machek" <pavel@ucw.cz>
+Cc:     "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        "Fenglin Wu" <quic_fenglinw@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: configure
+ flash LED
+From:   "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.13.0
+References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
+ <20221209-fp4-pm6150l-flash-v1-3-531521eb2a72@fairphone.com>
+ <Y5S+6j1yJ62RJU/v@duo.ucw.cz>
+In-Reply-To: <Y5S+6j1yJ62RJU/v@duo.ucw.cz>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 1:59 PM Corentin LABBE <clabbe@baylibre.com> wrote:
-> Le Fri, Oct 28, 2022 at 06:41:40AM +0000, Corentin Labbe a =C3=A9crit :
-> > The triggers enum misses 3 cases used by gemini DT.
-> > usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for =
-USB activity")
-> > so we add also as valid trigger usb-gadget which was added along in thi=
-s
-> > commit.
-> >
-> > disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends =
-disk trigger for reads and writes")
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Acked-by: Rob Herring <robh@kernel.org>
-> >
+On Sat Dec 10, 2022 at 6:16 PM CET, Pavel Machek wrote:
+> Hi!
 >
-> Hello Pavel Machek and Lee Jones
+> > Configure the pm6150l flash node for the dual flash LEDs found on FP4.
 >
-> The two patch are reviewed, could you take them to your tree ?
+> > +&pm6150l_flash {
+> > +	status =3D "okay";
+> > +
+> > +	led-0 {
+> > +		function =3D LED_FUNCTION_FLASH;
+> > +		color =3D <LED_COLOR_ID_YELLOW>;
+> > +		led-sources =3D <1>;
+> > +		led-max-microamp =3D <180000>;
+> > +		flash-max-microamp =3D <1000000>;
+> > +		flash-max-timeout-us =3D <1280000>;
+> > +	};
 
-If the subsystem maintainers are too busy to respond, maybe you can propose
-it for merging through the SoC tree? It's a common last way out.
+Hi Pavel,
 
-Yours,
-Linus Walleij
+>
+> I'm pretty sure the flash is not yellow.
+
+The marketing term is Dual LED flash or Dual-tone flash, one LED is a
+blue-ish white and one is a yellow-ish white, but from what I can tell,
+in the original code it's always referred to as white and yellow so I
+also followed that here.
+
+Also the LEDs are right next to each other so in practise for torch just
+both go on, and for camera flash I cannot really tell you but I guess
+it's doing something there with the camera tuning.
+
+See also this picture:
+https://shop.fairphone.com/media/catalog/product/cache/b752d78484639b19641a=
+8560800d919d/p/_/p_5b_main_camera_back.jpg
+
+>
+> Plus, how is the node in /sys/class/leds called? Can you make an entry
+> in Documentation/leds/well-known-leds.txt and ensure the name stays
+> consistent across devices?
+
+/ # ls -al /sys/class/leds/white:flash/
+total 0
+drwxr-xr-x    3 0        0                0 Jan  1 00:00 .
+drwxr-xr-x    4 0        0                0 Jan  1 00:00 ..
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 brightness
+lrwxrwxrwx    1 0        0                0 Jan  1 00:00 device -> ../../..=
+/c440000.spmi:pmic@5:led-controller@d300
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_brightness
+-r--r--r--    1 0        0             4096 Jan  1 00:00 flash_fault
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_strobe
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_timeout
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_brightness
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_brightne=
+ss
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_timeout
+drwxr-xr-x    2 0        0                0 Jan  1 00:00 power
+lrwxrwxrwx    1 0        0                0 Jan  1 00:00 subsystem -> ../..=
+/../../../../../../../class/leds
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 uevent
+/ # ls -al /sys/class/leds/yellow:flash/
+total 0
+drwxr-xr-x    3 0        0                0 Jan  1 00:00 .
+drwxr-xr-x    4 0        0                0 Jan  1 00:00 ..
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 brightness
+lrwxrwxrwx    1 0        0                0 Jan  1 00:00 device -> ../../..=
+/c440000.spmi:pmic@5:led-controller@d300
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_brightness
+-r--r--r--    1 0        0             4096 Jan  1 00:00 flash_fault
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_strobe
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_timeout
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_brightness
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_brightne=
+ss
+-r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_timeout
+drwxr-xr-x    2 0        0                0 Jan  1 00:00 power
+lrwxrwxrwx    1 0        0                0 Jan  1 00:00 subsystem -> ../..=
+/../../../../../../../class/leds
+-rw-r--r--    1 0        0             4096 Jan  1 00:00 uevent
+
+There's also already flash LED on PinePhone and some MSM8916 devices,
+but I think they also have white:flash based on the dt.
+
+>
+> Best regards,
+> 								Pavel
+> --=20
+> People of Russia, stop Putin before his war on Ukraine escalates.
+
