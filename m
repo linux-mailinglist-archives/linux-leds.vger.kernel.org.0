@@ -2,449 +2,207 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BDDD64D25B
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Dec 2022 23:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C488664D414
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Dec 2022 00:58:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiLNW0L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Dec 2022 17:26:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58034 "EHLO
+        id S230117AbiLNX6y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Dec 2022 18:58:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiLNW0E (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Dec 2022 17:26:04 -0500
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6EFB5A
-        for <linux-leds@vger.kernel.org>; Wed, 14 Dec 2022 14:25:44 -0800 (PST)
-Date:   Wed, 14 Dec 2022 22:25:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-        s=protonmail; t=1671056739; x=1671315939;
-        bh=fCjZ01b416oyScYba51GRyq2LARb+T4ybTgLUAZHw2k=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=KZSq8iu0A1xmhPHoy0c06AGXzTTLEcXCxhCuzRda/9pUAl6ipH4759WqMtiiQirpO
-         VvlOAf6LkrW//eDQJctsK0qSbY1Dqj1LPqRHPcMQjxvYMovjn/edIiBcxqmYjIn9nR
-         3ulfDOb3skj98WqFESPxZcBo7f9T4oCzIW2daeBhkk2reUUWk7cgDEWk6gwKvgs27q
-         e9Bin2JzTK7OvHK8W+khm7NAmVzUdX1nFi28WT//rQd0koc7WAeAVO74vEfy6rPm1N
-         qeetfsnZ10xWV8Vqz8AbIxQtMq8DR+B1fVVQPpLpWXsZ1RH44Ht+Hiaeu4aW4dlMe4
-         hRlXgM8VhAIkA==
-To:     pavel@ucw.cz, lee@kernel.org, jansimon.moeller@gmx.de
-From:   Joseph Strauss <jstrauss16@proton.me>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Joseph Strauss <jstrauss16@proton.me>
-Subject: [PATCH RESEND] Add multicolor support to BlinkM LED driver
-Message-ID: <20221214222428.7518-1-jstrauss16@proton.me>
-Feedback-ID: 52406082:user:proton
+        with ESMTP id S229832AbiLNX6b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Dec 2022 18:58:31 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C071C37F89;
+        Wed, 14 Dec 2022 15:55:36 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id bg10so12639441wmb.1;
+        Wed, 14 Dec 2022 15:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0acZiAt08vPMW/QCN34b28bDKVCUpWRirnFpjrDBh8=;
+        b=oBa4p7v0MTw11EnJHwrSnuNi2eoVVvWAIf2Ys/jzUfa2IU/hs2sSEH0JsBwnXwnN3g
+         ueNtvegrhMsYKkGirDyKyt3k8djsY5Z0bLh4dmgqlsvpLQ14GosnZiR3AGOr6MhY6CFC
+         6flKl5/kRWaTPxpwI0PUBzHRzgohSfl7H9scj46EgGZ2/x32m6d82qHOWIHilLnauNsk
+         SUjrioCmX3J0G00g3RgLi9sErOK0iXTuxi+6xwoVezWh90bGHQo36GQCxPhqUeAxiiR7
+         PAWdP8D7jeyt63bdCz0vMGMM36AkdlWNJRFIbIeil8ECsQZo7cBhJXciPW/0Jaxatgy1
+         JFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g0acZiAt08vPMW/QCN34b28bDKVCUpWRirnFpjrDBh8=;
+        b=IeX2pNm1PjLTXlR/tN6/MboRuB63hriEYhbq/nG26P9YB6EEXZME4Hqx2cFkRtgvo6
+         oEcywLDOY9UJFMXAkOsYU296by4/RXOYnRdhNYYI5fhOYjMXVmCHIbnLDg3QHGZjaEtL
+         R3J2uGhHELN8sXwR1LJYSWPLLOUsepmYkoa2yOd1itb59BIAQYM8yruhvt/goUe5mrcx
+         X5z6+Nm/aRxvLnAsckXXxdzZtAWILrCTOOcirbFwRV0i6NU+XAXQne5djEvdBrNpmVrX
+         kRUUrGa2sm1lSkDt6xvLEEoj0fSEJPf9Li9tVxlHD5z22tUQQFwv5ZPtx5rxHT06hgYN
+         xioA==
+X-Gm-Message-State: ANoB5pm8cprtqQlre5q7EinLY6xjR7otFmXt0h9oSvc5swATiCHbtdr4
+        UQHPHl751dCGqUW1GZ/2uxs=
+X-Google-Smtp-Source: AA0mqf5eKk5Xt5xKisW4kLpGaP4bMina+srdRvA69aSzaFVS9eniboyL5Y9NaYXKn754SoAUD/nOpg==
+X-Received: by 2002:a05:600c:3c90:b0:3cf:6f4d:c259 with SMTP id bg16-20020a05600c3c9000b003cf6f4dc259mr21151780wmb.39.1671062106592;
+        Wed, 14 Dec 2022 15:55:06 -0800 (PST)
+Received: from localhost.localdomain (93-42-71-18.ip85.fastwebnet.it. [93.42.71.18])
+        by smtp.googlemail.com with ESMTPSA id u2-20020adff882000000b00241d21d4652sm4163549wrp.21.2022.12.14.15.55.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 15:55:05 -0800 (PST)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH v7 00/11] Adds support for PHY LEDs with offload triggers
+Date:   Thu, 15 Dec 2022 00:54:27 +0100
+Message-Id: <20221214235438.30271-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Added multicolor support to the BlinkM driver, making it easier to
-control from userspace. The BlinkM LED is a programmable RGB LED. The
-driver currently supports only the regular LED sysfs class, resulting in
-the creation of three distinct classes, one for red, green, and blue.
-The user then has to input three values into the three seperate
-brightness files within those classes. The multicolor LED framework
-makes the device easier to control with the multi_intensity file: the
-user can input three values at once to form a color, while still
-controlling the lightness with the brightness file.
-
-The main struct blinkm_led has changed slightly. A struct
-led_classdev_mc has been added to represent the multicolor sysfs class,
-and an additional struct led_classdev pointer has been added for
-convenience, which points to the struct led_classdev within struct
-led_classdev_mc. The struct led_classdev for the regular sysfs classes
-remain. Additionally, a field representing the multicolor LED has been
-added to the struct blinkm_data, seperate from the blinkm_leds[3] array.
-
-In the blinkm_probe function, the multicolor LED class is registered
-after the regular LED classes. The blinkm_set_brightness_mc() function
-had to be added to calculate the three color components and then set the
-fields of the blinkm_data structure accordingly.
-
-Signed-off-by: Joseph Strauss <jstrauss16@proton.me>
-
----
- Documentation/leds/leds-blinkm.rst |  24 ++++-
- drivers/leds/Kconfig               |   1 +
- drivers/leds/leds-blinkm.c         | 154 ++++++++++++++++++++++++-----
- 3 files changed, 151 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-b=
-linkm.rst
-index c74b5bc877b1..3f5dbd5e97b0 100644
---- a/Documentation/leds/leds-blinkm.rst
-+++ b/Documentation/leds/leds-blinkm.rst
-@@ -13,9 +13,27 @@ The device accepts RGB and HSB color values through sepa=
-rate commands.
- Also you can store blinking sequences as "scripts" in
- the controller and run them. Also fading is an option.
-
--The interface this driver provides is 2-fold:
-+The interface this driver provides is 3-fold:
-
--a) LED class interface for use with triggers
-+a) LED multicolor class interface for use with triggers
-+#######################################################
-+
-+The registration follows the scheme::
-+
-+  blinkm-<i2c-bus-nr>-<i2c-device-nr>-multi
-+
-+  $ ls -h /sys/class/leds/blinkm-1-9-multi
-+  brightness  device  max_brightness  multi_index  multi_intensity  power =
- subsystem  trigger  uevent
-+
-+The order in which to write the intensity values can be found in multi_ind=
-ex.
-+Exactly three values between 0 and 255 must be written to multi_intensity =
-to change the color::
-+
-+  $ echo 255 100 50 > multi_intensity
-+
-+The overall brightness of the color that you choose can also be changed by
-+writing a value between 0 and 255 to the brightness file.
-+
-+b) LED class interface for use with triggers
- ############################################
-
- The registration follows the scheme::
-@@ -50,7 +68,7 @@ E.g.::
-   $
+This is another attempt on adding this feature on LEDs, hoping this is
+the right time and someone finally notice this.
 
 
--b) Sysfs group to control rgb, fade, hsb, scripts ...
-+c) Sysfs group to control rgb, fade, hsb, scripts ...
- #####################################################
+Most of the times Switch/PHY have connected multiple LEDs that are
+controlled by HW based on some rules/event. Currently we lack any
+support for a generic way to control the HW part and normally we
+either never implement the feature or only add control for brightness
+or hw blink.
 
- This extended interface is available as folder blinkm
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b6742b4231bf..6f73deb7d95c 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -787,6 +787,7 @@ comment "LED driver for blink(1) USB RGB LED is under S=
-pecial HID drivers (HID_T
- config LEDS_BLINKM
- =09tristate "LED support for the BlinkM I2C RGB LED"
- =09depends on LEDS_CLASS
-+=09depends on LEDS_CLASS_MULTICOLOR
- =09depends on I2C
- =09help
- =09  This option enables support for the BlinkM RGB LED connected
-diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
-index b4e1fdff4186..a78bcc2eaff3 100644
---- a/drivers/leds/leds-blinkm.c
-+++ b/drivers/leds/leds-blinkm.c
-@@ -15,6 +15,9 @@
- #include <linux/pm_runtime.h>
- #include <linux/leds.h>
- #include <linux/delay.h>
-+#include <linux/led-class-multicolor.h>
-+
-+#define NUM_LEDS 3
+This is based on Marek idea of providing some API to cled but use a
+different implementation that in theory should be more generilized.
 
- /* Addresses to scan - BlinkM is on 0x09 by default*/
- static const unsigned short normal_i2c[] =3D { 0x09, I2C_CLIENT_END };
-@@ -22,19 +25,26 @@ static const unsigned short normal_i2c[] =3D { 0x09, I2=
-C_CLIENT_END };
- static int blinkm_transfer_hw(struct i2c_client *client, int cmd);
- static int blinkm_test_run(struct i2c_client *client);
+The current idea is:
+- LED driver implement 3 API (hw_control_status/start/stop).
+  They are used to put the LED in hardware mode and to configure the
+  various trigger.
+- We have hardware triggers that are used to expose to userspace the
+  supported hardware mode and set the hardware mode on trigger
+  activation.
+- We can also have triggers that both support hardware and software mode.
+- The LED driver will declare each supported hardware blink mode and
+  communicate with the trigger all the supported blink modes that will
+  be available by sysfs.
+- A trigger will use blink_set to configure the blink mode to active
+  in hardware mode.
+- On hardware trigger activation, only the hardware mode is enabled but
+  the blink modes are not configured. The LED driver should reset any
+  link mode active by default.
 
-+/* Contains data structures for both the color-seperated sysfs classes, an=
-d the new multicolor class */
- struct blinkm_led {
- =09struct i2c_client *i2c_client;
--=09struct led_classdev led_cdev;
-+=09struct led_classdev monochrome_led_cdev;
-+=09/* points to struct led_classdev inside of struct led_classdev_mc */
-+=09struct led_classdev *led_cdev;
-+=09struct led_classdev_mc mcled_cdev;
- =09int id;
- };
+Each LED driver will have to declare explicit support for the offload
+trigger (or return not supported error code) as we the trigger_data that
+the LED driver will elaborate and understand what is referring to (based
+on the current active trigger).
 
--#define cdev_to_blmled(c)          container_of(c, struct blinkm_led, led_=
-cdev)
-+#define monochrome_led_cdev_to_blmled(c)=09container_of(c, struct blinkm_l=
-ed, monochrome_led_cdev)
-+#define mcled_cdev_to_led(c)=09=09=09=09container_of(c, struct blinkm_led,=
- mcled_cdev)
+I posted a user for this new implementation that will benefit from this
+and will add a big feature to it. Currently qca8k can have up to 3 LEDs
+connected to each PHY port and we have some device that have only one of
+them connected and the default configuration won't work for that.
 
- struct blinkm_data {
- =09struct i2c_client *i2c_client;
- =09struct mutex update_lock;
- =09/* used for led class interface */
-+=09struct blinkm_led mc_blinkm_led;
- =09struct blinkm_led blinkm_leds[3];
-+
- =09/* used for "blinkm" sysfs interface */
- =09u8 red;=09=09=09/* color red */
- =09u8 green;=09=09/* color green */
-@@ -260,9 +270,9 @@ static ssize_t test_show(struct device *dev, struct dev=
-ice_attribute *attr,
- static ssize_t test_store(struct device *dev, struct device_attribute *att=
-r,
- =09=09=09  const char *buf, size_t count)
- {
--
- =09struct i2c_client *client;
- =09int ret;
-+
- =09client =3D to_i2c_client(dev);
+The netdev trigger is expanded and it does now support hardware only
+triggers.
+The idea is to use hardware mode when a device_name is not defined.
+An additional sysfs entry is added to give some info about the available
+trigger modes supported in the current configuration.
 
- =09/*test */
-@@ -317,6 +327,7 @@ static int blinkm_read(struct i2c_client *client, int c=
-md, u8 *arg)
- =09int result;
- =09int i;
- =09int retlen =3D blinkm_cmds[cmd].nr_ret;
-+
- =09for (i =3D 0; i < retlen; i++) {
- =09=09/* repeat for retlen */
- =09=09result =3D i2c_smbus_read_byte(client);
-@@ -419,11 +430,53 @@ static int blinkm_transfer_hw(struct i2c_client *clie=
-nt, int cmd)
- =09return 0;
- }
 
-+static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
-+=09=09=09=09 enum led_brightness value)
-+{
-+=09struct led_classdev_mc *mcled_cdev;
-+=09struct blinkm_led *led;
-+=09struct blinkm_data *data;
-+=09int i;
-+
-+=09mcled_cdev =3D lcdev_to_mccdev(led_cdev);
-+=09led =3D mcled_cdev_to_led(mcled_cdev);
-+=09data =3D i2c_get_clientdata(led->i2c_client);
-+
-+=09led_mc_calc_color_components(mcled_cdev, value);
-+
-+=09for (i =3D 0; i < NUM_LEDS; i++) {
-+=09=09switch (i) {
-+=09=09case RED:
-+=09=09=09if (data->next_red =3D=3D (u8) mcled_cdev->subled_info[i].brightn=
-ess)
-+=09=09=09=09break;
-+=09=09=09data->next_red =3D (u8) mcled_cdev->subled_info[i].brightness;
-+=09=09=09break;
-+=09=09case GREEN:
-+=09=09=09if (data->next_green =3D=3D (u8) mcled_cdev->subled_info[i].brigh=
-tness)
-+=09=09=09=09break;
-+=09=09=09data->next_green =3D (u8) mcled_cdev->subled_info[i].brightness;
-+=09=09=09break;
-+=09=09case BLUE:
-+=09=09=09if (data->next_blue =3D=3D (u8) mcled_cdev->subled_info[i].bright=
-ness)
-+=09=09=09=09break;
-+=09=09=09data->next_blue =3D (u8) mcled_cdev->subled_info[i].brightness;
-+=09=09=09break;
-+=09=09}
-+=09}
-+=09blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
-+=09dev_dbg(&led->i2c_client->dev,
-+=09=09=09"# DONE # next_red =3D %d, next_green =3D %d,"
-+=09=09=09" next_blue =3D %d\n",
-+=09=09=09data->next_red, data->next_green,
-+=09=09=09data->next_blue);
-+=09return 0;
-+}
-+
- static int blinkm_led_common_set(struct led_classdev *led_cdev,
- =09=09=09=09 enum led_brightness value, int color)
- {
- =09/* led_brightness is 0, 127 or 255 - we just use it here as-is */
--=09struct blinkm_led *led =3D cdev_to_blmled(led_cdev);
-+=09struct blinkm_led *led =3D monochrome_led_cdev_to_blmled(led_cdev);
- =09struct blinkm_data *data =3D i2c_get_clientdata(led->i2c_client);
+It was reported that at least 3 other switch family would benefits by
+this as they all lack support for a generic way to setup their leds and
+netdev team NACK each try to add special code to support LEDs present
+on switch in favor of a generic solution.
 
- =09switch (color) {
-@@ -570,7 +623,11 @@ static int blinkm_probe(struct i2c_client *client,
- =09=09=09const struct i2c_device_id *id)
- {
- =09struct blinkm_data *data;
--=09struct blinkm_led *led[3];
-+=09/* For multicolor support */
-+=09struct blinkm_led *mc_led;
-+=09struct mc_subled *mc_led_info;
-+=09/* 3 seperate classes for red, green, and blue respectively */
-+=09struct blinkm_led *leds[3];
- =09int err, i;
- =09char blinkm_led_name[28];
+v7:
+- Rebase on top of net-next (for qca8k changes)
+- Fix some typo in commit description
+- Fix qca8k leds documentation warning
+- Remove RFC tag
+v6:
+- Back to RFC.
+- Drop additional trigger
+- Rework netdev trigger to support common modes used by switch and
+  hardware only triggers
+- Refresh qca8k leds logic and driver
+v5:
+- Move out of RFC. (no comments from Andrew this is the right path?)
+- Fix more spelling mistake (thx Randy)
+- Fix error reported by kernel test bot
+- Drop the additional HW_CONTROL flag. It does simplify CONFIG
+  handling and hw control should be available anyway to support
+  triggers as module.
+v4:
+- Rework implementation and drop hw_configure logic.
+  We now expand blink_set.
+- Address even more spelling mistake. (thx a lot Randy)
+- Drop blink option and use blink_set delay.
+- Rework phy-activity trigger to actually make the groups dynamic.
+v3:
+- Rework start/stop as Andrew asked.
+- Introduce more logic to permit a trigger to run in hardware mode.
+- Add additional patch with netdev hardware support.
+- Use test_bit API to check flag passed to hw_control_configure.
+- Added a new cmd to hw_control_configure to reset any active blink_mode.
+- Refactor all the patches to follow this new implementation.
+v2:
+- Fix spelling mistake (sorry)
+- Drop patch 02 "permit to declare supported offload triggers".
+  Change the logic, now the LED driver declare support for them
+  using the configure_offload with the cmd TRIGGER_SUPPORTED.
+- Rework code to follow this new implementation.
+- Update Documentation to better describe how this offload
+  implementation work.
 
-@@ -581,6 +638,12 @@ static int blinkm_probe(struct i2c_client *client,
- =09=09goto exit;
- =09}
+Christian Marangi (11):
+  leds: add support for hardware driven LEDs
+  leds: add function to configure hardware controlled LED
+  leds: trigger: netdev: drop NETDEV_LED_MODE_LINKUP from mode
+  leds: trigger: netdev: rename and expose NETDEV trigger enum modes
+  leds: trigger: netdev: convert device attr to macro
+  leds: trigger: netdev: add hardware control support
+  leds: trigger: netdev: use mutex instead of spinlocks
+  leds: trigger: netdev: add available mode sysfs attr
+  leds: trigger: netdev: add additional hardware only triggers
+  net: dsa: qca8k: add LEDs support
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
 
-+=09mc_led_info =3D devm_kmalloc_array(&client->dev, 3, sizeof(*mc_led_info=
-),
-+=09=09=09=09=09GFP_KERNEL | __GFP_ZERO);
-+=09if (!mc_led_info) {
-+=09=09err =3D -ENOMEM;
-+=09=09goto exit;
-+=09}
- =09data->i2c_addr =3D 0x08;
- =09/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
- =09data->fw_ver =3D 0xfe;
-@@ -599,28 +662,30 @@ static int blinkm_probe(struct i2c_client *client,
- =09=09goto exit;
- =09}
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  24 ++
+ Documentation/leds/leds-class.rst             |  53 +++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/led-class.c                      |  27 ++
+ drivers/leds/led-triggers.c                   |  29 ++
+ drivers/leds/trigger/ledtrig-netdev.c         | 385 ++++++++++++-----
+ drivers/net/dsa/qca/Kconfig                   |   9 +
+ drivers/net/dsa/qca/Makefile                  |   1 +
+ drivers/net/dsa/qca/qca8k-8xxx.c              |   4 +
+ drivers/net/dsa/qca/qca8k-leds.c              | 406 ++++++++++++++++++
+ drivers/net/dsa/qca/qca8k.h                   |  62 +++
+ include/linux/leds.h                          | 103 ++++-
+ 12 files changed, 1015 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
 
-+
-+=09/* Register red, green, and blue sysfs classes */
- =09for (i =3D 0; i < 3; i++) {
- =09=09/* RED =3D 0, GREEN =3D 1, BLUE =3D 2 */
--=09=09led[i] =3D &data->blinkm_leds[i];
--=09=09led[i]->i2c_client =3D client;
--=09=09led[i]->id =3D i;
--=09=09led[i]->led_cdev.max_brightness =3D 255;
--=09=09led[i]->led_cdev.flags =3D LED_CORE_SUSPENDRESUME;
-+=09=09leds[i] =3D &data->blinkm_leds[i];
-+=09=09leds[i]->i2c_client =3D client;
-+=09=09leds[i]->id =3D i;
-+=09=09leds[i]->monochrome_led_cdev.max_brightness =3D 255;
-+=09=09leds[i]->monochrome_led_cdev.flags =3D LED_CORE_SUSPENDRESUME;
- =09=09switch (i) {
- =09=09case RED:
- =09=09=09snprintf(blinkm_led_name, sizeof(blinkm_led_name),
- =09=09=09=09=09 "blinkm-%d-%d-red",
- =09=09=09=09=09 client->adapter->nr,
- =09=09=09=09=09 client->addr);
--=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
--=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
-+=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
-+=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
- =09=09=09=09=09=09=09blinkm_led_red_set;
- =09=09=09err =3D led_classdev_register(&client->dev,
--=09=09=09=09=09=09    &led[i]->led_cdev);
-+=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
- =09=09=09if (err < 0) {
- =09=09=09=09dev_err(&client->dev,
- =09=09=09=09=09"couldn't register LED %s\n",
--=09=09=09=09=09led[i]->led_cdev.name);
-+=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
- =09=09=09=09goto failred;
- =09=09=09}
- =09=09=09break;
-@@ -629,15 +694,15 @@ static int blinkm_probe(struct i2c_client *client,
- =09=09=09=09=09 "blinkm-%d-%d-green",
- =09=09=09=09=09 client->adapter->nr,
- =09=09=09=09=09 client->addr);
--=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
--=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
-+=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
-+=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
- =09=09=09=09=09=09=09blinkm_led_green_set;
- =09=09=09err =3D led_classdev_register(&client->dev,
--=09=09=09=09=09=09    &led[i]->led_cdev);
-+=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
- =09=09=09if (err < 0) {
- =09=09=09=09dev_err(&client->dev,
- =09=09=09=09=09"couldn't register LED %s\n",
--=09=09=09=09=09led[i]->led_cdev.name);
-+=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
- =09=09=09=09goto failgreen;
- =09=09=09}
- =09=09=09break;
-@@ -646,34 +711,72 @@ static int blinkm_probe(struct i2c_client *client,
- =09=09=09=09=09 "blinkm-%d-%d-blue",
- =09=09=09=09=09 client->adapter->nr,
- =09=09=09=09=09 client->addr);
--=09=09=09led[i]->led_cdev.name =3D blinkm_led_name;
--=09=09=09led[i]->led_cdev.brightness_set_blocking =3D
-+=09=09=09leds[i]->monochrome_led_cdev.name =3D blinkm_led_name;
-+=09=09=09leds[i]->monochrome_led_cdev.brightness_set_blocking =3D
- =09=09=09=09=09=09=09blinkm_led_blue_set;
- =09=09=09err =3D led_classdev_register(&client->dev,
--=09=09=09=09=09=09    &led[i]->led_cdev);
-+=09=09=09=09=09=09=09&leds[i]->monochrome_led_cdev);
- =09=09=09if (err < 0) {
- =09=09=09=09dev_err(&client->dev,
- =09=09=09=09=09"couldn't register LED %s\n",
--=09=09=09=09=09led[i]->led_cdev.name);
-+=09=09=09=09=09leds[i]->monochrome_led_cdev.name);
- =09=09=09=09goto failblue;
- =09=09=09}
- =09=09=09break;
- =09=09}=09=09/* end switch */
- =09}=09=09=09/* end for */
-
-+
-+
-+=09/* Register multicolor sysfs class */
-+=09mc_led =3D &data->mc_blinkm_led;
-+=09mc_led->i2c_client =3D client;
-+=09mc_led->id =3D 4;
-+
-+=09mc_led_info[0].color_index =3D LED_COLOR_ID_RED;
-+=09mc_led_info[0].channel =3D 0;
-+=09mc_led_info[1].color_index =3D LED_COLOR_ID_GREEN;
-+=09mc_led_info[1].channel =3D 1;
-+=09mc_led_info[2].color_index =3D LED_COLOR_ID_BLUE;
-+=09mc_led_info[2].channel =3D 2;
-+=09mc_led->mcled_cdev.subled_info =3D mc_led_info;
-+=09mc_led->mcled_cdev.num_colors =3D NUM_LEDS;
-+
-+=09mc_led->led_cdev =3D &mc_led->mcled_cdev.led_cdev;
-+=09mc_led->led_cdev->brightness =3D 255;
-+=09mc_led->led_cdev->max_brightness =3D 255;
-+=09mc_led->led_cdev->flags =3D LED_CORE_SUSPENDRESUME;
-+=09snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-+=09=09 "blinkm-%d-%d-multi",
-+=09=09 client->adapter->nr,
-+=09=09 client->addr);
-+=09mc_led->led_cdev->name =3D blinkm_led_name;
-+=09mc_led->led_cdev->brightness_set_blocking =3D
-+=09=09=09=09=09blinkm_set_mc_brightness;
-+
-+=09err =3D led_classdev_multicolor_register(&client->dev, &mc_led->mcled_c=
-dev);
-+=09if (err < 0) {
-+=09=09dev_err(&client->dev, "couldn't register LED %s\n",
-+=09=09=09=09mc_led->led_cdev->name);
-+=09=09goto failmulti;
-+=09}
- =09/* Initialize the blinkm */
- =09blinkm_init_hw(client);
-
- =09return 0;
-
-+failmulti:
-+=09led_classdev_unregister(&leds[BLUE]->monochrome_led_cdev);
-+
- failblue:
--=09led_classdev_unregister(&led[GREEN]->led_cdev);
-+=09led_classdev_unregister(&leds[GREEN]->monochrome_led_cdev);
-
- failgreen:
--=09led_classdev_unregister(&led[RED]->led_cdev);
-+=09led_classdev_unregister(&leds[RED]->monochrome_led_cdev);
-
- failred:
- =09sysfs_remove_group(&client->dev.kobj, &blinkm_group);
-+
- exit:
- =09return err;
- }
-@@ -685,8 +788,9 @@ static int blinkm_remove(struct i2c_client *client)
- =09int i;
-
- =09/* make sure no workqueue entries are pending */
-+=09led_classdev_unregister(&data->mc_blinkm_led.mcled_cdev.led_cdev);
- =09for (i =3D 0; i < 3; i++)
--=09=09led_classdev_unregister(&data->blinkm_leds[i].led_cdev);
-+=09=09led_classdev_unregister(&data->blinkm_leds[i].monochrome_led_cdev);
-
- =09/* reset rgb */
- =09data->next_red =3D 0x00;
---
-2.38.1
-
+-- 
+2.37.2
 
