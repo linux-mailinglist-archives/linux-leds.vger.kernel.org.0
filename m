@@ -2,156 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A55164D5BA
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Dec 2022 04:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D199F64DDCA
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Dec 2022 16:27:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiLODyb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Dec 2022 22:54:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51580 "EHLO
+        id S229975AbiLOP10 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Dec 2022 10:27:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiLODya (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Dec 2022 22:54:30 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D449A55AA0;
-        Wed, 14 Dec 2022 19:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1671076467; x=1702612467;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=kQC3xlJPTlu6kEiy3yGYMMQjUQWAYooruh3FStpG4RI=;
-  b=iQVa2oqQge1EN26qew56yHH+dCDCxF9VAr4T1zNMAgBKSOkjdAuYEwMc
-   gR+ugrUeFh4ylwpJa7sRrG+pKXz8ASbKPxTDWgQwmDtC0fBjC+URWahIC
-   dN5lylhxTjNzOAnNOvDaP/t/hdM7PBBb3FxqP+CdARucy7ngJSQIREkET
-   Gbxp2ILMkwdoPwf1woe8zJPvNOsJ2zuo+K7i8QdOCc0s+GqWfNfaAhP89
-   vkIXHKRASSTjd3SaW4CJu/tPVn15qQc7+9rLcl1Jub7lmfhqQbB8DPpxn
-   ntYW9S2EAgNuWL/Ka62Wyzc/Cptgemt/sez7DRWpy8h3aV8cB7ds7ZQOl
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,246,1665471600"; 
-   d="scan'208";a="191762544"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 Dec 2022 20:54:26 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 14 Dec 2022 20:54:26 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 14 Dec 2022 20:54:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cZQHv/kthdg/Wdu/OI65nXhHjb0+UoJ3OcRLlF4VAYqxAUSHZwlygyPJqNOKKldAjYU+CsDUBmhANDEQpJ8jR1WbliIbeZUHLvGLe402hcXTqjVKCGmb7WWOYbgvrJXM7UGkVMJzUWKATzP1gwRbAol8lb3IP1cBaBiyRZtDcgere5XnEE1Be5y2Gs3OvfYx2B9W7lFdRmZ5X0pg/WfONgcODHrpDu8+p523cEqaOSdUz5ykGUCWQvkqZzFFHuVrQvbu+2MIVfMBwANhiWxBFIP81zTTeiWTcpuPJwXgPClpnkVl5/TsLGAK5US3wzGfd4CcjwADaliGbBO3qOuqyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kQC3xlJPTlu6kEiy3yGYMMQjUQWAYooruh3FStpG4RI=;
- b=dIJoIhhX/IPF08qSRs4O5TpEDqgePxi+vu3xU+WVLHE1HDf8xg/4os5LiF2blyM82jZV2Bwm96Bd5PHqYYVCCAX+5XuAiQDRMuwYYseYmQnf/JrORXwsOEOb32z2lQNHyyAEy7l03EvfzZvhdz3AZDXwJVqbY5jWJzQkWsOpOk5rkrDZ2zDff0+KArIwZEHo7NymQ1n2jiHXm/RIqORP90j8dmy7hF/ux0Xa97BxLsH9M4qczdVI2d4bHaB3bC8G3tzF7k+g2/JZiU6jUGtiRGrN+4qLGa3KfCsf26yYjspaUNncSRLrowiVluw8CV79NsYuTAS2pfBMsk1rB05dRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        with ESMTP id S229736AbiLOP1Z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Dec 2022 10:27:25 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3691B4A7;
+        Thu, 15 Dec 2022 07:27:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kQC3xlJPTlu6kEiy3yGYMMQjUQWAYooruh3FStpG4RI=;
- b=vFYmyTPRDLB1mQfzo59aCxPevqfRjmB/RBHpIE8B4u63yGm7S9O8qM07hLDr+VC9OtSQF9wtpkNb7u3+cJPhapzt6UFo3oHa3DUcJTqoNyOoNbQvVB3SCyus3MGoL5AGF5J357pwD+fYnkKHYNcbOWme8J/MfIH+teq4lOM5rHk=
-Received: from DM5PR11MB0076.namprd11.prod.outlook.com (2603:10b6:4:6b::28) by
- BL1PR11MB6050.namprd11.prod.outlook.com (2603:10b6:208:392::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.11; Thu, 15 Dec 2022 03:54:23 +0000
-Received: from DM5PR11MB0076.namprd11.prod.outlook.com
- ([fe80::9b7a:7604:7a30:1953]) by DM5PR11MB0076.namprd11.prod.outlook.com
- ([fe80::9b7a:7604:7a30:1953%7]) with mapi id 15.20.5880.019; Thu, 15 Dec 2022
- 03:54:23 +0000
-From:   <Arun.Ramadoss@microchip.com>
-To:     <olteanv@gmail.com>, <andrew@lunn.ch>, <robh+dt@kernel.org>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <tharvey@gateworks.com>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <john@phrozen.org>,
-        <f.fainelli@gmail.com>, <pavel@ucw.cz>,
-        <rmk+kernel@armlinux.org.uk>, <kuba@kernel.org>,
-        <ansuelsmth@gmail.com>, <pabeni@redhat.com>, <edumazet@google.com>,
-        <netdev@vger.kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <davem@davemloft.net>, <linux-doc@vger.kernel.org>,
-        <alexander.stein@ew.tq-group.com>, <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 10/11] net: dsa: qca8k: add LEDs support
-Thread-Topic: [PATCH v7 10/11] net: dsa: qca8k: add LEDs support
-Thread-Index: AQHZEDcAIu5dpKJOZk6zuC7xX3jd1q5uUWYA
-Date:   Thu, 15 Dec 2022 03:54:23 +0000
-Message-ID: <8a01a0afc344e9c7d259355aec190af63ea79393.camel@microchip.com>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
-         <20221214235438.30271-11-ansuelsmth@gmail.com>
-In-Reply-To: <20221214235438.30271-11-ansuelsmth@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR11MB0076:EE_|BL1PR11MB6050:EE_
-x-ms-office365-filtering-correlation-id: 2edf137b-7c37-4ef9-dcda-08dade500dbf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oAVuih1WD8A1ypwbkPr77OMWCBREDg2Ig/NpqvtWbYK1xDQiG/Uz1JtsBHdUYv+fxSeeNfn2ogI7RnjBu2c3WXa4MRvX1zD0b3i1yRjKaJuaSDSiDA8SS8bHJmOIxrxgvPFRhG0Z5r1hoJPD9CiyYOt4UmUGsIrY71UdtcItjGjY8GjUxVsbm2r3HxXQNSwLzz7M0+6I8p4o8zHg8NhreOVcydCjTzRdYRXcEUO+1PGhJA+r9GCUVDkNc+4XYDTfTQBB3owlZIS07/qbIfWk3zIeqU75orPwbowZWbhOSbxZ+oYegJm8cwQWiwYf4zFBKnjgOtw2gCrudZPM/On9MxTRCuFQvL7Za0ib06l3Fi/GCFWCtgo/LyurS1V5ieg5MEhLlL/XxB3sjzjxGODnYi3fWaHVEyLfdDE2hcs6PdsUic3GvTkgNJUDOXtIx8ER2gcBU5XXFowrwz4Wj9l1BpUuKL/l49x67MZbtVA2Ma6uBDlgr9yV9/E8sxnNnzjTR6q31KEES8MbNwC5e9C/rdVeM7W5QvATV2MWppnDzP5hK7aNwrEWW70PEjmzWCo736A9mfTCyGOBELPFEegAB/hges0Icg/jy4xMPNkgp+4RIS/m5yUwxxB2+N3F8Gu18JA+ZMn6gj7GQkUuJuX9KJu731qKHAZYqbzNr3/zJZmen30Z8irdUTSTHOx9amXl83d4N87HgqSWcb6DgBt902E9xUcU9GuM2jKi0BfHB4IVp3s+JyGq0hhWsK/76+If6ZQoIiTd4yGX2YAm+n5hqQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB0076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(396003)(376002)(136003)(346002)(39860400002)(451199015)(36756003)(2906002)(4001150100001)(122000001)(5660300002)(7416002)(8936002)(86362001)(38070700005)(2616005)(38100700002)(921005)(83380400001)(110136005)(316002)(186003)(6512007)(6486002)(41300700001)(26005)(66556008)(66476007)(8676002)(64756008)(478600001)(66446008)(6506007)(76116006)(66946007)(71200400001)(91956017)(99106002)(32563001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SHBacVVKRjMwWHhJNzJtejNkQTc0ald3S1lObTVDRHZnVmhvZTRNWlU2bDZ2?=
- =?utf-8?B?K2xGUXlablEwSi8venlhY0EyTCs4SXBLWk1HakNQZGt0cHc0OTFlTXErNWMy?=
- =?utf-8?B?SzNpcDBXdjhCWkh0VmNTUkNqNFVocXUyUGF1UXJwbUJrWmlKazFSdjJWNHpH?=
- =?utf-8?B?MjNuRGI0UDk5YXBpeEZscldWSmNXN1BrSEd2NXpmeXZveFB4N2lTRjJrQlNq?=
- =?utf-8?B?eEk5SXFDUUNrUGhmdkZTS1d2MU1mOGgwWXNZYVFEZlg2S0xMU0pkWDdzRXE1?=
- =?utf-8?B?TE12WjRkbXhrY3ZBNGpoUVJZNFYvZUVXaW1hVDhlQ3JJVUtWYTJ1elIrbmlt?=
- =?utf-8?B?ZTl1ZDcwajI3T3ZkS0ljMkFsaitIbXkyaU82RDkzeEVLMCsyUUVhQUFFb1oy?=
- =?utf-8?B?dFNrQjdWRGErWmltd2d3aDA2Yk4vT2Y4SzluNjNWVndtbitNY3I1K2FWYi93?=
- =?utf-8?B?SGN2ai9SS3ZUb1VrN3MyNC9XVlp6bUthZW5jajliZ2U2cmg2TTFJVjkrcG1J?=
- =?utf-8?B?WVRsd1JIYXVGd2tzRnJZMWRvbHNaaDg0ZGlDblF6K0hSYkZLRzUxSnJRWlk4?=
- =?utf-8?B?QWdxQXAybGgxNU9hQm5YbGRMTDd0VzZJWVBPNE96ajFGUjlpdmx3LzJqK3Zh?=
- =?utf-8?B?RDZkcnRhSXNVVU05emt1TkJwNTE0dXEraHJqZzJPZUYyaC96TXpzTndtNkdw?=
- =?utf-8?B?ZU4yUHpBbFljQzUySEZPSkdKbjFBUytybFNFM1pncWhUcmlqdUtqdGxMN2Jx?=
- =?utf-8?B?S3lqaEV5eXJEdXo0VE15aFYxTlVmZ254eFJMNWdMWFlPYjQyeGNaajc2bE5D?=
- =?utf-8?B?UUFYTmZKWFZXeVZUMnE1ZTlVdE9YU2JSMENNZUVmM3l2dVJ2T0s2NURyS2dS?=
- =?utf-8?B?T0VhK1dCQklQSmJjeEtHKzQ0MFBVVUpraU1TeHU4OWxLdWVxM1lUM1QwV1pn?=
- =?utf-8?B?ZVZ1b211M3orbzZUbFVQd2RJSWJuejlPS1VlYy9Fd3hGRURzWmNiNGJFbFBO?=
- =?utf-8?B?aVRBb0ZpTGJjSnhzeWJKWE5KbW1aOWtqZHp5VXBwZ05ZbVRBWjJFSGhtRlZm?=
- =?utf-8?B?bHJkYktRZytYTGNncjh6NXpGVER0OUVrVXZqYzFuZHkyT0tRZWhBTjM0ZFBq?=
- =?utf-8?B?MlBPb1JEWGlXZEkyUS9kMVdDM0JzNUo5d3VsbXRhc1pScTdOV2VuYzlzNWRX?=
- =?utf-8?B?aG1Hd2h5cFVuQWlYNXdVV2ovV3UxRHA3U00vRW5hMFR6aG94dWkvK1VQQzNI?=
- =?utf-8?B?OEcyMVRCQkVEUTBkKzhpYk5VT2R6SXhaR1Z3ZFV1NmFSS1FSNnhYTGFZR1JV?=
- =?utf-8?B?aUpQT1dkNEJneUhZeVpQTDcwOVpLY3Q0c05jL1lFRDczWnJ1SjRySHlPTUc2?=
- =?utf-8?B?ZmlZclhQUjlmRlh1SGI3NnZGVmUxSFFwR05NYnFzSklrL2hjQ1FOWGhBT0ww?=
- =?utf-8?B?WDFYUDRJUk9MaVhzN25sZEd3aWZUQXVUMnN5UERZZGZ2ZEdGQXg4ZFR1Njlp?=
- =?utf-8?B?OWJXOVNxV2hack9OYnplMFVGL09HdCtWbzdBQVJZOHAwNVlGTnFuM3owVGhK?=
- =?utf-8?B?YjV6aXRMaklYVzNqU1hRb0FYakI3cWNvVUliM29PRFpYZmdQVFk3TTZvMjVx?=
- =?utf-8?B?WTZyRzNJT1pZdmppaTVMclN1RnBadGpZOWNYRlJ5U1YvUCtPMTRwVmdMYkor?=
- =?utf-8?B?Nm1SZ0xoVUsvcDJiZDYxeW1GQ21lWFkwZTFvQTVJelNZNmh3S2NDWEpHeklV?=
- =?utf-8?B?Kzk2a0t5S0lKUFZCZmV4SGlVa0hqV3dicVNuRGQ5RUlzbTh4ZFNNaW05NEkv?=
- =?utf-8?B?cjNGK2dEanBUK0M1WlVmelAvM2dBMVZ0Ni82Mk15eTJIbkNManI3QXA0Q2NL?=
- =?utf-8?B?MUNrSFFCL2MrNStJaUtFbDNmNWd0cjQzTHhLaWdjdkYzSGxXZWk3LzVCaVZW?=
- =?utf-8?B?MnU1OFVMMDNJNVQ0RWQ3ZUl2T2FvVjZvWk9ocEswRUdqZ240elhwMGZKazBK?=
- =?utf-8?B?TTFCYXFvRWdFN0gvQTJuK2ZJUUtXdjJQSXRQV1lBMW9QUEIxdDYyYk1ua1VE?=
- =?utf-8?B?MzdOZ1B6M0pib1JoS0tpTkRza1VhK1B4SDVPV1dZVnp6Yk1ua0NSRkVOYVNp?=
- =?utf-8?B?UDBaN09SeDhMQXJFN0ZDU2pNeFJBbXZ2Q2FlWHBwY0hCOUpoK2dEN2hZaFJK?=
- =?utf-8?B?R0E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9A47928EBE25A848817B1EBAB5CAF343@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1671118042; x=1702654042;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=4otHY34Se7zK0Rk2k5GgJ/q/fn6neNXz0aWRP0XtHZg=;
+  b=Y577IX27ZICnlo9vYCQ/FG+sS8PVl+t2hUoax9lxOj0jJqeXXXo5SHrS
+   +VaaifyeXsA4/+U/s2M/fr9Cg3JW5BOPZdIuSETV2WXTngLnl4tgoKKv0
+   Q9gcun2IRn9xyR64CLZ1Yl/saQyv4+NIWooGFbQLHqGdQYFTXnw1BxBMt
+   COsV7eZOa+oAdpKIvYHafol5vLRb0lnccxytTZtFLVpw2wFXe7Y+ao6bn
+   T3NN7RKbXz7wl4C2RkWM+riuyWU6W0Q4i7tlpTTzuyPLcuFOZ5kK7Nmt9
+   YOmDIJtRUfLjVgI1gI+Ge23KOTGTeEtVWB+yIkZ+EcRvu7MQ/F8JTOHpU
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,247,1665439200"; 
+   d="scan'208";a="27979742"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 15 Dec 2022 16:27:19 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 15 Dec 2022 16:27:19 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 15 Dec 2022 16:27:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1671118039; x=1702654039;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=4otHY34Se7zK0Rk2k5GgJ/q/fn6neNXz0aWRP0XtHZg=;
+  b=XsY1vwM9n3gkNwcU1zbR9EYFWp7pjHoYvtUU0cb/AX26Q3MUCI9aoMGr
+   BBkVk9sEFm+otM9zLueJCGiTDXjXS3XOCH52DVCILFnuIDSBbTbV+J09s
+   HF2zh1SThOAedjqP06TeaeB1w/+1zZS5g4hFC67O2fuWxh/iSredBCv+o
+   jznYe43i9kdGiX1B0SOhywMIlvCMWve/h5G7+ZKxOUTgBiv50s2VaC3UI
+   tXqVHETZeZmEn97eYS1nslwUMAutFekScjlLo7i4PW0QEc4yTIqanuMd2
+   e2O/wfRnFyPSPlBNK98uA+usk/G+bMHFBQDqs+osNgufS9Xjsn7N/j+vw
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.96,247,1665439200"; 
+   d="scan'208";a="27979741"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 15 Dec 2022 16:27:19 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E93C3280071;
+        Thu, 15 Dec 2022 16:27:18 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control support
+Date:   Thu, 15 Dec 2022 16:27:17 +0100
+Message-ID: <3770526.R56niFO833@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20221214235438.30271-7-ansuelsmth@gmail.com>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com> <20221214235438.30271-7-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB0076.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2edf137b-7c37-4ef9-dcda-08dade500dbf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2022 03:54:23.5305
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: weAUFDLXEJkJPnvmIYNarW+/CL7UAmIOlML9Z/Dc+UyqqF9FCM+gkW6NhZNHtdZKAd632LyQYDarRyXeFaBQ9rCMxLEe6Uzl0lwwDuQ4LNY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6050
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -159,69 +95,304 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgQ2hyaXN0aWFuLA0KDQpPbiBUaHUsIDIwMjItMTItMTUgYXQgMDA6NTQgKzAxMDAsIENocmlz
-dGlhbiBNYXJhbmdpIHdyb3RlOg0KPiBBZGQgTEVEcyBzdXBwb3J0IGZvciBxY2E4ayBTd2l0Y2gg
-RmFtaWx5LiBUaGlzIHdpbGwgcHJvdmlkZSB0aGUgTEVEcw0KPiBoYXJkd2FyZSBBUEkgdG8gcGVy
-bWl0IHRoZSBQSFkgTEVEIHRvIHN1cHBvcnQgaGFyZHdhcmUgbW9kZS4NCj4gRWFjaCBwb3J0IGhh
-dmUgYXQgbGVhc3QgMyBMRURzIGFuZCB0aGV5IGNhbiBIVyBibGluaywgc2V0IG9uL29mZiBvcg0K
-PiBmb2xsb3cgYmxpbmsgbW9kZXMgY29uZmlndXJlZCB3aXRoIHRoZSBMRUQgaW4gaGFyZHdhcmUg
-bW9kZS4NCj4gQWRkcyBzdXBwb3J0IGZvciBsZWRzIG5ldGRldiB0cmlnZ2VyIHRvIHN1cHBvcnQg
-aGFyZHdhcmUgdHJpZ2dlcnMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gTWFyYW5n
-aSA8YW5zdWVsc210aEBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9uZXQvZHNhL3FjYS9L
-Y29uZmlnICAgICAgfCAgIDkgKw0KPiAgZHJpdmVycy9uZXQvZHNhL3FjYS9NYWtlZmlsZSAgICAg
-fCAgIDEgKw0KPiAgZHJpdmVycy9uZXQvZHNhL3FjYS9xY2E4ay04eHh4LmMgfCAgIDQgKw0KPiAg
-ZHJpdmVycy9uZXQvZHNhL3FjYS9xY2E4ay1sZWRzLmMgfCA0MDYNCj4gKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKw0KPiAgZHJpdmVycy9uZXQvZHNhL3FjYS9xY2E4ay5oICAgICAgfCAg
-NjIgKysrKysNCj4gIDUgZmlsZXMgY2hhbmdlZCwgNDgyIGluc2VydGlvbnMoKykNCj4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL25ldC9kc2EvcWNhL3FjYThrLWxlZHMuYw0KPiANCj4gDQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9kc2EvcWNhL3FjYThrLWxlZHMuYw0KPiBiL2RyaXZl
-cnMvbmV0L2RzYS9xY2EvcWNhOGstbGVkcy5jDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGlu
-ZGV4IDAwMDAwMDAwMDAwMC4uYjUxY2RjYWUzMWIyDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIv
-ZHJpdmVycy9uZXQvZHNhL3FjYS9xY2E4ay1sZWRzLmMNCj4gQEAgLTAsMCArMSw0MDYgQEANCj4g
-Ky8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsjaW5jbHVkZSA8bmV0L2Rz
-YS5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L3JlZ21hcC5oPg0KDQpBbHBoYWJhdGljYWwgb3JkZXIN
-Cg0KPiArDQo+ICsjaW5jbHVkZSAicWNhOGsuaCINCj4gKw0KPiArc3RhdGljIGludA0KPiArcWNh
-OGtfZ2V0X2VuYWJsZV9sZWRfcmVnKGludCBwb3J0X251bSwgaW50IGxlZF9udW0sIHN0cnVjdA0K
-PiBxY2E4a19sZWRfcGF0dGVybl9lbiAqcmVnX2luZm8pDQo+ICt7DQo+ICsJaW50IHNoaWZ0Ow0K
-PiArDQo+ICsJc3dpdGNoIChwb3J0X251bSkgew0KPiArCWNhc2UgMDoNCj4gKwkJcmVnX2luZm8t
-PnJlZyA9IFFDQThLX0xFRF9DVFJMX1JFRyhsZWRfbnVtKTsNCj4gKwkJcmVnX2luZm8tPnNoaWZ0
-ID0gMTQ7DQoNCkFueSBtYWNyb3Mgb3RoZXIgdGhhbiBtYWdpYyBudW1iZXIgZm9yIDE0LCAzMCAN
-Cg0KPiArCQlicmVhazsNCj4gKwljYXNlIDE6DQo+ICsJY2FzZSAyOg0KPiArCWNhc2UgMzoNCj4g
-KwkJcmVnX2luZm8tPnJlZyA9IFFDQThLX0xFRF9DVFJMX1JFRygzKTsNCj4gKwkJc2hpZnQgPSAy
-ICogbGVkX251bSArICg2ICogKHBvcnRfbnVtIC0gMSkpOw0KPiArDQo+ICsJCXJlZ19pbmZvLT5z
-aGlmdCA9IDggKyBzaGlmdDsNCj4gKw0KPiArCQlicmVhazsNCj4gKwljYXNlIDQ6DQo+ICsJCXJl
-Z19pbmZvLT5yZWcgPSBRQ0E4S19MRURfQ1RSTF9SRUcobGVkX251bSk7DQo+ICsJCXJlZ19pbmZv
-LT5zaGlmdCA9IDMwOw0KPiArCQlicmVhazsNCj4gKwlkZWZhdWx0Og0KPiArCQlyZXR1cm4gLUVJ
-TlZBTDsNCj4gKwl9DQo+ICsNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKw0KPiANCj4gKw0KPiAr
-c3RhdGljIHZvaWQNCj4gK3FjYThrX2xlZF9icmlnaHRuZXNzX3NldChzdHJ1Y3QgcWNhOGtfbGVk
-ICpsZWQsDQo+ICsJCQkgZW51bSBsZWRfYnJpZ2h0bmVzcyBiKQ0KDQp2YXJpYWJsZSBuYW1lIG90
-aGVyIHRoYW4gYiB0byBoYXZlIHJlYWRhYmlsaXR5IGluIGNvZGUNCg0KPiArew0KPiArCXN0cnVj
-dCBxY2E4a19sZWRfcGF0dGVybl9lbiByZWdfaW5mbzsNCj4gKwlzdHJ1Y3QgcWNhOGtfcHJpdiAq
-cHJpdiA9IGxlZC0+cHJpdjsNCj4gKwl1MzIgdmFsID0gUUNBOEtfTEVEX0FMV0FZU19PRkY7DQo+
-ICsNCj4gKwlxY2E4a19nZXRfZW5hYmxlX2xlZF9yZWcobGVkLT5wb3J0X251bSwgbGVkLT5sZWRf
-bnVtLA0KPiAmcmVnX2luZm8pOw0KPiArDQo+ICsJaWYgKGIpDQo+ICsJCXZhbCA9IFFDQThLX0xF
-RF9BTFdBWVNfT047DQo+ICsNCj4gKwlyZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+cmVnbWFwLCBy
-ZWdfaW5mby5yZWcsDQo+ICsJCQkgICBHRU5NQVNLKDEsIDApIDw8IHJlZ19pbmZvLnNoaWZ0LA0K
-DQpHRU5NQVNLKDEsIDApIHVzZWQgaW4gbXVsdGlwbGUgcGxhY2UsIHJlcGxhY2Ugd2l0aCBtYWNy
-byBmb3INCnJlYWRhYmlsaXR5DQoNCj4gKwkJCSAgIHZhbCA8PCByZWdfaW5mby5zaGlmdCk7DQo+
-ICt9DQo+ICsNCj4gDQo+ICsNCj4gK3N0YXRpYyBpbnQNCj4gK3FjYThrX2NsZWRfdHJpZ2dlcl9v
-ZmZsb2FkKHN0cnVjdCBsZWRfY2xhc3NkZXYgKmxkZXYsIGJvb2wgZW5hYmxlKQ0KPiArew0KPiAr
-CXN0cnVjdCBxY2E4a19sZWQgKmxlZCA9IGNvbnRhaW5lcl9vZihsZGV2LCBzdHJ1Y3QgcWNhOGtf
-bGVkLA0KPiBjZGV2KTsNCj4gKw0KDQpCbGFuayBsaW5lDQoNCj4gKwlzdHJ1Y3QgcWNhOGtfbGVk
-X3BhdHRlcm5fZW4gcmVnX2luZm87DQo+ICsJc3RydWN0IHFjYThrX3ByaXYgKnByaXYgPSBsZWQt
-PnByaXY7DQo+ICsJdTMyIHZhbCA9IFFDQThLX0xFRF9BTFdBWVNfT0ZGOw0KPiArDQo+ICsJcWNh
-OGtfZ2V0X2VuYWJsZV9sZWRfcmVnKGxlZC0+cG9ydF9udW0sIGxlZC0+bGVkX251bSwNCj4gJnJl
-Z19pbmZvKTsNCj4gKw0KPiArCWlmIChlbmFibGUpDQo+ICsJCXZhbCA9IFFDQThLX0xFRF9SVUxF
-X0NPTlRST0xMRUQ7DQo+ICsNCj4gKwlyZXR1cm4gcmVnbWFwX3VwZGF0ZV9iaXRzKHByaXYtPnJl
-Z21hcCwgcmVnX2luZm8ucmVnLA0KPiArCQkJCSAgR0VOTUFTSygxLCAwKSA8PCByZWdfaW5mby5z
-aGlmdCwNCj4gKwkJCQkgIHZhbCA8PCByZWdfaW5mby5zaGlmdCk7DQo+ICt9DQo+ICsNCj4gDQo+
-ICtzdGF0aWMgYm9vbA0KPiArcWNhOGtfY2xlZF9od19jb250cm9sX3N0YXR1cyhzdHJ1Y3QgbGVk
-X2NsYXNzZGV2ICpsZGV2KQ0KPiArew0KPiArCXN0cnVjdCBxY2E4a19sZWQgKmxlZCA9IGNvbnRh
-aW5lcl9vZihsZGV2LCBzdHJ1Y3QgcWNhOGtfbGVkLA0KPiBjZGV2KTsNCj4gKw0KDQpCbGFuayBs
-aW5lDQoNCj4gKwlzdHJ1Y3QgcWNhOGtfbGVkX3BhdHRlcm5fZW4gcmVnX2luZm87DQo+ICsJc3Ry
-dWN0IHFjYThrX3ByaXYgKnByaXYgPSBsZWQtPnByaXY7DQo+ICsJdTMyIHZhbDsNCj4gKw0KPiAr
-CXFjYThrX2dldF9lbmFibGVfbGVkX3JlZyhsZWQtPnBvcnRfbnVtLCBsZWQtPmxlZF9udW0sDQo+
-ICZyZWdfaW5mbyk7DQo+ICsNCj4gKwlyZWdtYXBfcmVhZChwcml2LT5yZWdtYXAsIHJlZ19pbmZv
-LnJlZywgJnZhbCk7DQo+ICsNCj4gKwl2YWwgPj49IHJlZ19pbmZvLnNoaWZ0Ow0KPiArCXZhbCAm
-PSBHRU5NQVNLKDEsIDApOw0KPiArDQo+ICsJcmV0dXJuIHZhbCA9PSBRQ0E4S19MRURfUlVMRV9D
-T05UUk9MTEVEOw0KPiArfQ0KPiArDQo+IA0K
+Hi,
+
+thanks for the v7 series.
+
+Am Donnerstag, 15. Dezember 2022, 00:54:33 CET schrieb Christian Marangi:
+> Add hardware control support for the Netdev trigger.
+> The trigger on config change will check if the requested trigger can set
+> to blink mode using LED hardware mode and if every blink mode is supported,
+> the trigger will enable hardware mode with the requested configuration.
+> If there is at least one trigger that is not supported and can't run in
+> hardware mode, then software mode will be used instead.
+> A validation is done on every value change and on fail the old value is
+> restored and -EINVAL is returned.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 155 +++++++++++++++++++++++++-
+>  1 file changed, 149 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c
+> b/drivers/leds/trigger/ledtrig-netdev.c index dd63cadb896e..ed019cb5867c
+> 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -37,6 +37,7 @@
+>   */
+> 
+>  struct led_netdev_data {
+> +	enum led_blink_modes blink_mode;
+>  	spinlock_t lock;
+> 
+>  	struct delayed_work work;
+> @@ -53,11 +54,105 @@ struct led_netdev_data {
+>  	bool carrier_link_up;
+>  };
+> 
+> +struct netdev_led_attr_detail {
+> +	char *name;
+> +	bool hardware_only;
+> +	enum led_trigger_netdev_modes bit;
+> +};
+> +
+> +static struct netdev_led_attr_detail attr_details[] = {
+> +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
+> +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
+> +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
+> +};
+> +
+> +static bool validate_baseline_state(struct led_netdev_data *trigger_data)
+> +{
+> +	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> +	struct netdev_led_attr_detail *detail;
+> +	u32 hw_blink_mode_supported = 0;
+> +	bool force_sw = false;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
+> +		detail = &attr_details[i];
+> +
+> +		/* Mode not active, skip */
+> +		if (!test_bit(detail->bit, &trigger_data->mode))
+> +			continue;
+> +
+> +		/* Hardware only mode enabled on software controlled led 
+*/
+> +		if (led_cdev->blink_mode == SOFTWARE_CONTROLLED &&
+> +		    detail->hardware_only)
+> +			return false;
+> +
+> +		/* Check if the mode supports hardware mode */
+> +		if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
+> +			/* With a net dev set, force software mode.
+> +			 * With modes are handled by hardware, led will 
+blink
+> +			 * based on his own events and will ignore any 
+event
+> +			 * from the provided dev.
+> +			 */
+> +			if (trigger_data->net_dev) {
+> +				force_sw = true;
+> +				continue;
+> +			}
+> +
+> +			/* With empty dev, check if the mode is 
+supported */
+> +			if 
+(led_trigger_blink_mode_is_supported(led_cdev, detail->bit))
+> +				hw_blink_mode_supported |= BIT(detail-
+>bit);
+
+Shouldn't this be BIT(detail->bit)?
+
+> +		}
+> +	}
+> +
+> +	/* We can't run modes handled by both software and hardware.
+> +	 * Check if we run hardware modes and check if all the modes
+> +	 * can be handled by hardware.
+> +	 */
+> +	if (hw_blink_mode_supported && hw_blink_mode_supported !=
+> trigger_data->mode) +		return false;
+> +
+> +	/* Modes are valid. Decide now the running mode to later
+> +	 * set the baseline.
+> +	 * Software mode is enforced with net_dev set. With an empty
+> +	 * one hardware mode is selected by default (if supported).
+> +	 */
+> +	if (force_sw || led_cdev->blink_mode == SOFTWARE_CONTROLLED)
+
+IMHO '|| !hw_blink_mode_supported' should be added here for blink_modes. This 
+might happen if a PHY LED is SOFTWARE_HARDWARE_CONTROLLED, but some blink mode 
+is not supported by hardware, thus hw_blink_mode_supported=0.
+
+Best regards,
+Alexander
+
+> +		trigger_data->blink_mode = SOFTWARE_CONTROLLED;
+> +	else
+> +		trigger_data->blink_mode = HARDWARE_CONTROLLED;
+> +
+> +	return true;
+> +}
+> +
+>  static void set_baseline_state(struct led_netdev_data *trigger_data)
+>  {
+> +	int i;
+>  	int current_brightness;
+> +	struct netdev_led_attr_detail *detail;
+>  	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> 
+> +	/* Modes already validated. Directly apply hw trigger modes */
+> +	if (trigger_data->blink_mode == HARDWARE_CONTROLLED) {
+> +		/* We are refreshing the blink modes. Reset them */
+> +		led_cdev->hw_control_configure(led_cdev, 
+BIT(TRIGGER_NETDEV_LINK),
+> +					       BLINK_MODE_ZERO);
+> +
+> +		for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
+> +			detail = &attr_details[i];
+> +
+> +			if (!test_bit(detail->bit, &trigger_data->mode))
+> +				continue;
+> +
+> +			led_cdev->hw_control_configure(led_cdev, 
+BIT(detail->bit),
+> +						       
+BLINK_MODE_ENABLE);
+
+Shouldn't this be BIT(detail->bit)?
+
+> +		}
+> +
+> +		led_cdev->hw_control_start(led_cdev);
+> +
+> +		return;
+> +	}
+> +
+> +	/* Handle trigger modes by software */
+>  	current_brightness = led_cdev->brightness;
+>  	if (current_brightness)
+>  		led_cdev->blink_brightness = current_brightness;
+> @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device *dev,
+>  				 size_t size)
+>  {
+>  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> +	struct net_device *old_net = trigger_data->net_dev;
+> +	char old_device_name[IFNAMSIZ];
+> 
+>  	if (size >= IFNAMSIZ)
+>  		return -EINVAL;
+> 
+> +	/* Backup old device name */
+> +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
+> +
+>  	cancel_delayed_work_sync(&trigger_data->work);
+> 
+>  	spin_lock_bh(&trigger_data->lock);
+> @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device *dev,
+>  		trigger_data->net_dev =
+>  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> 
+> +	if (!validate_baseline_state(trigger_data)) {
+> +		/* Restore old net_dev and device_name */
+> +		if (trigger_data->net_dev)
+> +			dev_put(trigger_data->net_dev);
+> +
+> +		dev_hold(old_net);
+> +		trigger_data->net_dev = old_net;
+> +		memcpy(trigger_data->device_name, old_device_name, 
+IFNAMSIZ);
+> +
+> +		spin_unlock_bh(&trigger_data->lock);
+> +		return -EINVAL;
+> +	}
+> +
+>  	trigger_data->carrier_link_up = false;
+>  	if (trigger_data->net_dev != NULL)
+>  		trigger_data->carrier_link_up = 
+netif_carrier_ok(trigger_data->net_dev);
+> @@ -159,7 +272,7 @@ static ssize_t netdev_led_attr_store(struct device *dev,
+> const char *buf, size_t size, enum led_trigger_netdev_modes attr)
+>  {
+>  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> -	unsigned long state;
+> +	unsigned long state, old_mode = trigger_data->mode;
+>  	int ret;
+>  	int bit;
+> 
+> @@ -184,6 +297,12 @@ static ssize_t netdev_led_attr_store(struct device
+> *dev, const char *buf, else
+>  		clear_bit(bit, &trigger_data->mode);
+> 
+> +	if (!validate_baseline_state(trigger_data)) {
+> +		/* Restore old mode on validation fail */
+> +		trigger_data->mode = old_mode;
+> +		return -EINVAL;
+> +	}
+> +
+>  	set_baseline_state(trigger_data);
+> 
+>  	return size;
+> @@ -220,6 +339,8 @@ static ssize_t interval_store(struct device *dev,
+>  			      size_t size)
+>  {
+>  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> +	int old_interval = atomic_read(&trigger_data->interval);
+> +	u32 old_mode = trigger_data->mode;
+>  	unsigned long value;
+>  	int ret;
+> 
+> @@ -228,13 +349,22 @@ static ssize_t interval_store(struct device *dev,
+>  		return ret;
+> 
+>  	/* impose some basic bounds on the timer interval */
+> -	if (value >= 5 && value <= 10000) {
+> -		cancel_delayed_work_sync(&trigger_data->work);
+> +	if (value < 5 || value > 10000)
+> +		return -EINVAL;
+> +
+> +	cancel_delayed_work_sync(&trigger_data->work);
+> +
+> +	atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> 
+> -		atomic_set(&trigger_data->interval, 
+msecs_to_jiffies(value));
+> -		set_baseline_state(trigger_data);	/* resets timer 
+*/
+> +	if (!validate_baseline_state(trigger_data)) {
+> +		/* Restore old interval on validation error */
+> +		atomic_set(&trigger_data->interval, old_interval);
+> +		trigger_data->mode = old_mode;
+> +		return -EINVAL;
+>  	}
+> 
+> +	set_baseline_state(trigger_data);	/* resets timer */
+> +
+>  	return size;
+>  }
+> 
+> @@ -368,13 +498,25 @@ static int netdev_trig_activate(struct led_classdev
+> *led_cdev) trigger_data->mode = 0;
+>  	atomic_set(&trigger_data->interval, msecs_to_jiffies(50));
+>  	trigger_data->last_activity = 0;
+> +	if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
+> +		/* With hw mode enabled reset any rule set by default */
+> +		if (led_cdev->hw_control_status(led_cdev)) {
+> +			rc = led_cdev->hw_control_configure(led_cdev, 
+BIT(TRIGGER_NETDEV_LINK),
+> +							    
+BLINK_MODE_ZERO);
+> +			if (rc)
+> +				goto err;
+> +		}
+> +	}
+> 
+>  	led_set_trigger_data(led_cdev, trigger_data);
+> 
+>  	rc = register_netdevice_notifier(&trigger_data->notifier);
+>  	if (rc)
+> -		kfree(trigger_data);
+> +		goto err;
+> 
+> +	return 0;
+> +err:
+> +	kfree(trigger_data);
+>  	return rc;
+>  }
+> 
+> @@ -394,6 +536,7 @@ static void netdev_trig_deactivate(struct led_classdev
+> *led_cdev)
+> 
+>  static struct led_trigger netdev_led_trigger = {
+>  	.name = "netdev",
+> +	.supported_blink_modes = SOFTWARE_HARDWARE,
+>  	.activate = netdev_trig_activate,
+>  	.deactivate = netdev_trig_deactivate,
+>  	.groups = netdev_trig_groups,
+
+
+
+
