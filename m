@@ -2,39 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49E8264DE49
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Dec 2022 17:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA3A264DEAE
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Dec 2022 17:31:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbiLOQNZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Dec 2022 11:13:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43178 "EHLO
+        id S229981AbiLOQbe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Dec 2022 11:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiLOQNX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Dec 2022 11:13:23 -0500
+        with ESMTP id S230231AbiLOQbJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Dec 2022 11:31:09 -0500
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADC131EE4;
-        Thu, 15 Dec 2022 08:13:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E6E10061;
+        Thu, 15 Dec 2022 08:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
         MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=pQq23aBLz2m2Qb/o0dxmFq0n0pj+yPa65DscBOK8wdk=; b=ph8Zhq1SIqIA9pbenDsYgg/e2H
-        KleIJOozdYhH1f/ZplayPuwLMlUiLf6z3/WUgtW1YO4UFanERFzVrGKkU+Zt92bejno3Zpiju+npB
-        a1SGBHcNnhkR/EhXe//Rjf7sqJ15yWhH6EjN/Xypu400PHhv/5iu25gJRjjV+A5dtn+KV+TjFvTYW
-        BFAOVOacBZYSC30bU8TQ7ZLbKjb54dQfOOFu7R7aU2ku8lrlBz9yKXD7hw8JKXXSC73SuPPrLk70O
-        FnmSpWcKYKxFLxVUwF4PFSxjj4dFIcp1jl5QhCxD9sYBS7q7DmehdqtFVE7uYbChwsHivjAvj43Zq
-        Q1oQVTfQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35720)
+        bh=iusyxPYyLd64XV4Av5w1K79Hex9dGUV2ZXLPs+Qj0uM=; b=yBJ0luSsxN0X6uU8A/3vG74cum
+        EhMuEii6ewCM8214Xuhl8HUFGl52HOI06AVhYVaYvmfyj9q3Dpw0zrAOiEvSWyUAWW1EcMwwrAYqz
+        6h9w4JMCx4/6urSgdEjEpYRGz4ZEBZMOqzGMGhuk6JYH01aeERLbuyo1mMQmeVwcgpOydcpcm4N2H
+        BG8dRdsbwRWAZvxOCoG/+I/bo1ysMj7smzrUP/JgCSzHUi8ErnwX4lr3KYkZOIYLcZMpti6qU7i3L
+        REh/UVa0HAEO9iqvVc4Ag5oK1QButHYk6F3cI/vFUfFUjykhMorlENAaGuwqqTgwh4tXtseHscbMP
+        K8jvqlkA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35724)
         by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <linux@armlinux.org.uk>)
-        id 1p5qr6-0003Hw-BH; Thu, 15 Dec 2022 16:13:08 +0000
+        id 1p5r8F-0003L7-58; Thu, 15 Dec 2022 16:30:51 +0000
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
         (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1p5qr1-0008U9-BS; Thu, 15 Dec 2022 16:13:03 +0000
-Date:   Thu, 15 Dec 2022 16:13:03 +0000
+        id 1p5r8D-0008UX-Dk; Thu, 15 Dec 2022 16:30:49 +0000
+Date:   Thu, 15 Dec 2022 16:30:49 +0000
 From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
 To:     Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
@@ -52,16 +52,16 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
         Tim Harvey <tharvey@gateworks.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH v7 01/11] leds: add support for hardware driven LEDs
-Message-ID: <Y5tHjwx1Boj3xMok@shell.armlinux.org.uk>
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 02/11] leds: add function to configure hardware
+ controlled LED
+Message-ID: <Y5tLuaqp9MHcW7rU@shell.armlinux.org.uk>
 References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-2-ansuelsmth@gmail.com>
+ <20221214235438.30271-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221214235438.30271-2-ansuelsmth@gmail.com>
+In-Reply-To: <20221214235438.30271-3-ansuelsmth@gmail.com>
 Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
@@ -74,73 +74,104 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Christian,
 
-Thanks for the patch.
+On Thu, Dec 15, 2022 at 12:54:29AM +0100, Christian Marangi wrote:
+> +A trigger once he declared support for hardware controlled blinks, will use the function
+> +hw_control_configure() provided by the driver to check support for a particular blink mode.
 
-I think Andrew's email is offline at the moment.
+Please improve the above. I think what is actually meant is "Where a
+trigger has support for hardware controlled blink modes,
+hw_control_configure() will be used to check whether a particular blink
+mode is supported and configure the blink mode."
 
-On Thu, Dec 15, 2022 at 12:54:28AM +0100, Christian Marangi wrote:
-> +static bool led_trigger_is_supported(struct led_classdev *led_cdev,
-> +				     struct led_trigger *trigger)
-> +{
-> +	switch (led_cdev->blink_mode) {
-> +	case SOFTWARE_CONTROLLED:
-> +		if (trigger->supported_blink_modes == HARDWARE_ONLY)
-> +			return 0;
-> +		break;
-> +	case HARDWARE_CONTROLLED:
-> +		if (trigger->supported_blink_modes == SOFTWARE_ONLY)
-> +			return 0;
-> +		break;
-> +	case SOFTWARE_HARDWARE_CONTROLLED:
-> +		break;
-> +	default:
-> +		return 0;
-> +	}
+> +This function passes as the first argument (flag) a u32 flag.
+
+I don't think "(flag)" is necessary, as I think "a u32 flag"
+sufficiently suggests that it's called "flag". In any case, it doesn't
+appear to be a "u32" but an "unsigned long".
+
+> +The second argument (cmd) of hw_control_configure() method can be used to do various
+> +operations for the specific blink mode. We currently support ENABLE, DISABLE, READ, ZERO
+> +and SUPPORTED to enable, disable, read the state of the blink mode, ask the LED
+> +driver if it does supports the specific blink mode and to reset any blink mode active.
 > +
-> +	return 1;
+> +In ENABLE/DISABLE hw_control_configure() should configure the LED to enable/disable the
+> +requested blink mode (flag).
+> +In READ hw_control_configure() should return 0 or 1 based on the status of the requested
+> +blink mode (flag).
+> +In SUPPORTED hw_control_configure() should return 0 or 1 if the LED driver supports the
+> +requested blink mode (flags) or not.
+> +In ZERO hw_control_configure() should return 0 with success operation or error.
 
-Should be returning true/false. I'm not sure I'm a fan of the style of
-this though - wouldn't the following be easier to read?
+I think some kind of tabular description of this would be better.
+Something like this but on docbook format:
 
-	switch (led_cdev->blink_mode) {
-	case SOFTWARE_CONTROLLED:
-		return trigger->supported_blink_modes != HARDWARE_ONLY;
+hw_control_configure()'s second argument, cmd, is used to specify
+various operations for the LED blink mode, and will be one of:
 
-	case HARDWARE_CONTROLLED:
-		return trigger->supported_blink_modes != SOFTWARE_ONLY;
+ENABLE - to enable the blink mode requested in flag. Returns ?
+DISABLE - to disable the blink mode requested in flag. Returbns ?
+READ - to indicate whether the blink mode requested in flag is enabled.
+       Returns 0 if disabled or 1 if enabled.
+SUPPORTED - to indicate whether the blink mode requested in flag is
+            supported. Returns 0 if unsupported or 1 if supported.
+ZERO - to disable all blink modes. Returns 0 or negative errno.
 
-	case SOFTWARE_HARDWARE_CONTROLLED:
-		return true;
-	}
-?
+The problem with the way you've listed it is you've listed the
+operations in a different order to the description in the same sentence,
+so effectiely ZERO means to report whether supported and SUPPORTED means
+to reset all blink modes!
 
-Also, does it really need a default case - without it, when the
-led_blink_modes enum is expanded and the switch statement isn't
-updated, we'll get a compiler warning which will prompt this to be
-updated - whereas, with a default case, it won't.
+> +
+> +The unsigned long flag is specific to the trigger and change across them. It's in the LED
+> +driver interest know how to elaborate this flag and to declare support for a
+> +particular trigger.
 
-> @@ -188,6 +213,10 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
->  		led_set_brightness(led_cdev, LED_OFF);
->  	}
->  	if (trig) {
-> +		/* Make sure the trigger support the LED blink mode */
-> +		if (!led_trigger_is_supported(led_cdev, trig))
-> +			return -EINVAL;
+Hmm, as a casual observer, this doesn't really give much information.
+Does this mean that it's up to the hardware LED driver to decide what
+each bit in the "flag" argument means? If not, I think this needs to
+be worded better!
 
-Shouldn't validation happen before we start taking any actions? In other
-words, before we remove the previous trigger?
+> For this exact reason explicit support for the specific
+> +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
+> +with a not supported trigger.
 
-> @@ -350,12 +381,26 @@ static inline bool led_sysfs_is_disabled(struct led_classdev *led_cdev)
+Seems to be a change in terminology - weren't we using "HARDWARE" and
+"SOFTWARE" to describe the mode, rather than "offload" ?
+
+> +If the driver returns -EOPNOTSUPP on hw_control_configure(), the trigger activation will
+> +fail as the driver doesn't support that specific offload trigger or doesn't know
+> +how to handle the provided flags.
+
+This gets rather ambiguous. When can -EOPNOTSUPP be returned - for which
+cmds? Surely, if we have already tested for support using the SUPPORTED
+cmd which returns a 0/1 value, we should not be going on to trigger a
+request to enable something that isn't supported?
+
+> +
+>  Known Issues
+>  ============
 >  
->  #define TRIG_NAME_MAX 50
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 09ff1dc6f48d..b5aad67fecfb 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -73,6 +73,16 @@ enum led_blink_modes {
+>  	SOFTWARE_HARDWARE_CONTROLLED,
+>  };
 >  
-> +enum led_trigger_blink_supported_modes {
-> +	SOFTWARE_ONLY = SOFTWARE_CONTROLLED,
-> +	HARDWARE_ONLY = HARDWARE_CONTROLLED,
-> +	SOFTWARE_HARDWARE = SOFTWARE_HARDWARE_CONTROLLED,
+> +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
+> +enum blink_mode_cmd {
+> +	BLINK_MODE_ENABLE, /* Enable the hardware blink mode */
+> +	BLINK_MODE_DISABLE, /* Disable the hardware blink mode */
+> +	BLINK_MODE_READ, /* Read the status of the hardware blink mode */
+> +	BLINK_MODE_SUPPORTED, /* Ask the driver if the hardware blink mode is supported */
+> +	BLINK_MODE_ZERO, /* Disable any hardware blink active */
+> +};
+> +#endif
 
-I suspect all these generic names are asking for eventual namespace
-clashes. Maybe prefix them with LED_ ?
+Generally not a good idea to make definitions in header files
+conditional on configuration symbols - it makes build-testing more
+problematical.
 
 Thanks.
 
