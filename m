@@ -2,159 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DCCE64EB26
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 13:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6A164EB9C
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 13:53:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbiLPMDU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Dec 2022 07:03:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53804 "EHLO
+        id S230242AbiLPMxH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Dec 2022 07:53:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbiLPMDN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 07:03:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B653BD59
-        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 04:02:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671192143;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=n0onGUwho42Lk/2Xvrk5LwW7Uvmn5kP1MKjLYRvtQAc=;
-        b=YfkboM0nrji9h+OdnuVYJnxrgDmATNw5RBc2d1pEN5qn8+RjBsohTiYmRi5GMv7MdEBDyR
-        kAMdDe1us3K2/KLKk+utnfXR6BE14VS+CS0PAd7eJOBuTvz5NJavuo1uI4A0rp4p/ey2Xq
-        NRRjke+SFbecEGmhgeOt0SSpCksJuWo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-531-UQFoewloO22TMu3klRfoOg-1; Fri, 16 Dec 2022 07:02:22 -0500
-X-MC-Unique: UQFoewloO22TMu3klRfoOg-1
-Received: by mail-ed1-f71.google.com with SMTP id y10-20020a056402358a00b0046fc5125069so1707342edc.23
-        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 04:02:21 -0800 (PST)
+        with ESMTP id S230064AbiLPMxG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 07:53:06 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2622496C;
+        Fri, 16 Dec 2022 04:53:05 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id i187-20020a1c3bc4000000b003d1e906ca23so1127802wma.3;
+        Fri, 16 Dec 2022 04:53:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BheHA0Tcwm6n8ymyQljk2z1vC+8TH8hh+YD/X0C4MfE=;
+        b=AKseIkBZZBrqaCfkNwNc+eOqwfrvP1xB5qgAOduMfqvnWa/fl4el+6xifzPzoHdoMu
+         dThO83kul7JlQEUalQSJI9PwHrXOloc9BXy1SaNNYS+GTaohbapvDJ2iA7c17ImUR/pL
+         Uk2j6bXGXuATvNUy2eCZTxPY2QaZYRDXNaKGCW3EXp8C7VYgmqmHT3UDXn5ON4P5VoWj
+         tODxHPhQ6dk0TlV8sn3u7JzozL5n+Gxdh7d+nJQj8+lj0M+EKpOCdv5zjTNYG56tqWzs
+         T9KTGXJaolmbqw9gWZlSp+8ctPAfsp7jDTmRNpJnAxZQmafMXgXusal93noxxC/XvI/j
+         nmKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n0onGUwho42Lk/2Xvrk5LwW7Uvmn5kP1MKjLYRvtQAc=;
-        b=amIcRJgLTcqZzWnAzRVFPPC4V3LHReiopamtl3PajSjxUQGF9r6XyY1tnuCsoKKDW0
-         YsKnvSKIrToyLMXuml80kSIb42sGfAG8QzetBZWUVwubg7UXNvsDBMzU6mICcssi7Mkq
-         jdezduUGODVlPEcjJh2C8LbQzPWDJD+nJtic/QQNqmnVfUGyL/oBKWExrM0IiHBYEQKd
-         g/ALRzkuNsgVyJmLnzP234acvh0aP2iuC+UmHfk64FhW/qrFj+kuV8E6sPUJ0qbVXmhH
-         8TIaXF/eKUDw8VgwiZJv1tMPXmPHUkc4aLpj3bvqTqFVPjttvxh3PsuGk/WBwj1QDa84
-         PM8Q==
-X-Gm-Message-State: ANoB5pnVTyb2LSbVu06HAJVqbR5Yrak8QL1qOetvC4Dqnu7rNNkB3JyV
-        o4mwYnaRIxeqRaen3v8FfnuyHWhNTlqkXs14okNQmqCXyWvWemOi0uQQKvh+wpTWEbdbaGS/oR+
-        5hb/yTCIQ+1qsLILpHHad1Q==
-X-Received: by 2002:a05:6402:3987:b0:467:e9a5:77c4 with SMTP id fk7-20020a056402398700b00467e9a577c4mr27286758edb.14.1671192141123;
-        Fri, 16 Dec 2022 04:02:21 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4xS5GY2N7ApHCruZzxYhR/KCijYVIin7KMr5Sjan0LxTro5Ol3BiPdKrXUHFjiH/21a3awSg==
-X-Received: by 2002:a05:6402:3987:b0:467:e9a5:77c4 with SMTP id fk7-20020a056402398700b00467e9a577c4mr27286737edb.14.1671192140853;
-        Fri, 16 Dec 2022 04:02:20 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id cy28-20020a0564021c9c00b00463597d2c25sm784672edb.74.2022.12.16.04.02.19
+        bh=BheHA0Tcwm6n8ymyQljk2z1vC+8TH8hh+YD/X0C4MfE=;
+        b=C8iwDwwUVz0aFhDn0LKPLvaTRdXNdHqxulbUiiA7LUQ+XC3IcfNpN4QceKNYoHTuCG
+         rLZ16HAGhkHkwSZQhUdotjr6eIySIuOb6Za4Y75d/N5W0c8ZtDX8Bebsl4dnyR+dggXK
+         frt62kcXb9N5HrHntl+0TC+7z45tZXozy8SCxHJs1fq3LDN7BFIxL7hEobgQBEQCet45
+         QgrThJ86Z1UBthh/9/1Tte4rgscwi0hPkXvcoK1zxj+4Ud6qOoLb3s3VwHgwTrWeBVEd
+         j1VPLgTfAxerb2hJIsvDx2wH/cwMobgD4BZmak9bNcEwKrc4X7FnhangiRtebW2atTDN
+         VVpQ==
+X-Gm-Message-State: ANoB5pmfWuZxqcqEKlXPpfvhK26w6X/4ESvQsE7s2abb0wTUt41/V9f1
+        EPk6xT3xzcn7xzVKTQBEeb0=
+X-Google-Smtp-Source: AA0mqf479L304eL8/K8VJH98TvI/FZlxuU1K4BcjUM7FJGorT7BHd3K5GAGOp5+Y4o4yWCg6c9hDig==
+X-Received: by 2002:a7b:cd17:0:b0:3d2:2d2a:d58f with SMTP id f23-20020a7bcd17000000b003d22d2ad58fmr13121323wmj.2.1671195183537;
+        Fri, 16 Dec 2022 04:53:03 -0800 (PST)
+Received: from [192.168.1.132] ([207.188.167.132])
+        by smtp.gmail.com with ESMTPSA id k11-20020a05600c0b4b00b003c5571c27a1sm2870571wmr.32.2022.12.16.04.53.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 04:02:20 -0800 (PST)
-Message-ID: <6c5867ed-a78e-8919-b34f-560c0773727e@redhat.com>
-Date:   Fri, 16 Dec 2022 13:02:19 +0100
+        Fri, 16 Dec 2022 04:53:02 -0800 (PST)
+Message-ID: <0fc0217e-f1dd-d64c-d43c-cd47a8acbfd4@gmail.com>
+Date:   Fri, 16 Dec 2022 13:53:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH v3 00/11] leds: lookup-table support + int3472/media
- privacy LED support
-Content-Language: en-US, nl
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
-        linux-media@vger.kernel.org
-References: <20221216113013.126881-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221216113013.126881-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v7 0/8] Add MediaTek MT6357 PMIC support
+Content-Language: en-US
+To:     Kevin Hilman <khilman@kernel.org>,
+        Alexandre Mergnat <amergnat@baylibre.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabien Parent <fabien.parent@linaro.org>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Flora Fu <flora.fu@mediatek.com>,
+        Chen Zhong <chen.zhong@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-mediatek@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        linux-rtc@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        linux-leds@vger.kernel.org
+References: <20221005-mt6357-support-v7-0-477e60126749@baylibre.com>
+ <7hr0xe56uf.fsf@baylibre.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <7hr0xe56uf.fsf@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi Kevin,
+Hi Alexandre,
 
-On 12/16/22 12:30, Hans de Goede wrote:
-> Hi All,
+On 05/12/2022 14:16, Kevin Hilman wrote:
+> Matthias,
 > 
-> Here is my 3th attempt at adjusting the INT3472 code's handling of
-> the privacy LED on x86 laptops with MIPI camera(s) so that it will also
-> work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
-> (so that we cannot just tie the LED state to the clk-enable state).
+> Alexandre Mergnat <amergnat@baylibre.com> writes:
 > 
-> Due to popular request by multiple people this new version now models
-> the privacy LED as a LED class device. This requires being able to
-> "tie" the LED class device to a specific camera sensor (some devices
-> have multiple sensors + privacy-LEDs).
+>> This patch series adds MFD, PMIC keys, and regulator support for MT6357.
+>> MT6357 is a MediaTek PMIC very similar to MT6358.
 > 
-> Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4
-> is a bit of refactoring in preparation for patch 5 which adds
-> generic (non devicetree specific) led_get() and devm_led_get() function
-> (which will also work with devicetree) and lookup table support to
-> allow platform code to add LED class-device <-> consumer-dev,function
-> lookups for non devicetree platforms.
+> The regulator driver (and bindings) were merged by Mark.  Could you take
+> the rest of this series via your mediatek tree?  The input driver (and
+> bindings) are ack'd by Dmitry.
 > 
-> Patch 6 adds generic privacy-LED support to the v4l2-core/v4l2-subdev.c
-> code automatically enabling the privacy-LED when s_stream(subdev, 1)
-> is called. So that we don't need to privacy-LED code to all the
-> camera sensor drivers separately (as requested by Sakari).
-> 
-> These are all new patches in version 3. Patches 7-11 are patches
-> to the platform specific INT3472 code to register privacy-LED class
-> devices + lookup table entries for privacy-LEDs described in
-> the special INT3472 ACPI nodes found on x86 devices with MIPI
-> cameras (+ prep work + some other INT3472 fixes).
-> 
-> Assuming the LED and media maintainers are happy with the approach
-> suggested here (if you are please give your Ack / Reviewed-by) we
-> need to talk about how to merge this since patches 6 and 7-11
-> depend on the LED subsystem changes. I think it would be best if
-> the LED subsystem can provide an immutable branch with patches 1-5
-> (on top of 6.2-rc1 once it is out) and then the media folks and I
-> can merge that branch and then apply the other patches on top.
-> 
-> This series has been tested on:
-> 
-> - Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
-> - Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
-> - Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
->                               back: ov8865 with privacy LED (pled not yet supported)
-> 
-> Regards,
-> 
-> Hans
 
-p.s.
+Yes I can do that but 3/8 does not apply cleanly. Could you please rebase on top 
+of v6.2-tmp/soc?
 
-I have matching out of tree IPU6 driver changes here:
-
-https://github.com/jwrdegoede/ipu6-drivers/commits/master
-
-once this series has landed these changes will allow using
-the out of tree IPU6 driver with an unmodified upstream kernel.
-
-Regards,
-
-Hans
-
-
-
+Thanks
+Matthias
