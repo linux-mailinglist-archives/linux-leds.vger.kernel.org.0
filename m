@@ -2,132 +2,254 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE1E64EFC6
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 17:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0C3864EFCD
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 17:53:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiLPQw1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Dec 2022 11:52:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
+        id S231495AbiLPQxg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Dec 2022 11:53:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbiLPQwR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 11:52:17 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58AE7DFAC;
-        Fri, 16 Dec 2022 08:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=8951IwQXDwezIFfuE4x8rlkg+QlEDpYrWM0TEkzABwY=; b=os1lxoQnJ/FgOhbm9lnOQ366gf
-        OvE/CZFMFe9nNIuIOMEOtxWGfZOfGGL4t+1hI1vAN/jywV1dusglwtoSZRaNwQgRTNrHJqbEuN005
-        ivWfk78PuQIfjyycn03Ru193lpTOqCc7NbtqleOW+1L394v/S3sf6cWqT3mo+y20QCDrkeKoNDRLL
-        WpZG9l8zCXqEayoiAO8sU0BfWAwFJKbHt8XvzGeEIsiIQ+1RCU66aBPLYd/CfbTcYlMf1cqmkD+hY
-        geIGvFaa+Z0k3ihuPejMBYOl/rj9EsgjjdhmgOiw9pY2sSHZZd/LGYZjOqhRei48ATAzBOP+RHg15
-        MhYSwuow==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35744)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1p6DwI-00089K-IK; Fri, 16 Dec 2022 16:52:02 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1p6DwE-00012J-OM; Fri, 16 Dec 2022 16:51:58 +0000
-Date:   Fri, 16 Dec 2022 16:51:58 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH v7 01/11] leds: add support for hardware driven LEDs
-Message-ID: <Y5yiLhTt2+AV1G0N@shell.armlinux.org.uk>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-2-ansuelsmth@gmail.com>
- <Y5tHjwx1Boj3xMok@shell.armlinux.org.uk>
- <639ca0a4.050a0220.99395.8fd3@mx.google.com>
+        with ESMTP id S231482AbiLPQxe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 11:53:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4686C2AC0
+        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 08:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671209569;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kja3SmecApGMN61IK4pCNwdjsbD0sNLmT1vc6A1JaUY=;
+        b=TSsrlYcUKtmJZeAKgZoU+1VNECYG7K/ks9YK2pJBLoFHQtglYCy95NrTCAKiLNgTD1z2tR
+        zjVuromEUhOWofwVs/UanXG0dXbQ0LUwcHXoXXeIclBEH79flsPVBMnS8mNyPRqiJA/YLV
+        HtAV4Bfxv9JJ5ON+97S94oYl6whQGtk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-665-C3FzlHTwNcupaCq2MCOPeg-1; Fri, 16 Dec 2022 11:52:47 -0500
+X-MC-Unique: C3FzlHTwNcupaCq2MCOPeg-1
+Received: by mail-ej1-f69.google.com with SMTP id sg39-20020a170907a42700b007c19b10a747so2205123ejc.11
+        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 08:52:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kja3SmecApGMN61IK4pCNwdjsbD0sNLmT1vc6A1JaUY=;
+        b=PXmOuLVQ1jv7/ZdFcq1XO0ecOKLiAsbRKmmme0LoKz7p5NEzczYieh1LyVIcUH8l/R
+         Y0Q5M9OVgk31S5HX014/pA17to+YhytKTZk40cJetV3gHEH28GNSmcC0Qs2l4k6pvv01
+         /e2Vddd4/YSIaFinovMX5g5i23Lsd5DNItvU9tLm2h3SBP4OvHMDlhaWpILL4pOsNjFK
+         4xwRcXiqHNONBvqLOyd1iNMG+piOVPXwJUR4f9Je8rRKqgNGmJjdz9AAwRa+r5rYAEjt
+         +jbbQOdOTc+qAW5EHv+VuIa294H4vzXcGOVEth6cfjyudWpk0up660bRtu4CsC29dPoz
+         co9Q==
+X-Gm-Message-State: ANoB5pllUXxKLB9AUGr0zI/Uq34EjVt+sMIFT+X2U8hBpBVubP5ceHIQ
+        L0OcjJwo+XsaN9a2aZdHMMLC9o8u51YsNJTIqni9QJUZcjyUjq/RbJ8cp5SurNQCsbBEwJe8cNi
+        bEtZf+mDauqiFk0Wci/YxDg==
+X-Received: by 2002:a17:907:c295:b0:78d:f455:c398 with SMTP id tk21-20020a170907c29500b0078df455c398mr17377372ejc.62.1671209566791;
+        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5WWxTV0JYtZ3TMrkOYvf0JwKwvXkcY0xL7zTiDLfTkOMDCQwGw4d6CiPXcNcUJFXAvP9l8+Q==
+X-Received: by 2002:a17:907:c295:b0:78d:f455:c398 with SMTP id tk21-20020a170907c29500b0078df455c398mr17377348ejc.62.1671209566593;
+        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id 27-20020a170906301b00b00782539a02absm1033118ejz.194.2022.12.16.08.52.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
+Message-ID: <a01dfb96-9d70-e3ce-36e7-b06b8fe60911@redhat.com>
+Date:   Fri, 16 Dec 2022 17:52:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <639ca0a4.050a0220.99395.8fd3@mx.google.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 06/11] v4l: subdev: Make the v4l2-subdev core code
+ enable/disable the privacy LED if present
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+References: <20221216113013.126881-1-hdegoede@redhat.com>
+ <20221216113013.126881-7-hdegoede@redhat.com>
+ <Y5x5D4kTnEpcHzsT@pendragon.ideasonboard.com>
+ <c0fc35eb-9b26-c1c6-3f85-234acbee0ff8@redhat.com>
+ <Y5ygegq9zrHNIlFM@pendragon.ideasonboard.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y5ygegq9zrHNIlFM@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 05:45:25PM +0100, Christian Marangi wrote:
-> On Thu, Dec 15, 2022 at 04:13:03PM +0000, Russell King (Oracle) wrote:
-> > Hi Christian,
-> > 
-> > Thanks for the patch.
-> > 
-> > I think Andrew's email is offline at the moment.
-> >
+Hi,
+
+On 12/16/22 17:44, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> Notice by gmail spamming me "I CAN'T SEND IT AHHHHH"
-> Holidy times I guess?
-
-Sadly, Andrew's email has done this a number of times - and Andrew
-used to be on IRC so I could prod him about it, but it seems he
-doesn't hang out on IRC anymore. It's been like it a few days now.
-
-> > On Thu, Dec 15, 2022 at 12:54:28AM +0100, Christian Marangi wrote:
-> > > @@ -188,6 +213,10 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
-> > >  		led_set_brightness(led_cdev, LED_OFF);
-> > >  	}
-> > >  	if (trig) {
-> > > +		/* Make sure the trigger support the LED blink mode */
-> > > +		if (!led_trigger_is_supported(led_cdev, trig))
-> > > +			return -EINVAL;
-> > 
-> > Shouldn't validation happen before we start taking any actions? In other
-> > words, before we remove the previous trigger?
-> > 
+> On Fri, Dec 16, 2022 at 04:45:29PM +0100, Hans de Goede wrote:
+>> On 12/16/22 14:56, Laurent Pinchart wrote:
+>>> On Fri, Dec 16, 2022 at 12:30:08PM +0100, Hans de Goede wrote:
+>>>> Extend the call_s_stream() wrapper to enable/disable sensor privacy LEDs
+>>>> for sensors with a privacy LED, rather then having to duplicate this code
+>>>> in all the sensor drivers.
+>>>>
+>>>> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>> ---
+>>>>  drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++++++++++++++
+>>>>  include/media/v4l2-subdev.h           |  3 ++
+>>>>  2 files changed, 43 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> index 4988a25bd8f4..7344f6cd58b7 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> @@ -318,10 +318,44 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+>>>>  	       sd->ops->pad->get_mbus_config(sd, pad, config);
+>>>>  }
+>>>>  
+>>>> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+>>>> +#include <linux/leds.h>
+>>>
+>>> Can this be moved to the top of the file ? It doesn't have to be
+>>> conditionally compiled there.
+>>
+>> You mean just the #include right? Ack to that.
 > 
-> trigger_set first remove any trigger and set the led off. Then apply the
-> new trigger. So the validation is done only when a trigger is actually
-> applied. Think we should understand the best case here.
-
-I think this is a question that needs to be answered by the LEDs folk,
-as it's an interface behaviour / quality of implementation issue.
-
-> > > @@ -350,12 +381,26 @@ static inline bool led_sysfs_is_disabled(struct led_classdev *led_cdev)
-> > >  
-> > >  #define TRIG_NAME_MAX 50
-> > >  
-> > > +enum led_trigger_blink_supported_modes {
-> > > +	SOFTWARE_ONLY = SOFTWARE_CONTROLLED,
-> > > +	HARDWARE_ONLY = HARDWARE_CONTROLLED,
-> > > +	SOFTWARE_HARDWARE = SOFTWARE_HARDWARE_CONTROLLED,
-> > 
-> > I suspect all these generic names are asking for eventual namespace
-> > clashes. Maybe prefix them with LED_ ?
+> Yes, that's what I meant.
 > 
-> Agree they are pretty generic so I can see why... My only concern was
-> making them too long... Maybe reduce them to SW or HW? LEDS_SW_ONLY...
-> LEDS_SW_CONTROLLED?
+>>>> +
+>>>> +static void call_s_stream_update_pled(struct v4l2_subdev *sd, int enable)
+>>>> +{
+>>>> +	if (!sd->dev)
+>>>> +		return;
+>>>> +
+>>>> +	/* Try to get privacy-led once, at first s_stream() */
+>>>> +	if (!sd->privacy_led)
+>>>> +		sd->privacy_led = led_get(sd->dev, "privacy-led");
+>>>
+>>> I'm not sure I like this much. If the LED provider isn't available
+>>> (yet), the LED will stay off. That's a privacy concern.
+>>
+>> At first I tried to put the led_get() inside v4l2_async_register_subdev_sensor(),
+>> which could then return an error like -EPROBE_DEFER if the led_get()
+>> fails (and nicely limits the led_get() to sensors).
+>>
+>> The problem which I hit is that v4l2-fwnode.c is build according to
+>> CONFIG_V4L2_FWNODE where as v4l2-subdev.c is build according to
+>> CONFIG_VIDEO_DEV 
+>>
+>> And e.g. CONFIG_VIDEO_DEV could be builtin while CONFIG_V4L2_FWNODE
+>> could be a module and then having the #if IS_REACHABLE(CONFIG_LEDS_CLASS)
+>> spread over the 2 could result in different answers in the different
+>> files ...
+>>
+>> One solution here could be to change CONFIG_V4L2_FWNODE and V4L2_ASYNC
+>> to bools and link the (quite small) objects for these 2 into videodev.ko:
+>>
+>> videodev-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>> videodev-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+> 
+> There's a long overdue simplification of Kconfig symbols in the
+> subsystem. Another option would be to compile both in a single module,
+> as they're often used together. I'll let Sakari chime in, I don't have a
+> strong preference.
+> 
+>>>> +
+>>>> +	if (IS_ERR(sd->privacy_led))
+>>>> +		return;
+>>>> +
+>>>> +	mutex_lock(&sd->privacy_led->led_access);
+>>>> +
+>>>> +	if (enable) {
+>>>> +		led_sysfs_disable(sd->privacy_led);
+>>>> +		led_trigger_remove(sd->privacy_led);
+>>>> +		led_set_brightness(sd->privacy_led, sd->privacy_led->max_brightness);
+>>>> +	} else {
+>>>> +		led_set_brightness(sd->privacy_led, 0);
+>>>> +		led_sysfs_enable(sd->privacy_led);
+>>>
+>>> I don't think you should reenable control through sysfs here. I don't
+>>> really see a use case, and you've removed the trigger anyway, so the
+>>> behaviour would be quite inconsistent.
+>>
+>> Hmm, I thought this was a good compromise, this way the LED
+>> can be used for other purposes when the sensor is off if users
+>> want to.
+>>
+>> Right if users want to use a trigger then they would need
+>> to re-attach the trigger after using the camera.
+>>
+>> But this way at least they can use the LED for other purposes
+>> which since many users don't use their webcam that often
+>> might be interesting for some users ...
+> 
+> If the privacy LED starts being used for other purposes, users may get
+> used to seeing it on at random times, which defeats the point of the
+> privacy LED in the first place.
 
-Seems sensible to me - and as a bonus they get shorter than the above!
+Using it for other purposes it not something which I expect
+e.g. distros to do OOTB, so normal users won't see the LED used
+in another way.  But it may be useful for tinkerers who do this
+as a local modification, in which case they know the LED
+behavior.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+With that said I'm fine with just disabling the sysfs interface
+once at probe / register time.
+
+Regards,
+
+Hans
+
+
+> 
+>> And this is consistent with how flash LEDs are handled.
+>>
+>>> Also, I think it would be better if the LED device was marked as "no
+>>> sysfs" when it is registered.
+>>
+>> If we decide to permanently disallow userspace access then
+>> yes this is an option. Or maybe better (to keep the LED
+>> drivers generic), do the disable directly after the led_get() ?
+> 
+> I suppose the small race condition wouldn't be a big issue, but if we
+> decide that the privacy LED should really not be used for user purposes,
+> then I'd still rather disable userspace access when registering the LED.
+> 
+>>>> +	}
+>>>> +
+>>>> +	mutex_unlock(&sd->privacy_led->led_access);
+>>>> +}
+>>>> +#else
+>>>> +static void call_s_stream_update_pled(struct v4l2_subdev *sd, int enable) {}
+>>>> +#endif
+>>>> +
+>>>>  static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>>>>  {
+>>>>  	int ret;
+>>>>  
+>>>> +	call_s_stream_update_pled(sd, enable);
+>>>> +
+>>>>  	ret = sd->ops->video->s_stream(sd, enable);
+>>>>  
+>>>>  	if (!enable && ret < 0) {
+>>>
+>>> You need to turn the LED off when enabling if .s_stream() fails.
+>>
+>> Ack.
+> 
+
