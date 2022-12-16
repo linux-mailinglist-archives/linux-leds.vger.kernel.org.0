@@ -2,254 +2,238 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0C3864EFCD
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 17:53:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE48264EFE2
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 17:58:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbiLPQxg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Dec 2022 11:53:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51392 "EHLO
+        id S231598AbiLPQ6M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Dec 2022 11:58:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231482AbiLPQxe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 11:53:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4686C2AC0
-        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 08:52:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671209569;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kja3SmecApGMN61IK4pCNwdjsbD0sNLmT1vc6A1JaUY=;
-        b=TSsrlYcUKtmJZeAKgZoU+1VNECYG7K/ks9YK2pJBLoFHQtglYCy95NrTCAKiLNgTD1z2tR
-        zjVuromEUhOWofwVs/UanXG0dXbQ0LUwcHXoXXeIclBEH79flsPVBMnS8mNyPRqiJA/YLV
-        HtAV4Bfxv9JJ5ON+97S94oYl6whQGtk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-665-C3FzlHTwNcupaCq2MCOPeg-1; Fri, 16 Dec 2022 11:52:47 -0500
-X-MC-Unique: C3FzlHTwNcupaCq2MCOPeg-1
-Received: by mail-ej1-f69.google.com with SMTP id sg39-20020a170907a42700b007c19b10a747so2205123ejc.11
-        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 08:52:47 -0800 (PST)
+        with ESMTP id S231566AbiLPQ6F (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 11:58:05 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DA455A95;
+        Fri, 16 Dec 2022 08:58:01 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id m19so2297548wms.5;
+        Fri, 16 Dec 2022 08:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=HEn5SyCtf5AYpp5F/wJFjKiMTWmWQwDsFpr363fO7CM=;
+        b=gCwJP/1aMNQ1N0WnBwwVyLKU402QPSpruirgFxByN3ugQZdUrfQG/bqV4FJQ2QoKzy
+         WX0ZM1A6fucbheX/9Y6KHr4LVwJ/t98irt2MQ7OmQ7LgUlI4Vrpxhuwz73a5zHtOSCXu
+         DwhTKabSgNRFWKmPITb3BIKuvzvR28B1W5+/bxgP16AfFpky7GVfcD9Jzs8YfLUdWsok
+         +NQ5RRyaqBKA04XEI+1GCfx7wnfkqmKN85RTIOFts3i0IAcGHEtFgWj+IEu8a3818zJS
+         MZ/eljsW0DztmJstPuJSnoOuD2D2yZBX8mQn+H+6Odp7tQ+nrBMcSV8ScXkRcgpCcLMc
+         2yWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kja3SmecApGMN61IK4pCNwdjsbD0sNLmT1vc6A1JaUY=;
-        b=PXmOuLVQ1jv7/ZdFcq1XO0ecOKLiAsbRKmmme0LoKz7p5NEzczYieh1LyVIcUH8l/R
-         Y0Q5M9OVgk31S5HX014/pA17to+YhytKTZk40cJetV3gHEH28GNSmcC0Qs2l4k6pvv01
-         /e2Vddd4/YSIaFinovMX5g5i23Lsd5DNItvU9tLm2h3SBP4OvHMDlhaWpILL4pOsNjFK
-         4xwRcXiqHNONBvqLOyd1iNMG+piOVPXwJUR4f9Je8rRKqgNGmJjdz9AAwRa+r5rYAEjt
-         +jbbQOdOTc+qAW5EHv+VuIa294H4vzXcGOVEth6cfjyudWpk0up660bRtu4CsC29dPoz
-         co9Q==
-X-Gm-Message-State: ANoB5pllUXxKLB9AUGr0zI/Uq34EjVt+sMIFT+X2U8hBpBVubP5ceHIQ
-        L0OcjJwo+XsaN9a2aZdHMMLC9o8u51YsNJTIqni9QJUZcjyUjq/RbJ8cp5SurNQCsbBEwJe8cNi
-        bEtZf+mDauqiFk0Wci/YxDg==
-X-Received: by 2002:a17:907:c295:b0:78d:f455:c398 with SMTP id tk21-20020a170907c29500b0078df455c398mr17377372ejc.62.1671209566791;
-        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5WWxTV0JYtZ3TMrkOYvf0JwKwvXkcY0xL7zTiDLfTkOMDCQwGw4d6CiPXcNcUJFXAvP9l8+Q==
-X-Received: by 2002:a17:907:c295:b0:78d:f455:c398 with SMTP id tk21-20020a170907c29500b0078df455c398mr17377348ejc.62.1671209566593;
-        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
-Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
-        by smtp.gmail.com with ESMTPSA id 27-20020a170906301b00b00782539a02absm1033118ejz.194.2022.12.16.08.52.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 08:52:46 -0800 (PST)
-Message-ID: <a01dfb96-9d70-e3ce-36e7-b06b8fe60911@redhat.com>
-Date:   Fri, 16 Dec 2022 17:52:45 +0100
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HEn5SyCtf5AYpp5F/wJFjKiMTWmWQwDsFpr363fO7CM=;
+        b=wRPz+zf2THPm8nGozYrs3qvMEnhKC+NnyxNfGTF+J2GZt8pxwOVXI1/abI3iQCbBT7
+         JQ5FvBJWU3k8ucAg3kNws0qqY5pFwtOPfbBGqsqQn1kSXfbF68iS0zT0hjd1gKFmA9/L
+         HTEWK/21gb7eSjvYgxnRoF3zHCM1EuGwmjA4nQFcx1Kq0GacCUUPbCILQKg7SCV0PPWv
+         qeRxBqqsV9WWBXD+6GNvBiaXCFVJkCAMRuYLXLHgi7b0okN3g1CxUEXMbqOmJp1n6bzL
+         HAT8yOcZQ+Uj3YMWnc3UQa5JqzyfcnmGBI2Nfkt7oss8bsnfdaYrU92Z39YCAWsr84OO
+         W3tQ==
+X-Gm-Message-State: ANoB5pm7FNy2oc56GctCuxYpQ/DpGS3QweVjFXXsCB0AimiUjMLHMgD8
+        sLSxR7vmWlle5+79CLCxYVg=
+X-Google-Smtp-Source: AA0mqf44DJ42/uwI/4pGD7q7CvI/kaHkchYIJ3GA23ub837lPAnNPlb6hz1WDUVJGq1piY2Vfhjngw==
+X-Received: by 2002:a05:600c:4891:b0:3d1:fbf9:3bd4 with SMTP id j17-20020a05600c489100b003d1fbf93bd4mr25787753wmp.10.1671209879725;
+        Fri, 16 Dec 2022 08:57:59 -0800 (PST)
+Received: from Ansuel-xps. (93-42-71-18.ip85.fastwebnet.it. [93.42.71.18])
+        by smtp.gmail.com with ESMTPSA id y5-20020a056000108500b0023657e1b980sm2777405wrw.53.2022.12.16.08.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 08:57:59 -0800 (PST)
+Message-ID: <639ca397.050a0220.77c8f.9870@mx.google.com>
+X-Google-Original-Message-ID: <Y5yjmHPHkDKrpbPA@Ansuel-xps.>
+Date:   Fri, 16 Dec 2022 17:58:00 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 02/11] leds: add function to configure hardware
+ controlled LED
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+ <20221214235438.30271-3-ansuelsmth@gmail.com>
+ <Y5tLuaqp9MHcW7rU@shell.armlinux.org.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 06/11] v4l: subdev: Make the v4l2-subdev core code
- enable/disable the privacy LED if present
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
-        linux-media@vger.kernel.org
-References: <20221216113013.126881-1-hdegoede@redhat.com>
- <20221216113013.126881-7-hdegoede@redhat.com>
- <Y5x5D4kTnEpcHzsT@pendragon.ideasonboard.com>
- <c0fc35eb-9b26-c1c6-3f85-234acbee0ff8@redhat.com>
- <Y5ygegq9zrHNIlFM@pendragon.ideasonboard.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y5ygegq9zrHNIlFM@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5tLuaqp9MHcW7rU@shell.armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Thu, Dec 15, 2022 at 04:30:49PM +0000, Russell King (Oracle) wrote:
+> Hi Christian,
+> 
+> On Thu, Dec 15, 2022 at 12:54:29AM +0100, Christian Marangi wrote:
+> > +A trigger once he declared support for hardware controlled blinks, will use the function
+> > +hw_control_configure() provided by the driver to check support for a particular blink mode.
+> 
+> Please improve the above. I think what is actually meant is "Where a
+> trigger has support for hardware controlled blink modes,
+> hw_control_configure() will be used to check whether a particular blink
+> mode is supported and configure the blink mode."
+>
 
-On 12/16/22 17:44, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> On Fri, Dec 16, 2022 at 04:45:29PM +0100, Hans de Goede wrote:
->> On 12/16/22 14:56, Laurent Pinchart wrote:
->>> On Fri, Dec 16, 2022 at 12:30:08PM +0100, Hans de Goede wrote:
->>>> Extend the call_s_stream() wrapper to enable/disable sensor privacy LEDs
->>>> for sensors with a privacy LED, rather then having to duplicate this code
->>>> in all the sensor drivers.
->>>>
->>>> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>>  drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++++++++++++++
->>>>  include/media/v4l2-subdev.h           |  3 ++
->>>>  2 files changed, 43 insertions(+)
->>>>
->>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> index 4988a25bd8f4..7344f6cd58b7 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> @@ -318,10 +318,44 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
->>>>  	       sd->ops->pad->get_mbus_config(sd, pad, config);
->>>>  }
->>>>  
->>>> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
->>>> +#include <linux/leds.h>
->>>
->>> Can this be moved to the top of the file ? It doesn't have to be
->>> conditionally compiled there.
->>
->> You mean just the #include right? Ack to that.
-> 
-> Yes, that's what I meant.
-> 
->>>> +
->>>> +static void call_s_stream_update_pled(struct v4l2_subdev *sd, int enable)
->>>> +{
->>>> +	if (!sd->dev)
->>>> +		return;
->>>> +
->>>> +	/* Try to get privacy-led once, at first s_stream() */
->>>> +	if (!sd->privacy_led)
->>>> +		sd->privacy_led = led_get(sd->dev, "privacy-led");
->>>
->>> I'm not sure I like this much. If the LED provider isn't available
->>> (yet), the LED will stay off. That's a privacy concern.
->>
->> At first I tried to put the led_get() inside v4l2_async_register_subdev_sensor(),
->> which could then return an error like -EPROBE_DEFER if the led_get()
->> fails (and nicely limits the led_get() to sensors).
->>
->> The problem which I hit is that v4l2-fwnode.c is build according to
->> CONFIG_V4L2_FWNODE where as v4l2-subdev.c is build according to
->> CONFIG_VIDEO_DEV 
->>
->> And e.g. CONFIG_VIDEO_DEV could be builtin while CONFIG_V4L2_FWNODE
->> could be a module and then having the #if IS_REACHABLE(CONFIG_LEDS_CLASS)
->> spread over the 2 could result in different answers in the different
->> files ...
->>
->> One solution here could be to change CONFIG_V4L2_FWNODE and V4L2_ASYNC
->> to bools and link the (quite small) objects for these 2 into videodev.ko:
->>
->> videodev-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
->> videodev-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
-> 
-> There's a long overdue simplification of Kconfig symbols in the
-> subsystem. Another option would be to compile both in a single module,
-> as they're often used together. I'll let Sakari chime in, I don't have a
-> strong preference.
-> 
->>>> +
->>>> +	if (IS_ERR(sd->privacy_led))
->>>> +		return;
->>>> +
->>>> +	mutex_lock(&sd->privacy_led->led_access);
->>>> +
->>>> +	if (enable) {
->>>> +		led_sysfs_disable(sd->privacy_led);
->>>> +		led_trigger_remove(sd->privacy_led);
->>>> +		led_set_brightness(sd->privacy_led, sd->privacy_led->max_brightness);
->>>> +	} else {
->>>> +		led_set_brightness(sd->privacy_led, 0);
->>>> +		led_sysfs_enable(sd->privacy_led);
->>>
->>> I don't think you should reenable control through sysfs here. I don't
->>> really see a use case, and you've removed the trigger anyway, so the
->>> behaviour would be quite inconsistent.
->>
->> Hmm, I thought this was a good compromise, this way the LED
->> can be used for other purposes when the sensor is off if users
->> want to.
->>
->> Right if users want to use a trigger then they would need
->> to re-attach the trigger after using the camera.
->>
->> But this way at least they can use the LED for other purposes
->> which since many users don't use their webcam that often
->> might be interesting for some users ...
-> 
-> If the privacy LED starts being used for other purposes, users may get
-> used to seeing it on at random times, which defeats the point of the
-> privacy LED in the first place.
+Ok I will improve!
 
-Using it for other purposes it not something which I expect
-e.g. distros to do OOTB, so normal users won't see the LED used
-in another way.  But it may be useful for tinkerers who do this
-as a local modification, in which case they know the LED
-behavior.
-
-With that said I'm fine with just disabling the sysfs interface
-once at probe / register time.
-
-Regards,
-
-Hans
-
-
+> > +This function passes as the first argument (flag) a u32 flag.
 > 
->> And this is consistent with how flash LEDs are handled.
->>
->>> Also, I think it would be better if the LED device was marked as "no
->>> sysfs" when it is registered.
->>
->> If we decide to permanently disallow userspace access then
->> yes this is an option. Or maybe better (to keep the LED
->> drivers generic), do the disable directly after the led_get() ?
-> 
-> I suppose the small race condition wouldn't be a big issue, but if we
-> decide that the privacy LED should really not be used for user purposes,
-> then I'd still rather disable userspace access when registering the LED.
-> 
->>>> +	}
->>>> +
->>>> +	mutex_unlock(&sd->privacy_led->led_access);
->>>> +}
->>>> +#else
->>>> +static void call_s_stream_update_pled(struct v4l2_subdev *sd, int enable) {}
->>>> +#endif
->>>> +
->>>>  static int call_s_stream(struct v4l2_subdev *sd, int enable)
->>>>  {
->>>>  	int ret;
->>>>  
->>>> +	call_s_stream_update_pled(sd, enable);
->>>> +
->>>>  	ret = sd->ops->video->s_stream(sd, enable);
->>>>  
->>>>  	if (!enable && ret < 0) {
->>>
->>> You need to turn the LED off when enabling if .s_stream() fails.
->>
->> Ack.
+> I don't think "(flag)" is necessary, as I think "a u32 flag"
+> sufficiently suggests that it's called "flag". In any case, it doesn't
+> appear to be a "u32" but an "unsigned long".
 > 
 
+Will drop flag and fix the type.
+
+> > +The second argument (cmd) of hw_control_configure() method can be used to do various
+> > +operations for the specific blink mode. We currently support ENABLE, DISABLE, READ, ZERO
+> > +and SUPPORTED to enable, disable, read the state of the blink mode, ask the LED
+> > +driver if it does supports the specific blink mode and to reset any blink mode active.
+> > +
+> > +In ENABLE/DISABLE hw_control_configure() should configure the LED to enable/disable the
+> > +requested blink mode (flag).
+> > +In READ hw_control_configure() should return 0 or 1 based on the status of the requested
+> > +blink mode (flag).
+> > +In SUPPORTED hw_control_configure() should return 0 or 1 if the LED driver supports the
+> > +requested blink mode (flags) or not.
+> > +In ZERO hw_control_configure() should return 0 with success operation or error.
+> 
+> I think some kind of tabular description of this would be better.
+> Something like this but on docbook format:
+> 
+> hw_control_configure()'s second argument, cmd, is used to specify
+> various operations for the LED blink mode, and will be one of:
+> 
+> ENABLE - to enable the blink mode requested in flag. Returns ?
+> DISABLE - to disable the blink mode requested in flag. Returbns ?
+> READ - to indicate whether the blink mode requested in flag is enabled.
+>        Returns 0 if disabled or 1 if enabled.
+> SUPPORTED - to indicate whether the blink mode requested in flag is
+>             supported. Returns 0 if unsupported or 1 if supported.
+> ZERO - to disable all blink modes. Returns 0 or negative errno.
+> 
+> The problem with the way you've listed it is you've listed the
+> operations in a different order to the description in the same sentence,
+> so effectiely ZERO means to report whether supported and SUPPORTED means
+> to reset all blink modes!
+> 
+> > +
+> > +The unsigned long flag is specific to the trigger and change across them. It's in the LED
+> > +driver interest know how to elaborate this flag and to declare support for a
+> > +particular trigger.
+> 
+> Hmm, as a casual observer, this doesn't really give much information.
+> Does this mean that it's up to the hardware LED driver to decide what
+> each bit in the "flag" argument means? If not, I think this needs to
+> be worded better!
+> 
+
+The idea behind this is that the leds driver needs to have some code to
+parse the flag provided by the supported trigger...
+
+Example:
+- netdev trigger provide flag with BLINK_TX BLINK_RX
+- driver needs to have explicit support for netdev trigger and will
+  parse the passed flag to enable the function internally.
+
+So no the driver needs to just reflect what it was requested by the
+trigger. It's the trigger the one that define flags structure.
+
+Ideally the driver will just include the trigger header and refer to the
+same bits the trigger declare in the flag.
+
+> > For this exact reason explicit support for the specific
+> > +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
+> > +with a not supported trigger.
+> 
+> Seems to be a change in terminology - weren't we using "HARDWARE" and
+> "SOFTWARE" to describe the mode, rather than "offload" ?
+> 
+
+Will fix!
+
+> > +If the driver returns -EOPNOTSUPP on hw_control_configure(), the trigger activation will
+> > +fail as the driver doesn't support that specific offload trigger or doesn't know
+> > +how to handle the provided flags.
+> 
+> This gets rather ambiguous. When can -EOPNOTSUPP be returned - for which
+> cmds? Surely, if we have already tested for support using the SUPPORTED
+> cmd which returns a 0/1 value, we should not be going on to trigger a
+> request to enable something that isn't supported?
+> 
+
+Currently we report -EOPNOTSUPP when a trigger is not
+supported. hw_control_start/stop/status is just related to activate the
+hw_control but not configuring it. In old implementation it was
+suggested to have this kind of split and separation to not overload the
+configure function and have them split.
+
+(configure enable/disable are about specific trigger rules not the hw
+control mode)
+
+I will try to refactor this to be more explicit.
+
+> > +
+> >  Known Issues
+> >  ============
+> >  
+> > diff --git a/include/linux/leds.h b/include/linux/leds.h
+> > index 09ff1dc6f48d..b5aad67fecfb 100644
+> > --- a/include/linux/leds.h
+> > +++ b/include/linux/leds.h
+> > @@ -73,6 +73,16 @@ enum led_blink_modes {
+> >  	SOFTWARE_HARDWARE_CONTROLLED,
+> >  };
+> >  
+> > +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
+> > +enum blink_mode_cmd {
+> > +	BLINK_MODE_ENABLE, /* Enable the hardware blink mode */
+> > +	BLINK_MODE_DISABLE, /* Disable the hardware blink mode */
+> > +	BLINK_MODE_READ, /* Read the status of the hardware blink mode */
+> > +	BLINK_MODE_SUPPORTED, /* Ask the driver if the hardware blink mode is supported */
+> > +	BLINK_MODE_ZERO, /* Disable any hardware blink active */
+> > +};
+> > +#endif
+> 
+> Generally not a good idea to make definitions in header files
+> conditional on configuration symbols - it makes build-testing more
+> problematical.
+
+Guess I will have to add namespace tag and drop the ifdef.
+
+> 
+> Thanks.
+> 
+> -- 
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+
+-- 
+	Ansuel
