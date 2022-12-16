@@ -2,136 +2,150 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 574B964E977
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 11:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A3B64EA77
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Dec 2022 12:31:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbiLPKaV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Dec 2022 05:30:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57668 "EHLO
+        id S230377AbiLPLbN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Dec 2022 06:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229932AbiLPKaU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 05:30:20 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2FE5396F2;
-        Fri, 16 Dec 2022 02:30:18 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 190AC1C09F4; Fri, 16 Dec 2022 11:30:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1671186617;
+        with ESMTP id S231211AbiLPLbE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Dec 2022 06:31:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB6E566F0
+        for <linux-leds@vger.kernel.org>; Fri, 16 Dec 2022 03:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671190221;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=wQc6rqUCd1wvUJEJlQwdF+8hT2gQSWtY3rkQyLKlfiE=;
-        b=r0buK4OM7O9DoxCj6mKDt41sTvhm4RXamiYaQJ5utImbZYO2vQwjnMIlIfgcuM3EP2RFQz
-        OmcaxrKcLCyiBzbqF/jqYKpn9fQBeVfw2LwZqfCaIBknhl+bfmryzwEml5b334n3IpO8n8
-        9+4PKHbBcCwh1/aCRy7PL3xtD5lTFNM=
-Date:   Fri, 16 Dec 2022 11:30:16 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        lee@kernel.org
-Subject: [GIT PULL] LEDs changes for 6.2-rc1
-Message-ID: <Y5xIuL2XfobFm9U1@duo.ucw.cz>
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=us2r/Cka/DVYppZUWMqDY3fKam1bvS45Ua8aIbvfMVA=;
+        b=H4COHM11FDsxkJCEUjPvUsmi1ch97QpIrf90GklTd3uAa0LRNMlKwb56+/zbhlyHtw/SF2
+        1J6Bg/BbgaR+PpdHwQEjuydqfMSIDmbGbWQLnvaC7V38Z39Y/nT2aUx/mtUXj2SffKRbuY
+        DiToOCWMAOVS7zoHz2kNG7GwKm4T92U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-RgHZAHtvNzyjKwP8I_HhQg-1; Fri, 16 Dec 2022 06:30:19 -0500
+X-MC-Unique: RgHZAHtvNzyjKwP8I_HhQg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 488C8101A52E;
+        Fri, 16 Dec 2022 11:30:18 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C1CB7400F58;
+        Fri, 16 Dec 2022 11:30:14 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v3 00/11] leds: lookup-table support + int3472/media privacy LED support
+Date:   Fri, 16 Dec 2022 12:30:02 +0100
+Message-Id: <20221216113013.126881-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="V/KuRtfYdVY2k8BZ"
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi All,
 
---V/KuRtfYdVY2k8BZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here is my 3th attempt at adjusting the INT3472 code's handling of
+the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+(so that we cannot just tie the LED state to the clk-enable state).
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+Due to popular request by multiple people this new version now models
+the privacy LED as a LED class device. This requires being able to
+"tie" the LED class device to a specific camera sensor (some devices
+have multiple sensors + privacy-LEDs).
 
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4
+is a bit of refactoring in preparation for patch 5 which adds
+generic (non devicetree specific) led_get() and devm_led_get() function
+(which will also work with devicetree) and lookup table support to
+allow platform code to add LED class-device <-> consumer-dev,function
+lookups for non devicetree platforms.
 
-are available in the Git repository at:
+Patch 6 adds generic privacy-LED support to the v4l2-core/v4l2-subdev.c
+code automatically enabling the privacy-LED when s_stream(subdev, 1)
+is called. So that we don't need to privacy-LED code to all the
+camera sensor drivers separately (as requested by Sakari).
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-6.2-rc1
+These are all new patches in version 3. Patches 7-11 are patches
+to the platform specific INT3472 code to register privacy-LED class
+devices + lookup table entries for privacy-LEDs described in
+the special INT3472 ACPI nodes found on x86 devices with MIPI
+cameras (+ prep work + some other INT3472 fixes).
 
-for you to fetch changes up to 7cb092a0336c5770656c6742e7a7ce3042c8c44e:
+Assuming the LED and media maintainers are happy with the approach
+suggested here (if you are please give your Ack / Reviewed-by) we
+need to talk about how to merge this since patches 6 and 7-11
+depend on the LED subsystem changes. I think it would be best if
+the LED subsystem can provide an immutable branch with patches 1-5
+(on top of 6.2-rc1 once it is out) and then the media folks and I
+can merge that branch and then apply the other patches on top.
 
-  leds: MAINTAINERS: include dt-bindings headers (2022-12-07 21:13:49 +0100)
+This series has been tested on:
 
-----------------------------------------------------------------
-Lee Jones offered his help with maintaining LEDs, thanks a
-lot. Plus, there are some bugfixes as a bonus.
+- Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+- Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
+- Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
+                              back: ov8865 with privacy LED (pled not yet supported)
 
-----------------------------------------------------------------
-Colin Ian King (1):
-      leds: lp55xx: remove variable j
+Regards,
 
-Dmitry Baryshkov (1):
-      led: qcom-lpg: Fix sleeping in atomic
+Hans
 
-Jiapeng Chong (1):
-      leds-pca955x: Remove the unused function pca95xx_num_led_regs()
 
-Krzysztof Kozlowski (2):
-      leds: qcom,pm8058-led: Convert to DT schema
-      leds: MAINTAINERS: include dt-bindings headers
+Hans de Goede (11):
+  leds: led-class: Add missing put_device() to led_put()
+  leds: led-class: Add __led_get() helper function
+  leds: led-class: Add __of_led_get() helper
+  leds: led-class: Add __devm_led_get() helper
+  leds: led-class: Add generic [devm_]led_get()
+  v4l: subdev: Make the v4l2-subdev core code enable/disable the privacy
+    LED if present
+  platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
+  platform/x86: int3472/discrete: Create a LED class device for the
+    privacy LED
+  platform/x86: int3472/discrete: Move GPIO request to
+    skl_int3472_register_clock()
+  platform/x86: int3472/discrete: Ensure the clk/power enable pins are
+    in output mode
+  platform/x86: int3472/discrete: Get the polarity from the _DSM entry
 
-Lee Jones (1):
-      MAINTAINERS: Add additional co-maintainer to LEDs
+ drivers/leds/led-class.c                      | 174 +++++++++++++++---
+ drivers/media/v4l2-core/v4l2-subdev.c         |  40 ++++
+ drivers/platform/x86/intel/int3472/Makefile   |   2 +-
+ .../x86/intel/int3472/clk_and_regulator.c     |  35 +++-
+ drivers/platform/x86/intel/int3472/common.h   |  18 +-
+ drivers/platform/x86/intel/int3472/discrete.c |  96 +++++-----
+ drivers/platform/x86/intel/int3472/led.c      |  75 ++++++++
+ include/linux/leds.h                          |  18 ++
+ include/media/v4l2-subdev.h                   |   3 +
+ 9 files changed, 371 insertions(+), 90 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/int3472/led.c
 
-Luca Weiss (1):
-      leds: is31fl319x: Fix setting current limit for is31fl319{0,1,3}
+-- 
+2.38.1
 
-Maarten Zanders (1):
-      leds: lp5523: fix out-of-bounds bug in lp5523_selftest()
-
-Paul Cercueil (1):
-      leds: max8997: Don't error if there is no pdata
-
-Rob Herring (1):
-      dt-bindings: leds: Add 'cpuX' to 'linux,default-trigger'
-
-ye xingchen (1):
-      leds: use sysfs_emit() to instead of scnprintf()
-
- Documentation/devicetree/bindings/leds/common.yaml |  1 +
- .../devicetree/bindings/leds/leds-pm8058.txt       | 67 ------------------=
-----
- .../devicetree/bindings/leds/qcom,pm8058-led.yaml  | 57 ++++++++++++++++++
- .../devicetree/bindings/mfd/qcom-pm8xxx.yaml       |  4 ++
- MAINTAINERS                                        |  2 +
- drivers/leds/leds-blinkm.c                         |  8 +--
- drivers/leds/leds-is31fl319x.c                     |  3 +-
- drivers/leds/leds-lm3533.c                         | 12 ++--
- drivers/leds/leds-lp5521.c                         |  2 +-
- drivers/leds/leds-lp5523.c                         | 27 +++++----
- drivers/leds/leds-lp55xx-common.c                  |  7 +--
- drivers/leds/leds-max8997.c                        |  7 +--
- drivers/leds/leds-pca955x.c                        |  6 --
- drivers/leds/rgb/leds-qcom-lpg.c                   | 18 +++---
- drivers/leds/trigger/ledtrig-pattern.c             |  2 +-
- 15 files changed, 108 insertions(+), 115 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-pm8058.txt
- create mode 100644 Documentation/devicetree/bindings/leds/qcom,pm8058-led.=
-yaml
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---V/KuRtfYdVY2k8BZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY5xIuAAKCRAw5/Bqldv6
-8nHxAJ9CbKbhRcjQhEwOZ6okOh3Pfv0/QQCgldQirwwO9ITrjp36UQZpoV1Doj8=
-=6bLQ
------END PGP SIGNATURE-----
-
---V/KuRtfYdVY2k8BZ--
