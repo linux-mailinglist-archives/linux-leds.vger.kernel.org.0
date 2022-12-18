@@ -2,58 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8061264F962
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Dec 2022 15:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0641965057C
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Dec 2022 00:20:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbiLQObZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Dec 2022 09:31:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46030 "EHLO
+        id S230320AbiLRXU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 18 Dec 2022 18:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbiLQObW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Dec 2022 09:31:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99294CD6;
-        Sat, 17 Dec 2022 06:31:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4D392B80E3B;
-        Sat, 17 Dec 2022 14:31:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DBE0CC433D2;
-        Sat, 17 Dec 2022 14:31:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671287478;
-        bh=zuY4Z3A09N7iywF7L5TqR3KcfB/GD4XTce6j8hhBTzk=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=ML7v2JX98m6GGM/prArhzhQ8ykWebOecyS2d+KiK04GINphDMqasu5aDu5cRSmmuR
-         DBoG1UANu2UrkZfxNcLlM56pY27i6vS301E4q2i8nTngTJ7x32D+98Sii18spUVZwe
-         PP1b3T5UZNB/HRsjDpC4cLm7SiQI+0VzN5wRNE/runfep2moeoImbtQkzeoay7h5Wf
-         66wTYELL7fe0EftCIYn4qM9sZ4WMvJjOVfKHWiLzlimBO1NcEPvLuzSSMQMrARAlSj
-         dEUiXN5faRiY/83adYys6574lrbP8HSe5LSfv7JVD6z4WeT2NZMbV2w27duwTBOs2l
-         wCSxGB2CvoClw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C925CE21EFC;
-        Sat, 17 Dec 2022 14:31:18 +0000 (UTC)
-Subject: Re: [GIT PULL] LEDs changes for 6.2-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <Y5xIuL2XfobFm9U1@duo.ucw.cz>
-References: <Y5xIuL2XfobFm9U1@duo.ucw.cz>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y5xIuL2XfobFm9U1@duo.ucw.cz>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-6.2-rc1
-X-PR-Tracked-Commit-Id: 7cb092a0336c5770656c6742e7a7ce3042c8c44e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 75caf5940899a33165fb3d521492f3cd6b20c9a7
-Message-Id: <167128747881.22169.5100672320704103141.pr-tracker-bot@kernel.org>
-Date:   Sat, 17 Dec 2022 14:31:18 +0000
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        lee@kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        with ESMTP id S229507AbiLRXU2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Dec 2022 18:20:28 -0500
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE93F2679
+        for <linux-leds@vger.kernel.org>; Sun, 18 Dec 2022 15:20:26 -0800 (PST)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-144bd860fdbso9795063fac.0
+        for <linux-leds@vger.kernel.org>; Sun, 18 Dec 2022 15:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wbAsaTImJVgmrVm658lQUrdfZSlK0Ns3idroAe7BrvU=;
+        b=R+JYsSCD9k6WuKbYbMKI2oxfB77KlY0RbiSomelCRtsIaQcwmGgmqDq8puiimaOOJd
+         8lAFXHeEzUsYRDzASFYYQgk92+ANIviDpXGJE57dT8BGie6QzBZIE1h+rFXaZyHxtQDo
+         GXD6bdFTgusGWkA9ef5fxr7eUvitjFY5pTk9MTvLjgPMEP3I0Wis4SH5Kq+Eo6BI/sM1
+         QE6nwBZ1c7Lu3cCpsky8/hyWJE9cMnzgSx70CcAj4V9QxLjnNEiH9kGzv6sLTynxo9ml
+         x3pcSHVXENohzrkkLaPpIlfxKjm3SSOM6nvFEd6d4FTedgHYa91PhNcWy2yU8oNHvrHx
+         /OHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wbAsaTImJVgmrVm658lQUrdfZSlK0Ns3idroAe7BrvU=;
+        b=jyFFK6Lp2UNlVsVYtKR53f4sGsOWyb4nypZu5b3QDG5yzG25ChF8Ms9VNQOK8UU7j9
+         126qYOCm276vqyWb4vl/wdzbUOuQw7iA+QpyyP7qbFClhxy2Vch8k5CsL77vqhNVFG+c
+         L8/lnvFuyJ9pfKq8BbjisaHHBydvsLReAnXX43VVA0Je107qIyRPX9svO0SkfKm3OWNz
+         tbJTvrGwxW7nzHdGIuG3iZK+PtX6SoEEBeS3XhXQn0fEY4j/TGA5xSj6LLIQxEH2o6Qr
+         q65W8yyy9Z2J0kxt+PtvmQLuWqK8Nj7ZIptKcAwrKjTabtJQo4+uzgcpecb3g93JT/lA
+         u8kg==
+X-Gm-Message-State: AFqh2krnVP39AHwZPcAQHw2w18i54KZUCcT0UlAeA8pZ27hL4fheiL3+
+        RwwBIkk6FgW4Ov03fUq0wXCpjqCMeJmX8soCLApezQ==
+X-Google-Smtp-Source: AMrXdXtwOt8c7JBdmZzDOZAuTLq2KaUwZMFGracg7VgJqYzrRgSHx9x4f6NnRV5TJCc1e6dNNS0FrYAatPDL/+sBF9A=
+X-Received: by 2002:a05:6870:b96:b0:14b:c9ab:66e9 with SMTP id
+ lg22-20020a0568700b9600b0014bc9ab66e9mr925663oab.42.1671405626013; Sun, 18
+ Dec 2022 15:20:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20221216113013.126881-1-hdegoede@redhat.com> <20221216113013.126881-6-hdegoede@redhat.com>
+In-Reply-To: <20221216113013.126881-6-hdegoede@redhat.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 19 Dec 2022 00:20:11 +0100
+Message-ID: <CACRpkdZKcVE5jJuG4D0CqzM=W6UtuVZwxcTr-hMaiuqVOWZx5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 05/11] leds: led-class: Add generic [devm_]led_get()
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Bjorn Andersson <andersson@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,15 +76,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Fri, 16 Dec 2022 11:30:16 +0100:
+On Fri, Dec 16, 2022 at 12:30 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-6.2-rc1
+> Add a generic [devm_]led_get() method which can be used on both devicetree
+> and non devicetree platforms to get a LED classdev associated with
+> a specific function on a specific device, e.g. the privacy LED associated
+> with a specific camera sensor.
+>
+> Note unlike of_led_get() this takes a string describing the function
+> rather then an index. This is done because e.g. camera sensors might
+> have a privacy LED, or a flash LED, or both and using an index
+> approach leaves it unclear what the function of index 0 is if there is
+> only 1 LED. The existing of support is extended to also support
+> getting a LED by function-name using the standard devicetree pattern
+> of adding a -names string array to map names to the indexes.
+>
+> For non devicetree platforms a lookup-table mechanism is added to
+> allow the platform code to map specific LED class_dev-s to specific
+> device,function combinations this way.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/75caf5940899a33165fb3d521492f3cd6b20c9a7
+I see you need to iron out some details but the concept is
+clean cut and this is exactly what we want to do.
 
-Thank you!
+I think it was Bjorn Andersson who pointed out to me years
+and years ago "why can't we do that, like any other
+resource?" and here it is.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Yours,
+Linus Walleij
