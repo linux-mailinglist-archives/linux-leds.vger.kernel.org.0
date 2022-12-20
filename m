@@ -2,96 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF56652045
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Dec 2022 13:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D2D46525AC
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Dec 2022 18:40:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiLTMSS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Dec 2022 07:18:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
+        id S229741AbiLTRkD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Dec 2022 12:40:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiLTMSR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 07:18:17 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF87D6B;
-        Tue, 20 Dec 2022 04:18:16 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id u15-20020a17090a3fcf00b002191825cf02so11936696pjm.2;
-        Tue, 20 Dec 2022 04:18:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FB1Zdl+28Rvbfhz85v8nwh0j606TH3NWa+amiTKsBw0=;
-        b=LQRBVAhj/XECJA86A8r7EQUSxK1+jv4UFy8SBVmi/MW3c8AEumsSCG41FE4iKr89JH
-         2tMTxXsNUOIcc8KNxmVeMCdP2YB1chwqvLfCO06Y/+fQhueS3gAqPZ97RGCl6Su+cVAv
-         lnT4pPGzabmH3noDPYG3gVU2OKCnfkx+4QW7JZYv8PqFNt7AMv5OqmN9hqDOI+Yrl8xp
-         JCnZWIF0UXyLtF+Fo3ygvfKGowakom9sr0RP2p1jkkviQhoNHaxbe0NebdAVuoq6jPIe
-         0XM1b8LhlFmLShg9mtTiUSYL9Dl30tpf7AguQCHUbpcUKWzikke6u+lG5ct9S1LlOu5z
-         7G7Q==
+        with ESMTP id S229536AbiLTRkC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 12:40:02 -0500
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8711EFF1;
+        Tue, 20 Dec 2022 09:40:01 -0800 (PST)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-144b21f5e5fso16178680fac.12;
+        Tue, 20 Dec 2022 09:40:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FB1Zdl+28Rvbfhz85v8nwh0j606TH3NWa+amiTKsBw0=;
-        b=TpBnNonols95vDtgEEjOfJJPs+dSvuVuFn9Pl/Bm7LsGgB27Dx/rz6Y45Zc/q7Xvbi
-         yqr7mb2+DmRMslpONt/+hGR/RxwSAUff6tuLeY6nPkNPNv7mzn1s5ZN3gQpP1gt/ZCi6
-         2TAauOFT0rpV7pA27PixwFootGTcUHe4IH2lcpNi5SrfWKrKLPB6maIcJawGybPVskBF
-         0+PKPdRmQvBv0UncIvXPQ4MDt7pbC4f/KJwcBrAR+AhElbd32v2EhFh8Ll7GIWd+YY2V
-         qQLkoA+yZAScwckXzWtS40gIbYrp8p3Oeb6OymGR5o5DxL0jlf1mhLkJ+fse29PVyG0t
-         G9WA==
-X-Gm-Message-State: ANoB5plPXUifzR2UF0TPz5leGLDfEOQIIiI6Vds6ZlTIpwstDh3mOSDr
-        t2uakmBsZClekjDmOqgeItY=
-X-Google-Smtp-Source: AA0mqf79aveONIae0usk9/p38KcLeV4SiDbUUfXO/3yoLPrfY3qxxmhi9X5/3EjQTrZIXNAPYvn0Fg==
-X-Received: by 2002:a17:902:7042:b0:189:cb96:1dbd with SMTP id h2-20020a170902704200b00189cb961dbdmr46878623plt.7.1671538695799;
-        Tue, 20 Dec 2022 04:18:15 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id b18-20020a170902d51200b001869ba04c83sm9172930plg.245.2022.12.20.04.18.12
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T+uqKNupLom5HOX393/X5dcMBDb877yjyv1k5TVvfHA=;
+        b=dYy9G5znw3qUvh2+VZkZceDeq9Lw8DSJHuPCnucxj3I2yFDJGt3+U4uuckwosxmSci
+         871zqwT91uuGI6q4UVfUGnloPMvMAessZtb4HxRUGtijSN1lfnOMl3uSqt6f9yBqan0J
+         bStGHJZa4jcHF9CHKQwFbvb9aIVyUblAezMfipzFV1bXMorx7lV8kYzKDY9rSCrwFes0
+         0vvr4xWIujVKyMzS/tgD2inoTrAXFmgluLSn9FleU3HkyVTRZZww0Ba9dahJks71n1dX
+         FgRJ7DxlIt1TnhwRhPh8RK1VnauNMxm27IwTK4QFSIwtZmPCbaUFhlqJGQr6r32L3Pvv
+         rcVw==
+X-Gm-Message-State: ANoB5pkryApv9g3LiySo4iYTHevuXf2iSg7z/jXxD4YkqGGUGMFf+PNE
+        0KJHXz7bOZt8QAFXUDSSkw==
+X-Google-Smtp-Source: AA0mqf76SVmlQ2s3MNPaz5jKJiFUnELkYDbfYdBJK/nJs4YnkQox5rSMMXsrtk/xEbpO8oFir2KjVQ==
+X-Received: by 2002:a05:6870:2dc8:b0:13b:9ee:aa19 with SMTP id op8-20020a0568702dc800b0013b09eeaa19mr20163092oab.55.1671558000766;
+        Tue, 20 Dec 2022 09:40:00 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id er34-20020a056870c8a200b0014866eb34cesm6216065oab.48.2022.12.20.09.39.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 04:18:15 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] leds: led-core: Fix refcount leak in of_led_get
-Date:   Tue, 20 Dec 2022 16:18:07 +0400
-Message-Id: <20221220121807.1543790-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 20 Dec 2022 09:39:59 -0800 (PST)
+Received: (nullmailer pid 796697 invoked by uid 1000);
+        Tue, 20 Dec 2022 17:39:58 -0000
+Date:   Tue, 20 Dec 2022 11:39:58 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Message-ID: <20221220173958.GA784285-robh@kernel.org>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+ <20221214235438.30271-12-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221214235438.30271-12-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-class_find_device_by_of_node() calls class_find_device(), it will take
-the reference, use the put_device() to drop the reference when not need
-anymore.
+On Thu, Dec 15, 2022 at 12:54:38AM +0100, Christian Marangi wrote:
+> Add LEDs definition example for qca8k using the offload trigger as the
+> default trigger and add all the supported offload triggers by the
+> switch.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> index 978162df51f7..4090cf65c41c 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> @@ -65,6 +65,8 @@ properties:
+>                   internal mdio access is used.
+>                   With the legacy mapping the reg corresponding to the internal
+>                   mdio is the switch reg with an offset of -1.
+> +                 Each phy have at least 3 LEDs connected and can be declared
+> +                 using the standard LEDs structure.
+>  
+>  patternProperties:
+>    "^(ethernet-)?ports$":
+> @@ -202,6 +204,7 @@ examples:
+>      };
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+>  
+>      mdio {
+>          #address-cells = <1>;
+> @@ -284,6 +287,27 @@ examples:
+>  
+>                  internal_phy_port1: ethernet-phy@0 {
+>                      reg = <0>;
+> +
+> +                    leds {
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +
+> +                        led@0 {
+> +                            reg = <0>;
+> +                            color = <LED_COLOR_ID_WHITE>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+> +                            linux,default-trigger = "netdev";
 
-Fixes: 699a8c7c4bd3 ("leds: Add of_led_get() and led_put()")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/leds/led-class.c | 1 +
- 1 file changed, 1 insertion(+)
+'function' should replace this. Don't encourage more users. 
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 6a8ea94834fa..705b7a89f3d8 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -240,6 +240,7 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	led_cdev = dev_get_drvdata(led_dev);
-+	put_device(led_dev);
- 
- 	if (!try_module_get(led_cdev->dev->parent->driver->owner))
- 		return ERR_PTR(-ENODEV);
--- 
-2.25.1
+Also, 'netdev' is not documented which leaves me wondering why there's 
+no warning? Either this patch didn't apply or there's a problem in the 
+schema that's not checking this node.
 
+> +                        };
+> +
+> +                        led@1 {
+> +                            reg = <1>;
+> +                            color = <LED_COLOR_ID_AMBER>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+
+Typo? These are supposed to be unique. Can't you use 'reg' in your case?
+
+
+> +                            linux,default-trigger = "netdev";
+> +                        };
+> +                    };
+>                  };
+>  
+>                  internal_phy_port2: ethernet-phy@1 {
+> -- 
+> 2.37.2
+> 
+> 
