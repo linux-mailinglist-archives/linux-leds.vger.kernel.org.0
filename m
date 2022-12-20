@@ -2,34 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 072AA6529E5
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 00:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E71C3652A03
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 00:49:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234269AbiLTXf2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Dec 2022 18:35:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36892 "EHLO
+        id S234302AbiLTXs7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Dec 2022 18:48:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233796AbiLTXf1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 18:35:27 -0500
+        with ESMTP id S229893AbiLTXsz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 18:48:55 -0500
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A571FF8D;
-        Tue, 20 Dec 2022 15:35:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CADE8201B1;
+        Tue, 20 Dec 2022 15:48:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=Et1XQAkk8Burzuw1hwryUWC1PbUtGtsyxLGWsj9/DEU=; b=NXewspVxBWnDAjUPwCXoEUwj28
-        dAXIC6lMG1ddfM/F7DA4iZ7ks+0p9XfS9NgcgmosGfk4Hm9Wh+oteMfLYTnlMIwFdsrXDoTgeZVRt
-        8kQOxuWTjco8oHg7jfU71I74q3Ms+um/Li4zKYXxkxEtT2+HJEBTG7L+tZTdFQ5J9jOs=;
+        bh=kT2IxYS9CUpjx72+78b/xaVL9mH+QaJAjKqXv8igHYo=; b=WyhupViBbx2zD8CWOTBSxNuoNP
+        CrnR6JOvQvfbwMAPCBN42BThgTB9mWQV302JaMqwITdr1l8Vzfna5jE3RIKJ8cPSTyjdj5jG9nKTW
+        4sfYHhHROz9yZHmqc/DBA2B2eZe078b2L45n5MTpC7Cg/LQsDVX4oy3WaTgkdNYn4qcQ=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1p7m8i-0008Do-AO; Wed, 21 Dec 2022 00:35:16 +0100
-Date:   Wed, 21 Dec 2022 00:35:16 +0100
+        id 1p7mLZ-0008Gy-7c; Wed, 21 Dec 2022 00:48:33 +0100
+Date:   Wed, 21 Dec 2022 00:48:33 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -38,23 +37,22 @@ Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
         Tim Harvey <tharvey@gateworks.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH v7 01/11] leds: add support for hardware driven LEDs
-Message-ID: <Y6JGtC5XFRKdZq1t@lunn.ch>
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 04/11] leds: trigger: netdev: rename and expose NETDEV
+ trigger enum modes
+Message-ID: <Y6JJ0SiSWdnb7Kri@lunn.ch>
 References: <20221214235438.30271-1-ansuelsmth@gmail.com>
- <20221214235438.30271-2-ansuelsmth@gmail.com>
- <Y5tHjwx1Boj3xMok@shell.armlinux.org.uk>
- <639ca0a4.050a0220.99395.8fd3@mx.google.com>
+ <20221214235438.30271-5-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <639ca0a4.050a0220.99395.8fd3@mx.google.com>
+In-Reply-To: <20221214235438.30271-5-ansuelsmth@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -64,19 +62,9 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 05:45:25PM +0100, Christian Marangi wrote:
-> On Thu, Dec 15, 2022 at 04:13:03PM +0000, Russell King (Oracle) wrote:
-> > Hi Christian,
-> > 
-> > Thanks for the patch.
-> > 
-> > I think Andrew's email is offline at the moment.
-> >
-> 
-> Notice by gmail spamming me "I CAN'T SEND IT AHHHHH"
-> Holidy times I guess?
+On Thu, Dec 15, 2022 at 12:54:31AM +0100, Christian Marangi wrote:
+> Rename NETDEV trigger enum modes to a more simbolic name and move them
 
-That was part of the problem. Away travelling when foot gun hit foot,
-and i didn't have access to the tools to fix it while away.
+simbolic -> symbolic. 
 
-    Andrew
+	 Andrew
