@@ -2,65 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB292652732
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Dec 2022 20:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29C3A6529A1
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 00:11:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234020AbiLTTkC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Dec 2022 14:40:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33230 "EHLO
+        id S234078AbiLTXLh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Dec 2022 18:11:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbiLTTkA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 14:40:00 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C3D2187;
-        Tue, 20 Dec 2022 11:39:58 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 8D0971C09F9; Tue, 20 Dec 2022 20:39:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1671565196;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Z6Z4LV97YlfeiHNsI0GPtvBWuPiFBia9iXHj9p0V7f4=;
-        b=iSK/6k6YdYfe0pf3QIaGF0m9os72nxF3CAqc4kVpFydNcBeDZyAXwLd29ygI3aWdCD/P4E
-        hjb1tP04xpxvEqTGSku5jVwZ3Ze5vyiRMUS/PfukmleXTPDA24OIQLtf5lIYLLX2i19Nc9
-        ctnIK+xkRK2AK199jxQW3iEge/uxrTY=
-Date:   Tue, 20 Dec 2022 20:39:56 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-Message-ID: <Y6IPjC9mpnoquL8S@duo.ucw.cz>
-References: <20221220134519.3dd1318b@gandalf.local.home>
+        with ESMTP id S229756AbiLTXLg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Dec 2022 18:11:36 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834E7BC2;
+        Tue, 20 Dec 2022 15:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=H+syPNoxSkSUhg/ESgG9XpHDiX6tgXxdYU9tU+g5JW4=; b=tljLNCO2qtu4hke0pxGKosR0v+
+        0dCr4/noa5t7/Jqg2s9PWmBO/7IcBx8UHnaGRckrcZmL6hTcT/a1GGTDNOhKHLALk43IJ5kTsTDcq
+        NYQ+OHHlPluhTbiaG0JAjEHLZjO4+3G2uG8K5U6/MSSD/6q6zEkC7auF+COisq3ERzws=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1p7llS-00086B-33; Wed, 21 Dec 2022 00:11:14 +0100
+Date:   Wed, 21 Dec 2022 00:11:14 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 10/11] net: dsa: qca8k: add LEDs support
+Message-ID: <Y6JBEigWvh6if/Qe@lunn.ch>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+ <20221214235438.30271-11-ansuelsmth@gmail.com>
+ <Y5teRQ5mv1aTix4w@shell.armlinux.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Q4QndSuPZQc8d5xp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
+In-Reply-To: <Y5teRQ5mv1aTix4w@shell.armlinux.org.uk>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,62 +62,48 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+> > +qca8k_cled_trigger_offload(struct led_classdev *ldev, bool enable)
+> > +{
+> > +	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
+> > +
+> > +	struct qca8k_led_pattern_en reg_info;
+> > +	struct qca8k_priv *priv = led->priv;
+> > +	u32 val = QCA8K_LED_ALWAYS_OFF;
+> > +
+> > +	qca8k_get_enable_led_reg(led->port_num, led->led_num, &reg_info);
+> > +
+> > +	if (enable)
+> > +		val = QCA8K_LED_RULE_CONTROLLED;
+> > +
+> > +	return regmap_update_bits(priv->regmap, reg_info.reg,
+> > +				  GENMASK(1, 0) << reg_info.shift,
+> > +				  val << reg_info.shift);
+> 
+> 88e151x doesn't have the ability to change in this way - we have
+> a register with a 4-bit field which selects the LED mode from one
+> of many, or forces the LED on/off/hi-z/blink.
+> 
+> Not specifically for this patch, but talking generally about this
+> approach, the other issue I forsee with this is that yes, 88e151x has
+> three LEDs, but the LED modes are also used to implement control
+> signals (e.g., on a SFP, LOS can be implemented by programming mode
+> 0 on LED2 (which makes it indicate link or not.) If we expose all the
+> LEDs we run the risk of the LED subsystem trampling over that
+> configuration and essentially messing up such modules. So the Marvell
+> PHY driver would need to know when it is appropriate to expose these
+> things to the LED subsystem.
+> 
+> I guess doing it dependent on firmware description as you do in
+> this driver would work - if there's no firmware description, they're
+> not exposed.
+> 
 
---Q4QndSuPZQc8d5xp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I expect there will always be some sort of firmware involved,
+describing the hardware. Without that, we have no idea how many LEDs
+are actually connected to pins of the PHY, for example.
 
-On Tue 2022-12-20 13:45:19, Steven Rostedt wrote:
-> [
->   Linus,
->=20
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
->=20
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
->=20
->     What is the best way to handle this?
-> ]
->=20
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
->=20
-> Due to several bugs caused by timers being re-armed after they are
-> shutdown and just before they are freed, a new state of timers was added
-> called "shutdown". After a timer is set to this state, then it can no
-> longer be re-armed.
->=20
-> The following script was run to find all the trivial locations where
-> del_timer() or del_timer_sync() is called in the same function that the
-> object holding the timer is freed. It also ignores any locations where the
-> timer->function is modified between the del_timer*() and the free(), as
-> that is not considered a "trivial" case.
->=20
-> This was created by using a coccinelle script and the following
-commands:
+I've not yet looked at this patchset in detail, but i hope the DT
+binding code is reusable, so all PHYs will have the same basic
+binding.
 
-LED parts looks good to me.
-
-Getting it in just before -rc1 would be best solution for me.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---Q4QndSuPZQc8d5xp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY6IPjAAKCRAw5/Bqldv6
-8qFnAJ4h7/YkgMmaMAi5FTo4aeUHj64lowCgv7jO/1JyimzJx+06JHTOXFlIAIk=
-=01ne
------END PGP SIGNATURE-----
-
---Q4QndSuPZQc8d5xp--
+    Andrew
