@@ -2,135 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C63165337D
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 16:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 785A6653688
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 19:48:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbiLUPgD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Dec 2022 10:36:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
+        id S234888AbiLUSsE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Dec 2022 13:48:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234905AbiLUPfi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Dec 2022 10:35:38 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506BA24F39;
-        Wed, 21 Dec 2022 07:32:17 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id u4-20020a17090a518400b00223f7eba2c4so2406293pjh.5;
-        Wed, 21 Dec 2022 07:32:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dX5Ufydbl+p2sHxSvGtWPn7nIriGhnFrTMO/deTHyGc=;
-        b=iiWcSXNheQcb430tsQZJphtJrB+Ja/HWXMfg3h7fPve0YOLZfED3bTDNHtGmGlvP9x
-         N/pP/6ztIdMvRdO6X826MByELkp0Jas+8v6Jt52Y6qhDg0e8kh9zKpEcXqio+p1Vd+/X
-         2yrtWvoxOV19rBVa0IiL0XyzBN01Kf86VA49yynFC9xVGS0fDBAzjXJrk8aeFlFd7cFD
-         q/ndB6hwC3p3fYURXJtwIToBuZFA9dTLJHZxPw545c4V2zeTOKY4pAUupe1zcC6Y2mm7
-         FfQEF73g3gENaScT5fXfRxMD4v8rGKDTyDAp8p03HiNl3nsiF1cgy225Hnq85cAOXgnG
-         KM6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dX5Ufydbl+p2sHxSvGtWPn7nIriGhnFrTMO/deTHyGc=;
-        b=h366jOBxzJDK3xx5OKMy0NxxAtNOZrNgVbH6mWA+dpH8NUToNBH8DdOGV4wUjhqmDD
-         hmmZjExYTvDckMtXsvxpNNnoqrr1U3qDSYOGrudSrgmvfrbw8F9+3xF1yAuBPo+CHNlS
-         7ZmS8sQRfSfHsDzvSvAqrfkwCc/0/q2VHirWwfamNVcRN6rEe013a6pPeHXVLXS1ZtX/
-         D+QklIMWzNmFBNtnvduufznj2jVhQ7/dAOhVLIuyBoVi1ef7iQ1BCtrq/FUKCwSncb5S
-         xxEcYxcd5XZdApVZ/GKN1weHcUX/rJwL+3e0+OfxOfaT5GC3z98bh9p9OKR6j7cxCauN
-         qOgQ==
-X-Gm-Message-State: AFqh2kpldTUrcrD0ZaSFa7W5waZp/w4RjinkcPD7NSx77WkqkiBLR3u7
-        vUaPVWLB6f5MYZ7eazoWlN0=
-X-Google-Smtp-Source: AMrXdXv3PJXfMd9ydRhNUnF86mNqHkZssnnnst4tlLt8CwvNSmBzGTR5Nw9Y5XwRR01EpbYoAIJ+ag==
-X-Received: by 2002:a17:902:db85:b0:189:9fb2:2558 with SMTP id m5-20020a170902db8500b001899fb22558mr2574891pld.1.1671636736830;
-        Wed, 21 Dec 2022 07:32:16 -0800 (PST)
-Received: from localhost.localdomain ([45.62.172.3])
-        by smtp.gmail.com with ESMTPSA id n3-20020a170902e54300b00186ff402508sm11633409plf.281.2022.12.21.07.32.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 07:32:16 -0800 (PST)
-From:   Jianhua Lu <lujianhua000@gmail.com>
-To:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, Jianhua Lu <lujianhua000@gmail.com>
-Subject: [PATCH v2 2/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866 backlight
-Date:   Wed, 21 Dec 2022 23:31:54 +0800
-Message-Id: <20221221153154.25411-2-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.38.2
-In-Reply-To: <20221221153154.25411-1-lujianhua000@gmail.com>
-References: <20221221153154.25411-1-lujianhua000@gmail.com>
+        with ESMTP id S234296AbiLUSsC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Dec 2022 13:48:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2E01E70C;
+        Wed, 21 Dec 2022 10:48:01 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8D247B81BA6;
+        Wed, 21 Dec 2022 18:48:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6C4C433EF;
+        Wed, 21 Dec 2022 18:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671648479;
+        bh=hTuIjHBHd+Tec1DAOqqIPFW5jFXlpQ7ZWnftXs2hg6Q=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=XiS53svtnGlZKUpJLWpjIb00pvlTavkGyE/yhXeS7hKFYS8V/5Xav/+mlpRGezW6h
+         BljUFnHKQWw/igsJKn42+z68Zwy3Z5sPZrjhFME/Kwqkbwjx7njFSsJY/zjJWCYIs2
+         hg7VB/Upxxl01DViL7TGCOLjNQW9ZDg1YFt1aai4iFOc2yVu8ujua8wy7VEyZXvui4
+         /1bJ/zTi5VZkqa0c9me5b9nyIRR+8AGM7a6aXGScjL7jgysNOOGh6mrX4vs3UGAGXF
+         1s0aX5L7Ze9A8zWY2oezGwBJF7QaIiwiLIJLyqjhe4qpPeepExO7oc4XqzOCONcDBc
+         /pYLvZHxEpyuQ==
+From:   Kalle Valo <kvalo@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
+References: <20221220134519.3dd1318b@gandalf.local.home>
+Date:   Wed, 21 Dec 2022 20:47:50 +0200
+In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home> (Steven Rostedt's
+        message of "Tue, 20 Dec 2022 13:45:19 -0500")
+Message-ID: <87mt7gk2zt.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add Kinetic KTZ8866 backlight binding documentation.
+Steven Rostedt <rostedt@goodmis.org> writes:
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
-Changes in v2:
-  - Remove "items" between "compatible" and "const: kinetic,ktz8866"
-  - Change "additionalProperties" to "unevaluatedProperties"
+> [
+>   Linus,
+>
+>     I ran the script against your latest master branch:
+>     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
+>
+>     As the timer_shutdown*() code is now in your tree, I figured
+>     we can start doing the conversions. At least add the trivial ones
+>     now as Thomas suggested that this gets applied at the end of the
+>     merge window, to avoid conflicts with linux-next during the
+>     development cycle. I can wait to Friday to run it again, and
+>     resubmit.
+>
+>     What is the best way to handle this?
+> ]
+>
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+>
+> Due to several bugs caused by timers being re-armed after they are
+> shutdown and just before they are freed, a new state of timers was added
+> called "shutdown". After a timer is set to this state, then it can no
+> longer be re-armed.
+>
+> The following script was run to find all the trivial locations where
+> del_timer() or del_timer_sync() is called in the same function that the
+> object holding the timer is freed. It also ignores any locations where the
+> timer->function is modified between the del_timer*() and the free(), as
+> that is not considered a "trivial" case.
+>
+> This was created by using a coccinelle script and the following commands:
+>
+>  $ cat timer.cocci
+> @@
+> expression ptr, slab;
+> identifier timer, rfield;
+> @@
+> (
+> -       del_timer(&ptr->timer);
+> +       timer_shutdown(&ptr->timer);
+> |
+> -       del_timer_sync(&ptr->timer);
+> +       timer_shutdown_sync(&ptr->timer);
+> )
+>   ... when strict
+>       when != ptr->timer
+> (
+>         kfree_rcu(ptr, rfield);
+> |
+>         kmem_cache_free(slab, ptr);
+> |
+>         kfree(ptr);
+> )
+>
+>  $ spatch timer.cocci . > /tmp/t.patch
+>  $ patch -p1 < /tmp/t.patch
+>
+> Link: https://lore.kernel.org/lkml/20221123201306.823305113@linutronix.de/
+>
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
- .../leds/backlight/kinetic,ktz8866.yaml       | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+For wireless:
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-new file mode 100644
-index 000000000000..c63c21bf69d6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-@@ -0,0 +1,36 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Kinetic Technologies KTZ8866 backlight
-+
-+maintainers:
-+  - Jianhua Lu <lujianhua000@gmail.com>
-+
-+description: |
-+  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
-+  with dual lcd bias power.
-+  https://www.kinet-ic.com/ktz8866/
-+
-+allOf:
-+  - $ref: common.yaml#
-+
-+properties:
-+  compatible:
-+    const: kinetic,ktz8866
-+
-+required:
-+  - compatible
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    backlight {
-+        compatible = "kinetic,ktz8866";
-+
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&bl_en_default>;
-+    };
+>  .../broadcom/brcm80211/brcmfmac/btcoex.c         |  2 +-
+>  drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c |  2 +-
+>  drivers/net/wireless/intel/iwlwifi/mvm/sta.c     |  2 +-
+>  drivers/net/wireless/intersil/hostap/hostap_ap.c |  2 +-
+>  drivers/net/wireless/marvell/mwifiex/main.c      |  2 +-
+>  drivers/net/wireless/microchip/wilc1000/hif.c    |  6 +++---
+
+Acked-by: Kalle Valo <kvalo@kernel.org>
+
 -- 
-2.38.2
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
