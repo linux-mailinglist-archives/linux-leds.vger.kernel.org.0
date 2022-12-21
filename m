@@ -2,90 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7062652ECC
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 10:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70745652F0E
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Dec 2022 10:59:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234500AbiLUJqh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Dec 2022 04:46:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53328 "EHLO
+        id S234660AbiLUJ7g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Dec 2022 04:59:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234613AbiLUJqX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Dec 2022 04:46:23 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504EF220E9
-        for <linux-leds@vger.kernel.org>; Wed, 21 Dec 2022 01:46:13 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id q2so5793299ljp.6
-        for <linux-leds@vger.kernel.org>; Wed, 21 Dec 2022 01:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RMN18TMuRJ15tNy7Rh8fHbbD5iNzzFMU1HwQ+6IR2jM=;
-        b=OEF0uMUfj3e2EPEdiZgyHX3vKcqazjkPE6pCVext6HfTGZnZOT8FBMcvpIO1Vp9HYJ
-         gihqyCNyL6czBPzjSYjfXicWUDeJbbFK+NCCeXQ25M7sTvGz6wv2ZQJocrDWLWo1YG5y
-         u8lS2AbfV+2+TeSygX3DPQ8bqQotpPx2ef5VWN8sbpt5pPAQRrsrtf6UFcIzcLSpjCa7
-         ZehkKKcOZc/cpDfxQeLwcV3l0HYXSAn5RKN+wmlGgzNBfZZcoVun4kMINTLBBxdIEcnM
-         cQukSltSXHf9x+6y8XzSWXeOOULqUhrg+iNNTBvNJejTZJBDacm8x4wJpjbXIKhUxNXh
-         AgTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RMN18TMuRJ15tNy7Rh8fHbbD5iNzzFMU1HwQ+6IR2jM=;
-        b=Z9/o6+TAq11Osmb7uSzgmKrkaWMOKqor9IWGCGG/OTSJ6jSIUrr5wqSCIxyMrxi0sF
-         gcunEmnIiA+N0+IGoS94MfLBWKaSR0eVP8e+P2iCuOdTWcO2gmsw2QK6AKv8XbsatXro
-         GY6FAKnoJyg/r4bgHEqIEbUekO8AI1VJXO4jo6DbFiDZJEVEgCWPD271pRHGJttrpCW3
-         GFbw9+hqxxtsr4e4cSkBIKN1uMGGaV2nMQjvksgTQXvduowqVt9tjFkS2EdKWmHZNlKH
-         r13YU/CteIwdf88/FNUBQK5Czuc/uBN/jUagrzANrnD2JJp9jkgHjgSyYFodCmiPhu4P
-         oG/A==
-X-Gm-Message-State: AFqh2ko/e+J1BT8cymqmywUX2PagYYutxTvic0EWGRcMYeg+bpPL1+N7
-        nvEsfIckXgsMdNG/ApP7bVinRhesEs8vn9UF
-X-Google-Smtp-Source: AMrXdXsJhRRL1Is1++esuSIMzRXvs597RfjTTEXCUgLTZRRkoQlwb6sHZ2TeuiIHbxzAzhDGiXldYg==
-X-Received: by 2002:a2e:b6d4:0:b0:26e:8d03:c3db with SMTP id m20-20020a2eb6d4000000b0026e8d03c3dbmr418039ljo.0.1671615971759;
-        Wed, 21 Dec 2022 01:46:11 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id v18-20020a2ea612000000b0027a197d8247sm1296361ljp.16.2022.12.21.01.46.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Dec 2022 01:46:11 -0800 (PST)
-Message-ID: <cb84a044-0508-2b5b-13aa-a081d0e90afd@linaro.org>
-Date:   Wed, 21 Dec 2022 10:46:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] dt-bindings: leds: backlight: add binding for Kinetic
- KTZ8866 backlight
-Content-Language: en-US
-To:     jianhua lu <lujianhua000@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S234676AbiLUJ64 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Dec 2022 04:58:56 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE82F233B3;
+        Wed, 21 Dec 2022 01:55:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LXTjxNIwyTamcsYiCUb1qbSp8dawRiYmOqWzEm2gekI=; b=ln8ec5+mDsvVeVkYSdnkkKkSyL
+        SZXC7xhjFUriKXcoax4iKbHOBqvEK+SXuneJWVll3OY6YVNzsnKSg5y20qCmb3nFPkAw8h4vwDTB8
+        2R6mvqzk1nJ19+pSPicHHwCsf1FO5eJnSYbRIHXmbbW7NKzouJgccP7nbXs1YmEbOX8LWq/rSo/IS
+        KlFf+S5I3eD2a2BzZqskDzKriDhfusCBD1wPwCzF3MVFTDUj3G8ZU1gSouJlNMuHvWa4lcwCLTlhX
+        ntwkPH3nPstYgrYkSNEt8zrxOuldgsLxd7U6u/cONukLoCzBlFq2BhJpHgEkQ3oIcEUXiQMtXdDKV
+        +16P8nww==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35800)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1p7voG-0000TN-KP; Wed, 21 Dec 2022 09:54:48 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1p7voB-0006Rt-Mc; Wed, 21 Dec 2022 09:54:43 +0000
+Date:   Wed, 21 Dec 2022 09:54:43 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-References: <20221221070216.17850-1-lujianhua000@gmail.com>
- <d37e0f2d-eaa5-4eaa-72bb-ead349235d6d@linaro.org>
- <CAEo_cxGK_m_VM1k0EWerfS2b2DF5ucvftQj68h3kBZz2=L=YGQ@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAEo_cxGK_m_VM1k0EWerfS2b2DF5ucvftQj68h3kBZz2=L=YGQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control
+ support
+Message-ID: <Y6LX43poXJ4k/7mv@shell.armlinux.org.uk>
+References: <20221214235438.30271-1-ansuelsmth@gmail.com>
+ <20221214235438.30271-7-ansuelsmth@gmail.com>
+ <Y5tUU5zA/lkYJza+@shell.armlinux.org.uk>
+ <639ca665.1c0a0220.ae24f.9d06@mx.google.com>
+ <Y6JMe9oJDCyLkq7P@lunn.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6JMe9oJDCyLkq7P@lunn.ch>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 21/12/2022 10:40, jianhua lu wrote:
-> Thanks for review, I will resend this path.
+On Wed, Dec 21, 2022 at 12:59:55AM +0100, Andrew Lunn wrote:
+> > > One thought on this approach though - if one has a PHY that supports
+> > > "activity" but not independent "rx" and "tx" activity indications
+> > > and it doesn't support software control, how would one enable activity
+> > > mode? There isn't a way to simultaneously enable both at the same
+> > > time... However, I need to check whether there are any PHYs that fall
+> > > into this category.
+> > >
+> > 
+> > Problem is that for such feature and to have at least something working
+> > we need to face compromise. We really can't support each switch feature
+> > and have a generic API for everything.
+> 
+> I agree we need to make compromises. We cannot support every LED
+> feature of every PHY, they are simply too diverse. Hopefully we can
+> support some features of every PHY. In the worst case, a PHY simply
+> cannot be controlled via this method, which is the current state
+> today. So it is not worse off.
 
-Are you going to test it, before sending?
+... and that compromise is that it's not going to be possible to enable
+activity mode on 88e151x with how the code stands and with the
+independent nature of "rx" and "tx" activity control currently in the
+netdev trigger... making this whole approach somewhat useless for
+Marvell PHYs.
 
-Best regards,
-Krzysztof
+We really need to see a working implementation for this code for more
+than just one PHY to prove that it is actually possible for it to
+support other PHYs. If not, it isn't actually solving the problem,
+and we're going to continue getting custom implementations to configure
+the LED settings.
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
