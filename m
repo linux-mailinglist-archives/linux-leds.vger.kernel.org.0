@@ -2,95 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B086653CE4
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 09:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED523653D8C
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 10:37:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235066AbiLVIVg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 22 Dec 2022 03:21:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53942 "EHLO
+        id S235074AbiLVJhB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Dec 2022 04:37:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230417AbiLVIVf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 03:21:35 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F04B11807
-        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 00:21:34 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id g13so1631586lfv.7
-        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 00:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uAkQvA3Xh+SnjA47mehnFmJrTToVnvQtaeVXifEV6Rk=;
-        b=RWoSYDbQMlbQ088uebiL+ygAsoUptTfvNBo/L9++PXhJBblh7qqCm3Pkse0QCPQZiL
-         4AY+M34sAYZQ+4L7HQAqxkQKj5CMynrip2kJjQY2Cr8U325dXsQ5RecP7HhGinSFL6ed
-         2HbQ0qRnU+tHTRl8ngGZWqVnWJtYco8xJyhFZEhmcrdHX5s3YrI+CNid2TP3zkK4Fjks
-         IqT1xSblZ4pEegrPQeWidY3bCu1QW2QidkTFbdXFsns6KhABy42c38Up6mjlnRohFnqv
-         VQ/CEnyafMBkl9DKHjnoYJnwXFA3HQW0GfGzTPaekHk2ZU2vAttm4pv6Tn2yEa7wKzlu
-         CoLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uAkQvA3Xh+SnjA47mehnFmJrTToVnvQtaeVXifEV6Rk=;
-        b=RnvFGXkt8VEGjrUJJOEFyQcu/LFBnhtIASkLqfeqIp0BYrNTCHdTTpjzZQxmBe0WJX
-         OHbqh/KSrwAcZ8qLLYGUARee9rvEm5KTvweqopWcOr2Pj1oDdTvkX4Ubjpja7Y9ijH+G
-         +gd9OtfW9oIAJ4sr1O5Uhve6W9wNeYDaExXj5khIlX/GlkSuB58O5/wYdxdDvMsWJVvg
-         Y0SgkX1GzhRIDdqUJM+ZvxVRAtIN2fTe8pBllGBoEBrI0Ez955LdLXh8bPJnQ/KBWVNi
-         8ho/wp8yY+BCGAL7166jPEuAWwXDQ76Cr0CkCxMdxJX3SK4LaRwCvWifXq65hHxIe2bk
-         TMPw==
-X-Gm-Message-State: AFqh2kotvPhTYvj/s0e+e4uWDF5jgYzYHS98/W8ByvgaNYjxiyNwBiYY
-        qRNrOOqQXSfq2otT+nGqqdWT3g==
-X-Google-Smtp-Source: AMrXdXt37+6z3xr5biGtW60g1/enVSSlhcb6yauFfDNgy4Ip6QuFAVRlBq+qGgvqP00SOsqek4NptQ==
-X-Received: by 2002:a19:f713:0:b0:4b6:bc3c:f457 with SMTP id z19-20020a19f713000000b004b6bc3cf457mr1272077lfe.34.1671697292821;
-        Thu, 22 Dec 2022 00:21:32 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id o9-20020a05651205c900b00497aa190523sm2110812lfo.248.2022.12.22.00.21.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Dec 2022 00:21:32 -0800 (PST)
-Message-ID: <e2b0f5e2-8681-10e7-8924-a1bf5040f7d0@linaro.org>
-Date:   Thu, 22 Dec 2022 09:21:31 +0100
+        with ESMTP id S235199AbiLVJhA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 04:37:00 -0500
+Received: from mx2.securetransport.de (mx2.securetransport.de [188.68.39.254])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D84427922
+        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 01:36:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
+        s=dhelectronicscom; t=1671701773;
+        bh=Ewz2mZ4/G74YVQS5DrzTxOh0V5fZcV4L+hYTmmtl+ws=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=F7owkF4znc/MEsjpVBsyEe5LtxZgpN0EdlMogxlG1IAUQGKHiI2yC9IIY+UW3JphG
+         4vBLATQZgUquD5mR/PMovEIvtLqQgrupMCif/7ScHdJIkIGwwBzqmP5cnQOi96T0fU
+         cvyetdSz8Gl27No9oZVcsEA/uwdHvs45JppezbXby/q1Px126dSxbD1gEAecG6jxFv
+         KDm9oagCySbyotP9Ng7kJlml7VBcB5oGgOpsSORRHtS8/C6l460kOXYj/+Nzy2Zt4f
+         DrMYsHlAcF3aQrH1Plwjt1MsSjjcxlmrg7p5ozh3aSbJbuqjc7N/Is5Ej/jGZcw0QA
+         M974aOBD4hAbg==
+X-secureTransport-forwarded: yes
+From:   Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Complaints-To: abuse@cubewerk.de
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Marek Vasut <marex@denx.de>, Rob Herring <robh@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        kernel <kernel@dh-electronics.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH] dt-bindings: leds: Mark label property as deprecated
+Thread-Topic: [PATCH] dt-bindings: leds: Mark label property as deprecated
+Thread-Index: AQHY/mNSBezL52aWUU2g6jlYT+Ed+a5KzPaAgAVOqgCAB7gPgIAB27kAgAX2P4CAGih2UA==
+Date:   Thu, 22 Dec 2022 09:36:07 +0000
+Message-ID: <e6b166b399314a91bc97db591c8ec5a7@dh-electronics.com>
+References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
+ <Y3y/S5COG7VPbsqL@duo.ucw.cz> <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
+ <20221130191905.GA2631320-robh@kernel.org>
+ <4043d693-7739-4709-8551-9f476031db70@denx.de>
+ <38c9aae4-0cae-a5a6-7c76-f23edf259dab@gmail.com>
+In-Reply-To: <38c9aae4-0cae-a5a6-7c76-f23edf259dab@gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-References: <20221221153154.25411-1-lujianhua000@gmail.com>
- <20221221153154.25411-2-lujianhua000@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221221153154.25411-2-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 21/12/2022 16:31, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+RnJvbTogSmFjZWsgQW5hc3pld3NraSBbbWFpbHRvOmphY2VrLmFuYXN6ZXdza2lAZ21haWwuY29t
+XQ0KU2VudDogTW9uZGF5LCBEZWNlbWJlciA1LCAyMDIyIDc6NDQgUE0NCj4gDQo+IEhpIGFsbCwN
+Cj4NCg0KSGkgYWxsLA0KDQo+IE9uIDEyLzIvMjIgMDA6NDEsIE1hcmVrIFZhc3V0IHdyb3RlOg0K
+Pj4gT24gMTEvMzAvMjIgMjA6MTksIFJvYiBIZXJyaW5nIHdyb3RlOg0KPj4+IE9uIEZyaSwgTm92
+IDI1LCAyMDIyIGF0IDEwOjI2OjMwUE0gKzAxMDAsIE1hcmVrIFZhc3V0IHdyb3RlOg0KPj4+PiBP
+biAxMS8yMi8yMiAxMzoyMywgUGF2ZWwgTWFjaGVrIHdyb3RlOg0KPj4+Pj4gSGkhDQo+Pj4+DQo+
+Pj4+IEhpLA0KPj4+Pg0KPj4+Pj4+IE1hcmsgdGhlIGxhYmVsIHByb3BlcnR5IGFzIGRlcHJlY2F0
+ZWQgYXMgaXQgaXMgbWVudGlvbmVkDQo+Pj4+Pj4gaW4gdGhlIGRlc2NyaXB0aW9uLg0KPj4+Pj4N
+Cj4+Pj4+IExldHMgZG8gaXQgdGhlIG90aGVyIHdheSBhcm91bmQuIEZ1bmN0aW9ucyAoZXRjKSBk
+b24ndCByZWFsbHkgcHJvdmlkZQ0KPj4+Pj4gZ29vZCBlbm91Z2ggZGVzY3JpcHRpb24gb2YgTEVE
+LCBhbmQgbGFiZWwgaXMgc3RpbGwgbmVlZGVkLg0KPj4+Pg0KPj4+PiBDYW4geW91IHBsZWFzZSBw
+cm92aWRlIGEgY2xlYXIgZXhwbGFuYXRpb24gd2hpY2ggcHJvcGVydHkgb3IgYXBwcm9hY2gNCj4+
+Pj4gaXMgdGhlDQo+Pj4+IGNvcnJlY3Qgb25lIGZvciBuZXcgRFRzID8NCj4+Pj4NCj4+Pj4gU28g
+ZmFyLCB0aGUgZG9jdW1lbnRhdGlvbiBzdGF0ZXMgdGhhdCAibGFiZWwiIGlzIGRlcHJlY2F0ZWQs
+IGFuZCB1c2Vycw0KPj4+PiBzaG91bGQgcmVwbGFjZSBpdCB3aXRoICJmdW5jdGlvbiIgYW5kICJj
+b2xvciIuDQo+Pj4NCj4+PiAnZnVuY3Rpb24nIGlzIHdoYXQgYWN0aXZpdHkvb3BlcmF0aW9uIHRo
+ZSBMRUQgaXMgYXNzb2NpYXRlZCB3aXRoLiBJdCBpcw0KPj4+IGEgZml4ZWQgc2V0IG9mIHN0cmlu
+Z3Mgd2hpY2ggcy93IG1heSB1c2UuIEl0IGlzIGEgcmVwbGFjZW1lbnQgZm9yDQo+Pj4gJ2xpbnV4
+LGRlZmF1bHQtdHJpZ2dlcicuDQo+Pg0KPj4gSXNuJ3QgdGhpcyAnZnVuY3Rpb24nIG1vcmUgb2Yg
+YSBzdGFuZGFyZGl6ZWQgcmVwbGFjZW1lbnQgZm9yICdsYWJlbCcgPw0KPiANCj4gWWVzIGl0IGlz
+LiBJbnRyb2R1Y3Rpb24gb2YgZnVuY3Rpb24gYW5kIGNvbG9yIHByb3BlcnRpZXMgYWltZWQgYXQN
+Cj4gc3RhbmRhcmRpemluZyBMRUQgbmFtaW5nLiBCZWZvcmUgdGhlcmUgd2FzIG9ubHkgJ2xhYmVs
+JyB1c2VkIGZvciB0aGF0LA0KPiB3aXRoIERUIG5vZGUgbmFtZSBhcyBmYWxsYmFjayBpZiAnbGFi
+ZWwnIHByb3BlcnR5IHdhcyBub3QgcHJvdmlkZWQuDQo+IFdpdGggaW50cm9kdWN0aW9uIG9mICdm
+dW5jdGlvbicgYW5kICdjb2xvcicgbGFiZWwgd2FzIGRlcHJlY2F0ZWQgaW4NCj4gdGhlIHNlbnNl
+IHRoYXQgaWYgdGhlIGZvcm1lciB0d28gYXJlIHByZXNlbnQsIHRoZXkgYXJlIHVzZWQgZm9yDQo+
+IGNvbXBvc2luZyB0aGUgTEVEIG5hbWUuDQo+IA0KPiBJbiBMRUQgZG9jdW1lbnRhdGlvbiBbMF0g
+cGVvcGxlIGFyZSBlbmNvdXJhZ2VkIHRvIHVzZSBkZWZpbml0aW9ucyBmcm9tDQo+IGluY2x1ZGUv
+ZHQtYmluZGluZ3MvbGVkcy9jb21tb24uaCB0byBrZWVwIExFRCBuYW1pbmcgdW5pZm9ybS4NCj4g
+SXQgYWxsb3dzIHRvIGF2b2lkIGR1cGxpY2F0ZXMgbGlrZSAid2xhbiIgYW5kICJ3aWZpIi4NCj4g
+DQo+PiAkIGdpdCBncmVwIExFRF9GVU5DVElPTl8gaW5jbHVkZS8NCj4+IC4uLg0KPj4gaW5jbHVk
+ZS9kdC1iaW5kaW5ncy9sZWRzL2NvbW1vbi5oOiNkZWZpbmUgTEVEX0ZVTkNUSU9OX1BMQVlFUjUg
+InBsYXllci01Ig0KPj4gaW5jbHVkZS9kdC1iaW5kaW5ncy9sZWRzL2NvbW1vbi5oOiNkZWZpbmUg
+TEVEX0ZVTkNUSU9OX0FDVElWSVRZICJhY3Rpdml0eSINCj4+IGluY2x1ZGUvZHQtYmluZGluZ3Mv
+bGVkcy9jb21tb24uaDojZGVmaW5lIExFRF9GVU5DVElPTl9BTEFSTSAiYWxhcm0iDQo+PiBpbmNs
+dWRlL2R0LWJpbmRpbmdzL2xlZHMvY29tbW9uLmg6I2RlZmluZSBMRURfRlVOQ1RJT05fQkFDS0xJ
+R0hUDQo+PiAiYmFja2xpZ2h0Ig0KPj4gaW5jbHVkZS9kdC1iaW5kaW5ncy9sZWRzL2NvbW1vbi5o
+OiNkZWZpbmUgTEVEX0ZVTkNUSU9OX0JMVUVUT09USA0KPj4gImJsdWV0b290aCINCj4+IGluY2x1
+ZGUvZHQtYmluZGluZ3MvbGVkcy9jb21tb24uaDojZGVmaW5lIExFRF9GVU5DVElPTl9CT09UICJi
+b290Ig0KPj4gLi4uDQo+Pg0KPj4gU2VlbXMgdG8gbWUgdGhhdCBeIGlzIGNsb3NlciB0byBhICJz
+dGFuZGFyZGl6ZWQiIGZvcm0gb2YgJ2xhYmVsJyAuDQo+Pg0KPj4gVGhlIExFRCBzdWJzeXN0ZW0g
+ZG9lcyBub3QgaW5mZXIgYW55IGJlaGF2aW9yIG9mIHRob3NlIExFRHMgYmFzZWQgb24NCj4+IHRo
+ZWlyICdmdW5jdGlvbicgcHJvcGVydHkgYXMgZmFyIGFzIEkgY2FuIHRlbGwsIGF0IGxlYXN0IG5v
+dCBpbiB0aGUgd2F5DQo+PiAnbGludXgsZGVmYXVsdC10cmlnZ2VyJyBiZWhhdmVzLg0KPj4NCj4+
+PiAnbGFiZWwnIGlzIHdoYXQgaXMgcHJpbnRlZCBuZXh0IHRvIHRoZSBMRUQgZm9yIGEgaHVtYW4g
+dG8gcmVhZC4gJ2xhYmVsJw0KPj4+IGNhbiBiZSBhbnl0aGluZyBhbmQgdGhlIE9TIHNob3VsZG4n
+dCBjYXJlIHdoYXQgaXQgaXMuDQo+Pg0KPj4gVGhpcyBwYXJ0IEkgdW5kZXJzdGFuZC4gV2hhdCBp
+cyBub3QgY2xlYXIgdG8gbWUgaXMsIHdoeSBpcyAnbGFiZWwnIGJlaW5nDQo+PiB1bi1kZXByZWNh
+dGVkLg0KPiANCj4gSXQgc2hvdWxkbid0IGJlLiBJdCBzZWVtcyB0byBiZSBQYXZlbCdzIGFkLWhv
+YyBkZWNpc2lvbi4NCg0KSXMgdGhlcmUgYSBtYWpvcml0eSBhZ3JlZW1lbnQgdGhhdCB0aGUgImxh
+YmVsIiBwcm9wZXJ0eSByZW1haW5zIGRlcHJlY2F0ZWQ/DQpJZiBzbywgSSB3b3VsZCBzYXkgd2Ug
+Y2FuIG1hcmsgdGhlIGxhYmVsIGFzIGRlcHJlY2F0ZWQuDQoNCk9uIHRoZSBvdGhlciBoYW5kLCB0
+aGUgbmV3IGdlbmVyYXRlZCBzdGFuZGFyZGl6ZWQgc3lzZnMgbmFtZSBkb2VzIG5vdCBzZWVtDQp0
+byBwcm92aWRlIGEgZnVsbCByZXBsYWNlbWVudCBmb3IgdGhlICJsYWJlbCIgcHJvcGVydHkuDQpX
+aGF0IGlzIHN0aWxsIG1pc3Npbmc/DQpIb3cgY2FuIHRoZSBjdXJyZW50IHN0YXRlIGJlIGV4dGVu
+ZGVkIHRvIGZpbmQgbW9yZSBhY2NlcHRhbmNlPw0KDQpbLi4uXQ0KDQpSZWdhcmRzDQpDaHJpc3Rv
+cGgNCg==
