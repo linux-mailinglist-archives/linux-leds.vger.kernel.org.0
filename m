@@ -2,66 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 287CC654432
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 16:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C4E0654543
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 17:40:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235351AbiLVPV7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 22 Dec 2022 10:21:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37234 "EHLO
+        id S230422AbiLVQkC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Dec 2022 11:40:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235486AbiLVPVy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 10:21:54 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6AA827DE1;
-        Thu, 22 Dec 2022 07:21:52 -0800 (PST)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id EBE438535C;
-        Thu, 22 Dec 2022 16:21:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1671722510;
-        bh=PN/hmxooUMT8XNFph9UDv6cR7gQs64H/ILYeISDd/40=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kCRBSw1XtVvx/yWUqBuqNJ1e/hVIMwGa74y4SEHfVhSJYUunzkPSVX65ULcYPfjKZ
-         xVu8pWLNhq1eo/1c0HIMf/B8+SSdr8t+py2gz3QqYh1SrlHi/45iBaEHrXwLr+Obns
-         DHX3XFSt2xXZ/0OTQnH+ehCwSmK7BsOJc/vF9mK7om9Z794W2RJNsFRTiysBiOKj57
-         gxjo1FQwKAjKAco1jcMD56nnHd4+zKEYuFA+vV5XNNW1XBv2Q9ZS1RvZtD1fqzmPwi
-         jxdRmszHr0J33rJUU4/5VJbY0hzyAoF22k2mNBBzohjdgz7r+Y32OPNl3cuESrpfDj
-         a7g233pJmMsMA==
-Message-ID: <cb3c3a1e-ec10-1e7b-1b21-3cb250f92ecf@denx.de>
-Date:   Thu, 22 Dec 2022 16:21:49 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] dt-bindings: leds: Mark label property as deprecated
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Christoph Niedermaier <cniedermaier@dh-electronics.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        with ESMTP id S229666AbiLVQkA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 11:40:00 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14DDC31EC2
+        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 08:39:59 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id y8so2187747wrl.13
+        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 08:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=luABOnCrlVSdR9io8JSfc8eAe/zDLsHgsTWLT2NYCGs=;
+        b=V+C376yvgmxQlnX1BlFhBDbJ8j4Sz48pRHQ7M1E3a7NsWkhera/DCE7kFEbPECjspW
+         4JhQpbtcDSUwG1cbxSEzGcw4wjjIkI397fm6cwDEKuQL062zKdpgTRpxbMfTiMOROlEy
+         ehdasNIPFPQhE/FpO88qvU4xqd/4EbIdVuRnOivxhx/7gdXCIqqMOVl8LrDRRRpstERH
+         xzX+HUCDvGqiXIHty3Ula3dqnKM8/NjXW2Q8s7kHxrGBIah7i9YsxI3RM6Bc/zbhPbom
+         Ft6mZkdlyIdAwLjieUdA/teQHO8KubqSE05L//Bl6q4dsO0ixur5K9RDdwQak2l57S2T
+         L61w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=luABOnCrlVSdR9io8JSfc8eAe/zDLsHgsTWLT2NYCGs=;
+        b=CQts5Wvn+vC+QwLIl15M1sKjQ0RjWpxcL1upApbWnq5Fy/k55TyRecthcqvHPb+GJU
+         4J0TQ6Pe8rkdcsZ3gsYTrc1oktLvIFEU2avQk/JILgYi+VcRpVsWBgYoofXEplHPnsZ1
+         dGqA+Fq1cw251hkS60ARoiNNEYpHilPk2NOin+n6JAHEBr37/F5o9r7VQtdB/Z2s/eZs
+         X7Q/yfhGOlwr7O1SYaA7xsUcE7m0yP20NFy0+FaYBQlR+xKSlkz3kOTngRewW86Io0sG
+         nVjUCbzjES8b7rx5UZi+LBJYqOzsJNboLO9kHbzMLoRX44qIrZXV9fS5cCSoK/xOQpfk
+         UOcQ==
+X-Gm-Message-State: AFqh2krRRgQIjsdPQiEKvv+zZK/KXH/PupS9PqQcyVllgr1dz+TSyZfJ
+        K63usvi4VZ7anb1twga8Mnvmbw==
+X-Google-Smtp-Source: AMrXdXsboUgPbZD28ip7UN92WxcTwW+13dg1F+V6XUKM/L2mYaNDoqDiUlLDmZb8DgmYykHjM3c4Ug==
+X-Received: by 2002:adf:e586:0:b0:241:c603:900 with SMTP id l6-20020adfe586000000b00241c6030900mr7443600wrm.16.1671727197552;
+        Thu, 22 Dec 2022 08:39:57 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id v3-20020a5d4a43000000b0026fc5694a60sm957747wrs.26.2022.12.22.08.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Dec 2022 08:39:56 -0800 (PST)
+Date:   Thu, 22 Dec 2022 16:39:54 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jianhua Lu <lujianhua000@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        kernel <kernel@dh-electronics.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <20221122111124.6828-1-cniedermaier@dh-electronics.com>
- <Y3y/S5COG7VPbsqL@duo.ucw.cz> <3f4c89a3-8955-ce41-ac2a-cee9b0ed5210@denx.de>
- <20221130191905.GA2631320-robh@kernel.org>
- <4043d693-7739-4709-8551-9f476031db70@denx.de>
- <38c9aae4-0cae-a5a6-7c76-f23edf259dab@gmail.com>
- <e6b166b399314a91bc97db591c8ec5a7@dh-electronics.com>
- <Y6RgjV4FT57SaTQw@duo.ucw.cz> <3c555cae-999f-ccd2-d114-00b92abd19ba@denx.de>
- <Y6RwAcXnfY/zjk/b@duo.ucw.cz>
-Content-Language: en-US
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <Y6RwAcXnfY/zjk/b@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] backlight: ktz8866: Add support for Kinetic
+ KTZ8866 backlight
+Message-ID: <Y6SIWoVFX/OlNO0n@aspen.lan>
+References: <20221222125441.1547-1-lujianhua000@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221222125441.1547-1-lujianhua000@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,59 +74,179 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 12/22/22 15:56, Pavel Machek wrote:
-> On Thu 2022-12-22 15:01:44, Marek Vasut wrote:
->> On 12/22/22 14:50, Pavel Machek wrote:
->>> Hi!
->>>
->>>>>> This part I understand. What is not clear to me is, why is 'label' being
->>>>>> un-deprecated.
->>>>>
->>>>> It shouldn't be. It seems to be Pavel's ad-hoc decision.
->>>>
->>>> Is there a majority agreement that the "label" property remains
->>>> deprecated?
->>>
->>>
->>>> If so, I would say we can mark the label as deprecated.
->>>>
->>>> On the other hand, the new generated standardized sysfs name does not seem
->>>> to provide a full replacement for the "label" property.
->>>> What is still missing?
->>>
->>> Having reasonable naming of the LEDs is pre-requisite for deprecating
->>> label property.
->>
->> As far as I can tell, function and function-enumerator is the reasonable
->> naming. Jacek seem to confirm that. I would say, label can be deprecated .
->> What is the counter-argument for why it should NOT be deprecated ?
-> 
-> When the label is no longer neccessary for naming leds, it can be
-> deprecated. AFAICT, that is currently not the case.
+On Thu, Dec 22, 2022 at 08:54:40PM +0800, Jianhua Lu wrote:
+> Add support for Kinetic KTZ8866 backlight, which is used in
+> Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
+> downstream implementation [1].
+> [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
+>
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>   - Add missing staitc modifier to ktz8866_write function.
+>
+> Changes in v3:
+>   - Add 2022 to Copyright line.
+>   - Sort headers
+>   - Remove meaningless comment
+>   - Use definitions instead of hardcoding.
+>   - Add missing maintainer info
+>
+>  MAINTAINERS                       |   6 +
+>  drivers/video/backlight/Kconfig   |   8 ++
+>  drivers/video/backlight/Makefile  |   1 +
+>  drivers/video/backlight/ktz8866.c | 180 ++++++++++++++++++++++++++++++
+>  drivers/video/backlight/ktz8866.h |  31 +++++
+>  5 files changed, 226 insertions(+)
+>  create mode 100644 drivers/video/backlight/ktz8866.c
+>  create mode 100644 drivers/video/backlight/ktz8866.h
+>
+> diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
+> new file mode 100644
+> index 000000000000..ea641bdfc4d2
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -0,0 +1,180 @@
+> +
+> +#define BL_EN_BIT BIT(6)
+> +#define BL_CURRENT_SINKS 0x1F
+> +#define BL_OVP_LIMIT 0x33
+> +#define LED_CURRENT_RAMPING_TIME 0xBD
+> +#define LED_DIMMING_TIME 0x11
+> +#define LCD_BIAS_EN 0x9F
+> +#define LED_CURRENT 0xF9
+> +
+> +#define low_3_bit(x) ((x)&0x7)
+> +#define high_8_bit(x) ((x >> 3) & 0xFF)
 
-I'm sorry, this is not a counter-argument, this is hand-waving .
+These don't seem to be particularly useful. They are used exactly once
+so I think it is better just to implement the shifts directly
+in ktz8866_backlight_update_status().
 
-Do you have anything to back your claim that the label is currently 
-still needed, contrary to what the DT bindings document claims for 
-years? "This property is deprecated - use 'function' and 'color' 
-properties instead. function-enumerator has no effect when this property 
-is present."
+> +struct ktz8866 {
+> +	struct i2c_client *client;
+> +	struct regmap *regmap;
+> +	bool state;
+> +};
+> +
+> +enum {
+> +	LED_OFF,
+> +	LED_ON,
+> +};
 
-"
-commit c5d18dd6b64e09dd6984bda9bdd55160af537a8c
-Date:   Sun Jun 9 20:19:04 2019 +0200
+Let's remove this emum. It is better to rename state to
+led_on in order to make the code read well:
 
-     dt-bindings: leds: Add properties for LED name construction
+  if (ktz->led_on) ...
+  ktz->led_on = true;
+  ktz->led_on = false;
 
-     Introduce dedicated properties for conveying information about
-     LED function and color. Mark old "label" property as deprecated.
+> +static void ktz8866_init(struct ktz8866 *ktz)
+> +{
+> +	/* Enable 1~5 current sinks */
+> +	ktz8866_write(ktz, BL_EN, BL_CURRENT_SINKS);
+> +	/* Backlight OVP 26.4V */
+> +	ktz8866_write(ktz, BL_CFG1, BL_OVP_LIMIT);
+> +	/* LED current ramping time 128ms */
+> +	ktz8866_write(ktz, BL_CFG2, LED_CURRENT_RAMPING_TIME);
+> +	/* LED on/off ramping time 1ms */
+> +	ktz8866_write(ktz, BL_DIMMING, LED_DIMMING_TIME);
+> +	/* Enable OUTP and OUTN via pin ENP and ENN */
+> +	ktz8866_write(ktz, LCD_BIAS_CFG1, LCD_BIAS_EN);
+> +	/* Backlight Full-scale LED Current 30.0mA */
+> +	ktz8866_write(ktz, FULL_SCALE_CURRENT, LED_CURRENT);
+> +}
 
-     Additionally function-enumerator property is being provided
-     for the cases when neither function nor color can be used
-     for LED differentiation.
-"
+Are these settings specific to the mipad 5 m/board? Many of these look
+like they should be described in the devicetree rather than hardcoded
+in the driver.
 
-It seems the function and function-enumerator is very much the 
-replacement for label, except standardized. If that's not the case, do 
-elaborate. If there is a special case that is not covered by it, do 
-point it out.
+
+> +static int ktz8866_probe(struct i2c_client *client,
+> +			 const struct i2c_device_id *id)
+> +{
+> +	struct backlight_device *backlight_dev;
+> +	struct backlight_properties props;
+> +	struct ktz8866 *ktz;
+> +
+> +	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
+> +	if (!ktz)
+> +		return -ENOMEM;
+> +
+> +	ktz->client = client;
+> +	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
+> +
+> +	if (IS_ERR(ktz->regmap)) {
+> +		dev_err(&client->dev, "failed to init regmap\n");
+> +		return PTR_ERR(ktz->regmap);
+> +	}
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.max_brightness = MAX_BRIGHTNESS;
+> +	props.brightness = clamp_t(unsigned int, DEFAULT_BRIGHTNESS, 0,
+> +				   props.max_brightness);
+
+Please set the scale property correctly. "Unknown" is never correct for
+new drivers.
+
+
+> +	backlight_dev = devm_backlight_device_register(
+> +		&client->dev, "ktz8866-backlight", &client->dev, ktz,
+> +		&ktz8866_backlight_ops, &props);
+> +
+> +	if (IS_ERR(backlight_dev)) {
+> +		dev_err(&client->dev, "failed to register backlight device\n");
+> +		return PTR_ERR(backlight_dev);
+> +	}
+> +
+> +	ktz8866_init(ktz);
+> +
+> +	i2c_set_clientdata(client, backlight_dev);
+> +	backlight_update_status(backlight_dev);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/video/backlight/ktz8866.h b/drivers/video/backlight/ktz8866.h
+> new file mode 100644
+> index 000000000000..b0ed8cbee608
+> --- /dev/null
+> +++ b/drivers/video/backlight/ktz8866.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Register definitions for Kinetic KTZ8866 backlight
+> + *
+> + * Copyright (C) 2022 Jianhua Lu <lujianhua000@gmail.com>
+> + */
+> +
+> +#ifndef KTZ8866_H
+> +#define KTZ8866_H
+> +
+> +#define DEVICE_ID 0x01
+> +#define BL_CFG1 0x02
+> +#define BL_CFG2 0x03
+> +#define BL_BRT_LSB 0x04
+> +#define BL_BRT_MSB 0x05
+> +#define BL_EN 0x08
+> +#define LCD_BIAS_CFG1 0x09
+> +#define LCD_BIAS_CFG2 0x0A
+> +#define LCD_BIAS_CFG3 0x0B
+> +#define LCD_BOOST_CFG 0x0C
+> +#define OUTP_CFG 0x0D
+> +#define OUTN_CFG 0x0E
+> +#define FLAG 0x0F
+> +#define BL_OPTION1 0x10
+> +#define BL_OPTION2 0x11
+> +#define PWM2DIG_LSBs 0x12
+> +#define PWM2DIG_MSBs 0x13
+> +#define BL_DIMMING 0x14
+> +#define FULL_SCALE_CURRENT 0x15
+> +
+> +#endif /* KTZ8866_H */
+
+This header file is not required. Please remove and move any definitions
+the driver needs into the C file.
+
+
+Daniel.
