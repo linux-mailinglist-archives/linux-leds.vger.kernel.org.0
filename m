@@ -2,187 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F18EA653DDC
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 11:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9DCC653E26
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Dec 2022 11:19:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235273AbiLVKDt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 22 Dec 2022 05:03:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57514 "EHLO
+        id S235139AbiLVKT3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Dec 2022 05:19:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235143AbiLVKDs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 05:03:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F67F264BE
-        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 02:02:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671703334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=VPSAzvZsd0VOW0Pl30eVauKyaeyjrHeZyCKLjc73aCE0sDFNugWd332Tf8Gnf2vM6ktSsq
-        o4AXqF1IvloyT4WAPqILWIDn4nvNCDVbbf9ElBuTPa5ti0AU/YRO/UojBqvS08s5Y6pfM8
-        3mkvIzE4KULEPGaldccqosp5ef/3JS4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-104-U180ol8HNauigiIujiCzZQ-1; Thu, 22 Dec 2022 05:02:11 -0500
-X-MC-Unique: U180ol8HNauigiIujiCzZQ-1
-Received: by mail-qk1-f197.google.com with SMTP id ay34-20020a05620a17a200b00704bd9922c4so708393qkb.12
-        for <linux-leds@vger.kernel.org>; Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-        b=Rr+iLJU84NFQpkOjmMBeiqtMveT+sYQGO3UPYKky8HTd/azPe1Kl5a/obtODJaSJhG
-         tuJ5yuY2YMZRWvcOi7FymAHzmxnxwfGp32Ebodtoi3EGmtJenyjZqu/9K3yMn8jWOBu4
-         iScom6+SRGzLSN6kw1CqAjzphgv076lghMl146zbJihsifnei7JX9BgOMEPuob3Si7i9
-         ZcTQ6+n3XuakwB5RkSLCtM/NNngAQgqw/H2unnmey8/1iB+3Q01XuhPogEle0c//TMTl
-         eax7t1kn2NbZo1bWVtyBJhiknkIL6vFsFJElJhUBXa5wAS0SIwIRCjWC19WNmKsddosO
-         /OAA==
-X-Gm-Message-State: AFqh2kpgndXTcCUo1gcAArAn5FrmjSweT5+gx363mmiO2O6NHIKSe1uw
-        dtdKK8hDCvoYR6RTuVQY/Y5XGp5TMZtWwF2Wfupbzktyo36OLIAotHZ004sSekZGffgN5ZiF90l
-        9ziCdFVdsT3RZ6nNVhQ6P4Q==
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466221qvi.48.1671703331043;
-        Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZnBvcAi4VqZ0nAfseRa5ZZncJObkgh59kN1yODkWBS5WICo+kLsdO+KK5pqcbrrZqdW1DHQ==
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id x8-20020a0cc508000000b004e5a127382fmr6466171qvi.48.1671703330733;
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-101-173.dyn.eolo.it. [146.241.101.173])
-        by smtp.gmail.com with ESMTPSA id f1-20020a05620a408100b006cfc9846594sm4269qko.93.2022.12.22.02.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Message-ID: <8d91ab13f56e88af0f6133130808f9623b3adb2e.camel@redhat.com>
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Date:   Thu, 22 Dec 2022 11:02:01 +0100
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-MIME-Version: 1.0
+        with ESMTP id S235007AbiLVKT2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Dec 2022 05:19:28 -0500
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2041.outbound.protection.outlook.com [40.107.20.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF7664EB;
+        Thu, 22 Dec 2022 02:19:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=haAsPu/eTfDk3KqU6ScZyJHYISruW/VebPkzckNEIAR/0mafbtkt+JGzpgeqK6FeOR93qfrwMn4PpaEusEOQz6KSXTd4pJFIPqMtUE4KooEm/o0FOCt/t4sv1fEDpYp7wwsAPcuxpXyaTojzmVGYkl2XqtSy3UnIYdNWmc81jms1q5kY25U89HHOCSkFtDvc2g2YhgKusFUUxHHa1wN1LZ2o5hkb6dZUHpPRo+Gqn/ZVWq8WNZRzptJGkKkh4Y6lcwgqYbZ7GgrVp7P62Uy3A8gXOGj8+g9cJPbGNpMZhw3hwlxqrIUReXYTL5Z+hzzZFC8XKYmpqnxoOi6CCNmgIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qtad1o3P6PsmehLd1gCa9TEyyygWIxjD4EiplB/sYU4=;
+ b=F9aZLxOdTzoHdv3CdyHhsub9Et4PJ3Ep/CmNoZ5VJLRyIdtjq96cSRciohpPFu5y4KSq6K7j2F7Tur1ILxdWj/exDyKUYg06v8ACu2Dy+peUGuL/A8F6JG8rLow8EciQ4W1eqPyFfbkZWVkuQkbl5pR1kWBzBof+qDJWndbh/jNEyM1FEcmW9P9q9o8zijbuBeRBrPlen6bfngBzWWUsGcMEqKmxS7jUN0UsoL/j0a++XDv1iItA5R73xUv2vN+Br75DqzoB/YYZBKxDyOkpJ0vPdFP0UKR2m3OBq0H7wLFekcwncVRjuvbqbczFe6BhVfZA1PAlwqQ3j6Tv7lpwKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qtad1o3P6PsmehLd1gCa9TEyyygWIxjD4EiplB/sYU4=;
+ b=sz0bgVbCUfkk/fXfl8XDU5KjSEMyCQwnDDoyTFh/rI+rly12Wj7bTkurbO+PlbO9lyNnu3jkagtW/Hs9Q5LEQM5URxR5+BGJBgIkbBJBneR2kpZM8fOKMmxLG86MAcKa5mt64HVMHiteFtEK5t6ek8Q+4FlohG1AYlanDTazlx/CtCBQSfAwlI6Ee1rk1x0v8sfINLpbwd/vrwT2xlPhkeJa822/WfSOiAulo7ILEXuhnBrgqHGYXcuGaIrg5jJzc0QuQ6szvcMXBhIO44A+mndk9WcVWZISwohh8E2tmFqH2aGU55ouvh4pvbS9k7zcPciHVUbMfy6MNYCehjevAA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
+ by DU0PR10MB7075.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:422::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Thu, 22 Dec
+ 2022 10:19:24 +0000
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5924.016; Thu, 22 Dec 2022
+ 10:19:24 +0000
+Date:   Thu, 22 Dec 2022 11:19:15 +0100
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+Message-ID: <20221222111915.2e08bb46@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20221007153323.1326-1-henning.schild@siemens.com>
+References: <20221007153323.1326-1-henning.schild@siemens.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: CH2PR05CA0017.namprd05.prod.outlook.com (2603:10b6:610::30)
+ To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|DU0PR10MB7075:EE_
+X-MS-Office365-Filtering-Correlation-Id: 851c2ab0-e160-4aea-ad1c-08dae405ffec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5zEYUfZN7xlXofvSZq3miFEbFKX0e4j8g+7PTYSk8sIPXMHrOrhLK0R3JSvKqBnOKrokzeo1Vz0Y18E1bZsR8lxKUvxIsI6Ncsqp3ZwpM1uTOe7CihONXEhcAAVXPel6p9130ZCrJT879ejRKNI3jpxGxQ/NdlUmS2BvuEtUtH0a43SfV6bkhUWkh9TZhBX7CgGUkBgyFZrLi9Yd4How0bn6mPPxwPeJh72OM/mXO6RsPjj6d/8ASaDbV48CZLsfQz9RcEMdEK+arUiUyDNj8OF6J5hpwJaUhfk1wJvZw7v+P4+i9jZhTopC4k2fwNcXH8OCavXEu90UHOtKQHWIrQZGAV1Gnv583Ry7v5DI9v/cL+AN83HayFyN3U5ECPtC7aoBe8y30m3kzZCgr6zqxwtNgyflbo4IR+9SHiwFNZZn9mJKw4ALvHubOgXU0KyAGG9DIqb04dryL7CHcEVd97yt13++EELv5iyVVIAFDNiZlOeQ3tpZX723dEV1tH6/tugZ87jgdw4f/QtOayO6LvUMB+BIhCmxCfR7weHOhOiWOgNtMG8ZxeKtRyxwOAu99fXcQjbn84nXUoumyvQaSZDowkJfFeBhyPafBHjyRz/UBjFqmz93nKQW4zph9erXnJeu5FWyal2Qux9PjcPJdNFX/NOSIaocPfr4TlgXz9DCtmUg2Ha6sPcy7ECPfvUu
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(451199015)(110136005)(5660300002)(478600001)(4326008)(66476007)(38100700002)(41300700001)(83380400001)(66946007)(8936002)(82960400001)(66556008)(6666004)(44832011)(6486002)(6506007)(8676002)(1076003)(186003)(6512007)(26005)(86362001)(316002)(2906002)(9686003)(2101003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Jo7b2z/sqGov0Z7T5PRoMTbTEq9i4poxG/fSzDPF3TnDj9SR4nshD/LDQvW?=
+ =?us-ascii?Q?Ji2H930zZdeqtHDzf9PgiadZlGwqWpNW4hE4XESM8IkWdpqs/2C9NqdDqEcM?=
+ =?us-ascii?Q?l933/PpfQGU7cC0Z6JDmUkJR+gxllH3xZkMH6HJ7yukehe+eDH7wSn3mbKVU?=
+ =?us-ascii?Q?+cXA/uCAToh9rlTF4mqN84T7BgfHBAKcHEj1KdT0iPBKYJFyRYzahnwRySzm?=
+ =?us-ascii?Q?oAB7MLjBn+b1uuEZyh5UhdOHF7XJ5IXMfbKUOO3z+hFL7c4YNfFVnKzpnFz+?=
+ =?us-ascii?Q?/BHXZA06mEJkSGSAf8QTzpaeFJVD4+0LCRt8w1EOPLC029Kz08r46qG0DR3e?=
+ =?us-ascii?Q?ZLs62vq+1voUsE0pleILBJAqYM36ZQSAd7YOD8u0fy1un1aUcnhwHCvCcsSH?=
+ =?us-ascii?Q?CKTecC3eo2i8+fKcCmmjh7Cytz62yHCpkIoWx9Str9e9kFEBBJS4wCzP7/Zp?=
+ =?us-ascii?Q?Hfjh7CXA3dy+El0OKp6pRj89zVDKLVfwW41ybUaZ4lf851AvHo5C9oBVC8En?=
+ =?us-ascii?Q?0mpBe5dtNCyE0JtSsLx99WYNBFLy2XIQbFz3TDk4mXU4MV7REwQh5o72JNgJ?=
+ =?us-ascii?Q?0t/HJK7gWdEpzXcEi/Ic41BthUUBY3ykKFrEZ4WniRwCqTqAjX1Xry5ROAjK?=
+ =?us-ascii?Q?H5MriNQ3XQLPYTQfZcxf0h2J00nSD7/0azy2KVD5uGnXlbzRjo6+xwVXceTD?=
+ =?us-ascii?Q?DvHr9pPjrXctZ8+DakWzJJ4kb0/EL/XL2aWJpVwEnVZ/etrdjhtW5Fvh2LJs?=
+ =?us-ascii?Q?Rh/iWIutZSDulE9EXdze+uy+iotj/jzS5GlIXCj3BS0D3s//H/mQc/TYIL2h?=
+ =?us-ascii?Q?feiq3eZPP27kgT37UYnd3Ir/XK2q9Bw1RKZQ38FUvgw+kTYg6AfwCW2uD3VB?=
+ =?us-ascii?Q?bo8NgzryZssYWmzjt7ykbLFuInprl169fFjDX79UraBYtHn7h5ASEfWndL+/?=
+ =?us-ascii?Q?31Mz09YtuVOO63LAQJ2iazO6mWaZkakwJ+NdYsjxlwr2uyl+mO1dyTaGU/jh?=
+ =?us-ascii?Q?76Z6/JGEBstNJRBk4I4SP5sGx+vnUpKanVyTgaa9nKLPZCpdK0ZoyUgAaP0t?=
+ =?us-ascii?Q?tP23+ompGDX2C5YwucVBpaKW45PMlDXhywQ+yFY+lfXbJ6VTLkrNOTf33WAP?=
+ =?us-ascii?Q?RUwDvJ5YEJ9K6ehzqoL3tiAlJ36Odw6cpGFfv3C9urm3pa0lJLw5hkgmOOlm?=
+ =?us-ascii?Q?mEkJ3P+HYbfZJeCiJjYiKXW0CchFSoS/pEXspNxH0/if36dQHAP7svVt8YXu?=
+ =?us-ascii?Q?gydFwybxOnXk2J69HY8lwGy2/Ub0AkVROIvM6jnb8gxvBZZXrOqlsT0f92Ql?=
+ =?us-ascii?Q?IZk16bTnzQCf8TvbjFR/7YVH08G9sRWx8eEKriWJc3QnIc4gWMDMan7FXMEN?=
+ =?us-ascii?Q?NpEcl/cRUPGUhMnPtcnUYukbyitsAU6kn5DZuuGGqZXmfcKDsfGewN7yUwNr?=
+ =?us-ascii?Q?EUpyO9s3LEXRJ7DBJTJx1X53anTrtWa893OzVuK7eRPjFBgt4+vD2P1hcld2?=
+ =?us-ascii?Q?X9TE8d3OZfSdjcuQNiIHTSrAGYOHOFFZlV+S7nDoBPDL863YmUpA9nU1PHN1?=
+ =?us-ascii?Q?07uhWNKeRamUimWX3CRGSHI8UQdzV+GIlWaevGRm4ByHs93mVoigjWDuaraN?=
+ =?us-ascii?Q?tw=3D=3D?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 851c2ab0-e160-4aea-ad1c-08dae405ffec
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 10:19:24.8047
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k5LaDLuATecobLyVsTpd+yeOpB3BFRb/vuNJKa2dKs9jyYqR/3P6tNmhj29MIf6O4dIHe1FC7LtRO0ZTPn0J2vfIrrzGydx3bbW6J5NWfuE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7075
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 2022-12-20 at 13:45 -0500, Steven Rostedt wrote:
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
-> 
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> Due to several bugs caused by timers being re-armed after they are
-> shutdown and just before they are freed, a new state of timers was added
-> called "shutdown". After a timer is set to this state, then it can no
-> longer be re-armed.
-> 
-> The following script was run to find all the trivial locations where
-> del_timer() or del_timer_sync() is called in the same function that the
-> object holding the timer is freed. It also ignores any locations where the
-> timer->function is modified between the del_timer*() and the free(), as
-> that is not considered a "trivial" case.
-> 
-> This was created by using a coccinelle script and the following commands:
-> 
->  $ cat timer.cocci
-> @@
-> expression ptr, slab;
-> identifier timer, rfield;
-> @@
-> (
-> -       del_timer(&ptr->timer);
-> +       timer_shutdown(&ptr->timer);
-> > 
-> -       del_timer_sync(&ptr->timer);
-> +       timer_shutdown_sync(&ptr->timer);
-> )
->   ... when strict
->       when != ptr->timer
-> (
->         kfree_rcu(ptr, rfield);
-> > 
->         kmem_cache_free(slab, ptr);
-> > 
->         kfree(ptr);
-> )
-> 
->  $ spatch timer.cocci . > /tmp/t.patch
->  $ patch -p1 < /tmp/t.patch
-> 
-> Link: https://lore.kernel.org/lkml/20221123201306.823305113@linutronix.de/
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Ping. This still applies and still is relevant. Maybe got lost or stuck
+in the LED subsystem.
 
-For the networking bits:
+Henning
 
->  drivers/net/ethernet/intel/i40e/i40e_main.c      |  6 +++---
->  drivers/net/ethernet/marvell/sky2.c              |  2 +-
->  drivers/net/ethernet/sun/sunvnet.c               |  2 +-
->  drivers/net/usb/sierra_net.c                     |  2 +-
->  net/802/garp.c                                   |  2 +-
->  net/802/mrp.c                                    |  4 ++--
->  net/bridge/br_multicast.c                        |  8 ++++----
->  net/bridge/br_multicast_eht.c                    |  4 ++--
->  net/core/gen_estimator.c                         |  2 +-
->  net/ipv4/ipmr.c                                  |  2 +-
->  net/ipv6/ip6mr.c                                 |  2 +-
->  net/mac80211/mesh_pathtbl.c                      |  2 +-
->  net/netfilter/ipset/ip_set_list_set.c            |  2 +-
->  net/netfilter/ipvs/ip_vs_lblc.c                  |  2 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c                 |  2 +-
->  net/netfilter/xt_IDLETIMER.c                     |  4 ++--
->  net/netfilter/xt_LED.c                           |  2 +-
->  net/sched/cls_flow.c                             |  2 +-
->  net/sunrpc/svc.c                                 |  2 +-
->  net/tipc/discover.c                              |  2 +-
->  net/tipc/monitor.c                               |  2 +-
+Am Fri, 7 Oct 2022 17:33:23 +0200
+schrieb Henning Schild <henning.schild@siemens.com>:
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+> If we register a "leds-gpio" platform device for GPIO pins that do not
+> exist we get a -EPROBE_DEFER and the probe will be tried again later.
+> If there is no driver to provide that pin we will poll forever and
+> also create a lot of log messages.
+> 
+> So check if that GPIO driver is configured, if so it will come up
+> eventually. If not, we exit our probe function early and do not even
+> bother registering the "leds-gpio". This method was chosen over
+> "Kconfig depends" since this way we can add support for more devices
+> and GPIO backends more easily without "depends":ing on all GPIO
+> backends.
+> 
+> Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version
+> of Siemens driver") Reviewed-by: Andy Shevchenko
+> <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
+> <henning.schild@siemens.com> ---
+>  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c
+> b/drivers/leds/simple/simatic-ipc-leds-gpio.c index
+> b9eeb8702df0..fb8d427837db 100644 ---
+> a/drivers/leds/simple/simatic-ipc-leds-gpio.c +++
+> b/drivers/leds/simple/simatic-ipc-leds-gpio.c @@ -77,6 +77,8 @@
+> static int simatic_ipc_leds_gpio_probe(struct platform_device *pdev) 
+>  	switch (plat->devmode) {
+>  	case SIMATIC_IPC_DEVICE_127E:
+> +		if (!IS_ENABLED(CONFIG_PINCTRL_BROXTON))
+> +			return -ENODEV;
+>  		simatic_ipc_led_gpio_table =
+> &simatic_ipc_led_gpio_table_127e; break;
+>  	case SIMATIC_IPC_DEVICE_227G:
 
