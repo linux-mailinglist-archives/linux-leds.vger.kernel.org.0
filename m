@@ -2,51 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2050A654FE8
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Dec 2022 12:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D12BE65502D
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Dec 2022 13:15:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236195AbiLWL6X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Dec 2022 06:58:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55630 "EHLO
+        id S229625AbiLWMP3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Dec 2022 07:15:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236190AbiLWL6W (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Dec 2022 06:58:22 -0500
+        with ESMTP id S229585AbiLWMP2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Dec 2022 07:15:28 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BFB2A52C;
-        Fri, 23 Dec 2022 03:58:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68EB5227;
+        Fri, 23 Dec 2022 04:15:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A418FB81F79;
-        Fri, 23 Dec 2022 11:58:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C92C433D2;
-        Fri, 23 Dec 2022 11:58:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 19C12B82042;
+        Fri, 23 Dec 2022 12:15:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20006C433EF;
+        Fri, 23 Dec 2022 12:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671796698;
-        bh=7UDYSxlkDDaNW5ftAXb8G8ePe4j/p7uAI3fhM2qdCso=;
+        s=k20201202; t=1671797724;
+        bh=3qHrdzo0yiyM+k5ftk9PiRWr0PqN2y7NcelN5zpN6yI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TqpAIqHv6kdmAZivRdBN1M1HG1iu9Ndn58Zyt94uFkM5LXDvjtg3X5YNuMqPCme7L
-         MEOovVo9B29e7jXH904pZrslNgSyNTHKnzTXI9jeVcegUxfW5GXNuCOgzv/QuvySBH
-         blbaDc3cqJDfvP/aLpXGH0z8dsNo2aFh7qyK9ESoJwJ4uf6Yx2uIMksH7UjMMED3dv
-         aGqazSPi0KcVLZfOgr6pG4IO6n0cqMyZbh7HEyNKAACKn4FA+2RHKa4o96VdBVtXnI
-         hewJTAdgPE2YtNI4s0CIS4smdKnzN2/8EllP9pyxHsIZLskWnpu5Q7C+4qFj9hmZuI
-         n28jGg0wxDUjQ==
-Date:   Fri, 23 Dec 2022 11:58:13 +0000
+        b=UuhgSf5JAAohkzwz/zeYz95wIN0BlJjcRRBwt7yIESfunUIFKvSJYH1Bev9NJ18h3
+         D81u8v+99iaq77b8Njj0lX8apCHNJwUW8bu9bMBi4rHxs/vjZ0eSfG2eUwPTfvUuiu
+         cyN8ERoppGzVYXfJlQTnI/hdLz8vaLTgUH0sgEX+Gb/SsX7oQ8Ixb0CEEDkq+Og4ag
+         OgtaPW2SgwZzNUJ7QlroTrOCRgcFT4avRvR73IsmQyCVYN7Jip49OHy5NWqNMNY4rw
+         /CRtqaE58Dj7GGjbvEcLEpSKfyz6fk5udLb3w+uNp0GzY3+1XnDQEqvRcEdYc5Cv6s
+         HjbS0r/RKc+Rw==
+Date:   Fri, 23 Dec 2022 12:15:19 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <Y6WX1Y9GZmvxqlCc@google.com>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
+To:     Joseph Strauss <jstrauss16@proton.me>
+Cc:     pavel@ucw.cz, jansimon.moeller@gmx.de, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] Add multicolor support to BlinkM LED driver
+Message-ID: <Y6Wb1+VrutfKtGIo@google.com>
+References: <20221214222428.7518-1-jstrauss16@proton.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221007153323.1326-1-henning.schild@siemens.com>
+In-Reply-To: <20221214222428.7518-1-jstrauss16@proton.me>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,63 +53,10 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 07 Oct 2022, Henning Schild wrote:
+On Wed, 14 Dec 2022, Joseph Strauss wrote:
 
-> If we register a "leds-gpio" platform device for GPIO pins that do not
-> exist we get a -EPROBE_DEFER and the probe will be tried again later.
-> If there is no driver to provide that pin we will poll forever and also
-> create a lot of log messages.
-> 
-> So check if that GPIO driver is configured, if so it will come up
-> eventually. If not, we exit our probe function early and do not even
-> bother registering the "leds-gpio". This method was chosen over "Kconfig
-> depends" since this way we can add support for more devices and GPIO
-> backends more easily without "depends":ing on all GPIO backends.
-> 
-> Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version of Siemens driver")
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-> ---
-
-What happened in versions 1 through 3?  Please provide a change-log.
-
->  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c b/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> index b9eeb8702df0..fb8d427837db 100644
-> --- a/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> +++ b/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> @@ -77,6 +77,8 @@ static int simatic_ipc_leds_gpio_probe(struct platform_device *pdev)
->  
->  	switch (plat->devmode) {
->  	case SIMATIC_IPC_DEVICE_127E:
-> +		if (!IS_ENABLED(CONFIG_PINCTRL_BROXTON))
-> +			return -ENODEV;
-
-I see that there is an unfortunate precedent for this in the lines
-below.  However, I also see that the commit which added it was not
-reviewed by Pavel.
-
-This is an interesting problem, due to the different devices we're
-attempting to support in this single driver using different
-GPIO/PINCTRL drivers, which is unusual.  We usually resolve these kinds of
-issues as a Kconfig 'depends' line which covers the whole driver.
-
-Would 'depends GPIO_F7188X || PINCTRL_BROXTON' be a suitable
-replacement, I wonder?  If it's possible for SIMATIC_IPC_DEVICE_127E to
-be probing when only GPIO_F7188X is enabled?  If so, this would result
-in the same scenario.
-
-It also seems wrong for -EPROBE_DEFER to loop indefinitely.  Surely in
-some valid circumstances dependencies are never satisfied?
-
->  		simatic_ipc_led_gpio_table = &simatic_ipc_led_gpio_table_127e;
->  		break;
->  	case SIMATIC_IPC_DEVICE_227G:
-> -- 
-> 2.35.1
-> 
+Would you mind composing your mails such that my Key Manager doens't ask
+me for a password in order to view them please?
 
 -- 
 Lee Jones [李琼斯]
