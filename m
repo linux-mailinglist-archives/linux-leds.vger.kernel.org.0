@@ -2,60 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 668EF655259
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Dec 2022 16:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0450265532E
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Dec 2022 18:20:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236506AbiLWPld (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Dec 2022 10:41:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S230366AbiLWRTa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Dec 2022 12:19:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236522AbiLWPlV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Dec 2022 10:41:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3314A1148;
-        Fri, 23 Dec 2022 07:41:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A9E326158B;
-        Fri, 23 Dec 2022 15:41:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55F15C433D2;
-        Fri, 23 Dec 2022 15:41:15 +0000 (UTC)
-Date:   Fri, 23 Dec 2022 10:41:13 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-Message-ID: <20221223104113.0bc8d37f@gandalf.local.home>
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230175AbiLWRT2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Dec 2022 12:19:28 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1DD18E1E;
+        Fri, 23 Dec 2022 09:19:27 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 486351C09F5; Fri, 23 Dec 2022 18:19:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1671815965;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+0UrgH0jqhMRGfRbM1wFe/1v9kgVhQ5r3uRgXLy6wIE=;
+        b=Xfr5fbK9bQ1mAK91/UIOhuteRcvSftS7VVmyX4yfGwGkoaC4faxx23iMnDS1Dw2Bz0RMmO
+        x4Za0PQ8y89VP9N1jKpergXHnAzxg9IqlWF0oedpmkWEuTTEf+tQWdW+mbvNWWrGIBBE86
+        4dUg/miaVgJSWXybeOGMGuuryN8l8vY=
+Date:   Fri, 23 Dec 2022 18:19:24 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Chuanhong Guo <gch981213@gmail.com>, linux-leds@vger.kernel.org,
+        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 2/3] dt-bindings: leds: add worldsemi,ws2812b
+Message-ID: <Y6XjHNCLXY9s1IOF@duo.ucw.cz>
+References: <20221212045558.69602-1-gch981213@gmail.com>
+ <20221212045558.69602-3-gch981213@gmail.com>
+ <c592dd31-5e9a-c2a2-1c70-46b7cffa9c5d@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SCGWCqnR6E4g+gaj"
+Content-Disposition: inline
+In-Reply-To: <c592dd31-5e9a-c2a2-1c70-46b7cffa9c5d@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,26 +60,136 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 20 Dec 2022 13:45:19 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
+--SCGWCqnR6E4g+gaj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Note, I just did a git remote update, checked out the latest, re-ran the
-script, and this patch hasn't changed.
+Hi!
 
--- Steve
+> > Add dt binding schema for WorldSemi WS2812B driven using SPI
+> > bus.
+> >=20
+> > Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> > ---
+> > Changes since v1:
+> > remove linux driver reference from description
+> > remove some obvious descriptions
+> > fix unit address regex in multi-led property
+> > drop various minItems
+> > add maxItems =3D 1 to reg
+> > fix node names and property orders in binding example
+> > drop -spi from compatible string
+> > add default-brightness
+> >=20
+> > Change since v2:
+> > drop "this patch" from commit message
+> > rename leds to led-controller
+> > drop default-brightness and default-intensity
+> >=20
+> > Change since v3:
+> > reword commit title
+> >=20
+> >  .../bindings/leds/worldsemi,ws2812b.yaml      | 116 ++++++++++++++++++
+> >  1 file changed, 116 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws=
+2812b.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.y=
+aml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> > new file mode 100644
+> > index 000000000000..548c05ac3d31
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> > @@ -0,0 +1,116 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: WS2812B LEDs driven using SPI
+> > +
+> > +maintainers:
+> > +  - Chuanhong Guo <gch981213@gmail.com>
+> > +
+> > +description: |
+> > +  WorldSemi WS2812B is a individually addressable LED chip that can be=
+ chained
+> > +  together and controlled individually using a single wire.
+> > +  This binding describes a chain of WS2812B LEDs connected to the SPI =
+MOSI pin.
+> > +  Typical setups includes connecting the data pin of the LED chain to =
+MOSI as
+> > +  the only device or using CS and MOSI with a tri-state voltage-level =
+shifter
+> > +  for the data pin.
+> > +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be =
+correct
+> > +  and the controller needs to send all the bytes continuously.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: worldsemi,ws2812b
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  spi-max-frequency:
+> > +    minimum: 2105000
+> > +    maximum: 2850000
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +patternProperties:
+> > +  "^multi-led@[0-9a-f]+$":
+> > +    type: object
+> > +    $ref: leds-class-multicolor.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      color-index:
+> > +        description: |
+> > +          A 3-item array specifying color of each components in this L=
+ED. It
+> > +          should be one of the LED_COLOR_ID_* prefixed definitions fro=
+m the
+> > +          header include/dt-bindings/leds/common.h. Defaults to
+> > +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
+> > +          if unspecified.
+> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +        maxItems: 3
+>=20
+> In general I am fine with it, although there is still question for
+> adding more multi-color defines in binding headers to replace this
+> property - GRB/RBG/GBR and even more for RGBW.
+>=20
+> Pavel, Lee, any thoughts from your side?
+
+This really needs to mention the name this hardware is known as -- I
+believe it is NeoPixel.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--SCGWCqnR6E4g+gaj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY6XjHAAKCRAw5/Bqldv6
+8gn+AJ0b+738lBlAYPSkvgIHfBMIWAWRCQCeOxXAYeDwNQi2NW+1vd6cfdGQO3E=
+=zmmk
+-----END PGP SIGNATURE-----
+
+--SCGWCqnR6E4g+gaj--
