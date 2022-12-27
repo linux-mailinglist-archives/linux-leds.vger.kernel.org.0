@@ -2,116 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18422656D26
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Dec 2022 18:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C5F657042
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Dec 2022 23:41:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiL0RDE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Dec 2022 12:03:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36064 "EHLO
+        id S229608AbiL0WlV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Dec 2022 17:41:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbiL0RDE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Dec 2022 12:03:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE9E64CC;
-        Tue, 27 Dec 2022 09:03:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229471AbiL0WlM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Dec 2022 17:41:12 -0500
+X-Greylist: delayed 571 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 27 Dec 2022 14:41:11 PST
+Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [IPv6:2001:67c:2050:103:465::111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937EA25D8;
+        Tue, 27 Dec 2022 14:41:11 -0800 (PST)
+Received: from smtp1.mailbox.org (unknown [91.198.250.123])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7C4D3B80EC3;
-        Tue, 27 Dec 2022 17:03:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA56CC433D2;
-        Tue, 27 Dec 2022 17:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672160580;
-        bh=eSHui+btnB98MZVJ1oeCZsiz1EoXzJKCVJc7dZkijt4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rgAQ6Ot16rHxr0e4ZtHISx6Z74iradiY8eyneK3UrDvb3kBZxlwItIuKCbtrwl4Ch
-         726uc346HvN0WKY24HZEZ9CiQIlxjaNYa9V2lyNkn8TGLF0e/Eejfy5Pt4iDOZM0a/
-         bfSIUpOycypve5Z/AKPO/I8xNQir2pE0ea8qRR8jn5JbglFxeOp+5MdfRKBjtUfDRk
-         9EIrqswf7zYS5Ra9HvkrkFmiuDD3Rvxy/BMCRCrItGARtmNYmxSgTldHzvjK/4PIHd
-         klKjWtygwYTdXJy/w7NC6SVYw2W+1iVJIQx60LxzPnCayNJWtZVGy2r8zNQY9cycv6
-         BNkXJYTQnXuHQ==
-Date:   Tue, 27 Dec 2022 17:02:56 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Joseph Strauss <jstrauss16@proton.me>
-Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, pavel@ucw.cz,
-        jansimon.moeller@gmx.de, christophe.jaillet@wanadoo.fr
+        by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4NhTsP0hcVz9slg;
+        Tue, 27 Dec 2022 23:31:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1672180297; h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type; bh=3yIkxBK2GwDUmlTb+vf0D6IfPi4hxUMjEDhQ+KHTCpY=;
+        b=DVd7X+832rGnDKeEtTkB4dQIcoKpUZzKvN/zZAp4/9yxkBXd7CaIpUJyZxTwr9Pj2ILZtt
+        lf0VjMAqcUr/ryod7FLMGtUCDed81H9Li1oPdImYtowIUvmGMUsOwZC5weS6qS2cuKox+4
+        OhCCXgTeT1+7xNa0cnpe4m0PBzxmLuSet2vZKcgdnMx+2Ut7tYrb4J9Vxuf/dbhaESA/SI
+        zBMchHZBGJPrRQlFE2rEKDezlDqpmsHIOtpfYpxJVoM/zHETwiwSko5b2tDpoDiE3969mP
+        01HnrHwVCABVDiBxApzU9JHrAlbWP8rxN5S1VEkqA/1QYVFqqDKzDv0DxQTg1A==
+Date:   Tue, 27 Dec 2022 16:31:31 -0600
+From:   jstrauss <jstrauss@mailbox.org>
+To:     conor@kernel.org
+Cc:     christophe.jaillet@wanadoo.fr, jansimon.moeller@gmx.de,
+        lee@kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, pavel@ucw.cz
 Subject: Re: [PATCH RESEND] Add multicolor support to BlinkM LED driver
-Message-ID: <Y6slQLto568WfmfZ@spud>
-References: <20221214222428.7518-1-jstrauss16@proton.me>
- <Y6Wb1+VrutfKtGIo@google.com>
- <20221227164748.r7ouwpptb4lxbdxq@libretux>
+Message-ID: <20221227223131.um6muahhxbom7crg@libretux>
+Reply-To: Y6slQLto568WfmfZ@spud
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tmdYy43LmQWRZ+It"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221227164748.r7ouwpptb4lxbdxq@libretux>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MBO-RS-META: 7nsytfipm8s4wgxwn1ec3ec3iufxfnui
+X-MBO-RS-ID: c7554801159cd17ce67
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HK_RANDOM_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Conor,
 
---tmdYy43LmQWRZ+It
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for the insight, I suspected it was some silent Proton issue. I
+have switched to Mailbox.org, so all of my future emails and patches
+will originate from this address.
 
-Hey Joe,
-
-I thought I replied to Lee's message the other day but obviously forgot
-to send it.
-
-On Tue, Dec 27, 2022 at 04:47:58PM +0000, Joseph Strauss wrote:
-> On 22/12/23 12:15PM, Lee Jones wrote:
-> > On Wed, 14 Dec 2022, Joseph Strauss wrote:
-> >
-> > Would you mind composing your mails such that my Key Manager doens't ask
-> > me for a password in order to view them please?
-
-> I would be happy to, but I am not sure how to diagnose or fix the
-> problem. I used git send-email to send the patch. I have no such problem
-> when viewing the email from my own client. I looked at the email headers
-> and did not see anything out of the ordinary, and the thread shows up
-> fine on lore.kernel.org.
-
-> Is there any other information you can provide
-> about the problem? Has it happened before?
-
-Unfortunately it has - and it is a protonmail "feature".
-kernel.org publishes keys for it's users via WKD:
-https://www.kernel.org/doc/html/v4.17/process/maintainer-pgp-guide.html#configure-auto-key-retrieval-using-wkd-and-dane
-
-protonmail, as part of the "back end" or w/e automagically picks up the
-keys and uses them to encrypt the message. The list (and people without
-WKD set up for their domains) will get the un-encrypted version
-
-When I was a proton user, I could not find a way in the UI to disable
-it. I contacted their support at the time who told me it was a feature!
-
-Recently it cropped up again:
-https://lore.kernel.org/all/20221122213754.45474-1-alobakin@mailbox.org/
-Unfortunately, the "workaround" was to avoid proton there too.
-
-I was wondering, when I saw Lee's mail, if we should add some sort of
-comment about this proton behaviour to process/email-clients..
-
-Conor.
-
-
---tmdYy43LmQWRZ+It
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6slPwAKCRB4tDGHoIJi
-0u4MAPwK7vn2BkixTK5cV4MAxSp4odvUVVxm+yJBGFvS/AIwLgEA9lk3Dmk1HavO
-R7TQV/pmi9nOEcsB7slmY5fpRiVseAQ=
-=ufRz
------END PGP SIGNATURE-----
-
---tmdYy43LmQWRZ+It--
+Joe
