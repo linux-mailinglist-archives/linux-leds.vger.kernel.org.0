@@ -2,67 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98A1B656D16
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Dec 2022 17:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18422656D26
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Dec 2022 18:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbiL0QsM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Dec 2022 11:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33272 "EHLO
+        id S229679AbiL0RDE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Dec 2022 12:03:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbiL0QsL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Dec 2022 11:48:11 -0500
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DF5DDC;
-        Tue, 27 Dec 2022 08:48:07 -0800 (PST)
-Date:   Tue, 27 Dec 2022 16:47:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-        s=protonmail; t=1672159683; x=1672418883;
-        bh=wtoco/5MxVglB9TMggmrpENeQZoOWyeOEtN5OxMDVRk=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=SekKAk3P1lN0qxIGh5VIoFIfyj93uYBQocRHrHTtXlI0Pl83hQ41mG05NZgjV1HRg
-         ygaHSo+/QCwUaBHqcVBd3egL5cEcocQQEkb2U1EijU2FMSvyaHJHwhWa4hrukfUiAl
-         6ygaF6c6Qi+TfWLz3nCfrjZCx1jnt4a/BE4b//+1QcxtEK4WlpavjCXqGkXLIx/xbc
-         ePYNs/pSG0YVdwtX2wonoBqpgFN0qkCDCEAxSQ7ypxXKuNL+epGXSan7gw4VGdKSYf
-         B0zbrZWJnA6ecPGwU25b1NEg+coEKPctH54NRHLmu+6pp3iXxnp3ms55jfIuJIkfy5
-         LPJo6pBA4bMKg==
-To:     Lee Jones <lee@kernel.org>
-From:   Joseph Strauss <jstrauss16@proton.me>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz, jansimon.moeller@gmx.de,
-        christophe.jaillet@wanadoo.fr
+        with ESMTP id S231636AbiL0RDE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Dec 2022 12:03:04 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE9E64CC;
+        Tue, 27 Dec 2022 09:03:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7C4D3B80EC3;
+        Tue, 27 Dec 2022 17:03:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA56CC433D2;
+        Tue, 27 Dec 2022 17:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672160580;
+        bh=eSHui+btnB98MZVJ1oeCZsiz1EoXzJKCVJc7dZkijt4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rgAQ6Ot16rHxr0e4ZtHISx6Z74iradiY8eyneK3UrDvb3kBZxlwItIuKCbtrwl4Ch
+         726uc346HvN0WKY24HZEZ9CiQIlxjaNYa9V2lyNkn8TGLF0e/Eejfy5Pt4iDOZM0a/
+         bfSIUpOycypve5Z/AKPO/I8xNQir2pE0ea8qRR8jn5JbglFxeOp+5MdfRKBjtUfDRk
+         9EIrqswf7zYS5Ra9HvkrkFmiuDD3Rvxy/BMCRCrItGARtmNYmxSgTldHzvjK/4PIHd
+         klKjWtygwYTdXJy/w7NC6SVYw2W+1iVJIQx60LxzPnCayNJWtZVGy2r8zNQY9cycv6
+         BNkXJYTQnXuHQ==
+Date:   Tue, 27 Dec 2022 17:02:56 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Joseph Strauss <jstrauss16@proton.me>
+Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, pavel@ucw.cz,
+        jansimon.moeller@gmx.de, christophe.jaillet@wanadoo.fr
 Subject: Re: [PATCH RESEND] Add multicolor support to BlinkM LED driver
-Message-ID: <20221227164748.r7ouwpptb4lxbdxq@libretux>
-In-Reply-To: <Y6Wb1+VrutfKtGIo@google.com>
-References: <20221214222428.7518-1-jstrauss16@proton.me> <Y6Wb1+VrutfKtGIo@google.com>
-Feedback-ID: 52406082:user:proton
+Message-ID: <Y6slQLto568WfmfZ@spud>
+References: <20221214222428.7518-1-jstrauss16@proton.me>
+ <Y6Wb1+VrutfKtGIo@google.com>
+ <20221227164748.r7ouwpptb4lxbdxq@libretux>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="tmdYy43LmQWRZ+It"
+Content-Disposition: inline
+In-Reply-To: <20221227164748.r7ouwpptb4lxbdxq@libretux>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 22/12/23 12:15PM, Lee Jones wrote:
-> On Wed, 14 Dec 2022, Joseph Strauss wrote:
->
-> Would you mind composing your mails such that my Key Manager doens't ask
-> me for a password in order to view them please?
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-I would be happy to, but I am not sure how to diagnose or fix the
-problem. I used git send-email to send the patch. I have no such problem
-when viewing the email from my own client. I looked at the email headers
-and did not see anything out of the ordinary, and the thread shows up
-fine on lore.kernel.org. Is there any other information you can provide
-about the problem? Has it happened before?
 
-Best Regards, Joe
+--tmdYy43LmQWRZ+It
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hey Joe,
+
+I thought I replied to Lee's message the other day but obviously forgot
+to send it.
+
+On Tue, Dec 27, 2022 at 04:47:58PM +0000, Joseph Strauss wrote:
+> On 22/12/23 12:15PM, Lee Jones wrote:
+> > On Wed, 14 Dec 2022, Joseph Strauss wrote:
+> >
+> > Would you mind composing your mails such that my Key Manager doens't ask
+> > me for a password in order to view them please?
+
+> I would be happy to, but I am not sure how to diagnose or fix the
+> problem. I used git send-email to send the patch. I have no such problem
+> when viewing the email from my own client. I looked at the email headers
+> and did not see anything out of the ordinary, and the thread shows up
+> fine on lore.kernel.org.
+
+> Is there any other information you can provide
+> about the problem? Has it happened before?
+
+Unfortunately it has - and it is a protonmail "feature".
+kernel.org publishes keys for it's users via WKD:
+https://www.kernel.org/doc/html/v4.17/process/maintainer-pgp-guide.html#configure-auto-key-retrieval-using-wkd-and-dane
+
+protonmail, as part of the "back end" or w/e automagically picks up the
+keys and uses them to encrypt the message. The list (and people without
+WKD set up for their domains) will get the un-encrypted version
+
+When I was a proton user, I could not find a way in the UI to disable
+it. I contacted their support at the time who told me it was a feature!
+
+Recently it cropped up again:
+https://lore.kernel.org/all/20221122213754.45474-1-alobakin@mailbox.org/
+Unfortunately, the "workaround" was to avoid proton there too.
+
+I was wondering, when I saw Lee's mail, if we should add some sort of
+comment about this proton behaviour to process/email-clients..
+
+Conor.
+
+
+--tmdYy43LmQWRZ+It
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6slPwAKCRB4tDGHoIJi
+0u4MAPwK7vn2BkixTK5cV4MAxSp4odvUVVxm+yJBGFvS/AIwLgEA9lk3Dmk1HavO
+R7TQV/pmi9nOEcsB7slmY5fpRiVseAQ=
+=ufRz
+-----END PGP SIGNATURE-----
+
+--tmdYy43LmQWRZ+It--
