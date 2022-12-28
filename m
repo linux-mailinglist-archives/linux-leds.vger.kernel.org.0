@@ -2,77 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE5A86572B1
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Dec 2022 05:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 615986574A8
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Dec 2022 10:32:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231925AbiL1Eha (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Dec 2022 23:37:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42818 "EHLO
+        id S229632AbiL1Jcf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Dec 2022 04:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232147AbiL1EhS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Dec 2022 23:37:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46384DFC6;
-        Tue, 27 Dec 2022 20:37:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C3283B81259;
-        Wed, 28 Dec 2022 04:37:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8D2C43398;
-        Wed, 28 Dec 2022 04:37:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672202232;
-        bh=550yazXnN33DzSXFPdd8hpYrbftpXk1toLx1NXw1kkE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DT8lz8BM/RvYAjMqLfzgIcX5M4zdgQhjB/vm1+tPZ5FhYBffhMgVBpbKGVX/Kzn8x
-         XR5Ly6tzdPRxgDPEiOWSukvIYRtd7iNrMIUrwlY1zmE1HzMi9taM3tJpdXPphOfIj5
-         SoeGppIUIb4teIP5KQ2pNDu2di4AhiVvlTvafoG0hiw8BfBS/BdBrm423DxPAKroGP
-         8rcUZFiNro+WGJQRk2Vb9rDpdJ5AWuSwKfROWzjYuUEFiRt9A82s29nlanTEXse01L
-         KTIIuaBJ6MFsxu/WGM+P2Vdj3M2hR+M83r9lSQHrZwrDVd4vSKVKT+992GokGl0+W2
-         +hLRLW7o6RrHA==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     pavel@ucw.cz, krzysztof.kozlowski+dt@linaro.org,
-        konrad.dybcio@linaro.org, luca.weiss@fairphone.com,
-        robh+dt@kernel.org, agross@kernel.org
-Cc:     quic_fenglinw@quicinc.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/3] Add PM6150L flash LED to Fairphone 4
-Date:   Tue, 27 Dec 2022 22:36:47 -0600
-Message-Id: <167220221227.833009.6597844186095388521.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
-References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
+        with ESMTP id S230420AbiL1Jc0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Dec 2022 04:32:26 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54388DF0B;
+        Wed, 28 Dec 2022 01:32:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672219933; x=1703755933;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2pRlkkeKdZk9egoGOppkT5v++5lWrJl5Kz2rs5v63w8=;
+  b=kwd1FQuJ06mAHqpQ7kFL9H24ijG6g8HZCht2NxpXgFfdHeLlcW5jIvqC
+   LyR4cFZWjJreg3LWoxjr013EOBhxBPs/wDH4XnLw4P+Hi/SYE+WZutzbV
+   ZKRofxRAexpbwiTNMYi9o1NCHKkHsjQn3Mz6Icr8oCAn+4tnUJvcQdIzf
+   UBlTZ0nceaXTGCdgGwJ7vWUzcLQJ8KnzBT58OwwkQXbaz57mF8h987Gtz
+   ouF4ZR7mIY5PGTg+H9hbN8f3PFt7E3laQZyxwM4tKOZi64AmLblgUfHxT
+   hBreftizh9NQV8uZPbGuhIjlQ/DPhkjl57c6Wv1zzglC25OvbwNj2mAKv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="348043405"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
+   d="scan'208";a="348043405"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2022 01:32:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="655262852"
+X-IronPort-AV: E=Sophos;i="5.96,280,1665471600"; 
+   d="scan'208";a="655262852"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2022 01:32:10 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 64D64159; Wed, 28 Dec 2022 11:32:41 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Cc:     Lee Jones <lee@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v1 1/1] leds: is31fl319x: Wrap mutex_destroy() for devm_add_action_or_rest()
+Date:   Wed, 28 Dec 2022 11:32:38 +0200
+Message-Id: <20221228093238.82713-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 09 Dec 2022 14:54:05 +0100, Luca Weiss wrote:
-> These patches add the necessary nodes and configuration for supporting the
-> flash LED found on the Fairphone 4 that's powered by the pm6150l flash led
-> block.
-> 
-> This depends on the patches by Fenglin Wu adding the driver, the latest
-> revision can be found at [0].
-> 
-> [...]
+Clang complains that devm_add_action() takes a parameter with a wrong type:
 
-Applied, thanks!
+warning: cast from 'void (*)(struct mutex *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
+    err = devm_add_action(dev, (void (*)(void *))mutex_destroy, &is31->lock);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1 warning generated.
 
-[2/3] arm64: dts: qcom: pm6150l: add spmi-flash-led node
-      commit: e48b2f1fb1749e6ceeca13ac80e6e46b954dce41
-[3/3] arm64: dts: qcom: sm7225-fairphone-fp4: configure flash LED
-      commit: 1c170714490e4d8c0886019145c9d90dfade14f9
+It appears that the commit e1af5c815586 ("leds: is31fl319x: Fix devm vs.
+non-devm ordering") missed two things:
+- while mention devm_add_action_or_reset() the actual change got
+  devm_add_action() call by unknown reason
+- strictly speaking the parameter is not compatible by type
 
-Best regards,
+Fix both issues by switching to devm_add_action_or_reset() and adding a
+wrapper for mutex_destroy() call.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Fixes: e1af5c815586 ("leds: is31fl319x: Fix devm vs. non-devm ordering")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Tested-by: Vincent Knecht <vincent.knecht@mailoo.org>
+---
+
+v2: added tag (Vincent), Cc'ed to Lee
+
+ drivers/leds/leds-is31fl319x.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+index b2f4c4ec7c56..7c908414ac7e 100644
+--- a/drivers/leds/leds-is31fl319x.c
++++ b/drivers/leds/leds-is31fl319x.c
+@@ -495,6 +495,11 @@ static inline int is31fl3196_db_to_gain(u32 dezibel)
+ 	return dezibel / IS31FL3196_AUDIO_GAIN_DB_STEP;
+ }
+ 
++static void is31f1319x_mutex_destroy(void *lock)
++{
++	mutex_destroy(lock);
++}
++
+ static int is31fl319x_probe(struct i2c_client *client)
+ {
+ 	struct is31fl319x_chip *is31;
+@@ -511,7 +516,7 @@ static int is31fl319x_probe(struct i2c_client *client)
+ 		return -ENOMEM;
+ 
+ 	mutex_init(&is31->lock);
+-	err = devm_add_action(dev, (void (*)(void *))mutex_destroy, &is31->lock);
++	err = devm_add_action_or_reset(dev, is31f1319x_mutex_destroy, &is31->lock);
+ 	if (err)
+ 		return err;
+ 
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.35.1
+
