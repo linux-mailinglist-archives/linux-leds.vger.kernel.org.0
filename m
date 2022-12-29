@@ -2,108 +2,251 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9EC658535
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Dec 2022 18:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E170658DAD
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Dec 2022 14:54:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234718AbiL1RQt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Dec 2022 12:16:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
+        id S233467AbiL2NyI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Dec 2022 08:54:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230464AbiL1RQs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Dec 2022 12:16:48 -0500
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303A6B87E;
-        Wed, 28 Dec 2022 09:16:48 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id v2so8551939ioe.4;
-        Wed, 28 Dec 2022 09:16:48 -0800 (PST)
+        with ESMTP id S233567AbiL2NyG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Dec 2022 08:54:06 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44478FF2;
+        Thu, 29 Dec 2022 05:54:05 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id g13so27567233lfv.7;
+        Thu, 29 Dec 2022 05:54:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FjkjGKe8u8IpWP+AbXojTCdZ7iq2d+K0aTmY6czVowk=;
+        b=G4HSC/CuxORF0xPq+iSvrSL5MyC546gHLK5ZUsbxUXqw73Es8Yv+CQJuXMvnmR3KWb
+         cbePojdSlKfV9wMp9g5PY8O2WKADlSjyL6Oiy24LZdw7bhVrEEdHRgLGuUm53OEF4HeP
+         7hVUQC5BLazYGF1FoxxH3u+rlPlsn0RLNL7myH3PFTykMLQ7oBDNzcjF2PJF2A2RK+WL
+         yalj0mus2eMSN+dmj6I14XZb00v+3c3487zGd+V58BtQH5YGZuitVYlyRwlSKUukemLU
+         eC9bNBF3GHT0uCIaSzXY3QERKvsfda5tiwJ2cmgXClOK5Us2i0c/Bo4ZLxR/pKV2wMfZ
+         oZew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IAxtbIjriD6ONwdPLqIgULK51ZHC86VahE1xpOZPmSI=;
-        b=LadUh6JCQYI5dI0jPs4du3V7H0A3Qvqkj0DeL/v9st0K0+VkOBKktuZlsIB9HUV7WH
-         0jjsY54xBhqBBkNOOPYfFC5lBgeV3DpWYu0i1GAImsnPeOomvgNg2gdbyWNmRo/E1Hsh
-         QvfaxzCJLtj0sB5eojEjNzPp6W7oyrUcBTIH5NO1VoDtrryD37QRwKg97b3vm8qslPr7
-         xPDpKOJrikl/83SUyCMazCytsLRqiemUEENRzMgPyFUXojOM1MBzZDkITfak8WCS4NLJ
-         OvhhBaoPcwq9FNFckmNco+1OvcNTt4z/sWeNLQ69Rm5ancptt+rdly7bTBSUlVjSkIKK
-         jQLw==
-X-Gm-Message-State: AFqh2kqveAmEZh8xVYJqgTyAj+mC6B38UU9xPAy/Y1tWNT4QQbzNYKe3
-        GXXTKyA3B+c5sHTqAAgD1w==
-X-Google-Smtp-Source: AMrXdXs+PXKY23LAYHFN8chqO+iSLvW7AVJIfuXB65d4McqxSUfkscL3Ad9LGN+g8pRcaRjGt0Csxw==
-X-Received: by 2002:a5e:9e0d:0:b0:6df:dc79:a1f2 with SMTP id i13-20020a5e9e0d000000b006dfdc79a1f2mr16730260ioq.11.1672247807344;
-        Wed, 28 Dec 2022 09:16:47 -0800 (PST)
-Received: from robh_at_kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id x9-20020a026f09000000b00375217ea9b6sm5210025jab.45.2022.12.28.09.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 09:16:46 -0800 (PST)
-Received: (nullmailer pid 1928465 invoked by uid 1000);
-        Wed, 28 Dec 2022 17:16:44 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FjkjGKe8u8IpWP+AbXojTCdZ7iq2d+K0aTmY6czVowk=;
+        b=Ep16kPjpvxWwdQx9awMwXmHQFveZaGqs7BzjbwnY5ORYkbF8Z0fVSMk71XNoSw+Uql
+         MizYyDJ22Q1Kfr+ZzluPS6qDzIti8LsJqfLdtyl5JuxHkKQ78Cgf60Y9I7i28bUYDXvx
+         MgTUt5EUDRrR95iLbzpMGzuyx83vZPMU4xbVmWprH2AoH0aXJ3VeFXGWv34Fv2ieKRGV
+         S7mAfhaPAOh2X35rpz3XoWxeg2hzw01nod8da2KayAXCPHO5gkOoOEMMYXEJBx/sKJBt
+         DbzJ8xmBppFVfqYZsCJT3IQhOJfVfe/1ZvfpC6sAJSDvRNMq3XVfGzcdekfGKrFELwLu
+         WTMQ==
+X-Gm-Message-State: AFqh2krgJIMBYhlLJe/ErH7PeW5bG6+EBZZR1JYkBc5QUyV5WkR0GSLl
+        u4FqYTcmQmHFyYWeMG00FEk=
+X-Google-Smtp-Source: AMrXdXsRw8FU8I086wZOUInewaCxOmuvvFrxiOxo7tZy/Z19WZ2zhO49SAfR0K2k53Ith8otQR/Maw==
+X-Received: by 2002:a05:6512:b23:b0:4cb:d3:3b99 with SMTP id w35-20020a0565120b2300b004cb00d33b99mr5088582lfu.36.1672322043419;
+        Thu, 29 Dec 2022 05:54:03 -0800 (PST)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id m9-20020a194349000000b004b4ec76016esm3052788lfj.113.2022.12.29.05.54.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Dec 2022 05:54:02 -0800 (PST)
+Message-ID: <4e559c96-a803-6c3e-6f91-e9c41f16720f@gmail.com>
+Date:   Thu, 29 Dec 2022 14:54:00 +0100
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Wadim Egorov <w.egorov@phytec.de>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org, pavel@ucw.cz,
-        linux-leds@vger.kernel.org, lee@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, upstream@lists.phytec.de,
-        jacek.anaszewski@gmail.com
-In-Reply-To: <20221228140449.938513-1-w.egorov@phytec.de>
-References: <20221228140449.938513-1-w.egorov@phytec.de>
-Message-Id: <167224754074.1921630.2667864472340880362.robh@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: [PATCH] dt-bindings: leds: Convert PCA9532 to dtschema
-Date:   Wed, 28 Dec 2022 11:16:44 -0600
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Language: en-US
+To:     Wadim Egorov <w.egorov@phytec.de>, upstream@lists.phytec.de,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Cc:     krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        lee@kernel.org, pavel@ucw.cz
+References: <20221228140449.938513-1-w.egorov@phytec.de>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20221228140449.938513-1-w.egorov@phytec.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Wadim,
 
-On Wed, 28 Dec 2022 15:04:49 +0100, Wadim Egorov wrote:
+On 12/28/22 15:04, Wadim Egorov wrote:
 > Convert the PCA9532 LED dimmer to dtschema.
 > While at it, also update and the the example to match
 > recommended node names and the link to the product datasheet.
 > 
 > Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
 > ---
->  .../devicetree/bindings/leds/leds-pca9532.txt | 49 -----------
->  .../bindings/leds/leds-pca9532.yaml           | 86 +++++++++++++++++++
->  2 files changed, 86 insertions(+), 49 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.yaml
+>   .../devicetree/bindings/leds/leds-pca9532.txt | 49 -----------
+>   .../bindings/leds/leds-pca9532.yaml           | 86 +++++++++++++++++++
+>   2 files changed, 86 insertions(+), 49 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-pca9532.txt b/Documentation/devicetree/bindings/leds/leds-pca9532.txt
+> deleted file mode 100644
+> index f769c52e3643..000000000000
+> --- a/Documentation/devicetree/bindings/leds/leds-pca9532.txt
+> +++ /dev/null
+> @@ -1,49 +0,0 @@
+> -*NXP - pca9532 PWM LED Driver
+> -
+> -The PCA9532 family is SMBus I/O expander optimized for dimming LEDs.
+> -The PWM support 256 steps.
+> -
+> -Required properties:
+> -	- compatible:
+> -		"nxp,pca9530"
+> -		"nxp,pca9531"
+> -		"nxp,pca9532"
+> -		"nxp,pca9533"
+> -	- reg -  I2C slave address
+> -
+> -Each led is represented as a sub-node of the nxp,pca9530.
+> -
+> -Optional sub-node properties:
+> -	- label: see Documentation/devicetree/bindings/leds/common.txt
+> -	- type: Output configuration, see dt-bindings/leds/leds-pca9532.h (default NONE)
+> -	- linux,default-trigger: see Documentation/devicetree/bindings/leds/common.txt
+> -	- default-state: see Documentation/devicetree/bindings/leds/common.txt
+> -	  This property is only valid for sub-nodes of type <PCA9532_TYPE_LED>.
+> -
+> -Example:
+> -  #include <dt-bindings/leds/leds-pca9532.h>
+> -
+> -  leds: pca9530@60 {
+> -    compatible = "nxp,pca9530";
+> -    reg = <0x60>;
+> -
+> -    red-power {
+> -      label = "pca:red:power";
+> -      type = <PCA9532_TYPE_LED>;
+> -    };
+> -    green-power {
+> -      label = "pca:green:power";
+> -      type = <PCA9532_TYPE_LED>;
+> -    };
+> -    kernel-booting {
+> -      type = <PCA9532_TYPE_LED>;
+> -      default-state = "on";
+> -    };
+> -    sys-stat {
+> -      type = <PCA9532_TYPE_LED>;
+> -      default-state = "keep"; // don't touch, was set by U-Boot
+> -    };
+> -  };
+> -
+> -For more product information please see the link below:
+> -http://nxp.com/documents/data_sheet/PCA9532.pdf
+> diff --git a/Documentation/devicetree/bindings/leds/leds-pca9532.yaml b/Documentation/devicetree/bindings/leds/leds-pca9532.yaml
+> new file mode 100644
+> index 000000000000..e3741b5046b7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-pca9532.yaml
+> @@ -0,0 +1,86 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-pca9532.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP - pca9532 PWM LED Driver
+> +
+> +maintainers:
+> +  - Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Please remove myself, since I am not longer an LED subsystem maintainer.
 
-yamllint warnings/errors:
+> +  - Pavel Machek <pavel@ucw.cz>
+> +
+> +description: |
+> +  The PCA9532 family is SMBus I/O expander optimized for dimming LEDs.
+> +  The PWM support 256 steps.
+> +
+> +  For more product information please see the link below:
+> +    https://www.nxp.com/docs/en/data-sheet/PCA9532.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nxp,pca9530
+> +      - nxp,pca9531
+> +      - nxp,pca9532
+> +      - nxp,pca9533
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: I2C slave address
+> +
+> +patternProperties:
+> +  "^led-[0-9a-z]+$":
+> +    type: object
+> +    $ref: common.yaml#
+> +    properties:
+> +      type:
+> +        description: |
+> +          Output configuration, see dt-bindings/leds/leds-pca9532.h
+> +          Default is 0, PCA9532_TYPE_NONE.
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 0
+> +        maximum: 4
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/leds-pca9532.h>
+> +
+> +    i2c {
+> +        led-controller@62 {
+> +                compatible = "nxp,pca9533";
+> +                reg = <0x62>;
+> +
+> +                led-1 {
+> +                        label = "user1";
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/leds/leds-pca9532.example.dts:28.38-39 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:434: Documentation/devicetree/bindings/leds/leds-pca9532.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1508: dt_binding_check] Error 2
+You should leave label unchanged, since this patch claims that it only
+converts the file format. And anyway, the driver does not use
+led_classdev_register_ext(), so it won't parse 'color' property
+automatically.
 
-doc reference errors (make refcheckdocs):
+> +                        type = <PCA9532_TYPE_LED>;
+> +                        color = <LED_COLOR_ID_RED>;
+> +                };
+> +
+> +                led-2 {
+> +                        label = "user2";
+> +                        type = <PCA9532_TYPE_LED>;
+> +                        color = <LED_COLOR_ID_GREEN>;
+> +                };
+> +
+> +                led-3 {
+> +                        label = "user3";
+> +                        type = <PCA9532_TYPE_LED>;
+> +                        color = <LED_COLOR_ID_BLUE>;
+> +                };
+> +
+> +                led-4 {
+> +                        label = "user4";
+> +                        type = <PCA9532_TYPE_LED>;
+> +                        color = <LED_COLOR_ID_RED>;
+> +                };
+> +        };
+> +    };
+> +
+> +...
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221228140449.938513-1-w.egorov@phytec.de
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Best regards,
+Jacek Anaszewski
