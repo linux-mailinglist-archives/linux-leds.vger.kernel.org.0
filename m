@@ -2,496 +2,227 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DADD65B240
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Jan 2023 13:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A49965B41B
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Jan 2023 16:23:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232579AbjABMo1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Jan 2023 07:44:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
+        id S236334AbjABPXE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Jan 2023 10:23:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjABMo0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Jan 2023 07:44:26 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4AA05FE0;
-        Mon,  2 Jan 2023 04:44:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672663464; x=1704199464;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
-  b=jR+wKcWlWSjlbQJYqLgQYrEQVS/zhH5PaH6Vp9i67lsocR8zpej2v11i
-   DP7B9hSg5sjA+iSdcVezEU6U4hp6HSF5a/6LdMPYrnBWJVnFZ0+F7X7Xp
-   YF4MbOBTJ3h+EvZdYKtiX/mya7sQE361c+GXLof1qsn2vaxG9Ii8Tax6I
-   YYlgj/FzUaE0GaXLnKZ7g4b6Yi0ZTu7qC6SJ2D5tNx448mYRbz5ReAqKC
-   2iVn/wL+hBBLkiUoPhPgI1VYH0P98FUQKogmsxq43rz93H6F/+QARgWOS
-   YzkGWYPRIJ6vAyeuMA+HntabzysMAxemwOmNDKgWZ1Y9pSBuN54iFpfrV
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
-   d="scan'208";a="28204263"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 02 Jan 2023 13:44:21 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 02 Jan 2023 13:44:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672663461; x=1704199461;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ioVYIpFG8DC6v6ZQ/LA0HIv3ZhntmZW8xS8Dwp6vcB4=;
-  b=R2nkheNI3fJ58pMHLE41u24BQONdzetUJ29PCXdIwLv0mzar1jCWEosY
-   m2BserLigf+MQx7FAPWMFj3ivGGgq/C7cv+PZ7rnOe8H6J0rrsX0TSPw+
-   7lCTkcMG8yLdT64gHJQ7PzPMT1EwOXF/6qCwq+AB7t3Hwm+NLywxEoBfR
-   mYQzBSnxcSMffBgs56AodHh1RhKeuX+O8/+yoHfwkIAvp/e0vUETDz4aw
-   95hY4o4dy2ylT+iWPj825Z+Xd6a5pgYWssWAe5kut1yD5SBscGQ/Ai5nr
-   PzLrM30/Meyu1HVJ+QtA1v/suX6jTGmtzFFDgASJSJoT7kAoNLZfzj98Y
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,294,1665439200"; 
-   d="scan'208";a="28204262"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 02 Jan 2023 13:44:21 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2E201280056;
-        Mon,  2 Jan 2023 13:44:21 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v7 06/11] leds: trigger: netdev: add hardware control support
-Date:   Mon, 02 Jan 2023 13:44:20 +0100
-Message-ID: <13186102.dW097sEU6C@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
-References: <20221214235438.30271-1-ansuelsmth@gmail.com> <3770526.R56niFO833@steina-w> <639ca43c.050a0220.e6d91.9fe8@mx.google.com>
+        with ESMTP id S236335AbjABPWi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Jan 2023 10:22:38 -0500
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2054.outbound.protection.outlook.com [40.107.20.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D126434;
+        Mon,  2 Jan 2023 07:22:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DLX8pBOgNw8NFH9Ex8pZrzOJ5ekDSJ7Cy0GOuTjImiw9ZU0kp+pqRGGIrVzDBW4+3thsgu1OtPt9i+OOg5WR42yWHX5rklD9UQp3435A2bKaHMonQCch+5rY3Mfrso5HKzLPbJ3r32wg17olSByJlr+fJV8aZlN5TuYwSQ50ePLYEwFKakJPuoQfJe6qP1APhYuynuQTmbx3Lw1Wv5Uy6tVmiOomSWQL8F4BEhW81NAKyX6em/A5crQuO+aOLI+gBKGIRDW5BEelFltyA0JKr8oOuv3al24affl2YRbi5PhNT07YTw0zLoAyxcpPVBP8Pnz1512IVvm5aC4KTJydnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p+2CRUjeWp8g+Sl+6DMZ8zMueGa05FjTssz2mKRmgTM=;
+ b=lIa0RYoEeoqpzA7hHovdlDYEMle/ldN/kWw88Fpwz+Ty5CqfgGYlthRnn/5qDByiZ0TJTGmZvwO/8Uh16+mzGV8bYAws1+CZHWYm4NafIU8uAO8FQSoiF9V/JVS++eOc3/Iy5odPD6iHLG7R2MlS1SjvnbtRWNaSuQWe5esclZD5XT4DWM5EE1bOxj63s2UzHEO0igoFduRrclRu0C13eBoyJd6KiFFssKDRtFqy7MtoyI3mDWUrGFkiMmg5O8KxSv+5cIahNEWa6LsivjcTs3lS2BI40aCJ85VdRMaBQhuBEfayulAceBgBQKKXcbj9jv1pGPfgRaOKP0f5uinzDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+2CRUjeWp8g+Sl+6DMZ8zMueGa05FjTssz2mKRmgTM=;
+ b=saEAzpL0mAyTAQ2J/5kuXuU9QKJ75MD+Lp20uyuUcLVawzIdkWXpshgoaYpRouFkBfCNqWkiJaeE/PRmfvLkLyUCjvfQQ/G8eMIZKklMwk2tSvuItA2ecMOzHnk3Dyc9vTQmYVL/4nz8CL1P3YbRK1FBiqNu0+xLTKAUBAxpeVZFqtYt+2IPVnLj8cJAvs6MeQa7J0CwzFew0IGxzRlMeHEgGxnwJH/rQ8e/vBrCoDVXUOKMWlFCiu/OSsZPKDKrYPSkORtDUF5KLF1neiv0/BlT9BktP6HHuKPgcSfYdHvaLRax/l532ppSHhX6ocZRTaEkb6x9l4hUUshuD1hhfw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
+ by DU0PR10MB5629.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:31b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.18; Mon, 2 Jan
+ 2023 15:22:33 +0000
+Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5944.019; Mon, 2 Jan 2023
+ 15:22:32 +0000
+Date:   Mon, 2 Jan 2023 16:22:27 +0100
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+Message-ID: <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
+In-Reply-To: <Y6WX1Y9GZmvxqlCc@google.com>
+References: <20221007153323.1326-1-henning.schild@siemens.com>
+        <Y6WX1Y9GZmvxqlCc@google.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::22) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:269::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|DU0PR10MB5629:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b516c15-5837-45e6-2f7b-08daecd52b2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UZVjSsHK6WOk/9PwEQT0vrMaFPgh5tsrmTQPYCAj+zQYJkQQWzNXlKoyN301c1ng/UQHnYO3W6bKEBJW+ccDer2x7+dKXVzpWlmzqPFb98TAXVMhOvCNEfIbTex41IUiaho8YQ40xgO6rQpYVjJzTT2XEwVr3Vr0hLzV3JfrU9mtYVbPp6Fm7PsLYVfmaXY8wb0zGjDaXAu/4i9DF1cVHDkQMSLx2VVirQgeP48UDZAtLXP9oShCQkLCLlLbPjSpEqW/TtBJtxD/ZylHr4GpYQrowL/HNKEto+ip5B7/nV4evW1886vpY/IaQsGxGY1OzST1nj+CYi/W3I/X94OH7vHgkCucvtLY4IRwIYXMjJAKQtXDeKIJTQnq2yRRWHxbEzyh3Nza6ae89vpBWIDhjUGwDBZG4manrs3cworD4slOUL3iW4ST6VTbItqq+Mtq6b8EdFdn6szBtOO8bka89gz46hOk4qOWKhivv/ZKFIn1jQ5kU3Z/OgQaNxNf91nNBtI0zSwHKeWJh8dmaAsnR9zSpI2UYxhlXDrDpnUjwkXS1GP0qHcKeZCiI9ir/7N8Me8SUs+nRcbvPPuNK8gRr5H5NofTII0N3vxYEqP7/Mt2Ox9hHlSvwBpi/Y2XY5I+SokgrwxCJQA8euNbRtlVZnFVmp5+v7Iliio9J4SEX5egZadsgCPb4VXAk2YgNAq5
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(376002)(396003)(136003)(39860400002)(451199015)(6506007)(6666004)(6486002)(478600001)(86362001)(82960400001)(38100700002)(1076003)(9686003)(26005)(6512007)(186003)(83380400001)(4326008)(44832011)(5660300002)(8676002)(66476007)(8936002)(66946007)(66556008)(6916009)(54906003)(41300700001)(2906002)(316002)(22166006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wa0Cjpjn8uqW90MHldq13I7cPpYShYXJ2egIU0MYtJP6x1TsdG3EGU6YoJ7T?=
+ =?us-ascii?Q?WsJxOSUstzYIAxQ9GbSuI2tk+AK1e6g0ZVMSDZAtLJZ9TXNY153IBVAnHONK?=
+ =?us-ascii?Q?SBhZDjkqiW144akvx7nCvb/ABKpXfRZzvUZ6SU7r+OeADoArraQjJBUc7psz?=
+ =?us-ascii?Q?eITh/gTQq9jKPrUul2+jvP/mYBRf4SfAmUFGYNFTYDRafypZiNHPj5xwc9yi?=
+ =?us-ascii?Q?SJSY2uIE5ckpxKz/aoQ9QH+gEeAk46+mzHj7PrrqstCq1fSAKFW41NqdxEsU?=
+ =?us-ascii?Q?1jInLvXowhEz8IznfzgZTOXsftHftWP1gEm7kBT9aw5fQUNHOmO02lQEAV6j?=
+ =?us-ascii?Q?MjV7rgsqdRwLoVGo6GQq56xoOQb7M/Tcbh782zs0VsQfApYAPrMd7DFTM3bd?=
+ =?us-ascii?Q?YioIMLTLj8BIDSld265guo1BQFlBBxG1mKliwXqcAo6SMXNp/IPVv9u0CZCT?=
+ =?us-ascii?Q?xwDwi6yZaiEp2KzEbff4MoBdmPrjhgDA9zAhjferdAv7yujASqFq5iMzLOyB?=
+ =?us-ascii?Q?z21PRqOJmKIY3PCLGC01QKwqtnP/gnYxkz3Ocfgpq2vQ0o1D1xMtWcwpKZnA?=
+ =?us-ascii?Q?nyrcT8vnldMw/HeagC2wxFtnSlbo8UQg1/xYtTfKNXoilR+SgkLxWhDmjygq?=
+ =?us-ascii?Q?RMfw+efV49GrV3u4knGHS0FI6h8NjqXZ9ebxE5Ex9dEgD+d/8dLS568UUoES?=
+ =?us-ascii?Q?Mrb5B2qV/60ECOvN7OajoW/IQK1ZOn39nZCVhreGLbHpOHZEtq2OzIztiI4q?=
+ =?us-ascii?Q?mlbAsMt5oD144kQV8xpJEeNz2fqxbWCqAyUFz+Ob8P+mazHqo1esit0y4ZvV?=
+ =?us-ascii?Q?HNq6E99MV2IfhxT6bBUgbS7lkzcWSxprSE61ONHGafs8xi3F8mWPJdG1uqBS?=
+ =?us-ascii?Q?Z1p+ccSnazruQPMTq59P7qB1wEg0YezLEQi7WJ3G08xNgW8iO9Sk2rNUPPR+?=
+ =?us-ascii?Q?2gh4bI/hH3banXTdAkklCw1zZP8Tyb4xJb5gZULaB5q34ojxD0o6Lq2A1aAd?=
+ =?us-ascii?Q?5lLrHMR+SOKfypV7+D7uOd205KLFekUoTvm6dJOyOFIjzg60K75DWJtDTEJP?=
+ =?us-ascii?Q?iVqx+yodr7QfLJqkNsQ2ux4JibSES36vsKSPfgH3na+8VbDRCTrmzKCHKNXt?=
+ =?us-ascii?Q?Ftmxcs2P+Ygmg2j7Ho4BE7eA3ewei4aB+h3/pHyWWov/SLYzMuRiPQs3cBo2?=
+ =?us-ascii?Q?scPN4ZlDlc2WyPf0p+frXprF6Bdupl0I6kgdm8X7IhdkL5Y+pYxc9GOGmn2y?=
+ =?us-ascii?Q?yLFBvBFmEUEwFQY5hTfg48lx0HL8FblTT/DN/0KMqvxOj62wqyWnDz433anO?=
+ =?us-ascii?Q?4mLeqJDEBQU3ETAavd5UM0qfsIWX43tfuaxIf5+rDpdKcmwh7dS3pK5djkZZ?=
+ =?us-ascii?Q?arUXR0nzwfTFVYT5hrBTdOA5F0vlUGpPx0rK9uy/eP+3qYvRnFQy9N0npBWP?=
+ =?us-ascii?Q?xDlZgJAxmvWHRnsYJvfUs4buhckdRHsbqFhXpcP1mLRaYcSMDBtdFYyw+aFL?=
+ =?us-ascii?Q?2Bg/0KVigO/md31dyxGSPnIwkrEklt0aEP6AkpWVuYnIliUOs8gscXzjFNcd?=
+ =?us-ascii?Q?K3twyM7PdffYYkfLBM7tM8//s8MrKcRZjbIuwaXl7mRQX46yqKms1UXcwsWz?=
+ =?us-ascii?Q?Eg=3D=3D?=
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b516c15-5837-45e6-2f7b-08daecd52b2e
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2023 15:22:32.6419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RyUqy/RDI/oL4HtrSPTf6nnJdehxYuozJUkuK/REfn91MURgIWD1wreS+dsWRbey5ePlQs7hx5zgM4vHZvSeBQ5yh0KHJo+QzzJ5fZf/z1Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5629
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Freitag, 16. Dezember 2022, 18:00:45 CET schrieb Christian Marangi:
-> On Thu, Dec 15, 2022 at 04:27:17PM +0100, Alexander Stein wrote:
-> > Hi,
-> > 
-> > thanks for the v7 series.
-> > 
-> > Am Donnerstag, 15. Dezember 2022, 00:54:33 CET schrieb Christian Marangi:
-> > > Add hardware control support for the Netdev trigger.
-> > > The trigger on config change will check if the requested trigger can set
-> > > to blink mode using LED hardware mode and if every blink mode is
-> > > supported,
-> > > the trigger will enable hardware mode with the requested configuration.
-> > > If there is at least one trigger that is not supported and can't run in
-> > > hardware mode, then software mode will be used instead.
-> > > A validation is done on every value change and on fail the old value is
-> > > restored and -EINVAL is returned.
-> > > 
-> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/leds/trigger/ledtrig-netdev.c | 155 +++++++++++++++++++++++++-
-> > >  1 file changed, 149 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/drivers/leds/trigger/ledtrig-netdev.c
-> > > b/drivers/leds/trigger/ledtrig-netdev.c index dd63cadb896e..ed019cb5867c
-> > > 100644
-> > > --- a/drivers/leds/trigger/ledtrig-netdev.c
-> > > +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> > > @@ -37,6 +37,7 @@
-> > > 
-> > >   */
-> > >  
-> > >  struct led_netdev_data {
-> > > 
-> > > +	enum led_blink_modes blink_mode;
-> > > 
-> > >  	spinlock_t lock;
-> > >  	
-> > >  	struct delayed_work work;
-> > > 
-> > > @@ -53,11 +54,105 @@ struct led_netdev_data {
-> > > 
-> > >  	bool carrier_link_up;
-> > >  
-> > >  };
-> > > 
-> > > +struct netdev_led_attr_detail {
-> > > +	char *name;
-> > > +	bool hardware_only;
-> > > +	enum led_trigger_netdev_modes bit;
-> > > +};
-> > > +
-> > > +static struct netdev_led_attr_detail attr_details[] = {
-> > > +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
-> > > +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
-> > > +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
-> > > +};
-> > > +
-> > > +static bool validate_baseline_state(struct led_netdev_data
-> > > *trigger_data)
-> > > +{
-> > > +	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > > +	struct netdev_led_attr_detail *detail;
-> > > +	u32 hw_blink_mode_supported = 0;
-> > > +	bool force_sw = false;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > > +		detail = &attr_details[i];
-> > > +
-> > > +		/* Mode not active, skip */
-> > > +		if (!test_bit(detail->bit, &trigger_data->mode))
-> > > +			continue;
-> > > +
-> > > +		/* Hardware only mode enabled on software controlled led
-> > 
-> > */
-> > 
-> > > +		if (led_cdev->blink_mode == SOFTWARE_CONTROLLED &&
-> > > +		    detail->hardware_only)
-> > > +			return false;
-> > > +
-> > > +		/* Check if the mode supports hardware mode */
-> > > +		if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
-> > > +			/* With a net dev set, force software mode.
-> > > +			 * With modes are handled by hardware, led will
-> > 
-> > blink
-> > 
-> > > +			 * based on his own events and will ignore any
-> > 
-> > event
-> > 
-> > > +			 * from the provided dev.
-> > > +			 */
-> > > +			if (trigger_data->net_dev) {
-> > > +				force_sw = true;
-> > > +				continue;
-> > > +			}
-> > > +
-> > > +			/* With empty dev, check if the mode is
-> > 
-> > supported */
-> > 
-> > > +			if
-> > 
-> > (led_trigger_blink_mode_is_supported(led_cdev, detail->bit))
-> > 
-> > > +				hw_blink_mode_supported |= BIT(detail-
-> > >
-> > >bit);
-> > 
-> > Shouldn't this be BIT(detail->bit)?
+Am Fri, 23 Dec 2022 11:58:13 +0000
+schrieb Lee Jones <lee@kernel.org>:
+
+> On Fri, 07 Oct 2022, Henning Schild wrote:
 > 
-> I think I didn't understand?
-
-The name 'bit' indicates this is a single bit number rather than a bitmask. 
-AFAICS the value (detail->bit) passed to led_trigger_blink_mode_is_supported 
-is eventually used within test_bit inside dp83867_parse_netdev. I assume you 
-have to actually pass the bitmask with this single bit set, not the bit number 
-itself.
-
-Best regards,
-Alexander
-
-> > > +		}
-> > > +	}
-> > > +
-> > > +	/* We can't run modes handled by both software and hardware.
-> > > +	 * Check if we run hardware modes and check if all the modes
-> > > +	 * can be handled by hardware.
-> > > +	 */
-> > > +	if (hw_blink_mode_supported && hw_blink_mode_supported !=
-> > > trigger_data->mode) +		return false;
-> > > +
-> > > +	/* Modes are valid. Decide now the running mode to later
-> > > +	 * set the baseline.
-> > > +	 * Software mode is enforced with net_dev set. With an empty
-> > > +	 * one hardware mode is selected by default (if supported).
-> > > +	 */
-> > > +	if (force_sw || led_cdev->blink_mode == SOFTWARE_CONTROLLED)
+> > If we register a "leds-gpio" platform device for GPIO pins that do
+> > not exist we get a -EPROBE_DEFER and the probe will be tried again
+> > later. If there is no driver to provide that pin we will poll
+> > forever and also create a lot of log messages.
 > > 
-> > IMHO '|| !hw_blink_mode_supported' should be added here for blink_modes.
-> > This might happen if a PHY LED is SOFTWARE_HARDWARE_CONTROLLED, but some
-> > blink mode is not supported by hardware, thus hw_blink_mode_supported=0.
+> > So check if that GPIO driver is configured, if so it will come up
+> > eventually. If not, we exit our probe function early and do not even
+> > bother registering the "leds-gpio". This method was chosen over
+> > "Kconfig depends" since this way we can add support for more
+> > devices and GPIO backends more easily without "depends":ing on all
+> > GPIO backends.
+> > 
+> > Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version
+> > of Siemens driver") Reviewed-by: Andy Shevchenko
+> > <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
+> > <henning.schild@siemens.com> ---  
 > 
-> Will check this and report back.
+> What happened in versions 1 through 3?  Please provide a change-log.
+
+Not too much really, but i will write a changelog and cover letter when
+sending again. Mostly commit message stuff and later a rebase.
+
+> >  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c
+> > b/drivers/leds/simple/simatic-ipc-leds-gpio.c index
+> > b9eeb8702df0..fb8d427837db 100644 ---
+> > a/drivers/leds/simple/simatic-ipc-leds-gpio.c +++
+> > b/drivers/leds/simple/simatic-ipc-leds-gpio.c @@ -77,6 +77,8 @@
+> > static int simatic_ipc_leds_gpio_probe(struct platform_device
+> > *pdev) switch (plat->devmode) {
+> >  	case SIMATIC_IPC_DEVICE_127E:
+> > +		if (!IS_ENABLED(CONFIG_PINCTRL_BROXTON))
+> > +			return -ENODEV;  
 > 
-> > Best regards,
-> > Alexander
-> > 
-> > > +		trigger_data->blink_mode = SOFTWARE_CONTROLLED;
-> > > +	else
-> > > +		trigger_data->blink_mode = HARDWARE_CONTROLLED;
-> > > +
-> > > +	return true;
-> > > +}
-> > > +
-> > > 
-> > >  static void set_baseline_state(struct led_netdev_data *trigger_data)
-> > >  {
-> > > 
-> > > +	int i;
-> > > 
-> > >  	int current_brightness;
-> > > 
-> > > +	struct netdev_led_attr_detail *detail;
-> > > 
-> > >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> > > 
-> > > +	/* Modes already validated. Directly apply hw trigger modes */
-> > > +	if (trigger_data->blink_mode == HARDWARE_CONTROLLED) {
-> > > +		/* We are refreshing the blink modes. Reset them */
-> > > +		led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(TRIGGER_NETDEV_LINK),
-> > 
-> > > +					       BLINK_MODE_ZERO);
-> > > +
-> > > +		for (i = 0; i < ARRAY_SIZE(attr_details); i++) {
-> > > +			detail = &attr_details[i];
-> > > +
-> > > +			if (!test_bit(detail->bit, &trigger_data->mode))
-> > > +				continue;
-> > > +
-> > > +			led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(detail->bit),
-> > 
-> > > +
-> > 
-> > BLINK_MODE_ENABLE);
-> > 
-> > Shouldn't this be BIT(detail->bit)?
-> > 
-> > > +		}
-> > > +
-> > > +		led_cdev->hw_control_start(led_cdev);
-> > > +
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	/* Handle trigger modes by software */
-> > > 
-> > >  	current_brightness = led_cdev->brightness;
-> > >  	if (current_brightness)
-> > >  	
-> > >  		led_cdev->blink_brightness = current_brightness;
-> > > 
-> > > @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device
-> > > *dev,
-> > > 
-> > >  				 size_t size)
-> > >  
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > +	struct net_device *old_net = trigger_data->net_dev;
-> > > +	char old_device_name[IFNAMSIZ];
-> > > 
-> > >  	if (size >= IFNAMSIZ)
-> > >  	
-> > >  		return -EINVAL;
-> > > 
-> > > +	/* Backup old device name */
-> > > +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
-> > > +
-> > > 
-> > >  	cancel_delayed_work_sync(&trigger_data->work);
-> > >  	
-> > >  	spin_lock_bh(&trigger_data->lock);
-> > > 
-> > > @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device
-> > > *dev,
-> > > 
-> > >  		trigger_data->net_dev =
-> > >  		
-> > >  		    dev_get_by_name(&init_net, trigger_data->device_name);
-> > > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old net_dev and device_name */
-> > > +		if (trigger_data->net_dev)
-> > > +			dev_put(trigger_data->net_dev);
-> > > +
-> > > +		dev_hold(old_net);
-> > > +		trigger_data->net_dev = old_net;
-> > > +		memcpy(trigger_data->device_name, old_device_name,
-> > 
-> > IFNAMSIZ);
-> > 
-> > > +
-> > > +		spin_unlock_bh(&trigger_data->lock);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > 
-> > >  	trigger_data->carrier_link_up = false;
-> > >  	if (trigger_data->net_dev != NULL)
-> > >  	
-> > >  		trigger_data->carrier_link_up =
-> > 
-> > netif_carrier_ok(trigger_data->net_dev);
-> > 
-> > > @@ -159,7 +272,7 @@ static ssize_t netdev_led_attr_store(struct device
-> > > *dev, const char *buf, size_t size, enum led_trigger_netdev_modes attr)
-> > > 
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > -	unsigned long state;
-> > > +	unsigned long state, old_mode = trigger_data->mode;
-> > > 
-> > >  	int ret;
-> > >  	int bit;
-> > > 
-> > > @@ -184,6 +297,12 @@ static ssize_t netdev_led_attr_store(struct device
-> > > *dev, const char *buf, else
-> > > 
-> > >  		clear_bit(bit, &trigger_data->mode);
-> > > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old mode on validation fail */
-> > > +		trigger_data->mode = old_mode;
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > 
-> > >  	set_baseline_state(trigger_data);
-> > >  	
-> > >  	return size;
-> > > 
-> > > @@ -220,6 +339,8 @@ static ssize_t interval_store(struct device *dev,
-> > > 
-> > >  			      size_t size)
-> > >  
-> > >  {
-> > >  
-> > >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-> > > 
-> > > +	int old_interval = atomic_read(&trigger_data->interval);
-> > > +	u32 old_mode = trigger_data->mode;
-> > > 
-> > >  	unsigned long value;
-> > >  	int ret;
-> > > 
-> > > @@ -228,13 +349,22 @@ static ssize_t interval_store(struct device *dev,
-> > > 
-> > >  		return ret;
-> > >  	
-> > >  	/* impose some basic bounds on the timer interval */
-> > > 
-> > > -	if (value >= 5 && value <= 10000) {
-> > > -		cancel_delayed_work_sync(&trigger_data->work);
-> > > +	if (value < 5 || value > 10000)
-> > > +		return -EINVAL;
-> > > +
-> > > +	cancel_delayed_work_sync(&trigger_data->work);
-> > > +
-> > > +	atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
-> > > 
-> > > -		atomic_set(&trigger_data->interval,
-> > 
-> > msecs_to_jiffies(value));
-> > 
-> > > -		set_baseline_state(trigger_data);	/* resets timer
-> > 
-> > */
-> > 
-> > > +	if (!validate_baseline_state(trigger_data)) {
-> > > +		/* Restore old interval on validation error */
-> > > +		atomic_set(&trigger_data->interval, old_interval);
-> > > +		trigger_data->mode = old_mode;
-> > > +		return -EINVAL;
-> > > 
-> > >  	}
-> > > 
-> > > +	set_baseline_state(trigger_data);	/* resets timer */
-> > > +
-> > > 
-> > >  	return size;
-> > >  
-> > >  }
-> > > 
-> > > @@ -368,13 +498,25 @@ static int netdev_trig_activate(struct
-> > > led_classdev
-> > > *led_cdev) trigger_data->mode = 0;
-> > > 
-> > >  	atomic_set(&trigger_data->interval, msecs_to_jiffies(50));
-> > >  	trigger_data->last_activity = 0;
-> > > 
-> > > +	if (led_cdev->blink_mode != SOFTWARE_CONTROLLED) {
-> > > +		/* With hw mode enabled reset any rule set by default */
-> > > +		if (led_cdev->hw_control_status(led_cdev)) {
-> > > +			rc = led_cdev->hw_control_configure(led_cdev,
-> > 
-> > BIT(TRIGGER_NETDEV_LINK),
-> > 
-> > > +
-> > 
-> > BLINK_MODE_ZERO);
-> > 
-> > > +			if (rc)
-> > > +				goto err;
-> > > +		}
-> > > +	}
-> > > 
-> > >  	led_set_trigger_data(led_cdev, trigger_data);
-> > >  	
-> > >  	rc = register_netdevice_notifier(&trigger_data->notifier);
-> > >  	if (rc)
-> > > 
-> > > -		kfree(trigger_data);
-> > > +		goto err;
-> > > 
-> > > +	return 0;
-> > > +err:
-> > > +	kfree(trigger_data);
-> > > 
-> > >  	return rc;
-> > >  
-> > >  }
-> > > 
-> > > @@ -394,6 +536,7 @@ static void netdev_trig_deactivate(struct
-> > > led_classdev
-> > > *led_cdev)
-> > > 
-> > >  static struct led_trigger netdev_led_trigger = {
-> > >  
-> > >  	.name = "netdev",
-> > > 
-> > > +	.supported_blink_modes = SOFTWARE_HARDWARE,
-> > > 
-> > >  	.activate = netdev_trig_activate,
-> > >  	.deactivate = netdev_trig_deactivate,
-> > >  	.groups = netdev_trig_groups,
+> I see that there is an unfortunate precedent for this in the lines
+> below.  However, I also see that the commit which added it was not
+> reviewed by Pavel.
 
+Right i think that might have been you in the end.
 
+> This is an interesting problem, due to the different devices we're
+> attempting to support in this single driver using different
+> GPIO/PINCTRL drivers, which is unusual.  We usually resolve these
+> kinds of issues as a Kconfig 'depends' line which covers the whole
+> driver.
 
+This was tried but the result was not too nice. It is really the same
+gpio led driver implemented on top of multiple possible gpio chip
+drivers. Making it depend on both pulls in too much in case one wants a
+minimal config, writing a new driver for each backend would duplicate
+too much code.
+
+But maybe a splitting out a -common or moving stuff into headers could
+help with the duplication if we want to go the "one driver for one
+device" road. I would not want that and what we currently see was
+discussed and approved as part of another series, when i introduced
+x27G.
+ 
+> Would 'depends GPIO_F7188X || PINCTRL_BROXTON' be a suitable
+> replacement, I wonder?  If it's possible for SIMATIC_IPC_DEVICE_127E
+> to be probing when only GPIO_F7188X is enabled?  If so, this would
+> result in the same scenario.
+
+No that would not work. Depending on which board we are on we depend on
+another pin provider. "&&" would be but it would be kind of overkill
+and not allow for a minimal kernel config in case someone wanted a
+special minimal kernel for either one.
+
+> It also seems wrong for -EPROBE_DEFER to loop indefinitely.  Surely in
+> some valid circumstances dependencies are never satisfied?
+
+Well that is what i would guess as well. But that infinite loop
+waiting for a pin to appear endlessly is a part of "leds-gpio". If
+"leds-gpio" had some magic to eventually bail out (maybe say we give
+it X runs with some sleep back-off) i would not have to do anything
+here. I consider that patch a workaround for a shortcoming in
+"leds-gpio", which busy loops and fills up your disk quickly with logs
+if you mention a pin that never comes. Which i imagine can quickly
+happen if you have a typo on your device tree or a kernel config not
+enabling a pin provider driver.
+
+I am not sure there are no other valid reasons. And i think that indef
+loop needs fixing at some point. Hopefully by a LEDs maintainer or
+maybe i will even help out.
+
+Until that day i would like to have the proposed patch merged to not
+have users run into a known issue. The pattern is established and has
+been discussed before and the patch it rather trivial.
+
+Later we can see about improving and ask fundamental questions again.
+
+Henning
+
+> >  		simatic_ipc_led_gpio_table =
+> > &simatic_ipc_led_gpio_table_127e; break;
+> >  	case SIMATIC_IPC_DEVICE_227G:
+> > -- 
+> > 2.35.1
+> >   
+> 
 
