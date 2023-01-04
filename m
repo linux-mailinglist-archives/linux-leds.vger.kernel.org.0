@@ -2,57 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B7065DADB
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 17:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B72165DBFB
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 19:15:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbjADQ6c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 Jan 2023 11:58:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51638 "EHLO
+        id S239591AbjADSP4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 Jan 2023 13:15:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240153AbjADQ57 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 11:57:59 -0500
+        with ESMTP id S239589AbjADSPy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 13:15:54 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B961AD89;
-        Wed,  4 Jan 2023 08:56:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F0C9FE4
+        for <linux-leds@vger.kernel.org>; Wed,  4 Jan 2023 10:15:53 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B6A4B617B8;
-        Wed,  4 Jan 2023 16:56:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33D6C433F0;
-        Wed,  4 Jan 2023 16:56:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5295D617D8
+        for <linux-leds@vger.kernel.org>; Wed,  4 Jan 2023 18:15:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81185C433F0;
+        Wed,  4 Jan 2023 18:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672851388;
-        bh=hNg2KCjGN/+hO1CDPYPD+sYYndFZZJFLvZf6emCiJnY=;
+        s=k20201202; t=1672856152;
+        bh=zTn1tdZuWmuPKIq0K6MghJeHbyGBGWxMJ12FpwqZrC8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GPGdttsGGbW0CiN5eQuLqri5hH0tzZrG+HxP58iRRAML3SlhmmQqn2AYypPwCFjWm
-         J6uFK1ygCgsQ9k8ttWnZCJRAkeLHmxZ6JC3awXsrNV64H0wzVc2FHWIy+fMFJPW0BR
-         UcJE7sooZqVED1E9UoHXvYlVUoiz7PbhGbDlgwmO/aT2ZV+luUWYZOL/9R+EILtrhl
-         rBNYpbOJH4MFwWet5E7qtFlltWx3l8wzNjsMWlJ7GP4qtHdOrF71M5GielqjH1onqz
-         2OfCaNOzTQsLvbWsgSSq5Zv/8nLHPbgAr8kTK+cafznxJ7NCPwHcTc/vX+NPdOOk4l
-         zJl+iy154ZK8A==
-Date:   Wed, 4 Jan 2023 16:56:21 +0000
+        b=hG7qEyYH0sNPwDThC8FKfTs6rn5WXL5NQG/ZyYwY4iIScU68YBOS4Fh1zc3osGVWn
+         l8l3bm0rVw3KhpQ6YXGu4RFUuF10si14dwmXeb873xKJ5YIzcMaIb1fpZN+jZTK3an
+         RuK0ibFMyisj9+sFQ7jGnoqC98PI8VEdmd8bqQVZFFHrorvb/F93xnwfiejQQbSCER
+         stIFv+yA/r6/jDvy7RZQVFKEVS+guwi6U4Zx2By2QipqcYsXTaJFCgTp6Ey3GA0Q7B
+         vn8dVFnYNd0TpZGuZ/1cm9bo/8vr5NAwYqfIxiOTaM4sJgrJRq49sHOC11wIWoFqX0
+         KXyzgLxZ7zQjw==
+Date:   Wed, 4 Jan 2023 18:15:48 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 04/11] leds: qcom-lpg: Propagate errors in
- .get_state() to the caller
-Message-ID: <Y7WvtRoffqWgMohv@google.com>
-References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
- <20221130152148.2769768-5-u.kleine-koenig@pengutronix.de>
- <Y45xKswRnao8P8Mf@duo.ucw.cz>
+To:     Hui Wang <hui.wang@canonical.com>
+Cc:     linux-leds@vger.kernel.org, pavel@ucw.cz
+Subject: Re: [PATCH] leds: pwm: clear the led structure before parsing each
+ child node
+Message-ID: <Y7XCVDpHbvc5P/NY@google.com>
+References: <20221220073335.393489-1-hui.wang@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y45xKswRnao8P8Mf@duo.ucw.cz>
+In-Reply-To: <20221220073335.393489-1-hui.wang@canonical.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -62,18 +53,34 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 05 Dec 2022, Pavel Machek wrote:
+On Tue, 20 Dec 2022, Hui Wang wrote:
 
-> Hi!
+> I defined 2 leds in the device tree, in the 1st led node, the
+> max-brightness is set to 248, while in the 2nd led node, I
+> mis-spelled the max-brightness to max-brighttness, but the driver
+> is still able to get the max-brightness 248 for the 2nd node,  that
+> is because the led structure is not cleared before parsing each child
+> node.
 > 
-> > .get_state() can return an error indication. Make use of it to propagate
-> > failing hardware accesses.
-> > 
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> 	pwmleds {
+> 		compatible = "pwm-leds";
 > 
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+> 		pwm-green {
+> 			...
+> 			max-brightness = <248>;
+> 		};
+> 
+> 		pwm-red {
+> 		        ...
+> 			max-brighttness = <128>;
+> 		};
+> 
+> Signed-off-by: Hui Wang <hui.wang@canonical.com>
+> ---
+>  drivers/leds/leds-pwm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-What's the merge strategy for this?  Can it go in on its own?
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
