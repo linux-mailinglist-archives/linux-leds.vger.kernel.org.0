@@ -2,244 +2,184 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6A065C7FC
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Jan 2023 21:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 127DC65CEBC
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 09:50:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbjACUVL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Jan 2023 15:21:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50804 "EHLO
+        id S233699AbjADIt1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 Jan 2023 03:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231283AbjACUVK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Jan 2023 15:21:10 -0500
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2042.outbound.protection.outlook.com [40.107.6.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9654E12AF2;
-        Tue,  3 Jan 2023 12:21:06 -0800 (PST)
+        with ESMTP id S238967AbjADIsr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 03:48:47 -0500
+Received: from DEU01-BE0-obe.outbound.protection.outlook.com (mail-be0deu01on2124.outbound.protection.outlook.com [40.107.127.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B4261DF19
+        for <linux-leds@vger.kernel.org>; Wed,  4 Jan 2023 00:47:01 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EmANVV1RCsIk4cH3FacYYuZSPuJSI1pGhucHGfwD+LzwvOYbA3Y5HXkjY/FmETPSnPgQxAlzV2KHobGsjagR09TiMrFpCnmCEm5B9aMLdn1D9mHBXn3+J+8zEdgSlrCiAj3ZB50CycLtFCMn+LPsuztfzLRvRhZRy4IOAHFXt2ppL74SVXNKQTj5FXSX/msdsD3QJGZcplH1XMOINjvGVF4tvTvo6/dea9FOemhTyA6mPVfC8lKrdL33EJ6m0ZoeRKjB57lTJKaeqqrt2wEgDM7kWoIatmQ0zu5GlWtXXswe7XyDRl3cJ+uMLGYjrCVMfGByK08mgQfvyUbLPQCOKQ==
+ b=Ty0PsPeJ5AqH38XWCTu7V9ydjvBJ3b+Q1P3+WUFVgDszkiRwPk4fZz30Ld67jgzJ+d26XiANxJ58qFnlm5eTOo9BkiDAn2u5WR0eN0Ci4FXbUQInY1C1yJ9o0gFata73JoF2/eI4r5bKVlQg1Pa2EYvOvsETqpqEflUjIoFUJUIJSWU7qRyugwcPQCxuuMufo+XEKaELl+SCVEHGjJdMCYmVsNBGLhkbW2w4JKUJC7MIP3oiHJlDkhub6DwGDftxJroYpocoH0+9ZCIglZXjbkXrBLXiO7wJKzy+e94bOUcg1cZRlZ49f2yELgrNpMR4MPxHMsezD3vfjTWRQc9I4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X62DcfzzOnYkCGPy/E4uqQgSCwZ8+mR8yeP9suBg7/Q=;
- b=ht6mcheQtyw1RXCHCxld47Y9CEY2yol9nsjFuwZdpp8asWKMHgxvRpejhDlSwAoedF647hVPm4FdZo9WNvxnpi111WMlnMv8s21M5MBPr1cr0Zkg7DD+SpvgmgJKfM6GsJ45aHJkISVPw0lToU5DSwRp0suYE88jkxTvqvCe3f35pSibM2zMJl1tNilMH8uisofFLxjbDNHpP2Q70tN9WdLBZ86BorzYmez/aju/z2HEHGpaiA6GOghK3DGV5roBqVg75edBAYwIqie2zLLqWzTUq0k0TCMQkd64wFa28TZGtNpGTQiJHVfNiwbtVtAssQUdmogbjfoS6FstfzaaCA==
+ bh=q3MYE+7rxTX/U9NloGKSqJc9yoTOgA30YpSjFphBLlw=;
+ b=GPxf8vKb9jm69x2bTQwqdljWYU2AO4y40gqC4fl0BoV0zu1W9yKeIQ5/KGhzEZgxhDrLcfOowpzQbVcxlnqWVUftvN3yzCN036T1xobeXbrBq5BJI10IbfNcSN7ExT1MjmOQ2L3FGcVn5jwncyt8bkFs7MIW5V70xNxEtAst1hOCWKm2sm0XnhMJbbIGf8/GQGHqbfGAr0T+E/z3P22goWhnOArel4TvOKMnuhFKsnsi7TaCUrhdFpvXgQ/YApz5AQnNcT5Qc4TMnZ0HjEkEHBvoKKafB+R5L/D7wGmE0HZF3rjV1zuAcuNg+QJOZkDXKYFfYmnSBl5F8i6YOnNJ+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ smtp.mailfrom=schleissheimer.de; dmarc=pass action=none
+ header.from=schleissheimer.de; dkim=pass header.d=schleissheimer.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schleissheimer.onmicrosoft.com; s=selector1-schleissheimer-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X62DcfzzOnYkCGPy/E4uqQgSCwZ8+mR8yeP9suBg7/Q=;
- b=FqYugoxDCsY6Qh0KEAVsK0JYhqJIz2f5+6oEw//bnh1IcQ3OFF91oCJHixh6Gyw1DtQx7X+Kn9jluplGLNM0KFzBnzFXWgnpxPQaPG4MNcDvqmLkhcazmFHqkYES3bTUNPnHP2WT47V30fYZnK4cs6Uliekpb01DkcTJvbZ9NJXq4/tq5x1Xt8XdT38u+AtunhQezNdVrDUSC2DWJXxaKhPw98OcKBdlrk+hJ+XhZ6MAn2tdQLw+x6EpHiYMd3pgaVcYnV49hvwqSRoIDg0h5gUzTjOqeSAkmxLu7m1/qEUcb7udXP2UcRcXdRYYQ0k/Q59804y0gDOTkjYMispJBg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by AM7PR10MB3350.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:10c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
- 2023 20:21:04 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
- 20:21:04 +0000
-Date:   Tue, 3 Jan 2023 21:20:59 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
-        <Y6WX1Y9GZmvxqlCc@google.com>
-        <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0097.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::10) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+ bh=q3MYE+7rxTX/U9NloGKSqJc9yoTOgA30YpSjFphBLlw=;
+ b=g5/O91Ueh/Njvqr+RZ0K5ldgu1vTABlXFvhhD1nKNMrhTDfrjj6a7XCMr4stBoweGgCIhE1jclolSICLlFJtt+RJE2/pnFPqIFHYwalC3z1JVegIbUVUHLhxHpGgT4Yzmh1gA635s9ExihRWZ9xWQXtAKpQSL3KLfHTjT9IE1OI=
+Received: from FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:6d::6) by
+ FR3P281MB2909.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:5c::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5944.19; Wed, 4 Jan 2023 08:46:58 +0000
+Received: from FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::97c2:eeb3:3a72:31f6]) by FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::97c2:eeb3:3a72:31f6%7]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
+ 08:46:58 +0000
+From:   Sven Schuchmann <schuchmann@schleissheimer.de>
+To:     Sven Schwermer <sven@svenschwermer.de>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+CC:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: AW: [PATCH RESEND v2] led: multicolor: Fix intensity setting while SW
+ blinking
+Thread-Topic: [PATCH RESEND v2] led: multicolor: Fix intensity setting while
+ SW blinking
+Thread-Index: AQHYiio5cUIAH34jdkeAO6gdFehVp66PHYCA
+Date:   Wed, 4 Jan 2023 08:46:58 +0000
+Message-ID: <FR3P281MB155254EF0B8D7644BE287BB0D9F59@FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM>
+References: <20220627133110.271455-1-sven@svenschwermer.de>
+In-Reply-To: <20220627133110.271455-1-sven@svenschwermer.de>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=schleissheimer.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: FR3P281MB1552:EE_|FR3P281MB2909:EE_
+x-ms-office365-filtering-correlation-id: 74586434-4500-400e-e044-08daee303d50
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2bCKc0xVqyyuAFWsWfWBM4pJv43zypCLxUBFo6fSOhuU4agm6+791wR4lG7+xaKLDyckfaeAr7xVrMuJXlzc7g+5yb+3NcBsyDTXKbXj1r/5Fxvv/Ld10nk5lw/1VuoSDIQCAIIYBI3Flv51vThgMbzRNuEBiH7W8FLlJWnksYaUbcbxg+k4HSY0F7J5girHkf7XImzzSZZuxukH/AzR9hYRr7siY+plvZZ0bFNNYfJ2tjsFeCtJJ94iK0ilkp87G7kyAs1ErGJBkgF+dnaoiOr6Bb8TiCGzzC+YpQJPbCs56q7mEvf+OAHBxTf0W4oAmI7LIw/zae2jRrh6ZLf4LKMyewev0HUHGT6yC3S0uY6hZHVM2wkqfilY1UvsqWIbqudqD6vuVsYPmV2de74mLGKoFFyfEnHNBUWmZlz6RxYgdCHXrEB0HzfzaujLeo3ap5iCK/DebsnCrndb+lDCMtcbS6A0P3nlE8WbEu5oUD3UTKnXD/oCgGVMCUaCMk2PKLnzQNblTcRzM2HY1ka74wlRpqDJMiMXSKMafqmmnxgysdMAQNaGsSsCH4h9EV+iavB8+1t4fhUSdNYvq97FQHvIsMfxwNGloXTZ5CTg3OKTSE3BMAY6IAif4Xg9SnImiM/D5WcLI7PgCTB58SC2F7TZ2Gp9SaigIoULNH5+ksv3IfakiRWdl9Y9REUSjUcjyLrHLE0hD0hVQ8WfGFFjzQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39840400004)(136003)(346002)(366004)(376002)(396003)(451199015)(33656002)(38070700005)(8936002)(8676002)(4326008)(66556008)(64756008)(66446008)(52536014)(76116006)(66476007)(66946007)(5660300002)(2906002)(38100700002)(83380400001)(122000001)(86362001)(478600001)(316002)(71200400001)(7696005)(54906003)(110136005)(55016003)(41300700001)(66574015)(9686003)(26005)(186003)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?DYdpKLmFlkYsLCq+UbJfRjY/8PjMt0BX6us6kwaf+mx9x9ts6/3qywrrqf?=
+ =?iso-8859-1?Q?tyzckR8PeosXtZku+81GmR47eYVABcVh4Bx+o59bgtLBI2srIee6oJKUtH?=
+ =?iso-8859-1?Q?oKaZkFM1uIC8HkMuwB/hPsQaNgXxA7uvRcXMokdSVkOMcgsMtzLoS10r61?=
+ =?iso-8859-1?Q?LgYUYvOVxPs7co+SCzDrdEtKOqW+4XrbIQDtk0ztkJOXxeuosLCxQA6QLi?=
+ =?iso-8859-1?Q?2Fs5wa92lQ5iOIyzO6ZbtwoS/bVhUGTHx5hEo73AfcP0I8diGS6o57hrZa?=
+ =?iso-8859-1?Q?mF3c6G0XN0fvvGsWdDx542fU+QJi3fn0iN9oDb710LOWnjjnGzw4yr6g0s?=
+ =?iso-8859-1?Q?mZOKzs3+OlGyyhW7dZKzRSTNviAOJbuTrEAQNxqICHER8HeX6RbAxAwflu?=
+ =?iso-8859-1?Q?Z3BEajxk5R78lltqxgU/nWPPEqNBTPPeLdyGPbpdGIOghTyEXc3ccYRW6v?=
+ =?iso-8859-1?Q?aPbs7xCCuW+9ZhrdjRoJOE4+DvSQm/0zab5gnoZsGMNBCGFIuXcCypv6lI?=
+ =?iso-8859-1?Q?oI9XYT7OmPyIahxF4c0PVFrkx7CSp0+YPf1t8XrmDohP2vVMpe9/uHeqN8?=
+ =?iso-8859-1?Q?Ru1kaQ9XQI+NJjYtjs+E3Hi4sUVkJ/GkTnKIqfwYCAOAumrAc6jDJNnSE4?=
+ =?iso-8859-1?Q?ePLtplYg760fg7gHIkGnvCbOQ7wU9GhXEGTBQGyJCbNj/5jehhI3ets2vZ?=
+ =?iso-8859-1?Q?vQbKLelRcFBPSicwHQx3tRwTYyauHp2QAbYx42hKK8StHLKLEZ9cVxd/nb?=
+ =?iso-8859-1?Q?qVvZsK0DKtsE/5T6jBmrF7L7++BBv+/QERHmkIg66bDskkB1BL5PZHxyJ5?=
+ =?iso-8859-1?Q?xzXIT1elYQrGu1i1L0NfmdNSMR6Wr3dhQrVSyOslGRiIiR/pzCbH4REOQT?=
+ =?iso-8859-1?Q?6EFvrUBOeNKKgoSAA2Iz3cJ1Z2LGZuN5KeVDcZfW4JqFoSACHapAX3wCBv?=
+ =?iso-8859-1?Q?WM+HEM+h1znwjg4sbfIj8P2jy+fSWQ0RrdN2COTDSVy2H36RyYKqdbUfdB?=
+ =?iso-8859-1?Q?m/YlhrTzZr4FxV8mQ5DlxtbY7ZGJ5+eySu/wwDcIBHx29KLLRtJitTmori?=
+ =?iso-8859-1?Q?mk0Iz9GTPz1UA5MoBJE7aKyoGa/l+bYpS2dsiMc671lGcsZlh2hW6X/ESU?=
+ =?iso-8859-1?Q?PYzsBH/O8u848qBffwrktl0CNvbEM29dg1p+Xl6vMCUm0QznW7n2lZ6URI?=
+ =?iso-8859-1?Q?nygu6WivUzRFSRFVhSJl5/B6uuJkvlskR4NwkmP1ij+jx8D+uNgmKVpKKY?=
+ =?iso-8859-1?Q?J+2MtRu9T9R4OMd3EYBfO9MTQ+zBGukuC/W79RowrJPyb52UM16UmTrR7c?=
+ =?iso-8859-1?Q?NxftLDTmulNxTUi47oeOeuAOzlHKLTLbzt7lYKpcH463YS1jNFWH8PNFfs?=
+ =?iso-8859-1?Q?E1ZXqWmB7aGGTalJUwk1cqoWv42mKvK5UYs/dcq35kKz/Bq98XuYgAK5kV?=
+ =?iso-8859-1?Q?FCrIS3mbgNthM0StKkVL/+zE+YplN4PTp0msTyUY+39XppnVQ1V/nkzk9E?=
+ =?iso-8859-1?Q?zXs5kNpjjatUlvdIz92k6O/f/tvywurmAKNBdC4b2hjZnoD2FjLk57KAKE?=
+ =?iso-8859-1?Q?4ddSAMmkquQ7k2o4soior2bEPDINauesrtchnhLmOihlB+xrr6hQiSQxs2?=
+ =?iso-8859-1?Q?wiYooHZWJ94FmFMjTzVobB5CZF5T35+0lFwDrv8dfVdQwwwQmY0a/mlw?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|AM7PR10MB3350:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6037ce9-6782-4d32-24b5-08daedc809da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OtcN/cW7PlFttwILzkshD/clXGqd99KPVMcpvEOzQqLIqT2y8DV/OuBLKAclwm8t7QSdPYUwMk09pHD1PLLx25VDNf7kPkCdy5VTzrpUxbysT4y/uxOoZarX0oPjyne0aRr8VZsHoaufCE3VNa7Uyh2LFliuhk0Ag4YN04KMEiFKmimVplBsTiPg0la9rnoOSXDM7Aa9FSVK16DfZttW9em1B8gc/Ozwpvl4+ygm1CgH+chl0T9T+RofaNjds2PyUjQb99fBh5+KqqD0B67BgjsHA0ffLGa2T5SxI7TDDkVABH5u8clJ0KNOjiyCKQaFJj93qXJFrAluFNLoAUU6lgGI/obbmVpb+RxhQJUHMM1bj/WUkqtDgxyUXLTXU46D532WtK2g6YWWVwqYD3Du2JzfYQMnnnRL/FWRqf68F/EuUj3ij0Wnp9CFHhLmSTk/dz4rkuagukHso1MTGo9ZgK1XvSsi+wenC/P3ohQY2yY1jxApEep/bd/IyIoW7pACkHKqXm+J5geV84lrfI7Uf3bugfoDdySZwnHB+L5EpklsQePqIKy3TeZaq7mG9QXoNbLDq0jCoNvu6H9Xb3388llPajY/pCYpfcm7F0qox6FjTuLbL3vkBINOTjw8pF+ecXhaHVtM6S4iemxcAR8qKfESBn8mW1nlolsEFxn5voqVA0rjs97c9EnsvtxiaxtiwDs1bvVkAuv7pYjvqUM8pA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(451199015)(83380400001)(86362001)(82960400001)(5660300002)(8936002)(38100700002)(2906002)(44832011)(41300700001)(6666004)(478600001)(6506007)(4326008)(8676002)(1076003)(6512007)(316002)(186003)(9686003)(66476007)(6916009)(66556008)(54906003)(6486002)(66946007)(22166006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hYS2sXKP6iv+xMoeHGd/hXzjKVrx4Z2S+JmeMrujPXn9mK8tn9AlqvAWtpAF?=
- =?us-ascii?Q?/5RIK9E483qBGuN/X+T85n7tn6W9uswnC90M0hu7JMFMHOeVCQCbASbYhEpb?=
- =?us-ascii?Q?ubmUBzzyyWJJ8HJ1qLRYeDWJbNUsr4RpxtvT192xzf9M6O/rQA/ahvUbrkzb?=
- =?us-ascii?Q?gNJ27fTF3cu40yqppxVFCPnDLi4jBhOUP6JXWeLL05UHP/WWr437305nwUU9?=
- =?us-ascii?Q?zNVCF5e3xbrTlspRlu1r73/XhogAp6/nOF7dgKAFETCu45pvbyDGQz/KLb6d?=
- =?us-ascii?Q?NOMfzwQgqZBSheX8rnY9ZKLYhhCJ+qcLrjz6ElV/RoMg6zYK5vlXgQ9Eufav?=
- =?us-ascii?Q?lA835aN+utj+1VDVFlThgWue3khaYQNVsSF7ztMi5O5h/edaRVh0469KrANv?=
- =?us-ascii?Q?jdPyfg91Ta7b09DG9gxzqajDGTiQ+RMO/ZUw/ng0fr08LRFPRVVbv1AbCNel?=
- =?us-ascii?Q?daBqd3WWAaVI3Pc+6ITewMtjtLQIyFkBm9tUAUTyd3YdaTRrz8EVQB2yBjyJ?=
- =?us-ascii?Q?NKFIG0Yiwm4myfuhLSDJr6YUnlHj3vzkIIxFunBR7ujCIKbC/sv1T0d1Y54E?=
- =?us-ascii?Q?TbMhjvcZ06dnqnLe0+9FIeFuv72dA3J0+9rBlo+WUcP2PwMkdV/PIWXqIXE8?=
- =?us-ascii?Q?RFxJJ+k7O1sQt973BtTTKZw3/yroLfoB79jrvEfvUitF1+db3Qksi64FZqhX?=
- =?us-ascii?Q?QOgq14MGv5vA6lDkPfKZZ1Pk+MSvMfH3p9yY2aSb0BitpgAKTGubLpBVNQ3o?=
- =?us-ascii?Q?qiPDQoJ8klaqW5uyrbOsFco3qzbM1lvBiYDTzE7NxvKB1TB83tAXMNjCE1OS?=
- =?us-ascii?Q?QlaWmQU/ES1wEZlDp5pHTiVu0NImY9kjlvrN2t7mxzIyQDXDCMIeaUwwBrYE?=
- =?us-ascii?Q?wVzm+t+gDR3r7T3Lzlt4FGNeLLrfCLZYuhiQM3JpnU3jr3QQlAckJfjljaR0?=
- =?us-ascii?Q?570E1RmeRNeTD0d4bTIxBw8p0IVqx+euApu14i1AZa8dnwaF2G0zOenV1l2L?=
- =?us-ascii?Q?7hGgZpPgwGJoykGbC2hApUirzmm0x0rKuh3b3myZURKmrnluNNNDqX6M62Ri?=
- =?us-ascii?Q?C2TSjHR8Mlr3xYjSP5cYmx2N8+CQfMODAHL69xRGUo7a7OgHQ/LWL29DNL91?=
- =?us-ascii?Q?ucnp42Wo3m+Cl3bYRC2cuagOBuLiYP9my+Wyd541YCw9/j6i1B48RqR+4JMZ?=
- =?us-ascii?Q?z3fuA4k5xYMiYF0uOwdpSLJtZwCBTNuNHMp1+PPJVrAp20Au+orLfkFMfJXx?=
- =?us-ascii?Q?gQcfOArJdnseXnQuCUSVsBNZfBAOWh9q3SzcGn9lLkMeS8RkOYTqNovTUXOF?=
- =?us-ascii?Q?rT4kxlFKqsGrwsP/UjAtYN4+hnw95fkjD8G498EHAw7tg6x8VVleyakFLLQn?=
- =?us-ascii?Q?fscGLYghcpCE4PNzUxE8Kd8eybgolYthjn5KiIBXIcMvbkIAu/tr04klokp/?=
- =?us-ascii?Q?sfTDSG0n/63mwEyP/FywOhvfS6lXjx29LjyxWkjV2P/vS0Y6GO+XcJoH+wQV?=
- =?us-ascii?Q?1+D5FOQp8IMF+BL/WvARq7RH8PXJNVjtGhrgeIAwfC7D0vLhokVJegYKoshH?=
- =?us-ascii?Q?8EnCVneh72V/e711FHMPXMLA1yBjjiHWkEhgo25rQBQhn6YWHjLGK7aeVz0Y?=
- =?us-ascii?Q?m3AgYfIFv99XWkrXL2LzgCnXVnW1dAhv3DqZG68g6anIW8HuRZUoMrPsxCR9?=
- =?us-ascii?Q?QN8ZPw=3D=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6037ce9-6782-4d32-24b5-08daedc809da
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+X-OriginatorOrg: schleissheimer.de
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 20:21:04.2442
+X-MS-Exchange-CrossTenant-AuthSource: FR3P281MB1552.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74586434-4500-400e-e044-08daee303d50
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2023 08:46:58.0429
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SUUGAV5PSYVFVmN0XGn7DkrnepWMeMxgSnwiS5KVDQBTY6vGs1K707X3HaKnRwnk/eFN+Sgrszisx5qgK/aOkJH0b0cxXHXxli07hKv9wDc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3350
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ba05321a-a007-44df-8805-c7e62d5887b5
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: w1SigITamj1JpgM8NWikjUZ+hYuNerFLEgk/i6KtJIrPmfbm2R1yN2sEbpYsDmXc551Xu6TtS4ZE/xo85LEpJRQAubt5/tp3BVwflz7Qe0k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR3P281MB2909
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Mon, 2 Jan 2023 16:22:27 +0100
-schrieb Henning Schild <henning.schild@siemens.com>:
+Hi,
+can someone have a look at this patch.
+I think it did not get accepted.
+Any complains about this?
 
-> Am Fri, 23 Dec 2022 11:58:13 +0000
-> schrieb Lee Jones <lee@kernel.org>:
-> 
-> > On Fri, 07 Oct 2022, Henning Schild wrote:
-> >   
-> > > If we register a "leds-gpio" platform device for GPIO pins that do
-> > > not exist we get a -EPROBE_DEFER and the probe will be tried again
-> > > later. If there is no driver to provide that pin we will poll
-> > > forever and also create a lot of log messages.
-> > > 
-> > > So check if that GPIO driver is configured, if so it will come up
-> > > eventually. If not, we exit our probe function early and do not
-> > > even bother registering the "leds-gpio". This method was chosen
-> > > over "Kconfig depends" since this way we can add support for more
-> > > devices and GPIO backends more easily without "depends":ing on all
-> > > GPIO backends.
-> > > 
-> > > Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO
-> > > version of Siemens driver") Reviewed-by: Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
-> > > <henning.schild@siemens.com> ---    
-> > 
-> > What happened in versions 1 through 3?  Please provide a
-> > change-log.  
-> 
-> Not too much really, but i will write a changelog and cover letter
-> when sending again. Mostly commit message stuff and later a rebase.
+Regards,
 
-Lee please let me know if you insist on that changelog, in which case i
-would send that same patch again with a cover-letter that will carry a
-not too spectacular changelog.
+   Sven
 
-Or get back on the rest of what i wrote earlier, maybe we need another
-version of the patch and not just the same one again with only a
-changelog added.
-
-Henning
-
-> > >  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> > > b/drivers/leds/simple/simatic-ipc-leds-gpio.c index
-> > > b9eeb8702df0..fb8d427837db 100644 ---
-> > > a/drivers/leds/simple/simatic-ipc-leds-gpio.c +++
-> > > b/drivers/leds/simple/simatic-ipc-leds-gpio.c @@ -77,6 +77,8 @@
-> > > static int simatic_ipc_leds_gpio_probe(struct platform_device
-> > > *pdev) switch (plat->devmode) {
-> > >  	case SIMATIC_IPC_DEVICE_127E:
-> > > +		if (!IS_ENABLED(CONFIG_PINCTRL_BROXTON))
-> > > +			return -ENODEV;    
-> > 
-> > I see that there is an unfortunate precedent for this in the lines
-> > below.  However, I also see that the commit which added it was not
-> > reviewed by Pavel.  
-> 
-> Right i think that might have been you in the end.
-> 
-> > This is an interesting problem, due to the different devices we're
-> > attempting to support in this single driver using different
-> > GPIO/PINCTRL drivers, which is unusual.  We usually resolve these
-> > kinds of issues as a Kconfig 'depends' line which covers the whole
-> > driver.  
-> 
-> This was tried but the result was not too nice. It is really the same
-> gpio led driver implemented on top of multiple possible gpio chip
-> drivers. Making it depend on both pulls in too much in case one wants
-> a minimal config, writing a new driver for each backend would
-> duplicate too much code.
-> 
-> But maybe a splitting out a -common or moving stuff into headers could
-> help with the duplication if we want to go the "one driver for one
-> device" road. I would not want that and what we currently see was
-> discussed and approved as part of another series, when i introduced
-> x27G.
->  
-> > Would 'depends GPIO_F7188X || PINCTRL_BROXTON' be a suitable
-> > replacement, I wonder?  If it's possible for SIMATIC_IPC_DEVICE_127E
-> > to be probing when only GPIO_F7188X is enabled?  If so, this would
-> > result in the same scenario.  
-> 
-> No that would not work. Depending on which board we are on we depend
-> on another pin provider. "&&" would be but it would be kind of
-> overkill and not allow for a minimal kernel config in case someone
-> wanted a special minimal kernel for either one.
-> 
-> > It also seems wrong for -EPROBE_DEFER to loop indefinitely.  Surely
-> > in some valid circumstances dependencies are never satisfied?  
-> 
-> Well that is what i would guess as well. But that infinite loop
-> waiting for a pin to appear endlessly is a part of "leds-gpio". If
-> "leds-gpio" had some magic to eventually bail out (maybe say we give
-> it X runs with some sleep back-off) i would not have to do anything
-> here. I consider that patch a workaround for a shortcoming in
-> "leds-gpio", which busy loops and fills up your disk quickly with logs
-> if you mention a pin that never comes. Which i imagine can quickly
-> happen if you have a typo on your device tree or a kernel config not
-> enabling a pin provider driver.
-> 
-> I am not sure there are no other valid reasons. And i think that indef
-> loop needs fixing at some point. Hopefully by a LEDs maintainer or
-> maybe i will even help out.
-> 
-> Until that day i would like to have the proposed patch merged to not
-> have users run into a known issue. The pattern is established and has
-> been discussed before and the patch it rather trivial.
-> 
-> Later we can see about improving and ask fundamental questions again.
-> 
-> Henning
-> 
-> > >  		simatic_ipc_led_gpio_table =
-> > > &simatic_ipc_led_gpio_table_127e; break;
-> > >  	case SIMATIC_IPC_DEVICE_227G:
-> > > -- 
-> > > 2.35.1
-> > >     
-> >   
-> 
+> -----Urspr=FCngliche Nachricht-----
+> Von: Sven Schwermer <sven@svenschwermer.de>
+> Gesendet: Montag, 27. Juni 2022 15:31
+> An: linux-leds@vger.kernel.org
+> Cc: Sven Schwermer <sven.schwermer@disruptive-technologies.com>;
+> jacek.anaszewski@gmail.com; Sven Schuchmann <schuchmann@schleissheimer.de=
+>; pavel@ucw.cz
+> Betreff: [PATCH RESEND v2] led: multicolor: Fix intensity setting while S=
+W blinking
+>=20
+> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+>=20
+> When writing to the multi_intensity file, don't unconditionally call
+> led_set_brightness. By only doing this if blinking is inactive we
+> prevent blinking from stopping if the blinking is in its off phase while
+> the file is written.
+>=20
+> Instead, if blinking is active, the changed intensity values are applied
+> upon the next blink. This is consistent with changing the brightness on
+> monochrome LEDs with active blinking.
+>=20
+> Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Tested-by: Sven Schuchmann <schuchmann@schleissheimer.de>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com=
+>
+> ---
+>=20
+> Notes:
+>     V1->V2: Change title, add tags
+>=20
+>  drivers/leds/led-class-multicolor.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class=
+-multicolor.c
+> index e317408583df..5b1479b5d32c 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -59,7 +59,8 @@ static ssize_t multi_intensity_store(struct device *dev=
+,
+>  	for (i =3D 0; i < mcled_cdev->num_colors; i++)
+>  		mcled_cdev->subled_info[i].intensity =3D intensity_value[i];
+>=20
+> -	led_set_brightness(led_cdev, led_cdev->brightness);
+> +	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+> +		led_set_brightness(led_cdev, led_cdev->brightness);
+>  	ret =3D size;
+>  err_out:
+>  	mutex_unlock(&led_cdev->led_access);
+>=20
+> base-commit: 210e04ff768142b96452030c4c2627512b30ad95
+> --
+> 2.36.1
 
