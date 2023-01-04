@@ -2,70 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6987B65D357
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 13:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31BCA65D58B
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 15:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239119AbjADMyz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 Jan 2023 07:54:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35762 "EHLO
+        id S233916AbjADOYj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 Jan 2023 09:24:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236020AbjADMyp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 07:54:45 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F6B1D0FE
-        for <linux-leds@vger.kernel.org>; Wed,  4 Jan 2023 04:54:43 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id x11so27047289qtv.13
-        for <linux-leds@vger.kernel.org>; Wed, 04 Jan 2023 04:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
-        b=BQfo1+41q2NZR57Q7BFlMODaOza2AgrRvUpAp3daCd4t1w84OEhFtXAM1g7CkVTr/y
-         mvXWkJvXCDM96Iy3cSf9E37Th3uZX5TzmwlIsHFzK3DAyLuSjJ8d3uR9drr/ahkzPGkt
-         iW+sw+gZOJCd7bumtfoM4UR2xOfXz6tdmGq2f+IJJhoSBazdofAm5Gs9PxuweXnk264c
-         knSGf1CtrqZScdeov1GoaGbl2sApMUXYjJGPCObPVA0UTlHx2t6+wdp4VOKHmsqLWM8X
-         lQt15zqigA6uJCG+q37n0r4mLK1MKtsniT1i9jhRA9qlN9E2Mf0sYN4W9Jd0n+39BoCK
-         yzWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
-        b=uM+dBehvRAHpOWZZGRP+frvinwJbz7Vyc/ieEiFLczRP5ZpcOPmR8eSEy/POTY+dRF
-         jxgQUJygqEOpMBDVpFOr4jlp4iHswjQBrEPb8LOUauSRSk0qq7RgVI51i3AjD8+9gMxU
-         kCk9y02R00yeJ1Yw8idz+e6TLwmuSaAH+Krkuokp/dP7IVu6mPmh8yR8SLqpV6OCX2Xv
-         8d6mnPVS7jBz8qCIgQHomcAH0aUj710jH+HJWIaMVZ4f5vXSKXn/U7jFoCAzQjpln5Q1
-         +3r0Xa5YLR+jrG0Z2ZD1vDu+mHOFX2DNzlLY0Sybdyn++qQHIW/xkgix4/oeCLgpZA/i
-         4pzw==
-X-Gm-Message-State: AFqh2kr0VbKQ9iSdD9QoPuOyTqm2RPekX+jPXmH64Turz1RPVTevzQX2
-        R/8Lc43A9qGBIF7xuj/EJJ0ZEzEmiAUhiPdB7+o=
-X-Google-Smtp-Source: AMrXdXuKXTvNK0aSB9vnyjtdhrZfKmRzvU9Jw1W0zhcD7x19AMFVNgTh5oL+8ilZBOfTDf/bL64QVz1mYULxa/ftADs=
-X-Received: by 2002:ac8:568a:0:b0:3a9:688d:fad2 with SMTP id
- h10-20020ac8568a000000b003a9688dfad2mr1976067qta.646.1672836882017; Wed, 04
- Jan 2023 04:54:42 -0800 (PST)
+        with ESMTP id S234370AbjADOYi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 09:24:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5922938AE7;
+        Wed,  4 Jan 2023 06:24:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA31B6174F;
+        Wed,  4 Jan 2023 14:24:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94FD8C433EF;
+        Wed,  4 Jan 2023 14:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672842275;
+        bh=Tvw/x+3j2FJAWZR3JbN82C07+AuFNwia8+xecuq+n7o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EKnYONBubZJiYy6kZ8vRWQ/SbAeQv9KoLLlPxd9bWLvQIoTy1BlvGVcZlAy3fwaq8
+         z5bzWeviSu+dbwbSPiCg8TWN1h0dUcAlNJpnl9nNdqiPO1P5fau758TiuvtSspQ98D
+         +vJit1TLPZwQjmk7e5vdRuAVu6loCrA1Nt8mRzJzB6JeDn/eQSVu4ZP5/mXiii59Jx
+         Tnrkor/SEYD3++iM14vWT5Tm4d0ZoUHa3B6Ke/0SXLkkd8cakxD5yFF7ZnDs4FOsD9
+         lWCCyBPzRvzfU19lmLdqe6Hp77AJmMEaF40AShtrNdVnsYQwMc7zXYnsBy3P6Pdj/B
+         usLzYJDtDbNRQ==
+Date:   Wed, 4 Jan 2023 14:24:30 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+Message-ID: <Y7WMHl1Mv1alXadG@google.com>
+References: <20221007153323.1326-1-henning.schild@siemens.com>
+ <Y6WX1Y9GZmvxqlCc@google.com>
+ <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
+ <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
-Received: by 2002:a05:6200:5d91:b0:4a5:78e9:2012 with HTTP; Wed, 4 Jan 2023
- 04:54:41 -0800 (PST)
-Reply-To: Gregdenzell9@gmail.com
-From:   Greg Denzell <mzsophie@gmail.com>
-Date:   Wed, 4 Jan 2023 12:54:41 +0000
-Message-ID: <CAEoj5=ZpJ15GRz-U33Ocbu5-P3Va+3bNv3476+mmJJ52cwx7tA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Seasons Greetings!
+On Tue, 03 Jan 2023, Henning Schild wrote:
 
-This will remind you again that I have not yet received your reply to
-my last message to you.
+> Am Mon, 2 Jan 2023 16:22:27 +0100
+> schrieb Henning Schild <henning.schild@siemens.com>:
+> 
+> > Am Fri, 23 Dec 2022 11:58:13 +0000
+> > schrieb Lee Jones <lee@kernel.org>:
+> > 
+> > > On Fri, 07 Oct 2022, Henning Schild wrote:
+> > >   
+> > > > If we register a "leds-gpio" platform device for GPIO pins that do
+> > > > not exist we get a -EPROBE_DEFER and the probe will be tried again
+> > > > later. If there is no driver to provide that pin we will poll
+> > > > forever and also create a lot of log messages.
+> > > > 
+> > > > So check if that GPIO driver is configured, if so it will come up
+> > > > eventually. If not, we exit our probe function early and do not
+> > > > even bother registering the "leds-gpio". This method was chosen
+> > > > over "Kconfig depends" since this way we can add support for more
+> > > > devices and GPIO backends more easily without "depends":ing on all
+> > > > GPIO backends.
+> > > > 
+> > > > Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO
+> > > > version of Siemens driver") Reviewed-by: Andy Shevchenko
+> > > > <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
+> > > > <henning.schild@siemens.com> ---    
+> > > 
+> > > What happened in versions 1 through 3?  Please provide a
+> > > change-log.  
+> > 
+> > Not too much really, but i will write a changelog and cover letter
+> > when sending again. Mostly commit message stuff and later a rebase.
+> 
+> Lee please let me know if you insist on that changelog, in which case i
+> would send that same patch again with a cover-letter that will carry a
+> not too spectacular changelog.
+> 
+> Or get back on the rest of what i wrote earlier, maybe we need another
+> version of the patch and not just the same one again with only a
+> changelog added.
+
+The change-log is not the issue, and you don't need to provide a
+cover-letter for a single-patch set.
+
+The issue is that this 'solution' is a hack, built on a hack, built on a
+hack.  There shouldn't be a requirement to check Kconfig options from
+this driver.  In an ideal world the thread handling the -EPROBE_DEFER
+would not create spurious logs to trouble anyone.  What is it that's
+writing those logs?  A User or Kernel Space thread?  Dependencies are
+almost universally controlled with Kconfig 'depends', which is how this
+problem should really be solved.
+
+Taking into consideration the large backlog (nearly 100) of reviews I
+need to do and the fact that there is already a precedent for this
+behaviour inside this file, I'm tempted to apply it; however, I shall not
+be doing so without giving myself (and others) a little more time to
+think it over.
+
+--
+Lee Jones [李琼斯]
+ 
