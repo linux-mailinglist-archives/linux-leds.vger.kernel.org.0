@@ -2,171 +2,644 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98FB365E9CB
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 12:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AFAF65ED94
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 14:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232982AbjAELYN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Jan 2023 06:24:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56342 "EHLO
+        id S232069AbjAENrA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Jan 2023 08:47:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232933AbjAELYF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 06:24:05 -0500
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2080.outbound.protection.outlook.com [40.107.8.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0425004E;
-        Thu,  5 Jan 2023 03:24:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XogO9wKKKBxYXjGkKgTpiFt6Ujg74z3vVnHB0cMWekQRjhdtTHSnAzcIVsEZK/96aGIIIWvieWYK5MlRi8nd682Q+JOsmnoMhP5w0n6Ko3z1kd9ODlj/kyt82AMjyvwXylySC9S9cNsnAMkUdCnoQJ4tyuWPltQEH1fOecweVkIxKIRuSLxV57pyK8QtYYdPfpkqXsdev36Ifv6I+K53NJD0hqxLDNcvWTinMO5pPPinLx5m/DzMPh9IsI2izO2Zr2J5YEDbGdvtdso5JvrHKYxXD4kb65wbqfLjlHahZ7EssyvyEZW+mHrK3Fmt0h4Jy0riU1ImYoI6cHfZZDn9HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qa6mNwcE+A88Jgxebdvh8tXnWWDkUUCMrP6XGLkeMsw=;
- b=KuT6GW2rv+Ui7JUSBFmv/rRD8P479CjND3eJce6o6gB1qf2m0cPCR7UqlPGWage3B39hP9+sfuC3/VHVtb38bdaFnUdin29iI0zd/A8G0MEHXWvXgnN5zRLpYTYQH8slv3nKeSE1Y11iK9NwYpfxfOwQoP4pqxiKamrvz4nVkX3+/ijc4pi5KXl1KWazVs0DULk4xnG0Equ0Oe0lhLYjPmtfN2cmhiQJVzGsDcCrK/UVPUK7rxadxp+kWKpcXWXZQPAEZgPB6uUQgrwxUlhJ7YTqUhggoHLkGu5B4NYLAyHCNznk5QoaGX9m3r7qFz65o08db+f2zTQgfL+P28y1RQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qa6mNwcE+A88Jgxebdvh8tXnWWDkUUCMrP6XGLkeMsw=;
- b=FAktcRZWSOqX1NU1zFrfb4K854ckZNLqgKah2VpP4EPG0ju+L4ti6+qy56IT0KoIrOzknM0DQtHVQoK8tD7oLUcYt9Uw8gr3m6o9OTlmbkDf+emk/y4fJ/RPBUlmtXPtl9CINFwFZ/qmA4Z7PlXt3dF5pqLN9gskG40LitOb4HUa6SHmmK9fiJjTlDrzyHzTowlhN7AIsg0pcduT5IXNL/B5Gov8gmRPWWoL9kZU6g8npk5U+JHspzahZ1zOzWZQzePa3qmmrkmANuulDL9PZAnyNWDNzNwvuVL3UQUa9Uj33Ogy8uLp8summH7VeYrQBJPsurMXm3B+ShhtyAsZ9Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by GV2PR10MB6041.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:ac::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 11:24:02 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5944.019; Thu, 5 Jan 2023
- 11:24:02 +0000
-Date:   Thu, 5 Jan 2023 12:23:57 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <20230105122357.6711ad0c@md1za8fc.ad001.siemens.net>
-In-Reply-To: <Y7aZ9Mmm16HVUnnu@smile.fi.intel.com>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
-        <Y6WX1Y9GZmvxqlCc@google.com>
-        <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
-        <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
-        <Y7WMHl1Mv1alXadG@google.com>
-        <20230104153924.0b92c52c@md1za8fc.ad001.siemens.net>
-        <Y7WghcaWPpCHh6Wz@smile.fi.intel.com>
-        <20230104203005.5654f3bc@md1za8fc.ad001.siemens.net>
-        <Y7aZ9Mmm16HVUnnu@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0147.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:96::11) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+        with ESMTP id S230262AbjAENqo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 08:46:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B981634B;
+        Thu,  5 Jan 2023 05:46:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CC3F761A81;
+        Thu,  5 Jan 2023 13:46:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175EEC433D2;
+        Thu,  5 Jan 2023 13:46:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672926401;
+        bh=squmBzTLtHWzwHVQXV3AElHZ4wg5RtyVffVyRXPWh1M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SUQBxNvxEPImnfSwm1VX2Pe3l/H9fZI78U+eH7qysPeL5JV8V3Q7wdrP/3et/JxLf
+         iET2P0YXzY702OvCvUQeKWXvYbpBL2kzjpX9EGYrWN+KR0P3CB3Gc9Ksxsst67w52e
+         tTuqE2qV7bJiKabd/ZwFdSBTSW1rnsbyvHTIBPagoXcen1Qb++SK0Ys4G+L9XF9L7k
+         W0g120ve4Tb6Kt7S6tLkPWrdhbdORX5NaQ8Xp0IX/yT3lpxlEOaRXt6rOHOhldyiYp
+         SWHGUTe/dMjRelMa1kr+StiOneqz/8zBg/kWPVUBjdH+Hs4j7EayB03DnpP36NcqPx
+         0SrbN7uZ75ECQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Robert Jarzmik <robert.jarzmik@free.fr>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, stern@rowland.harvard.edu,
+        alexandre.belloni@bootlin.com, brgl@bgdev.pl,
+        damien.lemoal@opensource.wdc.com, dmitry.torokhov@gmail.com,
+        linux@dominikbrodowski.net, balbi@kernel.org,
+        gregkh@linuxfoundation.org, deller@gmx.de, perex@perex.cz,
+        jingoohan1@gmail.com, lee@kernel.org, kernel@wantstofly.org,
+        lgirdwood@gmail.com, linus.walleij@linaro.org,
+        marek.vasut@gmail.com, broonie@kernel.org,
+        mkpetch@internode.on.net, miquel.raynal@bootlin.com,
+        lost.distance@yahoo.com, philipp.zabel@gmail.com,
+        linux@armlinux.org.uk, sre@kernel.org, slapin@ossfans.org,
+        s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com, tiwai@suse.com,
+        ulf.hansson@linaro.org, vigneshr@ti.com, viresh.kumar@linaro.org,
+        wsa+renesas@sang-engineering.com, linux-pm@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-input@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-leds@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH v2 00/27] ARM: pxa: remove all unused boards&drivers
+Date:   Thu,  5 Jan 2023 14:45:55 +0100
+Message-Id: <20230105134622.254560-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|GV2PR10MB6041:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25ee246a-4158-4a46-a9a4-08daef0f58bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nh5gwAHIGFduIKAUuwUdhdSCGkIbe3gG5hsDSEXA6keFzx2raz+AuS5L6UTyd+fp/BWsnoLfCmPL8z8s0KTTs7UA03GXmKN8ZKjnD3ngxQFTymJnBwrJfMTgC7Qo9I3BsO12EGjxtWm3oKRUTelyxU8hVVqj+DuSB6ZS4VuNZNZXhHIzJZlFvAxE7H06Gaknq6jxr1NqDAcE/0QZ0wZooqLoaoaP+yoIbIuV/aV2/kHD3HvxeZZu7PQPdM0IasYz+QBNX/JsjUnoaiJ/MF585n4QoXx1bfV+XVYYPbboW8iongisgLZsF9bdyH+ACfoKRJJlhdqurIsmxAQqX/RGS0Kajjj6BIsbM5u6hq8zv4neUqV35+wd4FIzPLlyHkiOWWhNHsM9cb01VqjzAZkjetHGOIVwgMbiE0vzQE11v/na0fpFOOXbJe3efBDQveYa9dB+jyjR0RXjCzKFmvy+TxQtmN8QROk9J4S4l6vNYDNW+o6i5cPECl/Fe/7qSABXRON5g8u+8okQH+BuBlTGQErtANROeiqz/tXP4rw8fzk7KpPgdTDGK+C8dPkAlx9+xnjHDUidCluzDNLaolc7CQnwoOeiCAzkP/uuN0IU26NNRNtewhvwsUYHfPxzgU9xEnps2v/TpToLaH9vf9wWpDNR8QUtarq5tamXwm30wGc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(346002)(396003)(136003)(376002)(451199015)(1076003)(6512007)(186003)(9686003)(82960400001)(38100700002)(83380400001)(86362001)(44832011)(316002)(41300700001)(8936002)(5660300002)(8676002)(6916009)(66946007)(66556008)(4326008)(66476007)(6666004)(6506007)(966005)(478600001)(54906003)(2906002)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RtGiyx4q/AtzpM/62pjUVPLjTL57sbtbDSnyJJPZVVQgC8xU5q6/5v8IWey6?=
- =?us-ascii?Q?d3tKS8EIDXTIoJPzJ1I7C6cnfLlfELi++v7ocLCSPjkmyNSBrJ5bkKLweWtW?=
- =?us-ascii?Q?E/2LvOL3noJCDKATIOXdPvJ6/yvkRkps28tkl+wJNBUhX+ocdyIdZuyTS87q?=
- =?us-ascii?Q?VfsXGYqi1gtXJCvXNbqJaIVE6YkuIbl/a6zmCCpgweRe9qkpWHWY2UMnC9M0?=
- =?us-ascii?Q?N2VGePC8LQFmC3yGYGzSxbfez3uWwdXapK6uM3SD8ErzHeaRwWidiBs8Q8cR?=
- =?us-ascii?Q?kGj30lmZvv8bkMa/EYSWw7Q9a1C8TzXE78UkXohwhsUsxHVI7pt7BBfNNClu?=
- =?us-ascii?Q?VaGRn3cUUqFVACfUUZtssu1oDBesIrGb5V2zMLBPECeCHDvJya7uvelDNMfg?=
- =?us-ascii?Q?8DccfmNjpIWB+0BbbgVKrP8sA6OYhffPg3wsczSUKRnqq65XMfuVqz2+dKIm?=
- =?us-ascii?Q?tfOCWxzcX1JvZQ/Ne4z/6sgOU4cqEbxD/3ukfhdfnGIXYXIxgkiTDks2qWSX?=
- =?us-ascii?Q?RMr6/LZRmfwrKdSy8k4ReYyaRZ+UzQZJsgRaXGYoIi7H2PpGoXwM6oawAgJb?=
- =?us-ascii?Q?4JJmEN4DbmcDsoL7DxXBfBkSkSBwvnfHmX+bFqEcs8oFr6XLzUi+naR6Ffu8?=
- =?us-ascii?Q?HiSoZWLXAIi3HpdbjWjW/ndB+82V5fkmI1SvBMMEfha1oj4X+dD1W8Jw1DG4?=
- =?us-ascii?Q?mSAeD4Z43A9d/iWwVzADB0DDAk8GVUXM9nFNPz+G0gz/6JZiRgWNuVpYlFdy?=
- =?us-ascii?Q?Jgl1Tpqhp+bLYQsNdX9GQi9wt+ERRuk08WpDcFvFkqwdX3U0UxP2vgx/TcK6?=
- =?us-ascii?Q?c1VFwQ0wwkAy7bGaytoDn4wktZ/5YTv2hEFhVpeSZksQWAcR8nGbmE4C36dF?=
- =?us-ascii?Q?mCQYQKKHAl47W9UIKG2WzvJV2dVBSKHTEqkyYh1x0ljihUZD5MUkHJJAzI9L?=
- =?us-ascii?Q?86QwB0Mszlu5N7pese4i+HHZ77RCZsQ73EzoVqGtyf2Twd8ahGvYy6n5XYXC?=
- =?us-ascii?Q?twylFQVkfwqfNpa89W7pC7QjnrMIyU7jslHjEcDEwG4WFrmvTAtzlLENbAC2?=
- =?us-ascii?Q?S7e3sU3up0e5TlxbvWr8GMZ1N/95sixK4HZr+D9jhVwhh0xDkimig2CtFWr9?=
- =?us-ascii?Q?UmWW8Iy2Yiay3nAr6M+0NPe6zxwgsQcIJe8cVzzn7t+2S6K55ZZin1xr46Si?=
- =?us-ascii?Q?GhedWVE5oEH6gJl8DQvlYnwMhm+56i2FKqeodo9CN68Gw/65lVjCCixdZwvP?=
- =?us-ascii?Q?G5pejkLpTKyvStFZA9uoQW52bXfEcjgT6RVItgnESOknclypyENt3QJKMBXk?=
- =?us-ascii?Q?B1CaER+UZmvBqvl90Z/NK/k7Iop92rDdAWCmpZlg8dyLNeS8sDoB3KjQkWvD?=
- =?us-ascii?Q?yQZXpYYSz07w2QVUtRoUvfrWJNeIlOcIiJqWmWEDtQm436PLSqTXCgJ3pNYa?=
- =?us-ascii?Q?ugEorzmZmm/hBb/IpQxTgaF0Vn56kQJzbAC8K1MtmKyZPtZVgmXdWeZh0QFO?=
- =?us-ascii?Q?ClFdG14SIRz6eRNAyc+6hZRkCpW10kYJwoNbRvWJxsgL4UFmWNBVLwMwg++p?=
- =?us-ascii?Q?svBJFYc7i7dIQaJ5qJaxvaSuzYlsOIYTf2Mt94NooFFcKib1vbHKNSmepoxE?=
- =?us-ascii?Q?AtYKr3QbHw0KeetdG0N+sEYg2jbFjmUn2qeABqyvdS3jDI4AAaiw9DI7Eg6Y?=
- =?us-ascii?Q?ECCSbw=3D=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25ee246a-4158-4a46-a9a4-08daef0f58bb
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 11:24:02.0775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OnRLx67uUwpJUjsV83+ZTy6CByzEFH3GInhucObmE9Ubd1XoK12SgMQ/RwEmI1MX2+1oLOhgMKVGhokWg5uItmkfXojryczGKEXl+MP5Yss=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB6041
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Thu, 5 Jan 2023 11:35:48 +0200
-schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> On Wed, Jan 04, 2023 at 08:30:05PM +0100, Henning Schild wrote:
-> > Am Wed, 4 Jan 2023 17:51:33 +0200
-> > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:  
-> > > On Wed, Jan 04, 2023 at 03:39:24PM +0100, Henning Schild wrote:  
-> > > > Am Wed, 4 Jan 2023 14:24:30 +0000
-> > > > schrieb Lee Jones <lee@kernel.org>:    
-> 
-> ...
-> 
-> > > > As we speak i already have the third box to eventually support,
-> > > > which will likely be similar but this time around with
-> > > > PINCTRL_ELKHARTLAKE    
-> > > 
-> > > A bit of offtopic here.
-> > > 
-> > > Are you able to get / fix / ... the firmware to work with the
-> > > upstreamed version of pin control driver for Intel Elkhart Lake?
-> > > 
-> > > (I'm asking this in terms of the
-> > > https://bugzilla.kernel.org/show_bug.cgi?id=213365)
-> > >   
-> > 
-> > I can not tell. At the moment i am in a Siemens internal review
-> > where i see code that is not even close to being ready for
-> > upstream. Somewhat open-coded again from what it looks like.
-> > 
-> > And i do not have the machine the code is for.
-> > 
-> > Let me say "it is complicated" but some point in time a device with
-> > LEDs attached to PINCTRL_ELKHARTLAKE will be proposed. Likely by me,
-> > when i hopefully have such a device on my desk.  
-> 
-> Thanks for the information.
-> 
-> Consider above just as a point to be aware of when you come to
-> the productization, so we won't need another pin control driver for
-> the same chip.
+Most of the legacy PXA board files were marked as unused in linux-5.19 and
+can get removed in linux-6.3. There is support for pxa250/pxa270/pxa300
+using devicetree already, which supports a number of boards, but progress
+on converting the remaining ones has stalled over the past few years.
 
-IIRC we talked about this before in some other thread and the solution
-was taking a newer BIOS base version. And since i never heard about
-this again i hope people did the right thing.
+The two boards that are left in the tree for now are the three 'sharpsl'
+variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
+Both of these are supported by qemu, which can be helpful for completing
+the DT conversion.
 
-Henning
+Only PXA25x and PXA27x are left with full boardfile support, so PXA300
+can get a lot simpler while still working with DT, and PXA310/320/93x
+can be removed entirely.
+
+A good number of drivers become impossible to select after this, so
+each of these also get dropped. I'm including the driver patches in the
+series here and can either merge them through the soc tree, or they can
+get picked up by the individual subsystem maintainers. Since both the
+platform and the drivers get removed, the order should not matter.
+
+Note that the patches here are generated with 'git format-patch -D' and
+don't contain the contents of removed files because of the significant
+size (the first patch is close to a megabyte).
+
+---
+I first attempted to send this series in October, but only the
+cover letter made it out at the time, not the patches.  Since Robert
+discovered a problem with the AC97_BUS_NEW support getting removed, and
+I ran into other build issues before resending, it did not make it for
+6.2 at all. I'm trying to queue up all the board removal patches now,
+so am posting these properly now.
+
+Arnd Bergmann (27):
+  ARM: pxa: remove unused board files
+  ARM: pxa: remove irda leftover
+  ARM: pxa: remove unused pxa3xx-ulpi
+  ARM: pxa: drop pxa310/pxa320/pxa93x support
+  ARM: pxa: prune unused device support
+  power: remove z2_battery driver
+  power: remove tosa_battery driver
+  ata: remove palmld pata driver
+  backlight: remove pxa tosa support
+  input: remove pxa930_trkball driver
+  input: remove pxa930_rotary keyboard driver
+  input: remove zylonite touchscreen driver
+  pcmcia: remove unused pxa/sa1100 drivers
+  ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
+  ASoC: pxa: remove unused board support
+  power: remove pda_power supply driver
+  rtc: remove v3020 driver
+  mfd: remove toshiba tmio drivers
+  mfd: remove ucb1400 support
+  mtd: remove tmio_nand driver
+  mmc: remove tmio_mmc driver
+  fbdev: remove tmiofb driver
+  fbdev: remove w100fb driver
+  leds: remove asic3 driver
+  usb: remove ohci-tmio driver
+  w1: remove ds1wm driver
+  mfd: remove htc-pasic3 driver
+
+ Documentation/power/power_supply_class.rst    |    4 +-
+ MAINTAINERS                                   |   99 -
+ arch/arm/configs/cm_x300_defconfig            |  163 --
+ arch/arm/configs/colibri_pxa270_defconfig     |  157 --
+ arch/arm/configs/colibri_pxa300_defconfig     |   60 -
+ arch/arm/configs/corgi_defconfig              |  247 ---
+ arch/arm/configs/eseries_pxa_defconfig        |   97 -
+ arch/arm/configs/ezx_defconfig                |  389 ----
+ arch/arm/configs/h5000_defconfig              |   74 -
+ arch/arm/configs/lpd270_defconfig             |   58 -
+ arch/arm/configs/lubbock_defconfig            |   53 -
+ arch/arm/configs/magician_defconfig           |  151 --
+ arch/arm/configs/mainstone_defconfig          |   51 -
+ arch/arm/configs/palmz72_defconfig            |   75 -
+ arch/arm/configs/pcm027_defconfig             |   90 -
+ arch/arm/configs/pxa255-idp_defconfig         |   55 -
+ arch/arm/configs/pxa_defconfig                |    3 -
+ arch/arm/configs/trizeps4_defconfig           |  207 ---
+ arch/arm/configs/viper_defconfig              |  160 --
+ arch/arm/configs/xcep_defconfig               |   90 -
+ arch/arm/configs/zeus_defconfig               |  173 --
+ arch/arm/mach-pxa/Kconfig                     |  583 +-----
+ arch/arm/mach-pxa/Makefile                    |   60 +-
+ arch/arm/mach-pxa/balloon3-pcmcia.c           |  137 --
+ arch/arm/mach-pxa/balloon3.c                  |  821 --------
+ arch/arm/mach-pxa/balloon3.h                  |  181 --
+ arch/arm/mach-pxa/capc7117.c                  |  159 --
+ arch/arm/mach-pxa/cm-x300.c                   |  883 ---------
+ arch/arm/mach-pxa/colibri-evalboard.c         |  138 --
+ arch/arm/mach-pxa/colibri-pcmcia.c            |  165 --
+ arch/arm/mach-pxa/colibri-pxa270-income.c     |  236 ---
+ arch/arm/mach-pxa/colibri-pxa270.c            |  330 ----
+ arch/arm/mach-pxa/colibri-pxa300.c            |  193 --
+ arch/arm/mach-pxa/colibri-pxa320.c            |  264 ---
+ arch/arm/mach-pxa/colibri-pxa3xx.c            |  147 --
+ arch/arm/mach-pxa/colibri.h                   |   70 -
+ arch/arm/mach-pxa/corgi.c                     |  826 ---------
+ arch/arm/mach-pxa/corgi.h                     |  110 --
+ arch/arm/mach-pxa/corgi_pm.c                  |  221 ---
+ arch/arm/mach-pxa/csb701.c                    |   67 -
+ arch/arm/mach-pxa/csb726.c                    |  291 ---
+ arch/arm/mach-pxa/csb726.h                    |   24 -
+ arch/arm/mach-pxa/devices.c                   |  408 ----
+ arch/arm/mach-pxa/devices.h                   |    3 -
+ arch/arm/mach-pxa/e740-pcmcia.c               |  127 --
+ arch/arm/mach-pxa/eseries-gpio.h              |   63 -
+ arch/arm/mach-pxa/eseries-irq.h               |   24 -
+ arch/arm/mach-pxa/eseries.c                   | 1001 ----------
+ arch/arm/mach-pxa/ezx.c                       | 1254 -------------
+ arch/arm/mach-pxa/h5000.c                     |  210 ---
+ arch/arm/mach-pxa/h5000.h                     |  109 --
+ arch/arm/mach-pxa/himalaya.c                  |  166 --
+ arch/arm/mach-pxa/hx4700-pcmcia.c             |  118 --
+ arch/arm/mach-pxa/hx4700.c                    |  942 ----------
+ arch/arm/mach-pxa/hx4700.h                    |  129 --
+ arch/arm/mach-pxa/icontrol.c                  |  218 ---
+ arch/arm/mach-pxa/idp.c                       |  285 ---
+ arch/arm/mach-pxa/idp.h                       |  195 --
+ arch/arm/mach-pxa/littleton.c                 |  462 -----
+ arch/arm/mach-pxa/littleton.h                 |   14 -
+ arch/arm/mach-pxa/lpd270.c                    |  518 ------
+ arch/arm/mach-pxa/lpd270.h                    |   40 -
+ arch/arm/mach-pxa/lubbock.c                   |  649 -------
+ arch/arm/mach-pxa/lubbock.h                   |   47 -
+ arch/arm/mach-pxa/magician.c                  | 1112 -----------
+ arch/arm/mach-pxa/magician.h                  |  125 --
+ arch/arm/mach-pxa/mainstone.c                 |  738 --------
+ arch/arm/mach-pxa/mainstone.h                 |  140 --
+ arch/arm/mach-pxa/mfp-pxa25x.h                |   33 -
+ arch/arm/mach-pxa/mfp-pxa2xx.c                |    4 -
+ arch/arm/mach-pxa/mfp-pxa300.h                |   52 -
+ arch/arm/mach-pxa/mfp-pxa320.h                |  458 -----
+ arch/arm/mach-pxa/mfp-pxa930.h                |  495 -----
+ arch/arm/mach-pxa/mioa701.c                   |  784 --------
+ arch/arm/mach-pxa/mioa701.h                   |   76 -
+ arch/arm/mach-pxa/mioa701_bootresume.S        |   38 -
+ arch/arm/mach-pxa/mp900.c                     |  101 -
+ arch/arm/mach-pxa/mxm8x10.c                   |  477 -----
+ arch/arm/mach-pxa/mxm8x10.h                   |   22 -
+ arch/arm/mach-pxa/palm27x.c                   |  473 -----
+ arch/arm/mach-pxa/palm27x.h                   |   77 -
+ arch/arm/mach-pxa/palmld-pcmcia.c             |  111 --
+ arch/arm/mach-pxa/palmld.c                    |  392 ----
+ arch/arm/mach-pxa/palmld.h                    |  107 --
+ arch/arm/mach-pxa/palmt5.c                    |  234 ---
+ arch/arm/mach-pxa/palmt5.h                    |   82 -
+ arch/arm/mach-pxa/palmtc-pcmcia.c             |  162 --
+ arch/arm/mach-pxa/palmtc.c                    |  539 ------
+ arch/arm/mach-pxa/palmtc.h                    |   84 -
+ arch/arm/mach-pxa/palmte2.c                   |  383 ----
+ arch/arm/mach-pxa/palmte2.h                   |   64 -
+ arch/arm/mach-pxa/palmtreo.c                  |  548 ------
+ arch/arm/mach-pxa/palmtreo.h                  |   64 -
+ arch/arm/mach-pxa/palmtx-pcmcia.c             |  111 --
+ arch/arm/mach-pxa/palmtx.c                    |  390 ----
+ arch/arm/mach-pxa/palmtx.h                    |  110 --
+ arch/arm/mach-pxa/palmz72.c                   |  319 ----
+ arch/arm/mach-pxa/palmz72.h                   |   80 -
+ arch/arm/mach-pxa/pcm027.c                    |  266 ---
+ arch/arm/mach-pxa/pcm027.h                    |   73 -
+ arch/arm/mach-pxa/pcm990-baseboard.c          |  408 ----
+ arch/arm/mach-pxa/pcm990_baseboard.h          |  199 --
+ arch/arm/mach-pxa/pm.c                        |    2 -
+ arch/arm/mach-pxa/pm.h                        |   10 -
+ arch/arm/mach-pxa/poodle.c                    |  484 -----
+ arch/arm/mach-pxa/poodle.h                    |   92 -
+ arch/arm/mach-pxa/pxa25x.c                    |    7 -
+ arch/arm/mach-pxa/pxa27x.c                    |   18 +-
+ arch/arm/mach-pxa/pxa27x.h                    |    3 -
+ arch/arm/mach-pxa/pxa2xx.c                    |   29 -
+ arch/arm/mach-pxa/pxa300.c                    |   17 +-
+ arch/arm/mach-pxa/pxa320.c                    |   88 -
+ arch/arm/mach-pxa/pxa320.h                    |    9 -
+ arch/arm/mach-pxa/pxa3xx-ulpi.c               |  385 ----
+ arch/arm/mach-pxa/pxa3xx.c                    |   91 -
+ arch/arm/mach-pxa/pxa930.c                    |  217 ---
+ arch/arm/mach-pxa/pxa930.h                    |    8 -
+ arch/arm/mach-pxa/pxa_cplds_irqs.c            |  200 --
+ arch/arm/mach-pxa/regs-u2d.h                  |  199 --
+ arch/arm/mach-pxa/regs-uart.h                 |  146 --
+ arch/arm/mach-pxa/saar.c                      |  604 ------
+ arch/arm/mach-pxa/sharpsl_pm.c                |    4 -
+ arch/arm/mach-pxa/spitz.c                     |   23 -
+ arch/arm/mach-pxa/tavorevb.c                  |  506 -----
+ arch/arm/mach-pxa/tosa-bt.c                   |  134 --
+ arch/arm/mach-pxa/tosa.c                      |  946 ----------
+ arch/arm/mach-pxa/tosa.h                      |  165 --
+ arch/arm/mach-pxa/tosa_bt.h                   |   18 -
+ arch/arm/mach-pxa/trizeps4-pcmcia.c           |  200 --
+ arch/arm/mach-pxa/trizeps4.c                  |  575 ------
+ arch/arm/mach-pxa/trizeps4.h                  |  166 --
+ arch/arm/mach-pxa/viper-pcmcia.c              |  180 --
+ arch/arm/mach-pxa/viper-pcmcia.h              |   12 -
+ arch/arm/mach-pxa/viper.c                     | 1034 -----------
+ arch/arm/mach-pxa/viper.h                     |   91 -
+ arch/arm/mach-pxa/vpac270-pcmcia.c            |  137 --
+ arch/arm/mach-pxa/vpac270.c                   |  736 --------
+ arch/arm/mach-pxa/vpac270.h                   |   38 -
+ arch/arm/mach-pxa/xcep.c                      |  190 --
+ arch/arm/mach-pxa/z2.c                        |  781 --------
+ arch/arm/mach-pxa/z2.h                        |   37 -
+ arch/arm/mach-pxa/zeus.c                      |  974 ----------
+ arch/arm/mach-pxa/zeus.h                      |   82 -
+ arch/arm/mach-pxa/zylonite.c                  |  495 -----
+ arch/arm/mach-pxa/zylonite.h                  |   45 -
+ arch/arm/mach-pxa/zylonite_pxa300.c           |  281 ---
+ arch/arm/mach-pxa/zylonite_pxa320.c           |  213 ---
+ arch/arm/mach-tegra/tegra.c                   |    1 -
+ drivers/ata/Kconfig                           |    9 -
+ drivers/ata/Makefile                          |    1 -
+ drivers/ata/pata_palmld.c                     |  137 --
+ drivers/clk/pxa/clk-pxa3xx.c                  |   22 +-
+ drivers/cpufreq/pxa3xx-cpufreq.c              |   21 +-
+ drivers/gpio/Kconfig                          |    7 -
+ drivers/gpio/Makefile                         |    1 -
+ drivers/gpio/gpio-ucb1400.c                   |   85 -
+ drivers/input/keyboard/Kconfig                |    9 -
+ drivers/input/keyboard/Makefile               |    1 -
+ drivers/input/keyboard/pxa930_rotary.c        |  195 --
+ drivers/input/mouse/Kconfig                   |    6 -
+ drivers/input/mouse/Makefile                  |    1 -
+ drivers/input/mouse/pxa930_trkball.c          |  250 ---
+ drivers/input/touchscreen/Kconfig             |   30 -
+ drivers/input/touchscreen/Makefile            |    2 -
+ drivers/input/touchscreen/mainstone-wm97xx.c  |   10 -
+ drivers/input/touchscreen/ucb1400_ts.c        |  458 -----
+ drivers/input/touchscreen/zylonite-wm97xx.c   |  220 ---
+ drivers/leds/Kconfig                          |   11 -
+ drivers/leds/Makefile                         |    1 -
+ drivers/leds/leds-asic3.c                     |  177 --
+ drivers/mfd/Kconfig                           |   58 -
+ drivers/mfd/Makefile                          |    7 -
+ drivers/mfd/asic3.c                           | 1071 -----------
+ drivers/mfd/htc-pasic3.c                      |  210 ---
+ drivers/mfd/t7l66xb.c                         |  427 -----
+ drivers/mfd/tc6387xb.c                        |  228 ---
+ drivers/mfd/tc6393xb.c                        |  907 ---------
+ drivers/mfd/tmio_core.c                       |   70 -
+ drivers/mfd/ucb1400_core.c                    |  158 --
+ drivers/mmc/host/Kconfig                      |    8 -
+ drivers/mmc/host/Makefile                     |    1 -
+ drivers/mmc/host/pxamci.c                     |    3 +-
+ drivers/mmc/host/tmio_mmc.c                   |  227 ---
+ drivers/mtd/nand/raw/Kconfig                  |    7 -
+ drivers/mtd/nand/raw/Makefile                 |    1 -
+ drivers/mtd/nand/raw/tmio_nand.c              |  533 ------
+ drivers/pcmcia/Kconfig                        |   12 +-
+ drivers/pcmcia/Makefile                       |    5 -
+ drivers/pcmcia/pxa2xx_base.c                  |   14 +-
+ drivers/pcmcia/pxa2xx_mainstone.c             |  122 --
+ drivers/pcmcia/sa1100_simpad.c                |  115 --
+ drivers/pcmcia/sa1111_badge4.c                |  158 --
+ drivers/pcmcia/sa1111_generic.c               |    4 -
+ drivers/pcmcia/sa1111_lubbock.c               |  155 --
+ drivers/power/supply/Kconfig                  |   22 -
+ drivers/power/supply/Makefile                 |    3 -
+ drivers/power/supply/ds2760_battery.c         |    8 -
+ drivers/power/supply/pda_power.c              |  520 ------
+ drivers/power/supply/tosa_battery.c           |  512 -----
+ drivers/power/supply/z2_battery.c             |  318 ----
+ drivers/rtc/Kconfig                           |    9 -
+ drivers/rtc/Makefile                          |    1 -
+ drivers/rtc/rtc-v3020.c                       |  369 ----
+ drivers/usb/gadget/udc/pxa25x_udc.c           |   62 -
+ drivers/usb/host/ohci-hcd.c                   |   18 -
+ drivers/usb/host/ohci-pxa27x.c                |    9 -
+ drivers/usb/host/ohci-tmio.c                  |  364 ----
+ drivers/video/backlight/Kconfig               |   14 -
+ drivers/video/backlight/Makefile              |    2 -
+ drivers/video/backlight/locomolcd.c           |   10 -
+ drivers/video/backlight/tosa_bl.c             |  172 --
+ drivers/video/backlight/tosa_bl.h             |    8 -
+ drivers/video/backlight/tosa_lcd.c            |  284 ---
+ drivers/video/fbdev/Kconfig                   |   39 -
+ drivers/video/fbdev/Makefile                  |    2 -
+ drivers/video/fbdev/tmiofb.c                  | 1040 -----------
+ drivers/video/fbdev/w100fb.c                  | 1644 -----------------
+ drivers/video/fbdev/w100fb.h                  |  924 ---------
+ drivers/w1/masters/Kconfig                    |    7 -
+ drivers/w1/masters/Makefile                   |    1 -
+ drivers/w1/masters/ds1wm.c                    |  675 -------
+ include/linux/mfd/asic3.h                     |  313 ----
+ include/linux/mfd/htc-pasic3.h                |   54 -
+ include/linux/mfd/t7l66xb.h                   |   29 -
+ include/linux/mfd/tc6387xb.h                  |   19 -
+ include/linux/mfd/tc6393xb.h                  |   53 -
+ include/linux/mfd/tmio.h                      |    5 -
+ include/linux/pda_power.h                     |   39 -
+ include/linux/platform_data/asoc-palm27x.h    |    9 -
+ include/linux/platform_data/asoc-poodle.h     |   16 -
+ include/linux/platform_data/irda-pxaficp.h    |   26 -
+ .../platform_data/keyboard-pxa930_rotary.h    |   21 -
+ include/linux/platform_data/mmp_audio.h       |   18 -
+ .../platform_data/mouse-pxa930_trkball.h      |   11 -
+ include/linux/platform_data/rtc-v3020.h       |   41 -
+ include/linux/platform_data/usb-pxa3xx-ulpi.h |   32 -
+ include/linux/soc/pxa/cpu.h                   |   93 +-
+ include/linux/ucb1400.h                       |  160 --
+ include/linux/z2_battery.h                    |   17 -
+ include/video/w100fb.h                        |  147 --
+ sound/Kconfig                                 |    1 -
+ sound/pci/ac97/ac97_codec.c                   |    1 -
+ sound/pci/ac97/ac97_patch.c                   |   40 -
+ sound/soc/pxa/Kconfig                         |  181 +-
+ sound/soc/pxa/Makefile                        |   33 -
+ sound/soc/pxa/brownstone.c                    |  133 --
+ sound/soc/pxa/corgi.c                         |  332 ----
+ sound/soc/pxa/e740_wm9705.c                   |  168 --
+ sound/soc/pxa/e750_wm9705.c                   |  147 --
+ sound/soc/pxa/e800_wm9712.c                   |  147 --
+ sound/soc/pxa/em-x270.c                       |   92 -
+ sound/soc/pxa/hx4700.c                        |  207 ---
+ sound/soc/pxa/magician.c                      |  366 ----
+ sound/soc/pxa/mioa701_wm9713.c                |  201 --
+ sound/soc/pxa/mmp-pcm.c                       |  267 ---
+ sound/soc/pxa/palm27x.c                       |  162 --
+ sound/soc/pxa/poodle.c                        |  291 ---
+ sound/soc/pxa/tosa.c                          |  255 ---
+ sound/soc/pxa/ttc-dkb.c                       |  143 --
+ sound/soc/pxa/z2.c                            |  218 ---
+ sound/soc/pxa/zylonite.c                      |  266 ---
+ 261 files changed, 22 insertions(+), 53872 deletions(-)
+ delete mode 100644 arch/arm/configs/cm_x300_defconfig
+ delete mode 100644 arch/arm/configs/colibri_pxa270_defconfig
+ delete mode 100644 arch/arm/configs/colibri_pxa300_defconfig
+ delete mode 100644 arch/arm/configs/corgi_defconfig
+ delete mode 100644 arch/arm/configs/eseries_pxa_defconfig
+ delete mode 100644 arch/arm/configs/ezx_defconfig
+ delete mode 100644 arch/arm/configs/h5000_defconfig
+ delete mode 100644 arch/arm/configs/lpd270_defconfig
+ delete mode 100644 arch/arm/configs/lubbock_defconfig
+ delete mode 100644 arch/arm/configs/magician_defconfig
+ delete mode 100644 arch/arm/configs/mainstone_defconfig
+ delete mode 100644 arch/arm/configs/palmz72_defconfig
+ delete mode 100644 arch/arm/configs/pcm027_defconfig
+ delete mode 100644 arch/arm/configs/pxa255-idp_defconfig
+ delete mode 100644 arch/arm/configs/trizeps4_defconfig
+ delete mode 100644 arch/arm/configs/viper_defconfig
+ delete mode 100644 arch/arm/configs/xcep_defconfig
+ delete mode 100644 arch/arm/configs/zeus_defconfig
+ delete mode 100644 arch/arm/mach-pxa/balloon3-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/balloon3.c
+ delete mode 100644 arch/arm/mach-pxa/balloon3.h
+ delete mode 100644 arch/arm/mach-pxa/capc7117.c
+ delete mode 100644 arch/arm/mach-pxa/cm-x300.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-evalboard.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pxa270-income.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pxa270.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pxa300.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pxa320.c
+ delete mode 100644 arch/arm/mach-pxa/colibri-pxa3xx.c
+ delete mode 100644 arch/arm/mach-pxa/colibri.h
+ delete mode 100644 arch/arm/mach-pxa/corgi.c
+ delete mode 100644 arch/arm/mach-pxa/corgi.h
+ delete mode 100644 arch/arm/mach-pxa/corgi_pm.c
+ delete mode 100644 arch/arm/mach-pxa/csb701.c
+ delete mode 100644 arch/arm/mach-pxa/csb726.c
+ delete mode 100644 arch/arm/mach-pxa/csb726.h
+ delete mode 100644 arch/arm/mach-pxa/e740-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/eseries-gpio.h
+ delete mode 100644 arch/arm/mach-pxa/eseries-irq.h
+ delete mode 100644 arch/arm/mach-pxa/eseries.c
+ delete mode 100644 arch/arm/mach-pxa/ezx.c
+ delete mode 100644 arch/arm/mach-pxa/h5000.c
+ delete mode 100644 arch/arm/mach-pxa/h5000.h
+ delete mode 100644 arch/arm/mach-pxa/himalaya.c
+ delete mode 100644 arch/arm/mach-pxa/hx4700-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/hx4700.c
+ delete mode 100644 arch/arm/mach-pxa/hx4700.h
+ delete mode 100644 arch/arm/mach-pxa/icontrol.c
+ delete mode 100644 arch/arm/mach-pxa/idp.c
+ delete mode 100644 arch/arm/mach-pxa/idp.h
+ delete mode 100644 arch/arm/mach-pxa/littleton.c
+ delete mode 100644 arch/arm/mach-pxa/littleton.h
+ delete mode 100644 arch/arm/mach-pxa/lpd270.c
+ delete mode 100644 arch/arm/mach-pxa/lpd270.h
+ delete mode 100644 arch/arm/mach-pxa/lubbock.c
+ delete mode 100644 arch/arm/mach-pxa/lubbock.h
+ delete mode 100644 arch/arm/mach-pxa/magician.c
+ delete mode 100644 arch/arm/mach-pxa/magician.h
+ delete mode 100644 arch/arm/mach-pxa/mainstone.c
+ delete mode 100644 arch/arm/mach-pxa/mainstone.h
+ delete mode 100644 arch/arm/mach-pxa/mfp-pxa320.h
+ delete mode 100644 arch/arm/mach-pxa/mfp-pxa930.h
+ delete mode 100644 arch/arm/mach-pxa/mioa701.c
+ delete mode 100644 arch/arm/mach-pxa/mioa701.h
+ delete mode 100644 arch/arm/mach-pxa/mioa701_bootresume.S
+ delete mode 100644 arch/arm/mach-pxa/mp900.c
+ delete mode 100644 arch/arm/mach-pxa/mxm8x10.c
+ delete mode 100644 arch/arm/mach-pxa/mxm8x10.h
+ delete mode 100644 arch/arm/mach-pxa/palm27x.c
+ delete mode 100644 arch/arm/mach-pxa/palm27x.h
+ delete mode 100644 arch/arm/mach-pxa/palmld-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/palmld.c
+ delete mode 100644 arch/arm/mach-pxa/palmld.h
+ delete mode 100644 arch/arm/mach-pxa/palmt5.c
+ delete mode 100644 arch/arm/mach-pxa/palmt5.h
+ delete mode 100644 arch/arm/mach-pxa/palmtc-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/palmtc.c
+ delete mode 100644 arch/arm/mach-pxa/palmtc.h
+ delete mode 100644 arch/arm/mach-pxa/palmte2.c
+ delete mode 100644 arch/arm/mach-pxa/palmte2.h
+ delete mode 100644 arch/arm/mach-pxa/palmtreo.c
+ delete mode 100644 arch/arm/mach-pxa/palmtreo.h
+ delete mode 100644 arch/arm/mach-pxa/palmtx-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/palmtx.c
+ delete mode 100644 arch/arm/mach-pxa/palmtx.h
+ delete mode 100644 arch/arm/mach-pxa/palmz72.c
+ delete mode 100644 arch/arm/mach-pxa/palmz72.h
+ delete mode 100644 arch/arm/mach-pxa/pcm027.c
+ delete mode 100644 arch/arm/mach-pxa/pcm027.h
+ delete mode 100644 arch/arm/mach-pxa/pcm990-baseboard.c
+ delete mode 100644 arch/arm/mach-pxa/pcm990_baseboard.h
+ delete mode 100644 arch/arm/mach-pxa/poodle.c
+ delete mode 100644 arch/arm/mach-pxa/poodle.h
+ delete mode 100644 arch/arm/mach-pxa/pxa320.c
+ delete mode 100644 arch/arm/mach-pxa/pxa320.h
+ delete mode 100644 arch/arm/mach-pxa/pxa3xx-ulpi.c
+ delete mode 100644 arch/arm/mach-pxa/pxa930.c
+ delete mode 100644 arch/arm/mach-pxa/pxa930.h
+ delete mode 100644 arch/arm/mach-pxa/pxa_cplds_irqs.c
+ delete mode 100644 arch/arm/mach-pxa/regs-u2d.h
+ delete mode 100644 arch/arm/mach-pxa/regs-uart.h
+ delete mode 100644 arch/arm/mach-pxa/saar.c
+ delete mode 100644 arch/arm/mach-pxa/tavorevb.c
+ delete mode 100644 arch/arm/mach-pxa/tosa-bt.c
+ delete mode 100644 arch/arm/mach-pxa/tosa.c
+ delete mode 100644 arch/arm/mach-pxa/tosa.h
+ delete mode 100644 arch/arm/mach-pxa/tosa_bt.h
+ delete mode 100644 arch/arm/mach-pxa/trizeps4-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/trizeps4.c
+ delete mode 100644 arch/arm/mach-pxa/trizeps4.h
+ delete mode 100644 arch/arm/mach-pxa/viper-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/viper-pcmcia.h
+ delete mode 100644 arch/arm/mach-pxa/viper.c
+ delete mode 100644 arch/arm/mach-pxa/viper.h
+ delete mode 100644 arch/arm/mach-pxa/vpac270-pcmcia.c
+ delete mode 100644 arch/arm/mach-pxa/vpac270.c
+ delete mode 100644 arch/arm/mach-pxa/vpac270.h
+ delete mode 100644 arch/arm/mach-pxa/xcep.c
+ delete mode 100644 arch/arm/mach-pxa/z2.c
+ delete mode 100644 arch/arm/mach-pxa/z2.h
+ delete mode 100644 arch/arm/mach-pxa/zeus.c
+ delete mode 100644 arch/arm/mach-pxa/zeus.h
+ delete mode 100644 arch/arm/mach-pxa/zylonite.c
+ delete mode 100644 arch/arm/mach-pxa/zylonite.h
+ delete mode 100644 arch/arm/mach-pxa/zylonite_pxa300.c
+ delete mode 100644 arch/arm/mach-pxa/zylonite_pxa320.c
+ delete mode 100644 drivers/ata/pata_palmld.c
+ delete mode 100644 drivers/gpio/gpio-ucb1400.c
+ delete mode 100644 drivers/input/keyboard/pxa930_rotary.c
+ delete mode 100644 drivers/input/mouse/pxa930_trkball.c
+ delete mode 100644 drivers/input/touchscreen/ucb1400_ts.c
+ delete mode 100644 drivers/input/touchscreen/zylonite-wm97xx.c
+ delete mode 100644 drivers/leds/leds-asic3.c
+ delete mode 100644 drivers/mfd/asic3.c
+ delete mode 100644 drivers/mfd/htc-pasic3.c
+ delete mode 100644 drivers/mfd/t7l66xb.c
+ delete mode 100644 drivers/mfd/tc6387xb.c
+ delete mode 100644 drivers/mfd/tc6393xb.c
+ delete mode 100644 drivers/mfd/tmio_core.c
+ delete mode 100644 drivers/mfd/ucb1400_core.c
+ delete mode 100644 drivers/mmc/host/tmio_mmc.c
+ delete mode 100644 drivers/mtd/nand/raw/tmio_nand.c
+ delete mode 100644 drivers/pcmcia/pxa2xx_mainstone.c
+ delete mode 100644 drivers/pcmcia/sa1100_simpad.c
+ delete mode 100644 drivers/pcmcia/sa1111_badge4.c
+ delete mode 100644 drivers/pcmcia/sa1111_lubbock.c
+ delete mode 100644 drivers/power/supply/pda_power.c
+ delete mode 100644 drivers/power/supply/tosa_battery.c
+ delete mode 100644 drivers/power/supply/z2_battery.c
+ delete mode 100644 drivers/rtc/rtc-v3020.c
+ delete mode 100644 drivers/usb/host/ohci-tmio.c
+ delete mode 100644 drivers/video/backlight/tosa_bl.c
+ delete mode 100644 drivers/video/backlight/tosa_bl.h
+ delete mode 100644 drivers/video/backlight/tosa_lcd.c
+ delete mode 100644 drivers/video/fbdev/tmiofb.c
+ delete mode 100644 drivers/video/fbdev/w100fb.c
+ delete mode 100644 drivers/video/fbdev/w100fb.h
+ delete mode 100644 drivers/w1/masters/ds1wm.c
+ delete mode 100644 include/linux/mfd/asic3.h
+ delete mode 100644 include/linux/mfd/htc-pasic3.h
+ delete mode 100644 include/linux/mfd/t7l66xb.h
+ delete mode 100644 include/linux/mfd/tc6387xb.h
+ delete mode 100644 include/linux/mfd/tc6393xb.h
+ delete mode 100644 include/linux/pda_power.h
+ delete mode 100644 include/linux/platform_data/asoc-palm27x.h
+ delete mode 100644 include/linux/platform_data/asoc-poodle.h
+ delete mode 100644 include/linux/platform_data/irda-pxaficp.h
+ delete mode 100644 include/linux/platform_data/keyboard-pxa930_rotary.h
+ delete mode 100644 include/linux/platform_data/mmp_audio.h
+ delete mode 100644 include/linux/platform_data/mouse-pxa930_trkball.h
+ delete mode 100644 include/linux/platform_data/rtc-v3020.h
+ delete mode 100644 include/linux/platform_data/usb-pxa3xx-ulpi.h
+ delete mode 100644 include/linux/ucb1400.h
+ delete mode 100644 include/linux/z2_battery.h
+ delete mode 100644 include/video/w100fb.h
+ delete mode 100644 sound/soc/pxa/brownstone.c
+ delete mode 100644 sound/soc/pxa/corgi.c
+ delete mode 100644 sound/soc/pxa/e740_wm9705.c
+ delete mode 100644 sound/soc/pxa/e750_wm9705.c
+ delete mode 100644 sound/soc/pxa/e800_wm9712.c
+ delete mode 100644 sound/soc/pxa/em-x270.c
+ delete mode 100644 sound/soc/pxa/hx4700.c
+ delete mode 100644 sound/soc/pxa/magician.c
+ delete mode 100644 sound/soc/pxa/mioa701_wm9713.c
+ delete mode 100644 sound/soc/pxa/mmp-pcm.c
+ delete mode 100644 sound/soc/pxa/palm27x.c
+ delete mode 100644 sound/soc/pxa/poodle.c
+ delete mode 100644 sound/soc/pxa/tosa.c
+ delete mode 100644 sound/soc/pxa/ttc-dkb.c
+ delete mode 100644 sound/soc/pxa/z2.c
+ delete mode 100644 sound/soc/pxa/zylonite.c
+
+-- 
+2.39.0
+
+Cc: stern@rowland.harvard.edu
+Cc: alexandre.belloni@bootlin.com
+Cc: brgl@bgdev.pl
+Cc: damien.lemoal@opensource.wdc.com
+Cc: daniel@zonque.org
+Cc: dmitry.torokhov@gmail.com
+Cc: linux@dominikbrodowski.net
+Cc: balbi@kernel.org
+Cc: gregkh@linuxfoundation.org
+Cc: haojian.zhuang@gmail.com
+Cc: deller@gmx.de
+Cc: perex@perex.cz
+Cc: jingoohan1@gmail.com
+Cc: lee@kernel.org
+Cc: kernel@wantstofly.org
+Cc: lgirdwood@gmail.com
+Cc: linus.walleij@linaro.org
+Cc: marek.vasut@gmail.com
+Cc: broonie@kernel.org
+Cc: mkpetch@internode.on.net
+Cc: miquel.raynal@bootlin.com
+Cc: lost.distance@yahoo.com
+Cc: philipp.zabel@gmail.com
+Cc: robert.jarzmik@free.fr
+Cc: linux@armlinux.org.uk
+Cc: sre@kernel.org
+Cc: slapin@ossfans.org
+Cc: s.shtylyov@omp.ru
+Cc: sudipm.mukherjee@gmail.com
+Cc: tiwai@suse.com
+Cc: ulf.hansson@linaro.org
+Cc: vigneshr@ti.com
+Cc: viresh.kumar@linaro.org
+Cc: wsa+renesas@sang-engineering.com
+Cc: linux-pm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: linux-leds@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
