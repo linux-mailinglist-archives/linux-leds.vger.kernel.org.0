@@ -2,97 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0AF65EFAD
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 16:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC75565F123
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 17:30:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234490AbjAEPJi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Jan 2023 10:09:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
+        id S230477AbjAEQ3m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Jan 2023 11:29:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234222AbjAEPJK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 10:09:10 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450345C1E8;
-        Thu,  5 Jan 2023 07:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672931340; x=1704467340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VQr1KAn7DJn6wCEBbldmytZDYWPEdYKoAnRcIsQVKOc=;
-  b=KoSfbdZenXqAg/9XdQzMmPQtCUEaGavL5257o4OiyBwabCCR+LDywAIN
-   s2JYwjnrqMyvIDjnNlHuHP9W8xZezdkovob3nVQQNOpYjknXq/7YTOQOl
-   hcT4KNCoIBchdy46Pqvn84NKfQ4IeZNcFVyHCmGLvcACg8E3aRdybEbeI
-   6baDjPuXNFnTw0ryNXiUZ/k3QsJNpIB1UVZZvBMCtj42/6gbQxpZRZ+O7
-   DvaWTlhlKbEuYg8a4zoBqznB5DmW/oN9z5AHkV3ENK1ed8D3K/bscoJm4
-   vaU9pczIWMCMBj997yLPEMjPJccuQkZ0nuE34cnPvPjMR20aLJwyk7YWk
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="408477493"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
-   d="scan'208";a="408477493"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 07:08:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="686128134"
-X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
-   d="scan'208";a="686128134"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 05 Jan 2023 07:08:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pDRr7-004oHa-0D;
-        Thu, 05 Jan 2023 17:08:33 +0200
-Date:   Thu, 5 Jan 2023 17:08:32 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     ChiaEn Wu <peterwu.pub@gmail.com>
-Cc:     pavel@ucw.cz, lee@kernel.org, matthias.bgg@gmail.com,
-        chiaen_wu@richtek.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v15 RESEND 2/2] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <Y7bn8NPyBoBI2HFy@smile.fi.intel.com>
-References: <cover.1672728620.git.chiaen_wu@richtek.com>
- <c1c6d3e51c93c15620ded0e2a53dcbe5de066ec9.1672728620.git.chiaen_wu@richtek.com>
- <Y7QoNpbFRsK3bW6V@smile.fi.intel.com>
- <CABtFH5KjksZ6GSOMafU8aS5mJzGkd8SDGEzH5irFUEFceQTWtQ@mail.gmail.com>
+        with ESMTP id S232244AbjAEQ3g (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 11:29:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8216458304;
+        Thu,  5 Jan 2023 08:29:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C13761B6B;
+        Thu,  5 Jan 2023 16:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CDE8C433EF;
+        Thu,  5 Jan 2023 16:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672936174;
+        bh=N2VgeA/QWTLrQNiyye8P36PFpcfcPKldrAzdqapag/U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MQVllf6ZKHufEd2O7LtOTsP2f+uP6+8Q74JYnIY/ebw2Z5MXOqhj50+ed2s4yHwGO
+         KRfI2yYnMgqAn9JqJN9dFIU994r7pKaqRVn2zVZ/KYiPV1z9bM+0SzMjseTG6lD6uV
+         ZN4VchMFZZKb2N4/TlCuf1QbdonIf72kybom2rBkG4LZHMw4LfaXe2TQ3Dg1bDiKCS
+         9MIAaMNtzkJO50n/QT1rU18tBjq4n2kzwmDnijjk7SymOXRh+vVyye9bYARCft3vaJ
+         oRcChhHUg9RMTUZMXQcvg7N5hIpE3N1BMkZlADJGISLRsBFswUgKO3FFq1MJMZqw9y
+         +w3Yz1ndfzRyw==
+Date:   Thu, 5 Jan 2023 16:29:28 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 04/11] leds: qcom-lpg: Propagate errors in
+ .get_state() to the caller
+Message-ID: <Y7b66AKdRzqoRYst@google.com>
+References: <20221130152148.2769768-1-u.kleine-koenig@pengutronix.de>
+ <20221130152148.2769768-5-u.kleine-koenig@pengutronix.de>
+ <Y45xKswRnao8P8Mf@duo.ucw.cz>
+ <Y7WvtRoffqWgMohv@google.com>
+ <20230105135438.j7fdocows5pmtwyr@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CABtFH5KjksZ6GSOMafU8aS5mJzGkd8SDGEzH5irFUEFceQTWtQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230105135438.j7fdocows5pmtwyr@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jan 05, 2023 at 06:25:01PM +0800, ChiaEn Wu wrote:
-> On Tue, Jan 3, 2023 at 9:06 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+On Thu, 05 Jan 2023, Uwe Kleine-König wrote:
 
-...
-
-> > >  obj-$(CONFIG_LEDS_RT8515)    += leds-rt8515.o
-> > >  obj-$(CONFIG_LEDS_SGM3140)   += leds-sgm3140.o
-> > > +obj-$(CONFIG_LEDS_MT6370_FLASH)      += leds-mt6370-flash.o
-> >
-> > Can it be kept ordered?
+> On Wed, Jan 04, 2023 at 04:56:21PM +0000, Lee Jones wrote:
+> > On Mon, 05 Dec 2022, Pavel Machek wrote:
+> > 
+> > > Hi!
+> > > 
+> > > > .get_state() can return an error indication. Make use of it to propagate
+> > > > failing hardware accesses.
+> > > > 
+> > > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > > 
+> > > Acked-by: Pavel Machek <pavel@ucw.cz>
+> > 
+> > What's the merge strategy for this?  Can it go in on its own?
 > 
-> hmm... I found "mt6360" actually did not keep the order either...
-> Do you want me to put it after "max77693" or after "mt6360"??
+> It's already in Linus's tree as fea768cf68c04d68ea2a8091c559667378f3b77c.
 
-Make it most ordered. From above context I can't say which one is the best.
-
+Interesting.  All good then, thanks for letting me know.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
