@@ -2,117 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A62B365E7E7
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 10:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E550765E909
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 11:31:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231192AbjAEJfx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Jan 2023 04:35:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43444 "EHLO
+        id S233161AbjAEKbq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Jan 2023 05:31:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230479AbjAEJfx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 04:35:53 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14EE54C72C;
-        Thu,  5 Jan 2023 01:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672911352; x=1704447352;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kkHuRRG9KBM8yFvsN3QAm76ykshPmwlBpfFrGtmd/04=;
-  b=bo7iwZ4ZyWLRfRTL6P0bfdtvi44RDdrvVXQc5hdFQaI9/7zXNAtLswkg
-   7jx55CwHZAN1ucdAxTuCl1VHkgkPGCm6pDr6FMCFL1aYBJi0l4exjQ2JO
-   czoKJ23VHe3f7jP+rz+QOsa665e2uCGgC393qwro0Lbvv3LJZKG70vVLq
-   sRjBdyP6SI7JU4SsDX1nHQKljGOcKIxWVO5kgBOy98tIZRP4cPUZQxfeP
-   h3lk6tzXuMJ127132WiWRHewRxnJE6kR5gnO+PJsJCUkY+OrJE48ALwKN
-   mo3+LAZAuHYayys5Hko5KGMX2/mW0ZJt5ZCGauMfj0tn1qdS/mWuvVfyi
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="349380928"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="349380928"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 01:35:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="724007263"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="724007263"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2023 01:35:50 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pDMf6-004i5u-39;
-        Thu, 05 Jan 2023 11:35:48 +0200
-Date:   Thu, 5 Jan 2023 11:35:48 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <Y7aZ9Mmm16HVUnnu@smile.fi.intel.com>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
- <Y6WX1Y9GZmvxqlCc@google.com>
- <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
- <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
- <Y7WMHl1Mv1alXadG@google.com>
- <20230104153924.0b92c52c@md1za8fc.ad001.siemens.net>
- <Y7WghcaWPpCHh6Wz@smile.fi.intel.com>
- <20230104203005.5654f3bc@md1za8fc.ad001.siemens.net>
+        with ESMTP id S233226AbjAEKba (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Jan 2023 05:31:30 -0500
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2894559F3;
+        Thu,  5 Jan 2023 02:25:43 -0800 (PST)
+Received: by mail-qv1-xf2f.google.com with SMTP id d13so25281785qvj.8;
+        Thu, 05 Jan 2023 02:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TOfkL7MyOeQeSrJ2F21ekedGlSVWVhq+E3DdO0nm1r4=;
+        b=c3GVsPT+wysvPStVKkYnBNMJlfpAT8IQ29T6m2mBmXZfX1sVJts/3K/QOPnib88xoe
+         DbBI1krlALLHuqtaDPBh9iKcRDT5sbvXKDixd3n4JLKplH7ln1Vqn/4GsnqlGNheXgDc
+         yuUt6UhqoMS3ynCFK0mbjy31O0Wyl+abWSim81r3HI/tYzijPDH7HjrNkEVb745g1C/7
+         irJToeSxFZ7wRNrfARCNuYpF5IgliaPOT+wPgG4qBctVMsjpU1PhTPbSlzJWqsRvnsAJ
+         wkhThC2XyIN2joFBPZQOgeX1+hLd8HUdKg5CnR+gcPxDb3jH7vtxFDhWitKan8ZKbRAS
+         +FyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TOfkL7MyOeQeSrJ2F21ekedGlSVWVhq+E3DdO0nm1r4=;
+        b=OFqoJKcIlCNYo7Vxuk0+98oB7bORgmAj2XKJflm2gPbsG+alwNQNs5scnAku3Qosgn
+         zr4FV0Kp9a+LNRGyXP1vmH1dcqUrccEvu2JbeLFqMV31aglug2DfA9jEiiyZeru4nCmN
+         o2isfAxBxl3anRyQHJ76kaTSy6Tsoufo369l7Vzs0zvcsYAtOtXTWaDnPPZonlARKf/z
+         LmcunHwq2ih2JbU50nr6DBanJQarZy9A/amkNVN4gTdycKa49UaqC8QGl0t8RKsVKRce
+         gZlybVWRpXMvgVuUydcteG8rhsF3sUwohj2uQFB51PZy3eIvaZ9NdVx5+DErb1pCq7gg
+         KExQ==
+X-Gm-Message-State: AFqh2kqZhTfrehX4sYc1/sOo+Ut882Y9dNJuvxmXNZ2Qe9uvTQyEK8z+
+        D5IT3AEznh0CRL++Ev6bBDK4WhXPFDnmMpUxot+Cnn2XEww=
+X-Google-Smtp-Source: AMrXdXtvC0Bt/DBCsyOcP0u0xHxoN3Qc+QonoeKkfiWauqM5Fa1hRedoh3ln8itCPshJjSL8zDCzwwy9cTcze4ueQ6A=
+X-Received: by 2002:a05:6214:3313:b0:531:c954:a557 with SMTP id
+ mo19-20020a056214331300b00531c954a557mr522380qvb.13.1672914337262; Thu, 05
+ Jan 2023 02:25:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230104203005.5654f3bc@md1za8fc.ad001.siemens.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1672728620.git.chiaen_wu@richtek.com> <c1c6d3e51c93c15620ded0e2a53dcbe5de066ec9.1672728620.git.chiaen_wu@richtek.com>
+ <Y7QoNpbFRsK3bW6V@smile.fi.intel.com>
+In-Reply-To: <Y7QoNpbFRsK3bW6V@smile.fi.intel.com>
+From:   ChiaEn Wu <peterwu.pub@gmail.com>
+Date:   Thu, 5 Jan 2023 18:25:01 +0800
+Message-ID: <CABtFH5KjksZ6GSOMafU8aS5mJzGkd8SDGEzH5irFUEFceQTWtQ@mail.gmail.com>
+Subject: Re: [PATCH v15 RESEND 2/2] leds: flash: mt6370: Add MediaTek MT6370
+ flashlight support
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     pavel@ucw.cz, lee@kernel.org, matthias.bgg@gmail.com,
+        chiaen_wu@richtek.com, cy_huang@richtek.com,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Jan 04, 2023 at 08:30:05PM +0100, Henning Schild wrote:
-> Am Wed, 4 Jan 2023 17:51:33 +0200
-> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > On Wed, Jan 04, 2023 at 03:39:24PM +0100, Henning Schild wrote:
-> > > Am Wed, 4 Jan 2023 14:24:30 +0000
-> > > schrieb Lee Jones <lee@kernel.org>:  
+On Tue, Jan 3, 2023 at 9:06 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> ...
+>
+> >  obj-$(CONFIG_LEDS_RT8515)    += leds-rt8515.o
+> >  obj-$(CONFIG_LEDS_SGM3140)   += leds-sgm3140.o
+> > +obj-$(CONFIG_LEDS_MT6370_FLASH)      += leds-mt6370-flash.o
+>
+> Can it be kept ordered?
 
-...
-
-> > > As we speak i already have the third box to eventually support,
-> > > which will likely be similar but this time around with
-> > > PINCTRL_ELKHARTLAKE  
-> > 
-> > A bit of offtopic here.
-> > 
-> > Are you able to get / fix / ... the firmware to work with the
-> > upstreamed version of pin control driver for Intel Elkhart Lake?
-> > 
-> > (I'm asking this in terms of the
-> > https://bugzilla.kernel.org/show_bug.cgi?id=213365)
-> > 
-> 
-> I can not tell. At the moment i am in a Siemens internal review where i
-> see code that is not even close to being ready for upstream. Somewhat
-> open-coded again from what it looks like.
-> 
-> And i do not have the machine the code is for.
-> 
-> Let me say "it is complicated" but some point in time a device with
-> LEDs attached to PINCTRL_ELKHARTLAKE will be proposed. Likely by me,
-> when i hopefully have such a device on my desk.
-
-Thanks for the information.
-
-Consider above just as a point to be aware of when you come to
-the productization, so we won't need another pin control driver for
-the same chip.
+hmm... I found "mt6360" actually did not keep the order either...
+Do you want me to put it after "max77693" or after "mt6360"??
+Thanks for your review.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best Regards,
+ChiaEn Wu
