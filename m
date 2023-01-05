@@ -2,156 +2,184 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C48C065DCC1
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Jan 2023 20:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B62AA65E37A
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Jan 2023 04:30:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239925AbjADTak (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 Jan 2023 14:30:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37598 "EHLO
+        id S230009AbjAEDa3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 Jan 2023 22:30:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240105AbjADTaX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 14:30:23 -0500
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2061.outbound.protection.outlook.com [40.107.249.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30E33D1C4;
-        Wed,  4 Jan 2023 11:30:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iQJOg90xHFMpVf/zu0YUU7QgRjfraHNqkvDOo1iylljsMkBnle42cf6BxEQPnlJpoRjjgHeTG42W5d3wM9WkJUwW9ujX9P2JqjRaSYg+Ee5HPerCzfF0vFWNppKjH85/vyBbLDdU9NlhEqBZ6xsyXoVlj7X18wCqUv9YwcZCHArwMFIWTyLeTT7BMSZf2/gUh8F3fAHQCYnS8mHUdJHA3gaqn8LGKpi53XJOqXWLky7DWWF/cr7JKABL9BS4d8sxS2vcHPbQUjDS9NkZFrcphwpoaUftTQG+KXcVZNwePWGoPyubq+7Fc2v1R7WG8vLOio7ebZHXQBaGJy908M/OeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hs/se2CgbcGh5fr2MsI1oylaaFViucQLFQGUsq1Gwsc=;
- b=XkqvOLbhmhVpHdCN/2/7+zHAbE8A29UFmj0AnRLH8YDBSO/7kHfPP3areqC+ngsO/MWjozYTl/fwxpsSfkaiRCR0JDKVeZj20J+coV3ldfQSn4tUPQWxILXhOXgDk/ItFcKqWIdGN23UyAOaA5jurJab7jiW9VlrkP9cDbU4J2t/ccbUWLahgCSrGPfQ9efA9PUJcH8Q2YjYQRpWpf0DbRkXVv176aTCPG7SAuKF4b0FaWa+Euu+FETCukLWwRIk0H49Ha1f6HrRLC/65MFNuwGWnmPIYqYn0X1QTMvN2HG/RhgneLzzmNrQhOaaire34loS4JPskkrOAq6F7h4JgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hs/se2CgbcGh5fr2MsI1oylaaFViucQLFQGUsq1Gwsc=;
- b=gNdorgqW8mb3rN5U8dZrE4zMlh+LLIRKnK5RCDNzNfa+Tfnl+xMUpyGo6L2Votg0YdtmT43HAMVSj/I2kxJ84HwApaC4yb9ILyVfWnGszHHcDf3sSwg3vih6Cr0khY7kCl1prCTDo4Gx1cccM7JckAgEtacW6SXwQWfHpF3B8Ls0Dcru2xWRwHpI1EWV1rVpEZGjE1MzTdwskzyBoZw3xPEp8+bcQfqF5HbmTp5OfMAzgck2aTOfgrlttp/SukJRxLA82E2KHDaPIHUsCS52/FKwEEkYreywhvnuVDmYqBlBqe/SgizI4azNCRRw05IHQC2RZCK7RciolQb5hOsNtA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by DU0PR10MB5312.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:34f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
- 2023 19:30:16 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5944.019; Wed, 4 Jan 2023
- 19:30:16 +0000
-Date:   Wed, 4 Jan 2023 20:30:05 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <20230104203005.5654f3bc@md1za8fc.ad001.siemens.net>
-In-Reply-To: <Y7WghcaWPpCHh6Wz@smile.fi.intel.com>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
-        <Y6WX1Y9GZmvxqlCc@google.com>
-        <20230102162227.523d2a73@md1za8fc.ad001.siemens.net>
-        <20230103212059.5c80fecb@md1za8fc.ad001.siemens.net>
-        <Y7WMHl1Mv1alXadG@google.com>
-        <20230104153924.0b92c52c@md1za8fc.ad001.siemens.net>
-        <Y7WghcaWPpCHh6Wz@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR07CA0035.namprd07.prod.outlook.com
- (2603:10b6:610:20::48) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+        with ESMTP id S230042AbjAEDaY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Jan 2023 22:30:24 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEBB2F793;
+        Wed,  4 Jan 2023 19:30:22 -0800 (PST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3053PKXV012892;
+        Thu, 5 Jan 2023 03:30:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=rYZZ7K2evFRILFiOW3T3WVNM4lxUmUKMsxscKwrHJ6I=;
+ b=Udx87EQhHLo0CDo8fSBroF+7fDENtAemn9Kdbmikp5mKhYccZHnQUG1h5W6Js1QnUGW3
+ Ql7YMsZRuBPlAV19qun2l2IFDFZySyXXtkz/2UgUX/wbM4MKl0x6MNb5VRyn5YiwaIsR
+ kZveF2jhYGDNm5Ou6oQwvNZTzeRNdxzyGraK4widgpnEPop46R92EBhykXWyOg5yofF2
+ fzvfcumxG/IK3rIROKe8CwsHy5tLy4hAm99VAd4bwTSFJCD5EPiktyW4dNgYAGV3GoHA
+ gU52ETxO+jOxb1/IkQHTPf4Tm9F/vDdoN9A1d3adiPmqJ1ltHj7D2bW4oRroft71nZ0X Lg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mvsvfbamd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Jan 2023 03:30:10 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3053U9dh007600
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 5 Jan 2023 03:30:09 GMT
+Received: from [10.239.155.106] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 4 Jan 2023
+ 19:30:06 -0800
+Message-ID: <ab314039-2c69-8afa-cfb2-e5876ac6afe2@quicinc.com>
+Date:   Thu, 5 Jan 2023 11:30:04 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|DU0PR10MB5312:EE_
-X-MS-Office365-Filtering-Correlation-Id: b99b9be9-2b57-4ceb-2ef9-08daee8a1b3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Uo11sWuEnEIrDGeUTiHGFVu/uvmSyz3VhgSaogN7BGdxD4aLBw3wsKKmYFKoZOxAOj7DI1JyvD4BQF7Q6cBq57YDxgeAZ84ayxp0vTN/m2Y73cenYnGFN3dCpGdbAGbGeFr6/p4G8zbTO36WwU4AGo0SHlMcGF5x14IUDt71iSCUzXrdLMl4UQZeKKzDqT/npdXfiLWUZRVNsXhDE0zMyZl7U13QBhcxR7BPDS+U9PsOcsDBqqcKwRE01mtT6lwNwYS+GuIiCN2BMLXOBtNxTygGqZV+Wwn6cWYEb/+qSILo5hTMUzvsoKT8VocFWUdMZkWEnawR2vYCyXbcFxBcLXb5beMG0NsjQBRRnWmofDvJHD/3qxGWrWoAgse/fcgCtF1tt1SGZ5guj+irbvR51jopeab6JgFRyZpNSK2FyNrxyXre+2fBnGLHnqPACtdblg1y5qyv0dritADu/n7hQaI9Llgb2Xx/ul7pqPyQM9HBvxb0nejTs8EY9XnyTOPdt/1XkYXuZtXQKtHMfiXGI5SK5/e+MKbQgOxxGX2TipKtrOEcsV02fpdAv6qxdLyx0wzK3Clm8s0veUK/dxRhQ3AbWeNWw+XB5gSzjP/uFEnV/6neoVHTRHVtT92ndLjlapEUK090n9kkHjxxSluCoDjEUK01gBX7BS/TKuTHWqo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(376002)(136003)(346002)(396003)(451199015)(8676002)(66556008)(66946007)(4326008)(1076003)(66476007)(41300700001)(316002)(54906003)(6916009)(38100700002)(82960400001)(2906002)(86362001)(5660300002)(44832011)(6486002)(83380400001)(8936002)(6506007)(478600001)(186003)(6512007)(9686003)(6666004)(966005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ms6YTrLwKNMuV4X0gkS3oDq4HjBLQZOlObcXtpZ66aVexrOTikAi4ZfhGeUk?=
- =?us-ascii?Q?aoWiXL2345bJG0hBpKWD/HxjYxznWKE46SK4z/YiQx2vH6YdXkZwdNqFmUVM?=
- =?us-ascii?Q?AUyGKnwMlnRR32Y820s79p3NPBydAhpwzSs70uDzpZWAxgS4fmTII3hpFGqT?=
- =?us-ascii?Q?5+FYO8VCC1KAzY9iVnuem4UYYOMV6l8gMUdbkEFteHHkiHxl2AMuupRKC+Oz?=
- =?us-ascii?Q?twcHKXdtPNYOppr6OZ3d6dk17TPNMhw1A7o5dFWyZoi1TaUfsbj+/UWqa3ix?=
- =?us-ascii?Q?cZecClmFCuzjFgwgxqEvKC9AH7b+nZ6E5ASUjohW2gWzqfigKJt0wsdqhN1x?=
- =?us-ascii?Q?aGGBI9tDxidYxrwkIogm59btniDMm4kDuubH6IDf38g/L5yLmsR0L97Z4hMR?=
- =?us-ascii?Q?2YtYloijyNaiOITQ/7a04+lSrL8IDoGn+wvsAgtDOOu56fTZ5vxf+IrxUlri?=
- =?us-ascii?Q?stcK4ff4prtMaVWsT84gtxiSR5IQd3eagx/hOxVphGAAeV0ZxzwpiEez0a4w?=
- =?us-ascii?Q?CrgpsqNCd4AqFM4xq7hqcbj+vHo6MbtNlusa70aNF4VbHZJjSK+4UnfSL+4U?=
- =?us-ascii?Q?1TWWWewcwDHo1cndoGoFT1KCJtcAUt8gWf2FA8Bg26aMtGDuvR8RYifK4UCh?=
- =?us-ascii?Q?0/tbbMovt8J7/bS4WxNdphpLuGgG+r9jD6mdt5qDmpagq5sUPcDXWTIEQJYB?=
- =?us-ascii?Q?uyBSj6t7NBj6Pc0Gw855RMBhUE/PSPpzh/NmXp3Gj/IN3LtosieW4XVAc1gX?=
- =?us-ascii?Q?wIWLs/aVRyM9uigjFH7VvDzDElGUAs5fHAImxapgmfqFD71LJaOYqrCfrLv0?=
- =?us-ascii?Q?rBb1qzMQwuCNMRWvGevLBFQ5f3zqT1kth9DTlXu+kIELopVcO5wLJPhn4DMx?=
- =?us-ascii?Q?Uw0MPTGF2QudscMdwi7ai7LRpLkISsUc4V+s8fFe4Tlhg6TTfhcuWWaftIbY?=
- =?us-ascii?Q?eCByXxwO0nhFnc48bkGOcu6HMWFot4iQSMYMjqmnI5n58mFKv0tBHgMsgwQm?=
- =?us-ascii?Q?Cmi8yWD7kNX8eRhiCsBNqQdoAK4ycT9wOelE/Yn4uahJWzUhudVtnpn9U6sn?=
- =?us-ascii?Q?aPThUf7551hYIcQGCbnYvogWLl49jyp1c/J6gYHxXAF4NRZh864pzfi4zGXh?=
- =?us-ascii?Q?Qcgywx7rg2ES/4C7h0b+Piaj2Tc5Apk62AsyWRitBZEKl5MWBtI2YjTG5S/r?=
- =?us-ascii?Q?k95qaO9WSclMjlRO63DgW9FXeKufhbJP8HbTQy5dsXR/Lhse0kPoNuWL4aKT?=
- =?us-ascii?Q?ADyds2XtyZT5vsb5TzYg7zvJ6E+9pKC9GfsSLXMhDhwJzDz+Nirt9Qj7GxmV?=
- =?us-ascii?Q?G+uZbCdMlDpDmb5MKya+cxlg4iL1XtTFclECM/E35RRGglVVrS1O83JH5u+B?=
- =?us-ascii?Q?tSdrgpNhBxHL0plfdkpMD3J8e9GuZhyFaU69y0KOU10WOZgctIIlGscaVkM8?=
- =?us-ascii?Q?29rMvBk7iQ9Ehjvm9IYEe564CbAumPTYenvjQ0GcEMM8uCmGGyRndBCMi6eR?=
- =?us-ascii?Q?AucnjSoskQROYYBFVmoC+VTAkjgf5X8FXCjs3RifIM8ReEdmXBRDkYJ7aG/D?=
- =?us-ascii?Q?8/Y1c3EKNPIdorWBMLivRFfEjZnbGoogtx0h6eWJAU4kQnJNiTd/niOl0ls5?=
- =?us-ascii?Q?zCa2QfihxTkTo7ClfHXpsLE9rDmPzRmhxHIzOijXwsPThW5/ez1Z1PtKKOs4?=
- =?us-ascii?Q?CQ+29Q=3D=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b99b9be9-2b57-4ceb-2ef9-08daee8a1b3a
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 19:30:15.8865
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n3gqCTsaRuCHzwd8Ym0JO+IiSwSSd6xkSypZtUyL9z9GLWr10PcXbHIMq94w8O0Imdvpoi4UAY37bT+lXcjltdgGHEfCKjntIUTdU/evAcg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5312
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: configure
+ flash LED
+Content-Language: en-US
+To:     Luca Weiss <luca.weiss@fairphone.com>, Pavel Machek <pavel@ucw.cz>
+CC:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
+ <20221209-fp4-pm6150l-flash-v1-3-531521eb2a72@fairphone.com>
+ <Y5S+6j1yJ62RJU/v@duo.ucw.cz> <COZW5FAXA36Z.175ARPIESQSLL@otso>
+From:   Fenglin Wu <quic_fenglinw@quicinc.com>
+In-Reply-To: <COZW5FAXA36Z.175ARPIESQSLL@otso>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: QG9Tjmjud-8tTfVegRavIMMjdsTZoQmm
+X-Proofpoint-GUID: QG9Tjmjud-8tTfVegRavIMMjdsTZoQmm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ clxscore=1011 mlxlogscore=456 priorityscore=1501 malwarescore=0
+ adultscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050027
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Wed, 4 Jan 2023 17:51:33 +0200
-schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
 
-> On Wed, Jan 04, 2023 at 03:39:24PM +0100, Henning Schild wrote:
-> > Am Wed, 4 Jan 2023 14:24:30 +0000
-> > schrieb Lee Jones <lee@kernel.org>:  
-> 
-> ...
-> 
-> > As we speak i already have the third box to eventually support,
-> > which will likely be similar but this time around with
-> > PINCTRL_ELKHARTLAKE  
-> 
-> A bit of offtopic here.
-> 
-> Are you able to get / fix / ... the firmware to work with the
-> upstreamed version of pin control driver for Intel Elkhart Lake?
-> 
-> (I'm asking this in terms of the
-> https://bugzilla.kernel.org/show_bug.cgi?id=213365)
-> 
 
-I can not tell. At the moment i am in a Siemens internal review where i
-see code that is not even close to being ready for upstream. Somewhat
-open-coded again from what it looks like.
+On 2022/12/12 21:59, Luca Weiss wrote:
+> On Sat Dec 10, 2022 at 6:16 PM CET, Pavel Machek wrote:
+>> Hi!
+>>
+>>> Configure the pm6150l flash node for the dual flash LEDs found on FP4.
+>>
+>>> +&pm6150l_flash {
+>>> +	status = "okay";
+>>> +
+>>> +	led-0 {
+>>> +		function = LED_FUNCTION_FLASH;
+>>> +		color = <LED_COLOR_ID_YELLOW>;
+>>> +		led-sources = <1>;
+>>> +		led-max-microamp = <180000>;
+>>> +		flash-max-microamp = <1000000>;
+>>> +		flash-max-timeout-us = <1280000>;
+>>> +	};
+> 
+> Hi Pavel,
+> 
+>>
+>> I'm pretty sure the flash is not yellow.
+> 
+> The marketing term is Dual LED flash or Dual-tone flash, one LED is a
+> blue-ish white and one is a yellow-ish white, but from what I can tell,
+> in the original code it's always referred to as white and yellow so I
+> also followed that here.
+> 
+> Also the LEDs are right next to each other so in practise for torch just
+> both go on, and for camera flash I cannot really tell you but I guess
+> it's doing something there with the camera tuning.
+> 
+> See also this picture:
+> https://shop.fairphone.com/media/catalog/product/cache/b752d78484639b19641a8560800d919d/p/_/p_5b_main_camera_back.jpg
+> 
+Hi Pavel,
 
-And i do not have the machine the code is for.
+Luca is right. It is normally called dual CCT (Correlated Color 
+Temperature) flash LED. It has 2 LEDs, one is with higher CCT (~6000K) 
+so it looks like a white LED, another is with lower CCT (~2000K) and it 
+looks like a yellow LED. I am not an expert of this but my understanding 
+is the camera tuning process normally adjusts the brightness of the two 
+LEDs and enables them to get different CCT for different snapshots.
+I was thinking to use the "white" and "yellow" to name the flash LEDs 
+which should be much better that just using indexes, it implicitly tell 
+that the "white" one is having higher CCT and the "yellow" one is having 
+lower CCT.
 
-Let me say "it is complicated" but some point in time a device with
-LEDs attached to PINCTRL_ELKHARTLAKE will be proposed. Likely by me,
-when i hopefully have such a device on my desk.
-
-Henning
+Fenglin
+>>
+>> Plus, how is the node in /sys/class/leds called? Can you make an entry
+>> in Documentation/leds/well-known-leds.txt and ensure the name stays
+>> consistent across devices?
+> 
+> / # ls -al /sys/class/leds/white:flash/
+> total 0
+> drwxr-xr-x    3 0        0                0 Jan  1 00:00 .
+> drwxr-xr-x    4 0        0                0 Jan  1 00:00 ..
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 brightness
+> lrwxrwxrwx    1 0        0                0 Jan  1 00:00 device -> ../../../c440000.spmi:pmic@5:led-controller@d300
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 flash_fault
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_strobe
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_timeout
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_timeout
+> drwxr-xr-x    2 0        0                0 Jan  1 00:00 power
+> lrwxrwxrwx    1 0        0                0 Jan  1 00:00 subsystem -> ../../../../../../../../../class/leds
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 uevent
+> / # ls -al /sys/class/leds/yellow:flash/
+> total 0
+> drwxr-xr-x    3 0        0                0 Jan  1 00:00 .
+> drwxr-xr-x    4 0        0                0 Jan  1 00:00 ..
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 brightness
+> lrwxrwxrwx    1 0        0                0 Jan  1 00:00 device -> ../../../c440000.spmi:pmic@5:led-controller@d300
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 flash_fault
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_strobe
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 flash_timeout
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_brightness
+> -r--r--r--    1 0        0             4096 Jan  1 00:00 max_flash_timeout
+> drwxr-xr-x    2 0        0                0 Jan  1 00:00 power
+> lrwxrwxrwx    1 0        0                0 Jan  1 00:00 subsystem -> ../../../../../../../../../class/leds
+> -rw-r--r--    1 0        0             4096 Jan  1 00:00 uevent
+> 
+> There's also already flash LED on PinePhone and some MSM8916 devices,
+> but I think they also have white:flash based on the dt.
+> 
+>>
+>> Best regards,
+>> 								Pavel
+>> -- 
+>> People of Russia, stop Putin before his war on Ukraine escalates.
+> 
