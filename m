@@ -2,61 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 919F2662042
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Jan 2023 09:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D0E2662083
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Jan 2023 09:49:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236388AbjAIImA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Jan 2023 03:42:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50114 "EHLO
+        id S229689AbjAIItZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Jan 2023 03:49:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233481AbjAIIlQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Jan 2023 03:41:16 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8494B13F70
-        for <linux-leds@vger.kernel.org>; Mon,  9 Jan 2023 00:41:12 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id F36758374F; Mon,  9 Jan 2023 08:41:04 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1673253669; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=gwLNDElY7TEAD3MA/fMqXxibjw5m0Vty+LD+VfNzZ0eT9mvRPJ/TebFv8Lf+zDT7j
-         yzSTVcts4Xt16SFhmEs0DyJvtSYNclMDBNvrP6zeNIxJ6Q4u6MNKmJBJJ4fFULuE3N
-         Oao/RDgOSWyRYm720f9ISycEJPvBLd47r7v+WlWRek6Urww5KuUZDNtNji6kqSmjEr
-         GsVr9NHmlc4QhZrob4RQ8jXUyBcBR6Q9DdiGo6F3RDhQByk6wNahQ0iIxlvI2ccTuU
-         TVhJM4OxG2pDiVP+btukjnvbnUe3VXdr925wxgVxR0e3Nziip5CvVv+Qe9rF0x1CzI
-         868lgf1warlRQ==
-Received: by mail.lokoho.com for <linux-leds@vger.kernel.org>; Mon,  9 Jan 2023 08:40:48 GMT
-Message-ID: <20230109074502-0.1.3a.koaa.0.qof7l5mjyl@lokoho.com>
-Date:   Mon,  9 Jan 2023 08:40:48 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        with ESMTP id S236970AbjAIIrf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Jan 2023 03:47:35 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CA2164A3
+        for <linux-leds@vger.kernel.org>; Mon,  9 Jan 2023 00:43:26 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pEnkX-0001vC-S4; Mon, 09 Jan 2023 09:43:21 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pEnkW-004oA6-Rx; Mon, 09 Jan 2023 09:43:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pEnkW-00BJig-4K; Mon, 09 Jan 2023 09:43:20 +0100
+Date:   Mon, 9 Jan 2023 09:43:20 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Juergen Borleis <jbe@pengutronix.de>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] leds: trigger/tty: Use led_set_brightness() to support
+ all use cases
+Message-ID: <20230109084320.nj7erwh3eu4jlw7y@pengutronix.de>
+References: <20210503092542.14497-1-jbe@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gljqu4j54k7ygkjk"
+Content-Disposition: inline
+In-Reply-To: <20210503092542.14497-1-jbe@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+--gljqu4j54k7ygkjk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Hello J=FCrgen,
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+On Mon, May 03, 2021 at 11:25:42AM +0200, Juergen Borleis wrote:
+> Using led_set_brightness_sync() only works for LEDs which are connected
+> via some kind of external bus like I=B2C or SPI. But it doesn't work for
+> the simple use case of directly connected LEDs via GPIOs.
+> Because this function only honors the led_classdev::brightness_set_blocki=
+ng
+> callback. But the LED-GPIO driver registers the
+> led_classdev::brightness_set member if the GPIO can be modified directly
+> and thus, TTY triggers fail silently with -ENOTSUPP.
+>=20
+> With the previously used led_set_brightness() it works for both use cases.
+> This function first checks for the simple case where the GPIO can be chan=
+ged
+> without additional overhead, and if it fails, does the modification via a
+> workqueue.
+>=20
+> Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
+> ---
+>  drivers/leds/trigger/ledtrig-tty.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/le=
+dtrig-tty.c
+> index f62db7e..af61281 100644
+> --- a/drivers/leds/trigger/ledtrig-tty.c
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *wo=
+rk)
+> =20
+>  	if (icount.rx !=3D trigger_data->rx ||
+>  	    icount.tx !=3D trigger_data->tx) {
+> -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+> =20
+>  		trigger_data->rx =3D icount.rx;
+>  		trigger_data->tx =3D icount.tx;
+>  	} else {
+> -		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
+> +		led_set_brightness(trigger_data->led_cdev, LED_OFF);
+>  	}
 
+This problem still exists, right?
 
-Pozdrawiam
-Adam Charachuta
+I think the right thing here is to call led_set_brightness_nosleep()
+however.
+
+Having said that, I think there are too many variants of
+led_set_brightness which makes it difficult to pick the right one.
+
+(I'm aware of
+ - led_set_brightness_nosleep
+ - led_set_brightness_nopm
+ - led_set_brightness_sync
+ - led_set_brightness
+
+and there are a few more static variants in led-core.c
+(__led_set_brightness, __led_set_brightness_blocking,
+set_brightness_delayed).)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--gljqu4j54k7ygkjk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmO706UACgkQwfwUeK3K
+7AkLZwf2OjQUllc8n30dbTN3s2uvDhD4b70Gd6KfUS8OLqyen8zYbLhynaKCnVi/
+sfe/ZgOzh8hI2JahMYQUyNvLmtTEzRikM2/Rrf8bkKuQ7IUNdrVs8EtiTjzjFioC
+DGdcQvI/UAVCaL/5Gy4iiB+OGK0dXExULPdwpSB8SaqezX6yiYmzR27m4EU76wOJ
+KDGL2YRnkL6BSDjINpTpHIqM1eOY0QwUzR9v16R9T4kaDLvUN/vl8iuaB+aY5c1K
+TGQGBvwf+RDqz9RfLQjQwPuSWPGazhSAjpKZdgz4rapcYvYsIkO3OKhqSTAY/tRN
+6efz0Fu2deDz9SVulj9Dm/mR9ZKu
+=4Sqz
+-----END PGP SIGNATURE-----
+
+--gljqu4j54k7ygkjk--
