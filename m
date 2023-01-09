@@ -2,48 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE67662B60
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Jan 2023 17:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90909662BC1
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Jan 2023 17:53:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235113AbjAIQjC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Jan 2023 11:39:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35668 "EHLO
+        id S234756AbjAIQxx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Jan 2023 11:53:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234889AbjAIQis (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Jan 2023 11:38:48 -0500
+        with ESMTP id S237123AbjAIQx0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Jan 2023 11:53:26 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3FF165A2;
-        Mon,  9 Jan 2023 08:38:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3898D958E;
+        Mon,  9 Jan 2023 08:52:42 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DC8D5611B2;
-        Mon,  9 Jan 2023 16:38:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE813C433EF;
-        Mon,  9 Jan 2023 16:38:44 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C02FC611EC;
+        Mon,  9 Jan 2023 16:52:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0A2C433D2;
+        Mon,  9 Jan 2023 16:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673282326;
-        bh=FzBo19ywX1QFnAAQSIhmy2u/P1GHfsxKyh4Vbs48+RI=;
+        s=k20201202; t=1673283160;
+        bh=mRTcU5DgoJZ9IoZF19Noim1g8fgOIG9OELRUEBbUrDM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p3Zn9OQCUl54AoVmD/75W2tYiUItI+1pM8anMitJzCqegYrbP2johGFfJUwcFzgWw
-         +y00eDMRQvQoMJ1WOyIaeMFCU+hoSVJUInRwTOD+hKrpQxFNQCL9MtQA4AbpZ8kZWY
-         xjJKsyXFRrBU6oXakLXZwvZoLeClzekqIgE1IcP+h5gWXHC9Ixi72qhDMbwe9hJUpJ
-         jalCv+gmO3s/b9rc7A4h4VclRSG5QgKE1zRyMWzVLy00HEVN3Uu5FS5XHO1BqS09C5
-         aQlYAUUcyCzH62HGh8Yiuz7FZ3Vlj37RbHe8AqDb2HeEgCHNaUTQmH9fdMi/+GTV+/
-         sfBvmtjv/IqZg==
-Date:   Mon, 9 Jan 2023 16:38:41 +0000
+        b=iSPzQBzwtUDkQNt8lapcRIpErc2yJKjPA+XKF0geXDvm1G3Kx+fowf6npXXVquNnn
+         S/rY4mhClUlu9uFHoJBnXHRmMoWh1J79FFS7D/JI1acB3GS/8QF414/J4Yh/eNxqka
+         z9Q+AyeK0Oyo/HvG4NZ9Ix0YH+X+N10dzG3MFAuXW3WqErybrcOlWlB3xWy9erlE9V
+         /c1pWah5KRhLHJBvjavfeIv8GA0G05a82LAXBwZo0YgDVXcNEB0DF9jzf8PGp+M6xG
+         xJvPMSnTWuOat+xB7etb3Uas/+C5DnDoXux7t0xKNHAWp336P/8M/j/6wDyyqdeQWl
+         TtY8bC/dsSBbA==
+Date:   Mon, 9 Jan 2023 16:52:34 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Ian Pilcher <arequipeno@gmail.com>
-Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kabel@kernel.org
-Subject: Re: [PATCH v13 0/2] Introduce block device LED trigger
-Message-ID: <Y7xDER+lu9+n44Gv@google.com>
-References: <20221227225226.546489-1-arequipeno@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Chuanhong Guo <gch981213@gmail.com>,
+        linux-leds@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 2/3] dt-bindings: leds: add worldsemi,ws2812b
+Message-ID: <Y7xGUiWBKIAm9YFA@google.com>
+References: <20221212045558.69602-1-gch981213@gmail.com>
+ <20221212045558.69602-3-gch981213@gmail.com>
+ <c592dd31-5e9a-c2a2-1c70-46b7cffa9c5d@linaro.org>
+ <Y6XjHNCLXY9s1IOF@duo.ucw.cz>
+ <9d2c05f6-af5a-2d79-02ea-85c49e244957@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221227225226.546489-1-arequipeno@gmail.com>
+In-Reply-To: <9d2c05f6-af5a-2d79-02ea-85c49e244957@linaro.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -53,350 +68,133 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 27 Dec 2022, Ian Pilcher wrote:
+On Sat, 24 Dec 2022, Krzysztof Kozlowski wrote:
 
-> Summary
-> =======
+> On 23/12/2022 18:19, Pavel Machek wrote:
+> > Hi!
+> > 
+> >>> Add dt binding schema for WorldSemi WS2812B driven using SPI
+> >>> bus.
+> >>>
+> >>> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
+> >>> ---
+> >>> Changes since v1:
+> >>> remove linux driver reference from description
+> >>> remove some obvious descriptions
+> >>> fix unit address regex in multi-led property
+> >>> drop various minItems
+> >>> add maxItems = 1 to reg
+> >>> fix node names and property orders in binding example
+> >>> drop -spi from compatible string
+> >>> add default-brightness
+> >>>
+> >>> Change since v2:
+> >>> drop "this patch" from commit message
+> >>> rename leds to led-controller
+> >>> drop default-brightness and default-intensity
+> >>>
+> >>> Change since v3:
+> >>> reword commit title
+> >>>
+> >>>  .../bindings/leds/worldsemi,ws2812b.yaml      | 116 ++++++++++++++++++
+> >>>  1 file changed, 116 insertions(+)
+> >>>  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> >>> new file mode 100644
+> >>> index 000000000000..548c05ac3d31
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
+> >>> @@ -0,0 +1,116 @@
+> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>> +
+> >>> +title: WS2812B LEDs driven using SPI
+> >>> +
+> >>> +maintainers:
+> >>> +  - Chuanhong Guo <gch981213@gmail.com>
+> >>> +
+> >>> +description: |
+> >>> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
+> >>> +  together and controlled individually using a single wire.
+> >>> +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
+> >>> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
+> >>> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
+> >>> +  for the data pin.
+> >>> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
+> >>> +  and the controller needs to send all the bytes continuously.
+> >>> +
+> >>> +allOf:
+> >>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> >>> +
+> >>> +properties:
+> >>> +  compatible:
+> >>> +    const: worldsemi,ws2812b
+> >>> +
+> >>> +  reg:
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  spi-max-frequency:
+> >>> +    minimum: 2105000
+> >>> +    maximum: 2850000
+> >>> +
+> >>> +  "#address-cells":
+> >>> +    const: 1
+> >>> +
+> >>> +  "#size-cells":
+> >>> +    const: 0
+> >>> +
+> >>> +patternProperties:
+> >>> +  "^multi-led@[0-9a-f]+$":
+> >>> +    type: object
+> >>> +    $ref: leds-class-multicolor.yaml#
+> >>> +    unevaluatedProperties: false
+> >>> +
+> >>> +    properties:
+> >>> +      color-index:
 
-FYI: Leaving this one for Pavel.
+Why "index"?
 
-> These patches add a new "blkdev" LED trigger that blinks LEDs in
-> response to disk (or other block device) activity.  The first patch is
-> purely documentation, and the second patch adds the trigger.
-> 
-> It operates very much like the netdev trigger.  Device activity
-> counters are checked periodically, and LEDs are blinked if the correct
-> type of activity has occurred since the last check.  The trigger has no
-> impact on the actual I/O path.
-> 
-> The trigger is extremely configurable.  An LED can be configured to
-> blink in response to any type (or combination of types) of block device
-> activity - reads, writes, discards, or cache flushes.  The frequency
-> with which device activity is checked and the duration of LED blinks
-> can also be set.
-> 
-> The trigger supports many-to-many "link" relationships between block
-> devices and LEDs.  An LED can be linked to multiple block devices, and
-> a block device can be linked to multiple LEDs.  To support these
-> many-to-many links with a sysfs API, the trigger uses write-only
-> attributes to create and remove link relationships:
-> 
-> * link_dev_by_path
-> * unlink_dev_by_path
-> * unlink_dev_by_name
-> 
-> Existing relationships are shown as symbolic links in subdirectories
-> beneath the block device and LED sysfs directories:
-> 
-> * /sys/class/block/<DEVICE>/linked_leds
-> * /sys/class/leds/<LED>/linked_devices
-> 
-> As their names indicate, link_dev_by_path and unlink_dev_by_path each
-> take a device special file path (e.g. /dev/sda), rather than a kernel
-> device name.  A block device can be unlinked from an LED by writing its
-> kernel name to the LED's unlink_dev_by_name attribute, but creating a
-> link does require a path.  This is a consequence of the fact that the
-> block subsystem does not provide an API to get a block device by its
-> kernel name; only device special file paths (or device major and minor
-> numbers) are supported.
-> 
-> (I hope that if this module is accepted, it might provide a case for
-> adding a "by name" API to the block subsystem.  A link_dev_by_name
-> attribute could then be added to this trigger.)
-> 
-> The trigger can be built as a module or built in to the kernel.
-> 
-> Changes from v12:
-> =================
-> 
-> * Use sysfs_emit(), instead of sprintf() in sysfs attribute show
->   functions.
-> 
-> Changes from v11:
-> =================
-> 
-> * Add unlink_dev_by_name attribute, so a block device can be unlinked
->   from an LED with its kernel name.
-> 
-> * Fix interval/frequency confusion in documentation.
-> 
-> Changes from v10:
-> =================
-> 
-> * Fix kfree() of wrong pointer in blkdev_trig_get_bdev().
-> * Fix typo in ledtrig-blkdev.rst.
-> 
-> Changes from v9:
-> ================
-> 
-> No changes to sysfs API or module functionality.
-> 
-> Readability changes:
-> 
-> * Added overview and data type comments to describe module structure.
-> 
-> * Reordered module source; eliminated almost all forward declarations.
-> 
-> * Consistently refer to blkdev_trig_led structs as "BTLs."
-> 
-> * Refactored LED-block device unlink function into separate variants for
->   releasing & not releasing cases; eliminate enum type used as flag.
-> 
-> Changes from v8:
-> ================
-> 
-> * Change sysfs attribute names:
->   - link_device ==> link_dev_by_path
->   - unlink_device ==> unlink_dev_by_path
-> 
-> * Update documentation for changed attribute names
-> 
-> * Minor code & comment cleanups
-> 
-> Changes from v7:
-> ================
-> 
-> Fix blkdev_trig_activate() - Lock 'blkdev_trig_mutex' before accessing
-> 'blkdev_trig_next_index'.
-> 
-> Changes from v6:
-> ================
-> 
-> Remove incorrect use of get_jiffies_64().  We use the helper functions in
-> include/linux/jiffies.h for all time comparisons, so jiffies rolling over
-> on 32-bit platforms isn't a problem.
-> 
-> Changes from v5:
-> ================
-> 
-> sysfs API changes:
-> 
-> * Frequency with which the block devices associated with an LED are
->   checked for activity is now a per-LED setting ('check_interval' device
->   attribute replaces 'interval' class attribute).
-> 
-> * 'mode' device attribute (read/write/rw) is replaced by 4 separate
->   attributes - 'blink_on_read', 'blink_on_write', 'blink_on_discard', and
->   'blink_on_flush'.
-> 
-> Logic changes:
-> 
-> * Use jiffies instead of static "generation" variable.
-> 
-> * LED mode is now a bitmask - 1 bit per read, write, discard, and flush.
-> 
-> * When updating block device I/O stats, save separate I/O counter ('ios')
->   and timestamp ('last_activity') for each activity type, along with
->   'last_checked' timestamp.
-> 
-> * When checking an LED, save 'last_checked' timestamp.
-> 
-> * When checking LEDs (in delayed work), determine when the next check
->   needs to be performed (based on each LED's 'last_checked' and
->   'check_jiffies' values) and schedule the next check accordingly.  (See
->   blkdev_trig_check() at ledtrig-blkdev.c:661.)
-> 
-> * When linking a block device to an LED, modify the delayed work schedule
->   if necessary.  (See blkdev_trig_sched_led() at ledtrig-blkdev.c:416.)
-> 
-> Style changes:
-> 
-> * "Prefix" of data types, static variables, function names, etc. is
->   changed to 'blkdev_trig' ('BLKDEV_TRIG' for constants).
-> 
-> * Don't declare function parameters and local variables as const.
-> 
-> * Don't explicitly compare return values to 0 - i.e. 'if (ret == 0)'.
->   Change variable name to 'err' and use 'if (err)' idiom.
-> 
-> * In error path, return directly when no cleanup is required (instead of
->   jumping to a single exit point).
-> 
-> * Use kzalloc(), rather than kmalloc(), to allocate per-LED structs.
-> 
-> Changes from v4:
-> ================
-> 
-> * Use xarrays, rather than lists, to model "links" between LEDs and block
->   devices.  This allows many-to-many relationships without the need for a
->   separate link object.
-> 
-> * When resolving (getting) a block device by path, don't retry with
->   "/dev/" prepended to the path in the ENOENT case.
-> 
-> * Use an enum, rather than a boolean, to tell led_bdev_unlink() whether
->   the block device is being released or not.
-> 
-> * Use preprocessor constant, rather than magic number, for the mode passed
->   to blkdev_get_by_path() and blkdev_put().
-> 
-> * Split the data structure used by mode attribute show & store functions
->   into 2 separate arrays and move them into the functions that use them.
-> 
-> Changes from v3:
-> ================
-> 
-> * Use blkdev_get_by_path() to "resolve" block devices
->   (struct block_device).  With this change, there are now no changes
->   required to the block subsystem, so there are only 2 patches in this
->   series.
-> 
-> * link_device and unlink_device attributes now take paths to block device
->   special files (e.g. /dev/sda), rather than kernel names.  Symbolic
->   links also work.
-> 
->   If the path written to the attribute doesn't exist (-ENOENT), we re-try
->   with /dev/ prepended, so "simple" names like sda will still work as long
->   as the corresponding special file exists in /dev.
-> 
-> * Fixed a bug that could cause "phantom" blinks because of old device
->   activity that was not recognized at the correct time.
-> 
-> * (Slightly) more detailed commit message for the patch that adds the
->   trigger code.  As with v3, the real details are found in the comments
->   in the source file.
-> 
-> Changes from v2:
-> ================
-> 
-> * Allow LEDs to be "linked" to partitions, as well as whole devices.
->   Internally, the trigger now works with block_device structs, rather
->   than gendisk structs.
-> 
->   (Investigating the lifecycle of block_device structs led me to
->   discover the device resource API, so ...)
-> 
-> * Use the device resource API to manage the trigger's per-block device
->   data structure (struct led_bdev_bdi).  The trigger now uses a release
->   function to remove references to block devices that have been removed.
-> 
->   Because the release function is automatically called by the driver core,
->   there is no longer any need for the block layer to explictly call the
->   trigger's cleanup function.
-> 
-> * Since there is no need to provide a built-in "stub" cleanup function
->   when the trigger is built as a module, I have removed the always
->   built-in "core" portion of the trigger.
-> 
-> * Without a built-in component, the module does need access to the
->   block_class symbol.  The second patch in this series exports the symbol
->   to the LEDTRIG_BLKDEV namespace and explains the reason for doing so.
-> 
-> * Changed the interval sysfs attribute from a device attribute to a class
->   attribute.  It's single value that applies to all LEDs, so it didn't
->   make sense as a device atribute.
-> 
-> * As requested, I am posting the trigger code (ledtrig-blkdev.c) as a
->   single patch.  This eliminates the commit messages that would otherwise
->   describe sections of the code, so I have added fairly extensive comments
->   to each function.
-> 
-> Changes from v1:
-> ================
-> 
-> * Use correct address for LKML.
-> 
-> * Renamed the sysfs attributes used to manage and view the set of block
->   devices associated ("linked") with an LED.
-> 
->   - /sys/class/leds/<LED>/link_device to create associations
-> 
->   - /sys/class/leds/<LED>/unlink_device to remove associations
-> 
->   - /sys/class/leds/<LED>/linked_devices/ contains symlinks to all block
->     devices associated with the LED
-> 
->   - /sys/block/<DEVICE>/linked_leds (which only exists when the device is
->     associated with at least one LED) contains symlinks to all LEDs with
->     which the device is associated
-> 
->   link_device and unlink_device are write-only attributes, each of which
->   represents a single action, rather than any state.  (The current state
->   is shown by the symbolic links in the <LED>/linked_devices/ and
->   <DEVICE>/linked_leds/ directories.)
-> 
-> * Simplified sysfs attribute store functions.  link_device and
->   unlink_device no longer accept multiple devices at once, but this was
->   really just an artifact of the way that sysfs repeatedly calls the
->   store function when it doesn't "consume" all of its input, and it
->   seemed to be confusing and unpopular anyway.
-> 
-> * Use DEVICE_ATTR_* macros (rather than __ATTR) for the sysfs attributes.
-> 
-> * Removed all pr_info() "system administrator error" messages.
-> 
-> * Different minimum values for LED blink time (10 ms) and activity check
->   interval (25 ms).
-> 
-> v1 summary:
-> ===========
-> 
-> This patch series adds a new "blkdev" LED trigger for disk (or other block
-> device) activity LEDs.
-> 
-> It has the following functionality.
-> 
-> * Supports all types of block devices, including virtual devices
->   (unlike the existing disk trigger which only works with ATA devices).
-> 
-> * LEDs can be configured to show read activity, write activity, or both.
-> 
-> * Supports multiple devices and multiple LEDs in arbitrary many-to-many
->   configurations.  For example, it is possible to configure multiple
->   devices with device-specific read activity LEDs and a shared write
->   activity LED.  (See Documentation/leds/ledtrig-blkdev.rst in the first
->   patch.)
-> 
-> * Doesn't add any overhead in the I/O path.  Like the netdev LED trigger,
->   it periodically checks the configured devices for activity and blinks
->   its LEDs as appropriate.
-> 
-> * Blink duration (per LED) and interval between activity checks (global)
->   are configurable.
-> 
-> * Requires minimal changes to the block subsystem.
-> 
->   - Adds 1 pointer to struct gendisk,
-> 
->   - Adds (inline function) call in device_add_disk() to ensure that the
->     pointer is initialized to NULL (as protection against any drivers
->     that allocate a gendisk themselves and don't use kzalloc()), and
-> 
->   - Adds call in del_gendisk() to remove a device from the trigger when
->     that device is being removed.
-> 
->   These changes are all in patch #4, "block: Add block device LED trigger
->   integrations."
-> 
-> * The trigger can be mostly built as a module.
-> 
->   When the trigger is modular, a small portion is built in to provide a
->   "stub" function which can be called from del_gendisk().  The stub calls
->   into the modular code via a function pointer when needed.  The trigger
->   also needs the ability to find gendisk's by name, which requires access
->   to the un-exported block_class and disk_type symbols.
-> 
-> Ian Pilcher (2):
->   docs: Add block device (blkdev) LED trigger documentation
->   leds: trigger: Add block device LED trigger
-> 
->  Documentation/ABI/stable/sysfs-block          |   10 +
->  .../testing/sysfs-class-led-trigger-blkdev    |   78 ++
->  Documentation/leds/index.rst                  |    1 +
->  Documentation/leds/ledtrig-blkdev.rst         |  158 +++
->  drivers/leds/trigger/Kconfig                  |    9 +
->  drivers/leds/trigger/Makefile                 |    1 +
->  drivers/leds/trigger/ledtrig-blkdev.c         | 1221 +++++++++++++++++
->  7 files changed, 1478 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blkdev
->  create mode 100644 Documentation/leds/ledtrig-blkdev.rst
->  create mode 100644 drivers/leds/trigger/ledtrig-blkdev.c
-> 
-> 
-> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-> -- 
-> 2.38.1
-> 
+Isn't it just an array of colours rather than an index into something?
+
+> >>> +        description: |
+> >>> +          A 3-item array specifying color of each components in this LED. It
+
+Why are you forcing this to 3?
+
+Surely there are multi-colour LEDs containing more or less colours?
+
+> >>> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
+> >>> +          header include/dt-bindings/leds/common.h. Defaults to
+
+Isn't "include" a Linuxisum?
+
+> >>> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
+> >>> +          if unspecified.
+> >>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> >>> +        maxItems: 3
+> >>
+> >> In general I am fine with it, although there is still question for
+> >> adding more multi-color defines in binding headers to replace this
+> >> property - GRB/RBG/GBR and even more for RGBW.
+> >>
+> >> Pavel, Lee, any thoughts from your side?
+> > 
+> > This really needs to mention the name this hardware is known as -- I
+> > believe it is NeoPixel.
+> 
+> We wait here for feedback on colors... The binding is re-implementing
+> color, just because of combinations GRB/RBG/GBR, which could be achieved
+> with new color defines.
+
+Sure, but where does that end?
+
+How many permutations are there likely to be?
+
+An unlimited array has more of a chance of standing the test of time.
 
 -- 
 Lee Jones [李琼斯]
