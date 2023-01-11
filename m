@@ -2,165 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01F9A66609E
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Jan 2023 17:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C32B06662FA
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Jan 2023 19:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232094AbjAKQfK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Jan 2023 11:35:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43832 "EHLO
+        id S235127AbjAKSrS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Jan 2023 13:47:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238854AbjAKQee (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Jan 2023 11:34:34 -0500
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12CF765DF
-        for <linux-leds@vger.kernel.org>; Wed, 11 Jan 2023 08:34:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1673454852; x=1676046852;
-        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=C4kvWi4nYSn0kSIK0WvaQkfls0F7UuJxhBfke5JCvQE=;
-        b=GSjL3laUR3wL5q5WR1mBIqYvHmXfwkHxALnFu4n2tILDVvtsIyCTlERpiQrFIJyM
-        dpVj3K+99Tdk3iWnSC4FdzZZjGK5gHXT4nSyePL1W9vWz9Ub3lMFs0azHx5Deat/
-        b2dQvhWeRUn4aKS9Uv/+8Xqw0wqElU5LsgLFlxEZOH8=;
-X-AuditID: ac14000a-923ff70000007ecb-a5-63bee504219b
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
-        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id B2.F6.32459.405EEB36; Wed, 11 Jan 2023 17:34:12 +0100 (CET)
-Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 11 Jan
- 2023 17:34:11 +0100
-From:   Wadim Egorov <w.egorov@phytec.de>
-To:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
-        <upstream@lists.phytec.de>
-CC:     <riku.voipio@iki.fi>, <alexandre.belloni@bootlin.com>,
-        <a.zummo@towertech.it>, <krzysztof.kozlowski+dt@linaro.org>,
-        <robh+dt@kernel.org>, <lee@kernel.org>, <pavel@ucw.cz>
-Subject: [PATCH v2 2/2] dt-bindings: rtc: Move rv3028 from trivial-rtc.yaml into own schema file
-Date:   Wed, 11 Jan 2023 17:34:04 +0100
-Message-ID: <20230111163404.3526248-2-w.egorov@phytec.de>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S234867AbjAKSrR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Jan 2023 13:47:17 -0500
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4395F15FD8;
+        Wed, 11 Jan 2023 10:47:16 -0800 (PST)
+Received: by mail-ot1-f45.google.com with SMTP id e17-20020a9d7311000000b00678202573f1so9298555otk.8;
+        Wed, 11 Jan 2023 10:47:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JzVVh+fKujPsI6nJzYq3FThr+ETXFDdV8+q+BDcVj0Q=;
+        b=mQMNZoxJkrTf2YMvP0hCIsoWtjO/xvvygq+XksAngWt8NBkPcqCEe52AQvJa0myMlc
+         x1lyhYnvDD4oBoJazl0j6QuCSrmTgpkDSWUbbj9cUjNRdFMIXvApy3D8YKXosoWS7TMm
+         l4FHIjtzPf5u2sOFNvfDk1Fuiy9kTofg+TgEdqqp9mhyJYDZL5bSBLsQ27cfCOCVZkIK
+         ENUXtP0kvcQWO4m9mvg2k/wjBGmlEFKNk0V7dZtk0QMCdxlbuWuojfGJBOQL5VCBl7ZC
+         2NJuwGxOIVBuhIyEDOv9ISiD4dFbvz7MZGkm6jLlTQffHOljigSjZWqNEj5JU/ds6/5p
+         SU8Q==
+X-Gm-Message-State: AFqh2kqe9Mj4Cc0HzvcH9tsDgLDp1E9nZl3HKaOwjOAwW/1lGHmHIvih
+        1ehtuWtGDseQIh23p2T0jA==
+X-Google-Smtp-Source: AMrXdXsAVnC+efVv0faJRtQubP8A/BpMNUC9mne6ZPgsGEyKFYjoVA0F4H3g3dMiCIi1qyCEz7zukw==
+X-Received: by 2002:a9d:4547:0:b0:673:3fac:b328 with SMTP id p7-20020a9d4547000000b006733facb328mr34495980oti.10.1673462835429;
+        Wed, 11 Jan 2023 10:47:15 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id m6-20020a9d6446000000b0066ec67bbc7asm7841142otl.7.2023.01.11.10.47.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 10:47:14 -0800 (PST)
+Received: (nullmailer pid 1107807 invoked by uid 1000);
+        Wed, 11 Jan 2023 18:47:13 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Wadim Egorov <w.egorov@phytec.de>
+Cc:     a.zummo@towertech.it, krzysztof.kozlowski+dt@linaro.org,
+        riku.voipio@iki.fi, robh+dt@kernel.org, pavel@ucw.cz,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
+        lee@kernel.org, linux-leds@vger.kernel.org,
+        upstream@lists.phytec.de
 In-Reply-To: <20230111163404.3526248-1-w.egorov@phytec.de>
 References: <20230111163404.3526248-1-w.egorov@phytec.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Berlix.phytec.de (172.25.0.12) To Berlix.phytec.de
- (172.25.0.12)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeLIzCtJLcpLzFFi42JZI8nAo8vydF+yweYGZoslF6+yW7S/W8Zu
-        Mf/IOVaLvhcPmS12tC1ksbi8aw6bxdY36xgtjq2+wmZx99RRNouTGy6xWbTuPcJu0f1O3YHH
-        Y96aao/DXxeyeGxa1cnmcefaHjaP/u4WVo/p834yeaxY/Z3d4/MmuQCOKC6blNSczLLUIn27
-        BK6MK6sa2Av+C1fMWHKTsYHxDn8XIyeHhICJxL/uz6xdjFwcQgKLmSQebN/DBOE8YZTobtrM
-        BlLFJqAucWfDN7AqEYHZjBIdbzcwgzjMApsYJabcPM4CUiUskCCx6eoHMJtFQFWiY+EbJhCb
-        V8BSYtaf0ywQ++QlZl76zg5icwpYSTw5+4kZxBYCqnl1+yYrRL2gxMmZT8DqmYHqm7fOZoaw
-        JSQOvngBVS8v8eLScriZ0869ZoawQyW2ftnONIFRaBaSUbOQjJqFZNQCRuZVjEK5mcnZqUWZ
-        2XoFGZUlqcl6KambGEERJsLAtYOxb47HIUYmDsZDjBIczEoivCs59yQL8aYkVlalFuXHF5Xm
-        pBYfYpTmYFES573fw5QoJJCeWJKanZpakFoEk2Xi4JRqYFTgaY1W/lihLDWtejGn2haOlcnn
-        nv457CuT/E58Q8yM3YkP+dhPb5ppJqPkpnW98Xf43pp3SezRdQsMZ0imRz/59uL4xdBZtomZ
-        XEIB+zPkdPnPtR8MLTj0/uxlA52y3JxE9Yhin/3qnc+6TdkZmf9Na/E8K+vEoP094XylkKrU
-        EgWH029WKrEUZyQaajEXFScCAEX6bHeeAgAA
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Message-Id: <167346265519.1103752.16521267476598663004.robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Convert PCA9532 to dtschema
+Date:   Wed, 11 Jan 2023 12:47:13 -0600
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Move RV3028 RTC bindings from trivial-rtc.yaml into microcrystal,rv3032.yaml.
 
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
----
-v2:
-  - Update subject 
-  - Remove not needed quotes
-  - Remove start-year
-  - Use unevaluatedProperties instead of additionalProperties
----
- .../bindings/rtc/microcrystal,rv3028.yaml     | 54 +++++++++++++++++++
- .../devicetree/bindings/rtc/trivial-rtc.yaml  |  2 -
- 2 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/rtc/microcrystal,rv3028.yaml
+On Wed, 11 Jan 2023 17:34:03 +0100, Wadim Egorov wrote:
+> Convert the PCA9532 LED dimmer to dtschema.
+> While at it, also update and the the example to match
+> recommended node names and the link to the product datasheet.
+> 
+> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> ---
+> v2:
+>   - Rename yaml file to match compatibles, nxp,pca953x.yaml
+>   - Remove Jacek Anaszewski from maintainers list
+>   - Remove color labels in example
+>   - Restore labels/default-states from original example
+>   - Drop reg description
+>   - Add unevaluatedProperties to patternProperties scope
+>   - Update description of type property & set default to 0
+>   - Fix indentation in example
+> ---
+>  .../devicetree/bindings/leds/leds-pca9532.txt | 49 -----------
+>  .../devicetree/bindings/leds/nxp,pca953x.yaml | 85 +++++++++++++++++++
+>  2 files changed, 85 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
+> 
 
-diff --git a/Documentation/devicetree/bindings/rtc/microcrystal,rv3028.yaml b/Documentation/devicetree/bindings/rtc/microcrystal,rv3028.yaml
-new file mode 100644
-index 000000000000..5ade5dfad048
---- /dev/null
-+++ b/Documentation/devicetree/bindings/rtc/microcrystal,rv3028.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/rtc/microcrystal,rv3028.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Microchip RV-3028 RTC
-+
-+allOf:
-+  - $ref: rtc.yaml#
-+
-+maintainers:
-+  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-+
-+properties:
-+  compatible:
-+    const: microcrystal,rv3028
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  trickle-resistor-ohms:
-+    enum:
-+      - 3000
-+      - 5000
-+      - 9000
-+      - 15000
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        rtc@51 {
-+            compatible = "microcrystal,rv3028";
-+            reg = <0x51>;
-+            pinctrl-0 = <&rtc_nint_pins>;
-+            interrupts-extended = <&gpio1 16 IRQ_TYPE_LEVEL_HIGH>;
-+            trickle-resistor-ohms = <3000>;
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml b/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
-index d9fc120c61cc..84cce1f0ca0c 100644
---- a/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
-@@ -48,8 +48,6 @@ properties:
-       # Intersil ISL12022 Real-time Clock
-       - isil,isl12022
-       # Real Time Clock Module with I2C-Bus
--      - microcrystal,rv3028
--      # Real Time Clock Module with I2C-Bus
-       - microcrystal,rv3029
-       # Real Time Clock
-       - microcrystal,rv8523
--- 
-2.34.1
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
+
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230111163404.3526248-1-w.egorov@phytec.de
+
+
+leddimmer@62: 'led1', 'led2', 'led3', 'led4' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/rk3288-phycore-rdk.dtb
+
+leds@62: 'led1', 'led2', 'led3' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+	arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb
+
+pca9530@61: 'tft-panel@0' does not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/am335x-pdu001.dtb
+
+pca9532@60: '#gpio-cells', 'gpio-controller' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/lpc3250-ea3250.dtb
+
+pca9532@60: 'psc0', 'psc1', 'pwm0', 'pwm1', 'run.green@1', 'run.red@0', 's1.green@5', 's1.yellow@4', 's2.green@3', 's2.red@2' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/am335x-pdu001.dtb
 
