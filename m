@@ -2,92 +2,231 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86EC8663E15
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Jan 2023 11:25:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 274B6665A72
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Jan 2023 12:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231654AbjAJKZE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Jan 2023 05:25:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51676 "EHLO
+        id S238368AbjAKLkI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Jan 2023 06:40:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238018AbjAJKYV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Jan 2023 05:24:21 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283421DDF4
-        for <linux-leds@vger.kernel.org>; Tue, 10 Jan 2023 02:24:09 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id bs20so11207199wrb.3
-        for <linux-leds@vger.kernel.org>; Tue, 10 Jan 2023 02:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XLuOyy3s/0baMT8hoAYpR+YXI8ZPhEsWih1Yp+EEAhQ=;
-        b=pi3Oh+ribc/7TS0Nv6nUkkgM7Wph4SIDHFUakaFGzg16lXtD9WH1xxl+4Z8UM4T6VA
-         qvq8DLCJ6lm8xfuHxayBC7XK7+XyYFC4pI3j6LO9IRTnB8qY6+gFuPC29ZaSCuZkBi/U
-         FxrzoZjc3Vv6C7n2ISLjtxFJWTNZfXDJ4T2rj82oxNBqVZjQ8Do5IUkMIywZ0knD2932
-         ON3/G8M857odxTh9bNnAYg14gc/eDKWMYbjtI35YTbmeSTwRPr/InWQHabpToX1Dd/Co
-         3OgmsBW+vYsa9c9IFc0nErqRVHJD/4bTU4GLlvLm3FW01vWzX1xTQb5SaMX6KVZa0YWU
-         HDgg==
+        with ESMTP id S238525AbjAKLjk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Jan 2023 06:39:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F286ABC06
+        for <linux-leds@vger.kernel.org>; Wed, 11 Jan 2023 03:35:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673436937;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aHM2nrq0s6Ww2GRqx6ysR7XCOFH9LRjdLLMrpgZ0h6U=;
+        b=GszriPKtmEULQZmluhbNQItDIFMwAxXPGUtMt5oENiSais9Szn5v6Hqd/pNE1uyx3rXtK1
+        zS7gSSNHJ4c3NW+xuQ5MO8jUvL5IECsp2yIbCDDa0H83ZcB4App1FGKYOFxF/waK/3g0bw
+        QcHt3erf+BerfahFKfT0GTIvrLgFPhQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-675-wkLzWkOqNOOlE21ARJi3jw-1; Wed, 11 Jan 2023 06:35:36 -0500
+X-MC-Unique: wkLzWkOqNOOlE21ARJi3jw-1
+Received: by mail-ej1-f70.google.com with SMTP id hr34-20020a1709073fa200b0083a60c1d7abso10076489ejc.13
+        for <linux-leds@vger.kernel.org>; Wed, 11 Jan 2023 03:35:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLuOyy3s/0baMT8hoAYpR+YXI8ZPhEsWih1Yp+EEAhQ=;
-        b=N8W9RKtNnJCeSdowCOCNitbOX8IaVHSjdLFEvqfodZgUxv3sG8zuIsZMQbuAzSYOoD
-         Eya3O+gR88YHRoQGL9G39EvIu7L07dTgsC6yAfy5+IXM5YAjPrs/INr5TDgDLpKtjAh8
-         scVXxQoloFYbqB230Iyqc3bz2CUwSKtM7NRjVrSxhs+ug/ftOHoyiKXQadIc0kjvpvMI
-         R7kaeGsVgKFj4DBI+XmYsqidRVd63lvUTLks55jOZP/Hklm1qCoN4cHPS0h+5TUihrUm
-         wzEKGDXxRndQDyYZdUi7TQUVIuU1KpoHWA1gCB8Vj4N/1NXi5z+iijMXUE0Hv/U7VVfr
-         2Quw==
-X-Gm-Message-State: AFqh2ko41wnD0D+0VlGl6zWtVe1jW5FI7cl3aCjOCpXuvzewbCCrye6/
-        yNCFaWXu81W8AUblBHnvpxno9w==
-X-Google-Smtp-Source: AMrXdXuhBtSofMAb4pe/KhOs/hoE2XHHPja+Es5fHCB2f8hxEWzT6s1BovuMVbKotq8AOJTVPf4gIA==
-X-Received: by 2002:a5d:4dd0:0:b0:2bc:8057:acc with SMTP id f16-20020a5d4dd0000000b002bc80570accmr3077205wru.7.1673346247753;
-        Tue, 10 Jan 2023 02:24:07 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id t17-20020adff611000000b00236488f62d6sm10633857wrp.79.2023.01.10.02.24.05
+        bh=aHM2nrq0s6Ww2GRqx6ysR7XCOFH9LRjdLLMrpgZ0h6U=;
+        b=wrrbBISIStrJ9hjTuqUa15Mw1tb49XVqCJb0NaLwsQvQW/hDvH3w7BaOV7WHfWZo8d
+         /uhTkUuTQy18C52AJkQ6Is7G/rG8Nlk3kM35PfvxGohJeGoq/NVySxPtPZWD4g6ZQwa7
+         N4CirRIxOpgLkFDXLH3Exhhaj6I1OM6b4yw5S/PIYeFFOd/8T5Fzaj7jkbhYwgikNmtF
+         h1Nx+UOfis2+zet0R5Eno+KST2UiM8WyCaoVLNXJmHFqm7Bcf4+EQlqve5BGFJDqdljJ
+         HycgGrpg2OYeZnfbTZsOM+G0cmoiMz4ZLudZ3j4ttCXP0DZQvZlCtOiuTnmm1KSVRfDN
+         bH6g==
+X-Gm-Message-State: AFqh2kqh0yxYmcdMK3129CmNV3lb0C9GjCfixkBnHLhZDXDx4N9YO566
+        Cj8Y7+Vu5GlhidBtb7rPHsM4gErEbHxRZT6zsh67AsWFKlxAQDLrx/2DafYBHCISGUi+x5G84bV
+        edjM9kcNLuWRlhFongMBDpg==
+X-Received: by 2002:a17:906:a19a:b0:7c1:6d65:4718 with SMTP id s26-20020a170906a19a00b007c16d654718mr62940121ejy.33.1673436935055;
+        Wed, 11 Jan 2023 03:35:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXugso+wPAehAcdGPV3PaQJQuAyz1wjv3Cn6uo0v71xo5Wz6pAe3kQp44xPM4llry88QH/tdnQ==
+X-Received: by 2002:a17:906:a19a:b0:7c1:6d65:4718 with SMTP id s26-20020a170906a19a00b007c16d654718mr62940100ejy.33.1673436934864;
+        Wed, 11 Jan 2023 03:35:34 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a3-20020aa7cf03000000b0049019b48373sm5959303edy.85.2023.01.11.03.35.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jan 2023 02:24:07 -0800 (PST)
-Message-ID: <f27f5487-785b-5366-8de4-6df991fab8b4@linaro.org>
-Date:   Tue, 10 Jan 2023 11:24:05 +0100
+        Wed, 11 Jan 2023 03:35:34 -0800 (PST)
+Message-ID: <7bd5d013-d0d8-8020-d91a-39917fa61f33@redhat.com>
+Date:   Wed, 11 Jan 2023 12:35:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds-lp55xx: add ti,charge-pump-mode
-Content-Language: en-US
-To:     Maarten Zanders <maarten.zanders@mind.be>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230110092342.24132-1-maarten.zanders@mind.be>
- <20230110092342.24132-2-maarten.zanders@mind.be>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230110092342.24132-2-maarten.zanders@mind.be>
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 08/11] platform/x86: int3472/discrete: Create a LED
+ class device for the privacy LED
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+References: <20221216113013.126881-1-hdegoede@redhat.com>
+ <20221216113013.126881-9-hdegoede@redhat.com>
+ <Y5x9uHm8NnVHc0Lv@smile.fi.intel.com>
+ <d3d28b30-a364-66eb-7870-06c43d683bb7@redhat.com>
+ <Y5ynWBqkhLB2cHYU@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y5ynWBqkhLB2cHYU@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/01/2023 10:23, Maarten Zanders wrote:
-> Add a binding to configure the internal charge pump for lp55xx.
+Hi,
+
+On 12/16/22 18:14, Andy Shevchenko wrote:
+> On Fri, Dec 16, 2022 at 05:29:13PM +0100, Hans de Goede wrote:
+>> On 12/16/22 15:16, Andy Shevchenko wrote:
+>>> On Fri, Dec 16, 2022 at 12:30:10PM +0100, Hans de Goede wrote:
 > 
-> Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
-> ---
+> ...
+> 
+>>>> +	if (IS_ERR(int3472->pled.gpio)) {
+>>>> +		ret = PTR_ERR(int3472->pled.gpio);
+>>>> +		return dev_err_probe(int3472->dev, ret, "getting privacy LED GPIO\n");
+>>>
+>>> 	return dev_err_probe(...);
+>>
+>> That goes over 100 chars.
+> 
+> The point is you don't need ret to be initialized. Moreover, no-one prevents
+> you to split the line to two.
+
+The compiler is perfectly capable of optimizing away the store
+in ret if that is not necessary; and splitting the line instead
+of doing it above will just make the code harder to read.
+
+Also this really is bikeshedding...
+
+> 
+>>>> +	}
+> 
+> ...
+> 
+>>>> +	/* Generate the name, replacing the ':' in the ACPI devname with '_' */
+>>>> +	snprintf(int3472->pled.name, sizeof(int3472->pled.name),
+>>>> +		 "%s::privacy_led", acpi_dev_name(int3472->sensor));
+>>>
+>>>> +	for (i = 0; int3472->pled.name[i]; i++) {
+>>>> +		if (int3472->pled.name[i] == ':') {
+>>>> +			int3472->pled.name[i] = '_';
+>>>> +			break;
+>>>> +		}
+>>>> +	}
+>>>
+>>> NIH strreplace().
+>>
+>> Please look more careful, quoting from the strreplace() docs:
+>>
+>>  * strreplace - Replace all occurrences of character in string.
+>>
+>> Notice the *all* and we only want to replace the first ':' here,
+>> because the ':' char has a special meaning in LED class-device-names.
+> 
+> It's still possible to use that, but anyway, the above is still
+> something NIH.
+> 
+> 	char *p;
+> 
+> 	p = strchr(name, ':');
+> 	*p = '_';
+
+Ok, In will switch to this for the next version.
+
+> But either code has an issue if by some reason you need to check if : is ever
+> present in acpi_dev_name().
+
+acpi device names are set by this code:
+
+        result = ida_alloc(instance_ida, GFP_KERNEL);
+        if (result < 0)
+                return result;
+
+        device->pnp.instance_no = result;
+        dev_set_name(&device->dev, "%s:%02x", acpi_device_bus_id->bus_id, result);
+
+And the bus_id cannot have a : in it, so there always is a single :.
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> The more robust is either to copy acpi_dev_name(), call strreplace(), so you
+> will be sure that _all_ : from ACPI device name will be covered and then attach
+> the rest.
+> 
+> ...
+> 
+>>>> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472)
+>>>> +{
+>>>> +	if (IS_ERR_OR_NULL(int3472->pled.classdev.dev))
+>>>> +		return;
+>>>
+>>> This dups the check inside the _unregister() below, right?
+>>
+>> Right.
+>>
+>>>> +	led_remove_lookup(&int3472->pled.lookup);
+>>>
+>>> With list_del_init() I believe the above check can be droped.
+>>
+>> No it cannot, list_del_init() inside led_remove_lookup() would
+>> protect against double led_remove_lookup() calls.
+>>
+>> But here we may have a completely uninitialized list_head on
+>> devices without an INT3472 privacy-led, which will trigger
+>> either __list_del_entry_valid() errors or lead to NULL
+>> pointer derefs.
+> 
+> But we can initialize that as well...
 
-Best regards,
-Krzysztof
+The standard pattern in the kernel is that INIT_LIST_HEAD()
+is only used for list_head-s which are actually used as the head
+of the list. list_head-s used to track members of the list are
+usually not initialized until they are added to the list.
+
+Doing multiple list-init-s in multiple cases, including
+one in *subsystem core code* just to drop an if here seems
+counter productive.
+
+Also checking that we can move forward with the unregister
+is a good idea regardless of all the called functions being
+able to run safely if the register never happened, because
+future changes to the unregister function might end up
+doing something which is unsafe when the LED was never
+registered in the first place.
+
+Regards,
+
+Hans
+
+
+
+
+> 
+>>>> +	led_classdev_unregister(&int3472->pled.classdev);
+>>>> +	gpiod_put(int3472->pled.gpio);
+>>>> +}
+> 
 
