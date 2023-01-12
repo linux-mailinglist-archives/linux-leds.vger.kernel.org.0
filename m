@@ -2,89 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E3E666E05
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Jan 2023 10:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0E07668364
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Jan 2023 21:08:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240060AbjALJ0r (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Jan 2023 04:26:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S240624AbjALUHa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Jan 2023 15:07:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239859AbjALJ0X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Jan 2023 04:26:23 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A9321A23F
-        for <linux-leds@vger.kernel.org>; Thu, 12 Jan 2023 01:16:29 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id u9so43251888ejo.0
-        for <linux-leds@vger.kernel.org>; Thu, 12 Jan 2023 01:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKR2tXKyALNq5BiHC3M8UwwfGSVJszQwrE9Cpy7GyxA=;
-        b=qcfr3oUGRPmLkFvhnqk2sM0zqTxrvx8QgbhTwONUMbUZGR3JEKj2wmGfuZ8FIBIC6+
-         aTckz82ae5wih36cb1CuxCOgzmzotwWXLTYEnuSTELmjnKQ01rPVMwOMxIFhIYHqaH64
-         iO7178U096AMqLUA3WNLFuBnjohLrRraGWhO3CFGmWMuJzIjoaBFwBi7j5jSvHwIhd5B
-         CS4Q5wdRdw54Eiwi7DV8KoqjlQ+UeowyzdUGZIcLCVq9WjGJbTf/7PcyioI2IGbA5IWl
-         URRRFxlpgQAHM3JnTviBLgRKTN0+pqBsJU4vKdwR0XlKKAarZAt3f2TX0kYHNylTrfog
-         bLSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKR2tXKyALNq5BiHC3M8UwwfGSVJszQwrE9Cpy7GyxA=;
-        b=WGjYoPYY7r0BESVCIgAYUvBqp8+DBuNesUAjHjjjoQr4vcWnSERl2TyTmE3qkgtFNW
-         7Ru+ne4tkpt7PDNhqbQEpH5mc2qJ496mCisAhjjMpi3rkRXEH0QowBwkumFLLR0OwV1a
-         eVpfDRRRwWwLZ1IcxfM8sH9961gbvBd7DFUBn6Z/1dbvdm9GJrticFwCC+tkNIUbk2nQ
-         UAO88HzEGIFAR4BMWibi2KRyU+d/gvbugGCr0eH5JfdLC3PdyJhHcbaVrIDKQYTbI1Ju
-         cbArAG6qjNnOSZHXIurLu5QHuemtnP6hTU0prdWSiuo745O8twh0efmFHivJ8laBpd89
-         +oCw==
-X-Gm-Message-State: AFqh2kpgjQ+YIZYLtH68Z76KzkA9udb4Eotu5OD/RrJPRLY2QAQW+emK
-        zTgEox6bGmyFTEMFY0TYmpukOg==
-X-Google-Smtp-Source: AMrXdXsHr93+ZbXdYi8g1JbBSFkw8D4sHzKUP1p8Wt9Y0ByRiqExj1DEJ3QGEWmiaj2EtcCmRxhvjg==
-X-Received: by 2002:a17:907:c202:b0:7ad:b14f:dea4 with SMTP id ti2-20020a170907c20200b007adb14fdea4mr65519714ejc.14.1673514987634;
-        Thu, 12 Jan 2023 01:16:27 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id x3-20020a170906b08300b007c0688a68cbsm7303890ejy.176.2023.01.12.01.16.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jan 2023 01:16:27 -0800 (PST)
-Message-ID: <1b827ded-cc34-23ae-4b60-7e7993ce659d@linaro.org>
-Date:   Thu, 12 Jan 2023 10:16:25 +0100
+        with ESMTP id S241389AbjALUDw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Jan 2023 15:03:52 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4252713E2A;
+        Thu, 12 Jan 2023 12:01:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E0FBDB81E62;
+        Thu, 12 Jan 2023 20:01:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28061C433D2;
+        Thu, 12 Jan 2023 20:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673553688;
+        bh=DjplknG/Og42vIVzT/q7FbntQdQMbrnKJqFFsTyhjNM=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=EUafdQGi6kPVntwFcsX8dQ++eMfDpAt4hRufXGYp4rn3498p9O5an8Dtzb32f8VZO
+         /0dwxqLx9EiZWyrofGYjXdGydKTREAjzdQvusJ0Ow7D4V0fv83WO6VIMOVK93JIW2S
+         WKNFKVIBv7VwC+kTD5h1WgF5etFBp2YPn8S3ZXmT1Seav9nsmaQ1vhNBslaNNmcYRn
+         zsCLB4TmasZgZxWFa1UpanGfaUnDdJStrP+pk1HardQUH3NiBxgoCCXTezH0ic2ZBw
+         6otuSPV9m9aONvZu3dzL7IfHqeZgMZCL4VALktP1HibdXNi78cOSWjN0jogQQsvptF
+         31XhLFJQie5QQ==
+From:   Mark Brown <broonie@kernel.org>
+To:     Robert Jarzmik <robert.jarzmik@free.fr>,
+        Arnd Bergmann <arnd@kernel.org>
+Cc:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, stern@rowland.harvard.edu,
+        alexandre.belloni@bootlin.com, brgl@bgdev.pl,
+        damien.lemoal@opensource.wdc.com, dmitry.torokhov@gmail.com,
+        linux@dominikbrodowski.net, balbi@kernel.org,
+        gregkh@linuxfoundation.org, deller@gmx.de, perex@perex.cz,
+        jingoohan1@gmail.com, lee@kernel.org, kernel@wantstofly.org,
+        lgirdwood@gmail.com, linus.walleij@linaro.org,
+        marek.vasut@gmail.com, mkpetch@internode.on.net,
+        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
+        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
+        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
+        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
+        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
+        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
+In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
+References: <20230105134622.254560-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/27] ARM: pxa: remove all unused boards&drivers
+Message-Id: <167355367885.2500964.3629822486060649314.b4-ty@kernel.org>
+Date:   Thu, 12 Jan 2023 20:01:18 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 2/3] dt-bindings: leds: add worldsemi,ws2812b
-Content-Language: en-US
-To:     Chuanhong Guo <gch981213@gmail.com>, Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20221212045558.69602-1-gch981213@gmail.com>
- <20221212045558.69602-3-gch981213@gmail.com>
- <c592dd31-5e9a-c2a2-1c70-46b7cffa9c5d@linaro.org>
- <Y6XjHNCLXY9s1IOF@duo.ucw.cz>
- <9d2c05f6-af5a-2d79-02ea-85c49e244957@linaro.org>
- <Y7xGUiWBKIAm9YFA@google.com>
- <1905de3e-438e-b729-7c1c-b154998c5eb6@linaro.org>
- <Y708DfB41c/ZivRw@google.com>
- <CAJsYDVJC15cePQ65BR=dxKY8ADoRepbiiFqXTNQzh_6RTAeMYA@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAJsYDVJC15cePQ65BR=dxKY8ADoRepbiiFqXTNQzh_6RTAeMYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-Mailer: b4 0.12-dev-8b3d1
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,194 +75,45 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/01/2023 19:53, Chuanhong Guo wrote:
-> Hi!
+On Thu, 05 Jan 2023 14:45:55 +0100, Arnd Bergmann wrote:
+> Most of the legacy PXA board files were marked as unused in linux-5.19 and
+> can get removed in linux-6.3. There is support for pxa250/pxa270/pxa300
+> using devicetree already, which supports a number of boards, but progress
+> on converting the remaining ones has stalled over the past few years.
 > 
-> On Tue, Jan 10, 2023 at 6:21 PM Lee Jones <lee@kernel.org> wrote:
->>
->> On Tue, 10 Jan 2023, Krzysztof Kozlowski wrote:
->>
->>> On 09/01/2023 17:52, Lee Jones wrote:
->>>> On Sat, 24 Dec 2022, Krzysztof Kozlowski wrote:
->>>>
->>>>> On 23/12/2022 18:19, Pavel Machek wrote:
->>>>>> Hi!
->>>>>>
->>>>>>>> Add dt binding schema for WorldSemi WS2812B driven using SPI
->>>>>>>> bus.
->>>>>>>>
->>>>>>>> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
->>>>>>>> ---
->>>>>>>> Changes since v1:
->>>>>>>> remove linux driver reference from description
->>>>>>>> remove some obvious descriptions
->>>>>>>> fix unit address regex in multi-led property
->>>>>>>> drop various minItems
->>>>>>>> add maxItems = 1 to reg
->>>>>>>> fix node names and property orders in binding example
->>>>>>>> drop -spi from compatible string
->>>>>>>> add default-brightness
->>>>>>>>
->>>>>>>> Change since v2:
->>>>>>>> drop "this patch" from commit message
->>>>>>>> rename leds to led-controller
->>>>>>>> drop default-brightness and default-intensity
->>>>>>>>
->>>>>>>> Change since v3:
->>>>>>>> reword commit title
->>>>>>>>
->>>>>>>>  .../bindings/leds/worldsemi,ws2812b.yaml      | 116 ++++++++++++++++++
->>>>>>>>  1 file changed, 116 insertions(+)
->>>>>>>>  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
->>>>>>>>
->>>>>>>> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
->>>>>>>> new file mode 100644
->>>>>>>> index 000000000000..548c05ac3d31
->>>>>>>> --- /dev/null
->>>>>>>> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
->>>>>>>> @@ -0,0 +1,116 @@
->>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>>> +%YAML 1.2
->>>>>>>> +---
->>>>>>>> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
->>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>>> +
->>>>>>>> +title: WS2812B LEDs driven using SPI
->>>>>>>> +
->>>>>>>> +maintainers:
->>>>>>>> +  - Chuanhong Guo <gch981213@gmail.com>
->>>>>>>> +
->>>>>>>> +description: |
->>>>>>>> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
->>>>>>>> +  together and controlled individually using a single wire.
->>>>>>>> +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
->>>>>>>> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
->>>>>>>> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
->>>>>>>> +  for the data pin.
->>>>>>>> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
->>>>>>>> +  and the controller needs to send all the bytes continuously.
->>>>>>>> +
->>>>>>>> +allOf:
->>>>>>>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>>>>>>> +
->>>>>>>> +properties:
->>>>>>>> +  compatible:
->>>>>>>> +    const: worldsemi,ws2812b
->>>>>>>> +
->>>>>>>> +  reg:
->>>>>>>> +    maxItems: 1
->>>>>>>> +
->>>>>>>> +  spi-max-frequency:
->>>>>>>> +    minimum: 2105000
->>>>>>>> +    maximum: 2850000
->>>>>>>> +
->>>>>>>> +  "#address-cells":
->>>>>>>> +    const: 1
->>>>>>>> +
->>>>>>>> +  "#size-cells":
->>>>>>>> +    const: 0
->>>>>>>> +
->>>>>>>> +patternProperties:
->>>>>>>> +  "^multi-led@[0-9a-f]+$":
->>>>>>>> +    type: object
->>>>>>>> +    $ref: leds-class-multicolor.yaml#
->>>>>>>> +    unevaluatedProperties: false
->>>>>>>> +
->>>>>>>> +    properties:
->>>>>>>> +      color-index:
->>>>
->>>> Why "index"?
->>>>
->>>> Isn't it just an array of colours rather than an index into something?
->>>
->>> Yeah.
+> The two boards that are left in the tree for now are the three 'sharpsl'
+> variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
+> Both of these are supported by qemu, which can be helpful for completing
+> the DT conversion.
 > 
-> The corresponding sysfs interface is called 'multi_index' so I called
-> it this way.
-> 
->>>
->>>>
->>>>>>>> +        description: |
->>>>>>>> +          A 3-item array specifying color of each components in this LED. It
->>>>
->>>> Why are you forcing this to 3?
->>>>
->>>> Surely there are multi-colour LEDs containing more or less colours?
->>>
->>> For this device, because it has only tuples of three.
-> 
-> WS2812B has 3 colors per chip. There are chips using a similar protocol
-> with 4 colors but my current driver is hard-coded to support exactly 3 colors.
-> 
->> This doesn't looks like a device specific property to me.
->>
->> If this is not going to be used by any other device, shouldn't it
->> contain a prefix?
->>
->>>>>>>> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
->>>>>>>> +          header include/dt-bindings/leds/common.h. Defaults to
->>>>
->>>> Isn't "include" a Linuxisum?
->>>
->>> No, better to have full paths, so automated tools can validate them. If
->>> we ever decide to drop it, we can also make a easier search&replace for
->>> the pattern starting with include/.
->>
->> Very well.  It's your train set. :)
->>
->>>>>>>> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
->>>>>>>> +          if unspecified.
->>>>>>>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
->>>>>>>> +        maxItems: 3
->>>>>>>
->>>>>>> In general I am fine with it, although there is still question for
->>>>>>> adding more multi-color defines in binding headers to replace this
->>>>>>> property - GRB/RBG/GBR and even more for RGBW.
->>>>>>>
->>>>>>> Pavel, Lee, any thoughts from your side?
->>>>>>
->>>>>> This really needs to mention the name this hardware is known as -- I
->>>>>> believe it is NeoPixel.
->>>>>
->>>>> We wait here for feedback on colors... The binding is re-implementing
->>>>> color, just because of combinations GRB/RBG/GBR, which could be achieved
->>>>> with new color defines.
->>>>
->>>> Sure, but where does that end?
->>>>
->>>> How many permutations are there likely to be?
->>>
->>> For light emitting devices, RGB seems to be used for so long, that I
->>> don't expect more permutations (e.g. CMY). On the other hand, someone
->>> might create LED strip with whatever colors, so maybe indeed better to
->>> allow any variations as in array.
->>
->> Even you suggested variation: "even more for RGBW".
->>
->> Caveat: as you are well aware, "I'm new here", so my input is no more
->> informed or valuable as yours at this point.  I'm just calling it as I
->> see it.  If you have strong opinions and they differ wildly from mine,
->> we may have to take intervention from Pavel.  As it stands, the
->> property, although slightly restricted IMHO, appears fine.
->>
->>>> An unlimited array has more of a chance of standing the test of time.
-> 
-> I have another idea that avoids this whole conversation: Abandon
-> color-index completely and determine colors with compatible string
-> and platform data.
-> My original idea of this property is to support WS2812B and its clones
-> with different colors under the same compatible string. Technically
-> genuine WS2812Bs only come with GRB colors and the clones
-> should have their own chip names (e.g. xiaomi,hm0807a for an RGB
-> clone and <unknown vendor>,sk6812 for an RGBW one.). It's
-> reasonable to have one compatible string per chip for colors, a
-> chip-specific property. Also, adding more compatible devices to a
-> driver is less invasive than adding more definitions to leds/common.h
-> What do you think?
+> [...]
 
-This sounds good. However it should not lead to compatibles like
-worldsemi,ws2812b-rgb, worldsemi,ws2812b-bgr etc.
+Applied to
 
-Best regards,
-Krzysztof
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
+
+[14/27] ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
+        commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae
+[15/27] ASoC: pxa: remove unused board support
+        (no commit info)
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
