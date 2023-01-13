@@ -2,277 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF44669B5E
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 16:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E6D669DD6
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 17:25:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjAMPGK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Jan 2023 10:06:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        id S230095AbjAMQZw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Jan 2023 11:25:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbjAMPF1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 10:05:27 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 313DD8B527;
-        Fri, 13 Jan 2023 06:57:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 1E12BCE20E1;
-        Fri, 13 Jan 2023 14:57:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27201C433D2;
-        Fri, 13 Jan 2023 14:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673621818;
-        bh=2w1ZnX3BjJMXLuKVlD5KgZNiwlFbFvoj93igc66pi3w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tru5ErmKZdHg05GwSrsIYkF6DAbHWRmj1fhPbjT9dvCo401eB4eLtnKhsXZZxLbrb
-         WoSqOWh7yizbW3lRApNXURPcA+4Pluw6hUxb+W8uHQAFh5D6g1xlv4bV9paenruouW
-         3pEhv2AVzAuL/XoGGoWwpCd2G8HlrD8eB2N3ESNPAw8JVDF7u2c309nR4v7dL5iA2I
-         7WDd3rga2gFiyy6tINj9ey3TiiE4pW7UdqgXSfFv4N+wCLFdghpafQ1K2/cD2za+yx
-         5j0OFSlqaAhld/9WFBRiLMuN3iWbU8ulwNv530hIj7lUJGXWld1GDxnUOvKJymxbBY
-         NWxP4B/WX4K7w==
-Date:   Fri, 13 Jan 2023 14:56:51 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Chuanhong Guo <gch981213@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] dt-bindings: leds: add worldsemi,ws2812b
-Message-ID: <Y8FxM/qW3IL2y4YY@google.com>
-References: <20221212045558.69602-1-gch981213@gmail.com>
- <20221212045558.69602-3-gch981213@gmail.com>
- <c592dd31-5e9a-c2a2-1c70-46b7cffa9c5d@linaro.org>
- <Y6XjHNCLXY9s1IOF@duo.ucw.cz>
- <9d2c05f6-af5a-2d79-02ea-85c49e244957@linaro.org>
- <Y7xGUiWBKIAm9YFA@google.com>
- <1905de3e-438e-b729-7c1c-b154998c5eb6@linaro.org>
- <Y708DfB41c/ZivRw@google.com>
- <CAJsYDVJC15cePQ65BR=dxKY8ADoRepbiiFqXTNQzh_6RTAeMYA@mail.gmail.com>
+        with ESMTP id S230200AbjAMQYp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 11:24:45 -0500
+Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BF45F49C
+        for <linux-leds@vger.kernel.org>; Fri, 13 Jan 2023 08:18:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+        q=dns/txt; i=@phytec.de; t=1673626706; x=1676218706;
+        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=/xV9KQhAOgiWf7LCH+eXUHu4xospcdFIUdu/VAD2l/g=;
+        b=L1Rz7Z2G0gK3mwgOFgMp20M3bVL8qQ5MxDwktTIugpwi7EdlkI2kiuRJoKW+cZN0
+        La/cYBpk4e2H58IxmsIfxipkIkEfliDBVXuZKGmyYmIr908Rm09DsTh0LjUMb/PS
+        2KxhfaC1F8i8ZH7VzBqiScs6JIwsXMwbN00fTCBlSuI=;
+X-AuditID: ac14000a-917fe70000007ecb-fa-63c18452eb4e
+Received: from Diagnostix.phytec.de (Diagnostix.phytec.de [172.25.0.14])
+        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 03.DC.32459.25481C36; Fri, 13 Jan 2023 17:18:26 +0100 (CET)
+Received: from Berlix.phytec.de (172.25.0.12) by Diagnostix.phytec.de
+ (172.25.0.14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 13 Jan
+ 2023 17:18:26 +0100
+Received: from Berlix.phytec.de ([fe80::61cc:ebf0:7375:8768]) by
+ berlix.phytec.de ([fe80::197e:d26b:2ca:c7b4%4]) with mapi id 15.01.2375.018;
+ Fri, 13 Jan 2023 17:18:26 +0100
+From:   Wadim Egorov <W.Egorov@phytec.de>
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "upstream@lists.phytec.de" <upstream@lists.phytec.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Convert PCA9532 to dtschema
+Thread-Topic: [PATCH v2 1/2] dt-bindings: leds: Convert PCA9532 to dtschema
+Thread-Index: AQHZJe0oUHRxzvM6PEqccdluqYg+dq6Zfs+AgAL55oA=
+Date:   Fri, 13 Jan 2023 16:18:26 +0000
+Message-ID: <9e544e49-3f28-c628-196f-2e0fed6584ec@phytec.de>
+References: <20230111163404.3526248-1-w.egorov@phytec.de>
+ <167346265519.1103752.16521267476598663004.robh@kernel.org>
+ <CAL_JsqJ0e__gb6xQxJ-XhJfyBx3mYdhqipqi9i1AoBaxoaBHiA@mail.gmail.com>
+In-Reply-To: <CAL_JsqJ0e__gb6xQxJ-XhJfyBx3mYdhqipqi9i1AoBaxoaBHiA@mail.gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.0.11]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E14F8E4D69F3054494F0CB36B7A17E1F@phytec.de>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJsYDVJC15cePQ65BR=dxKY8ADoRepbiiFqXTNQzh_6RTAeMYA@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHIsWRmVeSWpSXmKPExsWyRpKBTzeo5WCywZzH4hZLLl5lt2h/t4zd
+        Yv6Rc6wWfS8eMlvsaFvIYnF51xw2i61v1jFaHFt9hc3i7qmjbBYnN1xis2jde4TdovudugOP
+        x7w11R6Hvy5k8di0qpPN4861PWwe/d0trB7T5/1k8lix+ju7x+dNcgEcUVw2Kak5mWWpRfp2
+        CVwZu/tnMRX8U6i4eek3UwPjBIUuRk4OCQETiak7jjN2MXJxCAmsZZI4NmMLE4TzhFHi66JJ
+        UM5GIOf1QhaQFjYBdYmJf0+wgtgiAioSG57fYgYpYha4yyIxY8pSsCJhAS+JBdtWM0MUeUtc
+        7z3BBGFbSby/+YQRxGYRUJWYOfk+WA2vgI3E3Bs/2CC27WOUuH+oHSzBKRAoMXXKezCbUUBW
+        YsOG82A2s4C4xKZn31khnhCQWLIHIi4hICrx8vE/qLi8xIlb04AWcwDVa0qs36UP0WohMf/9
+        DXYIW1FiSvdDdogbBCVOznzCMoFRfBaSDbMQumch6Z6FpHsWku4FjKyrGIVyM5OzU4sys/UK
+        MipLUpP1UlI3MYLSgAgD1w7GvjkehxiZOBgPMUpwMCuJ8O45uj9ZiDclsbIqtSg/vqg0J7X4
+        EKM0B4uSOO/9HqZEIYH0xJLU7NTUgtQimCwTB6dUA2O8g1Qzl/+P5Z6LX21sa5+V41rbUvzx
+        zl1PtifPL2yzWuaxUFPmscPsUCs7HkYPudXf3G0jf+746fvxSUKIktqXqhez0hi3Ovzg71oq
+        1vRgy+n1vuWH6ouZOZSv6L9dfe32gTa/HSK66qppWw3Dmd3yH5TxHhXLWrCN/a908tzgqaub
+        ux6In1RiKc5INNRiLipOBAAHHPea8QIAAA==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 12 Jan 2023, Chuanhong Guo wrote:
-
-> Hi!
-> 
-> On Tue, Jan 10, 2023 at 6:21 PM Lee Jones <lee@kernel.org> wrote:
-> >
-> > On Tue, 10 Jan 2023, Krzysztof Kozlowski wrote:
-> >
-> > > On 09/01/2023 17:52, Lee Jones wrote:
-> > > > On Sat, 24 Dec 2022, Krzysztof Kozlowski wrote:
-> > > >
-> > > >> On 23/12/2022 18:19, Pavel Machek wrote:
-> > > >>> Hi!
-> > > >>>
-> > > >>>>> Add dt binding schema for WorldSemi WS2812B driven using SPI
-> > > >>>>> bus.
-> > > >>>>>
-> > > >>>>> Signed-off-by: Chuanhong Guo <gch981213@gmail.com>
-> > > >>>>> ---
-> > > >>>>> Changes since v1:
-> > > >>>>> remove linux driver reference from description
-> > > >>>>> remove some obvious descriptions
-> > > >>>>> fix unit address regex in multi-led property
-> > > >>>>> drop various minItems
-> > > >>>>> add maxItems = 1 to reg
-> > > >>>>> fix node names and property orders in binding example
-> > > >>>>> drop -spi from compatible string
-> > > >>>>> add default-brightness
-> > > >>>>>
-> > > >>>>> Change since v2:
-> > > >>>>> drop "this patch" from commit message
-> > > >>>>> rename leds to led-controller
-> > > >>>>> drop default-brightness and default-intensity
-> > > >>>>>
-> > > >>>>> Change since v3:
-> > > >>>>> reword commit title
-> > > >>>>>
-> > > >>>>>  .../bindings/leds/worldsemi,ws2812b.yaml      | 116 ++++++++++++++++++
-> > > >>>>>  1 file changed, 116 insertions(+)
-> > > >>>>>  create mode 100644 Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> > > >>>>>
-> > > >>>>> diff --git a/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> > > >>>>> new file mode 100644
-> > > >>>>> index 000000000000..548c05ac3d31
-> > > >>>>> --- /dev/null
-> > > >>>>> +++ b/Documentation/devicetree/bindings/leds/worldsemi,ws2812b.yaml
-> > > >>>>> @@ -0,0 +1,116 @@
-> > > >>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > >>>>> +%YAML 1.2
-> > > >>>>> +---
-> > > >>>>> +$id: http://devicetree.org/schemas/leds/worldsemi,ws2812b.yaml#
-> > > >>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > >>>>> +
-> > > >>>>> +title: WS2812B LEDs driven using SPI
-> > > >>>>> +
-> > > >>>>> +maintainers:
-> > > >>>>> +  - Chuanhong Guo <gch981213@gmail.com>
-> > > >>>>> +
-> > > >>>>> +description: |
-> > > >>>>> +  WorldSemi WS2812B is a individually addressable LED chip that can be chained
-> > > >>>>> +  together and controlled individually using a single wire.
-> > > >>>>> +  This binding describes a chain of WS2812B LEDs connected to the SPI MOSI pin.
-> > > >>>>> +  Typical setups includes connecting the data pin of the LED chain to MOSI as
-> > > >>>>> +  the only device or using CS and MOSI with a tri-state voltage-level shifter
-> > > >>>>> +  for the data pin.
-> > > >>>>> +  The SPI frequency needs to be 2.105MHz~2.85MHz for the timing to be correct
-> > > >>>>> +  and the controller needs to send all the bytes continuously.
-> > > >>>>> +
-> > > >>>>> +allOf:
-> > > >>>>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > > >>>>> +
-> > > >>>>> +properties:
-> > > >>>>> +  compatible:
-> > > >>>>> +    const: worldsemi,ws2812b
-> > > >>>>> +
-> > > >>>>> +  reg:
-> > > >>>>> +    maxItems: 1
-> > > >>>>> +
-> > > >>>>> +  spi-max-frequency:
-> > > >>>>> +    minimum: 2105000
-> > > >>>>> +    maximum: 2850000
-> > > >>>>> +
-> > > >>>>> +  "#address-cells":
-> > > >>>>> +    const: 1
-> > > >>>>> +
-> > > >>>>> +  "#size-cells":
-> > > >>>>> +    const: 0
-> > > >>>>> +
-> > > >>>>> +patternProperties:
-> > > >>>>> +  "^multi-led@[0-9a-f]+$":
-> > > >>>>> +    type: object
-> > > >>>>> +    $ref: leds-class-multicolor.yaml#
-> > > >>>>> +    unevaluatedProperties: false
-> > > >>>>> +
-> > > >>>>> +    properties:
-> > > >>>>> +      color-index:
-> > > >
-> > > > Why "index"?
-> > > >
-> > > > Isn't it just an array of colours rather than an index into something?
-> > >
-> > > Yeah.
-> 
-> The corresponding sysfs interface is called 'multi_index' so I called
-> it this way.
-
-DT nomenclature should not be affected by Linuxisums.
-
-Please err towards data-sheet and H/W nomenclature.
-
-> > > >>>>> +        description: |
-> > > >>>>> +          A 3-item array specifying color of each components in this LED. It
-> > > >
-> > > > Why are you forcing this to 3?
-> > > >
-> > > > Surely there are multi-colour LEDs containing more or less colours?
-> > >
-> > > For this device, because it has only tuples of three.
-> 
-> WS2812B has 3 colors per chip. There are chips using a similar protocol
-> with 4 colors but my current driver is hard-coded to support exactly 3 colors.
-
-So the description is for 'this device' rather than any re-use.
-
-And the handling of this property is only contained in your driver?
-
-In which case, my understanding is that you should use a prefix.
-
-> > This doesn't looks like a device specific property to me.
-> >
-> > If this is not going to be used by any other device, shouldn't it
-> > contain a prefix?
-> >
-> > > >>>>> +          should be one of the LED_COLOR_ID_* prefixed definitions from the
-> > > >>>>> +          header include/dt-bindings/leds/common.h. Defaults to
-> > > >
-> > > > Isn't "include" a Linuxisum?
-> > >
-> > > No, better to have full paths, so automated tools can validate them. If
-> > > we ever decide to drop it, we can also make a easier search&replace for
-> > > the pattern starting with include/.
-> >
-> > Very well.  It's your train set. :)
-> >
-> > > >>>>> +          <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>
-> > > >>>>> +          if unspecified.
-> > > >>>>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > >>>>> +        maxItems: 3
-> > > >>>>
-> > > >>>> In general I am fine with it, although there is still question for
-> > > >>>> adding more multi-color defines in binding headers to replace this
-> > > >>>> property - GRB/RBG/GBR and even more for RGBW.
-> > > >>>>
-> > > >>>> Pavel, Lee, any thoughts from your side?
-> > > >>>
-> > > >>> This really needs to mention the name this hardware is known as -- I
-> > > >>> believe it is NeoPixel.
-> > > >>
-> > > >> We wait here for feedback on colors... The binding is re-implementing
-> > > >> color, just because of combinations GRB/RBG/GBR, which could be achieved
-> > > >> with new color defines.
-> > > >
-> > > > Sure, but where does that end?
-> > > >
-> > > > How many permutations are there likely to be?
-> > >
-> > > For light emitting devices, RGB seems to be used for so long, that I
-> > > don't expect more permutations (e.g. CMY). On the other hand, someone
-> > > might create LED strip with whatever colors, so maybe indeed better to
-> > > allow any variations as in array.
-> >
-> > Even you suggested variation: "even more for RGBW".
-> >
-> > Caveat: as you are well aware, "I'm new here", so my input is no more
-> > informed or valuable as yours at this point.  I'm just calling it as I
-> > see it.  If you have strong opinions and they differ wildly from mine,
-> > we may have to take intervention from Pavel.  As it stands, the
-> > property, although slightly restricted IMHO, appears fine.
-> >
-> > > > An unlimited array has more of a chance of standing the test of time.
-> 
-> I have another idea that avoids this whole conversation: Abandon
-> color-index completely and determine colors with compatible string
-> and platform data.
-> My original idea of this property is to support WS2812B and its clones
-> with different colors under the same compatible string. Technically
-> genuine WS2812Bs only come with GRB colors and the clones
-> should have their own chip names (e.g. xiaomi,hm0807a for an RGB
-> clone and <unknown vendor>,sk6812 for an RGBW one.). It's
-> reasonable to have one compatible string per chip for colors, a
-> chip-specific property. Also, adding more compatible devices to a
-> driver is less invasive than adding more definitions to leds/common.h
-> What do you think?
-
-Yes it's reasonable to have a compatible string per device and yes, you
-can do matching (in C) based on compatible string, so this sounds
-reasonable to me.  It also sounds reasonable to describe the H/W (inc.
-colours along with any ordering, if that's important) inside the DT.
-
-Your call I guess.
-
--- 
-Lee Jones [李琼斯]
+QW0gMTEuMDEuMjMgdW0gMTk6NTEgc2NocmllYiBSb2IgSGVycmluZzoNCj4gT24gV2VkLCBKYW4g
+MTEsIDIwMjMgYXQgMTI6NDcgUE0gUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4gd3JvdGU6
+DQo+Pg0KPj4gT24gV2VkLCAxMSBKYW4gMjAyMyAxNzozNDowMyArMDEwMCwgV2FkaW0gRWdvcm92
+IHdyb3RlOg0KPj4+IENvbnZlcnQgdGhlIFBDQTk1MzIgTEVEIGRpbW1lciB0byBkdHNjaGVtYS4N
+Cj4+PiBXaGlsZSBhdCBpdCwgYWxzbyB1cGRhdGUgYW5kIHRoZSB0aGUgZXhhbXBsZSB0byBtYXRj
+aA0KPj4+IHJlY29tbWVuZGVkIG5vZGUgbmFtZXMgYW5kIHRoZSBsaW5rIHRvIHRoZSBwcm9kdWN0
+IGRhdGFzaGVldC4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IFdhZGltIEVnb3JvdiA8dy5lZ29y
+b3ZAcGh5dGVjLmRlPg0KPj4+IC0tLQ0KPj4+IHYyOg0KPj4+ICAgIC0gUmVuYW1lIHlhbWwgZmls
+ZSB0byBtYXRjaCBjb21wYXRpYmxlcywgbnhwLHBjYTk1M3gueWFtbA0KPj4+ICAgIC0gUmVtb3Zl
+IEphY2VrIEFuYXN6ZXdza2kgZnJvbSBtYWludGFpbmVycyBsaXN0DQo+Pj4gICAgLSBSZW1vdmUg
+Y29sb3IgbGFiZWxzIGluIGV4YW1wbGUNCj4+PiAgICAtIFJlc3RvcmUgbGFiZWxzL2RlZmF1bHQt
+c3RhdGVzIGZyb20gb3JpZ2luYWwgZXhhbXBsZQ0KPj4+ICAgIC0gRHJvcCByZWcgZGVzY3JpcHRp
+b24NCj4+PiAgICAtIEFkZCB1bmV2YWx1YXRlZFByb3BlcnRpZXMgdG8gcGF0dGVyblByb3BlcnRp
+ZXMgc2NvcGUNCj4+PiAgICAtIFVwZGF0ZSBkZXNjcmlwdGlvbiBvZiB0eXBlIHByb3BlcnR5ICYg
+c2V0IGRlZmF1bHQgdG8gMA0KPj4+ICAgIC0gRml4IGluZGVudGF0aW9uIGluIGV4YW1wbGUNCj4+
+PiAtLS0NCj4+PiAgIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvbGVkcy1wY2E5NTMyLnR4
+dCB8IDQ5IC0tLS0tLS0tLS0tDQo+Pj4gICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL254
+cCxwY2E5NTN4LnlhbWwgfCA4NSArKysrKysrKysrKysrKysrKysrDQo+Pj4gICAyIGZpbGVzIGNo
+YW5nZWQsIDg1IGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygtKQ0KPj4+ICAgZGVsZXRlIG1v
+ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2xlZHMtcGNh
+OTUzMi50eHQNCj4+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvbGVkcy9ueHAscGNhOTUzeC55YW1sDQo+Pj4NCj4+IFJ1bm5pbmcgJ21ha2Ug
+ZHRic19jaGVjaycgd2l0aCB0aGUgc2NoZW1hIGluIHRoaXMgcGF0Y2ggZ2l2ZXMgdGhlDQo+PiBm
+b2xsb3dpbmcgd2FybmluZ3MuIENvbnNpZGVyIGlmIHRoZXkgYXJlIGV4cGVjdGVkIG9yIHRoZSBz
+Y2hlbWEgaXMNCj4+IGluY29ycmVjdC4gVGhlc2UgbWF5IG5vdCBiZSBuZXcgd2FybmluZ3MuDQo+
+Pg0KPj4gTm90ZSB0aGF0IGl0IGlzIG5vdCB5ZXQgYSByZXF1aXJlbWVudCB0byBoYXZlIDAgd2Fy
+bmluZ3MgZm9yIGR0YnNfY2hlY2suDQo+PiBUaGlzIHdpbGwgY2hhbmdlIGluIHRoZSBmdXR1cmUu
+DQo+Pg0KPj4gRnVsbCBsb2cgaXMgYXZhaWxhYmxlIGhlcmU6IGh0dHBzOi8vcGF0Y2h3b3JrLm96
+bGFicy5vcmcvcHJvamVjdC9kZXZpY2V0cmVlLWJpbmRpbmdzL3BhdGNoLzIwMjMwMTExMTYzNDA0
+LjM1MjYyNDgtMS13LmVnb3JvdkBwaHl0ZWMuZGUNCj4+DQo+Pg0KPj4gbGVkZGltbWVyQDYyOiAn
+bGVkMScsICdsZWQyJywgJ2xlZDMnLCAnbGVkNCcgZG8gbm90IG1hdGNoIGFueSBvZiB0aGUgcmVn
+ZXhlczogJ15sZWQtWzAtOWEtel0rJCcsICdwaW5jdHJsLVswLTldKycNCj4+ICAgICAgICAgIGFy
+Y2gvYXJtL2Jvb3QvZHRzL3JrMzI4OC1waHljb3JlLXJkay5kdGINCj4+DQo+PiBsZWRzQDYyOiAn
+bGVkMScsICdsZWQyJywgJ2xlZDMnIGRvIG5vdCBtYXRjaCBhbnkgb2YgdGhlIHJlZ2V4ZXM6ICde
+bGVkLVswLTlhLXpdKyQnLCAncGluY3RybC1bMC05XSsnDQo+PiAgICAgICAgICBhcmNoL2FybTY0
+L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4bXAtcGh5Ym9hcmQtcG9sbHV4LXJkay5kdGINCj4+DQo+
+PiBwY2E5NTMwQDYxOiAndGZ0LXBhbmVsQDAnIGRvZXMgbm90IG1hdGNoIGFueSBvZiB0aGUgcmVn
+ZXhlczogJ15sZWQtWzAtOWEtel0rJCcsICdwaW5jdHJsLVswLTldKycNCj4+ICAgICAgICAgIGFy
+Y2gvYXJtL2Jvb3QvZHRzL2FtMzM1eC1wZHUwMDEuZHRiDQoNCkhvdyBkbyBJIGNvbXBseSB3aXRo
+IHRoZSBMRUQgbGFiZWwgd2FybmluZ3M/DQpJIGFtIG5vdCBzdXJlIGFib3V0IHRoZSBwcm9wZXIg
+Y29udmVudGlvbi4gSSB3YXMgYXNzdW1pbmcgbGVkLTxuYW1lPiBpcyBjb3JyZWN0Lg0KVGhlIGZp
+cnN0IHR3byB3YXJuaW5ncyBjYW4gYmUgZml4ZWQgYnkgZHJvcHBpbmcgdGhlICctJyBpbiB0aGUg
+cmVnZXguDQpCdXQgSSBkb24ndCBzZWUgaG93IHRoZSBsYXN0IHdhcm5pbmcgc2hvdWxkIGNvbXBs
+eSB3aXRoIGEgcHJvcGVyIExFRCBub2RlIG5hbWUuIA0KT3IgY2FuIHRoaXMgYmUgaWdub3JlZD8N
+Cg0KPj4NCj4+IHBjYTk1MzJANjA6ICcjZ3Bpby1jZWxscycsICdncGlvLWNvbnRyb2xsZXInIGRv
+IG5vdCBtYXRjaCBhbnkgb2YgdGhlIHJlZ2V4ZXM6ICdebGVkLVswLTlhLXpdKyQnLCAncGluY3Ry
+bC1bMC05XSsnDQo+PiAgICAgICAgICBhcmNoL2FybS9ib290L2R0cy9scGMzMjUwLWVhMzI1MC5k
+dGINCj4gTG9va3MgbGlrZSBHUElPIHByb3BlcnRpZXMgbmVlZCB0byBiZSBhZGRlZCBhcyB3ZSBo
+YXZlIGR0cyBmaWxlIGFuZA0KPiB0aGUgZHJpdmVyIHN1cHBvcnRzIEdQSU8uIEl0J3MgZmluZSB0
+byBhZGQgaW4gdGhlIGNvbnZlcnNpb24sIGp1c3QNCj4gbWVudGlvbiBpdCBpbiB0aGUgY29tbWl0
+IG1zZy4NCg0KT0ssIHRoYW5rcyBmb3IgcG9pbnRpbmcgaXQgb3V0LiBJIHdpbGwgYWRkIGl0IGlu
+IHYzLg0KDQo+DQo+IEFsc28sIHlvdXIgMiBwYXRjaGVzIGluIHRoZSBzZXJpZXMgYXJlIHVucmVs
+YXRlZCBhbmQgZ28gdG8gZGlmZmVyZW50DQo+IG1haW50YWluZXJzLCBzbyBzZW5kIHRoZW0gc2Vw
+YXJhdGVseSBuZXh0IHRpbWUuDQoNCm9rLg0KDQpSZWdhcmRzLA0KV2FkaW0NCg0KPg0KPiBSb2IN
+Cg0KDQo=
