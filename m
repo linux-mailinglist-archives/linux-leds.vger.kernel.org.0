@@ -2,132 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8ABE66A20A
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 19:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DA266A2CD
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 20:22:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbjAMS2f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Jan 2023 13:28:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35534 "EHLO
+        id S229568AbjAMTWV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Jan 2023 14:22:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231224AbjAMS15 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 13:27:57 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319C7532AB
-        for <linux-leds@vger.kernel.org>; Fri, 13 Jan 2023 10:24:35 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pGOjA-0001QR-Bg; Fri, 13 Jan 2023 19:24:32 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pGOj9-005pIj-NP; Fri, 13 Jan 2023 19:24:31 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pGOj9-00Cahx-3n; Fri, 13 Jan 2023 19:24:31 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 2/2] mfd: Make mfd_cell_disable() return void
-Date:   Fri, 13 Jan 2023 19:24:27 +0100
-Message-Id: <20230113182427.257484-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230113182427.257484-1-u.kleine-koenig@pengutronix.de>
-References: <20230113182427.257484-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229512AbjAMTWU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 14:22:20 -0500
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3192C765D;
+        Fri, 13 Jan 2023 11:22:19 -0800 (PST)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1442977d77dso23317131fac.6;
+        Fri, 13 Jan 2023 11:22:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DnIElTfHLmYJlSQZsd2r0PfuB8VIVcTxz0HDLLL+PKw=;
+        b=JTq1FgenG9oM4Ibo8kcKaylcUeZt+D9coXTmWNr3WeJ2250SDjZWwpuaoIBWwZqC8D
+         r3N1YoKcVqlad81yXEmUdfVwnUqJ2Gm3i7z9FVUReagNPndeWq4uO4gY4ynlKD1PydyI
+         sDHrdhH824HQAU6zek8td89ND9SbV7AtBUioN+kT0fsun8BJsqvcrvhopAfeRPItB2vh
+         wmTcgs833jUC3rT1YnSCE0AQuEi70i7hQei2EWZYekia/Ogd7KWyxEyklTgjlzXLre//
+         o09WDG0d8lKxnWpMk87JfnXOvf0WaQ1WoiDmnG/rEa319IZ7aWqpghqfyuyMgyVcf6+Z
+         QQ+A==
+X-Gm-Message-State: AFqh2kqML//vCWicT1yvGahv7Oxt4uip/aaQTkSACgft+Hhjo9VePdip
+        KkiCZ41ycPYauyPVFcOOgA==
+X-Google-Smtp-Source: AMrXdXvjAFDlRfQqNskLkJOqoqbqbik11as4xsx8YdSb3mgcqGRmDQ7rQmX70rhkAVdxcFjXISAtqg==
+X-Received: by 2002:a05:6870:79a:b0:15e:d91b:1a89 with SMTP id en26-20020a056870079a00b0015ed91b1a89mr2572663oab.5.1673637738445;
+        Fri, 13 Jan 2023 11:22:18 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g4-20020a056870d20400b0013ae5246449sm10855024oac.22.2023.01.13.11.22.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 11:22:17 -0800 (PST)
+Received: (nullmailer pid 2800507 invoked by uid 1000);
+        Fri, 13 Jan 2023 19:22:17 -0000
+Date:   Fri, 13 Jan 2023 13:22:17 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Wadim Egorov <W.Egorov@phytec.de>
+Cc:     "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "upstream@lists.phytec.de" <upstream@lists.phytec.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Convert PCA9532 to dtschema
+Message-ID: <20230113192217.GA2772523-robh@kernel.org>
+References: <20230111163404.3526248-1-w.egorov@phytec.de>
+ <167346265519.1103752.16521267476598663004.robh@kernel.org>
+ <CAL_JsqJ0e__gb6xQxJ-XhJfyBx3mYdhqipqi9i1AoBaxoaBHiA@mail.gmail.com>
+ <9e544e49-3f28-c628-196f-2e0fed6584ec@phytec.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2184; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=8+15TycfBn34R8uzROOfHpm0iFSqK9jUoxnISNz6QIM=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjwaHXNn0ZTy0wkcPo4ksjjtHKP/GzwrPUyIJSATeu 5EPmEw+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY8Gh1wAKCRDB/BR4rcrsCTS8CA CIze4jRxOlIqrijYc5uV9ZoVtvzrXDa+ZfF3/18nKOWNyeYAEd/9vw0hoYDO/EdHXUa3ilx4Ihknqj kPmV/HgQRFTfVnXyxlXce8FpNuVuYJaQMTK0psQq7qjlAkWhaXSOPkeWXkGcI49k4WCqRuF6I56VuJ 4lt3i6Z8D7cOY4PH7ajpuO19M+OaiwgldQqggcuuKAMIrcFFq8BU33szE+pwlXdSMEgL7N7Pfg18xp W+IOg7KpfYpBKqZyuU5Ls0q8E9QyFGtPg4T5oCl1l3Sw8HSoZaOhXbg985H9o3whqG7AaD3l2tsem3 4ZnaOKzrPna8s+x4iG/MZhxukMhSOh
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e544e49-3f28-c628-196f-2e0fed6584ec@phytec.de>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-mfd_cell_disable() returns 0 unconditionally. Change it to return void
-instead to make its usage a bit more obvious.
+On Fri, Jan 13, 2023 at 04:18:26PM +0000, Wadim Egorov wrote:
+> Am 11.01.23 um 19:51 schrieb Rob Herring:
+> > On Wed, Jan 11, 2023 at 12:47 PM Rob Herring <robh@kernel.org> wrote:
+> >>
+> >> On Wed, 11 Jan 2023 17:34:03 +0100, Wadim Egorov wrote:
+> >>> Convert the PCA9532 LED dimmer to dtschema.
+> >>> While at it, also update and the the example to match
+> >>> recommended node names and the link to the product datasheet.
+> >>>
+> >>> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> >>> ---
+> >>> v2:
+> >>>    - Rename yaml file to match compatibles, nxp,pca953x.yaml
+> >>>    - Remove Jacek Anaszewski from maintainers list
+> >>>    - Remove color labels in example
+> >>>    - Restore labels/default-states from original example
+> >>>    - Drop reg description
+> >>>    - Add unevaluatedProperties to patternProperties scope
+> >>>    - Update description of type property & set default to 0
+> >>>    - Fix indentation in example
+> >>> ---
+> >>>   .../devicetree/bindings/leds/leds-pca9532.txt | 49 -----------
+> >>>   .../devicetree/bindings/leds/nxp,pca953x.yaml | 85 +++++++++++++++++++
+> >>>   2 files changed, 85 insertions(+), 49 deletions(-)
+> >>>   delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
+> >>>   create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
+> >>>
+> >> Running 'make dtbs_check' with the schema in this patch gives the
+> >> following warnings. Consider if they are expected or the schema is
+> >> incorrect. These may not be new warnings.
+> >>
+> >> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> >> This will change in the future.
+> >>
+> >> Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230111163404.3526248-1-w.egorov@phytec.de
+> >>
+> >>
+> >> leddimmer@62: 'led1', 'led2', 'led3', 'led4' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+> >>          arch/arm/boot/dts/rk3288-phycore-rdk.dtb
+> >>
+> >> leds@62: 'led1', 'led2', 'led3' do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+> >>          arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb
+> >>
+> >> pca9530@61: 'tft-panel@0' does not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
+> >>          arch/arm/boot/dts/am335x-pdu001.dtb
+> 
+> How do I comply with the LED label warnings?
+> I am not sure about the proper convention. I was assuming led-<name> is correct.
+> The first two warnings can be fixed by dropping the '-' in the regex.
+> But I don't see how the last warning should comply with a proper LED node name. 
+> Or can this be ignored?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/leds-asic3.c |  6 ++++--
- drivers/mfd/mfd-core.c    | 12 ++++--------
- include/linux/mfd/core.h  |  2 +-
- 3 files changed, 9 insertions(+), 11 deletions(-)
+Those dts files should be fixed, not the schema. You don't have to do 
+that.
 
-diff --git a/drivers/leds/leds-asic3.c b/drivers/leds/leds-asic3.c
-index 8cbc1b8bafa5..8256990394eb 100644
---- a/drivers/leds/leds-asic3.c
-+++ b/drivers/leds/leds-asic3.c
-@@ -117,7 +117,7 @@ static int asic3_led_probe(struct platform_device *pdev)
- 	return 0;
- 
- out:
--	(void) mfd_cell_disable(pdev);
-+	mfd_cell_disable(pdev);
- 	return ret;
- }
- 
-@@ -127,7 +127,9 @@ static int asic3_led_remove(struct platform_device *pdev)
- 
- 	led_classdev_unregister(led->cdev);
- 
--	return mfd_cell_disable(pdev);
-+	mfd_cell_disable(pdev);
-+
-+	return 0;
- }
- 
- #ifdef CONFIG_PM_SLEEP
-diff --git a/drivers/mfd/mfd-core.c b/drivers/mfd/mfd-core.c
-index b854c4adb527..33720f116b8c 100644
---- a/drivers/mfd/mfd-core.c
-+++ b/drivers/mfd/mfd-core.c
-@@ -46,18 +46,14 @@ int mfd_cell_enable(struct platform_device *pdev)
- }
- EXPORT_SYMBOL(mfd_cell_enable);
- 
--int mfd_cell_disable(struct platform_device *pdev)
-+void mfd_cell_disable(struct platform_device *pdev)
- {
- 	const struct mfd_cell *cell = mfd_get_cell(pdev);
- 
--	if (!cell->disable) {
-+	if (cell->disable)
-+		cell->disable(pdev);
-+	else
- 		dev_dbg(&pdev->dev, "No .disable() call-back registered\n");
--		return 0;
--	}
--
--	cell->disable(pdev);
--
--	return 0;
- }
- EXPORT_SYMBOL(mfd_cell_disable);
- 
-diff --git a/include/linux/mfd/core.h b/include/linux/mfd/core.h
-index 9833d0501d42..e43dc9ae2d71 100644
---- a/include/linux/mfd/core.h
-+++ b/include/linux/mfd/core.h
-@@ -130,7 +130,7 @@ struct mfd_cell {
-  * clients are making use of it.
-  */
- extern int mfd_cell_enable(struct platform_device *pdev);
--extern int mfd_cell_disable(struct platform_device *pdev);
-+extern void mfd_cell_disable(struct platform_device *pdev);
- 
- /*
-  * Given a platform device that's been created by mfd_add_devices(), fetch
--- 
-2.39.0
-
+Rob
