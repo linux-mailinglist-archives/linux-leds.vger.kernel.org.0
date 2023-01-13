@@ -2,42 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C34E566A20E
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 19:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8ABE66A20A
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 19:28:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbjAMS2s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Jan 2023 13:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35600 "EHLO
+        id S229576AbjAMS2f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Jan 2023 13:28:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231277AbjAMS2D (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 13:28:03 -0500
+        with ESMTP id S231224AbjAMS15 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 13:27:57 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B64A04166B
-        for <linux-leds@vger.kernel.org>; Fri, 13 Jan 2023 10:24:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319C7532AB
+        for <linux-leds@vger.kernel.org>; Fri, 13 Jan 2023 10:24:35 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pGOjA-0001QP-Ba; Fri, 13 Jan 2023 19:24:32 +0100
+        id 1pGOjA-0001QR-Bg; Fri, 13 Jan 2023 19:24:32 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pGOj9-005pId-GZ; Fri, 13 Jan 2023 19:24:31 +0100
+        id 1pGOj9-005pIj-NP; Fri, 13 Jan 2023 19:24:31 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pGOj8-00Cahr-Nu; Fri, 13 Jan 2023 19:24:30 +0100
+        id 1pGOj9-00Cahx-3n; Fri, 13 Jan 2023 19:24:31 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        linux-leds@vger.kernel.org
-Subject: [PATCH 0/2] mfd: Make .disable() callback and mfd_cell_disable() return void
-Date:   Fri, 13 Jan 2023 19:24:25 +0100
-Message-Id: <20230113182427.257484-1-u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH 2/2] mfd: Make mfd_cell_disable() return void
+Date:   Fri, 13 Jan 2023 19:24:27 +0100
+Message-Id: <20230113182427.257484-3-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230113182427.257484-1-u.kleine-koenig@pengutronix.de>
+References: <20230113182427.257484-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1348; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=sH19ddRIBynGBnEgR6eY66v7FT/OtOzi3iYGutPYY0o=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjwaHRRbXtm6vuCP13QM9v3s+F8ovBVohPIsU3N6HT DE8FJnCJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY8Gh0QAKCRDB/BR4rcrsCbiqCA CGSoo9DXMra9dLWTe0JAJJxX9hbmCFi1SVKtiVltd1OiOGenavWetInvFBW2CowNjpDoMPQhB0eJO+ sYmCCKByHX63jnQK8TSwFx4Xrp61nM1rMLgg8RFg16WJGfapO1NIbCFOqQSuthxzWTi5umlsAVk3A3 yqDbSx9QzT3bbgjAV7xbKI+BQCeoN3BH+XBHDctlg+D60u4I/4yaO9L5LAl74NiBKT35KPeyQ1yM/w 7A/RbKcj2d0ndzcvW2Pf0TPVESPODLMkcsrns05uWcrqjeOax/E8j0cdWBwI0LxNhht53lMPkeU0D1 dyJq+YbgH+2KmwwhS1PUtdeKbUpAgP
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2184; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=8+15TycfBn34R8uzROOfHpm0iFSqK9jUoxnISNz6QIM=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjwaHXNn0ZTy0wkcPo4ksjjtHKP/GzwrPUyIJSATeu 5EPmEw+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY8Gh1wAKCRDB/BR4rcrsCTS8CA CIze4jRxOlIqrijYc5uV9ZoVtvzrXDa+ZfF3/18nKOWNyeYAEd/9vw0hoYDO/EdHXUa3ilx4Ihknqj kPmV/HgQRFTfVnXyxlXce8FpNuVuYJaQMTK0psQq7qjlAkWhaXSOPkeWXkGcI49k4WCqRuF6I56VuJ 4lt3i6Z8D7cOY4PH7ajpuO19M+OaiwgldQqggcuuKAMIrcFFq8BU33szE+pwlXdSMEgL7N7Pfg18xp W+IOg7KpfYpBKqZyuU5Ls0q8E9QyFGtPg4T5oCl1l3Sw8HSoZaOhXbg985H9o3whqG7AaD3l2tsem3 4ZnaOKzrPna8s+x4iG/MZhxukMhSOh
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -45,49 +47,87 @@ X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
+mfd_cell_disable() returns 0 unconditionally. Change it to return void
+instead to make its usage a bit more obvious.
 
-this series eventually changes mfd_cell_disable() to return void. Before it
-returned an int and always 0. The motivation is to not force drivers to do
-error handling that is never hit. Here only a single driver did that:
-leds-asic3. For that driver this is a nice improvement because a platform
-driver's remove callback is not supposed to return an error code.
-
-This serves as a preparation for the quest to make struct
-platform_driver::remove return void, too.
-
-This series is build-tested (using allmodconfig) on arm64, m68k, powerpc,
-riscv, s390, sparc64 and x86_64.
-
-I suggest to let this series go into mainline via the mfd tree. So an Ack by
-Pavel for the led bits would be nice to let Lee pick it up in good conscience.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (2):
-  mfd: Make .disable() callback return void
-  mfd: Make mfd_cell_disable() return void
-
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
  drivers/leds/leds-asic3.c |  6 ++++--
- drivers/mfd/asic3.c       | 17 +++++++++--------
- drivers/mfd/htc-pasic3.c  |  3 +--
- drivers/mfd/mfd-core.c    | 10 ++++------
- drivers/mfd/t7l66xb.c     |  4 +---
- drivers/mfd/tc6387xb.c    |  4 +---
- drivers/mfd/tc6393xb.c    | 16 ++++++++++------
- include/linux/mfd/core.h  |  4 ++--
- 8 files changed, 32 insertions(+), 32 deletions(-)
+ drivers/mfd/mfd-core.c    | 12 ++++--------
+ include/linux/mfd/core.h  |  2 +-
+ 3 files changed, 9 insertions(+), 11 deletions(-)
 
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+diff --git a/drivers/leds/leds-asic3.c b/drivers/leds/leds-asic3.c
+index 8cbc1b8bafa5..8256990394eb 100644
+--- a/drivers/leds/leds-asic3.c
++++ b/drivers/leds/leds-asic3.c
+@@ -117,7 +117,7 @@ static int asic3_led_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ out:
+-	(void) mfd_cell_disable(pdev);
++	mfd_cell_disable(pdev);
+ 	return ret;
+ }
+ 
+@@ -127,7 +127,9 @@ static int asic3_led_remove(struct platform_device *pdev)
+ 
+ 	led_classdev_unregister(led->cdev);
+ 
+-	return mfd_cell_disable(pdev);
++	mfd_cell_disable(pdev);
++
++	return 0;
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+diff --git a/drivers/mfd/mfd-core.c b/drivers/mfd/mfd-core.c
+index b854c4adb527..33720f116b8c 100644
+--- a/drivers/mfd/mfd-core.c
++++ b/drivers/mfd/mfd-core.c
+@@ -46,18 +46,14 @@ int mfd_cell_enable(struct platform_device *pdev)
+ }
+ EXPORT_SYMBOL(mfd_cell_enable);
+ 
+-int mfd_cell_disable(struct platform_device *pdev)
++void mfd_cell_disable(struct platform_device *pdev)
+ {
+ 	const struct mfd_cell *cell = mfd_get_cell(pdev);
+ 
+-	if (!cell->disable) {
++	if (cell->disable)
++		cell->disable(pdev);
++	else
+ 		dev_dbg(&pdev->dev, "No .disable() call-back registered\n");
+-		return 0;
+-	}
+-
+-	cell->disable(pdev);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL(mfd_cell_disable);
+ 
+diff --git a/include/linux/mfd/core.h b/include/linux/mfd/core.h
+index 9833d0501d42..e43dc9ae2d71 100644
+--- a/include/linux/mfd/core.h
++++ b/include/linux/mfd/core.h
+@@ -130,7 +130,7 @@ struct mfd_cell {
+  * clients are making use of it.
+  */
+ extern int mfd_cell_enable(struct platform_device *pdev);
+-extern int mfd_cell_disable(struct platform_device *pdev);
++extern void mfd_cell_disable(struct platform_device *pdev);
+ 
+ /*
+  * Given a platform device that's been created by mfd_add_devices(), fetch
 -- 
 2.39.0
 
