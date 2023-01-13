@@ -2,118 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E07668364
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Jan 2023 21:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6888E668BDE
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Jan 2023 06:53:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240624AbjALUHa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Jan 2023 15:07:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47248 "EHLO
+        id S240492AbjAMFxO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Jan 2023 00:53:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241389AbjALUDw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Jan 2023 15:03:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4252713E2A;
-        Thu, 12 Jan 2023 12:01:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233405AbjAMFv7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Jan 2023 00:51:59 -0500
+X-Greylist: delayed 345 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Jan 2023 21:51:46 PST
+Received: from mp-relay-02.fibernetics.ca (mp-relay-02.fibernetics.ca [208.85.217.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24221216;
+        Thu, 12 Jan 2023 21:51:46 -0800 (PST)
+Received: from mailpool-fe-01.fibernetics.ca (mailpool-fe-01.fibernetics.ca [208.85.217.144])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E0FBDB81E62;
-        Thu, 12 Jan 2023 20:01:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28061C433D2;
-        Thu, 12 Jan 2023 20:01:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673553688;
-        bh=DjplknG/Og42vIVzT/q7FbntQdQMbrnKJqFFsTyhjNM=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=EUafdQGi6kPVntwFcsX8dQ++eMfDpAt4hRufXGYp4rn3498p9O5an8Dtzb32f8VZO
-         /0dwxqLx9EiZWyrofGYjXdGydKTREAjzdQvusJ0Ow7D4V0fv83WO6VIMOVK93JIW2S
-         WKNFKVIBv7VwC+kTD5h1WgF5etFBp2YPn8S3ZXmT1Seav9nsmaQ1vhNBslaNNmcYRn
-         zsCLB4TmasZgZxWFa1UpanGfaUnDdJStrP+pk1HardQUH3NiBxgoCCXTezH0ic2ZBw
-         6otuSPV9m9aONvZu3dzL7IfHqeZgMZCL4VALktP1HibdXNi78cOSWjN0jogQQsvptF
-         31XhLFJQie5QQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Arnd Bergmann <arnd@kernel.org>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, stern@rowland.harvard.edu,
-        alexandre.belloni@bootlin.com, brgl@bgdev.pl,
-        damien.lemoal@opensource.wdc.com, dmitry.torokhov@gmail.com,
-        linux@dominikbrodowski.net, balbi@kernel.org,
-        gregkh@linuxfoundation.org, deller@gmx.de, perex@perex.cz,
-        jingoohan1@gmail.com, lee@kernel.org, kernel@wantstofly.org,
-        lgirdwood@gmail.com, linus.walleij@linaro.org,
-        marek.vasut@gmail.com, mkpetch@internode.on.net,
-        miquel.raynal@bootlin.com, lost.distance@yahoo.com,
-        philipp.zabel@gmail.com, linux@armlinux.org.uk, sre@kernel.org,
-        slapin@ossfans.org, s.shtylyov@omp.ru, sudipm.mukherjee@gmail.com,
-        tiwai@suse.com, ulf.hansson@linaro.org, vigneshr@ti.com,
-        viresh.kumar@linaro.org, wsa+renesas@sang-engineering.com,
-        linux-pm@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-In-Reply-To: <20230105134622.254560-1-arnd@kernel.org>
-References: <20230105134622.254560-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH v2 00/27] ARM: pxa: remove all unused boards&drivers
-Message-Id: <167355367885.2500964.3629822486060649314.b4-ty@kernel.org>
-Date:   Thu, 12 Jan 2023 20:01:18 +0000
+        by mp-relay-02.fibernetics.ca (Postfix) with ESMTPS id 1738270E5B;
+        Fri, 13 Jan 2023 05:46:00 +0000 (UTC)
+Received: from localhost (mailpool-mx-01.fibernetics.ca [208.85.217.140])
+        by mailpool-fe-01.fibernetics.ca (Postfix) with ESMTP id CFE0826892;
+        Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at 
+X-Spam-Score: 3.651
+X-Spam-Level: ******
+X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_99,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,
+        SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.6
+Received: from mailpool-fe-01.fibernetics.ca ([208.85.217.144])
+        by localhost (mail-mx-01.fibernetics.ca [208.85.217.140]) (amavisd-new, port 10024)
+        with ESMTP id 5nKEStyxmCAA; Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
+Received: from localhost (unknown [208.85.220.72])
+        by mail.ca.inter.net (Postfix) with ESMTP id 2C31E2688E;
+        Fri, 13 Jan 2023 05:45:58 +0000 (UTC)
+Received: from reverse.rain.network (reverse.rain.network [197.184.176.8])
+ by webmail.ca.inter.net (Horde Framework) with HTTP; Fri, 13 Jan 2023
+ 00:45:57 -0500
+Message-ID: <20230113004557.1776655zih3sj09h@webmail.ca.inter.net>
+Date:   Fri, 13 Jan 2023 00:45:57 -0500
+From:   INFO <boothg@istar.ca>
+Reply-to: s.g0392440821@gmail.com
+To:     undisclosed-recipients:;
+Subject: IST DIESE E-MAIL AKTIV?
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-8b3d1
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=ISO-8859-1;
+ DelSp="Yes";
+ format="flowed"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Internet Messaging Program (IMP) H3 (4.3.7)
+X-Originating-User-Info: boothg@istar.ca 208.85.219.96
+X-Spam-Report: *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
+        *      [score: 0.9984]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [s.g0392440821[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 05 Jan 2023 14:45:55 +0100, Arnd Bergmann wrote:
-> Most of the legacy PXA board files were marked as unused in linux-5.19 and
-> can get removed in linux-6.3. There is support for pxa250/pxa270/pxa300
-> using devicetree already, which supports a number of boards, but progress
-> on converting the remaining ones has stalled over the past few years.
-> 
-> The two boards that are left in the tree for now are the three 'sharpsl'
-> variants (spitz/akita/borzoi) and the 'gumstix' family of machines.
-> Both of these are supported by qemu, which can be helpful for completing
-> the DT conversion.
-> 
-> [...]
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Sehr geehrter E-Mail-Begünstigter, Sie wurden für eine Spende in Höhe  
+von 3.500.000,00 ? ausgewählt. Wenden Sie sich an diese  
+E-Mail-Adresse: s.g0392440821@gmail.com, um weitere Informationen zum  
+Erhalt Ihrer Spende zu erhalten. Vielen Dank
 
-Thanks!
-
-[14/27] ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
-        commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae
-[15/27] ASoC: pxa: remove unused board support
-        (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
