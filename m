@@ -2,207 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 411C166E00E
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Jan 2023 15:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D156C66E076
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Jan 2023 15:24:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbjAQOMh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Jan 2023 09:12:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37212 "EHLO
+        id S232533AbjAQOYg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Jan 2023 09:24:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbjAQOM2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Jan 2023 09:12:28 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 287093BDAD;
-        Tue, 17 Jan 2023 06:12:27 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id b17so26144178pld.7;
-        Tue, 17 Jan 2023 06:12:27 -0800 (PST)
+        with ESMTP id S232741AbjAQOXp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Jan 2023 09:23:45 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB04240BE7
+        for <linux-leds@vger.kernel.org>; Tue, 17 Jan 2023 06:22:08 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id z5so29688266wrt.6
+        for <linux-leds@vger.kernel.org>; Tue, 17 Jan 2023 06:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8T4Av5sluJXt+Zl2bdIPegxIz0+hLbjYRZdYk7XDGIo=;
-        b=WLEO7Th9M7wacwYtjCLpc3JYdhQFdVS42gtPjG6oOxsVlEO08+qAZMULbFLitKE9jS
-         uorch4XhqoxWtGNtEzpG+Tk4wdZVyjc3sZQKY28/RfNXn+UZrWIadSbXk/OPaEYDq4ua
-         cwi8aE2Mav7AePz5SDV7yDtYAoIMjb9bKKArOUV4wDI69HsX6P/K3+jmzxDysVT7mO9Y
-         gWYDHC6Mr0lkL6Gp97L+26uu+pXP4mE4OP0E4+62segsd/W6Zs0oVb13IIYmOz7VgCs/
-         XWW3nj2pKSsMN/wZ8heiCKOESNdw/08sIW0byi+djTpqSOFNqu3WRgPMfbBH4bMvRTSY
-         at8Q==
+        bh=ybMp4yf1vi88OQah/2tawVPx6umiUGABzCImHyfek9Y=;
+        b=hAktI9Hg4DyrxZHcvy3fynCOTVjETjt/zk2FifC5B7sAmkDT4FXNVTJXaFvRyg9+PW
+         h2sMPFQ3W1yRaGT+aBC9EA0ARv2xmIhucPJiBWrU2xSjTtShNUjlexnybjRGdA1isVqL
+         i23k3jz9FjVvxSxty27+XaeI7X8woahLuf+6fQbOTZInjmiJ0UjpN090asX9M0ecXQ9i
+         3ffHvbT74wxs69cCzxFWaTu3U/6ey3kBofZUWIWhvtO5Vy+cVusZ+rglU33M+0CI+pus
+         k8P6d0RU0qQMnP19IimHEO0Brxy9Os4KagSi7/61CSOyIpa5focrveqSs7afG0riRx4i
+         afoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8T4Av5sluJXt+Zl2bdIPegxIz0+hLbjYRZdYk7XDGIo=;
-        b=TpzGF/ocvQBhsuzyg0jWvgE0uvxqQqGTFJehw9lTZTaeN3xBce567eVHQmID7oHQ47
-         eG8XCB32PMmsA4JMHf52A7IF+ceUWXh9dF0J3MVDdDCcRhMayNjITi2DfE7bQomdgSsX
-         NkAi+cwPxViBFrY7MdZIGIcTzjE1vi0cqUsGS7+isGsR5Ei2d7Q5KP/3Pa9gwTLzP4kd
-         1Pg19uyvfCNjVGuuA6gia/CTwgtKKql47Yp+AbKRParM9NJ5RcWqF/+U++9DyqhMSj71
-         kMhjTJIu3oBeNyEP/Tz3n0xiLHg9b5TszRDvZzVczNDNbjXdp3+qxy3F7zJ6ftQ6/sO+
-         slyQ==
-X-Gm-Message-State: AFqh2kpk7vHpDhcIcm75X3zPiGrhcf97lL8WCBPF95uJV7uNoAFmC6+p
-        qRwlUIx8z05Wv5J5Ss1kHQM=
-X-Google-Smtp-Source: AMrXdXvjPZ4+K3rTIHbVhAtJHf/mCvGL3OX5C4i1w+MiifTVKhkdhykYIlj1Is6/bo5W0NeKrOIpJQ==
-X-Received: by 2002:a17:90b:1b4f:b0:226:d23b:8037 with SMTP id nv15-20020a17090b1b4f00b00226d23b8037mr2859651pjb.33.1673964746685;
-        Tue, 17 Jan 2023 06:12:26 -0800 (PST)
-Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
-        by smtp.gmail.com with ESMTPSA id e2-20020a17090a118200b0022966311621sm4147654pja.28.2023.01.17.06.12.22
+        bh=ybMp4yf1vi88OQah/2tawVPx6umiUGABzCImHyfek9Y=;
+        b=yeZFYLw9mwfKCpVNubgJgMS/sZhEdN8s6bPrNq8z10At9ij8ecquieFpCJf68Sm3VW
+         GrHqQ5jh3MPGI4Wtp1J+OFVkdW0H7mfH2K+3GBGNY+hmiuhxzMSQxks/cTRGt91KgGvl
+         5WL1ItxeTPAKfLL2v5xLu74J9RoEm40G8t8jEA8PZ5ee2NnWoE36IJFLwTXHBUiUWwQp
+         kn/i+485sOw0sAYEPKsIM+gZrFoxPvI1PjAkIY7n7j4O3BwQrsVG0qmeet8OvJR8twx8
+         HaE+iVvKsA1ibtgukoZpizrmotb7wEqRQWOlgfR/g8DOJ9RFo5+icm2eWH8YJYLkmpGS
+         QGLg==
+X-Gm-Message-State: AFqh2kp2XvILb9g6s/qb6DwD7fCyaAIcvg7sUDaNI7P4ggXJYNDRghBk
+        NkmbPN5XiIcjpNozpB9pwMx+yg==
+X-Google-Smtp-Source: AMrXdXtMv3z609fCfMMcn1lyVfLqtlv2kX3RFEiFg4rXFi4hUXOF/Cfb7gNI0fQ2luv3PkbTOGN4Vw==
+X-Received: by 2002:adf:cc8c:0:b0:293:1868:3a14 with SMTP id p12-20020adfcc8c000000b0029318683a14mr11101982wrj.0.1673965327363;
+        Tue, 17 Jan 2023 06:22:07 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id g2-20020a5d4882000000b00286ad197346sm28891037wrq.70.2023.01.17.06.22.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 06:12:26 -0800 (PST)
-Date:   Tue, 17 Jan 2023 22:12:18 +0800
-From:   Jianhua Lu <lujianhua000@gmail.com>
-To:     Daniel Thompson <daniel.thompson@linaro.org>
+        Tue, 17 Jan 2023 06:22:06 -0800 (PST)
+Date:   Tue, 17 Jan 2023 14:22:04 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jianhua Lu <lujianhua000@gmail.com>
 Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] backlight: ktz8866: Add support for Kinetic
- KTZ8866 backlight
-Message-ID: <Y8aswmc8dkzM+RsB@Gentoo>
+Subject: Re: [PATCH v4 2/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
+ backlight
+Message-ID: <Y8avDJj5PCy8OVWV@aspen.lan>
 References: <20230117134742.23238-1-lujianhua000@gmail.com>
- <Y8aq1aJd8QJCo3RU@aspen.lan>
+ <20230117134742.23238-2-lujianhua000@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y8aq1aJd8QJCo3RU@aspen.lan>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230117134742.23238-2-lujianhua000@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 02:04:05PM +0000, Daniel Thompson wrote:
-> On Tue, Jan 17, 2023 at 09:47:41PM +0800, Jianhua Lu wrote:
-> > Add support for Kinetic KTZ8866 backlight, which is used in
-> > Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
-> > downstream implementation [1].
-> > [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
-> >
-> > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> > ---
-> > Changes in v2:
-> >   - Add missing staitc modifier to ktz8866_write function.
-> >
-> > Changes in v3:
-> >   - Add 2022 to Copyright line.
-> >   - Sort headers.
-> >   - Remove meaningless comment.
-> >   - Use definitions instead of hardcoding.
-> >   - Add missing maintainer info.
-> >
-> > Changes in v4:
-> >   - Change 2022 to 2023.
-> >   - Remove useless macro and enum.
-> >   - Describe settings by devicetree.
-> >   - Move header file to C file.
-> >
-> >  MAINTAINERS                       |   6 +
-> >  drivers/video/backlight/Kconfig   |   8 ++
-> >  drivers/video/backlight/Makefile  |   1 +
-> >  drivers/video/backlight/ktz8866.c | 195 ++++++++++++++++++++++++++++++
-> >  4 files changed, 210 insertions(+)
-> >  create mode 100644 drivers/video/backlight/ktz8866.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 42fc47c6edfd..2084e74e1b58 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11674,6 +11674,12 @@ M:	John Hawley <warthog9@eaglescrag.net>
-> >  S:	Maintained
-> >  F:	tools/testing/ktest
-> >
-> > +KTZ8866 BACKLIGHT DRIVER
-> > +M:	Jianhua Lu <lujianhua000@gmail.com>
-> > +S:	Maintained
-> > +F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> > +F:	drivers/video/backlight/ktz8866.c
-> > +
-> >  L3MDEV
-> >  M:	David Ahern <dsahern@kernel.org>
-> >  L:	netdev@vger.kernel.org
-> > diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-> > index 936ba1e4d35e..2845fd7e33ad 100644
-> > --- a/drivers/video/backlight/Kconfig
-> > +++ b/drivers/video/backlight/Kconfig
-> > @@ -190,6 +190,14 @@ config BACKLIGHT_KTD253
-> >  	  which is a 1-wire GPIO-controlled backlight found in some mobile
-> >  	  phones.
-> >
-> > +config BACKLIGHT_KTZ8866
-> > +	tristate "Backlight Driver for Kinetic KTZ8866"
-> > +	depends on I2C
-> > +	select REGMAP_I2C
-> > +	help
-> > +		Say Y to enabled the backlight driver for the Kinetic KTZ8866
-> > +		found in Xiaomi Mi Pad 5 series.
-> > +
-> >  config BACKLIGHT_LM3533
-> >  	tristate "Backlight Driver for LM3533"
-> >  	depends on MFD_LM3533
-> > diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-> > index e815f3f1deff..f70a819c304c 100644
-> > --- a/drivers/video/backlight/Makefile
-> > +++ b/drivers/video/backlight/Makefile
-> > @@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
-> > +obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
-> >  obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-> > diff --git a/drivers/video/backlight/ktz8866.c b/drivers/video/backlight/ktz8866.c
-> > new file mode 100644
-> > index 000000000000..98916f92d069
-> > --- /dev/null
-> > +++ b/drivers/video/backlight/ktz8866.c
-> > @@ -0,0 +1,195 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Backlight driver for the Kinetic KTZ8866
-> > + *
-> > + * Copyright (C) 2023 Jianhua Lu <lujianhua000@gmail.com>
-> 
-> Shouldn't this be:
-> Copyright (C) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
-> 
-> > +static int ktz8866_probe(struct i2c_client *client,
-> > +			 const struct i2c_device_id *id)
-> > +{
-> > +	struct backlight_device *backlight_dev;
-> > +	struct backlight_properties props;
-> > +	struct ktz8866 *ktz;
-> > +
-> > +	ktz = devm_kzalloc(&client->dev, sizeof(*ktz), GFP_KERNEL);
-> > +	if (!ktz)
-> > +		return -ENOMEM;
-> > +
-> > +	ktz->client = client;
-> > +	ktz->regmap = devm_regmap_init_i2c(client, &ktz8866_regmap_config);
-> > +
-> > +	if (IS_ERR(ktz->regmap)) {
-> > +		dev_err(&client->dev, "failed to init regmap\n");
-> > +		return PTR_ERR(ktz->regmap);
-> > +	}
-> > +
-> > +	memset(&props, 0, sizeof(props));
-> > +	props.type = BACKLIGHT_RAW;
-> > +	props.max_brightness = MAX_BRIGHTNESS;
-> > +	props.brightness = DEFAULT_BRIGHTNESS;
-> 
-> There is still pending feedback from v3.
-> 
-> | Please set the scale property correctly. "Unknown" is never correct for
-> | new drivers.
-Do you means backlight_properties.backlight_scale?
-> 
-> Do not ignore feedback. You should either act on it or, if you disagree
-> or need additional clarification then, reply on the mail thread.
-> 
-> 
-> Daniel.
+On Tue, Jan 17, 2023 at 09:47:42PM +0800, Jianhua Lu wrote:
+> Add Kinetic KTZ8866 backlight binding documentation.
+>
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+
+Might be a good idea to take a look at this bit of the docs because
+the patchset is not in the right order (I.5):
+https://docs.kernel.org/devicetree/bindings/submitting-patches.html
+
+
+> ---
+> Changes in v2:
+>   - Remove "items" between "compatible" and "const: kinetic,ktz8866"
+>   - Change "additionalProperties" to "unevaluatedProperties"
+>
+> Changes in v3:
+>   - Add Krzysztof's R-b
+>
+> Changes in v4:
+>   - Drop Krzysztof's R-b
+>   - Add some new properties
+>
+>  .../leds/backlight/kinetic,ktz8866.yaml       | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> new file mode 100644
+> index 000000000000..18571d69accb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Kinetic Technologies KTZ8866 backlight
+> +
+> +maintainers:
+> +  - Jianhua Lu <lujianhua000@gmail.com>
+> +
+> +description: |
+> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-sinks led backlight
+> +  with dual lcd bias power.
+> +  https://www.kinet-ic.com/ktz8866/
+> +
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: kinetic,ktz8866
+> +
+> +  current-num-sinks:
+> +    description: Number of LED current sinks.
+> +
+> +  current-ramping-time:
+> +    description: LED current ramping time.
+
+Needs to document know what units this value is expressed in. IIRC
+this should be expressed in SI units and included the property name.
+Something like:
+
+  current-ramping-time-us:
+    description: LED current ramping time in microseconds.
+
+
+> +
+> +  led-ramping-time:
+> +    description: LED on/off ramping time.
+
++1
+
+
+Daniel.
