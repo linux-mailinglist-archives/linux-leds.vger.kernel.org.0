@@ -2,99 +2,196 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A6D867178B
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Jan 2023 10:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49FF6671C7C
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Jan 2023 13:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbjARJYu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Jan 2023 04:24:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45554 "EHLO
+        id S230260AbjARMqX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Jan 2023 07:46:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbjARJVP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Jan 2023 04:21:15 -0500
-Received: from mail.bostmarktrun.com (mail.bostmarktrun.com [135.125.238.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D3854138
-        for <linux-leds@vger.kernel.org>; Wed, 18 Jan 2023 00:45:51 -0800 (PST)
-Received: by mail.bostmarktrun.com (Postfix, from userid 1002)
-        id 55C15A289A; Wed, 18 Jan 2023 08:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bostmarktrun.com;
-        s=mail; t=1674031550;
-        bh=gfWmJwOZk+B/IN1TMPg7emKhIvoExrJdUiyEL8yd2Jk=;
-        h=Date:From:To:Subject:From;
-        b=kJHmqdaGdvUM+2NBYEA3tfOeSjIhlFHUDIGAP9cSp50JrW9Nlc5HDT++cuE08hq5S
-         HSB6JaQLRra67F3H/2DRooFCkVVag5jgsm9Qh+FpPdT/505lGu8cKxygc+pkEhNT9/
-         k2ssjMxj0Ci2JenXyJwgNYmmBmiuzlISRbtCC+PaVyj7ja5Beq1YE3BeOoUolKY/yq
-         /B8LoAbQLzDHVIsqh9VwEwxm5eieai5mS5etUX+4w/qnZa2SguFRKC3ZyCLYJ+t9wM
-         RueFTOL9VxQJ4dw+T0LtwOhkskQTV7CzuSyU+3vIlF291zgTMbIxh50c5J7ufstk9m
-         bj7sCKeq4ZZ+A==
-Received: by mail.bostmarktrun.com for <linux-leds@vger.kernel.org>; Wed, 18 Jan 2023 08:45:33 GMT
-Message-ID: <20230118074500-0.1.4p.wr7f.0.l95w2j6u1e@bostmarktrun.com>
-Date:   Wed, 18 Jan 2023 08:45:33 GMT
-From:   "Corey Webb" <corey.webb@bostmarktrun.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: Custom Software Development
-X-Mailer: mail.bostmarktrun.com
+        with ESMTP id S230234AbjARMol (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Jan 2023 07:44:41 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0DB29E05
+        for <linux-leds@vger.kernel.org>; Wed, 18 Jan 2023 04:08:06 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so1087546wmq.1
+        for <linux-leds@vger.kernel.org>; Wed, 18 Jan 2023 04:08:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/lWnIGJEQm1L3ptN3FXqu2iW3lASN9DCnEylfKeYnQ4=;
+        b=FRzSnjslV4xlcVe1pe7U45KyYjXv1nfanzhJOKczfcXVpqhUIcP9JW/j/L3Au1avfV
+         LghMbLQVe8p4/Znifbi6M4LLE+BgU8UDPFcPr5Cs9ran4JHBhLSyv8mg8JNiOXptryiS
+         2PhulpWUOCbFeLYWoW10RJE+P5oC0mIwldPxqXVBwY+2qEHussVYB2U+xxvgmIS+5p+o
+         MahPgKOF1tV/GV4i0Kv/z/nWhnAe48+C2GXpPRiuDeoEggXoeA2KeKsjO6C4rmPHtBDd
+         v1wb4ZCkg8/FisQ5C5P/+u18mX7ntFZuHTdlak7ZB4x75P8c8WP8SWO8m/h3Vslt4nkP
+         ZusA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/lWnIGJEQm1L3ptN3FXqu2iW3lASN9DCnEylfKeYnQ4=;
+        b=5UHizVD28cMSKQCyBsKKwOm+mCfWkhRIVoBhlr6Ljsrd2sKLjuwVygWxLBjoTWkf01
+         p8inkZQFc14a6Y9lDVFoiWIzoNmqgWgEY3mA6HWCsitHq2EvE7pUaVjajQ8BnJKOCril
+         El2ciS5Rc/xkrxNDP2gqJYQ11b0mhqNHw4Nsy1KtQeCLKwKc5BOGBXC0R7PXoTpp5CVv
+         pfwbKloKfeX3D/zxaYeu+pp/MP/GrJwPGYqhheU3FX9U8EzwbL+FYlIV/T97l4yqsKjF
+         XqqoMvYHtN4VQFyfcxH4HhybNi91HHtQkj0LAEDcs20rKQAd8fNrZ4bvtnsFafLWocb8
+         9JaA==
+X-Gm-Message-State: AFqh2kqI0r0kgojvCW4abhqd/8T1su1jIIy6ibzjC+J2PuKnBe5HHFnb
+        VPqjQ4KRWTVxncAmx8fbCXfslYql8yl577mWbzQ=
+X-Google-Smtp-Source: AMrXdXs7sLoKG9/pVLisKy5De0WkDtXJRH03vKLmjmas+ZV49OQvrV9E5k79fnsPc242Wowp5o4tpg==
+X-Received: by 2002:a05:600c:5386:b0:3da:f670:a199 with SMTP id hg6-20020a05600c538600b003daf670a199mr6493504wmb.36.1674043684637;
+        Wed, 18 Jan 2023 04:08:04 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id k7-20020adfd227000000b002bdf3809f59sm10626937wrh.38.2023.01.18.04.08.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 04:08:03 -0800 (PST)
+Date:   Wed, 18 Jan 2023 12:08:01 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jianhua Lu <lujianhua000@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] backlight: ktz8866: Add support for Kinetic
+ KTZ8866 backlight
+Message-ID: <Y8fhIVRbgEok29t1@aspen.lan>
+References: <20230117154408.1882-1-lujianhua000@gmail.com>
+ <20230117154408.1882-2-lujianhua000@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: bostmarktrun.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [135.125.238.46 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: bostmarktrun.com]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5001]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117154408.1882-2-lujianhua000@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,=20
+On Tue, Jan 17, 2023 at 11:44:08PM +0800, Jianhua Lu wrote:
+> Add support for Kinetic KTZ8866 backlight, which is used in
+> Xiaomi tablet, Mi Pad 5 series. This driver lightly based on
+> downstream implementation [1].
+> [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/elish-r-oss/drivers/video/backlight/ktz8866.c
+>
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>   - Add missing staitc modifier to ktz8866_write function.
+>
+> Changes in v3:
+>   - Add 2022 to Copyright line.
+>   - Sort headers.
+>   - Remove meaningless comment.
+>   - Use definitions instead of hardcoding.
+>   - Add missing maintainer info.
+>
+> Changes in v4:
+>   - Change 2022 to 2023.
+>   - Remove useless macro and enum.
+>   - Describe settings by devicetree.
+>   - Move header file to C file.
+> Changes in v5:
+>   - Change "2023" to "2022, 2023" in Copyright line.
+>   - Set scale property for backlight.
+>
+>  MAINTAINERS                       |   6 +
+>  drivers/video/backlight/Kconfig   |   8 ++
+>  drivers/video/backlight/Makefile  |   1 +
+>  drivers/video/backlight/ktz8866.c | 201 ++++++++++++++++++++++++++++++
+>  4 files changed, 216 insertions(+)
+>  create mode 100644 drivers/video/backlight/ktz8866.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 42fc47c6edfd..2084e74e1b58 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11674,6 +11674,12 @@ M:	John Hawley <warthog9@eaglescrag.net>
+>  S:	Maintained
+>  F:	tools/testing/ktest
+>
+> +KTZ8866 BACKLIGHT DRIVER
+> +M:	Jianhua Lu <lujianhua000@gmail.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> +F:	drivers/video/backlight/ktz8866.c
+> +
+>  L3MDEV
+>  M:	David Ahern <dsahern@kernel.org>
+>  L:	netdev@vger.kernel.org
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 936ba1e4d35e..2845fd7e33ad 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -190,6 +190,14 @@ config BACKLIGHT_KTD253
+>  	  which is a 1-wire GPIO-controlled backlight found in some mobile
+>  	  phones.
+>
+> +config BACKLIGHT_KTZ8866
+> +	tristate "Backlight Driver for Kinetic KTZ8866"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +		Say Y to enabled the backlight driver for the Kinetic KTZ8866
+> +		found in Xiaomi Mi Pad 5 series.
 
-I would like to reach the person responsible for the implementation of yo=
-ur company's goals, vision and mission or the decision-maker in the devel=
-opment of your technology strategy.
-
-I represent provider of lucrative IT solutions that remove the barriers t=
-o process development resulting from limited access to appropriate IT res=
-ources.
-
-We guarantee you access to the knowledge and experience of outstanding 3,=
-000 software developers from Poland and 500 professional consultants and =
-senior developers in the United States and other Western countries. =20
-
-We respond to a variety of needs, ranging from expanding your project tea=
-m with specialists with specific skills to supporting project managers, e=
-xperienced innovation teams to creating a Minimum Viable Project (MVP).
-
-The comprehensiveness of our services guarantees you dynamic software dev=
-elopment including creation, testing and implementation systems that are =
-the backbone of effective management of the entire organization.
-
-A partnership that lasts for years is the best proof that our clients mee=
-t their unique requirements within a specific timeframe, introduce new op=
-portunities and grow their business while we solve their problems.
-
-Are you available for a brief call? I will be looking forward to hearing =
-from you.
+s/enabled/enable/ (and sorry for spotting this one so late)
 
 
-Best regards
-Corey Webb
+> +++ b/drivers/video/backlight/ktz8866.c
+> @@ -0,0 +1,201 @@
+> [...]
+> +static void ktz8866_init(struct ktz8866 *ktz)
+> +{
+> +	unsigned int val;
+> +
+> +	if(of_property_read_u32(ktz->client->dev.of_node, "current-num-sinks", &val))
+> +		ktz8866_write(ktz, BL_EN, BIT(val) - 1);
+> +	else
+> +		/* Enable all 6 current sinks if the number of current sinks isn't specifed. */
+> +		ktz8866_write(ktz, BL_EN, BIT(6) - 1);
+> +
+> +	if(of_property_read_u32(ktz->client->dev.of_node, "current-ramping-time-us", &val)) {
+> +		if(val <= 128) {
+> +			ktz8866_write(ktz, BL_CFG2, BIT(7) | (ilog2(val) << 3) | PWM_HYST);
+> +		} else {
+> +			ktz8866_write(ktz, BL_CFG2, BIT(7) | ((5 + val / 64) << 3) | PWM_HYST);
+> +		}
+
+This code is interpreting current-ramping-time-us as milliseconds rather
+than microseconds!
+
+I know I used microseconds in the example I proposed in the feedback for
+v4 DT bindings but "something like" means I am merely providing an
+example (mostly I was intending to show that the units should be
+included both in the property name *and* description).
+
+It is up to you whether you fix the mismatch by changing the DT bindings
+document to current-ramping-time-ms or change this code to accept
+values in microseconds.
+
+
+> +	}
+> +
+> +	if(of_property_read_u32(ktz->client->dev.of_node, "led-ramping-time-us", &val)) {
+> +		unsigned int ramp_off_time = ilog2(val) + 1;
+> +		unsigned int ramp_on_time = ramp_off_time << 4;
+> +		ktz8866_write(ktz, BL_DIMMING, ramp_on_time | ramp_off_time);
+> +	}
+
+Similarly, this code has not adopted the units specified in the
+bindings documentation.
+
+In this case 0 would map to 512us so if you decided to use milliseconds
+you will need to add comment in the description saying that 0 will map
+to 512us because the hardware cannot ramp faster than this!
+
+
+Daniel.
