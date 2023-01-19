@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28706674312
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 20:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9F36743AF
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 21:51:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbjASTsX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Jan 2023 14:48:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54174 "EHLO
+        id S229986AbjASUvE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Jan 2023 15:51:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjASTsP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 14:48:15 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBDD7C840;
-        Thu, 19 Jan 2023 11:48:14 -0800 (PST)
+        with ESMTP id S230063AbjASUtk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 15:49:40 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB984F85E;
+        Thu, 19 Jan 2023 12:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674157694; x=1705693694;
+  t=1674161369; x=1705697369;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dS5R5RFwuXsctlyU0HLNUqHNVCCKgAon71otDngEy3g=;
-  b=gKxNFdzOVwJr1vVAnf3/SarsY1X/y4gNEnLvWV6qASn/TzruVA4D0elu
-   IpojRCkdaK6fzJfRUTMHR61ZwOswk1oqbgQ0FkCxSfX/QIoqDp3FBAteQ
-   nfwqcfza77mpeZ4q8wZGsfuG8tZHWbHSjZiG2ngwf7VRdRYWvBz2sQzkS
-   zP9mzUVSpVCFwwR1ZcYlGWWs/Dvtl+PlZ0G2BizvtNxjf+9VNDPxkx4yN
-   ee04Od/ymbzM3hTQGCyln5G0dm7hK0jkAhgj1wuHTW4AhEcK3bqfFGwdO
-   i1MDhoV0lXEMp16lskSfBu3TQbN+IqWA91N93ueJ6Wtj8C6X1aMjDBCG+
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324087799"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="324087799"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 11:48:14 -0800
+  bh=8tghXmucL0Dhv0Bb7MCNOCgMhU/eUvb6mKAzFMobY6Q=;
+  b=ClX84jY/SURJl8WwQvnFjxQzIwYrkG+7vsyY1R6gw3lSi4w9ZgoHA2R9
+   rdHrBfGXl3dwBThhJTgVrlieo6FBe3H44uNNXPlVncTfUjlbZ075yVan2
+   p15gZ7ruxSggIprlJakBc6sG7Z8H/LGr5vGqhy3H1GDSer2nGGTUoX/Da
+   eLgnTlD12ODRHh63frAUnsaBOS4na32JmfUYBZhNABNo/IbuKxhKr/zih
+   HQyCq07DYt5NshPv704BoMHK/JYrd5M7yWX6yQL9J9JwqzFAQJN1B4f3J
+   RIJ3fnMWk22GStxMyJN3xbH+yoCuez+EAifq6UsAvrpP/XyY98MNE1PMg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="389935999"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="389935999"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 12:49:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989110128"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="989110128"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="834129006"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
+   d="scan'208";a="834129006"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Jan 2023 11:48:10 -0800
+  by orsmga005.jf.intel.com with ESMTP; 19 Jan 2023 12:49:21 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pIatN-0001ni-14;
-        Thu, 19 Jan 2023 19:48:09 +0000
-Date:   Fri, 20 Jan 2023 03:47:23 +0800
+        id 1pIbqa-0001qE-1Q;
+        Thu, 19 Jan 2023 20:49:20 +0000
+Date:   Fri, 20 Jan 2023 04:48:30 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
@@ -53,15 +53,15 @@ To:     Hans de Goede <hdegoede@redhat.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
         Mark Pearson <markpearson@lenovo.com>,
         Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
 Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
  into videodev.ko
-Message-ID: <202301200320.AbLvd1xh-lkp@intel.com>
+Message-ID: <202301200441.zHWxHnG4-lkp@intel.com>
 References: <20230119130053.111344-7-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -90,27 +90,32 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
 patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
 patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230120/202301200441.zHWxHnG4-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
         git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `videodev_init':
->> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
-   ld: vmlinux.o: in function `videodev_exit':
->> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
+>> ld.lld: error: undefined symbol: v4l2_async_debugfs_exit
+   >>> referenced by v4l2-dev.c:1202 (drivers/media/v4l2-core/v4l2-dev.c:1202)
+   >>>               drivers/media/v4l2-core/v4l2-dev.o:(videodev_exit) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: v4l2_async_debugfs_init
+   >>> referenced by v4l2-dev.c:1194 (drivers/media/v4l2-core/v4l2-dev.c:1194)
+   >>>               drivers/media/v4l2-core/v4l2-dev.o:(videodev_init) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
