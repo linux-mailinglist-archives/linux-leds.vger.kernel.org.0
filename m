@@ -2,66 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D4D67410E
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 19:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28706674312
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 20:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjASSgf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Jan 2023 13:36:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
+        id S229905AbjASTsX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Jan 2023 14:48:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjASSge (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 13:36:34 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D2866033;
-        Thu, 19 Jan 2023 10:36:33 -0800 (PST)
+        with ESMTP id S229907AbjASTsP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 14:48:15 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBDD7C840;
+        Thu, 19 Jan 2023 11:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674153393; x=1705689393;
+  t=1674157694; x=1705693694;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zwVVjUESJIESReT22YjiSWRMur/H9GgTgPJMfoIT7L0=;
-  b=KWphWsiCioYMECx6nzJITeyUJJQuDX/swYpZgLsElr+y+knr6YER8gWU
-   2fExfoMTHUfJYfan5o1vdIw4nGW1hmvLejw61cF7l3Ks6Mc5dCG69qMHq
-   mEgphmjDSbMuzJNX8SftxL40XMSwGF4Y2fLhVbL54UUzlHNijhPLl6EJs
-   qv8SY0IqFQ+xa64hU1az9Fc/7jE8ZDM2H0P97+/KAVK77W4kH507EjBv5
-   41DUvK41HuC3ZLPIA/dn8DaEBVBQ8OIzRlsgf1HmBSnFQnpThYh8N3OID
-   5JLlT/+OcrEYeQMdZXlB80keCTAnDU8rEjEak6F/izI+ekTIM/eZrlV/z
+  bh=dS5R5RFwuXsctlyU0HLNUqHNVCCKgAon71otDngEy3g=;
+  b=gKxNFdzOVwJr1vVAnf3/SarsY1X/y4gNEnLvWV6qASn/TzruVA4D0elu
+   IpojRCkdaK6fzJfRUTMHR61ZwOswk1oqbgQ0FkCxSfX/QIoqDp3FBAteQ
+   nfwqcfza77mpeZ4q8wZGsfuG8tZHWbHSjZiG2ngwf7VRdRYWvBz2sQzkS
+   zP9mzUVSpVCFwwR1ZcYlGWWs/Dvtl+PlZ0G2BizvtNxjf+9VNDPxkx4yN
+   ee04Od/ymbzM3hTQGCyln5G0dm7hK0jkAhgj1wuHTW4AhEcK3bqfFGwdO
+   i1MDhoV0lXEMp16lskSfBu3TQbN+IqWA91N93ueJ6Wtj8C6X1aMjDBCG+
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="389895167"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324087799"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="389895167"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 10:36:09 -0800
+   d="scan'208";a="324087799"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 11:48:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="768345053"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="989110128"
 X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="768345053"
+   d="scan'208";a="989110128"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2023 10:36:06 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 19 Jan 2023 11:48:10 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pIZld-0001jS-1k;
-        Thu, 19 Jan 2023 18:36:05 +0000
-Date:   Fri, 20 Jan 2023 02:35:21 +0800
+        id 1pIatN-0001ni-14;
+        Thu, 19 Jan 2023 19:48:09 +0000
+Date:   Fri, 20 Jan 2023 03:47:23 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        Jianhua Lu <lujianhua000@gmail.com>
-Subject: Re: [PATCH v6 2/2] backlight: ktz8866: Add support for Kinetic
- KTZ8866 backlight
-Message-ID: <202301200239.m4ZDprWz-lkp@intel.com>
-References: <20230118131002.15453-2-lujianhua000@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
+ into videodev.ko
+Message-ID: <202301200320.AbLvd1xh-lkp@intel.com>
+References: <20230119130053.111344-7-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230118131002.15453-2-lujianhua000@gmail.com>
+In-Reply-To: <20230119130053.111344-7-hdegoede@redhat.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -71,60 +76,41 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jianhua,
+Hi Hans,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on lee-backlight/for-backlight-next]
-[also build test WARNING on lee-backlight/for-backlight-fixes lee-leds/for-leds-next pavel-leds/for-next linus/master v6.2-rc4 next-20230119]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc4]
+[cannot apply to media-tree/master pavel-leds/for-next next-20230119]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jianhua-Lu/backlight-ktz8866-Add-support-for-Kinetic-KTZ8866-backlight/20230118-214354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
-patch link:    https://lore.kernel.org/r/20230118131002.15453-2-lujianhua000%40gmail.com
-patch subject: [PATCH v6 2/2] backlight: ktz8866: Add support for Kinetic KTZ8866 backlight
-config: parisc-randconfig-r031-20230119 (https://download.01.org/0day-ci/archive/20230120/202301200239.m4ZDprWz-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
+patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b862510e8bf9eb34db9d71a372b9de05682cb8ad
+        # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jianhua-Lu/backlight-ktz8866-Add-support-for-Kinetic-KTZ8866-backlight/20230118-214354
-        git checkout b862510e8bf9eb34db9d71a372b9de05682cb8ad
+        git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+        git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/video/backlight/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:6,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/backlight.h:12,
-                    from drivers/video/backlight/ktz8866.c:8:
-   include/vdso/bits.h: In function 'ktz8866_init':
->> include/vdso/bits.h:7:40: warning: 'val' is used uninitialized [-Wuninitialized]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^~
-   drivers/video/backlight/ktz8866.c:98:22: note: 'val' was declared here
-      98 |         unsigned int val;
-         |                      ^~~
-
-
-vim +/val +7 include/vdso/bits.h
-
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  8  
+   ld: vmlinux.o: in function `videodev_init':
+>> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
+   ld: vmlinux.o: in function `videodev_exit':
+>> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
 
 -- 
 0-DAY CI Kernel Test Service
