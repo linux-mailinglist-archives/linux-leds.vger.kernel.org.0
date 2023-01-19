@@ -2,85 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3DA6743FE
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 22:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F282674B5B
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 05:53:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjASVK0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Jan 2023 16:10:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
+        id S230520AbjATExS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Jan 2023 23:53:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbjASVJ3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 16:09:29 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202D2A1010;
-        Thu, 19 Jan 2023 13:02:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 7C9C6CE25B1;
-        Thu, 19 Jan 2023 21:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F97C433F0;
-        Thu, 19 Jan 2023 21:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674162165;
-        bh=Gl+Z25/Z/2UsEtuRKbFkcBEiWO+If4DwRr3vxCyOQNo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ub1SDnk2kwxWunkh+eJXGbifSHZ2fNMd9GrSFrsjepV7ErDo4pp9WzqkJhNcKW0jM
-         QfKHsmHnnDwO7avjf9WZLShAspoOqWSY335WaR6JRqq4REnBuJ01LoxauEceqzOcej
-         o67J4+AccHWF+g51KnyJ9Z6IZZ+i6BZq60AmO4Y5lJkizFeags2gApN1R+ogPq3vfV
-         0MGKdwyAb67KwPvt2lX2lGEWXrPbY6IDVKl0kqg5yUvcMnCsNfUH9vp4bWjK0OFGBQ
-         bx8L/l8V+C8sH823lgC/Jw3cuhU3Xsnu1G5tV8w/siWI9UnK6jCcmzM3vDypQM0BD7
-         MLUh78Ttm+Mmw==
-Date:   Thu, 19 Jan 2023 21:02:40 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
- GPIO providing driver
-Message-ID: <Y8mv8PzL1UsP9gNh@google.com>
-References: <20221007153323.1326-1-henning.schild@siemens.com>
+        with ESMTP id S229816AbjATExB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 23:53:01 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0609619A;
+        Thu, 19 Jan 2023 20:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674189894; x=1705725894;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BfEES7hM/KFkzDhKaqvx+cc8oD5zFjJ0h/F4pzIFBEU=;
+  b=DXbNGXHzaa+uUuacONlWZoaTNbJ+s3f8oL2fvYs3T7Y/iz6raRSIgP4/
+   g7lh0Q+LhgNc6tuY1DUqbtQVThIn5d5tG0G0FTH9kaTkC/uMDgTZVdQJW
+   lJ2WdGFAa+9OXZOfsgPomb3oHd49I9cy7zYFKsJBQDYqOiZXkNZHBjwlu
+   j2h53Dw99g0d62mIm+xLU32ANRy0X7qldGsTxcsXTx6Lz2bGILPZ59g44
+   zF1YO8MaZaKg16l3H+BAwTmrg/wsb3qqWTtvF2lX2yxeU+BvUMQQhfQ4R
+   t4SNy96IUwQvDCcCpXegtP1kQ8wZu590XSsXeXsTKfm8/uYfJ9jT7np/q
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="387695425"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="387695425"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 08:13:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="610115645"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="610115645"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 19 Jan 2023 08:13:08 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pIXXG-00BkPa-0Q;
+        Thu, 19 Jan 2023 18:13:06 +0200
+Date:   Thu, 19 Jan 2023 18:13:05 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, kernel test robot <lkp@intel.com>
+Subject: Re: [resent, PATCH v2 1/1] leds: is31fl319x: Wrap mutex_destroy()
+ for devm_add_action_or_rest()
+Message-ID: <Y8lsEc2cFR3mMS0N@smile.fi.intel.com>
+References: <20230103131553.34124-1-andriy.shevchenko@linux.intel.com>
+ <Y8lqRjeM9I/rRrvv@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221007153323.1326-1-henning.schild@siemens.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y8lqRjeM9I/rRrvv@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 07 Oct 2022, Henning Schild wrote:
+On Thu, Jan 19, 2023 at 04:05:26PM +0000, Lee Jones wrote:
+> On Tue, 03 Jan 2023, Andy Shevchenko wrote:
 
-> If we register a "leds-gpio" platform device for GPIO pins that do not
-> exist we get a -EPROBE_DEFER and the probe will be tried again later.
-> If there is no driver to provide that pin we will poll forever and also
-> create a lot of log messages.
+...
+
+> > v2 resent: resent as v2
+> > v2: added tag (Vincent), Cc'ed to Lee
+> > 
+> >  drivers/leds/leds-is31fl319x.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> So check if that GPIO driver is configured, if so it will come up
-> eventually. If not, we exit our probe function early and do not even
-> bother registering the "leds-gpio". This method was chosen over "Kconfig
-> depends" since this way we can add support for more devices and GPIO
-> backends more easily without "depends":ing on all GPIO backends.
-> 
-> Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version of Siemens driver")
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-> ---
->  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Not sure what the differences were, but looks like I already applied v1.
 
-FYI: I'm going to try my best not to take another one like this.
-
-Please try to improve the whole situation for you next submission.
-
-Applied, thanks.
+Codewise there is none. Thank you!
 
 -- 
-Lee Jones [李琼斯]
+With Best Regards,
+Andy Shevchenko
+
+
