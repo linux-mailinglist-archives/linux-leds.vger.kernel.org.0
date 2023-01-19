@@ -2,115 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E4B6743EB
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 22:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3DA6743FE
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Jan 2023 22:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbjASVH0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Jan 2023 16:07:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
+        id S229461AbjASVK0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Jan 2023 16:10:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjASVGm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 16:06:42 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D185FA5001;
-        Thu, 19 Jan 2023 12:59:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674161968; x=1705697968;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kZaK9ePnhrxjr9jwmLD9ywiNh5pUCIeVUYQO5DCc8VI=;
-  b=bDH3Hf8hLVlR58bSvHxezvj5oH+EMLuYotBVUf09BjSq83bwLgbmRkx1
-   NLPJ6Z4qz23XgJH3DAYWHL0oTGCebjFqcfa8Su6CQ2rdRUPWbsAT7zG9g
-   XwkEYETqToU2aAH1mbBvzOXmNorKEPgeKZB9YsHNszRjyCfTDUc00tvpG
-   osi87pDpkDQ6SJg9XfcPr90d3BWq11Z/AKoGpZSIMUf8gkl7ncVvQZI+P
-   AUhaAuSQhOGXKLN0sviXOMex9brpXBa1DQe6vF8lBR/XgLMaecwai+uEZ
-   0ehMD03sWlmTQf+MKSWqn2TlRQcDn0YExNxLQ2wXdgFoUnuNV43vYqB/J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="352677281"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="352677281"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 12:59:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="653530014"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; 
-   d="scan'208";a="653530014"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Jan 2023 12:59:23 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pIc0I-0001qa-10;
-        Thu, 19 Jan 2023 20:59:22 +0000
-Date:   Fri, 20 Jan 2023 04:58:51 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
-Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
- into videodev.ko
-Message-ID: <202301200413.64Gyz6yI-lkp@intel.com>
-References: <20230119130053.111344-7-hdegoede@redhat.com>
+        with ESMTP id S229983AbjASVJ3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Jan 2023 16:09:29 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202D2A1010;
+        Thu, 19 Jan 2023 13:02:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7C9C6CE25B1;
+        Thu, 19 Jan 2023 21:02:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F97C433F0;
+        Thu, 19 Jan 2023 21:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674162165;
+        bh=Gl+Z25/Z/2UsEtuRKbFkcBEiWO+If4DwRr3vxCyOQNo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ub1SDnk2kwxWunkh+eJXGbifSHZ2fNMd9GrSFrsjepV7ErDo4pp9WzqkJhNcKW0jM
+         QfKHsmHnnDwO7avjf9WZLShAspoOqWSY335WaR6JRqq4REnBuJ01LoxauEceqzOcej
+         o67J4+AccHWF+g51KnyJ9Z6IZZ+i6BZq60AmO4Y5lJkizFeags2gApN1R+ogPq3vfV
+         0MGKdwyAb67KwPvt2lX2lGEWXrPbY6IDVKl0kqg5yUvcMnCsNfUH9vp4bWjK0OFGBQ
+         bx8L/l8V+C8sH823lgC/Jw3cuhU3Xsnu1G5tV8w/siWI9UnK6jCcmzM3vDypQM0BD7
+         MLUh78Ttm+Mmw==
+Date:   Thu, 19 Jan 2023 21:02:40 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+Message-ID: <Y8mv8PzL1UsP9gNh@google.com>
+References: <20221007153323.1326-1-henning.schild@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230119130053.111344-7-hdegoede@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221007153323.1326-1-henning.schild@siemens.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Hans,
+On Fri, 07 Oct 2022, Henning Schild wrote:
 
-I love your patch! Yet something to improve:
+> If we register a "leds-gpio" platform device for GPIO pins that do not
+> exist we get a -EPROBE_DEFER and the probe will be tried again later.
+> If there is no driver to provide that pin we will poll forever and also
+> create a lot of log messages.
+> 
+> So check if that GPIO driver is configured, if so it will come up
+> eventually. If not, we exit our probe function early and do not even
+> bother registering the "leds-gpio". This method was chosen over "Kconfig
+> depends" since this way we can add support for more devices and GPIO
+> backends more easily without "depends":ing on all GPIO backends.
+> 
+> Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version of Siemens driver")
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Henning Schild <henning.schild@siemens.com>
+> ---
+>  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.2-rc4]
-[cannot apply to media-tree/master pavel-leds/for-next next-20230119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: I'm going to try my best not to take another one like this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
-patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
-patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
-config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230120/202301200413.64Gyz6yI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
-        git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Please try to improve the whole situation for you next submission.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "v4l2_async_debugfs_exit" [drivers/media/v4l2-core/videodev.ko] undefined!
->> ERROR: modpost: "v4l2_async_debugfs_init" [drivers/media/v4l2-core/videodev.ko] undefined!
+Applied, thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Lee Jones [李琼斯]
