@@ -2,95 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F91367596F
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 17:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6781675A2D
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 17:40:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229942AbjATQCm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 11:02:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38190 "EHLO
+        id S229526AbjATQkA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 11:40:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjATQCl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 11:02:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BDAB770;
-        Fri, 20 Jan 2023 08:02:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 76B21B82866;
-        Fri, 20 Jan 2023 16:02:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC80AC433D2;
-        Fri, 20 Jan 2023 16:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674230557;
-        bh=2fhXKggMk2LoOy0VnH1LRyNZJuHzcLxH3fbGUuM7wOk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NswgWOVXp0vAeIuou5b4vIt+knrUmGSdtcS0AQWHfMt91CsyyHEW33geLP9Rtm7J5
-         4LMeqO5PN0r+lyl+bkJLo4YEuUCvJueBQlj3mREW4xXHajbLmnR7muFDUi/vNTMZbO
-         CC74qqVLyAoF/8xOI/mbGbVpmYy25KFAPxHvNxFD3PloEoNeUpNKsWL2XZWPTAhu3u
-         B56fgL3HdWm/BEIY7LKDY9M+BZ/SEP0JILMZPw8wD0rf0G/t6w76JgLKOicJxfnGhU
-         90ky31iiRfQ7B2yXDE2S3nWPGdeCK0JfO9S8QKvmQqOMSsJu5Byje9+vX1nbuUf85q
-         /ueWeb+fSEXsg==
-Date:   Fri, 20 Jan 2023 16:02:31 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Maarten Zanders <maarten.zanders@mind.be>
-Cc:     Pavel Machek <pavel@ucw.cz>, krzysztof.kozlowski@linaro.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: lp55xx: configure internal charge pump
-Message-ID: <Y8q7F0cDNGFeOv99@google.com>
-References: <20230110092342.24132-1-maarten.zanders@mind.be>
- <20230110092342.24132-3-maarten.zanders@mind.be>
- <Y8qdX7QIQntPWuuA@google.com>
- <98a87f2d-f6c3-1dd6-36b1-095e47a87aaa@mind.be>
+        with ESMTP id S229924AbjATQj6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 11:39:58 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AD5E7
+        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id d2so5336824wrp.8
+        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
+        b=UApWjzlXda6CKOsxYSAekXBHCiPYv6pVkiWHbI7PK6NXlDBf2dZaBDBu3pcMBX4Dvp
+         6pVJCoYaf28tSrmY+cQXTcE5NCML/7/aNdhPsd9f1zZGxwjZ8KtIc0zafg1CDt+MmL1t
+         ht+1uJ+qps8er08SQIPj8jCpqo9gs3doYVucXRacX8doWIlUzIZI6fYKJoTuT8NrG42t
+         MEw5W4JoUE4dXTKy6NU3b03SLyKAPuoCmZGqaBryF9fm76CMUuyzmAcMzhe2Gc9aBSvv
+         rVqHAHr0IWrNPbn8V79yED7CryU1Vk3Sen0HSlqKLB5YcHIC9rN/57uXiyLuvli0/Rbt
+         Yz+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
+        b=Dv5FU2utDnCd0CFVELVdiTfR0iUhDRPVKMQkVdSmgo6viw55DQVjUyEjJNqDdhfCfM
+         oel5kVLx70Y+MT0H4GfUo8oFNJq7OfPeEUCB03tKjbCOUBzb1p6h+anDfCWIU7tihJQB
+         MN82tqj9bBPq2MTrTr0OZBb2HWxD07Lw263cFN44X+HorJZzfSIa8UBeLosqlqge7rBY
+         VJO3gpN3J0Qd4iTXr5bZ+GUSjbTIoqoPXGdAmbh7YuftYG/iiRKz2aSQqVQJZxTiN4+D
+         Y4v6ykUQXP71GA9bEPdAlOJxaba19dMWiU04igB1o4JrSrU1nDIfbzO5cdIyQ64lNYXN
+         Vazw==
+X-Gm-Message-State: AFqh2koZqzy+SI7YVClLqBg9SN7I1vGbVRyi6r+1uZ7r1motgYOtr+uu
+        Wfu0P5AcLZovl/aEl/MgcYr+4Q==
+X-Google-Smtp-Source: AMrXdXtZ9DWblZSaKSzMSMqI/0YMAXlKAx5MWIAT7Z2mmChtlRMs75VNjLqzEiOVvNoaJZ95nuiIUg==
+X-Received: by 2002:a05:6000:98d:b0:25f:8ead:96cc with SMTP id by13-20020a056000098d00b0025f8ead96ccmr14507795wrb.70.1674232794812;
+        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id z12-20020adfd0cc000000b002bdff778d87sm13385996wrh.34.2023.01.20.08.39.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
+Message-ID: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
+Date:   Fri, 20 Jan 2023 17:39:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98a87f2d-f6c3-1dd6-36b1-095e47a87aaa@mind.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 20 Jan 2023, Maarten Zanders wrote:
-
+On 09/11/2022 15:46, Geert Uytterhoeven wrote:
+> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> are already in active use.
 > 
-> > > +	pdata->charge_pump_mode = LP55XX_CP_AUTO;
-> > > +	ret = of_property_read_string(np, "ti,charge-pump-mode", &pm);
-> > > +	if (!ret) {
-> > > +		for (cp_mode = LP55XX_CP_OFF;
-> > > +		     cp_mode < ARRAY_SIZE(charge_pump_modes);
-> > > +		     cp_mode++) {
-> > > +			if (!strcasecmp(pm, charge_pump_modes[cp_mode])) {
-> > > +				pdata->charge_pump_mode = cp_mode;
-> > > +				break;
-> > > +			}
-> > > +		}
-> > > +	}
-> > A little over-engineered, no?
-> > 
-> > Why not make the property a numerical value, then simply:
-> > 
-> >    ret = of_property_read_u32(np, "ti,charge-pump-mode", &pdata->charge_pump_mode);
-> >    if (ret)
-> >            data->charge_pump_mode = LP55XX_CP_AUTO;
-> > 
-> > Elevates the requirement for the crumby indexed array of strings above.
-> > 
-> > Remainder looks sane enough.
+> While at it, move the mmc pattern comment where it belongs, and restore
+> alphabetical sort order.
 > 
-> Thanks for your feedback.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'hci0-power' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+> 	'phy0tx' does not match '^mmc[0-9]+$'
+> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+
+This patch got lost... Rob, Lee or Pavel, can you pick it up?
+
+It's with Rob's approval:
+https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> I won't argue that your implementation isn't far more simple. The idea was
-> to have an elaborate and clear and obvious devicetree, but that can also be
-> achieved by moving constants into /includes/dt-bindings/leds/leds-lp55xx.h.
-> Would that be more acceptable?
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index f5c57a580078ea23..d34bb58c00371402 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -98,9 +98,13 @@ properties:
+>              # LED alters the brightness for the specified duration with one software
+>              # timer (requires "led-pattern" property)
+>            - pattern
+> -        # LED is triggered by SD/MMC activity
+> -      - pattern: "^mmc[0-9]+$"
+>        - pattern: "^cpu[0-9]*$"
+> +      - pattern: "^hci[0-9]+-power$"
+> +        # LED is triggered by Bluetooth activity
+> +      - pattern: "^mmc[0-9]+$"
+> +        # LED is triggered by SD/MMC activity
+> +      - pattern: "^phy[0-9]+tx$"
+> +        # LED is triggered by WLAN activity
+>  
+>    led-pattern:
+>      description: |
 
-Yes please.
+Best regards,
+Krzysztof
 
--- 
-Lee Jones [李琼斯]
