@@ -2,216 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA28675517
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 13:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8AE6755C8
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 14:28:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbjATM6L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 07:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52684 "EHLO
+        id S229689AbjATN2A (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 08:28:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230424AbjATM6L (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 07:58:11 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26ECA57A6;
-        Fri, 20 Jan 2023 04:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674219489; x=1705755489;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RokbqfGGIiirr07pIn8RB5Ap2jYFpoUIVx6SFqUq2EI=;
-  b=Jf0Cc70pdNzkUVDUbx3qHcGRyVGHgg3nizXtSJok3Z8UtAYQJptT3Gql
-   u+xUkd8FUWnXUZAYwnTdNh5EikCim9UuuhT0JQXpWMP2KEDLqKJRBKFCC
-   0fzxzbDCqXOKptAAY0xaQaG5tQ3NCWHD8hUpl6ZcjMb5E4QXPlI29mqeb
-   iqbzsTgKS9lV4K2jIHmGK7Wa/Au685snC/CmPel2cZThQTniYF9LkHRSL
-   MVQewSByhnDiKaxLlh/rp+DaQFsRhLhtR9MliAFaUQJj0G2LgQWdGRZFt
-   bUhvH5fbcVnj+2z7WO3hHeWQ0iVQuAK8UBrncMaSifkrlsev45BqEHtK0
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="313458770"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="313458770"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:58:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="660575097"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="660575097"
-Received: from turnipsi.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:58:04 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D147B20397;
-        Fri, 20 Jan 2023 14:51:46 +0200 (EET)
-Date:   Fri, 20 Jan 2023 12:51:46 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 07/11] media: v4l2-core: Make the v4l2-core code
- enable/disable the privacy LED if present
-Message-ID: <Y8qOYlAm4flqe1tp@paasikivi.fi.intel.com>
-References: <20230120114524.408368-1-hdegoede@redhat.com>
- <20230120114524.408368-8-hdegoede@redhat.com>
+        with ESMTP id S229609AbjATN17 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 08:27:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FC63D08F;
+        Fri, 20 Jan 2023 05:27:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 52A38B82827;
+        Fri, 20 Jan 2023 13:27:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE326C433D2;
+        Fri, 20 Jan 2023 13:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674221275;
+        bh=Tq1E8pyeCQPwUYf1ZR4/fdWEN6omesfFHTkmVrGa92c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LfV3hfiqxwvoDK//mZGT9qFEcQnUW1SloBQDbmtwkZs6OBuu/xSZq9DKEHbQ+7mak
+         vHzPQpkjwyGs59ZDZjvFTHxUELgHm/Kw7T4+ugTTbYGuWE5gu2FRaJCfFKD1iOVB3R
+         JU6JgoLB22eE/7IbbQNwrp1N703HmZLoBmVyGsyLE/6LQ+1gDZGqrPtZoi8fn425AE
+         89WvN7RXFq2cLKbJHoPNC1paqwU8iHBMMFhteObNfw3gdbJRHqd50S/Un1U+8U86UJ
+         jY9ee9LP2rzNA8zRcv7CnrLS2U8UsAadT+PL40uL22TXdLt+9fLBlpVQeq8XUtNCq0
+         7PUKvEmHlX0DQ==
+Date:   Fri, 20 Jan 2023 13:27:50 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Qingtao Cao <qingtao.cao.au@gmail.com>,
+        Qingtao Cao <qingtao.cao@digi.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] leds: ledtrig-tty.c: call led_set_brightness() when
+ the blocking callback is not available
+Message-ID: <Y8qW1tlDmw6KEIuu@google.com>
+References: <20221209001039.7287-1-qingtao.cao@digi.com>
+ <20221209124058.dwez7wohs7dfeiik@pengutronix.de>
+ <Y7WnMISK20Z4hsg1@google.com>
+ <ad4a1069-72c6-a431-336f-ed78a57a1ba0@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230120114524.408368-8-hdegoede@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad4a1069-72c6-a431-336f-ed78a57a1ba0@gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Hans,
+On Sat, 07 Jan 2023, Jacek Anaszewski wrote:
 
-On Fri, Jan 20, 2023 at 12:45:20PM +0100, Hans de Goede wrote:
-> Make v4l2_async_register_subdev_sensor() try to get a privacy LED
-> associated with the sensor and extend the call_s_stream() wrapper to
-> enable/disable the privacy LED if found.
+> Hi all,
 > 
-> This makes the core handle privacy LED control, rather then having to
-> duplicate this code in all the sensor drivers.
+> On 1/4/23 17:20, Lee Jones wrote:
+> > On Fri, 09 Dec 2022, Uwe Kleine-König wrote:
+> > 
+> > > On Fri, Dec 09, 2022 at 10:10:38AM +1000, Qingtao Cao wrote:
+> > > > The Marvell GPIO controller's driver will setup its struct gpio_chip's can_sleep
+> > > > false, making create_gpio_led() setting up the brightness_set function pointer
+> > > > instead of the brightness_set_blocking function pointer. In this case the
+> > > > nonblocking version led_set_brightness() should be fallen back on by ledtrig_tty_work()
+> > > > 
+> > > > Signed-off-by: Qingtao Cao <qingtao.cao@digi.com>
+> > > > ---
+> > > >   drivers/leds/trigger/ledtrig-tty.c | 10 ++++++++--
+> > > >   1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> > > > index f62db7e520b5..e43d285b5d06 100644
+> > > > --- a/drivers/leds/trigger/ledtrig-tty.c
+> > > > +++ b/drivers/leds/trigger/ledtrig-tty.c
+> > > > @@ -122,12 +122,18 @@ static void ledtrig_tty_work(struct work_struct *work)
+> > > >   	if (icount.rx != trigger_data->rx ||
+> > > >   	    icount.tx != trigger_data->tx) {
+> > > > -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> > > > +		if (trigger_data->led_cdev->brightness_set_blocking)
+> > > > +			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+> > > > +		else if (trigger_data->led_cdev->brightness_set)
+> > > > +			led_set_brightness(trigger_data->led_cdev, LED_ON);
+> > > 
+> > > I had similar issues in the past where a function call worked for
+> > > sleeping LEDs but not atomic ones (or the other way around? Don't
+> > > remember the details.)
+> > > 
+> > > I wonder if there isn't a function that does the right thing no matter
+> > > what type the LED is. The other triggers should have the same issue, and
+> > > doing the above check in all of them just looks wrong.
+> > 
+> > Anyone fancy taking a deeper dive into this?
+> > 
+> > I'd usually have a go myself, but I'm presently swamped.
+> > 
+> > Pavel already has an idea?
+> > 
 > 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v4 (requested by Laurent Pinchart):
-> - Move the led_get() call to v4l2_async_register_subdev_sensor() and
->   make errors other then -ENOENT fail the register() call.
-> - Move the led_disable_sysfs() call to be done at led_get() time, instead
->   of only disabling the sysfs interface when the sensor is streaming.
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 15 +++++++++++++++
->  drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++++++++++++++
->  include/media/v4l2-subdev.h           |  3 +++
->  3 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index c8a2264262bc..cfac1e2ae501 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -16,6 +16,7 @@
->   */
->  #include <linux/acpi.h>
->  #include <linux/kernel.h>
-> +#include <linux/leds.h>
->  #include <linux/mm.h>
->  #include <linux/of.h>
->  #include <linux/property.h>
-> @@ -1295,6 +1296,20 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
->  	if (WARN_ON(!sd->dev))
->  		return -ENODEV;
->  
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	sd->privacy_led = led_get(sd->dev, "privacy-led");
-> +	if (IS_ERR(sd->privacy_led) && PTR_ERR(sd->privacy_led) != -ENOENT)
-> +		return dev_err_probe(sd->dev, PTR_ERR(sd->privacy_led), "getting privacy LED\n");
-> +
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		mutex_lock(&sd->privacy_led->led_access);
-> +		led_sysfs_disable(sd->privacy_led);
-> +		led_trigger_remove(sd->privacy_led);
-> +		led_set_brightness(sd->privacy_led, 0);
-> +		mutex_unlock(&sd->privacy_led->led_access);
-> +	}
-> +#endif
-> +
->  	notifier = kzalloc(sizeof(*notifier), GFP_KERNEL);
->  	if (!notifier)
->  		return -ENOMEM;
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4988a25bd8f4..f33e943aab3f 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -9,6 +9,7 @@
->   */
->  
->  #include <linux/ioctl.h>
-> +#include <linux/leds.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> @@ -322,6 +323,14 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	int ret;
->  
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		if (enable)
-> +			led_set_brightness(sd->privacy_led, sd->privacy_led->max_brightness);
-> +		else
-> +			led_set_brightness(sd->privacy_led, 0);
-> +	}
-> +#endif
->  	ret = sd->ops->video->s_stream(sd, enable);
->  
->  	if (!enable && ret < 0) {
-> @@ -1050,6 +1059,14 @@ EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
->  
->  void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> There is led_set_brightness_nosleep() and it should be used here
+> from the beginning. Generally it should be used always in triggers.
 
-v4l2_subdev_cleanup() is currently called by drivers using V4L2 subdev
-state at the moment, making it unsuitable for the purpose of releasing the
-privacy led.
+Thanks for helping to keep an eye on things Jacek.
 
-Could you move this to v4l2_async_unregister_subdev() instead?
-
->  {
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		mutex_lock(&sd->privacy_led->led_access);
-> +		led_sysfs_enable(sd->privacy_led);
-> +		mutex_unlock(&sd->privacy_led->led_access);
-> +		led_put(sd->privacy_led);
-> +	}
-> +#endif
->  	__v4l2_subdev_state_free(sd->active_state);
->  	sd->active_state = NULL;
->  }
-> @@ -1090,6 +1107,7 @@ void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->  	sd->grp_id = 0;
->  	sd->dev_priv = NULL;
->  	sd->host_priv = NULL;
-> +	sd->privacy_led = NULL;
->  #if defined(CONFIG_MEDIA_CONTROLLER)
->  	sd->entity.name = sd->name;
->  	sd->entity.obj_type = MEDIA_ENTITY_TYPE_V4L2_SUBDEV;
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index b15fa9930f30..0547313f98cc 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -38,6 +38,7 @@ struct v4l2_subdev;
->  struct v4l2_subdev_fh;
->  struct tuner_setup;
->  struct v4l2_mbus_frame_desc;
-> +struct led_classdev;
->  
->  /**
->   * struct v4l2_decode_vbi_line - used to decode_vbi_line
-> @@ -982,6 +983,8 @@ struct v4l2_subdev {
->  	 * appropriate functions.
->  	 */
->  
-> +	struct led_classdev *privacy_led;
-> +
->  	/*
->  	 * TODO: active_state should most likely be changed from a pointer to an
->  	 * embedded field. For the time being it's kept as a pointer to more
+Much appreciated.
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Lee Jones [李琼斯]
