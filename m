@@ -2,56 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8AE6755C8
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 14:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1DC2675627
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 14:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjATN2A (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 08:28:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
+        id S229459AbjATNzy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 08:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbjATN17 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 08:27:59 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FC63D08F;
-        Fri, 20 Jan 2023 05:27:58 -0800 (PST)
+        with ESMTP id S229461AbjATNzy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 08:55:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391E9BF8A9;
+        Fri, 20 Jan 2023 05:55:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 52A38B82827;
-        Fri, 20 Jan 2023 13:27:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE326C433D2;
-        Fri, 20 Jan 2023 13:27:53 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C7588B82838;
+        Fri, 20 Jan 2023 13:55:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C56C433D2;
+        Fri, 20 Jan 2023 13:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674221275;
-        bh=Tq1E8pyeCQPwUYf1ZR4/fdWEN6omesfFHTkmVrGa92c=;
+        s=k20201202; t=1674222948;
+        bh=e2V86XBaIn8vu9joVeARD8AhtK3u16VJXZES9v6mJSw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LfV3hfiqxwvoDK//mZGT9qFEcQnUW1SloBQDbmtwkZs6OBuu/xSZq9DKEHbQ+7mak
-         vHzPQpkjwyGs59ZDZjvFTHxUELgHm/Kw7T4+ugTTbYGuWE5gu2FRaJCfFKD1iOVB3R
-         JU6JgoLB22eE/7IbbQNwrp1N703HmZLoBmVyGsyLE/6LQ+1gDZGqrPtZoi8fn425AE
-         89WvN7RXFq2cLKbJHoPNC1paqwU8iHBMMFhteObNfw3gdbJRHqd50S/Un1U+8U86UJ
-         jY9ee9LP2rzNA8zRcv7CnrLS2U8UsAadT+PL40uL22TXdLt+9fLBlpVQeq8XUtNCq0
-         7PUKvEmHlX0DQ==
-Date:   Fri, 20 Jan 2023 13:27:50 +0000
+        b=ARSLq3JIqcxLkdGawxG1mJs0X0Ks7eBKO1iP7sLKjB+/D0GEuTTu+QItW1l0Qbm2L
+         KTaGtOK8EDrWEVYFtmy0xBaSZQbA8tOud7/ebkQF5P/uNiAi03yeKPBCNhYiwwJfX+
+         CyWayPeiAhHsd6uaElN6dk/wjEAw/ihtchZX7oeqXez3Y0W8ePHXeV2r7zFCbcg8yb
+         WfFEGtXyw36NVOIlo8aIVDsw2xbXoheW40LgVkRBioTz/kv0ewGU//nkdr9+3BWRBF
+         mjXO2uGcQwZwnNquq+O/GE23iLMhUXGU8kjjIKJosYF3hTPqg5Xb7hjeHcK6NEfekB
+         EPpNDyi2g5KHQ==
+Date:   Fri, 20 Jan 2023 13:55:43 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Qingtao Cao <qingtao.cao.au@gmail.com>,
-        Qingtao Cao <qingtao.cao@digi.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] leds: ledtrig-tty.c: call led_set_brightness() when
- the blocking callback is not available
-Message-ID: <Y8qW1tlDmw6KEIuu@google.com>
-References: <20221209001039.7287-1-qingtao.cao@digi.com>
- <20221209124058.dwez7wohs7dfeiik@pengutronix.de>
- <Y7WnMISK20Z4hsg1@google.com>
- <ad4a1069-72c6-a431-336f-ed78a57a1ba0@gmail.com>
+To:     Maarten Zanders <maarten.zanders@mind.be>
+Cc:     Pavel Machek <pavel@ucw.cz>, krzysztof.kozlowski@linaro.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] leds: lp55xx: configure internal charge pump
+Message-ID: <Y8qdX7QIQntPWuuA@google.com>
+References: <20230110092342.24132-1-maarten.zanders@mind.be>
+ <20230110092342.24132-3-maarten.zanders@mind.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ad4a1069-72c6-a431-336f-ed78a57a1ba0@gmail.com>
+In-Reply-To: <20230110092342.24132-3-maarten.zanders@mind.be>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -61,58 +54,159 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 07 Jan 2023, Jacek Anaszewski wrote:
+On Tue, 10 Jan 2023, Maarten Zanders wrote:
 
-> Hi all,
+> The LP55xx range of devices have an internal charge pump which
+> can (automatically) increase the output voltage towards the
+> LED's, boosting the output voltage to 4.5V.
 > 
-> On 1/4/23 17:20, Lee Jones wrote:
-> > On Fri, 09 Dec 2022, Uwe Kleine-König wrote:
-> > 
-> > > On Fri, Dec 09, 2022 at 10:10:38AM +1000, Qingtao Cao wrote:
-> > > > The Marvell GPIO controller's driver will setup its struct gpio_chip's can_sleep
-> > > > false, making create_gpio_led() setting up the brightness_set function pointer
-> > > > instead of the brightness_set_blocking function pointer. In this case the
-> > > > nonblocking version led_set_brightness() should be fallen back on by ledtrig_tty_work()
-> > > > 
-> > > > Signed-off-by: Qingtao Cao <qingtao.cao@digi.com>
-> > > > ---
-> > > >   drivers/leds/trigger/ledtrig-tty.c | 10 ++++++++--
-> > > >   1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-> > > > index f62db7e520b5..e43d285b5d06 100644
-> > > > --- a/drivers/leds/trigger/ledtrig-tty.c
-> > > > +++ b/drivers/leds/trigger/ledtrig-tty.c
-> > > > @@ -122,12 +122,18 @@ static void ledtrig_tty_work(struct work_struct *work)
-> > > >   	if (icount.rx != trigger_data->rx ||
-> > > >   	    icount.tx != trigger_data->tx) {
-> > > > -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> > > > +		if (trigger_data->led_cdev->brightness_set_blocking)
-> > > > +			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> > > > +		else if (trigger_data->led_cdev->brightness_set)
-> > > > +			led_set_brightness(trigger_data->led_cdev, LED_ON);
-> > > 
-> > > I had similar issues in the past where a function call worked for
-> > > sleeping LEDs but not atomic ones (or the other way around? Don't
-> > > remember the details.)
-> > > 
-> > > I wonder if there isn't a function that does the right thing no matter
-> > > what type the LED is. The other triggers should have the same issue, and
-> > > doing the above check in all of them just looks wrong.
-> > 
-> > Anyone fancy taking a deeper dive into this?
-> > 
-> > I'd usually have a go myself, but I'm presently swamped.
-> > 
-> > Pavel already has an idea?
-> > 
+> Implement this option from the devicetree. When the setting
+> is not present it will operate in automatic mode as before.
 > 
-> There is led_set_brightness_nosleep() and it should be used here
-> from the beginning. Generally it should be used always in triggers.
+> Tested on LP55231. Datasheet analysis shows that LP5521, LP5523
+> and LP8501 are identical in topology and are modified in the
+> same way.
+> 
+> Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
+> ---
+>  drivers/leds/leds-lp5521.c                | 12 ++++++------
+>  drivers/leds/leds-lp5523.c                | 18 +++++++++++++-----
+>  drivers/leds/leds-lp55xx-common.c         | 22 ++++++++++++++++++++++
+>  drivers/leds/leds-lp8501.c                |  8 ++++++--
+>  include/linux/platform_data/leds-lp55xx.h |  9 +++++++++
+>  5 files changed, 56 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
+> index 19478d9c19a7..ee1c72cffdab 100644
+> --- a/drivers/leds/leds-lp5521.c
+> +++ b/drivers/leds/leds-lp5521.c
+> @@ -58,14 +58,11 @@
+>  /* CONFIG register */
+>  #define LP5521_PWM_HF			0x40	/* PWM: 0 = 256Hz, 1 = 558Hz */
+>  #define LP5521_PWRSAVE_EN		0x20	/* 1 = Power save mode */
+> -#define LP5521_CP_MODE_OFF		0	/* Charge pump (CP) off */
+> -#define LP5521_CP_MODE_BYPASS		8	/* CP forced to bypass mode */
+> -#define LP5521_CP_MODE_1X5		0x10	/* CP forced to 1.5x mode */
+> -#define LP5521_CP_MODE_AUTO		0x18	/* Automatic mode selection */
+> +#define LP5521_CP_MODE_MASK		0x18	/* Charge pump mode */
+> +#define LP5521_CP_MODE_SHIFT		3
+>  #define LP5521_R_TO_BATT		0x04	/* R out: 0 = CP, 1 = Vbat */
+>  #define LP5521_CLK_INT			0x01	/* Internal clock */
+> -#define LP5521_DEFAULT_CFG		\
+> -	(LP5521_PWM_HF | LP5521_PWRSAVE_EN | LP5521_CP_MODE_AUTO)
+> +#define LP5521_DEFAULT_CFG		(LP5521_PWM_HF | LP5521_PWRSAVE_EN)
+>  
+>  /* Status */
+>  #define LP5521_EXT_CLK_USED		0x08
+> @@ -310,6 +307,9 @@ static int lp5521_post_init_device(struct lp55xx_chip *chip)
+>  	if (!lp55xx_is_extclk_used(chip))
+>  		val |= LP5521_CLK_INT;
+>  
+> +	val |= (chip->pdata->charge_pump_mode << LP5521_CP_MODE_SHIFT) &
+> +	       LP5521_CP_MODE_MASK;
+> +
+>  	ret = lp55xx_write(chip, LP5521_REG_CONFIG, val);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+> index e08e3de1428d..b5d10d4252e6 100644
+> --- a/drivers/leds/leds-lp5523.c
+> +++ b/drivers/leds/leds-lp5523.c
+> @@ -57,8 +57,12 @@
+>  #define LP5523_AUTO_INC			0x40
+>  #define LP5523_PWR_SAVE			0x20
+>  #define LP5523_PWM_PWR_SAVE		0x04
+> -#define LP5523_CP_AUTO			0x18
+> +#define LP5523_CP_MODE_MASK		0x18
+> +#define LP5523_CP_MODE_SHIFT		3
+>  #define LP5523_AUTO_CLK			0x02
+> +#define LP5523_DEFAULT_CONFIG	\
+> +	(LP5523_AUTO_INC | LP5523_PWR_SAVE |\
+> +	 LP5523_AUTO_CLK | LP5523_PWM_PWR_SAVE)
+>  
+>  #define LP5523_EN_LEDTEST		0x80
+>  #define LP5523_LEDTEST_DONE		0x80
+> @@ -125,6 +129,7 @@ static void lp5523_set_led_current(struct lp55xx_led *led, u8 led_current)
+>  static int lp5523_post_init_device(struct lp55xx_chip *chip)
+>  {
+>  	int ret;
+> +	int val;
+>  
+>  	ret = lp55xx_write(chip, LP5523_REG_ENABLE, LP5523_ENABLE);
+>  	if (ret)
+> @@ -133,10 +138,13 @@ static int lp5523_post_init_device(struct lp55xx_chip *chip)
+>  	/* Chip startup time is 500 us, 1 - 2 ms gives some margin */
+>  	usleep_range(1000, 2000);
+>  
+> -	ret = lp55xx_write(chip, LP5523_REG_CONFIG,
+> -			    LP5523_AUTO_INC | LP5523_PWR_SAVE |
+> -			    LP5523_CP_AUTO | LP5523_AUTO_CLK |
+> -			    LP5523_PWM_PWR_SAVE);
+> +	val = LP5523_DEFAULT_CONFIG;
+> +
+> +	val |= (chip->pdata->charge_pump_mode << LP5523_CP_MODE_SHIFT) &
+> +	       LP5523_CP_MODE_MASK;
+> +
+> +	ret = lp55xx_write(chip, LP5523_REG_CONFIG, val);
+> +
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+> index c1940964067a..a690a484fd7b 100644
+> --- a/drivers/leds/leds-lp55xx-common.c
+> +++ b/drivers/leds/leds-lp55xx-common.c
+> @@ -653,6 +653,13 @@ static int lp55xx_parse_logical_led(struct device_node *np,
+>  	return ret;
+>  }
+>  
+> +static const char * const charge_pump_modes[] = {
+> +	[LP55XX_CP_OFF] = "off",
+> +	[LP55XX_CP_BYPASS] = "bypass",
+> +	[LP55XX_CP_BOOST] = "boost",
+> +	[LP55XX_CP_AUTO] = "auto",
+> +};
+> +
+>  struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>  						      struct device_node *np,
+>  						      struct lp55xx_chip *chip)
+> @@ -661,6 +668,8 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>  	struct lp55xx_platform_data *pdata;
+>  	struct lp55xx_led_config *cfg;
+>  	int num_channels;
+> +	enum lp55xx_charge_pump_mode cp_mode;
+> +	const char *pm;
+>  	int i = 0;
+>  	int ret;
+>  
+> @@ -691,6 +700,19 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>  		i++;
+>  	}
+>  
+> +	pdata->charge_pump_mode = LP55XX_CP_AUTO;
+> +	ret = of_property_read_string(np, "ti,charge-pump-mode", &pm);
+> +	if (!ret) {
+> +		for (cp_mode = LP55XX_CP_OFF;
+> +		     cp_mode < ARRAY_SIZE(charge_pump_modes);
+> +		     cp_mode++) {
+> +			if (!strcasecmp(pm, charge_pump_modes[cp_mode])) {
+> +				pdata->charge_pump_mode = cp_mode;
+> +				break;
+> +			}
+> +		}
+> +	}
 
-Thanks for helping to keep an eye on things Jacek.
+A little over-engineered, no?
 
-Much appreciated.
+Why not make the property a numerical value, then simply:
+
+  ret = of_property_read_u32(np, "ti,charge-pump-mode", &pdata->charge_pump_mode);
+  if (ret)
+          data->charge_pump_mode = LP55XX_CP_AUTO;
+
+Elevates the requirement for the crumby indexed array of strings above.
+
+Remainder looks sane enough.
 
 -- 
 Lee Jones [李琼斯]
