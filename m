@@ -2,103 +2,189 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20E88674F24
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 09:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 632D367517B
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 10:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230361AbjATIJZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 03:09:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39102 "EHLO
+        id S229604AbjATJrm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 04:47:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbjATIJW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 03:09:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4191A8534B;
-        Fri, 20 Jan 2023 00:09:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F1432B82079;
-        Fri, 20 Jan 2023 08:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1FCC4339C;
-        Fri, 20 Jan 2023 08:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674202158;
-        bh=KH0OHgFWAlMLEWamKLwkcAUS3Cf3miV/YcqK/yvTjt0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TGC3seA27YcuIqW7l7QdWoRSC4YaMRFpcDPOJ0rcjTLGHU2iugFpiRiF3cL4brEhf
-         DGHxbmWdhDikvRvIIjRCjMZ7UiJYPuPHHtKVCD+HaLhhNJAw30tVZSnqtYvSW2rcMg
-         MwcsZMvihl/0whuinRk9DqdHXpdGT4w1cmP+Dq3FV/1ibuqVgSx5Fgu7JIzPYhL/cO
-         eG/KljOSBWVIjGixI2gV68V8sCMsluDvmbvPzlQMu4X/ruZ1RBNdOIEqIxZzEUK5Hb
-         SJczFH90f2TKkOh8Eyq/R0ciISYUiTz504OSZAIJZPF3o/ytXD1H02r5j/Ki5dNebq
-         Kb6S7tm63BK0w==
-Date:   Fri, 20 Jan 2023 08:09:11 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 04/11] leds: led-class: Add generic [devm_]led_get()
-Message-ID: <Y8pMJ1XRprFABBFs@google.com>
-References: <20230119130053.111344-1-hdegoede@redhat.com>
- <20230119130053.111344-5-hdegoede@redhat.com>
- <CACRpkdYuHmAwYR24xEz01ub1_mMhqYN65WuoLHCS=094b6AM2w@mail.gmail.com>
+        with ESMTP id S229749AbjATJrl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 04:47:41 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5ABFA5D2;
+        Fri, 20 Jan 2023 01:47:37 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id z31so446806pfw.4;
+        Fri, 20 Jan 2023 01:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rPcOeTgKA9sFp6sSVwUMHgyKLqDrFQAyiFwiVpjLuSc=;
+        b=V/AmSrPbxbBAdPP/f05pbBgJQSBg36+auPUDMf8w2+eqdExEerGXZ/06QwEOayvHud
+         6vBxPxxoEDZg98CjuC0dNk7oM3tF0r+434LHeuGQf84FWmm690TOUVsZCOZ6MAeJV0+3
+         qRC6VI5ZVrK4outXs1w3w3D/cGvETGZD22m7gILA9t/X1lvFPaUwJlhaNIRJfSEVuZPB
+         R6ccCThYFlhZdSKwwrRaY2X8NUkaqaJmXw1Xes60LQLuda91Sp3A0jMXMWtiDwiPMSuP
+         F4hsnlKEqCmcsFvY7TKnDc2ATNY/IaYWefQF8xyp3ZEi7NL9RFLIDO9d15r8aZIG7x/C
+         LWiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rPcOeTgKA9sFp6sSVwUMHgyKLqDrFQAyiFwiVpjLuSc=;
+        b=Pcp+sbauUuxwRPtazIjmxa8suiKdl35nWMCO28J7W38QPb6l2NScu5kDNOfYjogn0M
+         1rdNmHXfrxCfcJDAi2J2gv4YAckpE095MasMKTb7bwJeiX9oqMe2G7RjNRl/NPw0MwW+
+         6j+ztXUjzu1lrsH3H1WPFZIbp4EJZ0JHlbiylrHeJ6uQYTJn62C+4hiQy3XF5putG8mP
+         FlsGzblXp53lW92ypuAjbsKwCA7ImZ1ByKQXTaq5/Bnrt7a+U05h51ksdYG22IcWBwE6
+         fyUTT086GgAgUeGY3C5z+lLMIzAda55I6M3ROgOkhrJh+IRnSPlyxhW3TGYe55gEMrfL
+         g+vg==
+X-Gm-Message-State: AFqh2koxD4u395MlnZtQ3JxHkYlVGBYYi5ajfUNUkUtls5pEAkDQggHV
+        9pkZGwZ1sAi+UBTmYfJ9yGs=
+X-Google-Smtp-Source: AMrXdXvu2Nl2zxBEaAW5n4+lP+XXPnmrE/mONOPpF1bQtyhemIsleknFhv9g6Xd70UYaBXE9V43iQA==
+X-Received: by 2002:aa7:850c:0:b0:580:ccae:291c with SMTP id v12-20020aa7850c000000b00580ccae291cmr14963503pfn.24.1674208057319;
+        Fri, 20 Jan 2023 01:47:37 -0800 (PST)
+Received: from localhost.localdomain (n220246252084.netvigator.com. [220.246.252.84])
+        by smtp.gmail.com with ESMTPSA id u5-20020a626005000000b005815017d348sm19308863pfb.179.2023.01.20.01.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 01:47:36 -0800 (PST)
+From:   Jianhua Lu <lujianhua000@gmail.com>
+To:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Helge Deller <deller@gmx.de>
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, Jianhua Lu <lujianhua000@gmail.com>
+Subject: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866 backlight
+Date:   Fri, 20 Jan 2023 17:47:27 +0800
+Message-Id: <20230120094728.19967-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYuHmAwYR24xEz01ub1_mMhqYN65WuoLHCS=094b6AM2w@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 20 Jan 2023, Linus Walleij wrote:
+Add Kinetic KTZ8866 backlight binding documentation.
 
-> On Thu, Jan 19, 2023 at 2:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> 
-> > Add a generic [devm_]led_get() method which can be used on both devicetree
-> > and non devicetree platforms to get a LED classdev associated with
-> > a specific function on a specific device, e.g. the privacy LED associated
-> > with a specific camera sensor.
-> >
-> > Note unlike of_led_get() this takes a string describing the function
-> > rather then an index. This is done because e.g. camera sensors might
-> > have a privacy LED, or a flash LED, or both and using an index
-> > approach leaves it unclear what the function of index 0 is if there is
-> > only 1 LED.
-> >
-> > This uses a lookup-table mechanism for non devicetree platforms.
-> > This allows the platform code to map specific LED class_dev-s to a specific
-> > device,function combinations this way.
-> >
-> > For devicetree platforms getting the LED by function-name could be made
-> > to work using the standard devicetree pattern of adding a -names string
-> > array to map names to the indexes.
-> >
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> > Changes in v4:
-> > - Split out support for led_get() devicetree name-based lookup support
-> >   into a separate RFC patch as there currently are no user for this
-> > - Use kstrdup_const() / kfree_const() for the led_name
-> 
-> This is how I would implement it so:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+Changes in v2:
+  - Remove "items" between "compatible" and "const: kinetic,ktz8866".
+  - Change "additionalProperties" to "unevaluatedProperties".
 
-Thanks Linus, this is all really helpful.
+Changes in v3:
+  - Add Krzysztof's R-b.
 
+Changes in v4:
+  - Drop Krzysztof's R-b.
+  - Add some new properties.
+
+Changes in v5:
+  - Add missing enum under property description.
+  - Rename uncorrect properties.
+
+Changes in v6:
+  - Correct wrong property suffix and description.
+
+Changes in v7:
+  - Add vddpos and vddeg supply.
+  - Use enable-gpios instead of defining enable pin.
+
+ .../leds/backlight/kinetic,ktz8866.yaml       | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+new file mode 100644
+index 000000000000..b1d0ade0dfb6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Kinetic Technologies KTZ8866 backlight
++
++maintainers:
++  - Jianhua Lu <lujianhua000@gmail.com>
++
++description: |
++  The Kinetic Technologies KTZ8866 is a high efficiency 6-channels-current-sinks
++  led backlight with dual lcd bias power.
++  https://www.kinet-ic.com/ktz8866/
++
++allOf:
++  - $ref: common.yaml#
++
++properties:
++  compatible:
++    const: kinetic,ktz8866
++
++  vddpos-supply:
++    description: positive boost supply regulator.
++
++  vddneg-supply:
++    description: negative boost supply regulator.
++
++  enable-gpios:
++    description: GPIO to use to enable/disable the backlight (HWEN pin).
++    maxItems: 1
++
++  current-num-sinks:
++    description: number of the LED current sinks' channels.
++    enum: [1, 2, 3, 4, 5, 6]
++
++  current-ramping-time-ms:
++    description: LED current ramping time in milliseconds.
++    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
++
++  led-ramping-time-ms:
++    description: |
++      LED on/off ramping time in milliseconds, note that the case 0 will be mapped
++      to 512μs because ktz8866 can't ramp faster than it.
++    enum: [0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
++
++  kinetic,enable-lcd-bias:
++    description: Set if we want to output bias power supply for LCD.
++    type: boolean
++
++required:
++  - compatible
++  - vddpos-supply
++  - vddneg-supply
++  - enable-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    backlight {
++        compatible = "kinetic,ktz8866";
++
++        vddpos-supply = <&bl_vddpos_5p5>;
++        vddneg-supply = <&bl_vddneg_5p5>;
++        enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
++        current-num-sinks = <5>;
++        current-ramping-time-ms = <128>;
++        led-ramping-time-ms = <1>;
++        kinetic,enable-lcd-bias;
++    };
 -- 
-Lee Jones [李琼斯]
+2.39.1
+
