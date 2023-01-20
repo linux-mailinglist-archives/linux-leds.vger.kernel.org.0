@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F22E674DF6
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 08:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77B34674DFA
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 08:24:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjATHXo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 02:23:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
+        id S230004AbjATHYX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 02:24:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbjATHXn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 02:23:43 -0500
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1803D907
-        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:23:41 -0800 (PST)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-4ff1fa82bbbso14269517b3.10
-        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:23:41 -0800 (PST)
+        with ESMTP id S230080AbjATHYS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 02:24:18 -0500
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2023A798EF
+        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:24:13 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-4c24993965eso60381107b3.12
+        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:24:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TA3tL774T/87I1ppcDOWxNhqf64vnCQf4e96ToG+gWU=;
-        b=GpOxgi+k5ZosZ450PFE197mvrRP0Ibe7qoATb35i+zqlseVzyoJOitgNnGNT8yHbqP
-         uG+kuWG50d4UZZrRaac6R4cXb71DUlgfay5Hqbe1asRrcvYefcZKEqseZPvwHG3PUNxi
-         DUJ/dGUnDUwv9jhMFELVH90Vc/ghdlHP0qIW3xYxcr6HCL3spM5HTuWeJXtkgJoEWvYR
-         M+9L1aFoheY+gkE5VcGqnTdQ8WjIS3j6BjR8vebmiVsH1DyG+DjgOA1jNuGuaPxgWh0Q
-         5rEpM0eD8wvDiKCCilE5L3Qf9mc2+QsPOhRHRu8EUvNz8Gluym0522J16o8LnKZcX1H1
-         ejVA==
+        bh=BP/4oQSI0HWid8DUM0fDqxmgNWE8Na1enwT1UmU4jpE=;
+        b=KaCoM3liBHtwu146zO8uavA381ipgXY0uzjXg2XKksGT9rDaaRMtWEqD9O/jzIzdak
+         gmG5Sqw1pDAApYwpr4zXD8RWY0v0WYH3OxSqAdgk9COf+6V8ubA5sPVcdr2BOHqHY1Dn
+         +fnzpj6LexK+W95gY7fbzQ6LApp2M9ik5TOCCesw29+KH090rqXL+LOo8w9gQlGZAEH3
+         ws6pQlaA+HtT2K3M8Ndekfa1c0QBdOR59zIjP0D0XPI+kh6WSiy+sXaK3wXcnILDBx1q
+         DYZ0jUPHw1CMBZepOtKxjnaJehkch6wDqyrVXGV0Ty0tkcuONQY9n3iYBdsyxy+n29g4
+         5IGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TA3tL774T/87I1ppcDOWxNhqf64vnCQf4e96ToG+gWU=;
-        b=i4/QFqVXj4wnvhMEGibR2bn7j7zVHTRxmhUhseAItw+NTTP8UFQhFDKu00XZomunXg
-         h5g/WG1i+9fcCX0A71XmIme6ZPAA50cXwaPWa5OlhcYepIgjoP7GtAixEJsEvBU55mN0
-         00Qr8mnSzgSoDW0gttLQJy8uEuMND2MgNN7onCI9D+/Kon47OnUu7C9w5wea7Xoyv9q5
-         VQpYhmX+pueTcXkrynpOYrCRmZpOBp0j1yr12e+hpD236V81QBOtrW3vPyUC2d7ajlam
-         OjkPwrdOBiHUIdQFDAJTqqRvOCJWSSGanmwXKfJ9YMuB4ZO50fHAEmbBWPZD6iUvROXb
-         MQSQ==
-X-Gm-Message-State: AFqh2kosjzbnRuYmO8IZPcJ33hoPdMmQcLx0rCPkb3upsVFuZQ1wyUGS
-        v8l0Ql+d0j3DTLi5GVP2KD9Vw2xGg51yfju6Rwhpjw==
-X-Google-Smtp-Source: AMrXdXsFy5S/+1aUxe8BBygRPPKpHRVTsDDpZAXb1gt17BAkiOnRhABkE4Oeqj7++tMmtO8taxtaEU1uf4b56dHCj5I=
-X-Received: by 2002:a0d:f282:0:b0:4ed:c96d:1b89 with SMTP id
- b124-20020a0df282000000b004edc96d1b89mr1944156ywf.130.1674199420633; Thu, 19
- Jan 2023 23:23:40 -0800 (PST)
+        bh=BP/4oQSI0HWid8DUM0fDqxmgNWE8Na1enwT1UmU4jpE=;
+        b=FfDwR+k6OKZdSkjDY9nB9amsCwa2d7kQ24vmpV8o+udm1s9qAtBs6Xbr2/JOyuY5M7
+         pHCkO12tD42M8JVYttyb1I0zeHnHoXJHQ12pGRm+k/ngbbgU3QqxcowPKdSc3wfC+oIs
+         iLheYYxgqOPP/xI8g2vX5tul5WNS5OMYpq+WoOTTk0eHe1FSRMcEndjy76prtpXldFh9
+         0vOkl2m5IWcT4JUAvdT6ij9fDzZwF3UvAd6LZ/YMuI0lx0kFYlOu1Q2Flf1T8g6Q6OI2
+         7bYSBOLQ3o89yAJ1xNvWo2YwsOVZ4rxOMwh0BO3Ws5L1W7/FsvzZN28fzN8IncpAIw6G
+         pxgQ==
+X-Gm-Message-State: AFqh2kr6tk1u9pKa2HIaMeF2PwBhZRepUR4sJj/Mkuh5RYMm5slydSSZ
+        6T2QaUjxXn3C69mgndMvxcYBwmIsUSoVdBuxYIMKhQ==
+X-Google-Smtp-Source: AMrXdXv3cETX80ZlfudJZ3usdoOGqhqv3yEQwywQWIrjTcZDjAwcTdk1BPanKEUmsmWr2/66G8WQSvOsvDXra05ExDY=
+X-Received: by 2002:a81:4e54:0:b0:4e1:a40a:af7a with SMTP id
+ c81-20020a814e54000000b004e1a40aaf7amr1803574ywb.273.1674199452692; Thu, 19
+ Jan 2023 23:24:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119130053.111344-1-hdegoede@redhat.com> <20230119130053.111344-2-hdegoede@redhat.com>
-In-Reply-To: <20230119130053.111344-2-hdegoede@redhat.com>
+References: <20230119130053.111344-1-hdegoede@redhat.com> <20230119130053.111344-3-hdegoede@redhat.com>
+In-Reply-To: <20230119130053.111344-3-hdegoede@redhat.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 20 Jan 2023 08:23:29 +0100
-Message-ID: <CACRpkdaZw+M+kKgdV-mSVBTHY95OE51OGCzkvXSzkpen8Ybt7g@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] leds: led-class: Add missing put_device() to led_put()
+Date:   Fri, 20 Jan 2023 08:24:01 +0100
+Message-ID: <CACRpkdYCEnjjDmukA4qzgjyxuR=BHuqVKKAe-uTHcMPoQy37ug@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] leds: led-class: Add led_module_get() helper
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
@@ -68,8 +68,7 @@ Cc:     Mark Gross <markgross@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,18 +77,16 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Thu, Jan 19, 2023 at 2:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> led_put() is used to "undo" a successful of_led_get() call,
-> of_led_get() uses class_find_device_by_of_node() which returns
-> a reference to the device which must be free-ed with put_device()
-> when the caller is done with it.
+> Split out part of of_led_get() into a generic led_module_get() helper
+> function.
 >
-> Add a put_device() call to led_put() to free the reference returned
-> by class_find_device_by_of_node().
->
-> And also add a put_device() in the error-exit case of try_module_get()
-> failing.
+> This is a preparation patch for adding a generic (non devicetree specific)
+> led_get() function.
 >
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v4:
+> - Rename helper from __led_get() to led_module_get()
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
