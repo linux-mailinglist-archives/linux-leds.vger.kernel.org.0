@@ -2,172 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18DA7675237
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 11:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86AA06752B8
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 11:44:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjATKTD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 05:19:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60224 "EHLO
+        id S229575AbjATKoM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 05:44:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbjATKTD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 05:19:03 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238717DF95
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:19:01 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id e3so4376022wru.13
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:19:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
-        b=LpfSiNltaoV7bWfi3yQR6wIwTKqlLH7Cjtwa/XneNU61Ua5EWCgWLAmqQW4ko0k8hT
-         7nuNnorRsj8t9/48i19w6P2TUdPkm4CyGE2Yz2+MfpMRt0T7BdOQ55DOkkwsEVlOCXzE
-         hS5JDPHJU3BA2gZU16GZAw37kzK3q/u9bQQ0UtRPyu/TLBIhpD6usPD828f08UdUSxXS
-         YySKUR3JB5bmEdzRIKnZps+lJwVscq4/xFDjvBmGNpVL0ybJO9d2/TfrNZYppcH6tnfS
-         GxiR3AYWsyaulrms7NLKr3R/Ms8Bs/W4errDUbskI+8/qTbdpiSCp4oZIPL+CCIB5nEp
-         T9WQ==
+        with ESMTP id S229577AbjATKoM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 05:44:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B8EA6C45
+        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674211414;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
+        b=Pbnb1POVh9A+SePVwiQDGV0O520Meqk1pYCwePvFHt45y2SLquE41G6q93hKZw/2vvKR7+
+        LbXJBe6nfI/+Ic0SxOr2esjzktzGUKmLklo8os6O4Dhsm0Wo6ytVoJIvYfijc8VYFOVKOn
+        6ivZmStlMJVh/Zp17qeJz2GGnr/Z+/o=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-5fuiKaUWONmnwod1W7zy0g-1; Fri, 20 Jan 2023 05:43:20 -0500
+X-MC-Unique: 5fuiKaUWONmnwod1W7zy0g-1
+Received: by mail-ej1-f69.google.com with SMTP id sh37-20020a1709076ea500b0087760a6acceso3537205ejc.17
+        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:43:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
-        b=h0thdsI7PJS25ZO57J240tnAsplvrOt4izHWmsozKtAdnJoQ8jL7LnLJ7WLmESZbQA
-         6B/GYLEUlXE4fH0ZD/nX467b8jRYYJ3PQXy4I/QcGZkEIDPYcbh3L0MrghXTy4PFmUnP
-         xwN6Dq7UTpz8Qd2L+yc8ULW+eLN4uclmEpg3b28zg6KQ+hsHawPZBYNT+2QxWyJd/lBI
-         52FLlbyT4pRmh/DBr5U8wtCsA0DYFVKZnn0vRtZgFYCtxThipSONEjpc4J6Bb2TmYHHT
-         Krd1opbAmmosOkWCs+wUnx+X6OOqBDoBB1YQl4dULJned+YtvAKKdUt2lXwGzRVt4uca
-         vjWw==
-X-Gm-Message-State: AFqh2kqw9Pg2OYw9pky5oWO2idGMHdt+B743ilDQJ8WROHZITnMI4AD/
-        iBMG2b5ZW8ftxBf/Sh+iciBw9w==
-X-Google-Smtp-Source: AMrXdXuKdhKIqJEou6IJmM5yvUMjMnUD67NRnsbGkBHfaQP6Ex2vg3VDK1+5I1ULAcU+W6HSfx0aeA==
-X-Received: by 2002:adf:f0cd:0:b0:2bd:d783:377 with SMTP id x13-20020adff0cd000000b002bdd7830377mr12934188wro.22.1674209939686;
-        Fri, 20 Jan 2023 02:18:59 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id r9-20020adff709000000b00291f1a5ced6sm14862170wrp.53.2023.01.20.02.18.57
+        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
+        b=xIYx3W2/Ls5agVzwGd2bfsIlL+ryovIpgwIizhPELNASxdhFxEM1pQ40LO0EH1jBRb
+         rOEttZFRfWMalIynFNeUSiXKNkoSeB2rEo68jnOj6hf8jXzvzb/QDJ89gvylchEu239o
+         DjSKq7hrogMuCUZJ6t+lUbOBk4s5C3xoyTQXparuw/xe+CyNbLEdPg7SbM9Amji2XqAj
+         4B2n8B/IUfZ5mUjBhGhyWsNIL+Hu/JSSgTLvDQmxZYZ91DMnNpRbQBDJzT4ZmUuEfwUn
+         Pdh/uBMXOwwyPT4lZeh7B9worIFnJQXstdqW87W7a+hm6djsmcxnJSdh6zZxJOsL/J7I
+         CLLg==
+X-Gm-Message-State: AFqh2kpFZJyi1/x1reXopzVaae+Cs04FisjTp486jPzQ39BkM9H3Jhaw
+        cHGM1YzwTpAcyJunB3LRM48yJKOkw/uYvXtlCSXelXgEvBdXXTTbdc+bL4J6SP8qkJaijMMw3eq
+        cYFkX3Qy0qQhfoI9vnViH3g==
+X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808777ejh.46.1674211399362;
+        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuJfsF0tTZl6ENN+WVUaG2RDJlxoNjReE/SLntnLila3nkrLcnCVXwSWNFe/ZZ+qTg0nC36Jw==
+X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808762ejh.46.1674211399143;
+        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 17-20020a170906059100b007933047f923sm17711093ejn.118.2023.01.20.02.43.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 02:18:59 -0800 (PST)
-Message-ID: <a9c47e2f-aacb-4c8f-3a0b-67274ef15376@linaro.org>
-Date:   Fri, 20 Jan 2023 11:18:56 +0100
+        Fri, 20 Jan 2023 02:43:18 -0800 (PST)
+Message-ID: <815d6485-45f4-1f9c-0707-c2163ab32e0e@redhat.com>
+Date:   Fri, 20 Jan 2023 11:43:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-References: <20230120094728.19967-1-lujianhua000@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120094728.19967-1-lujianhua000@gmail.com>
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
+ into videodev.ko
+Content-Language: en-US, nl
+To:     kernel test robot <lkp@intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+References: <20230119130053.111344-7-hdegoede@redhat.com>
+ <202301200320.AbLvd1xh-lkp@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <202301200320.AbLvd1xh-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 20/01/2023 10:47, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->   - Remove "items" between "compatible" and "const: kinetic,ktz8866".
->   - Change "additionalProperties" to "unevaluatedProperties".
-> 
-> Changes in v3:
->   - Add Krzysztof's R-b.
-> 
-> Changes in v4:
->   - Drop Krzysztof's R-b.
->   - Add some new properties.
-> 
-> Changes in v5:
->   - Add missing enum under property description.
->   - Rename uncorrect properties.
-> 
-> Changes in v6:
->   - Correct wrong property suffix and description.
-> 
-> Changes in v7:
->   - Add vddpos and vddeg supply.
->   - Use enable-gpios instead of defining enable pin.
-> 
->  .../leds/backlight/kinetic,ktz8866.yaml       | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> new file mode 100644
-> index 000000000000..b1d0ade0dfb6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> @@ -0,0 +1,74 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kinetic Technologies KTZ8866 backlight
-> +
-> +maintainers:
-> +  - Jianhua Lu <lujianhua000@gmail.com>
-> +
-> +description: |
-> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-channels-current-sinks
-> +  led backlight with dual lcd bias power.
-> +  https://www.kinet-ic.com/ktz8866/
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kinetic,ktz8866
-> +
-> +  vddpos-supply:
-> +    description: positive boost supply regulator.
-> +
-> +  vddneg-supply:
-> +    description: negative boost supply regulator.
-> +
-> +  enable-gpios:
-> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
-> +    maxItems: 1
-> +
-> +  current-num-sinks:
-> +    description: number of the LED current sinks' channels.
-> +    enum: [1, 2, 3, 4, 5, 6]
-> +
-> +  current-ramping-time-ms:
-> +    description: LED current ramping time in milliseconds.
-> +    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
+Hi,
 
-kinetic,current-ramp-delay-ms
+On 1/19/23 20:47, kernel test robot wrote:
+> Hi Hans,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.2-rc4]
+> [cannot apply to media-tree/master pavel-leds/for-next next-20230119]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+> patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
+> patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
+> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
+>         git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: vmlinux.o: in function `videodev_init':
+>>> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
+>    ld: vmlinux.o: in function `videodev_exit':
+>>> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
 
-> +
-> +  led-ramping-time-ms:
 
-kinetic,led-enable-ramp-delay-ms
+Right, v4l2_async_debugfs_init + v4l2_async_debugfs_exit need
+static inline stubs for when CONFIG_V4L2_ASYNC is not set,
+I will fix this in the next version.
 
-So both are similar to existing regulator properties.
+Regards,
 
-Best regards,
-Krzysztof
+Hans
+
+
 
