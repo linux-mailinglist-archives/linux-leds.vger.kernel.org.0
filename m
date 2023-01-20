@@ -2,82 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D77B674C58
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 06:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F22E674DF6
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 08:23:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbjATF3X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 00:29:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S229553AbjATHXo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 02:23:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbjATF2r (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 00:28:47 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5084B898;
-        Thu, 19 Jan 2023 21:23:46 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 10604B82201;
-        Thu, 19 Jan 2023 16:24:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F5BDC433F1;
-        Thu, 19 Jan 2023 16:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674145450;
-        bh=NFTHn/7vSxjzDGwGqFQCBJWVrTJ8XQAglJR613dQjEY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MKzgIOCTg3d6qedJUWFgL4KWQ03dALduzZCSqvSiW85t/TK3CiCbIOAaLjO+sWW/t
-         WRGcqG7JcfjP15EOy6TCWFWEOZxwZ/qBdJbIQS8SfjkkipjKRLrRCkZqNsMLrJdcY6
-         uWoKnkmgK0qkYw5WCYKUkxfpELNhv4B8p8AIGAK5VtqCOSsnmHgBQyhIVvKBmOozWA
-         Di2Im6ZMZlNWbOHF2a5LZMvs10ny24cBZ4MAZSl1u5aDDRVhj2fS51Nv0RWDPj1XrR
-         VajHmdobA7iGplscGnOyNFpC4exF3GWKjFa0GdxMnlDJDJXU98X0Xy8Z3dnit2Bnli
-         TaFo5S8QsMstA==
-Date:   Thu, 19 Jan 2023 16:24:02 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH v4 10/11] leds: syscon: Get rid of custom
- led_init_default_state_get()
-Message-ID: <Y8luolbdQoOZtPrn@google.com>
-References: <20230103131256.33894-1-andriy.shevchenko@linux.intel.com>
- <20230103131256.33894-11-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S229878AbjATHXn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 02:23:43 -0500
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1803D907
+        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:23:41 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-4ff1fa82bbbso14269517b3.10
+        for <linux-leds@vger.kernel.org>; Thu, 19 Jan 2023 23:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TA3tL774T/87I1ppcDOWxNhqf64vnCQf4e96ToG+gWU=;
+        b=GpOxgi+k5ZosZ450PFE197mvrRP0Ibe7qoATb35i+zqlseVzyoJOitgNnGNT8yHbqP
+         uG+kuWG50d4UZZrRaac6R4cXb71DUlgfay5Hqbe1asRrcvYefcZKEqseZPvwHG3PUNxi
+         DUJ/dGUnDUwv9jhMFELVH90Vc/ghdlHP0qIW3xYxcr6HCL3spM5HTuWeJXtkgJoEWvYR
+         M+9L1aFoheY+gkE5VcGqnTdQ8WjIS3j6BjR8vebmiVsH1DyG+DjgOA1jNuGuaPxgWh0Q
+         5rEpM0eD8wvDiKCCilE5L3Qf9mc2+QsPOhRHRu8EUvNz8Gluym0522J16o8LnKZcX1H1
+         ejVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TA3tL774T/87I1ppcDOWxNhqf64vnCQf4e96ToG+gWU=;
+        b=i4/QFqVXj4wnvhMEGibR2bn7j7zVHTRxmhUhseAItw+NTTP8UFQhFDKu00XZomunXg
+         h5g/WG1i+9fcCX0A71XmIme6ZPAA50cXwaPWa5OlhcYepIgjoP7GtAixEJsEvBU55mN0
+         00Qr8mnSzgSoDW0gttLQJy8uEuMND2MgNN7onCI9D+/Kon47OnUu7C9w5wea7Xoyv9q5
+         VQpYhmX+pueTcXkrynpOYrCRmZpOBp0j1yr12e+hpD236V81QBOtrW3vPyUC2d7ajlam
+         OjkPwrdOBiHUIdQFDAJTqqRvOCJWSSGanmwXKfJ9YMuB4ZO50fHAEmbBWPZD6iUvROXb
+         MQSQ==
+X-Gm-Message-State: AFqh2kosjzbnRuYmO8IZPcJ33hoPdMmQcLx0rCPkb3upsVFuZQ1wyUGS
+        v8l0Ql+d0j3DTLi5GVP2KD9Vw2xGg51yfju6Rwhpjw==
+X-Google-Smtp-Source: AMrXdXsFy5S/+1aUxe8BBygRPPKpHRVTsDDpZAXb1gt17BAkiOnRhABkE4Oeqj7++tMmtO8taxtaEU1uf4b56dHCj5I=
+X-Received: by 2002:a0d:f282:0:b0:4ed:c96d:1b89 with SMTP id
+ b124-20020a0df282000000b004edc96d1b89mr1944156ywf.130.1674199420633; Thu, 19
+ Jan 2023 23:23:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230103131256.33894-11-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230119130053.111344-1-hdegoede@redhat.com> <20230119130053.111344-2-hdegoede@redhat.com>
+In-Reply-To: <20230119130053.111344-2-hdegoede@redhat.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 20 Jan 2023 08:23:29 +0100
+Message-ID: <CACRpkdaZw+M+kKgdV-mSVBTHY95OE51OGCzkvXSzkpen8Ybt7g@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] leds: led-class: Add missing put_device() to led_put()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 03 Jan 2023, Andy Shevchenko wrote:
+On Thu, Jan 19, 2023 at 2:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> LED core provides a helper to parse default state from firmware node.
-> Use it instead of custom implementation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/leds/leds-syscon.c | 49 ++++++++++++++++++--------------------
->  1 file changed, 23 insertions(+), 26 deletions(-)
+> led_put() is used to "undo" a successful of_led_get() call,
+> of_led_get() uses class_find_device_by_of_node() which returns
+> a reference to the device which must be free-ed with put_device()
+> when the caller is done with it.
+>
+> Add a put_device() call to led_put() to free the reference returned
+> by class_find_device_by_of_node().
+>
+> And also add a put_device() in the error-exit case of try_module_get()
+> failing.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Applied, thanks
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
--- 
-Lee Jones [李琼斯]
+Yours,
+Linus Walleij
