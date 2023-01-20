@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 899F567588D
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 16:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B83C6758CA
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 16:37:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231389AbjATP3o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 10:29:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
+        id S229790AbjATPhP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 10:37:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbjATP3n (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 10:29:43 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C52C64A;
-        Fri, 20 Jan 2023 07:29:43 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id v23so5645862plo.1;
-        Fri, 20 Jan 2023 07:29:43 -0800 (PST)
+        with ESMTP id S229811AbjATPhP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 10:37:15 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC54C9260;
+        Fri, 20 Jan 2023 07:36:23 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9so5618222pll.9;
+        Fri, 20 Jan 2023 07:36:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ul3iDoMJbnRKpRfKhk81+1OwaFEBot8AK23yaBuGdK8=;
-        b=hgL85ZaqP6xkBJhm4n/1oiRGWuBvACMT8oRk+Q7oJCI0EF/XpXS70egr7zANYUa69x
-         vMW5Gv2HuX8FvBE7WTogZzUcVE8K9bC5f0m4D+SMMBfepJHm3Y2AD95bm2ngUR7bkEl0
-         d0V1PQA9rJJ2YOU8C2DGYCoiFBItUBzrbxm0GpVp9zF1RZ29lx9g+6C07t4UXo8HfeGY
-         wlwB+xWRueVtazh1OpNN7cAu6CsNCJ37Sj8ZAQbgGFkYbCywugACAisc7/H6ihoXVr6C
-         g4vxbP30dhabfcvGMMhw3UPuWtlrusNSmIFcRg2TLSrSufG6fm2SOKS6DFjqeSYuUCxu
-         eXTQ==
+        bh=hzUIXogxNC2LuEDM1xVMXzkSxiYCr1nrc0O00OgWk8k=;
+        b=TB16WPJZIflVsi0zlcQbnuKOCknFMT8RnyBgg1qnTo7yKx8+N6YVICzxScP5HQODuG
+         o0eessBo5utL6uBJMcEE8XKEGpkxosLrMulIVZX09YaUtQHl4w6wmrUSlXxz3iU4+Zxe
+         ISBYxLEBaehrPsRVwi55gOmxOHQLK/lX/FbjKXCIa3sEANyJOcfLqld7dNgPwPpP/Tsq
+         OTE00csLFsU8hBJxIuiUOd2C55aJW8zZGmbXX8RfjH9xHL1oUhxtrHg8NtW4+w2F8GKN
+         AebrekO+YNbH1Vr2HfA8XDBGXBtGy+e+5LW8KTi9y3Hd4FnmWCGOvXHY1pLr/84Urbi9
+         wTIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ul3iDoMJbnRKpRfKhk81+1OwaFEBot8AK23yaBuGdK8=;
-        b=wJw8qpf9n8PM5eax+lXy3fbUynG2E/GbiyPEaRocOf58x2zNio3iH/PeSqTRMt1rmU
-         EgcJVDQSyeHG7CJkSRUdWWXOc3iSaob9wMRGEPNBwICxweRRIT61FytuVlyZazBpy1PX
-         G96etXwN8A9prr3a6cowq/thDsx/CrYvRZOkW+02tsTSiBimYzl+kiukM1Bls0To/+Cl
-         Qarva+9//EI7VoMGXMA+Q4Bpsfw3DwBBGGJIxWE8fDMPAknajrOGMOx256crm155jwZw
-         JDCXVDSc+Z8M9TzOjrorQivs3j79dM8xVSGtofo4aTyYzA3NRE2MzS/shSmc+jisxkJt
-         6Olw==
-X-Gm-Message-State: AFqh2koe/8RRFrx8HjOOc4l5MSqc3omHKqF0XcMKJMV7lv/LewKHpdUs
-        YAbyFt9/YzCP3eG6aHtJS8c=
-X-Google-Smtp-Source: AMrXdXumMAZRnOcjUhzgN86mucVy1/T6eUZElVp1f89wmzB5tY/SeqFKOTVGUyj572QsW9U8f9n/Ag==
-X-Received: by 2002:a05:6a21:170f:b0:af:9dda:b033 with SMTP id nv15-20020a056a21170f00b000af9ddab033mr16021707pzb.37.1674228582783;
-        Fri, 20 Jan 2023 07:29:42 -0800 (PST)
+        bh=hzUIXogxNC2LuEDM1xVMXzkSxiYCr1nrc0O00OgWk8k=;
+        b=vlykmIGIfO5xrIhtHMGzwrAcE/YvQPVFpltzSR5zChiu1O/cI79ZyUIjfG787v964r
+         89NeKpzOI4bBIs90s+nC4u2u+Af52wEKZAADddUk+O4kYPaE8zQmsrA/9VMCLddwg1LV
+         8HjI3VyXFnjMRtINqRgr1khvcBW3XpHR4x2quttcFMdsLX/IPkHQ5KbLzg1Bc70kkVnu
+         uxz5C+D089+wCB03JNtIE3oV2B+9ChkgAtnCRap3yjeJ2hYdHs6wA99tftz3wUshSpWS
+         TrDuPdF0nW18aWasUYMLpe3TI0pfS0UaNuTfqYjnyT/G+P4pVRRj8DCUZv/d5jwbISqO
+         eImg==
+X-Gm-Message-State: AFqh2koUfrrOJR6ri4qyWVIWNHWzXLI9S7gFpvvdc3yi1AdFtSSM4uzs
+        52ulc3UB7tU81Hkt8d9cMcA=
+X-Google-Smtp-Source: AMrXdXvUg47NBubgdHUZ0ryXUX+qmjm+8K5V5RITNIEGsc94Qke9sNDv48/IGVW725kOihcfqngJ2g==
+X-Received: by 2002:a17:902:ce82:b0:194:84ef:5f9c with SMTP id f2-20020a170902ce8200b0019484ef5f9cmr36426713plg.29.1674228971827;
+        Fri, 20 Jan 2023 07:36:11 -0800 (PST)
 Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
-        by smtp.gmail.com with ESMTPSA id v18-20020a634812000000b00478162d9923sm10458730pga.13.2023.01.20.07.29.38
+        by smtp.gmail.com with ESMTPSA id u8-20020a170902714800b00192721d4f2dsm2866134plm.82.2023.01.20.07.36.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 07:29:42 -0800 (PST)
-Date:   Fri, 20 Jan 2023 23:29:34 +0800
+        Fri, 20 Jan 2023 07:36:11 -0800 (PST)
+Date:   Fri, 20 Jan 2023 23:36:04 +0800
 From:   Jianhua Lu <lujianhua000@gmail.com>
 To:     Daniel Thompson <daniel.thompson@linaro.org>
 Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -59,7 +59,7 @@ Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
         devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org
 Subject: Re: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
  backlight
-Message-ID: <Y8qzXpNV5dA0UnFs@Gentoo>
+Message-ID: <Y8q05Cz+y2Zio//t@Gentoo>
 References: <20230120094728.19967-1-lujianhua000@gmail.com>
  <Y8qxofrfiQbRmsGZ@aspen.lan>
 MIME-Version: 1.0
@@ -96,8 +96,8 @@ On Fri, Jan 20, 2023 at 03:22:09PM +0000, Daniel Thompson wrote:
 > 
 > This doesn't look like it goes low enough (wasn't there a value lower
 > than 2?).
+Sorry, I sent a wrong message, it isn't be fixed in v8,
+I send a v9 patch to add it.
 > 
-Yes, I have sent a v8 patch to add it.
-Thanks for reply.
 > 
 > Daniel.
