@@ -2,130 +2,166 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6781675A2D
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 17:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4BA675A4D
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 17:42:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjATQkA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 11:40:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
+        id S229840AbjATQmW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 11:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbjATQj6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 11:39:58 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AD5E7
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id d2so5336824wrp.8
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 08:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
-        b=UApWjzlXda6CKOsxYSAekXBHCiPYv6pVkiWHbI7PK6NXlDBf2dZaBDBu3pcMBX4Dvp
-         6pVJCoYaf28tSrmY+cQXTcE5NCML/7/aNdhPsd9f1zZGxwjZ8KtIc0zafg1CDt+MmL1t
-         ht+1uJ+qps8er08SQIPj8jCpqo9gs3doYVucXRacX8doWIlUzIZI6fYKJoTuT8NrG42t
-         MEw5W4JoUE4dXTKy6NU3b03SLyKAPuoCmZGqaBryF9fm76CMUuyzmAcMzhe2Gc9aBSvv
-         rVqHAHr0IWrNPbn8V79yED7CryU1Vk3Sen0HSlqKLB5YcHIC9rN/57uXiyLuvli0/Rbt
-         Yz+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pGYySup8p6S2QLbw0VKiZbUhVbWmQ+yt84mNVfAu/t0=;
-        b=Dv5FU2utDnCd0CFVELVdiTfR0iUhDRPVKMQkVdSmgo6viw55DQVjUyEjJNqDdhfCfM
-         oel5kVLx70Y+MT0H4GfUo8oFNJq7OfPeEUCB03tKjbCOUBzb1p6h+anDfCWIU7tihJQB
-         MN82tqj9bBPq2MTrTr0OZBb2HWxD07Lw263cFN44X+HorJZzfSIa8UBeLosqlqge7rBY
-         VJO3gpN3J0Qd4iTXr5bZ+GUSjbTIoqoPXGdAmbh7YuftYG/iiRKz2aSQqVQJZxTiN4+D
-         Y4v6ykUQXP71GA9bEPdAlOJxaba19dMWiU04igB1o4JrSrU1nDIfbzO5cdIyQ64lNYXN
-         Vazw==
-X-Gm-Message-State: AFqh2koZqzy+SI7YVClLqBg9SN7I1vGbVRyi6r+1uZ7r1motgYOtr+uu
-        Wfu0P5AcLZovl/aEl/MgcYr+4Q==
-X-Google-Smtp-Source: AMrXdXtZ9DWblZSaKSzMSMqI/0YMAXlKAx5MWIAT7Z2mmChtlRMs75VNjLqzEiOVvNoaJZ95nuiIUg==
-X-Received: by 2002:a05:6000:98d:b0:25f:8ead:96cc with SMTP id by13-20020a056000098d00b0025f8ead96ccmr14507795wrb.70.1674232794812;
-        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id z12-20020adfd0cc000000b002bdff778d87sm13385996wrh.34.2023.01.20.08.39.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 08:39:54 -0800 (PST)
-Message-ID: <0bb76233-062c-a1c5-da88-4f04feccd5b2@linaro.org>
-Date:   Fri, 20 Jan 2023 17:39:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH] dt-bindings: leds: Document Bluetooth and WLAN triggers
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a85c256af01f64389a078c2b37c3b72a27d97536.1668005062.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        with ESMTP id S230307AbjATQmV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 11:42:21 -0500
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59EF970290;
+        Fri, 20 Jan 2023 08:42:15 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 52D4732009D6;
+        Fri, 20 Jan 2023 11:42:12 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 20 Jan 2023 11:42:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1674232931; x=
+        1674319331; bh=jw1dFTHWMbTPBEwBqLzDuqZE83d4cDbrYgrQVPokymE=; b=I
+        xlujya0wwTfcg7T0ltt1vAZXBUi6YP1ORWY270uyIrJRztQ7RbySZ4/UN6Pm3BS9
+        DCvKn/ctohEezybyGX5TtcmXKEOvZ5RUGhgysQwoiJ7W48NbaCuH8sCyRJZ5P/IH
+        0suffZHvWW6naDkULYR6+VCtYxQZh5b0GcyohIv+xu2CimghgaQo4P0+kx3HRKG0
+        5kJukeGsB1m9+T/nwq57DfxUi6wDke/qNkq19H9oUu3vE+rz0l5gGbsTwg9PbP0j
+        +LNxUqEjF1O1MKMVlZAsT7CyNw3A2c+2dC8uqW4yA+hSodr7l8V+cDEZ+rRnzyut
+        GTbq3Vymeb11ARBl0kM+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674232931; x=
+        1674319331; bh=jw1dFTHWMbTPBEwBqLzDuqZE83d4cDbrYgrQVPokymE=; b=W
+        N31tjJO0T85FTAmeCSRP+eO3+w+yjH/0sNfIs+SPGPNLdE7x28aAbUH5mQh4aA3p
+        RiUK88wlwdq2ZFGriV4XvG8eILpj8BAR8VGJzRM6P7F6Bp0YIe5pNzDtX2Y8DVfv
+        Jz0mcG4NWCGg/mOK8pyGUM/wM8r7BoWnHAmcduv3H1GANIGEvNCcygSTm8jkZLX9
+        nhPPU0VYO6+W2E9iBVuX8Oxa99k2PEjZdpZH/jIr7e1ZuOdblF9PRw878NN5G4Zu
+        EphPuuWvnJ80IMwmPIiJ8jK/XowlDphm10cwZF9eNnMa1GMv6pXI/vB2kVocUVZA
+        Ny9rbV934cuEvIPww6PJQ==
+X-ME-Sender: <xms:YsTKY2mZEDhH6N3SoijCV4KsKDyPrsasvSbqKmSdXQ3ejR_QkKzO7w>
+    <xme:YsTKY93Dp4ucdrXU0SYjvrQzXAWV1xewOSstGszrT7HwHxKHP6dAAZZCJpeZyBXHW
+    V8uuxVcmvAODYVjRhw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddgleegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefgkeeuleegieeghfduudeltdekfeffjeeuleehleefudettddtgfevueef
+    feeigeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Y8TKY0pLg12qXpNZ0_kJX3Ht6oXkCuYo7xVsWB1oSzlU43GArvILkw>
+    <xmx:Y8TKY6n2pp9EEmaQC20WdZ_lD1C_43tsaXF4X0mKvabz5-ER_MC5YA>
+    <xmx:Y8TKY02gwinU6prhvny08obDwVyISuzg7W1B1DTqSKCljaEKJwd-Nw>
+    <xmx:Y8TKY1KaI9opBZYIbl0NfxBm8UqscM6m_IRFlfofpiyr78uu5MF1IA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E896EB60086; Fri, 20 Jan 2023 11:42:10 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <db008af4-2918-4458-aa68-2392674475c8@app.fastmail.com>
+In-Reply-To: <20221226123630.6515-1-pali@kernel.org>
+References: <20221226123630.6515-1-pali@kernel.org>
+Date:   Fri, 20 Jan 2023 17:41:49 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        "Linus Walleij" <linus.walleij@linaro.org>
+Cc:     soc@kernel.org, linux-kernel@vger.kernel.org,
+        "Pavel Machek" <pavel@ucw.cz>, "Lee Jones" <lee@kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH RESEND 0/8] Resend LED patches
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 09/11/2022 15:46, Geert Uytterhoeven wrote:
-> Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> are already in active use.
-> 
-> While at it, move the mmc pattern comment where it belongs, and restore
-> alphabetical sort order.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'hci0-power' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'phy0tx' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+On Mon, Dec 26, 2022, at 13:36, Pali Roh=C3=A1r wrote:
+> Linus Walleij suggested me to send these patches to SoC tree [1]
+> instead. So I'm doing it.
+>
+> This patch series contains LED patches which are on the linux-leds
+> mailing list for a long time without any future movement. Could you
+> please handle them here via SoC tree? Thanks.
+>
+> [1] -=20
+> https://lore.kernel.org/linux-leds/CACRpkdad6WDo7rGfa4MW8zz0mLXmcPHo+S=
+EC-yLQnRz_kdrryA@mail.gmail.com/
 
-This patch got lost... Rob, Lee or Pavel, can you pick it up?
+I'm going through the backlog of patches sent to soc@kernel.org
+and came across this series. While I don't mind taking these
+patches through the soc tree in principle, it is important
+that this is only done as an exception, and with all the
+relevant parties on Cc.
 
-It's with Rob's approval:
-https://lore.kernel.org/all/166861772609.231295.14812410099261417331.robh@kernel.org/
+In particular, the original series that you got no
+feedback for did not include the arch/powerpc/ changes,
+and I would assume those should go through the powerpc
+tree anyway. We have recently decided to take
+risc-v and loongarch dts changes through the soc
+tree, and I don't mind doing it for powerpc as well
+if the powerpc maintainers prefer that, but this is
+not something we have even discussed so far.
 
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index f5c57a580078ea23..d34bb58c00371402 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -98,9 +98,13 @@ properties:
->              # LED alters the brightness for the specified duration with one software
->              # timer (requires "led-pattern" property)
->            - pattern
-> -        # LED is triggered by SD/MMC activity
-> -      - pattern: "^mmc[0-9]+$"
->        - pattern: "^cpu[0-9]*$"
-> +      - pattern: "^hci[0-9]+-power$"
-> +        # LED is triggered by Bluetooth activity
-> +      - pattern: "^mmc[0-9]+$"
-> +        # LED is triggered by SD/MMC activity
-> +      - pattern: "^phy[0-9]+tx$"
-> +        # LED is triggered by WLAN activity
->  
->    led-pattern:
->      description: |
+I've added everyone to Cc on this mail, but please
+resend the series once more so everyone has the patches,
+and then we can decide who will pick up what.
 
-Best regards,
-Krzysztof
+    Arnd
 
+>
+> Marek Beh=C3=BAn (3):
+>   leds: turris-omnia: support HW controlled mode via private trigger
+>   leds: turris-omnia: initialize multi-intensity to full
+>   leds: turris-omnia: change max brightness from 255 to 1
+>
+> Pali Roh=C3=A1r (5):
+>   dt-bindings: leds: register-bit-led: Add active-low property
+>   leds: syscon: Implement support for active-low property
+>   powerpc/85xx: DTS: Add CPLD definitions for P1021RDB Combo Board CPL
+>     Design
+>   dt-bindings: leds: Add cznic,turris1x-leds.yaml binding
+>   leds: Add support for Turris 1.x LEDs
+>
+>  .../testing/sysfs-class-led-driver-turris1x   |  31 ++
+>  .../bindings/leds/cznic,turris1x-leds.yaml    | 118 +++++
+>  .../bindings/leds/register-bit-led.yaml       |   5 +
+>  arch/powerpc/boot/dts/fsl/p1020mbg-pc.dtsi    |  92 ++++
+>  arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dts |   6 +-
+>  arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dts |   6 +-
+>  arch/powerpc/boot/dts/fsl/p1020rdb-pd.dts     |  44 +-
+>  arch/powerpc/boot/dts/fsl/p1020utm-pc.dtsi    |  37 ++
+>  arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dts |   4 +-
+>  arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dts |   4 +-
+>  arch/powerpc/boot/dts/fsl/p1021rdb-pc.dtsi    |  37 ++
+>  arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dts |   5 +-
+>  arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dts |   5 +-
+>  arch/powerpc/boot/dts/fsl/p2020rdb-pc.dtsi    |  33 +-
+>  drivers/leds/Kconfig                          |  10 +
+>  drivers/leds/Makefile                         |   1 +
+>  drivers/leds/leds-syscon.c                    |  14 +-
+>  drivers/leds/leds-turris-1x.c                 | 474 ++++++++++++++++++
+>  drivers/leds/leds-turris-omnia.c              |  46 +-
+>  19 files changed, 945 insertions(+), 27 deletions(-)
+>  create mode 100644=20
+> Documentation/ABI/testing/sysfs-class-led-driver-turris1x
+>  create mode 100644=20
+> Documentation/devicetree/bindings/leds/cznic,turris1x-leds.yaml
+>  create mode 100644 drivers/leds/leds-turris-1x.c
+>
+> --=20
+> 2.20.1
