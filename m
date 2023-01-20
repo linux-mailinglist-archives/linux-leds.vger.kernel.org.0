@@ -2,67 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC236753C3
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 12:48:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEE38675431
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 13:10:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjATLsA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 06:48:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55576 "EHLO
+        id S229949AbjATMKs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 07:10:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbjATLr4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 06:47:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67744BC767
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 03:46:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674215178;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kEV63ing633hRx+u7oI30wIVks8+J7FOW33mOov+xeI=;
-        b=AHTUpBYJqchc0ZIRnGY7bDDawK9eX8kIemr3IXqWddkvGnjvOKY1LfG0WBiqqpc3fgzVJA
-        nzcwBRLVZMfZZomHM2MtXL8s6B9YHkhhpUjcIJ7EE5cZ+IyyVcaQ2lc391nDes3W0a2zbq
-        /lJK9lWXKR93SKY+UhZQIXZEwPwjINA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-gJBgeTxrOQqB1DuMFG4LFQ-1; Fri, 20 Jan 2023 06:46:15 -0500
-X-MC-Unique: gJBgeTxrOQqB1DuMFG4LFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84801101A521;
-        Fri, 20 Jan 2023 11:46:14 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.195.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AE8A8140EBF6;
-        Fri, 20 Jan 2023 11:46:11 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v5 11/11] platform/x86: int3472/discrete: Get the polarity from the _DSM entry
-Date:   Fri, 20 Jan 2023 12:45:24 +0100
-Message-Id: <20230120114524.408368-12-hdegoede@redhat.com>
-In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
-References: <20230120114524.408368-1-hdegoede@redhat.com>
+        with ESMTP id S230051AbjATMKs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 07:10:48 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B7E10AAC;
+        Fri, 20 Jan 2023 04:10:47 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id k18so5152066pll.5;
+        Fri, 20 Jan 2023 04:10:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EKSavZcLgXER2Rs1R2Q0x8yB6aB9z1+lbShiy/SvYys=;
+        b=Zo3Ysk2ltDD5uVeoi1c0r1TnX+tcTOrp//osdZN4GUTjtHCDNpK9CstlqX3zrjJ0Ym
+         GH9wl0Qh30NS/KzHGFrgBPnFaHfD92XXY79ka7WAhzkOgxjZQCEWWTjIabhPc8GNXevO
+         ZzgCLIPk8vRxGjh3bu0cHEKz3cnoAocU12o6MwpGL7Aj0cViuVitSgaUNart0P1PkDId
+         RvvkRy5XqpVFkmKy8rgeiHtBZXg4uPatXC5HQCId1EWn7rBKAEvuAw/taaeX1aZyJFSx
+         Tx5713hXdgE7EyQMSHIxebs50ZJrVNtQXhzFxxLMWSIGbJYQ0CdUfTUPXMymD3pJbCH9
+         JHUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EKSavZcLgXER2Rs1R2Q0x8yB6aB9z1+lbShiy/SvYys=;
+        b=w1XboK6NnjUuJgeB/ra3HPHeefapl1gdbEeWygcMKcpDZ6e1SuuMq0kne3n5fvpWuc
+         kQjL8eULVaoPh/mkhhK0cIiKvbOr1Tv7OUMtTGhboCsunKObHJJFQUvBKBTF2S+6fEe4
+         ozhg70fMonykoEuV0BrMKFy/nQo3ZefJQ48nrVze0FDIVAnm+0pWgGRYQXGMxfknImTj
+         KDeUk4j3fPlcdfzd69af1HJ866EobucekeuYr5Er6FzuCewQptO/i7JK0ezCTF4Wm68J
+         H/7ezOLEVozQy14d6RfxtAR25wlN8gZVOLuPQsRxuoN9nSS3iCU7ISzl8hyLQ0iCQ/yi
+         Mtag==
+X-Gm-Message-State: AFqh2kq3kbZd/SRboZ1V7rXfmEVdbGEFEoJ9WIN1k8JrI5n/VMVwLDW9
+        pQ8Cx06c/yE2/cEVlcafmek=
+X-Google-Smtp-Source: AMrXdXspfd5ZJN1kn8YC0qz+35IV6j45HHmp/5WR4FbgQ3/MFKaCAjof+44x8SVDjo5vAh+Uvo+H9A==
+X-Received: by 2002:a05:6a21:9993:b0:b6:1425:55df with SMTP id ve19-20020a056a21999300b000b6142555dfmr19047879pzb.59.1674216646665;
+        Fri, 20 Jan 2023 04:10:46 -0800 (PST)
+Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
+        by smtp.gmail.com with ESMTPSA id r30-20020aa7989e000000b0058e12bbb560sm1594542pfl.15.2023.01.20.04.10.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 04:10:46 -0800 (PST)
+Date:   Fri, 20 Jan 2023 20:10:39 +0800
+From:   Jianhua Lu <lujianhua000@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
+ backlight
+Message-ID: <Y8qEv9pUVA+1beTt@Gentoo>
+References: <20230120094728.19967-1-lujianhua000@gmail.com>
+ <a9c47e2f-aacb-4c8f-3a0b-67274ef15376@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a9c47e2f-aacb-4c8f-3a0b-67274ef15376@linaro.org>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,112 +78,95 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-According to:
-https://github.com/intel/ipu6-drivers/blob/master/patch/int3472-support-independent-clock-and-LED-gpios-5.17%2B.patch
-
-Bits 31-24 of the _DSM pin entry integer value codes the active-value,
-that is the actual physical signal (0 or 1) which needs to be output on
-the pin to turn the sensor chip on (to make it active).
-
-So if bits 31-24 are 0 for a reset pin, then the actual value of the reset
-pin needs to be 0 to take the chip out of reset. IOW in this case the reset
-signal is active-high rather then the default active-low.
-
-And if bits 31-24 are 0 for a clk-en pin then the actual value of the clk
-pin needs to be 0 to enable the clk. So in this case the clk-en signal
-is active-low rather then the default active-high.
-
-IOW if bits 31-24 are 0 for a pin, then the default polarity of the pin
-is inverted.
-
-Add a check for this and also propagate this new polarity to the clock
-registration.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../platform/x86/intel/int3472/clk_and_regulator.c  |  5 ++++-
- drivers/platform/x86/intel/int3472/common.h         |  2 +-
- drivers/platform/x86/intel/int3472/discrete.c       | 13 +++++++++++--
- 3 files changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-index 626e5e86f4e0..1086c3d83494 100644
---- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-+++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-@@ -87,7 +87,7 @@ static const struct clk_ops skl_int3472_clock_ops = {
- };
- 
- int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
--			       struct acpi_resource_gpio *agpio)
-+			       struct acpi_resource_gpio *agpio, u32 polarity)
- {
- 	char *path = agpio->resource_source.string_ptr;
- 	struct clk_init_data init = {
-@@ -105,6 +105,9 @@ int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
- 		return dev_err_probe(int3472->dev, PTR_ERR(int3472->clock.ena_gpio),
- 				     "getting clk-enable GPIO\n");
- 
-+	if (polarity == GPIO_ACTIVE_LOW)
-+		gpiod_toggle_active_low(int3472->clock.ena_gpio);
-+
- 	/* Ensure the pin is in output mode and non-active state */
- 	gpiod_direction_output(int3472->clock.ena_gpio, 0);
- 
-diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-index 0d4fa7d00b5f..61688e450ce5 100644
---- a/drivers/platform/x86/intel/int3472/common.h
-+++ b/drivers/platform/x86/intel/int3472/common.h
-@@ -122,7 +122,7 @@ int skl_int3472_get_sensor_adev_and_name(struct device *dev,
- 					 const char **name_ret);
- 
- int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
--			       struct acpi_resource_gpio *agpio);
-+			       struct acpi_resource_gpio *agpio, u32 polarity);
- void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472);
- 
- int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
-diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index b7752c2b798d..96963e30ab6c 100644
---- a/drivers/platform/x86/intel/int3472/discrete.c
-+++ b/drivers/platform/x86/intel/int3472/discrete.c
-@@ -220,11 +220,11 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 	struct int3472_discrete_device *int3472 = data;
- 	struct acpi_resource_gpio *agpio;
- 	union acpi_object *obj;
-+	u8 active_value, type;
- 	const char *err_msg;
- 	const char *func;
- 	u32 polarity;
- 	int ret;
--	u8 type;
- 
- 	if (!acpi_gpio_get_io_resource(ares, &agpio))
- 		return 1;
-@@ -248,6 +248,15 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 
- 	int3472_get_func_and_polarity(type, &func, &polarity);
- 
-+	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
-+	active_value = obj->integer.value >> 24;
-+	if (!active_value)
-+		polarity ^= GPIO_ACTIVE_LOW;
-+
-+	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", func,
-+		agpio->resource_source.string_ptr, agpio->pin_table[0],
-+		(polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
-+
- 	switch (type) {
- 	case INT3472_GPIO_TYPE_RESET:
- 	case INT3472_GPIO_TYPE_POWERDOWN:
-@@ -257,7 +266,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 
- 		break;
- 	case INT3472_GPIO_TYPE_CLK_ENABLE:
--		ret = skl_int3472_register_clock(int3472, agpio);
-+		ret = skl_int3472_register_clock(int3472, agpio, polarity);
- 		if (ret)
- 			err_msg = "Failed to register clock\n";
- 
--- 
-2.39.0
-
+On Fri, Jan 20, 2023 at 11:18:56AM +0100, Krzysztof Kozlowski wrote:
+> On 20/01/2023 10:47, Jianhua Lu wrote:
+> > Add Kinetic KTZ8866 backlight binding documentation.
+> > 
+> > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> > ---
+> > Changes in v2:
+> >   - Remove "items" between "compatible" and "const: kinetic,ktz8866".
+> >   - Change "additionalProperties" to "unevaluatedProperties".
+> > 
+> > Changes in v3:
+> >   - Add Krzysztof's R-b.
+> > 
+> > Changes in v4:
+> >   - Drop Krzysztof's R-b.
+> >   - Add some new properties.
+> > 
+> > Changes in v5:
+> >   - Add missing enum under property description.
+> >   - Rename uncorrect properties.
+> > 
+> > Changes in v6:
+> >   - Correct wrong property suffix and description.
+> > 
+> > Changes in v7:
+> >   - Add vddpos and vddeg supply.
+> >   - Use enable-gpios instead of defining enable pin.
+> > 
+> >  .../leds/backlight/kinetic,ktz8866.yaml       | 74 +++++++++++++++++++
+> >  1 file changed, 74 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> > new file mode 100644
+> > index 000000000000..b1d0ade0dfb6
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> > @@ -0,0 +1,74 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Kinetic Technologies KTZ8866 backlight
+> > +
+> > +maintainers:
+> > +  - Jianhua Lu <lujianhua000@gmail.com>
+> > +
+> > +description: |
+> > +  The Kinetic Technologies KTZ8866 is a high efficiency 6-channels-current-sinks
+> > +  led backlight with dual lcd bias power.
+> > +  https://www.kinet-ic.com/ktz8866/
+> > +
+> > +allOf:
+> > +  - $ref: common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: kinetic,ktz8866
+> > +
+> > +  vddpos-supply:
+> > +    description: positive boost supply regulator.
+> > +
+> > +  vddneg-supply:
+> > +    description: negative boost supply regulator.
+> > +
+> > +  enable-gpios:
+> > +    description: GPIO to use to enable/disable the backlight (HWEN pin).
+> > +    maxItems: 1
+> > +
+> > +  current-num-sinks:
+> > +    description: number of the LED current sinks' channels.
+> > +    enum: [1, 2, 3, 4, 5, 6]
+> > +
+> > +  current-ramping-time-ms:
+> > +    description: LED current ramping time in milliseconds.
+> > +    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
+> 
+> kinetic,current-ramp-delay-ms
+> 
+> > +
+> > +  led-ramping-time-ms:
+> 
+> kinetic,led-enable-ramp-delay-ms
+> 
+> So both are similar to existing regulator properties.
+> 
+reasonable suggestion.
+> Best regards,
+> Krzysztof
+> 
