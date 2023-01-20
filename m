@@ -2,69 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86AA06752B8
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 11:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04E79675392
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 12:46:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjATKoM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 05:44:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51718 "EHLO
+        id S229837AbjATLqQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 06:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjATKoM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 05:44:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B8EA6C45
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:43:34 -0800 (PST)
+        with ESMTP id S229823AbjATLqP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 06:46:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B179515B
+        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 03:45:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674211414;
+        s=mimecast20190719; t=1674215131;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
-        b=Pbnb1POVh9A+SePVwiQDGV0O520Meqk1pYCwePvFHt45y2SLquE41G6q93hKZw/2vvKR7+
-        LbXJBe6nfI/+Ic0SxOr2esjzktzGUKmLklo8os6O4Dhsm0Wo6ytVoJIvYfijc8VYFOVKOn
-        6ivZmStlMJVh/Zp17qeJz2GGnr/Z+/o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-5fuiKaUWONmnwod1W7zy0g-1; Fri, 20 Jan 2023 05:43:20 -0500
-X-MC-Unique: 5fuiKaUWONmnwod1W7zy0g-1
-Received: by mail-ej1-f69.google.com with SMTP id sh37-20020a1709076ea500b0087760a6acceso3537205ejc.17
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 02:43:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
-        b=xIYx3W2/Ls5agVzwGd2bfsIlL+ryovIpgwIizhPELNASxdhFxEM1pQ40LO0EH1jBRb
-         rOEttZFRfWMalIynFNeUSiXKNkoSeB2rEo68jnOj6hf8jXzvzb/QDJ89gvylchEu239o
-         DjSKq7hrogMuCUZJ6t+lUbOBk4s5C3xoyTQXparuw/xe+CyNbLEdPg7SbM9Amji2XqAj
-         4B2n8B/IUfZ5mUjBhGhyWsNIL+Hu/JSSgTLvDQmxZYZ91DMnNpRbQBDJzT4ZmUuEfwUn
-         Pdh/uBMXOwwyPT4lZeh7B9worIFnJQXstdqW87W7a+hm6djsmcxnJSdh6zZxJOsL/J7I
-         CLLg==
-X-Gm-Message-State: AFqh2kpFZJyi1/x1reXopzVaae+Cs04FisjTp486jPzQ39BkM9H3Jhaw
-        cHGM1YzwTpAcyJunB3LRM48yJKOkw/uYvXtlCSXelXgEvBdXXTTbdc+bL4J6SP8qkJaijMMw3eq
-        cYFkX3Qy0qQhfoI9vnViH3g==
-X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808777ejh.46.1674211399362;
-        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuJfsF0tTZl6ENN+WVUaG2RDJlxoNjReE/SLntnLila3nkrLcnCVXwSWNFe/ZZ+qTg0nC36Jw==
-X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808762ejh.46.1674211399143;
-        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170906059100b007933047f923sm17711093ejn.118.2023.01.20.02.43.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 02:43:18 -0800 (PST)
-Message-ID: <815d6485-45f4-1f9c-0707-c2163ab32e0e@redhat.com>
-Date:   Fri, 20 Jan 2023 11:43:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
- into videodev.ko
-Content-Language: en-US, nl
-To:     kernel test robot <lkp@intel.com>,
-        Mark Gross <markgross@kernel.org>,
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+xBTgrMv6S8fIj4ApiuQ/EJHLwe2ANp/pmA1QNvT0+4=;
+        b=U2a3nxFcN4mFBDYkJqJjbGx6dvDj6BEYi3kLHfGQKDgDIp61XDra4hhqnG/fj/iay97JJ1
+        S+zSXvtWhR+PkZQSHzMR9Nu06/iuKyiQ0TunffRq70RLO9jESaOxY94UaXUlk4B2ccTtOw
+        3ccS0XVK5SVQIE3IKIVD6h5Gt33Bnu4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-436-seib045dNIKrzp_1vQdwcA-1; Fri, 20 Jan 2023 06:45:28 -0500
+X-MC-Unique: seib045dNIKrzp_1vQdwcA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 756773806108;
+        Fri, 20 Jan 2023 11:45:27 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.195.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C2CB6140EBF6;
+        Fri, 20 Jan 2023 11:45:24 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         Lee Jones <lee@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
@@ -72,74 +45,131 @@ To:     kernel test robot <lkp@intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
         Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
-References: <20230119130053.111344-7-hdegoede@redhat.com>
- <202301200320.AbLvd1xh-lkp@intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202301200320.AbLvd1xh-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v5 00/11] leds: lookup-table support + int3472/media privacy LED support
+Date:   Fri, 20 Jan 2023 12:45:13 +0100
+Message-Id: <20230120114524.408368-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi All,
 
-On 1/19/23 20:47, kernel test robot wrote:
-> Hi Hans,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.2-rc4]
-> [cannot apply to media-tree/master pavel-leds/for-next next-20230119]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
-> patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
-> patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
-> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
->         git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: vmlinux.o: in function `videodev_init':
->>> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
->    ld: vmlinux.o: in function `videodev_exit':
->>> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
+Here is version 5 of my series to adjust the INT3472 code's handling of
+the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+(so that we cannot just tie the LED state to the clk-enable state).
 
+Changes in v5:
+- Rename lookup-table names to match those from the gpio and reset lookups:
+  s/led_name/provider/
+  s/consumer_dev_name/dev_id/
+  s/consumer_function/con_id/
+- Add static inline wrappers for the v4l2_async debugfs init/exit funcs,
+  to fix build errors when CONFIG_V4L2_ASYNC is not enabled
 
-Right, v4l2_async_debugfs_init + v4l2_async_debugfs_exit need
-static inline stubs for when CONFIG_V4L2_ASYNC is not set,
-I will fix this in the next version.
+Changes in v4:
+- Rename new __led_get() helper to led_module_get()
+- Drop of/devicetree support from "led-class: Add generic [devm_]led_get()"
+- Add RFC patch to re-add of/devicetree support to show that the new
+  led_get() can easily be extended with dt support when the need for this
+  arises (proof-of-concept dt code, not intended for merging)
+- New patch to built async and fwnode code into videodev.ko,
+  to avoid issues with some of the new LED code getting builtin vs
+  other parts possibly being in a module
+- Move the led_get() call to v4l2_async_register_subdev_sensor()
+- Move the led_disable_sysfs() call to be done at led_get() time
+- Address some other minor review comments
+
+Changes in v3:
+- Due to popular request by multiple people this new version now models
+  the privacy LED as a LED class device. This requires being able to
+  "tie" the LED class device to a specific camera sensor (some devices
+  have multiple sensors + privacy-LEDs).
+
+Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4 add
+the new [devm_]led_get() functions. Patch 5 is the RFC patch adding dt
+support to led_get() and is not intended for merging.
+
+Patch 6 + 7 add generic privacy-LED support to the v4l2-core/v4l2-subdev.c
+code automatically enabling the privacy-LED when s_stream(subdev, 1)
+is called. So that we don't need to add privacy-LED code to all the
+camera sensor drivers separately (as requested by Sakari).
+
+Patches 8-11 are patches to the platform specific INT3472 code to register
+privacy-LED class devices + lookup table entries for privacy-LEDs described
+in the special INT3472 ACPI nodes found on x86 devices with MIPI cameras.
+
+Assuming at least the LED maintainers are happy with the approach suggested
+here, the first step to merging this would be to merge patches 1-4 and then
+provide an immutable branch with those to merge for the other subsystems
+since the other changes depend on these.
+
+If you are one of the folks who requested the new LED lookup table +
+led_get() approach I would appreciate a Reviewed-by or Acked-by for
+patches 1-4.
+
+This series has been tested on:
+
+- Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+- Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
+- Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
+                              back: ov8865 with privacy LED (pled not yet supported)
 
 Regards,
 
 Hans
 
 
+Hans de Goede (11):
+  leds: led-class: Add missing put_device() to led_put()
+  leds: led-class: Add led_module_get() helper
+  leds: led-class: Add __devm_led_get() helper
+  leds: led-class: Add generic [devm_]led_get()
+  [RFC] leds: led-class: Add devicetree support to led_get()
+  media: v4l2-core: Built async and fwnode code into videodev.ko
+  media: v4l2-core: Make the v4l2-core code enable/disable the privacy
+    LED if present
+  platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
+  platform/x86: int3472/discrete: Create a LED class device for the
+    privacy LED
+  platform/x86: int3472/discrete: Move GPIO request to
+    skl_int3472_register_clock()
+  platform/x86: int3472/discrete: Get the polarity from the _DSM entry
+
+ drivers/leds/led-class.c                      | 173 +++++++++++++++---
+ drivers/media/v4l2-core/Kconfig               |   4 +-
+ drivers/media/v4l2-core/Makefile              |   4 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  17 +-
+ drivers/media/v4l2-core/v4l2-dev-priv.h       |  19 ++
+ drivers/media/v4l2-core/v4l2-dev.c            |   8 +
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  21 ++-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  18 ++
+ drivers/platform/x86/intel/int3472/Makefile   |   2 +-
+ .../x86/intel/int3472/clk_and_regulator.c     |  34 +++-
+ drivers/platform/x86/intel/int3472/common.h   |  18 +-
+ drivers/platform/x86/intel/int3472/discrete.c | 100 +++++-----
+ drivers/platform/x86/intel/int3472/led.c      |  74 ++++++++
+ include/linux/leds.h                          |  21 +++
+ include/media/v4l2-subdev.h                   |   3 +
+ 15 files changed, 399 insertions(+), 117 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-dev-priv.h
+ create mode 100644 drivers/platform/x86/intel/int3472/led.c
+
+-- 
+2.39.0
 
