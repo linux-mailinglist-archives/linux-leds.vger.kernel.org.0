@@ -2,93 +2,327 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E6E86754CC
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 13:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E393C6754FA
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Jan 2023 13:49:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229606AbjATMln (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Jan 2023 07:41:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39288 "EHLO
+        id S230397AbjATMtO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Jan 2023 07:49:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbjATMln (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 07:41:43 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391AE5FDE
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 04:41:41 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so5766014wmb.2
-        for <linux-leds@vger.kernel.org>; Fri, 20 Jan 2023 04:41:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t9XjszmF/8qhTNMVuwNrRvWRLQzv4zG/c00mk2PH32o=;
-        b=zwYVWKeymyLDPGAhMwebRVizSWIuFyjkJQGM7f7yQ8reSiP+lA0ujMEGQuyugAGhY7
-         iKSap2wY46XvmlGSQkNI+nIyCkpJE1YXRlXJv8IIHqA4CGlLtavZwSZN4m8wzIE9KQ1Z
-         S1NDMEjEgDKAGH252dUZgKDcLruOR5VlBLMWLr36t2YC3V2JJkfIGaLajrIeo4mxYCer
-         BME8ng65YAtSoXL4GPNZBZDOqOLIu5hw5UL2OHFPc2HDxBR1S8pWRdR0fOaviH1tpbvO
-         FXiCdRmbxOVoFv3e+qb30PGkkoSGslp/SVzL4FpYSKVq7odm46JnOwo/zjTVS+agBEgr
-         wqkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9XjszmF/8qhTNMVuwNrRvWRLQzv4zG/c00mk2PH32o=;
-        b=zReyZyHiVUnLGoeuqO7OkrHqNm5VxpAluTyp3h/N4W6hBJK6dJ1GxG6mBDF0WGCL6z
-         OXv5OoCNMoqedY4rvmHIYwQE1rUz1FvRQwyDYCX6ZdtuzqFn1Xu2m1f/k2vT8TGYKfuS
-         7gTyDBr0IVKeVRlmfXZcI3QeLXDTlcxW74NfynEsiQg7LzaNiEldgRx9p13eoD33hJ8Y
-         xQPRGE1iF4Ick0xHKQhA9ecHW1HHNGZPeiBIRdSBScfZusYI4GKvJwVfa+TN4yIm8G9v
-         +0Pm3fh4xbiksPbA0ds1zpzk4HcAmD64bwIEUl9ALGQvrraSNiZjrvftF96GzUtQUKKQ
-         B5kA==
-X-Gm-Message-State: AFqh2kquSi/Mu3/Rj1eRQ6eqF5ckpxq7bLkxGKqSIM8jBdXBvZwGrR+x
-        wfETie19F6O8Sxpq3i5JXRBz7g==
-X-Google-Smtp-Source: AMrXdXtCnq9tonQJY2m5G5BpVoNm8ayoj+6Kt5jmzGEGo3iBBKKX+GncF/gsCodgvhIMAjlMrRZcRQ==
-X-Received: by 2002:a05:600c:4f86:b0:3db:66e:cfdd with SMTP id n6-20020a05600c4f8600b003db066ecfddmr12768043wmq.9.1674218499637;
-        Fri, 20 Jan 2023 04:41:39 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id u3-20020a7bc043000000b003d1d5a83b2esm2163940wmc.35.2023.01.20.04.41.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 04:41:39 -0800 (PST)
-Message-ID: <858a06e9-1141-4b1e-cd8c-75ca70330fc2@linaro.org>
-Date:   Fri, 20 Jan 2023 13:41:36 +0100
+        with ESMTP id S230356AbjATMtJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Jan 2023 07:49:09 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF3E38E98;
+        Fri, 20 Jan 2023 04:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674218944; x=1705754944;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BAkt4NcSfCkeYzLgwXBY8Xt3vuIFcLK+yapY/8zgWHk=;
+  b=m277GcplrwNc5biaHHL7qpVxjxu8jmgE9Ys/Epu/xB4CPmodOI/b3Y+N
+   ey5Kq3bNGbyY8kCZ2x2l++5FJf+sNX55owS1pvApdWr79DzS9PpNKNSAT
+   oE14Jc2ep3y0J+3ZYjLE4hB4oGArxiEzBSmJyJ8xLim/DomxPnelDb+K+
+   EiD/uAACH5xhwFxDWJAXU2BQzAj2/BfyoPle8bV2Cmty4tiYXjMikmodh
+   0NYPg9m5JiSfHOn2rXeCDdNyRKmKQkcHiKyCSkpber4DZnvUVMZm5QKBq
+   NgFjsr92kMMLh/CyB5yrLvO5Y1UcjJCFGH0ZyYm8a31tNFdLSK+/fVavv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="326848730"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
+   d="scan'208";a="326848730"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:47:45 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="662526154"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
+   d="scan'208";a="662526154"
+Received: from turnipsi.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:47:41 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id B714A20397;
+        Fri, 20 Jan 2023 14:47:38 +0200 (EET)
+Date:   Fri, 20 Jan 2023 12:47:38 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] media: v4l2-core: Built async and fwnode code
+ into videodev.ko
+Message-ID: <Y8qNausQs1j37/S4@paasikivi.fi.intel.com>
+References: <20230120114524.408368-1-hdegoede@redhat.com>
+ <20230120114524.408368-7-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v8 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-References: <20230120123857.16124-1-lujianhua000@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120123857.16124-1-lujianhua000@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120114524.408368-7-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 20/01/2023 13:38, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
+Hi Hans,
+
+Many thanks for working on this.
+
+On Fri, Jan 20, 2023 at 12:45:19PM +0100, Hans de Goede wrote:
+> Currently the videodev.ko code may be builtin while e.g. v4l2-fwnode.ko
+> is build as a module.
 > 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> This makes it hard to add code depending on other subsystems spanning
+> both videodev.ko and v4l2-fwnode.ko. Specifically this block adding code
+> depending on the LED subsystem.
+> 
+> This is made even harder because CONFIG_V4L2_FWNODE is selected,
+> not depended on so it itself cannot depend on another subsystem without
+> editing all the Kconfig symbols selecting it to also list the dependency
+> and there are many of such symbols.
+> 
+> Adding a "select LED_CLASS if NEW_LEDS" to CONFIG_V4L2_FWNODE leads
+> to Kconfig erroring out with "error: recursive dependency detected!".
+> 
+> To fix this dependency mess, change the V4L2_FWNODE and V4L2_ASYNC
+> (which V4L2_FWNODE selects) Kconfig symbols from tristate to bools and
+> link their code into videodev.ko instead of making them separate modules.
+> 
+> This will allow using IS_REACHABLE(LED_CLASS) for the new LED integration
+> code without needing to worry that it expands to 0 in some places and
+> 1 in other places because some of the code being builtin vs modular.
+> 
+> On x86_64 this leads to the following size changes for videodev.ko
+> 
+> [hans@shalem linux]$ size drivers/media/v4l2-core/videodev.ko
+> 
+> Before:
+>    text	   data	    bss	    dec	    hex	filename
+>  218206	  14395	   2448	 235049	  39629 drivers/media/v4l2-core/videodev.ko
+> After:
+>    text	   data	    bss	    dec	    hex	filename
+>  243213	  17615	   2456	 263284	  40474	drivers/media/v4l2-core/videodev.ko
+> 
+> So (as expected) there is some increase in size here, but it
+> really is not that much.
+> 
+> And the uncompressed no-debuginfo .ko file disk-usage actually shrinks
+> by 17 KiB (comparing the slightly larger videodev.ko against the
+> 3 original modules) and loading time will also be better.
+> 
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
+> Changes in v5:
+> - Add a new v4l2-dev-priv.h for the async debugfs prototypes and add
+>   static inline wrappers there when CONFIG_V4L2_ASYNC is not enabled
+> 
+> Changes in v4:
+> - New patch in v4 of this patch-set
+> ---
+>  drivers/media/v4l2-core/Kconfig         |  4 ++--
+>  drivers/media/v4l2-core/Makefile        |  4 ++--
+>  drivers/media/v4l2-core/v4l2-async.c    | 17 ++++-------------
+>  drivers/media/v4l2-core/v4l2-dev-priv.h | 19 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-dev.c      |  8 ++++++++
+>  drivers/media/v4l2-core/v4l2-fwnode.c   |  6 ------
+>  6 files changed, 35 insertions(+), 23 deletions(-)
+>  create mode 100644 drivers/media/v4l2-core/v4l2-dev-priv.h
+> 
+> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> index 348559bc2468..73574d946010 100644
+> --- a/drivers/media/v4l2-core/Kconfig
+> +++ b/drivers/media/v4l2-core/Kconfig
+> @@ -68,11 +68,11 @@ config V4L2_FLASH_LED_CLASS
+>  	  When in doubt, say N.
+>  
+>  config V4L2_FWNODE
+> -	tristate
+> +	bool
+>  	select V4L2_ASYNC
+>  
+>  config V4L2_ASYNC
+> -	tristate
+> +	bool
+>  
+>  # Used by drivers that need Videobuf modules
+>  config VIDEOBUF_GEN
+> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> index 41d91bd10cf2..8c5a1ab8d939 100644
+> --- a/drivers/media/v4l2-core/Makefile
+> +++ b/drivers/media/v4l2-core/Makefile
+> @@ -15,7 +15,9 @@ videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+>  
+>  # Please keep it alphabetically sorted by Kconfig name
+>  # (e. g. LC_ALL=C sort Makefile)
+> +videodev-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+>  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
+> +videodev-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
+>  videodev-$(CONFIG_SPI) += v4l2-spi.o
+>  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
+> @@ -24,9 +26,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+>  # Please keep it alphabetically sorted by Kconfig name
+>  # (e. g. LC_ALL=C sort Makefile)
+>  
+> -obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+> -obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+>  obj-$(CONFIG_V4L2_JPEG_HELPER) += v4l2-jpeg.o
+>  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 2f1b718a9189..024d6b82b50a 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -11,7 +11,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/list.h>
+>  #include <linux/mm.h>
+> -#include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> @@ -24,6 +23,8 @@
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> +#include "v4l2-dev-priv.h"
+> +
+>  static int v4l2_async_nf_call_bound(struct v4l2_async_notifier *n,
+>  				    struct v4l2_subdev *subdev,
+>  				    struct v4l2_async_subdev *asd)
+> @@ -900,25 +901,15 @@ DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+>  
+>  static struct dentry *v4l2_async_debugfs_dir;
+>  
+> -static int __init v4l2_async_init(void)
+> +void __init v4l2_async_debugfs_init(void)
+>  {
+>  	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
+>  	debugfs_create_file("pending_async_subdevices", 0444,
+>  			    v4l2_async_debugfs_dir, NULL,
+>  			    &pending_subdevs_fops);
+> -
+> -	return 0;
+>  }
+>  
+> -static void __exit v4l2_async_exit(void)
+> +void __exit v4l2_async_debugfs_exit(void)
+>  {
+>  	debugfs_remove_recursive(v4l2_async_debugfs_dir);
+>  }
+> -
+> -subsys_initcall(v4l2_async_init);
+> -module_exit(v4l2_async_exit);
+> -
+> -MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+> -MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+> -MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
+> -MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/v4l2-core/v4l2-dev-priv.h b/drivers/media/v4l2-core/v4l2-dev-priv.h
+> new file mode 100644
+> index 000000000000..b5b1ee78be20
+> --- /dev/null
+> +++ b/drivers/media/v4l2-core/v4l2-dev-priv.h
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Could we call this v4l2-async-debugfs.h? I don't necessarily expect more
+material here.
 
-Best regards,
-Krzysztof
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Video capture interface for Linux version 2 private header.
+> + *
+> + * Copyright (C) 2023 Hans de Goede <hdegoede@redhat.com>
+> + */
+> +
+> +#ifndef _V4L2_DEV_PRIV_H_
+> +#define _V4L2_DEV_PRIV_H_
+> +
+> +#if IS_ENABLED(CONFIG_V4L2_ASYNC)
+> +void v4l2_async_debugfs_init(void);
+> +void v4l2_async_debugfs_exit(void);
+> +#else
+> +static inline void v4l2_async_debugfs_init(void) {}
+> +static inline void v4l2_async_debugfs_exit(void) {}
+> +#endif
+> +
+> +#endif
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 397d553177fa..10ba2e4196a6 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -31,6 +31,8 @@
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-event.h>
+>  
+> +#include "v4l2-dev-priv.h"
+> +
+>  #define VIDEO_NUM_DEVICES	256
+>  #define VIDEO_NAME              "video4linux"
+>  
+> @@ -1190,6 +1192,7 @@ static int __init videodev_init(void)
+>  		return -EIO;
+>  	}
+>  
+> +	v4l2_async_debugfs_init();
+>  	return 0;
+>  }
+>  
+> @@ -1197,6 +1200,7 @@ static void __exit videodev_exit(void)
+>  {
+>  	dev_t dev = MKDEV(VIDEO_MAJOR, 0);
+>  
+> +	v4l2_async_debugfs_exit();
+>  	class_unregister(&video_class);
+>  	unregister_chrdev_region(dev, VIDEO_NUM_DEVICES);
+>  }
+> @@ -1205,6 +1209,10 @@ subsys_initcall(videodev_init);
+>  module_exit(videodev_exit)
+>  
+>  MODULE_AUTHOR("Alan Cox, Mauro Carvalho Chehab <mchehab@kernel.org>, Bill Dirks, Justin Schoeman, Gerd Knorr");
+> +MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+> +MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+> +MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
+> +MODULE_AUTHOR("Sylwester Nawrocki <s.nawrocki@samsung.com>");
+>  MODULE_DESCRIPTION("Video4Linux2 core driver");
+>  MODULE_LICENSE("GPL");
+>  MODULE_ALIAS_CHARDEV_MAJOR(VIDEO_MAJOR);
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index 3d9533c1b202..c8a2264262bc 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/acpi.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mm.h>
+> -#include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/property.h>
+>  #include <linux/slab.h>
+> @@ -1328,8 +1327,3 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_async_register_subdev_sensor);
+> -
+> -MODULE_LICENSE("GPL");
+> -MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+> -MODULE_AUTHOR("Sylwester Nawrocki <s.nawrocki@samsung.com>");
+> -MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+> -- 
+> 2.39.0
+> 
 
+-- 
+Sakari Ailus
