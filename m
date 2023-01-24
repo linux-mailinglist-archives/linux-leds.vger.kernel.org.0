@@ -2,73 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 907BC678C24
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Jan 2023 00:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11C5B67947D
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Jan 2023 10:47:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbjAWXkJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Jan 2023 18:40:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
+        id S233463AbjAXJrN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Jan 2023 04:47:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbjAWXkJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Jan 2023 18:40:09 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1371207B;
-        Mon, 23 Jan 2023 15:40:07 -0800 (PST)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1BD9D60002;
-        Mon, 23 Jan 2023 23:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674517206;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=twXVOTfg3PW//nw5HJAtxwun0Ebf6bwpsMbeadkZizo=;
-        b=mOK7F1IX6zieRQj5tAcNZH7ZuH53ZPVDtLoDdBIHq/QSkSv8F1H+81RSsbFtEKriAAGLTP
-        8tpcw/1CSjTfOO0caoF7eiOApTYLbaVF/4aUkkYtgVzzkIAJfsue/w8tcBISKgLxxQB035
-        rJX5jjTBY2Jb4JoRdyXrQH8J05ZPUXib7DeIOVZsAwhQ+PgOtzimOAvUinnokSs1BkZqbr
-        hVRlmYxmVe6pA2GlG/SrOS2+05xbAqngmGaZJdFCu+a2MEmRPaQEsCf84I7MuwC0yBuPmr
-        P4A72bPpI88PIkqSMz0PzWL+1T51tHYeriFBlWHozKmfunUqezQ1wUSKrBU1zw==
-Date:   Tue, 24 Jan 2023 00:40:03 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-        upstream@lists.phytec.de, Wadim Egorov <w.egorov@phytec.de>
-Cc:     riku.voipio@iki.fi, a.zummo@towertech.it,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        lee@kernel.org, pavel@ucw.cz
-Subject: Re: (subset) [PATCH v2 2/2] dt-bindings: rtc: Move rv3028 from
- trivial-rtc.yaml into own schema file
-Message-ID: <167451718651.1270236.1643750092725647667.b4-ty@bootlin.com>
-References: <20230111163404.3526248-1-w.egorov@phytec.de>
- <20230111163404.3526248-2-w.egorov@phytec.de>
+        with ESMTP id S233097AbjAXJrM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Jan 2023 04:47:12 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD5D298DE;
+        Tue, 24 Jan 2023 01:47:11 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id f23so5457877qkg.1;
+        Tue, 24 Jan 2023 01:47:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GBWXb8Qu133qoYYF1PqkNFWZ6siJCHp1ub01xgs3xcc=;
+        b=PWHFiaKKRa0MKA9n2tn92Vj7RSj/T505GaIWy1hjJ1lQZY+U8ZCA29oZnQXBhzE8Yf
+         mDk8tTazWk5WxuZnl4MOdlT1J95DZuAsVynlEJ4vAFrNTpgqVC3/9qf/cR4Lb37UtqSl
+         gbA64OEZ9Tkol54ToNhbUCTIHArKEFgCUIywA2pBNuqEQImw04KVMg1sbLrfHvXjsCM1
+         Y1zDshUIDll+r2uqYWDAi9IwGy9C4jRRGcT4bKdM6USjYStdUgqGqRIhtGQATFdgw2pi
+         VWrJp6L0DVktiGAC+InCUVrKvxt4ucq7ZG8Dq0jIcModvH63Xi9hJ+I7Mky2OL+4jUtu
+         GeJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GBWXb8Qu133qoYYF1PqkNFWZ6siJCHp1ub01xgs3xcc=;
+        b=dwUGmQR1xS8qINQ54ZPkeig7+ZYhyf9tKWM1KXR/xZvGx2QGB4gUlzNBsULWs9XcSD
+         i2jucmppImsniFtnUA712Qrw53sSsVOve6S8lFBhbM5vGh7NWG4qy5JKF6ROjuAEdqEO
+         B5zmprfBeCKwPSCnUbWIKsNHhBRBcSLUIK4qkCCNKAgJjWcHhA9J/AoOJ/ftu1CsLN2H
+         7crJZvPcCkF2J5qv25fq44AWvgZ0qSjBNWM0upOcRKWLYDxPj18La9V9TKayvTYXjA3W
+         ffz1WlaxeimtOet2973RZvEufX+j/pmt58jnl71NFgm+3rlWRbDLBAAHiyTvuAGRISNa
+         EFnQ==
+X-Gm-Message-State: AFqh2kr1/kXFhLcCYSPSM7RDrbjL91yPJLNrUukibAGCx19hFmrgWIhS
+        sthyzLGEkHv4M0gCI36++S5BuFEsWR+SWj8JegIxIkM2MqU=
+X-Google-Smtp-Source: AMrXdXuv9aInX+jRdl99IwDJbzxZ2OyQqq3lu1Jih8JW9aFVLHmHk14oalsuXXLvUBcztV/Cr+I8OqNHtqsYLUb4guM=
+X-Received: by 2002:a05:620a:e:b0:705:c63f:1fa8 with SMTP id
+ j14-20020a05620a000e00b00705c63f1fa8mr1671527qki.504.1674553630860; Tue, 24
+ Jan 2023 01:47:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230111163404.3526248-2-w.egorov@phytec.de>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221007153323.1326-1-henning.schild@siemens.com>
+ <Y8mv8PzL1UsP9gNh@google.com> <20230123214859.725cd1c3@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20230123214859.725cd1c3@md1za8fc.ad001.siemens.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 24 Jan 2023 11:46:34 +0200
+Message-ID: <CAHp75VfSHgdikX5=Qba62BwWofVf7gHhS2hq2OuBwHFz9riCWQ@mail.gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Lee Jones <lee@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, Jan 23, 2023 at 10:49 PM Henning Schild
+<henning.schild@siemens.com> wrote:
+> Am Thu, 19 Jan 2023 21:02:40 +0000
+> schrieb Lee Jones <lee@kernel.org>:
+> > On Fri, 07 Oct 2022, Henning Schild wrote:
 
-On Wed, 11 Jan 2023 17:34:04 +0100, Wadim Egorov wrote:
-> Move RV3028 RTC bindings from trivial-rtc.yaml into microcrystal,rv3032.yaml.
-> 
-> 
+> > > If we register a "leds-gpio" platform device for GPIO pins that do
+> > > not exist we get a -EPROBE_DEFER and the probe will be tried again
+> > > later. If there is no driver to provide that pin we will poll
+> > > forever and also create a lot of log messages.
+> > >
+> > > So check if that GPIO driver is configured, if so it will come up
+> > > eventually. If not, we exit our probe function early and do not even
+> > > bother registering the "leds-gpio". This method was chosen over
+> > > "Kconfig depends" since this way we can add support for more
+> > > devices and GPIO backends more easily without "depends":ing on all
+> > > GPIO backends.
+> > >
+> > > Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version
+> > > of Siemens driver") Reviewed-by: Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
+> > > <henning.schild@siemens.com> ---
+> > >  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> >
+> > FYI: I'm going to try my best not to take another one like this.
+>
+> understood!
+>
+> > Please try to improve the whole situation for you next submission.
+>
+> When i have to touch this again, which i will, i will propose either
+> "depend on all possible GPIO drivers" or introduce "#ifdef CONFIG"s.
+> Caring most about big configs as seen in distros like debian, even for
+> embedded systems ... i think i would prefer the first option, as it
+> will also be easier to maintain.
+>
+> I do not see the whole infinite loop story on my plate, but if that got
+> fixed i would follow up taking the fix into account.
 
-Applied, thanks!
+AFAICS another possible (not sure if it's preferable) solution is to
+split this driver to subdrivers and each of them will be dependent on
+the corresponding pin control in Kconfig. It will satisfy both of your
+requirements, right? Something like
 
-[2/2] dt-bindings: rtc: Move rv3028 from trivial-rtc.yaml into own schema file
-      commit: c690048ed59b5f7df91899507f210ba6591c0d8f
-
-Best regards,
+simatic-leds-core.c
+simatic-leds-127e.c (config ..._127E depends on PINCTRL_BROXTON)
+...
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+With Best Regards,
+Andy Shevchenko
