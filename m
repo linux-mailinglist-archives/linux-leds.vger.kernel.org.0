@@ -2,53 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C887067A6F4
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jan 2023 00:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA7E67B5A1
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Jan 2023 16:13:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjAXXkl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Jan 2023 18:40:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39024 "EHLO
+        id S235714AbjAYPNS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Jan 2023 10:13:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbjAXXkl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Jan 2023 18:40:41 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFDDEC47;
-        Tue, 24 Jan 2023 15:40:40 -0800 (PST)
+        with ESMTP id S235562AbjAYPNR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Jan 2023 10:13:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA895867F;
+        Wed, 25 Jan 2023 07:12:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B3A1613F7;
-        Tue, 24 Jan 2023 23:40:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8578DC433EF;
-        Tue, 24 Jan 2023 23:40:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C4EF760AC5;
+        Wed, 25 Jan 2023 15:12:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AEA6C433D2;
+        Wed, 25 Jan 2023 15:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674603639;
-        bh=j8nMb346Q2XEu+B8UmKpDg7d0MtdIuRWSU/yR8zKkks=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=l9GiQ+5lWUAsI1uD7ZKPyK9VpiTyd9R33p2+i49ZFSqHTKy0/1x0DvrRzTRVlEW0o
-         /KE5YoSRonbCFy4EL8caFH8+J8bolf7tDfYJw8ib6tzhqNoW/xn//IL3+a5OTnh7XN
-         XZQYLPtSloF7ID23EG8UGhanl/hRw+buxHE0UO8EX9ds/gn0Gj08hGEBPD56ck9WUG
-         JPYqXgi4Z2oWCeCyt28y9eL3SinfTiZ5G0+SDnEGzRJDBw4nPX7GOLMg4pKdDG6p5L
-         N96NqUx+EObMnzc89vy34zX79BxU9l6kOhkDZKcsu/6LlLoq0HaIlSdOBq5MGQXj0D
-         fZ86exPy+lgTw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D348F83ED1;
-        Tue, 24 Jan 2023 23:40:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
-From:   patchwork-bot+bluetooth@kernel.org
-Message-Id: <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
-Date:   Tue, 24 Jan 2023 23:40:39 +0000
+        s=k20201202; t=1674659563;
+        bh=jDddyi1PUAaGX1ZpDwTpMyuoepvDXtvrLNrPQvKb12k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=r9yOqiteNFl+qIe6GMQpaT3rZgr9v0MZAr4DOztZxnANUk/Ml4OLyrF87xrPNHhXj
+         FxE23xkUHeXbSxfFXfcWBexYfGphFRhd0MYH0074mfOQDzrnuOV/z7YwVQXeEAbtv5
+         joXSkIjqnyrAkKG/K62kb3uhmb/ggpM65L2bjkonK20Z0QIdDx6kmfnRqQ3X1W0hja
+         umzp6/nXxHDfG0xPeAyeDsh//a4RPunyaqMv26oQSH4J+jbmBlH6qVnZkEybk/cLhk
+         frc6DhJR/REis67oE2AXVkq4QaNId8kx8DCMIags0QnoQRCKgg4VBmZA3L+zpTnxdb
+         YaZYYdAcTGx9Q==
+Date:   Wed, 25 Jan 2023 15:12:37 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     patchwork-bot+bluetooth@kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Message-ID: <Y9FG5Wg0PmP4zfV6@google.com>
 References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
-In-Reply-To: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, robh@kernel.org
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -58,30 +59,30 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello:
+On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
 
-This patch was applied to bluetooth/bluetooth-next.git (master)
-by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
-
-On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
-> Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> are already in active use.
+> Hello:
 > 
-> While at it, move the mmc pattern comment where it belongs, and restore
-> alphabetical sort order.
+> This patch was applied to bluetooth/bluetooth-next.git (master)
+> by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+> > Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> > are already in active use.
+> > 
+> > While at it, move the mmc pattern comment where it belongs, and restore
+> > alphabetical sort order.
+> > 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > 
+> > [...]
 > 
-> [...]
+> Here is the summary with links:
+>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
 
-Here is the summary with links:
-  - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
-    https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+Why are you taking LED patches through the Bluetooth tree?
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Lee Jones [李琼斯]
