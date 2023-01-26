@@ -2,110 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B47767C60F
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 09:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 432F367C7EB
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 11:01:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236452AbjAZIku (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Jan 2023 03:40:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
+        id S236649AbjAZKBs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Jan 2023 05:01:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbjAZIkn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 03:40:43 -0500
-X-Greylist: delayed 479 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 00:40:42 PST
-Received: from dvalin.narfation.org (dvalin.narfation.org [213.160.73.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06ABB5FCA;
-        Thu, 26 Jan 2023 00:40:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=narfation.org;
-        s=20121; t=1674721957;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CjJFHQ99v7fimPGIGMu1WpBQB3x5OOboN7EMcJhzvrA=;
-        b=Oh5IATyRGJHoiZ5b5t0nTb8EbKGM8MdUMFjRKFrp7lY5AhlSpxpSKE6sKXHD7J/u6x7Sm3
-        U1JFf/SxS1SnSW+xWOPhuPP4uEIA8O9E7lua3nXkpwc0O83KZtJeclTW1SoQ3bx1iJiKh4
-        jde47Gd8rShdWRE7UgvKZVt0GwbHcw8=
-From:   Sven Eckelmann <sven@narfation.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hanno Zulla <kontakt@hanno.de>,
-        Carlo Caione <carlo@endlessm.com>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-Cc:     linux-leds@vger.kernel.org,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jkosina@suse.cz>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Pietro Borrello <borrello@diag.uniroma1.it>
-Subject: Re: [PATCH 5/5] HID: sony_remove: manually unregister leds
-Date:   Thu, 26 Jan 2023 09:32:34 +0100
-Message-ID: <5192178.GXAFRqVoOG@ripper>
-In-Reply-To: <20230125-hid-unregister-leds-v1-5-9a5192dcef16@diag.uniroma1.it>
-References: <20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it>
- <20230125-hid-unregister-leds-v1-5-9a5192dcef16@diag.uniroma1.it>
+        with ESMTP id S236985AbjAZKBr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 05:01:47 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7F5457C0
+        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id t18so1217607wro.1
+        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
+        b=Os1KoXQjpreDSiLtuaFezS6DeTwNWR4AfM2jEUgbJZkNEVRksxLtyeQCNovtFebOEh
+         wOSKcgPr2DbKeI3tKATnADvslZ1FLjK7d/IFOuvFXJ4A4ves+HMDN03qGrQFA1q/Enk5
+         bolq0rD1HKwV+X7Kqo+O0A2cBP7grN+0VQVRwasbM0lweMmEYTe8A7tiEPlEfGr8u4ki
+         EvrcIBmP1CjInD4ZOzIelz2N48YF7KacnZgrtozKsl7GEeYLwRw+1qQcEjUNFEfRTmID
+         wEXosltCx70IOHfZO0dB6rm8qqQKgq8ULcZ91FmA06uV/aKjQe/Ql2F1Pf4CUvpn2fr5
+         dHdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
+        b=5zy/n4EGm+fknkssqEjCpevXQsI7yKvCHmjj6vqO9jUwUmWwM/sPo4xj7tWnTcbtCr
+         NHnPgE2qDCZzsk85BYJkppst3NkI1GcFXYI1Cs+SyTNY1lclXQ5yeieq6gWBXjK0VxL+
+         BxdoWqvQukSZ0cXfCt1HDl1NwqdlNfJ+QjOlJSVsK6WzHv12kT731m0E2IbdvaZ/Hesc
+         35MQRfELuTI/jZxp7K9ecKJjiKvC7FwMwIVQ9aDoPkVcH11JB08CHC2Uh+VHBeejRkqT
+         zLUaiGMtAhlhw3iEdE0pfQDOml9t1F9HftUFVXSvWk7Kwpsb0CuSyFXUwLo71H0vZGY8
+         H4NQ==
+X-Gm-Message-State: AFqh2komO2CtudYWcoZ5FgEE1QDZLVhrV1mLxZL+v7OxohvD5s1VCcbf
+        CMjJbxXH7EIGymARqexnyA/SIg==
+X-Google-Smtp-Source: AMrXdXvCvQt1/kQ6w8atcLGXtdqYVKC9LQPXMiFfg0gMdaHu78to3mc/9L7myuVJ8vBjW3N9ZXLifw==
+X-Received: by 2002:a5d:4fc8:0:b0:256:ff7d:2347 with SMTP id h8-20020a5d4fc8000000b00256ff7d2347mr38309901wrw.13.1674727304037;
+        Thu, 26 Jan 2023 02:01:44 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id n15-20020a5d598f000000b002bdff778d87sm960081wri.34.2023.01.26.02.01.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 02:01:43 -0800 (PST)
+Message-ID: <60d87ac5-ddd6-706d-e13a-3431024bca88@linaro.org>
+Date:   Thu, 26 Jan 2023 11:01:41 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2259224.tdWV9SEqCh";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Content-Language: en-US
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Lee Jones <lee@kernel.org>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---nextPart2259224.tdWV9SEqCh
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Sven Eckelmann <sven@narfation.org>
-Subject: Re: [PATCH 5/5] HID: sony_remove: manually unregister leds
-Date: Thu, 26 Jan 2023 09:32:34 +0100
-Message-ID: <5192178.GXAFRqVoOG@ripper>
-MIME-Version: 1.0
-
-On Thursday, 26 January 2023 01:24:57 CET Pietro Borrello wrote:
-> Unregister the LED controller before device removal, as
-> sony_led_set_brightness() may schedule sc->state_worker
-> after the structure has been freed, causing a use-after-free.
+On 25/01/2023 20:23, Luiz Augusto von Dentz wrote:
+>>>> While at it, move the mmc pattern comment where it belongs, and restore
+>>>> alphabetical sort order.
+>>>>
+>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>>
+>>>> [...]
+>>>
+>>> Here is the summary with links:
+>>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+>>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+>>
+>> Why are you taking LED patches through the Bluetooth tree?
 > 
-> Fixes: 0a286ef27852 ("HID: sony: Add LED support for Sixaxis/Dualshock3 USB")
-> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
-> ---
->  drivers/hid/hid-sony.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> I assume there isn't a tree dedicated to dt-bindings/leds, not to
 
+dt-bindings patches are supposed to go via subsystem (with drivers) or
+as fallback via Rob's DT tree. The subsystem here is LED, so the patches
+should be picked by Pavel and Lee, as maintainers of LED subsystem.
 
-Reviewed-by: Sven Eckelmann <sven@narfation.org>
+If the subsystem was Bluetooth, then the patch would be for you. I hope
+that clarifies.
 
-Thanks,
-	Sven
-
---nextPart2259224.tdWV9SEqCh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEF10rh2Elc9zjMuACXYcKB8Eme0YFAmPSOqIACgkQXYcKB8Em
-e0YhGxAAm5Z67e9ZJlP2Qs6aAHW87VgdmYj6PIKmYYlzicEVdzf5VITIWyhZN//f
-hi6UzNgPvG0X36Evkq1G8Zn9jjNby6i5+4R+RjraWyjAeAkjH1CcpAzIly29KIk1
-oFzst4aPPFSg8UEDXsWIr1WY3hrEVqLFByfMJUYCqua04/mNus2Bw+KmMANBOfql
-5QHJX/mgVQNJPcFw+3vZGctsXcZM9yOhfZFWvBRwPcsHuAPyIeL029Ee09MrQaW0
-3KPpDP/u15s5cwFNecMb/DFe2wvMTgRN3FY5U/pR8vskSeybeqDDoK03mGJr88YI
-0R+7G7hiSiwURfK9PybFB/frXd9i+0GNOyjvt9uxAK18IbPeQmKACvp66cFabgtl
-5AkXaV9n2AFFWJhhflxpWz/fMmbQwdYlImzRm7mQtdiEFtuO+BrYnpznQwdhzB+1
-jxqUmxF4cFsZjxDAEjOqU4CHDoto3Dk19+rxY3MFAS+ykbeUO5gM1HS1p9aPTXvf
-dRnakHNIGw701pU+REy+5F7S98L0UDnChJMjZQUmA7fWF/QmHRdwbvAtCvf5Z0Um
-IiXYSpJGnoeKTRjYi5D2LqCq+Zu3oXEo8DZj7Zl4gpclHlsNOQlduHIFTqQq2ZOS
-N3BEg6iqDmK7hRw+1Xzh4GYpab4k39w6LtaW7NFIqBjV9XEJU+E=
-=7yRQ
------END PGP SIGNATURE-----
-
---nextPart2259224.tdWV9SEqCh--
-
-
+Best regards,
+Krzysztof
 
