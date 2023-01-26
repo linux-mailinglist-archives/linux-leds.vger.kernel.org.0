@@ -2,112 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 432F367C7EB
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 11:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADB5F67CA98
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 13:10:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236649AbjAZKBs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Jan 2023 05:01:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57586 "EHLO
+        id S233517AbjAZMK6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Jan 2023 07:10:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236985AbjAZKBr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 05:01:47 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7F5457C0
-        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id t18so1217607wro.1
-        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 02:01:45 -0800 (PST)
+        with ESMTP id S229844AbjAZMK5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 07:10:57 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913A8410BB
+        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 04:10:55 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id y11so1671496edd.6
+        for <linux-leds@vger.kernel.org>; Thu, 26 Jan 2023 04:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
-        b=Os1KoXQjpreDSiLtuaFezS6DeTwNWR4AfM2jEUgbJZkNEVRksxLtyeQCNovtFebOEh
-         wOSKcgPr2DbKeI3tKATnADvslZ1FLjK7d/IFOuvFXJ4A4ves+HMDN03qGrQFA1q/Enk5
-         bolq0rD1HKwV+X7Kqo+O0A2cBP7grN+0VQVRwasbM0lweMmEYTe8A7tiEPlEfGr8u4ki
-         EvrcIBmP1CjInD4ZOzIelz2N48YF7KacnZgrtozKsl7GEeYLwRw+1qQcEjUNFEfRTmID
-         wEXosltCx70IOHfZO0dB6rm8qqQKgq8ULcZ91FmA06uV/aKjQe/Ql2F1Pf4CUvpn2fr5
-         dHdg==
+        d=diag.uniroma1.it; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eVbivV8EGu+km89gAq7ikjZD9Nt9wLtDAtt21fJbyIE=;
+        b=Z+Jx3ESL49Z2PCF4IUnISXt1Ax3Bh5RhOtxjA77Q+aTXwdTogaLdApCZ0YageHuLgS
+         qtiYhwM7TJDQQE0gtq3wj3rQUL+qBWAvUl9jsDW1xrQZKGL7EgWvxNPuBBvULej9v72Z
+         uXzY72TclGoeq2vUHaX6eq6+1gn2y/RP7Md/c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsWprYGbD2CwVtouO/ULFCeYkL3Y+haM/y2Caqpemeg=;
-        b=5zy/n4EGm+fknkssqEjCpevXQsI7yKvCHmjj6vqO9jUwUmWwM/sPo4xj7tWnTcbtCr
-         NHnPgE2qDCZzsk85BYJkppst3NkI1GcFXYI1Cs+SyTNY1lclXQ5yeieq6gWBXjK0VxL+
-         BxdoWqvQukSZ0cXfCt1HDl1NwqdlNfJ+QjOlJSVsK6WzHv12kT731m0E2IbdvaZ/Hesc
-         35MQRfELuTI/jZxp7K9ecKJjiKvC7FwMwIVQ9aDoPkVcH11JB08CHC2Uh+VHBeejRkqT
-         zLUaiGMtAhlhw3iEdE0pfQDOml9t1F9HftUFVXSvWk7Kwpsb0CuSyFXUwLo71H0vZGY8
-         H4NQ==
-X-Gm-Message-State: AFqh2komO2CtudYWcoZ5FgEE1QDZLVhrV1mLxZL+v7OxohvD5s1VCcbf
-        CMjJbxXH7EIGymARqexnyA/SIg==
-X-Google-Smtp-Source: AMrXdXvCvQt1/kQ6w8atcLGXtdqYVKC9LQPXMiFfg0gMdaHu78to3mc/9L7myuVJ8vBjW3N9ZXLifw==
-X-Received: by 2002:a5d:4fc8:0:b0:256:ff7d:2347 with SMTP id h8-20020a5d4fc8000000b00256ff7d2347mr38309901wrw.13.1674727304037;
-        Thu, 26 Jan 2023 02:01:44 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id n15-20020a5d598f000000b002bdff778d87sm960081wri.34.2023.01.26.02.01.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 02:01:43 -0800 (PST)
-Message-ID: <60d87ac5-ddd6-706d-e13a-3431024bca88@linaro.org>
-Date:   Thu, 26 Jan 2023 11:01:41 +0100
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eVbivV8EGu+km89gAq7ikjZD9Nt9wLtDAtt21fJbyIE=;
+        b=nYEgOcq9gKx7JPensKrs+Ngfs827XT2YGwX7H9WwSBmM+Sh6zEmR6mcCDQEfBs/rGZ
+         b6hO1vERQjft0QE+ueIociFFXkarwb7MkTcOARHADJePMw9jOA+bMlde+acRnP0gsi//
+         lV8lKq4Y8bvWos94tJBWLw3ds6HoFzPHwq7XBC8O1kXRnr0PLxFo4flp+D9PonRjNeAi
+         wWJR9kythqQ3cnQY+iilaboGcZe2JmPe7BhZ0zcBe9MvuiTIdnQt2OH0oE9X75KpZtsK
+         SHeocijxqrQO2dAx1c0tVv0hwDuj200OxlvPnbcGFJ7zpf4DVuuaUhdRMuWC/99hu3No
+         2Cuw==
+X-Gm-Message-State: AFqh2kpcSKbfTp2wJNptJANzpmYjGAG7r5OeEx3XOU9ThKDizn8Gobvj
+        o2Rn726pWleF2Viavpohei9hsw==
+X-Google-Smtp-Source: AMrXdXsukXmzEgZnFOHM0z7on12mUpXq2NJAYUtr0KLvu8zMkX/pzniYGESNkYwGVqZ6WycqNgozXw==
+X-Received: by 2002:a05:6402:3214:b0:49d:bc8c:c3eb with SMTP id g20-20020a056402321400b0049dbc8cc3ebmr43983796eda.15.1674735053993;
+        Thu, 26 Jan 2023 04:10:53 -0800 (PST)
+Received: from pborrello-1.vm.vusec.net (wolkje-127.labs.vu.nl. [130.37.198.127])
+        by smtp.gmail.com with ESMTPSA id j2-20020aa7ca42000000b0049ef56c01d0sm645490edt.79.2023.01.26.04.10.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jan 2023 04:10:53 -0800 (PST)
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Pietro Borrello <borrello@diag.uniroma1.it>,
+        linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Sven Eckelmann <sven@narfation.org>
+Subject: [PATCH v2 3/5] HID: dualsense_remove: manually unregister leds
+Date:   Thu, 26 Jan 2023 12:09:18 +0000
+Message-Id: <20230125-hid-unregister-leds-v2-3-514437b19297@diag.uniroma1.it>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAEc3jaDRzvw4wqomWTZ4QiGT7ndm0u+LQuqDTOWB=B-6w=2yzg@mail.gmail.com>
+References: <20230125-hid-unregister-leds-v2-0-514437b19297@diag.uniroma1.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
- triggers
-Content-Language: en-US
-To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Lee Jones <lee@kernel.org>
-Cc:     patchwork-bot+bluetooth@kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        robh@kernel.org
-References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
- <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
- <Y9FG5Wg0PmP4zfV6@google.com>
- <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674734023; l=1556; i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id; bh=I/aK9DcIPRri1R7+BoQmPFot08oQLGwMbJpqlNV1B8M=; b=x78P2ebxLLwLOWOjBnnzLG/enTMXSF9YH3QbZDzWhLC4Tzv7V/zRQOi1YIKOhINhDOkegJK42hLC m1jeKayWD9ELcEL8IQp12s8Y82S82CkgS5gm1+YzswCDoo5jieve
+X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519; pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 25/01/2023 20:23, Luiz Augusto von Dentz wrote:
->>>> While at it, move the mmc pattern comment where it belongs, and restore
->>>> alphabetical sort order.
->>>>
->>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>> Reviewed-by: Rob Herring <robh@kernel.org>
->>>>
->>>> [...]
->>>
->>> Here is the summary with links:
->>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
->>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
->>
->> Why are you taking LED patches through the Bluetooth tree?
-> 
-> I assume there isn't a tree dedicated to dt-bindings/leds, not to
+Unregister the LED controllers before device removal, to prevent
+unnecessary runs of dualsense_player_led_set_brightness().
 
-dt-bindings patches are supposed to go via subsystem (with drivers) or
-as fallback via Rob's DT tree. The subsystem here is LED, so the patches
-should be picked by Pavel and Lee, as maintainers of LED subsystem.
+Fixes: 8c0ab553b072 ("HID: playstation: expose DualSense player LEDs through LED class.")
+Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
 
-If the subsystem was Bluetooth, then the patch would be for you. I hope
-that clarifies.
+---
 
-Best regards,
-Krzysztof
+Contrary to the other patches in this series, failing to unregister
+the led controller does not results into a use-after-free thanks
+to the output_worker_initialized variable and the spinlock checks.
 
+Changes in v2:
+- Unregister multicolor led controller
+- Clarify UAF
+- Link to v1: https://lore.kernel.org/all/20230125-hid-unregister-leds-v1-3-9a5192dcef16@diag.uniroma1.it/
+---
+ drivers/hid/hid-playstation.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index 27c40894acab..f23186ca2d76 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -1503,11 +1503,17 @@ static void dualsense_remove(struct ps_device *ps_dev)
+ {
+ 	struct dualsense *ds = container_of(ps_dev, struct dualsense, base);
+ 	unsigned long flags;
++	int i;
+ 
+ 	spin_lock_irqsave(&ds->base.lock, flags);
+ 	ds->output_worker_initialized = false;
+ 	spin_unlock_irqrestore(&ds->base.lock, flags);
+ 
++	for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++)
++		devm_led_classdev_unregister(&ps_dev->hdev->dev, &ds->player_leds[i]);
++
++	devm_led_classdev_multicolor_unregister(&ps_dev->hdev->dev, &ds->lightbar);
++
+ 	cancel_work_sync(&ds->output_worker);
+ }
+ 
+
+-- 
+2.25.1
