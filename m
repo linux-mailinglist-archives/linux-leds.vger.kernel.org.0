@@ -2,119 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFEE67BAD0
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Jan 2023 20:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCF967C175
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 01:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235506AbjAYTYP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Jan 2023 14:24:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38894 "EHLO
+        id S229550AbjAZAZX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Jan 2023 19:25:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234990AbjAYTYG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Jan 2023 14:24:06 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521172696;
-        Wed, 25 Jan 2023 11:24:05 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id g13so30642112lfv.7;
-        Wed, 25 Jan 2023 11:24:05 -0800 (PST)
+        with ESMTP id S230458AbjAZAZU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Jan 2023 19:25:20 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C02B64686
+        for <linux-leds@vger.kernel.org>; Wed, 25 Jan 2023 16:25:18 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id m2so640395ejb.8
+        for <linux-leds@vger.kernel.org>; Wed, 25 Jan 2023 16:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EAJi7cEGTjWV9IwRKrSvkgUo30I57ewaSMmGfmlLHz8=;
-        b=ApzBh8gBTYGfEWKkWdM/Y4W/yfXXkI+4ImSbMg90yw+tjGtOcGF7SZotKBxDJbIxAP
-         3cdkiQAmacyGU+Hy/NdGgFPMXaxOTSVpXuL6h6Q+TWCDzJ5SG1PU2Jm3Zz3aNb9wf9SC
-         dBPf2JxjtQ1+mPgEULT+B8LPFCFLVdtnKZFO5+jHxF1K8YYwPOG9STr6CO4DKn/DuJcx
-         l8N8KmQRqQ3QguZy2NHFoU7zhazTHmqXQ/LWTiWuAIbuHQlU75xLQWTIcxdy0iDcJqNb
-         uIRp0v07jU67lbeQ90jn0Li/zW4Z5KIBahG4S76OxnNRZalXQiMVx0yATN4iqaCpbUzo
-         pCCg==
+        d=diag.uniroma1.it; s=google;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uOYadJvP8u49K2x2oSYl+EYqiXssZ4idBGq/e4Tz9NY=;
+        b=O4V0DOQaxPn+3nnvaVO3+OedTg4H8gEUR2e+X840qxeB1rz3lPMUCUHPlScsQb9ImT
+         yOEROGe1pUIaxqUwsrMKjOB9Mqj5b6UOwVGFASYzb0AVOwqDbZnExHiTorFoOWeZPaWV
+         5K0fcSdfaRny3eW0RpfddFm2xA7FOcBDNEvRc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EAJi7cEGTjWV9IwRKrSvkgUo30I57ewaSMmGfmlLHz8=;
-        b=mOqyyiQ+tPAe8y9a8UAUBjCcjper7cpATSI9G1Yf6kRS/lOf31vIW1otU/DsNTW+OK
-         0b2Lro8qMo1aolKzaxPAp9HgsZpJGZey610IhI5pzoDQlzk/yQ+tCIQ1/TCh8Xord/Zj
-         ogeAAvYuk8U866WomuB+/66Pnw/lb1yGGmSC4Zuqyx+wtns88aNhGeLEaw1KcwZSPm55
-         Y/QACpKH7kzXnsTe2WGbrUbLd301Kcv6m4bYEFJvJ//USdYjDp0DGEdDEQu00JodvUS5
-         H9w3XLcHfG2kJADCFXKaXFB1dmmLjVhHLuiWEj7gHCYup3vKd2O5Vjo4RD1TOgVweY38
-         pPAw==
-X-Gm-Message-State: AFqh2kpMGc+5LQ7o5cY1moouXuaB3vywDYO9SKnX+73h/jMPA2wxoaeO
-        53oR84W8DXPpUvRib1501JXM0mHH9eMQeHkcNDs=
-X-Google-Smtp-Source: AMrXdXteIrzvZmGI6O5UtF7QO0OPrziTlpj1+GX6WXGxrIX3DEQLDEJ+bwSCrGld4MObdjle7crCKAp+KMyDP77JqfY=
-X-Received: by 2002:a05:6512:3683:b0:4b5:bc2a:8bd9 with SMTP id
- d3-20020a056512368300b004b5bc2a8bd9mr1468674lfs.121.1674674643511; Wed, 25
- Jan 2023 11:24:03 -0800 (PST)
+        bh=uOYadJvP8u49K2x2oSYl+EYqiXssZ4idBGq/e4Tz9NY=;
+        b=P0Fsj3d7k1JyvPgPq/AMAAhUnjfiufSbQ7Vyl8h24ubfLNPfTcJPY0aCWmGq/mlcdb
+         82Cv/hm9QCv1jOWASrglK/jTHdt9eVi1Dw0kxdj5xfZ5v1ROeMM4p/4WK8uW08PAjGrI
+         nKiugUh9f/pup6qEDfcVTQUgbHCQkrRQLCNh9UhzWzwavtvPPJOAAbtatnPkK27FgycV
+         uMKun3JafMUfELve8UUc0euUEHAymDWqHln5ol9BSEYICfxneuiV4Wb1XDOitkqPU+ND
+         PEkuNiuLEEXhIC8o/fr3KyU9hAZ3WJ/26Suqz9Q4QKaRS+haHTBuTKt4SMEtfQLJj2A+
+         F4Uw==
+X-Gm-Message-State: AFqh2kq8kDjkd05GOuLjFfk3mCUeK595RAjJhq/BqjGTNIWFNEzuaHk7
+        S6Ok0tVytjLgM006i1/LRn/Zwg==
+X-Google-Smtp-Source: AMrXdXuntbpvN+806ZegH5ixi1SfuWScLJxEwEMFaUWL58CNZT81ZcYZ2PCbsG6v0BxwZvZ7PsRBtQ==
+X-Received: by 2002:a17:907:76b0:b0:7c1:7045:1a53 with SMTP id jw16-20020a17090776b000b007c170451a53mr32550663ejc.15.1674692716489;
+        Wed, 25 Jan 2023 16:25:16 -0800 (PST)
+Received: from [192.168.17.2] (wolkje-127.labs.vu.nl. [130.37.198.127])
+        by smtp.gmail.com with ESMTPSA id jy12-20020a170907762c00b008784e808553sm555707ejc.6.2023.01.25.16.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 16:25:16 -0800 (PST)
+From:   Pietro Borrello <borrello@diag.uniroma1.it>
+Date:   Thu, 26 Jan 2023 00:24:53 +0000
+Subject: [PATCH 1/5] HID: bigben_remove: manually unregister leds
 MIME-Version: 1.0
-References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
- <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org> <Y9FG5Wg0PmP4zfV6@google.com>
-In-Reply-To: <Y9FG5Wg0PmP4zfV6@google.com>
-From:   Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date:   Wed, 25 Jan 2023 11:23:51 -0800
-Message-ID: <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
-To:     Lee Jones <lee@kernel.org>
-Cc:     patchwork-bot+bluetooth@kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        robh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230125-hid-unregister-leds-v1-1-9a5192dcef16@diag.uniroma1.it>
+References: <20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it>
+In-Reply-To: <20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>,
+        Carlo Caione <carlo@endlessm.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Sven Eckelmann <sven@narfation.org>
+Cc:     linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674692715; l=1037;
+ i=borrello@diag.uniroma1.it; s=20221223; h=from:subject:message-id;
+ bh=wlU1zbXd7qFTSbVqYvqS9BOVrqglVS3eHD1ePCtISHc=;
+ b=GeizybQArtv4+HBTakrKxETsSVRvGKMNeRue1tkG2U0KcYshHgneXwski3bWn3Wnk7Dda4OEQvQ1
+ jAU9iMk1B2kBNODa9HOqbXggvFc3nR73/XdctsvKQ04xtFJglhqI
+X-Developer-Key: i=borrello@diag.uniroma1.it; a=ed25519;
+ pk=4xRQbiJKehl7dFvrG33o2HpveMrwQiUPKtIlObzKmdY=
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee,
+Unregister the LED controllers before device removal, as
+bigben_set_led() may schedule bigben->worker after the structure has
+been freed, causing a use-after-free.
 
-On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
->
-> On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
->
-> > Hello:
-> >
-> > This patch was applied to bluetooth/bluetooth-next.git (master)
-> > by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
-> >
-> > On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
-> > > Add the missing trigger patterns for Bluetooth and WLAN activity, whi=
-ch
-> > > are already in active use.
-> > >
-> > > While at it, move the mmc pattern comment where it belongs, and resto=
-re
-> > > alphabetical sort order.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > >
-> > > [...]
-> >
-> > Here is the summary with links:
-> >   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
-> >     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
->
-> Why are you taking LED patches through the Bluetooth tree?
+Fixes: 4eb1b01de5b9 ("HID: hid-bigbenff: fix race condition for scheduled work during removal")
+Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
+---
+ drivers/hid/hid-bigbenff.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I assume there isn't a tree dedicated to dt-bindings/leds, not to
-mention this was submitted to linux-bluetooth and nobody else other
-than Rob reviewed it, anyway I'd be happy if the dt-bindings patches
-would be handled elsewhere.
+diff --git a/drivers/hid/hid-bigbenff.c b/drivers/hid/hid-bigbenff.c
+index e8b16665860d..d3201b755595 100644
+--- a/drivers/hid/hid-bigbenff.c
++++ b/drivers/hid/hid-bigbenff.c
+@@ -306,9 +306,14 @@ static enum led_brightness bigben_get_led(struct led_classdev *led)
+ 
+ static void bigben_remove(struct hid_device *hid)
+ {
++	int n;
+ 	struct bigben_device *bigben = hid_get_drvdata(hid);
+ 
+ 	bigben->removed = true;
++	for (n = 0; n < NUM_LEDS; n++) {
++		if (bigben->leds[n])
++			devm_led_classdev_unregister(&hid->dev, bigben->leds[n]);
++	}
+ 	cancel_work_sync(&bigben->worker);
+ 	hid_hw_stop(hid);
+ }
 
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-
-
-
---=20
-Luiz Augusto von Dentz
+-- 
+2.25.1
