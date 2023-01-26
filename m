@@ -2,89 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 554AC67C55B
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 09:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B47767C60F
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 09:40:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236198AbjAZIBr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Jan 2023 03:01:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39430 "EHLO
+        id S236452AbjAZIku (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Jan 2023 03:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233473AbjAZIBq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 03:01:46 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FB566EC8;
-        Thu, 26 Jan 2023 00:01:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A9A71B81D09;
-        Thu, 26 Jan 2023 08:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36EFC433EF;
-        Thu, 26 Jan 2023 08:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674720103;
-        bh=O8fH/gQ/PhcTjJUDDmcX68F+GoyfX/eoRR1/IyK3BjQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LJfTpRO3iqXgT2NzbKELI4qTgFLoubeg2PwkBau6E/no6yK3CDjBL3U2QWETuOR7H
-         zNfeDciS2gzuoZUBdn7tsfyCNndixKtfLM9ocZ0ctbdKjiliG6cincJQot5LEFgUII
-         NycMnBdVw1IutpDz1ALoA8KmL8rMR8DKydDgCt/hUf0Jdech4d3/imNxoRgbEzjsMU
-         BaMWmEFPnOW2Z/hJYfKUhhp5P9MAkbVd/K6yzxztKQcBTKE8ddl2TiKJZR+Gu+cYdU
-         tZL7yTjdy7OjDCM1uNCE0E5j99yOrWJoxhfqESoso0CZetGo3puU9nB5qw2etUa446
-         sc17HJ+soWTfw==
-Date:   Thu, 26 Jan 2023 08:01:37 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
- triggers
-Message-ID: <Y9IzYdO64NXJc09o@google.com>
-References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+        with ESMTP id S229641AbjAZIkn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 03:40:43 -0500
+X-Greylist: delayed 479 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 00:40:42 PST
+Received: from dvalin.narfation.org (dvalin.narfation.org [213.160.73.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06ABB5FCA;
+        Thu, 26 Jan 2023 00:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=narfation.org;
+        s=20121; t=1674721957;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CjJFHQ99v7fimPGIGMu1WpBQB3x5OOboN7EMcJhzvrA=;
+        b=Oh5IATyRGJHoiZ5b5t0nTb8EbKGM8MdUMFjRKFrp7lY5AhlSpxpSKE6sKXHD7J/u6x7Sm3
+        U1JFf/SxS1SnSW+xWOPhuPP4uEIA8O9E7lua3nXkpwc0O83KZtJeclTW1SoQ3bx1iJiKh4
+        jde47Gd8rShdWRE7UgvKZVt0GwbHcw8=
+From:   Sven Eckelmann <sven@narfation.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hanno Zulla <kontakt@hanno.de>,
+        Carlo Caione <carlo@endlessm.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+Cc:     linux-leds@vger.kernel.org,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jkosina@suse.cz>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Pietro Borrello <borrello@diag.uniroma1.it>
+Subject: Re: [PATCH 5/5] HID: sony_remove: manually unregister leds
+Date:   Thu, 26 Jan 2023 09:32:34 +0100
+Message-ID: <5192178.GXAFRqVoOG@ripper>
+In-Reply-To: <20230125-hid-unregister-leds-v1-5-9a5192dcef16@diag.uniroma1.it>
+References: <20230125-hid-unregister-leds-v1-0-9a5192dcef16@diag.uniroma1.it>
+ <20230125-hid-unregister-leds-v1-5-9a5192dcef16@diag.uniroma1.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="nextPart2259224.tdWV9SEqCh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 22 Jan 2023, Geert Uytterhoeven wrote:
+--nextPart2259224.tdWV9SEqCh
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Sven Eckelmann <sven@narfation.org>
+Subject: Re: [PATCH 5/5] HID: sony_remove: manually unregister leds
+Date: Thu, 26 Jan 2023 09:32:34 +0100
+Message-ID: <5192178.GXAFRqVoOG@ripper>
+MIME-Version: 1.0
 
-> Add the missing trigger patterns for Bluetooth and WLAN activity, which
-> are already in active use.
+On Thursday, 26 January 2023 01:24:57 CET Pietro Borrello wrote:
+> Unregister the LED controller before device removal, as
+> sony_led_set_brightness() may schedule sc->state_worker
+> after the structure has been freed, causing a use-after-free.
 > 
-> While at it, move the mmc pattern comment where it belongs, and restore
-> alphabetical sort order.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Fixes: 0a286ef27852 ("HID: sony: Add LED support for Sixaxis/Dualshock3 USB")
+> Signed-off-by: Pietro Borrello <borrello@diag.uniroma1.it>
 > ---
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: bt_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'hci0-power' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'hci0-power' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-rev2.dtb: leds: wlan_active_led:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> 	'phy0tx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> 	'phy0tx' does not match '^mmc[0-9]+$'
-> 	From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
-> 
-> v2:
->   - Add Reviewed-by.
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  drivers/hid/hid-sony.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Applied, thanks
 
--- 
-Lee Jones [李琼斯]
+Reviewed-by: Sven Eckelmann <sven@narfation.org>
+
+Thanks,
+	Sven
+
+--nextPart2259224.tdWV9SEqCh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEF10rh2Elc9zjMuACXYcKB8Eme0YFAmPSOqIACgkQXYcKB8Em
+e0YhGxAAm5Z67e9ZJlP2Qs6aAHW87VgdmYj6PIKmYYlzicEVdzf5VITIWyhZN//f
+hi6UzNgPvG0X36Evkq1G8Zn9jjNby6i5+4R+RjraWyjAeAkjH1CcpAzIly29KIk1
+oFzst4aPPFSg8UEDXsWIr1WY3hrEVqLFByfMJUYCqua04/mNus2Bw+KmMANBOfql
+5QHJX/mgVQNJPcFw+3vZGctsXcZM9yOhfZFWvBRwPcsHuAPyIeL029Ee09MrQaW0
+3KPpDP/u15s5cwFNecMb/DFe2wvMTgRN3FY5U/pR8vskSeybeqDDoK03mGJr88YI
+0R+7G7hiSiwURfK9PybFB/frXd9i+0GNOyjvt9uxAK18IbPeQmKACvp66cFabgtl
+5AkXaV9n2AFFWJhhflxpWz/fMmbQwdYlImzRm7mQtdiEFtuO+BrYnpznQwdhzB+1
+jxqUmxF4cFsZjxDAEjOqU4CHDoto3Dk19+rxY3MFAS+ykbeUO5gM1HS1p9aPTXvf
+dRnakHNIGw701pU+REy+5F7S98L0UDnChJMjZQUmA7fWF/QmHRdwbvAtCvf5Z0Um
+IiXYSpJGnoeKTRjYi5D2LqCq+Zu3oXEo8DZj7Zl4gpclHlsNOQlduHIFTqQq2ZOS
+N3BEg6iqDmK7hRw+1Xzh4GYpab4k39w6LtaW7NFIqBjV9XEJU+E=
+=7yRQ
+-----END PGP SIGNATURE-----
+
+--nextPart2259224.tdWV9SEqCh--
+
+
+
