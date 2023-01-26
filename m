@@ -2,161 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02C4867C422
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 06:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00F6B67C554
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 09:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236278AbjAZFBO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Jan 2023 00:01:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S236230AbjAZIBG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Jan 2023 03:01:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230288AbjAZFAx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 00:00:53 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA1EFC162;
-        Wed, 25 Jan 2023 21:00:00 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id z9so521345qtv.5;
-        Wed, 25 Jan 2023 21:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E2S3RLfrNyQH49fsnFGoQQ0jF5nvWXPOvFK0VP3Scjo=;
-        b=IWV/X5EtYYc53U1keZc6Iu7v0jyTbAY6l2uYNr2tB7WaZHXvEwhIXcw5VZBulQSL6A
-         6Jvn59mMR6weRaRmLdZ8F/95n+NaBJ9dRVjOjQ19w5aWxL+R6I/zOQkl4hj19hbQKkcg
-         XmaOWJvaFGorOGR6gKFoxWNZ42yq3JI5PBjwnFIMJq9VFbqd+i4rUMftB8vjBgxSsNEW
-         8gniu1Yv79dBtc9rOZbpIC451t5eJqX4pgao5Ha7dYw38DOKNCO4jT0+eG5WUHdqooRu
-         CkQgahq+Ky8sF3BbotZY5uEqwtIQM7xrxtVzCBDUeiEKNovMTvE8/M+lrLSGEv0r5Wgg
-         UqAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E2S3RLfrNyQH49fsnFGoQQ0jF5nvWXPOvFK0VP3Scjo=;
-        b=fMP5Ut3zw8rZOEixxDwwNw9zm2YQWsZ0OoltQIoJS3YZB7Zeq8RloNjSlSxCarNZ54
-         6SaS7p7HmzrVGm9D/R/g623sMseaPAI/3OUSERm9g4sFUEmJB9dWn9pCkHrfMy21qyQ0
-         Nvdl7DXHuz3IOugOLzeW1DGQELCFdKLW7Fe+WdsyEYmhUrDpVaM3FXoqn2Ogk4XxuQwX
-         gJ+BQogLgsk5XDUvHSAUSBN6/L7BeR6lLTU8h7rrVh/4DmnW+nrzMaMle0JvOey8ltoq
-         r3YFoyLeyq8MqaeRjFqIdnNrEaL3//7KLImdcAgriJOVFlFTZHq8/FjnnT8ZOcj+L6CS
-         pE4g==
-X-Gm-Message-State: AO0yUKVlxmzH5n4Ad63LECSNPQ3oLhc1pRwXFfROaJQ/c+89nN0Nd+NN
-        b2/qMeqPd37FQ4ZFWRKmbMs=
-X-Google-Smtp-Source: AK7set9uZfTD1W3z0cbHBVUg5SVE0mxBEXs/DXbPnm5/hifsR8XEBxaOH/w+lDF8YqDyrPMz+u2j0Q==
-X-Received: by 2002:ac8:6794:0:b0:3b7:ec87:8154 with SMTP id b20-20020ac86794000000b003b7ec878154mr6565219qtp.44.1674709143369;
-        Wed, 25 Jan 2023 20:59:03 -0800 (PST)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id j7-20020ac806c7000000b003b80a69d353sm120720qth.49.2023.01.25.20.59.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 20:59:02 -0800 (PST)
-Date:   Wed, 25 Jan 2023 23:59:00 -0500
-From:   Trevor Woerner <twoerner@gmail.com>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v7 0/5] leds: Allwinner A100 LED controller support
-Message-ID: <20230126045900.GA7126@localhost>
-References: <20221231235541.13568-1-samuel@sholland.org>
+        with ESMTP id S236249AbjAZIBD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 03:01:03 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5317669B23;
+        Thu, 26 Jan 2023 00:00:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id BBB69CE0FE6;
+        Thu, 26 Jan 2023 08:00:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37ED4C4339B;
+        Thu, 26 Jan 2023 08:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674720056;
+        bh=w0GyxWtuZcSCJLuH4x+Imjzwl60UHza1uCdMsCstLZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=In7j/G3aHj0zUfdQn9EUP96LDFSx8DSrzm8RD3NDnpy15PMsiUtL0U7JIiRMPSUag
+         +9DAns2GS9mFk0oKN9/ixWhHGTYa4t86Ow4n9LOORddrI52CtVC/smabFlaGjfSUWU
+         j5jl7qZ/fFpHEruQI5KrLy0JYrUZBSJE6PAC7UiYo5mOpGkIbLw5PJW2wDvjWt6TxE
+         85Hd3wcczhWI4GYDrbWoOeX83mk7jKmkGdIhHXTdCmtVML8ZxBw1t7sSz/bsfLS2T8
+         FqfPyQkCfzj6mjaJ8Ko5iGeyttiKTIFIysh98qTRp5dUYw4lxK5AjRVQBzYUQXWiup
+         XOYhf9wX0SBqw==
+Date:   Thu, 26 Jan 2023 08:00:49 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Message-ID: <Y9IzMWnOq+r2/4V2@google.com>
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221231235541.13568-1-samuel@sholland.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat 2022-12-31 @ 05:55:35 PM, Samuel Holland wrote:
-> [Resending because it has been a couple of months since v7 with no LED
-> maintainer feedback, and LEDs now have an additional maintainer.]
-> 
-> This series adds bindings and a driver for the RGB LED controller found
-> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
-> D1 SoCs appears to be identical.
-> 
-> Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
-> series can/should be merged without them.
-> 
-> This driver was tested on the D1 Nezha board.
-> 
-> [1]: https://lore.kernel.org/lkml/20221231233851.24923-1-samuel@sholland.org/
-> 
-> Changes in v7:
->  - Use DEFINE_SIMPLE_DEV_PM_OPS
-> 
-> Changes in v6:
->  - Drop the A100 DMA controller DT node patch, which was merged via a
->    different series
-> 
-> Changes in v5:
->  - A100 contains the original implementation, so use that as the base
->    compatible string, and rename the binding to match
->  - Add "unevaluatedProperties: false" to the child multi-led binding
->  - Rename the driver R329 -> A100, since that is the actual original
->    implementation
-> 
-> Changes in v4:
->  - Use "default" instead of "maxItems" for timing properties
->  - Depend on LEDS_CLASS_MULTICOLOR
-> 
-> Changes in v3:
->  - Removed quotes from enumeration values
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
-> 
-> Changes in v2:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
->  - Renamed from sunxi-ledc to sun50i-r329-ledc
->  - Added missing "static" to functions/globals as reported by 0day bot
-> 
-> Samuel Holland (5):
->   dt-bindings: leds: Add Allwinner A100 LED controller
->   leds: sun50i-a100: New driver for the A100 LED controller
->   arm64: dts: allwinner: a100: Add LED controller node
->   riscv: dts: allwinner: d1: Add LED controller node
->   riscv: dts: allwinner: d1: Add RGB LEDs to boards
-> 
->  .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
->  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
->  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
->  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
->  drivers/leds/Kconfig                          |   9 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
->  9 files changed, 764 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
->  create mode 100644 drivers/leds/leds-sun50i-a100.c
+On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
 
-this whole series:
-Tested-by: Trevor Woerner <twoerner@gmail.com>
+> Hi Lee,
+> 
+> On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
+> >
+> > On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
+> >
+> > > Hello:
+> > >
+> > > This patch was applied to bluetooth/bluetooth-next.git (master)
+> > > by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+> > >
+> > > On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+> > > > Add the missing trigger patterns for Bluetooth and WLAN activity, which
+> > > > are already in active use.
+> > > >
+> > > > While at it, move the mmc pattern comment where it belongs, and restore
+> > > > alphabetical sort order.
+> > > >
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > >
+> > > > [...]
+> > >
+> > > Here is the summary with links:
+> > >   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+> > >     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+> >
+> > Why are you taking LED patches through the Bluetooth tree?
+> 
+> I assume there isn't a tree dedicated to dt-bindings/leds
 
-from: https://github.com/smaeul/linux/tree/d1/all
-test script: https://github.com/twoerner/rgb-led-test
+% ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/common.yaml
+ Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
+ Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+ Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+ Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
+ linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+ devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+ linux-kernel@vger.kernel.org (open list)
+
+> not to mention this was submitted to linux-bluetooth and nobody else
+> other than Rob reviewed it,
+
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+    Rob Herring <robh+dt@kernel.org>,
+    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+    Jacek Anaszewski <jacek.anaszewski@gmail.com>                                      
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+    linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+    linux-renesas-soc@vger.kernel.org,
+    Geert Uytterhoeven <geert+renesas@glider.be>,
+    Rob Herring <robh@kernel.org>
+
+> anyway I'd be happy if the dt-bindings patches
+> would be handled elsewhere.
+
+Yep, we got this. :)
+
+-- 
+Lee Jones [李琼斯]
