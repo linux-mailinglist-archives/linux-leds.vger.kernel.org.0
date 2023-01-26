@@ -2,92 +2,164 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0888F67D678
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 21:34:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 308E867D6BC
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Jan 2023 21:47:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbjAZUe2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Jan 2023 15:34:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43390 "EHLO
+        id S231809AbjAZUrM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Jan 2023 15:47:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjAZUe1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 15:34:27 -0500
-X-Greylist: delayed 618 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Jan 2023 12:34:26 PST
-Received: from sp14.canonet.ne.jp (sp14.canonet.ne.jp [210.134.168.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A34C1303D4;
-        Thu, 26 Jan 2023 12:34:26 -0800 (PST)
-Received: from csp14.canonet.ne.jp (unknown [172.21.160.134])
-        by sp14.canonet.ne.jp (Postfix) with ESMTP id 85FE61E06FD;
-        Fri, 27 Jan 2023 05:24:07 +0900 (JST)
-Received: from echeck14.canonet.ne.jp ([172.21.160.124])
-        by csp4 with ESMTP
-        id L8n1pIZE4VjWJL8n1p2hQ8; Fri, 27 Jan 2023 05:24:07 +0900
-X-CNT-CMCheck-Reason: "undefined", "v=2.4 cv=WsmVjfTv c=1 sm=1 tr=0
- ts=63d2e167 cx=g_jp:t_eml p=jICtXCb1Bd4A:10 p=QA8zHFxAwLBQ4A9MkZgA:9
- p=WKcvGfCz9DfGexK3dBCb:22 a=puqJfqqrwnhV2n3dwg+kWg==:117
- a=yr9NA9NbXb0B05yJHQEWeQ==:17 a=PlGk70OYzacA:10 a=kj9zAlcOel0A:10
- a=RvmDmJFTN0MA:10 a=x7bEGLp0ZPQA:10 a=CjuIK1q_8ugA:10 a=0iaRBTTaEecA:10
- a=xo5jKAKm-U-Zyk2_beg_:22"
-X-CNT-CMCheck-Score: 100.00
-Received: from echeck14.canonet.ne.jp (localhost [127.0.0.1])
-        by esets.canonet.ne.jp (Postfix) with ESMTP id 3B43E1C020D;
-        Fri, 27 Jan 2023 05:24:07 +0900 (JST)
-X-Virus-Scanner: This message was checked by ESET Mail Security
-        for Linux/BSD. For more information on ESET Mail Security,
-        please, visit our website: http://www.eset.com/.
-Received: from smtp14.canonet.ne.jp (unknown [172.21.160.104])
-        by echeck14.canonet.ne.jp (Postfix) with ESMTP id D7BCE1C0257;
-        Fri, 27 Jan 2023 05:24:06 +0900 (JST)
-Received: from daime.co.jp (webmail.canonet.ne.jp [210.134.169.250])
-        by smtp14.canonet.ne.jp (Postfix) with ESMTPA id 0F31315F967;
-        Fri, 27 Jan 2023 05:24:06 +0900 (JST)
+        with ESMTP id S230371AbjAZUrK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Jan 2023 15:47:10 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F9E24C95;
+        Thu, 26 Jan 2023 12:46:34 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id j15so2377945ljg.8;
+        Thu, 26 Jan 2023 12:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e8JRQs423qpWUog+nHFrhwfEo9FGIHhJlHpgtXHnAI8=;
+        b=CsuY8hOc0S6TR3cGDg1ExGVIPOKn+OqJ1OwxwuO0c8Gdz2WpuxTlcEP+ZPFz3Khu5F
+         475ELIhic+XXrq8MLA7tnMYq0CUF/u/GlT7ksJOKJ+9SF8OzL7cikSLpwu+vlDbPo/+v
+         o4EuGtkgRM1pipK8GTVOHiRBBm8I26P6qj66tdVgOb5Py5a7Xnz+q/qIjkt11N2zpMRk
+         xN/7D0VapK/jGTPA1fxq0lNuyZoliqV296SJh01eyNJvVjfwE6kjR69QdrmEEWNtAHP6
+         FV6cMMcQe0mHT0U22M/B9oceNBLNeLuwNd9o64spofEtq2H02/uA+JpZQT+o0gpoNMbs
+         6CCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e8JRQs423qpWUog+nHFrhwfEo9FGIHhJlHpgtXHnAI8=;
+        b=UIHs2FlG/AwJbe8bCVB1CKtACCL0AIA1YzjhTC6I8qb+WKPeoAWcBpiqFcNynVmjiM
+         7bD/LeObK29mjgpy3KX3jv7zK5c82l8VNUYY8bbvD6wNUo6vV0dKLaL3z9Y1XXWDmNQB
+         rJG/598q9JIc7++zX9ziuTAXGnBLBWdbRFyeTLEGYt1A+MYxTIL5VWVowpNr5i0Mepuu
+         aKxua3UQ8mIoTj+wxHwHCUnZ9uzWvokFBXATTKEGXMSts4Bf+1dg9U3sjj6ajExayMsG
+         caOnpxzkXhZ7gUkzDgbNj6EZHvUm4SPLrWvZ5uiQ09OFZ1IsY6KJ5Ir9q96tQ7FiN57D
+         ExkQ==
+X-Gm-Message-State: AFqh2kriAy5jud22BVB3t/ASu4f1BhZeABoXI6pQJYgZdWCjiQEZF2Dr
+        5P88w6q4VkqhQMV1D14twaNX+FxhK2l5BfZ6KmKfWCpVOrk=
+X-Google-Smtp-Source: AMrXdXu5PjFxdJB5hjmPujykCvCLIaf5NB7r9JeAmJ8eyeje/IITqH8iAEreW99bV6+d700rH1R32SF16e+bCJKaYpY=
+X-Received: by 2002:a2e:8e84:0:b0:289:ae03:644b with SMTP id
+ z4-20020a2e8e84000000b00289ae03644bmr2348689ljk.66.1674765981705; Thu, 26 Jan
+ 2023 12:46:21 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <20230126202406.00005AAB.0646@daime.co.jp>
-Date:   Fri, 27 Jan 2023 05:24:06 +0900
-From:   "Mrs Alice Walton" <daime@daime.co.jp>
-To:     <INQUIRY@daime.co.jp>
-Reply-To: <alicewaltton1@gmail.com>
-Subject: INQUIRY
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-ORGANIZATION: Mrs Alice Walton
-X-MAILER: Active! mail
-X-EsetResult: clean, %VIRUSNAME%
-X-ESET-AS: R=SPAM;S=100;OP=CALC;TIME=1674764647;VERSION=7944;MC=1226284327;TRN=17;CRV=0;IPC=210.134.169.250;SP=4;SIPS=1;PI=5;F=0
-X-I-ESET-AS: RN=285,624:0;RNP=alicewaltton1@gmail.com
-X-ESET-Antispam: SPAM
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        LOCALPART_IN_SUBJECT,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_MR_MRS,
-        UNRESOLVED_TEMPLATE,XPRIO_SHORT_SUBJ autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5122]
-        *  1.1 LOCALPART_IN_SUBJECT Local part of To: address appears in
-        *      Subject
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [alicewaltton1[at]gmail.com]
-        *  1.3 UNRESOLVED_TEMPLATE Headers contain an unresolved template
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 T_HK_NAME_MR_MRS No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  1.0 XPRIO_SHORT_SUBJ Has X Priority header + short subject
-X-Spam-Level: ******
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com> <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+ <Y9IzMWnOq+r2/4V2@google.com>
+In-Reply-To: <Y9IzMWnOq+r2/4V2@google.com>
+From:   Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date:   Thu, 26 Jan 2023 12:46:09 -0800
+Message-ID: <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+To:     Lee Jones <lee@kernel.org>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Lee,
 
-Greetings,
+On Thu, Jan 26, 2023 at 12:00 AM Lee Jones <lee@kernel.org> wrote:
+>
+> On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
+>
+> > Hi Lee,
+> >
+> > On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
+> > >
+> > > On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
+> > >
+> > > > Hello:
+> > > >
+> > > > This patch was applied to bluetooth/bluetooth-next.git (master)
+> > > > by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+> > > >
+> > > > On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+> > > > > Add the missing trigger patterns for Bluetooth and WLAN activity,=
+ which
+> > > > > are already in active use.
+> > > > >
+> > > > > While at it, move the mmc pattern comment where it belongs, and r=
+estore
+> > > > > alphabetical sort order.
+> > > > >
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > >
+> > > > > [...]
+> > > >
+> > > > Here is the summary with links:
+> > > >   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+> > > >     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+> > >
+> > > Why are you taking LED patches through the Bluetooth tree?
+> >
+> > I assume there isn't a tree dedicated to dt-bindings/leds
+>
+> % ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/c=
+ommon.yaml
+>  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
+>  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+>  Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED=
+ DEVICE TREE BINDINGS)
+>  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN=
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>  Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
+>  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+>  devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE=
+ TREE BINDINGS)
+>  linux-kernel@vger.kernel.org (open list)
 
-I trust you are well. I sent you an email yesterday, I just want to confirm if you received it.
-Please let me know as soon as possible,
+Well this doesn't tell us what parts of the dt_bindings have a
+dedicated tree and which doesn't, anyway this doesn't show
+linux-bluetooth so I wonder why people are CCing it.
 
-Regard
-Mrs Alice Walton
+> > not to mention this was submitted to linux-bluetooth and nobody else
+> > other than Rob reviewed it,
+>
+> To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+>     Rob Herring <robh+dt@kernel.org>,
+>     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+>     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+>     linux-wireless@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+>     linux-renesas-soc@vger.kernel.org,
+>     Geert Uytterhoeven <geert+renesas@glider.be>,
+>     Rob Herring <robh@kernel.org>
+>
+> > anyway I'd be happy if the dt-bindings patches
+> > would be handled elsewhere.
+>
+> Yep, we got this. :)
+
+So if it starts with dt-binding: prefix shall we ignore? Or is just
+for dt-bindings: leds? Or perhaps we can just ignore patches received
+as CC: rather than directly To: field.
+
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
 
+
+--=20
+Luiz Augusto von Dentz
