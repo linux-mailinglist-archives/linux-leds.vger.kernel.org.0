@@ -2,36 +2,36 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CBC67E8C1
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 15:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E2F567EC38
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 18:14:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbjA0O7C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 27 Jan 2023 09:59:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35672 "EHLO
+        id S235038AbjA0ROf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 27 Jan 2023 12:14:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjA0O7C (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 09:59:02 -0500
+        with ESMTP id S234381AbjA0ROd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 12:14:33 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BB24205;
-        Fri, 27 Jan 2023 06:59:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB07013B;
+        Fri, 27 Jan 2023 09:14:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 56C5F61CC5;
-        Fri, 27 Jan 2023 14:59:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1715EC433EF;
-        Fri, 27 Jan 2023 14:58:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7540061D54;
+        Fri, 27 Jan 2023 17:14:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC12C433D2;
+        Fri, 27 Jan 2023 17:14:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674831540;
-        bh=ayLVSt/XTI3V4PQVpc6YfvwCxzBwSOgTMqF+wN9LB+Y=;
+        s=k20201202; t=1674839671;
+        bh=p+a8OGgpraBX/ZldFFkNUfzskgq3bl7Tj0rZRDJNZJo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fiw+pxZNNjdwseMGGbQM7Dd5dicm2NNq2ehmgt89FZgr6W2PPL10CuyaW2e4lXzTm
-         P2UaNLHk8PYGP0j/lItINt5UHnJMcNVShAtYjtNlK91STdY3X/uVYT2VUzhl86iMlN
-         b8j1G5KrPZ71qOon/3bV0VdI02asAYHHwug5UYSD8d89X6H3EE4kNIcn8n2AV6RgBD
-         UPdaevT+H2GCg3bI5eQCetUNQFaWGwUph3ZomRJxNECuJcK3+vQyfYyH9mW4fCRNjf
-         czVlDM53M4B4iMP3DHu2vSU7nvku7k0xxOd45TgTtH1XlnLt7cLIDm9v9Lb4z067iP
-         QjoX+AO1zNOsw==
-Date:   Fri, 27 Jan 2023 14:58:54 +0000
+        b=berjOZ3TccsQkIfHgvIL0zQEb0Ssaqus6sAl5rbnnuRnm14SxX9c1Mit0ojW406Yb
+         UIxv/ZH/hDnCKKg8kBC8Mx8B5ukJCYp1LO0yxuzQDKFOapeTnpyux6lvDZnkwDE2W3
+         OwpVS0g79aJbgDNA0K6/d1QDCwapYpe/rSujf1lpZIvf/AepY4esepfP+eQC+b+ilx
+         qRfJTWiC+xql7ikM+3NDV5US5A94ZVWlmUv7GXOHvsuWGlUk0KH7p+ZrArYc/cJ4NW
+         xNFB3K4nlIs0Olvp0Bo7Y8ZdFMiVcCqrM/vcTuqNs1tdQxI0Xy2oMLdAC7f8UJyed3
+         uG/YLBq7FUd2A==
+Date:   Fri, 27 Jan 2023 17:14:24 +0000
 From:   Lee Jones <lee@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <markgross@kernel.org>,
@@ -46,9 +46,8 @@ Cc:     Mark Gross <markgross@kernel.org>,
         Mark Pearson <markpearson@lenovo.com>,
         Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 00/11] leds: lookup-table support + int3472/media
- privacy LED support
-Message-ID: <Y9PmrnIOHI09uSju@google.com>
+Subject: [GIT PULL] Immutable branch from LEDs due for the v6.3 merge window
+Message-ID: <Y9QGcA+9nlmOOy2d@google.com>
 References: <20230120114524.408368-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -72,11 +71,14 @@ The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-led_get-6.3
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-led_get-v6.3
 
 for you to fetch changes up to abc3100fcba6827444ef4bdb17065ac3b6619dff:
 
   leds: led-class: Add generic [devm_]led_get() (2023-01-27 11:07:11 +0000)
+
+----------------------------------------------------------------
+Immutable branch from LEDs due for the v6.3 merge window
 
 ----------------------------------------------------------------
 Hans de Goede (4):
