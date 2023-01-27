@@ -2,84 +2,163 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3379667DD89
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 07:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A316367DF73
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 09:47:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231893AbjA0GkW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 27 Jan 2023 01:40:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39114 "EHLO
+        id S229560AbjA0Iry (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 27 Jan 2023 03:47:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231843AbjA0GkU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 01:40:20 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E781169505;
-        Thu, 26 Jan 2023 22:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=jkGU4nbyYTo0PHUSwa4F1L9prs0zbYb2bk1PtblxpjA=; b=ebXTMeKRptI2/jgaxUPED6UveF
-        di7olaXSKh9w+LsfprF/LkUB6nL4jY7FPtvS2Otq6JJk4UvfeQTaDhBriswXtitt32o2VDY9AIuAD
-        97tweo5hiB1ctKjt5xiYplW4niUE/OGq7mog/7AnA1cTo+V+IJVVx2i25x9lqU+wyWegoMMb5B+Gk
-        qrn/yVQas5kMlm0TiXogiO9YzB2j/MWuAgUZohq7FEiw1oyilgeetQXHRTeZPvQJ7LtmdBObeUKrc
-        YZ/Q3O/i9HJAy70uKzTibmcirWLlMnUcDLVqebN/t9y18Gl0WR0yPdyL1V2/FfzbP/IGK1A5kuL0j
-        TQ1CwF6g==;
-Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pLIPI-00DM0u-Cw; Fri, 27 Jan 2023 06:40:16 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 14/35] Documentation: leds: correct spelling
-Date:   Thu, 26 Jan 2023 22:39:44 -0800
-Message-Id: <20230127064005.1558-15-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
+        with ESMTP id S232165AbjA0Irx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 03:47:53 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674149765
+        for <linux-leds@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id d4-20020a05600c3ac400b003db1de2aef0so2901456wms.2
+        for <linux-leds@vger.kernel.org>; Fri, 27 Jan 2023 00:47:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
+        b=sgVcP+HYC8/PumGjTBslJK+Fm6tY3mPAsR2M5YXg7CWnU1X3QUtzE0qtwGLjBdCg3e
+         eh+emEu/FTTs8p5NIf/9hvBo3I8rVuhZrmk2pLLxqN0jXeJ1oxjMETjsA08RvPvwp2R8
+         MqKDcMJOJEvI8snx9w35PnL3u3xJmvqaUjA6mKoQj3HdlvcFrGV3BqfL1q+L8zwvbqqW
+         PtkR/7HASCQUmv7kGOg5XA1rAof8poeb+HyczXTx62y9xDqa/q6OEDpEKVhC0DOCRGoB
+         N7IJOtuhzfn97nLV+8sJwUCjwB6iGsERruXDvQIT1p3Sp+lcSrsVdVyCqzuy7rDp6UvV
+         4LHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YAjXmwk1x99crswBLoztPVjTMQo0TWbhtFaOuaefFpg=;
+        b=tPqW7/FgFK39GoCpWzEjKl8ROrxtGree/fuoIEZWl2Q/dRPEGmuD2Goj/n4RZWKyPD
+         ry2+B3tDTB/z3QsWM6O7Z/aGS9CCRdRntG22Ts8bgqv/Oseips+y6ez6Y/iqu/ZDM54N
+         LxXDrfKADM/YQleE9qfxcY/zNbfEpd/pNeEq6avfK8jACHcTkC3w/CkxqE/r7t8QqwID
+         xVwyOz9avn2MJ90bW6Up35Vyg0gQPbpWrRYfRNxWHF79KIJH6hICDa/cFxJcjvka8pQJ
+         6sjjTeTu2wHaU1yREpK2x2Ye/ikWtb5lplrJFTZ26OEXCxR5QQvQKfpA7pzc3x+UZzVV
+         Vw2Q==
+X-Gm-Message-State: AO0yUKXr6kNJYT4u4ykNwMhd3eoDSKjuzap9tCUUolKNjGkkLZSlOHFj
+        lKOCULsVEBHXgEZhzXNEjk/isw==
+X-Google-Smtp-Source: AK7set/wMnfLn7hvAh6pV+9S6aVWZoLm4JL4Cw1Jq8PedxXE7NxReQHkBv90Wyy9FzAIHvxMwhvqyw==
+X-Received: by 2002:a05:600c:3b82:b0:3dc:37bf:c634 with SMTP id n2-20020a05600c3b8200b003dc37bfc634mr1422499wms.15.1674809268950;
+        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id v23-20020a05600c4d9700b003cfa81e2eb4sm3674626wmp.38.2023.01.27.00.47.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 00:47:48 -0800 (PST)
+Message-ID: <ff2a546c-e650-75b8-de2e-d682b9c79624@linaro.org>
+Date:   Fri, 27 Jan 2023 09:47:46 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2] dt-bindings: leds: Document Bluetooth and WLAN
+ triggers
+Content-Language: en-US
+To:     Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Lee Jones <lee@kernel.org>
+Cc:     patchwork-bot+bluetooth@kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>, pavel@ucw.cz,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        robh@kernel.org
+References: <0d0de1bc949d24e08174205c13c0b59bd73c1ea8.1674384302.git.geert+renesas@glider.be>
+ <167460363944.4058.4676712965831302643.git-patchwork-notify@kernel.org>
+ <Y9FG5Wg0PmP4zfV6@google.com>
+ <CABBYNZJEU-GD5J6K8_Ur4PWLvP10VNJGP7e_43H0=W3DOS=PNw@mail.gmail.com>
+ <Y9IzMWnOq+r2/4V2@google.com>
+ <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CABBYNZ+Na7os7D_C_iV22UhyhobxiETjKkngPWVr14QAph6DfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Correct spelling problems for Documentation/leds/ as reported
-by codespell.
+On 26/01/2023 21:46, Luiz Augusto von Dentz wrote:
+> Hi Lee,
+> 
+> On Thu, Jan 26, 2023 at 12:00 AM Lee Jones <lee@kernel.org> wrote:
+>>
+>> On Wed, 25 Jan 2023, Luiz Augusto von Dentz wrote:
+>>
+>>> Hi Lee,
+>>>
+>>> On Wed, Jan 25, 2023 at 7:16 AM Lee Jones <lee@kernel.org> wrote:
+>>>>
+>>>> On Tue, 24 Jan 2023, patchwork-bot+bluetooth@kernel.org wrote:
+>>>>
+>>>>> Hello:
+>>>>>
+>>>>> This patch was applied to bluetooth/bluetooth-next.git (master)
+>>>>> by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+>>>>>
+>>>>> On Sun, 22 Jan 2023 11:47:27 +0100 you wrote:
+>>>>>> Add the missing trigger patterns for Bluetooth and WLAN activity, which
+>>>>>> are already in active use.
+>>>>>>
+>>>>>> While at it, move the mmc pattern comment where it belongs, and restore
+>>>>>> alphabetical sort order.
+>>>>>>
+>>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>>>>
+>>>>>> [...]
+>>>>>
+>>>>> Here is the summary with links:
+>>>>>   - [v2] dt-bindings: leds: Document Bluetooth and WLAN triggers
+>>>>>     https://git.kernel.org/bluetooth/bluetooth-next/c/ef017002b93b
+>>>>
+>>>> Why are you taking LED patches through the Bluetooth tree?
+>>>
+>>> I assume there isn't a tree dedicated to dt-bindings/leds
+>>
+>> % ./scripts/get_maintainer.pl -f Documentation/devicetree/bindings/leds/common.yaml
+>>  Pavel Machek <pavel@ucw.cz> (maintainer:LED SUBSYSTEM,in file)
+>>  Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM)
+>>  Rob Herring <robh+dt@kernel.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org> (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  Jacek Anaszewski <jacek.anaszewski@gmail.com> (in file)
+>>  linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+>>  devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+>>  linux-kernel@vger.kernel.org (open list)
+> 
+> Well this doesn't tell us what parts of the dt_bindings have a
+> dedicated tree and which doesn't, 
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/leds/leds-qcom-lpg.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+There is no such "parts" anywhere. I don't understand that remark and
+how is related here. This is a list of maintainers for this file. Why
+information are you missing in MAINTAINERS? And why bindings would be
+special (e.g. you don't miss this information for other parts of kernel)?
 
-diff -- a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/leds-qcom-lpg.rst
---- a/Documentation/leds/leds-qcom-lpg.rst
-+++ b/Documentation/leds/leds-qcom-lpg.rst
-@@ -34,7 +34,7 @@ Specify a hardware pattern for a Qualcom
- 
- The pattern is a series of brightness and hold-time pairs, with the hold-time
- expressed in milliseconds. The hold time is a property of the pattern and must
--therefor be identical for each element in the pattern (except for the pauses
-+therefore be identical for each element in the pattern (except for the pauses
- described below). As the LPG hardware is not able to perform the linear
- transitions expected by the leds-trigger-pattern format, each entry in the
- pattern must be followed a zero-length entry of the same brightness.
-@@ -66,7 +66,7 @@ Low-pause pattern::
-         +----------------------------->
-         0    5   10   15  20   25   time (100ms)
- 
--Similarily, the last entry can be stretched by using a higher hold-time on the
-+Similarly, the last entry can be stretched by using a higher hold-time on the
- last entry.
- 
- In order to save space in the shared lookup table the LPG supports "ping-pong"
+>>
+>>> anyway I'd be happy if the dt-bindings patches
+>>> would be handled elsewhere.
+>>
+>> Yep, we got this. :)
+> 
+> So if it starts with dt-binding: prefix shall we ignore? Or is just
+> for dt-bindings: leds? Or perhaps we can just ignore patches received
+> as CC: rather than directly To: field.
+
+What was exactly unclear in my response? The bindings for your subsystem
+are for you. Bindings for other subsystems are not for you. dt-bindings:
+leds: are for leds suubsystem. dt-bindings: mfd: are for mfd subsystem.
+If the prefix is incorrect because people make mistakes, the paths point
+to it - Documentation/devicetree/bindings/SUBSYSTEM_OR_HARDWARE_CLASS/....
+
+
+Best regards,
+Krzysztof
+
