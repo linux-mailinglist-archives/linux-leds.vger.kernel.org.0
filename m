@@ -2,88 +2,173 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EABA567E1EF
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 11:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA95267E274
+	for <lists+linux-leds@lfdr.de>; Fri, 27 Jan 2023 12:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232114AbjA0Kks (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 27 Jan 2023 05:40:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
+        id S232659AbjA0LAK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 27 Jan 2023 06:00:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232107AbjA0Kkj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 05:40:39 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8A1977D;
-        Fri, 27 Jan 2023 02:40:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674816027; x=1706352027;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pCLUqHrcYs/NeE2BNqrGmzOjvERZA/RdL1uGV47JSSE=;
-  b=jrj3YbUzar2RtFakPdhDVW0Gdx5b47B592VZIXlav4+m9msIftrX6rZw
-   srAWc4x+8/5hHTIHbo3L+KbprxFNRbdWS5QTAKTwXs/XAJfSFkB4xTZGd
-   nBuxLx0DAGsmb4RRwE0TK1dJX1GLiDT0/fL9ZeUzEupU7iXKDbgizoeL0
-   yESk905vzEVhiUmgLgSfjXNQJpViDa96lXmpHQKJ3da6sIhL1KiFKMQM5
-   UswTGNfcN0mHv8L23ZwJ78LvFytXIOjQfu8eb9mritEfJmCKtCqqttmyk
-   bClnymepehjH03znP3P1f+SaTcmqaUe8KhGpyXAG8Jm+WJEsJvtqAyt71
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="306711290"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="306711290"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 02:40:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="613137946"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="613137946"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 27 Jan 2023 02:40:18 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pLM9Y-00Fv1Z-1p;
-        Fri, 27 Jan 2023 12:40:16 +0200
-Date:   Fri, 27 Jan 2023 12:40:16 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     ChiaEn Wu <chiaen@richtek.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>, pavel@ucw.cz,
-        matthias.bgg@gmail.com, peterwu.pub@gmail.com,
-        cy_huang@richtek.com, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: Re: [PATCH v16 1/2] leds: rgb: mt6370: Add MediaTek MT6370 current
- sink type LED Indicator support
-Message-ID: <Y9OqEC4A/PT2H83s@smile.fi.intel.com>
-References: <cover.1673886245.git.chiaen_wu@richtek.com>
- <1c4cf50600bb0334bd03027f49d7511b394c6ced.1673886245.git.chiaen_wu@richtek.com>
- <Y9OlmCZ+7NpKztee@google.com>
+        with ESMTP id S230338AbjA0LAJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 27 Jan 2023 06:00:09 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F091C40E5;
+        Fri, 27 Jan 2023 02:59:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8592361B04;
+        Fri, 27 Jan 2023 10:59:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D55C43442;
+        Fri, 27 Jan 2023 10:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674817190;
+        bh=/gHWqkY7YRT7jthNZnaDPMsPI2uZxEdBfVoNrDOdKZU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZwzB721qVdzr0UDO8Axjrp5yh6NW2gApFj9DeDSSoZxEK5wXhYhUOeyHhlpXtVcam
+         bVvdOFHPokzCdEkbxTqh/WDAsp/OyEWpbQaKjEfcMhV+IiCVUkFfz0HIyJ4O722vHz
+         NPEM9k2rZCE19lW0o0wOHlE3G+eO/NWdEfa6OhlOfT1TXcwEKuVTvhItnv154q28J6
+         qJQvSPO5+wMNbg9/hXjv3/MJrtybRrIFDJA3CP6uu4H/TuUkhxvVYxv4U52S63Dh1F
+         kJ7WYvcwS5ZNmO1SUs9C2v+liis2Sg3i5Ct2IfThIFDhnddX+mJdmYvhcWBH+P8EcD
+         OIcwOKMeWuEjA==
+Date:   Fri, 27 Jan 2023 10:59:43 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v5 05/11] [RFC] leds: led-class: Add devicetree support
+ to led_get()
+Message-ID: <Y9Oun95Yv85qiktU@google.com>
+References: <20230120114524.408368-1-hdegoede@redhat.com>
+ <20230120114524.408368-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y9OlmCZ+7NpKztee@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230120114524.408368-6-hdegoede@redhat.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 10:21:12AM +0000, Lee Jones wrote:
-> On Tue, 17 Jan 2023, ChiaEn Wu wrote:
+On Fri, 20 Jan 2023, Hans de Goede wrote:
 
-> I see that you guys have been super helpful reviewing this in the past.
->
-> Have your queries now been addressed?
+> Turn of_led_get() into a more generic __of_led_get() helper function,
+> which can lookup LEDs in devicetree by either name or index.
+> 
+> And use this new helper to add devicetree support to the generic
+> (non devicetree specific) [devm_]led_get() function.
+> 
+> This uses the standard devicetree pattern of adding a -names string array
+> to map names to the indexes for an array of resources.
+> 
+> Note the new led-names property for LED consumers is not added
+> to the devicetree documentation because there seems to be no
+> documentation for the leds property itself to extend it with this.
+> It seems that how LED consumers should be described is not documented
+> at all ATM.
+> 
+> This patch is marked as RFC because of both the missing devicetree
+> documentation and because there are no devicetree users of
+> the generic [devm_]led_get() function for now.
+> 
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/leds/led-class.c | 37 ++++++++++++++++++++++++++++---------
+>  1 file changed, 28 insertions(+), 9 deletions(-)
 
-As per previous answer, not anything visible right now.
+Reviewed-by: Lee Jones <lee@kernel.org>
+
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 0c4b8d8d2b4f..2f3af6e30208 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -234,19 +234,18 @@ static struct led_classdev *led_module_get(struct device *led_dev)
+>  	return led_cdev;
+>  }
+>  
+> -/**
+> - * of_led_get() - request a LED device via the LED framework
+> - * @np: device node to get the LED device from
+> - * @index: the index of the LED
+> - *
+> - * Returns the LED device parsed from the phandle specified in the "leds"
+> - * property of a device tree node or a negative error-code on failure.
+> - */
+> -struct led_classdev *of_led_get(struct device_node *np, int index)
+> +static struct led_classdev *__of_led_get(struct device_node *np, int index,
+> +					 const char *name)
+>  {
+>  	struct device *led_dev;
+>  	struct device_node *led_node;
+>  
+> +	/*
+> +	 * For named LEDs, first look up the name in the "led-names" property.
+> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
+> +	 */
+> +	if (name)
+> +		index = of_property_match_string(np, "led-names", name);
+>  	led_node = of_parse_phandle(np, "leds", index);
+>  	if (!led_node)
+>  		return ERR_PTR(-ENOENT);
+> @@ -256,6 +255,19 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
+>  
+>  	return led_module_get(led_dev);
+>  }
+> +
+> +/**
+> + * of_led_get() - request a LED device via the LED framework
+> + * @np: device node to get the LED device from
+> + * @index: the index of the LED
+> + *
+> + * Returns the LED device parsed from the phandle specified in the "leds"
+> + * property of a device tree node or a negative error-code on failure.
+> + */
+> +struct led_classdev *of_led_get(struct device_node *np, int index)
+> +{
+> +	return __of_led_get(np, index, NULL);
+> +}
+>  EXPORT_SYMBOL_GPL(of_led_get);
+>  
+>  /**
+> @@ -329,9 +341,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+>  struct led_classdev *led_get(struct device *dev, char *con_id)
+>  {
+>  	struct led_lookup_data *lookup;
+> +	struct led_classdev *led_cdev;
+>  	const char *provider = NULL;
+>  	struct device *led_dev;
+>  
+> +	if (dev->of_node) {
+> +		led_cdev = __of_led_get(dev->of_node, -1, con_id);
+> +		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
+> +			return led_cdev;
+> +	}
+> +
+>  	mutex_lock(&leds_lookup_lock);
+>  	list_for_each_entry(lookup, &leds_lookup_list, list) {
+>  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+> -- 
+> 2.39.0
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
