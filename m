@@ -2,44 +2,35 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6370D68015F
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Jan 2023 21:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79096680216
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Jan 2023 23:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234449AbjA2UwU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Jan 2023 15:52:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43958 "EHLO
+        id S235344AbjA2WCh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 29 Jan 2023 17:02:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232647AbjA2UwS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Jan 2023 15:52:18 -0500
-X-Greylist: delayed 552 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 29 Jan 2023 12:52:17 PST
-Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 313501BAD6
-        for <linux-leds@vger.kernel.org>; Sun, 29 Jan 2023 12:52:16 -0800 (PST)
-Received: from [192.168.100.237] (cust-41-49-110-94.dyn.as47377.net [94.110.49.41])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 0E4A43744C0;
-        Sun, 29 Jan 2023 21:43:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1675024982;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GKCL4x5Txs5llaY7BYYY71zG1gIHojGBLbaJh42WF2U=;
-        b=fZiGVi8n69bRgrIt/cGwzR5qVM88nWhqbRDxoIxLxoImEPG0gvyW/l/tbvtJF+abPNt/yR
-        sIGDN2G/q6XR3/QU1WY47DI1hq2ozdiCvbERfeEN32h/UWEysKWKd8wRWNZJ+uIZQUqE8/
-        l3QdvM3j5RMspUG/ExKvneq4DnZI4+xzMKr2zqL560X6Crm9OhtfETYiuN3sbmoAGY64vU
-        0jtFSknqbvxBFeFqBGZN1ElZMsUvUeMJ/b7gcSnPnIGzslmS93Fzmrchii7xEHiq89f3lF
-        RTYA7y60bhhqVtY0trX1G4LvAB9ECvzSBhMzwSM46f0GACuf39qJB7VcDW9xWQ==
-Message-ID: <c609a7f865ab48f858adafdd9c1014dda8ec82d6.camel@svanheule.net>
-Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
+        with ESMTP id S235341AbjA2WCg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Jan 2023 17:02:36 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7B51BD8;
+        Sun, 29 Jan 2023 14:02:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=2VZqotSR2lcZ3Dqkc+ZPLDnCbVMn7GmMbsJnsslN+nA=; b=QG
+        Mef1rPPK4SyrXTuHq3+GPkt5WTiWRS13HdWbmvwL9QoPD43ZWNXw5N9nCiKx1VWDptux1FNnaoqjJ
+        PbWlhmo+zcFqlzWY+GR54vFg4EfZTNa9PVMP6/h6q0BgRM4Ko+DzeHYo/3utp7e6Glk8+r8CDuqKq
+        aRI9TgjG5RoSRPo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pMFkd-003WUU-Os; Sun, 29 Jan 2023 23:02:15 +0100
+Date:   Sun, 29 Jan 2023 23:02:15 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Sander Vanheule <sander@svanheule.net>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Rob Herring <robh@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -55,166 +46,69 @@ Cc:     Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
         Tim Harvey <tharvey@gateworks.com>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Date:   Sun, 29 Jan 2023 21:43:00 +0100
-In-Reply-To: <63a30221.050a0220.16e5f.653a@mx.google.com>
+Subject: Re: [PATCH v7 11/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Message-ID: <Y9bs53a9zyqEU9Xw@lunn.ch>
 References: <20221214235438.30271-1-ansuelsmth@gmail.com>
-         <20221214235438.30271-12-ansuelsmth@gmail.com>
-         <20221220173958.GA784285-robh@kernel.org> <Y6JDOFmcEQ3FjFKq@lunn.ch>
-         <Y6JkXnp0/lF4p0N1@lunn.ch> <63a30221.050a0220.16e5f.653a@mx.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ <20221214235438.30271-12-ansuelsmth@gmail.com>
+ <20221220173958.GA784285-robh@kernel.org>
+ <Y6JDOFmcEQ3FjFKq@lunn.ch>
+ <Y6JkXnp0/lF4p0N1@lunn.ch>
+ <63a30221.050a0220.16e5f.653a@mx.google.com>
+ <c609a7f865ab48f858adafdd9c1014dda8ec82d6.camel@svanheule.net>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c609a7f865ab48f858adafdd9c1014dda8ec82d6.camel@svanheule.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Christian,
+> > This is an example of the dt implemented on a real device.
+> > 
+> >                 mdio {
+> >                         #address-cells = <1>;
+> >                         #size-cells = <0>;
+> > 
+> >                         phy_port1: phy@0 {
+> >                                 reg = <0>;
+> > 
+> >                                 leds {
+> >                                         #address-cells = <1>;
+> >                                         #size-cells = <0>;
+> [...]
+> >                                 };
+> >                         };
+> [...]
+> >                 };
+> > 
+> > In the following implementation. Each port have 2 leds attached (out of
+> > 3) one white and one amber. The driver parse the reg and calculate the
+> > offset to set the correct option with the regs by also checking the phy
+> > number.
+> 
+> With switch silicon allowing user control of the LEDs, vendors can (and will)
+> use the switch's LED peripheral to drive other LEDs (or worse). E.g. on a Cisco
+> SG220-26 switch, using a Realtek RTL8382 SoC, the LEDs associated with some
+> unused switch ports are used to display a global device status. My concern here
+> is that one would have to specify switch ports, that aren't connected to
+> anything, just to describe those non-ethernet LEDs.
 
-On Wed, 2022-12-21 at 13:54 +0100, Christian Marangi wrote:
-> For reg it's really specific to the driver... My idea was that since a
-> single phy can have multiple leds attached, reg will represent the led
-> number.
->=20
-> This is an example of the dt implemented on a real device.
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0mdio {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0#ad=
-dress-cells =3D <1>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0#si=
-ze-cells =3D <0>;
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0phy=
-_port1: phy@0 {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0reg =3D <0>;
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0leds {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0#address-cells =3D <1>;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0#size-cells =3D <0>;
-[...]
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-[...]
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0};
->=20
-> In the following implementation. Each port have 2 leds attached (out of
-> 3) one white and one amber. The driver parse the reg and calculate the
-> offset to set the correct option with the regs by also checking the phy
-> number.
+Note that the binding is adding properties to the PHY nodes, not the
+switch port nodes. Is this how the RTL8382 works? Marvell Switches
+have LED registers which are not in the PHY register space.
 
-With switch silicon allowing user control of the LEDs, vendors can (and wil=
-l)
-use the switch's LED peripheral to drive other LEDs (or worse). E.g. on a C=
-isco
-SG220-26 switch, using a Realtek RTL8382 SoC, the LEDs associated with some
-unused switch ports are used to display a global device status. My concern =
-here
-is that one would have to specify switch ports, that aren't connected to
-anything, just to describe those non-ethernet LEDs.
+But the point is, the PHYs will probe if listed. They don't have to
+have a MAC pointing to them with a phandle. So the phydev will exist,
+and that should be enough to get the LED class device registered. If
+there is basic on/off support, that should be enough for you to attach
+the Morse code panic trigger, the heartbeat handler, or any other LED
+trigger.
 
-Would an alternative with a 'trigger-sources' property pointing to the righ=
-t phy
-be an option? The trade-off I see would be that extra port info has to be
-provided on a separate LED controller, which your example can avoid thanks =
-to
-the phy's reg property.
-
-Building on your example this may become:
-
-       switch {
-           mdio {
-                #address-cells =3D <1>;
-                #size-cells =3D <0>;
-               =20
-                switch_phy0: phy@0 {
-                    reg =3D <0>;
-                    #trigger-source-cells =3D <1>;
-                };
-            };
-
-            leds {
-                #address-cells =3D <2>;
-                #size-cells =3D <0>;
-
-                /* First port, first LED */
-                /* Port status, can be offloaded */
-                led@0.0 {
-                    reg =3D <0 0>;
-                    trigger-sources =3D <&switch_phy0 (NET_LINK | NET_SPEED=
-_1000)>;
-                    function =3D color =3D <LED_COLOR_ID_WHITE>;
-                    function =3D LED_FUNCTION_LAN;
-                    function-enumerator =3D <1>;
-                    linux,default-trigger =3D "netdev";
-                };
-
-                /* First port, first LED */
-                /* Port status, can be offloaded */
-                led@0.1 {
-                    reg =3D <0 1>;
-                    trigger-sources =3D <&switch_phy0 (NET_LINK | NET_SPEED=
-_100 | NET_SPEED_10)>;
-                    function =3D color =3D <LED_COLOR_ID_AMBER>;
-                    function =3D LED_FUNCTION_LAN;
-                    function-enumerator =3D <1>;
-                    linux,default-trigger =3D "netdev";
-                };
-
-                /* Last port (not used in hardware), first LED */
-                /* Device status, software controlled */
-                led@7.0 {
-                    reg =3D <7 0>;
-                    function =3D color =3D <LED_COLOR_ID_AMBER>;
-                    function =3D LED_FUNCTION_STATUS;
-                    linux,default-trigger =3D "default-on";
-                };
-            };
-        };
-
-
-To be a bit less verbose, the &switch_mdio node might serve as trigger prov=
-ider
-with a single cell, but the above would allow only defined phy-s to be
-referenced.
-
-The trigger-source cells could be used for a more fine grained control of w=
-hat
-should be offloaded (link up/down, Rx/Tx activity, link speed, ...). Althou=
-gh
-this selectivity is most likely runtime configurable, this could serve as a
-description of static device labeling (e.g. "LINK/ACT 1000").
-
-Switching to the implementation and driver side, the 'trigger-sources' prop=
-erty
-could be used by the netdev trigger to determine if a status LED can be
-offloaded. The netdev trigger could just hide the whole hardware/software
-control aspect then. Much like how the timer trigger always offloads if an
-implementation is provided, even when offloading is less flexible than the
-software implementation of the timer trigger.
-
-
-Best,
-Sander
+	Andrew
