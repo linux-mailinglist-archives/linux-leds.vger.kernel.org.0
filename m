@@ -2,218 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FB68688E50
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Feb 2023 04:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8AD868916C
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Feb 2023 09:01:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232290AbjBCD51 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Feb 2023 22:57:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38620 "EHLO
+        id S232790AbjBCH7x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Feb 2023 02:59:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232217AbjBCD5Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Feb 2023 22:57:25 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FBF6E422;
-        Thu,  2 Feb 2023 19:57:24 -0800 (PST)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3133O0dd026631;
-        Fri, 3 Feb 2023 03:57:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=aMykm1529RSRKYLy5BBR1klB9BxD6Lr0yPQ+hOsFZKY=;
- b=M8wNIEL0QSV4t/bXV9g14qkAaf1QMJo44FKiDClXHOpi3bawFBnJQxT0EbYvvvYckZsc
- asdD98nN6KsmiybZJOE2bYv3fIgCjvCTYjZXYT4pJ8f4BE6uY1Tx4hiRdBvIL3is/1aR
- RLiVjK4I2tkOSuCTk1ZSORC3xd55ZKucextEQbBLj4MHGlplYEtcQ742T7DBuvRCM07f
- 0pUXk9WD3zgKucf7ASXnr2Dh/H/WV14Vzpt4tajSOG2+R84PlCCk4I3NSZ6OZzsrBcjd
- LWFvzyWGjap6H38ElTOTBpghHVfNAQ5ZdE+CVGuNjQGUQaoog9RXFPLU2pBNo92Y81yt cw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nfvgbkr7d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 03:57:15 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3133vEw9005821
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Feb 2023 03:57:14 GMT
-Received: from fenglinw2-gv.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 2 Feb 2023 19:57:10 -0800
-From:   Fenglin Wu <quic_fenglinw@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <pavel@ucw.cz>, <krzysztof.kozlowski@linaro.org>, <lee@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@somainline.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fenglin Wu <quic_fenglinw@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     <quic_collinsd@quicinc.com>, <quic_subbaram@quicinc.com>
-Subject: [PATCH v7 2/2] dt-bindings: leds: add QCOM flash LED controller
-Date:   Fri, 3 Feb 2023 11:56:44 +0800
-Message-ID: <20230203035644.474208-3-quic_fenglinw@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230203035644.474208-1-quic_fenglinw@quicinc.com>
-References: <20230203035644.474208-1-quic_fenglinw@quicinc.com>
+        with ESMTP id S232514AbjBCH7L (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Feb 2023 02:59:11 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4173B2CFDC;
+        Thu,  2 Feb 2023 23:59:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BE07B61DDF;
+        Fri,  3 Feb 2023 07:59:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4917C4339C;
+        Fri,  3 Feb 2023 07:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675411149;
+        bh=RFMh9JQe5gZqAYMKWVlZ1rif3I6fWu+fu4Ee8wsnX24=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gRIaYAsK7qJNAKlYSBh1hhla8cvfcrHGJyiPkVnUug1IW4mOY8+kOHVq3buNsNqtU
+         SsgPgUFnkCF/bdpjys8bcNYiZSxNKOKftB4EtyOnzI1a13BRNaq+hl8S8vx6nwQF7D
+         KL7IYz1KD0ApiFCfFPpuqxXPQwMDs1d6dvn9OcsL7doOYMN8A8A+PY1/NyfcVIeJjF
+         IxZ7qUmI3+sDv1HXAVmU2YiMk8UAoGzdiDEuSrtqhENTLIJ2zigXFRhGyTtw58Pp8+
+         k4TiQhcXHJvoUOsuerK6CeYGilJeFtz1/oKMlsqzYOpNAE+Olxp4vhII8G8MrnVQgz
+         SzRNbnlpXA4Bw==
+Date:   Fri, 3 Feb 2023 07:59:04 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the
+ GPIO providing driver
+Message-ID: <Y9y+yOa1gxy3h+rG@google.com>
+References: <20221007153323.1326-1-henning.schild@siemens.com>
+ <Y8mv8PzL1UsP9gNh@google.com>
+ <20230202205704.12a5fbff@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pO4xDv57_HnE85HkYuep_tIglsIS-RpV
-X-Proofpoint-ORIG-GUID: pO4xDv57_HnE85HkYuep_tIglsIS-RpV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_01,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- spamscore=0 mlxscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- phishscore=0 clxscore=1015 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030035
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230202205704.12a5fbff@md1za8fc.ad001.siemens.net>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add binding document for flash LED module inside Qualcomm Technologies,
-Inc. PMICs.
+On Thu, 02 Feb 2023, Henning Schild wrote:
 
-Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/leds/qcom,spmi-flash-led.yaml    | 116 ++++++++++++++++++
- 1 file changed, 116 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+> Am Thu, 19 Jan 2023 21:02:40 +0000
+> schrieb Lee Jones <lee@kernel.org>:
+> 
+> > On Fri, 07 Oct 2022, Henning Schild wrote:
+> > 
+> > > If we register a "leds-gpio" platform device for GPIO pins that do
+> > > not exist we get a -EPROBE_DEFER and the probe will be tried again
+> > > later. If there is no driver to provide that pin we will poll
+> > > forever and also create a lot of log messages.
+> > > 
+> > > So check if that GPIO driver is configured, if so it will come up
+> > > eventually. If not, we exit our probe function early and do not even
+> > > bother registering the "leds-gpio". This method was chosen over
+> > > "Kconfig depends" since this way we can add support for more
+> > > devices and GPIO backends more easily without "depends":ing on all
+> > > GPIO backends.
+> > > 
+> > > Fixes: a6c80bec3c93 ("leds: simatic-ipc-leds-gpio: Add GPIO version
+> > > of Siemens driver") Reviewed-by: Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> Signed-off-by: Henning Schild
+> > > <henning.schild@siemens.com> ---
+> > >  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+> > >  1 file changed, 2 insertions(+)  
+> > 
+> > FYI: I'm going to try my best not to take another one like this.
+> 
+> You will not have to. I now understood how to improve on that as i am
+> adding more variants needing more gpio controller drivers.
+> 
+> > Please try to improve the whole situation for you next submission.
+> > 
+> > Applied, thanks.
+> 
+> I hope this is still in the branches for a merge. It should be applied.
+> It does fix a problem but using a wrong pattern, but a pattern that is
+> already in use.
 
-diff --git a/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-new file mode 100644
-index 000000000000..1b273aecaaec
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
-@@ -0,0 +1,116 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/qcom,spmi-flash-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Flash LED device inside Qualcomm Technologies, Inc. PMICs
-+
-+maintainers:
-+  - Fenglin Wu <quic_fenglinw@quicinc.com>
-+
-+description: |
-+  Flash LED controller is present inside some Qualcomm Technologies, Inc. PMICs.
-+  The flash LED module can have different number of LED channels supported
-+  e.g. 3 or 4. There are some different registers between them but they can
-+  both support maximum current up to 1.5 A per channel and they can also support
-+  ganging 2 channels together to supply maximum current up to 2 A. The current
-+  will be split symmetrically on each channel and they will be enabled and
-+  disabled at the same time.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,pm8150c-flash-led
-+          - qcom,pm8150l-flash-led
-+          - qcom,pm8350c-flash-led
-+      - const: qcom,spmi-flash-led
-+
-+  reg:
-+    maxItems: 1
-+
-+patternProperties:
-+  "^led-[0-3]$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+    description:
-+      Represents the physical LED components which are connected to the
-+      flash LED channels' output.
-+
-+    properties:
-+      led-sources:
-+        description:
-+          The HW indices of the flash LED channels that connect to the
-+          physical LED
-+        allOf:
-+          - minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2, 3, 4]
-+
-+      led-max-microamp:
-+        anyOf:
-+          - minimum: 5000
-+            maximum: 500000
-+            multipleOf: 5000
-+          - minimum: 10000
-+            maximum: 1000000
-+            multipleOf: 10000
-+
-+      flash-max-microamp:
-+        anyOf:
-+          - minimum: 12500
-+            maximum: 1500000
-+            multipleOf: 12500
-+          - minimum: 25000
-+            maximum: 2000000
-+            multipleOf: 25000
-+
-+      flash-max-timeout-us:
-+        minimum: 10000
-+        maximum: 1280000
-+        multipleOf: 10000
-+
-+    required:
-+      - led-sources
-+      - led-max-microamp
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    spmi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        led-controller@ee00 {
-+            compatible = "qcom,pm8350c-flash-led", "qcom,spmi-flash-led";
-+            reg = <0xee00>;
-+
-+            led-0 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_WHITE>;
-+                led-sources = <1>, <4>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <0>;
-+            };
-+
-+            led-1 {
-+                function = LED_FUNCTION_FLASH;
-+                color = <LED_COLOR_ID_YELLOW>;
-+                led-sources = <2>, <3>;
-+                led-max-microamp = <300000>;
-+                flash-max-microamp = <2000000>;
-+                flash-max-timeout-us = <1280000>;
-+                function-enumerator = <1>;
-+            };
-+        };
-+    };
+What makes you think it's not applied?
+ 
+> So this will fix 6.1 and above in the short term.
+> 
+> In the long term i will restructure to individual drivers which have a
+> clear dependency chain in Kconfig. I will use inheritance to arrive at
+> minimal code duplication and will use Kconfig switch default
+> inheritance to ease configuration.
+> 
+> Such restructuring patches will have to be written first, but they will
+> come. Either stand-alone or together with the next machine.
+
+That's fine.  Whatever suits.
+
 -- 
-2.25.1
-
+Lee Jones [李琼斯]
