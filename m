@@ -2,98 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DAFE68D591
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Feb 2023 12:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A62568D602
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Feb 2023 12:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231625AbjBGLeN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Feb 2023 06:34:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51312 "EHLO
+        id S230132AbjBGLxp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Feb 2023 06:53:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231248AbjBGLd5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Feb 2023 06:33:57 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E0118AA8
-        for <linux-leds@vger.kernel.org>; Tue,  7 Feb 2023 03:33:45 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so12945941wmb.2
-        for <linux-leds@vger.kernel.org>; Tue, 07 Feb 2023 03:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hEXUSOabHHzeFHAw6bM5JV6f9esn+eqeiCOV8m0nhxY=;
-        b=SdzMS+8477bNT9GIYybtnjksll963Igwrv22rdrBgcjxZk9buMXpHkzNWcKPOHKd9A
-         h0J+fBxNmEgUm5Q0UDEuf4R1pNzI4e3z78uHUWh7XeyfG5NnIKqUyRJTBq3LoczgU2k3
-         Hl5ddhdVXUe4ift+JQhL/cENZsmaMiSu6bQLQYuwQfjgbipkpnaEv2n5INy+MrfXPQmr
-         1oq8Mpvxllb26T4uIH6jDzvbeuEpdTOI8e28QR4FOT3kBOmXjNhmr93gQ+w6MjCAI79E
-         0O5y+Z9YdS/cUOgQvWNSpRwkhJljX0VI/JUJqfDW3axRy6+3iEJGViu+3th5A+s2nUQ6
-         6ADg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hEXUSOabHHzeFHAw6bM5JV6f9esn+eqeiCOV8m0nhxY=;
-        b=Ik/bly0IaVynPv0wLSOvetDSuCT7ta81fudmrXMDl8bAMk4DuhVNXTxV4zhN1vYIRq
-         S6iyiGgLzUbRdl5a521fni9gQtJXHMuISgXBGdYGJ8j2fztmrjRw/GCac/kobxsoevhF
-         RcI7j2rPRUjnYQu4Tyt21vrIZQxoba48ifr0PpKwzktkwFT/VRVWg4V6bvG8IiUFYsF0
-         ggYDL/z7M+HdJnixQmlztv1F0UJkyA5NvFS5Mp33s4YGfG6z8MlMgH58z/pxDKlXezJr
-         vlSzcevaVfu7RCTTeWqlCqlEqPB0J8oY+mTFoB+lojESyMvHlCRirNAkS9MlQ0jwxWJK
-         I9KQ==
-X-Gm-Message-State: AO0yUKWHni3XTsJm7imGDIj6/tOFpVrFcGSJ+0aYq0WhaWNM/WrmSjw1
-        /gOgHYmt1GpXzeJF1KwwaGS6WnbZ+cIIfYnc
-X-Google-Smtp-Source: AK7set/vdpKZeHdrV33V20sqylDgt3hVpHrF5X1G+3u86B5kp0OVpXyC96eNsX5tgt4SOLjla4tfRg==
-X-Received: by 2002:a05:600c:16c8:b0:3e0:185:e935 with SMTP id l8-20020a05600c16c800b003e00185e935mr2736217wmn.36.1675769623808;
-        Tue, 07 Feb 2023 03:33:43 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id p30-20020a1c545e000000b003de2fc8214esm14125186wmi.20.2023.02.07.03.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 03:33:43 -0800 (PST)
-Message-ID: <41ade5cb-98c1-e859-be4d-68eb05d0ea44@linaro.org>
-Date:   Tue, 7 Feb 2023 12:33:41 +0100
+        with ESMTP id S229535AbjBGLxo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Feb 2023 06:53:44 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3860C166C0;
+        Tue,  7 Feb 2023 03:53:43 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id AF76A1C0AC1; Tue,  7 Feb 2023 12:53:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1675770820;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9/ISXoRJN7OjSXYI/XQDHcFUt5zq8kzBAjPdDE1ePBE=;
+        b=dTyTYkHAhsiD/0G2buTHNzmpOUlsQPm0VYKjZq6PGNoWFMWPmdZRM3n7Zc4CaAYOzdi/XB
+        nsDWb5rTlJmM1umgrhUq0sxJWMdbDOxbksDQHrfQgms9YmSozfYq5e9q6VDyoOJF1V+kkX
+        6BupfLyA8f4FIE6aj0ph7tGPhC7uJOk=
+Date:   Tue, 7 Feb 2023 12:53:40 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Rishit Bansal <rishitbansal0@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>
+Subject: Re: API for setting colors of RGB backlit keyboard zones (was [PATCH
+ V3] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods)
+Message-ID: <Y+I7xNqkq/X6Lag+@duo.ucw.cz>
+References: <20230131235027.36304-1-rishitbansal0@gmail.com>
+ <9b761996-d522-b0f8-6472-10e40e09e036@redhat.com>
+ <65a11a89-e780-6d60-a40e-cd3245780762@gmail.com>
+ <b83ad6ba-7d55-f309-5d7b-4a5ff77ff5a3@redhat.com>
+ <02c96cfe-ab10-513f-fc36-f474dd227656@gmail.com>
+ <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4] dt-bindings: leds: Document commonly used LED triggers
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, Lee Jones <lee@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, thunder.leizhen@huawei.com,
-        festevam@gmail.com
-References: <20221129174906.97749-1-manivannan.sadhasivam@linaro.org>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221129174906.97749-1-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="1/R09bAlpMH05W/O"
+Content-Disposition: inline
+In-Reply-To: <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 29/11/2022 18:49, Manivannan Sadhasivam wrote:
-> Document the commonly used LED triggers by the SoCs. Not all triggers
-> are documented as some of them are very application specific. Most of the
-> triggers documented here are currently used in devicetrees of many SoCs.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
-> 
-> Changes in v4:
-> 
-> * Removed the sorting of triggers
-> * Removed the "items" as they were not needed
-> * Reworded the description
-> * Dropped Zhen Lei's tested-by tag as the patch has changed
-> * Added kbd-capslock trigger
 
-Any plans for this patch?
+--1/R09bAlpMH05W/O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> >> 2. Create 4 separate multi-color LED sysfs devices for each zone:
+> >>
+> >> /sys/class/leds/hp_omen::kbd_backlight-zone1/
+> >> /sys/class/leds/hp_omen::kbd_backlight-zone2/
+> >> /sys/class/leds/hp_omen::kbd_backlight-zone3/
+> >> /sys/class/leds/hp_omen::kbd_backlight-zone4/
+
+4 separate devices, please. And the naming should be consistent with
+the rest, so
+
+:rbg:kbd_backlight-zone1
+
+would be closer to something consistent. Should be documented in
+
+Documentation/leds/well-known-leds.txt
+
+=2E And if you take a look there, you'll notice we already have N900
+that has 6 zones with white backlight.
+
+But I'd really like to see plan to go forward. AFAICT there are
+keyboards with per-key backlight, and those start to look less like a
+set of LEDs and more like a display...
 
 Best regards,
-Krzysztof
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
+--1/R09bAlpMH05W/O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY+I7xAAKCRAw5/Bqldv6
+8lmRAJ9H3ltvW8JDmIbMMIJaYG7arMtCEACgujbuLIFOW2SzpJh7w1dG3LJQS2Y=
+=5tqd
+-----END PGP SIGNATURE-----
+
+--1/R09bAlpMH05W/O--
