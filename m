@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2EB6950A5
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 20:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B8369530B
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 22:29:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjBMT1H (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Feb 2023 14:27:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
+        id S230372AbjBMV3q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Feb 2023 16:29:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbjBMT1G (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 14:27:06 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7FB11F925;
-        Mon, 13 Feb 2023 11:27:03 -0800 (PST)
+        with ESMTP id S230364AbjBMV3q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 16:29:46 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7DC21A1A;
+        Mon, 13 Feb 2023 13:29:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676316423; x=1707852423;
+  t=1676323784; x=1707859784;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9Dul4F7DMk/3e5EF5hfjZuKYjBrTrPsCyZnnoSZ0rNQ=;
-  b=aEptj9B/RBkLR5uA9k9Ijkox4/YfVonH4y7tHUwleMunRAdDQ3e/+ydn
-   Uz0ZbRWVOfeQdmr/gU/O0GbrniwuvYLbQSCNVl3fyTkATpgatQf+ZlTAV
-   qnkFiyINtdDB+L4BO0iyYWOmidrMRHMrssD6tB2vNRYAVx5w/FnRilh6+
-   ldZ/ZNK/vrWuMxJ7KsxT3DqxPoTrZgETr/LcJ0PhMzkjlT63AZGOjhMzs
-   RC5ZR+UfKXQBMLrYPc0V3ryFzim57dQBhgzOTR1MMPl5gQ1ePJjzjCKQ5
-   zTMp5DU05zcU93HGwImnCH+U0r3iNQEfjyG+7S3iAkEZlgmK5sW94e3F7
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358382954"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=F209uMdaTJjwNR4utw9uYPO01gO8UlW+GOrDssBEwJ0=;
+  b=UXzYmFDlr7J7BViev8UcxdLq8lXVAzbJN05xPIZ4EISD5KKKVYCoD2n5
+   PbY47WuQCys0yNc1vi/ayEHLx3pE4x56fi2rZ69fwXZsi6lo/XZqqkyh6
+   B/EywX2/FeAgPsZ+r0ZgFalny54HsY2TWD4vbAZEhEIJ1Eg331F0Zn/yw
+   M239Oj5k4tRerbjiQK1Q/Ovw0UdsZ7qFxt8ZhzBSvPdHvx9iC20DMS88z
+   As2FHoDz1VIbuSRcPeKMxFc5tYt6PgIBtoDzuc/tbR+DgV/HZ7KkTlYya
+   iHqmoL+OiVi9YYEUrywSjNreN4jSATLZCK4tXo6xwQPpoM8utctKL8oAk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="333142496"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="358382954"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:26:36 -0800
+   d="scan'208";a="333142496"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 13:29:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701390906"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="757743668"
 X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
-   d="scan'208";a="701390906"
+   d="scan'208";a="757743668"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 11:26:33 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Feb 2023 13:29:35 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pReTA-0007yT-19;
-        Mon, 13 Feb 2023 19:26:32 +0000
-Date:   Tue, 14 Feb 2023 03:25:53 +0800
+        id 1pRgOE-000819-0Z;
+        Mon, 13 Feb 2023 21:29:34 +0000
+Date:   Tue, 14 Feb 2023 05:28:55 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
         gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
@@ -51,16 +51,16 @@ Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         Eckert.Florian@googlemail.com
 Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
-Message-ID: <202302140339.1vFSjZ1M-lkp@intel.com>
+Message-ID: <202302140516.F9Riaass-lkp@intel.com>
 References: <20230213140638.620206-2-fe@dev.tdt.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230213140638.620206-2-fe@dev.tdt.de>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,10 +69,10 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Florian,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus pavel-leds/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2-rc8 next-20230213]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2-rc8 next-20230213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -81,26 +81,49 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-he
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
 patch link:    https://lore.kernel.org/r/20230213140638.620206-2-fe%40dev.tdt.de
 patch subject: [PATCH 1/2] tty: new helper function tty_get_mget
-config: x86_64-randconfig-a002-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140339.1vFSjZ1M-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+config: riscv-buildonly-randconfig-r005-20230212 (https://download.01.org/0day-ci/archive/20230214/202302140516.F9Riaass-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/096ca9c9428ec2a8ebab4af0798461e66585cdde
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
         git checkout 096ca9c9428ec2a8ebab4af0798461e66585cdde
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/misc/bcm-vk/ drivers/tty/ fs/proc/ init/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/misc/bcm-vk/ drivers/tty/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302140339.1vFSjZ1M-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140516.F9Riaass-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
+   In file included from drivers/tty/tty_io.c:76:
+   include/linux/tty.h:423:3: error: expected ')'
+                   struct serial_icounter_struct *icount);
+                   ^
+   include/linux/tty.h:422:19: note: to match this '('
+   int tty_get_icount(struct tty_struct *tty
+                     ^
+>> drivers/tty/tty_io.c:2589:5: error: conflicting types for 'tty_get_icount'
+   int tty_get_icount(struct tty_struct *tty,
+       ^
+   include/linux/tty.h:422:5: note: previous declaration is here
+   int tty_get_icount(struct tty_struct *tty
+       ^
+>> drivers/tty/tty_io.c:2606:31: error: too many arguments to function call, expected 1, have 2
+           retval = tty_get_icount(tty, &icount);
+                    ~~~~~~~~~~~~~~      ^~~~~~~
+   drivers/tty/tty_io.c:2599:19: note: 'tty_get_icount' declared here
+   EXPORT_SYMBOL_GPL(tty_get_icount);
+                     ^
+   3 errors generated.
+--
    In file included from drivers/tty/tty_port.c:8:
    include/linux/tty.h:423:3: error: expected ')'
                    struct serial_icounter_struct *icount);
@@ -114,22 +137,6 @@ All warnings (new ones prefixed by >>):
    include/linux/kfifo.h:130:69: note: expanded from macro 'INIT_KFIFO'
            __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
                          ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   1 warning and 1 error generated.
---
-   In file included from fs/proc/array.c:62:
-   include/linux/tty.h:423:3: error: expected ')'
-                   struct serial_icounter_struct *icount);
-                   ^
-   include/linux/tty.h:422:19: note: to match this '('
-   int tty_get_icount(struct tty_struct *tty
-                     ^
-   In file included from fs/proc/array.c:64:
->> include/linux/mman.h:154:9: warning: division by zero is undefined [-Wdivision-by-zero]
-                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:132:21: note: expanded from macro '_calc_vm_trans'
-      : ((x) & (bit1)) / ((bit1) / (bit2))))
-                       ^ ~~~~~~~~~~~~~~~~~
    1 warning and 1 error generated.
 --
    In file included from drivers/misc/bcm-vk/bcm_vk_dev.c:20:
@@ -149,19 +156,44 @@ All warnings (new ones prefixed by >>):
    1 warning and 1 error generated.
 
 
-vim +266 drivers/tty/tty_port.c
+vim +/tty_get_icount +2589 drivers/tty/tty_io.c
 
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  260  
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  261  void tty_port_free_xmit_buf(struct tty_port *port)
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  262  {
-44e4909e453eaa drivers/char/tty_port.c Alan Cox   2009-11-30  263  	mutex_lock(&port->buf_mutex);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  264  	free_page((unsigned long)port->xmit_buf);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  265  	port->xmit_buf = NULL;
-4e2a44c1408b6a drivers/tty/tty_port.c  Jiri Slaby 2022-01-24 @266  	INIT_KFIFO(port->xmit_fifo);
-44e4909e453eaa drivers/char/tty_port.c Alan Cox   2009-11-30  267  	mutex_unlock(&port->buf_mutex);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  268  }
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  269  EXPORT_SYMBOL(tty_port_free_xmit_buf);
-9e48565d217a8a drivers/char/tty_port.c Alan Cox   2008-10-13  270  
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds   2005-04-16  2579  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2580  /**
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2581   * tty_get_icount	-	get tty statistics
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2582   * @tty: tty device
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2583   * @icount: output parameter
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2584   *
+796a75a98762f1 drivers/tty/tty_io.c  Jiri Slaby       2021-11-26  2585   * Gets a copy of the @tty's icount statistics.
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2586   *
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2587   * Locking: none (up to the driver)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2588   */
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18 @2589  int tty_get_icount(struct tty_struct *tty,
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2590  		   struct serial_icounter_struct *icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2591  {
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2592  	memset(icount, 0, sizeof(*icount));
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2593  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2594  	if (tty->ops->get_icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2595  		return tty->ops->get_icount(tty, icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2596  	else
+1b8b20868a6d64 drivers/tty/tty_io.c  Johan Hovold     2021-04-07  2597  		return -ENOTTY;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2598  }
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2599  EXPORT_SYMBOL_GPL(tty_get_icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2600  
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2601  static int tty_tiocgicount(struct tty_struct *tty, void __user *arg)
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2602  {
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2603  	struct serial_icounter_struct icount;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2604  	int retval;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2605  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18 @2606  	retval = tty_get_icount(tty, &icount);
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2607  	if (retval != 0)
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2608  		return retval;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-König 2020-12-18  2609  
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2610  	if (copy_to_user(arg, &icount, sizeof(icount)))
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2611  		return -EFAULT;
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2612  	return 0;
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2613  }
+d281da7ff6f70e drivers/char/tty_io.c Alan Cox         2010-09-16  2614  
 
 -- 
 0-DAY CI Kernel Test Service
