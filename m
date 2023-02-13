@@ -2,85 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F1A86947C6
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 15:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B06A66950A7
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 20:27:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbjBMOQa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Feb 2023 09:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40344 "EHLO
+        id S231210AbjBMT1N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Feb 2023 14:27:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjBMOQ3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 09:16:29 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD741449A;
-        Mon, 13 Feb 2023 06:16:28 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id e17so4776647plg.12;
-        Mon, 13 Feb 2023 06:16:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2epQmv2RAYoa7ftdeHQyIuTMBtxWyA80kI4YZESFMUY=;
-        b=JpuHfqr0h+k0uFEZDFc54bvHtosHHgMJleYNeYIqas01BA6BSpV1l1cXjeBCb4zm3m
-         +M8cP7cjxphNoeSpS3+yW3bwiXk5PpoMsGdq+Jt75+viX7ujsBAmzn5I3MTcpptDCTfF
-         G9FaRA7cQmKLJ91uqImbQiinCGjMH0Pfiixk7FET5Oy5CppKA1qYtsMDf5UIJ6Exua5k
-         vdFpuGzvQ4gDwGfxknUOVTXNWvj+prbqti6+GZpYGPje60uxaerUOZjcH4EDrWpCEgAR
-         dSEgpBO3NlkGx9CNy9nwiPKTZKLZLsa+L0xSeGHNaIcYzti2j5RE5ttHYsOZY0chZ3zA
-         P1eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2epQmv2RAYoa7ftdeHQyIuTMBtxWyA80kI4YZESFMUY=;
-        b=Y1Fr7+6BxApXfdGXwKXXxk9WTj2QhIVZUzCDrs6q6N9voPB06TVE/GZoP3Id1u4jwD
-         tVEV0EYRFowb1FIHlNVD5sqKBilti/NYf+Hm92o+wrruMnD506uaLnAlYfrspuWjzhBI
-         ZTH56CH0h2isxAgX4XXCEM214ODnIcmILlrZqPmTOoewbcRPdXKjfAWqTJekIUb69VOJ
-         aUqxfzd0nFjBIfcqRkyzYEUfgOhQc5fSH7JJc5WuNc1jfnaa2mrGVCqAgj77/6YjFH8o
-         9jeBNOwu38g2aNKWNihmrlTH95DR7BWluHV770mchoCVhWDkJh6lFrvicRj26UtHuU44
-         nRtQ==
-X-Gm-Message-State: AO0yUKXKGaL5BPzWEbY0RV7vevOKB3Ris4HxbMubegu1qbmQweAPBCxq
-        3K3cD3EbSBJJ7EGalyrC2as=
-X-Google-Smtp-Source: AK7set+R8SlYq1CkTebLvtJHs+QFHykfPjX6kMzUEQhXB0/X+f60clsx1XhD2yLMkimmLUqJa/Ue1Q==
-X-Received: by 2002:a17:903:2407:b0:198:adc4:229d with SMTP id e7-20020a170903240700b00198adc4229dmr16149726plo.24.1676297787631;
-        Mon, 13 Feb 2023 06:16:27 -0800 (PST)
-Received: from [192.168.0.133] ([106.51.67.219])
-        by smtp.gmail.com with ESMTPSA id a10-20020a170902b58a00b001991e4e0bdcsm8239884pls.233.2023.02.13.06.16.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 06:16:27 -0800 (PST)
-From:   Rishit Bansal <rishitbansal0@gmail.com>
-X-Google-Original-From: Rishit Bansal <rishit.bansal0@gmail.com>
-Message-ID: <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
-Date:   Mon, 13 Feb 2023 19:46:23 +0530
+        with ESMTP id S231128AbjBMT1J (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 14:27:09 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D417C20078;
+        Mon, 13 Feb 2023 11:27:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676316426; x=1707852426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=t+vYPG0zQjL/pLjPwKSq5XEoXTdvljDP3hBNEKzGXOQ=;
+  b=Z9f/juwLdtN3AT6KIa0FEKJp2iUpKuLzCisPyjJW5eiDIqvD3isVWAYP
+   dD5tzMkgEuEK1QM49Vueksyx35BxD/zcgwxPQkzKLktR8SnMQs5AGJx28
+   D7MSegnYK19aUrxkK3Es91xeRxm1rRiMAdg1VP0OojC6fozmr3tO1hqdi
+   hTt/5EzVqcBxMs1bfIirKkkyWimlek1Sy/4e00rbiWq4GhAt0ElKkQPyY
+   9PbGOEPdS0z6XKs/BgxjKFObrLaEJ2RWe+OP9aoe5g/gxtkClaQti8G5t
+   qtTw2Fhy54okTfroHinPVH4Z1QsbOlq+wZo87CNbgL9OLZ6Z6WYFyudpB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358382946"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="358382946"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 11:26:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701390908"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="701390908"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 13 Feb 2023 11:26:33 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pReTA-0007yP-0x;
+        Mon, 13 Feb 2023 19:26:32 +0000
+Date:   Tue, 14 Feb 2023 03:25:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
+Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
+Message-ID: <202302140320.YmmWP6V8-lkp@intel.com>
+References: <20230213140638.620206-2-fe@dev.tdt.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: API for setting colors of RGB backlit keyboard zones (was [PATCH
- V3] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods)
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Rishit Bansal <rishitbansal0@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Mark Gross <markgross@kernel.org>, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-References: <20230131235027.36304-1-rishitbansal0@gmail.com>
- <9b761996-d522-b0f8-6472-10e40e09e036@redhat.com>
- <65a11a89-e780-6d60-a40e-cd3245780762@gmail.com>
- <b83ad6ba-7d55-f309-5d7b-4a5ff77ff5a3@redhat.com>
- <02c96cfe-ab10-513f-fc36-f474dd227656@gmail.com>
- <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
- <Y+I7xNqkq/X6Lag+@duo.ucw.cz>
- <3c48e204-780c-f78c-8219-267e297dc1e3@gmail.com>
- <ec5bc4a6-dc9f-90dd-0cf6-5fab47bb5fa6@redhat.com>
-In-Reply-To: <ec5bc4a6-dc9f-90dd-0cf6-5fab47bb5fa6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <20230213140638.620206-2-fe@dev.tdt.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,141 +67,74 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi Florian,
 
-On 13/02/23 18:19, Hans de Goede wrote:
-> Hi,
-> 
-> On 2/7/23 14:05, Rishit Bansal wrote:
->> Hi,
->>
->> On 07/02/23 17:23, Pavel Machek wrote:
->>> Hi!
->>>
->>>>>> 2. Create 4 separate multi-color LED sysfs devices for each zone:
->>>>>>
->>>>>> /sys/class/leds/hp_omen::kbd_backlight-zone1/
->>>>>> /sys/class/leds/hp_omen::kbd_backlight-zone2/
->>>>>> /sys/class/leds/hp_omen::kbd_backlight-zone3/
->>>>>> /sys/class/leds/hp_omen::kbd_backlight-zone4/
->>>
->>> 4 separate devices, please. And the naming should be consistent with
->>> the rest, so
->>>
->>> :rbg:kbd_backlight-zone1
->>
->> As covered above previously, we cannot have kbd_backlight in the name as Upower and several other userspace software which depend on it assume that /sys/class/leds has just a single file name with the string "kbd_backlight" in it:
->>
->>> For example, Ubuntu (and most gnome based distros) by default ships with gnome-settings-daemon, which by default attempts to dim the keyboard backlight after a short duration when on the "Low Power" ACPI platform profile. (https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L1671). This was currently working as intended with the v2 patch, but if we introduce 4 different files for each zone, this may start dimming only one keyboard zone on low power instead of all 4 of them, which is certainly not intended. There are also multiple projects (mostly gnome extensions) that interact with UPower which might also function incorrectly in other ways. I don't think we should release a feature in the driver which caused unintended consequences like the ones mentioned, especially if the software is popular. What is your opinion on this?
->>
->>
->> However, as Hans mentioned above, its possible to keep 4 seperate files and use a name other than kbd_backlight, so that we don't break existing stuff until the issue is fixed on upower:
->>
->>> /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
->>> /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
->>> /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
->>> /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
->>
->>
->>
->>>
->>> would be closer to something consistent. Should be documented in
->>>
->>> Documentation/leds/well-known-leds.txt
->>>
->>> . And if you take a look there, you'll notice we already have N900
->>> that has 6 zones with white backlight.
->>>
->>
->> This is interesting as well, it appears the N900 also doesn't have "kbd_backlight" in the name at all. It instead uses a format like the following:
->>
->> /sys/class/leds/lp5523:kb1/
->> /sys/class/leds/lp5523:kb2/
->> ...
->>
->>
->> I'm not sure if this is because the N900 driver was made long before we had the concept of "kbd_backlight" in the name, or because of some other reason. There are about 9-10 drivers on the kernel which are sticking with using the "kbd_backlight" convention, so N900 seems to be an outlier here.
->>
->>
->>> But I'd really like to see plan to go forward. AFAICT there are
->>> keyboards with per-key backlight, and those start to look less like a
->>> set of LEDs and more like a display..
->>
->>
->>>
->>> Best regards,
->>>                                  Pavel
->>
->>
->> Something else I would like to add. I had a look at include/dt-bindings/leds/common.h, and it defines the following:
->>
->> /* Standard LED colors */
->> #define LED_COLOR_ID_WHITE    0
->> #define LED_COLOR_ID_RED    1
->> #define LED_COLOR_ID_GREEN    2
->> #define LED_COLOR_ID_BLUE    3
->> #define LED_COLOR_ID_AMBER    4
->> #define LED_COLOR_ID_VIOLET    5
->> #define LED_COLOR_ID_YELLOW    6
->> #define LED_COLOR_ID_IR        7
->> #define LED_COLOR_ID_MULTI    8    /* For multicolor LEDs */
->> #define LED_COLOR_ID_RGB    9    /* For multicolor LEDs that can do arbitrary color,
->>                         so this would include RGBW and similar */
->> #define LED_COLOR_ID_PURPLE    10
->> #define LED_COLOR_ID_ORANGE    11
->> #define LED_COLOR_ID_PINK    12
->> #define LED_COLOR_ID_CYAN    13
->> #define LED_COLOR_ID_LIME    14
->> #define LED_COLOR_ID_MAX    15
->>
->> This means that the proposal I had made for supporting intensities such as zone_1_red zone_1_green zone_1_blue zone_2_red zone_2_green zone_2_blue ... would be invalid as well, and inconsistent with these definitions. The limit of "15" would also prohibit us from supporting keyboards in the future which support lighting for every single key, as we would need way more than 15 indexes to accommodate all of these.
->>
->> So we are at sort of a conflicted state where none of the standards seem to correctly "completely" accomodate every single case/scenario of keyboard backlighting and zones.
->>
->>
->> Here is yet another approach to handle this, which I feel we should consider:
->>
->> We can keep the kbd_backlight file, and additionally have the 4 zones as separate files, (a total of 5 files) like the following:
->>
->>
->> 1. /sys/class/leds/hp_omen::kbd_backlight
->>
->> This file controls the global backlight brightness for all 4 zones. It will have no control for RGB control at this level, this is just sort of a global switch for the entire backlight. Setting the brightness on this level will update the brightness for every zone. This file will also help us maintain support with Upower.
->>
->> 2.
->> /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
->> /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
->> /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
->> /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
->>
->> These will be multi intensity RGBs, each supporting "red green blue" intensities, and can be used to individually control the brightness of each zone. Note that these files don't have "kbd_backlight" in the name for us to not mess with Upower's logic of only having a single keyboard backlight. This can be documented in Documentation/leds/well-known-leds.txt for future drivers which plan to support something similar.
-> 
-> I am not really a fan of this. When the "global" LED then is turned off (brightness=0) then all the other LED devices all of a sudden do nothing and writing values > 0 to their brightness won't turn them on which is not how the LED class API is supposed to work. We can come up with various tricks to work around this, but the fact remains that if we go this route we end up with weird hard to define interaction between 2 LED devices while from an userspace API pov they really should be independent.
-> 
-> note that both Pavel and I suggested using 4 multi-color LED class devices (1 per zone) for this and I still/really believe that this is the best way to deal with this.
-> 
-> I do agree with you that we need to avoid kbd_backlight in the name to avoid causing existing upower code to have weird interactions with this (it supports / assumes there is only 1 kbd_backlight LED class device).
-> 
-> So lets go with just these 4:
-> 
-> /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
-> /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
-> /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
-> /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
-> 
-> Using the _zoned_ between kbd and baclight to avoid confusing the existing upower code. Then once this has landed we can look into extending upower support for this.
-> 
-> Note the requested documentation patch should probably also explain that the _zoned_ was done deliberately to make current upower code ignore the devices.
-> 
-> Regards,
-> 
-> hans
-> 
-> 
+Thank you for the patch! Perhaps something to improve:
 
-This makes sense, I agree that the global LED file will cause more 
-confusion and hacks in the code. I'll start working on the  _zoned_ 
-naming scheme with 4 files + documentation changes and make a patch for 
-this soon!
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus pavel-leds/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2-rc8 next-20230213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230213140638.620206-2-fe%40dev.tdt.de
+patch subject: [PATCH 1/2] tty: new helper function tty_get_mget
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230214/202302140320.YmmWP6V8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/096ca9c9428ec2a8ebab4af0798461e66585cdde
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Florian-Eckert/tty-new-helper-function-tty_get_mget/20230213-223413
+        git checkout 096ca9c9428ec2a8ebab4af0798461e66585cdde
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/leds/trigger/ drivers/tty/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302140320.YmmWP6V8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/tty/tty_io.c:76:
+   include/linux/tty.h:423:17: error: expected ';', ',' or ')' before 'struct'
+     423 |                 struct serial_icounter_struct *icount);
+         |                 ^~~~~~
+>> drivers/tty/tty_io.c:2589:5: warning: no previous prototype for 'tty_get_icount' [-Wmissing-prototypes]
+    2589 | int tty_get_icount(struct tty_struct *tty,
+         |     ^~~~~~~~~~~~~~
 
 
+vim +/tty_get_icount +2589 drivers/tty/tty_io.c
+
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds   2005-04-16  2579  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2580  /**
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2581   * tty_get_icount	-	get tty statistics
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2582   * @tty: tty device
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2583   * @icount: output parameter
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2584   *
+796a75a98762f1 drivers/tty/tty_io.c  Jiri Slaby       2021-11-26  2585   * Gets a copy of the @tty's icount statistics.
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2586   *
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2587   * Locking: none (up to the driver)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2588   */
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18 @2589  int tty_get_icount(struct tty_struct *tty,
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2590  		   struct serial_icounter_struct *icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2591  {
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2592  	memset(icount, 0, sizeof(*icount));
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2593  
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2594  	if (tty->ops->get_icount)
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2595  		return tty->ops->get_icount(tty, icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2596  	else
+1b8b20868a6d64 drivers/tty/tty_io.c  Johan Hovold     2021-04-07  2597  		return -ENOTTY;
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2598  }
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2599  EXPORT_SYMBOL_GPL(tty_get_icount);
+d20c219c731784 drivers/tty/tty_io.c  Uwe Kleine-K�nig 2020-12-18  2600  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
