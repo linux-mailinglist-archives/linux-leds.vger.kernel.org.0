@@ -2,94 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C535693012
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Feb 2023 11:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DAAB693EB3
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 08:08:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbjBKKmf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 11 Feb 2023 05:42:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57780 "EHLO
+        id S229652AbjBMHIm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Feb 2023 02:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjBKKmf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 Feb 2023 05:42:35 -0500
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2700B311D6;
-        Sat, 11 Feb 2023 02:42:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1676112134; bh=YWNKXJsGcCGSx3BeuPJ+DwSelvQ5DLVpRbP15fVAw0U=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-         Content-Type;
-        b=brMK4e3yl6tT6M4P6Jq1Jjx5RoM0dOgNE2WNL3D6+Fkto4hauTKf8hC829y4Z8k/3
-         qTnma4bpWzlQXaMwM7o1e5wYm0IPpVdLYZj63L6w8OUKTwXN/+Det6r1iNUFQ1alpz
-         7rR6yJdyiFIjQfRnNHUybEOHQZzmsstO1iJjLveQ=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Sat, 11 Feb 2023 11:42:14 +0100 (CET)
-X-EA-Auth: KWivLFusfe4M1FPFEQqJeQo8HsYkZIK5ja/R4WdeOuBADd0RqXt/X9wMN3obLuKKdS3duyFYHD6akLmUX/+DPU2MGNdvswLc
-Date:   Sat, 11 Feb 2023 16:12:07 +0530
-From:   Deepak R Varma <drv@mailo.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Saurabh Singh Sengar <ssengar@microsoft.com>,
-        Praveen Kumar <kumarpraveen@linux.microsoft.com>,
-        Deepak R Varma <drv@mailo.com>
-Subject: [PATCH] leds: qcom-lpg: Release node reference before returning
-Message-ID: <Y+dw/0DA+j6xFiHR@ubun2204.myguest.virtualbox.org>
+        with ESMTP id S229489AbjBMHIl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 02:08:41 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D406BEC7A
+        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:08:40 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id gd1so241553pjb.1
+        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWV82DuffbkA0r5SzgnRHGJAxs9Uwsl2YwXW0fT+d6A=;
+        b=lc0mtwktj97AGn6slIN6qa4ekwhfOSJOQz1xrvCLNdqmifyDg6ccIbdrSRMHZJ2N4y
+         GgNyvvpP/MLpR9aHTuWsM5kVFRQ41KVWZDIrB+T7N4lNAX0q2tZC+3WIcopUPmnbKNQS
+         //5zkBpFNA8sBxa9f2MbH1vHtqMiqhl+LJXvwwFqdzAV2HwX4paawmnw9iFCAofl+A2C
+         zzR1G3NyCojdvCIPGnRaIX1MnI/rRza6a0GU5wvVDYm5PMuefjD6ykp2/MsDq/yp7KkI
+         E/OpjFkTTi7miqWnDbV132A7mzZ/iQNgp3pOBXKDTIuXNOtSdDqg+7uykmJUqPNg3E7z
+         El/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rWV82DuffbkA0r5SzgnRHGJAxs9Uwsl2YwXW0fT+d6A=;
+        b=mi76/Py5HvDltDMuDeM8sSKjOEIzEZ5AYIckFLb+JuqeE5s0tvLpvpJZYVBtvDmG6o
+         W5BSp0elzRwNoNT3tjnHfCsq2UFpdfTHS0ElMCQCVI2IkOpSoWmDLKW6a4iOD4wwVdCO
+         kcsT22HXjQuAi9Dk/xafSPd08FWgjEz9IdaOkiTCkdEzf0OkGT5FJYCdcSkDmgzFyIS1
+         Coct0DhEj25vhTPZO3JHlQKkP89JVw5KDbpc6ec4Exrx4gnHQAFhHGlsUeyZ5ZwoSqZ0
+         E6tKnK99gx/e/VPZ0mqSHQqMzzx9cUGmvzRHkRSF/Ss0l7tS+7ox5sNSq4jBtpZTVgaA
+         +wjA==
+X-Gm-Message-State: AO0yUKUyZhMWWlz3wa/+pOkXtiQRep2zOMLaf1bYvsXYxuUMYLhglj20
+        x/Zf5sasSHf9kH7/XAzRlBBo
+X-Google-Smtp-Source: AK7set9xE1GSDfppqMxOGUxzD8jTRdTKOx+EBwnuawNQ/I0UUpOwkbs79SdmOQPsW6ClvlF6K7Rz2g==
+X-Received: by 2002:a17:90b:4c4d:b0:22c:9217:68b6 with SMTP id np13-20020a17090b4c4d00b0022c921768b6mr25368845pjb.14.1676272120356;
+        Sun, 12 Feb 2023 23:08:40 -0800 (PST)
+Received: from localhost.localdomain ([117.217.182.252])
+        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00230e41e98desm2956183pjj.32.2023.02.12.23.08.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Feb 2023 23:08:39 -0800 (PST)
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, thunder.leizhen@huawei.com,
+        festevam@gmail.com, lee@kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v5] dt-bindings: leds: Document commonly used LED triggers
+Date:   Mon, 13 Feb 2023 12:38:27 +0530
+Message-Id: <20230213070827.5085-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The iterator for_each_available_child_of_node() increments the refcount
-of the child node it is processing. Release such a reference when the
-loop needs to breaks due to en error during its execution.
-Issue identified using for_each_child.cocci Coccinelle semantic patch.
+Document the commonly used LED triggers by the SoCs. Not all triggers
+are documented as some of them are very application specific. Most of the
+triggers documented here are currently used in devicetrees of many SoCs.
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
-Please note: The proposed change is compile tested only. I do not have the
-necessary hardware to perform additional testing. Please suggest if there is an
-alternate means available to further test this change.
 
- drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Changes in v5:
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 67f48f222109..993fb9cf0204 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -1112,8 +1112,10 @@ static int lpg_add_led(struct lpg *lpg, struct device_node *np)
- 		i = 0;
- 		for_each_available_child_of_node(np, child) {
- 			ret = lpg_parse_channel(lpg, child, &led->channels[i]);
--			if (ret < 0)
-+			if (ret < 0) {
-+				of_node_put(child);
- 				return ret;
-+			}
+* Rebased on top of v6.2-rc1
+
+Changes in v4:
+
+* Removed the sorting of triggers
+* Removed the "items" as they were not needed
+* Reworded the description
+* Dropped Zhen Lei's tested-by tag as the patch has changed
+* Added kbd-capslock trigger
+
+Changes in v3:
+
+* Rebased on top of v6.1-rc1
+* Added WLAN Rx trigger
+* Added tested tag from Zhen Lei
+
+Changes in v2:
+
+* Added more triggers, fixed the regex
+* Sorted triggers in ascending order
+
+ .../devicetree/bindings/leds/common.yaml      | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index f5c57a580078..d01a52e9e982 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -98,9 +98,44 @@ properties:
+             # LED alters the brightness for the specified duration with one software
+             # timer (requires "led-pattern" property)
+           - pattern
++            # LED indicates mic mute state
++          - audio-micmute
++            # LED indicates audio mute state
++          - audio-mute
++            # LED indicates bluetooth power state
++          - bluetooth-power
++            # LED indicates activity of all CPUs
++          - cpu
++            # LED indicates disk read activity
++          - disk-read
++            # LED indicates disk write activity
++          - disk-write
++            # LED indicates camera flash state
++          - flash
++            # LED indicated keyboard capslock
++          - kbd-capslock
++            # LED indicates MTD memory activity
++          - mtd
++            # LED indicates NAND memory activity (deprecated),
++            # in new implementations use "mtd"
++          - nand-disk
++            # No trigger assigned to the LED. This is the default mode
++            # if trigger is absent
++          - none
++            # LED indicates camera torch state
++          - torch
++            # LED indicates USB gadget activity
++          - usb-gadget
++            # LED indicates USB host activity
++          - usb-host
+         # LED is triggered by SD/MMC activity
+       - pattern: "^mmc[0-9]+$"
++        # LED is triggered by CPU activity
+       - pattern: "^cpu[0-9]*$"
++        # LED indicates power status of [N]th Bluetooth HCI device
++      - pattern: "^hci[0-9]{1,2}-power$"
++        # LED indicates [N]th WLAN Tx/Rx activity
++      - pattern: "^phy[0-9]{1,2}(tx|rx)$"
  
- 			info[i].color_index = led->channels[i]->color;
- 			info[i].intensity = 0;
-@@ -1291,8 +1293,10 @@ static int lpg_probe(struct platform_device *pdev)
- 
- 	for_each_available_child_of_node(pdev->dev.of_node, np) {
- 		ret = lpg_add_led(lpg, np);
--		if (ret)
-+		if (ret) {
-+			of_node_put(np);
- 			return ret;
-+		}
- 	}
- 
- 	for (i = 0; i < lpg->num_channels; i++)
+   led-pattern:
+     description: |
 -- 
-2.34.1
-
-
+2.25.1
 
