@@ -2,41 +2,41 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBEAE694636
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 13:46:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BECCC694637
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 13:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbjBMMqt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Feb 2023 07:46:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59388 "EHLO
+        id S230082AbjBMMre (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Feb 2023 07:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbjBMMqo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 07:46:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186D119692
-        for <linux-leds@vger.kernel.org>; Mon, 13 Feb 2023 04:45:53 -0800 (PST)
+        with ESMTP id S230516AbjBMMrI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 07:47:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BC113DE7
+        for <linux-leds@vger.kernel.org>; Mon, 13 Feb 2023 04:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676292352;
+        s=mimecast20190719; t=1676292364;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kYtsbPz7M17eh6kFz8vJWs+LDAT2GZJx0YZ3mAc1VOY=;
-        b=XV/tS6xtKqigJE5Y73OnWOM46rfvCnb95fzHsnOg54AYLWM1jz6gUpX1dxPlFg//CJRDSu
-        eDa2XynguOk96mXIaiYAnZJb666/JkYVWc8ltBhMVpzcdFpwrco25p631nH8QJIuqSWA++
-        IWNhYHL68OOHaO+xHbJEdvaOgN9pPDw=
+        bh=UyUgDYKS+yK3FOwur5h8SS2dgbZdk4kY607ebzoiPIQ=;
+        b=VhG0/EGctbD97/AFS6JPeJKuAihbGACY7iOtw/aSsH6tXIL4nP2/3dRDJUeDttrg2PzEQ8
+        5O5GO32bp0By37MsHZKmuHzd1GSXL1QLDNK2trlLrlfiZh7v1k2y8FqfNbsyfsf9nqc4vz
+        wpzKWBwwk8ew5AtMKL1fuyeGB5VoBoI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-vb7WFsq9MjG_ybAAWIdLtw-1; Mon, 13 Feb 2023 07:45:49 -0500
-X-MC-Unique: vb7WFsq9MjG_ybAAWIdLtw-1
+ us-mta-384-M9m7ASRLNUSnKbt8PNpr0A-1; Mon, 13 Feb 2023 07:45:59 -0500
+X-MC-Unique: M9m7ASRLNUSnKbt8PNpr0A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA0902A59568;
-        Mon, 13 Feb 2023 12:45:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C05D2A5955E;
+        Mon, 13 Feb 2023 12:45:59 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.67.24.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9DA28403D0C1;
-        Mon, 13 Feb 2023 12:45:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6AC67403D0C1;
+        Mon, 13 Feb 2023 12:45:53 +0000 (UTC)
 From:   Kate Hsuan <hpa@redhat.com>
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
@@ -44,9 +44,9 @@ To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Daniel Scally <djrscally@gmail.com>,
         Mark Gross <markgross@kernel.org>
 Cc:     Kate Hsuan <hpa@redhat.com>
-Subject: [RESEND PATCH 1/3] platform: x86: int3472: Add MFD cell for tps68470 LED
-Date:   Mon, 13 Feb 2023 20:45:18 +0800
-Message-Id: <20230213124520.1635257-2-hpa@redhat.com>
+Subject: [RESEND PATCH 2/3] include: mfd: tps68470: Add masks for LEDA and LEDB
+Date:   Mon, 13 Feb 2023 20:45:19 +0800
+Message-Id: <20230213124520.1635257-3-hpa@redhat.com>
 In-Reply-To: <20230213124520.1635257-1-hpa@redhat.com>
 References: <20230213124520.1635257-1-hpa@redhat.com>
 MIME-Version: 1.0
@@ -62,34 +62,36 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add MFD cell for tps68470-led.
+Add flags for both LEDA(TPS68470_ILEDCTL_ENA), LEDB
+(TPS68470_ILEDCTL_ENB), and current control mask for LEDB
+(TPS68470_ILEDCTL_CTRLB)
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/platform/x86/intel/int3472/tps68470.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/linux/mfd/tps68470.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
-index 5b8d1a9620a5..9dceb6507a01 100644
---- a/drivers/platform/x86/intel/int3472/tps68470.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470.c
-@@ -17,7 +17,7 @@
- #define DESIGNED_FOR_CHROMEOS		1
- #define DESIGNED_FOR_WINDOWS		2
+diff --git a/include/linux/mfd/tps68470.h b/include/linux/mfd/tps68470.h
+index 7807fa329db0..2d2abb25b944 100644
+--- a/include/linux/mfd/tps68470.h
++++ b/include/linux/mfd/tps68470.h
+@@ -34,6 +34,7 @@
+ #define TPS68470_REG_SGPO		0x22
+ #define TPS68470_REG_GPDI		0x26
+ #define TPS68470_REG_GPDO		0x27
++#define TPS68470_REG_ILEDCTL		0x28
+ #define TPS68470_REG_VCMVAL		0x3C
+ #define TPS68470_REG_VAUX1VAL		0x3D
+ #define TPS68470_REG_VAUX2VAL		0x3E
+@@ -94,4 +95,8 @@
+ #define TPS68470_GPIO_MODE_OUT_CMOS	2
+ #define TPS68470_GPIO_MODE_OUT_ODRAIN	3
  
--#define TPS68470_WIN_MFD_CELL_COUNT	3
-+#define TPS68470_WIN_MFD_CELL_COUNT	4
- 
- static const struct mfd_cell tps68470_cros[] = {
- 	{ .name = "tps68470-gpio" },
-@@ -194,6 +194,7 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
- 		cells[1].platform_data = (void *)board_data->tps68470_regulator_pdata;
- 		cells[1].pdata_size = sizeof(struct tps68470_regulator_platform_data);
- 		cells[2].name = "tps68470-gpio";
-+		cells[3].name = "tps68470-led";
- 
- 		for (i = 0; i < board_data->n_gpiod_lookups; i++)
- 			gpiod_add_lookup_table(board_data->tps68470_gpio_lookup_tables[i]);
++#define TPS68470_ILEDCTL_ENA		BIT(2)
++#define TPS68470_ILEDCTL_ENB		BIT(6)
++#define TPS68470_ILEDCTL_CTRLB		GENMASK(5, 4)
++
+ #endif /* __LINUX_MFD_TPS68470_H */
 -- 
 2.39.0
 
