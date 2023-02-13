@@ -2,65 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E7B693EDF
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 08:21:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB8A693EE4
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Feb 2023 08:23:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbjBMHVs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Feb 2023 02:21:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33268 "EHLO
+        id S229588AbjBMHXW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Feb 2023 02:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbjBMHVr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 02:21:47 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D3611673
-        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:21:44 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id k13so12655242plg.0
-        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:21:44 -0800 (PST)
+        with ESMTP id S229484AbjBMHXV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Feb 2023 02:23:21 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B8BB752
+        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:23:20 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id w14-20020a17090a5e0e00b00233d3b9650eso3545008pjf.4
+        for <linux-leds@vger.kernel.org>; Sun, 12 Feb 2023 23:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HT8zpDqYQcjOZkqrBpMihAQffHhfUXaPhjYeHne2afs=;
-        b=c46py5DNV36Z2OLMFEBvIUKOTgtKE8Z/Kckhfx3/kzihc8ohYCpAwXfEzFAi2ANvfA
-         r0lAAJtDkjT4vZ0CGN6RP26Wzed91gJ1s5H7jzcm1gQwZgJonZMlKtA0C5xmCqhA/Wec
-         XlXBi9e1RgtZIathAxMUZWC4MPVo8guwgD5VEKv3MlDkjurDLAwstCdaSTJ/8WDQ1RRK
-         c8k/b4KXxZ6oGBOCle83gfgF9OYP76Y5tab0YM+WtXFjDlreS3dBsVPXBPNeZZjsj9Gv
-         lOCKjttEAAssqVyGnr7jwEF9x3AAn+bNiPK12hJ3mxfrdWiqX0zpdbP3wslzp/RsA5Q0
-         Mzyg==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=28rplcL4D/qDPmWP5rk6Z+mEUTNmDCqkcOMS7T2tEO8=;
+        b=yggaRBvwQEynN+qw8PEhbFMx25K9uho58IDv63QptVNsQxcLpTwzn9vf14Y/oF8VW9
+         9oLGvt6aH3k+OH2rWpQLqqc2z5W7Ste/PUTj7m9XFQ0CinC1ZQzJIAQH7jOfBWeMHc+X
+         /egFqJLireBHpqH2ENmfZp+Ivu2mglivq7pDHJ42pcnOInRdFUeAYMIBQmXz43yFktjC
+         yytLVAXL1pHd0iSga8zq51EXUSsQ+XrLrAU1j4Jzxh6WIf98J+bzJSqdfR6Biv5H0odu
+         TkJLNvf0scuaNRkIhDpvn4sUD3HtAhpk0KEAupj+LmcbUf11MGwyGljbvZaGIw7KZFEC
+         fDtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HT8zpDqYQcjOZkqrBpMihAQffHhfUXaPhjYeHne2afs=;
-        b=Ye6h8X5hnbQhTo/AjYEbQ5owcTjoCAZmLD2zv1AhtH3xKOqEmvP6fJM4BJx6fF9p4u
-         RrYJT79YMnLOKkCPgZEseP9kkAC2f4eos2q4Kwl/JFlwb8gP/SKwAfucm4u/ddXQeSIs
-         ou92LF3xhoE6Nr4oNXP40pobd7622oYWHOoYvfsQl9z9a6fOdKWOiPzslrZmRBRRBznE
-         BIh3mIwmrxyZMi8KyVEWTtHMLKD3f7InN9UZ6eZf6nCtMyEsRBKzUA926HWxa5YvQN+Q
-         drSAqA+Xx9ZnAzcc4tGtH6K+2pQ2c9kpWyJqnkG8RLGRxMAxf+vUN5KASANuOdAqV7HA
-         rF+A==
-X-Gm-Message-State: AO0yUKW+ltH4eyDjWx5QOLRvOOn+bJ8Kwl1PXPoU/qjQhKtcSUpp4R1J
-        O9k1DBHhr/byVQcNmqxndkQ7
-X-Google-Smtp-Source: AK7set/D7G2horz+5S+Dwde3l8hkLUzhvaw8EIVOo6axA0zWK8mjibCrqCzobD76L/pgAvmyMHTmGw==
-X-Received: by 2002:a17:902:d4ca:b0:19a:7f25:4d90 with SMTP id o10-20020a170902d4ca00b0019a7f254d90mr9383889plg.33.1676272903787;
-        Sun, 12 Feb 2023 23:21:43 -0800 (PST)
-Received: from localhost.localdomain ([117.217.182.252])
-        by smtp.gmail.com with ESMTPSA id r10-20020a170902be0a00b00199524dc67bsm7460930pls.163.2023.02.12.23.21.40
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=28rplcL4D/qDPmWP5rk6Z+mEUTNmDCqkcOMS7T2tEO8=;
+        b=sGYRt4HDqq8rBCpQI8hKr3qRSyjPGkncKJivBRCFBsDVwiWCMU7igRNpiye/HgltyZ
+         VPJa8to9sH03+jVt6FI0juyaozXL2fmq8DzOU/CmQMNn//8/KiWP7G3s5h32U3nIL0rC
+         toxiFxCiISBhtUbHYfvjdVqTsVnTa3BVs954f6VKUTJQB0XolWCkkGfmnb+BcEepnLFi
+         rKtmpAJCHFfheUUqvkJJwTAzSUBsNXdOqP7cbwXOequld9Q9W0cPdnnYJDblmkvyq79x
+         JgZEkfAS39C0Fr9bFz27HdnI5VPjnViI4zDO1WoWbg2vyKqaVjzy6emV2hyiaA/gRXfs
+         rtMA==
+X-Gm-Message-State: AO0yUKULmxjC2EXV+IOSGGggVeO5h/kk6Vb1rS5BAqYu1jrDI0lz2R48
+        Dv5+PAyDg8cHpSUCJJ8FBPgwXoweW6NB5hU=
+X-Google-Smtp-Source: AK7set9MfNTrMMkgBAI61iSDCPJH69eVWMRxjJs/L6IPDCjCYbfxzdtAOVWwWqDZe3fAi56VXOcLaA==
+X-Received: by 2002:a05:6a20:3c92:b0:c0:be63:75e5 with SMTP id b18-20020a056a203c9200b000c0be6375e5mr27450255pzj.33.1676273000175;
+        Sun, 12 Feb 2023 23:23:20 -0800 (PST)
+Received: from thinkpad ([117.217.182.252])
+        by smtp.gmail.com with ESMTPSA id y21-20020a634b15000000b004eca54eab50sm5763991pga.28.2023.02.12.23.23.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 23:21:43 -0800 (PST)
+        Sun, 12 Feb 2023 23:23:19 -0800 (PST)
+Date:   Mon, 13 Feb 2023 12:53:11 +0530
 From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     lee@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org, thunder.leizhen@huawei.com,
-        festevam@gmail.com,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v6] dt-bindings: leds: Document commonly used LED triggers
-Date:   Mon, 13 Feb 2023 12:51:33 +0530
-Message-Id: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        festevam@gmail.com, lee@kernel.org
+Subject: Re: [PATCH v5] dt-bindings: leds: Document commonly used LED triggers
+Message-ID: <20230213072311.GC4375@thinkpad>
+References: <20230213070827.5085-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230213070827.5085-1-manivannan.sadhasivam@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -70,99 +73,99 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Document the commonly used LED triggers by the SoCs. Not all triggers
-are documented as some of them are very application specific. Most of the
-triggers documented here are currently used in devicetrees of many SoCs.
+On Mon, Feb 13, 2023 at 12:38:27PM +0530, Manivannan Sadhasivam wrote:
+> Document the commonly used LED triggers by the SoCs. Not all triggers
+> are documented as some of them are very application specific. Most of the
+> triggers documented here are currently used in devicetrees of many SoCs.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+> 
+> Changes in v5:
+> 
+> * Rebased on top of v6.2-rc1
 
-While at it, also place the comment above the triggers (hci, mmc, wlan)
-to match the rest of the binding.
+Noticed that Lee is now maintaining LED subsystem after sending v5.
+So rebased the patch on top of lee/for-leds-next branch and sent v6.
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
+Thanks,
+Mani
 
-Changes in v6:
+> 
+> Changes in v4:
+> 
+> * Removed the sorting of triggers
+> * Removed the "items" as they were not needed
+> * Reworded the description
+> * Dropped Zhen Lei's tested-by tag as the patch has changed
+> * Added kbd-capslock trigger
+> 
+> Changes in v3:
+> 
+> * Rebased on top of v6.1-rc1
+> * Added WLAN Rx trigger
+> * Added tested tag from Zhen Lei
+> 
+> Changes in v2:
+> 
+> * Added more triggers, fixed the regex
+> * Sorted triggers in ascending order
+> 
+>  .../devicetree/bindings/leds/common.yaml      | 35 +++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index f5c57a580078..d01a52e9e982 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -98,9 +98,44 @@ properties:
+>              # LED alters the brightness for the specified duration with one software
+>              # timer (requires "led-pattern" property)
+>            - pattern
+> +            # LED indicates mic mute state
+> +          - audio-micmute
+> +            # LED indicates audio mute state
+> +          - audio-mute
+> +            # LED indicates bluetooth power state
+> +          - bluetooth-power
+> +            # LED indicates activity of all CPUs
+> +          - cpu
+> +            # LED indicates disk read activity
+> +          - disk-read
+> +            # LED indicates disk write activity
+> +          - disk-write
+> +            # LED indicates camera flash state
+> +          - flash
+> +            # LED indicated keyboard capslock
+> +          - kbd-capslock
+> +            # LED indicates MTD memory activity
+> +          - mtd
+> +            # LED indicates NAND memory activity (deprecated),
+> +            # in new implementations use "mtd"
+> +          - nand-disk
+> +            # No trigger assigned to the LED. This is the default mode
+> +            # if trigger is absent
+> +          - none
+> +            # LED indicates camera torch state
+> +          - torch
+> +            # LED indicates USB gadget activity
+> +          - usb-gadget
+> +            # LED indicates USB host activity
+> +          - usb-host
+>          # LED is triggered by SD/MMC activity
+>        - pattern: "^mmc[0-9]+$"
+> +        # LED is triggered by CPU activity
+>        - pattern: "^cpu[0-9]*$"
+> +        # LED indicates power status of [N]th Bluetooth HCI device
+> +      - pattern: "^hci[0-9]{1,2}-power$"
+> +        # LED indicates [N]th WLAN Tx/Rx activity
+> +      - pattern: "^phy[0-9]{1,2}(tx|rx)$"
+>  
+>    led-pattern:
+>      description: |
+> -- 
+> 2.25.1
+> 
 
-* Rebased on top of lee/for-leds-next branch
-* Fixed the comment location for few triggers
-
-Changes in v5:
-
-* Rebased on top of v6.2-rc1
-
-Changes in v4:
-
-* Removed the sorting of triggers
-* Removed the "items" as they were not needed
-* Reworded the description
-* Dropped Zhen Lei's tested-by tag as the patch has changed
-* Added kbd-capslock trigger
-
-Changes in v3:
-
-* Rebased on top of v6.1-rc1
-* Added WLAN Rx trigger
-* Added tested tag from Zhen Lei
-
-Changes in v2:
-
-* Added more triggers, fixed the regex
-* Sorted triggers in ascending order
-
- .../devicetree/bindings/leds/common.yaml      | 37 +++++++++++++++++--
- 1 file changed, 34 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index d34bb58c0037..9814371eaa4c 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -98,13 +98,44 @@ properties:
-             # LED alters the brightness for the specified duration with one software
-             # timer (requires "led-pattern" property)
-           - pattern
-+            # LED indicates mic mute state
-+          - audio-micmute
-+            # LED indicates audio mute state
-+          - audio-mute
-+            # LED indicates bluetooth power state
-+          - bluetooth-power
-+            # LED indicates activity of all CPUs
-+          - cpu
-+            # LED indicates disk read activity
-+          - disk-read
-+            # LED indicates disk write activity
-+          - disk-write
-+            # LED indicates camera flash state
-+          - flash
-+            # LED indicated keyboard capslock
-+          - kbd-capslock
-+            # LED indicates MTD memory activity
-+          - mtd
-+            # LED indicates NAND memory activity (deprecated),
-+            # in new implementations use "mtd"
-+          - nand-disk
-+            # No trigger assigned to the LED. This is the default mode
-+            # if trigger is absent
-+          - none
-+            # LED indicates camera torch state
-+          - torch
-+            # LED indicates USB gadget activity
-+          - usb-gadget
-+            # LED indicates USB host activity
-+          - usb-host
-+        # LED is triggered by CPU activity
-       - pattern: "^cpu[0-9]*$"
--      - pattern: "^hci[0-9]+-power$"
-         # LED is triggered by Bluetooth activity
--      - pattern: "^mmc[0-9]+$"
-+      - pattern: "^hci[0-9]+-power$"
-         # LED is triggered by SD/MMC activity
--      - pattern: "^phy[0-9]+tx$"
-+      - pattern: "^mmc[0-9]+$"
-         # LED is triggered by WLAN activity
-+      - pattern: "^phy[0-9]+tx$"
- 
-   led-pattern:
-     description: |
 -- 
-2.25.1
-
+மணிவண்ணன் சதாசிவம்
