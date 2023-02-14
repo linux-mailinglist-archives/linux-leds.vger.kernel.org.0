@@ -2,85 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E22FB695EC2
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Feb 2023 10:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E849D69606A
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Feb 2023 11:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232400AbjBNJSi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Feb 2023 04:18:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
+        id S231894AbjBNKLo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Feb 2023 05:11:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbjBNJSI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Feb 2023 04:18:08 -0500
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980038A7F;
-        Tue, 14 Feb 2023 01:18:05 -0800 (PST)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=9423e69038=fe@dev.tdt.de>)
-        id 1pRrRm-00053o-M8; Tue, 14 Feb 2023 10:17:58 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        with ESMTP id S232413AbjBNKLd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Feb 2023 05:11:33 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6B53A92
+        for <linux-leds@vger.kernel.org>; Tue, 14 Feb 2023 02:11:31 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1pRrRl-000FyV-UA; Tue, 14 Feb 2023 10:17:57 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id 7F4C2240049;
-        Tue, 14 Feb 2023 10:17:57 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id EB8C0240040;
-        Tue, 14 Feb 2023 10:17:56 +0100 (CET)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id A568D2CFA8;
-        Tue, 14 Feb 2023 10:17:56 +0100 (CET)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 14 Feb 2023 10:17:56 +0100
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
-        pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pRsHS-00080X-6S; Tue, 14 Feb 2023 11:11:22 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pRsHP-004rHM-Bo; Tue, 14 Feb 2023 11:11:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pRsHP-003SGm-TY; Tue, 14 Feb 2023 11:11:19 +0100
+Date:   Tue, 14 Feb 2023 11:11:19 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
-Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
-In-Reply-To: <5f67e2cf-f141-fde4-96de-28ceeeec9c06@kernel.org>
+Subject: Re: [PATCH 2/2] leds: trigger: ledtrig-tty: add additional modes
+Message-ID: <20230214101119.em547qt57swzylae@pengutronix.de>
 References: <20230213140638.620206-1-fe@dev.tdt.de>
- <20230213140638.620206-2-fe@dev.tdt.de>
- <5f67e2cf-f141-fde4-96de-28ceeeec9c06@kernel.org>
-Message-ID: <00390b00bf50f42ff112ee8e31b88c8d@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+ <20230213140638.620206-3-fe@dev.tdt.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="66c7xgq6xsabpl3k"
+Content-Disposition: inline
+In-Reply-To: <20230213140638.620206-3-fe@dev.tdt.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-purgate-ID: 151534::1676366278-1EFFD8D8-AC9FBD0F/0/0
-X-purgate-type: clean
-X-purgate: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
+--66c7xgq6xsabpl3k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> --- a/include/linux/tty.h
->> +++ b/include/linux/tty.h
->> @@ -419,8 +419,9 @@ void tty_unthrottle(struct tty_struct *tty);
->>   int tty_throttle_safe(struct tty_struct *tty);
->>   int tty_unthrottle_safe(struct tty_struct *tty);
->>   int tty_do_resize(struct tty_struct *tty, struct winsize *ws);
->> -int tty_get_icount(struct tty_struct *tty,
->> +int tty_get_icount(struct tty_struct *tty
-> 
-> The robot already complained about this ^^^.
-> 
-> Have you even tried to compile-test this?
+On Mon, Feb 13, 2023 at 03:06:38PM +0100, Florian Eckert wrote:
+> Add additional modes to trigger the selected LED.
+> The following modes are supported:
+>=20
+> TD/RD:	Flash LED on data transmission (default)
+> CTS:	DCE Ready to accept data from the DTE.
+> DSR:	DCE is ready to receive and send data.
+> CAR:	DCE is receiving a carrier from a remote DTE.
+> RNG:	DCE has detected an incoming ring signal.
+>=20
+> The mode can be changed for example with the following command:
+> echo "CTS" /sys/class/leds/<led>/mode
 
-Sorry I made a rebase of the patch set. My mistake!
-I compiled and tested my changes against kernel 5.15 (OpenWrt).
-And it worked as expected.
+I wonder if the abstraction is better be done such that you can also
+configure the mode to trigger on (for example) TD and RNG. Then you'd
+need one property per signal and then something like the following would
+be possible:
 
-> 
->>   		struct serial_icounter_struct *icount);
->> +extern int tty_get_mget(struct tty_struct *tty);
-> 
+	p=3D/sys/class/leds/<led>
+	echo 1 > $p/tx
+	echo 0 > $p/rx
+	echo 1 > $p/rng
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--66c7xgq6xsabpl3k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPrXkQACgkQwfwUeK3K
+7AmbsQf7Bh8u/aFnPft1yeQNGkl4BGGjQ7V23sUHl4LQX7WaON5+Uey7gqCVfjJR
+6WUJh4bRG5wGS6hDllRL2wLkd8ZtJuc2ynPqRgVSS+ZKEfa0PrGDTPM30uA1Mq8N
+73DhGXySQpDYOBJXonULgrwLfDmWmJfeC/xvBxyjvAqgEzszdeICMSEKTh1ME0er
+lTG+ssrzsHgHxBVIlH3XnCgvEmRI+Mda5DcLAai25+I5UciUXrG5m3xN9YVH4HaH
+z9GFWw1FI9PcfTmOHBkFOYyHxCdlVEgzI2BIKvp3El6grOrVKqyaYH+Ug2u1lT2A
+YxNjblgyiBqcjYAmR5VFMtHuXGMnJA==
+=OPK+
+-----END PGP SIGNATURE-----
+
+--66c7xgq6xsabpl3k--
