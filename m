@@ -2,65 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 177D6695E91
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Feb 2023 10:12:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E22FB695EC2
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Feb 2023 10:18:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231989AbjBNJMB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Feb 2023 04:12:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45108 "EHLO
+        id S232400AbjBNJSi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Feb 2023 04:18:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjBNJLi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Feb 2023 04:11:38 -0500
-Received: from mail.workercentrum.pl (mail.workercentrum.pl [51.89.166.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD99323C59
-        for <linux-leds@vger.kernel.org>; Tue, 14 Feb 2023 01:10:05 -0800 (PST)
-Received: by mail.workercentrum.pl (Postfix, from userid 1002)
-        id 77640ACE04; Fri, 10 Feb 2023 08:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=workercentrum.pl;
-        s=mail; t=1676018156;
-        bh=DQrvNxV4sbMtkGDNj/C7a2f11q8dNrBm5UPp1jE5GkY=;
-        h=Date:From:To:Subject:From;
-        b=029Gd9uNo3mKDqfZMZZB/8BGyvvTxsIId2luwDFMf4Z0WEKbOdJw2zF/qjygbyboJ
-         IHrnSHvLKUjHx46pxCX8/cVZ8yv3fnPvIWpr7GWZU7SC1zAl8k4rf2XtjW1R1vdLt5
-         ptcsG7XAfz2jDx89FO4VPvOnyE0wypHSrDidMrIJGl+yb7l5VEgZX0pOc7vRwOAf5F
-         dwtQqRXotJykfn/smOyuHFBDJrORwUdJEkmvyYNVcCaKtSbu3cqA4QMR7PYaFypbsg
-         yeocFwRZvEinlrhRxyzLgGSHH3Oc5+JkjKIb+Weqnr+Xo+WPn2R2O/ej0j4cmoJ431
-         77tdHpklWpnOQ==
-Received: by mail.workercentrum.pl for <linux-leds@vger.kernel.org>; Fri, 10 Feb 2023 08:35:31 GMT
-Message-ID: <20230210074500-0.1.7d.isje.0.ny79prffrg@workercentrum.pl>
-Date:   Fri, 10 Feb 2023 08:35:31 GMT
-From:   "Piotr Werner" <piotr.werner@workercentrum.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Panele fotowaltaiczne
-X-Mailer: mail.workercentrum.pl
+        with ESMTP id S229727AbjBNJSI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Feb 2023 04:18:08 -0500
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980038A7F;
+        Tue, 14 Feb 2023 01:18:05 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9423e69038=fe@dev.tdt.de>)
+        id 1pRrRm-00053o-M8; Tue, 14 Feb 2023 10:17:58 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1pRrRl-000FyV-UA; Tue, 14 Feb 2023 10:17:57 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 7F4C2240049;
+        Tue, 14 Feb 2023 10:17:57 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id EB8C0240040;
+        Tue, 14 Feb 2023 10:17:56 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id A568D2CFA8;
+        Tue, 14 Feb 2023 10:17:56 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 14 Feb 2023 10:17:56 +0100
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        pavel@ucw.cz, lee@kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
+Subject: Re: [PATCH 1/2] tty: new helper function tty_get_mget
+In-Reply-To: <5f67e2cf-f141-fde4-96de-28ceeeec9c06@kernel.org>
+References: <20230213140638.620206-1-fe@dev.tdt.de>
+ <20230213140638.620206-2-fe@dev.tdt.de>
+ <5f67e2cf-f141-fde4-96de-28ceeeec9c06@kernel.org>
+Message-ID: <00390b00bf50f42ff112ee8e31b88c8d@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-purgate-ID: 151534::1676366278-1EFFD8D8-AC9FBD0F/0/0
+X-purgate-type: clean
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-Jeste=C5=9Bmy firm=C4=85 z wieloletnim do=C5=9Bwiadczeniem, kt=C3=B3ra sp=
-rawnie przygotuje dla Pa=C5=84stwa ofert=C4=99 i wszelkie formalno=C5=9Bc=
-i. Sam monta=C5=BC zaplanujemy na wiosn=C4=99.
-
-O samych plusach fotowoltaiki czy pompach ciep=C5=82a na pewno ju=C5=BC P=
-a=C5=84stwo s=C5=82yszeli, dlatego teraz prosimy o zostawienie kontaktu, =
-aby nasz specjalista m=C3=B3g=C5=82 przedstawi=C4=87 ofert=C4=99 zgodn=C4=
-=85 z Waszymi potrzebami.
-
-Kiedy mogliby=C5=9Bmy z Pa=C5=84stwem um=C3=B3wi=C4=87 si=C4=99 na rozmow=
-=C4=99 w celu zbadania potrzeb?
 
 
-Pozdrawiam,
-Piotr Werner
+>> --- a/include/linux/tty.h
+>> +++ b/include/linux/tty.h
+>> @@ -419,8 +419,9 @@ void tty_unthrottle(struct tty_struct *tty);
+>>   int tty_throttle_safe(struct tty_struct *tty);
+>>   int tty_unthrottle_safe(struct tty_struct *tty);
+>>   int tty_do_resize(struct tty_struct *tty, struct winsize *ws);
+>> -int tty_get_icount(struct tty_struct *tty,
+>> +int tty_get_icount(struct tty_struct *tty
+> 
+> The robot already complained about this ^^^.
+> 
+> Have you even tried to compile-test this?
+
+Sorry I made a rebase of the patch set. My mistake!
+I compiled and tested my changes against kernel 5.15 (OpenWrt).
+And it worked as expected.
+
+> 
+>>   		struct serial_icounter_struct *icount);
+>> +extern int tty_get_mget(struct tty_struct *tty);
+> 
