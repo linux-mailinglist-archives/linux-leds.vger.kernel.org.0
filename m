@@ -2,107 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A2C698193
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Feb 2023 18:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 639A369847B
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Feb 2023 20:26:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjBORFI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Feb 2023 12:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45626 "EHLO
+        id S229553AbjBOT0w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Feb 2023 14:26:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjBORFG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Feb 2023 12:05:06 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7569859DA;
-        Wed, 15 Feb 2023 09:05:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676480705; x=1708016705;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=rOimDod//OCrW4INcjgAv6xJyq0ZxmoU28TD++6SzWw=;
-  b=EJvr2QE4SDnC0NgYijXHTzKlzyKbs/SfTsWrEFoKNWrk137d4vBImKOl
-   d0sc/Ak0HqmfV/IdAJF/C2lT6yr96Ky4Wj65ERvjIoW8cwzLu75AGPsNq
-   WQEEWeXafpr6K+4f7/peYKTTIjI5JCjCdu8DEX8JU//Th1j+6DSiCcV7W
-   DfoH+c7EXoQnNV0S//jh1fGNIKk1mTScbtQ4JhXmxGo74XIAMZeLtKKBD
-   riwvLllsHsOh+ZJKR8TXqUBBVubiVC/khXGbMpMB0YN6CXZkk4V25HOgr
-   Y8SaOdd2jra6NaOHPTkFFB2UqIZ9W6XklPhn7B1gjDKWEPVcfVflGF91c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="311847975"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="311847975"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 09:03:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="812539731"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="812539731"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 09:03:27 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id AFAC91C5; Wed, 15 Feb 2023 19:04:07 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Subject: [PATCH v1 2/2] leds: lp8860: Remove duplicate NULL checks
-Date:   Wed, 15 Feb 2023 19:04:03 +0200
-Message-Id: <20230215170403.84449-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230215170403.84449-1-andriy.shevchenko@linux.intel.com>
-References: <20230215170403.84449-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S229493AbjBOT0v (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Feb 2023 14:26:51 -0500
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C4413B659;
+        Wed, 15 Feb 2023 11:26:51 -0800 (PST)
+Received: by mail-oi1-f169.google.com with SMTP id n132so16732564oih.7;
+        Wed, 15 Feb 2023 11:26:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=syPlRWp1XLJqpKi4d2zS5tmfk5ekFo7ezxwYvPO/kOc=;
+        b=P/OKmeMQGJfB3/Pfti9Vj83VJr3uuVprthBG3zeYFemOa7DH+ElRm6asiT4xZ8VBah
+         K2HcejL/eIgQr46ROGTUjXxSL42HshYvJ8g3OiCYzfGpKx6CC/zhmauoQERfxgM9tsiY
+         H/LDveKmsb4EFDvKZAJ4AzARzzcvMcI7/z9hIVto0ZN1xnhKaEIB8wu11RKwQn4pvXi6
+         3o9+ZSnhtZbsq0rIRAn+fcrwH3R951owvgV+Sai83ohInRCKWor7eHRVG8PGxJDM0J4P
+         DJnS9Kzyh+vs3+GOuXIGseCywI5r15/M18NRXIDbrDYQncnkHZ6FFLO5bVHOfRApjwh4
+         35oQ==
+X-Gm-Message-State: AO0yUKW9ZGiLUegvcMVm3k7scXbdR4/orsIkFTbzJvQDXPbNeqGGzjts
+        4ddVlv+QbcFfLG8EfXLSHEkmyCKcZQ==
+X-Google-Smtp-Source: AK7set+vLM9YaNIGwhZ6i/Qg//cSFLo/sNWhut07J5qaCIhhqGgnWCLhu3wZ5SddiuKUfEH8hx+zrA==
+X-Received: by 2002:aca:280b:0:b0:364:7541:f9cd with SMTP id 11-20020aca280b000000b003647541f9cdmr1550479oix.21.1676489210299;
+        Wed, 15 Feb 2023 11:26:50 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q185-20020acac0c2000000b0035a9003b8edsm7549366oif.40.2023.02.15.11.26.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 11:26:49 -0800 (PST)
+Received: (nullmailer pid 435570 invoked by uid 1000);
+        Wed, 15 Feb 2023 19:26:49 -0000
+Date:   Wed, 15 Feb 2023 13:26:49 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, pavel@ucw.cz, lee@kernel.org,
+        thunder.leizhen@huawei.com, festevam@gmail.com,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] dt-bindings: leds: Document commonly used LED triggers
+Message-ID: <167648920872.435515.7644991846450817906.robh@kernel.org>
+References: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-gpiod_*() API check already for the NULL, no need
-to repeat that in the driver.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/leds/leds-lp8860.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+On Mon, 13 Feb 2023 12:51:33 +0530, Manivannan Sadhasivam wrote:
+> Document the commonly used LED triggers by the SoCs. Not all triggers
+> are documented as some of them are very application specific. Most of the
+> triggers documented here are currently used in devicetrees of many SoCs.
+> 
+> While at it, also place the comment above the triggers (hci, mmc, wlan)
+> to match the rest of the binding.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+> 
+> Changes in v6:
+> 
+> * Rebased on top of lee/for-leds-next branch
+> * Fixed the comment location for few triggers
+> 
+> Changes in v5:
+> 
+> * Rebased on top of v6.2-rc1
+> 
+> Changes in v4:
+> 
+> * Removed the sorting of triggers
+> * Removed the "items" as they were not needed
+> * Reworded the description
+> * Dropped Zhen Lei's tested-by tag as the patch has changed
+> * Added kbd-capslock trigger
+> 
+> Changes in v3:
+> 
+> * Rebased on top of v6.1-rc1
+> * Added WLAN Rx trigger
+> * Added tested tag from Zhen Lei
+> 
+> Changes in v2:
+> 
+> * Added more triggers, fixed the regex
+> * Sorted triggers in ascending order
+> 
+>  .../devicetree/bindings/leds/common.yaml      | 37 +++++++++++++++++--
+>  1 file changed, 34 insertions(+), 3 deletions(-)
+> 
 
-diff --git a/drivers/leds/leds-lp8860.c b/drivers/leds/leds-lp8860.c
-index 666f4d38214f..221b386443bc 100644
---- a/drivers/leds/leds-lp8860.c
-+++ b/drivers/leds/leds-lp8860.c
-@@ -249,8 +249,7 @@ static int lp8860_init(struct lp8860_led *led)
- 		}
- 	}
- 
--	if (led->enable_gpio)
--		gpiod_direction_output(led->enable_gpio, 1);
-+	gpiod_direction_output(led->enable_gpio, 1);
- 
- 	ret = lp8860_fault_check(led);
- 	if (ret)
-@@ -293,8 +292,7 @@ static int lp8860_init(struct lp8860_led *led)
- 
- out:
- 	if (ret)
--		if (led->enable_gpio)
--			gpiod_direction_output(led->enable_gpio, 0);
-+		gpiod_direction_output(led->enable_gpio, 0);
- 
- 	if (led->regulator) {
- 		ret = regulator_disable(led->regulator);
-@@ -448,8 +446,7 @@ static void lp8860_remove(struct i2c_client *client)
- 	struct lp8860_led *led = i2c_get_clientdata(client);
- 	int ret;
- 
--	if (led->enable_gpio)
--		gpiod_direction_output(led->enable_gpio, 0);
-+	gpiod_direction_output(led->enable_gpio, 0);
- 
- 	if (led->regulator) {
- 		ret = regulator_disable(led->regulator);
--- 
-2.39.1
+Reviewed-by: Rob Herring <robh@kernel.org>
 
