@@ -2,121 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04F2569B632
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Feb 2023 00:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BB7C69B9D9
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Feb 2023 12:48:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbjBQXK1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Feb 2023 18:10:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56136 "EHLO
+        id S229496AbjBRLs2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 18 Feb 2023 06:48:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjBQXKZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Feb 2023 18:10:25 -0500
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F3022A2E;
-        Fri, 17 Feb 2023 15:10:24 -0800 (PST)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1718b38d3ceso2594256fac.0;
-        Fri, 17 Feb 2023 15:10:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKQ7HUQ19YHYNCinZiTfNw1jKPbH2w3EEubtXUOOTSQ=;
-        b=TUCLcZrHG8PJaLwuWsHXiWb68ftBX1eBlaGdI1EtGxpJdo7Svq6/SEXXKvNqTfnjwY
-         5/RgBM3L+IFAZKQEaU3CoPyZ0Nmno8gtZZAkfsAE3Ir5cm3zLP9WiCaVEXaOhh0ViP5a
-         iOGP6BMh1QwO1dexY4TPgk53rxVx/0Hjy0DiQhNFSIMeKg/mBrrjxlmI/Q5Vl+IhpKao
-         nikltINh+AE5v6V3SqiNtmTPi6IZTuwt/yxOl5QAdfLGv9+Q8dx/L8UXeFj19xSC65mk
-         J7P1t005gBdFLbL65DM3FqQdn1gtj1Hix66cT51ihAkKL65gBfbDuCq+mQWssepyS8i2
-         cCYg==
-X-Gm-Message-State: AO0yUKWRFh55Zp5jlJ34TJS/XjZogKOspuEssEwNCnjD7eYx5G1c1z16
-        JzGeg6YsD5rLVXd93Ve+6R/SnvgrRA==
-X-Google-Smtp-Source: AK7set9fLPkg0yKORr/D/XglLiElC4PsjDfJZgA+4C6EekrPMHMQtaKaiiTrXYqBkej6oKIb5JAYgA==
-X-Received: by 2002:a05:6871:8e86:b0:16d:c23a:a117 with SMTP id zq6-20020a0568718e8600b0016dc23aa117mr117105oab.1.1676675423565;
-        Fri, 17 Feb 2023 15:10:23 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id n6-20020a056870e40600b00163c90c1513sm2182724oag.28.2023.02.17.15.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Feb 2023 15:10:23 -0800 (PST)
-Received: (nullmailer pid 2236402 invoked by uid 1000);
-        Fri, 17 Feb 2023 23:10:20 -0000
-Date:   Fri, 17 Feb 2023 17:10:20 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        devicetree@vger.kernel.org, John Crispin <john@phrozen.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>, Arun.Ramadoss@microchip.com
-Subject: Re: [PATCH v8 12/13] dt-bindings: net: phy: Document support for
- leds node
-Message-ID: <20230217231020.GB2217008-robh@kernel.org>
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
- <20230216013230.22978-13-ansuelsmth@gmail.com>
- <167651373836.1183034.17900591036429665419.robh@kernel.org>
- <63ee9801.df0a0220.a106.72a3@mx.google.com>
+        with ESMTP id S229436AbjBRLs1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 18 Feb 2023 06:48:27 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D03A166DC;
+        Sat, 18 Feb 2023 03:48:26 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0157F1C0DFD; Sat, 18 Feb 2023 12:48:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1676720904;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YHZsK3arv/1aj12I3FHMYRgbyAEsDvuM63EKtoCmH34=;
+        b=JMxu16V3xqCXCqfOzG5r0s9Db595ho7q7LQue9sF2PWxtHqWZpKdbessRANaUG1B0v3Ytw
+        wd9GaWTcRJ5nGzkrqleDyk3NSjutmtF5L/tgANCScUYgXg028J7MGaBGT1S/+ru0bZryDG
+        39r1Cet83pkhINqV+rHN7d8SssOUziY=
+Date:   Sat, 18 Feb 2023 12:48:19 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Rishit Bansal <rishitbansal0@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>
+Subject: Re: API for setting colors of RGB backlit keyboard zones (was [PATCH
+ V3] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods)
+Message-ID: <Y/C7A9eCjpdbzYbz@duo.ucw.cz>
+References: <20230131235027.36304-1-rishitbansal0@gmail.com>
+ <9b761996-d522-b0f8-6472-10e40e09e036@redhat.com>
+ <65a11a89-e780-6d60-a40e-cd3245780762@gmail.com>
+ <b83ad6ba-7d55-f309-5d7b-4a5ff77ff5a3@redhat.com>
+ <02c96cfe-ab10-513f-fc36-f474dd227656@gmail.com>
+ <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
+ <Y+I7xNqkq/X6Lag+@duo.ucw.cz>
+ <3c48e204-780c-f78c-8219-267e297dc1e3@gmail.com>
+ <ec5bc4a6-dc9f-90dd-0cf6-5fab47bb5fa6@redhat.com>
+ <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="qAV0Wrzlh/6x7U/V"
 Content-Disposition: inline
-In-Reply-To: <63ee9801.df0a0220.a106.72a3@mx.google.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 11:00:49AM +0100, Christian Marangi wrote:
-> On Wed, Feb 15, 2023 at 08:32:11PM -0600, Rob Herring wrote:
-> > 
-> > On Thu, 16 Feb 2023 02:32:29 +0100, Christian Marangi wrote:
-> > > Document support for leds node in phy and add an example for it.
-> > > Phy led will have to match led-phy pattern and should be treated as a
-> > > generic led.
-> > > 
-> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/net/ethernet-phy.yaml | 22 +++++++++++++++++++
-> > >  1 file changed, 22 insertions(+)
-> > > 
-> > 
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/ethernet-phy.example.dtb: ethernet-phy@0: leds:led-phy@0:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
-> > 	'netdev' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-> > 	'netdev' does not match '^mmc[0-9]+$'
-> > 	'netdev' does not match '^cpu[0-9]*$'
-> > 	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > 
-> 
-> Hi, I could be wrong but this should be fixed by the previous patch that
-> adds netdev to the trigger list.
 
-If so, then it didn't apply for me which is what PW says. So what tree 
-does this series apply too? linux-next? That's a tree no one can apply 
-patches from.
+--qAV0Wrzlh/6x7U/V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+Hi!
 
+
+> > I do agree with you that we need to avoid kbd_backlight in the name to =
+avoid causing existing upower code to have weird interactions with this (it=
+ supports / assumes there is only 1 kbd_backlight LED class device).
+> >=20
+> > So lets go with just these 4:
+> >=20
+> > /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
+> > /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
+> > /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
+> > /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
+> >=20
+> > Using the _zoned_ between kbd and baclight to avoid confusing the exist=
+ing upower code. Then once this has landed we can look into extending upowe=
+r support for this.
+> >=20
+> > Note the requested documentation patch should probably also explain tha=
+t the _zoned_ was done deliberately to make current upower code ignore the =
+devices.
+> >
+
+>=20
+> This makes sense, I agree that the global LED file will cause more confus=
+ion
+> and hacks in the code. I'll start working on the  _zoned_ naming scheme w=
+ith
+> 4 files + documentation changes and make a patch for this soon!
+>
+
+/sys/class/leds/:rgb:kbd_zoned_backlight-4/ is better than what was
+suggested above. But we already use _1 suffix to deduplicate the, so
+I'm not sure this is best naming.
+
+There are keyboards with per-key backlight. How do you suggest to
+solve those?
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--qAV0Wrzlh/6x7U/V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/C7AwAKCRAw5/Bqldv6
+8pXMAKCIdI8KbS5mAISKNMRztO7602shGACbBpeBHzXsXIPq1r6rMBoYzfUSFwk=
+=G7yz
+-----END PGP SIGNATURE-----
+
+--qAV0Wrzlh/6x7U/V--
