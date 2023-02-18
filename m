@@ -2,57 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BB7C69B9D9
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Feb 2023 12:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B05169BB36
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Feb 2023 18:21:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbjBRLs2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 18 Feb 2023 06:48:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40426 "EHLO
+        id S229632AbjBRRVc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 18 Feb 2023 12:21:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjBRLs1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 18 Feb 2023 06:48:27 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D03A166DC;
-        Sat, 18 Feb 2023 03:48:26 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 0157F1C0DFD; Sat, 18 Feb 2023 12:48:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1676720904;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YHZsK3arv/1aj12I3FHMYRgbyAEsDvuM63EKtoCmH34=;
-        b=JMxu16V3xqCXCqfOzG5r0s9Db595ho7q7LQue9sF2PWxtHqWZpKdbessRANaUG1B0v3Ytw
-        wd9GaWTcRJ5nGzkrqleDyk3NSjutmtF5L/tgANCScUYgXg028J7MGaBGT1S/+ru0bZryDG
-        39r1Cet83pkhINqV+rHN7d8SssOUziY=
-Date:   Sat, 18 Feb 2023 12:48:19 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rishit Bansal <rishitbansal0@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: API for setting colors of RGB backlit keyboard zones (was [PATCH
- V3] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods)
-Message-ID: <Y/C7A9eCjpdbzYbz@duo.ucw.cz>
-References: <20230131235027.36304-1-rishitbansal0@gmail.com>
- <9b761996-d522-b0f8-6472-10e40e09e036@redhat.com>
- <65a11a89-e780-6d60-a40e-cd3245780762@gmail.com>
- <b83ad6ba-7d55-f309-5d7b-4a5ff77ff5a3@redhat.com>
- <02c96cfe-ab10-513f-fc36-f474dd227656@gmail.com>
- <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
- <Y+I7xNqkq/X6Lag+@duo.ucw.cz>
- <3c48e204-780c-f78c-8219-267e297dc1e3@gmail.com>
- <ec5bc4a6-dc9f-90dd-0cf6-5fab47bb5fa6@redhat.com>
- <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
+        with ESMTP id S229475AbjBRRVc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 18 Feb 2023 12:21:32 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB2615C9B;
+        Sat, 18 Feb 2023 09:21:29 -0800 (PST)
+From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1676740887;
+        bh=YtT+lMTprYjd+HAo5VfFtrPuqbrUQqfuKSGmUVN8Llw=;
+        h=From:Date:Subject:To:Cc:From;
+        b=UgJ8QKg6u3AFxZSoFgjtSWEO9UGGA422hnwTMHeQm484cu4MT3yKV40wery0LKgIQ
+         u9G9twcGI8w2hF9v+2+DHlaHctZ4zMzwZA2KY6K7jMRs0bTQBRyRLCRV41xN9/y3Yy
+         UNZ4+YOGWTbxOyFB7e7MUSc5CE0rmZZSWeipEJOs=
+Date:   Sat, 18 Feb 2023 17:21:21 +0000
+Subject: [PATCH] leds: Fix reference to led_set_brightness() in doc
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="qAV0Wrzlh/6x7U/V"
-Content-Disposition: inline
-In-Reply-To: <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20230218-typo-led-set-v1-1-3c35362a2f2d@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIABEJ8WMC/x2NwQqDMBAFf0X23IUkQrH9ldJDoi+6EKJkbWkR/
+ 71LjzMwzEGKJlC6dwc1vEVlrQb+0tG4xDqDZTKm4ELvgh94/24rF0ys2Nn1yLfs0zX7SJakqOD
+ UYh0Xi+qrFJNbQ5bP//F4nucPX5FG+3MAAAA=
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Richard Purdie <rpurdie@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676740883; l=1026;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=YtT+lMTprYjd+HAo5VfFtrPuqbrUQqfuKSGmUVN8Llw=;
+ b=eVROg0imnbioVb9UiQzTtHu5jFZlB+qu/YHlR/xuvi4TUdXUAuaQjWVcDTWMzQ2VPOPJFxvDe
+ PoyFKDTp/YTBktSEix5HNFImgBTDUmrJjhiRlw5b/S4qTzIEK29MdqY
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,63 +54,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The referenced function led_classdev_brightness_set() never existed.
 
---qAV0Wrzlh/6x7U/V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 5ada28bf7675 ("led-class: always implement blinking")
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ include/linux/leds.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi!
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index ba4861ec73d3..228acdb52fe2 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -229,7 +229,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+  *
+  * Note that if software blinking is active, simply calling
+  * led_cdev->brightness_set() will not stop the blinking,
+- * use led_classdev_brightness_set() instead.
++ * use led_set_brightness() instead.
+  */
+ void led_blink_set(struct led_classdev *led_cdev, unsigned long *delay_on,
+ 		   unsigned long *delay_off);
 
-
-> > I do agree with you that we need to avoid kbd_backlight in the name to =
-avoid causing existing upower code to have weird interactions with this (it=
- supports / assumes there is only 1 kbd_backlight LED class device).
-> >=20
-> > So lets go with just these 4:
-> >=20
-> > /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
-> > /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
-> > /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
-> > /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
-> >=20
-> > Using the _zoned_ between kbd and baclight to avoid confusing the exist=
-ing upower code. Then once this has landed we can look into extending upowe=
-r support for this.
-> >=20
-> > Note the requested documentation patch should probably also explain tha=
-t the _zoned_ was done deliberately to make current upower code ignore the =
-devices.
-> >
-
->=20
-> This makes sense, I agree that the global LED file will cause more confus=
-ion
-> and hacks in the code. I'll start working on the  _zoned_ naming scheme w=
-ith
-> 4 files + documentation changes and make a patch for this soon!
->
-
-/sys/class/leds/:rgb:kbd_zoned_backlight-4/ is better than what was
-suggested above. But we already use _1 suffix to deduplicate the, so
-I'm not sure this is best naming.
-
-There are keyboards with per-key backlight. How do you suggest to
-solve those?
+---
+base-commit: 38f8ccde04a3fa317b51b05e63c3cb57e1641931
+change-id: 20230218-typo-led-set-03ef9f1b6f1a
 
 Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
---qAV0Wrzlh/6x7U/V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/C7AwAKCRAw5/Bqldv6
-8pXMAKCIdI8KbS5mAISKNMRztO7602shGACbBpeBHzXsXIPq1r6rMBoYzfUSFwk=
-=G7yz
------END PGP SIGNATURE-----
-
---qAV0Wrzlh/6x7U/V--
