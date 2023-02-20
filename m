@@ -2,311 +2,238 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35CF669D077
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Feb 2023 16:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6594569D2B4
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Feb 2023 19:22:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbjBTPUx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Feb 2023 10:20:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        id S231923AbjBTSWc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Feb 2023 13:22:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231174AbjBTPUw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Feb 2023 10:20:52 -0500
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F7A126;
-        Mon, 20 Feb 2023 07:20:49 -0800 (PST)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=9429674533=fe@dev.tdt.de>)
-        id 1pU7y8-000Iex-9s; Mon, 20 Feb 2023 16:20:44 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1pU7y7-0009Vl-Ja; Mon, 20 Feb 2023 16:20:43 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id 40CFA240049;
-        Mon, 20 Feb 2023 16:20:43 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id ABCC624004D;
-        Mon, 20 Feb 2023 16:20:42 +0100 (CET)
-Received: from localhost.localdomain (unknown [10.2.3.40])
-        by mail.dev.tdt.de (Postfix) with ESMTPSA id 50BB22C0D2;
-        Mon, 20 Feb 2023 16:20:42 +0100 (CET)
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Eckert.Florian@googlemail.com
-Subject: [PATCH v4 2/2] trigger: ledtrig-tty: add additional modes
-Date:   Mon, 20 Feb 2023 16:20:38 +0100
-Message-ID: <20230220152038.3877596-3-fe@dev.tdt.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230220152038.3877596-1-fe@dev.tdt.de>
-References: <20230220152038.3877596-1-fe@dev.tdt.de>
+        with ESMTP id S232356AbjBTSWb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Feb 2023 13:22:31 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601612128A;
+        Mon, 20 Feb 2023 10:22:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676917349; x=1708453349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s5kV3/hw0tutzP+HDwbkEahW18Zgcxksl9Clk03++H0=;
+  b=XPF7SA6NClGyqW/x9jZ79iqYWGMyhkVVCNElUSb6G0zvInAfCZpmbuQ3
+   zX6E7T49XqpETKkurIYqCUC/zkOj1tplUHA/BD/3UlgCLN6TY7M2JdDmO
+   X2CFtnfiumNxoWIDmRHCZRBP3iAckPk+2yJAdor6knaelqkg5bbKuZWbS
+   BnyxefMHtj2UFcBUKo3PLXPbF0urhklrZ5W51RjaWO+DiOtzpVgmt2G0u
+   owWLrwLi9gfyABjPqQy3XJQnyZMIxqPznztY74NBEqHRsZrDvRReVdvaY
+   rQvEBe1PaWdzWLKcU75FdK7afRTe7Bcx7NpKmes+tqXl6osQEv2MmsBFW
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="418685870"
+X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
+   d="scan'208";a="418685870"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 10:22:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="703772019"
+X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
+   d="scan'208";a="703772019"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 20 Feb 2023 10:22:25 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pUAnx-000E69-0w;
+        Mon, 20 Feb 2023 18:22:25 +0000
+Date:   Tue, 21 Feb 2023 02:22:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
+Subject: Re: [PATCH v4 2/2] trigger: ledtrig-tty: add additional modes
+Message-ID: <202302210235.GfyfYlvF-lkp@intel.com>
+References: <20230220152038.3877596-3-fe@dev.tdt.de>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220152038.3877596-3-fe@dev.tdt.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-Content-Transfer-Encoding: quoted-printable
-X-purgate-ID: 151534::1676906444-DA0EEB41-D9E20889/0/0
-X-purgate: clean
-X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add additional modes to trigger the selected LED.
-The following modes are supported:
+Hi Florian,
 
-Tx/Rx:	Flash LED on data transmission (default)
-CTS:	DCE Ready to accept data from the DTE.
-DSR:	DCE is ready to receive and send data.
-CAR:	DCE is receiving a carrier from a remote DTE.
-RNG:	DCE has detected an incoming ring signal.
+Thank you for the patch! Perhaps something to improve:
 
-The mode can be changed for example with the following command:
-echo "CTS" > /sys/class/leds/<led>/mode
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus pavel-leds/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.2 next-20230220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This would turn on the LED, when the DTE(modem) signals the DCE that it
-is ready to accept data.
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230220-232129
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230220152038.3877596-3-fe%40dev.tdt.de
+patch subject: [PATCH v4 2/2] trigger: ledtrig-tty: add additional modes
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230221/202302210235.GfyfYlvF-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8da3a8a2edcad2e4b36fce551cac1961a5cd90a6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Florian-Eckert/tty-new-helper-function-tty_get_mget/20230220-232129
+        git checkout 8da3a8a2edcad2e4b36fce551cac1961a5cd90a6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/leds/
 
-Signed-off-by: Florian Eckert <fe@dev.tdt.de>
----
- .../ABI/testing/sysfs-class-led-trigger-tty   |  16 ++
- drivers/leds/trigger/ledtrig-tty.c            | 144 ++++++++++++++++--
- 2 files changed, 145 insertions(+), 15 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302210235.GfyfYlvF-lkp@intel.com/
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Docu=
-mentation/ABI/testing/sysfs-class-led-trigger-tty
-index 2bf6b24e781b..31d62a5ae095 100644
---- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-@@ -4,3 +4,19 @@ KernelVersion:	5.10
- Contact:	linux-leds@vger.kernel.org
- Description:
- 		Specifies the tty device name of the triggering tty
-+
-+What:		/sys/class/leds/<led>/mode
-+Date:		January 2023
-+KernelVersion:	6.3
-+Description:
-+		Specifies the operating to trigger the LED.
-+		The following operating modes are supported:
-+		Tx/Rx: Flash LED on data transmission (default)
-+		CTS:   DCE Ready to accept data from the DTE.
-+		       LED on if line is high.
-+		DSR:   DCE is ready to receive and send data.
-+		       LED on if line is high.
-+		CAR:   DCE is receiving a carrier from a remote DTE.
-+		       LED on if line is high.
-+		RNG:   DCE has detected an incoming ring signal.
-+		       LED on if line is high.
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/le=
-dtrig-tty.c
-index f62db7e520b5..8b2eed7e67e5 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -7,6 +7,14 @@
- #include <linux/tty.h>
- #include <uapi/linux/serial.h>
-=20
-+enum tty_led_mode {
-+	TTY_LED_CNT,
-+	TTY_LED_CTS,
-+	TTY_LED_DSR,
-+	TTY_LED_CAR,
-+	TTY_LED_LAST =3D TTY_LED_RNG
-+};
-+
- struct ledtrig_tty_data {
- 	struct led_classdev *led_cdev;
- 	struct delayed_work dwork;
-@@ -14,6 +22,15 @@ struct ledtrig_tty_data {
- 	const char *ttyname;
- 	struct tty_struct *tty;
- 	int rx, tx;
-+	enum tty_led_mode mode;
-+};
-+
-+static const char * const mode[] =3D {
-+	[TTY_LED_CNT] =3D "Tx/Rx", // Trasmit Data / Receive Data
-+	[TTY_LED_CTS] =3D "CTS", // CTS Clear To Send
-+	[TTY_LED_DSR] =3D "DSR", // DSR Data Set Ready
-+	[TTY_LED_CAR] =3D "CAR", // CAR Data Carrier Detect (DCD)
-+	[TTY_LED_RNG] =3D "RNG", // RNG Ring Indicator (RI)
- };
-=20
- static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
-@@ -21,6 +38,70 @@ static void ledtrig_tty_restart(struct ledtrig_tty_dat=
-a *trigger_data)
- 	schedule_delayed_work(&trigger_data->dwork, 0);
- }
-=20
-+static ssize_t ledtrig_tty_mode_show(char *buf, enum tty_led_mode tty_mo=
-de)
-+{
-+	int len =3D 0;
-+	int i;
-+
-+	for (i =3D 0; i <=3D TTY_LED_LAST; i++) {
-+		bool hit =3D tty_mode =3D=3D i;
-+		bool last =3D i =3D=3D __TTY_LED_LAST;
-+
-+		len +=3D sysfs_emit_at(buf, len, "%s%s%s",
-+				  hit ? "[" : "",
-+				  mode[i],
-+				  hit ? "]" : "",
-+				  last ? "" : " ");
-+	}
-+
-+	len +=3D sysfs_emit_at(buf, len, "\n");
-+
-+	return len;
-+}
-+
-+static ssize_t tty_led_mode_show(struct device *dev,
-+			 struct device_attribute *attr, char *buf)
-+{
-+	struct ledtrig_tty_data *trigger_data =3D led_trigger_get_drvdata(dev);
-+	enum tty_led_mode tty_mode;
-+
-+	mutex_lock(&trigger_data->mutex);
-+	tty_mode =3D trigger_data->mode;
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	return ledtrig_tty_mode_show(buf, tty_mode);
-+}
-+
-+static ssize_t tty_led_mode_store(struct device *dev,
-+			  struct device_attribute *attr, const char *buf,
-+			  size_t size)
-+{
-+	struct ledtrig_tty_data *trigger_data =3D led_trigger_get_drvdata(dev);
-+	ssize_t ret =3D size;
-+	enum tty_led_mode tty_mode =3D __TTY_LED_MAX;
-+	int i;
-+
-+	/* Check for new line in string*/
-+	if (size > 0 && buf[size - 1] =3D=3D '\n')
-+		size -=3D 1;
-+
-+	for (i =3D 0; i <=3D __TTY_LED_LAST; i++)
-+		if (strncmp(buf, mode[i], size) =3D=3D 0)
-+			tty_mode =3D i;
-+			break;
-+		}
-+
-+	if (tty_mode > __TTY_LED_LAST)
-+		return -EINVAL;
-+
-+	mutex_lock(&trigger_data->mutex);
-+	trigger_data->mode =3D tty_mode;
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RW(tty_led_mode);
-+
- static ssize_t ttyname_show(struct device *dev,
- 			    struct device_attribute *attr, char *buf)
- {
-@@ -76,6 +157,18 @@ static ssize_t ttyname_store(struct device *dev,
- }
- static DEVICE_ATTR_RW(ttyname);
-=20
-+static void ledtrig_tty_flags(struct ledtrig_tty_data *trigger_data,
-+		unsigned int flag)
-+{
-+	unsigned int status;
-+
-+	status =3D tty_get_mget(trigger_data->tty);
-+	if (status & flag)
-+		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-+	else
-+		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-+}
-+
- static void ledtrig_tty_work(struct work_struct *work)
- {
- 	struct ledtrig_tty_data *trigger_data =3D
-@@ -113,21 +206,38 @@ static void ledtrig_tty_work(struct work_struct *wo=
-rk)
- 		trigger_data->tty =3D tty;
- 	}
-=20
--	ret =3D tty_get_icount(trigger_data->tty, &icount);
--	if (ret) {
--		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped pollin=
-g\n");
--		mutex_unlock(&trigger_data->mutex);
--		return;
--	}
--
--	if (icount.rx !=3D trigger_data->rx ||
--	    icount.tx !=3D trigger_data->tx) {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
--
--		trigger_data->rx =3D icount.rx;
--		trigger_data->tx =3D icount.tx;
--	} else {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-+	switch (trigger_data->mode) {
-+	case TTY_LED_CTS:
-+		ledtrig_tty_flags(trigger_data, TIOCM_CTS);
-+		break;
-+	case TTY_LED_DSR:
-+		ledtrig_tty_flags(trigger_data, TIOCM_DSR);
-+		break;
-+	case TTY_LED_CAR:
-+		ledtrig_tty_flags(trigger_data, TIOCM_CAR);
-+		break;
-+	case TTY_LED_RNG:
-+		ledtrig_tty_flags(trigger_data, TIOCM_RNG);
-+		break;
-+	case TTY_LED_CNT:
-+	default:
-+		ret =3D tty_get_icount(trigger_data->tty, &icount);
-+		if (ret) {
-+			dev_info(trigger_data->tty->dev, "Failed to get icount, stopped polli=
-ng\n");
-+			mutex_unlock(&trigger_data->mutex);
-+			return;
-+		}
-+
-+		if (icount.rx !=3D trigger_data->rx ||
-+		    icount.tx !=3D trigger_data->tx) {
-+			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-+
-+			trigger_data->rx =3D icount.rx;
-+			trigger_data->tx =3D icount.tx;
-+		} else {
-+			led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-+		}
-+		break;
- 	}
-=20
- out:
-@@ -137,6 +247,7 @@ static void ledtrig_tty_work(struct work_struct *work=
-)
-=20
- static struct attribute *ledtrig_tty_attrs[] =3D {
- 	&dev_attr_ttyname.attr,
-+	&dev_attr_tty_led_mode.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(ledtrig_tty);
-@@ -149,6 +260,9 @@ static int ledtrig_tty_activate(struct led_classdev *=
-led_cdev)
- 	if (!trigger_data)
- 		return -ENOMEM;
-=20
-+	/* set default mode */
-+	trigger_data->mode =3D TTY_LED_CNT;
-+
- 	led_set_trigger_data(led_cdev, trigger_data);
-=20
- 	INIT_DELAYED_WORK(&trigger_data->dwork, ledtrig_tty_work);
---=20
-2.30.2
+All warnings (new ones prefixed by >>):
 
+   drivers/leds/trigger/ledtrig-tty.c:15:24: error: 'TTY_LED_RNG' undeclared here (not in a function); did you mean 'TTY_LED_CNT'?
+      15 |         TTY_LED_LAST = TTY_LED_RNG
+         |                        ^~~~~~~~~~~
+         |                        TTY_LED_CNT
+   drivers/leds/trigger/ledtrig-tty.c:33:10: error: array index in initializer not of integer type
+      33 |         [TTY_LED_RNG] = "RNG", // RNG Ring Indicator (RI)
+         |          ^~~~~~~~~~~
+   drivers/leds/trigger/ledtrig-tty.c:33:10: note: (near initialization for 'mode')
+   drivers/leds/trigger/ledtrig-tty.c: In function 'ledtrig_tty_mode_show':
+   drivers/leds/trigger/ledtrig-tty.c:48:34: error: '__TTY_LED_LAST' undeclared (first use in this function); did you mean 'TTY_LED_LAST'?
+      48 |                 bool last = i == __TTY_LED_LAST;
+         |                                  ^~~~~~~~~~~~~~
+         |                                  TTY_LED_LAST
+   drivers/leds/trigger/ledtrig-tty.c:48:34: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/leds/trigger/ledtrig-tty.c:50:48: warning: too many arguments for format [-Wformat-extra-args]
+      50 |                 len += sysfs_emit_at(buf, len, "%s%s%s",
+         |                                                ^~~~~~~~
+   drivers/leds/trigger/ledtrig-tty.c: In function 'tty_led_mode_store':
+   drivers/leds/trigger/ledtrig-tty.c:81:38: error: '__TTY_LED_MAX' undeclared (first use in this function); did you mean 'TTY_LED_CAR'?
+      81 |         enum tty_led_mode tty_mode = __TTY_LED_MAX;
+         |                                      ^~~~~~~~~~~~~
+         |                                      TTY_LED_CAR
+   drivers/leds/trigger/ledtrig-tty.c:88:26: error: '__TTY_LED_LAST' undeclared (first use in this function); did you mean 'TTY_LED_LAST'?
+      88 |         for (i = 0; i <= __TTY_LED_LAST; i++)
+         |                          ^~~~~~~~~~~~~~
+         |                          TTY_LED_LAST
+>> drivers/leds/trigger/ledtrig-tty.c:89:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+      89 |                 if (strncmp(buf, mode[i], size) == 0)
+         |                 ^~
+   drivers/leds/trigger/ledtrig-tty.c:91:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+      91 |                         break;
+         |                         ^~~~~
+   drivers/leds/trigger/ledtrig-tty.c:91:25: error: break statement not within loop or switch
+>> drivers/leds/trigger/ledtrig-tty.c:81:27: warning: variable 'tty_mode' set but not used [-Wunused-but-set-variable]
+      81 |         enum tty_led_mode tty_mode = __TTY_LED_MAX;
+         |                           ^~~~~~~~
+   drivers/leds/trigger/ledtrig-tty.c:80:17: warning: unused variable 'ret' [-Wunused-variable]
+      80 |         ssize_t ret = size;
+         |                 ^~~
+   drivers/leds/trigger/ledtrig-tty.c:79:34: warning: unused variable 'trigger_data' [-Wunused-variable]
+      79 |         struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
+         |                                  ^~~~~~~~~~~~
+   drivers/leds/trigger/ledtrig-tty.c:92:17: error: no return statement in function returning non-void [-Werror=return-type]
+      92 |                 }
+         |                 ^
+   drivers/leds/trigger/ledtrig-tty.c: At top level:
+   drivers/leds/trigger/ledtrig-tty.c:94:9: error: expected identifier or '(' before 'if'
+      94 |         if (tty_mode > __TTY_LED_LAST)
+         |         ^~
+   drivers/leds/trigger/ledtrig-tty.c:97:20: error: expected declaration specifiers or '...' before '&' token
+      97 |         mutex_lock(&trigger_data->mutex);
+         |                    ^
+   drivers/leds/trigger/ledtrig-tty.c:98:21: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+      98 |         trigger_data->mode = tty_mode;
+         |                     ^~
+   drivers/leds/trigger/ledtrig-tty.c:99:22: error: expected declaration specifiers or '...' before '&' token
+      99 |         mutex_unlock(&trigger_data->mutex);
+         |                      ^
+   drivers/leds/trigger/ledtrig-tty.c:101:9: error: expected identifier or '(' before 'return'
+     101 |         return ret;
+         |         ^~~~~~
+   drivers/leds/trigger/ledtrig-tty.c:102:1: error: expected identifier or '(' before '}' token
+     102 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +50 drivers/leds/trigger/ledtrig-tty.c
+
+    40	
+    41	static ssize_t ledtrig_tty_mode_show(char *buf, enum tty_led_mode tty_mode)
+    42	{
+    43		int len = 0;
+    44		int i;
+    45	
+    46		for (i = 0; i <= TTY_LED_LAST; i++) {
+    47			bool hit = tty_mode == i;
+    48			bool last = i == __TTY_LED_LAST;
+    49	
+  > 50			len += sysfs_emit_at(buf, len, "%s%s%s",
+    51					  hit ? "[" : "",
+    52					  mode[i],
+    53					  hit ? "]" : "",
+    54					  last ? "" : " ");
+    55		}
+    56	
+    57		len += sysfs_emit_at(buf, len, "\n");
+    58	
+    59		return len;
+    60	}
+    61	
+    62	static ssize_t tty_led_mode_show(struct device *dev,
+    63				 struct device_attribute *attr, char *buf)
+    64	{
+    65		struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
+    66		enum tty_led_mode tty_mode;
+    67	
+    68		mutex_lock(&trigger_data->mutex);
+    69		tty_mode = trigger_data->mode;
+    70		mutex_unlock(&trigger_data->mutex);
+    71	
+    72		return ledtrig_tty_mode_show(buf, tty_mode);
+    73	}
+    74	
+    75	static ssize_t tty_led_mode_store(struct device *dev,
+    76				  struct device_attribute *attr, const char *buf,
+    77				  size_t size)
+    78	{
+    79		struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
+    80		ssize_t ret = size;
+  > 81		enum tty_led_mode tty_mode = __TTY_LED_MAX;
+    82		int i;
+    83	
+    84		/* Check for new line in string*/
+    85		if (size > 0 && buf[size - 1] == '\n')
+    86			size -= 1;
+    87	
+    88		for (i = 0; i <= __TTY_LED_LAST; i++)
+  > 89			if (strncmp(buf, mode[i], size) == 0)
+    90				tty_mode = i;
+    91				break;
+    92			}
+    93	
+    94		if (tty_mode > __TTY_LED_LAST)
+    95			return -EINVAL;
+    96	
+    97		mutex_lock(&trigger_data->mutex);
+    98		trigger_data->mode = tty_mode;
+    99		mutex_unlock(&trigger_data->mutex);
+   100	
+   101		return ret;
+   102	}
+   103	static DEVICE_ATTR_RW(tty_led_mode);
+   104	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
