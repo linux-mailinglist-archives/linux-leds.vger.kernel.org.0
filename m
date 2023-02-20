@@ -2,163 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BEA69C6EA
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Feb 2023 09:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5716569C7C5
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Feb 2023 10:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjBTIoy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Feb 2023 03:44:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58348 "EHLO
+        id S230089AbjBTJh5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Feb 2023 04:37:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231289AbjBTIot (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Feb 2023 03:44:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551E5C663
-        for <linux-leds@vger.kernel.org>; Mon, 20 Feb 2023 00:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676882641;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2bIx447q7zOccwg9isjOzlMuhknxYljdkPuPhMeel7o=;
-        b=Ocz3BL2Bi4nexqwzHsPjM28IP4BZ6seUMW7u/+WyrK9dzOXy9wYDQH2AcBwFQadPQSY6Z9
-        ezJkit7Lc1xN8ZDF492FLKCIr1V2GKj8ai6wL9HOU3Aqs8tMV4+0SHLeI2GyFqmvDbA/lz
-        QL6vURZ0+R0eh7gnfpRuNyagfFtUuac=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-30-L-ZauuqdNDyu-TjD_F3nAg-1; Mon, 20 Feb 2023 03:43:59 -0500
-X-MC-Unique: L-ZauuqdNDyu-TjD_F3nAg-1
-Received: by mail-ed1-f71.google.com with SMTP id g24-20020a056402321800b004ace77022ebso932275eda.8
-        for <linux-leds@vger.kernel.org>; Mon, 20 Feb 2023 00:43:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2bIx447q7zOccwg9isjOzlMuhknxYljdkPuPhMeel7o=;
-        b=CnK78X2ELs5zKWRy1jN2zg3xMBXfKkhFte1SIEBKFtbqUrfHhJmU9+vwR12Ogd9aS0
-         rvtzI5lJ8kzZmIjA47Ix4gHBaEGW9DIWvVz9qLA1qUY57RMeMJh26dRd/5LzsWcVQJW2
-         J9tm5Vqq/asU8Pdsx8lNBGvgyfRX6fIdWPJKMaYa4QwtISvx+xYN6hLDt+ChJGM7rIBb
-         bGbHnLQ1JbOjTN1vxDHhoL2bdHXtSM4SHRtgHOUrgtXL8leodEeSUPy7iP1XylMWMv4F
-         V2Tklxn3IVVu2I9wdx9uV7pl6EgWjukSxfbNBlpsH9OKw7wjgQVxJw6tcZCxRBzZXZdM
-         Er+w==
-X-Gm-Message-State: AO0yUKX8tj2SoBdJf/nSVgd/jUhUQ6FZJnJg3+OfuApKvZW6TDkGBQzC
-        QbOonFWVDrUeU3KC3IdDe0ejHvA0f+Gx+pMV/y77KQ4mL0HT6Ssne5pcghkW4JtViOqPrga9fOc
-        PLx6UwfkdDcc0U/dwonFYG1lQ/28=
-X-Received: by 2002:a17:906:f6c4:b0:8b1:20f4:44a3 with SMTP id jo4-20020a170906f6c400b008b120f444a3mr7979741ejb.7.1676882638562;
-        Mon, 20 Feb 2023 00:43:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set+58GGsB5PqX1g9IAc8g9ygEgGVI/hQd4d0eNE8503gRE129xA2uYyWHH8ochtavL3PvBJfDQ==
-X-Received: by 2002:a17:906:f6c4:b0:8b1:20f4:44a3 with SMTP id jo4-20020a170906f6c400b008b120f444a3mr7979726ejb.7.1676882638289;
-        Mon, 20 Feb 2023 00:43:58 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id hb22-20020a170906b89600b008b14d3978adsm5440924ejb.189.2023.02.20.00.43.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 00:43:57 -0800 (PST)
-Message-ID: <5cc2d613-d4fd-84e7-9791-963d69a66869@redhat.com>
-Date:   Mon, 20 Feb 2023 09:43:56 +0100
+        with ESMTP id S229479AbjBTJh4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Feb 2023 04:37:56 -0500
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1DF161A0;
+        Mon, 20 Feb 2023 01:37:54 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9429674533=fe@dev.tdt.de>)
+        id 1pU2cG-0007oA-A4; Mon, 20 Feb 2023 10:37:48 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1pU2cF-000W8J-F3; Mon, 20 Feb 2023 10:37:47 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 0C47124004D;
+        Mon, 20 Feb 2023 10:37:47 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 73E18240040;
+        Mon, 20 Feb 2023 10:37:46 +0100 (CET)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id B48CC2D1E4;
+        Mon, 20 Feb 2023 10:37:45 +0100 (CET)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Eckert.Florian@googlemail.com
+Subject: [PATCH v3 0/2] leds: ledtrig-tty: add tty_led_mode xtension
+Date:   Mon, 20 Feb 2023 10:37:37 +0100
+Message-ID: <20230220093739.320478-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: API for setting colors of RGB backlit keyboard zones (was [PATCH
- V3] platform/x86: hp-wmi: Support omen backlight control wmi-acpi methods)
-Content-Language: en-US
-To:     Rishit Bansal <rishitbansal0@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Mark Gross <markgross@kernel.org>, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-References: <20230131235027.36304-1-rishitbansal0@gmail.com>
- <9b761996-d522-b0f8-6472-10e40e09e036@redhat.com>
- <65a11a89-e780-6d60-a40e-cd3245780762@gmail.com>
- <b83ad6ba-7d55-f309-5d7b-4a5ff77ff5a3@redhat.com>
- <02c96cfe-ab10-513f-fc36-f474dd227656@gmail.com>
- <544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com>
- <Y+I7xNqkq/X6Lag+@duo.ucw.cz>
- <3c48e204-780c-f78c-8219-267e297dc1e3@gmail.com>
- <ec5bc4a6-dc9f-90dd-0cf6-5fab47bb5fa6@redhat.com>
- <b11185d3-fbf3-a461-39bc-67bee4739e40@gmail.com>
- <Y/C7A9eCjpdbzYbz@duo.ucw.cz>
- <bd2ae598-3f13-f465-4bde-6ab364b79db3@redhat.com>
- <a11fd918-d1bc-8a1f-c123-bcb0b4fa38a5@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <a11fd918-d1bc-8a1f-c123-bcb0b4fa38a5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: quoted-printable
+X-purgate: clean
+X-purgate-type: clean
+X-purgate-ID: 151534::1676885868-2D6EF8D8-D70F8AA6/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hello,
 
-On 2/19/23 19:46, Rishit Bansal wrote:
-> 
-> 
-> On 19/02/23 18:50, Hans de Goede wrote:
->> Hi,
->>
->> On 2/18/23 12:48, Pavel Machek wrote:
->>> Hi!
->>>
->>>
->>>>> I do agree with you that we need to avoid kbd_backlight in the name to avoid causing existing upower code to have weird interactions with this (it supports / assumes there is only 1 kbd_backlight LED class device).
->>>>>
->>>>> So lets go with just these 4:
->>>>>
->>>>> /sys/class/leds/hp_omen::kbd_zoned_backlight-1/
->>>>> /sys/class/leds/hp_omen::kbd_zoned_backlight-2/
->>>>> /sys/class/leds/hp_omen::kbd_zoned_backlight-3/
->>>>> /sys/class/leds/hp_omen::kbd_zoned_backlight-4/
->>>>>
->>>>> Using the _zoned_ between kbd and baclight to avoid confusing the existing upower code. Then once this has landed we can look into extending upower support for this.
->>>>>
->>>>> Note the requested documentation patch should probably also explain that the _zoned_ was done deliberately to make current upower code ignore the devices.
->>>>>
->>>
->>>>
->>>> This makes sense, I agree that the global LED file will cause more confusion
->>>> and hacks in the code. I'll start working on the  _zoned_ naming scheme with
->>>> 4 files + documentation changes and make a patch for this soon!
->>>>
->>>
->>> /sys/class/leds/:rgb:kbd_zoned_backlight-4/ is better than what was
->>> suggested above.
->>
->> Ah yes using rgb for the color part of the name makes sense.
->>
->>> But we already use _1 suffix to deduplicate the, so
->>> I'm not sure this is best naming.
->>
->>
->>
->> I guess we could try to actually name the zones, something like
->> (no idea if this are indeed the 4 zones):
->>
->> :rgb:kbd_zoned_backlight-main
->> :rgb:kbd_zoned_backlight-wasd
->> :rgb:kbd_zoned_backlight-cursor
->> :rgb:kbd_zoned_backlight-numpad
->>
->> Rishit any comments on this or improvements to it.
-> 
-> Here is an image of how the 4 zones on the keyboard look like (https://imgur.com/a/iQdRWCM). I think we can call them "left", "middle", "right", and "wasd":
-> 
-> :rgb:kbd_zoned_backlight-left
-> :rgb:kbd_zoned_backlight-middle
-> :rgb:kbd_zoned_backlight-right
-> :rgb:kbd_zoned_backlight-wasd
+here commes v3 of this series to add additional tty_led_modes.
 
-Sounds good to me, lets go for this. Please add these names to
-the requested documentation update.
+v3:
+Changes compared to the v2 patchset with
+20230217094403.1574468-1-fe@dev.tdt.de are.
 
-Regards,
+Addressed review comments by Greg K-H are:
 
-Hans
+tty.h:
+- Fix first comment line and remark -%ENOTTY for the new function
+  'tty_get_mget' to make a proper kernel doc.
+- Add the return value -%ENOTTY again, I thought it was no longer needed.
+
+v2:
+Changes compared to the initial patchset with
+20230213140638.620206-1-fe@dev.tdt.de are.
+
+Addressed review comments by Jiri Slaby are:
+
+tty.h:
+- Fix compilation error because of wrong rebaseing
+- Remove empty lines
+- Use new 'tty_get_mget' in 'tty_tiocmget'
+
+ledtrg-tty.c:
+- Update commit description
+- Use enum for tty_led_mod in struct ledtrig_tty_date
+- Rename sysfs file from 'mode' to 'tty_led_mode'
+- Change tty_led_mode show function to use loop instead of switch/case
+- Change tty_led_mode store function to use loop instead of switch/case
+- Check return value of function tty_get_mget
+
+Florian Eckert (2):
+  tty: new helper function tty_get_mget
+  trigger: ledtrig-tty: add additional modes
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  16 ++
+ drivers/leds/trigger/ledtrig-tty.c            | 146 ++++++++++++++++--
+ drivers/tty/tty_io.c                          |  28 +++-
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 170 insertions(+), 21 deletions(-)
+
+--=20
+2.30.2
 
