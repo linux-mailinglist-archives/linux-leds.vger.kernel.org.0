@@ -2,137 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 561BC69D823
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Feb 2023 02:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5800E69DBD0
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Feb 2023 09:19:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232990AbjBUBsb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Feb 2023 20:48:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37566 "EHLO
+        id S233693AbjBUITl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Feb 2023 03:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232357AbjBUBsa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Feb 2023 20:48:30 -0500
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D4099EDA;
-        Mon, 20 Feb 2023 17:48:29 -0800 (PST)
-Received: by mail-ot1-f51.google.com with SMTP id bh19-20020a056830381300b00690bf2011b2so532580otb.6;
-        Mon, 20 Feb 2023 17:48:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ccmohlnNuK61Zq2Pm+AusM0j8iaM96OwWbVNxMu3hkQ=;
-        b=yTDAcaW99eOWSlDGU/HK3rR57Ywc8D5FxsfXpIO5zP38/j0JFDrYyX9LsOYyxat1k9
-         CGZF9iaNcm4fl1i8dSyNXMhtcNz9UzFOsLms2D7CBHtvT7Y7OZd12mdp/Zv9e+DtYeY7
-         V6MwhIOEpwPTrmrnRp9/PHGf/Lp4602S3OngUQcXwyZ8YAC5QxkILLJLxLE3Iw1+AE64
-         fJ/67xaICvB2BqrHVJAreq25JEVaPNsjYNphW8e5wnLQ1EXkf2Kx6SVuUS8t5Kc7hxk+
-         3qtn6mBecjRyhlHE7Rompb4rfEH9qrhjHGQzDXjRTK5nr52LDAHNY3b2r0+gFNP6iK3X
-         Ic3Q==
-X-Gm-Message-State: AO0yUKX5URc66REuplorlBbsS3irp9E5D415xRfJ3y88nyPcoHTDr6sP
-        8HRAS3TbWaeLVGz07yCAng==
-X-Google-Smtp-Source: AK7set9YtYnryjeiLQnpZZHbAsYom5BpzmXxxi7u+CjIiNWfvZSix0P7dzN0AkCl9ByBwf/Vbv+A/w==
-X-Received: by 2002:a05:6830:2a11:b0:693:bdd8:62a9 with SMTP id y17-20020a0568302a1100b00693bdd862a9mr764204otu.7.1676944108672;
-        Mon, 20 Feb 2023 17:48:28 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id l11-20020a9d7a8b000000b0068bd5af9b82sm5597945otn.43.2023.02.20.17.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 17:48:28 -0800 (PST)
-Received: (nullmailer pid 790312 invoked by uid 1000);
-        Tue, 21 Feb 2023 01:48:27 -0000
-Date:   Mon, 20 Feb 2023 19:48:27 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tim Harvey <tharvey@gateworks.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Arun.Ramadoss@microchip.com
-Subject: Re: [PATCH v8 13/13] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <20230221014827.GA784986-robh@kernel.org>
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
- <20230216013230.22978-14-ansuelsmth@gmail.com>
+        with ESMTP id S233320AbjBUITk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Feb 2023 03:19:40 -0500
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D5E93DF;
+        Tue, 21 Feb 2023 00:19:18 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=943053c9ff=fe@dev.tdt.de>)
+        id 1pUNrj-000E6M-6T; Tue, 21 Feb 2023 09:19:11 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1pUNri-000E68-BC; Tue, 21 Feb 2023 09:19:10 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id D05C624004D;
+        Tue, 21 Feb 2023 09:19:09 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 2B8F2240040;
+        Tue, 21 Feb 2023 09:19:09 +0100 (CET)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id A8F0C2DC4D;
+        Tue, 21 Feb 2023 09:19:08 +0100 (CET)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Eckert.Florian@googlemail.com
+Subject: [PATCH v5 0/2] leds: ledtrig-tty: add tty_led_mode xtension
+Date:   Tue, 21 Feb 2023 09:18:59 +0100
+Message-ID: <20230221081901.15557-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216013230.22978-14-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: quoted-printable
+X-purgate-ID: 151534::1676967551-E6E62A38-FBC3F696/0/0
+X-purgate-type: clean
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 02:32:30AM +0100, Christian Marangi wrote:
-> Add LEDs definition example for qca8k using the offload trigger as the
-> default trigger and add all the supported offload triggers by the
-> switch.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index 389892592aac..ba3821364039 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -18,6 +18,8 @@ description:
->    PHY it is connected to. In this config, an internal mdio-bus is registered and
->    the MDIO master is used for communication. Mixed external and internal
->    mdio-bus configurations are not supported by the hardware.
-> +  Each phy have at least 3 LEDs connected and can be declared
-> +  using the standard LEDs structure.
->  
->  properties:
->    compatible:
-> @@ -117,6 +119,7 @@ unevaluatedProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
->  
->      mdio {
->          #address-cells = <1>;
-> @@ -276,6 +279,27 @@ examples:
->  
->                  internal_phy_port1: ethernet-phy@0 {
->                      reg = <0>;
-> +
-> +                    leds {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +
-> +                        led@0 {
-> +                            reg = <0>;
-> +                            color = <LED_COLOR_ID_WHITE>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            linux,default-trigger = "netdev";
+Hello,
 
-Wouldn't the default for an ethernet phy controlled LED always be 
-"netdev"? If a PHY has LED nodes, then just always set it to "netdev" 
-unless something else is selected.
+here commes v5 of this series to add additional tty_led_modes.
 
-Rob
+v5:
+Changes compared to the v4 patchset with
+20230220152038.3877596-1-fe@dev.tdt.de are.
+
+Sorry for the inconvenience, but I sent the wrong patch for
+ledtrig-tty.c in v4. The v5 patchset now includes all the changes I
+specified in the v4 patchset.
+
+
+v4:
+Changes compared to the v3 patchset with
+20230220093739.320478-1-fe@dev.tdt.de are.
+
+Addressed review comments by Jiri Slaby are:
+
+ledtrig-tty.c:
+- Do not use __TTY_LED_MAX pattern us instead __TTY_LED_LAST =3D TTY_LED_=
+RNG
+- Move declartion and assignment into one singel line
+- Use __TTY_LED_LAST pattern, to simplify tty_mode_show and
+  tty_mode_store handling
+
+
+v3:
+Changes compared to the v2 patchset with
+20230217094403.1574468-1-fe@dev.tdt.de are.
+
+Addressed review comments by Greg K-H are:
+
+tty.h:
+- Fix first comment line and remark -%ENOTTY for the new function
+  'tty_get_mget' to make a proper kernel doc.
+- Add the return value -%ENOTTY again, I thought it was no longer needed.
+
+
+v2:
+Changes compared to the initial patchset with
+20230213140638.620206-1-fe@dev.tdt.de are.
+
+Addressed review comments by Jiri Slaby are:
+
+tty.h:
+- Fix compilation error because of wrong rebaseing
+- Remove empty lines
+- Use new 'tty_get_mget' in 'tty_tiocmget'
+
+ledtrig-tty.c:
+- Update commit description
+- Use enum for tty_led_mod in struct ledtrig_tty_date
+- Rename sysfs file from 'mode' to 'tty_led_mode'
+- Change tty_led_mode show function to use loop instead of switch/case
+- Change tty_led_mode store function to use loop instead of switch/case
+- Check return value of function tty_get_mget
+
+Florian Eckert (2):
+  tty: new helper function tty_get_mget
+  trigger: ledtrig-tty: add additional modes
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  16 ++
+ drivers/leds/trigger/ledtrig-tty.c            | 145 ++++++++++++++++--
+ drivers/tty/tty_io.c                          |  28 +++-
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 169 insertions(+), 21 deletions(-)
+
+--=20
+2.30.2
+
