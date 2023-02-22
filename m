@@ -2,48 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7047069EF2D
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Feb 2023 08:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A671B69EF3B
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Feb 2023 08:21:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbjBVHQl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Feb 2023 02:16:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44490 "EHLO
+        id S229581AbjBVHVW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Feb 2023 02:21:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjBVHQk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Feb 2023 02:16:40 -0500
+        with ESMTP id S229579AbjBVHVV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Feb 2023 02:21:21 -0500
 Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80A3B36696;
-        Tue, 21 Feb 2023 23:16:08 -0800 (PST)
-Received: by mail-ed1-f41.google.com with SMTP id da10so27747838edb.3;
-        Tue, 21 Feb 2023 23:16:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007BD3609F;
+        Tue, 21 Feb 2023 23:21:19 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id f13so26020100edz.6;
+        Tue, 21 Feb 2023 23:21:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NaeMlSFMix0AWDF/IlR9/1jY7K34ruOaDXpt2ygRF7c=;
-        b=g3ds6/ellHqJxaoJ3J8BrUfIXmslNqLETg+r085MC++mQLplLYDKd1npNQd9/14e8c
-         B06zmrGM/q81jggvjJlzbULIGObc5xwWcUFoCbSut1uth3gzqC2FcBj5l2ccljx0ccZo
-         eThscTgazKEE89A5AVyse0a/9gWQC4UZRTsRiivDxkBAqZqXLMPmAQf7q1gUYEt9QznY
-         DH5wMMbLXis6xiWfBCeuuwYjD+WT8cI06lhz89Q2aC6JF24yTd0MyBwlsyO3IrV1METV
-         ebeGug6sZHzVfthgJNHfpekWBEdLEEEV5r7oIykUe91jDRlbg9ZadnnjJIUU7ipkhMAp
-         kVWg==
-X-Gm-Message-State: AO0yUKWSCwsDoYAv+dbfxa6ZbZn34xQTHmmVpTRUs6M5uf29tugV+aif
-        ZxAFOlk7XJyhxDXhLJekC68AeEW2Bxw=
-X-Google-Smtp-Source: AK7set8CCcp8OM6Fa4mVzoPzE0/8ibzcixEaOI1tgCPflIhUXazWIE2qtj7lHQj0Fz54iEBvL7FKKA==
-X-Received: by 2002:a17:907:764c:b0:88e:e498:109b with SMTP id kj12-20020a170907764c00b0088ee498109bmr15831335ejc.5.1677050166492;
-        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
-Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id p20-20020a1709060dd400b008be5b97ca49sm5436500eji.150.2023.02.21.23.16.05
+        bh=nwN0t4GS2EA37bAfRFwPBrirPEBoDMe7YD2TezLxAi0=;
+        b=FKLbeo8NLw7wJDT2fj8wIp8ydE+AUaZ2SrgB5ozc82gC0eobx+JNqHK6QIS/Rxw6D1
+         gRgAI3Avqls9lJlwvRGLL/SdmNZ6A6ZQT4wtEi2kEc4VwTZ+m/Fb3Q7whCstEwTfI2in
+         lzvHZNnMcbRS3ax7gY97tjh02Ibd5MNFDobd/isDbLdSHqsVad13CynBlY6m0M6tJ2a8
+         rthhnyw2IBHj9q88yuLHHJoNG9Bv5E6dFgJ0NIT36NAHVuX/za4JEBpCpmi0loxojXPu
+         ryKFf5itYTFt0uDaA9XwGYJyipj2hMPEoUM0gKghCZm1LA/NYTH2N7l5JTXc477lAyyv
+         239w==
+X-Gm-Message-State: AO0yUKW1LZlXSTuMvslwkDZUU0PJolAO4Ex2SYBKiKfk7uEGhpdW25Yk
+        7ugX02Y4cnKNqXcqPnQk4co=
+X-Google-Smtp-Source: AK7set9yNxckoSkCYTPYdKTJJUBJYr1kPiQN1t7uibrIpStAS6OhXwXiDtMdwPWeYydOuwGwOMqJFw==
+X-Received: by 2002:a17:906:9497:b0:8b1:9e47:9101 with SMTP id t23-20020a170906949700b008b19e479101mr17194785ejx.12.1677050478502;
+        Tue, 21 Feb 2023 23:21:18 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
+        by smtp.gmail.com with ESMTPSA id kk17-20020a170907767100b008d3abe8726bsm3517242ejc.154.2023.02.21.23.21.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 23:16:06 -0800 (PST)
-Message-ID: <4e5aeac3-2a99-8fd5-cf1d-a35870ecd807@kernel.org>
-Date:   Wed, 22 Feb 2023 08:16:04 +0100
+        Tue, 21 Feb 2023 23:21:18 -0800 (PST)
+Message-ID: <b130702a-9886-f18f-c377-489db1cee067@kernel.org>
+Date:   Wed, 22 Feb 2023 08:21:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
 Content-Language: en-US
+From:   Jiri Slaby <jirislaby@kernel.org>
 To:     Florian Eckert <fe@dev.tdt.de>, kernel test robot <lkp@intel.com>
 Cc:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
         pavel@ucw.cz, lee@kernel.org, oe-kbuild-all@lists.linux.dev,
@@ -52,8 +53,8 @@ Cc:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
 References: <20230221081901.15557-3-fe@dev.tdt.de>
  <202302220740.2RKDHnof-lkp@intel.com>
  <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <deee30ef43e397233dd15d11b86ae91a@dev.tdt.de>
+ <4e5aeac3-2a99-8fd5-cf1d-a35870ecd807@kernel.org>
+In-Reply-To: <4e5aeac3-2a99-8fd5-cf1d-a35870ecd807@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
@@ -66,65 +67,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 22. 02. 23, 7:07, Florian Eckert wrote:
+On 22. 02. 23, 8:16, Jiri Slaby wrote:
+>>> vim +9 Documentation/ABI/testing/sysfs-class-led-trigger-tty
+>>>
+>>>    > 9    Date:        January 2023
+>>
+>> I apologies for the question! But I don't know what the test buildbot 
+>> here wants from me.
+>> I've looked at the other files and I can't find anything that stands out.
 > 
+> sphinx is always misleading.
 > 
-> On 2023-02-22 01:02, kernel test robot wrote:
->> Hi Florian,
->>
->> Thank you for the patch! Perhaps something to improve:
->>
->> [auto build test WARNING on tty/tty-testing]
->> [also build test WARNING on tty/tty-next tty/tty-linus
->> staging/staging-testing staging/staging-next staging/staging-linus
->> pavel-leds/for-next linus/master v6.2 next-20230221]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:
->> https://github.com/intel-lab-lkp/linux/commits/Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
->> tty-testing
->> patch link: 
->> https://lore.kernel.org/r/20230221081901.15557-3-fe%40dev.tdt.de
->> patch subject: [PATCH v5 2/2] trigger: ledtrig-tty: add additional modes
->> reproduce:
->>         #
->> https://github.com/intel-lab-lkp/linux/commit/445b7555bccd279bf106995ee42f5dbef2e97c8b
->>         git remote add linux-review 
->> https://github.com/intel-lab-lkp/linux
->>         git fetch --no-tags linux-review
->> Florian-Eckert/tty-new-helper-function-tty_get_mget/20230221-162126
->>         git checkout 445b7555bccd279bf106995ee42f5dbef2e97c8b
->>         make menuconfig
->>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS,
->> CONFIG_WARN_ABI_ERRORS
->>         make htmldocs
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Link:
->> https://lore.kernel.org/oe-kbuild-all/202302220740.2RKDHnof-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
->>>> Unexpected indentation.
->>>> Documentation/ABI/testing/sysfs-class-led-trigger-tty:9: WARNING: 
->>>> Block quote ends without a blank line; unexpected unindent.
->>
->> vim +9 Documentation/ABI/testing/sysfs-class-led-trigger-tty
->>
->>    > 9    Date:        January 2023
-> 
-> I apologies for the question! But I don't know what the test buildbot 
-> here wants from me.
-> I've looked at the other files and I can't find anything that stands out.
+> It's the indentation of all "LED on if ...".
 
-sphinx is always misleading.
+So this should work:
 
-It's the indentation of all "LED on if ...".
+                 Specifies the operating to trigger the LED.
+                 The following operating modes are supported:
+
+                 * Tx/Rx: Flash LED on data transmission (default)
+                 * CTS:   DCE Ready to accept data from the DTE.
+                   LED on if line is high.
+                 * DSR:   DCE is ready to receive and send data.
+                   LED on if line is high.
+                 * CAR:   DCE is receiving a carrier from a remote DTE.
+                   LED on if line is high.
+                 * RNG:   DCE has detected an incoming ring signal.
+                   LED on if line is high.
 
 -- 
 js
