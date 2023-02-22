@@ -2,125 +2,155 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6232769EFEA
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Feb 2023 09:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781B069F048
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Feb 2023 09:34:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbjBVIN1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Feb 2023 03:13:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59048 "EHLO
+        id S229907AbjBVIeU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Feb 2023 03:34:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjBVIN1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Feb 2023 03:13:27 -0500
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE89C7EE8;
-        Wed, 22 Feb 2023 00:13:25 -0800 (PST)
-Received: by mail-ed1-f45.google.com with SMTP id ec43so26461734edb.8;
-        Wed, 22 Feb 2023 00:13:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ag/3Atz7wSqimNQuEYxkpDd8W3Ip2Hw0Id13QQyP6Y=;
-        b=4MRcp1rZ/hULrX66ZvMbgZT0B6o46Doae/7KIFxUdVxAvuRTj7vCoCpT9N9Ro5r/CR
-         hc0enZmObSPh7efW2QZgnOmCDwOonyWchpPOAqO9V3VdSOpzVBXvSIAsnUxMuPFbrGI1
-         +DyU/aDkHXD55sAmsoHNFJvvOziCanN7TnUwtI6nCC5wIIgTxwuwh+1CvkLqRLaMbW3R
-         3jgHSneBV50woe9IhWcXd5ay1JCYN1GY0s/cH9+WN0Ip+Tah7v5YPhvtcFHdaGw12tCy
-         zVAXMr9X1XfHB45hetVQcIZ1EbYS1O0nn7+kGRg4ZHmJ0SD0Gl4SKHKYh2KQ+vXVUZPS
-         YOrA==
-X-Gm-Message-State: AO0yUKXVt49GpmsCJHxHF0L6B4NSROvYgukjef6+de3VbDaI0cWYFrk2
-        bu+LVYgBDdVieyMBthGnOcM=
-X-Google-Smtp-Source: AK7set9oplvMl8GCEhp9DiS+4AxXl974OCPXw13AJ1xiZkOaqsCohxZTk5cgMevIshWN/aqlye8fUQ==
-X-Received: by 2002:a17:906:5a4c:b0:8b1:811e:cd30 with SMTP id my12-20020a1709065a4c00b008b1811ecd30mr17582554ejc.22.1677053604132;
-        Wed, 22 Feb 2023 00:13:24 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
-        by smtp.gmail.com with ESMTPSA id p20-20020a1709060dd400b008be5b97ca49sm5490164eji.150.2023.02.22.00.13.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 00:13:23 -0800 (PST)
-Message-ID: <7b942109-bbad-cbda-ad9c-b10bfb5f6dbf@kernel.org>
-Date:   Wed, 22 Feb 2023 09:13:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6 2/2] trigger: ledtrig-tty: add additional modes
-Content-Language: en-US
-To:     Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
-        gregkh@linuxfoundation.org, pavel@ucw.cz, lee@kernel.org
+        with ESMTP id S229852AbjBVIeT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Feb 2023 03:34:19 -0500
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D2E637718;
+        Wed, 22 Feb 2023 00:33:47 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9431929e93=fe@dev.tdt.de>)
+        id 1pUkZI-000Ish-Bt; Wed, 22 Feb 2023 09:33:40 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1pUkZH-000RiL-L1; Wed, 22 Feb 2023 09:33:39 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 58EEC24004B;
+        Wed, 22 Feb 2023 09:33:39 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id C0A83240040;
+        Wed, 22 Feb 2023 09:33:38 +0100 (CET)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id 5052C2CE7D;
+        Wed, 22 Feb 2023 09:33:38 +0100 (CET)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         Eckert.Florian@googlemail.com
-References: <20230222075539.484878-1-fe@dev.tdt.de>
- <20230222075539.484878-3-fe@dev.tdt.de>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20230222075539.484878-3-fe@dev.tdt.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Subject: [PATCH v7 0/2] leds: ledtrig-tty: add tty_led_mode xtension
+Date:   Wed, 22 Feb 2023 09:33:33 +0100
+Message-ID: <20230222083335.847655-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: quoted-printable
+X-purgate-ID: 151534::1677054820-1CFE3D4A-26BEA927/0/0
+X-purgate-type: clean
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 22. 02. 23, 8:55, Florian Eckert wrote:
-> Add additional modes to trigger the selected LED.
-> The following modes are supported:
-> 
-> Tx/Rx:	Flash LED on data transmission (default)
-> CTS:	DCE Ready to accept data from the DTE.
-> DSR:	DCE is ready to receive and send data.
-> CAR:	DCE is receiving a carrier from a remote DTE.
-> RNG:	DCE has detected an incoming ring signal.
-> 
-> The mode can be changed for example with the following command:
-> echo "CTS" > /sys/class/leds/<led>/mode
-> 
-> This would turn on the LED, when the DTE(modem) signals the DCE that it
-> is ready to accept data.
-> 
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> ---
->   .../ABI/testing/sysfs-class-led-trigger-tty   |  16 ++
->   drivers/leds/trigger/ledtrig-tty.c            | 145 ++++++++++++++++--
->   2 files changed, 146 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> index 2bf6b24e781b..4023585d3acf 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> @@ -4,3 +4,19 @@ KernelVersion:	5.10
->   Contact:	linux-leds@vger.kernel.org
->   Description:
->   		Specifies the tty device name of the triggering tty
-> +
-> +What:		/sys/class/leds/<led>/mode
-> +Date:		January 2023
-> +KernelVersion:	6.3
-> +Description:
-> +		Specifies the operating to trigger the LED.
-> +		The following operating modes are supported:
+Hello,
 
-Here, you should add a \n. Otherwise it won't start the list properly. 
-Check the output e.g. by:
-make htmldocs SPHINXDIRS="admin-guide"
+here commes v7 of this series to add additional tty_led_modes.
 
-then open the built result in a browser:
-Documentation/output/admin-guide/abi-testing.html#abi-sys-class-leds-led-mode
+v7:
+Changes compared to the v5 patchset with
+20230222075539.484878-1-fe@dev.tdt.de are.
 
-> +		* Tx/Rx: Flash LED on data transmission (default)
-> +		* CTS:   DCE Ready to accept data from the DTE.
-> +		  LED on if line is high.
-> +		* DSR:   DCE is ready to receive and send data.
-> +		  LED on if line is high.
-> +		* CAR:   DCE has detected a carrier from a remote DTE.
-> +		  LED on if line is high.
-> +		* RNG:   DCE has detected an incoming ring signal.
-> +		  LED on if line is high.
+Addressed review comments by Jiri Slaby are:
+
+Thanks for the hint with the command 'make htmldocs SPHINXDIRS=3D"admin-g=
+uide"'.
+Unfortunately, I did not know that. I have now verified it also in the
+browser. In my opinion, the list is now also displayed correctly in
+the documentation.
 
 
--- 
-js
-suse labs
+v6:
+Changes compared to the v5 patchset with
+20230221081901.15557-1-fe@dev.tdt.de are.
+
+Addressed review comments by kernel test robot are:
+
+* fix Documentation/ABI/testing/sysfs-class-led-trigger-tty:9:
+  WARNING: Unexpected indentation.
+* fix Documentation/ABI/testing/sysfs-class-led-trigger-tty:9:
+  WARNING: Block quote ends without a blank line; unexpected unindent.
+
+Thanks to Jiri Slaby, who gave me the crucial hint of what I need to fix,
+to possibly make the 'Kernel test robot' happy.
+
+
+v5:
+Changes compared to the v4 patchset with
+20230220152038.3877596-1-fe@dev.tdt.de are.
+
+Sorry for the inconvenience, but I sent the wrong patch for
+ledtrig-tty.c in v4. The v5 patchset now includes all the changes I
+specified in the v4 patchset.
+
+
+v4:
+Changes compared to the v3 patchset with
+20230220093739.320478-1-fe@dev.tdt.de are.
+
+Addressed review comments by Jiri Slaby are:
+
+ledtrig-tty.c:
+- Do not use __TTY_LED_MAX pattern us instead __TTY_LED_LAST =3D TTY_LED_=
+RNG
+- Move declartion and assignment into one singel line
+- Use __TTY_LED_LAST pattern, to simplify tty_mode_show and
+  tty_mode_store handling
+
+
+v3:
+Changes compared to the v2 patchset with
+20230217094403.1574468-1-fe@dev.tdt.de are.
+
+Addressed review comments by Greg K-H are:
+
+tty.h:
+- Fix first comment line and remark -%ENOTTY for the new function
+  'tty_get_mget' to make a proper kernel doc.
+- Add the return value -%ENOTTY again, I thought it was no longer needed.
+
+
+v2:
+Changes compared to the initial patchset with
+20230213140638.620206-1-fe@dev.tdt.de are.
+
+Addressed review comments by Jiri Slaby are:
+
+tty.h:
+- Fix compilation error because of wrong rebaseing
+- Remove empty lines
+- Use new 'tty_get_mget' in 'tty_tiocmget'
+
+ledtrig-tty.c:
+- Update commit description
+- Use enum for tty_led_mod in struct ledtrig_tty_date
+- Rename sysfs file from 'mode' to 'tty_led_mode'
+- Change tty_led_mode show function to use loop instead of switch/case
+- Change tty_led_mode store function to use loop instead of switch/case
+- Check return value of function tty_get_mget
+
+
+Florian Eckert (2):
+  tty: new helper function tty_get_mget
+  trigger: ledtrig-tty: add additional modes
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  17 ++
+ drivers/leds/trigger/ledtrig-tty.c            | 145 ++++++++++++++++--
+ drivers/tty/tty_io.c                          |  28 +++-
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 170 insertions(+), 21 deletions(-)
+
+--=20
+2.30.2
 
