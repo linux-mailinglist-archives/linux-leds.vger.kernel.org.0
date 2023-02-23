@@ -2,50 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E23BE6A0745
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Feb 2023 12:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21C7E6A0A48
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Feb 2023 14:15:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbjBWLYN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Feb 2023 06:24:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
+        id S233860AbjBWNPa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Feb 2023 08:15:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbjBWLYN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Feb 2023 06:24:13 -0500
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F0CF59FC;
-        Thu, 23 Feb 2023 03:24:09 -0800 (PST)
-X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
-        LIVER,40,3)
-Received: from 192.168.10.46
-        by mg.richtek.com with MailGates ESMTP Server V5.0(14980:0:AUTH_RELAY)
-        (envelope-from <chiaen_wu@richtek.com>); Thu, 23 Feb 2023 19:23:39 +0800 (CST)
-Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Thu, 23 Feb
- 2023 19:23:39 +0800
-Received: from linuxcarl2.richtek.com (192.168.10.154) by ex4.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.20 via Frontend
- Transport; Thu, 23 Feb 2023 19:23:38 +0800
-From:   ChiaEn Wu <chiaen_wu@richtek.com>
-To:     <corbet@lwn.net>, <pavel@ucw.cz>, <lee@kernel.org>,
-        <matthias.bgg@gmail.com>, <andriy.shevchenko@linux.intel.com>,
-        <jacek.anaszewski@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>
-CC:     <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
-        <cy_huang@richtek.com>, <linux-leds@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: [PATCH v17 RESEND 3/3] docs: leds: Add MT6370 RGB LED pattern document
-Date:   Thu, 23 Feb 2023 19:23:09 +0800
-Message-ID: <c6487954daff5e514023056ad7de1d0ddee674a8.1677150607.git.chiaen_wu@richtek.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1677150607.git.chiaen_wu@richtek.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
+        with ESMTP id S234246AbjBWNP3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Feb 2023 08:15:29 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDF1580C1;
+        Thu, 23 Feb 2023 05:14:51 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 431386602206;
+        Thu, 23 Feb 2023 13:14:49 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1677158090;
+        bh=SkSiRxzJCEAr1sFTmhH7tHhIkHjbPmPT0MxEjEjw7OI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=j/U5N8SROmCt35FIpCvoHjrtDq3vh1K97O2176WfFtid0mh7flPCIV8qaGnda8E22
+         yZ2rXWh9EIaLG4HZpo1YeREAj2FL8AdFLh04AElm1nbDsuXqevWRLNw1unj7E9vWOX
+         ha33FfvMGD0/acwTgR8HIa1U6dSOhh9CHY7IvIEiMg8E7h349E7fLxnTSHJgMwPdhl
+         xMt1H9Nzx4uLCpfhNwupuaufCftSgXyDd9VB89YZwfGEKQDLdp6RW1QaRgaLKtnUz8
+         E9bYqQvE1rqoAH2N9UXjDvFwO33L8OAvu17+ZEvJlBsGsUU38zaYq4aN8CdRTrunuP
+         wrGynykDPI4YQ==
+Message-ID: <a28d4400-8df1-1f56-4669-261ddd1a881e@collabora.com>
+Date:   Thu, 23 Feb 2023 14:14:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v17 RESEND 1/3] leds: rgb: mt6370: Add MediaTek MT6370
+ current sink type LED Indicator support
+To:     ChiaEn Wu <chiaen_wu@richtek.com>, corbet@lwn.net, pavel@ucw.cz,
+        lee@kernel.org, matthias.bgg@gmail.com,
+        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com
+Cc:     linux-doc@vger.kernel.org, peterwu.pub@gmail.com,
+        cy_huang@richtek.com, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>
+References: <cover.1677150607.git.chiaen_wu@richtek.com>
+ <8f139c773de274311c8ca63a47d6b207c30913e2.1677150607.git.chiaen_wu@richtek.com>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <8f139c773de274311c8ca63a47d6b207c30913e2.1677150607.git.chiaen_wu@richtek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,90 +63,24 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+Il 23/02/23 12:23, ChiaEn Wu ha scritto:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+> 
+> Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> constant current, PWM, and breath mode.
+> 
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Document the MT6370 RGB LED pattern trigger.
-
-This simply describe how the pattern works, each timing period, and the
-pattern diagram for MT6370 RGB LED.
-
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
----
- Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
-
-diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
-new file mode 100644
-index 00000000..d1b2e4f
---- /dev/null
-+++ b/Documentation/leds/leds-mt6370-rgb.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Kernel driver for Mediatek MT6370 RGB LED
-+=========================================
-+
-+Description
-+-----------
-+
-+The MT6370 integrates a four-channel RGB LED driver, designed to provide a
-+variety of lighting effect for mobile device applications. The RGB LED driver
-+includes a smart LED string controller and it can drive 3 channels of LEDs with
-+a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
-+current up to 6mA. It provides three operation modes for RGB LEDs:
-+PWM Dimming mode, breath pattern mode, and constant current mode. The device
-+can increase or decrease the brightness of the RGB LED via I2C interface.
-+
-+The breath pattern for a channel can be programmed using the "pattern" trigger,
-+using the hw_pattern attribute.
-+
-+/sys/class/leds/<led>/hw_pattern
-+--------------------------------
-+
-+Specify a hardware breath pattern for a MT6370 RGB LED.
-+
-+The breath pattern is a series of timing pairs, with the hold-time expressed in
-+milliseconds. And the brightness is controlled by
-+'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
-+setting. Hardware pattern only controls the timing for each pattern stage
-+depending on the current brightness setting.
-+
-+Pattern diagram::
-+
-+     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
-+
-+      ^
-+      |           ============
-+      |          /            \                                /
-+Icurr |         /              \                              /
-+      |        /                \                            /
-+      |       /                  \                          /   .....repeat
-+      |      /                    \                        /
-+      |   ---                      ---                  ---
-+      |---                            ---            ---
-+      +----------------------------------============------------> Time
-+       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
-+
-+Timing description::
-+
-+Tr1:    First rising time for duty 0 to 30%.
-+Tr2:    Second rising time for duty 31% to 100%.
-+Ton:    On time for duty 100%.
-+Tf1:    First falling time for duty 100% to 31%.
-+Tf2:    Second falling time for duty 30% to 0%.
-+Toff:   Off time for duty 0%.
-+
-+Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
-+Toff: 250ms to 6250ms, 400ms per step.
-+
-+Pattern example::
-+
-+       "0 125 0 125 0 125 0 125 0 625 0 1050"
-+
-+This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
--- 
-2.7.4
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
