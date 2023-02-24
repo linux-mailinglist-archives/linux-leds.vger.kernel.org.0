@@ -2,116 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1B86A10F4
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Feb 2023 21:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 289266A1D6A
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Feb 2023 15:29:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjBWUAY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Feb 2023 15:00:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
+        id S229635AbjBXO3x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Feb 2023 09:29:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjBWUAX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Feb 2023 15:00:23 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E6B5DCD6
-        for <linux-leds@vger.kernel.org>; Thu, 23 Feb 2023 12:00:19 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id E6A1F1C0DED; Thu, 23 Feb 2023 21:00:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1677182416;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vv9wJqOaPcnY4eoO4/g/NGyiP68RrORmLMvQiJmbJZc=;
-        b=dA0QQVxNKCY5KpcsyPbllSFKO3UdahKF08BslsGOATUSbR9EQXQIHSHAsP3YXmDmPCENW3
-        H0Aiu+Z8E/gb5kOn+i/GwD1SrZmwYWKJ8xV+e+BbYlRzDu2YZL78wooxuT3HcTY0giG+0k
-        9HQVnSfty9WEfY9miTe0TtNLCGNHMsA=
-Date:   Thu, 23 Feb 2023 21:00:16 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] leds: trigger/tty: Add knob to blink only for tx or only
- for rx
-Message-ID: <Y/fF0FUzrv5xRloV@duo.ucw.cz>
-References: <20220224155655.702255-1-u.kleine-koenig@pengutronix.de>
- <Y/eDeEi1tekYodGW@ada.ifak-system.com>
+        with ESMTP id S229476AbjBXO3x (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Feb 2023 09:29:53 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C445E84A;
+        Fri, 24 Feb 2023 06:29:51 -0800 (PST)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B23633F;
+        Fri, 24 Feb 2023 15:29:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677248989;
+        bh=KHesiuIeicidiNCvlgoCpOZ0mvq0D8tKK9E3aADVfyM=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=JE9XBHAo/PRNHvanNRWfeFkJaD3uu4EHhC1q8Qhey5cY0tJ2ta29p1QV+uzkQiakJ
+         UJ1xjpghhxndGeXzLdUfm7Gb7y9q7qrW+GItO+2zC3qrBtvjaY3k+Lip7Gga/gcIu7
+         ICQ5rIuD+NSghDCtZ5K2z31kVJAPIc5QrUQRBsOk=
+Message-ID: <e094f558-166b-c936-0621-f50af47dab71@ideasonboard.com>
+Date:   Fri, 24 Feb 2023 14:29:47 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6TPbUcMGQllCzDpA"
-Content-Disposition: inline
-In-Reply-To: <Y/eDeEi1tekYodGW@ada.ifak-system.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RESEND PATCH 2/3] include: mfd: tps68470: Add masks for LEDA and
+ LEDB
+To:     Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mark Gross <markgross@kernel.org>
+References: <20230213124520.1635257-1-hpa@redhat.com>
+ <20230213124520.1635257-3-hpa@redhat.com>
+Content-Language: en-US
+From:   Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20230213124520.1635257-3-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Kate - thanks for the set
 
---6TPbUcMGQllCzDpA
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 13/02/2023 12:45, Kate Hsuan wrote:
+> Add flags for both LEDA(TPS68470_ILEDCTL_ENA), LEDB
+> (TPS68470_ILEDCTL_ENB), and current control mask for LEDB
+> (TPS68470_ILEDCTL_CTRLB)
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
 
-On Thu 2023-02-23 16:17:12, Alexander Dahl wrote:
-> Hei hei,
->=20
-> Am Thu, Feb 24, 2022 at 04:56:55PM +0100 schrieb Uwe Kleine-K=F6nig:
-> > The newly introduced "triggerevent" attribute allows to restrict
-> > blinking to TX or RX only.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> This patch has not been merged, has it?
->=20
-> What's the state of it?  Fell through the cracks or denied?
->=20
-> I'd have a usecase for it. O:-)
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-My notes say:
+>   include/linux/mfd/tps68470.h | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/include/linux/mfd/tps68470.h b/include/linux/mfd/tps68470.h
+> index 7807fa329db0..2d2abb25b944 100644
+> --- a/include/linux/mfd/tps68470.h
+> +++ b/include/linux/mfd/tps68470.h
+> @@ -34,6 +34,7 @@
+>   #define TPS68470_REG_SGPO		0x22
+>   #define TPS68470_REG_GPDI		0x26
+>   #define TPS68470_REG_GPDO		0x27
+> +#define TPS68470_REG_ILEDCTL		0x28
+>   #define TPS68470_REG_VCMVAL		0x3C
+>   #define TPS68470_REG_VAUX1VAL		0x3D
+>   #define TPS68470_REG_VAUX2VAL		0x3E
+> @@ -94,4 +95,8 @@
+>   #define TPS68470_GPIO_MODE_OUT_CMOS	2
+>   #define TPS68470_GPIO_MODE_OUT_ODRAIN	3
+>   
+> +#define TPS68470_ILEDCTL_ENA		BIT(2)
+> +#define TPS68470_ILEDCTL_ENB		BIT(6)
+> +#define TPS68470_ILEDCTL_CTRLB		GENMASK(5, 4)
+> +
+>   #endif /* __LINUX_MFD_TPS68470_H */
 
-> But... I don't think sysfs interface is acceptable due to "one value per =
-file" sysfs rule.
->
-> Separate "blink for tx" and "blink for rx" files containing booleans shou=
-ld be acceptable.
->
-> Best regards,
->                                                                          =
-     Pavel
-
-
-=2E..and that's still relevant:
-
-> > +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> > @@ -4,3 +4,12 @@ KernelVersion:	5.10
-> >  Contact:	linux-leds@vger.kernel.org
-> >  Description:
-> >  		Specifies the tty device name of the triggering tty
-> > +
-> > +What:		/sys/class/leds/<led>/triggerevent
-> > +Date:		Feb 2022
-> > +KernelVersion:	5.18
-> > +Contact:	linux-leds@vger.kernel.org
-> > +Description:
-> > +		Can contain "tx', "rx" (to only blink on transfers
-> > +		in the specified direction) or "both" (to blink for
-> > +		both directions.)
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---6TPbUcMGQllCzDpA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/fF0AAKCRAw5/Bqldv6
-8s2yAKCkPP9GjaGse72B5d74nlWJwaMTmQCgvR2nPHY2qrPPc3udcHqjsl4xLZs=
-=p/qU
------END PGP SIGNATURE-----
-
---6TPbUcMGQllCzDpA--
