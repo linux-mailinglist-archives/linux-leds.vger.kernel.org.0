@@ -2,83 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F786A2E5D
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Feb 2023 06:40:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9776A3601
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Feb 2023 01:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbjBZFj7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 26 Feb 2023 00:39:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56642 "EHLO
+        id S229761AbjB0AxZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 Feb 2023 19:53:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbjBZFj6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 Feb 2023 00:39:58 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51077136EB;
-        Sat, 25 Feb 2023 21:39:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=jZDKgKykgJivmPlxfhgmYfxwzNIu4E7QMWQ1piQj3M0=; b=GjLoAa0RZXwFgvWheSIzYKnhB2
-        5q247ieUuUeaZQJRGP6uSVuJ0z+MR23HQ4AKgtll3atMiQzrt0MGLRewIVUp/N+87gq5CwD5t+CSZ
-        SPzwJhki1nja2wyo1c1I/nYfYtcLDPzqhT2b7FzrOjtSthNTPYq205C7Lm/duIFaCs0CVMpj73kb6
-        a85pW3FGbjy1bQzW/9yY4edwPCKDval1gWADrnVnXeRG/JdtO7fC+ROpPvIfVpN6p3l4TFmdqiPIF
-        AlVSY+I/EhretKFUVykVXdHyUXM5uftacbK70mIIHV8oleNfV5WrnmVTalSFof4UHvFbUsKyW2e66
-        H4tn0zvQ==;
-Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pW9lM-006qYL-CI; Sun, 26 Feb 2023 05:39:56 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Dan Murphy <dmurphy@ti.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH 4/8] leds: TI_LMU_COMMON: select REGMAP instead of depending on it
-Date:   Sat, 25 Feb 2023 21:39:49 -0800
-Message-Id: <20230226053953.4681-5-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230226053953.4681-1-rdunlap@infradead.org>
-References: <20230226053953.4681-1-rdunlap@infradead.org>
+        with ESMTP id S229379AbjB0AxY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 Feb 2023 19:53:24 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2595CC29
+        for <linux-leds@vger.kernel.org>; Sun, 26 Feb 2023 16:53:23 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id nw10-20020a17090b254a00b00233d7314c1cso8401070pjb.5
+        for <linux-leds@vger.kernel.org>; Sun, 26 Feb 2023 16:53:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=x4N+ipv4Z0ueanE2uVRFnU+7mwUn4iLsJ/UJ4pQlXTs=;
+        b=LHNnmMqlRinVsovMLI72m5nB4i2EbbrCzpm4MHmXUJGJjkeAKj14q1b8bnuWCtdD0E
+         60sA0wzJ2D3UqUMbkJP7NFHqhq8aDBk621t57MLM4q/DKKm9JwSy/6LzoLi+hySEdcmp
+         O7nifztTNR0+DaJBFhSdMPYxXRv1xOpbrvApCrMo6ul1N652UyegmTm1pTWZ9p7AQqL9
+         Lb1sir05IwZxsDFczC7ojNZeeJe4cHePnUbYkFz7DzyJ/fNvB6Og8v+K9HAg5T9UpgFt
+         Mi+jG9LaqYUSEANt5WwCBGl4eiH4PiOqhldW9MlQgMkAYCQDT4VPf5UuCO3TK7nmSDNg
+         ikOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x4N+ipv4Z0ueanE2uVRFnU+7mwUn4iLsJ/UJ4pQlXTs=;
+        b=nEYSh15GTQWcjvo9pbP0FOBK+p5NEzEVrim2379y8Sa8pzOk5Zs4/cUcZLPhq2OGxy
+         xittIBxfmsaAJXtF1l+siqOCTnCynhWjprm4z3OZmiI2CwfSMbMfiyBQR+89G4iB1xmf
+         9OasZqRXx5xdlrBjBR4nlXLf0zg4A9hfGuhPZDlyEcTdbZSPzALcTsGc7bNC1gitbxmq
+         88lVr+bnLKNrZgMJNuqaGfJLzq7ARqlecVThdmjo+MEWubs5xlNy0Fd6T1/vYFu5MR1v
+         rAfg2Bn5aA8SpA7IuIsj04LbAYet+gP0dVRJTz22Ru9qw9FgzRQJ2aVvQ1MX30fXWUxW
+         KWQg==
+X-Gm-Message-State: AO0yUKVWFafEVGJ46uRTlxdx1q7O85Bw4Ma/UveNJcFXKtFdEy1fjhmK
+        vNmSIT74z0q6+TEP3R1dK/nw88EZXn4VNoJ5bus=
+X-Google-Smtp-Source: AK7set9irzg4WNS2cWlOmsifL8YEo4dCv6Fu9WFvMm6wly0CMiOl0m9HTsehWK+iXT/dlzpRejbi26zRq3v8nIebt24=
+X-Received: by 2002:a17:902:f7c7:b0:196:1cc3:74d0 with SMTP id
+ h7-20020a170902f7c700b001961cc374d0mr5347734plw.5.1677459202928; Sun, 26 Feb
+ 2023 16:53:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a10:3255:b0:41f:988f:1328 with HTTP; Sun, 26 Feb 2023
+ 16:53:22 -0800 (PST)
+From:   Elisabeth Johanna <elisajoh4992@gmail.com>
+Date:   Sun, 26 Feb 2023 16:53:22 -0800
+Message-ID: <CALjaFXLcPvLATmP_+m_gTA9ZjWQQDzcQXyCJi5AxVrY7Tv-5_g@mail.gmail.com>
+Subject: We finance viable projects only
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-REGMAP is a hidden (not user visible) symbol. Users cannot set it
-directly thru "make *config", so drivers should select it instead of
-depending on it if they need it.
+Attention: Sir
 
-Consistently using "select" or "depends on" can also help reduce
-Kconfig circular dependency issues.
+Our Company is willing, ready to help you grow your network and offer
+you Loan funds to complete and fund your existing Projects. We can
+send you our Company Terms and Condition after review of your project
+plan and executive summary of your project, if you are serious and
+Interested contact us for further Information:
 
-Therefore, change the use of "depends on REGMAP" to "select REGMAP".
+Email: elisajoh4992@gmail.com
 
-Fixes: 3fce8e1eb994 ("leds: TI LMU: Add common code for TI LMU devices")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dan Murphy <dmurphy@ti.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
----
- drivers/leds/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -- a/drivers/leds/Kconfig b/drivers/leds/Kconfig
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -795,7 +795,7 @@ config LEDS_SPI_BYTE
- config LEDS_TI_LMU_COMMON
- 	tristate "LED driver for TI LMU"
- 	depends on LEDS_CLASS
--	depends on REGMAP
-+	select REGMAP
- 	help
- 	  Say Y to enable the LED driver for TI LMU devices.
- 	  This supports common features between the TI LM3532, LM3631, LM3632,
+Best regards,
+
+Elisabeth Johanna
