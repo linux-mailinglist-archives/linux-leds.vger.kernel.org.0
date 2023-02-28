@@ -2,79 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE176A61FD
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Feb 2023 22:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 827E26A620B
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Feb 2023 23:01:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjB1V7I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Feb 2023 16:59:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50822 "EHLO
+        id S229510AbjB1WBi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Feb 2023 17:01:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229885AbjB1V7D (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Feb 2023 16:59:03 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8E11E9E4;
-        Tue, 28 Feb 2023 13:59:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229520AbjB1WBh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Feb 2023 17:01:37 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DF9CC31
+        for <linux-leds@vger.kernel.org>; Tue, 28 Feb 2023 14:01:34 -0800 (PST)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D907BB80DE7;
-        Tue, 28 Feb 2023 21:58:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AB95C4339B;
-        Tue, 28 Feb 2023 21:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677621538;
-        bh=EApezt/xrKSUqcwtPB/lYFfV3ScYq2GN1UtJeJ9Yc+c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cUYRfMKeK+p4AXiL2yRjGGOTvS01vXKugWnhKFkzYTZRH2viq9VagyHHpn9RYO06E
-         7161gTVDpaIwYbqDcrlmVPN0o/cugLq/+gDN1auuBxF/uZPh9OpMPhpNLHF+53h7/f
-         DoT1TtdWlebJgWhfw4OQoDjoiCvi0XiuNGbnLek0xsWC1Yu/OVJnYFJLHZprcXRPiC
-         7v5WbvF/tLxYWQO6MfSWwUmY8KP3GIJ8Wrz1RAHaWryhlvgwMlV6ERJb7McemY4aKl
-         vDe/gg3FPRtgYCN2VZVVoHhp+1BFL8FRLCFU2j+s5qzK8bnhmFkzpbIMlP6wDedOvJ
-         P7W07HuSh0APg==
-Date:   Tue, 28 Feb 2023 21:58:55 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-Message-ID: <Y/55H2lZZf7a3Xbu@sirena.org.uk>
-References: <20230228215433.3944508-1-robh@kernel.org>
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id CEBD885BAE;
+        Tue, 28 Feb 2023 23:01:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1677621693;
+        bh=W1Sj0xKNKEEUVmRbGu3eaR3GqpESbXwjJhA2Fd/le+s=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=DRz6iHP14kcsL9apYWhTLvJ9bimwPig528I5bKrATqUysey8PuCzB0xkQw2gS775k
+         majlW7k96uEjyqu6Hsgh4uQxg4vz4vvchR0Ts1ypTSaS8gLz2f7KmK/Sm2xaWQPAcw
+         ed2V3uHhMAf5y84CJU78gU8UBCMtUWRDiAPqfTsIHZWx05su77rMhv1ufbafXSLkii
+         W0zJy9Lu8QQ4va1t7lJaNftjktWMIIdaZ/LDHdV0DNlcPJe7Dhc5K6Fjue69tqmDva
+         Hp6TxVkj0tNGJNCzJu50ofTy/3CNaLqDO7VZK9NgokMG0gn7lVTLnptX+NAYuonHth
+         cCE5gxtqV0x9g==
+Message-ID: <325f5dab-0812-fadb-abe1-0d86888c198a@denx.de>
+Date:   Tue, 28 Feb 2023 23:01:32 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MyLQObbLmZa89Gv8"
-Content-Disposition: inline
-In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
-X-Cookie: Single tasking: Just Say No.
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] leds: gpio: Configure per-LED pin control
+Content-Language: en-US
+To:     linux-leds@vger.kernel.org, pavel Machek <pavel@denx.de>
+Cc:     Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+        Pavel Machek <pavel@ucw.cz>
+References: <20221107003133.377704-1-marex@denx.de>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <20221107003133.377704-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,32 +56,62 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 11/7/22 01:31, Marek Vasut wrote:
+> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+> to it, parse the DT subnode pinctrl properties and configure each pin
+> accordingly.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> To: linux-leds@vger.kernel.org
+> ---
+>   drivers/leds/leds-gpio.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+> index 092eb59a7d325..01ca88876f008 100644
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -13,6 +13,7 @@
+>   #include <linux/leds.h>
+>   #include <linux/module.h>
+>   #include <linux/of.h>
+> +#include <linux/pinctrl/consumer.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/property.h>
+>   #include <linux/slab.h>
+> @@ -77,6 +78,7 @@ static int create_gpio_led(const struct gpio_led *template,
+>   	struct fwnode_handle *fwnode, gpio_blink_set_t blink_set)
+>   {
+>   	struct led_init_data init_data = {};
+> +	struct pinctrl *pinctrl;
+>   	int ret, state;
+>   
+>   	led_dat->cdev.default_trigger = template->default_trigger;
+> @@ -119,6 +121,22 @@ static int create_gpio_led(const struct gpio_led *template,
+>   						     &init_data);
+>   	}
+>   
+> +	if (ret)
+> +		return ret;
+> +
+> +	pinctrl = devm_pinctrl_get_select_default(led_dat->cdev.dev);
+> +	if (IS_ERR(pinctrl)) {
+> +		ret = PTR_ERR(pinctrl);
+> +		if (ret != -ENODEV) {
+> +			dev_warn(led_dat->cdev.dev,
+> +				 "Failed to select %pOF pinctrl: %d\n",
+> +				 to_of_node(fwnode), ret);
+> +		} else {
+> +			/* pinctrl-%d not present, not an error */
+> +			ret = 0;
+> +		}
+> +	}
+> +
+>   	return ret;
+>   }
+>   
 
---MyLQObbLmZa89Gv8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Feb 28, 2023 at 03:54:33PM -0600, Rob Herring wrote:
-> SPI and I2C bus node names are expected to be "spi" or "i2c",
-> respectively, with nothing else, a unit-address, or a '-N' index. A
-> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
-> cases. Mostly scripted with the following commands:
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---MyLQObbLmZa89Gv8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmP+eR4ACgkQJNaLcl1U
-h9DqWQf/fzAqwVcR5vEvDlZIOyeJ93q74mz/Rl0dA1kXgtn8VCrgOTQv1BlYjrCE
-YSIOVaCA5NiKGfDp99bOWw61eY5vrMwgY1dL8JB2fdMVGhAnk4dN0ewMN2lc2Zxs
-/aZeYDxjeMRJOEv+9UinuEKROblNzSwDJFxyTFoOddlrYg7leB2icMBQRsd3m5+h
-Thr8sNClvv0OyNBx5LchcIvla+hu2AAQSAvLHe/Q0aUCOGooYIUsdfDeNqNJa6vF
-7wjeN3etYc7wp/PyeJKwrO9AhmkCXzazy4OwW4esqLUxQEO88PTJxkHJjNW+tvu3
-lFl5XDtQUMJ9ACGlaRM0sEP28dPf5w==
-=8se/
------END PGP SIGNATURE-----
-
---MyLQObbLmZa89Gv8--
+Any news on this patch ?
