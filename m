@@ -2,94 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F186A721D
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 18:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8437B6A7234
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 18:38:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjCARbO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Mar 2023 12:31:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32860 "EHLO
+        id S229530AbjCARiW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Mar 2023 12:38:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbjCARbN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 12:31:13 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AB92DE61;
-        Wed,  1 Mar 2023 09:31:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677691864; x=1709227864;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pl+6Oma7rkYPAw63rJdiWlF3m83NK3f4ox/bDikxE5Q=;
-  b=NGkizqPSA9UT01FIg8lEnucF/1J+S5sh+FXEew1K7/miNts6mFaqfQSS
-   Vsc0ZkTC9PfyUq04mQeDMqi6wAf+gY4ecpAXXV7L0FiMHiwqYVhCMIINu
-   z+TeeUdHbUVN8UAsnlnG5zchj2sP3XhoDO30lW573Sn+WkJToOOpmsL4Y
-   +mUW8NHJaju12TwebGWPQJy31PDYvjHZ7dKtWPqjvs8FqTpvcH/BmgmQY
-   ZpgMahXOK+jx/e7gztZe+X0gLKDM0SmkU3Cr6nsGIuvs6FQFl04O6G6zl
-   q3r/0Kx3xk0fV1CTACVOZhsmLpTAC1iM3kemlOrOto9aguBwU+jJM4Uou
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336764237"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="336764237"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 09:30:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674643196"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
-   d="scan'208";a="674643196"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 01 Mar 2023 09:30:40 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pXQHm-00Dr9m-26;
-        Wed, 01 Mar 2023 19:30:38 +0200
-Date:   Wed, 1 Mar 2023 19:30:38 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: simatic-ipc-leds-gpio: split up
-Message-ID: <Y/+Lvq36nIgIcAIK@smile.fi.intel.com>
-References: <20230301170215.23382-1-henning.schild@siemens.com>
+        with ESMTP id S229496AbjCARiW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 12:38:22 -0500
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A124212F32;
+        Wed,  1 Mar 2023 09:38:20 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id o4-20020a9d6d04000000b00694127788f4so4109639otp.6;
+        Wed, 01 Mar 2023 09:38:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f3kGa29UVZEEOfyHL+UXyRsndHDnYo7M/4/jqQbGaLg=;
+        b=Q7gRimMO/lJKvnnIvI+yJ7bOQ7WuxrnnenTIyvcd3k1OWpIiI58BvOC24IkP2QuLTu
+         lE6DBCmoa3kjMEKEoVZthCmPRGOPYLrvfL/kaN9HeDWyyN2sfRgwMLXNrLfSmlfVogI/
+         BkLzSfZsGjrXjZBtpmfPHr2LcTFOT3HtA0GOQHm8DxfzFjS40dvfUz1a3SUEZ4uUXIpH
+         1FcyZf+RRYyUBiFkwYI/V2oLTAaLkKHNlKBbA7p3s6nePiYUYzwzKaUm8Yv/F2X41DVP
+         Ti4WTMnCtnNKnESvt+nvW+GJNuFaPRLx+hiXBEflX5fvSlkHuIpXqpZL650aneoUOAyk
+         BSXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f3kGa29UVZEEOfyHL+UXyRsndHDnYo7M/4/jqQbGaLg=;
+        b=RCMIl5yPDZxkVrOvVcaA1I/nlJ8cRjThowr3h4q3DwaQHbgWE3kYDOiGHHpJlz96B1
+         6RX2T7JqY5Fbvl02i2G9NblgPWoHCeT475V8rw/lYAGGsHWpi+Kc33FpVpe9/f1GsHfn
+         0/RP+L2s6Pakyu2Yh0RJxlsjPUMYCLUo8aT2ZExy8BsRMu2nXO4CzmpFfIgi6mefOgv7
+         UDA8nYRVnKWnSceiezu73c+jllZe/IgSuvMFPA0jj6d1JHHMHyuK19eWW/LwsH96guoh
+         zrZdnaEyBymIsK3CvTs5aC6KjrzoVOBefhmdQ7VO10OOahNl0Wg03gf1g0Di1ZUznBHX
+         AQ/w==
+X-Gm-Message-State: AO0yUKWKI00cqfzzje0C9/juCScSu1YonV1BQ/+Yzwk815g+CrD6ipZE
+        vKaVt2hmtboi+Pbc+4tcXokFT7ruY4A=
+X-Google-Smtp-Source: AK7set9KiZDsuUx5JZj9N+UbM8WhiMdHzbjfUwz7PbDTXu6m8YN/zE9GqCRG3qXONgAWufINz+BMew==
+X-Received: by 2002:a05:6830:909:b0:686:40e1:2bf3 with SMTP id v9-20020a056830090900b0068640e12bf3mr4233562ott.0.1677692299874;
+        Wed, 01 Mar 2023 09:38:19 -0800 (PST)
+Received: from [172.31.250.1] (192-063-109-134.res.spectrum.com. [192.63.109.134])
+        by smtp.gmail.com with ESMTPSA id d1-20020a056830004100b0068d01839027sm5076083otp.30.2023.03.01.09.38.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Mar 2023 09:38:19 -0800 (PST)
+Message-ID: <a7ff3338-3d5e-4402-aaba-16e740f4ed5b@gmail.com>
+Date:   Wed, 1 Mar 2023 11:38:18 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230301170215.23382-1-henning.schild@siemens.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v13 0/2] Introduce block device LED trigger
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kabel@kernel.org
+References: <20221227225226.546489-1-arequipeno@gmail.com>
+ <Y/9gvmPwcTaY3pRA@google.com>
+From:   Ian Pilcher <arequipeno@gmail.com>
+In-Reply-To: <Y/9gvmPwcTaY3pRA@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Mar 01, 2023 at 06:02:12PM +0100, Henning Schild wrote:
+On 3/1/23 08:27, Lee Jones wrote:
+> Pavel,
+> 
+> I see that you are active now - could you please prioritise this one.
+> 
 
-> This series mainly splits the one GPIO driver into two. The split allows
-> to clearly model runtime and compile time dependencies on the GPIO chip
-> drivers.
-> 
-> p1 is kind of not too related to that split but also prepares for more
-> GPIO based drivers to come.
-> 
-> p2 takes the driver we had and puts some of its content into a -core,
-> to be used by the two drivers.
-> 
-> p3 deals with more fine-grained configuration posibilities and compile
-> time dependencies.
-> 
-> It is based on
-> [PATCH v4] leds: simatic-ipc-leds-gpio: make sure we have the GPIO providing driver
+Lee -
 
-Thank you for an update.
-Not big issues found (except maybe the Makefile).
+Just FYI, Pavel did respond.  Unfortunately, he doesn't feel that this
+can go in with its current sysfs interface, and making the change that
+he wants would require changes to the block subsystem (adding an in-
+kernel API to look up a block device by its kernel name, rather than its
+major & minor numbers or a special file path).
+
+Similar changes have been rejected in the past by the block subsystem
+maintainers.  The position I have seen is that major & minor numbers,
+or device special files from which they can be determined, is *the*
+interface to block devices.
+
+I've also had some pretty negative experiences when interacting with the
+block subsystem community - unnecessary profanity, etc.
+
+Given that history, I don't see much prospect that I (an unknown newb)
+would succeed in convincing the block subsystem maintainers to add the
+API required to implement the interface that Pavel wants.  So I'm pretty
+much done trying to push this thing unless something changes that leads
+me to think that there's actually a decent chance of success.
+
+Hopefully that makes sense.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+========================================================================
+Google                                      Where SkyNet meets Idiocracy
+========================================================================
 
