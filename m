@@ -2,98 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 825BA6A63FD
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 01:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 380B86A6757
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 06:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbjCAACk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Feb 2023 19:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43068 "EHLO
+        id S229509AbjCAFeM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Mar 2023 00:34:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbjCAACj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Feb 2023 19:02:39 -0500
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A27536FF2;
-        Tue, 28 Feb 2023 16:02:38 -0800 (PST)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-17264e9b575so12705743fac.9;
-        Tue, 28 Feb 2023 16:02:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8LrHJrbRH1ZnmqhUPgdT0HnQe/QreBSYJWP3vf1c4pI=;
-        b=rGp8LmxxZAGBU2cx4vBygP1QkZul+mjwlOOAwn7obv8MJ0C8IX58RH0+TXvJGXd0Wg
-         ItGetiSAQbCtD55vbHfV9UC1LtMq+ErmQW3F3c6K25Z4/6AkGRc0NNxc3S2OiZuqRPQ9
-         jFt8gB2TOw3f9ATlO9/jcWAl1Yh3oUKG5CVUcJS3gdxkpz9yGOv+lrVyLouokdlS/fY2
-         88pG3UqCFsTRdq3Vd/PCFaKt3YcaiChYsI1SNuN0I+91vAQDxgbl8McXo60XLZe76d24
-         4KtKgomEWyHUR+hEhCP4pU0VroHODgujKQhp4Ln4zuIxW3ypBoKMilnQke6uCO950ZsM
-         8D8Q==
-X-Gm-Message-State: AO0yUKU/15GmUn9+jFmkuKqGkBs3sAk0Z5EZRgzk3EmSgfrwz9umOI0B
-        TXW5CpY1ftEGwm6TZdDQJOpuvInBUA==
-X-Google-Smtp-Source: AK7set/DS1Nr7SEeXCLeYi/ahYXGBwCTF6UIwAiywdS/wuOuNp11VtEPd5bWn1Qa5mZoWj2KZ5RbxA==
-X-Received: by 2002:a05:6871:b0c:b0:172:56b5:d172 with SMTP id fq12-20020a0568710b0c00b0017256b5d172mr2923394oab.4.1677628957894;
-        Tue, 28 Feb 2023 16:02:37 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d9-20020a9d51c9000000b006941ecefc34sm886982oth.18.2023.02.28.16.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 16:02:37 -0800 (PST)
-Received: (nullmailer pid 28222 invoked by uid 1000);
-        Wed, 01 Mar 2023 00:02:36 -0000
-Date:   Tue, 28 Feb 2023 18:02:36 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH] dt-bindings: leds: add "usbport" trigger
-Message-ID: <20230301000236.GA20893-robh@kernel.org>
-References: <20230228144933.22614-1-zajec5@gmail.com>
+        with ESMTP id S229493AbjCAFeL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 00:34:11 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9264910A98;
+        Tue, 28 Feb 2023 21:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677648850; x=1709184850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A6ub2cXWHQMEfm0wCSYRJRabIFLkc/xUWoGiNEvzz4g=;
+  b=ecxl8KnjEBOBMSsuTBOuhmTyb/7cL88Gh+8mu7wnlCOX8gOJ28S2AWEF
+   91GHxgCbxij/oLOXeIxIQ8J7qNna+7MU8mPI9zwTGDt8H5o+JYCtgrbbX
+   Q9g3h31sd89HJ5TIfZY3dEhRr5FmZfvutaedgiM9SJ/BDLlQWkghYVI/e
+   gk+2nR35JhNoTT+5FaCwIPlChHRTwdWo0XOQwW8cfiGzFju5IUvXrjm+q
+   XrRtFIYT89ABBUvj6H+x3JRGRcI4Hu+EbhWg6cNe63Q2M8bqyCboFivhy
+   Nv32RO34xHP1/MPPsxhcDdyR7DxP0YY1fSlVVG08LvCv7HKR+giu3VEex
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="361901880"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="361901880"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 21:34:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="848509548"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="848509548"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 28 Feb 2023 21:34:06 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pXF6M-0005vf-0L;
+        Wed, 01 Mar 2023 05:34:06 +0000
+Date:   Wed, 1 Mar 2023 13:33:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@sberdevices.ru, Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Subject: Re: [PATCH v2 2/2] leds: add aw20xx driver
+Message-ID: <202303011345.29QIi1UF-lkp@intel.com>
+References: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230228144933.22614-1-zajec5@gmail.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 03:49:33PM +0100, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
-> 
-> It's a trigger used on many home routers that have LEDs to indicate
-> specific USB port state.
-> 
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index 15e3f6645682..95b316ee3146 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -99,6 +99,7 @@ properties:
->            - pattern
->            - usb-gadget
->            - usb-host
-> +          - usbport
+Hi Martin,
 
-Can we stop adding entries which are clearly likely to have multiple 
-instances. We have a better binding to map the trigger source...
+Thank you for the patch! Perhaps something to improve:
 
->        - pattern: "^cpu[0-9]*$"
->        - pattern: "^hci[0-9]+-power$"
->          # LED is triggered by Bluetooth activity
-> -- 
-> 2.34.1
-> 
+[auto build test WARNING on pavel-leds/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next v6.2]
+[cannot apply to linus/master next-20230301]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+patch link:    https://lore.kernel.org/r/20230228211046.109693-3-mmkurbanov%40sberdevices.ru
+patch subject: [PATCH v2 2/2] leds: add aw20xx driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230301/202303011345.29QIi1UF-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/67ff1bda566825f286aa03653a54a5ca9bc98012
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+        git checkout 67ff1bda566825f286aa03653a54a5ca9bc98012
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303011345.29QIi1UF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/leds/leds-aw200xx.c:18: warning: expecting prototype for leds(). Prototype was for AW200XX_LEDS_MAX() instead
+
+
+vim +18 drivers/leds/leds-aw200xx.c
+
+    17	
+  > 18	#define AW200XX_LEDS_MAX                 72
+    19	#define AW200XX_PATTERN_MAX              3
+    20	#define AW200XX_DIM_MAX                  0x3F
+    21	#define AW200XX_FADE_MAX                 0xFF
+    22	#define AW200XX_IMAX_DEFAULT_MICROAMP    60000
+    23	#define AW200XX_IMAX_MAX_MICROAMP        160000
+    24	#define AW200XX_IMAX_MIN_MICROAMP        3300
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
