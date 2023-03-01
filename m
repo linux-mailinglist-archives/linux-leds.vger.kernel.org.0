@@ -2,116 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 827E26A620B
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Feb 2023 23:01:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 825BA6A63FD
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 01:02:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbjB1WBi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Feb 2023 17:01:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53450 "EHLO
+        id S229813AbjCAACk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Feb 2023 19:02:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjB1WBh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Feb 2023 17:01:37 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DF9CC31
-        for <linux-leds@vger.kernel.org>; Tue, 28 Feb 2023 14:01:34 -0800 (PST)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id CEBD885BAE;
-        Tue, 28 Feb 2023 23:01:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1677621693;
-        bh=W1Sj0xKNKEEUVmRbGu3eaR3GqpESbXwjJhA2Fd/le+s=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DRz6iHP14kcsL9apYWhTLvJ9bimwPig528I5bKrATqUysey8PuCzB0xkQw2gS775k
-         majlW7k96uEjyqu6Hsgh4uQxg4vz4vvchR0Ts1ypTSaS8gLz2f7KmK/Sm2xaWQPAcw
-         ed2V3uHhMAf5y84CJU78gU8UBCMtUWRDiAPqfTsIHZWx05su77rMhv1ufbafXSLkii
-         W0zJy9Lu8QQ4va1t7lJaNftjktWMIIdaZ/LDHdV0DNlcPJe7Dhc5K6Fjue69tqmDva
-         Hp6TxVkj0tNGJNCzJu50ofTy/3CNaLqDO7VZK9NgokMG0gn7lVTLnptX+NAYuonHth
-         cCE5gxtqV0x9g==
-Message-ID: <325f5dab-0812-fadb-abe1-0d86888c198a@denx.de>
-Date:   Tue, 28 Feb 2023 23:01:32 +0100
+        with ESMTP id S229732AbjCAACj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Feb 2023 19:02:39 -0500
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A27536FF2;
+        Tue, 28 Feb 2023 16:02:38 -0800 (PST)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-17264e9b575so12705743fac.9;
+        Tue, 28 Feb 2023 16:02:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8LrHJrbRH1ZnmqhUPgdT0HnQe/QreBSYJWP3vf1c4pI=;
+        b=rGp8LmxxZAGBU2cx4vBygP1QkZul+mjwlOOAwn7obv8MJ0C8IX58RH0+TXvJGXd0Wg
+         ItGetiSAQbCtD55vbHfV9UC1LtMq+ErmQW3F3c6K25Z4/6AkGRc0NNxc3S2OiZuqRPQ9
+         jFt8gB2TOw3f9ATlO9/jcWAl1Yh3oUKG5CVUcJS3gdxkpz9yGOv+lrVyLouokdlS/fY2
+         88pG3UqCFsTRdq3Vd/PCFaKt3YcaiChYsI1SNuN0I+91vAQDxgbl8McXo60XLZe76d24
+         4KtKgomEWyHUR+hEhCP4pU0VroHODgujKQhp4Ln4zuIxW3ypBoKMilnQke6uCO950ZsM
+         8D8Q==
+X-Gm-Message-State: AO0yUKU/15GmUn9+jFmkuKqGkBs3sAk0Z5EZRgzk3EmSgfrwz9umOI0B
+        TXW5CpY1ftEGwm6TZdDQJOpuvInBUA==
+X-Google-Smtp-Source: AK7set/DS1Nr7SEeXCLeYi/ahYXGBwCTF6UIwAiywdS/wuOuNp11VtEPd5bWn1Qa5mZoWj2KZ5RbxA==
+X-Received: by 2002:a05:6871:b0c:b0:172:56b5:d172 with SMTP id fq12-20020a0568710b0c00b0017256b5d172mr2923394oab.4.1677628957894;
+        Tue, 28 Feb 2023 16:02:37 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d9-20020a9d51c9000000b006941ecefc34sm886982oth.18.2023.02.28.16.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 16:02:37 -0800 (PST)
+Received: (nullmailer pid 28222 invoked by uid 1000);
+        Wed, 01 Mar 2023 00:02:36 -0000
+Date:   Tue, 28 Feb 2023 18:02:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH] dt-bindings: leds: add "usbport" trigger
+Message-ID: <20230301000236.GA20893-robh@kernel.org>
+References: <20230228144933.22614-1-zajec5@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] leds: gpio: Configure per-LED pin control
-Content-Language: en-US
-To:     linux-leds@vger.kernel.org, pavel Machek <pavel@denx.de>
-Cc:     Christoph Niedermaier <cniedermaier@dh-electronics.com>,
-        Pavel Machek <pavel@ucw.cz>
-References: <20221107003133.377704-1-marex@denx.de>
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <20221107003133.377704-1-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230228144933.22614-1-zajec5@gmail.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/7/22 01:31, Marek Vasut wrote:
-> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
-> to it, parse the DT subnode pinctrl properties and configure each pin
-> accordingly.
+On Tue, Feb 28, 2023 at 03:49:33PM +0100, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> To: linux-leds@vger.kernel.org
-> ---
->   drivers/leds/leds-gpio.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+> It's a trigger used on many home routers that have LEDs to indicate
+> specific USB port state.
 > 
-> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-> index 092eb59a7d325..01ca88876f008 100644
-> --- a/drivers/leds/leds-gpio.c
-> +++ b/drivers/leds/leds-gpio.c
-> @@ -13,6 +13,7 @@
->   #include <linux/leds.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
-> +#include <linux/pinctrl/consumer.h>
->   #include <linux/platform_device.h>
->   #include <linux/property.h>
->   #include <linux/slab.h>
-> @@ -77,6 +78,7 @@ static int create_gpio_led(const struct gpio_led *template,
->   	struct fwnode_handle *fwnode, gpio_blink_set_t blink_set)
->   {
->   	struct led_init_data init_data = {};
-> +	struct pinctrl *pinctrl;
->   	int ret, state;
->   
->   	led_dat->cdev.default_trigger = template->default_trigger;
-> @@ -119,6 +121,22 @@ static int create_gpio_led(const struct gpio_led *template,
->   						     &init_data);
->   	}
->   
-> +	if (ret)
-> +		return ret;
-> +
-> +	pinctrl = devm_pinctrl_get_select_default(led_dat->cdev.dev);
-> +	if (IS_ERR(pinctrl)) {
-> +		ret = PTR_ERR(pinctrl);
-> +		if (ret != -ENODEV) {
-> +			dev_warn(led_dat->cdev.dev,
-> +				 "Failed to select %pOF pinctrl: %d\n",
-> +				 to_of_node(fwnode), ret);
-> +		} else {
-> +			/* pinctrl-%d not present, not an error */
-> +			ret = 0;
-> +		}
-> +	}
-> +
->   	return ret;
->   }
->   
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index 15e3f6645682..95b316ee3146 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -99,6 +99,7 @@ properties:
+>            - pattern
+>            - usb-gadget
+>            - usb-host
+> +          - usbport
 
-Any news on this patch ?
+Can we stop adding entries which are clearly likely to have multiple 
+instances. We have a better binding to map the trigger source...
+
+>        - pattern: "^cpu[0-9]*$"
+>        - pattern: "^hci[0-9]+-power$"
+>          # LED is triggered by Bluetooth activity
+> -- 
+> 2.34.1
+> 
