@@ -2,112 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF01D6A6A1B
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 10:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F16F6A6C4A
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 13:26:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjCAJyq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Mar 2023 04:54:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
+        id S229734AbjCAM0W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Mar 2023 07:26:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjCAJyo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 04:54:44 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC13338654;
-        Wed,  1 Mar 2023 01:54:42 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 438FB1C0AAC; Wed,  1 Mar 2023 10:54:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1677664481;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5QKT6wb7BlXOwHMF9uI9nO6U2s8HyW2fE3pemJt622E=;
-        b=YwvpDAeAVhxeKk+ow+MO8KpW0FsjCy/hzx6UW9ldrWgY6334ZkLBd1UY2PzeY3Z6Dxy8ac
-        bJqj4BBhT2skKnCxa9JAJlh9I07LV8VX1uE3JlWYvoMOcCLJv+8dsQqKfaDXrBsH2ub9Mn
-        MzrDedZTo+bQZxrpJkkWrXKiqLKIHzo=
-Date:   Wed, 1 Mar 2023 10:54:41 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@sberdevices.ru
+        with ESMTP id S229511AbjCAM0V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 07:26:21 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1098823139;
+        Wed,  1 Mar 2023 04:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677673581; x=1709209581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RFhvfep3rQoV9f6iVnl78FDfyj++uAV6VK+LcCiV/8U=;
+  b=hbF90Ro1ZWJPDnGCu3MT4z6iEP7zAOHUaZoPBC6/PZZVudAjzX920e9s
+   oUzbOBNJHlYqOm+IQQmd5sHCxcT2/Tt/+qkhU7QRCvNSQ1ua/hTZSREX+
+   th/X7Cf6U3FvVcarqA93qQHRw+HhyZRLCInUd6Ub5zw8FNwZOFBz/bhI6
+   b4fMqDJCRtoh+UrSPEqlcaQy5vs/3gAkLdxHtkaWIGMLtYi+lrEWdrblT
+   od8CVh7SUtDZArcgzg7Kjk3lIpSQhz8zP/Mf+HvYtSIshEkb98kyeDAfy
+   7RGpNchlBYJ2QXUFMiJgahQbwdzFnujnV51GaZ0At17WkKbJYsRZFY4EV
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="318195089"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="318195089"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 04:26:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="676738624"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="676738624"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Mar 2023 04:26:17 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pXLXE-00068d-1Z;
+        Wed, 01 Mar 2023 12:26:16 +0000
+Date:   Wed, 1 Mar 2023 20:26:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lee Jones <lee@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@sberdevices.ru, Martin Kurbanov <mmkurbanov@sberdevices.ru>
 Subject: Re: [PATCH v2 2/2] leds: add aw20xx driver
-Message-ID: <Y/8g4QfOJhjc4WMb@amd.ucw.cz>
-References: <20230228211046.109693-1-mmkurbanov@sberdevices.ru>
- <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
- <Y/5xBGFC3b9Chdtb@duo.ucw.cz>
- <Y/8TTRtoFMJhMWV1@google.com>
+Message-ID: <202303012020.TjjSJTcQ-lkp@intel.com>
+References: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="goqUx+bIZeqxo/gA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y/8TTRtoFMJhMWV1@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Martin,
 
---goqUx+bIZeqxo/gA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-Hi!
+[auto build test ERROR on pavel-leds/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next v6.2]
+[cannot apply to linus/master next-20230301]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > > +config LEDS_AW200XX
-> > > +	tristate "LED support for Awinic AW20036/AW20054/AW20072"
-> > > +	depends on LEDS_CLASS
-> > > +	depends on I2C
-> > > +	help
-> > > +	  This option enables support for the AW20036/AW20054/AW20072 LED d=
-river.
-> > > +	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
-> > > +	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
-> > > +	  3 pattern controllers for auto breathing or group dimming control.
-> >=20
-> > I'm afraid this should be handled as a display, not as an array of
-> > individual LEDs.
->=20
-> Just for my own information, where do we draw the line on this?
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+patch link:    https://lore.kernel.org/r/20230228211046.109693-3-mmkurbanov%40sberdevices.ru
+patch subject: [PATCH v2 2/2] leds: add aw20xx driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230301/202303012020.TjjSJTcQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/67ff1bda566825f286aa03653a54a5ca9bc98012
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Martin-Kurbanov/dt-bindings-leds-add-binding-for-aw200xx/20230301-051348
+        git checkout 67ff1bda566825f286aa03653a54a5ca9bc98012
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
-Not sure.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303012020.TjjSJTcQ-lkp@intel.com/
 
-> Is 4x4 okay?  How about 6x6?
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-I'd say "As soon as it is 2-dimensional". Even 3x2 array is a display.
+>> ERROR: modpost: "__udivdi3" [drivers/leds/leds-aw200xx.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/leds/leds-aw200xx.ko] undefined!
 
-If the LEDs are independend, and it makes sense to display disk
-activity on one and CPU activity on second... that's for LED
-subsystem.
-
-When userspace needs to know where are the LEDs spatially located, and
-when you start putting synchronized animations over the LEDs... well,
-then maybe that's a display.
-
-6x9 is definitely a display. We won't put 1920x1080 phone display into
-drivers/leds just because it is OLED...
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---goqUx+bIZeqxo/gA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/8g4QAKCRAw5/Bqldv6
-8rn/AJwJKp+LFn7p0CTmoaCYrBHRmH9mcgCfRz4lkROBbFHq5QhMvcz1xOmoiDI=
-=MGxO
------END PGP SIGNATURE-----
-
---goqUx+bIZeqxo/gA--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
