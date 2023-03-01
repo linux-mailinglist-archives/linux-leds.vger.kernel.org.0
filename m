@@ -2,66 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DE576A69E8
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 10:39:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF01D6A6A1B
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 10:54:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjCAJjE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Mar 2023 04:39:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54302 "EHLO
+        id S229568AbjCAJyq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Mar 2023 04:54:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjCAJi6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 04:38:58 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8130B311ED;
-        Wed,  1 Mar 2023 01:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677663537; x=1709199537;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=mwzi1nOCe5KSvSMHkgAMvU654fpFvrxwhFKDR1Q+JbA=;
-  b=PbMlW8vADZ0lLS0VNAyI1ZWY50EHPR9lSRvw/2wKAfHFLl2x2IGwhdqF
-   xf72k4+CrSSLJ7gdtgfo/Rc+ERhmWfniIT5f2FKr0p8gbfWvFl+LnvcJx
-   64c94cy+eVwrmhB/8y3p1M8IusosQ5N5Zq9jJ2ppCIDW4Xvn4FGoEqvUf
-   kC0QieS/mmUfARfVZnbzkmqWW0Ec2PYwBE0dUoW6U15OZTzXtDMy/lDeo
-   FdyFP3uVpGo8nKd9nUM97IgYVWR7kpTYFYPgyPUClXCKnQe+4iXJQt9Ou
-   EuBHsPsNP+xqbVt58sLvszjuIlbsBqc9ghp6zNom/wAM3O48WKF16CLjm
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="322627023"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="322627023"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 01:38:55 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="624418784"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="624418784"
-Received: from dsvarnas-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.46.249])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 01:38:51 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Martin Kurbanov <mmkurbanov@sberdevices.ru>, ojeda@kernel.org
-Cc:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        with ESMTP id S229824AbjCAJyo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 04:54:44 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC13338654;
+        Wed,  1 Mar 2023 01:54:42 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 438FB1C0AAC; Wed,  1 Mar 2023 10:54:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1677664481;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5QKT6wb7BlXOwHMF9uI9nO6U2s8HyW2fE3pemJt622E=;
+        b=YwvpDAeAVhxeKk+ow+MO8KpW0FsjCy/hzx6UW9ldrWgY6334ZkLBd1UY2PzeY3Z6Dxy8ac
+        bJqj4BBhT2skKnCxa9JAJlh9I07LV8VX1uE3JlWYvoMOcCLJv+8dsQqKfaDXrBsH2ub9Mn
+        MzrDedZTo+bQZxrpJkkWrXKiqLKIHzo=
+Date:   Wed, 1 Mar 2023 10:54:41 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        kernel@sberdevices.ru, linux-leds@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: AUXdisplay for LED arrays, keyboards with per-key LEDs -- was
- Re: [PATCH v2 2/2] leds: add aw20xx driver
-In-Reply-To: <Y/50tKxpNVZO4Hfb@duo.ucw.cz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@sberdevices.ru
+Subject: Re: [PATCH v2 2/2] leds: add aw20xx driver
+Message-ID: <Y/8g4QfOJhjc4WMb@amd.ucw.cz>
 References: <20230228211046.109693-1-mmkurbanov@sberdevices.ru>
  <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
- <Y/5xBGFC3b9Chdtb@duo.ucw.cz> <Y/50tKxpNVZO4Hfb@duo.ucw.cz>
-Date:   Wed, 01 Mar 2023 11:38:49 +0200
-Message-ID: <87h6v4x13q.fsf@intel.com>
+ <Y/5xBGFC3b9Chdtb@duo.ucw.cz>
+ <Y/8TTRtoFMJhMWV1@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="goqUx+bIZeqxo/gA"
+Content-Disposition: inline
+In-Reply-To: <Y/8TTRtoFMJhMWV1@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,54 +54,60 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 28 Feb 2023, Pavel Machek <pavel@ucw.cz> wrote:
-> Hi!
->
->> > +config LEDS_AW200XX
->> > +	tristate "LED support for Awinic AW20036/AW20054/AW20072"
->> > +	depends on LEDS_CLASS
->> > +	depends on I2C
->> > +	help
->> > +	  This option enables support for the AW20036/AW20054/AW20072 LED driver.
->> > +	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
->> > +	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
->> > +	  3 pattern controllers for auto breathing or group dimming control.
->> 
->> I'm afraid this should be handled as a display, not as an array of
->> individual LEDs.
->
-> You probably want to see
->
-> AUXILIARY DISPLAY DRIVERS
-> M:      Miguel Ojeda <ojeda@kernel.org>
-> S:      Maintained
-> F:      Documentation/devicetree/bindings/auxdisplay/
-> F:      drivers/auxdisplay/
-> F:      include/linux/cfag12864b.h
->
-> And this brings another question...
->
-> ...sooner or later we'll see LED displays with around 100 pixels in
-> almost rectangular grid. Minority of the pixels will have funny
-> shapes. How will we handle those? Pretend it is regular display with
-> some pixels missing? How do we handle cellphone displays with rounded
-> corners and holes for front camera?
->
-> And yes, such crazy displays are being manufactured -- it is called
-> keyboard with per-key backlight... 
->
-> https://www.reddit.com/r/MechanicalKeyboards/comments/8dtvgo/keyboard_with_individually_programmable_leds/
 
-But... is that a display or a HID?
+--goqUx+bIZeqxo/gA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Only half-joking, really. This somewhat reminds me of using input system
-force feedback stuff for touch screen vibrations.
+Hi!
 
-Cc: Dmitry & linux-input.
+> > > +config LEDS_AW200XX
+> > > +	tristate "LED support for Awinic AW20036/AW20054/AW20072"
+> > > +	depends on LEDS_CLASS
+> > > +	depends on I2C
+> > > +	help
+> > > +	  This option enables support for the AW20036/AW20054/AW20072 LED d=
+river.
+> > > +	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
+> > > +	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
+> > > +	  3 pattern controllers for auto breathing or group dimming control.
+> >=20
+> > I'm afraid this should be handled as a display, not as an array of
+> > individual LEDs.
+>=20
+> Just for my own information, where do we draw the line on this?
 
+Not sure.
 
-BR,
-Jani.
+> Is 4x4 okay?  How about 6x6?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+I'd say "As soon as it is 2-dimensional". Even 3x2 array is a display.
+
+If the LEDs are independend, and it makes sense to display disk
+activity on one and CPU activity on second... that's for LED
+subsystem.
+
+When userspace needs to know where are the LEDs spatially located, and
+when you start putting synchronized animations over the LEDs... well,
+then maybe that's a display.
+
+6x9 is definitely a display. We won't put 1920x1080 phone display into
+drivers/leds just because it is OLED...
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--goqUx+bIZeqxo/gA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/8g4QAKCRAw5/Bqldv6
+8rn/AJwJKp+LFn7p0CTmoaCYrBHRmH9mcgCfRz4lkROBbFHq5QhMvcz1xOmoiDI=
+=MGxO
+-----END PGP SIGNATURE-----
+
+--goqUx+bIZeqxo/gA--
