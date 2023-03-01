@@ -2,209 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8745B6A6C94
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 13:48:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E53B6A6D4C
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Mar 2023 14:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjCAMsC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Mar 2023 07:48:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50246 "EHLO
+        id S229795AbjCANoN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Mar 2023 08:44:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjCAMsA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 07:48:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7679D3B863
-        for <linux-leds@vger.kernel.org>; Wed,  1 Mar 2023 04:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677674831;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PrHWi0O3bp5TW073HxIoo2GqwQh60ydUW1vLbyoS8FU=;
-        b=TCDHMqCmqHOxRM5QtpqYDPa+29+jQWl3x4nbuRHyIqBT/jY9yYGiViECo1cLHP6WbPZiuP
-        f5vkgiw/54KEixCIcXlpsnmcPfS4ZAqnX0J3uFW4LuUwnwLk49EM8jC+Hm/O/5n4AY6FRX
-        XZQ1pyQFsGoEjAFzngV2rjHCqL9QVBw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-237-XjDA_tU3OUSjlqGkcnDIww-1; Wed, 01 Mar 2023 07:47:10 -0500
-X-MC-Unique: XjDA_tU3OUSjlqGkcnDIww-1
-Received: by mail-ed1-f70.google.com with SMTP id da15-20020a056402176f00b004ace822b750so19123096edb.20
-        for <linux-leds@vger.kernel.org>; Wed, 01 Mar 2023 04:47:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PrHWi0O3bp5TW073HxIoo2GqwQh60ydUW1vLbyoS8FU=;
-        b=aOhFzwiLTiLVrjNDpZ3pY2O+RcdgkMseV7FE9RYvAEJLgDO4hbX+IH8W003gRyRtSH
-         wznMV9k+PlvMIj4JSfdSnuIbDAweMNJTsomJ1R0c4E8IB8FljMnWCZG0x8C5rxmBgM/H
-         P/BhS4Ty4qB7Oerp67AyEBLqBI3zvHw7D/rUeQDESAcgDWUh96UxI5sRLe/MsgPdaTWB
-         wTLDX50d6jDscd7LVcJSKGJ2KQVQF/6tgjeXmPfd9whQ8s7wU6PHUEMvX5ALm1a5za1C
-         NhIE5lF0WGf+97JvuBJoWasCywpbpyAsBylMN5Z7oAQyv235jq1JTXJurBxVlcSKEWWF
-         3TXA==
-X-Gm-Message-State: AO0yUKXVLKYW3KOPPFrO+0YM4her+kaRncnZh8gvOUF2fD2Iwoy8vwm+
-        Nn1A5eQYw5SskZURJdkZRN61xXOX0k+/e+pSxTp2/zDRW/H+vlW3Gd2PWXNBTK8bKX9Mc8Uhxeg
-        GowosA7q2pHUioMH5b1uRoQ==
-X-Received: by 2002:aa7:d6c4:0:b0:4af:59c0:744a with SMTP id x4-20020aa7d6c4000000b004af59c0744amr7757566edr.24.1677674829574;
-        Wed, 01 Mar 2023 04:47:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set/gegt3wNPFIA5UaAFSkM0H/Cu2JETEa5VzADkRpzuOeLZLY8c4YHH4dVV9FidRJQJWbeU9sQ==
-X-Received: by 2002:aa7:d6c4:0:b0:4af:59c0:744a with SMTP id x4-20020aa7d6c4000000b004af59c0744amr7757547edr.24.1677674829268;
-        Wed, 01 Mar 2023 04:47:09 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id b18-20020a50b412000000b004bda465da32sm374934edh.1.2023.03.01.04.47.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 04:47:08 -0800 (PST)
-Message-ID: <5bb49015-0a9c-5b9d-b22c-38011439c984@redhat.com>
-Date:   Wed, 1 Mar 2023 13:47:07 +0100
+        with ESMTP id S229786AbjCANoM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Mar 2023 08:44:12 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A6B2B619;
+        Wed,  1 Mar 2023 05:44:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E57D1612F5;
+        Wed,  1 Mar 2023 13:44:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C5CC4339C;
+        Wed,  1 Mar 2023 13:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677678250;
+        bh=RqVBtEdPDqkkqJ8gBXXv6kvdV3IoTzke1yumkttulxA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ni5USCQ20r4mczq0MacF8m8enO0u8H7psZ0/MQy8RCM5D/OSf4GiijHs79cmm0MqU
+         uPkUtW8xcnB55jZ7nYqK1vlyofZRNoDFVvHJwP0bJOQ22IKtPvHgnNHG2yibF8xGWT
+         cnU1ul8T1Bgk6bcRx2Fy9W/F5HS5a311gKLoWp4HwZ5/NzlOab9lZJUcIo63skjTw+
+         VCqIk8+QISxieEL4zvxg5xYcV7+DfZME2Wca1ngnsXvLkLNizLtPPbcJULyYBijh0t
+         pxOed4lskdoMqBDUvmch+WGb+KA9LE8X7EvfWt6CEg7RnFPAymmV6/XzvpAIFT+TE0
+         pu/s2RgLNTSFg==
+Received: by mail-vs1-f41.google.com with SMTP id m10so19124479vso.4;
+        Wed, 01 Mar 2023 05:44:10 -0800 (PST)
+X-Gm-Message-State: AO0yUKXqktSJuJaqTjbnoCDZtfeEGh8tCQGFEx63mPtRbBqVQhrp/81e
+        fQCkW7gUbUnRZGcQPd0B4aGMlRzCiPyJJ9oAWw==
+X-Google-Smtp-Source: AK7set/+kePH77bSyBUVYmle7TJkriXSnvkYJj+VgmEmxkpJ17FZ4L81qeY2mSauNJWbQRMR0gFiAyIOOKaAd7TSJAw=
+X-Received: by 2002:a05:6102:2148:b0:402:9b84:1be4 with SMTP id
+ h8-20020a056102214800b004029b841be4mr4240433vsg.6.1677678249174; Wed, 01 Mar
+ 2023 05:44:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 0/8] drivers: select REGMAP instead of depending on it
-Content-Language: en-US, nl
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Andrew Jeffery <andrew@aj.id.au>, Corey Minyard <minyard@acm.org>,
-        openipmi-developer@lists.sourceforge.net,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Riku Voipio <riku.voipio@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, Michael Walle <michael@walle.cc>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-gpio@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Pavel Machek <pavel@ucw.cz>,
+References: <20230228144933.22614-1-zajec5@gmail.com> <20230301000236.GA20893-robh@kernel.org>
+ <e3b20703-f2d4-76b8-ccfb-11cf42d459fd@gmail.com>
+In-Reply-To: <e3b20703-f2d4-76b8-ccfb-11cf42d459fd@gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 1 Mar 2023 07:43:57 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJzrgS1PH77RkAiqAs=QqXPGG04sCG3X_i-GKWSqPORSQ@mail.gmail.com>
+Message-ID: <CAL_JsqJzrgS1PH77RkAiqAs=QqXPGG04sCG3X_i-GKWSqPORSQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: add "usbport" trigger
+To:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        Darren Hart <dvhart@infradead.org>,
-        Michael Shych <michaelsh@nvidia.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        platform-driver-x86@vger.kernel.org,
-        Yegnesh S Iyer <yegnesh.s.iyer@intel.com>,
-        Bin Gao <bin.gao@intel.com>, Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>, linux-pm@vger.kernel.org,
-        Oskar Senft <osk@google.com>, linux-serial@vger.kernel.org
-References: <20230226053953.4681-1-rdunlap@infradead.org>
- <7dd27ec5-0619-128d-8407-6711a05ef271@redhat.com>
- <6a95a337-2972-427f-635d-5ef4e91a82fa@infradead.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <6a95a337-2972-427f-635d-5ef4e91a82fa@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Florian Fainelli <f.fainelli@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Wed, Mar 1, 2023 at 1:27=E2=80=AFAM Rafa=C5=82 Mi=C5=82ecki <zajec5@gmai=
+l.com> wrote:
+>
+> On 1.03.2023 01:02, Rob Herring wrote:
+> > On Tue, Feb 28, 2023 at 03:49:33PM +0100, Rafa=C5=82 Mi=C5=82ecki wrote=
+:
+> >> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> >>
+> >> It's a trigger used on many home routers that have LEDs to indicate
+> >> specific USB port state.
+> >>
+> >> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> >> ---
+> >>   Documentation/devicetree/bindings/leds/common.yaml | 1 +
+> >>   1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Docu=
+mentation/devicetree/bindings/leds/common.yaml
+> >> index 15e3f6645682..95b316ee3146 100644
+> >> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> >> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> >> @@ -99,6 +99,7 @@ properties:
+> >>             - pattern
+> >>             - usb-gadget
+> >>             - usb-host
+> >> +          - usbport
+> >
+> > Can we stop adding entries which are clearly likely to have multiple
+> > instances. We have a better binding to map the trigger source...
+>
+> I'm sorry, I really don't understand this.
+> I'm not sure what do you mean by multuple "usbport" instances.
+> Could you point me to that better place, please?
 
-On 2/27/23 17:07, Randy Dunlap wrote:
-> 
-> 
-> On 2/27/23 01:31, Hans de Goede wrote:
->> Hi Randy,
->>
->> On 2/26/23 06:39, Randy Dunlap wrote:
->>> REGMAP is a hidden (not user visible) symbol. Users cannot set it
->>> directly thru "make *config", so drivers should select it instead of
->>> depending on it if they need it.
->>>
->>> Consistently using "select" or "depends on" can also help reduce
->>> Kconfig circular dependency issues.
->>>
->>> REGMAP is selected 94 times and is depended on 11 times in
->>> current linux-next. Eliminate the uses of "depends on" by
->>> converting them to "select".
->>
->> Thank you for your work on this. Mixing of depends on vs select
->> is a real problem with many Kconfig symbols.
->>
->>>  [PATCH 1/8] ipmi: ASPEED_BT_IPMI_BMC: select REGMAP_MMIO instead of depending on it
->>>  [PATCH 2/8] clk: HI655X: select REGMAP instead of depending on it
->>>  [PATCH 3/8] gpio: GPIO_REGMAP: select REGMAP instead of depending on it
->>>  [PATCH 4/8] leds: TI_LMU_COMMON: select REGMAP instead of depending on it
->>>  [PATCH 5/8] platform: mellanox: select REGMAP instead of depending on it
->>>  [PATCH 6/8] platform: x86: MLX_PLATFORM: select REGMAP instead of depending on it
->>>  [PATCH 7/8] thermal: intel: BXT_PMIC: select REGMAP instead of depending on it
->>>  [PATCH 8/8] serial: 8250: ASPEED_VUART: select REGMAP instead of depending on it
->>
->> For patch 5/8 and 6/8, do you want me to merge them through the pdx86
->> (platform-drivers-x86) tree, or do you plan to merge this whole series
->> in one go through some other tree?
-> 
-> Hi Hans,
-> Please merge them thru the pdx86 tree.
+Suppose I have a device with 4 USB ports and 4 LEDs for each one. How
+would one define the connection of LEDs to USB ports? Extend this to
+usbport[0-9]? No.
 
-Ok, I've applied patch 5/8 + 6/8 to my review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+> This is probably something obvious but I really can't figure it out
+> since yesterday.
 
-I'll rebase that branch once 6.3-rc1 is out and then push the rebased
-patch to the fixes branch and include it in my next 6.3 fixes pull-req
-to Linus.
+"trigger-sources"
 
-Regards,
-
-Hans
-
-
-
-
-
->>>
->>> diffstat:
->>>  drivers/char/ipmi/Kconfig         |    3 ++-
->>>  drivers/clk/Kconfig               |    2 +-
->>>  drivers/gpio/Kconfig              |    2 +-
->>>  drivers/leds/Kconfig              |    2 +-
->>>  drivers/platform/mellanox/Kconfig |    9 ++++-----
->>>  drivers/platform/x86/Kconfig      |    3 ++-
->>>  drivers/thermal/intel/Kconfig     |    3 ++-
->>>  drivers/tty/serial/8250/Kconfig   |    3 ++-
->>>  8 files changed, 15 insertions(+), 12 deletions(-)
->>>
->>> Cc: Andrew Jeffery <andrew@aj.id.au>
->>> Cc: Corey Minyard <minyard@acm.org>
->>> Cc: openipmi-developer@lists.sourceforge.net
->>> Cc: Arnd Bergmann <arnd@arndb.de>
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Riku Voipio <riku.voipio@linaro.org>
->>> Cc: Stephen Boyd <sboyd@kernel.org>
->>> Cc: Michael Turquette <mturquette@baylibre.com>
->>> Cc: linux-clk@vger.kernel.org
->>> Cc: Michael Walle <michael@walle.cc>
->>> Cc: Linus Walleij <linus.walleij@linaro.org>
->>> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
->>> Cc: linux-gpio@vger.kernel.org
->>> Cc: Dan Murphy <dmurphy@ti.com>
->>> Cc: Pavel Machek <pavel@ucw.cz>
->>> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->>> Cc: Lee Jones <lee@kernel.org>
->>> Cc: linux-leds@vger.kernel.org
->>> Cc: Darren Hart <dvhart@infradead.org>
->>> Cc: Hans de Goede <hdegoede@redhat.com>
->>> Cc: Michael Shych <michaelsh@nvidia.com>
->>> Cc: Mark Gross <markgross@kernel.org>
->>> Cc: Vadim Pasternak <vadimp@nvidia.com>
->>> Cc: platform-driver-x86@vger.kernel.org
->>> Cc: Yegnesh S Iyer <yegnesh.s.iyer@intel.com>
->>> Cc: Bin Gao <bin.gao@intel.com>
->>> Cc: Zhang Rui <rui.zhang@intel.com>
->>> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
->>> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
->>> Cc: Amit Kucheria <amitk@kernel.org>
->>> Cc: linux-pm@vger.kernel.org
->>> Cc: Oskar Senft <osk@google.com>
->>> Cc: linux-serial@vger.kernel.org
->>>
->>
-> 
-
+Rob
