@@ -2,140 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 537A76A8632
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Mar 2023 17:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E6D6A8723
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Mar 2023 17:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjCBQV0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Mar 2023 11:21:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52866 "EHLO
+        id S230037AbjCBQpR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 Mar 2023 11:45:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjCBQV0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Mar 2023 11:21:26 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56F205504C;
-        Thu,  2 Mar 2023 08:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677774085; x=1709310085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=502TDYPD+P5WlMFQrS9KeOupKAiUNlCfEA+GuL2sdNU=;
-  b=U4pxqokuSXDC3LypaumrPxAbTwoxYcZnQyb3sH/qcZaoPiVDIfHQwkEj
-   LE+pmDqOgNlPz14b2OW1EoPqL8qX4Jd9+YxZ/srGbeqnoFu8LmgyXSUqO
-   b02saAcY5CZe48g5iaK5YoqnlIK7fYBgIt2KJrBTxhAsDLkEYtNJoAG67
-   KmQasGF/cWLTvixp5qBRK18j42SCUlIHpDVbNQc5/vNazj3xzU5GpfsFJ
-   vLMQdFsUiF4a3eh1dNFDtUKst4XjWFbrUK3UcPla3vDsjdc8FGfWbfBiJ
-   LX0ipw46YAtX1/JetvA6ipFEa770S6gejZc0YagfbHfdepFzrWbvTLfvC
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="315184452"
-X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="315184452"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 08:21:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="920759225"
-X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="920759225"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Mar 2023 08:21:22 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pXlgH-00EQQJ-0u;
-        Thu, 02 Mar 2023 18:21:21 +0200
-Date:   Thu, 2 Mar 2023 18:21:21 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] leds: simatic-ipc-leds-gpio: split up into
- multiple drivers
-Message-ID: <ZADNAQbmxC3hdgl3@smile.fi.intel.com>
-References: <20230301170215.23382-1-henning.schild@siemens.com>
- <20230301170215.23382-3-henning.schild@siemens.com>
- <Y/+LLICwh3T25IGv@smile.fi.intel.com>
- <20230302094009.74b5d368@md1za8fc.ad001.siemens.net>
- <ZADE7kBB9HzTlpul@smile.fi.intel.com>
- <20230302165824.4868f6da@md1za8fc.ad001.siemens.net>
+        with ESMTP id S230024AbjCBQpN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Mar 2023 11:45:13 -0500
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D01522A3B
+        for <linux-leds@vger.kernel.org>; Thu,  2 Mar 2023 08:45:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=rsa2;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
+        b=kDFUay36skYmps2/wdqt4fAH3ooPZbYWVp4pqBqM961wiZduj7P0xLgJw2P+NpMGf7kg1DoicLT6s
+         g6l09K8HwL4RYQ8zGGoaFGn4km6zQYbAroP+EN+9HlyJrhV1W8t5cDqTAwscYUwdLDpYbIiHboO9rZ
+         aMzoAa0S/vUdoj1kf/OGdJTZUpW+MrjaNGUTQavNWIRuYfGMKTi7Tl3hROfbZVtoTWtbKeUCJQ2L0I
+         vgAjzdLxgJIXjLXCeRFb3ZpkshGAWy49N0muwOqA6SWUqwPx0aPY3DSGC5+6RFk99RSbDSFXHj01s6
+         xLMWjzebL84uGzeen8v31LzBEjuhwEg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed2;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
+        b=dTZtzyqF/jIMi0Zr3bfFJbyk3/PAmHQdX/XPn81EeMGXIgD+hYOJ9q2VlxqlJBJy6Rr6S2UsHglzv
+         pur80rgBQ==
+X-HalOne-ID: 943971d9-b919-11ed-babc-11abd97b9443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay1 (Halon) with ESMTPSA
+        id 943971d9-b919-11ed-babc-11abd97b9443;
+        Thu, 02 Mar 2023 16:45:06 +0000 (UTC)
+Date:   Thu, 2 Mar 2023 17:45:04 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
+Message-ID: <ZADSkGa6dK4H9p75@ravnborg.org>
+References: <20230228215433.3944508-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230302165824.4868f6da@md1za8fc.ad001.siemens.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Mar 02, 2023 at 04:58:24PM +0100, Henning Schild wrote:
-> Am Thu, 2 Mar 2023 17:46:54 +0200
-> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > On Thu, Mar 02, 2023 at 09:40:09AM +0100, Henning Schild wrote:
-> > > Am Wed, 1 Mar 2023 19:28:12 +0200
-> > > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:  
-> > > > On Wed, Mar 01, 2023 at 06:02:14PM +0100, Henning Schild wrote:  
+Hi Rob.
 
-...
-
-> > > > > +	.driver = {
-> > > > > +		.name = KBUILD_MODNAME,    
-> > > > 
-> > > > Strictly speaking this is an ABI (as something may instantiate the
-> > > > driver from the user space or elsewhere by this name. At the same
-> > > > time this may change with the file name change.
-> > > > 
-> > > > Personally I prefer explicit string literal here.  
-> > > 
-> > > Switching from one module to three the names have to change. People
-> > > who explicitly loaded the old module which supported multiple
-> > > machines, will now how to load either both oŕ know which one to
-> > > load.  
-> > 
-> > Wait, are you telling that now users load modules _manually_?!
-> 
-> No i am not, the modules all load automatically. I was trying to
-> construct a hypothetical case where the name change could affect users
-> doing unexpected things.
-> 
-> > > I personally think the ABI change is acceptable, the assumption
-> > > would be that the drivers load automatically anyhow. And since
-> > > there are no params i doubt users will have /etc/modprobe.d/ or
-> > > /sys/module/ stuff around.
-> > > 
-> > > And with the split i guess an ABI change can not be fully avoided.
-> > > Whether the names is explicit or implicit is another discussion and
-> > > just a matter of style. I prefer to stay with the currently used
-> > > pattern, it is not un-common in the kernel.  
-> > 
-> > The problem with that pattern is possible, while unlikely, renaming
-> > of the file which triggers this to be updated.
-> > 
-> > Under sysfs the folder will change its name. If user has a script
-> > relying on this, it will be broken. So, I prefer mine.
-> 
-> Yes, the name of the module will change ... and the location of module
-> metadata and params in sysfs, both not a big deal here. Because there
-> are no params, and there is not need to modprobe manually.
-
-It's not only one folder AFAIU. Also folder in the drivers will change
-its name. Parameters is one thing, the folder presence is another.
-
-Yes, the case is quite unlikely to happen (to break anyone's setup)
-that's why I started this with 'Strictly speaking...'. So, seems you
-are staying on your side, I will leave this to maintainers. If they
-are fine, I will have no objections.
-
-> > > > > +	},    
-
--- 
-With Best Regards,
-Andy Shevchenko
+>  .../bindings/display/bridge/analogix,anx7625.yaml |  2 +-
+>  .../bindings/display/bridge/anx6345.yaml          |  2 +-
+>  .../bindings/display/bridge/lontium,lt8912b.yaml  |  2 +-
+>  .../bindings/display/bridge/nxp,ptn3460.yaml      |  2 +-
+>  .../bindings/display/bridge/ps8640.yaml           |  2 +-
+>  .../bindings/display/bridge/sil,sii9234.yaml      |  2 +-
+>  .../bindings/display/bridge/ti,dlpc3433.yaml      |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358762.yaml |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358768.yaml |  2 +-
+>  .../bindings/display/panel/nec,nl8048hl11.yaml    |  2 +-
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 
+
+> index 669f70b1b4c4..8bd58913804a 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> @@ -226,7 +226,7 @@ unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> -    i2c1 {
+> +    i2c {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>  
+> @@ -239,7 +239,7 @@ examples:
+>  
+>              ssd1306_i2c: oled@3d {
+>                      compatible = "solomon,ssd1306";
+> -                    reg = <0x3c>;
+> +                    reg = <0x3d>;
+>                      pwms = <&pwm 4 3000>;
+>                      reset-gpios = <&gpio2 7>;
+>                      solomon,com-lrremap;
+
+I can see this align the example with i2c-mux-gpio.yaml so the change
+should be fine. I am just positive surprised the tooling caught it.
+
+The change is
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+the above was just me thinking loud.
+
+	Sam
