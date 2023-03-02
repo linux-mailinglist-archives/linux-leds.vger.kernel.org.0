@@ -2,106 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15BDF6A83E7
-	for <lists+linux-leds@lfdr.de>; Thu,  2 Mar 2023 15:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F7346A8582
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Mar 2023 16:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjCBOAk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Mar 2023 09:00:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55280 "EHLO
+        id S229447AbjCBPrE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 Mar 2023 10:47:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjCBOAj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Mar 2023 09:00:39 -0500
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E581E2333F;
-        Thu,  2 Mar 2023 06:00:36 -0800 (PST)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id C17005FD11;
-        Thu,  2 Mar 2023 17:00:33 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1677765633;
-        bh=OrOwfh5mJRiMyU5mosrTfgs9+CKcxqZAEXZ0UG6pCW8=;
-        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-        b=S10oa6xEdsy6Rf/BtUgrQGr8euxwm2wZ3ZhC9UKVjBNWW/yg5b0wDbc7yox23afwO
-         5EN1qkdP19HKbihfYGfMRTxdhosKhVcQ8VVxcmvbllfjTm9snXdy2cUYKJe5BPgwWj
-         4LJ3nWYuUQ7qCsmDpZkyWSYJZds8etV83W5Epv4XBmX4sIaC25dTgtJSXF/c4B5tuH
-         3mRr8YC+A3KhbOYulREHtfx5bFscRqEk6zM9g0ZzCVAAtvo3bfSfkpchvgjlL5uO+R
-         D07sB89XshHGFADe6RAZCuGjZAQslvil3p26WNh7DquN/mzhHv4pghoHVTFVokGi0L
-         VTmIGXCcwkG8w==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Thu,  2 Mar 2023 17:00:32 +0300 (MSK)
-Message-ID: <1a1017f5-b18f-b952-2504-e4301512c52b@sberdevices.ru>
-Date:   Thu, 2 Mar 2023 17:00:31 +0300
+        with ESMTP id S229480AbjCBPrE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Mar 2023 10:47:04 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8A053E61A;
+        Thu,  2 Mar 2023 07:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677772021; x=1709308021;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=JAipvvtID4UIsHFYIMs4dTvpzhPgRpYEfN79S7XKdlo=;
+  b=JF/Z+PcmyTkpkWhW9ADXA6qJ7638J9e8SaovHjk023fGlhW3dFe7r4aI
+   7BoAjB+XdTLHQcHLys5uLpyJJWM5fkUAtFfjkIw71Cd0L/K/I3hwWJNOk
+   ks/LhDUiPat5ryCevpxoI4YSu5YmHhxxaWexjvQP7bJvoDX5SamYnEZM2
+   dNMHKhlDMa5VSRkSxNFdfSkxCwMoP4xsW7OLTmgwPz93f9pkILXX5Ns0j
+   OmzAgK8325zGOSJiWirTQzXGXw9bEbbWAqj85/SNeIgNVQjBZGeEd/Zkr
+   hz6fMVMSJQcSOvxeyDGk6/YHDbmELwAF/hhHiLVxtv14QklrdDZiDOrnd
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318571371"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="318571371"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 07:47:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="707452421"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="707452421"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2023 07:46:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pXl8w-00EPc3-14;
+        Thu, 02 Mar 2023 17:46:54 +0200
+Date:   Thu, 2 Mar 2023 17:46:54 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] leds: simatic-ipc-leds-gpio: split up into
+ multiple drivers
+Message-ID: <ZADE7kBB9HzTlpul@smile.fi.intel.com>
+References: <20230301170215.23382-1-henning.schild@siemens.com>
+ <20230301170215.23382-3-henning.schild@siemens.com>
+ <Y/+LLICwh3T25IGv@smile.fi.intel.com>
+ <20230302094009.74b5d368@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] leds: add aw20xx driver
-Content-Language: en-US
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Lee Jones <lee@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@sberdevices.ru>
-References: <20230228211046.109693-1-mmkurbanov@sberdevices.ru>
- <20230228211046.109693-3-mmkurbanov@sberdevices.ru>
- <Y/5xBGFC3b9Chdtb@duo.ucw.cz>
-From:   Martin Kurbanov <mmkurbanov@sberdevices.ru>
-In-Reply-To: <Y/5xBGFC3b9Chdtb@duo.ucw.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/03/02 07:22:00 #20908555
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230302094009.74b5d368@md1za8fc.ad001.siemens.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2023-03-01 00:24, Pavel Machek wrote:
-> Hi!
-> 
->> +config LEDS_AW200XX
->> +	tristate "LED support for Awinic AW20036/AW20054/AW20072"
->> +	depends on LEDS_CLASS
->> +	depends on I2C
->> +	help
->> +	  This option enables support for the AW20036/AW20054/AW20072 LED driver.
->> +	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
->> +	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
->> +	  3 pattern controllers for auto breathing or group dimming control.
-> 
-> I'm afraid this should be handled as a display, not as an array of
-> individual LEDs.
+On Thu, Mar 02, 2023 at 09:40:09AM +0100, Henning Schild wrote:
+> Am Wed, 1 Mar 2023 19:28:12 +0200
+> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+> > On Wed, Mar 01, 2023 at 06:02:14PM +0100, Henning Schild wrote:
 
-Hello Pavel,
+...
 
-Thank you for the quick feedback and your detailed thoughts, appreciate
-it!
-I'm totally agree with you, that matrix LED controllers should be
-interpreted as display and it must be controlled as display from
-userspace. But actually, AW20036 controller usage status is strongly
-dependent from board PCB. In the our internal projects AW20036 controls
-LEDs line. Each LED brightness/pattern/etc are managed from userspace
-independently. From the current registers specification I can't imagine
-that it's possible to develop display driver for that. All controller
-features involve LED independent managing, like hardware patterns and
-brightness setup. Therefore I suppose for AW20036 controller LED
-subsystem is more suitable.
+> > > +	.driver = {
+> > > +		.name = KBUILD_MODNAME,  
+> > 
+> > Strictly speaking this is an ABI (as something may instantiate the
+> > driver from the user space or elsewhere by this name. At the same
+> > time this may change with the file name change.
+> > 
+> > Personally I prefer explicit string literal here.
+> 
+> Switching from one module to three the names have to change. People who
+> explicitly loaded the old module which supported multiple machines,
+> will now how to load either both oŕ know which one to load.
+
+Wait, are you telling that now users load modules _manually_?!
+
+> I personally think the ABI change is acceptable, the assumption would
+> be that the drivers load automatically anyhow. And since there are no
+> params i doubt users will have /etc/modprobe.d/ or /sys/module/ stuff
+> around.
+> 
+> And with the split i guess an ABI change can not be fully avoided.
+> Whether the names is explicit or implicit is another discussion and
+> just a matter of style. I prefer to stay with the currently used
+> pattern, it is not un-common in the kernel.
+
+The problem with that pattern is possible, while unlikely, renaming of the file
+which triggers this to be updated.
+
+Under sysfs the folder will change its name. If user has a script relying on
+this, it will be broken. So, I prefer mine.
+
+> > > +	},  
 
 -- 
-Best Regards,
-Kurbanov Martin
+With Best Regards,
+Andy Shevchenko
+
 
