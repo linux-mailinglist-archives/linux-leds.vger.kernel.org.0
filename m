@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED8C6A959A
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Mar 2023 11:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B30FA6A968D
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Mar 2023 12:39:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbjCCKxv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Mar 2023 05:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35324 "EHLO
+        id S229437AbjCCLjz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Mar 2023 06:39:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjCCKxt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 05:53:49 -0500
+        with ESMTP id S231226AbjCCLjx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 06:39:53 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807851E5D1;
-        Fri,  3 Mar 2023 02:53:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0001623659;
+        Fri,  3 Mar 2023 03:39:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 43905B81891;
-        Fri,  3 Mar 2023 10:53:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83419C433EF;
-        Fri,  3 Mar 2023 10:53:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9C527B818A6;
+        Fri,  3 Mar 2023 11:39:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E60C4339E;
+        Fri,  3 Mar 2023 11:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677840826;
-        bh=il/hJ1rbXDBFxjUSExTJaS2yi2XYe6jDK2yZ9jjfB/Y=;
+        s=k20201202; t=1677843590;
+        bh=I67wD2VPLvWn6k0HOQ0HyWEMmVsne14JmWKz+mBqvIk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VStokG36pbq/IJOmywSpgDaF/apZZOQNfsGRsHUuhd2Nwqsmr47te1TVxF12yIgSs
-         PebtDrkjX117H4UPOsvLM1ClhfE974/mhNfXFP1lFqiHmuPHc2F75kcMUWmMXv/wmE
-         4I6Fcu3jBiQxYTxQUhNRMAEEjhwWm4T6xgzsrI1U1xqmi6SXCr9vMsi4q62inf93ir
-         Qk1apjkDbf580T/OQj75p6H7skHTyYOEWmMbWEUzgEHgmGjo/cnbTMIoijECMHXUCh
-         lwFlEalaCTjlbHQzUEGl8ljp9RyHx5P2J6GW4FcedEX1th4WhEguwdHTyZE8adMG2f
-         ybBQSY5s2CdSA==
-Date:   Fri, 3 Mar 2023 10:53:41 +0000
+        b=GTkY9eXMB5r/ml0duVnEYUUCqH0mVYY/zdj1H0njOjVTkYPBqklKDEf0gq3XTzGdr
+         r+2IJjp23XkT5yNUBwrcdLtFzL7XnKVDp3KFPprMP5fiafUkZ4YFiuySHc9VR9lP2L
+         Gvx2mfl/TpOQ1QQOu9u2qFOw225zCOi1lKcOuADzB2FrPoJ8GiKBWKy5mz44oVJPBD
+         fKdL1cCcwvgmotXrD+yVEz4FUX5COcuNCH47ZSkeQsEgbwDtOk0kKLAJ6L1A2xUWmo
+         MwxikzdP50zEvZFQWIgfhtL6jtm6nV1nOHGpP05ua/9diiq6emMyU2IkT/M6Om60wF
+         eyMGzcqHBk64w==
+Date:   Fri, 3 Mar 2023 11:39:45 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Nick Alcock <nick.alcock@oracle.com>
-Cc:     mcgrof@kernel.org, linux-modules@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 10/27] leds: remove MODULE_LICENSE in non-modules
-Message-ID: <20230303105341.GC2420672@google.com>
-References: <20230224150811.80316-1-nick.alcock@oracle.com>
- <20230224150811.80316-11-nick.alcock@oracle.com>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        thunder.leizhen@huawei.com, festevam@gmail.com
+Subject: Re: [PATCH v6] dt-bindings: leds: Document commonly used LED triggers
+Message-ID: <20230303113945.GF2420672@google.com>
+References: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
+ <20230303103407.GR2303077@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230224150811.80316-11-nick.alcock@oracle.com>
+In-Reply-To: <20230303103407.GR2303077@google.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,46 +56,56 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 24 Feb 2023, Nick Alcock wrote:
+On Fri, 03 Mar 2023, Lee Jones wrote:
 
-> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
-> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
-> are used to identify modules. As a consequence, uses of the macro
-> in non-modules will cause modprobe to misidentify their containing
-> object file as a module when it is not (false positives), and modprobe
-> might succeed rather than failing with a suitable error message.
+> On Mon, 13 Feb 2023, Manivannan Sadhasivam wrote:
 > 
-> So remove it in the files in this commit, none of which can be built as
-> modules.
+> > Document the commonly used LED triggers by the SoCs. Not all triggers
+> > are documented as some of them are very application specific. Most of the
+> > triggers documented here are currently used in devicetrees of many SoCs.
+> > 
+> > While at it, also place the comment above the triggers (hci, mmc, wlan)
+> > to match the rest of the binding.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> > 
+> > Changes in v6:
+> > 
+> > * Rebased on top of lee/for-leds-next branch
+> > * Fixed the comment location for few triggers
+> > 
+> > Changes in v5:
+> > 
+> > * Rebased on top of v6.2-rc1
+> > 
+> > Changes in v4:
+> > 
+> > * Removed the sorting of triggers
+> > * Removed the "items" as they were not needed
+> > * Reworded the description
+> > * Dropped Zhen Lei's tested-by tag as the patch has changed
+> > * Added kbd-capslock trigger
+> > 
+> > Changes in v3:
+> > 
+> > * Rebased on top of v6.1-rc1
+> > * Added WLAN Rx trigger
+> > * Added tested tag from Zhen Lei
+> > 
+> > Changes in v2:
+> > 
+> > * Added more triggers, fixed the regex
+> > * Sorted triggers in ascending order
+> > 
+> >  .../devicetree/bindings/leds/common.yaml      | 37 +++++++++++++++++--
+> >  1 file changed, 34 insertions(+), 3 deletions(-)
 > 
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: linux-modules@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: linux-leds@vger.kernel.org
-> ---
->  drivers/leds/leds-asic3.c | 1 -
->  1 file changed, 1 deletion(-)
+> Applied, thanks
 
-Mention the driver in the subject line please.
+Change of plan.  This doesn't apply cleanly.
 
-> diff --git a/drivers/leds/leds-asic3.c b/drivers/leds/leds-asic3.c
-> index 8cbc1b8bafa5..bc7e96c3732a 100644
-> --- a/drivers/leds/leds-asic3.c
-> +++ b/drivers/leds/leds-asic3.c
-> @@ -173,5 +173,4 @@ module_platform_driver(asic3_led_driver);
->  
->  MODULE_AUTHOR("Paul Parsons <lost.distance@yahoo.com>");
->  MODULE_DESCRIPTION("HTC ASIC3 LED driver");
-> -MODULE_LICENSE("GPL");
->  MODULE_ALIAS("platform:leds-asic3");
-> -- 
-> 2.39.1.268.g9de2f9a303
-> 
+Could you please rebase and resubmit please?
 
 -- 
 Lee Jones [李琼斯]
