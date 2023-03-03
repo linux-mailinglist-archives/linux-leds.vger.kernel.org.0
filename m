@@ -2,52 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FEED6A954D
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Mar 2023 11:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED8C6A959A
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Mar 2023 11:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230274AbjCCKeT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Mar 2023 05:34:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
+        id S229998AbjCCKxv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Mar 2023 05:53:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230240AbjCCKeO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 05:34:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6852CFD5;
-        Fri,  3 Mar 2023 02:34:13 -0800 (PST)
+        with ESMTP id S229714AbjCCKxt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 05:53:49 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807851E5D1;
+        Fri,  3 Mar 2023 02:53:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FF7B617C3;
-        Fri,  3 Mar 2023 10:34:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC6AC433D2;
-        Fri,  3 Mar 2023 10:34:10 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 43905B81891;
+        Fri,  3 Mar 2023 10:53:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83419C433EF;
+        Fri,  3 Mar 2023 10:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677839652;
-        bh=ppHiOChKDephklotnDBN1ITuMflvxgS1uihjlv/IffQ=;
+        s=k20201202; t=1677840826;
+        bh=il/hJ1rbXDBFxjUSExTJaS2yi2XYe6jDK2yZ9jjfB/Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TPxVxhIzXfiHzbNQLOctAfoReOVG7AvMMMrqtCZspdtT4ZgfB9+OCEBe7Ff55PmtL
-         Nr3fDAGSwZ0sZVA3mNyQwGvR4bAsYJv7ZE+xluAiALuEfIw8APFjAX0v3KSv643Nmv
-         QuV/XOcv9vNBsCAa8O3X8o5m3nfydARxjdBxnxpZpQ+ZjsGmg95QfHzhM8bNL/9Obi
-         KtKfvQNtuV1lj/dBv77JZmDEvaKcEBjM4VrluROZjmlUSklCOr3wvmtRDWNPd4nVgV
-         GloAp0dbKIz/9qWrIrBPHh00sfK/1e9QEp6PiJIYss4iDp9+B/IZ5bHgFzfoBSKLWO
-         CP0Za03mfUFeQ==
-Date:   Fri, 3 Mar 2023 10:34:07 +0000
+        b=VStokG36pbq/IJOmywSpgDaF/apZZOQNfsGRsHUuhd2Nwqsmr47te1TVxF12yIgSs
+         PebtDrkjX117H4UPOsvLM1ClhfE974/mhNfXFP1lFqiHmuPHc2F75kcMUWmMXv/wmE
+         4I6Fcu3jBiQxYTxQUhNRMAEEjhwWm4T6xgzsrI1U1xqmi6SXCr9vMsi4q62inf93ir
+         Qk1apjkDbf580T/OQj75p6H7skHTyYOEWmMbWEUzgEHgmGjo/cnbTMIoijECMHXUCh
+         lwFlEalaCTjlbHQzUEGl8ljp9RyHx5P2J6GW4FcedEX1th4WhEguwdHTyZE8adMG2f
+         ybBQSY5s2CdSA==
+Date:   Fri, 3 Mar 2023 10:53:41 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        thunder.leizhen@huawei.com, festevam@gmail.com
-Subject: Re: [PATCH v6] dt-bindings: leds: Document commonly used LED triggers
-Message-ID: <20230303103407.GR2303077@google.com>
-References: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
+To:     Nick Alcock <nick.alcock@oracle.com>
+Cc:     mcgrof@kernel.org, linux-modules@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 10/27] leds: remove MODULE_LICENSE in non-modules
+Message-ID: <20230303105341.GC2420672@google.com>
+References: <20230224150811.80316-1-nick.alcock@oracle.com>
+ <20230224150811.80316-11-nick.alcock@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230213072133.5977-1-manivannan.sadhasivam@linaro.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <20230224150811.80316-11-nick.alcock@oracle.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,50 +56,46 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 13 Feb 2023, Manivannan Sadhasivam wrote:
+On Fri, 24 Feb 2023, Nick Alcock wrote:
 
-> Document the commonly used LED triggers by the SoCs. Not all triggers
-> are documented as some of them are very application specific. Most of the
-> triggers documented here are currently used in devicetrees of many SoCs.
+> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
+> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
+> are used to identify modules. As a consequence, uses of the macro
+> in non-modules will cause modprobe to misidentify their containing
+> object file as a module when it is not (false positives), and modprobe
+> might succeed rather than failing with a suitable error message.
 > 
-> While at it, also place the comment above the triggers (hci, mmc, wlan)
-> to match the rest of the binding.
+> So remove it in the files in this commit, none of which can be built as
+> modules.
 > 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
+> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: linux-modules@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: linux-leds@vger.kernel.org
 > ---
-> 
-> Changes in v6:
-> 
-> * Rebased on top of lee/for-leds-next branch
-> * Fixed the comment location for few triggers
-> 
-> Changes in v5:
-> 
-> * Rebased on top of v6.2-rc1
-> 
-> Changes in v4:
-> 
-> * Removed the sorting of triggers
-> * Removed the "items" as they were not needed
-> * Reworded the description
-> * Dropped Zhen Lei's tested-by tag as the patch has changed
-> * Added kbd-capslock trigger
-> 
-> Changes in v3:
-> 
-> * Rebased on top of v6.1-rc1
-> * Added WLAN Rx trigger
-> * Added tested tag from Zhen Lei
-> 
-> Changes in v2:
-> 
-> * Added more triggers, fixed the regex
-> * Sorted triggers in ascending order
-> 
->  .../devicetree/bindings/leds/common.yaml      | 37 +++++++++++++++++--
->  1 file changed, 34 insertions(+), 3 deletions(-)
+>  drivers/leds/leds-asic3.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-Applied, thanks
+Mention the driver in the subject line please.
+
+> diff --git a/drivers/leds/leds-asic3.c b/drivers/leds/leds-asic3.c
+> index 8cbc1b8bafa5..bc7e96c3732a 100644
+> --- a/drivers/leds/leds-asic3.c
+> +++ b/drivers/leds/leds-asic3.c
+> @@ -173,5 +173,4 @@ module_platform_driver(asic3_led_driver);
+>  
+>  MODULE_AUTHOR("Paul Parsons <lost.distance@yahoo.com>");
+>  MODULE_DESCRIPTION("HTC ASIC3 LED driver");
+> -MODULE_LICENSE("GPL");
+>  MODULE_ALIAS("platform:leds-asic3");
+> -- 
+> 2.39.1.268.g9de2f9a303
+> 
 
 -- 
 Lee Jones [李琼斯]
