@@ -2,348 +2,180 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B289A6A9923
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Mar 2023 15:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A0016AA777
+	for <lists+linux-leds@lfdr.de>; Sat,  4 Mar 2023 02:59:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjCCOLu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Mar 2023 09:11:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54684 "EHLO
+        id S229618AbjCDB7e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Mar 2023 20:59:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbjCCOLt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 09:11:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8D85D897;
-        Fri,  3 Mar 2023 06:11:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A9F41B818D7;
-        Fri,  3 Mar 2023 14:11:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5295C4339E;
-        Fri,  3 Mar 2023 14:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677852704;
-        bh=rcz5yj2YfYuXUPK0B0fgsHEPcDvF6WUxXgCeRhOTR9U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NIE9s2W2HoLF80+qAryoeuKAgZ5hVt+7/MGti1aKOW8RX7B0fojLJ2GXv2hfFcgSA
-         YW+PXJ6T9FSQmKZbvltjQBrP8D6dmOZPZCCOySDLg/FI/yZTNmOOibDC9zgI9p/KEz
-         Cd1Vv9sCLqwwFhlUIhyd36/taIvHz3jGDEWHKsh2jotjFTQjc8dW98hszBw32hsmRO
-         e2xlmz9926HzTbrvVMqzzBa8grtLTd6mZTeX3Mi1bTMBHINsIw9g5tXlx2fOXExXWC
-         Zqk5lITTyfJgkmU0er0bSafbf2RObcKuyRXxtLBWl6A/7lskvYzJXaWk/aBskyH8O6
-         FSIPVDWFjshnA==
-Date:   Fri, 3 Mar 2023 14:11:39 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
-Subject: Re: [PATCH v7 2/2] trigger: ledtrig-tty: add additional modes
-Message-ID: <20230303141139.GP2420672@google.com>
-References: <20230222083335.847655-1-fe@dev.tdt.de>
- <20230222083335.847655-3-fe@dev.tdt.de>
+        with ESMTP id S229511AbjCDB7d (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Mar 2023 20:59:33 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160C8136F5
+        for <linux-leds@vger.kernel.org>; Fri,  3 Mar 2023 17:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677895173; x=1709431173;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8CINLjQtDf/qIQzqThY972IETX7xD00Y1TVbmWvhffs=;
+  b=bhhrVaAPFVA0Lm+E+vqo3X6UE8914xk9RiYOXDS3ZBbjbnqzyggCiEyW
+   39H1sBI/kMIWOoWJlE0HPxIpQrwSv3uFFa7m3UMciTeu1y/I+PubG0UWT
+   pIrhb+qpdAzocEr4sz69ET2/FBTZ07I6KWMVZLIfqW+HAsrkif0fQeChw
+   NBKItK7mDBI2dlShxMQ3eSj7WEu3ojwK6NwENfwEEvIxzEZkWnwo0EOX6
+   U1cmXwYV1wqMYGQQo/aRGB/ty0Bp/uPCkrUmVm+9v6P9BzSR08wiMuZab
+   5Xlybu098+AC8o3onx2TqmJV2epvmJICj7aWwPFBoT6HzFy0jCvJBvtdQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="332685045"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="332685045"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 17:59:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="744436479"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
+   d="scan'208";a="744436479"
+Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2023 17:59:31 -0800
+Received: from kbuild by 776573491cc5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pYHBK-0001ms-2z;
+        Sat, 04 Mar 2023 01:59:30 +0000
+Date:   Sat, 04 Mar 2023 09:58:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 140d9006dd017fd9ea7c2d721d68ec3c83e2254e
+Message-ID: <6402a5d0.MIxSP4NIi4J91VXX%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230222083335.847655-3-fe@dev.tdt.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 22 Feb 2023, Florian Eckert wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 140d9006dd017fd9ea7c2d721d68ec3c83e2254e  leds: Fix reference to led_set_brightness() in doc
 
-> Add additional modes to trigger the selected LED.
-> The following modes are supported:
-> 
-> Tx/Rx:	Flash LED on data transmission (default)
-> CTS:	DCE Ready to accept data from the DTE.
-> DSR:	DCE is ready to receive and send data.
-> CAR:	DCE is receiving a carrier from a remote DTE.
-> RNG:	DCE has detected an incoming ring signal.
-> 
-> The mode can be changed for example with the following command:
-> echo "CTS" > /sys/class/leds/<led>/mode
-> 
-> This would turn on the LED, when the DTE(modem) signals the DCE that it
-> is ready to accept data.
-> 
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> ---
->  .../ABI/testing/sysfs-class-led-trigger-tty   |  17 ++
->  drivers/leds/trigger/ledtrig-tty.c            | 145 ++++++++++++++++--
->  2 files changed, 147 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> index 2bf6b24e781b..1c28e6c61d19 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-> @@ -4,3 +4,20 @@ KernelVersion:	5.10
->  Contact:	linux-leds@vger.kernel.org
->  Description:
->  		Specifies the tty device name of the triggering tty
-> +
-> +What:		/sys/class/leds/<led>/mode
-> +Date:		January 2023
-> +KernelVersion:	6.3
-> +Description:
-> +		Specifies the operating to trigger the LED.
+elapsed time: 722m
 
-The operating ... ?  "mode"?
+configs tested: 101
+configs skipped: 11
 
-> +		The following operating modes are supported:
-> +
-> +		* Tx/Rx: Flash LED on data transmission (default)
-> +		* CTS:   DCE Ready to accept data from the DTE.
-> +		  LED on if line is high.
-> +		* DSR:   DCE is ready to receive and send data.
-> +		  LED on if line is high.
-> +		* CAR:   DCE has detected a carrier from a remote DTE.
-> +		  LED on if line is high.
-> +		* RNG:   DCE has detected an incoming ring signal.
-> +		  LED on if line is high.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Seeing as this is unchanging, how about you mention it once globally?
-
-> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-> index f62db7e520b5..7c4c171c8745 100644
-> --- a/drivers/leds/trigger/ledtrig-tty.c
-> +++ b/drivers/leds/trigger/ledtrig-tty.c
-> @@ -7,6 +7,15 @@
->  #include <linux/tty.h>
->  #include <uapi/linux/serial.h>
->  
-> +enum tty_led_mode {
-> +	TTY_LED_CNT,
-
-What's CNT?  Is it documented somewhere else?  Ah, I see below that this
-is Tx/Rx.  Odd name, what does it mean?  Defines and Enums should be
-self documenting IMHO.
-
-> +	TTY_LED_CTS,
-> +	TTY_LED_DSR,
-> +	TTY_LED_CAR,
-> +	TTY_LED_RNG,
-> +	__TTY_LED_LAST = TTY_LED_RNG
-
-Do you have to prepend with _'s?
-
-> +};
-> +
->  struct ledtrig_tty_data {
->  	struct led_classdev *led_cdev;
->  	struct delayed_work dwork;
-> @@ -14,6 +23,15 @@ struct ledtrig_tty_data {
->  	const char *ttyname;
->  	struct tty_struct *tty;
->  	int rx, tx;
-> +	enum tty_led_mode mode;
-> +};
-> +
-> +static const char * const mode[] = {
-> +	[TTY_LED_CNT] = "Tx/Rx", // Trasmit Data / Receive Data
-
-C++ style comments?
-
-> +	[TTY_LED_CTS] = "CTS", // CTS Clear To Send
-> +	[TTY_LED_DSR] = "DSR", // DSR Data Set Ready
-> +	[TTY_LED_CAR] = "CAR", // CAR Data Carrier Detect (DCD)
-> +	[TTY_LED_RNG] = "RNG", // RNG Ring Indicator (RI)
->  };
->  
->  static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
-> @@ -21,6 +39,70 @@ static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
->  	schedule_delayed_work(&trigger_data->dwork, 0);
->  }
->  
-> +static ssize_t ledtrig_tty_mode_show(char *buf, enum tty_led_mode tty_mode)
-> +{
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i <= __TTY_LED_LAST; i++) {
-> +		bool hit = tty_mode == i;
-> +		bool last = i == __TTY_LED_LAST;
-> +
-> +		len += sysfs_emit_at(buf, len, "%s%s%s%s",
-> +				  hit ? "[" : "",
-> +				  mode[i],
-> +				  hit ? "]" : "",
-> +				  last ? "" : " ");
-> +	}
-> +
-> +	len += sysfs_emit_at(buf, len, "\n");
-> +
-> +	return len;
-> +}
-> +
-> +static ssize_t tty_led_mode_show(struct device *dev,
-> +			 struct device_attribute *attr, char *buf)
-
-This may be a personal preference, but I'd rather see alignment with the '('.
-
-> +{
-> +	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-> +	enum tty_led_mode tty_mode;
-> +
-> +	mutex_lock(&trigger_data->mutex);
-> +	tty_mode = trigger_data->mode;
-> +	mutex_unlock(&trigger_data->mutex);
-> +
-> +	return ledtrig_tty_mode_show(buf, tty_mode);
-> +}
-> +
-> +static ssize_t tty_led_mode_store(struct device *dev,
-> +			  struct device_attribute *attr, const char *buf,
-> +			  size_t size)
-> +{
-> +	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-> +	ssize_t ret = size;
-> +	enum tty_led_mode tty_mode = __TTY_LED_LAST;
-
-Nit: Can you reverse these 2 lines to make my OCD happy please?
-
-> +	int i;
-> +
-> +	/* Check for new line in string*/
-
-' ' before the '*'.
-
-> +	if (size > 0 && buf[size - 1] == '\n')
-> +		size -= 1;
-> +
-> +	for (i = 0; i <= __TTY_LED_LAST; i++)
-> +		if (strncmp(buf, mode[i], size) == 0) {
-> +			tty_mode = i;
-> +			break;
-> +		}
-> +
-> +	if (i > __TTY_LED_LAST)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&trigger_data->mutex);
-> +	trigger_data->mode = tty_mode;
-> +	mutex_unlock(&trigger_data->mutex);
-> +
-> +	return ret;
-> +}
-> +static DEVICE_ATTR_RW(tty_led_mode);
-> +
->  static ssize_t ttyname_show(struct device *dev,
->  			    struct device_attribute *attr, char *buf)
->  {
-> @@ -76,6 +158,18 @@ static ssize_t ttyname_store(struct device *dev,
->  }
->  static DEVICE_ATTR_RW(ttyname);
->  
-> +static void ledtrig_tty_flags(struct ledtrig_tty_data *trigger_data,
-> +		unsigned int flag)
-
-This can be on a single line.  Please use 100-chars throughout.
-
-> +{
-> +	unsigned int status;
-> +
-> +	status = tty_get_mget(trigger_data->tty);
-> +	if (status & flag)
-> +		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> +	else
-> +		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-> +}
-> +
->  static void ledtrig_tty_work(struct work_struct *work)
->  {
->  	struct ledtrig_tty_data *trigger_data =
-> @@ -113,21 +207,38 @@ static void ledtrig_tty_work(struct work_struct *work)
->  		trigger_data->tty = tty;
->  	}
->  
-> -	ret = tty_get_icount(trigger_data->tty, &icount);
-> -	if (ret) {
-> -		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped polling\n");
-> -		mutex_unlock(&trigger_data->mutex);
-> -		return;
-> -	}
-> -
-> -	if (icount.rx != trigger_data->rx ||
-> -	    icount.tx != trigger_data->tx) {
-> -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> -
-> -		trigger_data->rx = icount.rx;
-> -		trigger_data->tx = icount.tx;
-> -	} else {
-> -		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-> +	switch (trigger_data->mode) {
-> +	case TTY_LED_CTS:
-> +		ledtrig_tty_flags(trigger_data, TIOCM_CTS);
-> +		break;
-> +	case TTY_LED_DSR:
-> +		ledtrig_tty_flags(trigger_data, TIOCM_DSR);
-> +		break;
-> +	case TTY_LED_CAR:
-> +		ledtrig_tty_flags(trigger_data, TIOCM_CAR);
-> +		break;
-> +	case TTY_LED_RNG:
-> +		ledtrig_tty_flags(trigger_data, TIOCM_RNG);
-> +		break;
-> +	case TTY_LED_CNT:
-
-I believe this requires a 'fall-through' statement.
-
-Documentation/process/deprecated.rst
-
-> +	default:
-> +		ret = tty_get_icount(trigger_data->tty, &icount);
-> +		if (ret) {
-> +			dev_info(trigger_data->tty->dev, "Failed to get icount, stopped polling\n");
-> +			mutex_unlock(&trigger_data->mutex);
-> +			return;
-> +		}
-> +
-> +		if (icount.rx != trigger_data->rx ||
-> +		    icount.tx != trigger_data->tx) {
-
-One line, etc.
-
-> +			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> +
-> +			trigger_data->rx = icount.rx;
-> +			trigger_data->tx = icount.tx;
-> +		} else {
-> +			led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-> +		}
-> +		break;
->  	}
->  
->  out:
-> @@ -137,6 +248,7 @@ static void ledtrig_tty_work(struct work_struct *work)
->  
->  static struct attribute *ledtrig_tty_attrs[] = {
->  	&dev_attr_ttyname.attr,
-> +	&dev_attr_tty_led_mode.attr,
->  	NULL
->  };
->  ATTRIBUTE_GROUPS(ledtrig_tty);
-> @@ -149,6 +261,9 @@ static int ledtrig_tty_activate(struct led_classdev *led_cdev)
->  	if (!trigger_data)
->  		return -ENOMEM;
->  
-> +	/* set default mode */
-
-Nit: "Set"
-
-> +	trigger_data->mode = TTY_LED_CNT;
-> +
->  	led_set_trigger_data(led_cdev, trigger_data);
->  
->  	INIT_DELAYED_WORK(&trigger_data->dwork, ledtrig_tty_work);
-> -- 
-> 2.30.2
-> 
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r031-20230302   gcc  
+arc                  randconfig-r043-20230302   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r012-20230303   clang
+arm                  randconfig-r015-20230302   gcc  
+arm                  randconfig-r046-20230302   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r013-20230303   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r016-20230302   gcc  
+hexagon              randconfig-r006-20230302   clang
+hexagon              randconfig-r026-20230302   clang
+hexagon              randconfig-r033-20230302   clang
+hexagon              randconfig-r041-20230302   clang
+hexagon              randconfig-r045-20230302   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r002-20230302   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r003-20230302   gcc  
+ia64                 randconfig-r012-20230302   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r014-20230303   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r013-20230302   gcc  
+m68k                 randconfig-r014-20230302   gcc  
+m68k                 randconfig-r021-20230302   gcc  
+m68k                 randconfig-r035-20230302   gcc  
+microblaze           randconfig-r004-20230302   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc             randconfig-r005-20230302   gcc  
+openrisc             randconfig-r024-20230302   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r001-20230302   clang
+powerpc              randconfig-r034-20230302   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r006-20230302   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r016-20230303   gcc  
+riscv                randconfig-r036-20230302   gcc  
+riscv                randconfig-r042-20230302   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230302   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r001-20230302   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r023-20230302   gcc  
+sparc64              randconfig-r002-20230302   gcc  
+sparc64              randconfig-r025-20230302   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
