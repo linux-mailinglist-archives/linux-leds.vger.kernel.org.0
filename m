@@ -2,166 +2,174 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8856AB9AA
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 10:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B367A6AB9C6
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 10:27:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbjCFJXo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Mar 2023 04:23:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
+        id S229976AbjCFJ1K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Mar 2023 04:27:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjCFJXn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 04:23:43 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37026173D
-        for <linux-leds@vger.kernel.org>; Mon,  6 Mar 2023 01:23:42 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pZ74A-0000jh-L6; Mon, 06 Mar 2023 10:23:34 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pZ749-002D9t-Du; Mon, 06 Mar 2023 10:23:33 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pZ748-002crS-DN; Mon, 06 Mar 2023 10:23:32 +0100
-Date:   Mon, 6 Mar 2023 10:23:32 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Jiri Slaby <jirislaby@kernel.org>, Florian Eckert <fe@dev.tdt.de>,
-        gregkh@linuxfoundation.org, pavel@ucw.cz,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Eckert.Florian@googlemail.com
-Subject: Re: [PATCH v7 2/2] trigger: ledtrig-tty: add additional modes
-Message-ID: <20230306092332.rrwg45b4bhda4ssw@pengutronix.de>
-References: <20230222083335.847655-1-fe@dev.tdt.de>
- <20230222083335.847655-3-fe@dev.tdt.de>
- <20230303141139.GP2420672@google.com>
- <be7c90cf-4c65-1cf0-3001-8706415c3d34@kernel.org>
- <20230306090456.GA9667@google.com>
+        with ESMTP id S229968AbjCFJ1J (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 04:27:09 -0500
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73DF2231C0
+        for <linux-leds@vger.kernel.org>; Mon,  6 Mar 2023 01:27:07 -0800 (PST)
+Received: by mail-ua1-x933.google.com with SMTP id f20so5963868uam.3
+        for <linux-leds@vger.kernel.org>; Mon, 06 Mar 2023 01:27:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112; t=1678094826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zhS37jgP1oSKDQocHToehtxxyITsXcT+owYbmJ0INPU=;
+        b=4t56tDC/G+oovfdiW5rxFZCyYsIfw/WmqyS1QgC9FKLy44l3wGWvPNPrKaEI6mAvIe
+         ELD4XcqhLxDYPapof54et2VAMu4KrZDT7kUwAj9Hrs6wS7u5XxJjEWAUEaYcKiG/Zn39
+         LbYGMfhwfIZ4JLhat+2hMudxk6CM3YJdkOXGSLSfaulwOvc6XpKpqL1F+6VUjzq55xQy
+         y2JSmDTTT0sTDy7JHDzT8MfLrGyiRKAqCmO15rXFhnzLrphpS2zddGj0+LqedgxxL0hV
+         0N2PQS1jMZSutIFgUay8tQ8K/XSrnWtb4nxvfgnG2GPyXj9/IYPjvJKK9fj6DB19DqZ2
+         l4GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678094826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zhS37jgP1oSKDQocHToehtxxyITsXcT+owYbmJ0INPU=;
+        b=4bQpEuF4J+i/gBfZ9Fa3/BVL4Ur66fyHvKd7wO/YtF6OIGEamlzX30PzEBxo/os+RR
+         paDj0gBrAm7UdnKScu4yzkdGQG+nLAMaimpgYmwf6c8nZqb6ICguAECPKh5WrYG2Hy03
+         EJHNg4EQKDqPMJ0MKZZ53jcWzFreAVxkXafOcCUTRYKt60xRL5YrBGP4djZqGDWpdfKr
+         EOtYzaqRTlowdJj9/VEK9HhPmrMV57HYQx5mQxwqkK1qiDqjlMbSey19jZUEtCHeNlbw
+         MLVBGDI//+DtdIMqeqHFiwD5Wv9ZKnHWPfT15qAN0T8alR+HZOIy1GWksGwX1cEEWjy6
+         JvkA==
+X-Gm-Message-State: AO0yUKV8sI6AxqmkLAXiXPFplJiSN3jZLfLsbA40pSb+iC5E9h/sZzOe
+        WjWQsxr8wzh7DuHDIS0w0AjRiI1ZS9iAwqoo8d1VxA==
+X-Google-Smtp-Source: AK7set+CHskqiSsm+6Cmi6WHgSSwP4myqJ1YcVc2LU1gm2fnO90Xr69irT8NxRARr/yjxDC8cjTLGID26SceOFHbVxE=
+X-Received: by 2002:a9f:3104:0:b0:687:afc8:ffb9 with SMTP id
+ m4-20020a9f3104000000b00687afc8ffb9mr6636458uab.2.1678094826467; Mon, 06 Mar
+ 2023 01:27:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ydbisql6sb23xhwq"
-Content-Disposition: inline
-In-Reply-To: <20230306090456.GA9667@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230228215433.3944508-1-robh@kernel.org>
+In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 6 Mar 2023 10:26:55 +0100
+Message-ID: <CAMRc=Mfouay5Z6M6VYnBX7Pe+ahTVfvfQsJ+kToWAwZJxZWJZg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, Feb 28, 2023 at 10:54=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> SPI and I2C bus node names are expected to be "spi" or "i2c",
+> respectively, with nothing else, a unit-address, or a '-N' index. A
+> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
+> cases. Mostly scripted with the following commands:
+>
+> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
+/i2c[0-9] {/i2c {/'
+> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
+/spi[0-9] {/spi {/'
+>
+> With this, a few errors in examples were exposed and fixed.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
+> Cc: Chanwoo Choi <cw00.choi@samsung.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Wolfgang Grandegger <wg@grandegger.com>
+> Cc: Kalle Valo <kvalo@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-i2c@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-can@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-usb@vger.kernel.org
+> ---
+>  .../bindings/auxdisplay/holtek,ht16k33.yaml       |  2 +-
+>  .../bindings/chrome/google,cros-ec-typec.yaml     |  2 +-
+>  .../chrome/google,cros-kbd-led-backlight.yaml     |  2 +-
+>  .../devicetree/bindings/clock/ti,lmk04832.yaml    |  2 +-
+>  .../bindings/display/bridge/analogix,anx7625.yaml |  2 +-
+>  .../bindings/display/bridge/anx6345.yaml          |  2 +-
+>  .../bindings/display/bridge/lontium,lt8912b.yaml  |  2 +-
+>  .../bindings/display/bridge/nxp,ptn3460.yaml      |  2 +-
+>  .../bindings/display/bridge/ps8640.yaml           |  2 +-
+>  .../bindings/display/bridge/sil,sii9234.yaml      |  2 +-
+>  .../bindings/display/bridge/ti,dlpc3433.yaml      |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358762.yaml |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358768.yaml |  2 +-
+>  .../bindings/display/panel/nec,nl8048hl11.yaml    |  2 +-
+>  .../bindings/display/solomon,ssd1307fb.yaml       |  4 ++--
+>  .../devicetree/bindings/eeprom/at25.yaml          |  2 +-
+>  .../bindings/extcon/extcon-usbc-cros-ec.yaml      |  2 +-
+>  .../bindings/extcon/extcon-usbc-tusb320.yaml      |  2 +-
+>  .../devicetree/bindings/gpio/gpio-pca9570.yaml    |  2 +-
+>  .../devicetree/bindings/gpio/gpio-pca95xx.yaml    |  8 ++++----
 
---ydbisql6sb23xhwq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 06, 2023 at 09:04:56AM +0000, Lee Jones wrote:
-> On Mon, 06 Mar 2023, Jiri Slaby wrote:
->=20
-> > On 03. 03. 23, 15:11, Lee Jones wrote:
-> > > On Wed, 22 Feb 2023, Florian Eckert wrote:
-> > > > @@ -113,21 +207,38 @@ static void ledtrig_tty_work(struct work_stru=
-ct *work)
-> > > >   		trigger_data->tty =3D tty;
-> > > >   	}
-> > > > -	ret =3D tty_get_icount(trigger_data->tty, &icount);
-> > > > -	if (ret) {
-> > > > -		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped =
-polling\n");
-> > > > -		mutex_unlock(&trigger_data->mutex);
-> > > > -		return;
-> > > > -	}
-> > > > -
-> > > > -	if (icount.rx !=3D trigger_data->rx ||
-> > > > -	    icount.tx !=3D trigger_data->tx) {
-> > > > -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-> > > > -
-> > > > -		trigger_data->rx =3D icount.rx;
-> > > > -		trigger_data->tx =3D icount.tx;
-> > > > -	} else {
-> > > > -		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-> > > > +	switch (trigger_data->mode) {
-> > > > +	case TTY_LED_CTS:
-> > > > +		ledtrig_tty_flags(trigger_data, TIOCM_CTS);
-> > > > +		break;
-> > > > +	case TTY_LED_DSR:
-> > > > +		ledtrig_tty_flags(trigger_data, TIOCM_DSR);
-> > > > +		break;
-> > > > +	case TTY_LED_CAR:
-> > > > +		ledtrig_tty_flags(trigger_data, TIOCM_CAR);
-> > > > +		break;
-> > > > +	case TTY_LED_RNG:
-> > > > +		ledtrig_tty_flags(trigger_data, TIOCM_RNG);
-> > > > +		break;
-> > > > +	case TTY_LED_CNT:
-> > >=20
-> > > I believe this requires a 'fall-through' statement.
-> >=20
-> > I don't think this is the case. Isn't fallthrough required only in cases
-> > when there is at least one statement, i.e. a block?
->=20
-> There's no mention of this caveat in the document.
->=20
-> To my untrained eyes, the rule looks fairly explicit, starting with "All".
->=20
-> "
->   All switch/case blocks must end in one of:
->=20
->   * break;
->   * fallthrough;
->   * continue;
->   * goto <label>;
->   * return [expression];
-> "
->=20
-> If you're aware of something I'm not, please consider updating the doc.
-
-Just to add my 0.02=E2=82=AC: I think this case (i.e.
-
-	case TTY_LED_CNT:
-	default:
-		...
-
-) doesn't need a fall-through for two reasons:
-
- a) The compilers don't warn about this construct even with the
-    fall-through warning enabled; and
- b) I wouldn't call the TTY_LED_CNT line a "block", so the quoted
-    document[1] doesn't apply. (Though I agree that there is some
-    potential for improvement by mentioning this case. (haha))
-
-Best regards
-Uwe
-
-[1] Documentation/process/deprecated.rst
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ydbisql6sb23xhwq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQFsREACgkQwfwUeK3K
-7AmgaQgAntstqH4NxocLX98IcNzJGSN1QcSlOgPZlNgGVyvItsrbDfGUYKEPHjUI
-gr4K4Y9WOoJKW9mriSLQEO1YZKCbOGjghleQdK02JYTAaigV6i3pAIqvSSVOy+xf
-yANjJFHXHYCVEmQM30Y0kBee8f4qVWQ06J67uCP6uRY5046Emh3+cdTiPYnfbL4R
-iLHuPiyPWmMDDfHhiOCsK5PnjQL3ArF61F9BvxJrn/lv12bknnHYEHvii7xNSfSQ
-zkgc93HalThzWWXUHZ0Ojya8rgUovlQ5Rg9TZdtXDQ7OgAvxIkQiClY9Kh2y+2bX
-6Bu0QPqJcXEwA0ucaRwWKiQrqca8EA==
-=47sA
------END PGP SIGNATURE-----
-
---ydbisql6sb23xhwq--
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
