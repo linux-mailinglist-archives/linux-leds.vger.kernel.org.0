@@ -2,53 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0AEA6AC5F5
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 16:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC756ACB2C
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 18:48:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbjCFPys (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Mar 2023 10:54:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35562 "EHLO
+        id S229663AbjCFRsj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Mar 2023 12:48:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjCFPyr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 10:54:47 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0462E23669;
-        Mon,  6 Mar 2023 07:54:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678118086; x=1709654086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nqBEyqCxPf0CdDuSxcYS7HYgQHSI7GNHr2exg16wCz4=;
-  b=jVQzGY7cm78n24RleIe4Y3IOOs3UvWUJWxBpsB/poUmwiF9/IrOrNKZM
-   OD+iw8EXaul0+YEKyD++alUsF8rrZaLXwZMBqO6v5iUz9O+Ifd1btlGPa
-   3gegQYjR+fJPu8tu63x4Fw3C3HDl/HpPjVOCDftObd0Cf+McdcLyiQwJr
-   SZymu+KeyZnGzYLPIvkO1vYi5VFyfxB+B3827udan9BaXt0wN5mvJisGp
-   o8ACMGyZtn9lsB9bTVxO+Sxi4lLIsXmEAKeGeM0A3O1mbK4gPyhq9Oqjf
-   yC1KptYpTosbjzUQA4ux1R5xkslaiLHrxQEKCz6OBmOJMrNMVGQXW+Alz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400411726"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="400411726"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 07:54:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="850346560"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="850346560"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 06 Mar 2023 07:54:40 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pZDAc-00GVWx-0e;
-        Mon, 06 Mar 2023 17:54:38 +0200
-Date:   Mon, 6 Mar 2023 17:54:37 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
+        with ESMTP id S229457AbjCFRsi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 12:48:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1D53430B;
+        Mon,  6 Mar 2023 09:48:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DCFC61048;
+        Mon,  6 Mar 2023 17:47:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C157EC4339B;
+        Mon,  6 Mar 2023 17:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678124819;
+        bh=2xAqNTwrDq2LIIw4+r+fHmkupi82Qi06RmkBf/KDGw8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=F3d+6PemnsnEXRzXxdpfM+0fl9NG55ehEN2AGgFJLXKRu8jywGX8MMdFvu2vU+csi
+         v5MB2ixaNbkmC/gyVabzDzB7Gn7gZsZn6s+W+lLf9qDZCeloQD0mHzEQUPcCHDeHyJ
+         6L2WvvUOi5arbnSwbhnt6JR/bnIriSaxc9oXkthN3I28asRtICWqL/myJZEApY9B66
+         iTyz4HMwqYiCE3EguNkMDPmhbrTkXq83n86pvHRRCxXhXyCtEXWVLNFeF921imGBmg
+         8nsuRxFGIvRCKSgfu3wbLgrVCUFUXZF360Eapzo0Ywi1LKkie53BAET6uqBhodxiI3
+         jlYAw8ZGWHnWQ==
+Date:   Mon, 6 Mar 2023 09:46:57 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Gene Chen <gene_chen@richtek.com>, linux-leds@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Sean Wang <sean.wang@mediatek.com>,
         Kurt Kanzenbach <kurt@linutronix.de>,
@@ -57,37 +47,33 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>
 Subject: Re: [PATCH v4 11/11] net: dsa: hellcreek: Get rid of custom
  led_init_default_state_get()
-Message-ID: <ZAYMvVR+6eQ9qjAk@smile.fi.intel.com>
+Message-ID: <20230306094657.6f1190d2@kernel.org>
+In-Reply-To: <ZAYMvVR+6eQ9qjAk@smile.fi.intel.com>
 References: <20230103131256.33894-1-andriy.shevchenko@linux.intel.com>
- <20230103131256.33894-12-andriy.shevchenko@linux.intel.com>
+        <20230103131256.33894-12-andriy.shevchenko@linux.intel.com>
+        <ZAYMvVR+6eQ9qjAk@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230103131256.33894-12-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 03:12:56PM +0200, Andy Shevchenko wrote:
-> LED core provides a helper to parse default state from firmware node.
-> Use it instead of custom implementation.
+On Mon, 6 Mar 2023 17:54:37 +0200 Andy Shevchenko wrote:
+> On Tue, Jan 03, 2023 at 03:12:56PM +0200, Andy Shevchenko wrote:
+> > LED core provides a helper to parse default state from firmware node.
+> > Use it instead of custom implementation.  
+> 
+> Jakub, if you are okay with thi, it may be applied now
+> (Lee hadn't taken it in via LEDS subsystem for v6.3-rc1).
 
-Jakub, if you are okay with thi, it may be applied now
-(Lee hadn't taken it in via LEDS subsystem for v6.3-rc1).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Just patch 11 into net-next? SG, but could you repost?
+I'd have to manually pick it out of the series.
