@@ -2,177 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4347F6AB9F1
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 10:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09EFE6AB9FE
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Mar 2023 10:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbjCFJfR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Mar 2023 04:35:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45354 "EHLO
+        id S230051AbjCFJfk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Mar 2023 04:35:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjCFJfQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 04:35:16 -0500
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141743ABF;
-        Mon,  6 Mar 2023 01:35:12 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id g3so35860510eda.1;
-        Mon, 06 Mar 2023 01:35:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9on8nJ5BHbcHwyEQhyWGS+CeCE+weljlfDVcLlawfM=;
-        b=g/WrH3BwBKy2DBb0Gepo+bWOVfXnLLrm+cV+B7H4Ut5KRvytoInhtqyLO15EjKOuxk
-         w0Ftdpoy3N246exKxzONWJ2oYPdZsP11sUXG8oHowmEiSMV7n9JphDFtGJoZ9P49qaCc
-         Kh+qaEw0XbABLO5hBz3PM0jN1y32VThMTAnaHKF83bIopDBlANs6vzZUNqVBnIoEZbSt
-         P/z639HSSnR6+fixiGItpM4VAWzs9wRoSSrLJHqiQfpykUW1O38f0eAoyHVi/izBG3k8
-         axat03h39HbKLewO08E69Jp2B+Pb7oDeyxUBqI6fZV7qF0Sb1HiCFNreU+lZUJAT4OWu
-         +/sg==
-X-Gm-Message-State: AO0yUKXKW3skVoeH5Zae/535WLD3ShGnae/1SjRUzn9NYtAzmghh/uRL
-        7iAPUlrJRSQGCMA009kZaug=
-X-Google-Smtp-Source: AK7set+ZN+g7THBufgKmu7BH8GSraRQUNBXupyiPo0/K+LWqoJPjrC4vjqfNruF+fdDvYKUm3RpgEg==
-X-Received: by 2002:a17:907:3f23:b0:84d:4e4f:1f85 with SMTP id hq35-20020a1709073f2300b0084d4e4f1f85mr13827542ejc.59.1678095310491;
-        Mon, 06 Mar 2023 01:35:10 -0800 (PST)
-Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id fy23-20020a170906b7d700b008b17de9d1f2sm4386370ejb.15.2023.03.06.01.35.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 01:35:09 -0800 (PST)
-Message-ID: <1faade8f-d5e6-fd60-bd60-22e3b79c5ba4@kernel.org>
-Date:   Mon, 6 Mar 2023 10:35:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>
-Cc:     Florian Eckert <fe@dev.tdt.de>, u.kleine-koenig@pengutronix.de,
-        gregkh@linuxfoundation.org, pavel@ucw.cz,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Eckert.Florian@googlemail.com
-References: <20230222083335.847655-1-fe@dev.tdt.de>
- <20230222083335.847655-3-fe@dev.tdt.de> <20230303141139.GP2420672@google.com>
- <be7c90cf-4c65-1cf0-3001-8706415c3d34@kernel.org>
- <20230306090456.GA9667@google.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
+        with ESMTP id S230056AbjCFJfj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Mar 2023 04:35:39 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00BF1BB9A
+        for <linux-leds@vger.kernel.org>; Mon,  6 Mar 2023 01:35:36 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZ7Fe-0002CZ-NM; Mon, 06 Mar 2023 10:35:26 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZ7Fd-002DDT-NV; Mon, 06 Mar 2023 10:35:25 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pZ7Fc-002cuf-Ph; Mon, 06 Mar 2023 10:35:24 +0100
+Date:   Mon, 6 Mar 2023 10:35:24 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Eckert.Florian@googlemail.com
 Subject: Re: [PATCH v7 2/2] trigger: ledtrig-tty: add additional modes
-In-Reply-To: <20230306090456.GA9667@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Message-ID: <20230306093524.amm7o4ppa7gon4ew@pengutronix.de>
+References: <20230222083335.847655-1-fe@dev.tdt.de>
+ <20230222083335.847655-3-fe@dev.tdt.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="svip3mvpinfoukkq"
+Content-Disposition: inline
+In-Reply-To: <20230222083335.847655-3-fe@dev.tdt.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 06. 03. 23, 10:04, Lee Jones wrote:
-> On Mon, 06 Mar 2023, Jiri Slaby wrote:
-> 
->> On 03. 03. 23, 15:11, Lee Jones wrote:
->>> On Wed, 22 Feb 2023, Florian Eckert wrote:
->>>> @@ -113,21 +207,38 @@ static void ledtrig_tty_work(struct work_struct *work)
->>>>    		trigger_data->tty = tty;
->>>>    	}
->>>> -	ret = tty_get_icount(trigger_data->tty, &icount);
->>>> -	if (ret) {
->>>> -		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped polling\n");
->>>> -		mutex_unlock(&trigger_data->mutex);
->>>> -		return;
->>>> -	}
->>>> -
->>>> -	if (icount.rx != trigger_data->rx ||
->>>> -	    icount.tx != trigger_data->tx) {
->>>> -		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
->>>> -
->>>> -		trigger_data->rx = icount.rx;
->>>> -		trigger_data->tx = icount.tx;
->>>> -	} else {
->>>> -		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
->>>> +	switch (trigger_data->mode) {
->>>> +	case TTY_LED_CTS:
->>>> +		ledtrig_tty_flags(trigger_data, TIOCM_CTS);
->>>> +		break;
->>>> +	case TTY_LED_DSR:
->>>> +		ledtrig_tty_flags(trigger_data, TIOCM_DSR);
->>>> +		break;
->>>> +	case TTY_LED_CAR:
->>>> +		ledtrig_tty_flags(trigger_data, TIOCM_CAR);
->>>> +		break;
->>>> +	case TTY_LED_RNG:
->>>> +		ledtrig_tty_flags(trigger_data, TIOCM_RNG);
->>>> +		break;
->>>> +	case TTY_LED_CNT:
->>>
->>> I believe this requires a 'fall-through' statement.
->>
->> I don't think this is the case. Isn't fallthrough required only in cases
->> when there is at least one statement, i.e. a block?
-> 
-> There's no mention of this caveat in the document.
-> 
-> To my untrained eyes, the rule looks fairly explicit, starting with "All".
-> 
-> "
->    All switch/case blocks must end in one of:
-> 
->    * break;
->    * fallthrough;
->    * continue;
->    * goto <label>;
->    * return [expression];
-> "
-> 
-> If you're aware of something I'm not, please consider updating the doc.
 
-The magic word in the above is "block", IMO. A block is defined for me 
-as a list of declarations and/or statements. Which is not the case in 
-the above (i.e. in sequential "case"s).
+--svip3mvpinfoukkq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Furthermore, the gcc docs specifically say about fallthrough attribute:
-It can only be used in a switch statement (the compiler will issue an 
-error otherwise), after a preceding statement and before a logically 
-succeeding case label, or user-defined label.
+On Wed, Feb 22, 2023 at 09:33:35AM +0100, Florian Eckert wrote:
+> Add additional modes to trigger the selected LED.
+> The following modes are supported:
+>=20
+> Tx/Rx:	Flash LED on data transmission (default)
+> CTS:	DCE Ready to accept data from the DTE.
+> DSR:	DCE is ready to receive and send data.
+> CAR:	DCE is receiving a carrier from a remote DTE.
+> RNG:	DCE has detected an incoming ring signal.
+>=20
+> The mode can be changed for example with the following command:
+> echo "CTS" > /sys/class/leds/<led>/mode
+>=20
+> This would turn on the LED, when the DTE(modem) signals the DCE that it
+> is ready to accept data.
+>=20
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>  .../ABI/testing/sysfs-class-led-trigger-tty   |  17 ++
+>  drivers/leds/trigger/ledtrig-tty.c            | 145 ++++++++++++++++--
+>  2 files changed, 147 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Docu=
+mentation/ABI/testing/sysfs-class-led-trigger-tty
+> index 2bf6b24e781b..1c28e6c61d19 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> @@ -4,3 +4,20 @@ KernelVersion:	5.10
+>  Contact:	linux-leds@vger.kernel.org
+>  Description:
+>  		Specifies the tty device name of the triggering tty
+> +
+> +What:		/sys/class/leds/<led>/mode
+> +Date:		January 2023
+> +KernelVersion:	6.3
+> +Description:
+> +		Specifies the operating to trigger the LED.
+> +		The following operating modes are supported:
+> +
+> +		* Tx/Rx: Flash LED on data transmission (default)
+> +		* CTS:   DCE Ready to accept data from the DTE.
+> +		  LED on if line is high.
+> +		* DSR:   DCE is ready to receive and send data.
+> +		  LED on if line is high.
+> +		* CAR:   DCE has detected a carrier from a remote DTE.
+> +		  LED on if line is high.
+> +		* RNG:   DCE has detected an incoming ring signal.
+> +		  LED on if line is high.
 
-While "case X:" is technically a (label) statement, I don't think they 
-were thinking of it as such here due to following "succeeding case 
-label" in the text.
+Something I (still) don't like about this approach is that you cannot
+make the LED flash on TX only (or CAR and DSR). Something like:
 
-So checking with the code, gcc indeed skips those 
-(should_warn_for_implicit_fallthrough()):
-   /* Skip all immediately following labels.  */
-   while (!gsi_end_p (gsi)
-          && (gimple_code (gsi_stmt (gsi)) == GIMPLE_LABEL
-              || gimple_code (gsi_stmt (gsi)) == GIMPLE_PREDICT))
-     gsi_next_nondebug (&gsi);
+	led=3D/sys/class/leds/<led>/
+	echo 1 > $led/TX
+	echo 0 > $led/RX
+	echo 1 > $led/CAR
 
+would be a more flexible and IMHO nicer interface. (Maybe with improved
+file names.)
 
-Apart from that, fallthrough only makes the code harder to read:
+Best regards
+Uwe
 
-case X:
-case Y:
-case Z:
-default:
-   do_something();
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-VS
+--svip3mvpinfoukkq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-case X:
-   fallthrough;
-case Y:
-   fallthrough;
-case Z:
-   fallthrough;
-default:
-   do_something();
+-----BEGIN PGP SIGNATURE-----
 
-The first one is a clear win, IMO, and it's pretty clear that it falls 
-through on purpose. And even for compiler -- it shall not produce a 
-warning in that case.
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQFs9kACgkQwfwUeK3K
+7An5+gf8CoSOdxVO4N/QvSBqybrroQFb5PRh/T6Ud7r/5xd6UhmJjbGZHbWpyvaA
+aWBySQuXPGxh9hlnb57c2BI0q5/hHnpTl8yMy7tPg3pYKGNhVHi+O7b+74szedj1
+IGYfPP16ViEdVlz1nkPLtUNzJd0817jw6nzCQBuFmoiPK3nXyb2LCznYSVWYLcGR
+Y85+HG1NOLOAiGYcXM6qhcC5/WUOhxhV78Ue1Kuwn81FMTYnScj2lYQ4eHYX63nq
+1p1IabLzorNtVKhs4FMce86+SdpBM2m5lcmnJJCAV/m7KFQnBGe9faMAXC4avztb
+Ts4+Uqip8Dcur3EyByxXbkdGmZwtLA==
+=yTDj
+-----END PGP SIGNATURE-----
 
-regards,
--- 
-js
-suse labs
-
+--svip3mvpinfoukkq--
