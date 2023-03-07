@@ -2,150 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EBE06AF705
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Mar 2023 21:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC9CD6AF8C0
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Mar 2023 23:33:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjCGU4n (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Mar 2023 15:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52506 "EHLO
+        id S229636AbjCGWd3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Mar 2023 17:33:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbjCGU4m (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 15:56:42 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7D9ABB12
-        for <linux-leds@vger.kernel.org>; Tue,  7 Mar 2023 12:56:40 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id bn17so8384505pgb.10
-        for <linux-leds@vger.kernel.org>; Tue, 07 Mar 2023 12:56:40 -0800 (PST)
+        with ESMTP id S229582AbjCGWd1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 17:33:27 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D9D395E34;
+        Tue,  7 Mar 2023 14:33:26 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so96478wms.2;
+        Tue, 07 Mar 2023 14:33:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678222600;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
-        b=h5Djc3etli6VJDb5WfFqu+J2bU6QolErLBRchPWvNYlgFyKIigoOvNjEGzW8hoT5Mq
-         DdYOTKaPB7qSQClyzh6t+sVx1I0WsyUYarEgpsb+HNQITvkwMCULmQQBkMbuyMq09vMb
-         Q6fxuwvliWWw0DzSeWKxjYIgwrUV+0CJ5zDDKvxZd0QfZj8/QvvIb8Y5XHIsA5oG/qXN
-         3OIvXRMIKo4DmsxaSyKZ6AnP+vkS6Lq5bQDneP7NxLZmgdS7WvjKwJfh5KRTH6vECpVC
-         InIae/TEHa7FK/32zXKvk0aTVnyenJeh7k/NX1nbl8/15yECB4yE0MbJ/nUaiNPjaWlO
-         GmbA==
+        d=gmail.com; s=20210112; t=1678228405;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vy4nAJ52d9qly4N/eBpamNRw8G/Xs8TXNaSOjPeSnwo=;
+        b=LEIqTiz2iyvbjkfbQ0JFXMuS5UBnCK76trtCCqGFHK5H6SCXDyDLuV68bNshL1qQKe
+         ohV4Uyfz6JUdqjMpa8zlGCwlFUV/k5sTDLpxA86QnGF5hHmSACtkUnXaawWomSOEUrVx
+         jaSJMSXC8yiZvKdiT8/vbg4Y3ar4MJXmP2kDPWojUsvA5eYOw2M1lNcEp1EbKuhSvVyO
+         1gYbwt9YQJGT8TMZjf4ztVp7T2yfe3A4uFAQ3Ih0uDrB9zac4Zlcu7X7MUrz9LL33bTg
+         Unv174q/7K+1+R7MVWhELDk7rB6D5KESQ/dE7BjO4HQhI8aW47tUfcDv7ZT6ZRG+FLoV
+         GRlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678222600;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
-        b=UwS++a0nf7PZZ877JTdzrhNt6CyoTJuoWejA5PUKclsbmnjMLrilaGKjfRB50thiVU
-         5hkRYP59MS0MaoH3CCL5kKhVB/TfQ2q8/jM373QaoGchYk/+5VbS5Hk1XpgemvvkmN2T
-         vrTb/HBa/UR73TednlwjzKOOPis2CftSUVuziY7JOPPJwM9Y69mSW2JwrY0+2UNyWy+h
-         e/bgrIerBFepGOlhupEMKWofbYF9ZOqAm8RlDSe86eJo3h2niersgvzT7NlJcJriVek7
-         cs7vnCRFvJpkRvS0XnNw2NHypLOtFJGFkEDcgkdZe/o+aYLP3QkDJnk0akwR4dxOhlci
-         wFWg==
-X-Gm-Message-State: AO0yUKX1qjA/RLMRpGgezR5Rt9eJNOmK0M55jV4m54K5V7IWoD+0w8jv
-        /DNDMFpBjn9b4UQGshIg7/xoVw==
-X-Google-Smtp-Source: AK7set8aj9SpSp3tb9b2XdQj4tmRkNceu/cxunxMGoS5gBVk6iL/KAt4T5ZqaeDF7AdwY3g5oAGtIQ==
-X-Received: by 2002:aa7:9af5:0:b0:5aa:4df7:7eef with SMTP id y21-20020aa79af5000000b005aa4df77eefmr15492706pfp.6.1678222599563;
-        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id m21-20020aa78a15000000b00571cdbd0771sm8343415pfa.102.2023.03.07.12.56.38
+        d=1e100.net; s=20210112; t=1678228405;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vy4nAJ52d9qly4N/eBpamNRw8G/Xs8TXNaSOjPeSnwo=;
+        b=6MIyU+ENRVdcKg/tQx9/OSDs422qczL/I8PNWcB9+TvYsZE0PgsowRKcsQST2brIwE
+         hJSLA9IX64sYCrltBL8AwLL6spHILF8AgJz1GQvEbEAzEhmeiKydixvk5K9VlUJNJb/j
+         3+JVQpkVH2RF5rTcl4rTvK1EX4tiDget5nZjlhOaZD19WQGJ0DAo5hlYMiAznGpeo9m5
+         DI30LWFVPuLlapm4hrroL8rEkvcJF4vSiGKarM6Y2VauzWLeUMxJEbqjViNc6305kERh
+         z8ejCiwRyjVaHmRq11gNgmHcyFs5iXQ9igYCL/mEBpeeHqArkYZHAyt4CPMzYQ672nCV
+         C4bQ==
+X-Gm-Message-State: AO0yUKXkje/9biCyz+jpYsUmqC+klIGZEdxm2PJ1MW66ENDPvlVPRuqS
+        VjOFbYxyzOHEpjPIZUHkbBO8wzx6jNw=
+X-Google-Smtp-Source: AK7set+iISmhUNkN69tYI3z874X1mjN+SCBOpOBQFjZ6yWOi430CV4ezhe3Gmm24A0IprkHYwQo04w==
+X-Received: by 2002:a05:600c:46c7:b0:3e7:f108:664c with SMTP id q7-20020a05600c46c700b003e7f108664cmr13776053wmo.40.1678228404628;
+        Tue, 07 Mar 2023 14:33:24 -0800 (PST)
+Received: from localhost.localdomain (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.googlemail.com with ESMTPSA id q11-20020a05600c46cb00b003dc1d668866sm19233101wmo.10.2023.03.07.14.33.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
-Date:   Tue, 07 Mar 2023 12:56:39 -0800 (PST)
-X-Google-Original-Date: Tue, 07 Mar 2023 12:55:49 PST (-0800)
-Subject:     Re: [RESEND PATCH v7 0/5] leds: Allwinner A100 LED controller support
-In-Reply-To: <20221231235541.13568-1-samuel@sholland.org>
-CC:     lee@kernel.org, pavel@ucw.cz, linux-leds@vger.kernel.org,
-        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-        aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
-        guoren@kernel.org, heiko.stuebner@vrull.eu, heiko@sntech.de,
-        jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        p.zabel@pengutronix.de, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     samuel@sholland.org
-Message-ID: <mhng-93c6925c-9c65-40dc-ac0a-221dbdbbc492@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+        Tue, 07 Mar 2023 14:33:24 -0800 (PST)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: [net-next PATCH 00/11] net: Add basic LED support for switch/phy
+Date:   Tue,  7 Mar 2023 18:00:35 +0100
+Message-Id: <20230307170046.28917-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 31 Dec 2022 15:55:35 PST (-0800), samuel@sholland.org wrote:
-> [Resending because it has been a couple of months since v7 with no LED
-> maintainer feedback, and LEDs now have an additional maintainer.]
->
-> This series adds bindings and a driver for the RGB LED controller found
-> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
-> D1 SoCs appears to be identical.
->
-> Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
-> series can/should be merged without them.
->
-> This driver was tested on the D1 Nezha board.
->
-> [1]: https://lore.kernel.org/lkml/20221231233851.24923-1-samuel@sholland.org/
->
-> Changes in v7:
->  - Use DEFINE_SIMPLE_DEV_PM_OPS
->
-> Changes in v6:
->  - Drop the A100 DMA controller DT node patch, which was merged via a
->    different series
->
-> Changes in v5:
->  - A100 contains the original implementation, so use that as the base
->    compatible string, and rename the binding to match
->  - Add "unevaluatedProperties: false" to the child multi-led binding
->  - Rename the driver R329 -> A100, since that is the actual original
->    implementation
->
-> Changes in v4:
->  - Use "default" instead of "maxItems" for timing properties
->  - Depend on LEDS_CLASS_MULTICOLOR
->
-> Changes in v3:
->  - Removed quotes from enumeration values
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
->  - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
->
-> Changes in v2:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
->  - Renamed from sunxi-ledc to sun50i-r329-ledc
->  - Added missing "static" to functions/globals as reported by 0day bot
->
-> Samuel Holland (5):
->   dt-bindings: leds: Add Allwinner A100 LED controller
->   leds: sun50i-a100: New driver for the A100 LED controller
->   arm64: dts: allwinner: a100: Add LED controller node
->   riscv: dts: allwinner: d1: Add LED controller node
->   riscv: dts: allwinner: d1: Add RGB LEDs to boards
->
->  .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
->  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
->  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
->  .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
->  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
->  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
->  drivers/leds/Kconfig                          |   9 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
->  9 files changed, 764 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
->  create mode 100644 drivers/leds/leds-sun50i-a100.c
+This is a continue of [1]. It was decided to take a more gradual
+approach to implement LEDs support for switch and phy starting with
+basic support and then implementing the hw control part when we have all
+the prereq done.
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+This series implements only the brightness_set() and blink_set() ops.
+An example of switch implementation is done with qca8k.
+
+For PHY a more generic approach is used with implementing the LED
+support in PHY core and with the user (in this case marvell) adding all
+the required functions.
+
+Currently we set the default-state as "keep" to not change the default
+configuration of the declared LEDs since almost every switch have a
+default configuration.
+
+[1] https://lore.kernel.org/lkml/20230216013230.22978-1-ansuelsmth@gmail.com/
+
+Andrew Lunn (6):
+  net: phy: Add a binding for PHY LEDs
+  net: phy: phy_device: Call into the PHY driver to set LED brightness.
+  net: phy: marvell: Add software control of the LEDs
+  net: phy: phy_device: Call into the PHY driver to set LED blinking.
+  net: phy: marvell: Implement led_blink_set()
+  arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
+
+Christian Marangi (5):
+  net: dsa: qca8k: add LEDs basic support
+  net: dsa: qca8k: add LEDs blink_set() support
+  dt-bindings: net: dsa: dsa-port: Document support for LEDs node
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
+  dt-bindings: net: phy: Document support for LEDs node
+
+ .../devicetree/bindings/net/dsa/dsa-port.yaml |   7 +
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  24 ++
+ .../devicetree/bindings/net/ethernet-phy.yaml |  22 ++
+ arch/arm/boot/dts/armada-370-rd.dts           |  14 ++
+ drivers/net/dsa/qca/Kconfig                   |   7 +
+ drivers/net/dsa/qca/Makefile                  |   1 +
+ drivers/net/dsa/qca/qca8k-8xxx.c              |   4 +
+ drivers/net/dsa/qca/qca8k-leds.c              | 238 ++++++++++++++++++
+ drivers/net/dsa/qca/qca8k.h                   |  69 +++++
+ drivers/net/phy/marvell.c                     |  81 +++++-
+ drivers/net/phy/phy_device.c                  | 115 +++++++++
+ include/linux/phy.h                           |  33 +++
+ 12 files changed, 610 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
+
+-- 
+2.39.2
+
