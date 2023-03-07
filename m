@@ -2,56 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70CED6ADD26
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Mar 2023 12:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EBE06AF705
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Mar 2023 21:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbjCGLVY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Mar 2023 06:21:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46306 "EHLO
+        id S230445AbjCGU4n (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Mar 2023 15:56:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjCGLVV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 06:21:21 -0500
-X-Greylist: delayed 5368 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Mar 2023 03:21:12 PST
-Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net [87.98.178.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C5523331
-        for <linux-leds@vger.kernel.org>; Tue,  7 Mar 2023 03:21:11 -0800 (PST)
-Received: from director8.ghost.mail-out.ovh.net (unknown [10.109.143.146])
-        by mo561.mail-out.ovh.net (Postfix) with ESMTP id 96D331FE8D
-        for <linux-leds@vger.kernel.org>; Tue,  7 Mar 2023 09:41:16 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-jr9mk (unknown [10.110.208.235])
-        by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 011EC1FDEE;
-        Tue,  7 Mar 2023 09:41:15 +0000 (UTC)
-Received: from RCM-web8.webmail.mail.ovh.net ([151.80.29.22])
-        by ghost-submission-6684bf9d7b-jr9mk with ESMTPSA
-        id UzyDO7sGB2STSQEALa529g
-        (envelope-from <rafal@milecki.pl>); Tue, 07 Mar 2023 09:41:15 +0000
-MIME-Version: 1.0
-Date:   Tue, 07 Mar 2023 10:41:15 +0100
-From:   =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-leds@vger.kernel.org,
-        William Zhang <william.zhang@broadcom.com>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: bcm63138: refer to ARCH_BCMBCA instead of
- ARCH_BCM4908
-In-Reply-To: <20230307082936.16631-1-lukas.bulwahn@gmail.com>
-References: <20230307082936.16631-1-lukas.bulwahn@gmail.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <9e448d3d42b4b3029e4b8993f2272e4c@milecki.pl>
-X-Sender: rafal@milecki.pl
-X-Originating-IP: 194.187.74.233
-X-Webmail-UserID: rafal@milecki.pl
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 485262861866281947
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddutddgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihitgfgsehtjehjtddtredvnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeetheelfefgjedutdeivdduvdethffhhedulefggeeitdejudfhkeetjeekieejgfenucfkphepuddvjedrtddrtddruddpudelgedrudekjedrjeegrddvfeefpdduhedurdektddrvdelrddvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedupdhmohguvgepshhmthhpohhuth
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        with ESMTP id S229768AbjCGU4m (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 15:56:42 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7D9ABB12
+        for <linux-leds@vger.kernel.org>; Tue,  7 Mar 2023 12:56:40 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id bn17so8384505pgb.10
+        for <linux-leds@vger.kernel.org>; Tue, 07 Mar 2023 12:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1678222600;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
+        b=h5Djc3etli6VJDb5WfFqu+J2bU6QolErLBRchPWvNYlgFyKIigoOvNjEGzW8hoT5Mq
+         DdYOTKaPB7qSQClyzh6t+sVx1I0WsyUYarEgpsb+HNQITvkwMCULmQQBkMbuyMq09vMb
+         Q6fxuwvliWWw0DzSeWKxjYIgwrUV+0CJ5zDDKvxZd0QfZj8/QvvIb8Y5XHIsA5oG/qXN
+         3OIvXRMIKo4DmsxaSyKZ6AnP+vkS6Lq5bQDneP7NxLZmgdS7WvjKwJfh5KRTH6vECpVC
+         InIae/TEHa7FK/32zXKvk0aTVnyenJeh7k/NX1nbl8/15yECB4yE0MbJ/nUaiNPjaWlO
+         GmbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678222600;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+hUNTaLzZDvNotIxhn6MyoQhiZFZ3+VH2QjfGOxPnRw=;
+        b=UwS++a0nf7PZZ877JTdzrhNt6CyoTJuoWejA5PUKclsbmnjMLrilaGKjfRB50thiVU
+         5hkRYP59MS0MaoH3CCL5kKhVB/TfQ2q8/jM373QaoGchYk/+5VbS5Hk1XpgemvvkmN2T
+         vrTb/HBa/UR73TednlwjzKOOPis2CftSUVuziY7JOPPJwM9Y69mSW2JwrY0+2UNyWy+h
+         e/bgrIerBFepGOlhupEMKWofbYF9ZOqAm8RlDSe86eJo3h2niersgvzT7NlJcJriVek7
+         cs7vnCRFvJpkRvS0XnNw2NHypLOtFJGFkEDcgkdZe/o+aYLP3QkDJnk0akwR4dxOhlci
+         wFWg==
+X-Gm-Message-State: AO0yUKX1qjA/RLMRpGgezR5Rt9eJNOmK0M55jV4m54K5V7IWoD+0w8jv
+        /DNDMFpBjn9b4UQGshIg7/xoVw==
+X-Google-Smtp-Source: AK7set8aj9SpSp3tb9b2XdQj4tmRkNceu/cxunxMGoS5gBVk6iL/KAt4T5ZqaeDF7AdwY3g5oAGtIQ==
+X-Received: by 2002:aa7:9af5:0:b0:5aa:4df7:7eef with SMTP id y21-20020aa79af5000000b005aa4df77eefmr15492706pfp.6.1678222599563;
+        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id m21-20020aa78a15000000b00571cdbd0771sm8343415pfa.102.2023.03.07.12.56.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 12:56:39 -0800 (PST)
+Date:   Tue, 07 Mar 2023 12:56:39 -0800 (PST)
+X-Google-Original-Date: Tue, 07 Mar 2023 12:55:49 PST (-0800)
+Subject:     Re: [RESEND PATCH v7 0/5] leds: Allwinner A100 LED controller support
+In-Reply-To: <20221231235541.13568-1-samuel@sholland.org>
+CC:     lee@kernel.org, pavel@ucw.cz, linux-leds@vger.kernel.org,
+        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+        aou@eecs.berkeley.edu, Conor Dooley <conor@kernel.org>,
+        guoren@kernel.org, heiko.stuebner@vrull.eu, heiko@sntech.de,
+        jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        p.zabel@pengutronix.de, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     samuel@sholland.org
+Message-ID: <mhng-93c6925c-9c65-40dc-ac0a-221dbdbbc492@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,23 +78,74 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2023-03-07 09:29, Lukas Bulwahn wrote:
-> diff --git a/drivers/leds/blink/Kconfig b/drivers/leds/blink/Kconfig
-> index 945c84286a4e..bdcb7377cd4e 100644
-> --- a/drivers/leds/blink/Kconfig
-> +++ b/drivers/leds/blink/Kconfig
-> @@ -1,10 +1,10 @@
->  config LEDS_BCM63138
->  	tristate "LED Support for Broadcom BCM63138 SoC"
->  	depends on LEDS_CLASS
-> -	depends on ARCH_BCM4908 || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
-> +	depends on ARCH_BCMBCA || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
->  	depends on HAS_IOMEM
->  	depends on OF
-> -	default ARCH_BCM4908
-> +	default ARCH_BCMBCA
->  	help
->  	  This option enables support for LED controller that is part of
->  	  BCM63138 SoC. The same hardware block is known to be also used
+On Sat, 31 Dec 2022 15:55:35 PST (-0800), samuel@sholland.org wrote:
+> [Resending because it has been a couple of months since v7 with no LED
+> maintainer feedback, and LEDs now have an additional maintainer.]
+>
+> This series adds bindings and a driver for the RGB LED controller found
+> in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+> D1 SoCs appears to be identical.
+>
+> Patches 4-5 depend on the D1 devicetree series[1], but the rest of this
+> series can/should be merged without them.
+>
+> This driver was tested on the D1 Nezha board.
+>
+> [1]: https://lore.kernel.org/lkml/20221231233851.24923-1-samuel@sholland.org/
+>
+> Changes in v7:
+>  - Use DEFINE_SIMPLE_DEV_PM_OPS
+>
+> Changes in v6:
+>  - Drop the A100 DMA controller DT node patch, which was merged via a
+>    different series
+>
+> Changes in v5:
+>  - A100 contains the original implementation, so use that as the base
+>    compatible string, and rename the binding to match
+>  - Add "unevaluatedProperties: false" to the child multi-led binding
+>  - Rename the driver R329 -> A100, since that is the actual original
+>    implementation
+>
+> Changes in v4:
+>  - Use "default" instead of "maxItems" for timing properties
+>  - Depend on LEDS_CLASS_MULTICOLOR
+>
+> Changes in v3:
+>  - Removed quotes from enumeration values
+>  - Added vendor prefix to timing/format properties
+>  - Renamed "format" property to "pixel-format" for clarity
+>  - Dropped "vled-supply" as it is unrelated to the controller hardware
+>  - Added vendor prefix to timing/format properties
+>  - Renamed "format" property to "pixel-format" for clarity
+>  - Dropped "vled-supply" as it is unrelated to the controller hardware
+>  - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
+>
+> Changes in v2:
+>  - Fixed typo leading to duplicate t1h-ns property
+>  - Removed "items" layer in definition of dmas/dma-names
+>  - Replaced uint32 type reference with maxItems in timing properties
+>  - Renamed from sunxi-ledc to sun50i-r329-ledc
+>  - Added missing "static" to functions/globals as reported by 0day bot
+>
+> Samuel Holland (5):
+>   dt-bindings: leds: Add Allwinner A100 LED controller
+>   leds: sun50i-a100: New driver for the A100 LED controller
+>   arm64: dts: allwinner: a100: Add LED controller node
+>   riscv: dts: allwinner: d1: Add LED controller node
+>   riscv: dts: allwinner: d1: Add RGB LEDs to boards
+>
+>  .../leds/allwinner,sun50i-a100-ledc.yaml      | 139 +++++
+>  .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
+>  .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+>  .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+>  arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
+>  .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
+>  drivers/leds/Kconfig                          |   9 +
+>  drivers/leds/Makefile                         |   1 +
+>  drivers/leds/leds-sun50i-a100.c               | 555 ++++++++++++++++++
+>  9 files changed, 764 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+>  create mode 100644 drivers/leds/leds-sun50i-a100.c
 
-William: do we want LEDS_BCM63138 default on all BCMBCA devices?
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
