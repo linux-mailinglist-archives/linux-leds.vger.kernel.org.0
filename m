@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24B966AF8F6
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Mar 2023 23:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA3CA6AFA2D
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Mar 2023 00:21:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231770AbjCGWgt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Mar 2023 17:36:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41360 "EHLO
+        id S229724AbjCGXVT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Mar 2023 18:21:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231679AbjCGWg2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 17:36:28 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51F9B06C8;
-        Tue,  7 Mar 2023 14:35:20 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso102480wmo.0;
-        Tue, 07 Mar 2023 14:35:20 -0800 (PST)
+        with ESMTP id S229806AbjCGXVS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 18:21:18 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7409C9E318;
+        Tue,  7 Mar 2023 15:21:16 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id k37so8840174wms.0;
+        Tue, 07 Mar 2023 15:21:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678228471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hKTAoz/5c2gh8Y+1xcGszVL+VPGe5qIqtDhWxElzHg8=;
-        b=bmWCwUNdPhKNN9p+nZQXhBFaHDLu+KgOmPb24fbdtT0mjRUG1KrEYzNhG67eD3YIMH
-         /cwjoZaxdjSmPGdNDHV/Ty5YXutJ/Z6U0jwovIhA+QwS0TNDBbtc4dOulwXkQV/pMIWo
-         BA9j6RNiSm+ZHaPe/YXNdki+nqv8nbR16iX7Z0Rv3u3wpA/T9AG/tCpyZDMwY21VaFbf
-         phHxbG/u4fqzHz2CE/3+zZgmMr3qrJHV4w3CMd2two27XYe1aGM4wsVluuBhVx33WiI2
-         phMKoNiN6HSr/0H5lX5zB91Qup2Y/fubRWzJah0w65AXTTF4e+jB3hKE8Ly/72IYVXi7
-         zA1A==
+        d=gmail.com; s=20210112; t=1678231275;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYZwdboZtaofkxYF/AMrNWZjuYShpz74P+9J9F7wGPo=;
+        b=IE/EuwubCFwIUiQ1UCE4AQ9bBvgVDhBE1KKV+0aeH1NMR7eb8xDrgfzzfrLqnqrovt
+         6B2Xb3Rupbpw3LTDODH/hN4Gf5oLSExy3UW2IH9b+TpOLAXDQOVNPr56NTAYDLJG6shc
+         /1YfSYvhTWyRfWP7+zOsBKaKUj0sb81i/u9vOcZg85orYZ5BI695HdwWBD5mAnNGlrpg
+         3kGkmUWH0E/niYYU567fwBzCIcMRDgYC4qLiPFsZiFX6NHRkFXUGZbg37ZHj7PKfOT8T
+         CkFynM2V4fBgrPArtyb5FKB+6tYGfPhq9ajWABkQifjxVfC88+oXpo3fC59Nvqt+4IFQ
+         5Jaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678228471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hKTAoz/5c2gh8Y+1xcGszVL+VPGe5qIqtDhWxElzHg8=;
-        b=ozHeJHW5E/+S91PlAF81gzn9aiCrLREa58QWD4CAw8kDPvkSmE/CtMqRGWoBg1bOSj
-         ws4FLqXrw0W4DU0sxfKaI+HaUeK69cNgKvI7TfZydFzRJmPUJ14ZzbUeUa/VuDYoJh5y
-         TG4Q6Ro4HS7j6ok8+hbmbSC9aDg+OOPsrO5gUZmXzJug1qxmATJ4V3C7+8m40dPPyBTb
-         JoK3+qRGbnPVLRTuyyFqL05gtHDqNIy5QxbR/1uwG30X0NKHB5M49D89jkvlWL+n2sZu
-         CY6Na6VzxtRLZmE/8dlSvX7IXvhXEjO09SfQZ2UpUQEtlapATGdUKPWGj19eImDM0X2A
-         iihA==
-X-Gm-Message-State: AO0yUKW57cjvi9od4czPnbrkKZ+QZlEmJ6q4h0TWjElNCPM4Ohdp4XBj
-        8O/NG8MlieKsZ56IGhiUuVE=
-X-Google-Smtp-Source: AK7set97ILq+tPtPnouKud8rXPxJOPNvTRK+NaUnkpwLzM9tqFszkITYpw1Y2fNyPsx/kSnTlPE3rw==
-X-Received: by 2002:a05:600c:5491:b0:3eb:5739:7591 with SMTP id iv17-20020a05600c549100b003eb57397591mr14801310wmb.23.1678228470804;
-        Tue, 07 Mar 2023 14:34:30 -0800 (PST)
-Received: from localhost.localdomain (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
-        by smtp.googlemail.com with ESMTPSA id q11-20020a05600c46cb00b003dc1d668866sm19233101wmo.10.2023.03.07.14.33.37
+        d=1e100.net; s=20210112; t=1678231275;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HYZwdboZtaofkxYF/AMrNWZjuYShpz74P+9J9F7wGPo=;
+        b=IDgesasvRTc3D590Uz2m/BiLx9M9zvyElQiDjtJ/SU/fTmG9Xy0YQuwrZP0CMRWKW+
+         DSGwk5rpF3mr/u6hmiXctfNCDJIbx9LyXKiClfY0meveyglujJsHVj5SHsl404HhiZk6
+         s1wd/X1VOY9c3M8Jz/T6ns8VJrb296Edx5hr3n54Lwj1n6oqfdQEXBWQNfhNmOtpb8xA
+         piQA/ssWz+4VqLx2kg0e+/DlhXoXao+hcGyZgdLQxUFRBpjupwD2pfF7QaAfDW2zsWM9
+         gYeiKRpY/fj4Ves4MZdWbswHWSfB1p3217Do0AlLxxWE54s0W1juYqxtlFaMrYA9RWjO
+         Lk1w==
+X-Gm-Message-State: AO0yUKX/weu+XIE5xJsukAGUzFzlc7FF/FmyBlxGAK42ymccpzLi7E4d
+        29eQanD0lKn89Hx5qyjZONg=
+X-Google-Smtp-Source: AK7set8d6nc3OMllfFEEVMQ2FWoY8wuoG+KGTEyes4OWEZZRiJ4RDuQzLH5PGcqH5tUcjI/Eb3a8yg==
+X-Received: by 2002:a05:600c:348d:b0:3eb:9822:2907 with SMTP id a13-20020a05600c348d00b003eb98222907mr10953463wmq.4.1678231274745;
+        Tue, 07 Mar 2023 15:21:14 -0800 (PST)
+Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.gmail.com with ESMTPSA id m1-20020a05600c4f4100b003e01493b136sm19403673wmq.43.2023.03.07.15.21.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 14:34:30 -0800 (PST)
+        Tue, 07 Mar 2023 15:21:14 -0800 (PST)
+Message-ID: <6407c6ea.050a0220.7c931.824f@mx.google.com>
+X-Google-Original-Message-ID: <ZAd69hshZrKvapYQ@Ansuel-xps.>
+Date:   Tue, 7 Mar 2023 18:57:10 +0100
 From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -63,19 +65,18 @@ To:     Andrew Lunn <andrew@lunn.ch>,
         Russell King <linux@armlinux.org.uk>,
         Gregory Clement <gregory.clement@bootlin.com>,
         Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Christian Marangi <ansuelsmth@gmail.com>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, Lee Jones <lee@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: [net-next PATCH 11/11] arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
-Date:   Tue,  7 Mar 2023 18:00:46 +0100
-Message-Id: <20230307170046.28917-12-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230307170046.28917-1-ansuelsmth@gmail.com>
+Subject: Re: [net-next PATCH 01/11] net: dsa: qca8k: add LEDs basic support
 References: <20230307170046.28917-1-ansuelsmth@gmail.com>
+ <20230307170046.28917-2-ansuelsmth@gmail.com>
+ <b03334df-4389-44b5-ac85-8b0878c64512@lunn.ch>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b03334df-4389-44b5-ac85-8b0878c64512@lunn.ch>
 X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
@@ -86,52 +87,52 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Andrew Lunn <andrew@lunn.ch>
+On Wed, Mar 08, 2023 at 12:16:13AM +0100, Andrew Lunn wrote:
+> > +qca8k_setup_led_ctrl(struct qca8k_priv *priv)
+> > +{
+> > +	struct fwnode_handle *ports, *port;
+> > +	int port_num;
+> > +	int ret;
+> > +
+> > +	ports = device_get_named_child_node(priv->dev, "ports");
+> > +	if (!ports) {
+> > +		dev_info(priv->dev, "No ports node specified in device tree!\n");
+> > +		return 0;
+> > +	}
+> > +
+> > +	fwnode_for_each_child_node(ports, port) {
+> > +		struct fwnode_handle *phy_node, *reg_port_node = port;
+> > +
+> > +		phy_node = fwnode_find_reference(port, "phy-handle", 0);
+> > +		if (!IS_ERR(phy_node))
+> > +			reg_port_node = phy_node;
+> 
+> I don't understand this bit. Why are you looking at the phy-handle?
+> 
+> > +
+> > +		if (fwnode_property_read_u32(reg_port_node, "reg", &port_num))
+> > +			continue;
+> 
+> I would of expect port, not reg_port_node. I'm missing something
+> here....
+> 
 
-The WAN port of the 370-RD has a Marvell PHY, with one LED on
-the front panel. List this LED in the device tree.
+It's really not to implement ugly things like "reg - 1"
 
-Set the LED default state to "keep" to not change any blink rule
-set by default.
+On qca8k the port index goes from 0 to 6.
+0 is cpu port 1
+1 is port0 at mdio reg 0
+2 is port1 at mdio reg 1
+...
+6 is cpu port 2
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- arch/arm/boot/dts/armada-370-rd.dts | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Each port have a phy-handle that refer to a phy node with the correct
+reg and that reflect the correct port index.
 
-diff --git a/arch/arm/boot/dts/armada-370-rd.dts b/arch/arm/boot/dts/armada-370-rd.dts
-index be005c9f42ef..ccd4699b219f 100644
---- a/arch/arm/boot/dts/armada-370-rd.dts
-+++ b/arch/arm/boot/dts/armada-370-rd.dts
-@@ -20,6 +20,7 @@
- /dts-v1/;
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
- #include <dt-bindings/gpio/gpio.h>
- #include "armada-370.dtsi"
- 
-@@ -135,6 +136,19 @@ &mdio {
- 	pinctrl-names = "default";
- 	phy0: ethernet-phy@0 {
- 		reg = <0>;
-+		leds {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			led@0 {
-+				reg = <0>;
-+				label = "WAN";
-+				color = <LED_COLOR_ID_WHITE>;
-+				function = LED_FUNCTION_LAN;
-+				function-enumerator = <1>;
-+				default-state = "keep";
-+			};
-+		};
- 	};
- 
- 	switch: switch@10 {
+Tell me if this looks wrong, for qca8k we have qca8k_port_to_phy() and
+at times we introduced the mdio thing to describe the port - 1 directly
+in DT. If needed I can drop the additional fwnode and use this function
+but I would love to use what is defined in DT thatn a simple - 1.
+
 -- 
-2.39.2
-
+	Ansuel
