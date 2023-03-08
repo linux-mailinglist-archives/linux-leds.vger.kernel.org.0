@@ -2,57 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 155496B11AE
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Mar 2023 20:05:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03DF46B11C9
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Mar 2023 20:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbjCHTFF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Mar 2023 14:05:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45914 "EHLO
+        id S229720AbjCHTKQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Mar 2023 14:10:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230133AbjCHTEe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Mar 2023 14:04:34 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7EC61892;
-        Wed,  8 Mar 2023 11:03:58 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id v16so16435568wrn.0;
-        Wed, 08 Mar 2023 11:03:58 -0800 (PST)
+        with ESMTP id S230323AbjCHTJ4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Mar 2023 14:09:56 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E832A8EB6
+        for <linux-leds@vger.kernel.org>; Wed,  8 Mar 2023 11:09:37 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id ay14so66132095edb.11
+        for <linux-leds@vger.kernel.org>; Wed, 08 Mar 2023 11:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678302230;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GyEWSQ+G2MWKOlELKWDgQ+RU89YhI2uCRrCVz5D3irU=;
-        b=gPFP5RFz8fdqZUUyrGaqnfYAtrqd3NpQIq9pM1B5/5roMkDm+vAl1z7Jl/Li5gwSkS
-         uWR9XsAkodbakTFbuNqdic8XU2LOjW2imL4qGQrTOB7aeklok8jTtgub3ecVvcTzgR+z
-         SWSgB3TRSnn19P2F4T5SB8IGVRqDGfvAZ1vnP4Idz9QOupp1hyjkV+sobJJnPgJpSVvo
-         dTu3qcTdlgFuPPwlsAEgEPywj9fY7QiPKfwYw7f3aVUElP2rkDflTq6mnmfNlG33CPOK
-         EFxYI667fT5+6kI4JDUUJU0FTQRDVBkTbNoxFfvsGk6yYaHGBUDv7ediPHfY2j6CYuRi
-         p0vg==
+        d=linaro.org; s=google; t=1678302576;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KkeMJhDrlZR0CW+jwOzfg7rjixWcjZ+Lh7Jc51LTf60=;
+        b=B96dkgosvOFrjaliQ2bHaZnATfVIl/u0wBOla4aMLgLW9v7xGKNsAkGfFhgplw/1qx
+         9PRA7zHf3N1TVpwuke4D1gGgHY1638Z9T+V2C3Kw2LDrlUZzrs0ABAehuNtoBHXHBE4E
+         HeyUOgofgRQSJJyBL0AmFHfa8ywTIePc5ncbH6l2Q+drnSOaj08jk30dpNleG5AHJMI+
+         NfjbwhpbKbNVO4zrVwktv+RSP1Rbx3nSSh1N+TsBtdGqi8VWcJZQe6x/n+b/wk4rXXBg
+         NnF2fG7Un4CHiSilqpPlb82PHWhwybO6LviZEcqwmZXSwJ9b3Ms8elEBgzVUuYJqx4nO
+         Ev2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678302230;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GyEWSQ+G2MWKOlELKWDgQ+RU89YhI2uCRrCVz5D3irU=;
-        b=UhFTlaNXffhaGdR1ioivsbBJk+7NXrasNYg1Q7ixk2smqokSFyWKQXJZgNROZ6a2mi
-         ky3jrOQMNrWkmsKBbZfWqqlwxswAe2EAvApeJ3ik/ncm1v2ryMXaniCpw6H3kPuxniDJ
-         AD+nmnHoFXsSgnqM3iOr+0d/EfZ0FBmbbAC2goP+EdTKy+gzjmwiQfaNOdholVTWKGAt
-         kraQeDxKIpmA1WmIWSsNdtwL5zC7xubGqDA0bD8wZFughHRgUGWogh3Y3RBSJ34Tijz7
-         Erqo5HMVR7t9n//rxKIUyjKb9l87ML6cWnXpTOqlYwweg4pfYVFK3+d2Goikrt79yddi
-         CnSw==
-X-Gm-Message-State: AO0yUKXyWWsqcP+xMeXIEP1s0O4dD+zN+MokLQJETI65HK1KvwiP9bGZ
-        ZQ2dbbo3XhHJ3xELZK1cTJs=
-X-Google-Smtp-Source: AK7set9zWhFR+fhSCmw/by0OxIhyJDhKvuE8Ndxn+7KOiJv5qWAkVRPqq00/gtyaC1fGqc6JucygyQ==
-X-Received: by 2002:adf:fe47:0:b0:2c7:e26:97c2 with SMTP id m7-20020adffe47000000b002c70e2697c2mr12732792wrs.33.1678302230524;
-        Wed, 08 Mar 2023 11:03:50 -0800 (PST)
-Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
-        by smtp.gmail.com with ESMTPSA id w2-20020a5d6802000000b002c7163660a9sm15880471wru.105.2023.03.08.11.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 11:03:50 -0800 (PST)
-Message-ID: <6408dc16.5d0a0220.dc775.18e5@mx.google.com>
-X-Google-Original-Message-ID: <ZAjcEpmB1qBHEpdH@Ansuel-xps.>
-Date:   Wed, 8 Mar 2023 20:03:46 +0100
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        d=1e100.net; s=20210112; t=1678302576;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KkeMJhDrlZR0CW+jwOzfg7rjixWcjZ+Lh7Jc51LTf60=;
+        b=n2t4entgsPI+hcfUbDiKsH0PeD97p875DNZkFv8TZlG0ETZrUZh7KSk1eKEIRIdxnx
+         hXIsF+OmAZccPw5edCZsBYwF6Vt/QI6LOLrLT7EMdH/ZDDqj8KWoIgC5QX+g345zAhBI
+         hSMhXlEFZIRfYbgTpbUMtoRq5C1TKJJPzXZJr5kLvDaKvZBmu13UaQ+hctFpm8HqxZb1
+         jOCKAnMPImkiagtj9qKLh3KwoEqV0BcjRc4RHd4kDDf+h5Atu7g7JJx8/zaqzy5zeIsB
+         J8jkZclC8yYyOBlqCBc9dNcxiJ8HqLXU7W/Y9tIB9gZaWU3W/BfbSS5BtHGiSdtZ/7cI
+         Gz8w==
+X-Gm-Message-State: AO0yUKU7gWoYae7UZG4KWVqctRjJsYIeRq0CB6PzxrTCZMBIei0dq5ok
+        a0FvGeEilhR4Z2L1cv0nE7shYw==
+X-Google-Smtp-Source: AK7set+R6sbw18cgLNiAvl5saG3Boseyg7OJmQeoP4FW1+FdDJOmHm71GRSBxtg+nuJlzIzOZwY6oA==
+X-Received: by 2002:a17:906:da82:b0:88f:9f5e:f40 with SMTP id xh2-20020a170906da8200b0088f9f5e0f40mr27784941ejb.68.1678302576476;
+        Wed, 08 Mar 2023 11:09:36 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:ff33:9b14:bdd2:a3da? ([2a02:810d:15c0:828:ff33:9b14:bdd2:a3da])
+        by smtp.gmail.com with ESMTPSA id g10-20020a50d0ca000000b004bc9d44478fsm8601884edf.51.2023.03.08.11.09.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 11:09:36 -0800 (PST)
+Message-ID: <36169a8a-d418-6d7e-b64c-a7c346b9a218@linaro.org>
+Date:   Wed, 8 Mar 2023 20:09:34 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [net-next PATCH 09/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Content-Language: en-US
+To:     Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
@@ -70,18 +75,19 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, Lee Jones <lee@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH 10/11] dt-bindings: net: phy: Document support
- for LEDs node
 References: <20230307170046.28917-1-ansuelsmth@gmail.com>
- <20230307170046.28917-11-ansuelsmth@gmail.com>
- <7c6a70d1-fd64-66cc-688b-3e04634066bb@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c6a70d1-fd64-66cc-688b-3e04634066bb@linaro.org>
+ <20230307170046.28917-10-ansuelsmth@gmail.com>
+ <ad43a809-b9fd-bd24-ee1a-9e509939023b@linaro.org>
+ <df6264de-36c5-41f2-a2a0-08b61d692c75@lunn.ch>
+ <5992cb0a-50a0-a19c-3ad1-03dd347a630b@linaro.org>
+ <6408dbbb.1c0a0220.a28ce.1b32@mx.google.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <6408dbbb.1c0a0220.a28ce.1b32@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,43 +95,50 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 07:56:57PM +0100, Krzysztof Kozlowski wrote:
-> On 07/03/2023 18:00, Christian Marangi wrote:
-> > Document support for LEDs node in phy and add an example for it.
-> > PHY LED will have to match led pattern and should be treated as a
-> > generic led.
-> > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > ---
-> >  .../devicetree/bindings/net/ethernet-phy.yaml | 22 +++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > index 1327b81f15a2..0ec8ef6b0d8a 100644
-> > --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > @@ -197,6 +197,13 @@ properties:
-> >        PHY's that have configurable TX internal delays. If this property is
-> >        present then the PHY applies the TX delay.
-> >  
-> > +  leds:
-> > +    type: object
+On 08/03/2023 20:02, Christian Marangi wrote:
+> On Wed, Mar 08, 2023 at 07:49:26PM +0100, Krzysztof Kozlowski wrote:
+>> On 08/03/2023 14:57, Andrew Lunn wrote:
+>>> On Wed, Mar 08, 2023 at 11:58:33AM +0100, Krzysztof Kozlowski wrote:
+>>>> On 07/03/2023 18:00, Christian Marangi wrote:
+>>>>> Add LEDs definition example for qca8k Switch Family to describe how they
+>>>>> should be defined for a correct usage.
+>>>>>
+>>>>> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+>>>>
+>>>> Where is the changelog? This was v8 already! What happened with all
+>>>> review, changes?
+>>>
+>>> Did you read patch 0?
+>>>
+>>> We have decided to start again, starting small and working up. This
+>>> patchset just adds plain, boring LEDs. No acceleration, on hardware
+>>> offload. Just on/off, and fixed blink.
+>>
+>> Sure, but the patch is carried over. So what happened with all its
+>> feedback? Was there or was not? How can we know?
+>>
 > 
-> additionalProperties: false
+> The history of the old series is a bit sad, not enough review, another
+> dev asking for a different implementation and me doing an hybrid to
+> reach a common point (and then disappear intro oblivion)...
 > 
-> although maybe this was already said in one of previous ten reviews...
->
-
-Thanks for the review. (this is rather new from the old patch (appeared
-only in v7 so sorry if I didn't see that in the old series. Will fix in
-v2 of this!)
-
-> > +
-> > +    patternProperties:
-> > +      '^led(@[a-f0-9]+)?$':
-> > +        $ref: /schemas/leds/common.yaml#
-> > +
+> Short story is that this current series have nothing related to the HW
+> offload feature and only in v7 it was asked to put the LED nodes in
+> ethernet-phy.yaml
 > 
+> I can put in the cover letter of v2 of this series the changelog of the
+> previous series but they would only be related to other part that are
+> not related to this.
+> 
+> Just to give you some context and explain why the changelog was dropped.
 
--- 
-	Ansuel
+I am less interested in the changelog of entire patchset but of the
+patches which are for me to review. Sending vX as v1 suggests that all
+previous review work on this patch could be in some limbo state. Maybe
+nothing happened in all previous version, but it's now my task to dig it?
+
+This is why you have "---" for the patch changelog.
+
+Best regards,
+Krzysztof
+
