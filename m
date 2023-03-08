@@ -2,141 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 544046AFB6A
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Mar 2023 01:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 690626AFB71
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Mar 2023 01:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229922AbjCHAly (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Mar 2023 19:41:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41108 "EHLO
+        id S229706AbjCHAp7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Mar 2023 19:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbjCHAlh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 19:41:37 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C50725957;
-        Tue,  7 Mar 2023 16:41:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 62FD3615EA;
-        Wed,  8 Mar 2023 00:41:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8533C433A1;
-        Wed,  8 Mar 2023 00:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678236068;
-        bh=o6oymGlNZn9vDlwDU5TMp4b7cedwP3h4tMfW8EXhk2o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZQPsUcbkLcyEXTXfq+Nao3GpaXmXnIPvAGeNgirhDyYI56iqcnt343/NHoHyaD+Qs
-         zEJrMhLU+arKs/rVgV7Jnobo5mXwVJiAmckFtSfzGVX3aDkSmYVcsm3QEjPFbCwG4G
-         Y9MHqu6OI42lnWx0+7vIah/Dz0ymoZp8FmPO8rMk8hO+ny1rHcidSgH8sBaizPYxy3
-         ZzqWRn+etpruOgVb+9QFG5sx5itoG5FsqJbGBzL/RhVtkJzJauYTe+W0rjqW1gNn39
-         hQ7+9uvUAHI8zXG1f144KJ0Sj0jQXxIx5OtuKRf2cqm9C90C0u4QEN0y6WZomUfWYE
-         pQ1ePcfA8Mg4A==
-Received: by mail-ua1-f54.google.com with SMTP id n4so10159026ual.13;
-        Tue, 07 Mar 2023 16:41:08 -0800 (PST)
-X-Gm-Message-State: AO0yUKUOF1jweinMK/PcCeagWLBBw+Ekibx4VoovmGJT1grpUCcD0+Gf
-        THp/mOaM8OsWAc8TXmWERqvvAxN0e+BZ4nVtcQ==
-X-Google-Smtp-Source: AK7set9RI8+fXQrMZpu1a+zBN6uy8yor6esY2D86sYIG43cMSpIAPTyJ3NJ1TroFDWRrpuB8sEBTOPFe88V5ct9AJ8A=
-X-Received: by 2002:a9f:3102:0:b0:6cd:2038:4911 with SMTP id
- m2-20020a9f3102000000b006cd20384911mr11052030uab.1.1678236067609; Tue, 07 Mar
- 2023 16:41:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20230228144933.22614-1-zajec5@gmail.com> <20230301000236.GA20893-robh@kernel.org>
- <e3b20703-f2d4-76b8-ccfb-11cf42d459fd@gmail.com> <CAL_JsqJzrgS1PH77RkAiqAs=QqXPGG04sCG3X_i-GKWSqPORSQ@mail.gmail.com>
- <6426345d-783e-007d-79db-2b376bcea12d@gmail.com>
-In-Reply-To: <6426345d-783e-007d-79db-2b376bcea12d@gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 7 Mar 2023 18:40:56 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJkpGhaWxv9b8D2DtiE1YUWUdDE67k4=JE_EsTh4754NQ@mail.gmail.com>
-Message-ID: <CAL_JsqJkpGhaWxv9b8D2DtiE1YUWUdDE67k4=JE_EsTh4754NQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: add "usbport" trigger
-To:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        with ESMTP id S229705AbjCHAp6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Mar 2023 19:45:58 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5907FA92E6
+        for <linux-leds@vger.kernel.org>; Tue,  7 Mar 2023 16:45:55 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id h17-20020a17090aea9100b0023739b10792so459240pjz.1
+        for <linux-leds@vger.kernel.org>; Tue, 07 Mar 2023 16:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1678236355;
+        h=in-reply-to:mime-version:user-agent:date:message-id:from:references
+         :cc:to:subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=zm4VhAseMgkik/OAzyqk7W/HuNld6ltM4AszMSlccps=;
+        b=hXQMBSMzlaClcNUzDlrQngkfaaHfMGeaM6NjE16SZ1ksFptCRMDDBlMJsnXv2uM+WK
+         SqHrNj8lpWDw34bmjko7MGmGr/oxeFgavMQtZfi1C/LKw7h1aEAVD0jv7M+yH9t0ZIQW
+         SqM70wtKtPCaVjpOe4dUlZ6fwZyTMvpRZp1pM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678236355;
+        h=in-reply-to:mime-version:user-agent:date:message-id:from:references
+         :cc:to:subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zm4VhAseMgkik/OAzyqk7W/HuNld6ltM4AszMSlccps=;
+        b=FB5imkbrFg6/jaU3NeWpzkL1fjTJrHVG77V0ceogPvaxiHD/Xz5VnuCMGS6+HFygAY
+         4JrdWfS1SfLgBe/f+VPePO0P9Qtdz8gcLYfCgSdfh6+IskCih/3bjuSy84CcjVggyPcc
+         oSHbEL0Y7OTRz16Vo0RL//Vf3FNwFIut7eB1QrRo74OxKmR2klofE9TLacGvOgzhig8T
+         saXxV/sU7rS+5/GfErlGJoF9ugjeiO7ME4L+KTG11G6g7KwYskuovmZpbgqfTLu+tC2O
+         cyn8Gy6FYwMnwn3WOx7vshLQLVhLU2NnKIXMy/Ipme+OdUfW5iCXHePME7a1Th6AukZZ
+         LhvQ==
+X-Gm-Message-State: AO0yUKXDDC/WIe61B7jhaxwI3yijC8XrJcpwE5+8L2rzjJtxlZ+XQX2M
+        FH9xCfyjuAsH99iI8nyeP1xkygh/EnzYZmsgjCI=
+X-Google-Smtp-Source: AK7set/VTBPywdHCWksRNGgFbLMEnewd5fXDa8WfaX9IcJHjG6J8CvIt61sQ5mfeyxxtTx8r48O2fw==
+X-Received: by 2002:a17:90b:4d04:b0:230:81e9:ebb4 with SMTP id mw4-20020a17090b4d0400b0023081e9ebb4mr16512363pjb.10.1678236354682;
+        Tue, 07 Mar 2023 16:45:54 -0800 (PST)
+Received: from bcacpedev-irv-3.lvn.broadcom.net ([192.19.161.250])
+        by smtp.gmail.com with ESMTPSA id mv15-20020a17090b198f00b0023087e8adf8sm8228649pjb.21.2023.03.07.16.45.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Mar 2023 16:45:53 -0800 (PST)
+Subject: Re: [PATCH] leds: bcm63138: refer to ARCH_BCMBCA instead of
+ ARCH_BCM4908
+To:     =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230307082936.16631-1-lukas.bulwahn@gmail.com>
+ <9e448d3d42b4b3029e4b8993f2272e4c@milecki.pl>
+From:   William Zhang <william.zhang@broadcom.com>
+Message-ID: <1c7b44ef-fccf-f993-805e-2fffb75b7ea8@broadcom.com>
+Date:   Tue, 7 Mar 2023 16:45:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <9e448d3d42b4b3029e4b8993f2272e4c@milecki.pl>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000cbbdca05f658d992"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Mar 1, 2023 at 7:52=E2=80=AFAM Rafa=C5=82 Mi=C5=82ecki <zajec5@gmai=
-l.com> wrote:
->
-> On 1.03.2023 14:43, Rob Herring wrote:
-> > On Wed, Mar 1, 2023 at 1:27=E2=80=AFAM Rafa=C5=82 Mi=C5=82ecki <zajec5@=
-gmail.com> wrote:
-> >>
-> >> On 1.03.2023 01:02, Rob Herring wrote:
-> >>> On Tue, Feb 28, 2023 at 03:49:33PM +0100, Rafa=C5=82 Mi=C5=82ecki wro=
-te:
-> >>>> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> >>>>
-> >>>> It's a trigger used on many home routers that have LEDs to indicate
-> >>>> specific USB port state.
-> >>>>
-> >>>> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> >>>> ---
-> >>>>    Documentation/devicetree/bindings/leds/common.yaml | 1 +
-> >>>>    1 file changed, 1 insertion(+)
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Do=
-cumentation/devicetree/bindings/leds/common.yaml
-> >>>> index 15e3f6645682..95b316ee3146 100644
-> >>>> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> >>>> @@ -99,6 +99,7 @@ properties:
-> >>>>              - pattern
-> >>>>              - usb-gadget
-> >>>>              - usb-host
-> >>>> +          - usbport
-> >>>
-> >>> Can we stop adding entries which are clearly likely to have multiple
-> >>> instances. We have a better binding to map the trigger source...
-> >>
-> >> I'm sorry, I really don't understand this.
-> >> I'm not sure what do you mean by multuple "usbport" instances.
-> >> Could you point me to that better place, please?
-> >
-> > Suppose I have a device with 4 USB ports and 4 LEDs for each one. How
-> > would one define the connection of LEDs to USB ports? Extend this to
-> > usbport[0-9]? No.
-> >
-> >> This is probably something obvious but I really can't figure it out
-> >> since yesterday.
-> >
-> > "trigger-sources"
->
-> Ah, I suppose that "usbport" LED trigger in Linux can be confusing.
->
-> So: no matter how many USB ports you have, Linux *doesn't* create one
-> trigger per USB port. There is only one trigger. It's called exactly
-> "usbport".
->
-> Once you choose "usbport" trigger in Linux, you can choose which ports
-> should it "monitor". That can be done using procfs (ABI). The default
-> set of ports to monitor can be specified using "trigger-sources".
->
-> For decision details behind this see 0f247626cbbf ("usb: core: Introduce
-> a USB port LED trigger").
->
-> So Linux on home routers needs both:
-> 1. linux,default-trigger (for selecting default trigger)
-> 2. trigger-sources (for providing default set of ports to monitor)
+--000000000000cbbdca05f658d992
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-I still don't understand why defining a trigger source doesn't also
-set the default. It is after all just the default. The DT should have
-how the LEDs are intended to be used by the design, not what a user
-wants. A user should change that from userspace.
+Hi Rafal,
 
-In any case, just make the commit message clear this is not a new
-trigger, but one that has been in use for some time.
+On 03/07/2023 01:41 AM, Rafał Miłecki wrote:
+> On 2023-03-07 09:29, Lukas Bulwahn wrote:
+>> diff --git a/drivers/leds/blink/Kconfig b/drivers/leds/blink/Kconfig
+>> index 945c84286a4e..bdcb7377cd4e 100644
+>> --- a/drivers/leds/blink/Kconfig
+>> +++ b/drivers/leds/blink/Kconfig
+>> @@ -1,10 +1,10 @@
+>>  config LEDS_BCM63138
+>>      tristate "LED Support for Broadcom BCM63138 SoC"
+>>      depends on LEDS_CLASS
+>> -    depends on ARCH_BCM4908 || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
+>> +    depends on ARCH_BCMBCA || ARCH_BCM_5301X || BCM63XX || COMPILE_TEST
+>>      depends on HAS_IOMEM
+>>      depends on OF
+>> -    default ARCH_BCM4908
+>> +    default ARCH_BCMBCA
+>>      help
+>>        This option enables support for LED controller that is part of
+>>        BCM63138 SoC. The same hardware block is known to be also used
+> 
+> William: do we want LEDS_BCM63138 default on all BCMBCA devices?
+Yes that is fine. We can always build this driver for BCMBCA but it will 
+be only probed and running if dts enable such device.
 
-Rob
+--000000000000cbbdca05f658d992
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+YDZuuBJwnyCzevMoPtVYPharioL5H3BRnQi8YoTXH7/uRo33dewYFm474yFjwwnt82TFtveVZkVq
+6h4WIQ4wTcwFfET8zMkELnGzS5SHCl8sPD+lNxxJ1JDZYwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRp3aWxsaWFtLnpoYW5nQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUq65GzwZxydFHjjYEU/9h
+xHhPWlwwDQYJKoZIhvcNAQELBQADggEBAA2hGG3JPAdGPH0ZdohGUCIVjKz+U+EFuIDbS6A/5jqX
+VhYAxZlzj7tSjUIM7G7IhyfqPC46GKJ/4x+Amz1Z6YxNGy71L68kYD6hIbBcA5AM42QBUufly6Oa
+/ppSz3WoflVyFFQ5YXniZ+eU+2/cdnYZg4aVUnFjimOF5o3NfMLzOkhQNxbaDjFUfUYD8hKmU6v4
+0vUBj8KZ9Gi1LIagLKUREn8jku0lcLsRbnJ5Ey5ScajC/FESPyYWasOW8j8/1EoJksmhbYGKNS6C
+urb/KlmDGfVrIRYDbL0ckhGQIP5c6L+kSQZ2sHnQK0e0WgIaZYxaPYeY5u0GLCOze+3vyRMxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwxuh2XG3FXRL1W
+JOEwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEILh3GKDQkf8F6o0YYuq8qMbm6uKv
+UmK5xA52YKgW7eH1MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIz
+MDMwODAwNDU1NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQCNIMeYhRVptou3e4/+IE10y7QhKhZFianGjf+vatBJuz0H
+Y2d7wTLYUoPo0Mn8M4k+Q+uF3knQ1RepEu+XwpyTtLTBE8MHLFvuIu5FCEsg4ofrUyoOprMBRYNC
+TOTgI6+farYtbkcU68WXBIRqcudcTKTzztt9kmn9PA5AxiTTBJvcNyZOFsikfrszg4JSIWJZeVbq
+SqXB/miwEzRMkUL0RHviQ5sbeps0/2BjwME7TTbcax4wuEBxWSljoJAaCBoimb9qZSrUGKbS/ycZ
+KbKXCwR8zOk0pqFmgXgJ9yYwC4rmee600OBvJ/RloThHdUhRAkKO5KlYTt+wIgFQ0RTK
+--000000000000cbbdca05f658d992--
