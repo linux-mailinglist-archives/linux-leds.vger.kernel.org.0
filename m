@@ -2,191 +2,203 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BCFD6B18EA
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 02:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D077D6B1F78
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 10:09:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbjCIBuN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Mar 2023 20:50:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35706 "EHLO
+        id S230369AbjCIJJr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Mar 2023 04:09:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbjCIBuM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Mar 2023 20:50:12 -0500
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6767D8537E;
-        Wed,  8 Mar 2023 17:50:03 -0800 (PST)
-X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
-        LIVER,40,3)
-Received: from 192.168.10.46
-        by mg.richtek.com with MailGates ESMTP Server V5.0(20041:0:AUTH_RELAY)
-        (envelope-from <cy_huang@richtek.com>); Thu, 09 Mar 2023 09:49:28 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Thu, 9 Mar
- 2023 09:49:27 +0800
-Received: from linuxcarl2.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
- Transport; Thu, 9 Mar 2023 09:49:27 +0800
-Date:   Thu, 9 Mar 2023 09:49:27 +0800
-From:   ChiYuan Huang <cy_huang@richtek.com>
-To:     Lee Jones <lee@kernel.org>
-CC:     ChiaEn Wu <chiaen_wu@richtek.com>, <corbet@lwn.net>,
-        <pavel@ucw.cz>, <matthias.bgg@gmail.com>,
-        <andriy.shevchenko@linux.intel.com>, <jacek.anaszewski@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
-        <linux-leds@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>
-Subject: Re: [PATCH v17 RESEND 2/3] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <20230309014927.GA12537@linuxcarl2.richtek.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
- <dc467984ebfc443685af62310aadb45389e804d6.1677150607.git.chiaen_wu@richtek.com>
- <20230305100608.GD2574592@google.com>
- <20230307034433.GA10739@linuxcarl2.richtek.com>
- <20230308135433.GL9667@google.com>
+        with ESMTP id S230170AbjCIJJd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 04:09:33 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285BC23654
+        for <linux-leds@vger.kernel.org>; Thu,  9 Mar 2023 01:09:30 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id v101so1200574ybi.2
+        for <linux-leds@vger.kernel.org>; Thu, 09 Mar 2023 01:09:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678352969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
+        b=d5zPXnIdCSL8PFYhyYOeGqp/z4KLzRwZUDS5MQscn602dDdMFOICNvctZM6XgOSs/s
+         Md7TYhkP3I4c8GUXNxi6ka8Hry0M3d8uw/UHhPRafzoTu+2lLo2QrAr4pyjwRTYQ4+CI
+         07WNh/oBiql5KgaJDO8K1gDaGWu+DAsLRq2nU9Y9wj39MtMFMILC9ahu+4xt7cmhGPYd
+         X90VtbPi3OMstH+/UqpSOwHHI+EYQ7LarXzbLBCDuMKzdMMFQ/UxUKKqVA7sa5cL0Uez
+         IZChwC6FoLVRu2JgNXLPAG+SxViuz8t/Op2vZmpSB0iiljJXiJOhtcT6NmEsfqrkeFEw
+         o0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678352969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
+        b=X1zDfRs21fzQvpiMkLMMDXzACuO4WRSyvlt8j7KkhxrzREXoFFeJrhbtlOGheICXDG
+         iLhPTceFLUkziyqOoBw92DxpJg3T0dnidk+8DorNNAmE/yY8GvVx9XU+oKMeUHrLFDqQ
+         NY1sE9qpgYrNDhComgXjqTzbJrYD0AL3+av3pvFf1WWccpD4zeuyOo/ZSaSvvhdoCcRb
+         n71lup7Mddwc9gTwwfQC9On6FSfWkHtFyVLferfwPAPT4SLZizimM8eLckEDM21X0a5/
+         CMlnohop/xq5xjedXLjdqfXWJkeewSCfLFHPIyGlMrIX7ENxCekdhEII1bEbGpPqKE0B
+         wcQA==
+X-Gm-Message-State: AO0yUKW8jQ7rX0jJ95r0iLLl5q1GfnI9Z82Dl9MkXOKlRZzOTSAUnlep
+        woFvX3Qx3ct62qW5xkUWYQI9cgNjaEuN784aN7dWhA==
+X-Google-Smtp-Source: AK7set9SxHJdstKtORUta6fNpFj7c3NC6Y9ep4Dfm8p9BxYEaHWCbrFjAqLaiUObiP3YlHYpudlhcELLtQQQOTOX9Yw=
+X-Received: by 2002:a25:8c84:0:b0:b23:4649:7ef3 with SMTP id
+ m4-20020a258c84000000b00b2346497ef3mr240804ybl.4.1678352969333; Thu, 09 Mar
+ 2023 01:09:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308135433.GL9667@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+In-Reply-To: <20230216013230.22978-1-ansuelsmth@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 9 Mar 2023 10:09:18 +0100
+Message-ID: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 01:54:33PM +0000, Lee Jones wrote:
-Hi, Lee:
-> On Tue, 07 Mar 2023, ChiYuan Huang wrote:
-> 
-> > Hi, Lee:
-> >    Reply below the comments.
-> >
-> > On Sun, Mar 05, 2023 at 10:06:08AM +0000, Lee Jones wrote:
-> > > On Thu, 23 Feb 2023, ChiaEn Wu wrote:
-> > >
-> > > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > > >
-> > > > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > > > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > > > charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> > > > LED current sources, a RGB LED driver, a backlight WLED driver,
-> > > > a display bias driver and a general LDO for portable devices.
-> > > >
-> > > > Add support for the MT6370 Flash LED driver. Flash LED in MT6370
-> > > > has 2 channels and support torch/strobe mode.
-> > > >
-> > > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > > Co-developed-by: Alice Chen <alice_chen@richtek.com>
-> > > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > ---
-> > > > v17
-> > > > - Update the year of Copyright from 2022 to 2023
-> > > >
-> > > > ---
-> > > >  drivers/leds/flash/Kconfig             |  13 +
-> > > >  drivers/leds/flash/Makefile            |   1 +
-> > > >  drivers/leds/flash/leds-mt6370-flash.c | 596 +++++++++++++++++++++++++++++++++
-> > > >  3 files changed, 610 insertions(+)
-> > > >  create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
-> 
-> [...]
-> 
-> > > > +static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-> > > > +					u32 brightness)
-> > > > +{
-> > > > +	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-> > > > +	struct mt6370_priv *priv = led->priv;
-> > > > +	struct led_flash_setting *setting = &fl_cdev->brightness;
-> > > > +	u32 val = (brightness - setting->min) / setting->step;
-> > > > +	int ret, i;
-> > > > +
-> > > > +	if (led->led_no == MT6370_LED_JOINT) {
-> > >
-> > > What is a "JOINT"?
-> > >
-> > Since MT6370 has two flash led channels. Per channel can drive the current up to 1.5A.
-> > 'JOINT' case is used if 1.5A driving current is not enough, like as flash current 2A.
-> > They can use two channels to drive 'one' flash led by the HW application.
-> > This will make the driving current larger than the capability of one channel.
-> 
-> Is "joint" the term used in the datasheet?
->
-Nope, this term is not clearly defined in the datasheet. but this kind of HW application is
-allowed. 
-> Please make this definition clear in the code.
-> 
-> If I'm asking, others are likely to too.
-> 
-Thanks, I'll add more comments to clearly describe what the 'JOINT' code did.
-> [...]
-> 
-> > > > +static int mt6370_init_flash_properties(struct device *dev,
-> > > > +					struct mt6370_led *led,
-> > > > +					struct fwnode_handle *fwnode)
-> > > > +{
-> > > > +	struct led_classdev_flash *flash = &led->flash;
-> > > > +	struct led_classdev *lcdev = &flash->led_cdev;
-> > > > +	struct mt6370_priv *priv = led->priv;
-> > > > +	struct led_flash_setting *s;
-> > > > +	u32 sources[MT6370_MAX_LEDS];
-> > > > +	u32 max_ua, val;
-> > > > +	int i, ret, num;
-> > > > +
-> > > > +	num = fwnode_property_count_u32(fwnode, "led-sources");
-> > > > +	if (num < 1)
-> > > > +		return dev_err_probe(dev, -EINVAL,
-> > > > +				     "Not specified or wrong number of led-sources\n");
-> > > > +
-> > > > +	ret = fwnode_property_read_u32_array(fwnode, "led-sources", sources, num);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	for (i = 0; i < num; i++) {
-> > > > +		if (sources[i] >= MT6370_MAX_LEDS)
-> > > > +			return -EINVAL;
-> > > > +		if (priv->leds_active & BIT(sources[i]))
-> > > > +			return -EINVAL;
-> > > > +		priv->leds_active |= BIT(sources[i]);
-> > > > +	}
-> > > > +
-> > > > +	led->led_no = num == 2 ? MT6370_LED_JOINT : sources[0];
-> > > > +
-> > > > +	max_ua = num == 2 ? MT6370_ITORCH_DOUBLE_MAX_uA : MT6370_ITORCH_MAX_uA;
-> > > > +	val = MT6370_ITORCH_MIN_uA;
-> > >
-> > > In what scenario does this not get overwritten?
-> > >
-> > Only if the property is missing. This will make the value keep in minimum.
-> 
-> If the property is missing, fwnode_property_read_u32() returns an errno, no?
-> 
-> If that's the case, val will be over-written in the if() clause?
-> 
-In this funciton, three properties needs to be paresed from DT. Each one need to clamp the value.
-There're two ways to write the code.
+Hi Christian,
 
-[Option 1]
-ret = fwnode_property_read_u32(...)
-if (ret)
-    val = MIM_uA;
+thanks for your patch!
 
-val = mt6370_clamp(val, MIN, MAX);
+On Thu, Feb 16, 2023 at 2:36=E2=80=AFAM Christian Marangi <ansuelsmth@gmail=
+.com> wrote:
 
-[Option 2]
-val = MIN_uA;
-if (!ret)
-    val = mt6370_clamp(val, MIN, MAX);
+> The current idea is:
+> - LED driver implement 3 API (hw_control_status/start/stop).
+>   They are used to put the LED in hardware mode and to configure the
+>   various trigger.
+> - We have hardware triggers that are used to expose to userspace the
+>   supported hardware mode and set the hardware mode on trigger
+>   activation.
+> - We can also have triggers that both support hardware and software mode.
+> - The LED driver will declare each supported hardware blink mode and
+>   communicate with the trigger all the supported blink modes that will
+>   be available by sysfs.
+> - A trigger will use blink_set to configure the blink mode to active
+>   in hardware mode.
+> - On hardware trigger activation, only the hardware mode is enabled but
+>   the blink modes are not configured. The LED driver should reset any
+>   link mode active by default.
 
+The series looks good as a start.
+There are some drivers and HW definitions etc for switch-controlled
+LEDs, which is great.
 
-From the above, the sencond one can save more LOC, no?
-But it seems the first one is more preferable by you, right?
-> --
-> Lee Jones [李琼斯]
+I am a bit reluctant on the ambition to rely on configuration from sysfs
+for the triggers, and I am also puzzled to how a certain trigger on a
+certain LED is going to associate itself with, say, a certain port.
+
+I want to draw your attention to this recently merged patch series
+from Hans de Goede:
+https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.=
+com/
+
+This adds the devm_led_get() API which works similar to getting
+regulators, clocks, GPIOs or any other resources.
+
+It is not yet (I think) hooked into the device tree framework, but it
+supports software nodes so adding DT handling should be sort of
+trivial.
+
+I think the ambition should be something like this (conjured example)
+for a DSA switch:
+
+    platform {
+            switch {
+                    compatible =3D "foo";
+
+                    leds {
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+                            led0: led@0 {
+                                    reg =3D <0>;
+                                    color =3D...
+                                    function =3D ...
+                                    function-enumerator =3D ...
+                                    default-state =3D ...
+                            };
+                            led1: led@1 {
+                                    reg =3D <1>;
+                                    color =3D...
+                                    function =3D ...
+                                    function-enumerator =3D ...
+                                    default-state =3D ...
+                            };
+                    };
+
+                    ports {
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+                            port@0 {
+                                    reg =3D <0>;
+                                    label =3D "lan0";
+                                    phy-handle =3D <&phy0>;
+                                    leds =3D <&led0>;
+                            };
+                            port@1 {
+                                    reg =3D <1>;
+                                    label =3D "lan1";
+                                    phy-handle =3D <&phy1>;
+                                    leds =3D <&led0>;
+                            };
+                    };
+
+                    mdio {
+                            compatible =3D "foo-mdio";
+                            #address-cells =3D <1>;
+                            #size-cells =3D <0>;
+
+                            phy0: ethernet-phy@0 {
+                                    reg =3D <0>;
+                            };
+                            phy1: ethernet-phy@1 {
+                                    reg =3D <1>;
+                            };
+                    };
+            };
+    };
+
+I am not the man to tell whether the leds =3D <&led0>; phandle should be on
+the port or actually on the phy, it may even vary. You guys know the answer
+to this.
+
+But certainly something like this resource phandle will be necessary to
+assign the right LED to the right port or phy, I hope you were not going
+to rely on strings and naming conventions?
+
+Yours,
+Linus Walleij
