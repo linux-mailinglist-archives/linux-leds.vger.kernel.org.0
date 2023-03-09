@@ -2,72 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1C76B2027
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 10:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47CB56B28BB
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 16:23:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230426AbjCIJdh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Mar 2023 04:33:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
+        id S231685AbjCIPXn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Mar 2023 10:23:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbjCIJdY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 04:33:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE324E20E9
-        for <linux-leds@vger.kernel.org>; Thu,  9 Mar 2023 01:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678354336;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sQ+J/SIf2Lwzsd+AvJuj8Brejkg7/l6hsC8VV8+8W1M=;
-        b=Lgc+Uyry8nh+xzHEt4bEc75oJxL0B9rJSx+Nv29OEEngdWlObB8yg9R/nqSM6ZFqiiISpp
-        nLNBqAL5fEL8ONmbqWDTmoITkrBDPc+IM9g5WEjCDD34Wt0V3iWk510hhqEDvKa/3IKg9t
-        g3yxXa+ZPj2ZPhv8WScudUiO6WKwoSU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-369-uusbg31uNOW0kj0v0wYkBQ-1; Thu, 09 Mar 2023 04:32:14 -0500
-X-MC-Unique: uusbg31uNOW0kj0v0wYkBQ-1
-Received: by mail-ed1-f69.google.com with SMTP id i22-20020a05640242d600b004f5962985f4so1637441edc.12
-        for <linux-leds@vger.kernel.org>; Thu, 09 Mar 2023 01:32:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678354334;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQ+J/SIf2Lwzsd+AvJuj8Brejkg7/l6hsC8VV8+8W1M=;
-        b=49J3JtttAmwuAFGJZuMxdz/x0HgMYZ16aXj1AYQaZFgAD3s/MABhRMLZUtaUoLz5Tr
-         xRRXXUkXrOg7UuB1T+euCZVoXINytIwzIV4Xe27UKTU9WaxF4DWys/GoQy2SlW8hR1tS
-         3tAPgd8wbIjmxcjslv9SVZFsz3R/jIlWzF0GqqyNR2igZZ4sb8aLt4qLEyRRt/FQpt9m
-         zv5hzqqZh4uFCjcVMJnAEa4QJqLUQPwUto5KuZFNgbwmrqVW1lNxOlyMB9JDAWzVG+9a
-         ZWREsksYMj9iLmBQtOzuOoUb199TkBv+Zh5qhTtU0NY+JTNEYLOOqL6BSwPWen9rB7CW
-         tfwQ==
-X-Gm-Message-State: AO0yUKUiN0hX9K7kUkWH96lgAZ7KQlU/LoZ0ZvgZviUUvlYTH5dKg+z3
-        p6UMZZk2zUyhuG6beR+qTdLUtD/ySv+y4CtSCus6aOBJN1gQvPBD7XiGSF2EUOhssluOtonDEkW
-        b8FXN709xtx6CRSzD5ybPqA==
-X-Received: by 2002:aa7:da0a:0:b0:4af:7bdc:188e with SMTP id r10-20020aa7da0a000000b004af7bdc188emr25673776eds.16.1678354333817;
-        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Zcc4VfH+adkU4CX8s8G2r+r/hbCkiRw8tT7qROHeFsFcauVxjL7MeoaeJyJi8J5zGFtIfvg==
-X-Received: by 2002:aa7:da0a:0:b0:4af:7bdc:188e with SMTP id r10-20020aa7da0a000000b004af7bdc188emr25673759eds.16.1678354333521;
-        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id t26-20020a1709060c5a00b008ec793ac3f4sm8527194ejf.192.2023.03.09.01.32.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
-Message-ID: <9398f15b-6c50-b7ef-1886-c3c78f075e72@redhat.com>
-Date:   Thu, 9 Mar 2023 10:32:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-Content-Language: en-US, nl
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        with ESMTP id S231580AbjCIPX1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 10:23:27 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3489EF16AB;
+        Thu,  9 Mar 2023 07:22:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=TZtnq4ErD6+p46J1xiQAutyT1OfQ3UHS3Utv9OsbD3k=; b=4u643A2Y3jE+yVdrqGMaYCOOLt
+        pUoE/QBgVG8HivDUgvuxodEqXCK/29gfplEGQEf/qEFBYL8Ii/Tir4i9ovOxmF8wVWYwl0TW0weqA
+        ygUG5e8884d5Ik+oAh26XdFyioQdTjOlFbjCA44mXbPUSidZwDRvcnL5pPeD8JZqv7OQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1paI63-006t3h-Ua; Thu, 09 Mar 2023 16:22:23 +0100
+Date:   Thu, 9 Mar 2023 16:22:23 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -87,15 +52,16 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Arun.Ramadoss@microchip.com
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+Message-ID: <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
 References: <20230216013230.22978-1-ansuelsmth@gmail.com>
  <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -103,39 +69,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-
-On 3/9/23 10:09, Linus Walleij wrote:
-> Hi Christian,
-> 
-> thanks for your patch!
-> 
-> On Thu, Feb 16, 2023 at 2:36 AM Christian Marangi <ansuelsmth@gmail.com> wrote:
-> 
->> The current idea is:
->> - LED driver implement 3 API (hw_control_status/start/stop).
->>   They are used to put the LED in hardware mode and to configure the
->>   various trigger.
->> - We have hardware triggers that are used to expose to userspace the
->>   supported hardware mode and set the hardware mode on trigger
->>   activation.
->> - We can also have triggers that both support hardware and software mode.
->> - The LED driver will declare each supported hardware blink mode and
->>   communicate with the trigger all the supported blink modes that will
->>   be available by sysfs.
->> - A trigger will use blink_set to configure the blink mode to active
->>   in hardware mode.
->> - On hardware trigger activation, only the hardware mode is enabled but
->>   the blink modes are not configured. The LED driver should reset any
->>   link mode active by default.
-> 
-> The series looks good as a start.
-> There are some drivers and HW definitions etc for switch-controlled
-> LEDs, which is great.
-> 
 > I am a bit reluctant on the ambition to rely on configuration from sysfs
 > for the triggers, and I am also puzzled to how a certain trigger on a
 > certain LED is going to associate itself with, say, a certain port.
+
+Hi Linus
+
+There will need to be a device tree binding for the default
+trigger. That is what nearly all the rejected hacks so far have been
+about, write registers in the PHYs LEDs registers to put it into a
+specific mode. I don't see that part of the overall problem too
+problematic, apart from the old issue, is it describing configuration,
+not hardware.
+
+As to 'how a certain trigger on a certain LED is going to associate
+itself with, say, a certain port' is clearly a property of the
+hardware, when offloading is supported. I've not seen a switch you can
+arbitrarily assign LEDs to ports. The Marvell switches have the LED
+registers within the port registers, for example, two LEDs per port.
+
 > 
 > I want to draw your attention to this recently merged patch series
 > from Hans de Goede:
@@ -143,101 +95,25 @@ On 3/9/23 10:09, Linus Walleij wrote:
 > 
 > This adds the devm_led_get() API which works similar to getting
 > regulators, clocks, GPIOs or any other resources.
-> 
-> It is not yet (I think) hooked into the device tree framework, but it
-> supports software nodes so adding DT handling should be sort of
-> trivial.
 
-That series contains this (unmerged) patch to hookup DT handling:
+Interesting. Thanks for pointing this out. But i don't think it is of
+interest in our use case, which is hardware offload. For a purely
+software controlled LED, where the LED could be anywhere,
+devm_led_get() makes sense. But in our case, the LED is in a well
+defined place, either the MAC or the PHY, where it has access to the
+RX and TX packets, link status etc. So we don't have the problem of
+finding it in an arbitrary location.
 
-https://lore.kernel.org/linux-leds/20230120114524.408368-6-hdegoede@redhat.com/
+There is also one additional problem we have, both for MAC and PHY
+LEDs. The trigger is ledtrig-netdev. All trigger state revolves around
+a netdev. A DSA port is not a netdev. A PHY is not a netdev. Each of
+these three things have there own life cycle. Often, a PHY does not
+know what netdev it is associated to until the interface is opened,
+ie. ip link set eth0 up. But once it is associated, phylib knows this
+information, so can return it, without any additional configuration
+data in DT. A DSA switch port can be created before the netdev
+associated to it is created. But again, the DSA core does know the
+mapping between a netdev and a port. Using devm_led_get() does not
+gain us anything.
 
-this was not merged because there are no current users, but adding
-support is as easy as picking up that patch :)
-
-Note there also already is a devicetree *only*:
-
-struct led_classdev *of_led_get(struct device_node *np, int index);
-
-Since I was working on a x86/ACPI platform I needed something more
-generic though and ideally new code would use the generic approach.
-
-Regards,
-
-Hans
-
-
-
-
-
-> 
-> I think the ambition should be something like this (conjured example)
-> for a DSA switch:
-> 
->     platform {
->             switch {
->                     compatible = "foo";
-> 
->                     leds {
->                             #address-cells = <1>;
->                             #size-cells = <0>;
->                             led0: led@0 {
->                                     reg = <0>;
->                                     color =...
->                                     function = ...
->                                     function-enumerator = ...
->                                     default-state = ...
->                             };
->                             led1: led@1 {
->                                     reg = <1>;
->                                     color =...
->                                     function = ...
->                                     function-enumerator = ...
->                                     default-state = ...
->                             };
->                     };
-> 
->                     ports {
->                             #address-cells = <1>;
->                             #size-cells = <0>;
->                             port@0 {
->                                     reg = <0>;
->                                     label = "lan0";
->                                     phy-handle = <&phy0>;
->                                     leds = <&led0>;
->                             };
->                             port@1 {
->                                     reg = <1>;
->                                     label = "lan1";
->                                     phy-handle = <&phy1>;
->                                     leds = <&led0>;
->                             };
->                     };
-> 
->                     mdio {
->                             compatible = "foo-mdio";
->                             #address-cells = <1>;
->                             #size-cells = <0>;
-> 
->                             phy0: ethernet-phy@0 {
->                                     reg = <0>;
->                             };
->                             phy1: ethernet-phy@1 {
->                                     reg = <1>;
->                             };
->                     };
->             };
->     };
-> 
-> I am not the man to tell whether the leds = <&led0>; phandle should be on
-> the port or actually on the phy, it may even vary. You guys know the answer
-> to this.
-> 
-> But certainly something like this resource phandle will be necessary to
-> assign the right LED to the right port or phy, I hope you were not going
-> to rely on strings and naming conventions?
-> 
-> Yours,
-> Linus Walleij
-> 
-
+	Andrew
