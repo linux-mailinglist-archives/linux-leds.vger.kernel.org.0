@@ -2,59 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D077D6B1F78
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 10:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE1C76B2027
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 10:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbjCIJJr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Mar 2023 04:09:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
+        id S230426AbjCIJdh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Mar 2023 04:33:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230170AbjCIJJd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 04:09:33 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285BC23654
-        for <linux-leds@vger.kernel.org>; Thu,  9 Mar 2023 01:09:30 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id v101so1200574ybi.2
-        for <linux-leds@vger.kernel.org>; Thu, 09 Mar 2023 01:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678352969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
-        b=d5zPXnIdCSL8PFYhyYOeGqp/z4KLzRwZUDS5MQscn602dDdMFOICNvctZM6XgOSs/s
-         Md7TYhkP3I4c8GUXNxi6ka8Hry0M3d8uw/UHhPRafzoTu+2lLo2QrAr4pyjwRTYQ4+CI
-         07WNh/oBiql5KgaJDO8K1gDaGWu+DAsLRq2nU9Y9wj39MtMFMILC9ahu+4xt7cmhGPYd
-         X90VtbPi3OMstH+/UqpSOwHHI+EYQ7LarXzbLBCDuMKzdMMFQ/UxUKKqVA7sa5cL0Uez
-         IZChwC6FoLVRu2JgNXLPAG+SxViuz8t/Op2vZmpSB0iiljJXiJOhtcT6NmEsfqrkeFEw
-         o0Qg==
+        with ESMTP id S230095AbjCIJdY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 04:33:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE324E20E9
+        for <linux-leds@vger.kernel.org>; Thu,  9 Mar 2023 01:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678354336;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sQ+J/SIf2Lwzsd+AvJuj8Brejkg7/l6hsC8VV8+8W1M=;
+        b=Lgc+Uyry8nh+xzHEt4bEc75oJxL0B9rJSx+Nv29OEEngdWlObB8yg9R/nqSM6ZFqiiISpp
+        nLNBqAL5fEL8ONmbqWDTmoITkrBDPc+IM9g5WEjCDD34Wt0V3iWk510hhqEDvKa/3IKg9t
+        g3yxXa+ZPj2ZPhv8WScudUiO6WKwoSU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-369-uusbg31uNOW0kj0v0wYkBQ-1; Thu, 09 Mar 2023 04:32:14 -0500
+X-MC-Unique: uusbg31uNOW0kj0v0wYkBQ-1
+Received: by mail-ed1-f69.google.com with SMTP id i22-20020a05640242d600b004f5962985f4so1637441edc.12
+        for <linux-leds@vger.kernel.org>; Thu, 09 Mar 2023 01:32:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678352969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=As7r+GPHEmvAUFDtsvfEp735NwW2WEg6DbTgAlj58R0=;
-        b=X1zDfRs21fzQvpiMkLMMDXzACuO4WRSyvlt8j7KkhxrzREXoFFeJrhbtlOGheICXDG
-         iLhPTceFLUkziyqOoBw92DxpJg3T0dnidk+8DorNNAmE/yY8GvVx9XU+oKMeUHrLFDqQ
-         NY1sE9qpgYrNDhComgXjqTzbJrYD0AL3+av3pvFf1WWccpD4zeuyOo/ZSaSvvhdoCcRb
-         n71lup7Mddwc9gTwwfQC9On6FSfWkHtFyVLferfwPAPT4SLZizimM8eLckEDM21X0a5/
-         CMlnohop/xq5xjedXLjdqfXWJkeewSCfLFHPIyGlMrIX7ENxCekdhEII1bEbGpPqKE0B
-         wcQA==
-X-Gm-Message-State: AO0yUKW8jQ7rX0jJ95r0iLLl5q1GfnI9Z82Dl9MkXOKlRZzOTSAUnlep
-        woFvX3Qx3ct62qW5xkUWYQI9cgNjaEuN784aN7dWhA==
-X-Google-Smtp-Source: AK7set9SxHJdstKtORUta6fNpFj7c3NC6Y9ep4Dfm8p9BxYEaHWCbrFjAqLaiUObiP3YlHYpudlhcELLtQQQOTOX9Yw=
-X-Received: by 2002:a25:8c84:0:b0:b23:4649:7ef3 with SMTP id
- m4-20020a258c84000000b00b2346497ef3mr240804ybl.4.1678352969333; Thu, 09 Mar
- 2023 01:09:29 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678354334;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sQ+J/SIf2Lwzsd+AvJuj8Brejkg7/l6hsC8VV8+8W1M=;
+        b=49J3JtttAmwuAFGJZuMxdz/x0HgMYZ16aXj1AYQaZFgAD3s/MABhRMLZUtaUoLz5Tr
+         xRRXXUkXrOg7UuB1T+euCZVoXINytIwzIV4Xe27UKTU9WaxF4DWys/GoQy2SlW8hR1tS
+         3tAPgd8wbIjmxcjslv9SVZFsz3R/jIlWzF0GqqyNR2igZZ4sb8aLt4qLEyRRt/FQpt9m
+         zv5hzqqZh4uFCjcVMJnAEa4QJqLUQPwUto5KuZFNgbwmrqVW1lNxOlyMB9JDAWzVG+9a
+         ZWREsksYMj9iLmBQtOzuOoUb199TkBv+Zh5qhTtU0NY+JTNEYLOOqL6BSwPWen9rB7CW
+         tfwQ==
+X-Gm-Message-State: AO0yUKUiN0hX9K7kUkWH96lgAZ7KQlU/LoZ0ZvgZviUUvlYTH5dKg+z3
+        p6UMZZk2zUyhuG6beR+qTdLUtD/ySv+y4CtSCus6aOBJN1gQvPBD7XiGSF2EUOhssluOtonDEkW
+        b8FXN709xtx6CRSzD5ybPqA==
+X-Received: by 2002:aa7:da0a:0:b0:4af:7bdc:188e with SMTP id r10-20020aa7da0a000000b004af7bdc188emr25673776eds.16.1678354333817;
+        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Zcc4VfH+adkU4CX8s8G2r+r/hbCkiRw8tT7qROHeFsFcauVxjL7MeoaeJyJi8J5zGFtIfvg==
+X-Received: by 2002:aa7:da0a:0:b0:4af:7bdc:188e with SMTP id r10-20020aa7da0a000000b004af7bdc188emr25673759eds.16.1678354333521;
+        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id t26-20020a1709060c5a00b008ec793ac3f4sm8527194ejf.192.2023.03.09.01.32.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Mar 2023 01:32:13 -0800 (PST)
+Message-ID: <9398f15b-6c50-b7ef-1886-c3c78f075e72@redhat.com>
+Date:   Thu, 9 Mar 2023 10:32:12 +0100
 MIME-Version: 1.0
-References: <20230216013230.22978-1-ansuelsmth@gmail.com>
-In-Reply-To: <20230216013230.22978-1-ansuelsmth@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 9 Mar 2023 10:09:18 +0100
-Message-ID: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
+Content-Language: en-US, nl
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -78,127 +87,157 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Arun.Ramadoss@microchip.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230216013230.22978-1-ansuelsmth@gmail.com>
+ <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Christian,
+Hi,
 
-thanks for your patch!
+On 3/9/23 10:09, Linus Walleij wrote:
+> Hi Christian,
+> 
+> thanks for your patch!
+> 
+> On Thu, Feb 16, 2023 at 2:36 AM Christian Marangi <ansuelsmth@gmail.com> wrote:
+> 
+>> The current idea is:
+>> - LED driver implement 3 API (hw_control_status/start/stop).
+>>   They are used to put the LED in hardware mode and to configure the
+>>   various trigger.
+>> - We have hardware triggers that are used to expose to userspace the
+>>   supported hardware mode and set the hardware mode on trigger
+>>   activation.
+>> - We can also have triggers that both support hardware and software mode.
+>> - The LED driver will declare each supported hardware blink mode and
+>>   communicate with the trigger all the supported blink modes that will
+>>   be available by sysfs.
+>> - A trigger will use blink_set to configure the blink mode to active
+>>   in hardware mode.
+>> - On hardware trigger activation, only the hardware mode is enabled but
+>>   the blink modes are not configured. The LED driver should reset any
+>>   link mode active by default.
+> 
+> The series looks good as a start.
+> There are some drivers and HW definitions etc for switch-controlled
+> LEDs, which is great.
+> 
+> I am a bit reluctant on the ambition to rely on configuration from sysfs
+> for the triggers, and I am also puzzled to how a certain trigger on a
+> certain LED is going to associate itself with, say, a certain port.
+> 
+> I want to draw your attention to this recently merged patch series
+> from Hans de Goede:
+> https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.com/
+> 
+> This adds the devm_led_get() API which works similar to getting
+> regulators, clocks, GPIOs or any other resources.
+> 
+> It is not yet (I think) hooked into the device tree framework, but it
+> supports software nodes so adding DT handling should be sort of
+> trivial.
 
-On Thu, Feb 16, 2023 at 2:36=E2=80=AFAM Christian Marangi <ansuelsmth@gmail=
-.com> wrote:
+That series contains this (unmerged) patch to hookup DT handling:
 
-> The current idea is:
-> - LED driver implement 3 API (hw_control_status/start/stop).
->   They are used to put the LED in hardware mode and to configure the
->   various trigger.
-> - We have hardware triggers that are used to expose to userspace the
->   supported hardware mode and set the hardware mode on trigger
->   activation.
-> - We can also have triggers that both support hardware and software mode.
-> - The LED driver will declare each supported hardware blink mode and
->   communicate with the trigger all the supported blink modes that will
->   be available by sysfs.
-> - A trigger will use blink_set to configure the blink mode to active
->   in hardware mode.
-> - On hardware trigger activation, only the hardware mode is enabled but
->   the blink modes are not configured. The LED driver should reset any
->   link mode active by default.
+https://lore.kernel.org/linux-leds/20230120114524.408368-6-hdegoede@redhat.com/
 
-The series looks good as a start.
-There are some drivers and HW definitions etc for switch-controlled
-LEDs, which is great.
+this was not merged because there are no current users, but adding
+support is as easy as picking up that patch :)
 
-I am a bit reluctant on the ambition to rely on configuration from sysfs
-for the triggers, and I am also puzzled to how a certain trigger on a
-certain LED is going to associate itself with, say, a certain port.
+Note there also already is a devicetree *only*:
 
-I want to draw your attention to this recently merged patch series
-from Hans de Goede:
-https://lore.kernel.org/linux-leds/20230120114524.408368-1-hdegoede@redhat.=
-com/
+struct led_classdev *of_led_get(struct device_node *np, int index);
 
-This adds the devm_led_get() API which works similar to getting
-regulators, clocks, GPIOs or any other resources.
+Since I was working on a x86/ACPI platform I needed something more
+generic though and ideally new code would use the generic approach.
 
-It is not yet (I think) hooked into the device tree framework, but it
-supports software nodes so adding DT handling should be sort of
-trivial.
+Regards,
 
-I think the ambition should be something like this (conjured example)
-for a DSA switch:
+Hans
 
-    platform {
-            switch {
-                    compatible =3D "foo";
 
-                    leds {
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
-                            led0: led@0 {
-                                    reg =3D <0>;
-                                    color =3D...
-                                    function =3D ...
-                                    function-enumerator =3D ...
-                                    default-state =3D ...
-                            };
-                            led1: led@1 {
-                                    reg =3D <1>;
-                                    color =3D...
-                                    function =3D ...
-                                    function-enumerator =3D ...
-                                    default-state =3D ...
-                            };
-                    };
 
-                    ports {
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
-                            port@0 {
-                                    reg =3D <0>;
-                                    label =3D "lan0";
-                                    phy-handle =3D <&phy0>;
-                                    leds =3D <&led0>;
-                            };
-                            port@1 {
-                                    reg =3D <1>;
-                                    label =3D "lan1";
-                                    phy-handle =3D <&phy1>;
-                                    leds =3D <&led0>;
-                            };
-                    };
 
-                    mdio {
-                            compatible =3D "foo-mdio";
-                            #address-cells =3D <1>;
-                            #size-cells =3D <0>;
 
-                            phy0: ethernet-phy@0 {
-                                    reg =3D <0>;
-                            };
-                            phy1: ethernet-phy@1 {
-                                    reg =3D <1>;
-                            };
-                    };
-            };
-    };
+> 
+> I think the ambition should be something like this (conjured example)
+> for a DSA switch:
+> 
+>     platform {
+>             switch {
+>                     compatible = "foo";
+> 
+>                     leds {
+>                             #address-cells = <1>;
+>                             #size-cells = <0>;
+>                             led0: led@0 {
+>                                     reg = <0>;
+>                                     color =...
+>                                     function = ...
+>                                     function-enumerator = ...
+>                                     default-state = ...
+>                             };
+>                             led1: led@1 {
+>                                     reg = <1>;
+>                                     color =...
+>                                     function = ...
+>                                     function-enumerator = ...
+>                                     default-state = ...
+>                             };
+>                     };
+> 
+>                     ports {
+>                             #address-cells = <1>;
+>                             #size-cells = <0>;
+>                             port@0 {
+>                                     reg = <0>;
+>                                     label = "lan0";
+>                                     phy-handle = <&phy0>;
+>                                     leds = <&led0>;
+>                             };
+>                             port@1 {
+>                                     reg = <1>;
+>                                     label = "lan1";
+>                                     phy-handle = <&phy1>;
+>                                     leds = <&led0>;
+>                             };
+>                     };
+> 
+>                     mdio {
+>                             compatible = "foo-mdio";
+>                             #address-cells = <1>;
+>                             #size-cells = <0>;
+> 
+>                             phy0: ethernet-phy@0 {
+>                                     reg = <0>;
+>                             };
+>                             phy1: ethernet-phy@1 {
+>                                     reg = <1>;
+>                             };
+>                     };
+>             };
+>     };
+> 
+> I am not the man to tell whether the leds = <&led0>; phandle should be on
+> the port or actually on the phy, it may even vary. You guys know the answer
+> to this.
+> 
+> But certainly something like this resource phandle will be necessary to
+> assign the right LED to the right port or phy, I hope you were not going
+> to rely on strings and naming conventions?
+> 
+> Yours,
+> Linus Walleij
+> 
 
-I am not the man to tell whether the leds =3D <&led0>; phandle should be on
-the port or actually on the phy, it may even vary. You guys know the answer
-to this.
-
-But certainly something like this resource phandle will be necessary to
-assign the right LED to the right port or phy, I hope you were not going
-to rely on strings and naming conventions?
-
-Yours,
-Linus Walleij
