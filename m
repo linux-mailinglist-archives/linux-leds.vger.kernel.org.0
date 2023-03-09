@@ -2,201 +2,160 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B21DB6B2BFA
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 18:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A49146B30D8
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Mar 2023 23:38:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbjCIRY7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Mar 2023 12:24:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        id S231151AbjCIWiB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Mar 2023 17:38:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjCIRY6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 12:24:58 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35EFDF31D0;
-        Thu,  9 Mar 2023 09:24:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC21661CA0;
-        Thu,  9 Mar 2023 17:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2853FC433EF;
-        Thu,  9 Mar 2023 17:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678382695;
-        bh=gVhrjCj77/5J/qbJXsvZbwaLDnI4v1jfu9FIPhCu3LE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H9kaqCxri1hR1og1XvbopPSB+mRwmy6wXii0Zh5sZBdMMPn7jsliwFZyDY9Ldp33V
-         DEcKJPHhIhYsNZ40RRnpJ1Xl6qw38jSTxdQ+J7kbdwb7ImWyij0qAnS3paNk5OsNjV
-         0MfpkVxFgAKyMQAttlr+jPPqjBLjtEtRZ6b/e+ex8Y7AqYGO41o9PSrmHMsASZhbpm
-         x97ITw9xwFNIzLAeWIOSg7hpaYLTQJTWRRcSsjQrfCIkFWqYhCSwylImOdA3dS7CZz
-         3JWPNUeUdkxYjj1PC5BhR5AeBYhUEo2smPQrKM6v7wqqmf4bgTzQ3/T8ld/6wvkDpB
-         7K5sGj1tgH3eA==
-Date:   Thu, 9 Mar 2023 17:24:48 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     ChiYuan Huang <cy_huang@richtek.com>
-Cc:     ChiaEn Wu <chiaen_wu@richtek.com>, corbet@lwn.net, pavel@ucw.cz,
-        matthias.bgg@gmail.com, andriy.shevchenko@linux.intel.com,
-        jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, linux-leds@vger.kernel.org,
+        with ESMTP id S229956AbjCIWiA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 17:38:00 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F49CEFA5;
+        Thu,  9 Mar 2023 14:37:58 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso2295603wmo.0;
+        Thu, 09 Mar 2023 14:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678401477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+YkCkrjJHa9Smmj/wJYS+f+10gt8i1v3+K2/QxqxGnI=;
+        b=eJfOsBUED3fscQrc9JaP5TBDOF3Y46ECD0kikqu0swWAEZDbr/7Q1xoNQQMrD9lNx9
+         W+PeULXJXFWvpKlIHkG8G1N4+dq2abOGvUilkFgqkJOkbqJQgihsrWMgxhWD1h+lv7nY
+         6dyS/Dy9jmBtxRcRRPGb/kpgImyrlsqpUj9okXYvbTl7hh401KTNC4ttUfg+dmHGUvdY
+         UWhybAzDCdqeU7gQNTHDu2ECQe685H3mSGscYauLFebmU0XgvwRQvKXCM5iOZG95pFWE
+         2PWBrASaBvLFoXO4HQK8q934x5quNX3HR7E41wTrSvpekIAt7WqBt5nr3Z1/lyPGG+9N
+         +dcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678401477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+YkCkrjJHa9Smmj/wJYS+f+10gt8i1v3+K2/QxqxGnI=;
+        b=EccjTut2iYLcXA2ng8HW/cpBX8JrkOiPm6j3wpGMq6k0Oqlw+t05IhedOljE1Ol93t
+         vmxd+Q6wuh0iP5K5aQ6JT/601RGiMM4cfqmKtGfo0q1VbaXWbfo8/57uWySJ5EIXhpEk
+         cNQ14SYyhaA5P4AmszNAFioOmzjGDTA+3XHUZJCvv9p3WsoxIYRgnTDE2KAgA6A2CtnW
+         g+Nx6jPoOzVEgQS+1tc8F9L/NZUOWZPE1UsdPzbaq85+rgcYVaT8iRwzBtiq4uXegz1A
+         Iy6Nj1AW6xmDHL5PMFrW5wTcTwk17NyH+WbBTcOH7prBuegYCCpX9sjggDeDeiVnGRPK
+         ex+w==
+X-Gm-Message-State: AO0yUKXQh0yS85w340zxrw94hEvlIvEXoo14vVYqMSaSuvl+E9GPHhf3
+        OVZGQ/4qnEe8lPO0KWE9B8M=
+X-Google-Smtp-Source: AK7set8NHhpkF76F1n+vl6zWoM3i7+IYLzBdgq5tR6J3qDrVLnoQ2La7K2evFiIWcHcaTNKePGLOxQ==
+X-Received: by 2002:a05:600c:1e1f:b0:3eb:fc6:79cf with SMTP id ay31-20020a05600c1e1f00b003eb0fc679cfmr780797wmb.6.1678401476689;
+        Thu, 09 Mar 2023 14:37:56 -0800 (PST)
+Received: from localhost.localdomain (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.googlemail.com with ESMTPSA id g12-20020a05600c310c00b003e209b45f6bsm1183981wmo.29.2023.03.09.14.37.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 14:37:56 -0800 (PST)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com
-Subject: Re: [PATCH v17 RESEND 2/3] leds: flash: mt6370: Add MediaTek MT6370
- flashlight support
-Message-ID: <20230309172448.GU9667@google.com>
-References: <cover.1677150607.git.chiaen_wu@richtek.com>
- <dc467984ebfc443685af62310aadb45389e804d6.1677150607.git.chiaen_wu@richtek.com>
- <20230305100608.GD2574592@google.com>
- <20230307034433.GA10739@linuxcarl2.richtek.com>
- <20230308135433.GL9667@google.com>
- <20230309014927.GA12537@linuxcarl2.richtek.com>
+        linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: [net-next PATCH v2 00/14] net: Add basic LED support for switch/phy
+Date:   Thu,  9 Mar 2023 23:35:10 +0100
+Message-Id: <20230309223524.23364-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230309014927.GA12537@linuxcarl2.richtek.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 09 Mar 2023, ChiYuan Huang wrote:
+This is a continue of [1]. It was decided to take a more gradual
+approach to implement LEDs support for switch and phy starting with
+basic support and then implementing the hw control part when we have all
+the prereq done.
 
-> On Wed, Mar 08, 2023 at 01:54:33PM +0000, Lee Jones wrote:
-> Hi, Lee:
-> > On Tue, 07 Mar 2023, ChiYuan Huang wrote:
-> >
-> > > Hi, Lee:
-> > >    Reply below the comments.
-> > >
-> > > On Sun, Mar 05, 2023 at 10:06:08AM +0000, Lee Jones wrote:
-> > > > On Thu, 23 Feb 2023, ChiaEn Wu wrote:
-> > > >
-> > > > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > > > >
-> > > > > The MediaTek MT6370 is a highly-integrated smart power management IC,
-> > > > > which includes a single cell Li-Ion/Li-Polymer switching battery
-> > > > > charger, a USB Type-C & Power Delivery (PD) controller, dual Flash
-> > > > > LED current sources, a RGB LED driver, a backlight WLED driver,
-> > > > > a display bias driver and a general LDO for portable devices.
-> > > > >
-> > > > > Add support for the MT6370 Flash LED driver. Flash LED in MT6370
-> > > > > has 2 channels and support torch/strobe mode.
-> > > > >
-> > > > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > > > Co-developed-by: Alice Chen <alice_chen@richtek.com>
-> > > > > Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> > > > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > > > ---
-> > > > > v17
-> > > > > - Update the year of Copyright from 2022 to 2023
-> > > > >
-> > > > > ---
-> > > > >  drivers/leds/flash/Kconfig             |  13 +
-> > > > >  drivers/leds/flash/Makefile            |   1 +
-> > > > >  drivers/leds/flash/leds-mt6370-flash.c | 596 +++++++++++++++++++++++++++++++++
-> > > > >  3 files changed, 610 insertions(+)
-> > > > >  create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
-> >
-> > [...]
-> >
-> > > > > +static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-> > > > > +					u32 brightness)
-> > > > > +{
-> > > > > +	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-> > > > > +	struct mt6370_priv *priv = led->priv;
-> > > > > +	struct led_flash_setting *setting = &fl_cdev->brightness;
-> > > > > +	u32 val = (brightness - setting->min) / setting->step;
-> > > > > +	int ret, i;
-> > > > > +
-> > > > > +	if (led->led_no == MT6370_LED_JOINT) {
-> > > >
-> > > > What is a "JOINT"?
-> > > >
-> > > Since MT6370 has two flash led channels. Per channel can drive the current up to 1.5A.
-> > > 'JOINT' case is used if 1.5A driving current is not enough, like as flash current 2A.
-> > > They can use two channels to drive 'one' flash led by the HW application.
-> > > This will make the driving current larger than the capability of one channel.
-> >
-> > Is "joint" the term used in the datasheet?
-> >
-> Nope, this term is not clearly defined in the datasheet. but this kind of HW application is
-> allowed.
-> > Please make this definition clear in the code.
-> >
-> > If I'm asking, others are likely to too.
-> >
-> Thanks, I'll add more comments to clearly describe what the 'JOINT' code did.
-> > [...]
-> >
-> > > > > +static int mt6370_init_flash_properties(struct device *dev,
-> > > > > +					struct mt6370_led *led,
-> > > > > +					struct fwnode_handle *fwnode)
-> > > > > +{
-> > > > > +	struct led_classdev_flash *flash = &led->flash;
-> > > > > +	struct led_classdev *lcdev = &flash->led_cdev;
-> > > > > +	struct mt6370_priv *priv = led->priv;
-> > > > > +	struct led_flash_setting *s;
-> > > > > +	u32 sources[MT6370_MAX_LEDS];
-> > > > > +	u32 max_ua, val;
-> > > > > +	int i, ret, num;
-> > > > > +
-> > > > > +	num = fwnode_property_count_u32(fwnode, "led-sources");
-> > > > > +	if (num < 1)
-> > > > > +		return dev_err_probe(dev, -EINVAL,
-> > > > > +				     "Not specified or wrong number of led-sources\n");
-> > > > > +
-> > > > > +	ret = fwnode_property_read_u32_array(fwnode, "led-sources", sources, num);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	for (i = 0; i < num; i++) {
-> > > > > +		if (sources[i] >= MT6370_MAX_LEDS)
-> > > > > +			return -EINVAL;
-> > > > > +		if (priv->leds_active & BIT(sources[i]))
-> > > > > +			return -EINVAL;
-> > > > > +		priv->leds_active |= BIT(sources[i]);
-> > > > > +	}
-> > > > > +
-> > > > > +	led->led_no = num == 2 ? MT6370_LED_JOINT : sources[0];
-> > > > > +
-> > > > > +	max_ua = num == 2 ? MT6370_ITORCH_DOUBLE_MAX_uA : MT6370_ITORCH_MAX_uA;
-> > > > > +	val = MT6370_ITORCH_MIN_uA;
-> > > >
-> > > > In what scenario does this not get overwritten?
-> > > >
-> > > Only if the property is missing. This will make the value keep in minimum.
-> >
-> > If the property is missing, fwnode_property_read_u32() returns an errno, no?
-> >
-> > If that's the case, val will be over-written in the if() clause?
-> >
-> In this funciton, three properties needs to be paresed from DT. Each one need to clamp the value.
-> There're two ways to write the code.
->
-> [Option 1]
-> ret = fwnode_property_read_u32(...)
-> if (ret)
->     val = MIM_uA;
->
-> val = mt6370_clamp(val, MIN, MAX);
->
-> [Option 2]
-> val = MIN_uA;
-> if (!ret)
->     val = mt6370_clamp(val, MIN, MAX);
->
->
-> From the above, the sencond one can save more LOC, no?
-> But it seems the first one is more preferable by you, right?
+This series implements only the brightness_set() and blink_set() ops.
+An example of switch implementation is done with qca8k.
 
-I see now that 'val' is used in clamp() before being overwritten now.
+For PHY a more generic approach is used with implementing the LED
+support in PHY core and with the user (in this case marvell) adding all
+the required functions.
 
---
-Lee Jones [李琼斯]
+Currently we set the default-state as "keep" to not change the default
+configuration of the declared LEDs since almost every switch have a
+default configuration.
+
+[1] https://lore.kernel.org/lkml/20230216013230.22978-1-ansuelsmth@gmail.com/
+
+Changes in new series v2:
+- Add LEDs node for rb3011
+- Fix rb3011 switch node unevaluated properties while running 
+  make dtbs_check
+- Fix a copypaste error in qca8k-leds.c for port 4 required shift
+- Drop phy-handle usage for qca8k and use qca8k_port_to_phy()
+- Add review tag from Andrew
+- Add Christian Marangi SOB in each Andrew patch
+- Add extra description for dsa-port stressing that PHY have no access
+  and LED are controlled by the related MAC
+- Add missing additionalProperties for dsa-port.yaml and ethernet-phy.yaml
+
+Changes from the old v8 series:
+- Drop linux,default-trigger set to netdev.
+- Dropped every hw control related patch and implement only
+  blink_set and brightness_set
+- Add default-state to "keep" for each LED node example
+
+Andrew Lunn (6):
+  net: phy: Add a binding for PHY LEDs
+  net: phy: phy_device: Call into the PHY driver to set LED brightness.
+  net: phy: marvell: Add software control of the LEDs
+  net: phy: phy_device: Call into the PHY driver to set LED blinking.
+  net: phy: marvell: Implement led_blink_set()
+  arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
+
+Christian Marangi (8):
+  net: dsa: qca8k: move qca8k_port_to_phy() to header
+  net: dsa: qca8k: add LEDs basic support
+  net: dsa: qca8k: add LEDs blink_set() support
+  dt-bindings: net: dsa: dsa-port: Document support for LEDs node
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
+  arm: qcom: dt: Drop unevaluated properties in switch nodes for rb3011
+  arm: qcom: dt: Add Switch LED for each port for rb3011
+  dt-bindings: net: phy: Document support for LEDs node
+
+ .../devicetree/bindings/net/dsa/dsa-port.yaml |  21 ++
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  24 ++
+ .../devicetree/bindings/net/ethernet-phy.yaml |  31 +++
+ arch/arm/boot/dts/armada-370-rd.dts           |  14 ++
+ arch/arm/boot/dts/qcom-ipq8064-rb3011.dts     | 124 ++++++++-
+ drivers/net/dsa/qca/Kconfig                   |   7 +
+ drivers/net/dsa/qca/Makefile                  |   1 +
+ drivers/net/dsa/qca/qca8k-8xxx.c              |  19 +-
+ drivers/net/dsa/qca/qca8k-leds.c              | 236 ++++++++++++++++++
+ drivers/net/dsa/qca/qca8k.h                   |  83 ++++++
+ drivers/net/phy/marvell.c                     |  81 +++++-
+ drivers/net/phy/phy_device.c                  | 115 +++++++++
+ include/linux/phy.h                           |  33 +++
+ 13 files changed, 765 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
+
+-- 
+2.39.2
+
