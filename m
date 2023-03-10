@@ -2,144 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1596B36E9
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Mar 2023 07:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D51B76B3AD2
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Mar 2023 10:40:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjCJG4k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Mar 2023 01:56:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54256 "EHLO
+        id S229639AbjCJJkX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Mar 2023 04:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbjCJG4j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Mar 2023 01:56:39 -0500
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A482F7ECC;
-        Thu,  9 Mar 2023 22:56:35 -0800 (PST)
-X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
-        LIVER,40,3)
-Received: from 192.168.10.46
-        by mg.richtek.com with MailGates ESMTP Server V5.0(20043:0:AUTH_RELAY)
-        (envelope-from <chiaen_wu@richtek.com>); Fri, 10 Mar 2023 14:56:02 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Fri, 10 Mar
- 2023 14:56:02 +0800
-Received: from linuxcarl2.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
- Transport; Fri, 10 Mar 2023 14:56:02 +0800
-From:   ChiaEn Wu <chiaen_wu@richtek.com>
-To:     <corbet@lwn.net>, <pavel@ucw.cz>, <lee@kernel.org>,
-        <matthias.bgg@gmail.com>, <andriy.shevchenko@linux.intel.com>,
-        <jacek.anaszewski@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>
-CC:     <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
-        <cy_huang@richtek.com>, <linux-leds@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: [PATCH v18 3/3] docs: leds: Add MT6370 RGB LED pattern document
-Date:   Fri, 10 Mar 2023 14:55:57 +0800
-Message-ID: <38f1e863b0f099158a63fb6f95056a1cb30d80a0.1678430444.git.chiaen_wu@richtek.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1678430444.git.chiaen_wu@richtek.com>
-References: <cover.1678430444.git.chiaen_wu@richtek.com>
+        with ESMTP id S230218AbjCJJjf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Mar 2023 04:39:35 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D3F54AFC3
+        for <linux-leds@vger.kernel.org>; Fri, 10 Mar 2023 01:37:38 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id o199so2803035ybc.7
+        for <linux-leds@vger.kernel.org>; Fri, 10 Mar 2023 01:37:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678441057;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkaa33xZucHUmrkT5EKmd+RR2GnIarbPW3jBS/IXiH4=;
+        b=ILgy/F6/c0pxMeQ/+6TFJeeOwNTnmur/K+JvQ701v0qAA0vS7Fs3hSM2WV0r7T71AR
+         7iyHIC6BKS6Txkgct7txGB9X1f9a5XW4YC4NUMtvVFayyucjCMRJWfK7Ml/3TEFIjoFV
+         V041ltbDeIdKFbE82x/frnGpKAk2ItooSDnmIwrBF0QnLTPC89Yo9wveO6wvD3WF0KtY
+         8WaWDVmLxFEWWA4uCYz5a/N6jiSA17yEwUyo9tEcTCEAWwyVVBd3K1utC5G7tXhiTF0j
+         71o7KVhFV0JvVVATu5MVkEh9usoL3P5lcfP10ng4cRA1ZwckPPEYmC1gjgqURqCJ/G+a
+         JyfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678441057;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dkaa33xZucHUmrkT5EKmd+RR2GnIarbPW3jBS/IXiH4=;
+        b=5DsWx4rjeA7uRzwdVzbLEVZH4DZLc9ZTe3OJ0qkpkmThBvLxeX9LoDR7EvCuQEAuFB
+         e0hG3goR0kJ2u5lGmAtqIYS8muv05TZ1IRJwhAR0SF3YNzsrdu36RI/bYqc35KlceKhZ
+         8nrqWrIMRlPtlO6OTsf8CRxRdKWn0y7IW/EfxZnpCvkslyazIE/yXyorsCg/16YfOFwU
+         TbLWFnSsiFbEB3bf6AYwxwhouNzTp325cAE7X1gGVEcWGcNo4KnuaZ5kjONzAt4WuoxZ
+         K2dWHhGYOMjrHxyqexw7PjSUxoTB2H6qMD60K5sUvp1VvXCN3uY64wRDBDyd3xB7xo/k
+         +2Ng==
+X-Gm-Message-State: AO0yUKVfjinwg93sVXn9F9rOrU79Eo8eGwiuI/sZJYZvjYM1Ud4F5ke2
+        ojeiMQ+EVSO3WfcWTo9lMN3MlKiPPAUAlvPA/3rOaw==
+X-Google-Smtp-Source: AK7set+5e6x1wi7MIweB5TOI7S3BjN5EW/S43FwJZUJkRYmGqWqeeshxKBdvJTlMBkQWSrF6TT50wquIIlxgcDtOgIE=
+X-Received: by 2002:a25:e201:0:b0:b2e:f387:b428 with SMTP id
+ h1-20020a25e201000000b00b2ef387b428mr1178326ybe.5.1678441057179; Fri, 10 Mar
+ 2023 01:37:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230216013230.22978-1-ansuelsmth@gmail.com> <CACRpkda30Ky5oYPn_nGWGOzT5ntZYdE3gafrs7D27ZHxgGuO8A@mail.gmail.com>
+ <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
+In-Reply-To: <8226f000-dd9c-4774-b972-a7f1113f0986@lunn.ch>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 10 Mar 2023 10:37:25 +0100
+Message-ID: <CACRpkdapuk39vcdNhmsMN0tbTPTSYUgY9r+EBJ-O+v2dsB=wNA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tim Harvey <tharvey@gateworks.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Arun.Ramadoss@microchip.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+On Thu, Mar 9, 2023 at 4:22 PM Andrew Lunn <andrew@lunn.ch> wrote:
 
-Document the MT6370 RGB LED pattern trigger.
+> As to 'how a certain trigger on a certain LED is going to associate
+> itself with, say, a certain port' is clearly a property of the
+> hardware, when offloading is supported. I've not seen a switch you can
+> arbitrarily assign LEDs to ports. The Marvell switches have the LED
+> registers within the port registers, for example, two LEDs per port.
 
-This simply describe how the pattern works, each timing period, and the
-pattern diagram for MT6370 RGB LED.
+Aha so there is an implicit HW dependency between the port and the
+LED, that we just cannot see in the device tree. Okay, it makes sense.
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
----
-v18:
-- Revise the text in document title and description.
----
- Documentation/leds/leds-mt6370-rgb.rst | 64 ++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 Documentation/leds/leds-mt6370-rgb.rst
+I think there will be a day when a switch without LED controller appears,
+but the system has a few LEDs for the ports connected to an
+arbitrary GPIO controller, and then we will need this. But we have
+not seen that yet :)
 
-diff --git a/Documentation/leds/leds-mt6370-rgb.rst b/Documentation/leds/leds-mt6370-rgb.rst
-new file mode 100644
-index 00000000..abf739e
---- /dev/null
-+++ b/Documentation/leds/leds-mt6370-rgb.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+The device for Mediatek MT6370 RGB LED
-+=========================================
-+
-+Description
-+-----------
-+
-+The MT6370 integrates a four-channel RGB LED driver, designed to provide a
-+variety of lighting effect for mobile device applications. The RGB LED devices
-+includes a smart LED string controller and it can drive 3 channels of LEDs with
-+a sink current up to 24mA and a CHG_VIN power good indicator LED with sink
-+current up to 6mA. It provides three operation modes for RGB LEDs:
-+PWM Dimming mode, breath pattern mode, and constant current mode. The device
-+can increase or decrease the brightness of the RGB LED via an I2C interface.
-+
-+The breath pattern for a channel can be programmed using the "pattern" trigger,
-+using the hw_pattern attribute.
-+
-+/sys/class/leds/<led>/hw_pattern
-+--------------------------------
-+
-+Specify a hardware breath pattern for a MT6370 RGB LED.
-+
-+The breath pattern is a series of timing pairs, with the hold-time expressed in
-+milliseconds. And the brightness is controlled by
-+'/sys/class/leds/<led>/brightness'. The pattern doesn't include the brightness
-+setting. Hardware pattern only controls the timing for each pattern stage
-+depending on the current brightness setting.
-+
-+Pattern diagram::
-+
-+     "0 Tr1 0 Tr2 0 Tf1 0 Tf2 0 Ton 0 Toff" --> '0' for dummy brightness code
-+
-+      ^
-+      |           ============
-+      |          /            \                                /
-+Icurr |         /              \                              /
-+      |        /                \                            /
-+      |       /                  \                          /   .....repeat
-+      |      /                    \                        /
-+      |   ---                      ---                  ---
-+      |---                            ---            ---
-+      +----------------------------------============------------> Time
-+       < Tr1><Tr2><   Ton    ><Tf1><Tf2 ><  Toff    >< Tr1><Tr2>
-+
-+Timing description::
-+
-+Tr1:    First rising time for duty 0 to 30%.
-+Tr2:    Second rising time for duty 31% to 100%.
-+Ton:    On time for duty 100%.
-+Tf1:    First falling time for duty 100% to 31%.
-+Tf2:    Second falling time for duty 30% to 0%.
-+Toff:   Off time for duty 0%.
-+
-+Tr1/Tr2/Tf1/Tf2/Ton: 125ms to 3125ms, 200ms per step.
-+Toff: 250ms to 6250ms, 400ms per step.
-+
-+Pattern example::
-+
-+       "0 125 0 125 0 125 0 125 0 625 0 1050"
-+
-+This Will configure Tr1/Tr2/Tf1/Tf2 to 125m, Ton to 625ms, and Toff to 1050ms.
--- 
-2.7.4
-
+Yours,
+Linus Walleij
