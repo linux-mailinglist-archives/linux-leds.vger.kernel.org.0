@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D65D36B3270
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Mar 2023 00:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7E526B3290
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Mar 2023 01:12:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230093AbjCIX7A (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Mar 2023 18:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
+        id S231382AbjCJAMS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Mar 2023 19:12:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjCIX67 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 18:58:59 -0500
+        with ESMTP id S229827AbjCJAMR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Mar 2023 19:12:17 -0500
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC66E4C6E;
-        Thu,  9 Mar 2023 15:58:58 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C8B0111689;
+        Thu,  9 Mar 2023 16:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=kkckYUYlEpR0hik9N9jqBTopLfSh/l+Xu1nUM62mSF4=; b=OGzbOYAuD07fL4n+0DYs2d3o9B
-        G5zjeLDT2HuVe5qRqSgkaozaGotMCSBxxIU3V/4oXAIkVDttJgqfNJfi9bAAA/iwXT3JelN5avQ6B
-        nph1P84oozeg53oJ1Q2PjtcQ6xy3q40MbXEwvYJ8QuHqy4CkOFmr+B2CFOBpODaU9Qs4=;
+        bh=XwFWZ+VrNQufbXNI3wOtnkelo+LkhVdII6D+91nxRP8=; b=Muv1ZcFuf/S7O3QooyMSmBrtlr
+        Y56uZ5MX9cgb1tO2x3MeDEy0AOzPuItF7jUIOw9uVgNf6ink3WMRS71JEdOWOluAw90fcoiRY4cMQ
+        +32zGlxV7dP8tzOJtz9eSCe5GjmTVSq8yIcfblsZ3j47oI3VHjdY5M98mM5qFiSE63Qc=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1paQ9h-006vVt-Cg; Fri, 10 Mar 2023 00:58:41 +0100
-Date:   Fri, 10 Mar 2023 00:58:41 +0100
+        id 1paQMd-006vYs-Dy; Fri, 10 Mar 2023 01:12:03 +0100
+Date:   Fri, 10 Mar 2023 01:12:03 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Florian Fainelli <f.fainelli@gmail.com>,
@@ -48,32 +48,61 @@ Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v2 01/14] net: dsa: qca8k: move
- qca8k_port_to_phy() to header
-Message-ID: <673deedd-c973-4ba3-ad30-18838aecc2e1@lunn.ch>
+Subject: Re: [net-next PATCH v2 02/14] net: dsa: qca8k: add LEDs basic support
+Message-ID: <a8c60aa6-2a89-4b2e-b773-224c6a5b03c0@lunn.ch>
 References: <20230309223524.23364-1-ansuelsmth@gmail.com>
- <20230309223524.23364-2-ansuelsmth@gmail.com>
+ <20230309223524.23364-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230309223524.23364-2-ansuelsmth@gmail.com>
+In-Reply-To: <20230309223524.23364-3-ansuelsmth@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 11:35:11PM +0100, Christian Marangi wrote:
-> Move qca8k_port_to_phy() to qca8k header as it's useful for future
-> reference in Switch LEDs module since the same logic is applied to get
-> the right index of the switch port.
-> Make it inline as it's simple function that just decrease the port.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> +config NET_DSA_QCA8K_LEDS_SUPPORT
+> +	tristate "Qualcomm Atheros QCA8K Ethernet switch family LEDs support"
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Is tristate correct here? That means the code can either be built in,
+a module, or not built at all. Is that what you want?
 
-    Andrew
+It seems more normal to use a bool, not a tristate.
+
+> +static enum led_brightness
+> +qca8k_led_brightness_get(struct qca8k_led *led)
+> +{
+> +	struct qca8k_led_pattern_en reg_info;
+> +	struct qca8k_priv *priv = led->priv;
+> +	u32 val;
+> +	int ret;
+> +
+> +	qca8k_get_enable_led_reg(led->port_num, led->led_num, &reg_info);
+> +
+> +	ret = regmap_read(priv->regmap, reg_info.reg, &val);
+> +	if (ret)
+> +		return 0;
+> +
+> +	val >>= reg_info.shift;
+> +
+> +	if (led->port_num == 0 || led->port_num == 4) {
+> +		val &= QCA8K_LED_PATTERN_EN_MASK;
+> +		val >>= QCA8K_LED_PATTERN_EN_SHIFT;
+> +	} else {
+> +		val &= QCA8K_LED_PHY123_PATTERN_EN_MASK;
+> +	}
+> +
+> +	return val > 0 ? 1 : 0;
+> +}
+
+What will this return when in the future you add hardware offload, and
+the LED is actually blinking because of frames being sent etc?
+
+Is it better to not implement _get() when it is unclear what it should
+return when offload is in operation?
+
+       Andrew
