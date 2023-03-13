@@ -2,82 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48E886B7284
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Mar 2023 10:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D89246B7F04
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Mar 2023 18:12:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbjCMJ2h (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Mar 2023 05:28:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
+        id S230329AbjCMRMq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Mar 2023 13:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjCMJ23 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Mar 2023 05:28:29 -0400
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E06E59F5;
-        Mon, 13 Mar 2023 02:28:26 -0700 (PDT)
-Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S231411AbjCMRMh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Mar 2023 13:12:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8754378CAF;
+        Mon, 13 Mar 2023 10:12:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 38905D5A;
-        Mon, 13 Mar 2023 10:28:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1678699702;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=skyNVaDreGk4up3teBKgNO9R6cLkCNyVzzbEod9/6Rg=;
-        b=DVcf4ZYa6wHEiz4Cd/JqkKPK/bVkzbgR3vXVxQqyCz4xPnSTc5hFMWAWK1G2kM2Da2tOh8
-        1mqgEdMcSlshmtEWuUN//iZmO+qU7y7ww+jT+VU0aA4kn0bmh+3tuMo8CClkhCv37vNcQJ
-        2cyomQpVH3QWY8r5C67IBT3S4jSHwUCgODwpX7OQOfcFCe3SkM5yDTc6b5UkmJnXoFsz9G
-        +GtrMbMWOSiSJ/7lWGUHuGApEZlqEVj2WNwUhIahXmmKzWlzUmzS24azUvR4HGMSB/j5n8
-        reQW0KXi3WnoOadzpI3qw7SUtMmAKyJCWEfx0uO9Y3y14/l0u1C08rFx0hL58g==
-From:   Michael Walle <michael@walle.cc>
-To:     andrew@lunn.ch, Linus Walleij <linus.walleij@linaro.org>
-Cc:     Arun.Ramadoss@microchip.com, alexander.stein@ew.tq-group.com,
-        ansuelsmth@gmail.com, bagasdotme@gmail.com, corbet@lwn.net,
-        davem@davemloft.net, devicetree@vger.kernel.org,
-        edumazet@google.com, f.fainelli@gmail.com, hdegoede@redhat.com,
-        hkallweit1@gmail.com, jacek.anaszewski@gmail.com, john@phrozen.org,
-        krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lee@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux@armlinux.org.uk,
-        netdev@vger.kernel.org, olteanv@gmail.com, pabeni@redhat.com,
-        pavel@ucw.cz, rasmus.villemoes@prevas.dk,
-        rmk+kernel@armlinux.org.uk, robh+dt@kernel.org,
-        tharvey@gateworks.com, Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH v8 00/13] Adds support for PHY LEDs with offload triggers
-Date:   Mon, 13 Mar 2023 10:28:15 +0100
-Message-Id: <20230313092815.496442-1-michael@walle.cc>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <576d57cb-481c-46ba-9e3b-d3b7e3a4ec69@lunn.ch>
-References: <576d57cb-481c-46ba-9e3b-d3b7e3a4ec69@lunn.ch>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB84061381;
+        Mon, 13 Mar 2023 17:10:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E9CC433D2;
+        Mon, 13 Mar 2023 17:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678727457;
+        bh=TfkrdOzkQUc6TYJLSK83JqRjukZ8MCdi1haBPS0yyd0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pg5VRXnIcngq7qvpO+FpDE6R2M9IgmqIhh4f6wpLvdqtR1ZOtUNyoCm781m0KZWH6
+         My3GnouAAoEZZwcWEGA+9gJJg9ydwXakZnwJcx4wPt/0QU9gb7AIPKNgTt3uwzX36a
+         wR47lRLAQcQFTZFHgkSwVxvtuJM7RuqUdVxnSBpU7lNI2iNa4Imue5Ody4fUQODdc6
+         bktL8HhNj65VSir3iPDevgmTF2/3rETPzWdtzAAUa+9olqPQHZ0yS7JclZtrFzk8GM
+         KecJM6MW3Bfnhc3EVLcdHMVcH/StNCI564vOghwn4W8tCCfuwKxkR4RQK2D2dNs1it
+         QBMwARQKz/Kag==
+Date:   Mon, 13 Mar 2023 17:10:53 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: tlc591xx: Mark OF related data as maybe unused
+Message-ID: <20230313171053.GX9667@google.com>
+References: <20230311111717.252019-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam: Yes
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230311111717.252019-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > I think there will be a day when a switch without LED controller appears,
-> > but the system has a few LEDs for the ports connected to an
-> > arbitrary GPIO controller, and then we will need this. But we have
-> > not seen that yet :)
-> 
-> The microchip sparx5 might be going in that direction. It has what
-> looks like a reasonably generic sgpio controller:
-> drivers/pinctrl/pinctrl-microchip-sgpio.c
+On Sat, 11 Mar 2023, Krzysztof Kozlowski wrote:
 
-That gpio controller supports both, some kind of hardware controlled
-and pure software controlled mode. AFAIK the driver only supports
-software controlled mode (yet?). In any case, our board
-(arch/arm/boot/dts/lan966x-kontron-kswitch-d10-mmt.dtsi) is broken in
-a way that we are forced to use the software controlled mode anyway.
-Therefore, there is already such a board ;)
+> The driver can be compile tested with !CONFIG_OF making certain data
+> unused:
+>
+>   drivers/leds/leds-tlc591xx.c:138:34: error: ‘of_tlc591xx_leds_match’ defined but not used [-Werror=unused-const-variable=]
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/leds/leds-tlc591xx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
--michael
+Applied, thanks
+
+--
+Lee Jones [李琼斯]
