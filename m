@@ -2,130 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17CD6B9C1D
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 17:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96F816BA0BC
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 21:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbjCNQuj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Mar 2023 12:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33068 "EHLO
+        id S229675AbjCNU3i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Mar 2023 16:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbjCNQuh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 12:50:37 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84091A90A8;
-        Tue, 14 Mar 2023 09:50:35 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id bm1so928510qkb.13;
-        Tue, 14 Mar 2023 09:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678812634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qeeMTBeHxd/XKAWq9zMSxWQt+iGsLohYMBPFE0cHKVw=;
-        b=TEzl5OOjEfi4ZoGOkYN8gZFJ9gtcaQIqJwed9zRK/We5JdhhaPjWnKyIoazv/xeGma
-         jB/RIr1qGrOugUO+eFk1R5B+fT5Zw4TRiYkLR6VgwPWh6pK7kMDSaYY4th2TsTWhl0vR
-         mQa/iCgSU/2gX6ZcJ4l3UL8vJqPoK7I8vFJehWeb2gjdcy+1l1LJjEI95rh2AuSVGUwW
-         Oqnh82Q0MF621wl4L0Gn5IArlQX7YU7LIYIGG29D+lRj09YL8dDwaZaaodx6urCZZqZr
-         B8+oQBBPAPFJu53GBTK5I+7YJjWA0SIs1sNZaA6qkdfXmc3eapYpWYbi88C+IMGVD92v
-         bQmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678812634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qeeMTBeHxd/XKAWq9zMSxWQt+iGsLohYMBPFE0cHKVw=;
-        b=ThBM7SLvRRFXZFMCvzZ2sXoR8+kouJEoEaDQzqUAH8odh/MoJ8RKtKzJlnax9xCx5t
-         feDWMqx5IrRiLG9Tt5w006Ae7rarUVmdvW7Dv8qQ7AZdP/3JS7P+OuF35MjzPQsKzbOW
-         pi0NfPaRv1XZKQKZGtDBH1wUiXTWfD+jy865sbeQnWwZdXLp0LLXDvgUdo4kIIuJRilL
-         /ZP72CrrXJ8h3sWHiJ2TqcaUEkZHO0IhjkNKXyJAZCP7n0UK74D7Na1kVJWA3g70XjBn
-         ZcPvuJTg7NU/e4dYjvLuipPHYNTva6Vy6M3OLe9ikZLkEUxr081ohAILrIf+fT4tUpPf
-         tF5A==
-X-Gm-Message-State: AO0yUKXBDsg0OqCLIPZG66idNtqApPY+OA/M2jOfsvvpQ1mbKqbf6CDr
-        20kG5o6bGpxCh3bXvodFLeA4s3DgRLDsRGNmDeGcGNjkvQx1WA==
-X-Google-Smtp-Source: AK7set/RFZPS8a3N7ASDY49n0VTB0jswh+PB2qIEhyPfsAQHwJveha5H2uRDx8YRx1h+MqhkRHtiFgb2H3Vv5b1128Q=
-X-Received: by 2002:a05:620a:1389:b0:743:9b78:d97e with SMTP id
- k9-20020a05620a138900b007439b78d97emr3365593qki.14.1678812634602; Tue, 14 Mar
- 2023 09:50:34 -0700 (PDT)
+        with ESMTP id S229641AbjCNU3i (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 16:29:38 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F3C2BEED;
+        Tue, 14 Mar 2023 13:29:36 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 967191C0E01; Tue, 14 Mar 2023 21:29:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1678825774;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nJ8ZoDVBp9N2S7vrzr0YU2PolIoNsLTp2XBOlcdlIPg=;
+        b=BkSCCzU02feAm65GhqP0GWWI8z0CCoN7pMIy6PMi0oONerZwtL+8LOaHFoXDg170UqC2ce
+        620SxtcllPMosAjZWojyNv5hUk0dwzSnXQINwjmz2i7CDb+vCw9i6S3SVNGZz0gqmuIJJ0
+        vh4ZX7ptDoWwZVC36ZeE8TYuY/aPJ9k=
+Date:   Tue, 14 Mar 2023 21:29:34 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-omap@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] leds: Delete GPIO LED trigger
+Message-ID: <ZBDZLgb1+2aMTE7A@duo.ucw.cz>
+References: <20230314115940.411939-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-References: <20230314120252.48263-1-mmkurbanov@sberdevices.ru>
- <20230314120252.48263-3-mmkurbanov@sberdevices.ru> <3b920b9e-07dc-7bda-4fe1-d15d07e708cc@sberdevices.ru>
- <CAHp75VcWuOEWZn2E8dG=Pb_KuEv06jYt_+nZSL-ceAQRPmgeGw@mail.gmail.com>
-In-Reply-To: <CAHp75VcWuOEWZn2E8dG=Pb_KuEv06jYt_+nZSL-ceAQRPmgeGw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Mar 2023 18:49:58 +0200
-Message-ID: <CAHp75Vd5goCgubOyaR2FFPi05eCfguh7XqP7MnHd6qP_o7wEmw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] leds: add aw20xx driver
-To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@sberdevices.ru, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="tKhNwwcLaBcO0xrj"
+Content-Disposition: inline
+In-Reply-To: <20230314115940.411939-1-linus.walleij@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 6:22=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Tue, Mar 14, 2023 at 2:12=E2=80=AFPM Martin Kurbanov
-> <mmkurbanov@sberdevices.ru> wrote:
-> > On 2023-03-01 00:51, Andy Shevchenko wrote:
 
-...
+--tKhNwwcLaBcO0xrj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > >> +static int aw200xx_set_imax(const struct aw200xx *const chip,
-> > >> +                           u32 led_imax_microamp)
-> > >> +{
-> > >> +       struct imax_global {
-> > >> +               u32 regval;
-> > >> +               u32 microamp;
-> > >> +       } imaxs[] =3D {
-> > >> +               { 8,  3300 },
-> > >> +               { 9,  6700 },
-> > >> +               { 0,  10000 },
-> > >> +               { 11, 13300 },
-> > >> +               { 1,  20000 },
-> > >> +               { 13, 26700 },
-> > >> +               { 2,  30000 },
-> > >> +               { 3,  40000 },
-> > >> +               { 15, 53300 },
-> > >> +               { 4,  60000 },
-> > >> +               { 5,  80000 },
-> > >> +               { 6,  120000 },
-> > >> +               { 7,  160000 },
-> > >
-> > > This looks a bit random. Is there any pattern on how value is
-> > > connected to the register value?
-> >
-> > There is no ability to create any pattern here, because this table data
-> > doesn=E2=80=99t have any regularity.
->
-> There is a clear pattern.
->
-> You have two tables, i.e. with multiplier 10000 and second one with
-> multiplier 3333 (table in the datasheet seems bad from a math
-> perspective). And it's even shown correctly in the datasheet.
->
-> With this mix you missed 10.
->
-> The coefficient table is 1,2,3,4,6,8,12,16 for both tables.
->
-> Hence you need one table and two multipliers.
->
-> Please, rewrite accordingly.
+Hi!
 
-JFYI: You may see how I killed a table in one driver due to missing
-understanding that there is a pattern.
-9df461eca18f ("spi: pxa2xx: replace ugly table by approximation")
+> The GPIO LED trigger exposes a userspace ABI where a user
+> can echo a GPIO number from the global GPIO numberspace into
+> a file that will trigger a certain LED when active.
+>=20
+> This is problematic because the global GPIO numberspace is
+> inherently instable. The trigger came about at a time when
+> systems had one GPIO controller that defined hard-wired
+> GPIOs numbered 0..N and this number space was stable.
+>=20
+> We have since moved to dynamic allocation of GPIO numbers
+> and there is no real guarantee that a GPIO number will stay
+> consistent even across a reboot: consider a USB attached
+> GPIO controller for example. Or two. Or the effect of
+> probe order after adding -EPROBE_DEFER to the kernel.
 
+So... what? If your system is one of those with single GPIO
+controller, you can still use it. If you have modern "complex" system,
+your userspace can find out desired GPIO number and then use it.
+
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/leds/trigger/ledtrig-gpio.c | 202 ----------------------------
+
+No. :-).
+
+You'd need to delete it from Kconfig/Makefile, too.
+
+But this is not how we handle deletions.
+
+Likely noone will miss this trigger, but correct way is to mark it as
+deprecated / broken in Kconfig, first, and see who screams.
+
+Best regards,
+								Pavel
 --=20
-With Best Regards,
-Andy Shevchenko
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--tKhNwwcLaBcO0xrj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBDZLgAKCRAw5/Bqldv6
+8klMAJ9RYjzXTBTo4QfS2v/LhV6OgE+IRQCeNI5XEn8aDS6eILWYfiQJoWARBEQ=
+=qCyO
+-----END PGP SIGNATURE-----
+
+--tKhNwwcLaBcO0xrj--
