@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D70E26B9BFE
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 17:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F17CD6B9C1D
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 17:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbjCNQpe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Mar 2023 12:45:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
+        id S230133AbjCNQuj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Mar 2023 12:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230463AbjCNQpb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 12:45:31 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35A6A64AD;
-        Tue, 14 Mar 2023 09:45:26 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id cu4so8254646qvb.3;
-        Tue, 14 Mar 2023 09:45:26 -0700 (PDT)
+        with ESMTP id S230475AbjCNQuh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 12:50:37 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84091A90A8;
+        Tue, 14 Mar 2023 09:50:35 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id bm1so928510qkb.13;
+        Tue, 14 Mar 2023 09:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678812326;
+        d=gmail.com; s=20210112; t=1678812634;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VdH/5tiGslIXjo9pRAgsvefM7NtTI9gCyWlT7umnQ1M=;
-        b=pdvazNzlt9asPbITncS0bwvm7VfDGEnWgTIlviEmJ1GZwBuK3YnlZFRCIb0lkG2qAj
-         PMRkVhMdP/rvK/yOWxnV6zhuhxUErynmKworzO2jbRAaJhvwskZclT9HkbsMAMgSwGj9
-         3RrgxGCjazsXUHzbA+Z6RD2bQLAghRODxb80cWfmXH5BwjuX+0jBOqk0A0jv71RA+Lot
-         SWgbDOahxsLvHmQpp3++Ygew1YmZGvvJ4Demqj8yMrYuzl4SDrYYQ4M0L9X+k5YGHNin
-         vAhQsK8Yl4GFrJwl5/EeB5qd6JELrGeDAOJ4nT1xMTb6l6gklqSSwpz/G/dmtBLBO3uv
-         bibA==
+        bh=qeeMTBeHxd/XKAWq9zMSxWQt+iGsLohYMBPFE0cHKVw=;
+        b=TEzl5OOjEfi4ZoGOkYN8gZFJ9gtcaQIqJwed9zRK/We5JdhhaPjWnKyIoazv/xeGma
+         jB/RIr1qGrOugUO+eFk1R5B+fT5Zw4TRiYkLR6VgwPWh6pK7kMDSaYY4th2TsTWhl0vR
+         mQa/iCgSU/2gX6ZcJ4l3UL8vJqPoK7I8vFJehWeb2gjdcy+1l1LJjEI95rh2AuSVGUwW
+         Oqnh82Q0MF621wl4L0Gn5IArlQX7YU7LIYIGG29D+lRj09YL8dDwaZaaodx6urCZZqZr
+         B8+oQBBPAPFJu53GBTK5I+7YJjWA0SIs1sNZaA6qkdfXmc3eapYpWYbi88C+IMGVD92v
+         bQmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678812326;
+        d=1e100.net; s=20210112; t=1678812634;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VdH/5tiGslIXjo9pRAgsvefM7NtTI9gCyWlT7umnQ1M=;
-        b=soQHuEbWl2EB03i4nHr9bTDTg/oNVfeXVC4ImaKOsUKphhinQ4vktm4aNMoJFqeTvp
-         T4ljLiMkC0OTGXHekBPYkznJPSqMi1hY/VaHwsf3wClzcxnmaYWLwK0yaPLTNOCgShyU
-         o1iCPhq7Q/jjr+TKoxd8Z/oby3zGlJgawJEClXq3EUjvM5KNkwJQA7Jed3ymiPhGj5YC
-         ODbiwg3p58ZogviVJr8v8Jud1QicLdk5WmHMc42GeGvQhcStNuPKtmHlKaDbJhae+keK
-         8G/FtclYqXyY2mGJUe6NuqX4a9bLRGYEVY9uHFfog8yLA57Q9/LR++Bu2BL7Q/Q74np0
-         0vqg==
-X-Gm-Message-State: AO0yUKWjVNNdyl5e/KNGVB7HN0Lno1jCME6r+xWSqUOBE8yVnvCxColZ
-        GJ5Sy2IFING57yHj+Cf8Gm93PiZiyEdiLKnuh0g=
-X-Google-Smtp-Source: AK7set+N1LCjbpqURs62eAi7MdOfmfP1ucOIy/8fsKu4jag6zGzk/aq51CcQNf0qTslP9ffYaiek/RS/tonm4ppvXGc=
-X-Received: by 2002:ad4:5a03:0:b0:56e:9104:ee7 with SMTP id
- ei3-20020ad45a03000000b0056e91040ee7mr2947112qvb.10.1678812325704; Tue, 14
- Mar 2023 09:45:25 -0700 (PDT)
+        bh=qeeMTBeHxd/XKAWq9zMSxWQt+iGsLohYMBPFE0cHKVw=;
+        b=ThBM7SLvRRFXZFMCvzZ2sXoR8+kouJEoEaDQzqUAH8odh/MoJ8RKtKzJlnax9xCx5t
+         feDWMqx5IrRiLG9Tt5w006Ae7rarUVmdvW7Dv8qQ7AZdP/3JS7P+OuF35MjzPQsKzbOW
+         pi0NfPaRv1XZKQKZGtDBH1wUiXTWfD+jy865sbeQnWwZdXLp0LLXDvgUdo4kIIuJRilL
+         /ZP72CrrXJ8h3sWHiJ2TqcaUEkZHO0IhjkNKXyJAZCP7n0UK74D7Na1kVJWA3g70XjBn
+         ZcPvuJTg7NU/e4dYjvLuipPHYNTva6Vy6M3OLe9ikZLkEUxr081ohAILrIf+fT4tUpPf
+         tF5A==
+X-Gm-Message-State: AO0yUKXBDsg0OqCLIPZG66idNtqApPY+OA/M2jOfsvvpQ1mbKqbf6CDr
+        20kG5o6bGpxCh3bXvodFLeA4s3DgRLDsRGNmDeGcGNjkvQx1WA==
+X-Google-Smtp-Source: AK7set/RFZPS8a3N7ASDY49n0VTB0jswh+PB2qIEhyPfsAQHwJveha5H2uRDx8YRx1h+MqhkRHtiFgb2H3Vv5b1128Q=
+X-Received: by 2002:a05:620a:1389:b0:743:9b78:d97e with SMTP id
+ k9-20020a05620a138900b007439b78d97emr3365593qki.14.1678812634602; Tue, 14 Mar
+ 2023 09:50:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230314120252.48263-1-mmkurbanov@sberdevices.ru> <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
-In-Reply-To: <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
+References: <20230314120252.48263-1-mmkurbanov@sberdevices.ru>
+ <20230314120252.48263-3-mmkurbanov@sberdevices.ru> <3b920b9e-07dc-7bda-4fe1-d15d07e708cc@sberdevices.ru>
+ <CAHp75VcWuOEWZn2E8dG=Pb_KuEv06jYt_+nZSL-ceAQRPmgeGw@mail.gmail.com>
+In-Reply-To: <CAHp75VcWuOEWZn2E8dG=Pb_KuEv06jYt_+nZSL-ceAQRPmgeGw@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Mar 2023 18:44:49 +0200
-Message-ID: <CAHp75Vfuf0HYfEy88g6srrVnxAgS42SzF06AVzSuACN_a9pqJg@mail.gmail.com>
+Date:   Tue, 14 Mar 2023 18:49:58 +0200
+Message-ID: <CAHp75Vd5goCgubOyaR2FFPi05eCfguh7XqP7MnHd6qP_o7wEmw@mail.gmail.com>
 Subject: Re: [PATCH v3 2/2] leds: add aw20xx driver
 To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
@@ -71,226 +73,59 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 2:03=E2=80=AFPM Martin Kurbanov
-<mmkurbanov@sberdevices.ru> wrote:
+On Tue, Mar 14, 2023 at 6:22=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Tue, Mar 14, 2023 at 2:12=E2=80=AFPM Martin Kurbanov
+> <mmkurbanov@sberdevices.ru> wrote:
+> > On 2023-03-01 00:51, Andy Shevchenko wrote:
+
+...
+
+> > >> +static int aw200xx_set_imax(const struct aw200xx *const chip,
+> > >> +                           u32 led_imax_microamp)
+> > >> +{
+> > >> +       struct imax_global {
+> > >> +               u32 regval;
+> > >> +               u32 microamp;
+> > >> +       } imaxs[] =3D {
+> > >> +               { 8,  3300 },
+> > >> +               { 9,  6700 },
+> > >> +               { 0,  10000 },
+> > >> +               { 11, 13300 },
+> > >> +               { 1,  20000 },
+> > >> +               { 13, 26700 },
+> > >> +               { 2,  30000 },
+> > >> +               { 3,  40000 },
+> > >> +               { 15, 53300 },
+> > >> +               { 4,  60000 },
+> > >> +               { 5,  80000 },
+> > >> +               { 6,  120000 },
+> > >> +               { 7,  160000 },
+> > >
+> > > This looks a bit random. Is there any pattern on how value is
+> > > connected to the register value?
+> >
+> > There is no ability to create any pattern here, because this table data
+> > doesn=E2=80=99t have any regularity.
 >
-> This commit adds support for AWINIC AW20036/AW20054/AW20072 LED driver.
-> This driver supports following AW200XX features:
->   - Individual 64-level DIM currents
-
-As said, please give a chance reviewer to answer your questions before
-issuing a new version. You will save yours time in the first place and
-reviewer's and others' at the second.
-
-
-...
-
-> +config LEDS_AW200XX
-> +       tristate "LED support for Awinic AW20036/AW20054/AW20072"
-> +       depends on LEDS_CLASS
-> +       depends on I2C
-
-> +       depends on OF
-
-I don't see any dependency. Do you?
-
-...
-
-> +#include <linux/bitfield.h>
-
-bits.h needs to be included, it's not guaranteed to be by any of the
-present headers in this list.
-
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/regmap.h>
-
-+ container_of.h
-
-...
-
-> +#define AW200XX_PAT0_T2_LT_MSB(x)   ((x) >> 8)
-> +#define AW200XX_PAT0_T3_LT_LSB(x)   ((x) & 0xFF)
-> +#define AW200XX_PAT0_T_LT(msb, lsb) ((msb) << 8 | (lsb))
-
-Are these being in use anyhow?
-
-Please, do not add dead definitions if they are not currently in use
-and do not add value to understanding how hardware works for the
-implemented things.
-
-...
-
-> +/* Patern selection register*/
-
-Pattern
-
-...
-
-> +/* Duty ratio of display scan (see p.15 of datasheet for formula) */
-> +#define AW200XX_DUTY_RATIO(rows) \
-> +       (((592UL * 1000000UL) / 600500UL) * (1000UL / (rows)) / 1000UL)
-
-Instead of referring to a page in the datasheet, quote the formula and
-a bit of text.
-
-So, now as I read it I can tell how it can be improved.
-The first six 0:s multiplier is actually USEC_PER_SEC in the kernel.
-
-The 1000 is your addition which needs to be explained. It may be just
-MILLI or KILO depending on what you have in mind with it.
-
-...
-
-> +struct aw200xx {
-> +       const struct aw200xx_chipdef *cdef;
-> +       struct i2c_client *client;
-
-> +       struct regmap *regmap;
-
-You may derive this from &client->dev, right? The API dev_get_regmap().
-
-> +       struct mutex mutex;
-> +       u32 num_leds;
-> +       u32 display_rows;
-> +       struct aw200xx_led leds[];
-> +};
-
-...
-
-> +       if (sysfs_streq(buf, "auto")) {
-> +               dim =3D -1;
-> +       } else {
-> +               ret =3D kstrtoint(buf, 0, &dim);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               if (dim > AW200XX_DIM_MAX)
-> +                       return -EINVAL;
-
-And if dim is < 0, does ir mean "auto"? If so, is it documented?
-
-> +       }
-
-...
-
-> +static DEVICE_ATTR(dim, 0644, aw200xx_dim_show, aw200xx_dim_store);
-
-DEVICE_ATTR_RW() ?
-
-...
-
-> +       mutex_lock(&chip->mutex);
-> +
-> +       reg =3D AW200XX_REG_DIM(led->num, chip->cdef->display_size_column=
-s);
-
-> +       dim =3D led->dim;
-> +
-
-This blank line should go before a dim assignment.
-
-> +       if (dim < 0) {
-
-> +               dim =3D brightness / (AW200XX_FADE_MAX / AW200XX_DIM_MAX)=
-;
-> +               dim =3D max(dim, 1);
-
-Can it be written in a single assignment?
-
-  dim =3D max(brightness / (AW200XX_FADE_MAX / AW200XX_DIM_MAX), 1)
-
-> +       }
-
-...
-
-> +error:
-
-In one function it's called the exit, here it's the error, please be
-consistent and I think the more precise is to use something like
-'out_unlock'.
-
-> +       mutex_unlock(&chip->mutex);
-> +
-> +       return ret;
-> +}
-
-...
-
-> +       /* The output current of each LED (see p.14 of datasheet for form=
-ula) */
-
-Again, put more comments. Do not push the reader to find a Datasheet
-which I do not see the link to in the commit message.
-
-> +       return (duty * global_imax_uA) / 1000U;
-
-So, this seems like the same meaning as 1000 in the macro, correct?
-Please explain the use of it.
-The best, if you think units.h doesn't provide it, define in your driver.
-
-...
-
-> +       /* The output current of each LED (see p.14 of datasheet for form=
-ula) */
-> +       return (led_imax_uA * 1000U) / duty;
-
-All the same as per above.
-
-...
-
-> +       {
-> +               { 8,  3300 },
-> +               { 9,  6700 },
-> +               { 0,  10000 },
-> +               { 11, 13300 },
-> +               { 1,  20000 },
-> +               { 13, 26700 },
-> +               { 2,  30000 },
-> +               { 3,  40000 },
-> +               { 15, 53300 },
-> +               { 4,  60000 },
-> +               { 5,  80000 },
-> +               { 6,  120000 },
-> +               { 7,  160000 },
-> +       };
-
-Yeah, as per previous email, use exactly what Datasheet provides you.
-There is a clear pattern and clear math mistakes in the datasheet
-itself.
-
-...
-
-> +static const struct regmap_config aw200xx_regmap_config =3D {
-> +       .reg_bits =3D 8,
-> +       .val_bits =3D 8,
-> +       .max_register =3D AW200XX_REG_MAX,
-> +       .ranges =3D aw200xx_ranges,
-> +       .num_ranges =3D ARRAY_SIZE(aw200xx_ranges),
-> +       .rd_table =3D &aw200xx_readable_table,
-> +       .wr_table =3D &aw200xx_writeable_table,
-> +       .volatile_table =3D &aw200xx_volatile_table,
-> +       .cache_type =3D REGCACHE_RBTREE,
-
-You have a mutex, why do you need to use regmap's lock?
-
-> +};
-
-...
-
-> +       cdef =3D device_get_match_data(&client->dev);
-
-Is it fine if it's NULL?
-
-...
-
-> +       chip->cdef =3D cdef;
-
-Can it be assigned directly here w.o temporary variable?
-
---
+> There is a clear pattern.
+>
+> You have two tables, i.e. with multiplier 10000 and second one with
+> multiplier 3333 (table in the datasheet seems bad from a math
+> perspective). And it's even shown correctly in the datasheet.
+>
+> With this mix you missed 10.
+>
+> The coefficient table is 1,2,3,4,6,8,12,16 for both tables.
+>
+> Hence you need one table and two multipliers.
+>
+> Please, rewrite accordingly.
+
+JFYI: You may see how I killed a table in one driver due to missing
+understanding that there is a pattern.
+9df461eca18f ("spi: pxa2xx: replace ugly table by approximation")
+
+--=20
 With Best Regards,
 Andy Shevchenko
