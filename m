@@ -2,206 +2,325 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4286B8A2B
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 06:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B136B9274
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 13:00:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjCNFQU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Mar 2023 01:16:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
+        id S231686AbjCNMAj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Mar 2023 08:00:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjCNFQT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 01:16:19 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 536668EA11
-        for <linux-leds@vger.kernel.org>; Mon, 13 Mar 2023 22:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678770978; x=1710306978;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=t+SNnTN6H5to+56k65r4XGDx7lFIIttMCbI1SRqX9TY=;
-  b=Y+xD4FYUTkAKUBswpRXLUlw47zrxJymACrEgm5CkHP0g/+bv0p4QaH8S
-   B1vnxlrha47DHOP5bLXQ4sXiBM1fS1XIaI2NTZgCPgJQCMisPdcETacKQ
-   XrfFZv5zPiF/Fyq0vEDZMQP67e6XyGR971x9yf8stVkJgDscIGFz/K8LH
-   3QfsHjmgEbu6y5zpCOrNFn/5wuJQko6UDI7G4POtVQSTgauqilP0uZW+p
-   Y1og0bTVgE7nBK2pWCSyD95MxQYBSuS59L/COzWI025Mkh5QkJdmfC6hr
-   Xja0kcaCOEwls+knPOzjXc5J+QjCT8ZkvCW6XdTOwxjxBDRtsfRr2EQ3M
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321187303"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="321187303"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 22:16:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="743167905"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="743167905"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 13 Mar 2023 22:16:16 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pbx1D-0006YZ-0v;
-        Tue, 14 Mar 2023 05:16:15 +0000
-Date:   Tue, 14 Mar 2023 13:16:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- faa7f34a47f057dee571861eccadfe81834dde6c
-Message-ID: <64100316.tqhL0xTNFeHw7f/Z%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S231697AbjCNMAa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 08:00:30 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F007BA0286
+        for <linux-leds@vger.kernel.org>; Tue, 14 Mar 2023 05:00:04 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id g17so19682036lfv.4
+        for <linux-leds@vger.kernel.org>; Tue, 14 Mar 2023 05:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678795182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ViP+MAHVi9ZX7WmXnnlEqSV44cIxrdPJm6mHwoawDgM=;
+        b=gI4K0yab0tI/hvQk5FfB96VwA8JGsKdD5yzdodVHZZBhJ+AyW7y2OZ6I5PEVxDJRxf
+         MhhthPdiQHCBjsLw6fToZxWOi8Guu19sGyaRZeeVbpGrGp9AsX71lNuxuA9DZTwetFBm
+         gJD1KS6/tFf9u4VsUHQq2RJYWNwq6g5gF1s3khcsDMS7KRNqYPo9ct03fxvUE+x/I8WW
+         5DyB14AVtnDGufYVv+m9C4Y0keOlxWS8m47QRKK+u40sjrregKT5OKShXWOppTSvqMZM
+         bmXBgBCT1aLT1BERU9nMQRzTE2jyxXGaMRphDSLM9Xcyuw4FLtXsc12JGuKc/pxsbglT
+         tIdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678795182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ViP+MAHVi9ZX7WmXnnlEqSV44cIxrdPJm6mHwoawDgM=;
+        b=CPU8ExWairqXJqHBCdiEQWt3ETK3fgjGrlgGA8NTi6WZlpFyEmSa2JMIrzchNWuNfw
+         NqcjJwzqmeDSjyeBUMe9exrtPtv2rJ2/iouhafWh93gjzD21fcJD2DVK4VFyyVfQzzRG
+         er84A6T7xPB7ObarYB6rXp83dv+SJ8cbncWjzfCTYCK9GYJsK+teTZr5bk5J3tRS0C9p
+         QmY7V3j95BvsMA9ETKdU/yP26GmE6cm2/3qMzL5XaOyNX/JxTwxcQ25JhexD1SDRw+gs
+         Xx1FU+VOr4rmc+uf5AsgLBSjJxq2l+aBYjpXZUiJBPjwXfg7CyPVJKlwXqb6IeSBbZhc
+         yTOQ==
+X-Gm-Message-State: AO0yUKWQcOdq+G9L3BBRawTcjTEv0fW0kjtE9nVmEj+7eeLsoyzQ/XIN
+        ZTjRkL34EtmYGzM8itQCZhdANdpNazqtsymNWzI=
+X-Google-Smtp-Source: AK7set9HxJWvCWZqRUD1AUMJ2jgecIt1ciTlkSlWfUSEIAx/SP8rU0kevunAothDR/ypZkpuLAOmrg==
+X-Received: by 2002:ac2:5966:0:b0:4b6:a6e4:ab7a with SMTP id h6-20020ac25966000000b004b6a6e4ab7amr598959lfp.8.1678795182136;
+        Tue, 14 Mar 2023 04:59:42 -0700 (PDT)
+Received: from fedora.. ([85.235.12.219])
+        by smtp.gmail.com with ESMTPSA id q19-20020ac25293000000b004dc4b00a1f3sm373747lfm.253.2023.03.14.04.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 04:59:41 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-omap@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: [PATCH] leds: Delete GPIO LED trigger
+Date:   Tue, 14 Mar 2023 12:59:40 +0100
+Message-Id: <20230314115940.411939-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: faa7f34a47f057dee571861eccadfe81834dde6c  leds: tlc591xx: Mark OF related data as maybe unused
+The GPIO LED trigger exposes a userspace ABI where a user
+can echo a GPIO number from the global GPIO numberspace into
+a file that will trigger a certain LED when active.
 
-elapsed time: 723m
+This is problematic because the global GPIO numberspace is
+inherently instable. The trigger came about at a time when
+systems had one GPIO controller that defined hard-wired
+GPIOs numbered 0..N and this number space was stable.
 
-configs tested: 127
-configs skipped: 9
+We have since moved to dynamic allocation of GPIO numbers
+and there is no real guarantee that a GPIO number will stay
+consistent even across a reboot: consider a USB attached
+GPIO controller for example. Or two. Or the effect of
+probe order after adding -EPROBE_DEFER to the kernel.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The trigger was added to support keypad LEDs on the Nokia
+n810 from the GPIO event when a user slides up/down the
+keypad. This is arch/arm/boot/dts/omap2420-n810.dts.
+A userspace script is needed to activate the trigger.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r001-20230313   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r002-20230313   gcc  
-alpha                randconfig-r026-20230313   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r004-20230312   gcc  
-arc                  randconfig-r024-20230313   gcc  
-arc                  randconfig-r031-20230312   gcc  
-arc                  randconfig-r034-20230312   gcc  
-arc                  randconfig-r043-20230312   gcc  
-arc                  randconfig-r043-20230313   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r024-20230312   clang
-arm                  randconfig-r046-20230312   clang
-arm                  randconfig-r046-20230313   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r012-20230313   clang
-arm64                randconfig-r013-20230312   gcc  
-arm64                randconfig-r034-20230313   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r003-20230312   gcc  
-csky                 randconfig-r025-20230312   gcc  
-csky                 randconfig-r035-20230312   gcc  
-hexagon              randconfig-r001-20230312   clang
-hexagon              randconfig-r005-20230313   clang
-hexagon              randconfig-r016-20230313   clang
-hexagon              randconfig-r033-20230312   clang
-hexagon              randconfig-r035-20230313   clang
-hexagon              randconfig-r041-20230312   clang
-hexagon              randconfig-r041-20230313   clang
-hexagon              randconfig-r045-20230312   clang
-hexagon              randconfig-r045-20230313   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230313   gcc  
-i386                 randconfig-a002-20230313   gcc  
-i386                 randconfig-a003-20230313   gcc  
-i386                 randconfig-a004-20230313   gcc  
-i386                 randconfig-a005-20230313   gcc  
-i386                 randconfig-a006-20230313   gcc  
-i386                 randconfig-a011-20230313   clang
-i386                 randconfig-a012-20230313   clang
-i386                 randconfig-a013-20230313   clang
-i386                 randconfig-a014-20230313   clang
-i386                 randconfig-a015-20230313   clang
-i386                 randconfig-a016-20230313   clang
-i386                 randconfig-r023-20230313   clang
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r006-20230313   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r036-20230313   gcc  
-m68k                             allmodconfig   gcc  
-m68k         buildonly-randconfig-r006-20230313   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r003-20230313   gcc  
-microblaze           randconfig-r023-20230312   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r031-20230313   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r012-20230312   gcc  
-nios2                randconfig-r014-20230312   gcc  
-openrisc             randconfig-r032-20230312   gcc  
-openrisc             randconfig-r036-20230312   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r005-20230312   gcc  
-parisc               randconfig-r033-20230313   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r003-20230313   clang
-powerpc              randconfig-r016-20230312   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r011-20230313   clang
-riscv                randconfig-r042-20230312   gcc  
-riscv                randconfig-r042-20230313   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r002-20230312   clang
-s390                 randconfig-r013-20230313   clang
-s390                 randconfig-r025-20230313   clang
-s390                 randconfig-r044-20230312   gcc  
-s390                 randconfig-r044-20230313   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r002-20230313   gcc  
-sh                   randconfig-r022-20230312   gcc  
-sh                   randconfig-r022-20230313   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r014-20230313   gcc  
-sparc64              randconfig-r001-20230313   gcc  
-sparc64              randconfig-r004-20230313   gcc  
-sparc64              randconfig-r021-20230313   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r004-20230313   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230313   gcc  
-x86_64               randconfig-a002-20230313   gcc  
-x86_64               randconfig-a003-20230313   gcc  
-x86_64               randconfig-a004-20230313   gcc  
-x86_64               randconfig-a005-20230313   gcc  
-x86_64               randconfig-a006-20230313   gcc  
-x86_64               randconfig-a011-20230313   clang
-x86_64               randconfig-a012-20230313   clang
-x86_64               randconfig-a013-20230313   clang
-x86_64               randconfig-a014-20230313   clang
-x86_64               randconfig-a015-20230313   clang
-x86_64               randconfig-a016-20230313   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r015-20230312   gcc  
-xtensa               randconfig-r032-20230313   gcc  
+I want to know that this trigger has active users that
+cannot live without it if we are to continue to support it.
+Otherwise: delete it.
 
+As second option: I can develop a new trigger that can associate
+GPIOs with LEDs as triggers using device tree, which should
+also remove the use of userspace custom scripts to achieve
+this and be much more trustworthy, if someone with the Nokia
+n810 or a device with a similar need is willing to test it.
+
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: linux-omap@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/leds/trigger/ledtrig-gpio.c | 202 ----------------------------
+ 1 file changed, 202 deletions(-)
+ delete mode 100644 drivers/leds/trigger/ledtrig-gpio.c
+
+diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+deleted file mode 100644
+index 0120faa3dafa..000000000000
+--- a/drivers/leds/trigger/ledtrig-gpio.c
++++ /dev/null
+@@ -1,202 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * ledtrig-gio.c - LED Trigger Based on GPIO events
+- *
+- * Copyright 2009 Felipe Balbi <me@felipebalbi.com>
+- */
+-
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/gpio.h>
+-#include <linux/interrupt.h>
+-#include <linux/leds.h>
+-#include <linux/slab.h>
+-#include "../leds.h"
+-
+-struct gpio_trig_data {
+-	struct led_classdev *led;
+-
+-	unsigned desired_brightness;	/* desired brightness when led is on */
+-	unsigned inverted;		/* true when gpio is inverted */
+-	unsigned gpio;			/* gpio that triggers the leds */
+-};
+-
+-static irqreturn_t gpio_trig_irq(int irq, void *_led)
+-{
+-	struct led_classdev *led = _led;
+-	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+-	int tmp;
+-
+-	tmp = gpio_get_value_cansleep(gpio_data->gpio);
+-	if (gpio_data->inverted)
+-		tmp = !tmp;
+-
+-	if (tmp) {
+-		if (gpio_data->desired_brightness)
+-			led_set_brightness_nosleep(gpio_data->led,
+-					   gpio_data->desired_brightness);
+-		else
+-			led_set_brightness_nosleep(gpio_data->led, LED_FULL);
+-	} else {
+-		led_set_brightness_nosleep(gpio_data->led, LED_OFF);
+-	}
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static ssize_t gpio_trig_brightness_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-
+-	return sprintf(buf, "%u\n", gpio_data->desired_brightness);
+-}
+-
+-static ssize_t gpio_trig_brightness_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t n)
+-{
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-	unsigned desired_brightness;
+-	int ret;
+-
+-	ret = sscanf(buf, "%u", &desired_brightness);
+-	if (ret < 1 || desired_brightness > 255) {
+-		dev_err(dev, "invalid value\n");
+-		return -EINVAL;
+-	}
+-
+-	gpio_data->desired_brightness = desired_brightness;
+-
+-	return n;
+-}
+-static DEVICE_ATTR(desired_brightness, 0644, gpio_trig_brightness_show,
+-		gpio_trig_brightness_store);
+-
+-static ssize_t gpio_trig_inverted_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-
+-	return sprintf(buf, "%u\n", gpio_data->inverted);
+-}
+-
+-static ssize_t gpio_trig_inverted_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t n)
+-{
+-	struct led_classdev *led = led_trigger_get_led(dev);
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-	unsigned long inverted;
+-	int ret;
+-
+-	ret = kstrtoul(buf, 10, &inverted);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (inverted > 1)
+-		return -EINVAL;
+-
+-	gpio_data->inverted = inverted;
+-
+-	/* After inverting, we need to update the LED. */
+-	if (gpio_is_valid(gpio_data->gpio))
+-		gpio_trig_irq(0, led);
+-
+-	return n;
+-}
+-static DEVICE_ATTR(inverted, 0644, gpio_trig_inverted_show,
+-		gpio_trig_inverted_store);
+-
+-static ssize_t gpio_trig_gpio_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
+-{
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-
+-	return sprintf(buf, "%u\n", gpio_data->gpio);
+-}
+-
+-static ssize_t gpio_trig_gpio_store(struct device *dev,
+-		struct device_attribute *attr, const char *buf, size_t n)
+-{
+-	struct led_classdev *led = led_trigger_get_led(dev);
+-	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+-	unsigned gpio;
+-	int ret;
+-
+-	ret = sscanf(buf, "%u", &gpio);
+-	if (ret < 1) {
+-		dev_err(dev, "couldn't read gpio number\n");
+-		return -EINVAL;
+-	}
+-
+-	if (gpio_data->gpio == gpio)
+-		return n;
+-
+-	if (!gpio_is_valid(gpio)) {
+-		if (gpio_is_valid(gpio_data->gpio))
+-			free_irq(gpio_to_irq(gpio_data->gpio), led);
+-		gpio_data->gpio = gpio;
+-		return n;
+-	}
+-
+-	ret = request_threaded_irq(gpio_to_irq(gpio), NULL, gpio_trig_irq,
+-			IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_RISING
+-			| IRQF_TRIGGER_FALLING, "ledtrig-gpio", led);
+-	if (ret) {
+-		dev_err(dev, "request_irq failed with error %d\n", ret);
+-	} else {
+-		if (gpio_is_valid(gpio_data->gpio))
+-			free_irq(gpio_to_irq(gpio_data->gpio), led);
+-		gpio_data->gpio = gpio;
+-		/* After changing the GPIO, we need to update the LED. */
+-		gpio_trig_irq(0, led);
+-	}
+-
+-	return ret ? ret : n;
+-}
+-static DEVICE_ATTR(gpio, 0644, gpio_trig_gpio_show, gpio_trig_gpio_store);
+-
+-static struct attribute *gpio_trig_attrs[] = {
+-	&dev_attr_desired_brightness.attr,
+-	&dev_attr_inverted.attr,
+-	&dev_attr_gpio.attr,
+-	NULL
+-};
+-ATTRIBUTE_GROUPS(gpio_trig);
+-
+-static int gpio_trig_activate(struct led_classdev *led)
+-{
+-	struct gpio_trig_data *gpio_data;
+-
+-	gpio_data = kzalloc(sizeof(*gpio_data), GFP_KERNEL);
+-	if (!gpio_data)
+-		return -ENOMEM;
+-
+-	gpio_data->led = led;
+-	gpio_data->gpio = -ENOENT;
+-
+-	led_set_trigger_data(led, gpio_data);
+-
+-	return 0;
+-}
+-
+-static void gpio_trig_deactivate(struct led_classdev *led)
+-{
+-	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+-
+-	if (gpio_is_valid(gpio_data->gpio))
+-		free_irq(gpio_to_irq(gpio_data->gpio), led);
+-	kfree(gpio_data);
+-}
+-
+-static struct led_trigger gpio_led_trigger = {
+-	.name		= "gpio",
+-	.activate	= gpio_trig_activate,
+-	.deactivate	= gpio_trig_deactivate,
+-	.groups		= gpio_trig_groups,
+-};
+-module_led_trigger(gpio_led_trigger);
+-
+-MODULE_AUTHOR("Felipe Balbi <me@felipebalbi.com>");
+-MODULE_DESCRIPTION("GPIO LED trigger");
+-MODULE_LICENSE("GPL v2");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.2
+
