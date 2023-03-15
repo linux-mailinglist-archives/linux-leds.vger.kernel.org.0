@@ -2,56 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DFDC6BA44B
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 01:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C528E6BA4D1
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 02:48:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbjCOAvv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Mar 2023 20:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57458 "EHLO
+        id S229930AbjCOBse (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Mar 2023 21:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbjCOAvu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 20:51:50 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14AB02C67E;
-        Tue, 14 Mar 2023 17:51:49 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id cy23so69183931edb.12;
-        Tue, 14 Mar 2023 17:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678841507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EwBN2Hj7A9dlDwxqDE/m/THVw9Imb9kKwPpzlKQlm1k=;
-        b=F8UwypX/oGX1md5s7DE+tOq1rZ7QnhWTDgm9pNP+lwWdJLAUP6j01C7TcCPux/VjKY
-         5Ot9d/H/1CP2RK9PgE/Exm9FK9YoPsa2zUyQWxrUUDi09iHE9fe/ZIs5aW0F+XCEMqm2
-         JtPP+4u96s6PB99IcBc+JFiSVwj7jXLaKUVUJmh4idWFa9avBXjwwAo7WZl1YovQcsn4
-         KZes4yJ6QP39ISjwfwXGd8J/EnZgqoaxJgcthaeoxjGsJ1QUUcsniD/JYUEsjhYlkqjn
-         1OxAFgcjk17WFQgQpwX8X/IsN09bPjYWnz3KTKWzJfyjthcVcquk4RlNCGQkJUhMnl8Z
-         KRyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678841507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EwBN2Hj7A9dlDwxqDE/m/THVw9Imb9kKwPpzlKQlm1k=;
-        b=P47hwp25o+BVT/oaI2iEazDyLGNgvn3P13hkDa0c/nXUgIsQthwlRs+XfIMZ1UdluI
-         FC8kLzezrDqFyvMu/iBc30XltHEPZpGeZdf8EWknepQFWGgDkIu79gn9AUDbnRI3A5lF
-         zShKC+0dpziR9hlPGish0iTeBo2lDHYOmNPs0zhbbhaNW+yTaBW5AJk+oLd+/2x8mKGq
-         F9CY1VV0LbcnpOfidXflu67rTwC6Tz5+g9dWK+YmPIvecxFTXJjbXcUh9WXIznhwzv0h
-         QhAc0TPyIsP6bSEqYASBEr3ohVO0cLO0TAiMIZmWnXW4UGyvmAYEHeouSSslUM5Pevjj
-         eK7g==
-X-Gm-Message-State: AO0yUKU1KucYktQJFnWntd0I/yYHjZiz1U8I9Fameqx+YM9P6zkMZgDK
-        kw6GkPOb3fg/f31cx291ULg=
-X-Google-Smtp-Source: AK7set/4YcNuJRHLTgTNwo71PEhRaeUSgNgjEEeyGaVjvAX/BQkdJyqTzZj6DV3JslKGhvU5Y6S5+g==
-X-Received: by 2002:a17:906:bcf5:b0:925:5705:b5b8 with SMTP id op21-20020a170906bcf500b009255705b5b8mr4045594ejb.58.1678841507420;
-        Tue, 14 Mar 2023 17:51:47 -0700 (PDT)
-Received: from skbuf ([188.27.184.189])
-        by smtp.gmail.com with ESMTPSA id mc15-20020a170906eb4f00b008dcaf24bf77sm1789093ejb.36.2023.03.14.17.51.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 17:51:47 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 02:51:44 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
+        with ESMTP id S229511AbjCOBsd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 21:48:33 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07634212B5;
+        Tue, 14 Mar 2023 18:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=tDRfS6LV8lFTElXAbbYTqrrTqto+xsHz+GLxd3oMoUI=; b=NMH8/jbWZ7bQYE+yPYnaAH+Zql
+        W4xWnvIWE73cmxN5q9/8fDHcTbZ+ckbCQey85yPoaWHmxhjEdcYZP/9uxvA8SEK7VVqvYJY/fsA/E
+        SkKFmhD2FXGAZ7okg+J9JpgHjB2XZdOZPNRWfEwoGFz1/kxrCvCpBnyd76v79HuNeTzk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pcGFQ-007LjD-Tz; Wed, 15 Mar 2023 02:48:12 +0100
+Date:   Wed, 15 Mar 2023 02:48:12 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Vladimir Oltean <olteanv@gmail.com>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -71,44 +48,38 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v3 10/14] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <20230315005144.mz6z6zo4gbpbq4kx@skbuf>
+Subject: Re: [net-next PATCH v3 06/14] net: phy: marvell: Add software
+ control of the LEDs
+Message-ID: <c493a204-045a-4ca1-8630-f05f8a289ed0@lunn.ch>
 References: <20230314101516.20427-1-ansuelsmth@gmail.com>
- <20230314101516.20427-11-ansuelsmth@gmail.com>
+ <20230314101516.20427-1-ansuelsmth@gmail.com>
+ <20230314101516.20427-7-ansuelsmth@gmail.com>
+ <20230314101516.20427-7-ansuelsmth@gmail.com>
+ <20230315004453.sxzqccyozvsfp374@skbuf>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230314101516.20427-11-ansuelsmth@gmail.com>
+In-Reply-To: <20230315004453.sxzqccyozvsfp374@skbuf>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 14, 2023 at 11:15:12AM +0100, Christian Marangi wrote:
-> Add LEDs definition example for qca8k Switch Family to describe how they
-> should be defined for a correct usage.
+> > +	u16 reg;
+> > +
+> > +	reg = phy_read_paged(phydev, MII_MARVELL_LED_PAGE,
+> > +			     MII_88E1318S_PHY_LED_FUNC);
+> > +	if (reg < 0)
+> > +		return reg;
 > 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index 389892592aac..866b3cc73216 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -18,6 +18,8 @@ description:
->    PHY it is connected to. In this config, an internal mdio-bus is registered and
->    the MDIO master is used for communication. Mixed external and internal
->    mdio-bus configurations are not supported by the hardware.
-> +  Each phy have at least 3 LEDs connected and can be declared
+> "reg" is declared as unsigned, so it's surely positive.
 
-s/have/has/
+Gerr. That is one of the most common errors in phylib. I should know
+better :-(
 
-> +  using the standard LEDs structure.
+Thanks
+	Andrew
