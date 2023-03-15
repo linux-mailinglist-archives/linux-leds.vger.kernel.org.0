@@ -2,62 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7122A6BAB9D
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 10:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B230E6BACE3
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 11:01:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231994AbjCOJHV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Mar 2023 05:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
+        id S231839AbjCOKB1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Mar 2023 06:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbjCOJGy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Mar 2023 05:06:54 -0400
-Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451F07DD0D
-        for <linux-leds@vger.kernel.org>; Wed, 15 Mar 2023 02:06:16 -0700 (PDT)
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-        id 8620FA3CD6; Wed, 15 Mar 2023 09:05:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-        t=1678871152; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-        h=Date:From:To:Subject:From;
-        b=A4l4tQfIjvr+jvBN8iejHqA32Jry7K312IEeVja3IwiCVnguj1sJyX95kotmeVFPC
-         +0AMpyor7uZsvNbQanly2u25hWWDcT/teWR388J1+/aTnzHm2vV2gd4d6UGrRno51G
-         oJMzb9ehJZr017eUvetPuByJizNg3cm7Iq2nzJ6opqhn7xaN2ibzSnMqqRN9FmclIq
-         gNd4XcgiI09Wmx0FuEaQTw9Xvbw+ky4grfuU9JBQ7uxRgv+R1foU/uqOow+SJ7emUQ
-         9nSdEctVOzp+SLWy43KkGGEeXXfW39qaMJPfSRFEjic7Xe27IDvpW9wDrMS4BQ+AUD
-         +PSWxncwZOXLA==
-Received: by mail.corrib.pl for <linux-leds@vger.kernel.org>; Wed, 15 Mar 2023 09:05:39 GMT
-Message-ID: <20230315074501-0.1.62.iwpd.0.dh9z8p53vp@corrib.pl>
-Date:   Wed, 15 Mar 2023 09:05:39 GMT
-From:   =?UTF-8?Q? "Szczepan_Kie=C5=82basa" ?= 
-        <szczepan.kielbasa@corrib.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+        with ESMTP id S231820AbjCOKAw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Mar 2023 06:00:52 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D4C7E781;
+        Wed, 15 Mar 2023 02:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678874386; x=1710410386;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X6BAVsKWLXtrazjgu9pdHPUztlPGwZ8uFR32xRG5cjk=;
+  b=QeaqUWrrQPBJBh69P0zwM4XW5tLigbTGbRjLuEraqj2I/ZG61oc9sZlx
+   Bt/DHamuRDpbqkAKtyJsZkMlOIMA9aZzbchfxxkmqVz19XV+tyV7J22ZU
+   WZylj+DGqeAkeeN4TU2WOfSkCHe5RpAFwKndm7jczqQbokRmUs6qew4eY
+   xKmDeig7MJ1p89deQo3BZvSrLlwxucJsG1P47ZYziHOV97Jb22D82nRvu
+   VeiO7yzrwrgSmvtHT+1QT7DkAYOK+tRfIJTmomLU07HtTW8bwlJzzC1rN
+   o9MzWsQbJP8gq7w6RMrhTHvL2JsyJCgHIbHj4uI6k1svFByN3gXUFzyd7
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321502517"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="321502517"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 02:59:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="656699487"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="656699487"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 15 Mar 2023 02:59:42 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pcNv4-0007bb-0m;
+        Wed, 15 Mar 2023 09:59:42 +0000
+Date:   Wed, 15 Mar 2023 17:59:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@sberdevices.ru,
+        devicetree@vger.kernel.org,
+        Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Subject: Re: [PATCH v3 2/2] leds: add aw20xx driver
+Message-ID: <202303151746.f6VVX4iZ-lkp@intel.com>
+References: <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314120252.48263-3-mmkurbanov@sberdevices.ru>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Martin,
 
-rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
-ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
-wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+Thank you for the patch! Yet something to improve:
 
-Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
-stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
-z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
- kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
-adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
-Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+[auto build test ERROR on pavel-leds/for-next]
+[cannot apply to lee-leds/for-leds-next robh/for-next linus/master v6.3-rc2 next-20230315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kurbanov/leds-add-aw20xx-driver/20230314-210251
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+patch link:    https://lore.kernel.org/r/20230314120252.48263-3-mmkurbanov%40sberdevices.ru
+patch subject: [PATCH v3 2/2] leds: add aw20xx driver
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230315/202303151746.f6VVX4iZ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9760204574f3c53a9753b6daf20125c8552ce8ae
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Martin-Kurbanov/leds-add-aw20xx-driver/20230314-210251
+        git checkout 9760204574f3c53a9753b6daf20125c8552ce8ae
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-Pozdrawiam
-Szczepan Kie=C5=82basa
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151746.f6VVX4iZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: drivers/leds/leds-aw200xx.o: in function `aw200xx_probe_dt':
+>> leds-aw200xx.c:(.text.aw200xx_probe_dt+0x164): undefined reference to `__udivdi3'
+>> mips-linux-ld: leds-aw200xx.c:(.text.aw200xx_probe_dt+0x184): undefined reference to `__udivdi3'
+   mips-linux-ld: leds-aw200xx.c:(.text.aw200xx_probe_dt+0x53c): undefined reference to `__udivdi3'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
