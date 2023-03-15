@@ -2,69 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F166BA117
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Mar 2023 22:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 850726BA3FB
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 01:22:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbjCNVB2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Mar 2023 17:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34406 "EHLO
+        id S229687AbjCOAWq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Mar 2023 20:22:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbjCNVBF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 17:01:05 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE363302A9
-        for <linux-leds@vger.kernel.org>; Tue, 14 Mar 2023 14:01:03 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id s22so21716701lfi.9
-        for <linux-leds@vger.kernel.org>; Tue, 14 Mar 2023 14:01:03 -0700 (PDT)
+        with ESMTP id S229540AbjCOAWp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Mar 2023 20:22:45 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17F446148;
+        Tue, 14 Mar 2023 17:22:43 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id r11so17483472edd.5;
+        Tue, 14 Mar 2023 17:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678827662;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=it6U6WO4SiAWUoCqFbqqzyS2RHciCqhrcTh+M14Dd8c=;
-        b=x2BqJ/d316iVmCsG/M4+IT0D9zF6fgy5dQ5YTgHOkxxGKhogWk1SGv3C6n/OPL9UsQ
-         LSMYvAhNA20TSvx3GV1gYKcIn3M/Kwp0FPSWRc2UQx2BbMLpEUeERNXz8VHaTkaGqMCB
-         NNWb8x53LRNbcR7HsMP0Cei0wx+ElIlhnNMHPx87S3hNSaFgs7dVE9z2WnMylGVE5sw/
-         4lLWzIf7mPDAbkvIwdK7DIzUuAPrkWK5TyQjlCnBliHY/ULUA9efcryqdF9vN6GaM82C
-         K4bUBTL0DaiYuoyATgl96oeqeLTBPzs9LBbdfXIl5jL3cZf50bB81K2YWv/wrTwyMRx5
-         LuGg==
+        d=gmail.com; s=20210112; t=1678839762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L6eritjJV4LmiZbdr9lP3yT7o1szXMCHsn5LCiyfRYA=;
+        b=MlYQbfvWe5d9Ry+P+Vx41YBQ1gL4OtfOQt8b4E0T1AHEtZSohp+M0zt3W6JgqeXI1k
+         5Ua7MqtpxoZcOf9mdxWmVqygm20lTj+rqEKPQ+Ghq8fUDsQDltZlFgBnyg5ZJ/u55q/8
+         CNekHNxQ6Wr87imnsoRBo0TiE/5BD+NCU8HuP2znUCSod+EWWgDpM4QmmoRyXjfSDeln
+         mkYv3yAXq3Rz6wKFueC82MBqn0CGREbh5qD9nPJl8i5h+5ABl8a/MRubv84EtfzyCSqh
+         Qgq0fd7yU+hNdgTi+s7ntYP8rAuiMqTQeQyuCPw3iAaB0+BHL1aOihVFlkzZATDGCpMO
+         gYKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678827662;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=it6U6WO4SiAWUoCqFbqqzyS2RHciCqhrcTh+M14Dd8c=;
-        b=5iU709ojBdH87TXw6nzrDCc5IGieK1rFb6EiuE49yTYCfcvUV+S/w1Ha/RuImn//hS
-         EZ/iV+txSn9hZwEkl4DDsFSPaeic2BrJhIh7vcSRK5wMsDEpYrpFvHssBZWXECPnwTRB
-         HF1a/EHCuT2T4VtITBXgx+MKqZtqB4JsHU6vDWZ9+wX9VVyvkIlSn+1owBYyN7YzCA1L
-         iQCWV/tnLX9eh7ykF/jLu9f5Bso8WeXUXrdvzNYfn0CEe+7VazOt3PIWYOy93lpZ+RQl
-         HK+L83g1Oj5SPUR7FlX/SA5esK8wGy6KsMDtohKgfET5gyJPNWsXfrWV+YGUjNB4FKqo
-         XRTA==
-X-Gm-Message-State: AO0yUKUrldRyj61A3S9nhuKBd/igPib8ZclHGqCCofpcKaqHwP09PkZf
-        8Fc9pErb+3lxCugDRxWC0perFQ==
-X-Google-Smtp-Source: AK7set+SxLoExkCQSz/+xVmYkfJyVnthfsz93f3Np4W6+v/0mpZ151kKOnunY08rK9LkoDAWw2qWaw==
-X-Received: by 2002:a05:6512:21a7:b0:4dd:9f86:859d with SMTP id c7-20020a05651221a700b004dd9f86859dmr1179976lft.13.1678827661896;
-        Tue, 14 Mar 2023 14:01:01 -0700 (PDT)
-Received: from fedora.. ([85.235.12.219])
-        by smtp.gmail.com with ESMTPSA id c3-20020ac244a3000000b0048a982ad0a8sm538081lfm.23.2023.03.14.14.01.01
+        d=1e100.net; s=20210112; t=1678839762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L6eritjJV4LmiZbdr9lP3yT7o1szXMCHsn5LCiyfRYA=;
+        b=VmOeAUOXbuKAS5pLYys41jqvfEJiwiTV/g2XdOXHBom+etz8h5V8kL01OvR4V+P9pJ
+         JGGWO18pLFDhlXWfnnb1Ybj6jYl6AtvXmmICLBJC0MWfGC/ExgWdGj0Nlbtd10X5HRtt
+         P1QA+ULh4efsMlb5bq/IT3ZRY3UmXYsz9BnCpoOmqN4VEwzYh+X+jGtDYi20n7Aye7wl
+         N4dfY+1A+EYn0lYFIr5XVlRIf2V+oso2u628Ajt4Ct3PZlfd1+lvMDfo/6rswwO4yOPN
+         luFfeG7U2u+WTM5kbHCGWGurz/bhH3zALdfTuB4IUyvTbFA5tuxDR1Exxmv5mZCiH+MN
+         stFw==
+X-Gm-Message-State: AO0yUKWwy85CFG0p+4/F8Iz+fsKtjtH4MOXpzp/KzhfZ7CGP8mJwIN7c
+        f0Zeics4npBy2CrMztmQc8Y=
+X-Google-Smtp-Source: AK7set/0jp0llLgxtutMBA0b7r+ILPHtzlYr7jAT9FHTqx5rUM1ZuuQ0b8I5XKt4RCtv+JUlnJp6KQ==
+X-Received: by 2002:a17:906:58c6:b0:922:de2c:fdaa with SMTP id e6-20020a17090658c600b00922de2cfdaamr5934299ejs.50.1678839762231;
+        Tue, 14 Mar 2023 17:22:42 -0700 (PDT)
+Received: from skbuf ([188.27.184.189])
+        by smtp.gmail.com with ESMTPSA id ko22-20020a170907987600b008d325e167f3sm1746110ejc.201.2023.03.14.17.22.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 14:01:01 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tony Lindgren <tony@atomide.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-omap@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: [PATCH v2] leds: Mark GPIO LED trigger broken
-Date:   Tue, 14 Mar 2023 22:00:59 +0100
-Message-Id: <20230314210059.419159-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.39.2
+        Tue, 14 Mar 2023 17:22:41 -0700 (PDT)
+Date:   Wed, 15 Mar 2023 02:22:39 +0200
+From:   Vladimir Oltean <olteanv@gmail.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v3 02/14] net: dsa: qca8k: add LEDs basic support
+Message-ID: <20230315002239.ticvivruobuwcvwz@skbuf>
+References: <20230314101516.20427-1-ansuelsmth@gmail.com>
+ <20230314101516.20427-1-ansuelsmth@gmail.com>
+ <20230314101516.20427-3-ansuelsmth@gmail.com>
+ <20230314101516.20427-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314101516.20427-3-ansuelsmth@gmail.com>
+ <20230314101516.20427-3-ansuelsmth@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,66 +92,74 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The GPIO LED trigger exposes a userspace ABI where a user
-can echo a GPIO number from the global GPIO numberspace into
-a file that will trigger a certain LED when active.
+On Tue, Mar 14, 2023 at 11:15:04AM +0100, Christian Marangi wrote:
+> Add LEDs basic support for qca8k Switch Family by adding basic
+> brightness_set() support.
+> 
+> Since these LEDs refelect port status, the default label is set to
+> ":port". DT binding should describe the color, function and number of
+> the leds using standard LEDs api.
+> 
+> These LEDs supports only blocking variant of the brightness_set()
+> function since they can sleep during access of the switch leds to set
+> the brightness.
+> 
+> While at it add to the qca8k header file each mode defined by the Switch
+> Documentation for future use.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  drivers/net/dsa/qca/Kconfig      |   7 ++
+>  drivers/net/dsa/qca/Makefile     |   1 +
+>  drivers/net/dsa/qca/qca8k-8xxx.c |   4 +
+>  drivers/net/dsa/qca/qca8k-leds.c | 191 +++++++++++++++++++++++++++++++
+>  drivers/net/dsa/qca/qca8k.h      |  69 +++++++++++
+>  5 files changed, 272 insertions(+)
+>  create mode 100644 drivers/net/dsa/qca/qca8k-leds.c
+> 
+> diff --git a/drivers/net/dsa/qca/Kconfig b/drivers/net/dsa/qca/Kconfig
+> index ba339747362c..9ed9d9cf80eb 100644
+> --- a/drivers/net/dsa/qca/Kconfig
+> +++ b/drivers/net/dsa/qca/Kconfig
+> @@ -15,3 +15,10 @@ config NET_DSA_QCA8K
+>  	help
+>  	  This enables support for the Qualcomm Atheros QCA8K Ethernet
+>  	  switch chips.
+> +
+> +config NET_DSA_QCA8K_LEDS_SUPPORT
+> +	bool "Qualcomm Atheros QCA8K Ethernet switch family LEDs support"
+> +	depends on NET_DSA_QCA8K
+> +	help
+> +	  This enabled support for LEDs present on the Qualcomm Atheros
+> +	  QCA8K Ethernet switch chips.
+> diff --git a/drivers/net/dsa/qca/Makefile b/drivers/net/dsa/qca/Makefile
+> index 701f1d199e93..330ae389e489 100644
+> --- a/drivers/net/dsa/qca/Makefile
+> +++ b/drivers/net/dsa/qca/Makefile
+> @@ -2,3 +2,4 @@
+>  obj-$(CONFIG_NET_DSA_AR9331)	+= ar9331.o
+>  obj-$(CONFIG_NET_DSA_QCA8K)	+= qca8k.o
+>  qca8k-y 			+= qca8k-common.o qca8k-8xxx.o
+> +obj-$(CONFIG_NET_DSA_QCA8K_LEDS_SUPPORT) += qca8k-leds.o
 
-This is problematic because the global GPIO numberspace is
-inherently instable. The trigger came about at a time when
-systems had one GPIO controller that defined hard-wired
-GPIOs numbered 0..N and this number space was stable.
+Isn't this what you want instead?
 
-We have since moved to dynamic allocation of GPIO numbers
-and there is no real guarantee that a GPIO number will stay
-consistent even across a reboot: consider a USB attached
-GPIO controller for example. Or two. Or the effect of
-probe order after adding -EPROBE_DEFER to the kernel.
+ifdef CONFIG_NET_DSA_QCA8K_LEDS_SUPPORT
+qca8k-y 			+= qca8k-leds.o
+endif
 
-The trigger was added to support keypad LEDs on the Nokia
-n810 from the GPIO event when a user slides up/down the
-keypad. This is arch/arm/boot/dts/omap2420-n810.dts.
-A userspace script is needed to activate the trigger.
-This will be broken unless the script was updated recently
-since the OMAP GPIO controller now uses dynamic GPIO
-number allocations.
+you don't want to have to export the qca8k_setup_led_ctrl() symbol...
+you want it to be part of the same module AFAIU.
 
-I want to know that this trigger has active users that
-cannot live without it if we are to continue to support it.
+> +/* Leds Support function */
+> +#ifdef CONFIG_NET_DSA_QCA8K_LEDS_SUPPORT
+> +int qca8k_setup_led_ctrl(struct qca8k_priv *priv);
+> +#else
+> +static inline int qca8k_setup_led_ctrl(struct qca8k_priv *priv)
+> +{
+> +	return 0;
+> +}
+> +#endif
 
-Option if this is really needed: I can develop a new trigger
-that can associate GPIOs with LEDs as triggers using device
-tree, which should also remove the use of userspace custom
-scripts to achieve this and be much more trustworthy, if
-someone with the Nokia n810 or a device with a similar need
-is willing to test it.
-
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Tony Lindgren <tony@atomide.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: linux-omap@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org
-
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Be less intrusive and just mark the feature broken
-  for now.
----
- drivers/leds/trigger/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index dc6816d36d06..2a57328eca20 100644
---- a/drivers/leds/trigger/Kconfig
-+++ b/drivers/leds/trigger/Kconfig
-@@ -83,6 +83,7 @@ config LEDS_TRIGGER_ACTIVITY
- config LEDS_TRIGGER_GPIO
- 	tristate "LED GPIO Trigger"
- 	depends on GPIOLIB || COMPILE_TEST
-+	depends on BROKEN
- 	help
- 	  This allows LEDs to be controlled by gpio events. It's good
- 	  when using gpios as switches and triggering the needed LEDs
--- 
-2.34.1
-
+Could there be just a qca8k-leds.h with the function prototypes exported
+by qca8k-leds.c?
