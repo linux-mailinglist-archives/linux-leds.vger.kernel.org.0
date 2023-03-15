@@ -2,56 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16A666BBA90
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 18:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A186BBA98
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Mar 2023 18:11:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbjCORKh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Mar 2023 13:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
+        id S230018AbjCORLb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Mar 2023 13:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbjCORKg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Mar 2023 13:10:36 -0400
+        with ESMTP id S229941AbjCORLb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Mar 2023 13:11:31 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F0915565;
-        Wed, 15 Mar 2023 10:10:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBED8090B;
+        Wed, 15 Mar 2023 10:11:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E00C7B81DD4;
-        Wed, 15 Mar 2023 17:10:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0121C433EF;
-        Wed, 15 Mar 2023 17:10:28 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4F415B81DD4;
+        Wed, 15 Mar 2023 17:11:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3EE2C433D2;
+        Wed, 15 Mar 2023 17:11:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678900231;
-        bh=6bkfr7+DSuZPOgyQFpALDv2ew7m1XXb81pexUPzB9bE=;
+        s=k20201202; t=1678900288;
+        bh=If13N7i8i1Xa26DsNzNudcLPrKbKs3XYk41neN9vAoQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qJ1hGspZU/l6FJgE8QplbYQjznKXNc/O/uonoEN4+LV7KEn7zHazIjr/ihcraJJbq
-         12h/jtnVpayOiqrQvdyHuHzXEAC9I3YS7b+aGT51yJSZ+Nz8+GfYlyKPBDXX6JsTJ5
-         Md7vxen2xy/jjRRLT6Iv6ud9eMvv6FBXwAZsa1ql2KoJtu6pU4v1HvERognyMC9+cD
-         o/4aOdEueNoQCxy+UbkWGhOxzVJ5oJ5QUDtlmb7uKtknaJ3PPEYI7Jacu9TYwZ4Fau
-         euCLld1rHFQB0ftzx8x9hKzxKsB9xrlYB+1hYiMu8d4xFOs6svcyCy2p6buGFM6jI4
-         XcG9ZoGLBcRpg==
-Date:   Wed, 15 Mar 2023 17:10:25 +0000
+        b=sQMk1kWtLqA5u84i0f25GcsMQn8JM7ekPBvqGLNKLiOBztSd1V+dtx3RaeS45btpX
+         iJtCqHgNKyYZF64fQuJPh5HS2J7EIfXZCrUS6qQFFA/gPoP60uQ5pYNJz4fJ68KRxH
+         UXmncpYcyZgazZO2bRkMgrMrctz38XwghUd41TxBwUCwc37MH1jP94FefIWASxF9OS
+         ocqE6XhI/SKzvyunoSVwc/lsY6HXXZyimUogzdlFB/Dt6vJu2UQ2euSeWHp7MhoZBS
+         qfGiSy4bQDwLKRmPXk+vhrhT3AyDjdJrKMbN1DmaFT9hH6xoOxoeewPuVWuzOHyWZM
+         jPUAlfWpnKtQA==
+Date:   Wed, 15 Mar 2023 17:11:22 +0000
 From:   Lee Jones <lee@kernel.org>
-To:     Fenglin Wu <quic_fenglinw@quicinc.com>
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz, krzysztof.kozlowski@linaro.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        quic_collinsd@quicinc.com, quic_subbaram@quicinc.com
-Subject: Re: [PATCH v8 2/2] dt-bindings: leds: add QCOM flash LED controller
-Message-ID: <20230315171025.GE9667@google.com>
-References: <20230303095023.538917-1-quic_fenglinw@quicinc.com>
- <20230303095023.538917-3-quic_fenglinw@quicinc.com>
+To:     Deepak R Varma <drv@mailo.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_c_skakit@quicinc.com,
+        bjorn.andersson@linaro.org, dianders@chromium.org,
+        marijn.suijten@somainline.org, luca@z3ntu.xyz,
+        Saurabh Singh Sengar <ssengar@microsoft.com>,
+        Praveen Kumar <kumarpraveen@linux.microsoft.com>
+Subject: Re: [PATCH RESEND] leds: qcom-lpg: Release node reference before
+ returning
+Message-ID: <20230315171122.GF9667@google.com>
+References: <ZAI/6w7k7k0ep1x/@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230303095023.538917-3-quic_fenglinw@quicinc.com>
+In-Reply-To: <ZAI/6w7k7k0ep1x/@ubun2204.myguest.virtualbox.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -61,17 +58,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 03 Mar 2023, Fenglin Wu wrote:
+On Sat, 04 Mar 2023, Deepak R Varma wrote:
 
-> Add binding document for flash LED module inside Qualcomm Technologies,
-> Inc. PMICs.
+> The iterator for_each_available_child_of_node() increments the refcount
+> of the child node it is processing. Release such a reference when the
+> loop needs to breaks due to en error during its execution.
+> Issue identified using for_each_child.cocci Coccinelle semantic patch.
 >
-> Signed-off-by: Fenglin Wu <quic_fenglinw@quicinc.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  .../bindings/leds/qcom,spmi-flash-led.yaml    | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/qcom,spmi-flash-led.yaml
+> Please note:
+>    - The proposed change is compile tested only. I do not have the
+>      necessary hardware to perform additional testing. Please suggest if there
+>      is an alternate means available to further test this change.
+>    - Included authors/experts for this driver for guidance as suggested by
+>      Lee Jones <lee@kernel.org> and resending the patch.
+>
+>
+>  drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 
 Applied, thanks
 
