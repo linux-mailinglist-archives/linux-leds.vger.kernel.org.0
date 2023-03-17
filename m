@@ -2,214 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C62996BF231
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 21:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29EAF6BF39F
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 22:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbjCQUOb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 16:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41230 "EHLO
+        id S229986AbjCQVNF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 17:13:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjCQUOa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 16:14:30 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B17F2252AB
-        for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 13:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679084069; x=1710620069;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rB4rNOGkBwb5mvJxoziOF4vMr/BCbjQKq3VS1VBJ5Ew=;
-  b=QJI47ZpMxMGMWMaPaiXICs8OiIJajFaCRa32y7k8v0nOJCpIie8xkgYu
-   aImLx/Bsxj+M+asmtynWW1/M1WL7I6wDfZGlINPKGcBR2mj/U6OM6q5YF
-   f2gNuPZ1BDNiH19TFvMJI3oMR9j6AdrKIoW6sbgN80pyni7E8Y1v1fIAh
-   +H7SvqyRk8YUM9GbraGrpUcjqEIu2JvzwCgrGSumbOUUL+dm50PPTlKq5
-   YoLr4AqkslH6OP18frT7d6Iftm67fYEfEQ2WXVMwiviR3XiiAKlfnDJpo
-   YCEIOEJD6FD8MD7sYwGkS9/eHtiiSu9NzHKjbCXmCx7BUGpjYv8rVWXnZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="326715803"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="326715803"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 13:14:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="630388241"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="630388241"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 17 Mar 2023 13:14:19 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pdGSw-0009Yw-0P;
-        Fri, 17 Mar 2023 20:14:18 +0000
-Date:   Sat, 18 Mar 2023 04:13:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD REGRESSION
- 4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
-Message-ID: <6414c9f8.Jh2KXs7s0AqEH4dQ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229680AbjCQVNE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 17:13:04 -0400
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4D6F951;
+        Fri, 17 Mar 2023 14:13:03 -0700 (PDT)
+Received: by mail-il1-f170.google.com with SMTP id h7so3423373ila.5;
+        Fri, 17 Mar 2023 14:13:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679087583;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0cLT9nvbyGDO+rZS3qLUAHKtUfaXz4dTYvgAZ9mY5+E=;
+        b=NpWMh+H/TD2usHQijYSLrbgfH08F/dXQAukjeJk8X3pFC3/OOoyaeJqDGolc4GsFdD
+         sX3tFXazEBEGNvrksvkPxxrrE/YmQPhKdhI1rUiuX5QiqT1GMKBoLwPe74jLuI0Tgsgl
+         mViVoGLWjhM1SJsAxotvIUK/bfmMQD4Jj1eJ5fquCfZMa93wqJxlQsv3Wv2agSu7Oiik
+         D47JBbCZkF1QowdIAp5dm436H1wptG5fYqy8DS5ODZfzF+NtLRqzBVeDAHpGWt/T4gAk
+         u4oqvFZ0mNY6YfkzCb3DgfFh0RGaMGlkdpMqEzjULOpQHzdZkz8R7Wmo/JsCH6CmOg/i
+         JR2w==
+X-Gm-Message-State: AO0yUKX/Gmnk2m+ztIn66dn4lTEmLbl9GNRBJ/eRMTE5aX7FFTV6IFjX
+        /MG7dvcRZcBBshVSaXFR0A==
+X-Google-Smtp-Source: AK7set+kHa11pPniVGqEyT+IX45l08nf/CPb3WXSyO/YNiwEYWD2EUMXyJV7HLcXyV4EPbUjxdWQlg==
+X-Received: by 2002:a92:d40c:0:b0:317:93dc:10f5 with SMTP id q12-20020a92d40c000000b0031793dc10f5mr33737ilm.19.1679087582684;
+        Fri, 17 Mar 2023 14:13:02 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.249])
+        by smtp.gmail.com with ESMTPSA id i35-20020a056638382300b003a607dccd1bsm1009090jav.17.2023.03.17.14.13.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 14:13:02 -0700 (PDT)
+Received: (nullmailer pid 2814507 invoked by uid 1000);
+        Fri, 17 Mar 2023 21:13:00 -0000
+Date:   Fri, 17 Mar 2023 16:13:00 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Vladimir Oltean <olteanv@gmail.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v3 09/14] dt-bindings: net: dsa: dsa-port:
+ Document support for LEDs node
+Message-ID: <20230317211300.GA2811156-robh@kernel.org>
+References: <20230314101516.20427-1-ansuelsmth@gmail.com>
+ <20230314101516.20427-1-ansuelsmth@gmail.com>
+ <20230314101516.20427-10-ansuelsmth@gmail.com>
+ <20230314101516.20427-10-ansuelsmth@gmail.com>
+ <20230315005000.co4in33amy3t3xbx@skbuf>
+ <afd1f052-6bb6-4388-9620-1adb02e6d607@lunn.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <afd1f052-6bb6-4388-9620-1adb02e6d607@lunn.ch>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 4ba9df04b7ac66d2d000ed7ae2d8136302d99a57  docs: leds: Add MT6370 RGB LED pattern document
+On Wed, Mar 15, 2023 at 02:58:23AM +0100, Andrew Lunn wrote:
+> On Wed, Mar 15, 2023 at 02:50:00AM +0200, Vladimir Oltean wrote:
+> > On Tue, Mar 14, 2023 at 11:15:11AM +0100, Christian Marangi wrote:
+> > > Document support for LEDs node in dsa port.
+> > > Switch may support different LEDs that can be configured for different
+> > > operation like blinking on traffic event or port link.
+> > > 
+> > > Also add some Documentation to describe the difference of these nodes
+> > > compared to PHY LEDs, since dsa-port LEDs are controllable by the switch
+> > > regs and the possible intergated PHY doesn't have control on them.
+> > > 
+> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > > ---
+> > >  .../devicetree/bindings/net/dsa/dsa-port.yaml | 21 +++++++++++++++++++
+> > >  1 file changed, 21 insertions(+)
+> > 
+> > Of all schemas, why did you choose dsa-port.yaml? Why not either something
+> > hardware specific (qca8k.yaml) or more generic (ethernet-controller.yaml)?
+> 
+> The binding should be generic. So qca8k.yaml is way to specific. The
+> Marvell switch should re-use it at some point.
+> 
+> Looking at the hierarchy, ethernet-controller.yaml would work since
+> dsa-port includes ethernet-switch-port, which includes
+> ethernet-controller.
+> 
+> These are MAC LEDs, and there is no reason why a standalone MAC in a
+> NIC could not implement such LEDs. So yes,
+> ethernet-controller.yaml.
+> 
+> Is there actually anything above ethernet-controller.yaml?
 
-Error/Warning reports:
+Yes, the one under review[1].
 
-https://lore.kernel.org/oe-kbuild-all/202303171729.CcgyFx17-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm-allmodconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-|-- arm-allyesconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-|-- i386-allyesconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-|-- ia64-allmodconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-|-- m68k-allmodconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-|-- powerpc-allmodconfig
-|   `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-`-- sparc-allyesconfig
-    `-- drivers-leds-rgb-leds-mt6370-rgb.c:error:implicit-declaration-of-function-FIELD_GET
-
-elapsed time: 721m
-
-configs tested: 111
-configs skipped: 7
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r026-20230315   gcc  
-arc                  randconfig-r043-20230312   gcc  
-arc                  randconfig-r043-20230313   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r001-20230312   gcc  
-arm                  randconfig-r006-20230313   clang
-arm                  randconfig-r011-20230312   clang
-arm                  randconfig-r021-20230315   gcc  
-arm                  randconfig-r046-20230312   clang
-arm                  randconfig-r046-20230313   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r004-20230312   clang
-arm64                randconfig-r006-20230312   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r014-20230313   gcc  
-csky                 randconfig-r031-20230313   gcc  
-hexagon              randconfig-r013-20230312   clang
-hexagon              randconfig-r041-20230312   clang
-hexagon              randconfig-r041-20230313   clang
-hexagon              randconfig-r045-20230312   clang
-hexagon              randconfig-r045-20230313   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230313   gcc  
-i386                 randconfig-a002-20230313   gcc  
-i386                 randconfig-a003-20230313   gcc  
-i386                 randconfig-a004-20230313   gcc  
-i386                 randconfig-a005-20230313   gcc  
-i386                 randconfig-a006-20230313   gcc  
-i386                 randconfig-a011-20230313   clang
-i386                 randconfig-a012-20230313   clang
-i386                 randconfig-a013-20230313   clang
-i386                 randconfig-a014-20230313   clang
-i386                 randconfig-a015-20230313   clang
-i386                 randconfig-a016-20230313   clang
-i386                 randconfig-r004-20230313   gcc  
-i386                 randconfig-r032-20230313   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r014-20230312   gcc  
-ia64                 randconfig-r015-20230313   gcc  
-ia64                 randconfig-r016-20230313   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r001-20230313   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r002-20230313   gcc  
-m68k                 randconfig-r005-20230312   gcc  
-m68k                 randconfig-r023-20230315   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r036-20230313   gcc  
-openrisc             randconfig-r003-20230312   gcc  
-openrisc             randconfig-r022-20230315   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r012-20230313   clang
-riscv                randconfig-r042-20230312   gcc  
-riscv                randconfig-r042-20230313   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r005-20230313   gcc  
-s390                 randconfig-r024-20230315   clang
-s390                 randconfig-r044-20230312   gcc  
-s390                 randconfig-r044-20230313   clang
-sh                               allmodconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r011-20230313   gcc  
-sparc                randconfig-r025-20230315   gcc  
-sparc                randconfig-r033-20230313   gcc  
-sparc                randconfig-r035-20230313   gcc  
-sparc64              randconfig-r013-20230313   gcc  
-sparc64              randconfig-r015-20230312   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230313   gcc  
-x86_64               randconfig-a002-20230313   gcc  
-x86_64               randconfig-a003-20230313   gcc  
-x86_64               randconfig-a004-20230313   gcc  
-x86_64               randconfig-a005-20230313   gcc  
-x86_64               randconfig-a006-20230313   gcc  
-x86_64               randconfig-a011-20230313   clang
-x86_64               randconfig-a012-20230313   clang
-x86_64               randconfig-a013-20230313   clang
-x86_64               randconfig-a014-20230313   clang
-x86_64               randconfig-a015-20230313   clang
-x86_64               randconfig-a016-20230313   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r002-20230312   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Rob
+ 
+[1] https://lore.kernel.org/all/20230203-dt-bindings-network-class-v2-0-499686795073@jannau.net/
