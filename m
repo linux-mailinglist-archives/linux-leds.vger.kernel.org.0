@@ -2,40 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D32256BEAA5
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 15:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB6726BEAB9
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 15:09:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbjCQODt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 10:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41606 "EHLO
+        id S230246AbjCQOJR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 10:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230256AbjCQODr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 10:03:47 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB0275A58;
-        Fri, 17 Mar 2023 07:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=E7Js/gL7fDNHxFoBAEe3ebsc95WWzM8qRUyoE8r02HY=; b=QbIEd+2HuYWiLs46y1jPNOgTcp
-        LTHARoM7vQyJ2bdFSQi9JuIevpg4w5wMt7Edz4Usm6KyqHgHu0Mjc/GI/SgVL+pSUVgOHo4KKUuBP
-        p2aJ2TkU+oZLtWtkIUOBkP2HiaLNb6FUvmA8duuYk+YuU9kCF3BJAjxus4dV2+ooJUdQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pdAg8-007cC5-OJ; Fri, 17 Mar 2023 15:03:32 +0100
-Date:   Fri, 17 Mar 2023 15:03:32 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Michal Kubiak <michal.kubiak@intel.com>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        with ESMTP id S229971AbjCQOJQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 10:09:16 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73839AF68D;
+        Fri, 17 Mar 2023 07:09:14 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id v16so4575337wrn.0;
+        Fri, 17 Mar 2023 07:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679062153;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:subject:cc:to:from:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4cUCHnqI0AfBz7a3GUqT80VORgI3VfkloynuB2ZGZu0=;
+        b=EN1Ss5BBviaWKyN2iiPCA1G5rxgzBrkndGVa31XHU6NkfbITRgv0arw/VjyDahrvGS
+         s236GuMvfBLK+DaP0g01LgyUbrtAULb8C6ddbBwwdzbM70Ei98BQh7abhu3rVCzW0TpB
+         YiG0/X2b0hROkMyc8C5e8eMP/2wDpm8bEGVMKlOI2y/BAz4VRQldd5onU8KhXKD9aZal
+         7PMWnT6rTjJsSjIIM9+OKf6HVa8RrDkP/SVRyTiIv3IDiSSgcA08e+z9FRQesdEoswzu
+         mgLEtNPdhNEzkw4vpbk4BJUOVqa+GnjrGNyu47owdc1ucgu3QN+D/eMeAIy4Opj347eF
+         UjKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679062153;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:subject:cc:to:from:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4cUCHnqI0AfBz7a3GUqT80VORgI3VfkloynuB2ZGZu0=;
+        b=lyqeyeyng45a3RRRl6yHZN+uOVq+VCmBTyRo9zogl3qLoyq/u/pE4p9IDaqWLb1IrJ
+         q4ta1g0kg8ez8LhlWy7CgE6qeHj8Sr7cOsSMHv+lCjCFUwNEedAkdD9tm6mwzxQ25o/v
+         y16g+iWeXcMTl9//vm2mTM3c97oar0+Dr+/LKQsd0z5j4AkH/1pqVk2YJt7mAsc6Uq4p
+         GoB+H60kXx+ZlZkVMQqftVnAMWAmqdAG2fgs47LFXzaQdQ4oZGZlci7zDhe3iUxPl4FY
+         ZQWf1kSTc5bcukHRiTQhbzTPSyIgUOpQshHRHZIdwPHW23IL1NeY6Dfa+F5Y0edJ157t
+         TGVw==
+X-Gm-Message-State: AO0yUKW8cHj0Z9Nyd9XbdxJUyxp+VMPhyGfF9UWg5mlYhIjs2V9b+23w
+        7pZJAZar9KAlMm8SUHCnh2k=
+X-Google-Smtp-Source: AK7set8ZSvwh8C861MbmcI8zrheicg6wTcJWJ3VwxxFhvYzCdZUnVxz3BSHRZNrwiFZ2hxPOhXIojw==
+X-Received: by 2002:adf:fb0d:0:b0:2ce:a758:d6fb with SMTP id c13-20020adffb0d000000b002cea758d6fbmr2601899wrr.1.1679062152605;
+        Fri, 17 Mar 2023 07:09:12 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.gmail.com with ESMTPSA id h6-20020adfe986000000b002d09cba6beasm2064775wrm.72.2023.03.17.07.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 07:09:12 -0700 (PDT)
+Message-ID: <64147488.df0a0220.5d091.cce2@mx.google.com>
+X-Google-Original-Message-ID: <ZBR0hQ/AH2M8A9t9@Ansuel-xps.>
+Date:   Fri, 17 Mar 2023 15:09:09 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, pavel@ucw.cz,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
@@ -45,99 +72,176 @@ Cc:     Christian Marangi <ansuelsmth@gmail.com>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v4 04/14] net: phy: Add a binding for PHY LEDs
-Message-ID: <f292505c-ab74-47f4-be7f-18dd4a7e2903@lunn.ch>
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [net-next PATCH v4 10/14] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
 References: <20230317023125.486-1-ansuelsmth@gmail.com>
- <20230317023125.486-5-ansuelsmth@gmail.com>
- <ZBRtRw8pg0mcRxbZ@localhost.localdomain>
+ <20230317023125.486-11-ansuelsmth@gmail.com>
+ <20230317091410.58787646@dellmb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZBRtRw8pg0mcRxbZ@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230317091410.58787646@dellmb>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 02:38:15PM +0100, Michal Kubiak wrote:
-> On Fri, Mar 17, 2023 at 03:31:15AM +0100, Christian Marangi wrote:
-> > From: Andrew Lunn <andrew@lunn.ch>
+On Fri, Mar 17, 2023 at 09:14:10AM +0100, Marek Behún wrote:
+> Hello Christian, also Rob Herring, Andrew Lunn and Pavel Machek,
+> 
+> On Fri, 17 Mar 2023 03:31:21 +0100
+> Christian Marangi <ansuelsmth@gmail.com> wrote:
+> 
+> > Add LEDs definition example for qca8k Switch Family to describe how they
+> > should be defined for a correct usage.
 > > 
-> > Define common binding parsing for all PHY drivers with LEDs using
-> > phylib. Parse the DT as part of the phy_probe and add LEDs to the
-> > linux LED class infrastructure. For the moment, provide a dummy
-> > brightness function, which will later be replaced with a call into the
-> > PHY driver.
-> >
-> 
-> Hi Andrew,
-> 
-> Personally, I see no good reason to provide a dummy implementation
-> of "phy_led_set_brightness", especially if you implement it in the next
-> patch. You only use that function only the function pointer in
-> "led_classdev". I think you can just skip it in this patch.
-
-Hi Michal
-
-The basic code for this patch has been sitting in my tree for a long
-time. It used to be, if you did not have a set_brightness method in
-cdev, the registration failed. That made it hard to test this patch on
-its own during development work, did i have the link list correct, can
-i unload the PHY driver without it exploding etc. I need to check if
-it is still mandatory.
-
-> > +static int of_phy_led(struct phy_device *phydev,
-> > +		      struct device_node *led)
-> > +{
-> > +	struct device *dev = &phydev->mdio.dev;
-> > +	struct led_init_data init_data = {};
-> > +	struct led_classdev *cdev;
-> > +	struct phy_led *phyled;
-> > +	int err;
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> > index 389892592aac..2e9c14af0223 100644
+> > --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> > +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> > @@ -18,6 +18,8 @@ description:
+> >    PHY it is connected to. In this config, an internal mdio-bus is registered and
+> >    the MDIO master is used for communication. Mixed external and internal
+> >    mdio-bus configurations are not supported by the hardware.
+> > +  Each phy has at least 3 LEDs connected and can be declared
+> > +  using the standard LEDs structure.
+> >  
+> >  properties:
+> >    compatible:
+> > @@ -117,6 +119,7 @@ unevaluatedProperties: false
+> >  examples:
+> >    - |
+> >      #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/leds/common.h>
+> >  
+> >      mdio {
+> >          #address-cells = <1>;
+> > @@ -226,6 +229,27 @@ examples:
+> >                      label = "lan1";
+> >                      phy-mode = "internal";
+> >                      phy-handle = <&internal_phy_port1>;
 > > +
-> > +	phyled = devm_kzalloc(dev, sizeof(*phyled), GFP_KERNEL);
-> > +	if (!phyled)
-> > +		return -ENOMEM;
+> > +                    leds {
+> > +                        #address-cells = <1>;
+> > +                        #size-cells = <0>;
 > > +
-> > +	cdev = &phyled->led_cdev;
+> > +                        led@0 {
+> > +                            reg = <0>;
+> > +                            color = <LED_COLOR_ID_WHITE>;
+> > +                            function = LED_FUNCTION_LAN;
+> > +                            function-enumerator = <1>;
+> > +                            default-state = "keep";
+> > +                        };
 > > +
-> > +	err = of_property_read_u32(led, "reg", &phyled->index);
-> > +	if (err)
-> > +		return err;
+> > +                        led@1 {
+> > +                            reg = <1>;
+> > +                            color = <LED_COLOR_ID_AMBER>;
+> > +                            function = LED_FUNCTION_LAN;
+> > +                            function-enumerator = <1>;
+> > +                            default-state = "keep";
+> > +                        };
+> > +                    };
+> >                  };
 > 
-> Memory leak. 'phyled' is not freed in case of error.
-
-devm_ API, so it gets freed when the probe fails.
-
-> > +
-> > +	cdev->brightness_set_blocking = phy_led_set_brightness;
+> I have nothing against this, but I would like to point out the
+> existence of the trigger-sources DT property, and I would like to
+> discuss how this property should be used by the LED subsystem to choose
+> default behaviour of a LED.
 > 
-> Please move this initialization to the patch where you are actually
-> implementing this callback.
+> Consider that we want to specify in device-tree that a PHY LED (or any
+> other LED) should blink on network activity of the network device
+> connected to this PHY (let's say the attached network device is eth0).
+> (Why would we want to specify this in devicetree? Because currently the
+>  drivers either keep the behaviour from boot or change it to something
+>  specific that is not configurable.)
 > 
-> > +	cdev->max_brightness = 1;
-> > +	init_data.devicename = dev_name(&phydev->mdio.dev);
-> > +	init_data.fwnode = of_fwnode_handle(led);
-> > +
-> > +	err = devm_led_classdev_register_ext(dev, cdev, &init_data);
-> > +	if (err)
-> > +		return err;
+> We could specify in DT something like:
+>   eth0: ethernet-controller {
+>     ...
+>   }
 > 
-> Another memory leak.
+>   ethernet-phy {
+>     leds {
+>       led@0 {
+>         reg = <0>;
+>         color = <LED_COLOR_ID_GREEN>;
+>         trigger-sources = <&eth0>;
+>         function = LED_FUNCTION_ ?????? ;
+>       }
+>     }
+>   }
+> 
+> The above example specifies that the LED has a trigger source (eth0),
+> but we still need to specify the trigger itself (for example that
+> the LED should blink on activity, or the different kinds of link). In my
+> opinion, this should be specified by the function property, but this
+> property is currently used in other way: it is filled in with something
+> like "wan" or "lan" or "wlan", an information which, IMO,
+> should instead come from the devicename part of the LED, not the
+> function part.
+> 
+> Recall that the LED names are of the form
+>   devicename:color:function
+> where the devicename part is supposed to be something like mmc0 or
+> sda1. With LEDs that are associated with network devices I think the
+> corresponding name should be the name of the network device (like eth0),
+> but there is the problem of network namespaces and also that network
+> devices can be renamed :(.
+> 
+> So one option how to specify the behaviour of the LED to blink on
+> activity would be to set
+>   function = LED_FUNCTION_ACTIVITY;
+> but this would conflict with how currently some devicetrees use "lan",
+> "wlan" or "wan" as the function (which is IMO incorrect, as I said
+> above).
+> 
+> Another option would be to ignore the function and instead use
+> additional argument in the trigger-source property, something like
+>   trigger-sources = <&eth0 TRIGGER_SOURCE_ACTIVITY>;
+> 
+> I would like to start a discussion on this and hear about your opinions,
+> because I think that the trigger-sources and function properties were
+> proposed in good faith, but currently the implementation and usage is a
+> mess.
+> 
 
-Ah, maybe you don't know about devm_ ? devm_ allocations and actions
-register an action to be taken when the device is removed, either
-because the probe failed, or when the device is unregistered. For
-memory allocation, the memory is freed automagically. For actions like
-registering an LED, requesting an interrupt etc, an unregister/release
-is performed. This makes cleanup less buggy since the core does it.
+I think we should continue and make this discussion when we start
+implementing the hw contro for these LEDs to configure them in DT.
 
-   Andrew
+Currently we are implementing very basic support so everything will be
+in sw.
+
+Anyway just to give some ideas. Yes it sound a good idea to use the
+trigger-sources binding. My idea would be that trigger needs to have
+specific support for them. 
+If this in mind netdev can be configured in DT and setup hw control to
+offload blink with the required interface passed.
+
+The current implementation still didn't include a way to configure the
+blink in DT as the series are already a bit big... (currently we have 3:
+- This series that already grow from 10 patch to 14
+- A cleanup series for netdev trigger that is already 7 patch
+- hw control that is another big boy with 12 patch
+)
+
+So our idea was to first implement the minor things and then polish and
+improve it. (to make it easier to review)
+
+But agree with you that it would be a nice idea to have a correct and
+good implementation for trigger-sources.
+
+-- 
+	Ansuel
