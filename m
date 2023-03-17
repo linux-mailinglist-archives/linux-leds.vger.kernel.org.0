@@ -2,197 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EA516BE2EF
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 09:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89F106BE411
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 09:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbjCQIUX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 04:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
+        id S231694AbjCQIn1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 04:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230402AbjCQIUE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 04:20:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3067D589B;
-        Fri, 17 Mar 2023 01:19:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AF2D8B824DB;
-        Fri, 17 Mar 2023 08:14:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFEF8C433D2;
-        Fri, 17 Mar 2023 08:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679040858;
-        bh=2xB2mT32ve+cPvMoyMEWr/WHQwF5/3cn9Vw7Tloef3k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SM2WNcTX+Rs0C+RBJFKAXcjcNUwolzWRbaV6P3ifOl1TAClp2q2pDaMk2P0jyWFrb
-         kBHAylp4KeAxfb3eOjDClEqVou+aTHIR2sOV9xGP4GwaEpPZjAARTybeGLndxE/N/n
-         IJD/rB+oBPynsPFTMBHmJ9tlNb1UASJpYvRn7yAkc0imKG1MJqWqqTE2vcJ9NDDc1i
-         1m8RIvFr4jxgif8GxEms8P5zyNCy1RzGIFyUY8gGB2rwp41nYAWdwL1hjIfuzNfgT5
-         755D4mxxp1q60JmnfAqFfK8EfaTiWiBZN4YqC7un9S2oV8kOKUpZWKyHam49n4NURw
-         9IoF0RumcFk+w==
-Date:   Fri, 17 Mar 2023 09:14:10 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, pavel@ucw.cz
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v4 10/14] dt-bindings: net: dsa: qca8k: add
- LEDs definition example
-Message-ID: <20230317091410.58787646@dellmb>
-In-Reply-To: <20230317023125.486-11-ansuelsmth@gmail.com>
-References: <20230317023125.486-1-ansuelsmth@gmail.com>
-        <20230317023125.486-11-ansuelsmth@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
+        with ESMTP id S230177AbjCQInL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 04:43:11 -0400
+Received: from mail.surechiers.com (mail.surechiers.com [80.211.239.236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA1012D173
+        for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 01:41:55 -0700 (PDT)
+Received: by mail.surechiers.com (Postfix, from userid 1002)
+        id D7A4A839E2; Fri, 17 Mar 2023 09:40:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=surechiers.com;
+        s=mail; t=1679042457;
+        bh=xg3VVY9SU+I+f+ynMyY8e0Lum0EY/KrTvpy5BYTg7yw=;
+        h=Date:From:To:Subject:From;
+        b=CU/Opbfh3cM7v1dSuGKveCDU/rokqMq0nvFgdblct8H+r7hob1KKF82Oal82qjfZH
+         wuFZA5mnfLFCSEK8/sA6XT2ypM9CRk2tUv95hfY8/9RFDeZCVuGoL/xFXpkWKHPiBN
+         mnJb2wvxlmD+x0uIbHxULZqrU+JowneyDwaYVoMbNg/QuD3fw0r1HFrDbIwL0PEpYh
+         tzoeBMcbbEOiwk8eUrEjA49MoZImudnNJt2NhbLNGCa/MOQXM0HVO5QBd71lm7FzZ3
+         FHMLIppNfKRUk8o6mwSM/UVT7nMTVfg9hSQkps7ZE3x9nz1462BALIU0zQ+7+SsKpe
+         vvqMt+St19mTw==
+Received: by mail.surechiers.com for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 08:40:39 GMT
+Message-ID: <20230317084500-0.1.r.1pdp.0.d0bhfj3q34@surechiers.com>
+Date:   Fri, 17 Mar 2023 08:40:39 GMT
+From:   =?UTF-8?Q? "J=C3=A1chym_Zdr=C3=A1hal" ?= 
+        <jachym.zdrahal@surechiers.com>
+To:     <linux-leds@vger.kernel.org>
+Subject: Renovace podlahy
+X-Mailer: mail.surechiers.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Christian, also Rob Herring, Andrew Lunn and Pavel Machek,
+Dobr=C3=A9 r=C3=A1no,
 
-On Fri, 17 Mar 2023 03:31:21 +0100
-Christian Marangi <ansuelsmth@gmail.com> wrote:
+m=C4=9Bli byste z=C3=A1jem o beze=C5=A1v=C3=A9, chemicky, n=C3=A1razu a o=
+t=C4=9Bru odoln=C3=A9 podlahy?
 
-> Add LEDs definition example for qca8k Switch Family to describe how they
-> should be defined for a correct usage.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index 389892592aac..2e9c14af0223 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -18,6 +18,8 @@ description:
->    PHY it is connected to. In this config, an internal mdio-bus is registered and
->    the MDIO master is used for communication. Mixed external and internal
->    mdio-bus configurations are not supported by the hardware.
-> +  Each phy has at least 3 LEDs connected and can be declared
-> +  using the standard LEDs structure.
->  
->  properties:
->    compatible:
-> @@ -117,6 +119,7 @@ unevaluatedProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
->  
->      mdio {
->          #address-cells = <1>;
-> @@ -226,6 +229,27 @@ examples:
->                      label = "lan1";
->                      phy-mode = "internal";
->                      phy-handle = <&internal_phy_port1>;
-> +
-> +                    leds {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +
-> +                        led@0 {
-> +                            reg = <0>;
-> +                            color = <LED_COLOR_ID_WHITE>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            default-state = "keep";
-> +                        };
-> +
-> +                        led@1 {
-> +                            reg = <1>;
-> +                            color = <LED_COLOR_ID_AMBER>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            default-state = "keep";
-> +                        };
-> +                    };
->                  };
+Zaji=C5=A1=C5=A5uj=C3=AD spolehlivost bez ohledu na to, zda je pou=C5=BE=C3=
+=ADv=C3=A1te v n=C3=A1ro=C4=8Dn=C3=BDch v=C3=BDrobn=C3=ADch prostorech, s=
+kladech, komunika=C4=8Dn=C3=ADch tras=C3=A1ch nebo komer=C4=8Dn=C3=ADch p=
+rostor=C3=A1ch.
 
-I have nothing against this, but I would like to point out the
-existence of the trigger-sources DT property, and I would like to
-discuss how this property should be used by the LED subsystem to choose
-default behaviour of a LED.
+Navrhli jsme snadno =C4=8Distiteln=C3=A9, hygienick=C3=A9 a protiskluzov=C3=
+=A9 podlahy pro pr=C5=AFmyslov=C3=A9 i komer=C4=8Dn=C3=AD pou=C5=BEit=C3=AD=
+=2E
 
-Consider that we want to specify in device-tree that a PHY LED (or any
-other LED) should blink on network activity of the network device
-connected to this PHY (let's say the attached network device is eth0).
-(Why would we want to specify this in devicetree? Because currently the
- drivers either keep the behaviour from boot or change it to something
- specific that is not configurable.)
+Mohu nab=C3=ADdnout bezplatn=C3=BD audit va=C5=A1ich podlah spolu s kompl=
+exn=C3=AD anal=C3=BDzou podkladu. Mohu o tomhle zavolat?
 
-We could specify in DT something like:
-  eth0: ethernet-controller {
-    ...
-  }
 
-  ethernet-phy {
-    leds {
-      led@0 {
-        reg = <0>;
-        color = <LED_COLOR_ID_GREEN>;
-        trigger-sources = <&eth0>;
-        function = LED_FUNCTION_ ?????? ;
-      }
-    }
-  }
-
-The above example specifies that the LED has a trigger source (eth0),
-but we still need to specify the trigger itself (for example that
-the LED should blink on activity, or the different kinds of link). In my
-opinion, this should be specified by the function property, but this
-property is currently used in other way: it is filled in with something
-like "wan" or "lan" or "wlan", an information which, IMO,
-should instead come from the devicename part of the LED, not the
-function part.
-
-Recall that the LED names are of the form
-  devicename:color:function
-where the devicename part is supposed to be something like mmc0 or
-sda1. With LEDs that are associated with network devices I think the
-corresponding name should be the name of the network device (like eth0),
-but there is the problem of network namespaces and also that network
-devices can be renamed :(.
-
-So one option how to specify the behaviour of the LED to blink on
-activity would be to set
-  function = LED_FUNCTION_ACTIVITY;
-but this would conflict with how currently some devicetrees use "lan",
-"wlan" or "wan" as the function (which is IMO incorrect, as I said
-above).
-
-Another option would be to ignore the function and instead use
-additional argument in the trigger-source property, something like
-  trigger-sources = <&eth0 TRIGGER_SOURCE_ACTIVITY>;
-
-I would like to start a discussion on this and hear about your opinions,
-because I think that the trigger-sources and function properties were
-proposed in good faith, but currently the implementation and usage is a
-mess.
-
-Marek
+J=C3=A1chym Zdr=C3=A1hal
