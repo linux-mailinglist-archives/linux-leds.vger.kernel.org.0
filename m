@@ -2,82 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F766BECF7
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 16:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1F866BED2C
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 16:43:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjCQPcH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 11:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
+        id S229939AbjCQPnK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 11:43:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbjCQPb6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 11:31:58 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B878D9925F;
-        Fri, 17 Mar 2023 08:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ojT5RV7IuxtmiG8XmC3PkiAz0l5iLYwDs/bmvH+qy3Q=; b=1+M/cQPdinsHbsS3ReG/eGwi9/
-        ReUm5bedO3hK206pCGqDpEkqc511QuPJT3JyypdqC5/Edx2VVdTTEYOht0nf3jbqERkmhif9hHqyw
-        HwWNDtKt516jtVFOH1cJeNvWqclwTtXrr7HyVjfydiCFGyj9VqzuD+XCJtjHMdjbP0zs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pdC3D-007cjC-2w; Fri, 17 Mar 2023 16:31:27 +0100
-Date:   Fri, 17 Mar 2023 16:31:27 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v4 04/14] net: phy: Add a binding for PHY LEDs
-Message-ID: <2c2d7c4a-bd35-4454-aa58-3106334806f2@lunn.ch>
-References: <20230317023125.486-1-ansuelsmth@gmail.com>
- <20230317023125.486-5-ansuelsmth@gmail.com>
- <20230317084519.12d3587a@dellmb>
- <6cf03603-2a8e-4c08-a61b-aef164a0f5d9@lunn.ch>
- <20230317152903.5103f2c4@dellmb>
+        with ESMTP id S229887AbjCQPnJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 11:43:09 -0400
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D5EB28E74;
+        Fri, 17 Mar 2023 08:43:04 -0700 (PDT)
+X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
+        LIVER,40,3)
+Received: from 192.168.10.47
+        by mg.richtek.com with MailGates ESMTP Server V5.0(14117:0:AUTH_RELAY)
+        (envelope-from <cy_huang@richtek.com>); Fri, 17 Mar 2023 23:42:42 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Fri, 17 Mar
+ 2023 23:42:42 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
+ Transport; Fri, 17 Mar 2023 23:42:42 +0800
+From:   <cy_huang@richtek.com>
+To:     <pavel@ucw.cz>, <lee@kernel.org>
+CC:     <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>, <cy_huang@richtek.com>,
+        <chiaen_wu@richtek.com>, <jacek.anaszewski@gmail.com>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] leds: rgb: mt6370: Fix implicit declaration for FIELD_GET
+Date:   Fri, 17 Mar 2023 23:42:40 +0800
+Message-ID: <1679067760-19098-1-git-send-email-cy_huang@richtek.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230317152903.5103f2c4@dellmb>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> Yes, and this would solve the problem for a user who wants to change
-> the behaviour of a LED for a given PHY. But a user who wants to list
-> all available LEDs by listing /sys/class/leds can also retrieve a nice
-> list of names that make sense, if the documented format is followed.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Please make a concrete proposal.
+0-DAY CI Kernel Test Service reported the implicit declaration error below:
 
-Also, keep in mind, ethernet device names change at runtime, and are
-not unique. Function also changes at run time, which is in fact the
-whole purpose of this collection of patchsets.
+drivers/leds/rgb/leds-mt6370-rgb.c: In function'mt6370_check_vendor_info':
+>> drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit  declaration
+   of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+  889 |         vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
+      |
 
-      Andrew
+Add the missing header 'bitfield.h' to fix it.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202303171729.CcgyFx17-lkp@intel.com/
+Fixes: 55a8a5c16eb3 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support")
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+ drivers/leds/rgb/leds-mt6370-rgb.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
+index 9c1e6d5..bb62431 100644
+--- a/drivers/leds/rgb/leds-mt6370-rgb.c
++++ b/drivers/leds/rgb/leds-mt6370-rgb.c
+@@ -7,6 +7,7 @@
+  *   Alice Chen <alice_chen@richtek.com>
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
+-- 
+2.7.4
+
