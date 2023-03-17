@@ -2,68 +2,127 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89F106BE411
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 09:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DAC46BE603
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 10:57:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231694AbjCQIn1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 04:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33630 "EHLO
+        id S230041AbjCQJ5I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 05:57:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbjCQInL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 04:43:11 -0400
-Received: from mail.surechiers.com (mail.surechiers.com [80.211.239.236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA1012D173
-        for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 01:41:55 -0700 (PDT)
-Received: by mail.surechiers.com (Postfix, from userid 1002)
-        id D7A4A839E2; Fri, 17 Mar 2023 09:40:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=surechiers.com;
-        s=mail; t=1679042457;
-        bh=xg3VVY9SU+I+f+ynMyY8e0Lum0EY/KrTvpy5BYTg7yw=;
-        h=Date:From:To:Subject:From;
-        b=CU/Opbfh3cM7v1dSuGKveCDU/rokqMq0nvFgdblct8H+r7hob1KKF82Oal82qjfZH
-         wuFZA5mnfLFCSEK8/sA6XT2ypM9CRk2tUv95hfY8/9RFDeZCVuGoL/xFXpkWKHPiBN
-         mnJb2wvxlmD+x0uIbHxULZqrU+JowneyDwaYVoMbNg/QuD3fw0r1HFrDbIwL0PEpYh
-         tzoeBMcbbEOiwk8eUrEjA49MoZImudnNJt2NhbLNGCa/MOQXM0HVO5QBd71lm7FzZ3
-         FHMLIppNfKRUk8o6mwSM/UVT7nMTVfg9hSQkps7ZE3x9nz1462BALIU0zQ+7+SsKpe
-         vvqMt+St19mTw==
-Received: by mail.surechiers.com for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 08:40:39 GMT
-Message-ID: <20230317084500-0.1.r.1pdp.0.d0bhfj3q34@surechiers.com>
-Date:   Fri, 17 Mar 2023 08:40:39 GMT
-From:   =?UTF-8?Q? "J=C3=A1chym_Zdr=C3=A1hal" ?= 
-        <jachym.zdrahal@surechiers.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: Renovace podlahy
-X-Mailer: mail.surechiers.com
+        with ESMTP id S230144AbjCQJ5H (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 05:57:07 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7331ADDF3D
+        for <linux-leds@vger.kernel.org>; Fri, 17 Mar 2023 02:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679047026; x=1710583026;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hoVHF5Bcw+l9VWLKnSvHM1eA+V1JoChLir7f99Arapw=;
+  b=jdBYHt/7JsMG67Y8lNC2i92s39ECOnirYFEdV2AioYNVY1cc/+72+q79
+   9HAKLFogdajQ8DdjWg56v+X4rk4ofGpyN+UpRN6SFQB9iPd3FDu4LPOTw
+   r1J4SVCC0qDfRBJ7w43kksy7XgBkUk1XQytkOGiDtJwxaqy7UVS9pTm0H
+   gnJ6ze1mp6RGu/qfA5RfqBaEEDn/1XT2TPTsKKnxSRAcSGLhejRphDXi1
+   x4UVq8BIl+ifdUZsK2qMP3XZTNOTYxq8aBTBtxjWVop6qq7d//7uu08zY
+   Jb8LR9xBlYRCRJhN+luN77IKqpSkkeYqwxL7hXRSuxfSrc1kT2ky5+t0z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="340589325"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="340589325"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 02:57:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="682626481"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="682626481"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 17 Mar 2023 02:57:04 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pd6pb-0009H4-2O;
+        Fri, 17 Mar 2023 09:57:03 +0000
+Date:   Fri, 17 Mar 2023 17:57:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     ChiYuan Huang <cy_huang@richtek.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+        Lee Jones <lee@kernel.org>,
+        Alice Chen <alice_chen@richtek.com>,
+        ChiaEn Wu <chiaen_wu@richtek.com>
+Subject: [lee-leds:for-leds-next 13/15]
+ drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit declaration of
+ function 'FIELD_GET'
+Message-ID: <202303171729.CcgyFx17-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   4ba9df04b7ac66d2d000ed7ae2d8136302d99a57
+commit: 55a8a5c16eb37e7723244337af04388557f4fa2f [13/15] leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303171729.CcgyFx17-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/?id=55a8a5c16eb37e7723244337af04388557f4fa2f
+        git remote add lee-leds https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git
+        git fetch --no-tags lee-leds for-leds-next
+        git checkout 55a8a5c16eb37e7723244337af04388557f4fa2f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/leds/rgb/
 
-m=C4=9Bli byste z=C3=A1jem o beze=C5=A1v=C3=A9, chemicky, n=C3=A1razu a o=
-t=C4=9Bru odoln=C3=A9 podlahy?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171729.CcgyFx17-lkp@intel.com/
 
-Zaji=C5=A1=C5=A5uj=C3=AD spolehlivost bez ohledu na to, zda je pou=C5=BE=C3=
-=ADv=C3=A1te v n=C3=A1ro=C4=8Dn=C3=BDch v=C3=BDrobn=C3=ADch prostorech, s=
-kladech, komunika=C4=8Dn=C3=ADch tras=C3=A1ch nebo komer=C4=8Dn=C3=ADch p=
-rostor=C3=A1ch.
+All errors (new ones prefixed by >>):
 
-Navrhli jsme snadno =C4=8Distiteln=C3=A9, hygienick=C3=A9 a protiskluzov=C3=
-=A9 podlahy pro pr=C5=AFmyslov=C3=A9 i komer=C4=8Dn=C3=AD pou=C5=BEit=C3=AD=
-=2E
-
-Mohu nab=C3=ADdnout bezplatn=C3=BD audit va=C5=A1ich podlah spolu s kompl=
-exn=C3=AD anal=C3=BDzou podkladu. Mohu o tomhle zavolat?
+   drivers/leds/rgb/leds-mt6370-rgb.c: In function 'mt6370_check_vendor_info':
+>> drivers/leds/rgb/leds-mt6370-rgb.c:889:15: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     889 |         vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
+         |               ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-J=C3=A1chym Zdr=C3=A1hal
+vim +/FIELD_GET +889 drivers/leds/rgb/leds-mt6370-rgb.c
+
+   879	
+   880	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+   881	{
+   882		unsigned int devinfo, vid;
+   883		int ret;
+   884	
+   885		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
+   886		if (ret)
+   887			return ret;
+   888	
+ > 889		vid = FIELD_GET(MT6370_VENDOR_ID_MASK, devinfo);
+   890		if (vid == MT6372_VENDOR_ID || vid == MT6372C_VENDOR_ID) {
+   891			priv->reg_fields = mt6372_reg_fields;
+   892			priv->ranges = mt6372_led_ranges;
+   893			priv->pdata = &mt6372_pdata;
+   894		} else {
+   895			/* Common for MT6370/71 */
+   896			priv->reg_fields = common_reg_fields;
+   897			priv->ranges = common_led_ranges;
+   898			priv->pdata = &common_pdata;
+   899		}
+   900	
+   901		return 0;
+   902	}
+   903	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
