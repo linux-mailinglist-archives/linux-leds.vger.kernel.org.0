@@ -2,110 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 555CE6BED5E
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 16:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32BEE6BED93
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Mar 2023 17:02:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231322AbjCQPzS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Mar 2023 11:55:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45804 "EHLO
+        id S230186AbjCQQCw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Mar 2023 12:02:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbjCQPzR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 11:55:17 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7035BC927B;
-        Fri, 17 Mar 2023 08:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679068516; x=1710604516;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HgLImZGRBBiGqTOroqJsGqFHu4w0mEVxE+5AQmtGuS0=;
-  b=g47PnRwRATV0f621DeLqzpbCZlylww8JIbJaUDrSeZnuTWaQa4ZAgtLs
-   6kie4FqWrhrycu1wxuvjfcXvWwSKcr/0tOljllNuD5nGs6hAsnYmIWBsu
-   glHP4eDt6QTBQCoiLkSLJkdy5iQND3sA+wR+4pE41WTirq+05PBQwWus9
-   B+W1rcCLwwRkSXpeBQiu+Na3KwaA23I8Jhuxp3ek+UqIunN5GlLlyLKGs
-   3rPSSwNvawFjC3tAEUtjNZO3hP63DQMFZIadlqVjhc9axHdizEGocS8tc
-   9CU46BIx5opRiuX6sCD1ELrVC6IiCOSPzU2+X6BKG6NjerXwBk+6WraPV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="338311739"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="338311739"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 08:55:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673594290"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="673594290"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 08:55:13 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pdCQC-0009SG-1v;
-        Fri, 17 Mar 2023 15:55:12 +0000
-Date:   Fri, 17 Mar 2023 23:54:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_c_skakit@quicinc.com,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH 2/3] leds: rgb: leds-qcom-lpg: Add support for high
- resolution PWM
-Message-ID: <202303172326.QZxzjZq4-lkp@intel.com>
-References: <20230316192134.26436-3-quic_amelende@quicinc.com>
+        with ESMTP id S229879AbjCQQCu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Mar 2023 12:02:50 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1271A4741D;
+        Fri, 17 Mar 2023 09:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=8jvxC/cI3fuMCxuOzLp5kkLkPCuNIeHm7MIIEgtYwp0=; b=QhENWArrtirPbhzhLN30jRAefc
+        lz8GpWMl3QuOk6oBP0IsKB5XWyFBxKy09l3Nw0LaoTIA14YELZMINqf23Su8H5fqRgm8TbsZX0pPr
+        SUTaEqmDdOFsWkLazi3MEIkn5UJu/YeAlYXezAUetbFCiStVTv/VFa8efWpFLiFc3bkw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pdCXL-007cwr-7Z; Fri, 17 Mar 2023 17:02:35 +0100
+Date:   Fri, 17 Mar 2023 17:02:35 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        pavel@ucw.cz, Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [net-next PATCH v4 10/14] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Message-ID: <c087d270-56f6-4ead-a15b-aa3bfb732ba8@lunn.ch>
+References: <20230317023125.486-1-ansuelsmth@gmail.com>
+ <20230317023125.486-11-ansuelsmth@gmail.com>
+ <20230317091410.58787646@dellmb>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316192134.26436-3-quic_amelende@quicinc.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230317091410.58787646@dellmb>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Anjelique,
+> I would like to start a discussion on this and hear about your opinions,
+> because I think that the trigger-sources and function properties were
+> proposed in good faith, but currently the implementation and usage is a
+> mess.
+ 
+Hi Marek
 
-Thank you for the patch! Yet something to improve:
+We are pushing the boundaries of the LED code here, doing things which
+have not been done before, as far as i know. So i expect some
+discussion about this. However, that discussion should not really
+affect this patchset, which is just adding plain boring software
+controlled LEDs.
 
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next pavel-leds/for-next linus/master v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+A quick recap about ledtrig-netdev.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/dt-bindings-leds-qcom-lpg-Add-qcom-pmk8550-pwm-compatible-string/20230317-032340
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20230316192134.26436-3-quic_amelende%40quicinc.com
-patch subject: [PATCH 2/3] leds: rgb: leds-qcom-lpg: Add support for high resolution PWM
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303172326.QZxzjZq4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/916dd0b271b3f035efd07efdaa696e7c815f7e6c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Anjelique-Melendez/dt-bindings-leds-qcom-lpg-Add-qcom-pmk8550-pwm-compatible-string/20230317-032340
-        git checkout 916dd0b271b3f035efd07efdaa696e7c815f7e6c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+If you have a plain boring LED, you have:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303172326.QZxzjZq4-lkp@intel.com/
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# ls
+brightness  device  max_brightness  power  subsystem  trigger  uevent
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+You can turn the LED on with
 
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/leds/rgb/leds-qcom-lpg.ko] undefined!
->> ERROR: modpost: "__aeabi_ldivmod" [drivers/leds/rgb/leds-qcom-lpg.ko] undefined!
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# echo 1 > brightness 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+and turn it off with:
+
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# echo 0 > brightness 
+
+You select the trigger via the trigger sysfs file:
+
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# cat trigger 
+[none] kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock timer heartbeat netdev mmc0
+
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# echo netdev > trigger
+root@370rd:/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii:00:WAN# ls
+activity	brightness  device_name  half_duplex  link     link_100   max_brightness  rx	     trigger  uevent
+available_mode	device	    full_duplex  interval     link_10  link_1000  power		  subsystem  tx
+
+When you select a trigger, that trigger can add additional sysfs
+files. For the netdev trigger we gain link, link_10, link_100, link_1000, rx & tx.
+
+Nothing special here, if you selected the timer trigger you get
+delay_off delay_on. The oneshot trigger has invert, delay_on,
+delay_off etc.
+
+You then configure the trigger via setting values in the sysfs
+files. If you want the LED to indicate if there is link, you would do:
+
+echo 1 > link
+
+The LED would then light up if the netdev has carrier.
+
+If you want link plus RX packets
+
+echo 1 > link
+echo 1 > rx
+
+The LED will then be on if there is link, and additionally blink if
+the netdev stats indicate received frames.
+
+For the netdev trigger, all the configuration values are boolean. So a
+simple way to represent this in DT would be boolean properties:
+
+	netdev-link = <1>;
+	netdev->rx = <1>;
+
+We probably want these properties name spaced, because we have oneshot
+delay_on and timer delay_on for example. The same sysfs name could
+have different types, bool vs milliseconds, etc.
+
+I would make it, that when the trigger is activated, the values are
+read from DT and used. There is currently no persistent state for
+triggers. If you where to swap to the timer trigger and then return to
+the netdev trigger, all state is lost, so i would re-read DT.
+
+Offloading to hardware should not make an difference here. All we are
+going to do is pass the current configuration to the LED and ask it,
+can you do this? If it says no, we keep blinking in software. If yes,
+we leave the blinking to the hardware.
+
+There is the open question of if DT should be used like this.  It is
+not describing hardware, it is describing configuration of
+hardware. So it could well get rejected. You then need to configure it
+in software.
+
+   Andrew
