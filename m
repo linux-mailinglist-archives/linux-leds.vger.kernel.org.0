@@ -2,118 +2,165 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 235BB6C1F26
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Mar 2023 19:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0F566C1F30
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Mar 2023 19:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbjCTSLF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Mar 2023 14:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45316 "EHLO
+        id S231138AbjCTSMd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Mar 2023 14:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbjCTSKU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Mar 2023 14:10:20 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8263E1F3
-        for <linux-leds@vger.kernel.org>; Mon, 20 Mar 2023 11:04:33 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id cn12so4577168edb.4
-        for <linux-leds@vger.kernel.org>; Mon, 20 Mar 2023 11:04:33 -0700 (PDT)
+        with ESMTP id S230378AbjCTSMR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Mar 2023 14:12:17 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8647A43467;
+        Mon, 20 Mar 2023 11:06:20 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id t17-20020a05600c451100b003edc906aeeaso1873999wmo.1;
+        Mon, 20 Mar 2023 11:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679335464;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nlbvOvcRdjikHkGUAlyi2gafrmdSiUtbdmOmB2pwxAQ=;
-        b=vF7FFDLUxwbbu19+9bi9lG2X3u9NftQ5nmLJ3gRFUsq1cLs0kxIhqz/Z20haoPEqYU
-         gKGXtaz67MTUrptzTWpNiRsRBLmqwAqIijoCeZsEUeCgwWX8w3cQJbqPOHHMvH/UxYG5
-         Catw6Y0mRkhSLO+GEkiKkJyetu3DNTQ4hLLICj7Qi08leeZ+syj20rY90xGFAiVvPswq
-         XYBKI1KjP6IyNr796auFZIqgSBRGbm7XSiGAdyNh//c8D2urdRZaPvtt7RmvdMcCRLio
-         /7VgJQuByjEM2ASpHDzmIoaXyL/GfF/y0/7tqZkx7aZkZ0Dop2YTNZyoaucJ842gj4e4
-         vShA==
+        d=gmail.com; s=20210112; t=1679335557;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=qovCtxHIhDjR5z8X/goS0zamNvJumBaq8hkkid2b0Tk=;
+        b=bj32SbhOYrf1MwTLc85rZOoVpreALwN32JNmelOm+FWPYvERh/ppvTQWhxgaVewQiy
+         sLr2uQj9GhuuC8x9FuB7/0hP2Ej3U5Al6/Ul8rujw/c4cIfcKBWfpLu1fKkoLn0Az62z
+         G6AX3JjdbbS/N6qaLGKU6UihZngo5Ch/TCZMy1S9AspInSNTltUyuSjgGq4ExKLpfMkl
+         wkBtK1RZDlXKFaGAEd2vpwzrwuYxPOnI48DZer/u3RQkol9rAZXh5VWWI5Wl86Mp7jAP
+         BgOQwP328giT0GOgtPJnTB/B0DxDDCN7Lf3BJwQ+Rd8O0IxnhRGLexh2Y1xZFfZ1/vmb
+         HmQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679335464;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nlbvOvcRdjikHkGUAlyi2gafrmdSiUtbdmOmB2pwxAQ=;
-        b=g8NbLuaYTfLad3TJeW0PvhgY3m58nXROespHv7Q/mf2vyteJOiecWfNMDlKhtrfh8j
-         UoSmicmzq1Z6Jx8F+pxCfeOgr5aSJszfmxIiU0LkICdrjJeX+wOMX8eJngqtvVMsvA8U
-         xWDnJTO7WfrDdgfl9NSc8nyNOegPy07oqtIY//03mxpGTURSSFGwCCf4UujxdujTUwa+
-         EWLoOBvgWkWzcJ4USRV/zdWkOMyXESwtbef+hRKx6CZwC98YJe//mBKy2qsvGCp7goyh
-         1lc/P4zzaQZ24nzScjbfidMxaN4fpdI1V/zS3NkbipfoRJ5mXLgXDtfovwYV7K91oqae
-         zqFQ==
-X-Gm-Message-State: AO0yUKXMMgJCAHkUo1x6ix3/CY26CzAOBlmS/ZEwyMxPJydLOmc1q+WX
-        JGN7ypzJL39reKvQevKs6HSbMA==
-X-Google-Smtp-Source: AK7set+3A23KwD3p9Eh/ZVXzZ3ZMSeEl55VrVNQ0P3GLWZqCiYEP3aXfFUQWpAk/8Ym3CRDLeTbQIg==
-X-Received: by 2002:aa7:c7c2:0:b0:4fb:9372:f837 with SMTP id o2-20020aa7c7c2000000b004fb9372f837mr482985eds.4.1679335463946;
-        Mon, 20 Mar 2023 11:04:23 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:458e:64e7:8cf1:78b0? ([2a02:810d:15c0:828:458e:64e7:8cf1:78b0])
-        by smtp.gmail.com with ESMTPSA id q30-20020a50aa9e000000b004fadc041e13sm5239875edc.42.2023.03.20.11.04.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 11:04:23 -0700 (PDT)
-Message-ID: <922eab51-6931-8533-db51-51cd911a36b3@linaro.org>
-Date:   Mon, 20 Mar 2023 19:04:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: aw2013: Document vddio-supply
-Content-Language: en-US
-To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        d=1e100.net; s=20210112; t=1679335557;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qovCtxHIhDjR5z8X/goS0zamNvJumBaq8hkkid2b0Tk=;
+        b=Ej/XfRpr8uMvdYizFOBpY4qclUsbu7mObS12gj0CB9quVPg4LgD8PV6n7lVcl4XVxK
+         eGoymbfEpNPQ8G4FPKyBQEhbuiK0fzY04V3rOu6gT5hBeQTwaN7QqIfpzl6RnJ24U721
+         1bKNpIv+44G0NZoHWHRAGWoSIMyMyhtbSQ63FFxA7KYcUrh4d8V/x8FZP7BMQs2kvE/8
+         j5pL1kxH8MP9iNwwpl5qS6otBCDwwYViBDASNhYAFBIIlvH3M+JI4F+S1AXJRfNvtQZO
+         uYzQv/Bk6G/TeT0Caxa3t+p53kadcQh1cY7lu1tRz8SFg9Jl1BHXm1AE+T0UsyDnbGjf
+         3EkQ==
+X-Gm-Message-State: AO0yUKWcFal4Ah8Mpnt8LEkCCI127lHq9+JG1qn0RKyKiETICo7OzUCV
+        VjZ5c8tcf0LNncCRGQlNfiM=
+X-Google-Smtp-Source: AK7set9M7n47ivxwTUlCC32MV4CdFuRaSwXTCh6g3payQgyQeP9Rq3Azb7+JBgZfR4gy7ifkMULB0g==
+X-Received: by 2002:a7b:c454:0:b0:3ed:e447:1ed0 with SMTP id l20-20020a7bc454000000b003ede4471ed0mr374765wmi.14.1679335557239;
+        Mon, 20 Mar 2023 11:05:57 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.gmail.com with ESMTPSA id q8-20020a1cf308000000b003ed4f6c6234sm11139577wmq.23.2023.03.20.11.05.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 11:05:56 -0700 (PDT)
+Message-ID: <6418a084.1c0a0220.de9c1.53e4@mx.google.com>
+X-Google-Original-Message-ID: <ZBiggnNsWspWJ/Fh@Ansuel-xps.>
+Date:   Mon, 20 Mar 2023 19:05:54 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Michal Kubiak <michal.kubiak@intel.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nikita Travkin <nikita@trvn.ru>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
- <20230320175131.174657-1-linmengbo0689@protonmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230320175131.174657-1-linmengbo0689@protonmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v5 02/15] net: dsa: qca8k: add LEDs basic support
+References: <20230319191814.22067-1-ansuelsmth@gmail.com>
+ <20230319191814.22067-3-ansuelsmth@gmail.com>
+ <ZBiKDX/WJPfJey/+@localhost.localdomain>
+ <64188af6.050a0220.c5fe1.1d96@mx.google.com>
+ <ZBicg28JwVLugzqz@localhost.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBicg28JwVLugzqz@localhost.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 20/03/2023 18:55, Lin, Meng-Bo wrote:
-> Some LEDs controllers are used with external pull-up for the interrupt
-> line and the I2C lines, so we might need to enable a regulator to bring
-> the lines into usable state.
-
-Not a property of this device.
-
-> Otherwise, this might cause spurious
-> interrupts and reading from I2C will fail.
+On Mon, Mar 20, 2023 at 06:48:51PM +0100, Michal Kubiak wrote:
+> On Mon, Mar 20, 2023 at 05:33:56PM +0100, Christian Marangi wrote:
+> > 
+> > Btw ok for the description of the LED mapping? It's a bit complex so
+> > tried to do my best to describe them.
+> > 
 > 
-> Document support for "vddio-supply" that is enabled by the aw2013 driver
-> so that the regulator gets enabled when needed.
+> Yes, now it is much easier to understand the logic behind LED mapping.
+> Thanks for adding that! I think it will save some time for anyone who
+> will be working with that code in the future.
 > 
-> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-> ---
->  Documentation/devicetree/bindings/leds/leds-aw2013.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+> The only thing I still do not understand is the initial 14 bit shift:
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> index 08f3e1cfc1b1..79b69cf1d1fe 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> @@ -23,6 +23,11 @@ properties:
->    vcc-supply:
->      description: Regulator providing power to the "VCC" pin.
->  
-> +  vddio-supply:
-> +    description: |
-> +      Optional regulator that provides digital I/O voltage,
+> >	if (led->port_num == 0 || led->port_num == 4) {
+> >		mask = QCA8K_LED_PATTERN_EN_MASK;
+> >		val <<= QCA8K_LED_PATTERN_EN_SHIFT;
+> 
+> For example, according to the code above, for port 4:
+> 	- the value is shifted by 14 bits - to bits (15,14)
+> 	- mask is also set to bits (15,14)
+> 	- then, both mask and value are shifted again by 16 bits:
+> 
+> >		return regmap_update_bits(priv->regmap, reg_info.reg,
+> >					  mask << reg_info.shift,
+> >					  val << reg_info.shift);
+> 
+> because reg_info.shift == QCA8K_LED_PHY4_CONTROL_RULE_SHIFT == 16 for
+> port_num == 4.
+> 
+> It means, in fact, for controlling port 4 we use bits (31,30) which
+> seems to be inconsistent with your comment below.
+> 
+> >	 * To control port 4:
+> >	 * - the 2 bit (17, 16) of:
+> >	 *   - QCA8K_LED_CTRL0_REG for led1
+> >	 *   - QCA8K_LED_CTRL1_REG for led2
+> >	 *   - QCA8K_LED_CTRL2_REG for led3
+> >	 *
+> 
+> Are values for ports 0 and 4 correct in your description in
+> "qca8k_led_brightness_set()"?
+> 
 
-NAK. I responded to your patch and you just send a v2 without explanation.
+Code is correct, comment is not.
 
-The device does not have VDDIO pin, either.
+QCA8K_LED_CTRL0_REG is split in 2 part.
+- first 16 bit for phy0
+- second part (31, 16) for phy4
 
-Best regards,
-Krzysztof
+In these 16 half there are the bit that control the hw control blink
+rules AND on the last 2 part of the half, the bit that control the state
+of the LED (off, on, always-blink, hw control)
 
+So I just didn't add on top of that MASK the required shift for
+QCA8K_LED_PATTERN_EN_SHIFT.
+
+so for phy0
+
+GENMASK(1, 0) << QCA8K_LED_PATTERN_EN_SHIFT << QCA8K_LED_PHY0123_CONTROL_RULE_SHIFT
+GENMASK(1, 0) << 14 << 0 
+
+for phy4
+
+GENMASK(1, 0) << QCA8K_LED_PATTERN_EN_SHIFT << QCA8K_LED_PHY4_CONTROL_RULE_SHIFT
+GENMASK(1, 0) << 14 << 16
+
+Thanks for the other review tag, will fix the last bit in v6.
+
+-- 
+	Ansuel
