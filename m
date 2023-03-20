@@ -2,89 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAE06C1EC4
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Mar 2023 18:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FFE36C1EE1
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Mar 2023 19:02:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjCTR7j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Mar 2023 13:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
+        id S230506AbjCTSCY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Mar 2023 14:02:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230457AbjCTR7Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Mar 2023 13:59:16 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800177DB9;
-        Mon, 20 Mar 2023 10:54:13 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id k37so3032384lfv.0;
-        Mon, 20 Mar 2023 10:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679334771;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=gjtrDHad5ipWXlVxyz0QsRXZabwmk49CGaT/vOXTHf0=;
-        b=p3/toevd5cdAOFepc8U00wh0VujMAkg5H7hvY28RJO9BNGcXHu3xtQrR7NEQi87jVs
-         fkinGfek9kZf9uraGEp9BXsdLLKyFT2O9mHG6tZE12ujpH0ckqd2PShBcKvtgOtbg0Cl
-         S2ROq9DrNBEy4ic071UXERs0rTz0lyUdDBHyHW9Biapd/rTkmSgtlad5e9XC2kAce1xF
-         C9MyghrxNHFppuaXg5ZY1LKBioZKaTNPHJbSvG5sge9pEl0JFptIBDfpg9tqO8013rO+
-         CM3dtBJbTMG++uwx2ntapkpECg6C3vDD+GWUoGmqw/KHFK80czd8KPXiku5ofw45xiu3
-         MrKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679334771;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gjtrDHad5ipWXlVxyz0QsRXZabwmk49CGaT/vOXTHf0=;
-        b=pOPD1q1jX4cEUln4WOHVRMWj7PqIfJb0xRmfwgg1UjuaqNPUiPMRi0OvI+dOKlhnCF
-         ymEe1gOK1k7xFIdhzlARi9BYf/0gJ7ldmXfoae08+L/6y8l7YCGK2X+DNW/HyWyZHQ5+
-         B6GKVLGSp/Mi2EQlc8eq3NfIn2lZqNLDunONGeh/hhgZrXCXSK9zfzF6y13vBRDWQj/0
-         zlDYjnxPF+nG9a+fYyACB2+9UiLLC+GxilppQs9qASd9D7WlV16qJOw6u9Dyonnkhb7M
-         2SNKuAGrHQQhqrHwTPEl7Rr8+ZlVFmpFqT2u51wbnUZxbH6jtGd48ifqzN+dWkh3UX6l
-         Xsog==
-X-Gm-Message-State: AO0yUKVahky1m35DGo+Zbc+NcsJx9hDXEMb3YJ3s1GRsRAjlyNcaaP7F
-        oYpnJ8NbMHiVdMnE/QGnMSM=
-X-Google-Smtp-Source: AK7set9IgQpjLnKLnivs0dm+tDOD+Xi6seUQ4pg7hGKKZTtq+nmT30KTq7k4NiYmLFVewzs6Fr/zNw==
-X-Received: by 2002:ac2:4830:0:b0:4e9:cfd2:e2d with SMTP id 16-20020ac24830000000b004e9cfd20e2dmr192306lft.65.1679334770529;
-        Mon, 20 Mar 2023 10:52:50 -0700 (PDT)
-Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
-        by smtp.gmail.com with ESMTPSA id t8-20020a19ad08000000b004a9b9ccfbe6sm1802168lfc.51.2023.03.20.10.52.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 10:52:50 -0700 (PDT)
-Message-ID: <64189d72.190a0220.8d965.4a1c@mx.google.com>
-X-Google-Original-Message-ID: <ZBidb1GWPPNegi80@Ansuel-xps.>
-Date:   Mon, 20 Mar 2023 18:52:47 +0100
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        with ESMTP id S230122AbjCTSBy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Mar 2023 14:01:54 -0400
+Received: from mail-40132.protonmail.ch (mail-40132.protonmail.ch [185.70.40.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F512A6DA
+        for <linux-leds@vger.kernel.org>; Mon, 20 Mar 2023 10:56:23 -0700 (PDT)
+Date:   Mon, 20 Mar 2023 17:55:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1679334922; x=1679594122;
+        bh=WnTjqPoCH078vNV00BMZ3l8kftmBf3Xp4U/sMRslT94=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=MEYoC3t/S7+Cl2DFKbnGn+joi2EOIGRG8NbXBUdvvDmTwrW+iv1JFwuqVK2VekocQ
+         feJ+ZQ7K2HPAH39NR/yLVH/UhA4AUkU4IBFyUYMyeOWc23d43rbbp7JBnRCT2Qh9k3
+         GT6vShagPTjGnJ8RDYq/3xhY9hN8jkkftq5yH8nLlL4JW+wqfjQ9QudSLqcEJxyG36
+         ZuZ2EgCc1EWyCy3uqbPJXVfubFCrx1e+h7d+Tn/skCFhhaJYD505j884lvUT71+GPr
+         NSE20pxHef+72UF823jyQE01KS9dxMLY8JxEbmGrTjoGs+7AkYkQDc4xQyXOM02xU6
+         jXkuVz6RThn7g==
+To:     linux-kernel@vger.kernel.org
+From:   "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v5 04/15] leds: Provide stubs for when CLASS_LED
- is disabled
-References: <20230319191814.22067-1-ansuelsmth@gmail.com>
- <20230319191814.22067-5-ansuelsmth@gmail.com>
- <aa2d0a8b-b98b-4821-9413-158be578e8e0@lunn.ch>
+        Nikita Travkin <nikita@trvn.ru>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH v2 2/2] leds: aw2013: Add vddio regulator
+Message-ID: <20230320175150.174711-1-linmengbo0689@protonmail.com>
+In-Reply-To: <20230320174949.174600-1-linmengbo0689@protonmail.com>
+References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
+Feedback-ID: 40467236:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aa2d0a8b-b98b-4821-9413-158be578e8e0@lunn.ch>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,26 +54,98 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Mar 19, 2023 at 11:49:02PM +0100, Andrew Lunn wrote:
-> > +#if IS_ENABLED(CONFIG_LEDS_CLASS)
-> >  enum led_default_state led_init_default_state_get(struct fwnode_handle *fwnode);
-> > +#else
-> > +static inline enum led_default_state
-> > +led_init_default_state_get(struct fwnode_handle *fwnode)
-> > +{
-> > +	return LEDS_DEFSTATE_OFF;
-> > +}
-> > +#endif
-> 
-> 0-day is telling me i have this wrong. The function is in led-core.c,
-> so this should be CONFIG_NEW_LEDS, not CONFIG_LEDS_CLASS.
-> 
+Some LEDs controllers are used with external pull-up for the interrupt
+line and the I2C lines, so we might need to enable a regulator to bring
+the lines into usable state. Otherwise, this might cause spurious
+interrupts and reading from I2C will fail.
 
-Any idea why? NEW_LEDS just enable LEDS_CLASS selection so why we need
-to use that? Should not make a difference (in theory)
+Implement support for "vddio-supply" that is enabled by the aw2013 driver
+so that the regulator gets enabled when needed.
 
-Anyway hoping every other patch and Documentation patch gets some review
-tag, v6 should be last revision I hope? (so we can move to LEDs stuff)
+Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
+---
+ drivers/leds/leds-aw2013.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
--- 
-	Ansuel
+diff --git a/drivers/leds/leds-aw2013.c b/drivers/leds/leds-aw2013.c
+index 0b52fc9097c6..95f2f9bf95ee 100644
+--- a/drivers/leds/leds-aw2013.c
++++ b/drivers/leds/leds-aw2013.c
+@@ -62,7 +62,7 @@ struct aw2013_led {
+=20
+ struct aw2013 {
+ =09struct mutex mutex; /* held when writing to registers */
+-=09struct regulator *vcc_regulator;
++=09struct regulator_bulk_data regulators[2];
+ =09struct i2c_client *client;
+ =09struct aw2013_led leds[AW2013_MAX_LEDS];
+ =09struct regmap *regmap;
+@@ -106,7 +106,8 @@ static void aw2013_chip_disable(struct aw2013 *chip)
+=20
+ =09regmap_write(chip->regmap, AW2013_GCR, 0);
+=20
+-=09ret =3D regulator_disable(chip->vcc_regulator);
++=09ret =3D regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
++=09=09=09=09     chip->regulators);
+ =09if (ret) {
+ =09=09dev_err(&chip->client->dev,
+ =09=09=09"Failed to disable regulator: %d\n", ret);
+@@ -123,7 +124,8 @@ static int aw2013_chip_enable(struct aw2013 *chip)
+ =09if (chip->enabled)
+ =09=09return 0;
+=20
+-=09ret =3D regulator_enable(chip->vcc_regulator);
++=09ret =3D regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
++=09=09=09=09    chip->regulators);
+ =09if (ret) {
+ =09=09dev_err(&chip->client->dev,
+ =09=09=09"Failed to enable regulator: %d\n", ret);
+@@ -348,16 +350,20 @@ static int aw2013_probe(struct i2c_client *client)
+ =09=09goto error;
+ =09}
+=20
+-=09chip->vcc_regulator =3D devm_regulator_get(&client->dev, "vcc");
+-=09ret =3D PTR_ERR_OR_ZERO(chip->vcc_regulator);
+-=09if (ret) {
++=09chip->regulators[0].supply =3D "vcc";
++=09chip->regulators[1].supply =3D "vddio";
++=09ret =3D devm_regulator_bulk_get(&client->dev,
++=09=09=09=09      ARRAY_SIZE(chip->regulators),
++=09=09=09=09      chip->regulators);
++=09if (ret < 0) {
+ =09=09if (ret !=3D -EPROBE_DEFER)
+ =09=09=09dev_err(&client->dev,
+ =09=09=09=09"Failed to request regulator: %d\n", ret);
+ =09=09goto error;
+ =09}
+=20
+-=09ret =3D regulator_enable(chip->vcc_regulator);
++=09ret =3D regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
++=09=09=09=09    chip->regulators);
+ =09if (ret) {
+ =09=09dev_err(&client->dev,
+ =09=09=09"Failed to enable regulator: %d\n", ret);
+@@ -382,7 +388,8 @@ static int aw2013_probe(struct i2c_client *client)
+ =09if (ret < 0)
+ =09=09goto error_reg;
+=20
+-=09ret =3D regulator_disable(chip->vcc_regulator);
++=09ret =3D regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
++=09=09=09=09     chip->regulators);
+ =09if (ret) {
+ =09=09dev_err(&client->dev,
+ =09=09=09"Failed to disable regulator: %d\n", ret);
+@@ -394,7 +401,8 @@ static int aw2013_probe(struct i2c_client *client)
+ =09return 0;
+=20
+ error_reg:
+-=09regulator_disable(chip->vcc_regulator);
++=09regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
++=09=09=09       chip->regulators);
+=20
+ error:
+ =09mutex_destroy(&chip->mutex);
+--=20
+2.30.2
+
+
