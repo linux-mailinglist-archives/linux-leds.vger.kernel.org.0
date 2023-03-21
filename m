@@ -2,130 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66CD6C3BB4
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 21:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6336C3C8A
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 22:19:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjCUUYG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Mar 2023 16:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
+        id S229744AbjCUVT5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Mar 2023 17:19:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230291AbjCUUYF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 16:24:05 -0400
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A564742F;
-        Tue, 21 Mar 2023 13:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1679430144; i=dahms.tobias@web.de;
-        bh=3vrnUaZQjktarTyyAWmtSbWvpA3xyzQS8LOv5gymyyM=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=eso4Q+iXBnUEfC1ghMuLfphO4olJjHoKZZTdX4bjwKgcvbSCKaMdzCaYMrrpvCZzP
-         jP5EA0CqrbSL7mj5zW0cMs1MYrl7VXByXSgaGySefRhsi3ZzzpJ3bliEkSr5isHETp
-         d4xiJ7mwmNHNQBaOGT/WF21lB+82FKNchTbWRZktWKdaZxMuRZ8Q4UvHtmlqV6BRu2
-         +eN9RFFcy7mEapj5WmQOYkpl3kmLn1Qfcz9Etl0Qs0px75lC8DRU8Kiie83o1wKW3v
-         e0AZIJcaVp0zb+aP1WLQs3SUVxa8gq8SPOdaxn/4ma5oHnEDBSjMV8vJ5swjJ6Eqaz
-         xX4kOS7buGzPA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.2.2] ([92.206.138.58]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MgibW-1q8Y4y23J6-00h2bQ; Tue, 21
- Mar 2023 21:22:24 +0100
-Message-ID: <f8f7d7ae-7e4b-e0fb-6a21-1d4fdcc22035@web.de>
-Date:   Tue, 21 Mar 2023 21:22:23 +0100
+        with ESMTP id S229663AbjCUVT4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 17:19:56 -0400
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD8E15CA1;
+        Tue, 21 Mar 2023 14:19:55 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id s8so2293530ois.2;
+        Tue, 21 Mar 2023 14:19:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679433595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rxrm14m3oOQq155kNi7UN+pIky0d6E6e5S3ZZURwtHI=;
+        b=dWYMj952ENsHTcFOvTsaDHzTeiMxmh244VuLITViqN/XsO8VXTbScAg5DBOAOTn2bN
+         S/gbF+/X4NvH8Tb+U/m9N3h3KaZ7yGRr+j7tmUsZyfFpwLBr5Veu1j8p+SLkz6yF5dKD
+         YSfjjlcDb13Q/rAsmOlbKZPbmrDzJwh/RMtCKghb4iLNBuPxeryyo3IymI43Tq8bkXXP
+         wP9X1Swpa2Oj5XZm3liitQiE8yly2hGxKJw7cNXv+/Txw1l+9LW/INsIVI/UVltYASAb
+         /QSlMW4HQwahgMOMHK+bnZigdjoOrgHUL6cn0yBP138R5V93kGKnCb9knFceFvjEh6Lz
+         2kiw==
+X-Gm-Message-State: AO0yUKX/LhDaX+9aestZxqrzYegh1os1QqYCyjhfsa1kM4r55DxpwozF
+        qPtoAIn6le+ddd95UqVpboo/sj89wA==
+X-Google-Smtp-Source: AK7set+DQD+hptyUlvhbR1ibNJoT1JdCD96NXfu6tMZkCuead4Bp4COOgVeDLZXLAO1gyQwMEitUBw==
+X-Received: by 2002:aca:a90f:0:b0:386:9e54:aac3 with SMTP id s15-20020acaa90f000000b003869e54aac3mr271068oie.32.1679433594715;
+        Tue, 21 Mar 2023 14:19:54 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q204-20020a4a33d5000000b0053853156b5csm5117406ooq.8.2023.03.21.14.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 14:19:54 -0700 (PDT)
+Received: (nullmailer pid 1635108 invoked by uid 1000);
+        Tue, 21 Mar 2023 21:19:53 -0000
+Date:   Tue, 21 Mar 2023 16:19:53 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v5 10/15] dt-bindings: net: ethernet-controller:
+ Document support for LEDs node
+Message-ID: <20230321211953.GA1544549-robh@kernel.org>
+References: <20230319191814.22067-1-ansuelsmth@gmail.com>
+ <20230319191814.22067-11-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Subject: Re: kernel error at led trigger "phy0tpt"
-Content-Language: de-DE
-To:     "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>, stable@vger.kernel.org,
-        regressions@lists.linux.dev
-Cc:     linux-wireless@vger.kernel.org, linux-leds@vger.kernel.org
-References: <91feceb2-0df4-19b9-5ffa-d37e3d344fdf@web.de>
- <be785bbb-d77d-9930-56d0-dcef26f07bb2@leemhuis.info>
-From:   Tobias Dahms <dahms.tobias@web.de>
-In-Reply-To: <be785bbb-d77d-9930-56d0-dcef26f07bb2@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uHQnkX0fYIYlHoABAFNTANHLkC3kvk98ARgpoB0OZ0avajHCvlG
- BJird9BaItFEqkVoLuUpMAKtu1xKLR8ie5pN/iECs7wAIQpK0Eu13GWGgqtMNpCn46At2EQ
- Nr30f1wbNf41laurSwZmIo+CxRtlovme6KLNHUwxdT9LRoSS8Lve1+RpeM9Ouki0TiVPx/x
- g4kEqKBOe1vO8lZt8Y4vA==
-UI-OutboundReport: notjunk:1;M01:P0:ztJnEZGelIg=;3q/vPhXE6vuP4fqPiimMQf3PhBU
- tfrInOcvw5b2yuNyHUoNWC3+t9mdSfYrQheu3IYnu5eu++8HNeAvA6aVJpR+iHY45qUEtkhyW
- 0ZBF95DHnFBEYH2mUj8CF+8nhCs55pZ1xBK8tWEkL9YaMxlWrSpBptO/1lqB8NT4foHBA01rS
- MIYH0iKRS0B6g+nU1vZKW823dxbFlqJB12+0yPD0F3HMllhqHV6KkUm286FhdRDJG0Js3c9UF
- icnPtg6IiDhMnUNH1Tbckp2XF9jS8vE8uiZNn3ScEOLOyEKn0jwN4LMG2ht4Aal2N9rldem9/
- q0Zay1FtAkNkI85u60MzoihFJDFllCjEDbFtbMW4/TKrhvcbiNogph2iz7wkidwG8Fure+K+z
- HoaqtLao9IkMKJF+4kSI76R60yNBxCKwKwA3E5+FPrscKHznI4l9mRxBzPX1j4MtWLBMG6Jl4
- LzFp7mx0hRCdJ70CkiEoKMb3SpQUuyZ3tP1M0/0kNDqV61u32wbQQBJG8siOMd0N9nfeWoZ/P
- gfnyMWES5hUK+8xBDveXy3qOT2hhxz+rbruk8Zvx8cW8NL08uSJ4l47OcoI5Yd6MeQxn54fnf
- coYxAQdo4oZDCdhDyTdzN1LXfzTzEuosJv9NzgzWMcYii1ZVH4B8Icc8VEw11V7T108SY4Oxu
- 1pnMcq0Afe/Rs63DHEWiXOND/HcjRu8IBIUD4KKoQEZ4NZrMirIKyjx6MEH7zvWMsXtrpdygk
- jwxlFj9r8+ZbYX5db+KLNH/Sv39GCnOJcxN3OJJV7opVyQ3RmTA+y0JuU/2/YcaX6oIqVVEXU
- BTJEBGeGFpiddRDLFkQvYrMOa5W22kzqjbkgdV9FIdW5MrD2wawoiQcHy7/b1Fk8z8AvGK+eI
- FxRKmzGGOKJ+9nYejwsLVVv+07VJ4ym+2Ud2BB7CmB5RStxGlGuufWyBZnwvhFCt0zvwYPuSM
- e5Zw4xtn23j7Aumk+U4V6IlNWD8=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230319191814.22067-11-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Thorsten,
+On Sun, Mar 19, 2023 at 08:18:09PM +0100, Christian Marangi wrote:
+> Document support for LEDs node in ethernet-controller.
+> Ethernet Controller may support different LEDs that can be configured
+> for different operation like blinking on traffic event or port link.
+> 
+> Also add some Documentation to describe the difference of these nodes
+> compared to PHY LEDs, since ethernet-controller LEDs are controllable
+> by the ethernet controller regs and the possible intergated PHY doesn't
+> have control on them.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  .../bindings/net/ethernet-controller.yaml     | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> index 00be387984ac..a93673592314 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> @@ -222,6 +222,27 @@ properties:
+>          required:
+>            - speed
+>  
+> +  leds:
+> +    type: object
+> +    description:
+> +      Describes the LEDs associated by Ethernet Controller.
+> +      These LEDs are not integrated in the PHY and PHY doesn't have any
+> +      control on them. Ethernet Controller regs are used to control
+> +      these defined LEDs.
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      '^led(@[a-f0-9]+)?$':
+> +        $ref: /schemas/leds/common.yaml#
 
-all mentioned kernels are vanilla kernels. The "-bpi-r2" is only a
-suffix from CONFIG_LOCALVERSION=3D"-bpi-r2"
+Are specific ethernet controllers allowed to add their own properties in 
+led nodes? If so, this doesn't work. As-is, this allows any other 
+properties. You need 'unevaluatedProperties: false' here to prevent 
+that. But then no one can add properties. If you want to support that, 
+then you need this to be a separate schema that devices can optionally 
+include if they don't extend the properties, and then devices that 
+extend the binding would essentially have the above with:
 
-I will bisect on weekend and come back to you.
+$ref: /schemas/leds/common.yaml#
+unevaluatedProperties: false
+properties:
+  a-custom-device-prop: ...
 
-regards
-Tobias
 
-Am 21.03.23 um 15:40 schrieb Linux regression tracking (Thorsten Leemhuis)=
-:
-> On 20.03.23 20:44, Tobias Dahms wrote:
->> Hello,
->>
->> since some kernel versions I get a kernel errror while setting led
->> trigger to phy0tpt.
->>
->> command to reproduce:
->> echo phy0tpt > /sys/class/leds/bpi-r2\:isink\:blue/trigger
->>
->> same trigger, other led location =3D> no error:
->> echo phy0tpt > /sys/class/leds/bpi-r2\:pio\:blue/trigger
->>
->> other trigger, same led location =3D> no error:
->> echo phy0tx > /sys/class/leds/bpi-r2\:isink\:blue/trigger
->>
->> last good kernel:
->> bpi-r2 5.19.17-bpi-r2
->>
->> error at kernel versions:
->> bpi-r2 6.0.19-bpi-r2
->> up to
->> bpi-r2 6.3.0-rc1-bpi-r2+
->
-> Thx for the report.
->
-> "5.19.17-bpi-r2" sounds like a vendor kernel. Is that one that is
-> vanilla or at least close to vanilla? If not, you'll have to report this
-> to your kernel vendor. If not: could you try to bisect this?
->
->> wireless lan card:
->> 01:00.0 Network controller: MEDIATEK Corp. MT7612E 802.11acbgn PCI
->> Express Wireless Network Adapter
->>
->> distribution:
->> Arch-Linux-ARM (with vanilla kernel instead of original distribution
->> kernel)
->>
->> board:
->> BananaPi-R2
->
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
+If you wanted to define both common ethernet LED properties and 
+device specific properties, then you'd need to replace leds/common.yaml 
+above  with the ethernet one.
+
+This is all the same reasons the DSA/switch stuff and graph bindings are 
+structured the way they are.
+
+Rob
