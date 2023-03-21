@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C9A6C365E
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 16:58:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E01656C367C
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 17:03:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231337AbjCUP6r (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Mar 2023 11:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48946 "EHLO
+        id S231614AbjCUQDF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Mar 2023 12:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbjCUP6q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 11:58:46 -0400
+        with ESMTP id S231561AbjCUQDD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 12:03:03 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3914010A8D;
-        Tue, 21 Mar 2023 08:58:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC64EE3A9;
+        Tue, 21 Mar 2023 09:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=URL1tZO+Mirs0erydKMklYrp3ZSfkDqzdADLJvizp6w=; b=6O7pbXHfrDLF1ERdKmcEt4/wro
-        CWPWCweOhhbqISBnDZYDjlM9/2ETuYnwCYE6KeGvbwKEi8GamEsBa8qyrD1gVIb6Q184e92b1noDZ
-        viurRXe3X38vQUeoz2nv+b7oD4Gt/tEjp4su8bZwanLZprQygZpFo48rLfs8OCZCWQvw=;
+        bh=UhI5aI9t9AlQX1lyEkSQgbbBqJx4akdZKnAhh0dLnAE=; b=Gf8Qvy0U+a8VjilUEoLdKSmrpY
+        4U2VlqXFZQloRFCLUYziSbHNMTAsMSYcgZ3H9q6pPL8jEfXyRZ1IhuBPI0MjS93KxKG7CZZMEEIc1
+        gvAI4xSTOunBPvpQ2TwITEt6p8IkeX3iIX1ihOXWZwx4xhn99+z40C53V4+WXxXg6BtA=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1peeNR-007yuF-79; Tue, 21 Mar 2023 16:58:21 +0100
-Date:   Tue, 21 Mar 2023 16:58:21 +0100
+        id 1peeRe-007yxn-HD; Tue, 21 Mar 2023 17:02:42 +0100
+Date:   Tue, 21 Mar 2023 17:02:42 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Florian Fainelli <f.fainelli@gmail.com>,
@@ -50,7 +50,7 @@ Cc:     Florian Fainelli <f.fainelli@gmail.com>,
         linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
 Subject: Re: [net-next PATCH v5 04/15] leds: Provide stubs for when CLASS_LED
  is disabled
-Message-ID: <32202a37-270f-4503-9147-55aa2615116a@lunn.ch>
+Message-ID: <c07d07b3-42bc-4433-8f8d-3bee75218df7@lunn.ch>
 References: <20230319191814.22067-1-ansuelsmth@gmail.com>
  <20230319191814.22067-5-ansuelsmth@gmail.com>
  <aa2d0a8b-b98b-4821-9413-158be578e8e0@lunn.ch>
@@ -70,19 +70,19 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> Also why IS_ENABLED instead of a simple ifdef? (in leds.h there is a mix
-> of both so I wonder if we should use one or the other)
+> BTW yes I repro the problem.
+> 
+> Checked the makefile and led-core.c is compiled with NEW_LEDS and
+> led-class is compiled with LEDS_CLASS.
+> 
+> led_init_default_state_get is in led-core.c and this is the problem with
+> using LEDS_CLASS instead of NEW_LEDS...
+> 
+> But actually why we are putting led_init_default_state_get behind a
+> config? IMHO we should compile it anyway.
 
-/*
- * IS_ENABLED(CONFIG_FOO) evaluates to 1 if CONFIG_FOO is set to 'y' or 'm',
- * 0 otherwise.  Note that CONFIG_FOO=y results in "#define CONFIG_FOO 1" in
- * autoconf.h, while CONFIG_FOO=m results in "#define CONFIG_FOO_MODULE 1".
- */
-#define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
+It is pointless if you don't have any LED support. To make it always
+compiled, you would probably need to move it into leds.h. And then you
+bloat every user with some code which is not hot path.
 
-It cleanly handles the module case, which i guess most people would
-get wrong.
-
-    Andrew
-
-
+      Andrew
