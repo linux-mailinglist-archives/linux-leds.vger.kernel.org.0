@@ -2,177 +2,196 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE696C3D65
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 23:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FC2F6C3DE3
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 23:54:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbjCUWI3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Mar 2023 18:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
+        id S229973AbjCUWyx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Mar 2023 18:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbjCUWI3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 18:08:29 -0400
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D696ACC20;
-        Tue, 21 Mar 2023 15:08:27 -0700 (PDT)
-Received: by mail-ot1-f45.google.com with SMTP id p20-20020a056830319400b0069f914e5c74so1117048ots.3;
-        Tue, 21 Mar 2023 15:08:27 -0700 (PDT)
+        with ESMTP id S229934AbjCUWyw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 18:54:52 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C3458C0D;
+        Tue, 21 Mar 2023 15:54:50 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id v4-20020a05600c470400b003ee4f06428fso833563wmo.4;
+        Tue, 21 Mar 2023 15:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679439289;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=3HAdzANA7GRiZJA2epDIo4XVuYsjDwv30y8YzH+0KtI=;
+        b=fbbcthgEVJKZpX19gE41dOEOZKGjPLVKXpR8AbRUpLUoU/Ydsut9Zy+qXTSDba3O7R
+         ogPPDSLCqyZUYOCPKk+OmrlyeNjPcYeRklvTVVvPSX4M4womGAubm5V5mwT7IZoQ2pYm
+         p+BAeasDHYp9yX9PFSrJ4iPGbZQKqGidrJDZxda7g0Kr45XoKI78QWNEhzNuZUmzPrXn
+         py/5T0NSmJHosHOMuugdEJDY5+Q7OoAnUoYeRiTLjqwcyyxHhmDZxe1e4ZTR0BLZy5iI
+         imPJNvtU0FUZ2P0ObJH3NNJOlecs4VQ86l16+H3iPEJUHgrV0EDMCXMnY4UrntCAgPTH
+         sIzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679436507;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20210112; t=1679439289;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZpDMWU1r+Zt8jZrtXFc2D2tco7/VMKbA4jzzKhsFGCA=;
-        b=WBya72RTjhbb7R5dPkjv+WPWNTE2xUJDKvVoZmX78LOaNMI9eMb4mN7u0N7W+5sRVA
-         T4kRpnpV/FGv+U6Y5tmGvJe3lVKzp87DqRXi29e3EteLXTrODt8+BPeI4CbuzXcwQkJ0
-         GuWW5o/iHmGQFsKjZhOrYq/9yJqIYz3btl7kWFdHTWOhMQ0khvxwJ6jg1uNNotjIjp6w
-         168UcYdRoXlvizhFjmKMz4OgQF1zMB35/jjX7smzL7ZTRT8Nhj2SscNv2stx9gjVoZzH
-         a9AMFM2hojnV3FsxgZrfuOsflgsQhatXXi+y2Chi3KhNS3jPQt8FBXu9Q/Qu0cY1zOPy
-         iisg==
-X-Gm-Message-State: AO0yUKVy+rS1nFvAP4sNrAlAu2KwKbW2Z+HTLG7dNmfuOeZ5zXnrsN8i
-        /zPAIWFi0OgCyB85FM2lyWAXyyOSZw==
-X-Google-Smtp-Source: AK7set+96sV7YUNKjhPVEomctIU42GJayDjjb8XCwvoVE0twKuMLd+lcSJ8FKJwNdgf4/oaqvJA4uQ==
-X-Received: by 2002:a05:6830:2009:b0:69f:2774:b60 with SMTP id e9-20020a056830200900b0069f27740b60mr408963otp.8.1679436507024;
-        Tue, 21 Mar 2023 15:08:27 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t26-20020a05683014da00b0068d752f1870sm5626034otq.5.2023.03.21.15.08.25
+        bh=3HAdzANA7GRiZJA2epDIo4XVuYsjDwv30y8YzH+0KtI=;
+        b=swU/voEmZwTXqHCREjwXzhSdfJoIa2X2AJ+sxRtHfPYG+QZhYnDF7HQ7IhP9TxssqU
+         IqlM9IuwEJd2Q1ilc5G0bJg8FJ32jIdB9QtPu+6ik4s4zdSeF+RPzvvW4toZ/ZngfQml
+         bPnIscmNVdoOa/3NPlnqTRTkaYI+7I9SGlTMKzI92c4EJA3RPp8gLy//gXkW3xcHokgY
+         IQk8rdQsOl+g7v5NPA2U20E/q8+byjgpuxAMchrYmq3+gUzGaJSE29/BQ23M59YmJ5Ud
+         JV0jD4SzI3qb5cxY//k/FsImLA0qvIXIL8CbmNckCKOKou6ipYdN+cA9B+VRtWiTycGp
+         FrQw==
+X-Gm-Message-State: AO0yUKVPFQAFjsNexcnK6k7FLwk5qnj8/QjDZ9Kkt4qXIitNM3fPv6YC
+        5zJhv2dls01BJwc6w3iqvh+yxEnUP1CVyw==
+X-Google-Smtp-Source: AK7set/E8pBAGWWNISHq/PCSZ5cZ24Z1eoHpQqNIofp1fioL8wjvPDeViM3lQCpr0N0Vic6sWSO9tA==
+X-Received: by 2002:a7b:ce8a:0:b0:3df:de28:f819 with SMTP id q10-20020a7bce8a000000b003dfde28f819mr3832933wmj.15.1679439288934;
+        Tue, 21 Mar 2023 15:54:48 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.gmail.com with ESMTPSA id h20-20020a1ccc14000000b003dc522dd25esm14755161wmb.30.2023.03.21.15.54.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 15:08:26 -0700 (PDT)
-Received: (nullmailer pid 1740280 invoked by uid 1000);
-        Tue, 21 Mar 2023 22:08:25 -0000
-Date:   Tue, 21 Mar 2023 17:08:25 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
+        Tue, 21 Mar 2023 15:54:48 -0700 (PDT)
+Message-ID: <641a35b8.1c0a0220.25419.2b4d@mx.google.com>
+X-Google-Original-Message-ID: <ZBo1tqarEyoA0sV0@Ansuel-xps.>
+Date:   Tue, 21 Mar 2023 23:54:46 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: aw2013: Document vddio-supply
-Message-ID: <20230321220825.GA1685482-robh@kernel.org>
-References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
- <20230320175131.174657-1-linmengbo0689@protonmail.com>
- <922eab51-6931-8533-db51-51cd911a36b3@linaro.org>
- <ZBitAGOmF/hyxDYP@gerhold.net>
- <94cdb512-b168-6ffe-73c1-caf23bb79d6f@linaro.org>
- <ZBoR0DPQ+AufzKHk@gerhold.net>
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v5 10/15] dt-bindings: net: ethernet-controller:
+ Document support for LEDs node
+References: <20230319191814.22067-1-ansuelsmth@gmail.com>
+ <20230319191814.22067-11-ansuelsmth@gmail.com>
+ <20230321211953.GA1544549-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBoR0DPQ+AufzKHk@gerhold.net>
-X-Spam-Status: No, score=0.7 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230321211953.GA1544549-robh@kernel.org>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 09:21:36PM +0100, Stephan Gerhold wrote:
-> On Tue, Mar 21, 2023 at 07:42:37AM +0100, Krzysztof Kozlowski wrote:
-> > On 20/03/2023 19:59, Stephan Gerhold wrote:
-> > > On Mon, Mar 20, 2023 at 07:04:22PM +0100, Krzysztof Kozlowski wrote:
-> > >> On 20/03/2023 18:55, Lin, Meng-Bo wrote:
-> > >>> Some LEDs controllers are used with external pull-up for the interrupt
-> > >>> line and the I2C lines, so we might need to enable a regulator to bring
-> > >>> the lines into usable state.
-> > >>
-> > >> Not a property of this device.
-> > >>
-> > >>> Otherwise, this might cause spurious
-> > >>> interrupts and reading from I2C will fail.
-> > >>>
-> > >>> Document support for "vddio-supply" that is enabled by the aw2013 driver
-> > >>> so that the regulator gets enabled when needed.
-> > >>>
-> > >>> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-> > >>> ---
-> > >>>  Documentation/devicetree/bindings/leds/leds-aw2013.yaml | 5 +++++
-> > >>>  1 file changed, 5 insertions(+)
-> > >>>
-> > >>> diff --git a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> > >>> index 08f3e1cfc1b1..79b69cf1d1fe 100644
-> > >>> --- a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> > >>> +++ b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> > >>> @@ -23,6 +23,11 @@ properties:
-> > >>>    vcc-supply:
-> > >>>      description: Regulator providing power to the "VCC" pin.
-> > >>>  
-> > >>> +  vddio-supply:
-> > >>> +    description: |
-> > >>> +      Optional regulator that provides digital I/O voltage,
-> > >>
-> > >> NAK. I responded to your patch and you just send a v2 without explanation.
-> > >>
-> > >> The device does not have VDDIO pin, either.
-> > >>
-> > > 
-> > > The power supply Lin is trying to add here is basically the "VIO1"
-> > > example in "Figure 1 AW2013 Typical Application Circuit" on page 1 of
-> > > the AW2013 datasheet [1]. The I2C pins and the interrupt output are both
-> > > open-drain and therefore require external pull-up resistors, connected
-> > > to a power supply that might not be always on.
-> > > 
-> > > Because of the open-drain pins AW2013 does indeed not have a dedicated
-> > > input pin for the I/O supply voltage. However, it is still necessary to
-> > > describe the power supply _somewhere_, to ensure that it is enabled when
-> > > needed.
-> > > 
-> > > It is hard to model this properly but it's generally easiest to handle
-> > > this inside the peripheral driver since it knows exactly when I2C and/or
-> > > interrupt lines are currently needed or not. This situation is fairly
-> > > common for I2C devices so there are several precedents, e.g.:
-> > > 
-> > >   1. cypress,tm2-touchkey.yaml: "vddio-supply"
-> > >      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e730ec11d51283ad62a98436967c01b718132ab
-> > >   2. goodix,gt7375p.yaml: "mainboard-vddio-supply"
-> > >      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1d18c1f3b7d938bdefc44289d137b4e6c7a3d502
+On Tue, Mar 21, 2023 at 04:19:53PM -0500, Rob Herring wrote:
+> On Sun, Mar 19, 2023 at 08:18:09PM +0100, Christian Marangi wrote:
+> > Document support for LEDs node in ethernet-controller.
+> > Ethernet Controller may support different LEDs that can be configured
+> > for different operation like blinking on traffic event or port link.
 > > 
-> > Both are mistaken. How can you enumerate or autodetect a device if its
-> > regulator pulling up I2C are not on?
+> > Also add some Documentation to describe the difference of these nodes
+> > compared to PHY LEDs, since ethernet-controller LEDs are controllable
+> > by the ethernet controller regs and the possible intergated PHY doesn't
+> > have control on them.
+> > 
+> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> > ---
+> >  .../bindings/net/ethernet-controller.yaml     | 21 +++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > index 00be387984ac..a93673592314 100644
+> > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > @@ -222,6 +222,27 @@ properties:
+> >          required:
+> >            - speed
+> >  
+> > +  leds:
+> > +    type: object
+> > +    description:
+> > +      Describes the LEDs associated by Ethernet Controller.
+> > +      These LEDs are not integrated in the PHY and PHY doesn't have any
+> > +      control on them. Ethernet Controller regs are used to control
+> > +      these defined LEDs.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      '^led(@[a-f0-9]+)?$':
+> > +        $ref: /schemas/leds/common.yaml#
 > 
-> You don't. By design I2C does not support enumeration or autodetection.
-> Nothing we implement in software can change that.
+> Are specific ethernet controllers allowed to add their own properties in 
+> led nodes? If so, this doesn't work. As-is, this allows any other 
+> properties. You need 'unevaluatedProperties: false' here to prevent 
+> that. But then no one can add properties. If you want to support that, 
+> then you need this to be a separate schema that devices can optionally 
+> include if they don't extend the properties, and then devices that 
+> extend the binding would essentially have the above with:
 > 
-> I2C devices have all sorts of requirements before they show up on the
-> bus at all (power supplies, enable GPIOs, clocks, ...). All these are
-> currently modelled as part of the consumer IC.
+> $ref: /schemas/leds/common.yaml#
+> unevaluatedProperties: false
+> properties:
+>   a-custom-device-prop: ...
 > 
-> > What's more, on I2C lines you could have more devices, so you expect
-> > each of them having the supply?
 > 
-> Yes, I don't think this is a problem since it's typical for regulators
-> to be shared. If at least one of the I2C devices is active, the bus will
-> be active as well.
+> If you wanted to define both common ethernet LED properties and 
+> device specific properties, then you'd need to replace leds/common.yaml 
+> above  with the ethernet one.
 > 
-> > These are properties of I2C controller, not the consumer. I2C controller
-> > should enable any regulators necessary for the IO pins.
+> This is all the same reasons the DSA/switch stuff and graph bindings are 
+> structured the way they are.
 > 
-> In general I agree with you here. But as I mentioned already there is
-> usually more than just the I2C I/O lines. For AW2013 there is at least
-> also the open-drain interrupt line. On other ICs there could also be
-> arbitrary GPIO lines that are used in open-drain mode. Those are
-> completely unrelated to the I2C controller.
-> 
-> Do you have any suggestions how to handle the power supply for those?
-> 
-> IMO for interrupts lines the pull-up I/O supply is hardly a property of
-> the interrupt controller. It just cares that a line switches from high
-> to low. It's not exactly a property of the consumer IC either. However,
-> since operating the interrupt line in open-drain mode is part of the
-> consumer IC specification I would say that the I/O supply for interrupt
-> lines is better described on the consumer side.
-> 
-> For sake of completeness we could additionally describe the supply for
-> the I2C lines on the I2C controller, but then we still need this patch
-> or something else for the interrupt lines.
 
-I think a supply on the device side is fine here. Just be clear in the 
-description about its purpose. We have much worse abuses than this 
-(random bus clocks added to SoC devices).
+Hi Rob, thanks for the review/questions.
 
-Rob
+The idea of all of this is to keep leds node as standard as possible.
+It was asked to add unevaluatedProperties: False but I didn't understood
+it was needed also for the led nodes.
 
+leds/common.yaml have additionalProperties set to true but I guess that
+is not OK for the final schema and we need something more specific.
+
+Looking at the common.yaml schema reg binding is missing so an
+additional schema is needed.
+
+Reg is needed for ethernet LEDs and PHY but I think we should also permit
+to skip that if the device actually have just one LED. (if this wouldn't
+complicate the implementation. Maybe some hints from Andrew about this
+decision?)
+
+If we decide that reg is a must, if I understood it correctly we should
+create something like leds-ethernet.yaml that would reference common and
+add reg binding? Is it correct? This schema should be laded in leds
+directory and not in the net/ethernet.
+
+Also with setting reg mandatory I will have to fix the regex to require
+@ in the node name.
+
+
+Also also if we decide for a more specific schema, I guess I can
+reference that directly in ethernet-phy.yaml and ethernet-controller.yaml
+with something like:
+
+leds:
+  $ref: /schemas/leds/leds-ethernet.yaml#
+
+Again thanks for the review and hope you can give some
+hint/clarification if I got everything right.
+
+-- 
+	Ansuel
