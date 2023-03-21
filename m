@@ -2,75 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 080BB6C2E06
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 10:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF03C6C34E4
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 15:58:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbjCUJh5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Mar 2023 05:37:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40226 "EHLO
+        id S229873AbjCUO62 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Mar 2023 10:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbjCUJho (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 05:37:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB6F42F05D
-        for <linux-leds@vger.kernel.org>; Tue, 21 Mar 2023 02:36:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679391415;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XfRC8Ita4hAlia+SkZ/pQsZ8qxnj9B8pouZMmuvyE0Q=;
-        b=S+NhgoGAvwVSv8QTchZ133UoDHfw+AdpXLaOmt8k7GwmqZ3zkuQmX9r4rNYfwhXXE0gIxn
-        74mMh07CqWYSCfThEssmOXuR+UTN+aZ4M6SwRNQwIc6pEoBscBeFcxeOvEOFvxIyCAmk9g
-        br/2uuEORvrMKQBYIzv34dwh09rjKZ0=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-mH8wnJ_2N1evXtyu-O11Nw-1; Tue, 21 Mar 2023 05:36:54 -0400
-X-MC-Unique: mH8wnJ_2N1evXtyu-O11Nw-1
-Received: by mail-pj1-f71.google.com with SMTP id oa14-20020a17090b1bce00b0023d1b58d3baso4844677pjb.4
-        for <linux-leds@vger.kernel.org>; Tue, 21 Mar 2023 02:36:54 -0700 (PDT)
+        with ESMTP id S230219AbjCUO61 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 10:58:27 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF45231CD;
+        Tue, 21 Mar 2023 07:58:24 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id l27so5687298wrb.2;
+        Tue, 21 Mar 2023 07:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679410703;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=bgXEnYwzn/S6BlOb++Eaqru+i6YXyzKGwwPJBmaxtD4=;
+        b=ga4YMD0irqHN4ilQrJ2QMVEbWHArwcWv2PG1FGLGI3et3uRUC94zk6BZpYLXtYwFfq
+         Ww9fw7+pA7jFvc7QMMl9umhdWEA/kXceI4gCT4ZS+u6cf5+k8wZDH1mBjOQF2IZwG0eP
+         BbF2RgvFUaLtqL8bqcA2Zc3372cO+99MGl3tVQ4B1oDiwwkK2/0cyJ9S8MYkfaLa2oaM
+         7HxJWl67A3Jb7WSMyAi9EIoCBfiTwvWCOacUirjCW8pP1pNszz6QJU7mkI3miHldqUgt
+         Enrh0ZOQr8wcVepDFsJOkm3WoNuy9MeBo+P0WBP6DG/Eu1lLdMhF71YyTtIOzp8Xc7lc
+         HGpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679391413;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XfRC8Ita4hAlia+SkZ/pQsZ8qxnj9B8pouZMmuvyE0Q=;
-        b=2b7ZBpKJ96lZjORH+gBvz9vxSPl1Tt/gxacQHO3+o0AlZBUXMmnVYtrsHnYLr3eg2G
-         rDeY0nzGmheL/Gqy3qsEi8JqgTmBmY7makZNMnJRtVr1uryQBUEwsRWcwE4xEFFgJV23
-         UvurOFhxYybLwOh5ss/jof3uuRnbmkqdAyz1XbOyV2H29rngCscdDHeOaESl41iImJ6J
-         mIiCvQ41VbRkOsFBnL74n2TL7Jr0iyPnSL1MDtRjmXkkEFPGcKpkJg0YrGzAQmc/yN7R
-         5UpOKF+re0N9NSgyRz6BOoqXlfWiZdaDoncD0eZUoKIPNWf1XnHsCpxqSH9e5UiD3OIi
-         sEOg==
-X-Gm-Message-State: AO0yUKV7xBRyZD4YSOX6a0rIQHayMRqeFNQM9+R4r9aPjadMyWaNeAmE
-        4J6cPgJK401EBnLn9fPqU3R9jtkIo7HFst5Nqq3pi7diV+H3r4svdjHSpZ9p7BDV030Taqemq5W
-        1qf9c+Q5mu1rCGPPSFOAug7blprNNWSGLNTvZnQ==
-X-Received: by 2002:a65:4148:0:b0:503:25f0:9cc5 with SMTP id x8-20020a654148000000b0050325f09cc5mr450824pgp.2.1679391413485;
-        Tue, 21 Mar 2023 02:36:53 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+yEpuJSPlUg9YtTf7pBwF+pFo21vE1vsHCheSHadGxI0oX1zWAUYHSBO02WJAw3XvEbkmIT4R3ZJXkVaMekrk=
-X-Received: by 2002:a65:4148:0:b0:503:25f0:9cc5 with SMTP id
- x8-20020a654148000000b0050325f09cc5mr450812pgp.2.1679391413063; Tue, 21 Mar
- 2023 02:36:53 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679410703;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bgXEnYwzn/S6BlOb++Eaqru+i6YXyzKGwwPJBmaxtD4=;
+        b=a9+x/9qzfIRngLeOzY0OOHw89nWNN+4oMrkdQvKAF5yUi7l1bg19op5s0SYepETJje
+         WjHnneGUlA8BmvxJJe8wqu2ieCTcT4vIAltxMS/ltRpPiV4aaaBSSJ1JJGGTvCGNLRoZ
+         VayF6L6FRRHAn9UKu53tpC5Ah48XHQZsZhGjTNuRaOHFVYnogAbTgQeZEhYXnl9osOMC
+         uMcNCgHHyeM1fMrkv2OU/GQzSXF+B1ML31ODcf9L3/Vb1/NBecwYoYl3G4iLber+i7Ns
+         TMlM9lGg2OLx5kEjfYvI+B0rOw8iAE5N84xI3bFNhgyFy6kvo2QcszpVol6YWDwoiFD9
+         ylDw==
+X-Gm-Message-State: AO0yUKXtikfmCn0WNPInC3gW7PD0+wszW8t7AYz7KrNxzyxvU3o+IJBA
+        ieZ6m2SVz+bOw18eECYPDZ8=
+X-Google-Smtp-Source: AK7set+K7ppr5kVHCtHkrUaYjB+7uxp7G1eEctUkA+c9/tYtmX8WRNtLlnpL/VsrO7ZBl1mm/ABfEA==
+X-Received: by 2002:adf:f2c8:0:b0:2d2:22eb:824a with SMTP id d8-20020adff2c8000000b002d222eb824amr2419295wrp.34.1679410702538;
+        Tue, 21 Mar 2023 07:58:22 -0700 (PDT)
+Received: from Ansuel-xps. (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
+        by smtp.gmail.com with ESMTPSA id d5-20020adfef85000000b002cfed482e9asm11556989wro.61.2023.03.21.07.58.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 07:58:22 -0700 (PDT)
+Message-ID: <6419c60e.df0a0220.1949a.c432@mx.google.com>
+X-Google-Original-Message-ID: <ZBli4hn6oPZzQZk0@Ansuel-xps.>
+Date:   Tue, 21 Mar 2023 08:55:14 +0100
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v5 04/15] leds: Provide stubs for when CLASS_LED
+ is disabled
+References: <20230319191814.22067-1-ansuelsmth@gmail.com>
+ <20230319191814.22067-5-ansuelsmth@gmail.com>
+ <aa2d0a8b-b98b-4821-9413-158be578e8e0@lunn.ch>
+ <64189d72.190a0220.8d965.4a1c@mx.google.com>
+ <5ee3c2cf-8100-4f35-a2df-b379846a8736@lunn.ch>
 MIME-Version: 1.0
-References: <20230310095635.813262-1-hpa@redhat.com> <20230310095635.813262-4-hpa@redhat.com>
- <82eaa100-c334-fb02-f956-5515e9b3d79d@ideasonboard.com>
-In-Reply-To: <82eaa100-c334-fb02-f956-5515e9b3d79d@ideasonboard.com>
-From:   Kate Hsuan <hpa@redhat.com>
-Date:   Tue, 21 Mar 2023 17:36:41 +0800
-Message-ID: <CAEth8oF1SLhxBOvUK6=P7Pjof9F5cRRenQJ45D2cQ3k6N6tjQw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] leds: tps68470: Add LED control for tps68470
-To:     Dan Scally <dan.scally@ideasonboard.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mark Gross <markgross@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ee3c2cf-8100-4f35-a2df-b379846a8736@lunn.ch>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,70 +94,53 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 10:24=E2=80=AFPM Dan Scally <dan.scally@ideasonboar=
-d.com> wrote:
->
-> Hi Kate - sorry just noticed one more thing...
->
-> On 10/03/2023 09:56, Kate Hsuan wrote:
-> > There are two LED controllers, LEDA indicator LED and LEDB flash LED fo=
-r
-> > tps68470. LEDA can be enabled by setting TPS68470_ILEDCTL_ENA. Moreover=
-,
-> > tps68470 provides four levels of power status for LEDB. If the
-> > properties called "ti,ledb-current" can be found, the current will be
-> > set according to the property values. These two LEDs can be controlled
-> > through the LED class of sysfs (tps68470-leda and tps68470-ledb).
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >   drivers/leds/Kconfig         |  12 +++
-> >   drivers/leds/Makefile        |   1 +
-> >   drivers/leds/leds-tps68470.c | 182 ++++++++++++++++++++++++++++++++++=
-+
-> >   3 files changed, 195 insertions(+)
-> >   create mode 100644 drivers/leds/leds-tps68470.c
-> >
-> > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> > index 9dbce09eabac..fd26036b3c61 100644
-> > --- a/drivers/leds/Kconfig
-> > +++ b/drivers/leds/Kconfig
-> > @@ -827,6 +827,18 @@ config LEDS_TPS6105X
-> >         It is a single boost converter primarily for white LEDs and
-> >         audio amplifiers.
-> >
-> > +config LEDS_TPS68470
-> > +     tristate "LED support for TI TPS68470"
-> > +     depends on LEDS_CLASS
-> > +     depends on INTEL_SKL_INT3472
-> > +     help
-> > +       This driver supports TPS68470 PMIC with LED chip.
-> > +       It provide two LED controllers, including an indicator LED
-> > +       and a flash LED.
-> > +
-> > +       To compile this driver as a module, choose M and it will be
-> > +       called leds-tps68470
-> > +
-> >   config LEDS_IP30
-> >       tristate "LED support for SGI Octane machines"
-> >       depends on LEDS_CLASS
-> > diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> > index d30395d11fd8..b284bc0daa98 100644
-> > --- a/drivers/leds/Makefile
-> > +++ b/drivers/leds/Makefile
-> > @@ -84,6 +84,7 @@ obj-$(CONFIG_LEDS_TURRIS_OMNIA)             +=3D leds=
--turris-omnia.o
-> >   obj-$(CONFIG_LEDS_WM831X_STATUS)    +=3D leds-wm831x-status.o
-> >   obj-$(CONFIG_LEDS_WM8350)           +=3D leds-wm8350.o
-> >   obj-$(CONFIG_LEDS_WRAP)                     +=3D leds-wrap.o
-> > +obj-$(CONFIG_LEDS_TPS68470)          +=3D leds-tps68470.o
->
->
-> Alphabetical order here too please :)
->
-Thank you. I updated this. :)
+On Mon, Mar 20, 2023 at 08:31:36PM +0100, Andrew Lunn wrote:
+> On Mon, Mar 20, 2023 at 06:52:47PM +0100, Christian Marangi wrote:
+> > On Sun, Mar 19, 2023 at 11:49:02PM +0100, Andrew Lunn wrote:
+> > > > +#if IS_ENABLED(CONFIG_LEDS_CLASS)
+> > > >  enum led_default_state led_init_default_state_get(struct fwnode_handle *fwnode);
+> > > > +#else
+> > > > +static inline enum led_default_state
+> > > > +led_init_default_state_get(struct fwnode_handle *fwnode)
+> > > > +{
+> > > > +	return LEDS_DEFSTATE_OFF;
+> > > > +}
+> > > > +#endif
+> > > 
+> > > 0-day is telling me i have this wrong. The function is in led-core.c,
+> > > so this should be CONFIG_NEW_LEDS, not CONFIG_LEDS_CLASS.
+> > > 
+> > 
+> > Any idea why? NEW_LEDS just enable LEDS_CLASS selection so why we need
+> > to use that? Should not make a difference (in theory)
+> 
+> 0-day came up with a configuration which resulted in NEW_LEDS enabled
+> but LEDS_CLASS disabled. That then resulted in multiple definitions of 
+> led_init_default_state_get() when linking.
+> 
+> I _guess_ this is because select is used, which is not mandatory. So
+> randconfig can turn off something which is enabled by select.
+> 
+> I updated my tree, and so far 0-day has not complained, but it can
+> take a few days when it is busy.
+> 
 
---=20
-BR,
-Kate
+BTW yes I repro the problem.
 
+Checked the makefile and led-core.c is compiled with NEW_LEDS and
+led-class is compiled with LEDS_CLASS.
+
+led_init_default_state_get is in led-core.c and this is the problem with
+using LEDS_CLASS instead of NEW_LEDS...
+
+But actually why we are putting led_init_default_state_get behind a
+config? IMHO we should compile it anyway.
+
+So my suggestion is to keep the LEDS_CLASS and just remove the part for 
+led_init_default_state_get.
+
+Also why IS_ENABLED instead of a simple ifdef? (in leds.h there is a mix
+of both so I wonder if we should use one or the other)
+
+-- 
+	Ansuel
