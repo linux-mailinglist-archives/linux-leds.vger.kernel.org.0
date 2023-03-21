@@ -2,187 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57A876C3BB1
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 21:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C66CD6C3BB4
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Mar 2023 21:24:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjCUUX2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Mar 2023 16:23:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36704 "EHLO
+        id S230293AbjCUUYG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Mar 2023 16:24:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjCUUX1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 16:23:27 -0400
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A36F7D8B;
-        Tue, 21 Mar 2023 13:22:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1679430104; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=sq40Cd7UAFcnyk8bmLX+Sc1SHLTnambK3Y7DuApLuOecG9zPTcoEME4pbmmdgfgaLC
-    sslRVAvwv2l2VCu1xQ696hKYDpXDZ4CSLp6nmkggcjN1QoyslL7xdsL/O+RRySkcRcaK
-    sXykukInD4IsQpPhQQUn6WKHDcPoyC2r3cpxacvoTgmrmoRYFFmuAWTzHA4BLy90m7CT
-    BxOjyUwixfnCvqOHOEGnDiUqrogLdoO2d+dcVWXOkFvQ43bcUrU3wXSCDLAO85te3K98
-    9Mr8EKPsyhz6oxYS8lofBa6hPjk2AIHxqrR8jqD8JXWt5B8yC/eJ6J6zQ1bdIYnoU3Lx
-    LiKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1679430104;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=zqoNakOrYN9VuTDp9Rgfg3D/AHQRrAh7yltFEX866/0=;
-    b=MJHhhTueJwt/7n0DYOIz5N8b4rRrjDOqVg5lW8CsG7utyIzp9tEgQ6ZYLFYV16HIzN
-    nGChSw3PYPyMtynPlMPsDpAuK8VubFBqiDFWZLjhXUhs/gkRMM3bS/zF/XV1zxdyHT9F
-    kOEJcZWGgwbgVEiVmlxR8oVcjg+nqYDU0u34Cx9af+IeATiY3ZpoQfLvBgJoarnhNRPN
-    Vj+khVIWWdhuoRo3Cvoc/IMsr2nH4oxvkRpYOPL5qCOmXPI763WCA2iGdi5UO1wDJ+Ec
-    mQegfvzFwYLvFwIM218kt95QRUEqlGRN37h7XD/TqmGOQUOToHtV5pEBJx8pIABbdfQJ
-    oeMw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1679430104;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=zqoNakOrYN9VuTDp9Rgfg3D/AHQRrAh7yltFEX866/0=;
-    b=bmUr3Rx4VKPEeHCWXjNv9nqMxspiGJBZatQnwfuHs1cAFiCPGB9aCRyYfxNWfe9jdg
-    wDYOU5AfLsipXcNxVRk3Z8DqolflDL6PM0pEFaRfk+0BZ+TN7uRawKuJ9PH+l8PD3GW1
-    bhm9/tZgcSkUVDt0QxOxJqqc71TdtV26zEKpdQYHEuBZZrcRWXl98KQocDW+L4LPhTLV
-    IvHwC1ouQVhOAvlIusWGP1xKSMipj42HJhtrMbm+e88f+154SJuZeNq0bSmB/4l+7QPX
-    AOw9CmQwS1VFvMa5e7W+mSPcoYun+KOJQ8XxujvF+P9uqLK1BC140/JOeWrx6g5uAdZR
-    cgGw==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u267FZF9PwpcNKjXrKw7+KY="
-Received: from gerhold.net
-    by smtp.strato.de (RZmta 49.3.1 AUTH)
-    with ESMTPSA id i40d22z2LKLhH9y
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Tue, 21 Mar 2023 21:21:43 +0100 (CET)
-Date:   Tue, 21 Mar 2023 21:21:36 +0100
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: aw2013: Document vddio-supply
-Message-ID: <ZBoR0DPQ+AufzKHk@gerhold.net>
-References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
- <20230320175131.174657-1-linmengbo0689@protonmail.com>
- <922eab51-6931-8533-db51-51cd911a36b3@linaro.org>
- <ZBitAGOmF/hyxDYP@gerhold.net>
- <94cdb512-b168-6ffe-73c1-caf23bb79d6f@linaro.org>
+        with ESMTP id S230291AbjCUUYF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Mar 2023 16:24:05 -0400
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A564742F;
+        Tue, 21 Mar 2023 13:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+        t=1679430144; i=dahms.tobias@web.de;
+        bh=3vrnUaZQjktarTyyAWmtSbWvpA3xyzQS8LOv5gymyyM=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=eso4Q+iXBnUEfC1ghMuLfphO4olJjHoKZZTdX4bjwKgcvbSCKaMdzCaYMrrpvCZzP
+         jP5EA0CqrbSL7mj5zW0cMs1MYrl7VXByXSgaGySefRhsi3ZzzpJ3bliEkSr5isHETp
+         d4xiJ7mwmNHNQBaOGT/WF21lB+82FKNchTbWRZktWKdaZxMuRZ8Q4UvHtmlqV6BRu2
+         +eN9RFFcy7mEapj5WmQOYkpl3kmLn1Qfcz9Etl0Qs0px75lC8DRU8Kiie83o1wKW3v
+         e0AZIJcaVp0zb+aP1WLQs3SUVxa8gq8SPOdaxn/4ma5oHnEDBSjMV8vJ5swjJ6Eqaz
+         xX4kOS7buGzPA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.2.2] ([92.206.138.58]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MgibW-1q8Y4y23J6-00h2bQ; Tue, 21
+ Mar 2023 21:22:24 +0100
+Message-ID: <f8f7d7ae-7e4b-e0fb-6a21-1d4fdcc22035@web.de>
+Date:   Tue, 21 Mar 2023 21:22:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94cdb512-b168-6ffe-73c1-caf23bb79d6f@linaro.org>
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Subject: Re: kernel error at led trigger "phy0tpt"
+Content-Language: de-DE
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>, stable@vger.kernel.org,
+        regressions@lists.linux.dev
+Cc:     linux-wireless@vger.kernel.org, linux-leds@vger.kernel.org
+References: <91feceb2-0df4-19b9-5ffa-d37e3d344fdf@web.de>
+ <be785bbb-d77d-9930-56d0-dcef26f07bb2@leemhuis.info>
+From:   Tobias Dahms <dahms.tobias@web.de>
+In-Reply-To: <be785bbb-d77d-9930-56d0-dcef26f07bb2@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:uHQnkX0fYIYlHoABAFNTANHLkC3kvk98ARgpoB0OZ0avajHCvlG
+ BJird9BaItFEqkVoLuUpMAKtu1xKLR8ie5pN/iECs7wAIQpK0Eu13GWGgqtMNpCn46At2EQ
+ Nr30f1wbNf41laurSwZmIo+CxRtlovme6KLNHUwxdT9LRoSS8Lve1+RpeM9Ouki0TiVPx/x
+ g4kEqKBOe1vO8lZt8Y4vA==
+UI-OutboundReport: notjunk:1;M01:P0:ztJnEZGelIg=;3q/vPhXE6vuP4fqPiimMQf3PhBU
+ tfrInOcvw5b2yuNyHUoNWC3+t9mdSfYrQheu3IYnu5eu++8HNeAvA6aVJpR+iHY45qUEtkhyW
+ 0ZBF95DHnFBEYH2mUj8CF+8nhCs55pZ1xBK8tWEkL9YaMxlWrSpBptO/1lqB8NT4foHBA01rS
+ MIYH0iKRS0B6g+nU1vZKW823dxbFlqJB12+0yPD0F3HMllhqHV6KkUm286FhdRDJG0Js3c9UF
+ icnPtg6IiDhMnUNH1Tbckp2XF9jS8vE8uiZNn3ScEOLOyEKn0jwN4LMG2ht4Aal2N9rldem9/
+ q0Zay1FtAkNkI85u60MzoihFJDFllCjEDbFtbMW4/TKrhvcbiNogph2iz7wkidwG8Fure+K+z
+ HoaqtLao9IkMKJF+4kSI76R60yNBxCKwKwA3E5+FPrscKHznI4l9mRxBzPX1j4MtWLBMG6Jl4
+ LzFp7mx0hRCdJ70CkiEoKMb3SpQUuyZ3tP1M0/0kNDqV61u32wbQQBJG8siOMd0N9nfeWoZ/P
+ gfnyMWES5hUK+8xBDveXy3qOT2hhxz+rbruk8Zvx8cW8NL08uSJ4l47OcoI5Yd6MeQxn54fnf
+ coYxAQdo4oZDCdhDyTdzN1LXfzTzEuosJv9NzgzWMcYii1ZVH4B8Icc8VEw11V7T108SY4Oxu
+ 1pnMcq0Afe/Rs63DHEWiXOND/HcjRu8IBIUD4KKoQEZ4NZrMirIKyjx6MEH7zvWMsXtrpdygk
+ jwxlFj9r8+ZbYX5db+KLNH/Sv39GCnOJcxN3OJJV7opVyQ3RmTA+y0JuU/2/YcaX6oIqVVEXU
+ BTJEBGeGFpiddRDLFkQvYrMOa5W22kzqjbkgdV9FIdW5MrD2wawoiQcHy7/b1Fk8z8AvGK+eI
+ FxRKmzGGOKJ+9nYejwsLVVv+07VJ4ym+2Ud2BB7CmB5RStxGlGuufWyBZnwvhFCt0zvwYPuSM
+ e5Zw4xtn23j7Aumk+U4V6IlNWD8=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 07:42:37AM +0100, Krzysztof Kozlowski wrote:
-> On 20/03/2023 19:59, Stephan Gerhold wrote:
-> > On Mon, Mar 20, 2023 at 07:04:22PM +0100, Krzysztof Kozlowski wrote:
-> >> On 20/03/2023 18:55, Lin, Meng-Bo wrote:
-> >>> Some LEDs controllers are used with external pull-up for the interrupt
-> >>> line and the I2C lines, so we might need to enable a regulator to bring
-> >>> the lines into usable state.
-> >>
-> >> Not a property of this device.
-> >>
-> >>> Otherwise, this might cause spurious
-> >>> interrupts and reading from I2C will fail.
-> >>>
-> >>> Document support for "vddio-supply" that is enabled by the aw2013 driver
-> >>> so that the regulator gets enabled when needed.
-> >>>
-> >>> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-> >>> ---
-> >>>  Documentation/devicetree/bindings/leds/leds-aw2013.yaml | 5 +++++
-> >>>  1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> >>> index 08f3e1cfc1b1..79b69cf1d1fe 100644
-> >>> --- a/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> >>> +++ b/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> >>> @@ -23,6 +23,11 @@ properties:
-> >>>    vcc-supply:
-> >>>      description: Regulator providing power to the "VCC" pin.
-> >>>  
-> >>> +  vddio-supply:
-> >>> +    description: |
-> >>> +      Optional regulator that provides digital I/O voltage,
-> >>
-> >> NAK. I responded to your patch and you just send a v2 without explanation.
-> >>
-> >> The device does not have VDDIO pin, either.
-> >>
-> > 
-> > The power supply Lin is trying to add here is basically the "VIO1"
-> > example in "Figure 1 AW2013 Typical Application Circuit" on page 1 of
-> > the AW2013 datasheet [1]. The I2C pins and the interrupt output are both
-> > open-drain and therefore require external pull-up resistors, connected
-> > to a power supply that might not be always on.
-> > 
-> > Because of the open-drain pins AW2013 does indeed not have a dedicated
-> > input pin for the I/O supply voltage. However, it is still necessary to
-> > describe the power supply _somewhere_, to ensure that it is enabled when
-> > needed.
-> > 
-> > It is hard to model this properly but it's generally easiest to handle
-> > this inside the peripheral driver since it knows exactly when I2C and/or
-> > interrupt lines are currently needed or not. This situation is fairly
-> > common for I2C devices so there are several precedents, e.g.:
-> > 
-> >   1. cypress,tm2-touchkey.yaml: "vddio-supply"
-> >      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e730ec11d51283ad62a98436967c01b718132ab
-> >   2. goodix,gt7375p.yaml: "mainboard-vddio-supply"
-> >      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1d18c1f3b7d938bdefc44289d137b4e6c7a3d502
-> 
-> Both are mistaken. How can you enumerate or autodetect a device if its
-> regulator pulling up I2C are not on?
+Hi Thorsten,
 
-You don't. By design I2C does not support enumeration or autodetection.
-Nothing we implement in software can change that.
+all mentioned kernels are vanilla kernels. The "-bpi-r2" is only a
+suffix from CONFIG_LOCALVERSION=3D"-bpi-r2"
 
-I2C devices have all sorts of requirements before they show up on the
-bus at all (power supplies, enable GPIOs, clocks, ...). All these are
-currently modelled as part of the consumer IC.
+I will bisect on weekend and come back to you.
 
-> What's more, on I2C lines you could have more devices, so you expect
-> each of them having the supply?
+regards
+Tobias
 
-Yes, I don't think this is a problem since it's typical for regulators
-to be shared. If at least one of the I2C devices is active, the bus will
-be active as well.
-
-> These are properties of I2C controller, not the consumer. I2C controller
-> should enable any regulators necessary for the IO pins.
-
-In general I agree with you here. But as I mentioned already there is
-usually more than just the I2C I/O lines. For AW2013 there is at least
-also the open-drain interrupt line. On other ICs there could also be
-arbitrary GPIO lines that are used in open-drain mode. Those are
-completely unrelated to the I2C controller.
-
-Do you have any suggestions how to handle the power supply for those?
-
-IMO for interrupts lines the pull-up I/O supply is hardly a property of
-the interrupt controller. It just cares that a line switches from high
-to low. It's not exactly a property of the consumer IC either. However,
-since operating the interrupt line in open-drain mode is part of the
-consumer IC specification I would say that the I/O supply for interrupt
-lines is better described on the consumer side.
-
-For sake of completeness we could additionally describe the supply for
-the I2C lines on the I2C controller, but then we still need this patch
-or something else for the interrupt lines.
-
-Thanks,
-Stephan
+Am 21.03.23 um 15:40 schrieb Linux regression tracking (Thorsten Leemhuis)=
+:
+> On 20.03.23 20:44, Tobias Dahms wrote:
+>> Hello,
+>>
+>> since some kernel versions I get a kernel errror while setting led
+>> trigger to phy0tpt.
+>>
+>> command to reproduce:
+>> echo phy0tpt > /sys/class/leds/bpi-r2\:isink\:blue/trigger
+>>
+>> same trigger, other led location =3D> no error:
+>> echo phy0tpt > /sys/class/leds/bpi-r2\:pio\:blue/trigger
+>>
+>> other trigger, same led location =3D> no error:
+>> echo phy0tx > /sys/class/leds/bpi-r2\:isink\:blue/trigger
+>>
+>> last good kernel:
+>> bpi-r2 5.19.17-bpi-r2
+>>
+>> error at kernel versions:
+>> bpi-r2 6.0.19-bpi-r2
+>> up to
+>> bpi-r2 6.3.0-rc1-bpi-r2+
+>
+> Thx for the report.
+>
+> "5.19.17-bpi-r2" sounds like a vendor kernel. Is that one that is
+> vanilla or at least close to vanilla? If not, you'll have to report this
+> to your kernel vendor. If not: could you try to bisect this?
+>
+>> wireless lan card:
+>> 01:00.0 Network controller: MEDIATEK Corp. MT7612E 802.11acbgn PCI
+>> Express Wireless Network Adapter
+>>
+>> distribution:
+>> Arch-Linux-ARM (with vanilla kernel instead of original distribution
+>> kernel)
+>>
+>> board:
+>> BananaPi-R2
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
