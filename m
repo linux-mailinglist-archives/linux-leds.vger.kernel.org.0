@@ -2,339 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6016C5121
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Mar 2023 17:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4836C51E8
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Mar 2023 18:08:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbjCVQrk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Mar 2023 12:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
+        id S231454AbjCVRIS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Mar 2023 13:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230283AbjCVQrj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Mar 2023 12:47:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A53EB4491
-        for <linux-leds@vger.kernel.org>; Wed, 22 Mar 2023 09:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679503610;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/rQogFnukFmBWOF3Mot7aJVC5ij8wnnJTemH8FxPVz0=;
-        b=POWxPaoTRbEcPHTfMkmRS5pOpaq55IYORzV/CPzP5C1osfUU0I6+uKMj4O+2wO8xI+XN4H
-        QuYptqWUPtjNsShRxz5LsohgxLvN9LEJJ+PHpy+wDMDXdonxy8quYdcsgdcdHknL1QtaWD
-        QimCOSZfZ89TL5nxQ883MNXrLd0Wu/4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-230--kQaH924Mhyrb0ZtpyR6DA-1; Wed, 22 Mar 2023 12:46:49 -0400
-X-MC-Unique: -kQaH924Mhyrb0ZtpyR6DA-1
-Received: by mail-ed1-f70.google.com with SMTP id fi8-20020a056402550800b004a26cc7f6cbso27940838edb.4
-        for <linux-leds@vger.kernel.org>; Wed, 22 Mar 2023 09:46:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679503607;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/rQogFnukFmBWOF3Mot7aJVC5ij8wnnJTemH8FxPVz0=;
-        b=pCDgHDc/NZDlJW+73DYPH71rE6aFw9fX3e3KkN3H14v7F/T1sbLJdZqY5A3GNm2KiL
-         sq5dFLnybPkEB4TWh2yJ1mwWJudtALI6AjELcPMEYupu6lfjWXgH49T0awSvcVjkkmsp
-         u34DDwvlhWNd1FW0YrEV/dHgF/GMq3H+m67CV2JH7jcTupmhcnuYvCdI6UQZYSZPlvDY
-         uuRksUYnFF0hnsrLw8JIaPiM0DrT1/nxHwyXXQqi38KKrWoZg8VavDAAzBnmSbk+79ud
-         khzG0pIHCcbwKTcppo3/XHVA3SHQ+JtQ8KkrJcZsdeNWT/dyISp9DEdFr4GHod0+ozqm
-         w1TA==
-X-Gm-Message-State: AO0yUKX8EwVbq3EJ+WI682XYCoa/hQMvAFyp9iiUHyujEwNaNjS6W9WW
-        5a55LvGLy8BYp40m+i8VG1X4E6NLo/xIOYIY/5hfF3qjfKZM2VO3YxUjxDLwutQw70P2ytnCCTQ
-        z8sVsE/8aW1E5BSsb7kajBQ==
-X-Received: by 2002:aa7:dcd0:0:b0:501:d6da:e892 with SMTP id w16-20020aa7dcd0000000b00501d6dae892mr8097396edu.13.1679503607695;
-        Wed, 22 Mar 2023 09:46:47 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9x+qeXgcvA/8b2RPmRhj1gqqUExK1D3QGpcs9P2GFv1REcWb1NYsR5bvoC6OcyByKgqm7Bcw==
-X-Received: by 2002:aa7:dcd0:0:b0:501:d6da:e892 with SMTP id w16-20020aa7dcd0000000b00501d6dae892mr8097372edu.13.1679503607365;
-        Wed, 22 Mar 2023 09:46:47 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a27-20020a509b5b000000b00501dd53dbfbsm2566979edj.75.2023.03.22.09.46.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 09:46:46 -0700 (PDT)
-Message-ID: <4b01b2ef-b383-e8fd-fab1-b7c39e662ffc@redhat.com>
-Date:   Wed, 22 Mar 2023 17:46:46 +0100
+        with ESMTP id S231445AbjCVRIG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Mar 2023 13:08:06 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 448CE64878;
+        Wed, 22 Mar 2023 10:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679504872; x=1711040872;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MgiqpHKxp/iCbsM0LUs1CNRLARbXLFKM0eI7lPgT7Xs=;
+  b=TuH4qMsaFDfO9q83SxpetJZIR0sARJ653fjmTKJh4njCbeyDLaemiFVj
+   OX2TOU3SUR98QmZHsVzgAKNfFr60jJIQXgW+lffxy/c1Eyr9bBs+T84UR
+   umGt7W4rt2PGODbdjbJoGwauhuMrj+uIrYk/kbLPThBFXiGx5JTM5/UX2
+   6g8t++44jZ+8Bqkep/T0lQ3T1q/wRGqxtwX836gXJUAwEdtBlo2GDFOjS
+   6IbDA7Jtx3LkU67TJCRirXNlUJNWcOscHVo+jLL7wDeCf/C1+rKvfIOtA
+   foTIVBHSwTreetv1rhtWXkdSZPEjGbFsSQed03tbaAn/pRgod7EtgekPV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336780793"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
+   d="scan'208";a="336780793"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 10:05:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="805900791"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
+   d="scan'208";a="805900791"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 10:05:47 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pf1uE-000DVq-2p;
+        Wed, 22 Mar 2023 17:05:46 +0000
+Date:   Thu, 23 Mar 2023 01:05:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Naresh Solanki <naresh.solanki@9elements.com>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Naresh Solanki <Naresh.Solanki@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: max597x: Add support for max597x
+Message-ID: <202303230037.O7fPpT2X-lkp@intel.com>
+References: <20230322124316.2147143-2-Naresh.Solanki@9elements.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/3] leds: tps68470: Add LED control for tps68470
-Content-Language: en-US, nl
-To:     Kate Hsuan <hpa@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Daniel Scally <djrscally@gmail.com>,
-        Mark Gross <markgross@kernel.org>
-References: <20230321153718.1355511-1-hpa@redhat.com>
- <20230321153718.1355511-4-hpa@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230321153718.1355511-4-hpa@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322124316.2147143-2-Naresh.Solanki@9elements.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi Naresh,
 
-On 3/21/23 16:37, Kate Hsuan wrote:
-> There are two LED controllers, LEDA indicator LED and LEDB flash LED for
-> tps68470. LEDA can be enabled by setting TPS68470_ILEDCTL_ENA. Moreover,
-> tps68470 provides four levels of power status for LEDB. If the
-> properties called "ti,ledb-current" can be found, the current will be
-> set according to the property values. These two LEDs can be controlled
-> through the LED class of sysfs (tps68470-leda and tps68470-ledb).
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+I love your patch! Perhaps something to improve:
 
-Thanks, patch looks good to me:
+[auto build test WARNING on 368eb79f738a21e16c2bdbcac2444dfa96b01aaa]
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/leds-max597x-Add-support-for-max597x/20230322-204408
+base:   368eb79f738a21e16c2bdbcac2444dfa96b01aaa
+patch link:    https://lore.kernel.org/r/20230322124316.2147143-2-Naresh.Solanki%409elements.com
+patch subject: [PATCH 2/2] leds: max597x: Add support for max597x
+reproduce:
+        make versioncheck
 
-Regards,
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303230037.O7fPpT2X-lkp@intel.com/
 
-Hans
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/iio/adc/max597x-iio.c: 20 linux/version.h not needed.
+>> ./drivers/leds/leds-max597x.c: 20 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-
-> ---
->  drivers/leds/Kconfig         |  12 +++
->  drivers/leds/Makefile        |   1 +
->  drivers/leds/leds-tps68470.c | 185 +++++++++++++++++++++++++++++++++++
->  3 files changed, 198 insertions(+)
->  create mode 100644 drivers/leds/leds-tps68470.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 9dbce09eabac..ab9073b2cfef 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -827,6 +827,18 @@ config LEDS_TPS6105X
->  	  It is a single boost converter primarily for white LEDs and
->  	  audio amplifiers.
->  
-> +config LEDS_TPS68470
-> +	tristate "LED support for TI TPS68470"
-> +	depends on LEDS_CLASS
-> +	depends on INTEL_SKL_INT3472
-> +	help
-> +	  This driver supports TPS68470 PMIC with LED chip.
-> +	  It provides two LED controllers, with the ability to drive 2
-> +	  indicator LEDs and 2 flash LEDs.
-> +
-> +	  To compile this driver as a module, choose M and it will be
-> +	  called leds-tps68470
-> +
->  config LEDS_IP30
->  	tristate "LED support for SGI Octane machines"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d30395d11fd8..515a69953e73 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -80,6 +80,7 @@ obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
->  obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
->  obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
->  obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-> +obj-$(CONFIG_LEDS_TPS68470)		+= leds-tps68470.o
->  obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
->  obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
->  obj-$(CONFIG_LEDS_WM8350)		+= leds-wm8350.o
-> diff --git a/drivers/leds/leds-tps68470.c b/drivers/leds/leds-tps68470.c
-> new file mode 100644
-> index 000000000000..35aeb5db89c8
-> --- /dev/null
-> +++ b/drivers/leds/leds-tps68470.c
-> @@ -0,0 +1,185 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * LED driver for TPS68470 PMIC
-> + *
-> + * Copyright (C) 2023 Red Hat
-> + *
-> + * Authors:
-> + *	Kate Hsuan <hpa@redhat.com>
-> + */
-> +
-> +#include <linux/leds.h>
-> +#include <linux/mfd/tps68470.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
-> +
-> +
-> +#define lcdev_to_led(led_cdev) \
-> +	container_of(led_cdev, struct tps68470_led, lcdev)
-> +
-> +#define led_to_tps68470(led, index) \
-> +	container_of(led, struct tps68470_device, leds[index])
-> +
-> +enum tps68470_led_ids {
-> +	TPS68470_ILED_A,
-> +	TPS68470_ILED_B,
-> +	TPS68470_NUM_LEDS
-> +};
-> +
-> +static const char *tps68470_led_names[] = {
-> +	[TPS68470_ILED_A] = "tps68470-iled_a",
-> +	[TPS68470_ILED_B] = "tps68470-iled_b",
-> +};
-> +
-> +struct tps68470_led {
-> +	unsigned int led_id;
-> +	struct led_classdev lcdev;
-> +};
-> +
-> +struct tps68470_device {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct tps68470_led leds[TPS68470_NUM_LEDS];
-> +};
-> +
-> +enum ctrlb_current {
-> +	CTRLB_2MA	= 0,
-> +	CTRLB_4MA	= 1,
-> +	CTRLB_8MA	= 2,
-> +	CTRLB_16MA	= 3,
-> +};
-> +
-> +static int tps68470_brightness_set(struct led_classdev *led_cdev, enum led_brightness brightness)
-> +{
-> +	struct tps68470_led *led = lcdev_to_led(led_cdev);
-> +	struct tps68470_device *tps68470 = led_to_tps68470(led, led->led_id);
-> +	struct regmap *regmap = tps68470->regmap;
-> +
-> +	switch (led->led_id) {
-> +	case TPS68470_ILED_A:
-> +		return regmap_update_bits(regmap, TPS68470_REG_ILEDCTL, TPS68470_ILEDCTL_ENA,
-> +					  brightness ? TPS68470_ILEDCTL_ENA : 0);
-> +	case TPS68470_ILED_B:
-> +		return regmap_update_bits(regmap, TPS68470_REG_ILEDCTL, TPS68470_ILEDCTL_ENB,
-> +					  brightness ? TPS68470_ILEDCTL_ENB : 0);
-> +	}
-> +	return -EINVAL;
-> +}
-> +
-> +static enum led_brightness tps68470_brightness_get(struct led_classdev *led_cdev)
-> +{
-> +	struct tps68470_led *led = lcdev_to_led(led_cdev);
-> +	struct tps68470_device *tps68470 = led_to_tps68470(led, led->led_id);
-> +	struct regmap *regmap = tps68470->regmap;
-> +	int ret = 0;
-> +	int value = 0;
-> +
-> +	ret =  regmap_read(regmap, TPS68470_REG_ILEDCTL, &value);
-> +	if (ret)
-> +		return dev_err_probe(led_cdev->dev, -EINVAL, "failed on reading register\n");
-> +
-> +	switch (led->led_id) {
-> +	case TPS68470_ILED_A:
-> +		value = value & TPS68470_ILEDCTL_ENA;
-> +		break;
-> +	case TPS68470_ILED_B:
-> +		value = value & TPS68470_ILEDCTL_ENB;
-> +		break;
-> +	}
-> +
-> +	return value ? LED_ON : LED_OFF;
-> +}
-> +
-> +
-> +static int tps68470_ledb_current_init(struct platform_device *pdev,
-> +				      struct tps68470_device *tps68470)
-> +{
-> +	int ret = 0;
-> +	unsigned int curr;
-> +
-> +	/* configure LEDB current if the properties can be got */
-> +	if (!device_property_read_u32(&pdev->dev, "ti,ledb-current", &curr)) {
-> +		if (curr > CTRLB_16MA) {
-> +			dev_err(&pdev->dev,
-> +				"Invalid LEDB current value: %d\n",
-> +				curr);
-> +			return -EINVAL;
-> +		}
-> +		ret = regmap_update_bits(tps68470->regmap, TPS68470_REG_ILEDCTL,
-> +					 TPS68470_ILEDCTL_CTRLB, curr);
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int tps68470_leds_probe(struct platform_device *pdev)
-> +{
-> +	int i = 0;
-> +	int ret = 0;
-> +	struct tps68470_device *tps68470;
-> +	struct tps68470_led *led;
-> +	struct led_classdev *lcdev;
-> +
-> +	tps68470 = devm_kzalloc(&pdev->dev, sizeof(struct tps68470_device),
-> +				GFP_KERNEL);
-> +	if (!tps68470)
-> +		return -ENOMEM;
-> +
-> +	tps68470->dev = &pdev->dev;
-> +	tps68470->regmap = dev_get_drvdata(pdev->dev.parent);
-> +
-> +	for (i = 0; i < TPS68470_NUM_LEDS; i++) {
-> +		led = &tps68470->leds[i];
-> +		lcdev = &led->lcdev;
-> +
-> +		led->led_id = i;
-> +
-> +		lcdev->name = devm_kasprintf(tps68470->dev, GFP_KERNEL, "%s::%s",
-> +					     tps68470_led_names[i], LED_FUNCTION_INDICATOR);
-> +		if (!lcdev->name)
-> +			return -ENOMEM;
-> +
-> +		lcdev->max_brightness = 1;
-> +		lcdev->brightness = 0;
-> +		lcdev->brightness_set_blocking = tps68470_brightness_set;
-> +		lcdev->brightness_get = tps68470_brightness_get;
-> +		lcdev->dev = &pdev->dev;
-> +
-> +		ret = devm_led_classdev_register(tps68470->dev, lcdev);
-> +		if (ret) {
-> +			dev_err_probe(tps68470->dev, ret,
-> +				      "error registering led\n");
-> +			goto err_exit;
-> +		}
-> +
-> +		if (i == TPS68470_ILED_B) {
-> +			ret = tps68470_ledb_current_init(pdev, tps68470);
-> +			if (ret)
-> +				goto err_exit;
-> +		}
-> +	}
-> +
-> +err_exit:
-> +	if (ret) {
-> +		for (i = 0; i < TPS68470_NUM_LEDS; i++) {
-> +			if (tps68470->leds[i].lcdev.name)
-> +				devm_led_classdev_unregister(&pdev->dev,
-> +							     &tps68470->leds[i].lcdev);
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +static struct platform_driver tps68470_led_driver = {
-> +	.driver = {
-> +		   .name = "tps68470-led",
-> +	},
-> +	.probe = tps68470_leds_probe,
-> +};
-> +
-> +module_platform_driver(tps68470_led_driver);
-> +
-> +MODULE_ALIAS("platform:tps68470-led");
-> +MODULE_DESCRIPTION("LED driver for TPS68470 PMIC");
-> +MODULE_LICENSE("GPL v2");
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
