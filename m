@@ -2,157 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 944A66C6C5B
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 16:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 982816C6D0D
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 17:12:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbjCWPeN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 11:34:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
+        id S231825AbjCWQMb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Thu, 23 Mar 2023 12:12:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231851AbjCWPeI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 11:34:08 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567C78A5C;
-        Thu, 23 Mar 2023 08:34:02 -0700 (PDT)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NF0lff005788;
-        Thu, 23 Mar 2023 15:33:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=BTtXcATo5dnx2ElslfMl2Fvz3YupFjhxz+ZfS4V4dto=;
- b=pwa7XL26/OLCfIOCLh2lqHVeIn0DgprwHFhc/KprJ3i9pm2eXMHEGdQCyooF+3lIbpuU
- gpdtuHwWQsPct7MvKIfRbGpcERO17yT3MKhfpfNdyyaHsryL2S9XvOFKioIrmAinB3cB
- De7dDv9Lk/69NiZd4gh0wuUKg+BojKPr5v8t3S/4amvoCGLtidU6R5YSowlUQRtYF/yb
- RwI9Du0G/hhrGkq1py93dmiQ8Q+MLFKL8606lqNuWqRWssUXPUb49+/g9TsGSJ6qkIUr
- NueP6Y9wfBPgDOEI5lAH20oKzZrja1OQ38vATuLcUovI69R2/CEfNRW+CabzhWyyiYTH Zg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgkxv1j6c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Mar 2023 15:33:43 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NEZChx017863;
-        Thu, 23 Mar 2023 15:33:42 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgkxv1j5t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Mar 2023 15:33:42 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MNj4Zv019849;
-        Thu, 23 Mar 2023 15:33:40 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3pd4x6ecsj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 23 Mar 2023 15:33:40 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32NFXcdI22741618
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 Mar 2023 15:33:38 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0DC9920049;
-        Thu, 23 Mar 2023 15:33:38 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D29E320043;
-        Thu, 23 Mar 2023 15:33:36 +0000 (GMT)
-Received: from [9.171.87.16] (unknown [9.171.87.16])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Thu, 23 Mar 2023 15:33:36 +0000 (GMT)
-Message-ID: <f2e0e4d90f3008e40d81c50c8235b151ddc4705c.camel@linux.ibm.com>
+        with ESMTP id S231899AbjCWQMU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 12:12:20 -0400
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF5D367F6;
+        Thu, 23 Mar 2023 09:11:55 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id r5so27160371qtp.4;
+        Thu, 23 Mar 2023 09:11:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679587914;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KN7wbSGHFU83V/SiO8li468XdAAir/xu6GqW7yuRv6w=;
+        b=3/J1MHS7YM9ZHABngSpcpKGf4caCSGkLujk/MNsPHg21yKApiqUmQdBS5ZQyE/7uZi
+         sWQTizPkbjaw2VH1xbLm0/WvLDD3C6XYJX7IqvfQN+55OuxND/k4h5N67An11p8QanrM
+         DPB0DMtRA41W8uJCgMz5/v0PC0GVLOyL0Ze9qROnzL9QmyZTCadiQPreaJd7luvhFy4e
+         r8Ipc74m7q6WlbT1NVHciFDYf95kEwYFdQGhzC7oj4JfElaN49kH1aFv53vnJcsA/He3
+         7HtekscRRYoh8vuiWUIprQzB/hEVpVJAYHJu79lmUnzgJGayFZrFpsVUldOFGm3NIAWd
+         Ey/A==
+X-Gm-Message-State: AO0yUKWIJs/cYC92Is25EJaEqZvSx+pDV7K9huazbwg7nQ0K5Vx0G0g2
+        fc118ClESMNFAnyZRgMxCCEsfzKA4ekUPTcJ
+X-Google-Smtp-Source: AK7set9JsNM6yRzTPl4EXEdJDEbhZEctXB+e+RsTGLOml9N6BB4aOLPTCxxSCqAu/CQfWfOdG+EB7w==
+X-Received: by 2002:a05:622a:1a07:b0:3d5:b5cd:d35e with SMTP id f7-20020a05622a1a0700b003d5b5cdd35emr7953266qtb.23.1679587914195;
+        Thu, 23 Mar 2023 09:11:54 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id x14-20020ac8538e000000b003e38d6c013dsm2535822qtp.60.2023.03.23.09.11.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Mar 2023 09:11:53 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id j7so25467553ybg.4;
+        Thu, 23 Mar 2023 09:11:52 -0700 (PDT)
+X-Received: by 2002:a05:6902:1548:b0:b56:1f24:7e9f with SMTP id
+ r8-20020a056902154800b00b561f247e9fmr2636952ybu.12.1679587911906; Thu, 23 Mar
+ 2023 09:11:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+ <20230314121216.413434-16-schnelle@linux.ibm.com> <20230316161442.GV9667@google.com>
+ <607a80040fc7e0c8c7474926088133be1e245127.camel@linux.ibm.com> <97b5a5c3-d20f-4201-8deb-1d34e7edee6c@app.fastmail.com>
+In-Reply-To: <97b5a5c3-d20f-4201-8deb-1d34e7edee6c@app.fastmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 23 Mar 2023 17:11:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWkV0Ls+hXUB2+2h-2+6s-h5Ufep1BfC--VT27E4Hk=Ng@mail.gmail.com>
+Message-ID: <CAMuHMdWkV0Ls+hXUB2+2h-2+6s-h5Ufep1BfC--VT27E4Hk=Ng@mail.gmail.com>
 Subject: Re: [PATCH v3 15/38] leds: add HAS_IOPORT dependencies
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Pavel Machek <pavel@ucw.cz>,
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Helgaas <bhelgaas@google.com>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
         linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
         linux-leds@vger.kernel.org
-Date:   Thu, 23 Mar 2023 16:33:36 +0100
-In-Reply-To: <20230323145328.GM2673958@google.com>
-References: <20230314121216.413434-1-schnelle@linux.ibm.com>
-         <20230314121216.413434-16-schnelle@linux.ibm.com>
-         <20230316161442.GV9667@google.com>
-         <607a80040fc7e0c8c7474926088133be1e245127.camel@linux.ibm.com>
-         <20230323145328.GM2673958@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: J98rJR5jh4RdW7XV1Je1935mhgWjf2_t
-X-Proofpoint-ORIG-GUID: ZmqKbStd77jEso64iNZCDwfxW9uSRC38
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
- mlxlogscore=927 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303230113
-X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 2023-03-23 at 14:53 +0000, Lee Jones wrote:
-> On Thu, 23 Mar 2023, Niklas Schnelle wrote:
->=20
+Hi Arnd,
+
+On Thu, Mar 23, 2023 at 2:32 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Thu, Mar 23, 2023, at 13:42, Niklas Schnelle wrote:
 > > On Thu, 2023-03-16 at 16:14 +0000, Lee Jones wrote:
-> > > On Tue, 14 Mar 2023, Niklas Schnelle wrote:
-> > >=20
-> > > > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and fr=
-iends
-> > > > not being declared. We thus need to add HAS_IOPORT as dependency fo=
-r
-> > > > those drivers using them.
-> > > >=20
-> > > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > > > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> > > > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> > > > ---
-> > > >  drivers/leds/Kconfig | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > Applied, thanks
-> >=20
+> >> On Tue, 14 Mar 2023, Niklas Schnelle wrote:
+> >>
+> >> > In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+> >> > not being declared. We thus need to add HAS_IOPORT as dependency for
+> >> > those drivers using them.
+> >> >
+> >> > Acked-by: Pavel Machek <pavel@ucw.cz>
+> >> > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> >> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> >> > ---
+> >> >  drivers/leds/Kconfig | 2 +-
+> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> Applied, thanks
+> >
 > > Sorry should have maybe been more clear, without patch 1 of this series
 > > this won't work as the HAS_IOPORT config option is new and will be
 > > missing otherwise. There's currently two options of merging this,
 > > either all at once or first only patch 1 and then the additional
 > > patches per subsystem until finally the last patch can remove
 > > inb()/outb() and friends when HAS_IOPORT is unset.
->=20
-> You only sent me this patch.
->=20
-> If there are in-set dependencies, you need to send everyone the whole
-> set so that we can organise a suitable merge strategy between us.
->=20
-> I'll revert the patch for now.
->=20
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+>
+> It's probably too late now to squeeze patch 1 into linux-6.3
+> as a late preparation patch for the rest of the series in 6.4.
+>
+> It would be good if you could respin that patch separately
+> anyway, so I can add it to the asm-generic tree and make
+> sure we get it ready for the next merge window.
 
-I know this isn't ideal and I'm sorry for the confusion, extra work and
-churn. As far as I know sadly it's not possible to Cc everyone for such
-treewide series because the recipient list will hit the limits
-supported by some systems and mails get dropped which sucks even more.
-Maybe this can be solved in the future though, Konstantin Ryabitsev
-actually reached out because I mentioned that I tried using b4 prep /
-b4 send but couldn't exactly because it only supports a global
-recipient list.
+Through an immutable branch, else all dependencies have to wait
+for v6.5?
 
-Thanks,
-Niklas
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
