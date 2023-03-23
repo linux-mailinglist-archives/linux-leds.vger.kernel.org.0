@@ -2,146 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B73316C684A
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 13:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7769A6C6860
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 13:32:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbjCWM2R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 08:28:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
+        id S231269AbjCWMc3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 08:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbjCWM2Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 08:28:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C70AF19;
-        Thu, 23 Mar 2023 05:28:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9686A62668;
-        Thu, 23 Mar 2023 12:28:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17BAC433EF;
-        Thu, 23 Mar 2023 12:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679574494;
-        bh=I4/FlAcpx/CFBi5Q0ba3/uTIJWxKNhnqFmzABrNRV9I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n+3p3GMk8QuCt4JKjsi7wha0GUQ1no0qXFsoKyorbTJqbhsWxK0hn5YYvlqQ4lYfQ
-         fGSofkJ0GRYjxfvuetCOhBJo2ju8ZazM0UjwE/hUGpSJRW+xAgiofyM20nkI7fprpJ
-         5xGxGJnVs/A2ffHt24Y9zuIjmBrZAR1eG+2mkzukIpikvk9/7VN/1Mm9273O80gI9e
-         OYmrlvassy5C1exkhhZBBcwQlqtxB69EnQB+PEa7K3m2GD5OjTwTeMJ/TeamgEeBxq
-         D2ZLP9JU04pi1vv8crGIcz/aaayVJJkKime3XNLcPPmxGPGcsYQx8+RXCyS78gzUyC
-         my8luNBLpwHQA==
-Date:   Thu, 23 Mar 2023 12:28:09 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Joseph Strauss <jstrauss@mailbox.org>
-Cc:     pavel@ucw.cz, jansimon.moeller@gmx.de, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Add multicolor support to BlinkM LED driver
-Message-ID: <20230323122809.GK2673958@google.com>
-References: <20221228010958.9670-1-jstrauss@mailbox.org>
- <20230315161614.GC9667@google.com>
- <20230322232109.zddbr4umzfr76wgf@libretux>
+        with ESMTP id S230316AbjCWMcY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 08:32:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DE010278
+        for <linux-leds@vger.kernel.org>; Thu, 23 Mar 2023 05:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679574695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=B1JzqlzlczfbqCW+Xdhr3J5IAcKC6bLvtLMBxiLds70=;
+        b=W+xQEf8WUn1k7xT2FcNUOTTaxH2Rm48G2Sp6xEcVX2tunK2JMSKwlnhk6Q7KZhNJrdCBPx
+        BRxZ+F0E9k9H1sRBkZyj7bDtZ/7rU4crnYoG0oQeqcmtp2FLf0CmtPm0YHNCgI2hdZLhm0
+        w2ULtFneF9vpBK7WEhhKecRRNlf1os0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-611-vCJjAvFDNf-LY6W0Q9zScQ-1; Thu, 23 Mar 2023 08:31:33 -0400
+X-MC-Unique: vCJjAvFDNf-LY6W0Q9zScQ-1
+Received: by mail-ed1-f71.google.com with SMTP id a27-20020a50c31b000000b0050047ecf4bfso25957201edb.19
+        for <linux-leds@vger.kernel.org>; Thu, 23 Mar 2023 05:31:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679574692;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B1JzqlzlczfbqCW+Xdhr3J5IAcKC6bLvtLMBxiLds70=;
+        b=LdurKK2QWBQbN1PZmg8kiZ+C7zMrxWW4oP+7uIKzDcvrI0ENYL1vPRkjeuoKP4TXxw
+         XerbTHnvKZ62Dtis8qPS/ENINFaTcgILrP5xFoWJiJqG5WLgDha+MgJlPU49x1jKSDUv
+         i+zVy7b7HcWMykhT0ll1E5heJISVABH5huXAhusAfBSUbdoSdhPIrTrFAd54NTMslij5
+         Qj5VetcY2tcFVoqcOuyA5hRAnZm4MKG5IT9aUZ3OiMCq1KwhN8gCcRXy8x7rIu6j4Cas
+         3920Xyt5XfCrAPrKTO7Bu0OBsOxh0/Y6gPkJ4xU7XHNcwLiXFVAxMh8qXWz/uchhMfiZ
+         jgmA==
+X-Gm-Message-State: AO0yUKWNUu7Hq6o0duN7SIdL2QDRraefLuwnNtEAxLmRzvTaL2DNREq4
+        LwfDKfvwlzvEzQzKzn7SNgR2BSx7QPJSHV5NQcFEFTLAJkXnYbrd7Y5MdY1HdUL6o6ht+QPj/QB
+        4kufSknFcsJ1dHD+AdlD4lQ==
+X-Received: by 2002:a17:906:22d4:b0:931:a0cb:1ef1 with SMTP id q20-20020a17090622d400b00931a0cb1ef1mr10039079eja.7.1679574692686;
+        Thu, 23 Mar 2023 05:31:32 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9yplZ7DVvBWlIq3iD/jqdBa/6TZBZhT+ErPDuVTdCVtuA2C/ZsoPuK/nOdtoUT0sqi8964lw==
+X-Received: by 2002:a17:906:22d4:b0:931:a0cb:1ef1 with SMTP id q20-20020a17090622d400b00931a0cb1ef1mr10039056eja.7.1679574692397;
+        Thu, 23 Mar 2023 05:31:32 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id z8-20020a17090655c800b00930569e6910sm8760904ejp.16.2023.03.23.05.31.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Mar 2023 05:31:31 -0700 (PDT)
+Message-ID: <d2c6af4b-218c-96a7-a2d8-87f90e856c7c@redhat.com>
+Date:   Thu, 23 Mar 2023 13:31:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 1/3] platform: x86: int3472: Add MFD cell for tps68470
+ LED
+Content-Language: en-US, nl
+To:     Lee Jones <lee@kernel.org>, Kate Hsuan <hpa@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Daniel Scally <djrscally@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+References: <20230321153718.1355511-1-hpa@redhat.com>
+ <20230321153718.1355511-2-hpa@redhat.com>
+ <20230323122327.GJ2673958@google.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230323122327.GJ2673958@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230322232109.zddbr4umzfr76wgf@libretux>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 22 Mar 2023, Joseph Strauss wrote:
+Hi,
 
-> On 23/03/15 04:16PM, Lee Jones wrote:
-> > On Tue, 27 Dec 2022, Joseph Strauss wrote:
-> >
-> > > Added multicolor support to the BlinkM driver, making it easier to
-> > > control from userspace. The BlinkM LED is a programmable RGB LED. The
-> > > driver currently supports only the regular LED sysfs class, resulting in
-> > > the creation of three distinct classes, one for red, green, and blue.
-> > > The user then has to input three values into the three seperate
-> > > brightness files within those classes. The multicolor LED framework
-> > > makes the device easier to control with the multi_intensity file: the
-> > > user can input three values at once to form a color, while still
-> > > controlling the lightness with the brightness file.
-> > >
-> > > The main struct blinkm_led has changed slightly. A struct
-> > > led_classdev_mc has been added to represent the multicolor sysfs class,
-> > > and an additional struct led_classdev pointer has been added for
-> > > convenience, which points to the struct led_classdev within struct
-> > > led_classdev_mc. The struct led_classdev for the regular sysfs classes
-> > > remain. Additionally, a field representing the multicolor LED has been
-> > > added to the struct blinkm_data, seperate from the blinkm_leds[3] array.
-> > >
-> > > In the blinkm_probe function, the multicolor LED class is registered
-> > > after the regular LED classes. The blinkm_set_mc_brightness() function
-> > > had to be added to calculate the three color components and then set the
-> > > fields of the blinkm_data structure accordingly.
-> > >
-> > > Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
-> > > ---
-> > > Changes in v2:
-> > > - Replaced instances of the constant 3 with NUM_LEDS, where applicable
-> > > - Fixed formatting errors
-> > > - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
-> > >   statements
-> > > - Changed id of multicolor class from 4 to 3
-> > > - Replaced call to devm_kmalloc_array() with devm_kcalloc()
-> > >
-> > >  Documentation/leds/leds-blinkm.rst |  26 +++++-
-> > >  drivers/leds/Kconfig               |   1 +
-> > >  drivers/leds/leds-blinkm.c         | 143 +++++++++++++++++++++++------
-> > >  3 files changed, 137 insertions(+), 33 deletions(-)
+On 3/23/23 13:23, Lee Jones wrote:
+> On Tue, 21 Mar 2023, Kate Hsuan wrote:
+> 
+>> Add MFD cell for tps68470-led.
+>>
+>> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+>> ---
+>>  drivers/platform/x86/intel/int3472/tps68470.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
+>> index 5b8d1a9620a5..82ef022f8916 100644
+>> --- a/drivers/platform/x86/intel/int3472/tps68470.c
+>> +++ b/drivers/platform/x86/intel/int3472/tps68470.c
+>> @@ -17,7 +17,7 @@
+>>  #define DESIGNED_FOR_CHROMEOS		1
+>>  #define DESIGNED_FOR_WINDOWS		2
+>>
+>> -#define TPS68470_WIN_MFD_CELL_COUNT	3
+>> +#define TPS68470_WIN_MFD_CELL_COUNT	4
+>>
+>>  static const struct mfd_cell tps68470_cros[] = {
+>>  	{ .name = "tps68470-gpio" },
+>> @@ -193,7 +193,8 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
+>>  		cells[1].name = "tps68470-regulator";
+>>  		cells[1].platform_data = (void *)board_data->tps68470_regulator_pdata;
+>>  		cells[1].pdata_size = sizeof(struct tps68470_regulator_platform_data);
+>> -		cells[2].name = "tps68470-gpio";
+>> +		cells[2].name = "tps68470-led";
+>> +		cells[3].name = "tps68470-gpio";
+> 
+> The question is, why is the MFD API being used out side of drivers/mfd?
 
-[...]
+Because Intel made a big mess about how they describe camera sensors + the matching clks / regulators / GPIOs and the optional PMIC in ACPI.
 
-> > +	mc_led_info[1].color_index = LED_COLOR_ID_GREEN;
-> > > +	mc_led_info[1].channel = 1;
-> > > +	mc_led_info[2].color_index = LED_COLOR_ID_BLUE;
-> > > +	mc_led_info[2].channel = 2;
-> > > +	mc_led->mcled_cdev.subled_info = mc_led_info;
-> > > +	mc_led->mcled_cdev.num_colors = NUM_LEDS;
-> > > +
-> > > +	mc_led->led_cdev = &mc_led->mcled_cdev.led_cdev;
-> > > +	mc_led->led_cdev->brightness = 255;
-> > > +	mc_led->led_cdev->max_brightness = 255;
-> > > +	mc_led->led_cdev->flags = LED_CORE_SUSPENDRESUME;
-> > > +	snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-> > > +		 "blinkm-%d-%d-multi",
-> > > +		 client->adapter->nr,
-> > > +		 client->addr);
-> > > +	mc_led->led_cdev->name = blinkm_led_name;
-> > > +	mc_led->led_cdev->brightness_set_blocking =
-> > > +					blinkm_set_mc_brightness;
-> >
-> > 100-chars.
-> >
->
-> I am not sure what you mean by this. The following line is 78
-> characters.
+The drivers/platform/x86/intel/int3472/ code untangles this mess and in some cases it instantiates MFD cells (with a whole bunch of derived platform_data per cell) for a TPS68470 PMIC.
 
-No need to wrap.  You have 100-chars to play with.
+And sometimes while binding to an INT3472 ACPI device-node it does not instantiate any MFD cells at all since the INT3472 ACPI device-node does not always describe such a PMIC.
 
-Review comments pertain to the lines that preceded them.
+Oh and also depending on of the ACPI tables are targetting ChromeOS or Windows a different set of MFD cells needs to be instantiated. On ChromeOS most of the PMIC poking is done through ACPI through a ChomeOS specific custom ACPI OpRegion, so there there are only cells for GPIO and a driver providing the OpRegion are created.
 
-> > > +
-> > >  exit:
-> >
-> > If you want to submit a patch to get rid of this exit label ...
-> >
->
-> This exit label existed before my patch and is used in several places. I
-> don't quite see what's wrong with it. Would you please clarify?
+So lots of ugly x86 platform specific handling, ACPI parsing, etc. which is why this landed under drivers/platform/x86/ . IIRC you were even involved in the original merge since there once was a much simpler MFD driver under driver/mfd which only supported the ChromeOS setup.
 
-That's why I asked for a follow-up patch.
+(but my memory may be deceiving me here).
 
-gotos are useful when there is a bunch of unwinding/deallocating/freeing
-of resources.  This one is pointless.  Just `return err;` instead.
+Regards,
 
---
-Lee Jones [李琼斯]
+Hans
+
+
+
+
+
+> 
+>>  		for (i = 0; i < board_data->n_gpiod_lookups; i++)
+>>  			gpiod_add_lookup_table(board_data->tps68470_gpio_lookup_tables[i]);
+>> --
+>> 2.39.2
+>>
+> 
+> --
+> Lee Jones [李琼斯]
+> 
+
