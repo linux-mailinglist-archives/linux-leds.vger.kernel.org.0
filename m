@@ -2,44 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A05746C66CF
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 12:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 965906C6702
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 12:44:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231299AbjCWLim (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 07:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
+        id S231720AbjCWLov (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 07:44:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjCWLil (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 07:38:41 -0400
+        with ESMTP id S231737AbjCWLou (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 07:44:50 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9BF30197
-        for <linux-leds@vger.kernel.org>; Thu, 23 Mar 2023 04:38:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4671E1FD;
+        Thu, 23 Mar 2023 04:44:49 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4E38E1C0E52; Thu, 23 Mar 2023 12:38:28 +0100 (CET)
+        id 2F6131C0E45; Thu, 23 Mar 2023 12:44:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679571508;
+        t=1679571888;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=jQSNGyq5bxHHsR3iJ5XIA36EyYOi4u+yds7qA/hOrrw=;
-        b=OlrlTlQPGzMCyqN8rrjaXmpObRpZJp9S5O2gKML5MebNLrO27eaEl3oAySLNNOOwq4b71H
-        BvvfE+esQWn7MT90oqrl72pDo0C6jfdF5vUg0Gx8FMqbMhJN2Xm5/E/L/D84e9lj3l/Q/g
-        ct477TN//3x9Q4ufPHmb03aqrfz52r0=
-Date:   Thu, 23 Mar 2023 12:38:27 +0100
+        bh=jM80YHQk+qoBrXoBprRCKbkOWR0yfY0BoZNY2Boncck=;
+        b=JuTJYK7ERVTE04fpshRfi0SwXMWsa9etje6gBE7wYA1wBW3X18shPj1h8ZgmwdSUwb2Ccl
+        XG7y+0JIVCR7BFHeYt5/OHKlWJf7cU1ahbXqcGabybCigYBiQWmEysaDxlHT0MyP2eN+gE
+        TFG7pWYp6EqsN7ExqMsfye0uBUV7WCY=
+Date:   Thu, 23 Mar 2023 12:44:47 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Sven Schwermer <sven@svenschwermer.de>
-Cc:     linux-leds@vger.kernel.org,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        jacek.anaszewski@gmail.com, schuchmann@schleissheimer.de
-Subject: Re: [PATCH RESEND v2] led: multicolor: Fix intensity setting while
- SW blinking
-Message-ID: <ZBw6Mwa0cWAddj3P@duo.ucw.cz>
-References: <20220627133110.271455-1-sven@svenschwermer.de>
+To:     Naresh Solanki <naresh.solanki@9elements.com>
+Cc:     Lee Jones <lee@kernel.org>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 2/2] leds: max597x: Add support for max597x
+Message-ID: <ZBw7r12Yq0YMik78@duo.ucw.cz>
+References: <20230322124316.2147143-1-Naresh.Solanki@9elements.com>
+ <20230322124316.2147143-2-Naresh.Solanki@9elements.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="tm8dstKnmfS5ABgp"
+        protocol="application/pgp-signature"; boundary="5c3HESuQ55FnAAW1"
 Content-Disposition: inline
-In-Reply-To: <20220627133110.271455-1-sven@svenschwermer.de>
+In-Reply-To: <20230322124316.2147143-2-Naresh.Solanki@9elements.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -50,45 +50,107 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---tm8dstKnmfS5ABgp
+--5c3HESuQ55FnAAW1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2022-06-27 15:31:10, Sven Schwermer wrote:
-> From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+On Wed 2023-03-22 13:43:16, Naresh Solanki wrote:
+> From: Patrick Rudolph <patrick.rudolph@9elements.com>
 >=20
-> When writing to the multi_intensity file, don't unconditionally call
-> led_set_brightness. By only doing this if blinking is inactive we
-> prevent blinking from stopping if the blinking is in its off phase while
-> the file is written.
->=20
-> Instead, if blinking is active, the changed intensity values are applied
-> upon the next blink. This is consistent with changing the brightness on
-> monochrome LEDs with active blinking.
->=20
-> Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Tested-by: Sven Schuchmann <schuchmann@schleissheimer.de>
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Signed-off-by: Sven Schwermer
-<sven.schwermer@disruptive-technologies.com>
+> max597x is hot swap controller with indication led support.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+"indicator LED"?
+
+> This driver uses DT property to configure led during boot time &
+> also provide the led control in sysfs.
+
+LED.
+
+> +++ b/drivers/leds/Kconfig
+> @@ -590,6 +590,17 @@ config LEDS_ADP5520
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called leds-adp5520.
+> =20
+> +config LEDS_MAX597X
+> +	tristate "LED Support for Maxim 597x"
+> +	depends on LEDS_CLASS
+> +	depends on MFD_MAX597X
+> +	help
+> +	  This option enables support for the Maxim 597x smart switch indicatio=
+n LEDs
+> +	   via the I2C bus.
+
+Strange whitespace.
+
+> --- /dev/null
+> +++ b/drivers/leds/leds-max597x.c
+> @@ -0,0 +1,132 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device driver for regulators in MAX5970 and MAX5978 IC
+
+Regulators go elsewhere.
+
+> +static int max597x_led_set_brightness(struct led_classdev *cdev,
+> +				      enum led_brightness brightness)
+> +{
+> +	struct max597x_led *led =3D ldev_to_maxled(cdev);
+> +	int ret;
+> +
+> +	if (!led || !led->regmap)
+> +		return -ENODEV;
+> +
+> +	ret =3D regmap_update_bits(led->regmap, MAX5970_REG_LED_FLASH,
+> +				 1 << led->index, ~brightness << led->index);
+
+~brightness << led->index is quite confusing. Can we get something
+else?
+
+> +	led =3D devm_kzalloc(dev, sizeof(struct max597x_led),
+> +			   GFP_KERNEL);
+> +	if (!led)
+> +		return -ENOMEM;
+> +
+> +	if (of_property_read_string(nc, "label", &led->led.name))
+> +		led->led.name =3D nc->name;
+> +
+> +	led->led.max_brightness =3D 1;
+> +	led->led.brightness_set_blocking =3D max597x_led_set_brightness;
+> +	led->led.default_trigger =3D "none";
+> +	led->index =3D reg;
+> +	led->regmap =3D regmap;
+> +	ret =3D led_classdev_register(dev, &led->led);
+> +	if (ret) {
+> +		dev_err(dev, "Error in initializing led %s", led->led.name);
+> +		devm_kfree(dev, led);
+> +		return ret;
+> +	}
+
+You don't need to do the kfree.
+
+> +	if (!of_property_read_string(nc, "default-state", &state)) {
+> +		if (!strcmp(state, "on")) {
+> +			led->led.brightness =3D 1;
+> +			led_set_brightness(&led->led, led->led.brightness);
+> +		}
+> +	}
+
+Lets get rid of this unless you really need it.
 
 BR,
-									Pavel
-								=09
+								Pavel
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---tm8dstKnmfS5ABgp
+--5c3HESuQ55FnAAW1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBw6MwAKCRAw5/Bqldv6
-8uZ9AKC8alWNGXAy+uA8aS8CLetTHkMA6ACfUHS8RbCjR52LIBTyNcydkhJMmCM=
-=YG7Q
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBw7rwAKCRAw5/Bqldv6
+8uKAAJ9rkKpfkwMFrozN029Qku+1jJRGBgCgnJu0RxOYebZ3Nm+Iwmdw69MMC+A=
+=bL1Z
 -----END PGP SIGNATURE-----
 
---tm8dstKnmfS5ABgp--
+--5c3HESuQ55FnAAW1--
