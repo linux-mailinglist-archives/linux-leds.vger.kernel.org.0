@@ -2,48 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 550E96C714F
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B5C6C7156
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:53:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbjCWTt3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 15:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56488 "EHLO
+        id S231359AbjCWTxU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 15:53:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbjCWTt2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:49:28 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851FF940;
-        Thu, 23 Mar 2023 12:49:27 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2119C1C0E45; Thu, 23 Mar 2023 20:49:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679600966;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NF6JGwEiBb3A1966uTV2ceil1MVZpjYOBG+VDfrrDGk=;
-        b=phZY1YA9DWHh+GMOFjap/L1p6/j6tG3kJeQJ5Dwdz+2vjdEXGygpKx1ZPj4socFkd5Zpjk
-        XyDJGcoMRKoNip1eWXNbtpbRn7Ao1v8Y73xvP/52MXYLqaV7dGUL9NrckA3FrCnnZS30PM
-        jHea30xt6OsLLiTgGWaK6vmMBrWJtVc=
-Date:   Thu, 23 Mar 2023 20:49:25 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>
-Cc:     lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_c_skakit@quicinc.com
-Subject: Re: [PATCH 2/3] leds: rgb: leds-qcom-lpg: Add support for high
- resolution PWM
-Message-ID: <ZBytRdLCTm/D34Ua@duo.ucw.cz>
-References: <20230316192134.26436-1-quic_amelende@quicinc.com>
- <20230316192134.26436-3-quic_amelende@quicinc.com>
+        with ESMTP id S229484AbjCWTxT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:53:19 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E29C14D;
+        Thu, 23 Mar 2023 12:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oc/iUo0lIBe+FS5WVSyueoHdxi6tsJxX0Ez4lN9w4K8=; b=yVdVBQAOM+Q4pyNSb2udc1HKJ0
+        PJPKMWoeesWKoYQ3VsCuDYywal3A5xt53IIOwb0AIaGSynK+56rNvANbWobJtF7/x66vIobFT2hnO
+        XXfGKYN9+lKEFnxV5Gsls/N5g1xnsjwOQjKVOquRy9QutcLVLjpeDXtWxpUVzxtbb6t4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pfQze-008EUF-F2; Thu, 23 Mar 2023 20:53:02 +0100
+Date:   Thu, 23 Mar 2023 20:53:02 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Lee Jones <lee@kernel.org>, John Crispin <john@phrozen.org>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v5 15/15] arm: mvebu: dt: Add PHY LED support
+ for 370-rd WAN port
+Message-ID: <d5e05e20-11e0-4718-ba76-d45412a5e78a@lunn.ch>
+References: <20230319191814.22067-1-ansuelsmth@gmail.com>
+ <20230319191814.22067-16-ansuelsmth@gmail.com>
+ <ZBxAZRcEBg4to132@duo.ucw.cz>
+ <318f65ef-fd63-446d-bd08-1ba51b1d1f72@lunn.ch>
+ <ZBykRJmkxF7zf8g8@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ys+4h6ZS/zW1fps0"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230316192134.26436-3-quic_amelende@quicinc.com>
+In-Reply-To: <ZBykRJmkxF7zf8g8@duo.ucw.cz>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,35 +69,35 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+> > Hi Pavel
+> > 
+> > It is just a plain boring LED, so it will look like all other LEDs.
+> > There is nothing special here.
+> 
+> Well, AFAICT it will end up as /sys/class/leds/WAN, which is really
+> not what we want.
 
---ys+4h6ZS/zW1fps0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Why not? It is just a plain boring LED. It can be used for anything,
+heartbeat, panic SOS in Morse code, shift lock, disk activity. Any of
+the triggers can be applied to it.
 
-On Thu 2023-03-16 12:21:33, Anjelique Melendez wrote:
-> Certain PMICs like PMK8550 have a high resolution PWM module which can
-> support from 8-bit to 15-bit PWM. Add support for it.
->=20
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+It can be found in /sys/class/leds/f1072004.mdio-mii:00:WAN. But when
+we come to using it for ledtrig-netdev, the user is more likely to follow
+/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii\:00\:WAN/
 
-Provided build problems are fixed:
+> (Plus the netdev trigger should be tested; we'll
+> need some kind of link to the ethernet device if we want this to work
+> on multi-ethernet systems).
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+Since this is a plain boring LED, it could actually blink for any
+netdev. When we get to offloading blinking to hardware, then things
+change, we need to check the netdev which is configured in the
+ledtrig-netdev is the same one the PHY is associated to. But i have a
+patchset for that which will appear later.
 
-							Pavel
+> Should documentation be added to Documentation/leds/well-known-leds.txt ?
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Saying what. That there might be LEDs in your RJ45 connector, which
+can be used for anything which is supported by an Linux LED trigger?
 
---ys+4h6ZS/zW1fps0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBytRQAKCRAw5/Bqldv6
-8h/5AKC+0XiH3kRszN1Vtw6OzkIz3PMeYACdHjPxPeRAKnxjsC2upepDtSe3KLA=
-=GpGg
------END PGP SIGNATURE-----
-
---ys+4h6ZS/zW1fps0--
+    Andrew
