@@ -2,88 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F26E6C6C1C
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 16:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 944A66C6C5B
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 16:34:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232060AbjCWPS1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 11:18:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
+        id S231705AbjCWPeN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 11:34:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232038AbjCWPSY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 11:18:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2313110A99;
-        Thu, 23 Mar 2023 08:18:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B338C6279F;
-        Thu, 23 Mar 2023 15:18:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A1FC433D2;
-        Thu, 23 Mar 2023 15:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679584701;
-        bh=Ot5j+e02uJgVNJB1slYlPg2ieWZZtdLFrPg+gk+GtR8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n0kQfA1TUx4841Dq9a/DC61t5fJPvk/9GatAS59QD4fZN21plBCclCYXZs7XXNp7P
-         G7wpnN+17ZnkJa4TcbQbG08LozmjY3Z25PtYrY1YVz4Eu2Uie1zi43iC0x5i0Ha16j
-         wKQL38EVfy4ZBmzk1QCX9Tj2jnLn5Jx55FmjulveaqC9B1zPz6Xd/1UnR+4Fz0YNx1
-         aaHYqPsNURZhAvMOxkF+9fJqXJ60/QA9/oxOw8cLVLNDuc9HOWXYylCha8mprE9+0Z
-         QnAyXcxd+Gd0dyKQXLSNIQa9j/Zl0tXW/V+o6oza1YEljmUoYmZMvCc8IJSwZ8Yvai
-         6MLuLJBnUwSQg==
-Date:   Thu, 23 Mar 2023 15:18:15 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux MediaTek <linux-mediatek@lists.infradead.org>,
-        Linux LEDs <linux-leds@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] Documentation: leds: MT6370: Use bullet lists for
- timing variables
-Message-ID: <20230323151815.GR2673958@google.com>
-References: <20230319074903.13075-1-bagasdotme@gmail.com>
- <20230319074903.13075-4-bagasdotme@gmail.com>
+        with ESMTP id S231851AbjCWPeI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 11:34:08 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567C78A5C;
+        Thu, 23 Mar 2023 08:34:02 -0700 (PDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NF0lff005788;
+        Thu, 23 Mar 2023 15:33:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=BTtXcATo5dnx2ElslfMl2Fvz3YupFjhxz+ZfS4V4dto=;
+ b=pwa7XL26/OLCfIOCLh2lqHVeIn0DgprwHFhc/KprJ3i9pm2eXMHEGdQCyooF+3lIbpuU
+ gpdtuHwWQsPct7MvKIfRbGpcERO17yT3MKhfpfNdyyaHsryL2S9XvOFKioIrmAinB3cB
+ De7dDv9Lk/69NiZd4gh0wuUKg+BojKPr5v8t3S/4amvoCGLtidU6R5YSowlUQRtYF/yb
+ RwI9Du0G/hhrGkq1py93dmiQ8Q+MLFKL8606lqNuWqRWssUXPUb49+/g9TsGSJ6qkIUr
+ NueP6Y9wfBPgDOEI5lAH20oKzZrja1OQ38vATuLcUovI69R2/CEfNRW+CabzhWyyiYTH Zg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgkxv1j6c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Mar 2023 15:33:43 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NEZChx017863;
+        Thu, 23 Mar 2023 15:33:42 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgkxv1j5t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Mar 2023 15:33:42 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MNj4Zv019849;
+        Thu, 23 Mar 2023 15:33:40 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+        by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3pd4x6ecsj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Mar 2023 15:33:40 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32NFXcdI22741618
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 23 Mar 2023 15:33:38 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0DC9920049;
+        Thu, 23 Mar 2023 15:33:38 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D29E320043;
+        Thu, 23 Mar 2023 15:33:36 +0000 (GMT)
+Received: from [9.171.87.16] (unknown [9.171.87.16])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Thu, 23 Mar 2023 15:33:36 +0000 (GMT)
+Message-ID: <f2e0e4d90f3008e40d81c50c8235b151ddc4705c.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 15/38] leds: add HAS_IOPORT dependencies
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-leds@vger.kernel.org
+Date:   Thu, 23 Mar 2023 16:33:36 +0100
+In-Reply-To: <20230323145328.GM2673958@google.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+         <20230314121216.413434-16-schnelle@linux.ibm.com>
+         <20230316161442.GV9667@google.com>
+         <607a80040fc7e0c8c7474926088133be1e245127.camel@linux.ibm.com>
+         <20230323145328.GM2673958@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230319074903.13075-4-bagasdotme@gmail.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: J98rJR5jh4RdW7XV1Je1935mhgWjf2_t
+X-Proofpoint-ORIG-GUID: ZmqKbStd77jEso64iNZCDwfxW9uSRC38
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ mlxlogscore=927 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303230113
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 19 Mar 2023, Bagas Sanjaya wrote:
+On Thu, 2023-03-23 at 14:53 +0000, Lee Jones wrote:
+> On Thu, 23 Mar 2023, Niklas Schnelle wrote:
+>=20
+> > On Thu, 2023-03-16 at 16:14 +0000, Lee Jones wrote:
+> > > On Tue, 14 Mar 2023, Niklas Schnelle wrote:
+> > >=20
+> > > > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and fr=
+iends
+> > > > not being declared. We thus need to add HAS_IOPORT as dependency fo=
+r
+> > > > those drivers using them.
+> > > >=20
+> > > > Acked-by: Pavel Machek <pavel@ucw.cz>
+> > > > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> > > > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> > > > ---
+> > > >  drivers/leds/Kconfig | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > Applied, thanks
+> >=20
+> > Sorry should have maybe been more clear, without patch 1 of this series
+> > this won't work as the HAS_IOPORT config option is new and will be
+> > missing otherwise. There's currently two options of merging this,
+> > either all at once or first only patch 1 and then the additional
+> > patches per subsystem until finally the last patch can remove
+> > inb()/outb() and friends when HAS_IOPORT is unset.
+>=20
+> You only sent me this patch.
+>=20
+> If there are in-set dependencies, you need to send everyone the whole
+> set so that we can organise a suitable merge strategy between us.
+>=20
+> I'll revert the patch for now.
+>=20
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
-> The timing description contains list of timing pattern variables, but it
-> uses code block without indentation instead. Switch to bullet list as it
-> is better fit for this purpose.
->
-> While at it, substitute "load" for "duty" because the variables control
-> timing for current load into the device.
->
-> Link: https://lore.kernel.org/oe-kbuild-all/202303182310.tB1mUzU7-lkp@intel.com/
-> Fixes: 4ba9df04b7ac66 ("docs: leds: Add MT6370 RGB LED pattern document")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/leds/leds-mt6370-rgb.rst | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+I know this isn't ideal and I'm sorry for the confusion, extra work and
+churn. As far as I know sadly it's not possible to Cc everyone for such
+treewide series because the recipient list will hit the limits
+supported by some systems and mails get dropped which sucks even more.
+Maybe this can be solved in the future though, Konstantin Ryabitsev
+actually reached out because I mentioned that I tried using b4 prep /
+b4 send but couldn't exactly because it only supports a global
+recipient list.
 
-Applied, thanks
-
---
-Lee Jones [李琼斯]
+Thanks,
+Niklas
