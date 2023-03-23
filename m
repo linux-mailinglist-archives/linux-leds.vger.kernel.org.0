@@ -2,66 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B5C6C7156
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D87A46C715B
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:54:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231359AbjCWTxU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 15:53:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
+        id S231442AbjCWTy3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 15:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjCWTxT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:53:19 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E29C14D;
-        Thu, 23 Mar 2023 12:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=oc/iUo0lIBe+FS5WVSyueoHdxi6tsJxX0Ez4lN9w4K8=; b=yVdVBQAOM+Q4pyNSb2udc1HKJ0
-        PJPKMWoeesWKoYQ3VsCuDYywal3A5xt53IIOwb0AIaGSynK+56rNvANbWobJtF7/x66vIobFT2hnO
-        XXfGKYN9+lKEFnxV5Gsls/N5g1xnsjwOQjKVOquRy9QutcLVLjpeDXtWxpUVzxtbb6t4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pfQze-008EUF-F2; Thu, 23 Mar 2023 20:53:02 +0100
-Date:   Thu, 23 Mar 2023 20:53:02 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        with ESMTP id S229484AbjCWTy2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:54:28 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2AFEC7E;
+        Thu, 23 Mar 2023 12:54:26 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 476D91C0E45; Thu, 23 Mar 2023 20:54:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1679601265;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KovE6zmPZKp3jugh8VF+9SoqMmJilIrkDfSLZCsLNOo=;
+        b=EsTdhLDkJRY0fdFnsoEREsPVp+UwzwUF7SZiNOBAQurTaF1fs+hZVPRGfHfIE+Opb9+dN2
+        AVVgdQsNv45EHRwOYskxIytt2fZAeW7eMpOMTQ5J5bExvS0e3HLlr+bcfZReq+emSQ14Xt
+        Fqy+qDH1DL4+wrMI52585whxkgPXJxk=
+Date:   Thu, 23 Mar 2023 20:54:24 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Fenglin Wu <quic_fenglinw@quicinc.com>
+Cc:     Luca Weiss <luca.weiss@fairphone.com>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lee Jones <lee@kernel.org>, John Crispin <john@phrozen.org>,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v5 15/15] arm: mvebu: dt: Add PHY LED support
- for 370-rd WAN port
-Message-ID: <d5e05e20-11e0-4718-ba76-d45412a5e78a@lunn.ch>
-References: <20230319191814.22067-1-ansuelsmth@gmail.com>
- <20230319191814.22067-16-ansuelsmth@gmail.com>
- <ZBxAZRcEBg4to132@duo.ucw.cz>
- <318f65ef-fd63-446d-bd08-1ba51b1d1f72@lunn.ch>
- <ZBykRJmkxF7zf8g8@duo.ucw.cz>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: configure
+ flash LED
+Message-ID: <ZByucIecBARC/2X2@duo.ucw.cz>
+References: <20221209-fp4-pm6150l-flash-v1-0-531521eb2a72@fairphone.com>
+ <20221209-fp4-pm6150l-flash-v1-3-531521eb2a72@fairphone.com>
+ <Y5S+6j1yJ62RJU/v@duo.ucw.cz>
+ <COZW5FAXA36Z.175ARPIESQSLL@otso>
+ <ab314039-2c69-8afa-cfb2-e5876ac6afe2@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="/ytfWZ+uTA/p222V"
 Content-Disposition: inline
-In-Reply-To: <ZBykRJmkxF7zf8g8@duo.ucw.cz>
+In-Reply-To: <ab314039-2c69-8afa-cfb2-e5876ac6afe2@quicinc.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,35 +58,61 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > Hi Pavel
-> > 
-> > It is just a plain boring LED, so it will look like all other LEDs.
-> > There is nothing special here.
-> 
-> Well, AFAICT it will end up as /sys/class/leds/WAN, which is really
-> not what we want.
 
-Why not? It is just a plain boring LED. It can be used for anything,
-heartbeat, panic SOS in Morse code, shift lock, disk activity. Any of
-the triggers can be applied to it.
+--/ytfWZ+uTA/p222V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It can be found in /sys/class/leds/f1072004.mdio-mii:00:WAN. But when
-we come to using it for ledtrig-netdev, the user is more likely to follow
-/sys/class/net/eth0/phydev/leds/f1072004.mdio-mii\:00\:WAN/
+Hi!
 
-> (Plus the netdev trigger should be tested; we'll
-> need some kind of link to the ethernet device if we want this to work
-> on multi-ethernet systems).
 
-Since this is a plain boring LED, it could actually blink for any
-netdev. When we get to offloading blinking to hardware, then things
-change, we need to check the netdev which is configured in the
-ledtrig-netdev is the same one the PHY is associated to. But i have a
-patchset for that which will appear later.
+> > > I'm pretty sure the flash is not yellow.
+> >=20
+> > The marketing term is Dual LED flash or Dual-tone flash, one LED is a
+> > blue-ish white and one is a yellow-ish white, but from what I can tell,
+> > in the original code it's always referred to as white and yellow so I
+> > also followed that here.
+> >=20
+> > Also the LEDs are right next to each other so in practise for torch just
+> > both go on, and for camera flash I cannot really tell you but I guess
+> > it's doing something there with the camera tuning.
+> >=20
+> > See also this picture:
+> > https://shop.fairphone.com/media/catalog/product/cache/b752d78484639b19=
+641a8560800d919d/p/_/p_5b_main_camera_back.jpg
+> >=20
+> Hi Pavel,
+>=20
+> Luca is right. It is normally called dual CCT (Correlated Color Temperatu=
+re)
+> flash LED. It has 2 LEDs, one is with higher CCT (~6000K) so it looks lik=
+e a
+> white LED, another is with lower CCT (~2000K) and it looks like a yellow
+> LED. I am not an expert of this but my understanding is the camera tuning
+> process normally adjusts the brightness of the two LEDs and enables them =
+to
+> get different CCT for different snapshots.
 
-> Should documentation be added to Documentation/leds/well-known-leds.txt ?
+I believe this is normally called "warm white" and "cool white", no?
+Yellow would be monochromatic light at cca 575nm, see
+https://en.wikipedia.org/wiki/Shades_of_yellow .
 
-Saying what. That there might be LEDs in your RJ45 connector, which
-can be used for anything which is supported by an Linux LED trigger?
+If we need to add some defines for that, lets do that.
 
-    Andrew
+BR,
+									Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--/ytfWZ+uTA/p222V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZByucAAKCRAw5/Bqldv6
+8oTYAJwNZ0uZ603G90xIYj5gh/jjp/mm7gCfYsqK0F6HunXRkKewzPzLgpN3lgQ=
+=nhTM
+-----END PGP SIGNATURE-----
+
+--/ytfWZ+uTA/p222V--
