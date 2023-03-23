@@ -2,47 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 720D26C661C
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 12:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8448C6C6628
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 12:08:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231357AbjCWLGg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 07:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
+        id S231308AbjCWLI3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 07:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231307AbjCWLGd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 07:06:33 -0400
+        with ESMTP id S231145AbjCWLI2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 07:08:28 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDA32DE63;
-        Thu, 23 Mar 2023 04:06:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F541FD6;
+        Thu, 23 Mar 2023 04:08:27 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 336311C0E45; Thu, 23 Mar 2023 12:06:28 +0100 (CET)
+        id 140B21C0E45; Thu, 23 Mar 2023 12:08:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679569588;
+        t=1679569706;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=WHWvB2BCrhNpAxUENSUrqYP89+RL/RBUZ+NXm8frba8=;
-        b=CI3SgRLIYP4QJzssz6eJ0C4AV++fiYbDZC+7RtL4sed/LIeaP8rO8ao3fuSkUxSEod93bl
-        WkIuNBZAOeL6YLS7aZ5Ej4/ApvOJOD7WC74YbyZwdXTJbhlqFlshoHWf3stuGGiKxKOsxq
-        Mtp3Wtgln32v7JmdkNKu5rptqFhWfaA=
-Date:   Thu, 23 Mar 2023 12:06:27 +0100
+        bh=k5hKQ0F5IqpeLP7FipvyIh82TpmOBiR55uTJeJOjZmg=;
+        b=HO9K77TtTnbAMb5Za+OPE24h45qee6DG8hFbn7so3VwcFqvA/1HVWxnSBhjZ4oskgucixh
+        e+PS0mQJN/JY5YO7qXY5BG9ipiVN9fuK7G9BRyZIH3wuQIsAghsOje8R0/38bqot1C5S7W
+        XEdEvMk53wTa2HleZ96gsodpjC7CtEc=
+Date:   Thu, 23 Mar 2023 12:08:25 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Alice Chen <alice_chen@richtek.com>,
-        ChiYuan Huang <cy_huang@richtek.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: rgb: mt6370: correct config name to select in
- LEDS_MT6370_RGB
-Message-ID: <ZBwys8kLg7NLOk+K@duo.ucw.cz>
-References: <20230323105410.10396-1-lukas.bulwahn@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux MediaTek <linux-mediatek@lists.infradead.org>,
+        Linux LEDs <linux-leds@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        ChiaEn Wu <chiaen_wu@richtek.com>, Lee Jones <lee@kernel.org>,
+        ChiYuan Huang <cy_huang@richtek.com>
+Subject: Re: [PATCH 0/3] Documentation fixes for MT6370 RGB
+Message-ID: <ZBwzKUem+Cg5GU0U@duo.ucw.cz>
+References: <20230319074903.13075-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="KU4ZDhGjr3zhG3Ut"
+        protocol="application/pgp-signature"; boundary="D24VC61xTd81s6wO"
 Content-Disposition: inline
-In-Reply-To: <20230323105410.10396-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20230319074903.13075-1-bagasdotme@gmail.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -53,52 +58,40 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---KU4ZDhGjr3zhG3Ut
+--D24VC61xTd81s6wO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> Commit 55a8a5c16eb3 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink
-> type LED Indicator support") introduces the config LEDS_MT6370_RGB, which
-> selects the non-existing config LINEAR_RANGE. As the driver includes
-> linux/linear_range.h, it is a safe guess that the config actually intends
-> to select LINEAR_RANGES, which provides the library implementation for the
-> function prototypes defined in the linear_range header file.
+On Sun 2023-03-19 14:49:00, Bagas Sanjaya wrote:
+> kernel test robot recently reported htmldocs warnings on documentation
+> for MT6370 RGB LED. So here are the fixes.
 >=20
-> Correct this naming confusion in the LEDS_MT6370_RGB config
-> definition.
+> Bagas Sanjaya (3):
+>   Documentation: leds: Add MT6370 doc to the toctree
+>   Documentation: leds: MT6370: Properly wrap hw_pattern chart
+>   Documentation: leds: MT6370: Use bullet lists for timing variables
+>=20
+>  Documentation/leds/index.rst           |  1 +
+>  Documentation/leds/leds-mt6370-rgb.rst | 42 +++++++++++++-------------
+>  2 files changed, 22 insertions(+), 21 deletions(-)
 
-Looks good.
+Series looks good to me.
 
 Acked-by: Pavel Machek <pavel@ucw.cz>
 
-Best regards,
 								Pavel
-
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -29,7 +29,7 @@ config LEDS_QCOM_LPG
->  config LEDS_MT6370_RGB
->  	tristate "LED Support for MediaTek MT6370 PMIC"
->  	depends on MFD_MT6370
-> -	select LINEAR_RANGE
-> +	select LINEAR_RANGES
->  	help
->  	  Say Y here to enable support for MT6370_RGB LED device.
->  	  In MT6370, there are four channel current-sink LED drivers that
-
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---KU4ZDhGjr3zhG3Ut
+--D24VC61xTd81s6wO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBwyswAKCRAw5/Bqldv6
-8p70AJ4wG0X7vNDkIlEkRZpej3qqEwtKRwCfeojFwxU3iZ9i2lM6bi5RIKSSfrc=
-=+rk9
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBwzKQAKCRAw5/Bqldv6
+8j/vAJ0WmSMJOhbk/I5/iFHaEdFTR8H20gCgniwKgLB/GP2U0jwW2klmXEF8xEc=
+=U7EG
 -----END PGP SIGNATURE-----
 
---KU4ZDhGjr3zhG3Ut--
+--D24VC61xTd81s6wO--
