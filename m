@@ -2,123 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E68C46C679C
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 13:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BF56C681D
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 13:23:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231800AbjCWMG0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 08:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
+        id S229951AbjCWMXe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 08:23:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231761AbjCWMGH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 08:06:07 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950D310E0;
-        Thu, 23 Mar 2023 05:04:55 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4576E1C0E49; Thu, 23 Mar 2023 13:04:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679573094;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=a/KoMv72J5IIz0NM8GNmcSDXPLFS3Vkv0wZ+gg3A9vc=;
-        b=D3RWeS7ZzdCwgmaip0tK7qF1pk+0eq9crqm8wlRLN0VwU4ch5LoLGN9GkYiUKbHStOHQG5
-        ip72ixYlxxhVXDeZWurv7JvDnzYRhY38H53HaSB392q1stZiSOrW5vqP4OKqBXNebHqlHi
-        jS7wZujiZ36L/6mjm/7tRHZFq4pMD+4=
-Date:   Thu, 23 Mar 2023 13:04:53 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lee Jones <lee@kernel.org>, John Crispin <john@phrozen.org>,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v5 15/15] arm: mvebu: dt: Add PHY LED support
- for 370-rd WAN port
-Message-ID: <ZBxAZRcEBg4to132@duo.ucw.cz>
-References: <20230319191814.22067-1-ansuelsmth@gmail.com>
- <20230319191814.22067-16-ansuelsmth@gmail.com>
+        with ESMTP id S229739AbjCWMXe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 08:23:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283E4222D0;
+        Thu, 23 Mar 2023 05:23:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B7D1A6267B;
+        Thu, 23 Mar 2023 12:23:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770C5C433D2;
+        Thu, 23 Mar 2023 12:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679574212;
+        bh=hatv8Y9Doyccu8RjvWrYrrTBemUUAQIktajKkNvSZbw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eCpZX+SqUQd8eP0p0T4rqb1V1iT2V82naCNAZ2bjq8S1bLytOXn3jYpWRFk+EysY+
+         q6AcTwAEtMM+kGLNA81suhT4JsO85bE+NwvH/rRSYfGNccEkPy7j26cXYtn3GtNu6/
+         n20Nb8kw8Clnn2POwqKA/HDjft78GcjzgZ4V3ZfT/2DxrbfIA+NTZ/LZWQCQOeF52E
+         /oZkWMFIiCQ1FBMM6tUxvSwR4mPPMrxQLKbSMOOrCxHi6Ram8dd5pZQKOXuKUSlajw
+         kwkDtOityHGZ412e4+ptuJFHcIMVqyp7hQ5vEWSX+7ZGOH6REZkyaIHTzhZQyFITdn
+         NYmk9lpd38DzQ==
+Date:   Thu, 23 Mar 2023 12:23:27 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Kate Hsuan <hpa@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 1/3] platform: x86: int3472: Add MFD cell for tps68470
+ LED
+Message-ID: <20230323122327.GJ2673958@google.com>
+References: <20230321153718.1355511-1-hpa@redhat.com>
+ <20230321153718.1355511-2-hpa@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="PW0UYIpUfo2k2zdg"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230319191814.22067-16-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230321153718.1355511-2-hpa@redhat.com>
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, 21 Mar 2023, Kate Hsuan wrote:
 
---PW0UYIpUfo2k2zdg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Add MFD cell for tps68470-led.
+>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  drivers/platform/x86/intel/int3472/tps68470.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
+> index 5b8d1a9620a5..82ef022f8916 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470.c
+> @@ -17,7 +17,7 @@
+>  #define DESIGNED_FOR_CHROMEOS		1
+>  #define DESIGNED_FOR_WINDOWS		2
+>
+> -#define TPS68470_WIN_MFD_CELL_COUNT	3
+> +#define TPS68470_WIN_MFD_CELL_COUNT	4
+>
+>  static const struct mfd_cell tps68470_cros[] = {
+>  	{ .name = "tps68470-gpio" },
+> @@ -193,7 +193,8 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
+>  		cells[1].name = "tps68470-regulator";
+>  		cells[1].platform_data = (void *)board_data->tps68470_regulator_pdata;
+>  		cells[1].pdata_size = sizeof(struct tps68470_regulator_platform_data);
+> -		cells[2].name = "tps68470-gpio";
+> +		cells[2].name = "tps68470-led";
+> +		cells[3].name = "tps68470-gpio";
 
-Hi!
+The question is, why is the MFD API being used out side of drivers/mfd?
 
-> From: Andrew Lunn <andrew@lunn.ch>
->=20
-> The WAN port of the 370-RD has a Marvell PHY, with one LED on
-> the front panel. List this LED in the device tree.
->=20
-> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+>  		for (i = 0; i < board_data->n_gpiod_lookups; i++)
+>  			gpiod_add_lookup_table(board_data->tps68470_gpio_lookup_tables[i]);
+> --
+> 2.39.2
+>
 
-> @@ -135,6 +136,19 @@ &mdio {
->  	pinctrl-names =3D "default";
->  	phy0: ethernet-phy@0 {
->  		reg =3D <0>;
-> +		leds {
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +
-> +			led@0 {
-> +				reg =3D <0>;
-> +				label =3D "WAN";
-> +				color =3D <LED_COLOR_ID_WHITE>;
-> +				function =3D LED_FUNCTION_LAN;
-> +				function-enumerator =3D <1>;
-> +				linux,default-trigger =3D "netdev";
-> +			};
-> +		};
->  	};
-> =20
-
-How will this end up looking in sysfs? Should documentation be added
-to Documentation/leds/leds-blinkm.rst ?
-
-BR,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---PW0UYIpUfo2k2zdg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBxAZQAKCRAw5/Bqldv6
-8pImAJ980SFJLWibENGuBRgkO7NwT1wjugCguwbshHgsV+9S/7u61KaJxx8XEEA=
-=1SzX
------END PGP SIGNATURE-----
-
---PW0UYIpUfo2k2zdg--
+--
+Lee Jones [李琼斯]
