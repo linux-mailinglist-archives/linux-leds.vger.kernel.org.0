@@ -2,64 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 361006C70CE
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BABAC6C7115
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 20:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbjCWTLE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 15:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33760 "EHLO
+        id S230329AbjCWTfI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Mar 2023 15:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbjCWTLD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:11:03 -0400
+        with ESMTP id S229773AbjCWTfG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 15:35:06 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D37171C;
-        Thu, 23 Mar 2023 12:11:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA30196A5;
+        Thu, 23 Mar 2023 12:35:04 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 6FE291C0E45; Thu, 23 Mar 2023 20:11:00 +0100 (CET)
+        id 199381C0E45; Thu, 23 Mar 2023 20:35:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679598660;
+        t=1679600103;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=aRHbTBB+ZgSTv8KzTFw1avZ2sf6wVSfYjmXj3OLadfU=;
-        b=WUsbZMTdi1dQlK/4H3Xv9ArPjsuIMUxpSFwGMub4AZtfoYc0oMVOCdkbQ2YjKggzu6dMB1
-        8/6ydNZJvXxECORDcGhsUhgc71YQX105BVUfg1favqDeOxxfizoj39rK55mpyM+ncRrurM
-        7AuueYcYPNp8XcC2R2Lb0NBjGgM+2GI=
-Date:   Thu, 23 Mar 2023 20:11:00 +0100
+        bh=Eiy0jwgBZdGjvoP8ZBOj+/dd3JzAbNmzrXq0dSQ7n8w=;
+        b=c8OPTMYUMCLJcawejU9Rr358ez2GlkVrxmYQacvsZxRQo1lwcQkMrKXgXf4h0dABa3NPsB
+        chXF62rUUL1qQm3gdyt5699RrEdtvi2pG5fTGNjWdekSi96MY9063z39VO6l6ujsRicU0M
+        qCw5r1gbTOKdHXwTi2YqIrWpikWl334=
+Date:   Thu, 23 Mar 2023 20:35:02 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
+Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Lee Jones <lee@kernel.org>, John Crispin <john@phrozen.org>,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [net-next PATCH v5 15/15] arm: mvebu: dt: Add PHY LED support
- for 370-rd WAN port
-Message-ID: <ZBykRJmkxF7zf8g8@duo.ucw.cz>
-References: <20230319191814.22067-1-ansuelsmth@gmail.com>
- <20230319191814.22067-16-ansuelsmth@gmail.com>
- <ZBxAZRcEBg4to132@duo.ucw.cz>
- <318f65ef-fd63-446d-bd08-1ba51b1d1f72@lunn.ch>
+        Nikita Travkin <nikita@trvn.ru>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v2 2/2] leds: aw2013: Add vddio regulator
+Message-ID: <ZByp5gzspOVcYyah@duo.ucw.cz>
+References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
+ <20230320175150.174711-1-linmengbo0689@protonmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="rI4G7utm2RBg+ik3"
+        protocol="application/pgp-signature"; boundary="59RaXGfovOuoCF5q"
 Content-Disposition: inline
-In-Reply-To: <318f65ef-fd63-446d-bd08-1ba51b1d1f72@lunn.ch>
+In-Reply-To: <20230320175150.174711-1-linmengbo0689@protonmail.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -70,74 +54,57 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---rI4G7utm2RBg+ik3
+--59RaXGfovOuoCF5q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> > > The WAN port of the 370-RD has a Marvell PHY, with one LED on
-> > > the front panel. List this LED in the device tree.
-> > >=20
-> > > Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> >=20
-> > > @@ -135,6 +136,19 @@ &mdio {
-> > >  	pinctrl-names =3D "default";
-> > >  	phy0: ethernet-phy@0 {
-> > >  		reg =3D <0>;
-> > > +		leds {
-> > > +			#address-cells =3D <1>;
-> > > +			#size-cells =3D <0>;
-> > > +
-> > > +			led@0 {
-> > > +				reg =3D <0>;
-> > > +				label =3D "WAN";
-> > > +				color =3D <LED_COLOR_ID_WHITE>;
-> > > +				function =3D LED_FUNCTION_LAN;
-> > > +				function-enumerator =3D <1>;
-> > > +				linux,default-trigger =3D "netdev";
-> > > +			};
-> > > +		};
-> > >  	};
-> > > =20
-> >=20
-> > How will this end up looking in sysfs?
+> Some LEDs controllers are used with external pull-up for the interrupt
+> line and the I2C lines, so we might need to enable a regulator to bring
+> the lines into usable state. Otherwise, this might cause spurious
+> interrupts and reading from I2C will fail.
 >=20
-> Hi Pavel
+> Implement support for "vddio-supply" that is enabled by the aw2013 driver
+> so that the regulator gets enabled when needed.
 >=20
-> It is just a plain boring LED, so it will look like all other LEDs.
-> There is nothing special here.
+> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
 
-Well, AFAICT it will end up as /sys/class/leds/WAN, which is really
-not what we want. (Plus the netdev trigger should be tested; we'll
-need some kind of link to the ethernet device if we want this to work
-on multi-ethernet systems).
+> @@ -348,16 +350,20 @@ static int aw2013_probe(struct i2c_client *client)
+>  		goto error;
+>  	}
+> =20
+> -	chip->vcc_regulator =3D devm_regulator_get(&client->dev, "vcc");
+> -	ret =3D PTR_ERR_OR_ZERO(chip->vcc_regulator);
+> -	if (ret) {
+> +	chip->regulators[0].supply =3D "vcc";
+> +	chip->regulators[1].supply =3D "vddio";
+> +	ret =3D devm_regulator_bulk_get(&client->dev,
+> +				      ARRAY_SIZE(chip->regulators),
+> +				      chip->regulators);
+> +	if (ret < 0) {
+>  		if (ret !=3D -EPROBE_DEFER)
+>  			dev_err(&client->dev,
+>  				"Failed to request regulator: %d\n", ret);
+>  		goto error;
 
-> > Should documentation be added to Documentation/leds/leds-blinkm.rst
-> >  ?
->=20
-> This has nothing to do with blinkm, which appears to be an i2c LED
-> driver.
+Won't this cause failures when optional vddio is unavailable?
 
-Sorry, I meant
-
-Should documentation be added to Documentation/leds/well-known-leds.txt ?
-
-Best regards,
-								Pavel
+BR,
+							Pavel
+						=09
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---rI4G7utm2RBg+ik3
+--59RaXGfovOuoCF5q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZBykRAAKCRAw5/Bqldv6
-8hYAAJ9Bvn10XxUIr7aK5MpezU9ojjLFBQCdGvLFTqwn12xC4aE58YdyoLAftHM=
-=uXc6
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZByp5gAKCRAw5/Bqldv6
+8hkzAJ95xl/kGY8uKTWuWX12QJuhBM2uMQCgg21hmFNALojBHzMSFd7aDS+yVfQ=
+=646S
 -----END PGP SIGNATURE-----
 
---rI4G7utm2RBg+ik3--
+--59RaXGfovOuoCF5q--
