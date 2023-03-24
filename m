@@ -2,271 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C83866C71A3
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Mar 2023 21:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A476C79EB
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Mar 2023 09:36:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjCWU0I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Mar 2023 16:26:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43938 "EHLO
+        id S229945AbjCXIgJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Mar 2023 04:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjCWU0I (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Mar 2023 16:26:08 -0400
-X-Greylist: delayed 451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Mar 2023 13:26:06 PDT
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C857B1E9F1
-        for <linux-leds@vger.kernel.org>; Thu, 23 Mar 2023 13:26:06 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id fROKptL7s4I7hfROKpUTjp; Thu, 23 Mar 2023 21:18:34 +0100
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 23 Mar 2023 21:18:34 +0100
-X-ME-IP: 86.243.2.178
-Message-ID: <d6463018-ebdf-30b2-ce0e-f2b5198847f1@wanadoo.fr>
-Date:   Thu, 23 Mar 2023 21:18:32 +0100
+        with ESMTP id S229508AbjCXIgI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Mar 2023 04:36:08 -0400
+X-Greylist: delayed 164 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Mar 2023 01:36:07 PDT
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1D05B81
+        for <linux-leds@vger.kernel.org>; Fri, 24 Mar 2023 01:36:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1679646783; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=eETU9qr+Y+L0nQQIKPouZfVaSOJkOtlvxh9Zb/Fl5oMjKTKTgyenmkaPjJMMYloVjb
+    IeCvbAx7WXidXzv8LhMPa0YbKHcxUWVg/lEUs8/C8VNruPxHgxjT46jrXUu3EhmV3olq
+    4R83+q/QcB6K28g78JLcSbXZtJwuAMVRTQVyOjyCqF2+BDXfIghh1z5S6jh0pdA0AlNY
+    gox2Hq0ocanSwfBm/VEBOyoL9nNPojrSwnSeOCUFWO4AcqC2F5SVA4E/90j23zAOIGYd
+    NviQX3a4RGgHpHCKrGO7GHKEvVRpiN7116CRV8oKeCnmrc1/yvIPne2+4i6aGqtS2WsV
+    aDiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1679646783;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=4iK4gU/6/b49QNadUtkOqzRxf2qaxC3/LHnMq2PLms8=;
+    b=k1c+yZaYOWAYzETAKKAQeeeLX4+7acUNSvWkRmAfteC84avgJwFKFjVyw9fDvYiW7c
+    drGdG0wS6T0eILo9dpyZylFtCNJ/S0c/+O1+ADLz2tiruu6nzKS59bduUvXqeOtBJRTZ
+    kIIqYQ4hPKBVEV1HaLaegppQtiTN1GnXOS7iHoulvRCAzKHUPMSJIgpYTsxKHfqj4gF1
+    QMZ9HF0gF637otJAF+T3/h/GUFleMeqLWQl/0FFiF1Xl1/uuBvy4bQJpa84HpPGjBYk3
+    1xTs3/CofVO9Rhog/XiSBQu0MPWfqaZt/ZXgpEp8xsd5sI/eE1M2PLKQOfmrgkUTaD1u
+    HsWg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1679646783;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=4iK4gU/6/b49QNadUtkOqzRxf2qaxC3/LHnMq2PLms8=;
+    b=odWp6a20rvMLtJcq6mCDtZJJ3TBFh1jsNg6Ndjj9ceeHBi/7nIJQjEjYaCTRyTfap3
+    3/J7TDSt2z+bgIeM0XpXcU0Y9qzjxs8Ue1Mzu8l5gpxRdicmv7qMYd2gG/Oc7RWCmQ4j
+    aq6AEX16QMrePcmOuOVxjbAVGRd3TSlUEm3SPeNMdV1QxU1+oWF8ZN08YnDYBDx2/NgD
+    kmzL7oEwC99MMlhIDFtgczE8jT9nlrWgMpupfObUX7OkhZip4MYJrfRH1ZRxF2gtL6sp
+    E1XXKCQRCkBs1+5U0PK1zP0vaCq0yGQWA7I6Qb9Tx8GAZQa39k5XvCTL4/HQubjHjkxs
+    COLg==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u267EpF+OQRc4obTF5+XzXE="
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 49.3.1 DYNA|AUTH)
+    with ESMTPSA id i40d22z2O8X2PmQ
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Fri, 24 Mar 2023 09:33:02 +0100 (CET)
+Date:   Fri, 24 Mar 2023 09:32:52 +0100
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
+        linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v2 2/2] leds: aw2013: Add vddio regulator
+Message-ID: <ZB1gNJBFeFSdagF1@gerhold.net>
+References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
+ <20230320175150.174711-1-linmengbo0689@protonmail.com>
+ <ZByp5gzspOVcYyah@duo.ucw.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] leds: max597x: Add support for max597x
-Content-Language: fr
-To:     Naresh Solanki <naresh.solanki@9elements.com>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20230323194550.1914725-1-Naresh.Solanki@9elements.com>
- <20230323194550.1914725-2-Naresh.Solanki@9elements.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230323194550.1914725-2-Naresh.Solanki@9elements.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.0 required=5.0 tests=NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZByp5gzspOVcYyah@duo.ucw.cz>
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Le 23/03/2023 à 20:45, Naresh Solanki a écrit :
-> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+Hi Pavel,
+
+On Thu, Mar 23, 2023 at 08:35:02PM +0100, Pavel Machek wrote:
+> > Some LEDs controllers are used with external pull-up for the interrupt
+> > line and the I2C lines, so we might need to enable a regulator to bring
+> > the lines into usable state. Otherwise, this might cause spurious
+> > interrupts and reading from I2C will fail.
+> > 
+> > Implement support for "vddio-supply" that is enabled by the aw2013 driver
+> > so that the regulator gets enabled when needed.
+> > 
+> > Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
 > 
-> max597x is hot swap controller with indicator LED support.
-> This driver uses DT property to configure led during boot time &
-> also provide the LED control in sysfs.
+> > @@ -348,16 +350,20 @@ static int aw2013_probe(struct i2c_client *client)
+> >  		goto error;
+> >  	}
+> >  
+> > -	chip->vcc_regulator = devm_regulator_get(&client->dev, "vcc");
+> > -	ret = PTR_ERR_OR_ZERO(chip->vcc_regulator);
+> > -	if (ret) {
+> > +	chip->regulators[0].supply = "vcc";
+> > +	chip->regulators[1].supply = "vddio";
+> > +	ret = devm_regulator_bulk_get(&client->dev,
+> > +				      ARRAY_SIZE(chip->regulators),
+> > +				      chip->regulators);
+> > +	if (ret < 0) {
+> >  		if (ret != -EPROBE_DEFER)
+> >  			dev_err(&client->dev,
+> >  				"Failed to request regulator: %d\n", ret);
+> >  		goto error;
 > 
-> DTS example:
->      i2c {
->          #address-cells = <1>;
->          #size-cells = <0>;
->          regulator@3a {
->              compatible = "maxim,max5978";
->              reg = <0x3a>;
->              vss1-supply = <&p3v3>;
+> Won't this cause failures when optional vddio is unavailable?
 > 
->              regulators {
->                  sw0_ref_0: sw0 {
->                      shunt-resistor-micro-ohms = <12000>;
->                  };
->              };
-> 
->              leds {
->                  #address-cells = <1>;
->                  #size-cells = <0>;
->                  led@0 {
->                      reg = <0>;
->                      label = "led0";
->                      default-state = "on";
->                  };
->                  led@1 {
->                      reg = <1>;
->                      label = "led1";
->                      default-state = "on";
->                  };
->              };
->          };
->      };
-> 
-> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> ...
-> Changes in V2:
-> - Fix regmap update
-> - Remove devm_kfree
-> - Remove default-state
-> - Add example dts in commit message
-> - Fix whitespace in Kconfig
-> - Fix comment
-> ---
->   drivers/leds/Kconfig        |  11 ++++
->   drivers/leds/Makefile       |   1 +
->   drivers/leds/leds-max597x.c | 112 ++++++++++++++++++++++++++++++++++++
->   3 files changed, 124 insertions(+)
->   create mode 100644 drivers/leds/leds-max597x.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 9dbce09eabac..ec2b731ae545 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -590,6 +590,17 @@ config LEDS_ADP5520
->   	  To compile this driver as a module, choose M here: the module will
->   	  be called leds-adp5520.
->   
-> +config LEDS_MAX597X
-> +	tristate "LED Support for Maxim 597x"
-> +	depends on LEDS_CLASS
-> +	depends on MFD_MAX597X
-> +	help
-> +	  This option enables support for the Maxim 597x smart switch indication LEDs
-> +	  via the I2C bus.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called max597x-led.
 
-leds-max597x?
+The regulator core should print a warning "supply vddio not found, using
+dummy regulator" but then proceed normally.
 
-> +
->   config LEDS_MC13783
->   	tristate "LED Support for MC13XXX PMIC"
->   	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d30395d11fd8..da1192e40268 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -53,6 +53,7 @@ obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
->   obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
->   obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
->   obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
-> +obj-$(CONFIG_LEDS_MAX597X)		+= leds-max597x.o
->   obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
->   obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
->   obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
-> diff --git a/drivers/leds/leds-max597x.c b/drivers/leds/leds-max597x.c
-> new file mode 100644
-> index 000000000000..3e1747c8693e
-> --- /dev/null
-> +++ b/drivers/leds/leds-max597x.c
-> @@ -0,0 +1,112 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device driver for leds in MAX5970 and MAX5978 IC
-> + *
-> + * Copyright (c) 2022 9elements GmbH
-> + *
-> + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
-> + */
-> +
-> +#include <linux/leds.h>
-> +#include <linux/mfd/max597x.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define ldev_to_maxled(c)       container_of(c, struct max597x_led, led)
-> +
-> +struct max597x_led {
-> +	struct regmap *regmap;
-> +	struct led_classdev led;
-> +	unsigned int index;
-> +};
-> +
-> +static int max597x_led_set_brightness(struct led_classdev *cdev,
-> +				      enum led_brightness brightness)
-> +{
-> +	struct max597x_led *led = ldev_to_maxled(cdev);
-> +	int ret, val = 0;
-> +
-> +	if (!led || !led->regmap)
-> +		return -ENODEV;
-> +
-> +	val = !brightness ? BIT(led->index) : 0;
-> +	ret = regmap_update_bits(led->regmap, MAX5970_REG_LED_FLASH, BIT(led->index), val);
-> +	if (ret < 0)
-> +		dev_err(cdev->dev, "failed to set brightness %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static int max597x_setup_led(struct device *dev, struct regmap *regmap, struct device_node *nc,
-> +			     u32 reg)
-> +{
-> +	struct max597x_led *led;
-> +	int ret = 0;
+I think in almost all cases a separate I/O supply should actually exist
+that could be described in the device tree. It was likely just omitted
+because it's always-on or indirectly being enabled by other devices.
+So perhaps having this warning is even a good thing?
 
-Nit: useless "= 0"
-
-> +
-> +	led = devm_kzalloc(dev, sizeof(struct max597x_led),
-> +			   GFP_KERNEL);
-> +	if (!led)
-> +		return -ENOMEM;
-> +
-> +	if (of_property_read_string(nc, "label", &led->led.name))
-> +		led->led.name = nc->name;
-> +
-> +	led->led.max_brightness = 1;
-> +	led->led.brightness_set_blocking = max597x_led_set_brightness;
-> +	led->led.default_trigger = "none";
-> +	led->index = reg;
-> +	led->regmap = regmap;
-> +	ret = led_classdev_register(dev, &led->led);
-
-devm_led_classdev_register?
-
-> +	if (ret)
-> +		dev_err(dev, "Error in initializing led %s", led->led.name);
-> +
-> +	return ret;
-> +}
-> +
-> +static int max597x_led_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = dev_of_node(pdev->dev.parent);
-> +	struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +	struct device_node *led_node;
-> +	struct device_node *child;
-> +	int ret = 0;
-> +
-> +	if (!regmap)
-> +		return -EPROBE_DEFER;
-> +
-> +	led_node = of_get_child_by_name(np, "leds");
-> +	if (!led_node)
-> +		return -ENODEV;
-> +
-> +	for_each_available_child_of_node(led_node, child) {
-> +		u32 reg;
-> +
-> +		if (of_property_read_u32(child, "reg", &reg))
-> +			continue;
-> +
-> +		if (reg >= MAX597X_NUM_LEDS) {
-> +			dev_err(&pdev->dev, "invalid LED (%u >= %d)\n", reg,
-> +				MAX597X_NUM_LEDS);
-> +			continue;
-> +		}
-> +
-> +		ret = max597x_setup_led(&pdev->dev, regmap, child, reg);
-> +		if (ret < 0)
-> +			of_node_put(child);
-
-This of_node_put() looks odd to me.
-"return ret;" or "break;" missing ?
-
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static struct platform_driver max597x_led_driver = {
-> +	.driver = {
-> +		.name = "max597x-led",
-> +	},
-> +	.probe = max597x_led_probe,
-> +};
-> +
-> +module_platform_driver(max597x_led_driver);
-> +
-> +MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
-> +MODULE_DESCRIPTION("MAX5970_hot-swap controller driver");
-> +MODULE_LICENSE("GPL");
-
+Thanks,
+Stephan
