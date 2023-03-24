@@ -2,103 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF876C7E69
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Mar 2023 14:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49CBF6C7F1A
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Mar 2023 14:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjCXNHI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Mar 2023 09:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52258 "EHLO
+        id S231730AbjCXNuk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Mar 2023 09:50:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjCXNHG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Mar 2023 09:07:06 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72882213F;
-        Fri, 24 Mar 2023 06:07:04 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7F0E41C0E0F; Fri, 24 Mar 2023 14:07:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679663222;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ewQDzGm+t2NXNO9AbFYlq1fjj1R033V1nKRDmhqg/as=;
-        b=gr/5ouitw1mix4WCQYdxVyuJvoVtGD6GzE86tmnR0XYOuuhh0ITWxembhzlsxebIpdmIon
-        pRPcTYXrDu2D0HeUz9jx6hcftc+BI/QYXqq/fj6PCgRLUgCxJkSdFaxK2ew+dsbay18JZr
-        eFal8kNvIcChVroFJdoblMq0gyOFZsU=
-Date:   Fri, 24 Mar 2023 14:07:02 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
+        with ESMTP id S231678AbjCXNuj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Mar 2023 09:50:39 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B23C196A7
+        for <linux-leds@vger.kernel.org>; Fri, 24 Mar 2023 06:50:33 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id kc4so1839091plb.10
+        for <linux-leds@vger.kernel.org>; Fri, 24 Mar 2023 06:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1679665833;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q6TXbrcgFASi0eagDLg5BODte0HiiblG64yHgWKrR0g=;
+        b=d3ifWX00W+AV/5ho1Vz/g0q33OWCa3ACzBK2Rvdsex+EQll6WbEOqfWbpfDxavh4Z5
+         G/Q7XthcHtrbumuMhwTMa06aolyh5OKbS+lRefBMfMb5WLGRCVdKXk2xziY/jvRSi7c+
+         yUMucR2NL9Tc3eOprCefpsiGnootjL9EJVpHdRqu/Gz93tTFbMaJpjSgGAgmGK4oINEO
+         +7NC2/cc5zNAX+L1ciYvj2nEm7xbEbEPSyTyMv6JXUCw4OI6sNXJHdUFMHFEoeIMjRWJ
+         +6fithdDgrM86knKgsfZFlS/mEd5l8P2mnXuR+Dtbs6tnbIxX9WRc082j+DtcJ9CgkX0
+         tIbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679665833;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q6TXbrcgFASi0eagDLg5BODte0HiiblG64yHgWKrR0g=;
+        b=g6BgnRVlWw48wWcgqPHAhElDhSo1YEDyjc94v7JTCHfQp1gInmf6B5rTJO1JSeGTzY
+         z+BDSuaiAbxs3yOf3D9zc0hYFAeDHOG6zJZ2ivuhmpPlew42U5SDGNgCwB+M4O8VZLmU
+         97y4gPFyaBG1rjExTNodsHSArXhP+GbCr6H6rHxlv9l/ogfm2nCFp/2y1/GzQwhgeyQ/
+         5azdA5YmK8pkKyU+5ID+Zo8YGulCftogf7/sUFBWAcIwk+HseaviSAl7Wn7ft+x3oIBS
+         OSTJ2bZzGkV7Vye7xXOYAuCpu4kIYBvV5ckN+lP/HiyGrSy6BXTmZFnHE8AS9BJ6X26u
+         JPww==
+X-Gm-Message-State: AAQBX9f6w4kxQxesuRn4FV42rERGxaebJHeYx1Xe+DfgiDqqn9S0nOuJ
+        Vj36y1KyliZ/WB6NJ8InmrHKysMnVDzQU530QJACwQ==
+X-Google-Smtp-Source: AKy350YuW8GuemG4g81Y6OHq+i0J/Z2VgK3KD+t5Guwl/NXy2YwH1tXP/uZwmMn0dSyKR94PaAb2LA==
+X-Received: by 2002:a17:90b:4c4a:b0:23b:bf03:397e with SMTP id np10-20020a17090b4c4a00b0023bbf03397emr3301739pjb.24.1679665832975;
+        Fri, 24 Mar 2023 06:50:32 -0700 (PDT)
+Received: from ?IPV6:2405:201:d02f:d899:2028:7962:400:43b6? ([2405:201:d02f:d899:2028:7962:400:43b6])
+        by smtp.gmail.com with ESMTPSA id d1-20020a656201000000b00512fbdd8c47sm4373240pgv.45.2023.03.24.06.50.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Mar 2023 06:50:32 -0700 (PDT)
+Message-ID: <8b3cb61c-8824-e358-a039-012471d679f2@9elements.com>
+Date:   Fri, 24 Mar 2023 19:20:31 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/2] leds: max597x: Add support for max597x
+Content-Language: en-US
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         Lee Jones <lee@kernel.org>,
         Patrick Rudolph <patrick.rudolph@9elements.com>,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: max597x: Add support for max597x
-Message-ID: <ZB2gdvgFR4ZTIegA@duo.ucw.cz>
 References: <20230323194550.1914725-1-Naresh.Solanki@9elements.com>
  <20230323194550.1914725-2-Naresh.Solanki@9elements.com>
  <d6463018-ebdf-30b2-ce0e-f2b5198847f1@wanadoo.fr>
  <688423c6-ba98-002c-efe5-7b0997d6af73@9elements.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="KvhWOlauSwJvaynd"
-Content-Disposition: inline
-In-Reply-To: <688423c6-ba98-002c-efe5-7b0997d6af73@9elements.com>
+ <ZB2gdvgFR4ZTIegA@duo.ucw.cz>
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+In-Reply-To: <ZB2gdvgFR4ZTIegA@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Christophe, Pavel,
 
---KvhWOlauSwJvaynd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > > +++ b/drivers/leds/Kconfig
-> > > @@ -590,6 +590,17 @@ config LEDS_ADP5520
-> > > =A0=A0=A0=A0=A0=A0=A0 To compile this driver as a module, choose M he=
-re: the
-> > > module will
-> > > =A0=A0=A0=A0=A0=A0=A0 be called leds-adp5520.
-> > > +config LEDS_MAX597X
-> > > +=A0=A0=A0 tristate "LED Support for Maxim 597x"
-> > > +=A0=A0=A0 depends on LEDS_CLASS
-> > > +=A0=A0=A0 depends on MFD_MAX597X
-> > > +=A0=A0=A0 help
-> > > +=A0=A0=A0=A0=A0 This option enables support for the Maxim 597x smart=
- switch
-> > > indication LEDs
-> > > +=A0=A0=A0=A0=A0 via the I2C bus.
-> > > +
-> > > +=A0=A0=A0=A0=A0 To compile this driver as a module, choose M here: t=
-he module will
-> > > +=A0=A0=A0=A0=A0 be called max597x-led.
-> >=20
-> > leds-max597x?
-> As per struct max597x_led_driver, driver name is max597x-led
-
-Please test the modular build and double check the module name.
-
-BR,
-									Pavel
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---KvhWOlauSwJvaynd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZB2gdgAKCRAw5/Bqldv6
-8qT1AJ4rZ5oeqfJ7mfKo5Zr4u6ashkHcIACgiT8fhIHSmdSMSkC2LAzbtcm4VUI=
-=wIV7
------END PGP SIGNATURE-----
-
---KvhWOlauSwJvaynd--
+On 24-03-2023 06:37 pm, Pavel Machek wrote:
+> Hi!
+> 
+>>>> +++ b/drivers/leds/Kconfig
+>>>> @@ -590,6 +590,17 @@ config LEDS_ADP5520
+>>>>          To compile this driver as a module, choose M here: the
+>>>> module will
+>>>>          be called leds-adp5520.
+>>>> +config LEDS_MAX597X
+>>>> +    tristate "LED Support for Maxim 597x"
+>>>> +    depends on LEDS_CLASS
+>>>> +    depends on MFD_MAX597X
+>>>> +    help
+>>>> +      This option enables support for the Maxim 597x smart switch
+>>>> indication LEDs
+>>>> +      via the I2C bus.
+>>>> +
+>>>> +      To compile this driver as a module, choose M here: the module will
+>>>> +      be called max597x-led.
+>>>
+>>> leds-max597x?
+>> As per struct max597x_led_driver, driver name is max597x-led
+> 
+> Please test the modular build and double check the module name.
+Thank you for your suggestion, it turns out that you were right. The 
+correct module name is leds-max597x(./drivers/leds/leds-max597x.ko).
+Will update Kconfig message accordingly. Thanks!
+> 
+> BR,
+> 									Pavel
+> 
+Regards,
+Naresh
