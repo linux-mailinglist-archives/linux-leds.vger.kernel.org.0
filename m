@@ -2,44 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A5F6C8F58
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Mar 2023 17:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B5C6C8F66
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Mar 2023 17:20:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbjCYQJv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 25 Mar 2023 12:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33742 "EHLO
+        id S230399AbjCYQUD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 25 Mar 2023 12:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjCYQJv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 25 Mar 2023 12:09:51 -0400
+        with ESMTP id S229600AbjCYQUC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 25 Mar 2023 12:20:02 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9C4E192;
-        Sat, 25 Mar 2023 09:09:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CAE46B6;
+        Sat, 25 Mar 2023 09:20:01 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1F5A91C0AB3; Sat, 25 Mar 2023 17:09:49 +0100 (CET)
+        id DFCCE1C0AB2; Sat, 25 Mar 2023 17:19:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679760589;
+        t=1679761199;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=kcU/9fFXfNqYOTgmAwmcaMU+wBoR0qh6jAjCJEANVdg=;
-        b=JMM6sAZiMnfxahJFdVg7uY5hYAP3wcePo4ugVmHCqi+5g8UHeL8prGdDXt7+1myv6fasXZ
-        LDxZITyNWCwzsvV7Cvnkpm5GB+hTv2Oj7sa4Y1CFNhhWoiF/Ti9/c8oTveFbWQCT2BaTU5
-        4H0uqKx/Baniawwt/+ncjQ0aZgp/nVs=
-Date:   Sat, 25 Mar 2023 17:09:46 +0100
+        bh=YRwPfaYaywOmrK6OfSfiS8RmP4MmRbWuSvlWBa58fnQ=;
+        b=jmjiScV6hbfNDIw7nnqPvflBDUvKMRJ2P54KtG57X4ZcC7qauUjo645tI568VgvxLSmfeH
+        adH6yfiTHSbNaPwcdQy6EBDmYADimIllnK+o6Q1PDASbHhLhp8nHCSupSwcJuy7ZZAs3u5
+        Kajr7eSMnto69No4DkvoumkEx5sY/xU=
+Date:   Sat, 25 Mar 2023 17:19:56 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Joseph Strauss <jstrauss@mailbox.org>
-Cc:     lee@kernel.org, jansimon.moeller@gmx.de, conor@kernel.org,
-        christophe.jaillet@wanadoo.fr, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Add multicolor support to BlinkM LED driver
-Message-ID: <20230325160946.GC1820@bug>
-References: <20221228010958.9670-1-jstrauss@mailbox.org>
- <ZBw5E4ecNvfgd0RB@duo.ucw.cz>
- <20230325155355.gxnjpyl3mnyq2lst@libretux>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        linux-leds@vger.kernel.org,
+        William Zhang <william.zhang@broadcom.com>,
+        Rafa?? Mi??ecki <rafal@milecki.pl>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: bcm63138: refer to ARCH_BCMBCA instead of
+ ARCH_BCM4908
+Message-ID: <20230325161955.GE1820@bug>
+References: <20230307082936.16631-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230325155355.gxnjpyl3mnyq2lst@libretux>
+In-Reply-To: <20230307082936.16631-1-lukas.bulwahn@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
@@ -50,31 +51,29 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat 2023-03-25 10:53:55, Joseph Strauss wrote:
-> On 23/03/23 12:33PM, Pavel Machek wrote:
-> > Hi!
-> > 
-> > > In the blinkm_probe function, the multicolor LED class is registered
-> > > after the regular LED classes. The blinkm_set_mc_brightness() function
-> > > had to be added to calculate the three color components and then set the
-> > > fields of the blinkm_data structure accordingly.
-> > 
-> > It needs to be either single multicolor LED or three separate
-> > LEDs. But not both at the same time.
-> > 
+On Tue 2023-03-07 09:29:36, Lukas Bulwahn wrote:
+> Commit dd5c672d7ca9 ("arm64: bcmbca: Merge ARCH_BCM4908 to ARCH_BCMBCA")
+> removes config ARCH_BCM4908 as config ARCH_BCMBCA has the same intent.
 > 
-> Thank you for the feedback! How would you suggest I go about handling
-> this? Is there a preferred way to ask the user which way they want to
-> control the LED (Kconfig?), or should I remove the code for three
-> separate LEDs entirely? Originally, I didn't delete the code because I
-> thought it would be bad to remove the existing interface.
+> Probably due to concurrent development, commit a0ba692072d8 ("leds:
+> bcm63138: add support for BCM63138 controller") introduces 'LED Support
+> for Broadcom BCM63138 SoC' that depends on ARCH_BCM4908, but this use was
+> not visible during the config refactoring from the commit above. Hence,
+> these two changes create a reference to a non-existing config symbol.
+> 
+> Adjust the LEDS_BCM63138 definition to refer to ARCH_BCMBCA instead of
+> ARCH_BCM4908 to remove the reference to the non-existing config symbol
+> ARCH_BCM4908.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-It kind of is bad. ... but hopefully blinkm users can adjust.
-
-You could do Kconfig if it was easy.
+Do we really want this "default Y" on those architectures? I'd understand
+it for something critical but LED is not, and if it is not even present on
+all such machines...
 
 BR,
 									Pavel
+
 -- 
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
