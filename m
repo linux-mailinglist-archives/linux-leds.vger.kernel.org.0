@@ -2,86 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C31596CA72F
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 16:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6576CA980
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 17:47:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233043AbjC0ONd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Mar 2023 10:13:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
+        id S232856AbjC0PrX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Mar 2023 11:47:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232866AbjC0OMo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 10:12:44 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 725CE658D;
-        Mon, 27 Mar 2023 07:11:29 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id i9so8959448wrp.3;
-        Mon, 27 Mar 2023 07:11:29 -0700 (PDT)
+        with ESMTP id S232508AbjC0PrW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 11:47:22 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50DFB1FE2
+        for <linux-leds@vger.kernel.org>; Mon, 27 Mar 2023 08:47:21 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id u20so5964515pfk.12
+        for <linux-leds@vger.kernel.org>; Mon, 27 Mar 2023 08:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679926285;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oy4rJp/0zV8uQx96aqdFOna+cm21IPd+B8/oErRDE1c=;
-        b=N1+9G3TumKrPZKtDgnUYD6HDreYZGrsnCsG3x6VR1o6zsdlKygYn5Z2B/6MK7uSEib
-         /66G9qTuGKBx/QqmSMP7T42XAs/7GFQk8nHeM2yzmROF/lCWibWpheeY7B2GIYdPhN1b
-         9GOlfffc+AZNhfrEsFIJ3yAaWe0xtdGPgJ7Kl/Hxs1k3JTD2gzvl09ggMzmHbEwGGjX0
-         5zZz5BzkFOFGFyvfTTjuPhvEr8tGjp/IpmshsxkTYQ/MxRyhYQnC07KfzFJlhNkTtrfr
-         U+DjoUUgEiUUffoufrfwBWTA2WZQ8MQAdVmgCLlpPjCWptllhVOFI+HVVbkY+10eJdED
-         7MAg==
+        d=9elements.com; s=google; t=1679932041;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E7tv73jSNqfHmt4DCwlLY8nz3A8KmKibtRmlvCUDC90=;
+        b=YKzk6g4t7aiHs3R2sUJ4039eVRFIn2Y4Yh6CTfv+mLZ/QMQAZ3pUhY+w4fZpDt01ok
+         yfMTwEDfpQ/ArS/ZsgfLeT6B+nBy9+YTgxlrUHuaOZR0AXyJ6cjmfbRxaU43kPYVdNQN
+         biISvgxUhHnLV8figliz0mSrk2+Aen1FBRZOaDiKntJYu0RpWRV4jjTxe6dakHnIv1QG
+         AEssgFVOXP8lx6J3+Plv8AOmKfRCEjTgnN77q8movbklo7IE0jVcKasDYX3yT/KIwZy6
+         QtuqkIgd2eIvWMXKJ4ajQE0qBTSCOt2HMiEWD1hD5bI1Qt+99Wu+QDh/J5TnMlD4tRWa
+         SgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679926285;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oy4rJp/0zV8uQx96aqdFOna+cm21IPd+B8/oErRDE1c=;
-        b=FMq992CpDPrMpcuoNU7v2pHnJ5WKkCjoRtruPc5m3muB4eg9xCAjexKkTsEroi+5hA
-         durhU+5iBGOl/FoytHyGN6pLTqSDuY/4oc/vvpXD/yiORs9XLlExHXAFxEoVc8L4An/G
-         +i61vETMfq9ZVUVG0vFD5rqTdjroN+gwJx2tmmH6zzDJZsXG0In7PZQKEk1cOmWrcK1u
-         lqFFSjWFvUcKg/TBdi4lENPhFWZwAD+ogrU07Prv5zqlTQ+F/eC3wTnfl+jpwj86RfOh
-         jr5rHMMI5fZZqc+W/WHSHoTm/Vq876gIIEmaHN3OH7NB8RINqn+WicFilTAO6HzRXXZ2
-         dlKg==
-X-Gm-Message-State: AAQBX9cRRe04NsHN3WvViu0vNRBelz/muQ6LV/Mpp7RhuKm7OiKkH2KZ
-        qdll3xKrzazm0df3Kq7B0nA=
-X-Google-Smtp-Source: AKy350bY2vBFHRJIpmB9jjsdfXbR2+U5xce8+gKxuwZJYB+85/mF1ngen08oj5b5T/J/Vu/xGqkEyw==
-X-Received: by 2002:adf:e5d1:0:b0:2ce:a7f5:ff10 with SMTP id a17-20020adfe5d1000000b002cea7f5ff10mr8517757wrn.57.1679926285261;
-        Mon, 27 Mar 2023 07:11:25 -0700 (PDT)
-Received: from localhost.localdomain (93-34-89-197.ip49.fastwebnet.it. [93.34.89.197])
-        by smtp.googlemail.com with ESMTPSA id p17-20020adfcc91000000b002c71dd1109fsm25307591wrj.47.2023.03.27.07.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 07:11:24 -0700 (PDT)
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [net-next PATCH v6 16/16] arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
-Date:   Mon, 27 Mar 2023 16:10:31 +0200
-Message-Id: <20230327141031.11904-17-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230327141031.11904-1-ansuelsmth@gmail.com>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
+        d=1e100.net; s=20210112; t=1679932041;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E7tv73jSNqfHmt4DCwlLY8nz3A8KmKibtRmlvCUDC90=;
+        b=cnM4JYRR00JBt0ptrv+VMrBVysPmih0WSu0I6OWKxJv+Ossslh7Axv8Fz4bPL2jXEy
+         Cps8Hugfrrw1vKureqBXwRHigCu60HikgXmxxZgdP+9uRY2nqcRwV/YJc8JbAALI6gqB
+         sgzJIaVO9zhAnuRnYnXhKrtHvAlZX20FaZtkpEHktCRr9tGbw//Yk3BP+8ostwfwtNJt
+         ojy0icFpq8UFKTAGGAhUMYrZVd4a5xTFCqqqOjExjIshFA0mAccQ/9VVNrtyQykffbfX
+         rszFHmZxK0PJSQ+IDkXmtRj82Xs5DWC6mmr8tyF5p680yu1WOyFVBxyfS46p0+lvjWYt
+         zdZQ==
+X-Gm-Message-State: AAQBX9dyV/8mAwJX2us9gBppShma3XVZtd2dtSSAj21lSKBqx70CTGlC
+        ppLxiwqhAPHfqeADfum/b7WnkA==
+X-Google-Smtp-Source: AKy350aPdKZpoXQW0ZwfzEE5ftsDBqDawZzd0DYrv1yPU3BKElGSZj7xOPj6Z9kddnAdkXrw022VcA==
+X-Received: by 2002:a62:1794:0:b0:624:f1f2:234a with SMTP id 142-20020a621794000000b00624f1f2234amr9877214pfx.23.1679932040749;
+        Mon, 27 Mar 2023 08:47:20 -0700 (PDT)
+Received: from ?IPV6:2405:201:d02f:d899:2028:7962:400:43b6? ([2405:201:d02f:d899:2028:7962:400:43b6])
+        by smtp.gmail.com with ESMTPSA id u20-20020aa78394000000b00608dae58695sm19080379pfm.209.2023.03.27.08.47.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 08:47:20 -0700 (PDT)
+Message-ID: <2077c7e1-cf69-8648-20ac-23793f92ad14@9elements.com>
+Date:   Mon, 27 Mar 2023 21:17:16 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/2] leds: max597x: Add support for max597x
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20230323194550.1914725-1-Naresh.Solanki@9elements.com>
+ <20230323194550.1914725-2-Naresh.Solanki@9elements.com>
+ <d6463018-ebdf-30b2-ce0e-f2b5198847f1@wanadoo.fr>
+ <688423c6-ba98-002c-efe5-7b0997d6af73@9elements.com>
+ <cf18bc52-af25-8ce0-3536-202ea3c6e86d@wanadoo.fr>
+Content-Language: en-US
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+In-Reply-To: <cf18bc52-af25-8ce0-3536-202ea3c6e86d@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -90,49 +79,105 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Andrew Lunn <andrew@lunn.ch>
+Hi,
 
-The WAN port of the 370-RD has a Marvell PHY, with one LED on
-the front panel. List this LED in the device tree.
+On 24-03-2023 09:06 pm, Christophe JAILLET wrote:
+> Le 24/03/2023 à 11:54, Naresh Solanki a écrit :
+>> Hi,
+>>
+>> On 24-03-2023 01:48 am, Christophe JAILLET wrote:
+>>> Le 23/03/2023 à 20:45, Naresh Solanki a écrit :
+>>>> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>>
+>>>> max597x is hot swap controller with indicator LED support.
+>>>> This driver uses DT property to configure led during boot time &
+>>>> also provide the LED control in sysfs.
+>>>>
+> 
+> [...]
+> 
+> 
+>>>> +static int max597x_led_probe(struct platform_device *pdev)
+>>>> +{
+>>>> +    struct device_node *np = dev_of_node(pdev->dev.parent);
+>>>> +    struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
+>>>> +    struct device_node *led_node;
+>>>> +    struct device_node *child;
+>>>> +    int ret = 0;
+>>>> +
+>>>> +    if (!regmap)
+>>>> +        return -EPROBE_DEFER;
+>>>> +
+>>>> +    led_node = of_get_child_by_name(np, "leds");
+>>>> +    if (!led_node)
+>>>> +        return -ENODEV;
+>>>> +
+>>>> +    for_each_available_child_of_node(led_node, child) {
+>>>> +        u32 reg;
+>>>> +
+>>>> +        if (of_property_read_u32(child, "reg", &reg))
+>>>> +            continue;
+>>>> +
+>>>> +        if (reg >= MAX597X_NUM_LEDS) {
+>>>> +            dev_err(&pdev->dev, "invalid LED (%u >= %d)\n", reg,
+>>>> +                MAX597X_NUM_LEDS);
+>>>> +            continue;
+>>>> +        }
+>>>> +
+>>>> +        ret = max597x_setup_led(&pdev->dev, regmap, child, reg);
+>>>> +        if (ret < 0)
+>>>> +            of_node_put(child);
+>>>
+>>> This of_node_put() looks odd to me.
+>> Not sure if I get this right but if led setup fails of_node_put should 
+>> be called.
+> 
+> My understanding is that this of_node_put() is there in case of error, 
+> to release what would otherwise never be released by 
+> for_each_available_child_of_node() if we exit early from the loop.
+> 
+> If the purpose is to release a reference taken in max597x_setup_led() in 
+> case of error:
+>     - this should be done IMHO within max597x_setup_led() directly
+>     - there should be a of_node_get() somewhere in max597x_setup_led()
+>       (after:
+>      if (of_property_read_string(nc, "label", &led->led.name))
+>          led->led.name = nc->name;
+>        + error handling path,  *or*
+>       just before the final return ret; when we know that everything is 
+> fine,
+>       if I understand correctly the code)
+> 
+> Is the reference taken elsewhere?
+> Did I miss something obvious?
+> 
+> 
+One of the reference is "drivers/leds/leds-sc27xx-bltc.c" line 311
+Please do let me know if I have to do anything about it.
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- arch/arm/boot/dts/armada-370-rd.dts | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+>>> "return ret;" or "break;" missing ?
+>>>
+>> Didn't add a break so that it can continue initializing remaining led 
+>> if any.
+> 
+> Ok. Don't know the code enough to see if correct or not, but based on my 
+> comment above, I think that something is missing in max597x_setup_led() 
+> and that errors should be silently ignored here.
+In my implementation, I have chosen to continue with the next LED if an 
+error occurs, rather than aborting the 'for loop' with an error. I have 
+seen other implementations also done in a similar way.
+Do you have any further inputs or suggestions on this approach.
 
-diff --git a/arch/arm/boot/dts/armada-370-rd.dts b/arch/arm/boot/dts/armada-370-rd.dts
-index be005c9f42ef..15b36aa34ef4 100644
---- a/arch/arm/boot/dts/armada-370-rd.dts
-+++ b/arch/arm/boot/dts/armada-370-rd.dts
-@@ -20,6 +20,7 @@
- /dts-v1/;
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
- #include <dt-bindings/gpio/gpio.h>
- #include "armada-370.dtsi"
- 
-@@ -135,6 +136,19 @@ &mdio {
- 	pinctrl-names = "default";
- 	phy0: ethernet-phy@0 {
- 		reg = <0>;
-+		leds {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			led@0 {
-+				reg = <0>;
-+				label = "WAN";
-+				color = <LED_COLOR_ID_WHITE>;
-+				function = LED_FUNCTION_LAN;
-+				function-enumerator = <1>;
-+				linux,default-trigger = "netdev";
-+			};
-+		};
- 	};
- 
- 	switch: switch@10 {
--- 
-2.39.2
-
+> 
+> CJ
+> 
+>>>> +    }
+>>>> +
+>>>> +    return ret;
+>>>> +}
+>>>> +
+> 
+> [...]
+> 
+Regards,
+Naresh
