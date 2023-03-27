@@ -2,61 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A91E6C9D99
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 10:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 328B66CA2BB
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 13:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232508AbjC0IXp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Mar 2023 04:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
+        id S232464AbjC0Lqi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Mar 2023 07:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231891AbjC0IXo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 04:23:44 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC8DB5;
-        Mon, 27 Mar 2023 01:23:43 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 06C9B6602087;
-        Mon, 27 Mar 2023 09:23:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679905422;
-        bh=oMn8QjU8/8qTC6gWtoCH/9yMmplAzpyb0h0XKNTrk2M=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=K5rfnodqvGxAWMjY8/S9KVsuWfTQAHGs0WoqV63XOC8E/2QNVMAjJ4HsHfyaYBd4K
-         NKM2Xx2ObslQWygUvE3BLWJd30UvgTJxNEbZFuXdDpXqCAd8qFXlVuwbglZlrksm07
-         9+7WYqd7QSu70VQOgHEPP6SnXIU2EiU1dDYZYWS6Dx/PoKDJsvSTYKcoCE8ZF1SooG
-         djKOXCAd+t4coqU5dwMtmxzLPTENlBE9Twc2G5zHLUVxaX4+TuhW4yzpLAzkOVC3EZ
-         R9r2AwlBGpPEzcRc7vT7jcy92j4Wr31u6uHoDydgtE7DbHU9XkN2iR25rowkP8fZ/X
-         sqbZDbtqKlyZQ==
-Message-ID: <8b07ead5-f105-da86-e7da-ee49616f7c1d@collabora.com>
-Date:   Mon, 27 Mar 2023 10:23:39 +0200
+        with ESMTP id S229462AbjC0Lqh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 07:46:37 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357A62713;
+        Mon, 27 Mar 2023 04:46:35 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C55E21C0AB3; Mon, 27 Mar 2023 13:46:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1679917593;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zFykRxzmTbL7DBBLByyFMIZThBCBkMRsBj1bnaQnEfI=;
+        b=TX+T+yKp5DacOLhkpQ4BA8cBSLOVIO3ikm4LDE7/oCmhs0Hj1zKoLT9qTDwqeX9E7yZNag
+        bqvc4VBmhBC7TUZksefeTGwAk1IMTeneJXk5NqdWroUMzHRUcV0HnQdgW37H3wyuv46t64
+        cVzIRKYzod+VUMAxlt2cqgVHp/O/TAU=
+Date:   Mon, 27 Mar 2023 13:46:33 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     ChiaEn Wu <chiaen_wu@richtek.com>
+Cc:     corbet@lwn.net, lee@kernel.org, matthias.bgg@gmail.com,
+        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
+        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
+        peterwu.pub@gmail.com, cy_huang@richtek.com,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>
+Subject: Re: [PATCH v18 1/3] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+Message-ID: <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
+References: <cover.1678430444.git.chiaen_wu@richtek.com>
+ <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: kernel error at led trigger "phy0tpt"
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Tobias Dahms <dahms.tobias@web.de>,
-        Sean Wang <sean.wang@mediatek.com>
-Cc:     stable@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-References: <91feceb2-0df4-19b9-5ffa-d37e3d344fdf@web.de>
- <3fcc707b-f757-e74b-2800-3b6314217868@leemhuis.info>
- <fcecf6fc-bf18-73a0-9fc1-6850e183323a@web.de>
- <d14fb08c-70e3-4cc7-caf9-87e73eab9194@gmail.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <d14fb08c-70e3-4cc7-caf9-87e73eab9194@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="D4r0h3j33WbMHnmz"
+Content-Disposition: inline
+In-Reply-To: <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,54 +54,56 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 26/03/23 15:23, Bagas Sanjaya ha scritto:
-> On 3/26/23 02:20, Tobias Dahms wrote:
->> Hello,
->>
->> the bisection gives following result:
->> --------------------------------------------------------------------
->> 18c7deca2b812537aa4d928900e208710f1300aa is the first bad commit
->> commit 18c7deca2b812537aa4d928900e208710f1300aa
->> Author: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> Date:   Tue May 17 12:47:08 2022 +0200
->>
->>      soc: mediatek: pwrap: Use readx_poll_timeout() instead of custom
->> function
->>
->>      Function pwrap_wait_for_state() is a function that polls an address
->>      through a helper function, but this is the very same operation that
->>      the readx_poll_timeout macro means to do.
->>      Convert all instances of calling pwrap_wait_for_state() to instead
->>      use the read_poll_timeout macro.
->>
->>      Signed-off-by: AngeloGioacchino Del Regno
->> <angelogioacchino.delregno@collabora.com>
->>      Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>      Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>      Link:
->> https://lore.kernel.org/r/20220517104712.24579-2-angelogioacchino.delregno@collabora.com
->>      Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
->>
->>   drivers/soc/mediatek/mtk-pmic-wrap.c | 60
->> ++++++++++++++++++++----------------
->>   1 file changed, 33 insertions(+), 27 deletions(-)
->> --------------------------------------------------------------------
->>
-> 
-> OK, I'm updating the regression status:
-> 
-> #regzbot introduced: 18c7deca2b8125
-> 
-> And for replying, don't top-post, but rather reply inline with
-> appropriate context instead; hence I cut the replied context.
-> 
 
-There are two possible solutions to that, specifically, either:
-  1. Change readx_poll_timeout() to readx_poll_timeout_atomic(); or
-  2. Fix the mt6323-led driver so that this operation gets done
-     out of atomic context, which is IMO the option to prefer.
+--D4r0h3j33WbMHnmz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ideas?
+Hi!
 
-Regards,
-Angelo
+> The MediaTek MT6370 is a highly-integrated smart power management IC,
+> which includes a single cell Li-Ion/Li-Polymer switching battery
+> charger, a USB Type-C & Power Delivery (PD) controller, dual
+> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> a display bias driver and a general LDO for portable devices.
+>=20
+> Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> constant current, PWM, and breath mode.
+>=20
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+
+
+> +++ b/drivers/leds/rgb/Makefile
+> @@ -2,3 +2,4 @@
+> =20
+>  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+=3D leds-pwm-multicolor.o
+>  obj-$(CONFIG_LEDS_QCOM_LPG)		+=3D leds-qcom-lpg.o
+> +obj-$(CONFIG_LEDS_MT6370_RGB)		+=3D leds-mt6370-rgb.o
+
+I'd preffer leds-mt6370 name. We already have "rgb" in directory
+name...
+
+Otherwise looks good. Thanks for doing this.
+
+BR,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--D4r0h3j33WbMHnmz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZCGCGQAKCRAw5/Bqldv6
+8i3ZAJ9qQLfE458c3OH+zEji2EkMi7QlSgCeK9mwxBDeevOjUAyXRclkUMQNHsc=
+=XX/d
+-----END PGP SIGNATURE-----
+
+--D4r0h3j33WbMHnmz--
