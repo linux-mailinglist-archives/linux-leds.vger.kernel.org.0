@@ -2,49 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 328B66CA2BB
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 13:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC0276CA2F4
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 13:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232464AbjC0Lqi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Mar 2023 07:46:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35378 "EHLO
+        id S232381AbjC0L67 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Mar 2023 07:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjC0Lqh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 07:46:37 -0400
+        with ESMTP id S229525AbjC0L66 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 07:58:58 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357A62713;
-        Mon, 27 Mar 2023 04:46:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45801BE2
+        for <linux-leds@vger.kernel.org>; Mon, 27 Mar 2023 04:58:57 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C55E21C0AB3; Mon, 27 Mar 2023 13:46:33 +0200 (CEST)
+        id 5D21A1C0AB3; Mon, 27 Mar 2023 13:58:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1679917593;
+        t=1679918336;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=zFykRxzmTbL7DBBLByyFMIZThBCBkMRsBj1bnaQnEfI=;
-        b=TX+T+yKp5DacOLhkpQ4BA8cBSLOVIO3ikm4LDE7/oCmhs0Hj1zKoLT9qTDwqeX9E7yZNag
-        bqvc4VBmhBC7TUZksefeTGwAk1IMTeneJXk5NqdWroUMzHRUcV0HnQdgW37H3wyuv46t64
-        cVzIRKYzod+VUMAxlt2cqgVHp/O/TAU=
-Date:   Mon, 27 Mar 2023 13:46:33 +0200
+        bh=KtGQ+WBEVr9hPIr8c8jIgxnRTqSGvWIUyuYXmQfyVg8=;
+        b=o1x7LmfLbM/gYYOig2CKJRnTW/kSUVtVHebkyUimCnMFhwhrxaT4qegmJi2rnajCoY42DF
+        CyPE3h9Z7wF5cMX0bIL9FxjO4YE3Qf8Jr7PUnT4rYOfDPi7pDJcWYCDJUgip1LgWmwKSL2
+        ZO2Ror+zuCIipjrL/RgEZgyZWwQ+ueo=
+Date:   Mon, 27 Mar 2023 13:58:55 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     ChiaEn Wu <chiaen_wu@richtek.com>
-Cc:     corbet@lwn.net, lee@kernel.org, matthias.bgg@gmail.com,
-        andriy.shevchenko@linux.intel.com, jacek.anaszewski@gmail.com,
-        angelogioacchino.delregno@collabora.com, linux-doc@vger.kernel.org,
-        peterwu.pub@gmail.com, cy_huang@richtek.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        szunichen@gmail.com, Alice Chen <alice_chen@richtek.com>
-Subject: Re: [PATCH v18 1/3] leds: rgb: mt6370: Add MediaTek MT6370 current
- sink type LED Indicator support
-Message-ID: <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
-References: <cover.1678430444.git.chiaen_wu@richtek.com>
- <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
+To:     Marek Vasut <marex@denx.de>, lee.jones@linaro.org
+Cc:     linux-leds@vger.kernel.org,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Subject: Re: [PATCH] leds: gpio: Configure per-LED pin control
+Message-ID: <ZCGE/6hzeJNeJKTj@duo.ucw.cz>
+References: <20221107003133.377704-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="D4r0h3j33WbMHnmz"
+        protocol="application/pgp-signature"; boundary="6l3u6MzT+MxU1NEp"
 Content-Disposition: inline
-In-Reply-To: <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
+In-Reply-To: <20221107003133.377704-1-marex@denx.de>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -55,55 +48,79 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---D4r0h3j33WbMHnmz
+--6l3u6MzT+MxU1NEp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> The MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery
-> charger, a USB Type-C & Power Delivery (PD) controller, dual
-> Flash LED current sources, a RGB LED driver, a backlight WLED driver,
-> a display bias driver and a general LDO for portable devices.
->=20
-> Add support for the MediaTek MT6370 Current Sink Type LED Indicator
-> driver. It can control four channels current-sink RGB LEDs with 3 modes:
-> constant current, PWM, and breath mode.
->=20
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Co-developed-by: Alice Chen <alice_chen@richtek.com>
-> Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+> to it, parse the DT subnode pinctrl properties and configure each pin
+> accordingly.
 
+Do we need update to
+Documentation/devicetree/bindings/leds/leds-gpio.yaml ?
 
-> +++ b/drivers/leds/rgb/Makefile
-> @@ -2,3 +2,4 @@
-> =20
->  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+=3D leds-pwm-multicolor.o
->  obj-$(CONFIG_LEDS_QCOM_LPG)		+=3D leds-qcom-lpg.o
-> +obj-$(CONFIG_LEDS_MT6370_RGB)		+=3D leds-mt6370-rgb.o
+Otherwise looks good to me.
 
-I'd preffer leds-mt6370 name. We already have "rgb" in directory
-name...
-
-Otherwise looks good. Thanks for doing this.
-
-BR,
+Thank you,
 								Pavel
+
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/leds.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/property.h>
+>  #include <linux/slab.h>
+> @@ -77,6 +78,7 @@ static int create_gpio_led(const struct gpio_led *templ=
+ate,
+>  	struct fwnode_handle *fwnode, gpio_blink_set_t blink_set)
+>  {
+>  	struct led_init_data init_data =3D {};
+> +	struct pinctrl *pinctrl;
+>  	int ret, state;
+> =20
+>  	led_dat->cdev.default_trigger =3D template->default_trigger;
+> @@ -119,6 +121,22 @@ static int create_gpio_led(const struct gpio_led *te=
+mplate,
+>  						     &init_data);
+>  	}
+> =20
+> +	if (ret)
+> +		return ret;
+> +
+> +	pinctrl =3D devm_pinctrl_get_select_default(led_dat->cdev.dev);
+> +	if (IS_ERR(pinctrl)) {
+> +		ret =3D PTR_ERR(pinctrl);
+> +		if (ret !=3D -ENODEV) {
+> +			dev_warn(led_dat->cdev.dev,
+> +				 "Failed to select %pOF pinctrl: %d\n",
+> +				 to_of_node(fwnode), ret);
+> +		} else {
+> +			/* pinctrl-%d not present, not an error */
+> +			ret =3D 0;
+> +		}
+> +	}
+> +
+>  	return ret;
+>  }
+> =20
+
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---D4r0h3j33WbMHnmz
+--6l3u6MzT+MxU1NEp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZCGCGQAKCRAw5/Bqldv6
-8i3ZAJ9qQLfE458c3OH+zEji2EkMi7QlSgCeK9mwxBDeevOjUAyXRclkUMQNHsc=
-=XX/d
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZCGE/wAKCRAw5/Bqldv6
+8qF8AJ9OOnYM/67myhOEk3cgqltSQu/cygCgoEgayhnzddD3dBMs8XGM0lL8bEw=
+=v45L
 -----END PGP SIGNATURE-----
 
---D4r0h3j33WbMHnmz--
+--6l3u6MzT+MxU1NEp--
