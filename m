@@ -2,215 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE916CAC37
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Mar 2023 19:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09EF36CB353
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 03:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbjC0Rt5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Mar 2023 13:49:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55776 "EHLO
+        id S232398AbjC1BqR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Mar 2023 21:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232301AbjC0Rtz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 13:49:55 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1DAF19AD
-        for <linux-leds@vger.kernel.org>; Mon, 27 Mar 2023 10:49:53 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so12565892pjp.1
-        for <linux-leds@vger.kernel.org>; Mon, 27 Mar 2023 10:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1679939393;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y4f5h2DFlqvcmV9pqrippqGw8S/ID21eu8B8xXXSJvY=;
-        b=Mvk1bsNYS+CBDSr9ESNlx3keWydnPpQyoDFOWZ9YYXC/2CYeN0nZLegTO2mYV+JIrD
-         F2JlRq5osS4m9X+oh/9REK87lI5zRkpAG/m04Agsa1AQhgQ2YE/bNisUZyUVOvpcXItu
-         kEd4e1iV49fJ712x6ENOw3ilvQKjYqr8j6H8SEoBvxxRAsSn6rrrNiaq8vXYGyVV31LX
-         sqH23wS6Zsa9DFXlgl6MGSE5sNAEPxRpsg0VG1K4Yii5bbmMiNTiCyKImbDX/kLGsDVp
-         3wGzOhdQE8PoyEMGvErUdD1DSNf0Yhkk/T32qxXdrYOd77ZqgYNOSwoDBlU/roYEbpC6
-         v6Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679939393;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y4f5h2DFlqvcmV9pqrippqGw8S/ID21eu8B8xXXSJvY=;
-        b=c477huGz9MKuFja6zngLFyxlrorHVW176bpBbVScg/rejE4NtbYlrsHul6fJyoaqeU
-         vUQer9xPGH2DmhnTqgRoi9EGyd4/lKwvTiWFbm5uchuFKuhue+QXwIzWvUm7LDk/zujs
-         mEkZCPkog33a/RqJSlZvqyXlN23TP+lIuyXIPV2SM1WroUAdG5uMuvFPT4ekVe2EDQHu
-         HhI0d0f0yqyfxR1aByBL8bflahuUrPn8m1Ef9dWPWQmQo4cPtkIu8RJDZXb8QzPd+6Rm
-         LItOnt7YCGaL8tZ7J5DYt2bAJihYwf8zwl76qJRsz0IiNWZg6P+yY6W5USd0FSlN4QtX
-         OPzg==
-X-Gm-Message-State: AAQBX9cGGe/Vw4WdwIehKqOi+H0LQyZ3eM4WWv3J/icDITonBYrigBTO
-        WpPLPoHh7uO0ytMW+YRAYoQrvaJn2aaIJaiaIcU=
-X-Google-Smtp-Source: AKy350ZN8y1wHhrKMzs1OKjBk07aV1uh2PuCW6P+QSe5GoisDVxxCs6fCy8ettxlP1de82KZNCsGHA==
-X-Received: by 2002:a17:902:d48a:b0:19f:3617:e9e9 with SMTP id c10-20020a170902d48a00b0019f3617e9e9mr17646263plg.43.1679939393112;
-        Mon, 27 Mar 2023 10:49:53 -0700 (PDT)
-Received: from ?IPV6:2405:201:d02f:d899:2028:7962:400:43b6? ([2405:201:d02f:d899:2028:7962:400:43b6])
-        by smtp.gmail.com with ESMTPSA id j4-20020a170903028400b0019a723a831dsm19534686plr.158.2023.03.27.10.49.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 10:49:52 -0700 (PDT)
-Message-ID: <05278bcb-7324-99b4-5442-ac44b2cdeed5@9elements.com>
-Date:   Mon, 27 Mar 2023 23:19:49 +0530
+        with ESMTP id S232310AbjC1BqQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 21:46:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD422102;
+        Mon, 27 Mar 2023 18:46:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 54B556156E;
+        Tue, 28 Mar 2023 01:46:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4BEC433D2;
+        Tue, 28 Mar 2023 01:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679967969;
+        bh=RZx2aaLuSa1JAWsRRdhzXJuR3cLjN0gD2XWPcoAbNfc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CdFyehDpbh0+HugIxeQ5zrUAc/8NvF3xNPHRlEPdSLwdB+lpqzlR1Z2TObZSA1axA
+         YTdmU/C/9C6jIRly9yo2Hn7ooy52We53plIbNWNB/FZEjzphODIALLvel6PoBGptUk
+         sqi7iooPidqYZP+XqLobe9eb5eNwGhl6xkWSXliUIBG/TAIxH3ZeuZoPxi/dDKlcLo
+         e92rk+8tsfT9bjCBgJLnxnD1YRT2u55l4wcprJNsCFsvjZOIE5EasQc9629jcKltcc
+         RRNRphIQHS7U5fqsoHHXgjLHoF5icBr3CA8IbHZumB3HvHdXsW03CsxaZPJhhv/iVF
+         GaJ2uVwUNFXUg==
+Date:   Mon, 27 Mar 2023 18:46:06 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [net-next PATCH v6 00/16] net: Add basic LED support for
+ switch/phy
+Message-ID: <20230327184606.37933d41@kernel.org>
+In-Reply-To: <20230327141031.11904-1-ansuelsmth@gmail.com>
+References: <20230327141031.11904-1-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] leds: max597x: Add support for max597x
-Content-Language: en-US
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20230323194550.1914725-1-Naresh.Solanki@9elements.com>
- <20230323194550.1914725-2-Naresh.Solanki@9elements.com>
- <d6463018-ebdf-30b2-ce0e-f2b5198847f1@wanadoo.fr>
- <688423c6-ba98-002c-efe5-7b0997d6af73@9elements.com>
- <cf18bc52-af25-8ce0-3536-202ea3c6e86d@wanadoo.fr>
- <2077c7e1-cf69-8648-20ac-23793f92ad14@9elements.com>
- <9567ac67-0c4c-0599-7141-9137837f79e2@wanadoo.fr>
-From:   Naresh Solanki <naresh.solanki@9elements.com>
-In-Reply-To: <9567ac67-0c4c-0599-7141-9137837f79e2@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Mon, 27 Mar 2023 16:10:15 +0200 Christian Marangi wrote:
+> This is a continue of [1]. It was decided to take a more gradual
+> approach to implement LEDs support for switch and phy starting with
+> basic support and then implementing the hw control part when we have all
+> the prereq done.
+> 
+> This series implements only the brightness_set() and blink_set() ops.
+> An example of switch implementation is done with qca8k.
+> 
+> For PHY a more generic approach is used with implementing the LED
+> support in PHY core and with the user (in this case marvell) adding all
+> the required functions.
+> 
+> Currently we set the default-state as "keep" to not change the default
+> configuration of the declared LEDs since almost every switch have a
+> default configuration.
 
-On 27-03-2023 10:50 pm, Christophe JAILLET wrote:
-> Le 27/03/2023 à 17:47, Naresh Solanki a écrit :
->> Hi,
->>
->> On 24-03-2023 09:06 pm, Christophe JAILLET wrote:
->>> Le 24/03/2023 à 11:54, Naresh Solanki a écrit :
->>>> Hi,
->>>>
->>>> On 24-03-2023 01:48 am, Christophe JAILLET wrote:
->>>>> Le 23/03/2023 à 20:45, Naresh Solanki a écrit :
->>>>>> From: Patrick Rudolph <patrick.rudolph@9elements.com>
->>>>>>
->>>>>> max597x is hot swap controller with indicator LED support.
->>>>>> This driver uses DT property to configure led during boot time &
->>>>>> also provide the LED control in sysfs.
->>>>>>
->>>
->>> [...]
->>>
->>>
->>>>>> +static int max597x_led_probe(struct platform_device *pdev)
->>>>>> +{
->>>>>> +    struct device_node *np = dev_of_node(pdev->dev.parent);
->>>>>> +    struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
->>>>>> +    struct device_node *led_node;
->>>>>> +    struct device_node *child;
->>>>>> +    int ret = 0;
->>>>>> +
->>>>>> +    if (!regmap)
->>>>>> +        return -EPROBE_DEFER;
->>>>>> +
->>>>>> +    led_node = of_get_child_by_name(np, "leds");
->>>>>> +    if (!led_node)
->>>>>> +        return -ENODEV;
->>>>>> +
->>>>>> +    for_each_available_child_of_node(led_node, child) {
->>>>>> +        u32 reg;
->>>>>> +
->>>>>> +        if (of_property_read_u32(child, "reg", &reg))
->>>>>> +            continue;
->>>>>> +
->>>>>> +        if (reg >= MAX597X_NUM_LEDS) {
->>>>>> +            dev_err(&pdev->dev, "invalid LED (%u >= %d)\n", reg,
->>>>>> +                MAX597X_NUM_LEDS);
->>>>>> +            continue;
->>>>>> +        }
->>>>>> +
->>>>>> +        ret = max597x_setup_led(&pdev->dev, regmap, child, reg);
->>>>>> +        if (ret < 0)
->>>>>> +            of_node_put(child);
->>>>>
->>>>> This of_node_put() looks odd to me.
->>>> Not sure if I get this right but if led setup fails of_node_put 
->>>> should be called.
->>>
->>> My understanding is that this of_node_put() is there in case of 
->>> error, to release what would otherwise never be released by 
->>> for_each_available_child_of_node() if we exit early from the loop.
->>>
->>> If the purpose is to release a reference taken in max597x_setup_led() 
->>> in case of error:
->>>     - this should be done IMHO within max597x_setup_led() directly
->>>     - there should be a of_node_get() somewhere in max597x_setup_led()
->>>       (after:
->>>      if (of_property_read_string(nc, "label", &led->led.name))
->>>          led->led.name = nc->name;
->>>        + error handling path,  *or*
->>>       just before the final return ret; when we know that everything 
->>> is fine,
->>>       if I understand correctly the code)
->>>
->>> Is the reference taken elsewhere?
->>> Did I miss something obvious?
->>>
->>>
->> One of the reference is "drivers/leds/leds-sc27xx-bltc.c" line 311
->> Please do let me know if I have to do anything about it.
-> By reference, I was speaking of reference taken by a of_node_get() call 
-> and released by a of_node_put() call.
-> 
-> Anyway, I do agree with leds-sc27xx-bltc.c.
-> There is a of_node_put() because for_each_available_child_of_node() 
-> won't be able to do it by itself *in case of early return* ("return err;")
-> 
-> In all other paths (when the loop goes to the end), the reference taken 
-> by for_each_available_child_of_node() is also released, on the next 
-> iteration, by for_each_available_child_of_node().
-> 
-> In *your* case, if you don't break or return, there is no need to call 
-> of_node_put() explicitly. It would lead to a double put. (yours and the 
-> one that will be done by for_each_available_child_of_node()).
-> 
-> Have a look at for_each_available_child_of_node() and more specifically 
-> at of_get_next_available_child().
-> 
-> At the first call 'child' is NULL. A ref is taken [1]. Nothing is released.
-> For following calls, a new ref is taken on a new node [1], and the 
-> previous reference is released [2].
-> On the last call, the 'for' loop will not be executed because there is 
-> nothing to scan anymore. No new reference is taken, and the previous 
-> (and last) refence is finally released [2].
-Yes you are right. That of_node_put would be duplicate as it is already 
-taken care by the for loop.
-Will remove that in next revision.
-> 
-> 
-> [1]: 
-> https://elixir.bootlin.com/linux/v6.3-rc3/source/drivers/of/base.c#L808
-> [2]: 
-> https://elixir.bootlin.com/linux/v6.3-rc3/source/drivers/of/base.c#L811
-> 
->>
->>>>> "return ret;" or "break;" missing ?
->>>>>
->>>> Didn't add a break so that it can continue initializing remaining 
->>>> led if any.
->>>
->>> Ok. Don't know the code enough to see if correct or not, but based on 
->>> my comment above, I think that something is missing in 
->>> max597x_setup_led() and that errors should be silently ignored here.
->> In my implementation, I have chosen to continue with the next LED if 
->> an error occurs, rather than aborting the 'for loop' with an error. I 
->> have seen other implementations also done in a similar way.
->> Do you have any further inputs or suggestions on this approach.
-> 
-> No, sorry, I won't be of any help on what design is the best.
-> 
-> CJ
-> 
-Regards,
-Naresh
+Please run ./scripts/kernel-doc -none on the headers,
+the new ops added in patches 6 and 8 need to be kdoc'ed.
