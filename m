@@ -2,57 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CDA66CC8F4
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 19:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 268136CC917
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 19:21:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbjC1RQA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Mar 2023 13:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56792 "EHLO
+        id S229632AbjC1RVF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Mar 2023 13:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjC1RP7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Mar 2023 13:15:59 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8DA9750;
-        Tue, 28 Mar 2023 10:15:58 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id m16so9607471qvi.12;
-        Tue, 28 Mar 2023 10:15:58 -0700 (PDT)
+        with ESMTP id S229678AbjC1RVE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Mar 2023 13:21:04 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E10C9B46A;
+        Tue, 28 Mar 2023 10:21:03 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id y7so3834958qky.1;
+        Tue, 28 Mar 2023 10:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680023757;
+        d=gmail.com; s=20210112; t=1680024063;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SgQ1uDWJ12zSyFLa1KL/uO5pZA8CWTbblaTqGRUiRdo=;
-        b=kMK0ic7Qlbdr8IiQGvB14KNwUzwnLDcN3k5kZYiVrk866xZWXej5yNhbPmlwS8pUFT
-         qDQ0KvDTlJzkVHZdYJZrjh6rLIbvg55Ur9P4jzY3UiwOCsiJj9MZRRmBRxNq56TCsAa8
-         GC12vX8Lu7XVDOTxGNCyyTh3VhxsPFLGJFINGm5Gox3apZWsrHKWfpKNiZeIGBqtiQwD
-         7UQlL7vVwYGHzJD1gGQFjC52QMT/Ow6Mm1QwNLW8pCEpGl4c7BGxiAptB9WiqbmAKdQQ
-         2jh0tASRTnTpnjcz49IBZtriyiqEZLlAxLVZfGxYV+IoRCAP3iD78SHJ2C9EHlVK7GjW
-         IzUw==
+        bh=iLUDxc64fTvqALQrp58IszRH00GyByVhptgABvFKmA8=;
+        b=ib4M38AsoaNT/ByWkZktgnG5hSLV7M9xEFQoOeJ/m//6ER7yKi35CueYtjbIbPBeI3
+         sb/4ZeztKoDVH4jpvy/k8LEXunOobIEfcYnjebuTcWbDHGZQ9AnQLsIIr0fMnzwqI+zQ
+         nKVFcxknjRnhJmEKySt52FqlMFcoxXi5YBpBzdNNJ5VSet3p8dm/qygtJBzwSvAhDERi
+         8lsKOwb2ZVAdUQ6vuUAjmJGhQZcwCWKx6H+DkJIPia0K5xPj+Yj/i0/YgqcE7rsh5D8b
+         49JypF2puDhJu8phltT6gcKnyFk0YnMr/wd1dhw6VJ1niuWKvgZEyZvAHYG3jTmOWBmA
+         UFAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680023757;
+        d=1e100.net; s=20210112; t=1680024063;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SgQ1uDWJ12zSyFLa1KL/uO5pZA8CWTbblaTqGRUiRdo=;
-        b=GZXayN/UMzAYNx8O4DyQ2tnBFB85bjXwCeTaVA9x8DyQQvNhYg3XVxuJu4Gwl8UiRg
-         lQ/oyGRJrKsqyUTDwo19259Cyu4Hqof51QcJ/pfIzhGHixDY9Cja8JJa/CvW0lfkoEOq
-         vZkc3EviSpOxCWnxzaYe/ORMQ2gsw7wfRYTaQuVGLBNSXaRwQw7wuyYOzUmbeEBiNxCE
-         HJUvGIp2JMwkPlmln++Xrn8OvZBEQrYv6NOv175rNM38n64+w2gNxsNSwzaVMqhD+mrx
-         7XRANl7D3qRuCrygLbfxxHlCNzvnJTB1eOEwKEBsUvfHPZGkw8JjsprSCzw3hsUkWz48
-         hhcA==
-X-Gm-Message-State: AAQBX9foY73wNBigAqDGWzBpxI9eE2CfEOMuBclOElvVn6ZRQ8UJciGg
-        Bhu/kxszD8wIEgmDqyLZ9iRzGmkIpUBLFp0mjrXWxMvtCyo=
-X-Google-Smtp-Source: AKy350Yybe1XfMVymzn0L1frzoB2YLldHl07lvc360cxEIjLyu4hhU6Szpt8mwrXe8EYLZA7nkl3R289Xr/YU0DVGJ8=
-X-Received: by 2002:ad4:4a6d:0:b0:56f:6925:eb2c with SMTP id
- cn13-20020ad44a6d000000b0056f6925eb2cmr2803163qvb.10.1680023757607; Tue, 28
- Mar 2023 10:15:57 -0700 (PDT)
+        bh=iLUDxc64fTvqALQrp58IszRH00GyByVhptgABvFKmA8=;
+        b=DR0i3paNDW0a3DqDUg2uT3P6pqxmzsNOe1p1YtO4RmjErnaEoF3X47Ynf9ae/x9AGj
+         8R+o2GHtRN/eQPECEys88qEIUX2yj7LrACHhUDGnxulK1P38jneG6qItsdsL4/VV8ctV
+         HPhMl4+tyFFMu370xDIAXJeJw9JBSNuSfYSXHw0SzmN2lveeGP8V1X6F/hrbSfXFXW2X
+         r/vfoKGP7JNKz+wYGdy7+oYuS50EsTvf3tK+tbieuQ9yS4itEWOFfTBWQzOpTs10qInw
+         CjkN8ZtzPV1NFMBE15MEp9kd+PR/mHldxpXmpIlh/wwfFi59TRAJCyBA6w1M2B2rY5VN
+         Tvnw==
+X-Gm-Message-State: AO0yUKVzbInlx7t2s6iiieVKlprz9CNGEsJ4Qs1/otZga7vtjiKkcJVV
+        yNDw9IiwS1jgmD4le4CQ2upN0ELy0M0HY/yfNNFxwStqn0k=
+X-Google-Smtp-Source: AK7set+Bex9Wy38A6IF3BWwlM4IG7L7PdR+ZGvqgtYB+kmHonEGOijVCBmDgj74OMH2B35COQ44xYCw6afa4ODg1V78=
+X-Received: by 2002:a05:620a:85c:b0:745:a78b:b32 with SMTP id
+ u28-20020a05620a085c00b00745a78b0b32mr3897679qku.14.1680024063052; Tue, 28
+ Mar 2023 10:21:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230328161541.599463-1-jjhiblot@traphandler.com> <20230328161541.599463-5-jjhiblot@traphandler.com>
-In-Reply-To: <20230328161541.599463-5-jjhiblot@traphandler.com>
+References: <20230328161541.599463-1-jjhiblot@traphandler.com> <20230328161541.599463-7-jjhiblot@traphandler.com>
+In-Reply-To: <20230328161541.599463-7-jjhiblot@traphandler.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 28 Mar 2023 20:15:21 +0300
-Message-ID: <CAHp75Ve_=Gzpg9GO=2dqTKWuyU-Podezv_YSwHLqFPHXk1DUxg@mail.gmail.com>
-Subject: Re: [PATCH v8 4/6] leds: class: store the color index in struct led_classdev
+Date:   Tue, 28 Mar 2023 20:20:27 +0300
+Message-ID: <CAHp75Vca0SKPkyPM_14Zny+Vn0a=hKWRfYW9qzTpN8AVZ_R_YQ@mail.gmail.com>
+Subject: Re: [PATCH v8 6/6] leds: Add a multicolor LED driver to group
+ monochromatic LEDs
 To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 Cc:     lee.jones@linaro.org, pavel@ucw.cz, robh+dt@kernel.org,
         sven.schwermer@disruptive-technologies.com,
@@ -75,33 +76,49 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Tue, Mar 28, 2023 at 7:15=E2=80=AFPM Jean-Jacques Hiblot
 <jjhiblot@traphandler.com> wrote:
 >
-> This information might be useful for more than only deriving the led's
-> name. And since we have this information, we can expose it in the sysfs.
+> Grouping multiple monochrome LEDs into a multicolor LED device has a few
+> benefits over handling the group in user-space:
+> - The state of the LEDs relative to each other is consistent. In other
+>   words, if 2 threads competes to set the LED to green and red, the
+>   end-result cannot be black or yellow.
+> - The multicolor LED as a whole can be driven through the sysfs LED
+>   interface.
 
 ...
 
-> +Date:          March 2023
-> +KernelVersion: 6.3
+> +config LEDS_GROUP_MULTICOLOR
+> +       tristate "LEDs group multi-color support"
+> +       depends on OF || COMPILE_TEST
 
-Outdated version.
+Why is OF a dependency?
+Can't we make it a firmware provider agnostic solution from day 1?
 
-...
+> +       help
+> +         This option enables support for monochrome LEDs that are
+> +         grouped into multicolor LEDs.
+> +         This useful in the case where LEDs of different colors are
 
-> +               Color of the led.
+This is
+
+> +         physically grouped in a single multi-color LED and driven
+> +         by a controller that doesn't have multi-color support.
 > +
-> +               This is a read-only file. Reading this file returns the c=
-olor
-> +               of the led as a string (ex: "red", "green").
+> +         To compile this driver as a module, choose M here: the module
+> +         will be called leds-group-multicolor.
 
-There are no strict rules about colour and I don't think it's a good
-idea. Why in such a case is it different to label? My proposal here at
-least documenting that the colour must follow one of the existing
-naming standards (like RGB in hex, HTML, or name in accordance with
-chosen standard).
+...
 
-Yet, it won't technically prevent abusing that, but at least will show
-the intention and allow pointing out to the bugs or develop user space
-tooling based on existing parsers (if any).
+> +               led_cdev =3D devm_of_led_get_optional(dev, count);
+
+I don't see how this is OF specific to this driver. Maybe it needs to
+be patched first, so we will have something non-OF specific?
+
+> +               if (IS_ERR(led_cdev))
+> +                       return dev_err_probe(dev, PTR_ERR(led_cdev), "Una=
+ble to get LED #%d",
+> +                                            count);
+
+At least we need to have a FIXME or so here.
 
 --=20
 With Best Regards,
