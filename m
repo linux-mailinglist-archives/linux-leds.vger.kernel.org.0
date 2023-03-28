@@ -2,91 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09EF36CB353
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 03:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 453C86CB67F
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 08:04:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbjC1BqR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Mar 2023 21:46:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49470 "EHLO
+        id S229968AbjC1GEF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Mar 2023 02:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232310AbjC1BqQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Mar 2023 21:46:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD422102;
-        Mon, 27 Mar 2023 18:46:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 54B556156E;
-        Tue, 28 Mar 2023 01:46:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4BEC433D2;
-        Tue, 28 Mar 2023 01:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679967969;
-        bh=RZx2aaLuSa1JAWsRRdhzXJuR3cLjN0gD2XWPcoAbNfc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CdFyehDpbh0+HugIxeQ5zrUAc/8NvF3xNPHRlEPdSLwdB+lpqzlR1Z2TObZSA1axA
-         YTdmU/C/9C6jIRly9yo2Hn7ooy52We53plIbNWNB/FZEjzphODIALLvel6PoBGptUk
-         sqi7iooPidqYZP+XqLobe9eb5eNwGhl6xkWSXliUIBG/TAIxH3ZeuZoPxi/dDKlcLo
-         e92rk+8tsfT9bjCBgJLnxnD1YRT2u55l4wcprJNsCFsvjZOIE5EasQc9629jcKltcc
-         RRNRphIQHS7U5fqsoHHXgjLHoF5icBr3CA8IbHZumB3HvHdXsW03CsxaZPJhhv/iVF
-         GaJ2uVwUNFXUg==
-Date:   Mon, 27 Mar 2023 18:46:06 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 00/16] net: Add basic LED support for
- switch/phy
-Message-ID: <20230327184606.37933d41@kernel.org>
-In-Reply-To: <20230327141031.11904-1-ansuelsmth@gmail.com>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
+        with ESMTP id S231694AbjC1GEE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Mar 2023 02:04:04 -0400
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97137171E;
+        Mon, 27 Mar 2023 23:04:01 -0700 (PDT)
+X-MailGates: (flag:4,DYNAMIC,BADHELO,RELAY,NOHOST:PASS)(compute_score:DE
+        LIVER,40,3)
+Received: from 192.168.10.47
+        by mg.richtek.com with MailGates ESMTP Server V5.0(26685:1:AUTH_RELAY)
+        (envelope-from <cy_huang@richtek.com>); Tue, 28 Mar 2023 14:03:31 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.25; Tue, 28 Mar
+ 2023 14:03:30 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1118.25 via Frontend
+ Transport; Tue, 28 Mar 2023 14:03:30 +0800
+Date:   Tue, 28 Mar 2023 14:03:30 +0800
+From:   ChiYuan Huang <cy_huang@richtek.com>
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     ChiaEn Wu <chiaen_wu@richtek.com>, <corbet@lwn.net>,
+        <lee@kernel.org>, <matthias.bgg@gmail.com>,
+        <andriy.shevchenko@linux.intel.com>, <jacek.anaszewski@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        <linux-doc@vger.kernel.org>, <peterwu.pub@gmail.com>,
+        <linux-leds@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <szunichen@gmail.com>
+Subject: Re: [PATCH v18 1/3] leds: rgb: mt6370: Add MediaTek MT6370 current
+ sink type LED Indicator support
+Message-ID: <20230328060330.GA32398@linuxcarl2.richtek.com>
+References: <cover.1678430444.git.chiaen_wu@richtek.com>
+ <1df93a583c3f508a7158b83b95857e9bce235e1b.1678430444.git.chiaen_wu@richtek.com>
+ <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZCGCGb9E4KYlFNXR@duo.ucw.cz>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 27 Mar 2023 16:10:15 +0200 Christian Marangi wrote:
-> This is a continue of [1]. It was decided to take a more gradual
-> approach to implement LEDs support for switch and phy starting with
-> basic support and then implementing the hw control part when we have all
-> the prereq done.
+On Mon, Mar 27, 2023 at 01:46:33PM +0200, Pavel Machek wrote:
+> Hi!
 > 
-> This series implements only the brightness_set() and blink_set() ops.
-> An example of switch implementation is done with qca8k.
+> > The MediaTek MT6370 is a highly-integrated smart power management IC,
+> > which includes a single cell Li-Ion/Li-Polymer switching battery
+> > charger, a USB Type-C & Power Delivery (PD) controller, dual
+> > Flash LED current sources, a RGB LED driver, a backlight WLED driver,
+> > a display bias driver and a general LDO for portable devices.
+> > 
+> > Add support for the MediaTek MT6370 Current Sink Type LED Indicator
+> > driver. It can control four channels current-sink RGB LEDs with 3 modes:
+> > constant current, PWM, and breath mode.
+> > 
+> > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > Co-developed-by: Alice Chen <alice_chen@richtek.com>
+> > Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 > 
-> For PHY a more generic approach is used with implementing the LED
-> support in PHY core and with the user (in this case marvell) adding all
-> the required functions.
 > 
-> Currently we set the default-state as "keep" to not change the default
-> configuration of the declared LEDs since almost every switch have a
-> default configuration.
+> > +++ b/drivers/leds/rgb/Makefile
+> > @@ -2,3 +2,4 @@
+> >  
+> >  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+> >  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+> > +obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
+> 
+> I'd preffer leds-mt6370 name. We already have "rgb" in directory
+> name...
+> 
+Yap, sure,
 
-Please run ./scripts/kernel-doc -none on the headers,
-the new ops added in patches 6 and 8 need to be kdoc'ed.
+But for mt6370 leds, except rgb indicators, there are also flashes for camera.
+To keep the postfix in filename can more precisely tell what the file for.
+
+
+> Otherwise looks good. Thanks for doing this.
+> 
+> BR,
+> 								Pavel
+> -- 
+> People of Russia, stop Putin before his war on Ukraine escalates.
+
+
