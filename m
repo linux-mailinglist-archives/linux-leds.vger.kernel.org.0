@@ -2,124 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 268136CC917
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Mar 2023 19:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A97396CEFF5
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Mar 2023 18:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjC1RVF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Mar 2023 13:21:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
+        id S230241AbjC2Qzw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Mar 2023 12:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjC1RVE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Mar 2023 13:21:04 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E10C9B46A;
-        Tue, 28 Mar 2023 10:21:03 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id y7so3834958qky.1;
-        Tue, 28 Mar 2023 10:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680024063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLUDxc64fTvqALQrp58IszRH00GyByVhptgABvFKmA8=;
-        b=ib4M38AsoaNT/ByWkZktgnG5hSLV7M9xEFQoOeJ/m//6ER7yKi35CueYtjbIbPBeI3
-         sb/4ZeztKoDVH4jpvy/k8LEXunOobIEfcYnjebuTcWbDHGZQ9AnQLsIIr0fMnzwqI+zQ
-         nKVFcxknjRnhJmEKySt52FqlMFcoxXi5YBpBzdNNJ5VSet3p8dm/qygtJBzwSvAhDERi
-         8lsKOwb2ZVAdUQ6vuUAjmJGhQZcwCWKx6H+DkJIPia0K5xPj+Yj/i0/YgqcE7rsh5D8b
-         49JypF2puDhJu8phltT6gcKnyFk0YnMr/wd1dhw6VJ1niuWKvgZEyZvAHYG3jTmOWBmA
-         UFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680024063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iLUDxc64fTvqALQrp58IszRH00GyByVhptgABvFKmA8=;
-        b=DR0i3paNDW0a3DqDUg2uT3P6pqxmzsNOe1p1YtO4RmjErnaEoF3X47Ynf9ae/x9AGj
-         8R+o2GHtRN/eQPECEys88qEIUX2yj7LrACHhUDGnxulK1P38jneG6qItsdsL4/VV8ctV
-         HPhMl4+tyFFMu370xDIAXJeJw9JBSNuSfYSXHw0SzmN2lveeGP8V1X6F/hrbSfXFXW2X
-         r/vfoKGP7JNKz+wYGdy7+oYuS50EsTvf3tK+tbieuQ9yS4itEWOFfTBWQzOpTs10qInw
-         CjkN8ZtzPV1NFMBE15MEp9kd+PR/mHldxpXmpIlh/wwfFi59TRAJCyBA6w1M2B2rY5VN
-         Tvnw==
-X-Gm-Message-State: AO0yUKVzbInlx7t2s6iiieVKlprz9CNGEsJ4Qs1/otZga7vtjiKkcJVV
-        yNDw9IiwS1jgmD4le4CQ2upN0ELy0M0HY/yfNNFxwStqn0k=
-X-Google-Smtp-Source: AK7set+Bex9Wy38A6IF3BWwlM4IG7L7PdR+ZGvqgtYB+kmHonEGOijVCBmDgj74OMH2B35COQ44xYCw6afa4ODg1V78=
-X-Received: by 2002:a05:620a:85c:b0:745:a78b:b32 with SMTP id
- u28-20020a05620a085c00b00745a78b0b32mr3897679qku.14.1680024063052; Tue, 28
- Mar 2023 10:21:03 -0700 (PDT)
+        with ESMTP id S230296AbjC2Qzh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Mar 2023 12:55:37 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065C84EC1;
+        Wed, 29 Mar 2023 09:55:26 -0700 (PDT)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 15923C70B4;
+        Wed, 29 Mar 2023 16:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1680108895; bh=YO3NMfmF8k8c2SMDbtovBtifO5Xf9pUHpYiPdojn0RE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=E3itYqlMkUsCTXNp/xPm73NIKtrRkqc9OUpdY6rWG0LQ6qw1TQm5QQMrI2Zw56uHp
+         Su7YzBHDZfEGyfVTnIX3qFIQ5dlidopybq4MJlcU11OugLXcL18azperBZn/amF2k0
+         PRlL+Az4+Kw3BcLBtf1JTuEoGsQpLhF3rGsDoKbw=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Pavel Machek <pavel@ucw.cz>, ~postmarketos/upstreaming@lists.sr.ht
+Cc:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
+        linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        Stephan Gerhold <stephan@gerhold.net>
+Subject: Re: [PATCH v2 2/2] leds: aw2013: Add vddio regulator
+Date:   Wed, 29 Mar 2023 18:54:54 +0200
+Message-ID: <2672233.mvXUDI8C0e@z3ntu.xyz>
+In-Reply-To: <ZB1gNJBFeFSdagF1@gerhold.net>
+References: <20230320174949.174600-1-linmengbo0689@protonmail.com>
+ <ZByp5gzspOVcYyah@duo.ucw.cz> <ZB1gNJBFeFSdagF1@gerhold.net>
 MIME-Version: 1.0
-References: <20230328161541.599463-1-jjhiblot@traphandler.com> <20230328161541.599463-7-jjhiblot@traphandler.com>
-In-Reply-To: <20230328161541.599463-7-jjhiblot@traphandler.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 28 Mar 2023 20:20:27 +0300
-Message-ID: <CAHp75Vca0SKPkyPM_14Zny+Vn0a=hKWRfYW9qzTpN8AVZ_R_YQ@mail.gmail.com>
-Subject: Re: [PATCH v8 6/6] leds: Add a multicolor LED driver to group
- monochromatic LEDs
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     lee.jones@linaro.org, pavel@ucw.cz, robh+dt@kernel.org,
-        sven.schwermer@disruptive-technologies.com,
-        krzysztof.kozlowski+dt@linaro.org, johan+linaro@kernel.org,
-        marijn.suijten@somainline.org, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 7:15=E2=80=AFPM Jean-Jacques Hiblot
-<jjhiblot@traphandler.com> wrote:
->
-> Grouping multiple monochrome LEDs into a multicolor LED device has a few
-> benefits over handling the group in user-space:
-> - The state of the LEDs relative to each other is consistent. In other
->   words, if 2 threads competes to set the LED to green and red, the
->   end-result cannot be black or yellow.
-> - The multicolor LED as a whole can be driven through the sysfs LED
->   interface.
+On Freitag, 24. M=E4rz 2023 09:32:52 CEST Stephan Gerhold wrote:
+> Hi Pavel,
+>=20
+> On Thu, Mar 23, 2023 at 08:35:02PM +0100, Pavel Machek wrote:
+> > > Some LEDs controllers are used with external pull-up for the interrupt
+> > > line and the I2C lines, so we might need to enable a regulator to bri=
+ng
+> > > the lines into usable state. Otherwise, this might cause spurious
+> > > interrupts and reading from I2C will fail.
+> > >=20
+> > > Implement support for "vddio-supply" that is enabled by the aw2013
+> > > driver
+> > > so that the regulator gets enabled when needed.
+> > >=20
+> > > Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
+> > >=20
+> > > @@ -348,16 +350,20 @@ static int aw2013_probe(struct i2c_client *clie=
+nt)
+> > >=20
+> > >  		goto error;
+> > >  =09
+> > >  	}
+> > >=20
+> > > -	chip->vcc_regulator =3D devm_regulator_get(&client->dev, "vcc");
+> > > -	ret =3D PTR_ERR_OR_ZERO(chip->vcc_regulator);
+> > > -	if (ret) {
+> > > +	chip->regulators[0].supply =3D "vcc";
+> > > +	chip->regulators[1].supply =3D "vddio";
+> > > +	ret =3D devm_regulator_bulk_get(&client->dev,
+> > > +				      ARRAY_SIZE(chip->regulators),
+> > > +				      chip->regulators);
+> > > +	if (ret < 0) {
+> > >=20
+> > >  		if (ret !=3D -EPROBE_DEFER)
+> > >  	=09
+> > >  			dev_err(&client->dev,
+> > >  		=09
+> > >  				"Failed to request regulator: %d\n",=20
+ret);
+> > >  	=09
+> > >  		goto error;
+> >=20
+> > Won't this cause failures when optional vddio is unavailable?
+>=20
+> The regulator core should print a warning "supply vddio not found, using
+> dummy regulator" but then proceed normally.
+>=20
+> I think in almost all cases a separate I/O supply should actually exist
+> that could be described in the device tree. It was likely just omitted
+> because it's always-on or indirectly being enabled by other devices.
+> So perhaps having this warning is even a good thing?
 
-...
+Just briefly jumping in, there was some activity adding bus_regulator to th=
+e=20
+i2c-core a while back, maybe that can be revived instead? For CCI (camera i=
+2c)=20
+we also need pull-ups and I don't think adding vddio or whatever to all=20
+sensors is a good idea long term...
 
-> +config LEDS_GROUP_MULTICOLOR
-> +       tristate "LEDs group multi-color support"
-> +       depends on OF || COMPILE_TEST
+https://lore.kernel.org/lkml/20210527075556.1709140-1-hsinyi@chromium.org/
 
-Why is OF a dependency?
-Can't we make it a firmware provider agnostic solution from day 1?
+Regards
+Luca
 
-> +       help
-> +         This option enables support for monochrome LEDs that are
-> +         grouped into multicolor LEDs.
-> +         This useful in the case where LEDs of different colors are
+>=20
+> Thanks,
+> Stephan
 
-This is
 
-> +         physically grouped in a single multi-color LED and driven
-> +         by a controller that doesn't have multi-color support.
-> +
-> +         To compile this driver as a module, choose M here: the module
-> +         will be called leds-group-multicolor.
 
-...
 
-> +               led_cdev =3D devm_of_led_get_optional(dev, count);
-
-I don't see how this is OF specific to this driver. Maybe it needs to
-be patched first, so we will have something non-OF specific?
-
-> +               if (IS_ERR(led_cdev))
-> +                       return dev_err_probe(dev, PTR_ERR(led_cdev), "Una=
-ble to get LED #%d",
-> +                                            count);
-
-At least we need to have a FIXME or so here.
-
---=20
-With Best Regards,
-Andy Shevchenko
