@@ -2,50 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFF06D029A
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 13:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E78D6D03C5
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 13:47:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbjC3LJb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Mar 2023 07:09:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45608 "EHLO
+        id S230200AbjC3Lrw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Mar 2023 07:47:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjC3LJa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 07:09:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55073729B;
-        Thu, 30 Mar 2023 04:09:28 -0700 (PDT)
+        with ESMTP id S230374AbjC3Lrt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 07:47:49 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3635C97;
+        Thu, 30 Mar 2023 04:47:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E421661FF9;
-        Thu, 30 Mar 2023 11:09:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3E8AC433D2;
-        Thu, 30 Mar 2023 11:09:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4EF27B825D9;
+        Thu, 30 Mar 2023 11:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27D6C433D2;
+        Thu, 30 Mar 2023 11:46:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680174567;
-        bh=T8wE467vI6c2rOTs4uLiM+lJm0atJvuyplLSCeGyWeE=;
+        s=k20201202; t=1680176799;
+        bh=clSL+UGy01ws/HQhz1HCTq8F58A+a5HRjcjs1QoDg7E=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZZXjMY3dHV1zJfTJi+5ymyZQras+LrYmlZClMDQqhTbHuHCgfqptzDOEUQEcMQnI+
-         fBbcIztBJCkTPwkWx/Ued9KSN2T/fPvVNZ1o5VnER70BlO4Elg1lQUGmvb6yC8ITJm
-         r9epJJJp+VutlrxRsgDH+phUX5dgrF5xQPrRmhxkQsFA8hkJ4akhOYq4zBOaL+2inc
-         vJJLVR9zO5VP1H6h4ksPS3/hYtnAuvConewY54fONAnbhodWa65FVVqu86/rw7bkt5
-         Xuk+C+YcDvAsNNgydhxQWJsMGanZhsMmbdhJgEnpVSKBPwrAOP/J/RH9/qgrM9jAc/
-         WuAkOE1yjmRnw==
-Date:   Thu, 30 Mar 2023 12:09:22 +0100
+        b=n1NKkrW5bw0MkBPWLr5Gh2hTEqbEUGf0nScpj7+zZtfQAe+9AbDgDPDd+QOA8CHgF
+         5+gXNxltDJgblXHxdXrMnXa3dbASpvZQo1RalHjrnljyIe6EGPfZY8GfShKEWmFNrV
+         DedfmJ8ChGbe6egCYo6d4dqPMLRadYw1kEGuCanflyd045uzoDoZjZIgCtEStnkzYN
+         fZ6zoqAP+Q+rQuhL1s9l+ewdYAnCZWSy301MHmKKXN+5q0FewOPEskWljkz09mJAiJ
+         Pcgo14W1GMCawR9tL9hYX9KXuOep4lLDOO8g4A9e88+oWGdMQrX7aX/StgjeH4VzfZ
+         gQ1LQNGmwfzKw==
+Date:   Thu, 30 Mar 2023 12:46:33 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux LEDs <linux-leds@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] MAINTAINERS: Add entry for LED devices documentation
-Message-ID: <20230330110922.GZ2673958@google.com>
-References: <20230319084604.19749-1-bagasdotme@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nikita Travkin <nikita@trvn.ru>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 1/2] dt-bindings: leds: aw2013: Document vdd-supply
+Message-ID: <20230330114633.GD434339@google.com>
+References: <20230320141638.3378-1-linmengbo0689@protonmail.com>
+ <20230320142103.3440-1-linmengbo0689@protonmail.com>
+ <ea673f62-f462-a559-d0dc-0662efc60f9e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230319084604.19749-1-bagasdotme@gmail.com>
+In-Reply-To: <ea673f62-f462-a559-d0dc-0662efc60f9e@linaro.org>
 X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
@@ -55,21 +61,17 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 19 Mar 2023, Bagas Sanjaya wrote:
+On Mon, 20 Mar 2023, Krzysztof Kozlowski wrote:
 
-> When given patches that only touch documentation directory for LED
-> devices (Documentation/leds/), get_maintainer doesn't list mailing list
-> for LED subsystem. However, the patch should be seen on that list in order
-> to be applied.
+> On 20/03/2023 15:22, Lin, Meng-Bo wrote:
+> > Document vdd-supply, a regulator providing power to the "VDD" pin.
+> >
 >
-> Add the entry for Documentation/leds/.
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> No. This device does not have VDD pin. I checked in datasheet.
 
-Applied, thanks
+I'm confused.  This patch set much do something?
+
+I guess a better commit message would help.  Let me request that.
 
 --
 Lee Jones [李琼斯]
