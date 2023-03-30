@@ -2,53 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E34CC6D0C30
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 19:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 005C26D0C87
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 19:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231821AbjC3RFn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Mar 2023 13:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
+        id S232204AbjC3RTC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Mar 2023 13:19:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231852AbjC3RFk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 13:05:40 -0400
+        with ESMTP id S231387AbjC3RTB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 13:19:01 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA70C644;
-        Thu, 30 Mar 2023 10:05:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36523DBF5;
+        Thu, 30 Mar 2023 10:18:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A12B620BB;
-        Thu, 30 Mar 2023 17:05:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB164C4339C;
-        Thu, 30 Mar 2023 17:05:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CE7D362120;
+        Thu, 30 Mar 2023 17:18:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1624C433D2;
+        Thu, 30 Mar 2023 17:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680195938;
-        bh=dl+pD6CWVBgH90is4aDu0oHOzvp7o6CFpKFTzbh3qio=;
+        s=k20201202; t=1680196737;
+        bh=1LeBbleOCYcy9cFdM70WZ9DDOCH0XV/JPlHXpaI5JEk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pvKLL9Uy608+ysCmsFjzYAbG56HJVL+Mm7dMziQu9WdfNewKu/EHK2vUqGjcjK4uc
-         nwJ1/WIUMEZk/YXYTYzenMYFARurjDzDCGtLPUndSZeUDMTUAlvJJOLBeWgcHXgvTi
-         rDrCB/kncXqfeVMzVgX8hN2WCbjqdiWsVBa+ZZYWu2dfM4tg7U3fUrdu/SErsUQsjJ
-         cPjTGhECIe1CHmZ3HSTE26ys/gSEbGmDeNHp6AHFCNm5jIMKcCsxf/xi9vNR6beCr9
-         bfXt4k0QY01y3lf9Le+tU7UnHq0svuFOxL/JOAHU7necOqNPiKEqwEK0L2++0c0AAA
-         sqfJPnS6OKlzQ==
-Date:   Thu, 30 Mar 2023 18:05:33 +0100
+        b=JUpxhbXlnlcr8wrSFDFWiHzEp05KmlgPa7UlngjkD4OaLd+NxwbRo6Vas131VM9bo
+         eyWi38UORkBXjKE71wIb1YxQvYVQijaaviYS9UOju+L0W2aUYKEo9L+asfv6TCsxCa
+         arOpTjDgwOoL3OizYxGh9KtLA0XzR7kcJwXvL9bEUmqL+k4ogZvNVhlgev33lCPJbh
+         +FGKaXk5Xx5Cu/EZwhZbbmc1OeOEl2yi3mkO1dmzpzqZevHuwgIUjYMUapdUvqPcSC
+         iC3bB1lGA2OqoiKwV5mVp6dK+zkYCCzCBMzPl6H7YNSMXcBoYpbCowPbyPjbk5Rpr0
+         BwVqDusDexozw==
+Date:   Thu, 30 Mar 2023 18:18:51 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, ChiYuan Huang <cy_huang@richtek.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alice Chen <alice_chen@richtek.com>,
-        Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        ChiaEn Wu <chiaen_wu@richtek.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: rgb: mt6370: fix CONFIG_LINEAR_RANGES select
-Message-ID: <20230330170533.GA548901@google.com>
-References: <20230328131222.1390091-1-arnd@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nikita Travkin <nikita@trvn.ru>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 1/2] dt-bindings: leds: aw2013: Document vdd-supply
+Message-ID: <20230330171851.GE548901@google.com>
+References: <20230320141638.3378-1-linmengbo0689@protonmail.com>
+ <20230320142103.3440-1-linmengbo0689@protonmail.com>
+ <ea673f62-f462-a559-d0dc-0662efc60f9e@linaro.org>
+ <20230330114633.GD434339@google.com>
+ <5eb0b699-47bb-ebb7-2ea5-0cf05ccf29ab@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230328131222.1390091-1-arnd@kernel.org>
+In-Reply-To: <5eb0b699-47bb-ebb7-2ea5-0cf05ccf29ab@linaro.org>
 X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
@@ -58,40 +63,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 28 Mar 2023, Arnd Bergmann wrote:
+On Thu, 30 Mar 2023, Krzysztof Kozlowski wrote:
 
-> From: Arnd Bergmann <arnd@arndb.de>
+> On 30/03/2023 13:46, Lee Jones wrote:
+> > On Mon, 20 Mar 2023, Krzysztof Kozlowski wrote:
+> >
+> >> On 20/03/2023 15:22, Lin, Meng-Bo wrote:
+> >>> Document vdd-supply, a regulator providing power to the "VDD" pin.
+> >>>
+> >>
+> >> No. This device does not have VDD pin. I checked in datasheet.
+> >
+> > I'm confused.  This patch set much do something?
+> >
+> > I guess a better commit message would help.  Let me request that.
 >
-> CONFIG_LINEAR_RANGE does not exist, but selecting is silently ignored.
->
-> ERROR: modpost: "linear_range_get_selector_within" [drivers/leds/rgb/leds-mt6370-rgb.ko] undefined!
->
-> Fixes: 55a8a5c16eb3 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/leds/rgb/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> There was a v2 - with a discussion - so we wait for v3 which clearly
+> indicates this is supply on controller side. IMHO, this is still wrong
+> because it is controller's property, not device's, but Rob gave here
+> green light, so v3 with proper explanation would be fine.
 
-Beaten to it I'm afraid:
-
-https://lore.kernel.org/r/20230323105410.10396-1-lukas.bulwahn@gmail.com
-
-> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> index 7d86bb26c54b..360c8679c6e2 100644
-> --- a/drivers/leds/rgb/Kconfig
-> +++ b/drivers/leds/rgb/Kconfig
-> @@ -29,7 +29,7 @@ config LEDS_QCOM_LPG
->  config LEDS_MT6370_RGB
->  	tristate "LED Support for MediaTek MT6370 PMIC"
->  	depends on MFD_MT6370
-> -	select LINEAR_RANGE
-> +	select LINEAR_RANGES
->  	help
->  	  Say Y here to enable support for MT6370_RGB LED device.
->  	  In MT6370, there are four channel current-sink LED drivers that
-> --
-> 2.39.2
->
+Understood, thanks.
 
 --
 Lee Jones [李琼斯]
