@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3AB96D03CB
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 13:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C2BC6D0518
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Mar 2023 14:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbjC3Lst (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Mar 2023 07:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41798 "EHLO
+        id S231475AbjC3Mnd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Mar 2023 08:43:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231204AbjC3Lsn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 07:48:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD98C4;
-        Thu, 30 Mar 2023 04:48:34 -0700 (PDT)
+        with ESMTP id S231157AbjC3Mnc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Mar 2023 08:43:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1183AA6;
+        Thu, 30 Mar 2023 05:43:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6A2CDB8280C;
-        Thu, 30 Mar 2023 11:48:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4017C433EF;
-        Thu, 30 Mar 2023 11:48:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A15756205F;
+        Thu, 30 Mar 2023 12:43:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 458E1C433EF;
+        Thu, 30 Mar 2023 12:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680176912;
-        bh=T9SRL0gGZvp/L/Hoot2vU6OruKaRREo4iLpKVTq8B38=;
+        s=k20201202; t=1680180211;
+        bh=iFYD1LGIj/6jD8KQayXE5QoHszyIg51yyPeXkj+wnEI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cs7U+6rr0AcaABRoOV/iqzl5qqm8cO+n4gNX8NzrxF0rhkAHfkUtEnxU2thFYTXVi
-         z788zLZo+W+1YBlVjm+SH1z7R5D9TREpem73N4czGlLX1d4+HWFJ9jTG/zTs4GTRfZ
-         4wtRz65hv+LlHPWcdYqTx890nnfYFpUKOmrHUyydxS2NyYtKLZSIhoso92qRdcFPIJ
-         u+1Z7uKMWrf94yD1IToBnoNqXv8dFRg37iRWQxAZWUCzprf1rHSTstI+dMfkV0e76m
-         m8kGn4+pyZIgmH+WCB4H0E/Sb10wFt/B9cEKvzAm8KWAiSFdSbhXenrfdG6Rg5yYmW
-         josW1xvAT69dg==
-Date:   Thu, 30 Mar 2023 12:48:26 +0100
+        b=RZRlSAQzVqmB0+qDxKJnzbGjPI8XcK/BLW5lsm1+SSChSXyMSIniLwMaz2novRAPG
+         Z2jPssj6IXcPq2XVe5xTmPWNXW1RPbQ5cNLWjcKLnYST5pVdfvs8raXKE8hvXhmRFt
+         YMJ/vN/Qon5WaE/3khZ/+PBpXIlzKkAXi4qN/Fpl2kFMTJsyXUB865yllpgc8ymC+K
+         pGrCmLNkPiHhrb/ORNCatHX7Pfx3rcWFDXrTrDBC/1+Esz6TVFY3gIfw57FvYjaEfA
+         TduYbuFCwagwfm2jSNJ3GRZnwI5zTIWQmkKf4+mFQGV+6C/u1b/wCsKG4CoC5j5bjI
+         q8rAsYlxOCMzQ==
+Date:   Thu, 30 Mar 2023 13:43:26 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nikita Travkin <nikita@trvn.ru>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 2/2] leds: aw2013: Add vdd regulator
-Message-ID: <20230330114826.GE434339@google.com>
-References: <20230320141638.3378-1-linmengbo0689@protonmail.com>
- <20230320142116.3494-1-linmengbo0689@protonmail.com>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Alice Chen <alice_chen@richtek.com>,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: mt6370: correct config name to select in
+ LEDS_MT6370_RGB
+Message-ID: <20230330124326.GK434339@google.com>
+References: <20230323105410.10396-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230320142116.3494-1-linmengbo0689@protonmail.com>
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+In-Reply-To: <20230323105410.10396-1-lukas.bulwahn@gmail.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,106 +58,24 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 20 Mar 2023, Lin, Meng-Bo wrote:
+On Thu, 23 Mar 2023, Lukas Bulwahn wrote:
 
-> Implement support for a "vdd" that is enabled by the aw2013 driver so that
-> the regulator gets enabled when needed.
-
-There seems to be some dispute over the H/W.
-
-Please improve this commit message to cover the following points.
-
-What is currently broken / not working?
-
-How does applying this patch help with that problem?
-
-> Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
+> Commit 55a8a5c16eb3 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink
+> type LED Indicator support") introduces the config LEDS_MT6370_RGB, which
+> selects the non-existing config LINEAR_RANGE. As the driver includes
+> linux/linear_range.h, it is a safe guess that the config actually intends
+> to select LINEAR_RANGES, which provides the library implementation for the
+> function prototypes defined in the linear_range header file.
+>
+> Correct this naming confusion in the LEDS_MT6370_RGB config definition.
+>
+> Fixes: 55a8a5c16eb3 ("leds: rgb: mt6370: Add MediaTek MT6370 current sink type LED Indicator support")
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
->  drivers/leds/leds-aw2013.c | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/leds/leds-aw2013.c b/drivers/leds/leds-aw2013.c
-> index 0b52fc9097c6..91d720edb857 100644
-> --- a/drivers/leds/leds-aw2013.c
-> +++ b/drivers/leds/leds-aw2013.c
-> @@ -62,7 +62,7 @@ struct aw2013_led {
->
->  struct aw2013 {
->  	struct mutex mutex; /* held when writing to registers */
-> -	struct regulator *vcc_regulator;
-> +	struct regulator_bulk_data regulators[2];
->  	struct i2c_client *client;
->  	struct aw2013_led leds[AW2013_MAX_LEDS];
->  	struct regmap *regmap;
-> @@ -106,7 +106,8 @@ static void aw2013_chip_disable(struct aw2013 *chip)
->
->  	regmap_write(chip->regmap, AW2013_GCR, 0);
->
-> -	ret = regulator_disable(chip->vcc_regulator);
-> +	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-> +				     chip->regulators);
->  	if (ret) {
->  		dev_err(&chip->client->dev,
->  			"Failed to disable regulator: %d\n", ret);
-> @@ -123,7 +124,8 @@ static int aw2013_chip_enable(struct aw2013 *chip)
->  	if (chip->enabled)
->  		return 0;
->
-> -	ret = regulator_enable(chip->vcc_regulator);
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
-> +				    chip->regulators);
->  	if (ret) {
->  		dev_err(&chip->client->dev,
->  			"Failed to enable regulator: %d\n", ret);
-> @@ -348,16 +350,20 @@ static int aw2013_probe(struct i2c_client *client)
->  		goto error;
->  	}
->
-> -	chip->vcc_regulator = devm_regulator_get(&client->dev, "vcc");
-> -	ret = PTR_ERR_OR_ZERO(chip->vcc_regulator);
-> -	if (ret) {
-> +	chip->regulators[0].supply = "vcc";
-> +	chip->regulators[1].supply = "vdd";
-> +	ret = devm_regulator_bulk_get(&client->dev,
-> +				      ARRAY_SIZE(chip->regulators),
-> +				      chip->regulators);
-> +	if (ret < 0) {
->  		if (ret != -EPROBE_DEFER)
->  			dev_err(&client->dev,
->  				"Failed to request regulator: %d\n", ret);
->  		goto error;
->  	}
->
-> -	ret = regulator_enable(chip->vcc_regulator);
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
-> +				    chip->regulators);
->  	if (ret) {
->  		dev_err(&client->dev,
->  			"Failed to enable regulator: %d\n", ret);
-> @@ -382,7 +388,8 @@ static int aw2013_probe(struct i2c_client *client)
->  	if (ret < 0)
->  		goto error_reg;
->
-> -	ret = regulator_disable(chip->vcc_regulator);
-> +	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-> +				     chip->regulators);
->  	if (ret) {
->  		dev_err(&client->dev,
->  			"Failed to disable regulator: %d\n", ret);
-> @@ -394,7 +401,8 @@ static int aw2013_probe(struct i2c_client *client)
->  	return 0;
->
->  error_reg:
-> -	regulator_disable(chip->vcc_regulator);
-> +	regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-> +			       chip->regulators);
->
->  error:
->  	mutex_destroy(&chip->mutex);
-> --
-> 2.30.2
->
->
+>  drivers/leds/rgb/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Applied, thanks
 
 --
 Lee Jones [李琼斯]
