@@ -2,126 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6000F6D378F
-	for <lists+linux-leds@lfdr.de>; Sun,  2 Apr 2023 13:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BACF6D3A73
+	for <lists+linux-leds@lfdr.de>; Sun,  2 Apr 2023 23:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjDBLTE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 2 Apr 2023 07:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37880 "EHLO
+        id S230026AbjDBV62 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 2 Apr 2023 17:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjDBLTD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Apr 2023 07:19:03 -0400
-X-Greylist: delayed 346 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 02 Apr 2023 04:19:02 PDT
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D261D2DC
-        for <linux-leds@vger.kernel.org>; Sun,  2 Apr 2023 04:19:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680433980; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=SYastVuLe40ctMEpBc+3EC5HSgeIB+LitNtZaGybWM39JT6okEygDcQkWXwRiuv5Hj
-    ePST8azQTVjkhZNpaN08HZOPUs3PX9qQEgGjir5sBOhfuYjLuoY8BBgq+1fzrJRMkgGh
-    rcg5V+KWWRsgxv75xzADt+N8KuzKsDsL7lUPjsAo4NtfIWK8+pkwHmRR8WTTvUnxEOK1
-    9kw8ncONK6h+nn806oylqV5VdIH4IdJnTTdzVomAEMj9ckEdbeuJ9zyyo3CLVB48AUyD
-    oV/4DberP64ZWOeLvpJ20jkG6Olasol2o0RVtUS7ztnhBvUi3+2QY4CMONa1uzr5C9+y
-    iy7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1680433980;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=20X3HFLD0PCIwckyuLnAErqiyt22kmiUi0m0jrtysMQ=;
-    b=QdsFMRDX6aki/NAkRUhqsBkanG+cQHP/HkcinRdvdr/RPJIWjdZxGu/qngOHy7wU0U
-    RF9IMQO3z/ebFTWAAIPKrlhytyPa9ahmE+uMwkQ0vzF6Y2a+5LTbrRAxfvNnpZ3myb+N
-    P5HZoVBtzq25IAl+xaWZz9xehItpCiTPUQDNLaCiioOVCQIdUuMPIh1Yq/8t7d2o04NY
-    Sp/YyGvoyOoBvK+dqZ8JZ6uv/tPB+memyX8ThA6EwJHUDItX7EzT0k8c/ZdcAQAo1XQx
-    eJmAzrooORkFvO4Q+YRhWJqgqNaO1wEVBS3/vFP6mrGJ42zAFoWNkSoByKNht0HXIDaj
-    rW2Q==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1680433980;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=20X3HFLD0PCIwckyuLnAErqiyt22kmiUi0m0jrtysMQ=;
-    b=K41SYxjIzYcgic5+TD9LYCtNs90pmQleRmBY3//U/qzuhpXAjedpumWGoV3J/CNMqG
-    PIdi6Vi0u5vTDhrfzw8dJVJJgNUxHrFlMkonBsjfRFzukdYRRc9zH0D5jeZSFTIkGd+N
-    XpguKMszMMvUcyBlWJiXXrPM2yWgVUqh0c/5TWEmus2HXH5vGZTDGCpI/6JPyvY9jGx9
-    +EJjcyRoCkMOD9lV2SFA+YSmw5cEWfmnyS3O6iSFGSLOP+lyVgqmxw8rFJTwZuv+LEtp
-    7q9oOjjT7qaO8z4T8iWCDh9KE6+25Q966tY2y78kMEK5atQYDfQRnvhc0x1P/f2OzzGl
-    1Opg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1iTDUhfN4hi3qVZq2PJ"
-Received: from iMac.fritz.box
-    by smtp.strato.de (RZmta 49.3.1 DYNA|AUTH)
-    with ESMTPSA id R24ce1z32BD0wL0
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Sun, 2 Apr 2023 13:13:00 +0200 (CEST)
-From:   "H. Nikolaus Schaller" <hns@goldelico.com>
-To:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        letux-kernel@openphoenux.org,
-        "H. Nikolaus Schaller" <hns@goldelico.com>,
-        NeilBrown <neilb@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH] leds: tca6507: fix error handling of using fwnode_property_read_string
-Date:   Sun,  2 Apr 2023 13:12:59 +0200
-Message-Id: <cbae7617db83113de726fcc423a805ebaa1bfca6.1680433978.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229448AbjDBV61 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Apr 2023 17:58:27 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D2B6E8D
+        for <linux-leds@vger.kernel.org>; Sun,  2 Apr 2023 14:58:26 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id F12EE85B57;
+        Sun,  2 Apr 2023 23:58:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1680472703;
+        bh=/DPgrWv2eqUsvJRttLOnFoP/F/mH31wuOB92pEp95VA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=FPEcOzDW+DH1bfaLvi+9mEjNHqUDNvI0FyUTi+z136cQh/JaWhlmuV8ELosj0pVXI
+         +wzM5E+pAabgxB2G642trlnH+fw8cedToBX+MMKtRiMhxQHys7agklW8Iy+xfNoPgI
+         Y9yJ8QWjUMc//bt38PSDaaYfX0it8ql7EtL4EcbBNU0JkR3+nvjm3IGiRfzBacSVhx
+         34NVyk5q8FQkVUaDM3WpvoplXyB/kYlmrGXo7URndLQ/MvMnpMmquxilWOFcnrBYD0
+         RKn4rkBaJAaE8AasHX9A7ltiMrINW0/4PqxRBP54XUVGfCAW4hP8ErFThgN587DM7w
+         ve12B1I2rudaQ==
+Message-ID: <5156c474-9f44-6cda-6090-c3e58f7459f0@denx.de>
+Date:   Sun, 2 Apr 2023 23:58:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] leds: gpio: Configure per-LED pin control
+Content-Language: en-US
+To:     Pavel Machek <pavel@ucw.cz>, lee.jones@linaro.org
+Cc:     linux-leds@vger.kernel.org,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>
+References: <20221107003133.377704-1-marex@denx.de>
+ <ZCGE/6hzeJNeJKTj@duo.ucw.cz>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <ZCGE/6hzeJNeJKTj@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Commit 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
+On 3/27/23 13:58, Pavel Machek wrote:
+> Hi!
+> 
+>> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+>> to it, parse the DT subnode pinctrl properties and configure each pin
+>> accordingly.
+> 
+> Do we need update to
+> Documentation/devicetree/bindings/leds/leds-gpio.yaml ?
 
-changed to fwnode API but did not take into account that a missing property
-"linux,default-trigger" now seems to return an error and as a side effect
-sets value to -1. This seems to be different from of_get_property() which
-always returned NULL in any case of error.
-
-Neglecting this side-effect leads to
-
-[   11.201965] Unable to handle kernel paging request at virtual address ffffffff when read
-
-in the strcmp() of led_trigger_set_default() if there is no led-trigger
-defined in the DTS.
-
-I don't know if this was recently introduced somewhere in the fwnode lib
-or if the effect was missed in initial testing. Anyways it seems to be a
-bug to ignore the error return value of an optional value here in the
-driver.
-
-Fixes: 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
-Cc: Marek Behún <kabel@kernel.org>
-Cc: NeilBrown <neilb@suse.de>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/leds/leds-tca6507.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
-index 07dd12686a696..634cabd5bb796 100644
---- a/drivers/leds/leds-tca6507.c
-+++ b/drivers/leds/leds-tca6507.c
-@@ -691,8 +691,9 @@ tca6507_led_dt_init(struct device *dev)
- 		if (fwnode_property_read_string(child, "label", &led.name))
- 			led.name = fwnode_get_name(child);
- 
--		fwnode_property_read_string(child, "linux,default-trigger",
--					    &led.default_trigger);
-+		if (fwnode_property_read_string(child, "linux,default-trigger",
-+						&led.default_trigger))
-+			led.default_trigger = NULL;
- 
- 		led.flags = 0;
- 		if (fwnode_device_is_compatible(child, "gpio"))
--- 
-2.38.1
-
+As far as I can tell, no. The pinctrl properties are generic and outside 
+of the leds-gpio yaml schema.
