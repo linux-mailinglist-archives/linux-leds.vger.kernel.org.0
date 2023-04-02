@@ -2,156 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B9346D2920
-	for <lists+linux-leds@lfdr.de>; Fri, 31 Mar 2023 22:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6000F6D378F
+	for <lists+linux-leds@lfdr.de>; Sun,  2 Apr 2023 13:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232263AbjCaUJa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 31 Mar 2023 16:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54634 "EHLO
+        id S229583AbjDBLTE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 2 Apr 2023 07:19:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231812AbjCaUJa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 31 Mar 2023 16:09:30 -0400
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA6821A8E;
-        Fri, 31 Mar 2023 13:09:24 -0700 (PDT)
-Received: by mail-oi1-f175.google.com with SMTP id w13so6173891oik.2;
-        Fri, 31 Mar 2023 13:09:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680293364;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uPkpKFxk7BcOpgUzJha9+qhAMS2yt0UsXgxPanJmeeY=;
-        b=t3/ZYXkRBRznCSyV2h7lSIl9/GFG0cskiooUOZlzkDUalq7T6tDwYov1wwIDnvaSbo
-         zqHDrVllyBVLj2+IatjCnzz61aEsGGNIwqC3lcwbuq0OIXdqaGt0Fehw3uNiVix619Co
-         pwL99kFu+VdXa55ML+pKG2/yl72wk339YuXM5LBqhYyo+dXdVqrNBsRSIbaMnRT1AJvl
-         oWVYMwyMsjAODn8G1YLWSr2IvHiN/TV3WWYzcXtNe6bJLdOoBCHU9KK7Q2VoAZkhA/ch
-         cM4UGAMX2EF0EkCIk74XnFcoNG1CNDrH9gJYq/rHrqsEz/eXJiOUQD/BR173h1TNzhmV
-         7Sqg==
-X-Gm-Message-State: AAQBX9eLd92E7Dwtm8+G11mhX48CW2aJIcN1q+AQxhv8K3dDy42UdLTP
-        UNtToaeOy6mtLKsINeCvpA==
-X-Google-Smtp-Source: AKy350ZNGbtu+wZO9GEFh09+Q8jTGjD4N+L1g95Cjk+YUOMacEt1LSoNV3wAfsJboJEXfnqNLSWQmw==
-X-Received: by 2002:a05:6808:208a:b0:389:8075:4c0b with SMTP id s10-20020a056808208a00b0038980754c0bmr1936699oiw.1.1680293363988;
-        Fri, 31 Mar 2023 13:09:23 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id c5-20020a4aacc5000000b00524f381f681sm1203954oon.27.2023.03.31.13.09.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 13:09:23 -0700 (PDT)
-Received: (nullmailer pid 2156389 invoked by uid 1000);
-        Fri, 31 Mar 2023 20:09:22 -0000
-Date:   Fri, 31 Mar 2023 15:09:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 10/16] dt-bindings: leds: Document support
- for generic ethernet LEDs
-Message-ID: <20230331200922.GA2123749-robh@kernel.org>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
- <20230327141031.11904-11-ansuelsmth@gmail.com>
+        with ESMTP id S229447AbjDBLTD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Apr 2023 07:19:03 -0400
+X-Greylist: delayed 346 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 02 Apr 2023 04:19:02 PDT
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D261D2DC
+        for <linux-leds@vger.kernel.org>; Sun,  2 Apr 2023 04:19:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680433980; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=SYastVuLe40ctMEpBc+3EC5HSgeIB+LitNtZaGybWM39JT6okEygDcQkWXwRiuv5Hj
+    ePST8azQTVjkhZNpaN08HZOPUs3PX9qQEgGjir5sBOhfuYjLuoY8BBgq+1fzrJRMkgGh
+    rcg5V+KWWRsgxv75xzADt+N8KuzKsDsL7lUPjsAo4NtfIWK8+pkwHmRR8WTTvUnxEOK1
+    9kw8ncONK6h+nn806oylqV5VdIH4IdJnTTdzVomAEMj9ckEdbeuJ9zyyo3CLVB48AUyD
+    oV/4DberP64ZWOeLvpJ20jkG6Olasol2o0RVtUS7ztnhBvUi3+2QY4CMONa1uzr5C9+y
+    iy7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1680433980;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=20X3HFLD0PCIwckyuLnAErqiyt22kmiUi0m0jrtysMQ=;
+    b=QdsFMRDX6aki/NAkRUhqsBkanG+cQHP/HkcinRdvdr/RPJIWjdZxGu/qngOHy7wU0U
+    RF9IMQO3z/ebFTWAAIPKrlhytyPa9ahmE+uMwkQ0vzF6Y2a+5LTbrRAxfvNnpZ3myb+N
+    P5HZoVBtzq25IAl+xaWZz9xehItpCiTPUQDNLaCiioOVCQIdUuMPIh1Yq/8t7d2o04NY
+    Sp/YyGvoyOoBvK+dqZ8JZ6uv/tPB+memyX8ThA6EwJHUDItX7EzT0k8c/ZdcAQAo1XQx
+    eJmAzrooORkFvO4Q+YRhWJqgqNaO1wEVBS3/vFP6mrGJ42zAFoWNkSoByKNht0HXIDaj
+    rW2Q==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1680433980;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=20X3HFLD0PCIwckyuLnAErqiyt22kmiUi0m0jrtysMQ=;
+    b=K41SYxjIzYcgic5+TD9LYCtNs90pmQleRmBY3//U/qzuhpXAjedpumWGoV3J/CNMqG
+    PIdi6Vi0u5vTDhrfzw8dJVJJgNUxHrFlMkonBsjfRFzukdYRRc9zH0D5jeZSFTIkGd+N
+    XpguKMszMMvUcyBlWJiXXrPM2yWgVUqh0c/5TWEmus2HXH5vGZTDGCpI/6JPyvY9jGx9
+    +EJjcyRoCkMOD9lV2SFA+YSmw5cEWfmnyS3O6iSFGSLOP+lyVgqmxw8rFJTwZuv+LEtp
+    7q9oOjjT7qaO8z4T8iWCDh9KE6+25Q966tY2y78kMEK5atQYDfQRnvhc0x1P/f2OzzGl
+    1Opg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1iTDUhfN4hi3qVZq2PJ"
+Received: from iMac.fritz.box
+    by smtp.strato.de (RZmta 49.3.1 DYNA|AUTH)
+    with ESMTPSA id R24ce1z32BD0wL0
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Sun, 2 Apr 2023 13:13:00 +0200 (CEST)
+From:   "H. Nikolaus Schaller" <hns@goldelico.com>
+To:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        letux-kernel@openphoenux.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>,
+        NeilBrown <neilb@suse.de>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] leds: tca6507: fix error handling of using fwnode_property_read_string
+Date:   Sun,  2 Apr 2023 13:12:59 +0200
+Message-Id: <cbae7617db83113de726fcc423a805ebaa1bfca6.1680433978.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230327141031.11904-11-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 04:10:25PM +0200, Christian Marangi wrote:
-> Add documentation for support of generic ethernet LEDs.
-> These LEDs are ethernet port LED and are controllable by the ethernet
-> controller or the ethernet PHY.
-> 
-> A port may expose multiple LEDs and reg is used to provide an index to
-> differentiate them.
-> Ethernet port LEDs follow generic LED implementation.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../bindings/leds/leds-ethernet.yaml          | 76 +++++++++++++++++++
->  1 file changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-ethernet.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-ethernet.yaml b/Documentation/devicetree/bindings/leds/leds-ethernet.yaml
-> new file mode 100644
-> index 000000000000..0a03d65beea0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-ethernet.yaml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-ethernet.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common properties for the ethernet port LED.
-> +
-> +maintainers:
-> +  - Christian Marangi <ansuelsmth@gmail.com>
-> +
-> +description:
-> +  Bindings for the LEDs present in ethernet port and controllable by
-> +  the ethernet controller or the ethernet PHY regs.
-> +
-> +  These LEDs provide the same feature of a normal LED and follow
-> +  the same LED definitions.
-> +
-> +  An ethernet port may expose multiple LEDs, reg binding is used to
-> +  differentiate them.
-> +
-> +properties:
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  '^led@[a-f0-9]+$':
-> +    $ref: /schemas/leds/common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +        description:
-> +          This define the LED index in the PHY or the MAC. It's really
-> +          driver dependent and required for ports that define multiple
-> +          LED for the same port.
-> +
-> +    required:
-> +      - reg
-> +
-> +    unevaluatedProperties: false
+Commit 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
 
-This does nothing to help the issues I raised. If the 'led' nodes have 
-custom properties, then you need a schema for the 'led' nodes and just 
-the 'led' nodes. Not a schema for the 'leds' container node.
+changed to fwnode API but did not take into account that a missing property
+"linux,default-trigger" now seems to return an error and as a side effect
+sets value to -1. This seems to be different from of_get_property() which
+always returned NULL in any case of error.
 
-If your not going to allow extending, then this can all be 1 file like 
-you had (with unevaluatedProperties added of course).
+Neglecting this side-effect leads to
 
-Rob
+[   11.201965] Unable to handle kernel paging request at virtual address ffffffff when read
+
+in the strcmp() of led_trigger_set_default() if there is no led-trigger
+defined in the DTS.
+
+I don't know if this was recently introduced somewhere in the fwnode lib
+or if the effect was missed in initial testing. Anyways it seems to be a
+bug to ignore the error return value of an optional value here in the
+driver.
+
+Fixes: 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
+Cc: Marek Behún <kabel@kernel.org>
+Cc: NeilBrown <neilb@suse.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+---
+ drivers/leds/leds-tca6507.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
+index 07dd12686a696..634cabd5bb796 100644
+--- a/drivers/leds/leds-tca6507.c
++++ b/drivers/leds/leds-tca6507.c
+@@ -691,8 +691,9 @@ tca6507_led_dt_init(struct device *dev)
+ 		if (fwnode_property_read_string(child, "label", &led.name))
+ 			led.name = fwnode_get_name(child);
+ 
+-		fwnode_property_read_string(child, "linux,default-trigger",
+-					    &led.default_trigger);
++		if (fwnode_property_read_string(child, "linux,default-trigger",
++						&led.default_trigger))
++			led.default_trigger = NULL;
+ 
+ 		led.flags = 0;
+ 		if (fwnode_device_is_compatible(child, "gpio"))
+-- 
+2.38.1
+
