@@ -2,63 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E32A66D3FB6
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Apr 2023 11:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 689BB6D4BBF
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Apr 2023 17:24:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231730AbjDCJJ0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Apr 2023 05:09:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57246 "EHLO
+        id S232008AbjDCPYA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Apr 2023 11:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjDCJJW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Apr 2023 05:09:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688057D80;
-        Mon,  3 Apr 2023 02:09:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 12E0AB8160F;
-        Mon,  3 Apr 2023 09:09:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B170C433D2;
-        Mon,  3 Apr 2023 09:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680512958;
-        bh=5Z3JKHk5FHuPEkQfx8RtRlEsG+NvUUF3lgarLGMZR/Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oVBa5zJMtx5Y8+fYzXaa5e/apRgaxMEoTLhM9FBr4mN3TeC4MMp9XcdrnpiMfojsf
-         jdJEL3Z6c/2J4VQW7TphiKPhh7ly2b1Z4SFyeWrmhmkxDTg/5JpkZuIH5KecfGMs11
-         iR0mcLjpylhGPWGYOtvoVNVKdg5vvFQuwlLHXEaYfDHoRNwFpNl5DskFIdnqBZsm1S
-         AOMdYHiOXWbxmBfrovICW7IN5XmCv3fdSH4VDVtsML8jtEWDWNaS8ChA7H8UG63ZJ4
-         zrTI2EZ6EVzFMAUSDL2hvJOgdpHpxOi7r7H+W52DjzVXziYhtYhgDG50ggBVO7iAgW
-         O0sjiVn4WhPvg==
-Date:   Mon, 3 Apr 2023 11:09:14 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+        with ESMTP id S230108AbjDCPX7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Apr 2023 11:23:59 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905E118C;
+        Mon,  3 Apr 2023 08:23:58 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1DC491C0DFD; Mon,  3 Apr 2023 17:23:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1680535436;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/+20JBJaASJiHllLcAKtoJ1jR606tnbtfKQ5j05D9C4=;
+        b=Nim0RUywF55I5QTq6a5tEMFkLTBvxDUf5atsqLCthbPnd2GDYj5kByGOzHoI/fVoZ3do6X
+        Nm4yXgCb4zsqfX/5Kpb7y3cRjk61juLRgju8oxIuUBgL5l7EPmab1z9ssm0FbASLBNSu83
+        DeahazT5TI8WIj+2fbzT6pT5UOBAzbI=
+Date:   Mon, 3 Apr 2023 17:23:55 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        letux-kernel@openphoenux.org, NeilBrown <neilb@suse.de>,
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
+        NeilBrown <neilb@suse.de>,
         Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH] leds: tca6507: fix error handling of using
  fwnode_property_read_string
-Message-ID: <20230403110914.6106602e@dellmb>
-In-Reply-To: <cbae7617db83113de726fcc423a805ebaa1bfca6.1680433978.git.hns@goldelico.com>
+Message-ID: <ZCrviz6zNXJpmkN7@duo.ucw.cz>
 References: <cbae7617db83113de726fcc423a805ebaa1bfca6.1680433978.git.hns@goldelico.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="RvdtlErZpwC/giq0"
+Content-Disposition: inline
+In-Reply-To: <cbae7617db83113de726fcc423a805ebaa1bfca6.1680433978.git.hns@goldelico.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun,  2 Apr 2023 13:12:59 +0200
-"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
 
+--RvdtlErZpwC/giq0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun 2023-04-02 13:12:59, H. Nikolaus Schaller wrote:
 > Commit 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
 >=20
 > changed to fwnode API but did not take into account that a missing proper=
@@ -81,29 +80,25 @@ ffffffff when read
 > driver.
 >=20
 > Fixes: 96f524105b9c ("leds: tca6507: use fwnode API instead of OF")
-> Cc: Marek Beh=C3=BAn <kabel@kernel.org>
+> Cc: Marek Beh=FAn <kabel@kernel.org>
 > Cc: NeilBrown <neilb@suse.de>
 > Cc: Linus Walleij <linus.walleij@linaro.org>
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
->  drivers/leds/leds-tca6507.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
-> index 07dd12686a696..634cabd5bb796 100644
-> --- a/drivers/leds/leds-tca6507.c
-> +++ b/drivers/leds/leds-tca6507.c
-> @@ -691,8 +691,9 @@ tca6507_led_dt_init(struct device *dev)
->  		if (fwnode_property_read_string(child, "label", &led.name))
->  			led.name =3D fwnode_get_name(child);
-> =20
-> -		fwnode_property_read_string(child, "linux,default-trigger",
-> -					    &led.default_trigger);
-> +		if (fwnode_property_read_string(child, "linux,default-trigger",
-> +						&led.default_trigger))
-> +			led.default_trigger =3D NULL;
-> =20
->  		led.flags =3D 0;
->  		if (fwnode_device_is_compatible(child, "gpio"))
 
-Reviewed-by: Marek Beh=C3=BAn <kabel@kernel.org>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+BR,							Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--RvdtlErZpwC/giq0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZCrviwAKCRAw5/Bqldv6
+8uQ4AJ9rOLLlv5G2BzpYWe8ul/PHu2RIqACgri1XbusH5tIqu5gkm1e/2B7bUKs=
+=PFP8
+-----END PGP SIGNATURE-----
+
+--RvdtlErZpwC/giq0--
