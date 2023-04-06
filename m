@@ -2,68 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 785416D9289
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 11:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 763E96D95F9
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 13:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233391AbjDFJSh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Apr 2023 05:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
+        id S238633AbjDFLjQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Apr 2023 07:39:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235372AbjDFJSg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 05:18:36 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADDD61BF;
-        Thu,  6 Apr 2023 02:18:35 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4A05B1C0AB2; Thu,  6 Apr 2023 11:18:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1680772712;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2LI2f/ixAsF1xEcVqPiJM0HMEuhAr1HeJpruxWNwBHI=;
-        b=p5Nw802cTjRP6Znbb6g1y2PRtV6D7WbcwF9APljpEDb++sMNQ+ZdbAMXvdJQZIqX1L7LgV
-        SNUeI1nJYQR2xDCf9OOlYAId/A7wwL3eFcqRsNJnRHGqpcEpagi7WXxvPeIBYdWWWLiTAv
-        BLOzDz1+E2qS4QzFHDilkLesPhC2sXQ=
-Date:   Thu, 6 Apr 2023 11:18:31 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        with ESMTP id S238595AbjDFLip (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 07:38:45 -0400
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA21A2;
+        Thu,  6 Apr 2023 04:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=YLWXUtPlBzNRctfCp3LF0O5qcqt639y98cAc4+5cpy0=; b=glPn+IesWMVvAEJ0FzHVYHlEFj
+        mDPZh/l+MAcwkoHuEVHKHvWYjJKzKcO27aTPHOE/ZP3xxdayp+pqNxyEcn53jKLX+vE5ryB0vmGDm
+        hucmfHkLa3t5buJXyt5Eab9FqtXZRimI8ppRc3PPfSjxj9ddEYev32YRD/yHWUZQ/h5W0puY9i0yg
+        AlQeX+lvyLb8m8lKNkP9KmlUnNCQUafwrDG9zsD+Z17K82ir5hVTCV7ruIcxu9bABMniUZsUOSqOn
+        bmxZx4yPp/bFR4DJepmG7R/XSEH+10DRX3Gt5SQmBV579k/RXppbMxCag/DNgKJ163mFRvLOdeLXF
+        JePUuJtg==;
+Received: from p200300ccff190e001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff19:e00:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1pkNsM-0002Aa-Vf; Thu, 06 Apr 2023 13:34:00 +0200
+Date:   Thu, 6 Apr 2023 13:33:57 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 16/16] arm: mvebu: dt: Add PHY LED support
- for 370-rd WAN port
-Message-ID: <ZC6OZ2f/NLJxZgle@duo.ucw.cz>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
- <20230327141031.11904-17-ansuelsmth@gmail.com>
- <ZCKl1A9dZOIAdMY8@duo.ucw.cz>
- <2e5c6dfb-5f55-416f-a934-6fa3997783b7@lunn.ch>
- <ZCsu4qD8k947kN7v@duo.ucw.cz>
- <7cadf888-8d6e-4b7d-8f94-7e869fd49ee2@lunn.ch>
+        hns@goldelico.com
+Subject: Re: [PATCH 1/2] dt-bindings: leds: ROHM BD2606MVV LED driver
+Message-ID: <20230406133357.45e48bd3@aktux>
+In-Reply-To: <f73050b7-3f86-0dcd-5e43-d8a9258afcae@gmail.com>
+References: <20230406060825.103187-1-andreas@kemnade.info>
+        <20230406060825.103187-2-andreas@kemnade.info>
+        <f73050b7-3f86-0dcd-5e43-d8a9258afcae@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="lnbJBEJceP2MrxSb"
-Content-Disposition: inline
-In-Reply-To: <7cadf888-8d6e-4b7d-8f94-7e869fd49ee2@lunn.ch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,89 +58,87 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Matti,
 
---lnbJBEJceP2MrxSb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 6 Apr 2023 11:32:42 +0300
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-Hi!
+> Hi Andreas,
+> 
+> Thanks for the patch! Adding new support for devices is Much Appreciated!
+> 
+> On 4/6/23 09:08, Andreas Kemnade wrote:
+> > Document ROHM BD2606MVV LED driver devicetree bindings.
+> > 
+> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> > ---
+> >   .../bindings/leds/rohm,bd2606mvv.yaml         | 76 +++++++++++++++++++
+> >   1 file changed, 76 insertions(+)
+> >   create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml b/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> > new file mode 100644
+> > index 0000000000000..6d4ddd8d31162
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> > @@ -0,0 +1,76 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/rohm,bd2606mvv.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: BD2606MVV LED controller
+> > +
+> > +maintainers:
+> > +  - Andreas Kemnade <andreas@kemnade.info>
+> > +
+> > +description:
+> > +  The BD2606 MVV is a programmable LED controller connected via I2C that can
+> > +  drive 6 separate lines. Each of them can be individually switched on and off
+> > +  but the brightness setting is shared between two of them.  
+> 
+> Maybe add a link to data-sheet?
+> https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/led_driver/bd2606mvv_1-e.pdf
+> 
+Maybe also (because it has the register description):
+https://fscdn.rohm.com/en/products/databook/applinote/ic/power/led_driver/bd2606mvv_tsb_001_ug-e.pdf
 
-> > Acceptance criteria would be "consistent with documentation and with
-> > other similar users". If the LED is really white, it should be
-> > f1072004.mdio-mii\:white\:WAN, but you probably want
-> > f1072004.mdio-mii\:white\:LAN (or :activity), as discussed elsewhere in=
- the thread.
->=20
-> Hi Pavel
->=20
-> What i ended up with is:
->=20
-> f1072004.mdio-mii:00:white:wan
->=20
-> The label on the box is WAN, since it is meant to be a WiFi routers,
-> and this port should connected to your WAN. And this is what the LED
-> code came up with, given my DT description for this device.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: rohm,bd2606mvv
+> > +
+> > +  reg:
+> > +    description: I2C slave address of the controller.
+> > +    maxItems: 1
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +patternProperties:
+> > +  "^led@[0-6]$":
+> > +    type: object
+> > +    $ref: common.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      reg:
+> > +        minimum: 0
+> > +        maximum: 6
+> > +
+> > +    required:
+> > +      - reg
+> > +
+> > +additionalProperties: false  
+> 
+> According to the data-sheet, BD2606 has an enable-pin. Should it be 
+> visible in the bindings?
+> 
+yes, it should.
 
-Ok, thanks for explanation.
-
-> > Documentation is in Documentation/leds/well-known-leds.txt , so you
-> > should probably add a new section about networking, and explain naming
-> > scheme for network activity LEDs. When next users appear, I'll point
-> > them to the documentation.
->=20
-> I added a patch with the following text:
->=20
-> * Ethernet LEDs
->=20
-> Currently two types of Network LEDs are support, those controlled by
-> the PHY and those by the MAC. In theory both can be present at the
-> same time for one Linux netdev, hence the names need to differ between
-> MAC and PHY.
->=20
-> Do not use the netdev name, such as eth0, enp1s0. These are not stable
-> and are not unique. They also don't differentiate between MAC and PHY.
->=20
-> ** MAC LEDs
->=20
-> Good: f1070000.ethernet:white:WAN
-> Good: mdio_mux-0.1:00:green:left
-> Good: 0000:02:00.0:yellow:top
-
-> The first part must uniquely name the MAC controller. Then follows the
-> colour.  WAN/LAN should be used for a single LED. If there are
-> multiple LEDs, use left/right, or top/bottom to indicate their
-> position on the RJ45 socket.
-
-I don't think basing stuff on position is reasonable. (And am not sure
-if making difference between MAC and PHY leds is good idea).
-
-Normally, there's ethernet port with two LEDs, one is usually green
-and indicates link, second being yellow and indicates activity,
-correct?
-
-On devices like ADSL modems, there is one LED per port, typically on
-with link and blinking with activity. =20
-
-Could we use that distinction instead? (id):green:link,
-(id):yellow:activity, (id):?:linkact -- for combined LED as it seems.
-
-Are there any other common leds? I seem to remember "100mbps" lights
-=66rom time where 100mbit was fast...?
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---lnbJBEJceP2MrxSb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZC6OZwAKCRAw5/Bqldv6
-8h1QAJ9FtbGdRJcGzTml7Avdfr5VrMyV+ACeLDhyEz6nLaH6LXMXyofdCwWoYQ8=
-=9p5m
------END PGP SIGNATURE-----
-
---lnbJBEJceP2MrxSb--
+Regards,
+Andreas
