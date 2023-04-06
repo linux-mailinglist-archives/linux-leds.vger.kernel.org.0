@@ -2,38 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 540A46D9032
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 09:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 646B26D9023
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 09:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235895AbjDFHKk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Apr 2023 03:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53596 "EHLO
+        id S235880AbjDFHHI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Apr 2023 03:07:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235835AbjDFHKd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 03:10:33 -0400
-Received: from 9.mo562.mail-out.ovh.net (9.mo562.mail-out.ovh.net [46.105.72.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C321F213B
-        for <linux-leds@vger.kernel.org>; Thu,  6 Apr 2023 00:10:11 -0700 (PDT)
-Received: from director2.derp.mail-out.ovh.net (director2.derp.mail-out.ovh.net [79.137.60.36])
-        by mo562.mail-out.ovh.net (Postfix) with ESMTPS id 930A82455D;
-        Thu,  6 Apr 2023 06:52:32 +0000 (UTC)
-Received: from director2.derp.mail-out.ovh.net (director2.derp.mail-out.ovh.net. [127.0.0.1])
-        by director2.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <sven.schwermer@disruptive-technologies.com>; Thu,  6 Apr 2023 06:52:32 +0000 (UTC)
-Received: from pro2.mail.ovh.net (unknown [10.108.1.244])
-        by director2.derp.mail-out.ovh.net (Postfix) with ESMTPS id 6A5C51FE27;
-        Thu,  6 Apr 2023 06:52:32 +0000 (UTC)
+        with ESMTP id S236017AbjDFHGy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 03:06:54 -0400
+X-Greylist: delayed 789 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Apr 2023 00:05:43 PDT
+Received: from 5.mo562.mail-out.ovh.net (5.mo562.mail-out.ovh.net [46.105.48.192])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83411B445
+        for <linux-leds@vger.kernel.org>; Thu,  6 Apr 2023 00:05:43 -0700 (PDT)
+Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net [51.68.80.175])
+        by mo562.mail-out.ovh.net (Postfix) with ESMTPS id E3AFC2459D;
+        Thu,  6 Apr 2023 06:54:39 +0000 (UTC)
+Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net. [127.0.0.1])
+        by director1.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
+        for <sven.schwermer@disruptive-technologies.com>; Thu,  6 Apr 2023 06:54:39 +0000 (UTC)
+Received: from pro2.mail.ovh.net (unknown [10.109.143.62])
+        by director1.derp.mail-out.ovh.net (Postfix) with ESMTPS id 80CDD201A40;
+        Thu,  6 Apr 2023 06:54:39 +0000 (UTC)
 Received: from [192.168.1.41] (88.161.25.233) by DAG1EX1.emp2.local
  (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
- 2023 08:52:31 +0200
-Message-ID: <f4616854-a0eb-9abe-e411-402c91cab43d@traphandler.com>
-Date:   Thu, 6 Apr 2023 08:52:31 +0200
+ 2023 08:54:38 +0200
+Message-ID: <a8a22af2-3d11-bda8-5453-768e2174dc08@traphandler.com>
+Date:   Thu, 6 Apr 2023 08:54:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v8 4/6] leds: class: store the color index in struct
- led_classdev
+Subject: Re: [PATCH v8 6/6] leds: Add a multicolor LED driver to group
+ monochromatic LEDs
+Content-Language: en-US
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 CC:     <lee.jones@linaro.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
         <sven.schwermer@disruptive-technologies.com>,
@@ -42,20 +44,19 @@ CC:     <lee.jones@linaro.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
         <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20230328161541.599463-1-jjhiblot@traphandler.com>
- <20230328161541.599463-5-jjhiblot@traphandler.com>
- <CAHp75Ve_=Gzpg9GO=2dqTKWuyU-Podezv_YSwHLqFPHXk1DUxg@mail.gmail.com>
-Content-Language: en-US
+ <20230328161541.599463-7-jjhiblot@traphandler.com>
+ <CAHp75Vca0SKPkyPM_14Zny+Vn0a=hKWRfYW9qzTpN8AVZ_R_YQ@mail.gmail.com>
 From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-In-Reply-To: <CAHp75Ve_=Gzpg9GO=2dqTKWuyU-Podezv_YSwHLqFPHXk1DUxg@mail.gmail.com>
+In-Reply-To: <CAHp75Vca0SKPkyPM_14Zny+Vn0a=hKWRfYW9qzTpN8AVZ_R_YQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [88.161.25.233]
-X-ClientProxiedBy: DAG2EX2.emp2.local (172.16.2.12) To DAG1EX1.emp2.local
+X-ClientProxiedBy: DAG1EX2.emp2.local (172.16.2.2) To DAG1EX1.emp2.local
  (172.16.2.1)
-X-Ovh-Tracer-Id: 7795730958712781275
+X-Ovh-Tracer-Id: 7831478280874768859
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejvddgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpedvfeekudegkeeuuedvueeuveejffdtvdethfelkefhfefftdetteffiefgvddtieenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepughirhgvtghtohhrvddruggvrhhprdhmrghilhdqohhuthdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedv
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejvddgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpedvfeekudegkeeuuedvueeuveejffdtvdethfelkefhfefftdetteffiefgvddtieenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepughirhgvtghtohhruddruggvrhhprdhmrghilhdqohhuthdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedv
 X-Spam-Status: No, score=-1.4 required=5.0 tests=NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
@@ -67,41 +68,53 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 
 
-On 28/03/2023 19:15, Andy Shevchenko wrote:
+On 28/03/2023 19:20, Andy Shevchenko wrote:
 > On Tue, Mar 28, 2023 at 7:15 PM Jean-Jacques Hiblot
 > <jjhiblot@traphandler.com> wrote:
 >>
->> This information might be useful for more than only deriving the led's
->> name. And since we have this information, we can expose it in the sysfs.
+>> Grouping multiple monochrome LEDs into a multicolor LED device has a few
+>> benefits over handling the group in user-space:
+>> - The state of the LEDs relative to each other is consistent. In other
+>>    words, if 2 threads competes to set the LED to green and red, the
+>>    end-result cannot be black or yellow.
+>> - The multicolor LED as a whole can be driven through the sysfs LED
+>>    interface.
 > 
 > ...
 > 
->> +Date:          March 2023
->> +KernelVersion: 6.3
+>> +config LEDS_GROUP_MULTICOLOR
+>> +       tristate "LEDs group multi-color support"
+>> +       depends on OF || COMPILE_TEST
 > 
-> Outdated version.
+> Why is OF a dependency?
+> Can't we make it a firmware provider agnostic solution from day 1?
+That would be possible, unfortunately I have no way of testing the ACPI 
+stuff. That's why I prefer sticking to OF.
+
 > 
-> ...
+>> +       help
+>> +         This option enables support for monochrome LEDs that are
+>> +         grouped into multicolor LEDs.
+>> +         This useful in the case where LEDs of different colors are
 > 
->> +               Color of the led.
+> This is
+> 
+>> +         physically grouped in a single multi-color LED and driven
+>> +         by a controller that doesn't have multi-color support.
 >> +
->> +               This is a read-only file. Reading this file returns the color
->> +               of the led as a string (ex: "red", "green").
+>> +         To compile this driver as a module, choose M here: the module
+>> +         will be called leds-group-multicolor.
 > 
-> There are no strict rules about colour and I don't think it's a good
-> idea. Why in such a case is it different to label? My proposal here at
-> least documenting that the colour must follow one of the existing
-> naming standards (like RGB in hex, HTML, or name in accordance with
-> chosen standard).
-Actually the colors are defined in an array: led_colors (led-core.c: 88)
-So the color is one of the following: white, red, reen, blue, amber, 
-violet, yellow, ir, multicolor, rgb
-
-There is mention in the TODO file of changing the way RGB leds are 
-handled and the RGB leds would probably show the hex RGB values here.
-
+> ...
 > 
-> Yet, it won't technically prevent abusing that, but at least will show
-> the intention and allow pointing out to the bugs or develop user space
-> tooling based on existing parsers (if any).
+>> +               led_cdev = devm_of_led_get_optional(dev, count);
+> 
+> I don't see how this is OF specific to this driver. Maybe it needs to
+> be patched first, so we will have something non-OF specific?
+> 
+>> +               if (IS_ERR(led_cdev))
+>> +                       return dev_err_probe(dev, PTR_ERR(led_cdev), "Unable to get LED #%d",
+>> +                                            count);
+> 
+> At least we need to have a FIXME or so here.
 > 
