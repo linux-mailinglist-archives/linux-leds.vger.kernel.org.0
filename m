@@ -2,48 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 763E96D95F9
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 13:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E806D9641
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 13:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238633AbjDFLjQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Apr 2023 07:39:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48292 "EHLO
+        id S238683AbjDFLt0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Apr 2023 07:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238595AbjDFLip (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 07:38:45 -0400
+        with ESMTP id S235967AbjDFLtM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 07:49:12 -0400
 Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA21A2;
-        Thu,  6 Apr 2023 04:35:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C00CCC36;
+        Thu,  6 Apr 2023 04:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=YLWXUtPlBzNRctfCp3LF0O5qcqt639y98cAc4+5cpy0=; b=glPn+IesWMVvAEJ0FzHVYHlEFj
-        mDPZh/l+MAcwkoHuEVHKHvWYjJKzKcO27aTPHOE/ZP3xxdayp+pqNxyEcn53jKLX+vE5ryB0vmGDm
-        hucmfHkLa3t5buJXyt5Eab9FqtXZRimI8ppRc3PPfSjxj9ddEYev32YRD/yHWUZQ/h5W0puY9i0yg
-        AlQeX+lvyLb8m8lKNkP9KmlUnNCQUafwrDG9zsD+Z17K82ir5hVTCV7ruIcxu9bABMniUZsUOSqOn
-        bmxZx4yPp/bFR4DJepmG7R/XSEH+10DRX3Gt5SQmBV579k/RXppbMxCag/DNgKJ163mFRvLOdeLXF
-        JePUuJtg==;
+        bh=QuJNP0bX8iKUqBrcGwjzdXmqAfisYkTfJpaelOiAAJo=; b=PiMkCT5j8UA76wAHvO2aEt7rCD
+        HJA6oPSVS6raZPmRpthSvMo6W3oHEVAgAN9QuLJZ35B+6gJlNhh/m4PCKvLblwCdA/tHQ/I4ajzT/
+        f4vhgomvF2g/5pLLVJDA2JqRDhvIZPfDI5I/JxoyJ8cy2iYDYD6JLbfw5qXi2FVWtVd8lKrcXCC53
+        xV+H6bdsx9DxKipvuNUFV/HgwThBCD1sJH7t0uISb32D9EnKRiUk+3q8ERhKJ863YXlBmme2K2q0O
+        lDkiaLYOH6VJnEtARWi5+VTLh3d8y+Ztc/rvDVyILSt2b4dlXflHL8l0wuKP6EBxndIpgvJuHYTR9
+        +BQfSbqQ==;
 Received: from p200300ccff190e001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff19:e00:1a3d:a2ff:febf:d33a] helo=aktux)
         by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <andreas@kemnade.info>)
-        id 1pkNsM-0002Aa-Vf; Thu, 06 Apr 2023 13:34:00 +0200
-Date:   Thu, 6 Apr 2023 13:33:57 +0200
+        id 1pkO1L-0002CA-Kl; Thu, 06 Apr 2023 13:43:15 +0200
+Date:   Thu, 6 Apr 2023 13:43:14 +0200
 From:   Andreas Kemnade <andreas@kemnade.info>
 To:     Matti Vaittinen <mazziesaccount@gmail.com>
 Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         hns@goldelico.com
-Subject: Re: [PATCH 1/2] dt-bindings: leds: ROHM BD2606MVV LED driver
-Message-ID: <20230406133357.45e48bd3@aktux>
-In-Reply-To: <f73050b7-3f86-0dcd-5e43-d8a9258afcae@gmail.com>
+Subject: Re: [PATCH 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
+ LED driver
+Message-ID: <20230406134314.25f8d3a0@aktux>
+In-Reply-To: <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
 References: <20230406060825.103187-1-andreas@kemnade.info>
-        <20230406060825.103187-2-andreas@kemnade.info>
-        <f73050b7-3f86-0dcd-5e43-d8a9258afcae@gmail.com>
+        <20230406060825.103187-3-andreas@kemnade.info>
+        <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -60,85 +61,27 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Matti,
 
-On Thu, 6 Apr 2023 11:32:42 +0300
+thanks for the review:
+
+On Thu, 6 Apr 2023 11:57:15 +0300
 Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-> Hi Andreas,
-> 
-> Thanks for the patch! Adding new support for devices is Much Appreciated!
-> 
-> On 4/6/23 09:08, Andreas Kemnade wrote:
-> > Document ROHM BD2606MVV LED driver devicetree bindings.
-> > 
-> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> > ---
-> >   .../bindings/leds/rohm,bd2606mvv.yaml         | 76 +++++++++++++++++++
-> >   1 file changed, 76 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml b/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
-> > new file mode 100644
-> > index 0000000000000..6d4ddd8d31162
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
-> > @@ -0,0 +1,76 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/rohm,bd2606mvv.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +	priv->regmap = devm_regmap_init_i2c(client, &bd2606mvv_regmap);
+> > +	if (IS_ERR(priv->regmap)) {
+> > +		err = PTR_ERR(priv->regmap);
+> > +		dev_err(dev, "Failed to allocate register map: %d\n", err);
+> > +		return err;
+> > +	}
 > > +
-> > +title: BD2606MVV LED controller
-> > +
-> > +maintainers:
-> > +  - Andreas Kemnade <andreas@kemnade.info>
-> > +
-> > +description:
-> > +  The BD2606 MVV is a programmable LED controller connected via I2C that can
-> > +  drive 6 separate lines. Each of them can be individually switched on and off
-> > +  but the brightness setting is shared between two of them.  
+> > +	i2c_set_clientdata(client, priv);
+> > +  
 > 
-> Maybe add a link to data-sheet?
-> https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/led_driver/bd2606mvv_1-e.pdf
-> 
-Maybe also (because it has the register description):
-https://fscdn.rohm.com/en/products/databook/applinote/ic/power/led_driver/bd2606mvv_tsb_001_ug-e.pdf
+> The IC seems to have an enable pin. I think you might add the 
+> enable-gpio in dt-bindings and try to (optionally) get and enable it here.
 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: rohm,bd2606mvv
-> > +
-> > +  reg:
-> > +    description: I2C slave address of the controller.
-> > +    maxItems: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +patternProperties:
-> > +  "^led@[0-6]$":
-> > +    type: object
-> > +    $ref: common.yaml#
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      reg:
-> > +        minimum: 0
-> > +        maximum: 6
-> > +
-> > +    required:
-> > +      - reg
-> > +
-> > +additionalProperties: false  
-> 
-> According to the data-sheet, BD2606 has an enable-pin. Should it be 
-> visible in the bindings?
-> 
-yes, it should.
+It has an enable pin. I would prefer to just have the binding as complete as
+possible and have it added later in the driver by someone needing it
+since I cannot test that.
 
 Regards,
 Andreas
