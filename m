@@ -2,147 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1A156D992E
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 16:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24DC86DA1CF
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Apr 2023 21:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239120AbjDFOLH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Apr 2023 10:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
+        id S237244AbjDFTpv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Apr 2023 15:45:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239046AbjDFOKx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 10:10:53 -0400
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81A1B441;
-        Thu,  6 Apr 2023 07:10:20 -0700 (PDT)
-Received: by mail-oi1-f176.google.com with SMTP id w13so17754062oik.2;
-        Thu, 06 Apr 2023 07:10:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680790219;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nc5XJTaOIWq/+ghJJzs83WOcsawa6agTiIS3abEUxHk=;
-        b=x8sssvE1fguDgTaa359uP6+nb6PL5dA/9tR89We4arWwIxw4PL//zqnK767J+5ckiE
-         VAawNAP1jqBzz1gJJfINoqfz6WD+1phYvGVhdqyAWozBV2hGuXDKExZlLJkb7MQYsb4L
-         iH4ENx0wBn/iOMcJEhzmfRWhjaGAMruy/xP8swITUMBjrmtGlOzJYuxsFhz+6/CEL11R
-         TelINgsXL/wo/2gPN/XkIzC0mhvYoHau8jZfAlM+3sC5pUS424imm9o249J8qCHDJ493
-         +OY70UGOOgbegW48b4gpl2L3Cr9Ony8Cpo0vO3MgsY+1tm61DGuwWYfZHyYrNv0FXEQg
-         fznQ==
-X-Gm-Message-State: AAQBX9dKY0xZp4nnkUUfw49KWRTyNWGn0yoYi5fzQp6a9jgK3VzfevtD
-        UXNTvFYXTiN4Ofybr03MPA==
-X-Google-Smtp-Source: AKy350bprKKRW6e63wfLCr4O11TNLUQS8A8vFXvQ7rnM+SgcwkuVgGwzG9QgCq5uzZdD14u6qXu/Sw==
-X-Received: by 2002:a54:4585:0:b0:387:926e:35d3 with SMTP id z5-20020a544585000000b00387926e35d3mr3309739oib.20.1680790219545;
-        Thu, 06 Apr 2023 07:10:19 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y9-20020a4a9809000000b005251f71250dsm566500ooi.37.2023.04.06.07.10.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 07:10:19 -0700 (PDT)
-Received: (nullmailer pid 2976308 invoked by uid 1000);
-        Thu, 06 Apr 2023 14:10:18 -0000
-Date:   Thu, 6 Apr 2023 09:10:18 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        with ESMTP id S230001AbjDFTpu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Apr 2023 15:45:50 -0400
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF0D9F;
+        Thu,  6 Apr 2023 12:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=EK3fzbe5+X0+zxNKNJ1I6F2pPMdvVE8OkksanhvKrFs=; b=3V1WE+ztaydYic26h12m7RgGCa
+        96Ex3OZ4X2tNddmqeyQv0L3WI/gAZnA24HtxNF3KdB2EHmj3NJKebU+EmhxlZHE9jOPex5K5vfack
+        KDcximceBQL+N8xgyem1pfEwIZFqPiQ8628mT0wuaC5sNsJUtDwH3/7QamQuAfTiqzN5WTqJ4KX+e
+        2yOycYWpcjMN/FvMzskcycqfwObkircCO9HvMN7YpI6DxRFurkVbIwvyPo4QkDbaOdi7fq9ldqRe6
+        r/nXGyGaGQIGs95az2mnrpsP/RJmvBudHbW6Kg51UiAGAlG1c99RNjq4eo/p/U8B02Dx3QAacX+5f
+        rCF7l8YQ==;
+Received: from p200300ccff190e001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff19:e00:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1pkVYD-00038N-CR; Thu, 06 Apr 2023 21:45:41 +0200
+Date:   Thu, 6 Apr 2023 21:45:39 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 12/16] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <20230406141018.GA2956156-robh@kernel.org>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
- <20230327141031.11904-13-ansuelsmth@gmail.com>
+        hns@goldelico.com
+Subject: Re: [PATCH 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
+ LED driver
+Message-ID: <20230406214539.59dfaac7@aktux>
+In-Reply-To: <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
+References: <20230406060825.103187-1-andreas@kemnade.info>
+        <20230406060825.103187-3-andreas@kemnade.info>
+        <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230327141031.11904-13-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=0.7 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 04:10:27PM +0200, Christian Marangi wrote:
-> Add LEDs definition example for qca8k Switch Family to describe how they
-> should be defined for a correct usage.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index 389892592aac..ad354864187a 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -18,6 +18,8 @@ description:
->    PHY it is connected to. In this config, an internal mdio-bus is registered and
->    the MDIO master is used for communication. Mixed external and internal
->    mdio-bus configurations are not supported by the hardware.
-> +  Each phy has at most 3 LEDs connected and can be declared
-> +  using the standard LEDs structure.
->  
->  properties:
->    compatible:
-> @@ -117,6 +119,7 @@ unevaluatedProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
->  
->      mdio {
->          #address-cells = <1>;
-> @@ -226,6 +229,27 @@ examples:
->                      label = "lan1";
->                      phy-mode = "internal";
->                      phy-handle = <&internal_phy_port1>;
-> +
-> +                    leds {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +
-> +                        led@0 {
-> +                            reg = <0>;
-> +                            color = <LED_COLOR_ID_WHITE>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            default-state = "keep";
-> +                        };
-> +
-> +                        led@1 {
-> +                            reg = <1>;
-> +                            color = <LED_COLOR_ID_AMBER>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
+On Thu, 6 Apr 2023 11:57:15 +0300
+Matti Vaittinen <mazziesaccount@gmail.com> wrote:
 
-Isn't function-enumerator supposed to be unique within a given 
-'function'?
+[...]
 
-> +                            default-state = "keep";
-> +                        };
-> +                    };
->                  };
->  
->                  port@2 {
-> -- 
-> 2.39.2
 > 
+> > + */
+> > +
+> > +#include <linux/i2c.h>
+> > +#include <linux/leds.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#define BD2606_MAX_LEDS 6
+> > +#define BD2606_MAX_BRIGHTNESS 63
+> > +#define BD2606_REG_PWRCNT 3
+> > +#define ldev_to_led(c)	container_of(c, struct bd2606mvv_led, ldev)
+> > +
+> > +struct bd2606mvv_led {
+> > +	bool active;  
+> 
+> I didn't spot where this 'active' was used?
+> 
+[..]
+
+> > +		if (reg < 0 || reg >= BD2606_MAX_LEDS ||
+> > +		    priv->leds[reg].active) {
+
+here
+
+> > +			of_node_put(child);
+> > +			return -EINVAL;
+> > +		}
+> > +		led = &priv->leds[reg];
+> > +
+> > +		led->active = true;
+
+and here
+
+Regards,
+Andreas
