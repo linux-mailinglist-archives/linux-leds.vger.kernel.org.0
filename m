@@ -2,174 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91DEA6DAB42
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 12:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB3EB6DAB73
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 12:23:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240378AbjDGKKh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Apr 2023 06:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43602 "EHLO
+        id S240579AbjDGKXi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Apr 2023 06:23:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240395AbjDGKKh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 06:10:37 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB504C3F;
-        Fri,  7 Apr 2023 03:10:35 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id o3so861709lfd.12;
-        Fri, 07 Apr 2023 03:10:35 -0700 (PDT)
+        with ESMTP id S240535AbjDGKXh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 06:23:37 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DDD84C29
+        for <linux-leds@vger.kernel.org>; Fri,  7 Apr 2023 03:23:34 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id g18so7439008ejx.7
+        for <linux-leds@vger.kernel.org>; Fri, 07 Apr 2023 03:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680862233;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AV2F4DSz+hAoPsBNchYpKP8BCe+dN7CqxHM1THS5IQ0=;
-        b=jtcPqo9Nzp/sRPesvPFdYJrtzFvHqBua33jYxPt9ouLKx6u8j/8spna48t0xnQOsCs
-         C6ullEloa94nBjloYClYwfHGx4VOB41ES/Iw5dpeiMGKVriYSDOV4toQ4fKnF6G/J8On
-         w7Yz6OpWm7dtIXxvSmR8Bo+MAxOOFjCA8LeTsznTA2fx1KNgu+N2JH5eMFAHqhW8R3EJ
-         ATZMTxiUkcESt7T7ZX3OOtIlQv10WgWdS+Hs8//oNxPOx9C1iZ4uUIbKweZJoPRJOelh
-         nT3D2M8GgjFsR4eIf2qihwDMJkB6u2P3d7PqcIQ4Xc+SsY767/6mAJEpO7YlMtN2kgWU
-         H9Vg==
+        d=mind.be; s=google; t=1680863013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c3Io/udqwHbpHqltZDGsqHtMrnMLw8T2LHE6nGOqTi4=;
+        b=IDQF/IZMULmO/cBIi2eyVVIX0vYzczJRuzsvLdgzNsutudW/0miN3xwrGvJ2F3JM5L
+         bA5LuApl4uJb0cwp1dAcoRMf5/m6E4VfDBgVJ5r2Biu9CYpyDDTZfH77Sm4dC/WxVNwG
+         lgghVGRXftQNxVvXgeq4Zs4ujvfanMYWl+9Krx68FP1BR8UuXZM706fb1t8dxqr+DLyJ
+         NFqtX6evFC/qHgE8UzqnDF0s6MuPDLXGFvCiZTIrkXo3+BhSSYyhsqXA5IIsMntU8G56
+         eTKmsgHW688Iw2JFmC/Ut+PnDNsu+cGrCk5LR5FlzzOkE+/R8JZ6Zfh3GxQvtoaH6iFN
+         uUjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680862233;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AV2F4DSz+hAoPsBNchYpKP8BCe+dN7CqxHM1THS5IQ0=;
-        b=gFuxh/fGkN+AeBJuYXFhOHY+LzWFSoLY8Rz2mCjrDalpjwrm8yVhRkXFeNHO6vINKt
-         NyKkhFRUrBLSdlxrZ0zbHCBgqsMzOOxXP0cyl/JXJXouJE0SGPWdS5vh9ROWYjkZd53t
-         CaKRWUjH3rJ6n/ZyHyofu1J24+aDNusq8NucwAEOtXPW0umPFexjvek0037/n60wJscI
-         01c/FjDj1gUGQvn4FxDoAr5x62KSn5G2CFnSiI8aeeEtUhXGKJafOPpyCtP2MZioi4r1
-         L+PaVqwADPfUGYih22U8fXrDPDfoJvuWgY7JuQ5m5jNSPQKXmsIoZt4Y8NICslxT9Z3O
-         d9pA==
-X-Gm-Message-State: AAQBX9dgcNS2Drm7xZjLiV9INxS4LPMxHLkTl0vTegFvdfFcAh+K4/JX
-        0QDRn8+mKAjUvPBi2TwGofs6dG5Ua7g=
-X-Google-Smtp-Source: AKy350br/Td7o2c/LAJhdK5O38l6fhc+mxteoTiiKRQb3dpdqHGT4CokLccW1bx7vT5KcfJZWFttPA==
-X-Received: by 2002:a05:6512:3885:b0:4ea:f526:5bee with SMTP id n5-20020a056512388500b004eaf5265beemr648395lft.11.1680862233175;
-        Fri, 07 Apr 2023 03:10:33 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:16f3:4a00::1? (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id h26-20020a19701a000000b004e1b880ba20sm630423lfc.292.2023.04.07.03.10.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Apr 2023 03:10:32 -0700 (PDT)
-Message-ID: <1f6b470d-7740-8b0f-6c1d-a4a986d1c0c8@gmail.com>
-Date:   Fri, 7 Apr 2023 13:10:32 +0300
+        d=1e100.net; s=20210112; t=1680863013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c3Io/udqwHbpHqltZDGsqHtMrnMLw8T2LHE6nGOqTi4=;
+        b=qoqsKXGqqvSu72UPp5MdNn1JsXZ72+R45gD6p1zS+UF6icNDVbckvGTiXGoUu4VCRW
+         AJV5xieCQql9qpO87VjU0hxkAs5ZHNYn0o0vvsBlkjSTUfV/KcU47XttWq/VI/pIdeKd
+         +/NjAy0eNimrXk+byzfkphdz104b+qaIGFqsBG5i8ohgGC/IjTDZLiWwv8hjhUjwUdX/
+         cz+8tKW14KHkHbYD7ayXRFS47cJMTJ3zEnde2OtNRFU7iatb3IAn3GlcWuuKsiPsAHmW
+         aT+8SQmnDjcvzxP6YxQqizScopsO5AXBVbGvGK688fgTNp1vh8yk0gSN2dipc+0YfjWe
+         ECGg==
+X-Gm-Message-State: AAQBX9degWsv5FChj1o+np5/ewLRA0zr/M4UgHxZ39nT443XSnfv+DXG
+        poFS1y9fyokXezxhT+X3GKMXaA==
+X-Google-Smtp-Source: AKy350b7/j4aNjhcfwWnIRIf0CMTwsVF7i3ReOYvra2kPJFMctNcwfTwKpssHq9qgDZAR1bOxrlhDg==
+X-Received: by 2002:a17:906:6ad9:b0:923:c55d:efd2 with SMTP id q25-20020a1709066ad900b00923c55defd2mr1687962ejs.68.1680863012988;
+        Fri, 07 Apr 2023 03:23:32 -0700 (PDT)
+Received: from dtpc.zanders.be (78-22-137-109.access.telenet.be. [78.22.137.109])
+        by smtp.gmail.com with ESMTPSA id 7-20020a170906014700b00932fa67b48fsm1892612ejh.183.2023.04.07.03.23.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 03:23:32 -0700 (PDT)
+From:   Maarten Zanders <maarten.zanders@mind.be>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Maarten Zanders <maarten.zanders@mind.be>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/2] leds: lp55xx: configure internal charge pump
+Date:   Fri,  7 Apr 2023 12:23:22 +0200
+Message-Id: <20230407102324.42604-1-maarten.zanders@mind.be>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
- LED driver
-Content-Language: en-US, en-GB
-To:     Andreas Kemnade <andreas@kemnade.info>, pavel@ucw.cz,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230407050803.170773-1-andreas@kemnade.info>
- <20230407050803.170773-3-andreas@kemnade.info>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20230407050803.170773-3-andreas@kemnade.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/7/23 08:08, Andreas Kemnade wrote:
-> The device provides 6 channels which can be individually
-> turned off and on but groups of two channels share a common brightness
-> register.
-> 
-> Limitation: The GPIO to enable the device is not used yet.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
->   drivers/leds/Kconfig          |  11 +++
->   drivers/leds/Makefile         |   1 +
->   drivers/leds/leds-bd2606mvv.c | 143 ++++++++++++++++++++++++++++++++++
->   3 files changed, 155 insertions(+)
->   create mode 100644 drivers/leds/leds-bd2606mvv.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 9dbce09eabacf..cc4eadbb2542e 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -551,6 +551,17 @@ config LEDS_REGULATOR
->   	help
->   	  This option enables support for regulator driven LEDs.
->   
-> +config LEDS_BD2606MVV
-> +	tristate "LED driver for BD2606MVV"
-> +	depends on LEDS_CLASS
-> +	depends on I2C
-> +	select REGMAP_I2C
-> +	help
-> +	  This option enables support for BD2606MVV LED driver chips
-> +	  accessed via the I2C bus. It supports setting brightness, with
-> +	  the limitiation that there are groups of two channels sharing
-> +	  a brightness setting, but not the on/off setting.
-> +
->   config LEDS_BD2802
->   	tristate "LED driver for BD2802 RGB LED"
->   	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d30395d11fd84..c07d1512c745a 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -17,6 +17,7 @@ obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
->   obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
->   obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
->   obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
-> +obj-$(CONFIG_LEDS_BD2606MVV)		+= leds-bd2606mvv.o
->   obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
->   obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
->   obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
-> diff --git a/drivers/leds/leds-bd2606mvv.c b/drivers/leds/leds-bd2606mvv.c
-> new file mode 100644
-> index 0000000000000..808100e50487c
-> --- /dev/null
-> +++ b/drivers/leds/leds-bd2606mvv.c
-> @@ -0,0 +1,143 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2023 Andreas Kemnade
-> + *
-> + * Datasheet:
-> + * https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/led_driver/bd2606mvv_1-e.pdf
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +
-> +#define BD2606_MAX_LEDS 6
-> +#define BD2606_MAX_BRIGHTNESS 63
-> +#define BD2606_REG_PWRCNT 3
-> +#define ldev_to_led(c)	container_of(c, struct bd2606mvv_led, ldev)
-> +
-> +struct bd2606mvv_led {
-> +	bool active;
+A new option in the devicetree "ti,charge-pump-mode" allows the user to
+configure the charge pump in a certain mode. The previous implementation
+was "auto" mode, which remains the default.
 
-I still think having this 'active' here for the whole lifetime of the 
-driver is a bit misleading. This, however, is a minor thing. With or 
-without the 'active' removed from the private data:
+v1 of the patch implemented a bool to disable the charge pump and had some
+issues in the yaml binding.
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+v2 implemented all options of the charge pump as a string which was too
+complex to parse & check.
 
+v3 replaces the string by constants.
 
-Yours,
-	-- Matti
+v4 resend with changelog (notes) in each patch
+
+v5 dual license in dt header, change property type to u32
+
+v6 change license type, simplify DT parameter check
+
+v7 formatting changes, adapt to max 100 char line length
+
+Maarten Zanders (2):
+  dt-bindings: leds-lp55xx: add ti,charge-pump-mode
+  leds: lp55xx: configure internal charge pump
+
+ .../devicetree/bindings/leds/leds-lp55xx.yaml      |  8 ++++++++
+ drivers/leds/leds-lp5521.c                         | 11 +++++------
+ drivers/leds/leds-lp5523.c                         | 14 +++++++++-----
+ drivers/leds/leds-lp55xx-common.c                  |  9 +++++++++
+ drivers/leds/leds-lp8501.c                         |  8 +++++---
+ include/dt-bindings/leds/leds-lp55xx.h             | 10 ++++++++++
+ include/linux/platform_data/leds-lp55xx.h          |  3 +++
+ 7 files changed, 49 insertions(+), 14 deletions(-)
+ create mode 100644 include/dt-bindings/leds/leds-lp55xx.h
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+2.37.3
 
