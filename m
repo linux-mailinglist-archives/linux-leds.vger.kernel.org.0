@@ -2,260 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E330B6DA86E
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 07:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE116DAB1F
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 11:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbjDGFI7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Apr 2023 01:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45042 "EHLO
+        id S233311AbjDGJ45 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Apr 2023 05:56:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbjDGFI6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 01:08:58 -0400
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B28A9766;
-        Thu,  6 Apr 2023 22:08:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
-        Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Df+9Aw8LpDdWDEytTevf/JW1dxL62+2vaYM0rUgglaE=; b=e9XzwRdqR0NGZosj3wxaIxCIAO
-        inrCGaUpZbqD46bJfxKGsOXosxbv5Rb7ZfB/fGrDgqc6uOTTsRGufCjRSV1NcDUDgK059r6D4H76b
-        Ec16PXdd+AHhVeoyr0DncDry17cgKDfZZPCZVLxTq+5ZEJnUgUwPvPyyaAL8hnrqcDNPdcQsUZ9D7
-        0zxtr4MHHeXhCR20nbNu1n14sL/KDfBuxzVXxzzoEX0vMCYRgSlIWTkIoftxULAx1yaVR8HIrQf31
-        YytISRzVXTnCH3ldn6coiZbZV4LnDJWI7Sd/yhKxNl2pJY5vNhYIp/jwk9cA8mNhhCEViGpjkz9LF
-        h9P5KqnQ==;
-Received: from p200300ccff0cf1001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0c:f100:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1pkeKU-0003s1-Jr; Fri, 07 Apr 2023 07:08:48 +0200
-Received: from andi by aktux with local (Exim 4.96)
-        (envelope-from <andreas@kemnade.info>)
-        id 1pkeKU-000iQo-10;
-        Fri, 07 Apr 2023 07:08:06 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andreas@kemnade.info,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: [PATCH v2 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c LED driver
-Date:   Fri,  7 Apr 2023 07:08:03 +0200
-Message-Id: <20230407050803.170773-3-andreas@kemnade.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230407050803.170773-1-andreas@kemnade.info>
-References: <20230407050803.170773-1-andreas@kemnade.info>
+        with ESMTP id S231563AbjDGJ44 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 05:56:56 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CA37ECB;
+        Fri,  7 Apr 2023 02:56:53 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id bx10so24765678ljb.8;
+        Fri, 07 Apr 2023 02:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680861411;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IMmt0J7ORv2kNOivTrzHCNzDsNn+ORI7SQCDfabUQlQ=;
+        b=eNPnkVGvBbGr9Btxvn/s9UijDefC/i/wn3RTw621S4TZ5aZ0BfwJNXwW4fy2AylBQ4
+         RP8Yy6IKobIQrGZClMZumuo4PM7YX5n84HpT7Bn665/AHIXRoe2yONpfxMGUlfjXOFog
+         1H/fY3/qfzNFw1AC1JbXxf3Tu0CmG3/6sqKd119Cd22sTotw7zkk0MzzxGRwcy16whfR
+         sg+KRqXXd7x/d8mrXUJge4mhBXIgdwWnLV8zo3cdHAR10l1FXUUBTftONJgzrTKeh37m
+         LCK731eIzVgbZld3/Np9RXN44ukaWvEDgg0btTzFAIqhGxEYw3sHlmy/nqIT4xthpONi
+         LIRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680861411;
+        h=content-transfer-encoding:in-reply-to:subject:from:content-language
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IMmt0J7ORv2kNOivTrzHCNzDsNn+ORI7SQCDfabUQlQ=;
+        b=UO5O7MeqmxYige3sW+ATSE3mZ99j+NwLHluo2nx57ndNjRsVYwkzGCYfQTMGw8BwuT
+         C9zG8kR09fHonW6UOGhad+VHyQvoNe8BWX7GzJ5uWAlBjh5eQrmfWcqm+iFjUPHbwmYI
+         qWaAMDhr8N+UhLcBFg5amemrFhePH6aBpib9sje6mLPCrMSigMawd8eZHzB7Npxucevl
+         fINlQahiqqGtjt9dISp38QNf+JWllymDNXGAfuFqsbGSqoK/6EBIoND2GCucu1tnOXHM
+         aUkGz/NGEt7U+6MaTQiNmmd52NV4QxLZrnCU1Ns6g8S4CLSqWsVgl9ib3GUdfLLBBlzs
+         bXbQ==
+X-Gm-Message-State: AAQBX9eDXRDhJzZDRT9sjWwJ2dcU5+mPzBcURgB9FUu2bfCwNHovm9Iv
+        WlTfnuNpmv2/NwuJsopaJ9k4ZRTolXI=
+X-Google-Smtp-Source: AKy350adYwZ2tMS6/aINbpRHWU2upOjKpcv+V0eiAolEaez7cReLwzPlmEqDWjL60giadZTX9sxsCA==
+X-Received: by 2002:a2e:9a90:0:b0:295:ba22:360 with SMTP id p16-20020a2e9a90000000b00295ba220360mr524428lji.42.1680861411435;
+        Fri, 07 Apr 2023 02:56:51 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:16f3:4a00::1? (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
+        by smtp.gmail.com with ESMTPSA id v12-20020a2e9f4c000000b00295a583a20bsm722163ljk.74.2023.04.07.02.56.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Apr 2023 02:56:51 -0700 (PDT)
+Message-ID: <fafac053-6009-562e-8e29-ee6435a3c8d1@gmail.com>
+Date:   Fri, 7 Apr 2023 12:56:50 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -1.0 (-)
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hns@goldelico.com
+References: <20230406060825.103187-1-andreas@kemnade.info>
+ <20230406060825.103187-3-andreas@kemnade.info>
+ <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
+ <20230406214539.59dfaac7@aktux>
+Content-Language: en-US, en-GB
+From:   Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
+ LED driver
+In-Reply-To: <20230406214539.59dfaac7@aktux>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The device provides 6 channels which can be individually
-turned off and on but groups of two channels share a common brightness
-register.
+On 4/6/23 22:45, Andreas Kemnade wrote:
+> On Thu, 6 Apr 2023 11:57:15 +0300
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> 
+> [...]
+> 
+>>
+>>> + */
+>>> +
+>>> +#include <linux/i2c.h>
+>>> +#include <linux/leds.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/of.h>
+>>> +#include <linux/of_device.h>
+>>> +#include <linux/regmap.h>
+>>> +#include <linux/slab.h>
+>>> +
+>>> +#define BD2606_MAX_LEDS 6
+>>> +#define BD2606_MAX_BRIGHTNESS 63
+>>> +#define BD2606_REG_PWRCNT 3
+>>> +#define ldev_to_led(c)	container_of(c, struct bd2606mvv_led, ldev)
+>>> +
+>>> +struct bd2606mvv_led {
+>>> +	bool active;
+>>
+>> I didn't spot where this 'active' was used?
+>>
+> [..]
+> 
+>>> +		if (reg < 0 || reg >= BD2606_MAX_LEDS ||
+>>> +		    priv->leds[reg].active) {
+> 
+> here
+> 
+>>> +			of_node_put(child);
+>>> +			return -EINVAL;
+>>> +		}
+>>> +		led = &priv->leds[reg];
+>>> +
+>>> +		led->active = true;
+> 
+> and here
 
-Limitation: The GPIO to enable the device is not used yet.
+Oh, right. So, if I read this correctly, "active" is only used in the 
+probe for checking if same 'reg' is given for mone than one LEDs.
 
-Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
----
- drivers/leds/Kconfig          |  11 +++
- drivers/leds/Makefile         |   1 +
- drivers/leds/leds-bd2606mvv.c | 143 ++++++++++++++++++++++++++++++++++
- 3 files changed, 155 insertions(+)
- create mode 100644 drivers/leds/leds-bd2606mvv.c
+If the 'active' is not used after probe then I'd prefer limiting the 
+life-time to probe. Perhaps drop this from the allocated private data 
+and just take it from the stack and let it go when probe is done?
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 9dbce09eabacf..cc4eadbb2542e 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -551,6 +551,17 @@ config LEDS_REGULATOR
- 	help
- 	  This option enables support for regulator driven LEDs.
- 
-+config LEDS_BD2606MVV
-+	tristate "LED driver for BD2606MVV"
-+	depends on LEDS_CLASS
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This option enables support for BD2606MVV LED driver chips
-+	  accessed via the I2C bus. It supports setting brightness, with
-+	  the limitiation that there are groups of two channels sharing
-+	  a brightness setting, but not the on/off setting.
-+
- config LEDS_BD2802
- 	tristate "LED driver for BD2802 RGB LED"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index d30395d11fd84..c07d1512c745a 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -17,6 +17,7 @@ obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
- obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
- obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
-+obj-$(CONFIG_LEDS_BD2606MVV)		+= leds-bd2606mvv.o
- obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
- obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
- obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
-diff --git a/drivers/leds/leds-bd2606mvv.c b/drivers/leds/leds-bd2606mvv.c
-new file mode 100644
-index 0000000000000..808100e50487c
---- /dev/null
-+++ b/drivers/leds/leds-bd2606mvv.c
-@@ -0,0 +1,143 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 Andreas Kemnade
-+ *
-+ * Datasheet:
-+ * https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/led_driver/bd2606mvv_1-e.pdf
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+
-+#define BD2606_MAX_LEDS 6
-+#define BD2606_MAX_BRIGHTNESS 63
-+#define BD2606_REG_PWRCNT 3
-+#define ldev_to_led(c)	container_of(c, struct bd2606mvv_led, ldev)
-+
-+struct bd2606mvv_led {
-+	bool active;
-+	unsigned int led_no;
-+	struct led_classdev ldev;
-+	struct bd2606mvv_priv *priv;
-+};
-+
-+struct bd2606mvv_priv {
-+	struct bd2606mvv_led leds[BD2606_MAX_LEDS];
-+	struct regmap *regmap;
-+};
-+
-+static int
-+bd2606mvv_brightness_set(struct led_classdev *led_cdev,
-+		      enum led_brightness brightness)
-+{
-+	struct bd2606mvv_led *led = ldev_to_led(led_cdev);
-+	struct bd2606mvv_priv *priv = led->priv;
-+	int err;
-+
-+	if (brightness == 0)
-+		return regmap_update_bits(priv->regmap,
-+					  BD2606_REG_PWRCNT,
-+					  1 << led->led_no,
-+					  0);
-+
-+	/* shared brightness register */
-+	err = regmap_write(priv->regmap, led->led_no / 2,
-+			   brightness);
-+	if (err)
-+		return err;
-+
-+	return regmap_update_bits(priv->regmap,
-+				  BD2606_REG_PWRCNT,
-+				  1 << led->led_no,
-+				  1 << led->led_no);
-+}
-+
-+static const struct regmap_config bd2606mvv_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x3,
-+};
-+
-+static int bd2606mvv_probe(struct i2c_client *client)
-+{
-+	struct fwnode_handle *np, *child;
-+	struct device *dev = &client->dev;
-+	struct bd2606mvv_priv *priv;
-+	int err, reg;
-+
-+	np = dev_fwnode(dev);
-+	if (!np)
-+		return -ENODEV;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->regmap = devm_regmap_init_i2c(client, &bd2606mvv_regmap);
-+	if (IS_ERR(priv->regmap)) {
-+		err = PTR_ERR(priv->regmap);
-+		dev_err(dev, "Failed to allocate register map: %d\n", err);
-+		return err;
-+	}
-+
-+	i2c_set_clientdata(client, priv);
-+
-+	fwnode_for_each_available_child_node(np, child) {
-+		struct bd2606mvv_led *led;
-+		struct led_init_data init_data = {};
-+
-+		init_data.fwnode = child;
-+
-+		err = fwnode_property_read_u32(child, "reg", &reg);
-+		if (err) {
-+			fwnode_handle_put(child);
-+			return err;
-+		}
-+		if (reg < 0 || reg >= BD2606_MAX_LEDS ||
-+		    priv->leds[reg].active) {
-+			fwnode_handle_put(child);
-+			return -EINVAL;
-+		}
-+		led = &priv->leds[reg];
-+
-+		led->active = true;
-+		led->priv = priv;
-+		led->led_no = reg;
-+		led->ldev.brightness_set_blocking = bd2606mvv_brightness_set;
-+		led->ldev.max_brightness = BD2606_MAX_BRIGHTNESS;
-+		err = devm_led_classdev_register_ext(dev, &led->ldev,
-+						     &init_data);
-+		if (err < 0) {
-+			fwnode_handle_put(child);
-+			return dev_err_probe(dev, err,
-+					     "couldn't register LED %s\n",
-+					     led->ldev.name);
-+		}
-+	}
-+	return 0;
-+}
-+
-+static const struct of_device_id __maybe_unused of_bd2606mvv_leds_match[] = {
-+	{ .compatible = "rohm,bd2606mvv", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_bd2606mvv_leds_match);
-+
-+static struct i2c_driver bd2606mvv_driver = {
-+	.driver   = {
-+		.name    = "leds-bd2606mvv",
-+		.of_match_table = of_match_ptr(of_bd2606mvv_leds_match),
-+	},
-+	.probe_new = bd2606mvv_probe,
-+};
-+
-+module_i2c_driver(bd2606mvv_driver);
-+
-+MODULE_AUTHOR("Andreas Kemnade <andreas@kemnade.info>");
-+MODULE_DESCRIPTION("BD2606 LED driver");
-+MODULE_LICENSE("GPL");
+This is a minor thing but if there will be other reason(s) to re-spin, 
+then this might be changed?
+
+Yours,
+	-- Matti
+
 -- 
-2.39.2
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
