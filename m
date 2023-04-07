@@ -2,72 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE116DAB1F
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 11:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C69D6DAB2B
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Apr 2023 12:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233311AbjDGJ45 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Apr 2023 05:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
+        id S231825AbjDGKAi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Apr 2023 06:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231563AbjDGJ44 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 05:56:56 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CA37ECB;
-        Fri,  7 Apr 2023 02:56:53 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id bx10so24765678ljb.8;
-        Fri, 07 Apr 2023 02:56:53 -0700 (PDT)
+        with ESMTP id S229437AbjDGKAh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Apr 2023 06:00:37 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1961A86A6;
+        Fri,  7 Apr 2023 03:00:36 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id g29so4033340lfj.4;
+        Fri, 07 Apr 2023 03:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680861411;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IMmt0J7ORv2kNOivTrzHCNzDsNn+ORI7SQCDfabUQlQ=;
-        b=eNPnkVGvBbGr9Btxvn/s9UijDefC/i/wn3RTw621S4TZ5aZ0BfwJNXwW4fy2AylBQ4
-         RP8Yy6IKobIQrGZClMZumuo4PM7YX5n84HpT7Bn665/AHIXRoe2yONpfxMGUlfjXOFog
-         1H/fY3/qfzNFw1AC1JbXxf3Tu0CmG3/6sqKd119Cd22sTotw7zkk0MzzxGRwcy16whfR
-         sg+KRqXXd7x/d8mrXUJge4mhBXIgdwWnLV8zo3cdHAR10l1FXUUBTftONJgzrTKeh37m
-         LCK731eIzVgbZld3/Np9RXN44ukaWvEDgg0btTzFAIqhGxEYw3sHlmy/nqIT4xthpONi
-         LIRA==
+        d=gmail.com; s=20210112; t=1680861634;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k9Uv4dBullqwaEvWpSMa741x7XB8RZ1FWzbpdovf4yI=;
+        b=pdMRUv6nowvbax6f/6dhM8UbNt4LZ9EMpl0SnhFs692TIuzByIW6pdMWdUuy8wZsfl
+         4S0QnVlUE4bFlbW1RXb8Twe6JW4SaUD2Bri6gvdwfBkIhLfL1IcTWX/ZfCE7HZlChjgy
+         Of062T3yqn6N+k6kcyD5tqdfnFbQpM3XqZ6Al0ov2qStjpLMlUQSgGodRNyLgYCiwl5p
+         o6Q5uBB65W3pKS/Hr6yn7o++rwNSJQr3Lep8r8FJGaxLWdZoyslOypBQlliUR/FhklXW
+         nrgkpr13EmUshyRRtVzJz7LS2Ec132LvU/2fXlehjgsYieaanCT8Qcf4Z64kI+JnlbNP
+         l2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680861411;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1680861634;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IMmt0J7ORv2kNOivTrzHCNzDsNn+ORI7SQCDfabUQlQ=;
-        b=UO5O7MeqmxYige3sW+ATSE3mZ99j+NwLHluo2nx57ndNjRsVYwkzGCYfQTMGw8BwuT
-         C9zG8kR09fHonW6UOGhad+VHyQvoNe8BWX7GzJ5uWAlBjh5eQrmfWcqm+iFjUPHbwmYI
-         qWaAMDhr8N+UhLcBFg5amemrFhePH6aBpib9sje6mLPCrMSigMawd8eZHzB7Npxucevl
-         fINlQahiqqGtjt9dISp38QNf+JWllymDNXGAfuFqsbGSqoK/6EBIoND2GCucu1tnOXHM
-         aUkGz/NGEt7U+6MaTQiNmmd52NV4QxLZrnCU1Ns6g8S4CLSqWsVgl9ib3GUdfLLBBlzs
-         bXbQ==
-X-Gm-Message-State: AAQBX9eDXRDhJzZDRT9sjWwJ2dcU5+mPzBcURgB9FUu2bfCwNHovm9Iv
-        WlTfnuNpmv2/NwuJsopaJ9k4ZRTolXI=
-X-Google-Smtp-Source: AKy350adYwZ2tMS6/aINbpRHWU2upOjKpcv+V0eiAolEaez7cReLwzPlmEqDWjL60giadZTX9sxsCA==
-X-Received: by 2002:a2e:9a90:0:b0:295:ba22:360 with SMTP id p16-20020a2e9a90000000b00295ba220360mr524428lji.42.1680861411435;
-        Fri, 07 Apr 2023 02:56:51 -0700 (PDT)
+        bh=k9Uv4dBullqwaEvWpSMa741x7XB8RZ1FWzbpdovf4yI=;
+        b=QDXxumFfiSQNAFnjLRng444vdGdfX+/t6WjFapDaccITAUaw1T219wBUXPnWABR7bH
+         /HEu2mOpCrLgZIx8DH81pkE9pjxa/0VyE2Dt/a4frN/uWW87Z4rl0W0RvGunVp2gl/+e
+         OYnlK9dnK92BP/Yv/VPTTYHD1xMLybqjscNqei8dKyF0mse1Tyac8vSaWVUsgdnNGyUx
+         9S5Po2F85ZeHy68xrnb4bjtVtMPODoUymHBVEbmcnWdVQClUk3ZA5JLLGPdibRlXQybR
+         lsNNnvvEro4VlxfS4saa7ksznh9zHB0bFqT8ieX8GAqz7Sffvfmh3xZCJTItcRVQ2571
+         PyLQ==
+X-Gm-Message-State: AAQBX9e8IhpvvylugipPrZTxK0Cmh4TXcxuda6qIIafsaRMBSgnjVmPG
+        doVT6O0DBCq03mFuH5N2JLC049dqdDQ=
+X-Google-Smtp-Source: AKy350b0KhClS9yLNLFOtzH8aMqtUdI47E+vaOk918E/fzp7OoFi6BercWVHoUaKx+XLT/Yhs8KDjw==
+X-Received: by 2002:ac2:4a81:0:b0:4eb:336c:f10 with SMTP id l1-20020ac24a81000000b004eb336c0f10mr536517lfp.57.1680861634047;
+        Fri, 07 Apr 2023 03:00:34 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:16f3:4a00::1? (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id v12-20020a2e9f4c000000b00295a583a20bsm722163ljk.74.2023.04.07.02.56.50
+        by smtp.gmail.com with ESMTPSA id q7-20020ac24a67000000b004eb3b752e10sm622858lfp.133.2023.04.07.03.00.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Apr 2023 02:56:51 -0700 (PDT)
-Message-ID: <fafac053-6009-562e-8e29-ee6435a3c8d1@gmail.com>
-Date:   Fri, 7 Apr 2023 12:56:50 +0300
+        Fri, 07 Apr 2023 03:00:33 -0700 (PDT)
+Message-ID: <4fed5a73-74f1-4101-bbdb-b319f6435060@gmail.com>
+Date:   Fri, 7 Apr 2023 13:00:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hns@goldelico.com
-References: <20230406060825.103187-1-andreas@kemnade.info>
- <20230406060825.103187-3-andreas@kemnade.info>
- <7d8c558f-0d21-91ed-ecd0-cac079d366ee@gmail.com>
- <20230406214539.59dfaac7@aktux>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: ROHM BD2606MVV LED driver
 Content-Language: en-US, en-GB
+To:     Andreas Kemnade <andreas@kemnade.info>, pavel@ucw.cz,
+        lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230407050803.170773-1-andreas@kemnade.info>
+ <20230407050803.170773-2-andreas@kemnade.info>
 From:   Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
- LED driver
-In-Reply-To: <20230406214539.59dfaac7@aktux>
+In-Reply-To: <20230407050803.170773-2-andreas@kemnade.info>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -80,58 +76,13 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/6/23 22:45, Andreas Kemnade wrote:
-> On Thu, 6 Apr 2023 11:57:15 +0300
-> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+On 4/7/23 08:08, Andreas Kemnade wrote:
+> Document ROHM BD2606MVV LED driver devicetree bindings.
 > 
-> [...]
-> 
->>
->>> + */
->>> +
->>> +#include <linux/i2c.h>
->>> +#include <linux/leds.h>
->>> +#include <linux/module.h>
->>> +#include <linux/of.h>
->>> +#include <linux/of_device.h>
->>> +#include <linux/regmap.h>
->>> +#include <linux/slab.h>
->>> +
->>> +#define BD2606_MAX_LEDS 6
->>> +#define BD2606_MAX_BRIGHTNESS 63
->>> +#define BD2606_REG_PWRCNT 3
->>> +#define ldev_to_led(c)	container_of(c, struct bd2606mvv_led, ldev)
->>> +
->>> +struct bd2606mvv_led {
->>> +	bool active;
->>
->> I didn't spot where this 'active' was used?
->>
-> [..]
-> 
->>> +		if (reg < 0 || reg >= BD2606_MAX_LEDS ||
->>> +		    priv->leds[reg].active) {
-> 
-> here
-> 
->>> +			of_node_put(child);
->>> +			return -EINVAL;
->>> +		}
->>> +		led = &priv->leds[reg];
->>> +
->>> +		led->active = true;
-> 
-> and here
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
-Oh, right. So, if I read this correctly, "active" is only used in the 
-probe for checking if same 'reg' is given for mone than one LEDs.
-
-If the 'active' is not used after probe then I'd prefer limiting the 
-life-time to probe. Perhaps drop this from the allocated private data 
-and just take it from the stack and let it go when probe is done?
-
-This is a minor thing but if there will be other reason(s) to re-spin, 
-then this might be changed?
+FWIW:
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
 Yours,
 	-- Matti
