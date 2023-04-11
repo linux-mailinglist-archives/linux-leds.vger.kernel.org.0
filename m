@@ -2,61 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3996DD480
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Apr 2023 09:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35E0B6DDBF7
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Apr 2023 15:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbjDKHmq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Apr 2023 03:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60294 "EHLO
+        id S229459AbjDKNWK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Apr 2023 09:22:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbjDKHma (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Apr 2023 03:42:30 -0400
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C83E3C15
-        for <linux-leds@vger.kernel.org>; Tue, 11 Apr 2023 00:42:23 -0700 (PDT)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id 97E9983318; Tue, 11 Apr 2023 08:41:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1681198918; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=L6lbQXz+Ernz9xiVC3ObyO0m5t5fJZj6TjCUKTPoD2poPJdxoNAA7KNWuWw7iY6zj
-         J0q9EnGd9FqtS4oxUbPocbMvymuoHXfZCpnbaIZKWAOkL5F/u8QphZOKsBiwaXr5Ly
-         nJiReMSSt4lXVPH5oHupSNseBddfYmT6fKbhZ4fGiUVxpR3RqoEXHaF1IYn2cVO0xl
-         lPXEzfDNbJvrsymsAqHjtSYvmM5sSWGHX+fTxIwtmA+L8Ph8y6zyvTrDXohWwp434N
-         7r0XDIWLlkwcmiCHkPOFmCVECf2FYx/9yw1bpWUO2An0iUeiufG52ZWEniZ23icJTB
-         6YF4qapDfAOkg==
-Received: by mail.lokoho.com for <linux-leds@vger.kernel.org>; Tue, 11 Apr 2023 07:40:45 GMT
-Message-ID: <20230411074501-0.1.58.1tiop.0.0o33n9i9kh@lokoho.com>
-Date:   Tue, 11 Apr 2023 07:40:45 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        with ESMTP id S229822AbjDKNWI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Apr 2023 09:22:08 -0400
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F6E4C04;
+        Tue, 11 Apr 2023 06:22:07 -0700 (PDT)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-18436e0b673so8895994fac.0;
+        Tue, 11 Apr 2023 06:22:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681219326; x=1683811326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AhT76dWlGbZN1saBWhMJ1k3SMLFpUczlzkPHRiA3NAI=;
+        b=D73h0CKmfakbmG4DD1zpHHaOCHV8hNn6fZozRLS1fi7v6ue7q8qNfEgFFy7hiDiKX2
+         9a7wRW5cXJI1rNeeGKpiQ5HyQiWbXxck7Rnx49/pYzH7J8XT9RpB0aVtY260AtFLVuVG
+         nV06PiPkVFpHPNJUjICEe26JN/o+pXZCq00Zg7pI1FJVSle5jvgpEe+ZJG4TfKT5HIR/
+         /HDzQZiaD0SSf8jMrpDIFv2GoukDMgtg4bsQ+m42hnVSP+6dB/qDFnM1MByWtTmelP+E
+         cfy/Nn+OdAL5AXp+Ho1FdR3DCQg7AijsX3vOkhmYfjjQfebXMyeLd36c1dO9lnGJEwmS
+         HwYQ==
+X-Gm-Message-State: AAQBX9fXR5etXpX9YEfbqA1DqnclIZKhOdQUfWu0VGaHCaeSyLG+26rr
+        bno4+JgCF4SbJ4KwRoF1mJLNrdfv6Q==
+X-Google-Smtp-Source: AKy350ZMHvdKF48Cu62dwhIbauF39htYOgUbpv/Vdsk4LwA0SaPq24v7ep3XkOUrjpyJXJ31EkcTDA==
+X-Received: by 2002:a05:6870:40d0:b0:184:534f:5e7 with SMTP id l16-20020a05687040d000b00184534f05e7mr2757137oal.35.1681219326217;
+        Tue, 11 Apr 2023 06:22:06 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g4-20020a056870d20400b0018045663fc5sm5100803oac.48.2023.04.11.06.22.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 06:22:05 -0700 (PDT)
+Received: (nullmailer pid 2920199 invoked by uid 1000);
+        Tue, 11 Apr 2023 13:22:04 -0000
+Date:   Tue, 11 Apr 2023 08:22:04 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Maarten Zanders <maarten.zanders@mind.be>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v7 1/2] dt-bindings: leds-lp55xx: add ti,charge-pump-mode
+Message-ID: <20230411132204.GA2918042-robh@kernel.org>
+References: <20230407102324.42604-1-maarten.zanders@mind.be>
+ <20230407102324.42604-2-maarten.zanders@mind.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407102324.42604-2-maarten.zanders@mind.be>
+X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Fri, Apr 07, 2023 at 12:23:23PM +0200, Maarten Zanders wrote:
+> Add a binding to configure the internal charge pump for lp55xx.
+> 
+> Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> 
+> Notes:
+>     v1: implement as bool to disable charge pump
+>     v2: rewrite to use string configuration, supporting all modes
+>     v3: simplification by replacing string option by u8 constant,
+>         removing previous Reviewed-by tags as it's a complete
+>         rewrite of the patch.
+>     v4: added notes
+>     v5: dual license, change property type to u32
+>     v6: change license type for leds-lp-55xx.h to preferred tag
+> 
+>  .../devicetree/bindings/leds/leds-lp55xx.yaml          |  8 ++++++++
+>  include/dt-bindings/leds/leds-lp55xx.h                 | 10 ++++++++++
+>  2 files changed, 18 insertions(+)
+>  create mode 100644 include/dt-bindings/leds/leds-lp55xx.h
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> index ae607911f1db..ede9cb9ca175 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> @@ -66,6 +66,12 @@ properties:
+>    '#size-cells':
+>      const: 0
+>  
+> +  ti,charge-pump-mode:
+> +    description:
+> +      Set the operating mode of the internal charge pump as defined in
+> +      <dt-bindings/leds/leds-lp55xx.h>. Defaults to auto.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Needs constraints:
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+default: 3  # Auto
+maximum: 3
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam
-Adam Charachuta
+> +
+>  patternProperties:
+>    '^multi-led@[0-8]$':
+>      type: object
+> @@ -152,6 +158,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/leds/common.h>
+> +    #include <dt-bindings/leds/leds-lp55xx.h>
+>  
+>      i2c {
+>          #address-cells = <1>;
+> @@ -164,6 +171,7 @@ examples:
+>              reg = <0x32>;
+>              clock-mode = /bits/ 8 <2>;
+>              pwr-sel = /bits/ 8 <3>;	/* D1~9 connected to VOUT */
+> +            ti,charge-pump-mode = <LP55XX_CP_BYPASS>;
+>  
+>              led@0 {
+>                  reg = <0>;
+> diff --git a/include/dt-bindings/leds/leds-lp55xx.h b/include/dt-bindings/leds/leds-lp55xx.h
+> new file mode 100644
+> index 000000000000..a4fb4567715d
+> --- /dev/null
+> +++ b/include/dt-bindings/leds/leds-lp55xx.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +#ifndef _DT_BINDINGS_LEDS_LP55XX_H
+> +#define _DT_BINDINGS_LEDS_LP55XX_H
+> +
+> +#define LP55XX_CP_OFF		0
+> +#define LP55XX_CP_BYPASS	1
+> +#define LP55XX_CP_BOOST		2
+> +#define LP55XX_CP_AUTO		3
+> +
+> +#endif /* _DT_BINDINGS_LEDS_LP55XX_H */
+> -- 
+> 2.37.3
+> 
