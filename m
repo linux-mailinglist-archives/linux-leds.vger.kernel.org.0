@@ -2,198 +2,252 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0166DF112
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Apr 2023 11:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8576DF8F6
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Apr 2023 16:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbjDLJvj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Apr 2023 05:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
+        id S231708AbjDLOvQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Apr 2023 10:51:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbjDLJvg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Apr 2023 05:51:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668FF6A49;
-        Wed, 12 Apr 2023 02:51:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AC676326C;
-        Wed, 12 Apr 2023 09:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C3CC4339C;
-        Wed, 12 Apr 2023 09:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681293074;
-        bh=xFxPIGIGrRbwMnk/0zPROUNRBCfo1iBn9+kOWVdE0ns=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VVJjV1/2DR71czIubDXSUSbaIS1KVNV0eFUNEhG0x7VkGmKFizB6SY7spcordXVBB
-         h2ztd8SdkqfII9vEc/BLcFojKNw3qMllFhWOi7VlEtBgQRqisxYRGirkLkRnoB3Nkh
-         Jdu7pnHOSMdtlWwSKeYCQwT1NWOr2Y/lTujEn+sl9n9mY/nZEqjNOKXkwamRjL71u+
-         UcWraCghKAu8RVF7SiaE71STaBF7LWxBrWaRaT1ku3i+EVPlRPV4o++0Pkhg1ur1Bf
-         kWDIiGXJNZzDayHGgHQ6nIFy6SqVMd88DG1loXfw4B7OoKJAQucR/VJJUgZCOtMmwD
-         s1LAXNGNPEZCQ==
-Date:   Wed, 12 Apr 2023 10:51:09 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] leds: max597x: Add support for max597x
-Message-ID: <20230412095109.GY8371@google.com>
-References: <20230328094416.3851801-1-Naresh.Solanki@9elements.com>
- <20230328094416.3851801-2-Naresh.Solanki@9elements.com>
- <20230405150706.GM8371@google.com>
- <375c6a74-c664-6ecc-cdcd-20cfa4568cd1@9elements.com>
+        with ESMTP id S231686AbjDLOvO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Apr 2023 10:51:14 -0400
+X-Greylist: delayed 1802 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Apr 2023 07:51:10 PDT
+Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97306659A
+        for <linux-leds@vger.kernel.org>; Wed, 12 Apr 2023 07:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+        q=dns/txt; i=@phytec.de; t=1681308364; x=1683900364;
+        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WrFn9iDbaV5x+FOAg2G6WdULkedjfTsa5Xa3aWRozy8=;
+        b=ln7NV5u4bPOkbVIEo4bVSySZ1QkcNe16fZW1WSzLKfCNTcZ/pS57pIUyAATD23PO
+        lRD1Ki/V0SzbJ7c+jgBfQsPhM/G1pWbmXJBRrTOhxDgWRyW1KzIk0dQGwO5eB72s
+        QoUgO3c208CwvmNyc7799BVuGoGOMGo6n7NYaBpeQdE=;
+X-AuditID: ac14000a-917fe70000007ecb-cc-6436bacc0738
+Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
+        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id B4.6A.32459.CCAB6346; Wed, 12 Apr 2023 16:06:04 +0200 (CEST)
+Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
+ (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 12 Apr
+ 2023 16:06:19 +0200
+From:   Wadim Egorov <w.egorov@phytec.de>
+To:     <upstream@lists.phytec.de>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>
+CC:     <riku.voipio@iki.fi>, <krzysztof.kozlowski+dt@linaro.org>,
+        <robh+dt@kernel.org>, <lee@kernel.org>, <pavel@ucw.cz>
+Subject: [PATCH v3] dt-bindings: leds: Convert PCA9532 to dtschema
+Date:   Wed, 12 Apr 2023 16:05:51 +0200
+Message-ID: <20230412140552.451527-1-w.egorov@phytec.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <375c6a74-c664-6ecc-cdcd-20cfa4568cd1@9elements.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [172.25.0.11]
+X-ClientProxiedBy: Berlix.phytec.de (172.25.0.12) To Berlix.phytec.de
+ (172.25.0.12)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBLMWRmVeSWpSXmKPExsWyRpKBR/fMLrMUg3+TBSzmHznHatH34iGz
+        xY62hSwWl3fNYbPY+mYdo8XdU0fZLE5uuMRm0br3CLtF9zt1B06Pw18XsnhsWtXJ5nHn2h42
+        j/7uFlaPFau/s3t83iQXwBbFZZOSmpNZllqkb5fAlfF6zQfmgkWaFYu3NbM2MK6S72Lk5JAQ
+        MJGYu+IJUxcjF4eQwBImiX2XL7JDOE8YJSasmcACUsUmoC5xZ8M3VhBbRKBG4venX4wgNrNA
+        uUT7l5lADRwcwgJOElsOe4GEWQRUJTau7mMHsXkFLCTab+9jgVgmLzHz0neouKDEyZlPWCDG
+        yEs0b53NDGFLSBx88QLMFgKKv7i0HK532rnXzBB2qMTWL9uZJjAKzEIyahaSUbOQjFrAyLyK
+        USg3Mzk7tSgzW68go7IkNVkvJXUTIyj0RRi4djD2zfE4xMjEwXiIUYKDWUmE94eLaYoQb0pi
+        ZVVqUX58UWlOavEhRmkOFiVx3vs9TIlCAumJJanZqakFqUUwWSYOTqkGxlCO2ku3Mk0/fLFp
+        PrYyT2xKSOuFttO/PZ9N3L3hjAGfyOvjXf+PJMwwTdwZXOVj+oIv4V7/HbV9EsdeZpsuZT67
+        chPTRP2yFbV6LdvPfKrn+ZmwqNXC4vEX8SWTIyauWm1++dMSMYcbBk/UjPY9t19gtVM0fXJW
+        yKJ/d9j0b4vk7spSeGa18aQSS3FGoqEWc1FxIgDqLQHcawIAAA==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 12 Apr 2023, Naresh Solanki wrote:
+Convert the PCA9532 LED Dimmer to dtschema.
+While at it, update the example to match recommended node names and
+the link to the product datasheet. Also add GPIO properties since
+the driver allows to use unused pins as GPIOs.
 
-> Hi Lee,
->
-> On 05-04-2023 08:37 pm, Lee Jones wrote:
-> > On Tue, 28 Mar 2023, Naresh Solanki wrote:
-> >
-> > > From: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > >
-> > > max597x is hot swap controller with indicator LED support.
-> > > This driver uses DT property to configure led during boot time &
-> > > also provide the LED control in sysfs.
-> > >
-> > > DTS example:
-> > >      i2c {
-> > >          #address-cells = <1>;
-> > >          #size-cells = <0>;
-> > >          regulator@3a {
-> > >              compatible = "maxim,max5978";
-> > >              reg = <0x3a>;
-> > >              vss1-supply = <&p3v3>;
-> > >
-> > >              regulators {
-> > >                  sw0_ref_0: sw0 {
-> > >                      shunt-resistor-micro-ohms = <12000>;
-> > >                  };
-> > >              };
-> > >
-> > >              leds {
-> > >                  #address-cells = <1>;
-> > >                  #size-cells = <0>;
-> > >                  led@0 {
-> > >                      reg = <0>;
-> > >                      label = "led0";
-> > >                      default-state = "on";
-> > >                  };
-> > >                  led@1 {
-> > >                      reg = <1>;
-> > >                      label = "led1";
-> > >                      default-state = "on";
-> > >                  };
-> > >              };
-> > >          };
-> > >      };
-> > >
-> > > Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> > > ...
-> > > Changes in V3:
-> > > - Remove of_node_put as its handled by for loop
-> > > - Print error if an LED fails to register.
-> > > - Update driver name in Kconfig description
-> > > - Remove unneeded variable assignment
-> > > - Use devm_led_classdev_register to reget led
-> > > Changes in V2:
-> > > - Fix regmap update
-> > > - Remove devm_kfree
-> > > - Remove default-state
-> > > - Add example dts in commit message
-> > > - Fix whitespace in Kconfig
-> > > - Fix comment
-> > > ---
-> > >   drivers/leds/Kconfig        |  11 ++++
-> > >   drivers/leds/Makefile       |   1 +
-> > >   drivers/leds/leds-max597x.c | 112 ++++++++++++++++++++++++++++++++++++
-> > >   3 files changed, 124 insertions(+)
-> > >   create mode 100644 drivers/leds/leds-max597x.c
+Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+---
+v3:
+  - Add gpio-controller & gpio-cells property, fixes
+    arch/arm/boot/dts/lpc3250-ea3250.dtb: pca9532@60: '#gpio-cells', 'gpio-controller'
+    do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
 
-[...]
+v2:
+  - Rename yaml file to match compatibles, nxp,pca953x.yaml
+  - Remove Jacek Anaszewski from maintainers list
+  - Remove color labels in example
+  - Restore labels/default-states from original example
+  - Drop reg description
+  - Add unevaluatedProperties to patternProperties scope
+  - Update description of type property & set default to 0
+  - Fix indentation in example
+---
+ .../devicetree/bindings/leds/leds-pca9532.txt | 49 ----------
+ .../devicetree/bindings/leds/nxp,pca953x.yaml | 90 +++++++++++++++++++
+ 2 files changed, 90 insertions(+), 49 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
 
-> > > +
-> > > +static int max597x_led_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct device_node *np = dev_of_node(pdev->dev.parent);
-> >
-> > Why not have your own compatible string?
-> This is leaf driver & MFD driver does has compatible string.
+diff --git a/Documentation/devicetree/bindings/leds/leds-pca9532.txt b/Documentation/devicetree/bindings/leds/leds-pca9532.txt
+deleted file mode 100644
+index f769c52e3643..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-pca9532.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-*NXP - pca9532 PWM LED Driver
+-
+-The PCA9532 family is SMBus I/O expander optimized for dimming LEDs.
+-The PWM support 256 steps.
+-
+-Required properties:
+-	- compatible:
+-		"nxp,pca9530"
+-		"nxp,pca9531"
+-		"nxp,pca9532"
+-		"nxp,pca9533"
+-	- reg -  I2C slave address
+-
+-Each led is represented as a sub-node of the nxp,pca9530.
+-
+-Optional sub-node properties:
+-	- label: see Documentation/devicetree/bindings/leds/common.txt
+-	- type: Output configuration, see dt-bindings/leds/leds-pca9532.h (default NONE)
+-	- linux,default-trigger: see Documentation/devicetree/bindings/leds/common.txt
+-	- default-state: see Documentation/devicetree/bindings/leds/common.txt
+-	  This property is only valid for sub-nodes of type <PCA9532_TYPE_LED>.
+-
+-Example:
+-  #include <dt-bindings/leds/leds-pca9532.h>
+-
+-  leds: pca9530@60 {
+-    compatible = "nxp,pca9530";
+-    reg = <0x60>;
+-
+-    red-power {
+-      label = "pca:red:power";
+-      type = <PCA9532_TYPE_LED>;
+-    };
+-    green-power {
+-      label = "pca:green:power";
+-      type = <PCA9532_TYPE_LED>;
+-    };
+-    kernel-booting {
+-      type = <PCA9532_TYPE_LED>;
+-      default-state = "on";
+-    };
+-    sys-stat {
+-      type = <PCA9532_TYPE_LED>;
+-      default-state = "keep"; // don't touch, was set by U-Boot
+-    };
+-  };
+-
+-For more product information please see the link below:
+-http://nxp.com/documents/data_sheet/PCA9532.pdf
+diff --git a/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml b/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
+new file mode 100644
+index 000000000000..edf6f55df685
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
+@@ -0,0 +1,90 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/nxp,pca953x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP PCA9532 LED Dimmer
++
++maintainers:
++  - Riku Voipio <riku.voipio@iki.fi>
++
++description: |
++  The PCA9532 family is SMBus I/O expander optimized for dimming LEDs.
++  The PWM support 256 steps.
++
++  For more product information please see the link below:
++    https://www.nxp.com/docs/en/data-sheet/PCA9532.pdf
++
++properties:
++  compatible:
++    enum:
++      - nxp,pca9530
++      - nxp,pca9531
++      - nxp,pca9532
++      - nxp,pca9533
++
++  reg:
++    maxItems: 1
++
++  gpio-controller: true
++
++  '#gpio-cells':
++    const: 2
++
++patternProperties:
++  "^led-[0-9a-z]+$":
++    type: object
++    $ref: common.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      type:
++        description: |
++          Output configuration, see include/dt-bindings/leds/leds-pca9532.h
++        $ref: /schemas/types.yaml#/definitions/uint32
++        default: 0
++        minimum: 0
++        maximum: 4
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/leds-pca9532.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@62 {
++            compatible = "nxp,pca9533";
++            reg = <0x62>;
++
++            led-1 {
++                label = "pca:red:power";
++                type = <PCA9532_TYPE_LED>;
++            };
++
++            led-2 {
++                label = "pca:green:power";
++                type = <PCA9532_TYPE_LED>;
++            };
++
++            led-3 {
++                type = <PCA9532_TYPE_LED>;
++                default-state = "on";
++            };
++
++            led-4 {
++                type = <PCA9532_TYPE_LED>;
++                default-state = "keep";
++            };
++        };
++    };
++
++...
+-- 
+2.25.1
 
-I can see that, but why not give this driver it's own one?
-
-> > > +	struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> >
-> > These "big" API calls are usually done outside of the allocation block.
-> >
-> > Please move it to just above the check for !regmap.
-> >
-> > > +	struct device_node *led_node;
-> > > +	struct device_node *child;
-> > > +	int ret = 0;
-> >
-> > Is it okay for an LED driver to not to register any LEDs?
-> Yes. Usage of indication LED on the max5970/5978 is optional.
-> >
-> > Perhaps -ENODEV?
-> This driver is loaded only if MFD driver is included. remap is setup by MFD
-> driver & hence defer probe till MFD driver is loaded.
-> >
-> > > +	if (!regmap)
-> > > +		return -EPROBE_DEFER;
-> > > +
-> > > +	led_node = of_get_child_by_name(np, "leds");
-> > > +	if (!led_node)
-> > > +		return -ENODEV;
-> >
-> > Ah, that's better.  So set ret to -ENODEV and use it here.
-> Yes.
-> >
-> > > +	for_each_available_child_of_node(led_node, child) {
-> > > +		u32 reg;
-> > > +
-> > > +		if (of_property_read_u32(child, "reg", &reg))
-> > > +			continue;
-> > > +
-> > > +		if (reg >= MAX597X_NUM_LEDS) {
-> > > +			dev_err(&pdev->dev, "invalid LED (%u >= %d)\n", reg,
-> > > +				MAX597X_NUM_LEDS);
-> > > +			continue;
-> > > +		}
-> > > +
-> > > +		ret = max597x_setup_led(&pdev->dev, regmap, child, reg);
-> > > +		if (ret < 0)
-> > > +			dev_err(&pdev->dev, "Failed to initialize LED %u\n", reg);
-> >
-> > I think you (or I) are missing the point of the previous reviews.  It's
-> > not okay to error out and continue executing.  Either this is okay (you
-> > can warn and carry on) or it's not (return an error).  Your first
-> > submission suggested that this was an error.  In which case you do need
-> > to return.  I think Pavel was suggesting that you should unwind
-> > (de-register) before retuning, rather than leaving things in an odd
-> > half-registered state.  Not that you should blindly carry on as if the
-> > issue never occurred.
-> I did refer to other such implementations & some have used return on error &
-> some just print on error & continue. I felt that continue executing with
-> warning(on error) is better approach.
-
-I think it should fail fast and with certainty.
-
-
---
-Lee Jones [李琼斯]
