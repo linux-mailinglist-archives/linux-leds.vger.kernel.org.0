@@ -2,109 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CF946DEC42
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Apr 2023 09:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B5E6DED4D
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Apr 2023 10:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjDLHJe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Apr 2023 03:09:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S229995AbjDLIN6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Apr 2023 04:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjDLHJd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Apr 2023 03:09:33 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16D530CB
-        for <linux-leds@vger.kernel.org>; Wed, 12 Apr 2023 00:09:31 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id ud9so26130400ejc.7
-        for <linux-leds@vger.kernel.org>; Wed, 12 Apr 2023 00:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681283370;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n54EsJ6yBbWy+99Uq8T7kmBnGcEminZ4uU6Ei5e8CDw=;
-        b=Yqf1EPBTOZ6E/e8B3wH7y8kilH7wOx/YDPzcMYgkDkHg6XoH6we0FCCVeFIlJP6viL
-         xV0hggGkUu6ia9qBwd3YlRAGWezDlq/6taWf7xWR0RAPM/gj+fMp+/D1v+iG3RzeJn+C
-         cfnmuoDsobXw79fJEt2XgEhuteFqy9q4fLjdxDb28KR3L4uPInfgWZryIwboK1sIdTNc
-         UnSkvmVWQ9iqB1Gv3fHMrz4wD0eyEHdCnIxE4g0NxDvRgKUYo7UBE12iz9Wh9TEXoATo
-         QJAdMcJZiCy6QT1zK6y/MnV2x7h+U4uxkFcXpDczCQgmkauI6M9eVR68er3mv+qrEndG
-         SJfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681283370;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n54EsJ6yBbWy+99Uq8T7kmBnGcEminZ4uU6Ei5e8CDw=;
-        b=L/a0vwIioZItSBiK1e0OVfaMsPrjZ7Kp7gogMawFH2WuyhPn2GoS3266CbENp/rGmr
-         y0m6IVNRT8KqO9ChEX21cMXnmHdXgHlTBKUlfXSI7gOZPF2V966foy/DZlYzxoxwYR+P
-         VpEmBFZ+xPOTfmBBn9N3EvCYdApVw/+IWrmeAVxsG+/SVMbECkwwtPmJRC96ZhQrRmUS
-         ls6lr8Tt/+0IOZaD495ay3ba6LTGU5uQY1NjblIXmhvIhjg6ItW8XUOxYTi3ZjBvj+UP
-         fr+JElwiWvy91xLcEciWoTuuoHpbF+FDQlVDWvxZwCdGZxUp3qvJUkE7a+6+1BVUa5k+
-         waUw==
-X-Gm-Message-State: AAQBX9dlzlsC7qbgNlEoxOsNncUNS6HAYeax2k3jDA1f2PcSQaAqOwy+
-        cfBfmC+ugUmFvODac/6Fi+MjcQ==
-X-Google-Smtp-Source: AKy350Z75v3DcpypUUDdq/iWgi36nW75fEQMK+FCrPEJatNrxQGr1LgsdyYrMIRldRFqYcXRwkfjqw==
-X-Received: by 2002:a17:906:4a0d:b0:94a:70f0:6321 with SMTP id w13-20020a1709064a0d00b0094a70f06321mr8674129eju.61.1681283370186;
-        Wed, 12 Apr 2023 00:09:30 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:8fa0:9989:3f72:b14f? ([2a02:810d:15c0:828:8fa0:9989:3f72:b14f])
-        by smtp.gmail.com with ESMTPSA id xd4-20020a170907078400b0094a941ad8f0sm2667038ejb.193.2023.04.12.00.09.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Apr 2023 00:09:29 -0700 (PDT)
-Message-ID: <b4cfe598-f67c-23b4-8469-a5c487ae4e66@linaro.org>
-Date:   Wed, 12 Apr 2023 09:09:28 +0200
+        with ESMTP id S229957AbjDLINx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Apr 2023 04:13:53 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66B011A
+        for <linux-leds@vger.kernel.org>; Wed, 12 Apr 2023 01:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=gHdoHrLP3B5uWEgvrWOI9/6u9e832i3d/czzGbQzMOo=;
+        t=1681287231; x=1682496831; b=RmOyMI0KlFpmo9/81AuTXNj3Z99ugYh74qXSBNk0hjvrAMG
+        tZ4Q3MbR/1ZR4DXH4OGV25v7r8snxquJBXFDvUypa0dd3ujRSKAsK3SD9ZAeWYeAueqsbqGU/MVmc
+        dlldMvQHl11dzmMKfH7HOnssiy4z+VliHzvLzE9xkD4ojpHEkYWIAbXs9ltv45IKwz9ceiIUgx4/D
+        RhcjH+ypinCeWLaeuhTi8D87u6kcLJMLFBCRvTAR9B8RmmM5LGRjDdYDFJe7yzoK90BdivzmLKIda
+        +mtRTR8IrxsBVmJV2Y6AWCcf/rCEsrb65Ha16mweXt+Mph4ZeHDwSv8mLbZBDkNA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1pmVbu-00DYvp-2E;
+        Wed, 12 Apr 2023 10:13:46 +0200
+Message-ID: <0e0bf2a681db18c20eb9913b23d8ff2d5fddfe90.camel@sipsolutions.net>
+Subject: Re: "leds: trigger: use RCU to protect the led_cdevs list" triggers
+ RCU error checks
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>
+Date:   Wed, 12 Apr 2023 10:13:45 +0200
+In-Reply-To: <73428542-6aaf-5db3-9d67-f73cf1082695@redhat.com>
+References: <600cc06e-081d-cd90-947d-f8988f1af194@redhat.com>
+         <b449dda32e0f3bb0adeeda4fd0e1e7f58a29b43f.camel@sipsolutions.net>
+         <73428542-6aaf-5db3-9d67-f73cf1082695@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: ROHM BD2606MVV LED driver
-Content-Language: en-US
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-References: <20230407050803.170773-1-andreas@kemnade.info>
- <20230407050803.170773-2-andreas@kemnade.info>
- <a16a8071-3c67-0f40-d7da-3459f7dc584d@linaro.org>
- <20230411213044.4bf6dc89@aktux>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230411213044.4bf6dc89@aktux>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-malware-bazaar: not-scanned
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/04/2023 21:30, Andreas Kemnade wrote:
-> On Mon, 10 Apr 2023 17:34:00 +0200
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> 
-> [...]
->>> +        led-controller@66 {
->>> +            compatible = "rohm,bd2606mvv";
->>> +            #address-cells = <1>;
->>> +            #size-cells = <0>;
->>> +            reg = <0x66>;  
->>
->> reg is always second property in DTS.
->>
->>> +
->>> +            led@0 {
->>> +                color = <LED_COLOR_ID_RED>;
->>> +                function = LED_FUNCTION_POWER;
->>> +                reg = <0x0>;  
->>
->> Ditto
->>
-> hmm, reg also second if no compatible first? I see it usually first in
-> such cases.
+Hi,
 
-Right, then reg is first.
+> So I just checked and the following LED drivers all have
+> a blink_set() implementation which calls mutex_lock()
+> and/or does I2C transfers:
 
-Best regards,
-Krzysztof
+<snip>
 
+Yay ...
+
+> And looking at: include/linux/leds.h
+>=20
+> Then the brightness_set callback is explicitly marked as
+> "Must not sleep." (and there is a brightness_set_blocking
+> which e.g. I2C drivers can use instead).
+>=20
+> So I believe that the intention has always been that
+> a driver's blink_set callback is allowed to sleep.
+
+I guess I wouldn't really go that far from the lack of a comment saying
+it cannot sleep :-)
+
+
+> With that said you seem to be right that there seems to
+> be a long standing bug where led_trigger_blink[_oneshot]
+> calls led_classdev.blink_set() in a context where it may
+> not sleep.
+>=20
+> But that is more of a LED (trigger) core bug then an
+> issue with the driver(s).
+
+IMHO that's arguable, but I'm not going to quibble over it.
+
+> Hmm, so the irqsave part of this was introduced by commit 27af8e2c90fb
+> ("leds: trigger: fix potential deadlock with libata")=C2=A0
+
+Indeed.
+
+> but even before
+> then I think sleeping here was not allowed, given that an rwlock is
+> a spinlock variant the non irqsave version also leads to a section
+> where sleeping is not allowed I believe.
+
+Right. Which goes back to 0b9536c95709 ("leds: Add ability to blink via
+simple trigger") where blinking was made possible from a trigger ...
+
+> Further git archeology seems to indicate that this problem has existed
+> for a long long time already. I guess I'm the first user of a trigger
+> which calls led_trigger_blink[_oneshot] on a led_classdev with
+> a hw blink_set() implementation which sleeps. Or at least I'm
+> the first user to do so with various lock-debugging options
+> enabled ...
+
+Right...
+
+> but this seems to be a (trigger) core bug
+> so lets try to solve it there.
+>=20
+
+It's not so easy to fix I guess, other than maybe to defer to a
+workqueue, but then you have the issue of cancelling?
+
+Note that led_trigger_blink() also doesn't document when it's allowed to
+be called, and at least in mac80211 (my code, yay) we're calling it from
+a timer, so can't possibly sleep there. There's only one other caller in
+the power supply code, but that can actually sleep.
+
+I'd have a least thought of srcu if that timer weren't the case in
+mac80211, but as is that doesn't help ...
+
+So not sure. Clearly it's a long-standing issue, and given that many
+drivers are affected probably better to fix it in the LED core, but I
+don't really know my way around it very well either.
+
+johannes
