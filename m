@@ -2,69 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 762F36E0CE6
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 238086E0CFA
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:47:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbjDMLqM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 07:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45618 "EHLO
+        id S231329AbjDMLrc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 07:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjDMLqL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:46:11 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABC9D9768;
-        Thu, 13 Apr 2023 04:45:58 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id o1so18757708lfc.2;
-        Thu, 13 Apr 2023 04:45:58 -0700 (PDT)
+        with ESMTP id S231217AbjDMLrQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:47:16 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702BDA5D0;
+        Thu, 13 Apr 2023 04:47:07 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id z8so20545148lfb.12;
+        Thu, 13 Apr 2023 04:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681386357; x=1683978357;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=H7H6EEWl/da78+Pg7xNj0IrBs7xeLiKGn3zRnzUagG8=;
-        b=kCIYnalT+WTO9slQRE7xgKUgeYq/TzsPQsxROt1i5/4rFyxunHIIjjN+6Rkm9gOQzP
-         lLGfFe0XbJ3MzVldIvpLyc+vbZUePjC0lfxRqr3Zb7DjHoISB28fR6kVWV/GVbQ0jDsR
-         OavePCCWvEd1BxSExJuy4X1xfmi8W5/zEkB16ECw9Nu+gDfeXoSCfKV4xLZCAfdCjc8u
-         DODk3LNWuy3Q39/rG0hhiUBcQJNg5Yg3yRPnLuLnl/UcQAhLg0ZI0enJmjpZ80PF8e39
-         qcLKtDRo6uku8+W3ixJMSnLSkBMsZKapqvbjGq0M/kqhql0+Vvl0M7n9t47wSwA4YItc
-         6jAw==
+        d=gmail.com; s=20221208; t=1681386426; x=1683978426;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z3v/g1+YK4ohjxNpY7X/EAjO3Cvna/Uxm2/iuGIHV0o=;
+        b=Z+BPO5+eqiznWawGagxUVRp9ax2e9DRkcHqyZt5OsK+LNa2rKyorWho7ZWRYq1U3Uc
+         aU8uJ9lNldPgMlP+nW9laXMGoA2zoGKA3Uv1Qe7wlS/eoevdGleUVHyeEpEEvR4egW/U
+         Ziat+ldE5jUvwLztLtiep5+tjhBYIIhqe+YR1SlKydKyZWuvhFF9kpcEm4dEWY6RNkJk
+         xMRPXV+rZwNvGhk+LnJz1NLwBG4Nyjy4QEhEYXJOWvLbY6oUNzyGQjGo4ttHUUi1qFlA
+         yCQSnBwZV92iLLdygfLwUaKqIrxDcuDlIrfJaiZ1ZQKtcO8okuvVYiRXZoLjIbNNFrl4
+         +krA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681386357; x=1683978357;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1681386426; x=1683978426;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7H6EEWl/da78+Pg7xNj0IrBs7xeLiKGn3zRnzUagG8=;
-        b=XWtxDbyjOCc3qyM981o+z9N1BRmu5mGTGM7RWCT3X7cYRv6onzVxyDMR65wb/EKD99
-         msM4v5H2YQ+6yZ/5TXZ19Wm2VkFp+iV2Nx8x48yg6xjGqxd/U5AEKeVZNq1vH9mpBmhF
-         9fkgZwCZx1X1Xq/+TdRqGirl+d6jHyeZXgAziFXMnPUFb2FA4H0Dj7KsaCJG9qXh+EMW
-         Q9I88g/ITMSR9MykL4xnabXucxmG8J27AAAffn2Pg9vPbwNh4ICeYLUOZseNTItKqQPe
-         vfUPKRfnyGj5oeSVqk8nQrsQ4ShduoPdHDr1w7HxL0pxLQ0Jzl6fv6qobpGdtq/Wb7Y9
-         Urmg==
-X-Gm-Message-State: AAQBX9eBuqnaV7t7JxxGPUtCzxOKbvhg1NA940gVIurEijLnNQFQshlC
-        hG13z1My90bdbNxnFNaua63B42bkTHM=
-X-Google-Smtp-Source: AKy350aIh+HynqigKv6iyR1AuPUVYAFjO4DeXYG+CDcEEbsm5Ewqp1LjQ74Ir9IGwS6TQpZnFD8K1A==
-X-Received: by 2002:a05:6512:1021:b0:4e8:4699:d01 with SMTP id r1-20020a056512102100b004e846990d01mr958752lfr.27.1681386356717;
-        Thu, 13 Apr 2023 04:45:56 -0700 (PDT)
+        bh=Z3v/g1+YK4ohjxNpY7X/EAjO3Cvna/Uxm2/iuGIHV0o=;
+        b=St00qEdFqr5NmJB5R4MO1G9xi4hgALP0N6G9imKgj6U2k6iUMA7OBC6QXxm59tjFLy
+         zJr3I+RXuvtS9Fv65j1vq+AHITIE60R9fVB7IxgXjzLqPRkpLeP5ZvDHbS5nRqBt6hfl
+         rvdtdZG8YlnI53a7wqtFwCMW0TbEknQB/oCYIRUjseA5zlAYgmvBatpOEh4heHHL2+P4
+         sGDMrBgHQskDA1r467SFnP7Y+v5A1EhdlRs0Ef2T+1TsV5T/BrbG7r+lj//BkfE87lcu
+         FbHbzcvnfvuOWnO/O6/ZUuCfcOomAsgZUechV+TnpIEag9bpmFbp8Bn6PU2bxhnmaWu5
+         d/zg==
+X-Gm-Message-State: AAQBX9ded23EgKRcCA9UZnQR5PyZVjb0JOq6LKmlDVRAfDrr7FshUJf2
+        MV0KaDeDgSjLBovb2TWMgRI=
+X-Google-Smtp-Source: AKy350b83BiwhY/ARiBiqr7RAaIjdxIB4n41CUt1Vnh2IVdKu6EVHfUfM4Y6LsQWXnFGf+YQeWQFpg==
+X-Received: by 2002:a05:6512:50f:b0:4eb:4002:a5ca with SMTP id o15-20020a056512050f00b004eb4002a5camr906727lfb.66.1681386425552;
+        Thu, 13 Apr 2023 04:47:05 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:16f3:4a00::1? (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id f9-20020ac24e49000000b004eb018fac57sm274822lfr.191.2023.04.13.04.45.56
+        by smtp.gmail.com with ESMTPSA id s12-20020ac25fec000000b004ec55ac6cd1sm277523lfg.136.2023.04.13.04.47.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 04:45:56 -0700 (PDT)
-Message-ID: <97379cbb-ea61-ee66-56bd-f2dbe3e282b9@gmail.com>
-Date:   Thu, 13 Apr 2023 14:45:55 +0300
+        Thu, 13 Apr 2023 04:47:05 -0700 (PDT)
+Message-ID: <b259e7fc-130b-1158-00b6-934861a41aaa@gmail.com>
+Date:   Thu, 13 Apr 2023 14:47:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v3 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel i2c
- LED driver
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED driver
+Content-Language: en-US, en-GB
 To:     Andreas Kemnade <andreas@kemnade.info>, pavel@ucw.cz,
         lee@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230413110307.310944-1-andreas@kemnade.info>
- <20230413110307.310944-3-andreas@kemnade.info>
-Content-Language: en-US, en-GB
+ <20230413110307.310944-2-andreas@kemnade.info>
 From:   Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20230413110307.310944-3-andreas@kemnade.info>
+In-Reply-To: <20230413110307.310944-2-andreas@kemnade.info>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -78,15 +77,12 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 4/13/23 14:03, Andreas Kemnade wrote:
-> The device provides 6 channels which can be individually
-> turned off and on but groups of two channels share a common brightness
-> register.
-> 
-> Limitation: The GPIO to enable the device is not used yet.
+> Document ROHM BD2606MVV LED driver devicetree bindings.
 > 
 > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
 Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+
 
 -- 
 Matti Vaittinen
