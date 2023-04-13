@@ -2,92 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D7836E12A1
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 18:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F84C6E1829
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 01:19:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjDMQqN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 12:46:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
+        id S230401AbjDMXT1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 19:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjDMQqK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 12:46:10 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB53F9019
-        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 09:46:05 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id xd13so5067699ejb.4
-        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 09:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681404364; x=1683996364;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DJjsgRCQD3nGxpiqV9+CyK3OuB9Sivj/PeOsh4G53K0=;
-        b=tbTLXzbzcv/o5pdEVu8hXh8qsR/QKdo5wTXCVHdcMPRA2kdNFcqA8au3eexDMx1JtQ
-         phFtLfgut2lwbhtF6krr/JIpgqpGdAI9Vmo5kwKuAJxPI9vgkzdknD9H4dX/2Yu7/5uM
-         gwc0sYHNp31yNLVSAa9s10Y8oEhrZcNAQXDH2XvPu0OYyFSQb15Ke44yPJ6t/PYj+Nfu
-         s9rXhfcULJiNnCnyFmB2A6KaXxGHn1DfCnSpj8qe4bPN+Vi3foSuqn1KP/BENfKWSYWq
-         vqpyNstVNGuFoJUGURqB6J3Nagl7KMU7xsUTqaQB/R4ReJL7qLuSnS1VqT8uB9wm7TAo
-         8u4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681404364; x=1683996364;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJjsgRCQD3nGxpiqV9+CyK3OuB9Sivj/PeOsh4G53K0=;
-        b=EUKpmdPsZudv6f6D5NYbQ5jd8UHsEc924FZCjgJAGNrGJCGv5GdRd6fuvGdbYfPNio
-         64gyvO8J70D1oPcJhXq/pyVuIL0LuZjt+cuBHG714YXtyc3Mi7jLfCQj4i11hmmrug/n
-         WKJhRfYfEJajZWSlyJP6GS59u0hWfS2S4cnuHcqZZTnTFYzCYXzhgPFuNW7PKKNFruIK
-         wSQzWI+vucT099XMBJPmWovBXkrugfO5seTChqLKzEozVhuN+2KN8opValOd6PJWoklQ
-         TkVUL/vrcNfj2UAZ+wHrdTNrU76cTa7N2aILcp0FyqsxPVzOIkYp3OB2GXU4SFvLS4BW
-         9Ejg==
-X-Gm-Message-State: AAQBX9fer+qJVGcafABHnrA0plkEPcCZeVYJpkll/Tal7LOSJm8Tf6JB
-        +qXMY5LC1V0I7VtirHb6XpmWrw==
-X-Google-Smtp-Source: AKy350b86CRvvHjujWrh5zEZaxFDPZ1LMnS6r8Jmu7VbtmHIdAhO4+sD9YnyfvCTt1v+etjXJVIQ2w==
-X-Received: by 2002:a17:907:3a03:b0:94c:784f:7569 with SMTP id fb3-20020a1709073a0300b0094c784f7569mr3282936ejc.30.1681404364433;
-        Thu, 13 Apr 2023 09:46:04 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:5032:d2d4:ece5:b035? ([2a02:810d:15c0:828:5032:d2d4:ece5:b035])
-        by smtp.gmail.com with ESMTPSA id x6-20020a170906b08600b0094e6db4d4a1sm1198394ejy.186.2023.04.13.09.46.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 09:46:03 -0700 (PDT)
-Message-ID: <24c6d4fe-128a-2fe1-1e35-d124e5f9c265@linaro.org>
-Date:   Thu, 13 Apr 2023 18:46:03 +0200
+        with ESMTP id S229492AbjDMXTX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 19:19:23 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07158449B;
+        Thu, 13 Apr 2023 16:18:57 -0700 (PDT)
+Received: from [192.168.178.23] (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 1630FD07B4;
+        Thu, 13 Apr 2023 23:18:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1681427893; bh=CRTWj+yIkiq12Ol3HBaiMX1cMs/LluSumeZfXP8P+4U=;
+        h=From:Subject:Date:To:Cc;
+        b=rdrGTDB8DvBZ2oSC07ZXnZqn+HjTQ3DwwUEZq2hsxarn2LFcC92daygpQEVw8H9mO
+         VFb06Cc6zd5pnPB92fKXwKXqUXf2UL4ubAyzzJtOwqoHXlVI8rofiv+Qw5M3hwni+V
+         9/BdLoVbrx2CCa++9Qhhn3gEZrBoVICWrOeS9QbY=
+From:   Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH 0/8] Add PMI632 PMIC and RGB LED on sdm632-fairphone-fp3
+Date:   Fri, 14 Apr 2023 01:17:44 +0200
+Message-Id: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v3] dt-bindings: leds: Convert PCA9532 to dtschema
-Content-Language: en-US
-To:     Wadim Egorov <w.egorov@phytec.de>, upstream@lists.phytec.de,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Cc:     riku.voipio@iki.fi, krzysztof.kozlowski+dt@linaro.org,
-        robh+dt@kernel.org, lee@kernel.org, pavel@ucw.cz
-References: <20230412140552.451527-1-w.egorov@phytec.de>
- <20230412140552.451527-2-w.egorov@phytec.de>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230412140552.451527-2-w.egorov@phytec.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-B4-Tracking: v=1; b=H4sIAJiNOGQC/x3NwQqDMAyA4VeRnBetSVXYq4wdoouag7W0IAPx3
+ Vd3/OGD/4SsyTTDszoh6WHZ9lCifVQwrRIWRfuUBnLEzrce42Y9E3pRx0Sd6NBBwaNkxTFJmNa
+ b9zXXrtnEAs6RbxCTzvb9n17v6/oBWepSi3kAAAA=
+To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        Luca Weiss <luca@z3ntu.xyz>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1408; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=CRTWj+yIkiq12Ol3HBaiMX1cMs/LluSumeZfXP8P+4U=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkOI2bAIaCCSnfYMwzpW9XoiSE5rpK0s1oysYuy
+ NLpWHjEBhiJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZDiNmwAKCRBy2EO4nU3X
+ VofBD/9sWBHdLNm2RZU2Onpy9t9Gd6jZy7oYSBwsMTJc5u1mfsWrmQjHU/5Ny8NHPyLC6m1wv1v
+ GyAvAEd/YQlmAPOJZMdxxEIdU3g00Ti+RQEVQTEBlACBJxLYB2aBB5QSkftFz5wzc2akSaXY2bm
+ GBU7OIoW8fTyZiySOdWhSFsmTU+nt2vhrUqmX9rw57LE3DqK72WdsWkStXDbKw69UIABuF4F5t8
+ ZFe8O7vJYaEMsh3azORJivjJdMt5I34qQ+WnsKTZI0MFd5y1uGD5RY/T8Ol5q18sPHjwhvIfzKQ
+ 9IM0yvEMx64BOcIWXx2WoZFKO4E/XZnv7JtbPAZmnj24Al75ZHjQBdykB4a5hqn6LgVpyqWyvq3
+ c6YVkGeuQiEHROSnHrVvPCwmw8Ibc54jy40RNyDVKr6M+hGkXG493W+Y+4O8jAe7al81sOTuaEM
+ FnydnkQIixfqDlYQFJ1qf6KkoAhz78zGhNAJjg2Ed/ooM5qi+A1dzOli6DnYGTBKVNeenhBu7Eb
+ 3EmwwQOQNitifGincr1m7zhmlfoly2in1dwE59Sq08Ps5TskG0lWYGIjREq6PTxEM4V1yPfPpDU
+ iyBde1Y5HGTsta9lZnqGC0pKBKf+IXK6GM8tU0YEImgDUWYqNsV4rEjiFn3CKtTScwz2L+2kxia
+ tgfIB/g15aYipsg==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 12/04/2023 16:05, Wadim Egorov wrote:
-> Convert the PCA9532 LED Dimmer to dtschema.
-> While at it, update the example to match recommended node names and
-> the link to the product datasheet. Also add GPIO properties since
-> the driver allows to use unused pins as GPIOs.
-> 
-> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
-> ---
+Add support for the PMI632 PMIC in the spmi-gpio & qcom-lpg driver, add
+the dtsi for the PMIC and enable the notification LED on fairphone-fp3.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+Luca Weiss (8):
+      dt-bindings: pinctrl: qcom,pmic-gpio: add PMI632
+      pinctrl: qcom: spmi-gpio: Add PMI632 support
+      dt-bindings: leds: qcom-lpg: Add compatible for PMI632 LPG block
+      leds: qcom-lpg: Add support for PMI632 LPG
+      dt-bindings: iio: adc: qcom,spmi-vadc: Allow 1/16 for pre-scaling
+      dt-bindings: mfd: qcom-spmi-pmic: Add PMI632 compatible
+      arm64: dts: qcom: Add PMI632 PMIC
+      arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
+
+ .../bindings/iio/adc/qcom,spmi-vadc.yaml           |   2 +-
+ .../devicetree/bindings/leds/leds-qcom-lpg.yaml    |   1 +
+ .../devicetree/bindings/mfd/qcom,spmi-pmic.yaml    |   1 +
+ .../bindings/pinctrl/qcom,pmic-gpio.yaml           |   2 +
+ arch/arm64/boot/dts/qcom/pmi632.dtsi               | 165 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts  |  29 ++++
+ drivers/leds/rgb/leds-qcom-lpg.c                   |  15 ++
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c           |   1 +
+ 8 files changed, 215 insertions(+), 1 deletion(-)
+---
+base-commit: c83fb1e4acf528c29b0729525cf23544f8121b3d
+change-id: 20230414-pmi632-4ae03225ae75
 
 Best regards,
-Krzysztof
+-- 
+Luca Weiss <luca@z3ntu.xyz>
 
