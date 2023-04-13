@@ -2,99 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3636E10D9
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 17:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7836E12A1
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 18:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231504AbjDMPTG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 11:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
+        id S229904AbjDMQqN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 12:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229999AbjDMPTF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 11:19:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649C79755
-        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 08:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681399101;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4cEBUnbg1vE7QsUZJZ/ROdFhuT0hQY8iLC6B/T3ZzLk=;
-        b=Kuc3TyP+RPqaYnE+fqppnPuOuN+8HztxrODQZrxXzl7inKFcBM5VPJIyyLx2nmYHvw57fX
-        WURNEIIgYifnShyd6FnIpYhedrS/zr1vJz5B/s/4u53UInvO8QKOA5WVmwAE3p3A46zdVs
-        Tu2IU4R9zVQj6qahmZ4uClmtGGAzMUg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-dzd7R9brOrCYpIEzyIjIyw-1; Thu, 13 Apr 2023 11:18:19 -0400
-X-MC-Unique: dzd7R9brOrCYpIEzyIjIyw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02438885626;
-        Thu, 13 Apr 2023 15:18:19 +0000 (UTC)
-Received: from x1.nl (unknown [10.39.192.251])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D734F141511D;
-        Thu, 13 Apr 2023 15:18:17 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org
-Subject: [PATCH 5/5] leds: cht-wcove: Use breathing when LED_INIT_DEFAULT_TRIGGER is set
-Date:   Thu, 13 Apr 2023 17:18:08 +0200
-Message-Id: <20230413151808.20900-6-hdegoede@redhat.com>
-In-Reply-To: <20230413151808.20900-1-hdegoede@redhat.com>
-References: <20230413151808.20900-1-hdegoede@redhat.com>
+        with ESMTP id S229516AbjDMQqK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 12:46:10 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB53F9019
+        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 09:46:05 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id xd13so5067699ejb.4
+        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 09:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681404364; x=1683996364;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DJjsgRCQD3nGxpiqV9+CyK3OuB9Sivj/PeOsh4G53K0=;
+        b=tbTLXzbzcv/o5pdEVu8hXh8qsR/QKdo5wTXCVHdcMPRA2kdNFcqA8au3eexDMx1JtQ
+         phFtLfgut2lwbhtF6krr/JIpgqpGdAI9Vmo5kwKuAJxPI9vgkzdknD9H4dX/2Yu7/5uM
+         gwc0sYHNp31yNLVSAa9s10Y8oEhrZcNAQXDH2XvPu0OYyFSQb15Ke44yPJ6t/PYj+Nfu
+         s9rXhfcULJiNnCnyFmB2A6KaXxGHn1DfCnSpj8qe4bPN+Vi3foSuqn1KP/BENfKWSYWq
+         vqpyNstVNGuFoJUGURqB6J3Nagl7KMU7xsUTqaQB/R4ReJL7qLuSnS1VqT8uB9wm7TAo
+         8u4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681404364; x=1683996364;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJjsgRCQD3nGxpiqV9+CyK3OuB9Sivj/PeOsh4G53K0=;
+        b=EUKpmdPsZudv6f6D5NYbQ5jd8UHsEc924FZCjgJAGNrGJCGv5GdRd6fuvGdbYfPNio
+         64gyvO8J70D1oPcJhXq/pyVuIL0LuZjt+cuBHG714YXtyc3Mi7jLfCQj4i11hmmrug/n
+         WKJhRfYfEJajZWSlyJP6GS59u0hWfS2S4cnuHcqZZTnTFYzCYXzhgPFuNW7PKKNFruIK
+         wSQzWI+vucT099XMBJPmWovBXkrugfO5seTChqLKzEozVhuN+2KN8opValOd6PJWoklQ
+         TkVUL/vrcNfj2UAZ+wHrdTNrU76cTa7N2aILcp0FyqsxPVzOIkYp3OB2GXU4SFvLS4BW
+         9Ejg==
+X-Gm-Message-State: AAQBX9fer+qJVGcafABHnrA0plkEPcCZeVYJpkll/Tal7LOSJm8Tf6JB
+        +qXMY5LC1V0I7VtirHb6XpmWrw==
+X-Google-Smtp-Source: AKy350b86CRvvHjujWrh5zEZaxFDPZ1LMnS6r8Jmu7VbtmHIdAhO4+sD9YnyfvCTt1v+etjXJVIQ2w==
+X-Received: by 2002:a17:907:3a03:b0:94c:784f:7569 with SMTP id fb3-20020a1709073a0300b0094c784f7569mr3282936ejc.30.1681404364433;
+        Thu, 13 Apr 2023 09:46:04 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:5032:d2d4:ece5:b035? ([2a02:810d:15c0:828:5032:d2d4:ece5:b035])
+        by smtp.gmail.com with ESMTPSA id x6-20020a170906b08600b0094e6db4d4a1sm1198394ejy.186.2023.04.13.09.46.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 09:46:03 -0700 (PDT)
+Message-ID: <24c6d4fe-128a-2fe1-1e35-d124e5f9c265@linaro.org>
+Date:   Thu, 13 Apr 2023 18:46:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3] dt-bindings: leds: Convert PCA9532 to dtschema
+Content-Language: en-US
+To:     Wadim Egorov <w.egorov@phytec.de>, upstream@lists.phytec.de,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Cc:     riku.voipio@iki.fi, krzysztof.kozlowski+dt@linaro.org,
+        robh+dt@kernel.org, lee@kernel.org, pavel@ucw.cz
+References: <20230412140552.451527-1-w.egorov@phytec.de>
+ <20230412140552.451527-2-w.egorov@phytec.de>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230412140552.451527-2-w.egorov@phytec.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The desired default behavior of LED1 / the charge LED is breathing
-while charging and on/solid when full. Since triggers cannot select
-breathing, blink_set() gets called when charging. Use breathing
-when the default "charging-blink-full-solid" trigger is used to
-achieve the desired default behavior.
+On 12/04/2023 16:05, Wadim Egorov wrote:
+> Convert the PCA9532 LED Dimmer to dtschema.
+> While at it, update the example to match recommended node names and
+> the link to the product datasheet. Also add GPIO properties since
+> the driver allows to use unused pins as GPIOs.
+> 
+> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> ---
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/leds/leds-cht-wcove.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-index 597bfbe19cc2..125e9331348c 100644
---- a/drivers/leds/leds-cht-wcove.c
-+++ b/drivers/leds/leds-cht-wcove.c
-@@ -266,7 +266,19 @@ static int cht_wc_leds_blink_set(struct led_classdev *cdev,
- 				 unsigned long *delay_on,
- 				 unsigned long *delay_off)
- {
--	return cht_wc_leds_set_effect(cdev, delay_on, delay_off, CHT_WC_LED_EFF_BLINKING);
-+	u8 effect = CHT_WC_LED_EFF_BLINKING;
-+
-+	/*
-+	 * The desired default behavior of LED1 / the charge LED is breathing
-+	 * while charging and on/solid when full. Since triggers cannot select
-+	 * breathing, blink_set() gets called when charging. Use breathing
-+	 * when the default "charging-blink-full-solid" trigger is used to
-+	 * achieve the desired default behavior.
-+	 */
-+	if (cdev->flags & LED_INIT_DEFAULT_TRIGGER)
-+		effect = CHT_WC_LED_EFF_BREATHING;
-+
-+	return cht_wc_leds_set_effect(cdev, delay_on, delay_off, effect);
- }
- 
- static int cht_wc_leds_pattern_set(struct led_classdev *cdev,
--- 
-2.39.1
+Best regards,
+Krzysztof
 
