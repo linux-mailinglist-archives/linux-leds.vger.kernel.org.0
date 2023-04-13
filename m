@@ -2,100 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95BD86E1057
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 16:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F27BC6E10D6
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 17:19:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231417AbjDMOso (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 10:48:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
+        id S231536AbjDMPTA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 11:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbjDMOsi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 10:48:38 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 803A4A253;
-        Thu, 13 Apr 2023 07:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=I1L0Qp2sckfsIBhqUGSZAv87RBu9UChWVeSXNNEVCCg=; b=qjqaLyGI7RXtv0daQN4+J6UUp6
-        vjFwp9dg0vL6T9I+80Ockz/HfJhyoSXUn3hPGg1ig8MOC178Gpj0MrxrcBxzf/+2bovLIfMl/Ja2R
-        FyRQk/E4CFAp1EXQjDYFAzqvTSuP+2dDLG7ccH23GOZ+bOCsGA0q4XO6rgCQjMYcbWXQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pmyFJ-00ACLu-AF; Thu, 13 Apr 2023 16:48:21 +0200
-Date:   Thu, 13 Apr 2023 16:48:21 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 06/16] net: phy: phy_device: Call into the
- PHY driver to set LED brightness
-Message-ID: <9603636f-3296-4c6a-96ca-c522e91c1c4c@lunn.ch>
-References: <20230327141031.11904-1-ansuelsmth@gmail.com>
- <20230327141031.11904-7-ansuelsmth@gmail.com>
- <202ae4b9-8995-474a-1282-876078e15e47@gmail.com>
+        with ESMTP id S229999AbjDMPS6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 11:18:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13EED9013
+        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 08:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681399096;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=HkFrf371n3q3T/PZtZx2WJtsRnWzXQw+29ZKklq7bDU=;
+        b=dsvSHP+2a20dGBDO99EbNCseBXStx/GobdDW7xyJsYNm4ckT8z5XllXHRdV8nUPVP3FQw/
+        dkMun7cIMbhA61fabjEg7vLLyL3aBVoGCpSjSxXMsejwBN40wgeEBFn/WDafTon0d8y7xc
+        nvZahlnjyUUHT/fEKyrZKvLVkdl2uEw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-zhEyzppKOA6HEmGMZTFN8Q-1; Thu, 13 Apr 2023 11:18:11 -0400
+X-MC-Unique: zhEyzppKOA6HEmGMZTFN8Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F0DD29DD997;
+        Thu, 13 Apr 2023 15:18:11 +0000 (UTC)
+Received: from x1.nl (unknown [10.39.192.251])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BC031141511D;
+        Thu, 13 Apr 2023 15:18:09 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org
+Subject: [PATCH 0/5] leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver
+Date:   Thu, 13 Apr 2023 17:18:03 +0200
+Message-Id: <20230413151808.20900-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202ae4b9-8995-474a-1282-876078e15e47@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 06:57:51AM -0700, Florian Fainelli wrote:
-> 
-> 
-> On 3/27/2023 7:10 AM, Christian Marangi wrote:
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > 
-> > Linux LEDs can be software controlled via the brightness file in /sys.
-> > LED drivers need to implement a brightness_set function which the core
-> > will call. Implement an intermediary in phy_device, which will call
-> > into the phy driver if it implements the necessary function.
-> > 
-> > Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> 
-> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-> 
-> > +	int (*led_brightness_set)(struct phy_device *dev,
-> > +				  u32 index, enum led_brightness value);
-> 
-> I think I would have made this an u8, 4 billion LEDs, man, that's a lot!
+Hi All,
 
-That can be done. We need to change:
+Here is a patch series to add support for the LED controller on
+Intel Cherry Trail Whiskey Cove PMICs.
 
-        err = of_property_read_u32(led, "reg", &phyled->index);
-        if (err)
-                return err;
+This is based on the original patch for this from Yauhen Kharuzhy,
+with additional work on top by me.
 
-to a u8, to avoid overflow problems in other places. It looks like
-of_property_read_u8() does the correct thing if somebody tried to use
-4 billion - 1.
+This addresses the review remarks on the v2 posting from Yauhen:
+- Since the PMIC is connected to the battery any changes we make to
+  the LED settings are permanent, even surviving reboot / poweroff.
+  Save LED1 register settings on probe() and if auto-/hw-control was
+  enabled on probe() restore the settings on remove() and shutdown().
+- Add support for the pattern trigger to select breathing mode
 
-  Andrew
+This makes the charging LED on devices with these PMICs properly
+reflect the charging status (this relies on sw control on most
+devices) and this also allows control of the LED behind the pen
+(digitizer on) symbol on the keyboard half of the Lenovo Yoga Book
+1 models.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (4):
+  leds: cht-wcove: Add suspend/resume handling
+  leds: cht-wcove: Add support for breathing mode use hw_pattern sysfs
+    API
+  leds: cht-wcove: Set default trigger for charging LED
+  leds: cht-wcove: Use breathing when LED_INIT_DEFAULT_TRIGGER is set
+
+Yauhen Kharuzhy (1):
+  leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver
+
+ Documentation/leds/index.rst          |   1 +
+ Documentation/leds/leds-cht-wcove.rst |  29 ++
+ drivers/leds/Kconfig                  |  11 +
+ drivers/leds/Makefile                 |   1 +
+ drivers/leds/leds-cht-wcove.c         | 466 ++++++++++++++++++++++++++
+ 5 files changed, 508 insertions(+)
+ create mode 100644 Documentation/leds/leds-cht-wcove.rst
+ create mode 100644 drivers/leds/leds-cht-wcove.c
+
+-- 
+2.39.1
+
