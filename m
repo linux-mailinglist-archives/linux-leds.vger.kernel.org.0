@@ -2,43 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3F86E0C35
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 378756E0C4A
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:17:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjDMLNo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 07:13:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47872 "EHLO
+        id S231207AbjDMLRY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 07:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbjDMLNn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:13:43 -0400
+        with ESMTP id S231233AbjDMLRC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:17:02 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FCA59F0;
-        Thu, 13 Apr 2023 04:13:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436E5976C;
+        Thu, 13 Apr 2023 04:16:43 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C9B481C0AB2; Thu, 13 Apr 2023 13:13:40 +0200 (CEST)
+        id 162711C0AB3; Thu, 13 Apr 2023 13:16:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1681384420;
+        t=1681384602;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vCIpjfZvvQlTpSXYXfukLmY/Y9Ggejc/B41Mf02Snis=;
-        b=UE2bT/m3hT8caCNL2ta5mkB7uUvRCDxk2U3/QMnUT3K1DnW+JG2gj+UXbCTdslvyMdh9pj
-        lDhqAC24uoT+Qgcmf5qB84hNsHYmtgpZhRcrhZ6eD6XewRQosb6mB9Mk7xmcr+6gyx6P8L
-        hVdkrFn6Gl1p9PHXByKDzUHlpjjbQ7U=
-Date:   Thu, 13 Apr 2023 13:13:40 +0200
+        bh=IdTWHyetr0OruvmdqJ++oajTpTuDkNAAKK6sM/EDzsY=;
+        b=nH+PRzcV9M4DIdyRbyw+weoev7JBd5GNtIFRGRyrKZ6MI3SZKUFBR0rggx27hbZ6kWjKn2
+        vqc0OpsnSz8bCrSXvFBQyoVoLoY/9viw4RtwxuSZZ9N05M97509RjTCujgxqHSi+poUooh
+        GU7KvdXtKgLuMiJQ33d1ABd0Tq1M90g=
+Date:   Thu, 13 Apr 2023 13:16:41 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4] leds: max597x: Add support for max597x
-Message-ID: <ZDfj5I3l4O1FkiW3@duo.ucw.cz>
-References: <20230413102624.3561299-1-Naresh.Solanki@9elements.com>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED driver
+Message-ID: <ZDfkmbEh9xjtNGM/@duo.ucw.cz>
+References: <20230413110307.310944-1-andreas@kemnade.info>
+ <20230413110307.310944-2-andreas@kemnade.info>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="sSZQJFNp+45xoekT"
+        protocol="application/pgp-signature"; boundary="heVF3nF5KL5x7bb5"
 Content-Disposition: inline
-In-Reply-To: <20230413102624.3561299-1-Naresh.Solanki@9elements.com>
+In-Reply-To: <20230413110307.310944-2-andreas@kemnade.info>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -49,121 +51,64 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---sSZQJFNp+45xoekT
+--heVF3nF5KL5x7bb5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+> Document ROHM BD2606MVV LED driver devicetree bindings.
 >=20
-> max597x is hot swap controller with indicator LED support.
-> This driver uses DT property to configure led during boot time &
-> also provide the LED control in sysfs.
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> ---
+>  .../bindings/leds/rohm,bd2606mvv.yaml         | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd2606mvv=
+=2Eyaml
 >=20
-> DTS example:
->     i2c {
->         #address-cells =3D <1>;
->         #size-cells =3D <0>;
->         regulator@3a {
->             compatible =3D "maxim,max5978";
->             reg =3D <0x3a>;
->             vss1-supply =3D <&p3v3>;
->=20
->             regulators {
->                 sw0_ref_0: sw0 {
->                     shunt-resistor-micro-ohms =3D <12000>;
->                 };
->             };
->=20
->             leds {
->                 #address-cells =3D <1>;
->                 #size-cells =3D <0>;
->                 led@0 {
->                     reg =3D <0>;
->                     label =3D "led0";
->                     default-state =3D "on";
->                 };
->                 led@1 {
->                     reg =3D <1>;
->                     label =3D "led1";
->                     default-state =3D "on";
->                 };
->             };
->         };
->     };
->
-
-Yeah, well, dts bindings need to be properly documented, and example
-goes to the binding, right?
-
-Plus, we should have better names than led0/led1. Something like
-hdd0:green:something, based on what the LED does and what are you hot
-swapping. See/modify Documentation/leds/well-known-leds.txt .
-
-
-> +static int max597x_led_set_brightness(struct led_classdev *cdev,
-> +				      enum led_brightness brightness)
-> +{
-> +	struct max597x_led *ddata =3D ldev_to_maxled(cdev);
-> +	int ret, val;
+> diff --git a/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml b=
+/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> new file mode 100644
+> index 0000000000000..e4327d4cdefa5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/rohm,bd2606mvv.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	if (!ddata->regmap)
-> +		return -ENODEV;
+> +title: ROHM BD2606MVV LED controller
 > +
-> +	/* Set/Clear corresponding bit for given led index */
+> +maintainers:
+> +  - Andreas Kemnade <andreas@kemnade.info>
+> +
+> +description:
+> +  The BD2606 MVV is a programmable LED controller connected via I2C that=
+ can
+> +  drive 6 separate lines. Each of them can be individually switched on a=
+nd off
+> +  but the brightness setting is shared between two of them.
 
-"/clear".
+"off,"?
 
-> +	val =3D !brightness ? BIT(ddata->index) : 0;
-> +	ret =3D regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, BIT(dd=
-ata->index), val);
-> +	if (ret < 0)
-> +		dev_err(cdev->dev, "failed to set brightness %d", ret);
-
-'\n"'.
-
-> +	ddata->cdev.brightness_set_blocking =3D max597x_led_set_brightness;
-> +	ddata->cdev.default_trigger =3D "none";
-
-So what do these leds normally do? Should they be registered with
-common function to handle default triggers etc?
-
-> +	ddata->index =3D reg;
-> +	ddata->regmap =3D regmap;
-> +	ret =3D devm_led_classdev_register(dev, &ddata->cdev);
-> +	if (ret)
-> +		dev_err(dev, "Error initializing LED %s", ddata->cdev.name);
-
-'\n"'.
-
-> +module_platform_driver(max597x_led_driver);
-> +MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
-> +MODULE_DESCRIPTION("MAX5970_hot-swap controller LED driver");
-
-"MAX5970 hot-swap"?
-
-> +MODULE_LICENSE("GPL");
->=20
-> base-commit: 11e572d06c23d61683e20a98bd16f550ef17ac65
-> prerequisite-patch-id: 456044abe991b2ff3b521d337825432789d71b29
-
-?? Send prerequisites in the series?
+"between pairs"?
 
 BR,
 								Pavel
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---sSZQJFNp+45xoekT
+--heVF3nF5KL5x7bb5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZDfj5AAKCRAw5/Bqldv6
-8kTGAJ0cmC74jNxVMx/HIsoOrBJ0fYa7YACgtuilPkn5Bng+sZqy1AOoczAtaW0=
-=IFx5
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZDfkmQAKCRAw5/Bqldv6
+8v3FAJ9gfV5gPhN0d63zw2HYJ/2fDv4J5gCfQpzLrkH/oyiYFF0w1lavEjwfGuc=
+=2Kb0
 -----END PGP SIGNATURE-----
 
---sSZQJFNp+45xoekT--
+--heVF3nF5KL5x7bb5--
