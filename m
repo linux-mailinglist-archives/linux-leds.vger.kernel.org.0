@@ -2,41 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9688A6E0C7A
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AC2F6E0C85
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbjDMLbf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 07:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
+        id S229888AbjDMLdS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 07:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbjDMLbf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:31:35 -0400
+        with ESMTP id S229674AbjDMLdR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:33:17 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315D49740;
-        Thu, 13 Apr 2023 04:31:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F649769;
+        Thu, 13 Apr 2023 04:33:02 -0700 (PDT)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1DB3A6603212;
-        Thu, 13 Apr 2023 12:31:32 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 90E2C6603213;
+        Thu, 13 Apr 2023 12:33:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681385493;
-        bh=KFjJyN/GRcVUyM9+MD0q8eBTa213wPHOvUrosvi9KxA=;
+        s=mail; t=1681385581;
+        bh=fne5vl1dtaJc7cfXmmcmLI+T79wzFSh9tR5IvtINcUY=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ikY8B1YFvFqMNo5q9NG4TZ2rG1qvlPBJlAHeyu8lM2Ptd51JGYJq+66Jt85CHSgfs
-         epp6jgYMRQVsn/apQLHRYEf8DkVcWeNL9UqSKfndnNXUXhUQlWI0Axcmjk+Kx/s7WH
-         yGdT7V47aLpVcWEnYoPX/5M19y3rsLE+DhbxNU1ng4og2zAIQhWspXZjlVgvnYyUt4
-         Oj8DtNwyWm5KIRbJVRORpGnqLX42Z8j8K6PgUi+a9uHCNtz1XyQzB2gkkZwiNvU3iV
-         bTufsRZhpRzYgznf7PlP7ypF0x8CR4pf/MPlEhgzmCHHLMxrHYjBYnQyWRpLySsaB/
-         eSWkFQpyaC7GQ==
-Message-ID: <dee54623-9065-98e7-0505-bdb08ec1e643@collabora.com>
-Date:   Thu, 13 Apr 2023 13:31:29 +0200
+        b=Ck2lwMMNcQmkEzK1WZ9PCnPNBITalhay8LToLlOmiz8aSIhpybVtJy1zOt4JPxMmS
+         5+XMqV6JQCn6RfvoBbcw9mpBg02Sr2NdmJQ7IpOuezPiAF4zIIZ/jN999SaWm45Kil
+         LxXZbIydwzdjxz9UceXfRre++xcwWVDds2I6xPvEiKU0c5MhK/RWSqGnxGaZlb4tab
+         qXx4fNeqrwfIhMN8h3fKtPDs0b7To1ee7Vo7LxCuoFfV1cN2OqAnT0MK9/aEvt0LFu
+         1nvFEA8xts/i+5IKNF3xTITa9sN2WyHwpj80KT7+RUOfqL7Ma3yslPyTVi3AO/MHO+
+         g/a71KyMibHWQ==
+Message-ID: <76c89ad1-a189-c907-590c-35ae6b7edd9e@collabora.com>
+Date:   Thu, 13 Apr 2023 13:32:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v2 0/7] Add support for MT6331 and MT6332 LEDs
+Subject: Re: [PATCH v2 7/7] leds: leds-mt6323: Add support for WLEDs and
+ MT6332
 Content-Language: en-US
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
@@ -46,10 +47,11 @@ Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         kernel@collabora.com
 References: <20230412153310.241046-1-angelogioacchino.delregno@collabora.com>
- <ZDfeKhUvo5a9jd9E@duo.ucw.cz>
+ <20230412153310.241046-8-angelogioacchino.delregno@collabora.com>
+ <ZDfiNSAs3Bc7xe1l@duo.ucw.cz>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <ZDfeKhUvo5a9jd9E@duo.ucw.cz>
+In-Reply-To: <ZDfiNSAs3Bc7xe1l@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -61,41 +63,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 13/04/23 12:49, Pavel Machek ha scritto:
+Il 13/04/23 13:06, Pavel Machek ha scritto:
 > Hi!
 > 
->> Changes in v2:
->>   - Rebase over next-20230412
->>
->> NOTE: Since v1 of this series was sent in Semptember 2022 and got
->> ignored for *7 months* with no feedback, I'm retrying the upstreaming
->> of this same series.
->> There are no changes, if not just a simple rebase and another test
->> run on the same hardware.
->>
->>
->> MT6323 is not the only PMIC that has a LEDs controller IP and it was
->> found that the others do have a compatible register layout, except
->> for some register offsets.
->> The logic contained in this driver can be totally reused for other
->> PMICs as well, so I can't see any reason to keep this specific to
->> the MT6323 part.
->>
->> This series brings meaningful platform data to this driver, giving
->> it flexibility and adding support for LED controllers found in the
->> MT6331 and MT6332 PMICs.
->>
->> Tested on MT6795 Sony Xperia M5 smartphone.
+>> Add basic code to turn on and off WLEDs and wire up MT6332 support
+>> to take advantage of it.
+>> This is a simple approach due to to the aforementioned PMIC supporting
+>> only on/off status so, at the time of writing, it is impossible for me
+>> to validate more advanced functionality due to lack of hardware.
 > 
-> Please cc phone-devel with phone related stuff.
-
-Sorry, I completely forgot to :-(
-
 > 
-> Can I get ls /sys/class/leds on that machine?
+>> @@ -467,14 +590,24 @@ static int mt6323_led_probe(struct platform_device *pdev)
+>>   			goto put_child_node;
+>>   		}
+>>   
+>> +		is_wled = of_property_read_bool(child, "mediatek,is-wled");
+>> +
+> 
+> This needs documenting in the binding, no?
 
-Yes you can, but that will require some time, as I'm on other tasks.
-I should be able to provide that next week, sorry for the delay!
+Yes, and I forgot to. Would it be okay if I send a supplementary patch out
+of this series to document that since the bindings are already acked?
 
 Regards,
 Angelo
+
