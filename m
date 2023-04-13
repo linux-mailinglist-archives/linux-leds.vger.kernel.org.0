@@ -2,96 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 578636E0F11
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 15:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E8AC6E0F27
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 15:49:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjDMNne (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 09:43:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42472 "EHLO
+        id S230312AbjDMNtZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 09:49:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231673AbjDMNnS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 09:43:18 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1338BAF17
-        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 06:41:39 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v10so1876192wmn.5
-        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 06:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681393287; x=1683985287;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o/uJoEfdBrHkM8umj9Qzq6MjpEIPQ75HXLhRcJDJNhI=;
-        b=qSaoqkqkXL6KGFFgIvLODD2VAFqyodvQSgU3JqfWiN448FpeIYuzdy7SuHZZEsBeFR
-         Qj5dZ7MZ/gFqSKI5yYikfFNmI/SFl3LnEbdxO1Kh5l27EFL5y00P0ts79XVTatBUjxMd
-         X9PqfQqBaa0dp2JARMfHxT5hwo+Ru0T25lpk+MtMnJ1Gri/TqB+K4rck/fANnMKJGSDi
-         G11D7L8Ds7426Iya87fZYsH1rIFI0NwD5eoF9mUqkR70pO/hYdDGOuN1PWGQUnQw2q1i
-         zexerlbyF6t9bADh1BfBpoSK960IU68mOsrjJySi0NI44F5PMhX0837tf5z5l77jg+GJ
-         tBRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681393287; x=1683985287;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/uJoEfdBrHkM8umj9Qzq6MjpEIPQ75HXLhRcJDJNhI=;
-        b=doCmwQIN6W+LsyeZ5w/fV5a0M90ItuB/pHuEQCq8bBYiqwXyhAZXQlPaFg41/i0oL7
-         hmmvBfFr02W2yA/kqkjSlwyDnKR/SgtDPfACGzJ7Vtr06BP20ZqcLvC6hpPc5ECB3eTx
-         AyfsusTx7Bg1lS2FK2ai/Rey21cjO+feVvA3FJHzVi5AwlifC9Y7qnMhN5JO8btH34CF
-         7SM/Jig0+8jfxb8WxXzI2ngu9RmXjsHiQiQTLWTrpqJgXbgIW1y8DHVCiYf3g41YXbst
-         t/aQCbuDf4A4qLx1uSkfzqY8zgHU4T1HU6HuMj1ZmkFmoAEPq+MTbbD6tqlK2h5mVf9V
-         r8dg==
-X-Gm-Message-State: AAQBX9ekB9PWPKmYYcrArRen9ysHn70o2d6MSRHJi/KjOXNXN5xgOgWK
-        mZa1sTV4ABEufa8cf/rmVLDSYw==
-X-Google-Smtp-Source: AKy350ZTQwiWfW3YM7pVVGvdZnslX3wudj8JovNDzaTTKOlXEzGpDqVhqmlxUMJSphB5wrVujBhi6w==
-X-Received: by 2002:a7b:cb06:0:b0:3f0:9564:f4f6 with SMTP id u6-20020a7bcb06000000b003f09564f4f6mr1908290wmj.1.1681393286675;
-        Thu, 13 Apr 2023 06:41:26 -0700 (PDT)
-Received: from [10.1.3.59] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id p8-20020a7bcc88000000b003f04f0c5a6fsm1837156wma.26.2023.04.13.06.41.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 06:41:26 -0700 (PDT)
-Message-ID: <f4ffb7ab-7f61-df0a-fca8-54585fca16d2@baylibre.com>
-Date:   Thu, 13 Apr 2023 15:41:25 +0200
+        with ESMTP id S229835AbjDMNtY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 09:49:24 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452A7183;
+        Thu, 13 Apr 2023 06:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oAjc4p31qBTYB2X3O2xXYDletpffUIGgohb4G3UUKDE=; b=IqCggXgNajROaakNuU4mv+92TM
+        dAtpI153Gn/L8YUMBBBAxOIVlpgTZmswWmZ1sSMaXRM7257aXfi5WrRZaOaCoGOuXXuncoCX7rTua
+        jEwTtlqxp4bWiw+oX+PsWL0JBCx+6inlBGLVGmO9dNLdHo955b76gzbaikgv+NpJcFuY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pmxJs-00ABvw-LA; Thu, 13 Apr 2023 15:49:00 +0200
+Date:   Thu, 13 Apr 2023 15:49:00 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        John Crispin <john@phrozen.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [net-next PATCH v6 12/16] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Message-ID: <05cf9959-ff47-45b4-97a5-dd73042373fe@lunn.ch>
+References: <20230327141031.11904-1-ansuelsmth@gmail.com>
+ <20230327141031.11904-13-ansuelsmth@gmail.com>
+ <20230406141018.GA2956156-robh@kernel.org>
+ <6438051c.050a0220.d7db1.e1f7@mx.google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 5/7] leds: leds-mt6323: Drop MT6323_ prefix from macros
- and defines
-Content-Language: en-US
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, pavel@ucw.cz
-Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20230412153310.241046-1-angelogioacchino.delregno@collabora.com>
- <20230412153310.241046-6-angelogioacchino.delregno@collabora.com>
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230412153310.241046-6-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6438051c.050a0220.d7db1.e1f7@mx.google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 12/04/2023 17:33, AngeloGioacchino Del Regno wrote:
-> This renames all definitions and macros to drop the MT6323_ prefix,
-> since it is now possible to easily add support to more PMICs in
-> this driver.
-> While at it, also fix related formatting where possible.
+> > >  examples:
+> > >    - |
+> > >      #include <dt-bindings/gpio/gpio.h>
+> > > +    #include <dt-bindings/leds/common.h>
+> > >  
+> > >      mdio {
+> > >          #address-cells = <1>;
+> > > @@ -226,6 +229,27 @@ examples:
+> > >                      label = "lan1";
+> > >                      phy-mode = "internal";
+> > >                      phy-handle = <&internal_phy_port1>;
+> > > +
+> > > +                    leds {
+> > > +                        #address-cells = <1>;
+> > > +                        #size-cells = <0>;
+> > > +
+> > > +                        led@0 {
+> > > +                            reg = <0>;
+> > > +                            color = <LED_COLOR_ID_WHITE>;
+> > > +                            function = LED_FUNCTION_LAN;
+> > > +                            function-enumerator = <1>;
+> > > +                            default-state = "keep";
+> > > +                        };
+> > > +
+> > > +                        led@1 {
+> > > +                            reg = <1>;
+> > > +                            color = <LED_COLOR_ID_AMBER>;
+> > > +                            function = LED_FUNCTION_LAN;
+> > > +                            function-enumerator = <1>;
+> > 
+> > Isn't function-enumerator supposed to be unique within a given 
+> > 'function'?
+> >
 > 
-> This commit brings no functional changes.
+> In the following example the output would be:
+> - amber:lan-1
+> - white:lan-1
 > 
-> Signed-off-by: AngeloGioacchino Del Regno<angelogioacchino.delregno@collabora.com>
+> So in theory it's unique for the same color and function. Is it
+> acceptable? Seems sane that there may be multiple color for the same
+> function (and enum)
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+But what does the -1 actually mean?
 
-Regards,
-Alexandre
+At Pavel's request, i documented 'good' names for these LEDs. I
+suggested that if there are multiple LEDs for one MAC/PHY, you use
+something like 'left' or 'right' to indicate their position on the
+RJ45 socket. That has a clear meaning.
 
+     Andrew
