@@ -2,36 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8AC6E0F27
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 15:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C391A6E0F4D
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 15:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230312AbjDMNtZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 09:49:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
+        id S231510AbjDMNzw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 09:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbjDMNtY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 09:49:24 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452A7183;
-        Thu, 13 Apr 2023 06:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=oAjc4p31qBTYB2X3O2xXYDletpffUIGgohb4G3UUKDE=; b=IqCggXgNajROaakNuU4mv+92TM
-        dAtpI153Gn/L8YUMBBBAxOIVlpgTZmswWmZ1sSMaXRM7257aXfi5WrRZaOaCoGOuXXuncoCX7rTua
-        jEwTtlqxp4bWiw+oX+PsWL0JBCx+6inlBGLVGmO9dNLdHo955b76gzbaikgv+NpJcFuY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1pmxJs-00ABvw-LA; Thu, 13 Apr 2023 15:49:00 +0200
-Date:   Thu, 13 Apr 2023 15:49:00 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
+        with ESMTP id S229636AbjDMNzu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 09:55:50 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F5241734;
+        Thu, 13 Apr 2023 06:55:50 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id e3so3588013qtm.12;
+        Thu, 13 Apr 2023 06:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681394149; x=1683986149;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a9HePoc1byCaDvU+7cJGg3q4HHTE302VhN9dMxtjV28=;
+        b=IU3p539oEgXcSt7swb99qmrSMzBEaMueElgANoVE5v+GBN9XULkEkhWYM2x6lbZKR6
+         CFxt6BpeulxKzzSN0Q7QAsFOGupBBFuR9Get8bhVa584vxuXrjJS1DZjcGcpnQa3a61T
+         I8WyvwdzZF5y3hzj/0Dj4+EiGdDVIrKdq1znC5yC4ARC4b9j3dUW1Slry5dil2pphpXo
+         G6E6HWYohUaGXOvf6cB9YvWyz2YWFWLOOldEX7wbqC4QMyr7r2lPxfd3a2nVkqaN5Uyq
+         nHfjvGELVZdKXMWu5PGy965r7/W8KACQMaNscFGHKrEFwp3eiXthwzbGB9Xv3IFGSgkn
+         QO7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681394149; x=1683986149;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a9HePoc1byCaDvU+7cJGg3q4HHTE302VhN9dMxtjV28=;
+        b=Z9+tTc6UcQjMKsxNdHTOBijsgD2uiHfJctPxKM54oZ8Sc7xyh6po4XNre+KIa3Zby3
+         RhXFfkIcsynTncr+CgckekzZZ03x0yDlWsYjE80qMWUxlWYi8VL5/szIr6L8hiTv9mBr
+         dFPfmDaHfKuoSJMmWes8o5n7mla1mUXIqYSc648jRTbcghHZikZvwzzZyuAuzE0TkPJc
+         CCwx/Cm9dzUKfIj0ZXUwhE5wmvKFmyJ0ohLMCDAil+1wljFLBYh229QSmrXgHXx0N0rv
+         7Hvl0ApchhlxYd7ysXXtRSXZbrZWS9WsMuoRWAT7cca+tv2N7YlnNAJiFJBSK3uk4OJE
+         Gv1w==
+X-Gm-Message-State: AAQBX9dSmSzC/Fb6Wpct0DMNdtl7zM+JSKydHOfmYC+NKexbA9T/VZzT
+        mqrHlYBWkXTC0C1t86HQ4sg=
+X-Google-Smtp-Source: AKy350axQqcWdyjB+SucIWq7SiBVGiecJhizq+1cVRX/wBibDs0L/nrvkaMQ1InlqLOZeGrDIKdWXQ==
+X-Received: by 2002:a05:622a:2c5:b0:3e3:8a0b:8c80 with SMTP id a5-20020a05622a02c500b003e38a0b8c80mr3117294qtx.41.1681394149054;
+        Thu, 13 Apr 2023 06:55:49 -0700 (PDT)
+Received: from [192.168.1.105] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id bj9-20020a05620a190900b007487c780f5esm475802qkb.121.2023.04.13.06.55.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 06:55:48 -0700 (PDT)
+Message-ID: <81ebb6c3-ff6a-c8cd-ae5b-3a5594e9c9f9@gmail.com>
+Date:   Thu, 13 Apr 2023 06:55:44 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [net-next PATCH v6 07/16] net: phy: marvell: Add software control
+ of the LEDs
+Content-Language: en-US
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
@@ -48,73 +78,34 @@ Cc:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org
-Subject: Re: [net-next PATCH v6 12/16] dt-bindings: net: dsa: qca8k: add LEDs
- definition example
-Message-ID: <05cf9959-ff47-45b4-97a5-dd73042373fe@lunn.ch>
 References: <20230327141031.11904-1-ansuelsmth@gmail.com>
- <20230327141031.11904-13-ansuelsmth@gmail.com>
- <20230406141018.GA2956156-robh@kernel.org>
- <6438051c.050a0220.d7db1.e1f7@mx.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6438051c.050a0220.d7db1.e1f7@mx.google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+ <20230327141031.11904-8-ansuelsmth@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20230327141031.11904-8-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > >  examples:
-> > >    - |
-> > >      #include <dt-bindings/gpio/gpio.h>
-> > > +    #include <dt-bindings/leds/common.h>
-> > >  
-> > >      mdio {
-> > >          #address-cells = <1>;
-> > > @@ -226,6 +229,27 @@ examples:
-> > >                      label = "lan1";
-> > >                      phy-mode = "internal";
-> > >                      phy-handle = <&internal_phy_port1>;
-> > > +
-> > > +                    leds {
-> > > +                        #address-cells = <1>;
-> > > +                        #size-cells = <0>;
-> > > +
-> > > +                        led@0 {
-> > > +                            reg = <0>;
-> > > +                            color = <LED_COLOR_ID_WHITE>;
-> > > +                            function = LED_FUNCTION_LAN;
-> > > +                            function-enumerator = <1>;
-> > > +                            default-state = "keep";
-> > > +                        };
-> > > +
-> > > +                        led@1 {
-> > > +                            reg = <1>;
-> > > +                            color = <LED_COLOR_ID_AMBER>;
-> > > +                            function = LED_FUNCTION_LAN;
-> > > +                            function-enumerator = <1>;
-> > 
-> > Isn't function-enumerator supposed to be unique within a given 
-> > 'function'?
-> >
+
+
+On 3/27/2023 7:10 AM, Christian Marangi wrote:
+> From: Andrew Lunn <andrew@lunn.ch>
 > 
-> In the following example the output would be:
-> - amber:lan-1
-> - white:lan-1
+> Add a brightness function, so the LEDs can be controlled from
+> software using the standard Linux LED infrastructure.
 > 
-> So in theory it's unique for the same color and function. Is it
-> acceptable? Seems sane that there may be multiple color for the same
-> function (and enum)
+> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 
-But what does the -1 actually mean?
-
-At Pavel's request, i documented 'good' names for these LEDs. I
-suggested that if there are multiple LEDs for one MAC/PHY, you use
-something like 'left' or 'right' to indicate their position on the
-RJ45 socket. That has a clear meaning.
-
-     Andrew
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
