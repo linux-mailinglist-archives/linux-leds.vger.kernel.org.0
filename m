@@ -2,92 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 238086E0CFA
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 13:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A518C6E0E03
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Apr 2023 15:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbjDMLrc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Apr 2023 07:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
+        id S230246AbjDMNGq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Apr 2023 09:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231217AbjDMLrQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 07:47:16 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702BDA5D0;
-        Thu, 13 Apr 2023 04:47:07 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id z8so20545148lfb.12;
-        Thu, 13 Apr 2023 04:47:07 -0700 (PDT)
+        with ESMTP id S230218AbjDMNGl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Apr 2023 09:06:41 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125099ED1
+        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 06:06:29 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id l18so14117947wrb.9
+        for <linux-leds@vger.kernel.org>; Thu, 13 Apr 2023 06:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681386426; x=1683978426;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1681391187; x=1683983187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z3v/g1+YK4ohjxNpY7X/EAjO3Cvna/Uxm2/iuGIHV0o=;
-        b=Z+BPO5+eqiznWawGagxUVRp9ax2e9DRkcHqyZt5OsK+LNa2rKyorWho7ZWRYq1U3Uc
-         aU8uJ9lNldPgMlP+nW9laXMGoA2zoGKA3Uv1Qe7wlS/eoevdGleUVHyeEpEEvR4egW/U
-         Ziat+ldE5jUvwLztLtiep5+tjhBYIIhqe+YR1SlKydKyZWuvhFF9kpcEm4dEWY6RNkJk
-         xMRPXV+rZwNvGhk+LnJz1NLwBG4Nyjy4QEhEYXJOWvLbY6oUNzyGQjGo4ttHUUi1qFlA
-         yCQSnBwZV92iLLdygfLwUaKqIrxDcuDlIrfJaiZ1ZQKtcO8okuvVYiRXZoLjIbNNFrl4
-         +krA==
+        bh=THCBAFRMcXe9zpyJC9Q8PtfBGHTK+dcgnrUK69wvLYY=;
+        b=qLFVUy6NlUX9Ba60wSk1wWE3TDQdKaK3W3T1Wg2aeN5q5KebQPT4240XIBJ/sfygOZ
+         MvSb9gIjaYgqi+yijRN/1v8/5HkOg6dTeWeXADKL1zugJu2kSwlnUFwQWUsEiIIL9xaI
+         AmFZTZeC8v04x1IEuiGvOL8iZiiP40Tq1gfOQExFneF6povFX5d4b/Zqsi41MJlbEtty
+         8XAI7lzHT5i872DDJLxsoD32zTjiZ8tZIEiZqDgFBfRmEBj9u0fbWJqIMlR96D/ZiH/n
+         CrZLmHYZbaCaf/OBE2nccSfm8kaTM2pnkwewOGNPF0yIuV0Q3f7niNBQR2NjFSyIAZF0
+         VE6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681386426; x=1683978426;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20221208; t=1681391187; x=1683983187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z3v/g1+YK4ohjxNpY7X/EAjO3Cvna/Uxm2/iuGIHV0o=;
-        b=St00qEdFqr5NmJB5R4MO1G9xi4hgALP0N6G9imKgj6U2k6iUMA7OBC6QXxm59tjFLy
-         zJr3I+RXuvtS9Fv65j1vq+AHITIE60R9fVB7IxgXjzLqPRkpLeP5ZvDHbS5nRqBt6hfl
-         rvdtdZG8YlnI53a7wqtFwCMW0TbEknQB/oCYIRUjseA5zlAYgmvBatpOEh4heHHL2+P4
-         sGDMrBgHQskDA1r467SFnP7Y+v5A1EhdlRs0Ef2T+1TsV5T/BrbG7r+lj//BkfE87lcu
-         FbHbzcvnfvuOWnO/O6/ZUuCfcOomAsgZUechV+TnpIEag9bpmFbp8Bn6PU2bxhnmaWu5
-         d/zg==
-X-Gm-Message-State: AAQBX9ded23EgKRcCA9UZnQR5PyZVjb0JOq6LKmlDVRAfDrr7FshUJf2
-        MV0KaDeDgSjLBovb2TWMgRI=
-X-Google-Smtp-Source: AKy350b83BiwhY/ARiBiqr7RAaIjdxIB4n41CUt1Vnh2IVdKu6EVHfUfM4Y6LsQWXnFGf+YQeWQFpg==
-X-Received: by 2002:a05:6512:50f:b0:4eb:4002:a5ca with SMTP id o15-20020a056512050f00b004eb4002a5camr906727lfb.66.1681386425552;
-        Thu, 13 Apr 2023 04:47:05 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:16f3:4a00::1? (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id s12-20020ac25fec000000b004ec55ac6cd1sm277523lfg.136.2023.04.13.04.47.04
+        bh=THCBAFRMcXe9zpyJC9Q8PtfBGHTK+dcgnrUK69wvLYY=;
+        b=mBefJUKzXPRd4ngRO6I19O+y46dgNJP7T1BQVixvSO7m2AUfTYgdU3HcQq6Z6komyt
+         SNGaLo/JalwfD/bb8iQjt0JB8yhzllDKUwYQJSqIB33uovwqlaplXpfUcymqQXta63Sy
+         /c1od6BjsnPyYbOTjC7/+2d4DjzlzpXUoq3hBNwEQ7p2vr4mRYs66ocV/ChetO8t90Oo
+         4tTCLNCegrGKrSnQVSuMWVhR9BLvxwS5r8ZL80hVIkpO+nDKaw/MNrGENGV1VYuGZ7AN
+         FFAZgc7SHzEeE1mh14+5y+kfDyUL6nkKk0/3rXqNqfxEGkiHX2b0p9teTqts0FW+NHI+
+         GIpg==
+X-Gm-Message-State: AAQBX9fk/MDrjNF51REJDJ83tjWxfE+2jnbTcvPQMUNmiEkxbaOfcR2U
+        KhmlwG+5Nft4EQ2Lhgs0yUDcHg==
+X-Google-Smtp-Source: AKy350ZKJm0iav7HvUz7GTFakJ+tdrOILRQV0JiioSu+p4JJYjdTdnwsKypDNL7X7cITAJ2227b7Cw==
+X-Received: by 2002:a5d:6a11:0:b0:2cf:ea3a:2b9e with SMTP id m17-20020a5d6a11000000b002cfea3a2b9emr1570627wru.43.1681391187453;
+        Thu, 13 Apr 2023 06:06:27 -0700 (PDT)
+Received: from [10.1.3.59] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id r12-20020adff10c000000b002cfe685bfd6sm1255020wro.108.2023.04.13.06.06.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 04:47:05 -0700 (PDT)
-Message-ID: <b259e7fc-130b-1158-00b6-934861a41aaa@gmail.com>
-Date:   Thu, 13 Apr 2023 14:47:04 +0300
+        Thu, 13 Apr 2023 06:06:27 -0700 (PDT)
+Message-ID: <3ebf7c2b-f9fb-6c1c-308b-47f28ba04ead@baylibre.com>
+Date:   Thu, 13 Apr 2023 15:06:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED driver
-Content-Language: en-US, en-GB
-To:     Andreas Kemnade <andreas@kemnade.info>, pavel@ucw.cz,
-        lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230413110307.310944-1-andreas@kemnade.info>
- <20230413110307.310944-2-andreas@kemnade.info>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20230413110307.310944-2-andreas@kemnade.info>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 4/7] leds: leds-mt6323: Open code and drop
+ MT6323_CAL_HW_DUTY macro
+Content-Language: en-US
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, pavel@ucw.cz
+Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20230412153310.241046-1-angelogioacchino.delregno@collabora.com>
+ <20230412153310.241046-5-angelogioacchino.delregno@collabora.com>
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230412153310.241046-5-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/13/23 14:03, Andreas Kemnade wrote:
-> Document ROHM BD2606MVV LED driver devicetree bindings.
+On 12/04/2023 17:33, AngeloGioacchino Del Regno wrote:
+> There is only one instance of using this macro and it's anyway not
+> simplifying the flow, or increasing the readability of this driver.
 > 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> Drop this macro by open coding it in mt6323_led_set_blink().
+> 
+> No functional changes.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno<angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+Regards,
+Alexandre
 
