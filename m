@@ -2,52 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F04CD6E2766
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 17:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FD76E278B
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 17:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbjDNPuQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Apr 2023 11:50:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37348 "EHLO
+        id S230219AbjDNPyY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Apr 2023 11:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbjDNPuP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 11:50:15 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50866CC12;
-        Fri, 14 Apr 2023 08:49:50 -0700 (PDT)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id A2046D0C6C;
-        Fri, 14 Apr 2023 15:49:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1681487388; bh=5deGG8YgU39L1Frgo8v0yyglncVg1IVJihr5ucsOgwU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=FkU9900bN1eIkqyry8Nz/biLX4tEc0fOQ9U7oWDSCiJ73JpfWOFbX3ezwF9gbTT3X
-         DradnDxwJSYpRV+qYrCKhWlfR0VuSklTM4Oig9t26UpxmmLDtoty2tR44ayIzrBumh
-         +nvJc1W3wJcGkVgom6xliaYylE1639Gxvvq4pums=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        with ESMTP id S230088AbjDNPyX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 11:54:23 -0400
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6320B26BB;
+        Fri, 14 Apr 2023 08:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=QUM4XJ7mQSq9TvavrDLW/Vfh3IOCjYmda+Bn99hI3jo=; b=Bx5rH30nQUbNs2a4ibnFIy/vZn
+        ei99LiZ1NJtk+FqSEjiPoKBJG01g7iCkpydbTFw1fPeRfOhWtaIBpx4Nt1FXbiRtuAq6r1sRsUwVb
+        Q2VT+YQUIS5u4nvsYrAnqQ8VeU2VdPF9BxI76rW25Pn4k65dPU+AijY+qJUbvK4exMPQMfhYitWsp
+        RxsR4Y5D6dajbuQMH9lOwWbyukSne47xZObCeh5e1g9P+L/Y/plsT+tjFsqQnw/6fR8Oh967ifQXO
+        fPieog9jD/+GqPquYVXiA34Sqw1e6BkOTnfRGh10I7kL7wqk0Fzh417vlRoDa71bNw8G/3nwsfBmQ
+        N1JZAgmQ==;
+Received: from p200300ccff0c0d001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0c:d00:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1pnLkb-0006RA-Ti; Fri, 14 Apr 2023 17:54:15 +0200
+Date:   Fri, 14 Apr 2023 17:54:12 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 8/8] arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
-Date:   Fri, 14 Apr 2023 17:49:47 +0200
-Message-ID: <5205040.31r3eYUQgx@z3ntu.xyz>
-In-Reply-To: <96180862-6dbf-77e1-4aca-9a3b9ee39294@linaro.org>
-References: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz>
- <20230414-pmi632-v1-8-fe94dc414832@z3ntu.xyz>
- <96180862-6dbf-77e1-4aca-9a3b9ee39294@linaro.org>
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED driver
+Message-ID: <20230414175412.37a15572@aktux>
+In-Reply-To: <f9da7499-3fb3-1ce6-db0b-d87febee2052@linaro.org>
+References: <20230414055341.335456-1-andreas@kemnade.info>
+        <20230414055341.335456-2-andreas@kemnade.info>
+        <f9da7499-3fb3-1ce6-db0b-d87febee2052@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -57,90 +58,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Freitag, 14. April 2023 01:36:38 CEST Konrad Dybcio wrote:
-> On 14.04.2023 01:17, Luca Weiss wrote:
-> > The phone features a notification LED connected to the pmi632. Configure
-> > the RGB led found on it.
-> > 
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> > 
-> >  arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts | 29
-> >  +++++++++++++++++++++++ 1 file changed, 29 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-> > b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts index
-> > 70e683b7e4fc..301eca9a4f31 100644
-> > --- a/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-> > +++ b/arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
-> > @@ -4,8 +4,10 @@
-> > 
-> >   */
-> >  
-> >  /dts-v1/;
-> > 
-> > +#include <dt-bindings/leds/common.h>
-> > 
-> >  #include "sdm632.dtsi"
-> >  #include "pm8953.dtsi"
-> > 
-> > +#include "pmi632.dtsi"
-> > 
-> >  / {
-> >  
-> >  	model = "Fairphone 3";
-> > 
-> > @@ -83,6 +85,33 @@ &pm8953_resin {
-> > 
-> >  	linux,code = <KEY_VOLUMEDOWN>;
-> >  
-> >  };
-> > 
-> > +&pmi632_lpg {
+On Fri, 14 Apr 2023 17:28:49 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> On 14/04/2023 07:53, Andreas Kemnade wrote:
+> > Document ROHM BD2606MVV LED driver devicetree bindings.  
 > 
-> qcom,power-source?
-
-This property is only used if triled_has_src_sel is set in the driver (which 
-it isn't on pmi632), only on pm8941 & pmi8994 it is set.
-
-Regards
-Luca
-
+> Subject: no improvements and no comments from your side. Why?
 > 
-> Konrad
-> 
-> > +	status = "okay";
-> > +
-> > +	multi-led {
-> > +		color = <LED_COLOR_ID_RGB>;
-> > +		function = LED_FUNCTION_STATUS;
-> > +
-> > +		#address-cells = <1>;
-> > +		#size-cells = <0>;
-> > +
-> > +		led@1 {
-> > +			reg = <1>;
-> > +			color = <LED_COLOR_ID_RED>;
-> > +		};
-> > +
-> > +		led@2 {
-> > +			reg = <2>;
-> > +			color = <LED_COLOR_ID_GREEN>;
-> > +		};
-> > +
-> > +		led@3 {
-> > +			reg = <3>;
-> > +			color = <LED_COLOR_ID_BLUE>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> > 
-> >  &sdhc_1 {
-> >  
-> >  	status = "okay";
-> >  	vmmc-supply = <&pm8953_l8>;
+old subject (v2):
 
+dt-bindings: leds: ROHM BD2606MVV LED driver
 
+Your comment:
+Subject: maybe drop "driver" (suggests it is for Linux drivers, although
+maybe it matches the actual hardware here?) and add missing verb, e.g.
+"Add ROHM ..."
 
+New Subject (v3/4):
+dt-bindings: leds: Add ROHM BD2606MVV LED driver
 
+What is still missing?
+
+Regards,
+Andreas
