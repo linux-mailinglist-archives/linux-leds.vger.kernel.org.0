@@ -2,60 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27BDB6E2ADA
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 21:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95D56E2B99
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 23:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjDNT67 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Apr 2023 15:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
+        id S229950AbjDNVSB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Apr 2023 17:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjDNT66 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 15:58:58 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647C45B80
-        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 12:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681502328; x=1713038328;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fn5psYm0ryumh4190zqcopqCWIS4zQJzJk/MrpWyEYY=;
-  b=ViCu8uhtioizf9Btz+qki+xt8Lc5+iIAcKPdrwyYcF9cPlYAVoyVA3Rm
-   UJAgnWan4g8FFVhMRQbuERtUoi1Wa9mHBaCA08DFbr40h8sFBzWJ7UysS
-   n+0oYfOQ5XAtRxbkezKE2pgZ3ajqZRgBQ/h7uHKTE8n/AIX0lu03gR4FS
-   imP2s1PkMpkhUV4LoHqBnvcL2MDgAwDGQgoE0YM5ukfpYgRE3wNOonYsr
-   9kEhYyYUSV0IRwcRxPO1VVIYwL129Z8UkBn9fGZl+OiG2QFiJscrDMZSS
-   xKifeLiqh+DXeTO6lnDtwmsP38lugkd7C1PUKFfqJLeEtPAlAzkA3CQ1H
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="344555966"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="344555966"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 12:58:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="683444983"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="683444983"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 14 Apr 2023 12:58:46 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pnPZF-000Zsm-2X;
-        Fri, 14 Apr 2023 19:58:45 +0000
-Date:   Sat, 15 Apr 2023 03:58:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- c1087c29e96a48e9080377e168d35dcb52fb068b
-Message-ID: <6439b05d.eZSK/6ksDz0So1DD%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229647AbjDNVSA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 17:18:00 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A04B194
+        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 14:17:59 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-5027e589e20so7675722a12.3
+        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 14:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681507078; x=1684099078;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V5AvGPmA06/gJPA23TlBPBxIabrtbwIccItOyaREqzg=;
+        b=LIlyQWrYrfeVSSKeAHC81R3C5F66XFNiLs/MbPyBP0i7sY/4Xm38+exM4gF4BXXD/A
+         1LAbkURHeMTjND1m7+yc2fr3tSmxps4VB752pvv5ZpvcDDgDwucpemOscHqWt18ytXX+
+         mNlAkNJhljTvCxKGmxLJALwf40ZeQePtVANwZwX9Z72LDGu5TfeHVGwDcf4cJvslO4Jp
+         Vgq/V2ev/b11kUWrPVVHc90IcvELY1bv+/LajBWUukuBeWix5hec6Frn/vjg7JCRS0Ad
+         BKGP5Y7z1BvmfVxt+kwTjh643jeeIz+0fV19Vq1aWcFYeEMbzTlu4dAveZwQenApTCcL
+         fn9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681507078; x=1684099078;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V5AvGPmA06/gJPA23TlBPBxIabrtbwIccItOyaREqzg=;
+        b=G2e+tbHUkjyfNCIdo2ThmaTTSTDDiN2vLV/s79NAXP7g6KbXlbxqI7TNe+HJqtndDl
+         S8mBDUzlJAwVSSUYdcEzQmMDWH+57ZLAHqJU+6vX3BOWVkxCwfQQSqbvi1NCbTQPWI/J
+         TtMHGG8U/4HZN1e0CdMEa8SdRCcIMFbkT7CQijXQ1r/x4s9kLZRFW6udW2p8H/gra//Y
+         Vn97TCpwQWY03bBijviJnOKnjuHp5Rb9s4hlQaoTv3eR43v8YsvRzGa37Tlt6w+7G1R0
+         2yFV0oCOC1roRaTacm0wxZ32e/o1iR5QE7yRE7M5iVtC6OpSEWmMQWlPaQi3PlOBeEbu
+         GzBw==
+X-Gm-Message-State: AAQBX9cCXPp8wmpLApsmWbZEiTPKeEXOizuU4U45BYKtnupCc/OXdoTV
+        tUV/cqVvDMAnMqV5nWaMlFF02Q==
+X-Google-Smtp-Source: AKy350YN+OC0BFkBYPm3KjRADVMUYORFXY1F7qNYllRDePU1n+HT4uyiBbYoAt5DsXmxzFYFrpw/Kg==
+X-Received: by 2002:a50:ff02:0:b0:506:7cc8:7420 with SMTP id a2-20020a50ff02000000b005067cc87420mr4657401edu.31.1681507078029;
+        Fri, 14 Apr 2023 14:17:58 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ffae:8aab:ae5a:4688? ([2a02:810d:15c0:828:ffae:8aab:ae5a:4688])
+        by smtp.gmail.com with ESMTPSA id s11-20020a056402164b00b00504adfd77f6sm2486049edx.29.2023.04.14.14.17.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Apr 2023 14:17:57 -0700 (PDT)
+Message-ID: <7fe8d6f5-ab0f-c6d5-2551-7beb3dfb16d7@linaro.org>
+Date:   Fri, 14 Apr 2023 23:17:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v4 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED driver
+Content-Language: en-US
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+References: <20230414055341.335456-1-andreas@kemnade.info>
+ <20230414055341.335456-2-andreas@kemnade.info>
+ <f9da7499-3fb3-1ce6-db0b-d87febee2052@linaro.org>
+ <20230414175412.37a15572@aktux>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230414175412.37a15572@aktux>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,103 +79,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: c1087c29e96a48e9080377e168d35dcb52fb068b  leds: tca6507: Fix error handling of using fwnode_property_read_string
+On 14/04/2023 17:54, Andreas Kemnade wrote:
+> On Fri, 14 Apr 2023 17:28:49 +0200
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+>> On 14/04/2023 07:53, Andreas Kemnade wrote:
+>>> Document ROHM BD2606MVV LED driver devicetree bindings.  
+>>
+>> Subject: no improvements and no comments from your side. Why?
+>>
+> old subject (v2):
+> 
+> dt-bindings: leds: ROHM BD2606MVV LED driver
+> 
+> Your comment:
+> Subject: maybe drop "driver" (suggests it is for Linux drivers, although
+> maybe it matches the actual hardware here?) and add missing verb, e.g.
+> "Add ROHM ..."
+> 
+> New Subject (v3/4):
+> dt-bindings: leds: Add ROHM BD2606MVV LED driver
+> 
+> What is still missing?
 
-elapsed time: 724m
+There is still "driver". Comment was: drop "driver". Where is it dropped?
 
-configs tested: 84
-configs skipped: 3
+If you do not agree, sure, just respond with something.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Best regards,
+Krzysztof
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r034-20230412   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r032-20230410   gcc  
-arc                  randconfig-r033-20230409   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r033-20230412   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-i386                              allnoconfig   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230410   clang
-i386                 randconfig-a002-20230410   clang
-i386                 randconfig-a003-20230410   clang
-i386                 randconfig-a004-20230410   clang
-i386                 randconfig-a005-20230410   clang
-i386                 randconfig-a006-20230410   clang
-i386                 randconfig-a011-20230410   gcc  
-i386                 randconfig-a012-20230410   gcc  
-i386                 randconfig-a013-20230410   gcc  
-i386                 randconfig-a014-20230410   gcc  
-i386                 randconfig-a015-20230410   gcc  
-i386                 randconfig-a016-20230410   gcc  
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r034-20230410   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r036-20230409   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r035-20230409   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r031-20230412   gcc  
-parisc               randconfig-r032-20230409   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                    mvme5100_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r032-20230412   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r031-20230409   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230410   clang
-x86_64                        randconfig-a001   clang
-x86_64               randconfig-a002-20230410   clang
-x86_64               randconfig-a003-20230410   clang
-x86_64                        randconfig-a003   clang
-x86_64               randconfig-a004-20230410   clang
-x86_64               randconfig-a005-20230410   clang
-x86_64                        randconfig-a005   clang
-x86_64               randconfig-a006-20230410   clang
-x86_64               randconfig-a011-20230410   gcc  
-x86_64               randconfig-a012-20230410   gcc  
-x86_64               randconfig-a013-20230410   gcc  
-x86_64               randconfig-a014-20230410   gcc  
-x86_64               randconfig-a015-20230410   gcc  
-x86_64               randconfig-a016-20230410   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r035-20230410   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
