@@ -2,99 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41AB66E1DA0
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 09:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A037C6E2094
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 12:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbjDNH4n (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Apr 2023 03:56:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42558 "EHLO
+        id S230128AbjDNKTU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Apr 2023 06:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbjDNH4f (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 03:56:35 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A858C7D83
-        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 00:56:28 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id jg21so43204034ejc.2
-        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 00:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681458987; x=1684050987;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jW+MbmxIJNrbIzKdDNHsLz5HCe2p5XocFzky4ID/b28=;
-        b=SQuOmnpYAOKYWLP2/Hb5F/pB9ial8nLpK3cS1BU9upFDDlnw3Nphv73mLmqzPdvQfB
-         TNzaw7yq7FXlkQkwp01QVsq3wwJsWn0kC11GJT8mjmQdupiuwPolDVLPPc2EV3D4Omnl
-         7rWfnT2x3piw64ezhXCeNktfmwX4GuUwiOtk3glbb2BqUIv+j3aSF+H0t7asOAcUTNPI
-         BQXW/eoYu+4S3oRW7NMlbE1gclUx4Q22X9T0FX+d2PNzYRo5C9FluWJMmpJqvIWRz+2W
-         IO13S4c9e1+A82Kv0VkgGz1X9fvTCQMxWeXkin2MPnbQgVjJAY/Shld9AfMpObvElKnu
-         7WKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681458987; x=1684050987;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jW+MbmxIJNrbIzKdDNHsLz5HCe2p5XocFzky4ID/b28=;
-        b=KWaoSE+IDNH3c+KdkthqPaL9loyT5/QwZmeVxWfhjeL0e437yawypQ9bJn5CvT8U7N
-         XsXxoqZ2ZAEgQuHp4HEnBd4PVBF4ZLEIfJqpdWZsBzTrhRkJGJg0qvKurA+JMQM4UHiw
-         qDf8fagztd6A9B5qcWNrx2Lf0Fr0CbR570Vz3IPSaOPATFjuKt9ElErjhEKn1tXA5/FE
-         cOu6X4CpKehFACws2hXDf8Q8vfBxXzvZeoopzzUASxfA87pklZGO8gn+xzQRp/do+bbC
-         Ezxo7ajP9Yb2qKtG3FllPZQw7v8kiDgV5qd8Jx0E0Y2CxFBsvd1jCMLcRegMfT0XEIq4
-         FuRQ==
-X-Gm-Message-State: AAQBX9f5p3PBs2pugNQuJlMmNyhipf03jaOT12gqzRk7Z8tconaJE5Nn
-        43hL+gOZIAmkstxhsSl4wxA5PA==
-X-Google-Smtp-Source: AKy350bWhmK5DRYJSe1ViYwTt7BS/VNalYNzgHTzxjWODRHBfJ99m+BsYbrrBLJS7qShnrdAbySENg==
-X-Received: by 2002:a17:906:33c8:b0:94a:653b:ba41 with SMTP id w8-20020a17090633c800b0094a653bba41mr4042099eja.15.1681458987112;
-        Fri, 14 Apr 2023 00:56:27 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:8a60:6b0f:105a:eefb? ([2a02:810d:15c0:828:8a60:6b0f:105a:eefb])
-        by smtp.gmail.com with ESMTPSA id gy18-20020a170906f25200b008ec4333fd65sm2047171ejb.188.2023.04.14.00.56.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Apr 2023 00:56:26 -0700 (PDT)
-Message-ID: <7a73d76c-ede1-6852-6544-acd2ee990ca1@linaro.org>
-Date:   Fri, 14 Apr 2023 09:56:25 +0200
+        with ESMTP id S230115AbjDNKTQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 06:19:16 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AFFA7EF8;
+        Fri, 14 Apr 2023 03:19:11 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5052A6603221;
+        Fri, 14 Apr 2023 11:19:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681467550;
+        bh=VeLJmPRvnvEQ5IsnqXZVpDeqo2cwm0kmKEbVshVuBp8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=D4l4IvXvCtqC3q5kEPR63kKHkXr3NXvxuaNRo9Tu3sa2jvRz7b6V543y+h/1EObv5
+         UzpIhgf2ablwIZJHwB3fKsigC0ozALklq9Bu1D9+Bk635GloxxsT2oTvjFU+0E7m8a
+         hux5psPRVFbuKQT/p1/o1MSsLzFyReEIeuvshJ6BUZ/1ywpiWV59Sht2JvsCOG+EKc
+         fm9fWjVZn+XubQ2RVUMNyKx1Ll1e6qF2eJcAft3lXVL65oktw3u5RhmWgODO9O8Myh
+         ZkC33DerM75vwRrpMwG+MTzFxteIVSodfbzBMp41kGdwTGH2beS9ACWzW4gLXXAIys
+         VEMo3Vlw5OoMA==
+Message-ID: <d1f54cd7-99c0-3d1c-460b-9f15f33b95c1@collabora.com>
+Date:   Fri, 14 Apr 2023 12:19:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 6/8] dt-bindings: mfd: qcom-spmi-pmic: Add PMI632
- compatible
+Subject: Re: [PATCH v2 7/7] leds: leds-mt6323: Add support for WLEDs and
+ MT6332
 Content-Language: en-US
-To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org
-References: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz>
- <20230414-pmi632-v1-6-fe94dc414832@z3ntu.xyz>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230414-pmi632-v1-6-fe94dc414832@z3ntu.xyz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Alexandre Mergnat <amergnat@baylibre.com>, pavel@ucw.cz
+Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20230412153310.241046-1-angelogioacchino.delregno@collabora.com>
+ <20230412153310.241046-8-angelogioacchino.delregno@collabora.com>
+ <00c0b699-ba1a-951c-185a-ef8f09abf6f3@baylibre.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <00c0b699-ba1a-951c-185a-ef8f09abf6f3@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 14/04/2023 01:17, Luca Weiss wrote:
-> Document support for the pmi632, often found with the sdm632 SoC.
+Il 13/04/23 16:15, Alexandre Mergnat ha scritto:
+> On 12/04/2023 17:33, AngeloGioacchino Del Regno wrote:
+>> Add basic code to turn on and off WLEDs and wire up MT6332 support
+>> to take advantage of it.
+>> This is a simple approach due to to the aforementioned PMIC supporting
+>> only on/off status so, at the time of writing, it is impossible for me
+>> to validate more advanced functionality due to lack of hardware.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/leds/leds-mt6323.c | 171 +++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 164 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
+>> index 5d95dbd9a761..202b38ac32f6 100644
+>> --- a/drivers/leds/leds-mt6323.c
+>> +++ b/drivers/leds/leds-mt6323.c
+
+..snip..
+
+>> @@ -418,6 +538,7 @@ static int mt6323_led_probe(struct platform_device *pdev)
+>>       int ret;
+>>       unsigned int status;
+>>       u32 reg;
+>> +    u8 max_leds;
+>>       leds = devm_kzalloc(dev, sizeof(*leds), GFP_KERNEL);
+>>       if (!leds)
+>> @@ -428,6 +549,7 @@ static int mt6323_led_probe(struct platform_device *pdev)
+>>       leds->pdata = device_get_match_data(dev);
+>>       regs = leds->pdata->regs;
+>>       spec = leds->pdata->spec;
+>> +    max_leds = spec->max_leds + spec->max_wleds;
 > 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
->  Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 1 +
+> I haven't access to the datasheet so I have to ask you:
+> Why the max leds value is the addition of max led and wled ?
+> 
+> IMO, the datasheed give you the max supported led OR wled on its bus function to 
+> the maximum supplied current by the PMIC (I assume LED or WLED have different 
+> need). Or the PMIC has 2 bus, one for led and another for wled ?
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I don't have access to the datasheet for MT6332 as well - but anyway, the only
+purpose of the max_leds variable is to validate the maximum number of 'reg'
+spaces that we're supposed to read from devicetree, that's all.
 
-Best regards,
-Krzysztof
+The alternative would've been to check if there's any led, then any wled in the
+mt6323_hwspec from platform data - then:
 
+if only wleds, max_leds = wleds;
+else if only leds, max_leds = leds;
+else if leds and wleds, max_leds = leds + wleds;
+
+You see that it doesn't make any sense to do such check, and we can go with
+just adding wleds+leds.
+
+Regards,
+Angelo
