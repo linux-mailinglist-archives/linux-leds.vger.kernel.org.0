@@ -2,51 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E22916E28B1
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 18:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27BDB6E2ADA
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Apr 2023 21:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjDNQtP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Apr 2023 12:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53006 "EHLO
+        id S229794AbjDNT67 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Apr 2023 15:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjDNQtM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 12:49:12 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41E6977E
-        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 09:49:05 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pnMbe-0000Jj-Rs; Fri, 14 Apr 2023 18:49:02 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pnMbd-00BExb-RY; Fri, 14 Apr 2023 18:49:01 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pnMbd-00DDDm-4v; Fri, 14 Apr 2023 18:49:01 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Florian Eckert <fe@dev.tdt.de>
-Subject: [PATCH] leds: trigger/tty: Use led_set_brightness_nosleep() to set brightness
-Date:   Fri, 14 Apr 2023 18:48:53 +0200
-Message-Id: <20230414164853.3668229-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229514AbjDNT66 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Apr 2023 15:58:58 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647C45B80
+        for <linux-leds@vger.kernel.org>; Fri, 14 Apr 2023 12:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681502328; x=1713038328;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fn5psYm0ryumh4190zqcopqCWIS4zQJzJk/MrpWyEYY=;
+  b=ViCu8uhtioizf9Btz+qki+xt8Lc5+iIAcKPdrwyYcF9cPlYAVoyVA3Rm
+   UJAgnWan4g8FFVhMRQbuERtUoi1Wa9mHBaCA08DFbr40h8sFBzWJ7UysS
+   n+0oYfOQ5XAtRxbkezKE2pgZ3ajqZRgBQ/h7uHKTE8n/AIX0lu03gR4FS
+   imP2s1PkMpkhUV4LoHqBnvcL2MDgAwDGQgoE0YM5ukfpYgRE3wNOonYsr
+   9kEhYyYUSV0IRwcRxPO1VVIYwL129Z8UkBn9fGZl+OiG2QFiJscrDMZSS
+   xKifeLiqh+DXeTO6lnDtwmsP38lugkd7C1PUKFfqJLeEtPAlAzkA3CQ1H
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="344555966"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="344555966"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 12:58:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="683444983"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="683444983"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 14 Apr 2023 12:58:46 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pnPZF-000Zsm-2X;
+        Fri, 14 Apr 2023 19:58:45 +0000
+Date:   Sat, 15 Apr 2023 03:58:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ c1087c29e96a48e9080377e168d35dcb52fb068b
+Message-ID: <6439b05d.eZSK/6ksDz0So1DD%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2308; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=JZ1DuLyrk3oCdkMU4rm+5T+ID/kJcZnNejsYm9dq8lg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkOYP05xMjtvG2REsQdixeg0ibABt6v8LMh/2tW /d56p1+CrKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZDmD9AAKCRCPgPtYfRL+ TsGRB/4yYPlvqSEWeWjx8Vb+TTMy1CQvBBj1LwStg7ZlNgwGgs2LHheZY8oKAb8tK20t9aSH95R X/V35jhupYHxrKNS7nPK3OkpFESft1MQjLyXQH+B0o7m+9z3+wY21zVxy10bkO2+aAx3TqLyrrE Lj253qPV50wjtnNfgz8gk/46AWEfh3KxxN99NReuYDUtz5XlVOB/KKVNU6XFGKqwUlpWDvmR4PM mmB7BTjdPeFPKb8oLR4X3qRDzez+zoC0pcvw133ngNDfJmB9GSNtPn9Jtz1e4llWN3zcSDN+F7f CdXiBcrjjFJq2YfEpuKN68keDGEEHh92df95OZwubSOU630V
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,72 +63,103 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-After commit ba8a86e4dadb ("leds: trigger/tty: Use
-led_set_brightness_sync() from workqueue") this is the second try to
-pick the right function to set the LED brightness from a trigger.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: c1087c29e96a48e9080377e168d35dcb52fb068b  leds: tca6507: Fix error handling of using fwnode_property_read_string
 
-led_set_brightness_sync() has the problem that it doesn't work for LEDs
-without a .brightness_set_blocking() callback. This is (among others)
-the case for LEDs connected to non-sleeping GPIOs.
+elapsed time: 724m
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+configs tested: 84
+configs skipped: 3
 
-after a few (non-public and public) reports that the tty trigger doesn't
-work and Jacek pointed out in
-https://lore.kernel.org/all/ad4a1069-72c6-a431-336f-ed78a57a1ba0@gmail.com/#t
-that led_set_brightness_nosleep() is the right function, here comes a
-patch to actually implement that.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Does this justify a Fixes line? In that case that would be:
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r034-20230412   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r032-20230410   gcc  
+arc                  randconfig-r033-20230409   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r033-20230412   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+i386                              allnoconfig   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230410   clang
+i386                 randconfig-a002-20230410   clang
+i386                 randconfig-a003-20230410   clang
+i386                 randconfig-a004-20230410   clang
+i386                 randconfig-a005-20230410   clang
+i386                 randconfig-a006-20230410   clang
+i386                 randconfig-a011-20230410   gcc  
+i386                 randconfig-a012-20230410   gcc  
+i386                 randconfig-a013-20230410   gcc  
+i386                 randconfig-a014-20230410   gcc  
+i386                 randconfig-a015-20230410   gcc  
+i386                 randconfig-a016-20230410   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r034-20230410   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r036-20230409   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r035-20230409   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r031-20230412   gcc  
+parisc               randconfig-r032-20230409   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                    mvme5100_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r032-20230412   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r031-20230409   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230410   clang
+x86_64                        randconfig-a001   clang
+x86_64               randconfig-a002-20230410   clang
+x86_64               randconfig-a003-20230410   clang
+x86_64                        randconfig-a003   clang
+x86_64               randconfig-a004-20230410   clang
+x86_64               randconfig-a005-20230410   clang
+x86_64                        randconfig-a005   clang
+x86_64               randconfig-a006-20230410   clang
+x86_64               randconfig-a011-20230410   gcc  
+x86_64               randconfig-a012-20230410   gcc  
+x86_64               randconfig-a013-20230410   gcc  
+x86_64               randconfig-a014-20230410   gcc  
+x86_64               randconfig-a015-20230410   gcc  
+x86_64               randconfig-a016-20230410   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r035-20230410   gcc  
 
-	Fixes: ba8a86e4dadb ("leds: trigger/tty: Use led_set_brightness_sync() from workqueue")
-
-(As ba8a86e4dadb declares to be a fix for fd4a641ac88f ("leds: trigger:
-implement a tty trigger") I think a further reference to fd4a641ac88f
-isn't necesary.)
-
-Best regards
-Uwe
-
- drivers/leds/trigger/ledtrig-tty.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index f62db7e520b5..c8bbdeac93b9 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -1,11 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <linux/delay.h>
--#include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/tty.h>
- #include <uapi/linux/serial.h>
-+#include "../leds.h"
- 
- struct ledtrig_tty_data {
- 	struct led_classdev *led_cdev;
-@@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *work)
- 
- 	if (icount.rx != trigger_data->rx ||
- 	    icount.tx != trigger_data->tx) {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-+		led_set_brightness_nosleep(trigger_data->led_cdev, LED_ON);
- 
- 		trigger_data->rx = icount.rx;
- 		trigger_data->tx = icount.tx;
- 	} else {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-+		led_set_brightness_nosleep(trigger_data->led_cdev, LED_OFF);
- 	}
- 
- out:
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
