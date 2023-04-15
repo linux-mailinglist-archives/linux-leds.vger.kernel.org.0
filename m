@@ -2,108 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C1866E2F9B
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Apr 2023 10:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D829B6E3262
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Apr 2023 18:20:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbjDOIBJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 15 Apr 2023 04:01:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47948 "EHLO
+        id S229904AbjDOQUU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 15 Apr 2023 12:20:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjDOIBI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 15 Apr 2023 04:01:08 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36D849D9;
-        Sat, 15 Apr 2023 01:01:03 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id E46FF1C0AB2; Sat, 15 Apr 2023 10:01:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1681545661;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WKOfHFSvF51S8U0qAFTMc9vvwKSGDaBvGYYgvsZmZKk=;
-        b=f35DJZ/DoxfHcrF57sYZx+sKCO5YSn1hBjHDRULqu06+4KkItkxlVG7Tqc+FKue+Ld3Tys
-        QzSaIstNHFre9/DnDvFDXZMShGivGLvRkQ+xFzjuBLI0ZXH91bu/bhBX6TG0waHwRuNw9B
-        vpxBCgYM5+Ve3fYqw5XwsAakjoMm3SQ=
-Date:   Sat, 15 Apr 2023 10:01:02 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH v4 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel
- i2c LED driver
-Message-ID: <ZDpZvhWX/Vx9jVUT@amd.ucw.cz>
-References: <20230414055341.335456-1-andreas@kemnade.info>
- <20230414055341.335456-3-andreas@kemnade.info>
- <ZDlEsNZ3pTlfxkAz@duo.ucw.cz>
- <20230415000533.534ea99b@aktux>
+        with ESMTP id S229869AbjDOQUQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 15 Apr 2023 12:20:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC3204230;
+        Sat, 15 Apr 2023 09:20:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 57CF3612ED;
+        Sat, 15 Apr 2023 16:20:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8FCC433EF;
+        Sat, 15 Apr 2023 16:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681575610;
+        bh=DTWP6xThhLREOoWWAUdntoavtxBw4x/BgKGr7En2G+I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GmUNzIsw/k9u6mHIPjmMJSdolY4BlTCHrz6o7gYdxbGZ4PeqtrXozfp7Q0xrDnbiC
+         N6ekHJxPfDEloG4V6MmfkCTixSIWH1HgBN+y1e31mC07b0+LhDW0C7uMoCN/A/BhTi
+         jUvvq4lR3/PsJM4LKq8P622ks4HUD+ow7FgYUcGyuPPF338khCSriVkmAo8+iMuIcL
+         HpcSRkBGLZcccS36Cc+ZDyy8vRsL7XDfWkoY+X6I3k3wFeExu1KK/hteM8F+nK+guS
+         ib5saxEInFemsZ9wUM71gB7w4pIgdeqdZvHr5xOpxOy1pq+gMq4Er0BxK1bjFZYFSl
+         njkcndZEX5djw==
+Date:   Sat, 15 Apr 2023 17:20:09 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 5/8] dt-bindings: iio: adc: qcom,spmi-vadc: Allow 1/16
+ for pre-scaling
+Message-ID: <20230415172009.529d91c5@jic23-huawei>
+In-Reply-To: <577ecd98-94eb-3795-4859-ffad03192f89@linaro.org>
+References: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz>
+        <20230414-pmi632-v1-5-fe94dc414832@z3ntu.xyz>
+        <577ecd98-94eb-3795-4859-ffad03192f89@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HyL346m6DlBmbap6"
-Content-Disposition: inline
-In-Reply-To: <20230415000533.534ea99b@aktux>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Fri, 14 Apr 2023 09:56:07 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
---HyL346m6DlBmbap6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 14/04/2023 01:17, Luca Weiss wrote:
+> > The channel ADC5_USB_IN_V_16 is using 1/16 pre-scaling on at least
+> > pm7250b and pmi632. Allow that in the schema.
+> > 
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> >  Documentation/devicetree/bindings/iio/adc/qcom,spmi-vadc.yaml | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >   
+> 
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Hi!
+Applied this patch to the IIO togreg branch initially pushed out as testing
+for 0-day to poke at it.
 
-> > > The device provides 6 channels which can be individually
-> > > turned off and on but groups of two channels share a common brightness
-> > > register. =20
-> >=20
-> > Yeah, well.. Turn it into 3-channel controller with brightness or
-> > 6-channel on/off one... You can't really share brightness.
-> >=20
-> No, I cannot change the hardware, so it is a 6-channel with limitations.
-> And the devicetree has to describe the hardware and not the driver.
+I'm doubtful this one will make the upcoming merge window but seems unlikely
+the rest will all make it either so that shouldn't be a problem.
 
-Device tree is okay, I commented on the driver.
-
-> What is discussable is just how the driver should deal with that:
->=20
-> I see 5 possibilities.
-> a) ignore the shared brightness problem (status quo)
-> b) never set a brightness other than full on/off
-> c) ignore one led of each pair (not register it at all{
-> d) couple also the on/off of the pairs, so present to
->    userspace only max. 3 leds.
-> e) allow full brightness control where independently possible,
->    if LEDs are defined where that leads to conflicts,
->    register them with max_brightness=3D1 and use them
->    in on/off mode.
->=20
-> My preference were a) or e), the most possible usages.
-> e) has a cleaner interface to the userspace.
-
-b) c) e) are acceptable to me. So I guess e) is preffered.
-
-BR,							Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---HyL346m6DlBmbap6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZDpZvgAKCRAw5/Bqldv6
-8mJmAJ9pkr4g+mUllXlalLoHux4zFB6q8ACfcm6tduTKgAhtq5v26sV7/2ZHxa4=
-=Vrcm
------END PGP SIGNATURE-----
-
---HyL346m6DlBmbap6--
+Jonathan
