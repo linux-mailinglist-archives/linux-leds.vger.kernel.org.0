@@ -2,95 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D829B6E3262
-	for <lists+linux-leds@lfdr.de>; Sat, 15 Apr 2023 18:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A036E326B
+	for <lists+linux-leds@lfdr.de>; Sat, 15 Apr 2023 18:27:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjDOQUU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 15 Apr 2023 12:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
+        id S229820AbjDOQ1S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 15 Apr 2023 12:27:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbjDOQUQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 15 Apr 2023 12:20:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC3204230;
-        Sat, 15 Apr 2023 09:20:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 57CF3612ED;
-        Sat, 15 Apr 2023 16:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8FCC433EF;
-        Sat, 15 Apr 2023 16:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681575610;
-        bh=DTWP6xThhLREOoWWAUdntoavtxBw4x/BgKGr7En2G+I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GmUNzIsw/k9u6mHIPjmMJSdolY4BlTCHrz6o7gYdxbGZ4PeqtrXozfp7Q0xrDnbiC
-         N6ekHJxPfDEloG4V6MmfkCTixSIWH1HgBN+y1e31mC07b0+LhDW0C7uMoCN/A/BhTi
-         jUvvq4lR3/PsJM4LKq8P622ks4HUD+ow7FgYUcGyuPPF338khCSriVkmAo8+iMuIcL
-         HpcSRkBGLZcccS36Cc+ZDyy8vRsL7XDfWkoY+X6I3k3wFeExu1KK/hteM8F+nK+guS
-         ib5saxEInFemsZ9wUM71gB7w4pIgdeqdZvHr5xOpxOy1pq+gMq4Er0BxK1bjFZYFSl
-         njkcndZEX5djw==
-Date:   Sat, 15 Apr 2023 17:20:09 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH 5/8] dt-bindings: iio: adc: qcom,spmi-vadc: Allow 1/16
- for pre-scaling
-Message-ID: <20230415172009.529d91c5@jic23-huawei>
-In-Reply-To: <577ecd98-94eb-3795-4859-ffad03192f89@linaro.org>
-References: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz>
-        <20230414-pmi632-v1-5-fe94dc414832@z3ntu.xyz>
-        <577ecd98-94eb-3795-4859-ffad03192f89@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+        with ESMTP id S229774AbjDOQ1R (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 15 Apr 2023 12:27:17 -0400
+Received: from smtp.smtpout.orange.fr (smtp-28.smtpout.orange.fr [80.12.242.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCF326A1
+        for <linux-leds@vger.kernel.org>; Sat, 15 Apr 2023 09:27:15 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id nik4pY6QZ7Jnhnik5pkskN; Sat, 15 Apr 2023 18:27:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+        s=t20230301; t=1681576034;
+        bh=+n1C546ZL1I+N6GOU5CwCojcyLanrdxNntqvU5Ovh+w=;
+        h=From:To:Cc:Subject:Date;
+        b=DatsQjS0WO4wXEuyF1xcv86k8biX9DF3YSgHQKyK4UTZId+aYhwjlFTAYHgfYnVry
+         OccGmeR7LgMputnJ427Wkh+193HDfPlui8DCprBU6ZrNNZC2AOuQD8Oquqmal4hZfl
+         53MTEmEKRNzVGvatqbxL6Y2maUruuZwB6k/RJ1+o62X/+cnmAKqOAz5e/WRyn1ffLg
+         i6uG+Ara6FW6pyWAcI2hFdYYajrUyIfmObDAEmwz6DKcCYXiHDottyYiAKS/nX6Wy1
+         3wWeKhVKN+nQINRXBBebhTx0hyFuePAYmUuprPjKXMpNmfuSwIRObR4ch9yg4QtwrZ
+         s5M9LVjSt6Efw==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 15 Apr 2023 18:27:14 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] leds: pwm-multicolor: Simplify an error message
+Date:   Sat, 15 Apr 2023 18:27:11 +0200
+Message-Id: <07d35e221faaa380fd11cd4597e42354c8eb350c.1681576017.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 14 Apr 2023 09:56:07 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+dev_err_probe() already display the error code. There is no need to
+duplicate it explicitly in the error message.
 
-> On 14/04/2023 01:17, Luca Weiss wrote:
-> > The channel ADC5_USB_IN_V_16 is using 1/16 pre-scaling on at least
-> > pm7250b and pmi632. Allow that in the schema.
-> > 
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> >  Documentation/devicetree/bindings/iio/adc/qcom,spmi-vadc.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >   
-> 
-> 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Best regards,
-> Krzysztof
-> 
+While at it, add a missing \n at the end of the message.
 
-Applied this patch to the IIO togreg branch initially pushed out as testing
-for 0-day to poke at it.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/leds/rgb/leds-pwm-multicolor.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I'm doubtful this one will make the upcoming merge window but seems unlikely
-the rest will all make it either so that shouldn't be a problem.
+diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
+index da9d2218ae18..46cd062b8b24 100644
+--- a/drivers/leds/rgb/leds-pwm-multicolor.c
++++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+@@ -158,8 +158,8 @@ static int led_pwm_mc_probe(struct platform_device *pdev)
+ 	ret = led_pwm_mc_set(cdev, cdev->brightness);
+ 	if (ret)
+ 		return dev_err_probe(&pdev->dev, ret,
+-				     "failed to set led PWM value for %s: %d",
+-				     cdev->name, ret);
++				     "failed to set led PWM value for %s\n",
++				     cdev->name);
+ 
+ 	platform_set_drvdata(pdev, priv);
+ 	return 0;
+-- 
+2.34.1
 
-Jonathan
