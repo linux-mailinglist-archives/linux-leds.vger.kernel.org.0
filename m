@@ -2,131 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17A466E4661
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 13:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 177966E47CB
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 14:32:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229884AbjDQL1n (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Apr 2023 07:27:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
+        id S229988AbjDQMcQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Apr 2023 08:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbjDQL1m (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 07:27:42 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756E24C1C;
-        Mon, 17 Apr 2023 04:26:51 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1poMyw-0000Lo-Iw; Mon, 17 Apr 2023 13:25:14 +0200
-Message-ID: <69602f1b-4afa-d864-b6d3-d8237f81a51d@leemhuis.info>
-Date:   Mon, 17 Apr 2023 13:25:13 +0200
+        with ESMTP id S230125AbjDQMcO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 08:32:14 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF6D40C8;
+        Mon, 17 Apr 2023 05:31:54 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id E58441C0AAC; Mon, 17 Apr 2023 14:22:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1681734138;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TMSz1lAK35MpBVUGidPj7aPRPLhQxtWZ8osEdlLH4+I=;
+        b=n7jAYTwnbWSKqJatEkhXvM+uj3RNwd5yZMMxFPzMGMwcVAns3ZEg76o9o5yjmNNWGMdVQC
+        mi3qoED20xTPUnSr46I4ugZyyAIhF+EItPklUMDiOe5R1lrN+J7J0Ta9TLF+J/BGnZuIdz
+        kGY1aZbWK+iAM375/jgC7/d4TwC9lLw=
+Date:   Mon, 17 Apr 2023 14:22:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v5 2/2] leds: bd2606mvv: Driver for the Rohm 6 Channel
+ i2c LED driver
+Message-ID: <ZD05+hsRy14semza@duo.ucw.cz>
+References: <20230416211550.903240-1-andreas@kemnade.info>
+ <20230416211550.903240-3-andreas@kemnade.info>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: kernel error at led trigger "phy0tpt"
-Content-Language: en-US, de-DE
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Tobias Dahms <dahms.tobias@web.de>,
-        Sean Wang <sean.wang@mediatek.com>
-Cc:     stable@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-References: <91feceb2-0df4-19b9-5ffa-d37e3d344fdf@web.de>
- <3fcc707b-f757-e74b-2800-3b6314217868@leemhuis.info>
- <fcecf6fc-bf18-73a0-9fc1-6850e183323a@web.de>
- <d14fb08c-70e3-4cc7-caf9-87e73eab9194@gmail.com>
- <8b07ead5-f105-da86-e7da-ee49616f7c1d@collabora.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <8b07ead5-f105-da86-e7da-ee49616f7c1d@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1681730811;1bf629c5;
-X-HE-SMSGID: 1poMyw-0000Lo-Iw
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="CavukPz3qjkkik6i"
+Content-Disposition: inline
+In-Reply-To: <20230416211550.903240-3-andreas@kemnade.info>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-[adding Matthias to the list of recipients, who back then applied to
-culprit]
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
+--CavukPz3qjkkik6i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-AngeloGioacchino, Has any progress been made to fix below regression? It
-doesn't look like it from here, hence I wondered if it fall through the
-cracks.
+Hi!
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> The device provides 6 channels which can be individually
+> turned off and on but groups of two channels share a common brightness
+> register.
+>=20
+> Limitation: The GPIO to enable the device is not used yet.
 
-#regzbot poke
+(I'd expect some explanation how you dealt with the brigthness pairing
+here. I can figure it out from the fcode, but... I guess you should
+state it at the begining of driver in a comment at least.).
 
-On 27.03.23 10:23, AngeloGioacchino Del Regno wrote:
-> Il 26/03/23 15:23, Bagas Sanjaya ha scritto:
->> On 3/26/23 02:20, Tobias Dahms wrote:
->>> Hello,
->>>
->>> the bisection gives following result:
->>> --------------------------------------------------------------------
->>> 18c7deca2b812537aa4d928900e208710f1300aa is the first bad commit
->>> commit 18c7deca2b812537aa4d928900e208710f1300aa
->>> Author: AngeloGioacchino Del Regno
->>> <angelogioacchino.delregno@collabora.com>
->>> Date:   Tue May 17 12:47:08 2022 +0200
->>>
->>>      soc: mediatek: pwrap: Use readx_poll_timeout() instead of custom
->>> function
->>>
->>>      Function pwrap_wait_for_state() is a function that polls an address
->>>      through a helper function, but this is the very same operation that
->>>      the readx_poll_timeout macro means to do.
->>>      Convert all instances of calling pwrap_wait_for_state() to instead
->>>      use the read_poll_timeout macro.
->>>
->>>      Signed-off-by: AngeloGioacchino Del Regno
->>> <angelogioacchino.delregno@collabora.com>
->>>      Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>>      Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>>      Link:
->>> https://lore.kernel.org/r/20220517104712.24579-2-angelogioacchino.delregno@collabora.com
->>>      Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
->>>
->>>   drivers/soc/mediatek/mtk-pmic-wrap.c | 60
->>> ++++++++++++++++++++----------------
->>>   1 file changed, 33 insertions(+), 27 deletions(-)
->>> --------------------------------------------------------------------
->>>
->>
->> OK, I'm updating the regression status:
->>
->> #regzbot introduced: 18c7deca2b8125
->>
->> And for replying, don't top-post, but rather reply inline with
->> appropriate context instead; hence I cut the replied context.
->>
-> 
-> There are two possible solutions to that, specifically, either:
->  1. Change readx_poll_timeout() to readx_poll_timeout_atomic(); or
->  2. Fix the mt6323-led driver so that this operation gets done
->     out of atomic context, which is IMO the option to prefer.
-> 
-> Ideas?
-> 
-> Regards,
-> Angelo
-> 
-> 
+> +++ b/drivers/leds/Kconfig
+> @@ -551,6 +551,17 @@ config LEDS_REGULATOR
+>  	help
+>  	  This option enables support for regulator driven LEDs.
+> =20
+> +config LEDS_BD2606MVV
+> +	tristate "LED driver for BD2606MVV"
+> +	depends on LEDS_CLASS
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  This option enables support for BD2606MVV LED driver chips
+> +	  accessed via the I2C bus. It supports setting brightness, with
+> +	  the limitiation that there are groups of two channels sharing
+> +	  a brightness setting, but not the on/off setting.
+
+Add the usual note about modules here.
+
+Rest looks ok.
+
+With that fixed:
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+BR,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--CavukPz3qjkkik6i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZD05+gAKCRAw5/Bqldv6
+8szwAJwJ3gPBrUGUJrvKe/X53Q+8LFQapQCdGmCdEGSLf2q4zh/17voy5bfHfZg=
+=AO+P
+-----END PGP SIGNATURE-----
+
+--CavukPz3qjkkik6i--
