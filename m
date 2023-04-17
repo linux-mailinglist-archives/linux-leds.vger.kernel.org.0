@@ -2,71 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0BB6E5132
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 21:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EC296E5159
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 22:00:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjDQTv3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Apr 2023 15:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
+        id S230049AbjDQUAg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Apr 2023 16:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230446AbjDQTvV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 15:51:21 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38BC4682
-        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 12:51:09 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4ec9c7c6986so1643072e87.0
-        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 12:51:09 -0700 (PDT)
+        with ESMTP id S229985AbjDQUAf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 16:00:35 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C7F44232
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 13:00:34 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id r9so14030578ljp.9
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 13:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681761068; x=1684353068;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1681761632; x=1684353632;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GiswqM+Moye3DG686s+yVZfQh/Gq9glMtr6puoT02rs=;
-        b=VOTbrgqwVeP1NjXtVc++skCRf7xNIGffO/M8bMQpui80rxThX5XJAUj7db85XUdIUv
-         Duiv1UpTr1PP+ofCGBtzfqZIChXs02X78RSny0Aq2YmwNwQvUa2+2n1tXC+lxJQeALHJ
-         PA8hhp6ROcGwpLA5tsnHKul3HRqLXpYva2u4icovc4lMZt3EyL9+eFtzYbovj1TGE20d
-         sml+NjG/5Yjxeqi/LnhY3lLqsokeXBrqj7plQYRfxMwipPRaeBT1EgHJDQu9of43WicK
-         nmV9nXoY3Hoq0ZwWlMueRc2tIyniRIk3HM0Vsw5TFE2UNVXhR0SHm3EMztNiQy8ykDzU
-         hwyA==
+        bh=zGUXfPrsaA88oh9n11sKmw0qxfcIFLD/ybhicnFimOg=;
+        b=kC6x9YT5pF24IqwjBbu348xLMPfJSfkQff0glzm9iI4px2o61H7Z0mP+cAeyrQ2Ipg
+         B4rOtRzCwEMvJ70K8FUX8v0GJZFtaReatXvcp78UU9jWDyJcYOkv4oKrfJMk7l8BUS2c
+         /qJDPJoru/pvvUQAr/2QyC0iv1jqsEn/cCGpardtqozLwoQMYU098MNK2OYAX1VyGdnz
+         LNYbD/GmwCrndzEPzUhcA+YMb8sdKuyVbxzO9mjORHQX84yZimZD5eA63atcEipZ/hXI
+         sZKtA9yeywkOHTgoCMV8ZCJ0+MDEaTaBFdlufCCB+UgmCQonzwqCE9h7xdFZa5lsT6dx
+         AOuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681761068; x=1684353068;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1681761632; x=1684353632;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GiswqM+Moye3DG686s+yVZfQh/Gq9glMtr6puoT02rs=;
-        b=G7XecMIiFKvEGkOiciMWsTusR3OsQdi7QoNyDjSTYGeTxy8n+YvPpuuGp+a9Nmk6+N
-         zBHUQnEg1gPRBOBJG8NVxJbE5XJrgtOjNqYckG+50KMJlXUwNJ5zlKky34kWNAnHLB29
-         xiEpGb0TTer4lD/Y3CjsYrCP+ocHCavvKvFpY9KggW4U4EhERORJ8MHEhYVNITb7y4Em
-         oKxwTTXLJWnzdqbxx3gc9hFkSlu5QnFUEPeJ4b5ZN1DrqC+WS9dNpm3EWwE/gHDTct2t
-         o9b1rpaZgecKtcQFiXBmoEL/akmhPu5D78eyRYLko98c1hDYMm4CkkVNb9IVVb1pPiLq
-         7PBg==
-X-Gm-Message-State: AAQBX9fqUtswj/gI43KWWc5ehDA2RjAi+1lK3j29g2W309gOdINIdCZj
-        88n/tqHYNwEWgug8E1PhjT1MhlIf2TI=
-X-Google-Smtp-Source: AKy350b8R9AD98ptvtzjq5QW36TVp8aU2dJkDDny9P/2bYF0YAAVXP5rVHs77h+F5sXwMMN8xSBedg==
-X-Received: by 2002:a19:f519:0:b0:4ed:ca3b:40f0 with SMTP id j25-20020a19f519000000b004edca3b40f0mr377347lfb.9.1681761067999;
-        Mon, 17 Apr 2023 12:51:07 -0700 (PDT)
+        bh=zGUXfPrsaA88oh9n11sKmw0qxfcIFLD/ybhicnFimOg=;
+        b=a9FdGuXuWxASbeEM5j408FXE7rxsbimDreulXU5Bi7ivL+y2CBc+VB5DrU3qHaNdqG
+         Y6wbMcjqT1+IDRKXInMJvoUCK+eEKZJrJnmt5ch8zMvco6YhyS40aRJg7j3iWOsFF1+4
+         MnAfByAMv2MJ6FSgXZNjX24ADvMufSX/MsDQNoqTmBAUojhvwqVhXCizbiZ3kTdknQ08
+         796nu5EyrMmdiYKLpkmP0uezoXtCST2R/TsAajiX69nHN50cyT0kpsKEApWrToF44s1V
+         8/OrJWDjjIiCNSKYfRMxF9cf2RKeFiha9Ewhr79ZpLSW7wN/rVFE2TkK3ys+Q0CBwbvi
+         HNDQ==
+X-Gm-Message-State: AAQBX9e6KRC9qzOFtODG3fQHRALjvybj8p7mZUHbVNSh0JrMQmmLYuk2
+        pIQ/XJ45MJes4ZWsgAViUqI=
+X-Google-Smtp-Source: AKy350ZnIGbW1C3sYDkSaWD8o2aOwp1eCKxGop0g35YFgzvWgzLFjFmFKa/NEQkDAQeJ981ONLMEJQ==
+X-Received: by 2002:a2e:90c1:0:b0:2a8:d08e:b7dc with SMTP id o1-20020a2e90c1000000b002a8d08eb7dcmr30860ljg.28.1681761632363;
+        Mon, 17 Apr 2023 13:00:32 -0700 (PDT)
 Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id o10-20020a05651238aa00b004cb43c9bf9asm2140094lft.208.2023.04.17.12.51.06
+        by smtp.gmail.com with ESMTPSA id o6-20020a2e7306000000b002a77792f2c5sm2256347ljc.62.2023.04.17.13.00.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 12:51:07 -0700 (PDT)
-Message-ID: <5af7920c-d38e-c6e7-3671-53bc5ba7ef8c@gmail.com>
-Date:   Mon, 17 Apr 2023 21:51:06 +0200
+        Mon, 17 Apr 2023 13:00:31 -0700 (PDT)
+Message-ID: <f3b16d48-50c0-0bf9-afe3-898434964e67@gmail.com>
+Date:   Mon, 17 Apr 2023 22:00:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] leds: trigger/tty: Use led_set_brightness_nosleep() to
- set brightness
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
-References: <20230414164853.3668229-1-u.kleine-koenig@pengutronix.de>
- <ZD07hLV1gs+gw26s@duo.ucw.cz>
- <20230417124403.j64c2lftgyqo2a67@pengutronix.de>
- <90efe25c-fea5-cdd0-8bd3-16b9e53e8b56@gmail.com>
- <20230417191756.ex6b4u4lausfatqm@pengutronix.de>
+Subject: Re: [PATCH 3/5] leds: cht-wcove: Add support for breathing mode use
+ hw_pattern sysfs API
 Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Yauhen Kharuzhy <jekhor@gmail.com>
+Cc:     linux-leds@vger.kernel.org
+References: <20230413151808.20900-1-hdegoede@redhat.com>
+ <20230413151808.20900-4-hdegoede@redhat.com>
+ <40704530-4242-8d3a-91d3-4c6f4e375808@gmail.com>
+ <6bcc6bfd-4e9f-a4e1-03ed-942502e13a92@redhat.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <20230417191756.ex6b4u4lausfatqm@pengutronix.de>
+In-Reply-To: <6bcc6bfd-4e9f-a4e1-03ed-942502e13a92@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -79,63 +78,41 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/17/23 21:17, Uwe Kleine-König wrote:
-> On Mon, Apr 17, 2023 at 08:33:31PM +0200, Jacek Anaszewski wrote:
->> Hi Uwe,
->>
->> On 4/17/23 14:44, Uwe Kleine-König wrote:
->>> Hello,
->>>
->>> On Mon, Apr 17, 2023 at 02:28:52PM +0200, Pavel Machek wrote:
->>>>> After commit ba8a86e4dadb ("leds: trigger/tty: Use
->>>>> led_set_brightness_sync() from workqueue") this is the second try to
->>>>> pick the right function to set the LED brightness from a trigger.
->>>>>
->>>>> led_set_brightness_sync() has the problem that it doesn't work for LEDs
->>>>> without a .brightness_set_blocking() callback. This is (among others)
->>>>> the case for LEDs connected to non-sleeping GPIOs.
->>>>>
->>>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
->>>>
->>>> I don't think this is right.
->>>>
->>>> _nosleep calls _nopm, which assmues it can't sleep, and schedules
->>>> another workqueue to set the LED.
->>>
->>> Then which is the right variant?
->>> led_set_brightness() and led_set_brightness_nosleep() set via a workqueue
->>> (which is bad) and led_set_brightness_sync() doesn't work for some LEDs
->>> (notably LEDs on non-sleeping GPIOs).
->>
->> Can you remind me the context of this patch, why using workqueue is
->> bad here?
+Hi Hans,
+
+On 4/16/23 22:31, Hans de Goede wrote:
+> Hi Jacek,
 > 
-> The workqueue is only needed if you have a slow LED and want to set the
-> brightness in atomic context. However if you are allowed to sleep that
-> is just needless overhead.
+> On 4/16/23 17:17, Jacek Anaszewski wrote:
+>> Hi Hans,
+>>
+[...]
+>>> +===========================================================
+>>> +Kernel driver for Intel Cherry Trail Whiskey Cove PMIC LEDs
+>>> +===========================================================
+>>> +
+>>> +/sys/class/leds/<led>/hw_pattern
+>>> +--------------------------------
+>>> +
+>>> +Specify a hardware pattern for the Whiskey Cove PMIC LEDs.
+>>> +
+>>> +The only supported pattern is hardware breathing mode::
+>>> +
+>>> +    "0 2000 1 2000"
+>>
+>> Why 1? What is the peek brightness in this mode?
+> 
+> 255, but the pattern only controls the timing. For max brightness
+> the last set brightness is used and the max brightness can be changed
+> while breathing by writing the brightness attribute.
+> 
+> This is just like how blinking works in the LED subsystem,
+> for both sw and hw blinking the brightness can also be changed
+> while blinking. Breathing on this hw really is just a variant
+> mode of blinking.
 
-OK, now I get it. So new functions will be needed, something like
-below (skipped args, need more thinking about corner cases, e.g.
-interactions with led_classdev_suspend()):
-
-int led_set_brightness_cansleep()
-     led_cdev->brightness = min(value, led_cdev->max_brightness);
-
-     if (led_cdev->flags & LED_SUSPENDED)
-         return 0;
-
-     return led_set_brightness_nopm_cansleep();
-
-
-int led_set_brightness_nopm_cansleep()
-     ret =__led_set_brightness();
-     if (ret == -ENOTSUPP)
-         ret = __led_set_brightness_blocking();
-
-     return ret;
-
-As a quick fix I would apply led_set_brightness_nosleep() nonetheless.
-Does it have any observed downsides?
+Thanks for the explanation. So it would be nice to have it
+also mentioned explicitly here.
 
 -- 
 Best regards,
