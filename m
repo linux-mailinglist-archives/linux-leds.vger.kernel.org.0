@@ -2,123 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB4626E50BA
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 21:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B0BB6E5132
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Apr 2023 21:51:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbjDQTSG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Apr 2023 15:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
+        id S229531AbjDQTv3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Apr 2023 15:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjDQTSE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 15:18:04 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4676D46A1
-        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 12:18:02 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poUMQ-0003Wd-GC; Mon, 17 Apr 2023 21:17:58 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poUMP-00BwhX-Cv; Mon, 17 Apr 2023 21:17:57 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1poUMO-00E0ii-KV; Mon, 17 Apr 2023 21:17:56 +0200
-Date:   Mon, 17 Apr 2023 21:17:56 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
+        with ESMTP id S230446AbjDQTvV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Apr 2023 15:51:21 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38BC4682
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 12:51:09 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4ec9c7c6986so1643072e87.0
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 12:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681761068; x=1684353068;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GiswqM+Moye3DG686s+yVZfQh/Gq9glMtr6puoT02rs=;
+        b=VOTbrgqwVeP1NjXtVc++skCRf7xNIGffO/M8bMQpui80rxThX5XJAUj7db85XUdIUv
+         Duiv1UpTr1PP+ofCGBtzfqZIChXs02X78RSny0Aq2YmwNwQvUa2+2n1tXC+lxJQeALHJ
+         PA8hhp6ROcGwpLA5tsnHKul3HRqLXpYva2u4icovc4lMZt3EyL9+eFtzYbovj1TGE20d
+         sml+NjG/5Yjxeqi/LnhY3lLqsokeXBrqj7plQYRfxMwipPRaeBT1EgHJDQu9of43WicK
+         nmV9nXoY3Hoq0ZwWlMueRc2tIyniRIk3HM0Vsw5TFE2UNVXhR0SHm3EMztNiQy8ykDzU
+         hwyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681761068; x=1684353068;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GiswqM+Moye3DG686s+yVZfQh/Gq9glMtr6puoT02rs=;
+        b=G7XecMIiFKvEGkOiciMWsTusR3OsQdi7QoNyDjSTYGeTxy8n+YvPpuuGp+a9Nmk6+N
+         zBHUQnEg1gPRBOBJG8NVxJbE5XJrgtOjNqYckG+50KMJlXUwNJ5zlKky34kWNAnHLB29
+         xiEpGb0TTer4lD/Y3CjsYrCP+ocHCavvKvFpY9KggW4U4EhERORJ8MHEhYVNITb7y4Em
+         oKxwTTXLJWnzdqbxx3gc9hFkSlu5QnFUEPeJ4b5ZN1DrqC+WS9dNpm3EWwE/gHDTct2t
+         o9b1rpaZgecKtcQFiXBmoEL/akmhPu5D78eyRYLko98c1hDYMm4CkkVNb9IVVb1pPiLq
+         7PBg==
+X-Gm-Message-State: AAQBX9fqUtswj/gI43KWWc5ehDA2RjAi+1lK3j29g2W309gOdINIdCZj
+        88n/tqHYNwEWgug8E1PhjT1MhlIf2TI=
+X-Google-Smtp-Source: AKy350b8R9AD98ptvtzjq5QW36TVp8aU2dJkDDny9P/2bYF0YAAVXP5rVHs77h+F5sXwMMN8xSBedg==
+X-Received: by 2002:a19:f519:0:b0:4ed:ca3b:40f0 with SMTP id j25-20020a19f519000000b004edca3b40f0mr377347lfb.9.1681761067999;
+        Mon, 17 Apr 2023 12:51:07 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id o10-20020a05651238aa00b004cb43c9bf9asm2140094lft.208.2023.04.17.12.51.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 12:51:07 -0700 (PDT)
+Message-ID: <5af7920c-d38e-c6e7-3671-53bc5ba7ef8c@gmail.com>
+Date:   Mon, 17 Apr 2023 21:51:06 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
 Subject: Re: [PATCH] leds: trigger/tty: Use led_set_brightness_nosleep() to
  set brightness
-Message-ID: <20230417191756.ex6b4u4lausfatqm@pengutronix.de>
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
 References: <20230414164853.3668229-1-u.kleine-koenig@pengutronix.de>
  <ZD07hLV1gs+gw26s@duo.ucw.cz>
  <20230417124403.j64c2lftgyqo2a67@pengutronix.de>
  <90efe25c-fea5-cdd0-8bd3-16b9e53e8b56@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zk4nvkgtqon2zvbp"
-Content-Disposition: inline
-In-Reply-To: <90efe25c-fea5-cdd0-8bd3-16b9e53e8b56@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230417191756.ex6b4u4lausfatqm@pengutronix.de>
+Content-Language: en-US
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20230417191756.ex6b4u4lausfatqm@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 4/17/23 21:17, Uwe Kleine-König wrote:
+> On Mon, Apr 17, 2023 at 08:33:31PM +0200, Jacek Anaszewski wrote:
+>> Hi Uwe,
+>>
+>> On 4/17/23 14:44, Uwe Kleine-König wrote:
+>>> Hello,
+>>>
+>>> On Mon, Apr 17, 2023 at 02:28:52PM +0200, Pavel Machek wrote:
+>>>>> After commit ba8a86e4dadb ("leds: trigger/tty: Use
+>>>>> led_set_brightness_sync() from workqueue") this is the second try to
+>>>>> pick the right function to set the LED brightness from a trigger.
+>>>>>
+>>>>> led_set_brightness_sync() has the problem that it doesn't work for LEDs
+>>>>> without a .brightness_set_blocking() callback. This is (among others)
+>>>>> the case for LEDs connected to non-sleeping GPIOs.
+>>>>>
+>>>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>>>>
+>>>> I don't think this is right.
+>>>>
+>>>> _nosleep calls _nopm, which assmues it can't sleep, and schedules
+>>>> another workqueue to set the LED.
+>>>
+>>> Then which is the right variant?
+>>> led_set_brightness() and led_set_brightness_nosleep() set via a workqueue
+>>> (which is bad) and led_set_brightness_sync() doesn't work for some LEDs
+>>> (notably LEDs on non-sleeping GPIOs).
+>>
+>> Can you remind me the context of this patch, why using workqueue is
+>> bad here?
+> 
+> The workqueue is only needed if you have a slow LED and want to set the
+> brightness in atomic context. However if you are allowed to sleep that
+> is just needless overhead.
 
---zk4nvkgtqon2zvbp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, now I get it. So new functions will be needed, something like
+below (skipped args, need more thinking about corner cases, e.g.
+interactions with led_classdev_suspend()):
 
-On Mon, Apr 17, 2023 at 08:33:31PM +0200, Jacek Anaszewski wrote:
-> Hi Uwe,
->=20
-> On 4/17/23 14:44, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > On Mon, Apr 17, 2023 at 02:28:52PM +0200, Pavel Machek wrote:
-> > > > After commit ba8a86e4dadb ("leds: trigger/tty: Use
-> > > > led_set_brightness_sync() from workqueue") this is the second try to
-> > > > pick the right function to set the LED brightness from a trigger.
-> > > >=20
-> > > > led_set_brightness_sync() has the problem that it doesn't work for =
-LEDs
-> > > > without a .brightness_set_blocking() callback. This is (among other=
-s)
-> > > > the case for LEDs connected to non-sleeping GPIOs.
-> > > >=20
-> > > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > >=20
-> > > I don't think this is right.
-> > >=20
-> > > _nosleep calls _nopm, which assmues it can't sleep, and schedules
-> > > another workqueue to set the LED.
-> >=20
-> > Then which is the right variant?
-> > led_set_brightness() and led_set_brightness_nosleep() set via a workque=
-ue
-> > (which is bad) and led_set_brightness_sync() doesn't work for some LEDs
-> > (notably LEDs on non-sleeping GPIOs).
->=20
-> Can you remind me the context of this patch, why using workqueue is
-> bad here?
+int led_set_brightness_cansleep()
+     led_cdev->brightness = min(value, led_cdev->max_brightness);
 
-The workqueue is only needed if you have a slow LED and want to set the
-brightness in atomic context. However if you are allowed to sleep that
-is just needless overhead.
+     if (led_cdev->flags & LED_SUSPENDED)
+         return 0;
 
-Best regards
-Uwe
+     return led_set_brightness_nopm_cansleep();
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---zk4nvkgtqon2zvbp
-Content-Type: application/pgp-signature; name="signature.asc"
+int led_set_brightness_nopm_cansleep()
+     ret =__led_set_brightness();
+     if (ret == -ENOTSUPP)
+         ret = __led_set_brightness_blocking();
 
------BEGIN PGP SIGNATURE-----
+     return ret;
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQ9m2MACgkQj4D7WH0S
-/k4bPwgArIjCj9M3qYdcvF6L7RU2bru+ouV3C/a4GV9uv+k/SdAIdsu55/lKWfFD
-dWanHHRqpLQfH4nHfPFvjGOiKselx53G5Usn1JAaugdU3UW1RmJKP06Pt1dNwH1Z
-1B4N6E4A5PycUBcPZEW9BBqMej4Y4g8m0DXtHVnbV6GXopo7SVpkhLRA+cSy/sJK
-eAPCexXek8s9AsEQNPJ5pBb0K8Z55V2WZozM63/WuV3bI0eH8b+LrI/g22+F2BzO
-Lup9iAG1Cs65s7vYDrU9APo1cZPMWiYVbuHXRMQeFX3ndDBYC7rEKyqvOVsGvdT+
-kqbK85Y/3adZPDTWAIIDtmETVg7Buw==
-=HAF+
------END PGP SIGNATURE-----
+As a quick fix I would apply led_set_brightness_nosleep() nonetheless.
+Does it have any observed downsides?
 
---zk4nvkgtqon2zvbp--
+-- 
+Best regards,
+Jacek Anaszewski
