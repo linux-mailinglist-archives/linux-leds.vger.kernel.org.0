@@ -2,79 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1266E58C9
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Apr 2023 07:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AFE06E5905
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Apr 2023 08:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjDRFvw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 Apr 2023 01:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
+        id S230117AbjDRF7w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 18 Apr 2023 01:59:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjDRFvv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 Apr 2023 01:51:51 -0400
-X-Greylist: delayed 11757 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Apr 2023 22:51:50 PDT
-Received: from mail.peterfykh.hu (mail.peterfykh.hu [84.206.67.96])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2C946A0;
-        Mon, 17 Apr 2023 22:51:50 -0700 (PDT)
-Received: from mail.peterfykh.hu (localhost [127.0.0.1])
-        by mail.peterfykh.hu (Postfix) with ESMTP id 33184C93;
-        Tue, 18 Apr 2023 00:33:39 +0200 (CEST)
+        with ESMTP id S230414AbjDRF7p (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 Apr 2023 01:59:45 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B916F5FC3
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 22:59:34 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id xd13so36322049ejb.4
+        for <linux-leds@vger.kernel.org>; Mon, 17 Apr 2023 22:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681797571; x=1684389571;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
+        b=h2u+IvYIbnFxxtQG/ZtOJXOGODtmHZE6DE2kphmV5deUhBtI5SSl5ZpPS81I4DoyvM
+         cL/QsMoq/nZ79QoTUVBpjigDCpbkhNV4ihdOYSWAZCOke9dA/QR1VB/koOlQ9LVEDYMX
+         XtbtlwSc8k7WA+c3R6xpugIUkMv4IcvxiBX5jugHOkE6bIQRd6XIP4bPoYTYUOtLJ8cY
+         jqOSy7VahCSY+50nHqKMLAvtMY0jgSKZG9RLZ0VM4rlX3dlYAIwPmpAZEs5sdE1jKPzt
+         sUSa+Yt3rvdogEL685HX9OzzgKvbxUuLxSFiR0ubii95w3DTWRmDDneYGKBqJn2l6obd
+         7Bag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681797571; x=1684389571;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
+        b=WlLvEdepB0PxwVF9Qzb8StAXw7634zBtVw+4JuAeQIULFlBetM8eeoIemPzKf9Tq7Y
+         YpOA/oXYgdXdlNIXrY8YqoCRgG2Mo17rHqyUQ1b+z83RngASoUzy4EVgZSXj8ajNwATn
+         A59eSe2hH2BSX54A9U2TN0lndlAjWWuuO9Q9jUGXMHU4NaiArEfdnZDB6+PRKHbzBXux
+         kYoTi3JX1iwHsC1/FxLL0TMr3OUUsrvwG2ZhxV9tMXr9T5iFIFjmRPsJ2ALS+8f4rofl
+         XSCvLzgV4ijl0dQG5YDfU9CfX+eB6XYdzSRqgcGgvVfj5hmTOr0yE8RlzVypi3u+f1hT
+         81aw==
+X-Gm-Message-State: AAQBX9e/c/pAAFIDA+pfS2MOWQzBV9aHBPD5Hc/4tXl6FRnze0atnYDM
+        3653Yl476SkloaC6JesOctWPdT5jGEETCevQsPU8NWlXg7EcbuS0
+X-Google-Smtp-Source: AKy350YRsUSKQ0+i58Lzun7WtY7IrRwSkm+DWIi2JdfS71rVYYWUT2OQ/a/Q5PRWIBazn3AQLm2dWBYGVxBajLvvRoE=
+X-Received: by 2002:a05:6512:96b:b0:4e8:4b7a:6b73 with SMTP id
+ v11-20020a056512096b00b004e84b7a6b73mr2935594lft.4.1681797550844; Mon, 17 Apr
+ 2023 22:59:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Tue, 18 Apr 2023 00:33:38 +0200
-From:   MK <sebeszet@peterfykh.hu>
+Received: by 2002:ab2:2681:0:b0:1b6:840f:9075 with HTTP; Mon, 17 Apr 2023
+ 22:59:10 -0700 (PDT)
+Reply-To: mariamkouame.info@myself.com
+From:   Mariam Kouame <mariamkouame1992@gmail.com>
+Date:   Mon, 17 Apr 2023 22:59:10 -0700
+Message-ID: <CADUz=agNY633M0qMXMnAP3Ms7-3rKuWtAZGCOQZKeYpCdBxT_w@mail.gmail.com>
+Subject: from mariam kouame
 To:     undisclosed-recipients:;
-Subject: Hallo zonneschijn, hoe gaat het?
-Reply-To: marion.K08@bahnhof.se
-Mail-Reply-To: marion.K08@bahnhof.se
-Message-ID: <6beb3a6821ee1c10d572468d6f0b7819@peterfykh.hu>
-X-Sender: sebeszet@peterfykh.hu
-User-Agent: Roundcube Webmail/1.2.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peterfykh.hu; s=mail; t=1681770840; bh=Y/HSPkaXx7v8QEu9CCMqk2au7ZUiVe0y+uO2ohI268s=; h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Reply-To:Message-ID; b=r6MUBncZg0YUO2kvcyQP0g9lyq5kwbCDH3jQH2yLzfzRt3pNk2NIoLxnK0efXM6rFg1kkxYcPLv7TXCSX7l7Zmq56nfe+E01g48qv6hf0vp1WCF9Q6z5BFomygjN9g1Ws+qoCUN6ohKlsrVELPKca2m6XRdWjn94KpOXKnVx+Rw=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Het spijt me u te storen en uw privacy te schenden. Ik ben vrijgezel,
-eenzaam en heeft behoefte aan een zorgzame, liefdevolle en romantische 
-metgezel.
+Dear,
 
-Ik ben een geheime bewonderaar en zou graag de mogelijkheid willen 
-verkennen
-leer meer over elkaar. Ik weet dat het vreemd is om contact met je op te 
-nemen
-op deze manier en ik hoop dat je me kunt vergeven. Ik ben een verlegen 
-persoon en
-dit is de enige manier waarop ik weet dat ik je aandacht kan trekken. Ik 
-wil gewoon
-om te weten wat je denkt en het is niet mijn bedoeling om je te 
-beledigen.
-Ik hoop dat we vrienden kunnen zijn als je dat wilt, hoewel ik dat zou 
-willen
-om meer te zijn dan alleen een vriend. Ik weet dat je een paar vragen 
-hebt
-vraag het en ik hoop dat ik met een paar iets van je nieuwsgierigheid 
-kan bevredigen
-antwoorden.
+Please grant me permission to share a very crucial discussion with
+you. I am looking forward to hearing from you at your earliest
+convenience.
 
-Ik geloof in het gezegde dat 'voor de wereld ben je maar één persoon,
-maar voor een speciaal iemand ben jij de wereld'. Alles wat ik wil is 
-liefde,
-romantische zorg en aandacht van een speciale metgezel die ik ben
-in de hoop dat jij dat zou zijn.
-
-Ik hoop dat dit bericht het begin is van een lange termijn
-communicatie tussen ons, stuur gewoon een antwoord op dit bericht, it
-zal me gelukkig maken.
-
-
-Knuffels en kussen,
-
-Marion.
+Mrs. Mariam Kouame
