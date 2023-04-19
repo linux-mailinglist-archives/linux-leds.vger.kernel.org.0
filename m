@@ -2,122 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8382E6E792E
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 14:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D94B6E798C
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 14:20:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232876AbjDSMA6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Apr 2023 08:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
+        id S233217AbjDSMUd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Apr 2023 08:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232428AbjDSMAz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 08:00:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9EBF9EE7;
-        Wed, 19 Apr 2023 05:00:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CD40163E38;
-        Wed, 19 Apr 2023 12:00:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 26F76C4339B;
-        Wed, 19 Apr 2023 12:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681905624;
-        bh=kL7MXaHfZUb5tJRqat4CTB+HjhFYT3TLVG/TA9D/yOU=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=DyKJ7lZEgtxMcBtN3hFQTRgImJ0r78sfGAFkj0/1IpnBOGNsodsEKSA9n0/0u0zCO
-         SgdGBFEnVUCVGNcpn/Ixzg07lTnEoadfHZM4weInv6uDSQC+j0CJ1RugD/nQc8zwmw
-         E8PTmOC86u/lnpdLrK75GluGpZ9SrXGcd+dYzkcgt+yXotoUcyFs3p4hDqNpU5buzO
-         qFucbkE1pCfekMm8Bs7nIlumeB8LyAjG71S9QQu5COc77iM+C+pK2Z+fnfnT+SnZi/
-         MR0UaF2bXx6TEF5b74pA63/E6RUiJ9UPY/tCxKwchlVvt9AIQhuMjJgYRSAJ+b/fuz
-         RRji8WNy9Cycw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 00DF7E3309C;
-        Wed, 19 Apr 2023 12:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for switch/phy
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168190562399.2268.16556585281655823731.git-patchwork-notify@kernel.org>
-Date:   Wed, 19 Apr 2023 12:00:23 +0000
-References: <20230417151738.19426-1-ansuelsmth@gmail.com>
-In-Reply-To: <20230417151738.19426-1-ansuelsmth@gmail.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     andrew@lunn.ch, f.fainelli@gmail.com, olteanv@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, hkallweit1@gmail.com,
-        linux@armlinux.org.uk, corbet@lwn.net, gregory.clement@bootlin.com,
-        sebastian.hesselbarth@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, pavel@ucw.cz,
-        lee@kernel.org, john@phrozen.org, netdev@vger.kernel.org,
+        with ESMTP id S233213AbjDSMUX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 08:20:23 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447325FDF;
+        Wed, 19 Apr 2023 05:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=tdgAKK/gYzuoiQCUdGhjbA+MZqUGxSXIKXMiOdNq7UI=; b=OKzubX8YBDGiER5gWN/c5zLmad
+        iAFJFJdWpI6cgx+vojAcFYJjGEKTvLs7I8eivhaAQNz7p7xGIlAPP0ruyG7Yr0v3SVJlOdCIGNzO3
+        p5eS5RznAdYEd/OWuiptl4yqk51mwTaT1aul48JafVCGz4HSYVvyoufJjswqHECXVPOU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1pp6n4-00Ah32-7d; Wed, 19 Apr 2023 14:20:02 +0200
+Date:   Wed, 19 Apr 2023 14:20:02 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for
+ switch/phy
+Message-ID: <ceb81b05-caf7-4738-b288-02aa662ccd49@lunn.ch>
+References: <20230417151738.19426-1-ansuelsmth@gmail.com>
+ <20230418212746.7db8096e@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230418212746.7db8096e@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello:
+> IIRC we were supposed to take these via netdev with acks from Pavel/Lee.
+> So we need acks on patches 4/5/16 ? If there is a repost, could you
+> take out the arch/arm patches? They should not go via netdev, we'll try
+> to filter them out when applying but mistakes happen.
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+The 370rd patch could in theory go via netdev. I maintain it, both at
+the board and mvebu SoC level, so can give my Acked-by:, in addition
+to my Signed-off-by:. It is very unlikely there will be any sort of
+merge conflict.
 
-On Mon, 17 Apr 2023 17:17:22 +0200 you wrote:
-> This is a continue of [1]. It was decided to take a more gradual
-> approach to implement LEDs support for switch and phy starting with
-> basic support and then implementing the hw control part when we have all
-> the prereq done.
-> 
-> This series implements only the brightness_set() and blink_set() ops.
-> An example of switch implementation is done with qca8k.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v7,01/16] net: dsa: qca8k: move qca8k_port_to_phy() to header
-    https://git.kernel.org/netdev/net-next/c/3e8b4d6277fd
-  - [net-next,v7,02/16] net: dsa: qca8k: add LEDs basic support
-    https://git.kernel.org/netdev/net-next/c/1e264f9d2918
-  - [net-next,v7,03/16] net: dsa: qca8k: add LEDs blink_set() support
-    https://git.kernel.org/netdev/net-next/c/91acadcc6e59
-  - [net-next,v7,04/16] leds: Provide stubs for when CLASS_LED & NEW_LEDS are disabled
-    https://git.kernel.org/netdev/net-next/c/e5029edd5393
-  - [net-next,v7,05/16] net: phy: Add a binding for PHY LEDs
-    https://git.kernel.org/netdev/net-next/c/01e5b728e9e4
-  - [net-next,v7,06/16] net: phy: phy_device: Call into the PHY driver to set LED brightness
-    https://git.kernel.org/netdev/net-next/c/684818189b04
-  - [net-next,v7,07/16] net: phy: marvell: Add software control of the LEDs
-    https://git.kernel.org/netdev/net-next/c/2d3960e58ef7
-  - [net-next,v7,08/16] net: phy: phy_device: Call into the PHY driver to set LED blinking
-    https://git.kernel.org/netdev/net-next/c/4e901018432e
-  - [net-next,v7,09/16] net: phy: marvell: Implement led_blink_set()
-    https://git.kernel.org/netdev/net-next/c/ea9e86485dec
-  - [net-next,v7,10/16] dt-bindings: net: ethernet-controller: Document support for LEDs node
-    https://git.kernel.org/netdev/net-next/c/57b6c752c5c0
-  - [net-next,v7,11/16] dt-bindings: net: dsa: qca8k: add LEDs definition example
-    https://git.kernel.org/netdev/net-next/c/ed617bc022f4
-  - [net-next,v7,12/16] ARM: dts: qcom: ipq8064-rb3011: Drop unevaluated properties in switch nodes
-    https://git.kernel.org/netdev/net-next/c/939595c79d12
-  - [net-next,v7,13/16] ARM: dts: qcom: ipq8064-rb3011: Add Switch LED for each port
-    https://git.kernel.org/netdev/net-next/c/09930f1fb875
-  - [net-next,v7,14/16] dt-bindings: net: phy: Document support for LEDs node
-    https://git.kernel.org/netdev/net-next/c/18a24b694a2b
-  - [net-next,v7,15/16] arm: mvebu: dt: Add PHY LED support for 370-rd WAN port
-    https://git.kernel.org/netdev/net-next/c/380a8fe1b2f4
-  - [net-next,v7,16/16] Documentation: LEDs: Describe good names for network LEDs
-    https://git.kernel.org/netdev/net-next/c/c693ea2fd6e3
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+      Andrew
