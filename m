@@ -2,80 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE1086E6F5F
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 00:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BC8A6E7249
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 06:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbjDRWaR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 Apr 2023 18:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55968 "EHLO
+        id S231588AbjDSE1v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Apr 2023 00:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjDRW3x (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 Apr 2023 18:29:53 -0400
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2099D35A3;
-        Tue, 18 Apr 2023 15:29:52 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6a5f765d5b8so613457a34.3;
-        Tue, 18 Apr 2023 15:29:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681856991; x=1684448991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IrmDFMV+ByWwft8Vdv6h3adx/3/XUUc95kI+OilyKT8=;
-        b=Jr7yKa6qFgf9fTJA1+l7uRd6u95JxDEuolU8g8949kjAN9pPNlMRjVGGZlsDH0PCNN
-         8MtKbMg4txDB8zfoBxPFrYM9yAR4+Cs19rJ1haq7OxG0YX3zDGnUFRQzQ1m084xjO/zj
-         v6Dr7WYhlCzK1DuzLxDlQBcQqORVHBLTdLoq0TMsq7zXe9iNriVONAxfOpZfhTqckT+y
-         KTDXaj2RsZDCqg7X3uGmJewqHVeclt+scR12WA5eK17v5iZsU8+9Exd1oE+vdShz2FvK
-         wPyUNe2HhnjqefRRJFHpRoZvxh7tEDena+lO1+l5ICpBYTnnEjs4JKx8vaDwPO822NMH
-         NM3g==
-X-Gm-Message-State: AAQBX9c9sG3qhG9g2VzpYHkUz9ExgR3TuETMVDYzWTYuVxTVhKH9A7QS
-        Jp1Jx1m+bpnAA2gY/UigAVSzTdAsFg==
-X-Google-Smtp-Source: AKy350ZNJODwIqGkJ5sG/17OBGRNxMmBa91BltKwVlK1NWnfPu6nrcHAX+Hxtp3Q9SF1r4NaiL27Vw==
-X-Received: by 2002:a9d:6350:0:b0:6a4:390f:cd61 with SMTP id y16-20020a9d6350000000b006a4390fcd61mr1858161otk.0.1681856991282;
-        Tue, 18 Apr 2023 15:29:51 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d16-20020a056830005000b0068bd922a244sm6134585otp.20.2023.04.18.15.29.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 15:29:50 -0700 (PDT)
-Received: (nullmailer pid 2443692 invoked by uid 1000);
-        Tue, 18 Apr 2023 22:29:50 -0000
-Date:   Tue, 18 Apr 2023 17:29:50 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Matti Vaittinen <mazziesaccount@gmail.com>, pavel@ucw.cz,
-        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-        linux-kernel@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED
-Message-ID: <168185698973.2443640.10846609870028128019.robh@kernel.org>
-References: <20230416211550.903240-1-andreas@kemnade.info>
- <20230416211550.903240-2-andreas@kemnade.info>
+        with ESMTP id S230211AbjDSE1u (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 00:27:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D9961A7;
+        Tue, 18 Apr 2023 21:27:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4EFD262F3A;
+        Wed, 19 Apr 2023 04:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84120C433EF;
+        Wed, 19 Apr 2023 04:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681878468;
+        bh=z8Cnl+y8ZhRaFWwRA/tNVWmuFrnUGtE2tQkn1vH03MQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fkdNpsYCFIgLsxaPwHhk+tlApLi0x3z8fn+/RXy3qBRrG8HKTZez0cdG9Q4Tn/zqW
+         pbDuIK7Da13J3SVPnzCq8RxZzzgxK+kf8tZ6dWxM2DMVeSgbb65dPl/5IMaYQFO5JA
+         KP50dxYOK1RDFKc0Y7gZPql9cVf/tMGsfCEMPbyLZOu0DQ2ZHSzYxU2sddWHCPbQOl
+         zzZoCJi5Or1D/qjAUeytjnOtePKUobrfvCVhfdaLSJqEHKsy3omA7a3/vShF6y/rwu
+         WrvBO1Cz20shBfjEi4kU67X8yeUUEdEMLA6ULoUN2Ez2V/Qs3xPheEqlSS5fpqZr8Q
+         bSFubUXxlgcKA==
+Date:   Tue, 18 Apr 2023 21:27:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for
+ switch/phy
+Message-ID: <20230418212746.7db8096e@kernel.org>
+In-Reply-To: <20230417151738.19426-1-ansuelsmth@gmail.com>
+References: <20230417151738.19426-1-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230416211550.903240-2-andreas@kemnade.info>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
-On Sun, 16 Apr 2023 23:15:49 +0200, Andreas Kemnade wrote:
-> Document ROHM BD2606MVV LED driver devicetree bindings.
+On Mon, 17 Apr 2023 17:17:22 +0200 Christian Marangi wrote:
+> This is a continue of [1]. It was decided to take a more gradual
+> approach to implement LEDs support for switch and phy starting with
+> basic support and then implementing the hw control part when we have all
+> the prereq done.
 > 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> ---
->  .../bindings/leds/rohm,bd2606mvv.yaml         | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
+> This series implements only the brightness_set() and blink_set() ops.
+> An example of switch implementation is done with qca8k.
 > 
+> For PHY a more generic approach is used with implementing the LED
+> support in PHY core and with the user (in this case marvell) adding all
+> the required functions.
+> 
+> Currently we set the default-state as "keep" to not change the default
+> configuration of the declared LEDs since almost every switch have a
+> default configuration.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+IIRC we were supposed to take these via netdev with acks from Pavel/Lee.
+So we need acks on patches 4/5/16 ? If there is a repost, could you
+take out the arch/arm patches? They should not go via netdev, we'll try
+to filter them out when applying but mistakes happen.
+-- 
+pw-bot: need-ack
