@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D94B6E798C
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 14:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C5036E7995
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Apr 2023 14:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233217AbjDSMUd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Apr 2023 08:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
+        id S232656AbjDSMWI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Apr 2023 08:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233213AbjDSMUX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 08:20:23 -0400
+        with ESMTP id S233269AbjDSMWF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 08:22:05 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447325FDF;
-        Wed, 19 Apr 2023 05:20:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116E8AF16;
+        Wed, 19 Apr 2023 05:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=tdgAKK/gYzuoiQCUdGhjbA+MZqUGxSXIKXMiOdNq7UI=; b=OKzubX8YBDGiER5gWN/c5zLmad
-        iAFJFJdWpI6cgx+vojAcFYJjGEKTvLs7I8eivhaAQNz7p7xGIlAPP0ruyG7Yr0v3SVJlOdCIGNzO3
-        p5eS5RznAdYEd/OWuiptl4yqk51mwTaT1aul48JafVCGz4HSYVvyoufJjswqHECXVPOU=;
+        bh=3727NmUMcKOHnmbIl6QjHpZThXQiWOr0LA3853eLbMg=; b=3T/f3TbTMdCCzOrAy1sR3I9Kc2
+        iqMNzM2wINtFVJNS0zpfAQ4CErijw2EarjY/Yjat2KYowuB1YVh+09gJbHkivukwc05RFrVW34wnP
+        yEL0SYDO0t4D9AkEOirxtCSZ3tCrcbQrDRTCStdxCLArR6nV/FnBZANc8pE+1vKILJDs=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1pp6n4-00Ah32-7d; Wed, 19 Apr 2023 14:20:02 +0200
-Date:   Wed, 19 Apr 2023 14:20:02 +0200
+        id 1pp6oo-00Ah50-L1; Wed, 19 Apr 2023 14:21:50 +0200
+Date:   Wed, 19 Apr 2023 14:21:50 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     Christian Marangi <ansuelsmth@gmail.com>,
@@ -51,7 +51,7 @@ Cc:     Christian Marangi <ansuelsmth@gmail.com>,
         linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org
 Subject: Re: [net-next PATCH v7 00/16] net: Add basic LED support for
  switch/phy
-Message-ID: <ceb81b05-caf7-4738-b288-02aa662ccd49@lunn.ch>
+Message-ID: <0501856b-2db7-4a7d-803d-ba18682d6a6c@lunn.ch>
 References: <20230417151738.19426-1-ansuelsmth@gmail.com>
  <20230418212746.7db8096e@kernel.org>
 MIME-Version: 1.0
@@ -73,9 +73,6 @@ X-Mailing-List: linux-leds@vger.kernel.org
 > take out the arch/arm patches? They should not go via netdev, we'll try
 > to filter them out when applying but mistakes happen.
 
-The 370rd patch could in theory go via netdev. I maintain it, both at
-the board and mvebu SoC level, so can give my Acked-by:, in addition
-to my Signed-off-by:. It is very unlikely there will be any sort of
-merge conflict.
+Ah, mute point now, the whole patchset has been merged.
 
-      Andrew
+    Andrew
