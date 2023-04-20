@@ -2,55 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C97C6E9036
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 12:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 827CE6E92AA
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 13:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234822AbjDTK3q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 Apr 2023 06:29:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41320 "EHLO
+        id S231978AbjDTL35 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Apr 2023 07:29:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234803AbjDTK3Y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 06:29:24 -0400
+        with ESMTP id S234391AbjDTL3s (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 07:29:48 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799D75581;
-        Thu, 20 Apr 2023 03:27:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625CF10CB;
+        Thu, 20 Apr 2023 04:29:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 103C66131A;
-        Thu, 20 Apr 2023 10:27:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87138C433EF;
-        Thu, 20 Apr 2023 10:27:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8113761DF9;
+        Thu, 20 Apr 2023 11:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4083C433D2;
+        Thu, 20 Apr 2023 11:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681986428;
-        bh=QDYCFRnWH/Js9cZOwtaV9JCmqosAqmE5uYC3yyCCcc4=;
+        s=k20201202; t=1681990108;
+        bh=eWhB8HSrvOlHeakDXxHfQTUBLdrNhqVzjEsUT9awTjs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UxRUuUxn+AbkEVvPQ8poUQ/HGoTo4+OTMh/WJNPZtI8kJofNIZCU8QSVxVMRMRVxx
-         vKgcA0fa+zy7ffzRRFBUwXE9z7RIZpJns5cEVdModUjZXxbFqR+rR/mF60YaNZBEVs
-         UOCrj1h4G/GQeWjqKAVzkmMfwlvuvt/gu5tEFCmsFNqXfPLk29pKvGPlrcr1484K77
-         jiHWCUZwpgZGm2qQQjl87v8QvvBlkypm+V4B4lgpVvBsrP+91gcgQYJsJB1cLiYbk6
-         DNymI0nLa4W+N+P/phNIHwcT5EwDaJVqFeMbwOug1VA6jJKUCC/gwixZyFI8BTbJ3W
-         IMb14VRpbmnYw==
-Date:   Thu, 20 Apr 2023 11:27:03 +0100
+        b=rvu+c1qCqp2647lvh4zyhPkQLkAKeL4B1B/Xe73jUYQr/xOkzPjo3iPcKCgrhBU6A
+         TQWAIWQzx3gQp7wOIjncNMJlgzyM4sKvcZxK6th/r41TM6fgSBZaaDG3s4sABI6SSS
+         MBtas7SQ7OOgm13RPDFD9d05EXmzvNbVHK6dVSzoy85VrWVQOhvglDmaVmDofCNZGN
+         pztSIpeUUM9ZavbACQqs4nOZPyM3mJR/angk24lT2iheBNYC8kaTlipqUfRidyl+CC
+         Ur+lWr/7f1oTmyMYLuILyv0N1f2FTmYncQm9Wnz1RJvXhsHKR9EW4QLoZZptBZlu3d
+         jEbT1RfF2kS1g==
+Date:   Thu, 20 Apr 2023 12:28:23 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Maarten Zanders <maarten.zanders@mind.be>,
-        Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v7 1/2] dt-bindings: leds-lp55xx: add ti,charge-pump-mode
-Message-ID: <20230420102703.GH9904@google.com>
-References: <20230407102324.42604-1-maarten.zanders@mind.be>
- <20230407102324.42604-2-maarten.zanders@mind.be>
- <20230411132204.GA2918042-robh@kernel.org>
+To:     Wadim Egorov <w.egorov@phytec.de>
+Cc:     upstream@lists.phytec.de, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        riku.voipio@iki.fi, krzysztof.kozlowski+dt@linaro.org,
+        robh+dt@kernel.org, pavel@ucw.cz
+Subject: Re: [PATCH v3] dt-bindings: leds: Convert PCA9532 to dtschema
+Message-ID: <20230420112823.GB970483@google.com>
+References: <20230412140552.451527-1-w.egorov@phytec.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230411132204.GA2918042-robh@kernel.org>
+In-Reply-To: <20230412140552.451527-1-w.egorov@phytec.de>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -61,50 +56,37 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 11 Apr 2023, Rob Herring wrote:
+On Wed, 12 Apr 2023, Wadim Egorov wrote:
 
-> On Fri, Apr 07, 2023 at 12:23:23PM +0200, Maarten Zanders wrote:
-> > Add a binding to configure the internal charge pump for lp55xx.
-> > 
-> > Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > ---
-> > 
-> > Notes:
-> >     v1: implement as bool to disable charge pump
-> >     v2: rewrite to use string configuration, supporting all modes
-> >     v3: simplification by replacing string option by u8 constant,
-> >         removing previous Reviewed-by tags as it's a complete
-> >         rewrite of the patch.
-> >     v4: added notes
-> >     v5: dual license, change property type to u32
-> >     v6: change license type for leds-lp-55xx.h to preferred tag
-> > 
-> >  .../devicetree/bindings/leds/leds-lp55xx.yaml          |  8 ++++++++
-> >  include/dt-bindings/leds/leds-lp55xx.h                 | 10 ++++++++++
-> >  2 files changed, 18 insertions(+)
-> >  create mode 100644 include/dt-bindings/leds/leds-lp55xx.h
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> > index ae607911f1db..ede9cb9ca175 100644
-> > --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> > @@ -66,6 +66,12 @@ properties:
-> >    '#size-cells':
-> >      const: 0
-> >  
-> > +  ti,charge-pump-mode:
-> > +    description:
-> > +      Set the operating mode of the internal charge pump as defined in
-> > +      <dt-bindings/leds/leds-lp55xx.h>. Defaults to auto.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> Convert the PCA9532 LED Dimmer to dtschema.
+> While at it, update the example to match recommended node names and
+> the link to the product datasheet. Also add GPIO properties since
+> the driver allows to use unused pins as GPIOs.
 > 
-> Needs constraints:
+> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> ---
+> v3:
+>   - Add gpio-controller & gpio-cells property, fixes
+>     arch/arm/boot/dts/lpc3250-ea3250.dtb: pca9532@60: '#gpio-cells', 'gpio-controller'
+>     do not match any of the regexes: '^led-[0-9a-z]+$', 'pinctrl-[0-9]+'
 > 
-> default: 3  # Auto
-> maximum: 3
+> v2:
+>   - Rename yaml file to match compatibles, nxp,pca953x.yaml
+>   - Remove Jacek Anaszewski from maintainers list
+>   - Remove color labels in example
+>   - Restore labels/default-states from original example
+>   - Drop reg description
+>   - Add unevaluatedProperties to patternProperties scope
+>   - Update description of type property & set default to 0
+>   - Fix indentation in example
+> ---
+>  .../devicetree/bindings/leds/leds-pca9532.txt | 49 ----------
+>  .../devicetree/bindings/leds/nxp,pca953x.yaml | 90 +++++++++++++++++++
+>  2 files changed, 90 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pca9532.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
 
-Once this has been fixed, I'll apply both.
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
