@@ -2,78 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01EB56E867F
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 02:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C5D6E8C97
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 10:22:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231464AbjDTA3E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Apr 2023 20:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37624 "EHLO
+        id S233993AbjDTIWe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Apr 2023 04:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231414AbjDTA3E (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Apr 2023 20:29:04 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3A493;
-        Wed, 19 Apr 2023 17:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=5yBauOdq8viUa9lLMEObdRAGHMji4WfrQuS4S9VpZIs=; b=J3ctjCNyOn0/dxo4WZA0tvvadk
-        Ic+PPu/wwILtaoAbfe2Ab3W/x5CIEtgW7Dt+SnOylZzXXf5/lddS4nseQ9EO33CBuoumgrYbJ/Gic
-        O50uiRMs/7W4PBDItGFT/6V973ng/R061keharVF9XnJX7LQ829rsu2qA+3NhiUx8qH8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1ppIAW-00Ajqi-6m; Thu, 20 Apr 2023 02:29:00 +0200
-Date:   Thu, 20 Apr 2023 02:29:00 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Martin Schiller <ms@dev.tdt.de>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] leds: trigger: netdev: rename add namespace to
- netdev trigger enum modes
-Message-ID: <32857e95-930d-420e-9b2a-c7a1c49e6441@lunn.ch>
-References: <20230419210743.3594-1-ansuelsmth@gmail.com>
- <20230419210743.3594-4-ansuelsmth@gmail.com>
+        with ESMTP id S233947AbjDTIWd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 04:22:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEB626B3;
+        Thu, 20 Apr 2023 01:22:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 90051645E6;
+        Thu, 20 Apr 2023 08:22:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0590DC433D2;
+        Thu, 20 Apr 2023 08:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681978947;
+        bh=S6H5PDpbon+c+zJoAhcp+xf9q+yBVa0TMRe9t5rUVuw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RSaIJl/4PHmkhfJoMtSl5CpTBcy/cZJuGad086SLCzEOg8G/jdfICrHPmzS+W6yfB
+         wWdQWhlkG317bH19nQaG1MCodBqczMZeCgJoeWbnGh6QU0TSdXuSUO2HhzpSxFpNLj
+         ULkkYU7cNemnI3HIg2OtoYgIwa/vpwu9/xH41LU0N29VAolyIJ3B3qTOkP8YQb7dy9
+         EojsJUlOE2ND6wBXv8hFHbffAiEnhhH16wpQT4vQPYU9j9dONS0vnXjJDPPLNx9dlg
+         PMKxNcrQMrUFHbPPq4oSN7Bi+lEBy/meI9REsEB539/TlKC+01BnYq6A/vnSHqHp00
+         cq3q+SsMDCpDg==
+Date:   Thu, 20 Apr 2023 09:22:22 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pavel@ucw.cz
+Subject: Re: [RESEND] leds: Ensure hardware blinking turns off when requested
+Message-ID: <20230420082222.GC9904@google.com>
+References: <20230405165028.73579-1-eajames@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230419210743.3594-4-ansuelsmth@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230405165028.73579-1-eajames@linux.ibm.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Apr 19, 2023 at 11:07:41PM +0200, Christian Marangi wrote:
-> Rename NETDEV trigger enum modes to a more symbolic name and add a
-> namespace to them.
+On Wed, 05 Apr 2023, Eddie James wrote:
+
+> If an LED is blinking through the hardware and the trigger is deactivated,
+> the driver will set the brightness to 0 to disable blinking. However, if
+> the LED driver doesn't support non-blocking operations, the request for
+> setting brightness to 0 will get queued. Then if a user requests a new
+> non-zero brightness before the request for 0 brightness is executed, the
+> LED blinking will not get disabled since the brightness will simply be
+> updated.
+> Fix this by flushing the workqueue before updating the requested
+> brightness.
+
+You make a convincing argument for this.
+ 
+> Fixes: 4d71a4a12b13 ("leds: Add support for setting brightness in a synchronous way")
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  drivers/leds/led-class.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Also add __TRIGGER_NETDEV_MAX to identify the max modes of the netdev
-> trigger.
-> 
-> This is a cleanup to drop the define and no behaviour change are
-> intended.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 9255bc11f99d..78a270300d30 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -57,6 +57,8 @@ static ssize_t brightness_store(struct device *dev,
 >  
->  static ssize_t netdev_led_attr_show(struct device *dev, char *buf,
-> -	enum netdev_led_attr attr)
-> +				    enum led_trigger_netdev_modes attr)
->  {
-> @@ -169,7 +165,7 @@ static ssize_t netdev_led_attr_show(struct device *dev, char *buf,
->  }
->  
->  static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
-> -	size_t size, enum netdev_led_attr attr)
-> +				     size_t size, enum led_trigger_netdev_modes attr)
+>  	if (state == LED_OFF)
+>  		led_trigger_remove(led_cdev);
+> +	/* flush out any request to disable blinking */
+> +	flush_work(&led_cdev->set_brightness_work);
+>  	led_set_brightness(led_cdev, state);
+>  	flush_work(&led_cdev->set_brightness_work);
 
-These whitespace changes should not really be in this patch. But...
+Just to be clear, you want to flush the work before AND after setting
+the brightness?
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+In the commit message, could you make it clear why simply moving this
+flush won't work.
 
-    Andrew
+-- 
+Lee Jones [李琼斯]
