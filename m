@@ -2,52 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2246E9679
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 16:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D544C6E9A8F
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 19:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbjDTOAf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 Apr 2023 10:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58636 "EHLO
+        id S230249AbjDTRU7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Apr 2023 13:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbjDTOAd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 10:00:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6724B61A8;
-        Thu, 20 Apr 2023 07:00:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CFA4C60B8D;
-        Thu, 20 Apr 2023 14:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5153C4339B;
-        Thu, 20 Apr 2023 14:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681999218;
-        bh=65k7doVH3SaHC6RwPm/kmxL5Qia06u75ugTrJ/+Kj2s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q1D+CNzFAveKuoDma3AcWYDYS0Fr2rujDp1LSBfjdGuHkMSkBeDZQqC6A6EznW2Ae
-         riuItMHwa6y432te7bWQijt7IH2jzyeMa3REjo7F9pRt3ZNleOcL4FpYuXHzzMkXDR
-         lSaPhRNtqhN0Tqkog+aryGtV1LgV8LuaBt2TZ91uIXPczgNHaF6+7VLuHKj5xQmLEW
-         v98GfkL5bH71I6wdTc+y3vwmR6AjNwcjsn86TB8xS8ljPZ9Pp93zG17aIUTptgeLQu
-         BR9wM490eACQPgz/hF8+rnA7LvrNWxkEKItF6MseJNKWvfyXvQ/+io0kBfo96aGnkJ
-         Shz+l6sMm6jXA==
-Date:   Thu, 20 Apr 2023 15:00:13 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Alexander Dahl <ada@thorsis.com>
-Cc:     linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Pavel Machek <pavel@ucw.cz>,
-        Fabio Baltieri <fabio.baltieri@gmail.com>
-Subject: Re: [PATCH] docs: leds: ledtrig-oneshot: Fix spelling mistake
-Message-ID: <20230420140013.GF996918@google.com>
-References: <20230418113402.188391-1-ada@thorsis.com>
+        with ESMTP id S230194AbjDTRU6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 13:20:58 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D815B212F
+        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 10:20:43 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1a9253d4551so11984865ad.0
+        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 10:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1682011243; x=1684603243;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gmsBZPipPsCFTIjFncw4FGgKuPbELkOPIxjDOZ4baEM=;
+        b=epjxRyBs3ZM8UiYLqktY66R5TM4hmVMgguePqA04wp85tIsFBGcc/1HvKszDPKw2zz
+         oGupJbQHMKXS0qSw7nCm1bEZNm/t5UFA2DIz9dNWAjGYaR42MLbD3wNqeAX8YOqbt/s9
+         TOzrmipI5UzVV86n9Q3H7iS2t47ZPuutlwZJyL8+i1P581YWQrDyOjJbWnywcXk17gzU
+         mQlU38+Ntv1QR6Z9/9I1LQKDVh142oEks485YTf1zCpgQQwL5KVhITLUTAu8JGtgGI36
+         83phI9oKXnF2S/auzJ6+9CIbMqzUL+ykwAC7lJUs0rJBxd/qtDc+eOYHjAKBWY6AOj27
+         fSNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682011243; x=1684603243;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gmsBZPipPsCFTIjFncw4FGgKuPbELkOPIxjDOZ4baEM=;
+        b=I1cjZQ0WY65L1N5ph0sK0M9SWCcjMSUZ4nuAQY1XJh+f9WwSvItRHT2sYxFQUjGoP1
+         0u0ZBqgASxB8FLEqintYPciqaohjFVrVtJcBAqhIDoKLqjxUrvcoQQdGoChpX689Yw3d
+         vL05pZB4gEZo/jioDnc4bUCkox32ayvW5A3Fnm68ggF8RemvPL8TECohzgHA1oQKIf0d
+         dg5pg+mS7JXkTHU0uecl/ZVFISEwYqvmPKlN+P6sYtimhOD0xgTChU9H85tIjrFki5gV
+         EQzolhg8OwzlwIBu6lRU+PPhB20HJ3P6bgzOesVp/vTVby0Iq5Q7VzDfw8SVCnDXq3pY
+         /JRA==
+X-Gm-Message-State: AAQBX9fZ6xxIgE0xx9nblHGoBDMMigI7jTBUTnLeBidr5NFRhf5aeZyS
+        a+NSnXvK0tdE7eJL7s8UlB78hg==
+X-Google-Smtp-Source: AKy350bpxHhIDK1NyKOqKcg3Ionztg8q401gE4d6TA43lhRUyRnfu1S8EmtYa0Gvx7ZrjrT9TlD6qg==
+X-Received: by 2002:a17:902:a989:b0:1a6:5575:9059 with SMTP id bh9-20020a170902a98900b001a655759059mr1984838plb.62.1682011243276;
+        Thu, 20 Apr 2023 10:20:43 -0700 (PDT)
+Received: from ?IPV6:2405:201:d02f:d855:461d:14be:2cce:b776? ([2405:201:d02f:d855:461d:14be:2cce:b776])
+        by smtp.gmail.com with ESMTPSA id 3-20020a170902c10300b001a194df5a58sm1401831pli.167.2023.04.20.10.20.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 10:20:42 -0700 (PDT)
+Message-ID: <40b72025-16a8-1af5-d69f-659d37cdeab9@9elements.com>
+Date:   Thu, 20 Apr 2023 22:50:39 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230418113402.188391-1-ada@thorsis.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5] leds: max597x: Add support for max597x
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20230417094035.998965-1-Naresh.Solanki@9elements.com>
+ <20230420115035.GE970483@google.com>
+ <079eca63-54f5-7a4b-3b1c-e2515ceae9cc@9elements.com>
+ <20230420135428.GD996918@google.com>
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+In-Reply-To: <20230420135428.GD996918@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -56,20 +78,294 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 18 Apr 2023, Alexander Dahl wrote:
+Hi Lee,
 
-> It's no comparision, but a "first this, then that" situation.
+On 20-04-2023 07:24 pm, Lee Jones wrote:
+> On Thu, 20 Apr 2023, Naresh Solanki wrote:
+> 
+>> Hi Lee,
+>>
+>> On 20-04-2023 05:20 pm, Lee Jones wrote:
+>>> On Mon, 17 Apr 2023, Naresh Solanki wrote:
+>>>
+>>>> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>>
+>>>> max597x is hot swap controller with indicator LED support.
+>>>> This driver uses DT property to configure led during boot time &
+>>>> also provide the LED control in sysfs.
+>>>>
+>>>> DTS example:
+>>>>       i2c {
+>>>>           #address-cells = <1>;
+>>>>           #size-cells = <0>;
+>>>>           regulator@3a {
+>>>>               compatible = "maxim,max5978";
+>>>>               reg = <0x3a>;
+>>>>               vss1-supply = <&p3v3>;
+>>>>
+>>>>               regulators {
+>>>>                   sw0_ref_0: sw0 {
+>>>>                       shunt-resistor-micro-ohms = <12000>;
+>>>>                   };
+>>>>               };
+>>>>
+>>>>               leds {
+>>>>                   #address-cells = <1>;
+>>>>                   #size-cells = <0>;
+>>>>                   led@0 {
+>>>>                       reg = <0>;
+>>>>                       label = "ssd0:green";
+>>>>                       default-state = "on";
+>>>>                   };
+>>>>                   led@1 {
+>>>>                       reg = <1>;
+>>>>                       label = "ssd1:green";
+>>>>                       default-state = "on";
+>>>>                   };
+>>>>               };
+>>>>           };
+>>>>       };
+>>>
+>>> Where is the DT binding document for this?
+https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/tree/Documentation/devicetree/bindings/mfd/maxim,max5970.yaml?h=for-mfd-next
+> 
+> 
+> ? <---------------------------------------------------------------------------
+> 
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> 
+>>>> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+>>>> ...
+>>>> Changes in V5:
+>>>> - Update commit message
+>>>> - Fix comments
+>>>> - Add necessary new line
+>>>> Changes in V4:
+>>>> - Remove unwanted preinitialise
+>>>> - Remove unneeded line breaks
+>>>> - Fix variable name to avoid confusion
+>>>> - Update module description to mention LED driver.
+>>>> Changes in V3:
+>>>> - Remove of_node_put as its handled by for loop
+>>>> - Print error if an LED fails to register.
+>>>> - Update driver name in Kconfig description
+>>>> - Remove unneeded variable assignment
+>>>> - Use devm_led_classdev_register to reget led
+>>>> Changes in V2:
+>>>> - Fix regmap update
+>>>> - Remove devm_kfree
+>>>> - Remove default-state
+>>>> - Add example dts in commit message
+>>>> - Fix whitespace in Kconfig
+>>>> - Fix comment
+>>>> ---
+>>>>    drivers/leds/Kconfig        |  11 ++++
+>>>>    drivers/leds/Makefile       |   1 +
+>>>>    drivers/leds/leds-max597x.c | 115 ++++++++++++++++++++++++++++++++++++
+>>>>    3 files changed, 127 insertions(+)
+>>>>    create mode 100644 drivers/leds/leds-max597x.c
+>>>>
+>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>>>> index 9dbce09eabac..60004cb8c257 100644
+>>>> --- a/drivers/leds/Kconfig
+>>>> +++ b/drivers/leds/Kconfig
+>>>> @@ -590,6 +590,17 @@ config LEDS_ADP5520
+>>>>    	  To compile this driver as a module, choose M here: the module will
+>>>>    	  be called leds-adp5520.
+>>>> +config LEDS_MAX597X
+>>>> +	tristate "LED Support for Maxim 597x"
+>>>> +	depends on LEDS_CLASS
+>>>> +	depends on MFD_MAX597X
+>>>> +	help
+>>>> +	  This option enables support for the Maxim MAX5970 & MAX5978 smart
+>>>> +	  switch indication LEDs via the I2C bus.
+>>>> +
+>>>> +	  To compile this driver as a module, choose M here: the module will
+>>>> +	  be called leds-max597x.
+>>>> +
+>>>>    config LEDS_MC13783
+>>>>    	tristate "LED Support for MC13XXX PMIC"
+>>>>    	depends on LEDS_CLASS
+>>>> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+>>>> index d30395d11fd8..da1192e40268 100644
+>>>> --- a/drivers/leds/Makefile
+>>>> +++ b/drivers/leds/Makefile
+>>>> @@ -53,6 +53,7 @@ obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
+>>>>    obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
+>>>>    obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
+>>>>    obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
+>>>> +obj-$(CONFIG_LEDS_MAX597X)		+= leds-max597x.o
+>>>>    obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
+>>>>    obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
+>>>>    obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
+>>>> diff --git a/drivers/leds/leds-max597x.c b/drivers/leds/leds-max597x.c
+>>>> new file mode 100644
+>>>> index 000000000000..edbd43018822
+>>>> --- /dev/null
+>>>> +++ b/drivers/leds/leds-max597x.c
+>>>> @@ -0,0 +1,115 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Device driver for leds in MAX5970 and MAX5978 IC
+>>>
+>>> "MAX5970 and MAX5978 IC LED support"
+>>>
+>>>> + * Copyright (c) 2022 9elements GmbH
+>>>> + *
+>>>> + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>> + */
+>>>> +
+>>>> +#include <linux/leds.h>
+>>>> +#include <linux/mfd/max597x.h>
+>>>> +#include <linux/of.h>
+>>>> +#include <linux/platform_device.h>
+>>>> +#include <linux/regmap.h>
+>>>> +
+>>>> +#define ldev_to_maxled(c)       container_of(c, struct max597x_led, cdev)
+>>>> +
+>>>> +struct max597x_led {
+>>>> +	struct regmap *regmap;
+>>>> +	struct led_classdev cdev;
+>>>> +	unsigned int index;
+>>>> +};
+>>>> +
+>>>> +static int max597x_led_set_brightness(struct led_classdev *cdev,
+>>>> +				      enum led_brightness brightness)
+>>>> +{
+>>>> +	struct max597x_led *ddata = ldev_to_maxled(cdev);
+>>>> +	int ret, val;
+>>>> +
+>>>> +	if (!ddata->regmap)
+>>>> +		return -ENODEV;
+>>>> +
+>>>> +	/* Set/clear corresponding bit for given led index */
+>>>> +	val = !brightness ? BIT(ddata->index) : 0;
+>>>> +
+>>>> +	ret = regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, BIT(ddata->index), val);
+>>>> +	if (ret < 0)
+>>>> +		dev_err(cdev->dev, "failed to set brightness %d", ret);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static int max597x_setup_led(struct device *dev, struct regmap *regmap, struct device_node *nc,
+>>>> +			     u32 reg)
+>>>> +{
+>>>> +	struct max597x_led *ddata;
+>>>> +	int ret;
+>>>> +
+>>>> +	ddata = devm_kzalloc(dev, sizeof(struct max597x_led), GFP_KERNEL);
+>>>> +	if (!ddata)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	if (of_property_read_string(nc, "label", &ddata->cdev.name))
+>>>> +		ddata->cdev.name = nc->name;
+>>>> +
+>>>> +	ddata->cdev.max_brightness = 1;
+>>>> +	ddata->cdev.brightness_set_blocking = max597x_led_set_brightness;
+>>>> +	ddata->cdev.default_trigger = "none";
+>>>> +	ddata->index = reg;
+>>>> +	ddata->regmap = regmap;
+>>>> +
+>>>> +	ret = devm_led_classdev_register(dev, &ddata->cdev);
+>>>> +	if (ret)
+>>>> +		dev_err(dev, "Error initializing LED %s", ddata->cdev.name);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static int max597x_led_probe(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct device_node *np = dev_of_node(pdev->dev.parent);
+>>>
+>>> My previous question about having its own compatible string was ignored.
+>> As previously stated, the MFD driver for max597x already has a compatible
+>> string that serves its purpose, so I opted not to include a separate
+>> compatible string for the leaf driver.
+>> Prior to implementing this approach, I reviewed other implementations within
+>> the MFD driver, such as the sy7636 which uses the similar approach in leaf
+>> driver.
+> 
+> I'm not saying it's never been done.  However, most of the time
+> leaf/child devices have their own compatible string and node.
+True.
+> 
+>>>> +	struct regmap *regmap;
+>>>> +	struct device_node *led_node;
+>>>> +	struct device_node *child;
+>>>> +	int ret = 0;
+>>>> +
+>>>> +	regmap = dev_get_regmap(pdev->dev.parent, NULL);
+>>>> +	if (!regmap)
+>>>> +		return -EPROBE_DEFER;
+> 
+> Will other child devices have be using the parent's regmap too?
+Yes
+> 
+>>>> +	led_node = of_get_child_by_name(np, "leds");
+>>>> +	if (!led_node)
+>>>> +		return -ENODEV;
+> 
+> It's odd for a device to be referring to itself as the "child".
+As this is leaf driver, LED specific info is present in "leds" node in DT.
+> 
+>>>> +	for_each_available_child_of_node(led_node, child) {
+>>>> +		u32 reg;
+>>>> +
+>>>> +		if (of_property_read_u32(child, "reg", &reg))
+>>>> +			continue;
+>>>> +
+>>>> +		if (reg >= MAX597X_NUM_LEDS) {
+>>>> +			dev_err(&pdev->dev, "invalid LED (%u >= %d)\n", reg,
+>>>> +				MAX597X_NUM_LEDS);
+>>>> +			continue;
+>>>> +		}
+>>>> +
+>>>> +		ret = max597x_setup_led(&pdev->dev, regmap, child, reg);
+>>>> +		if (ret < 0)
+>>>> +			dev_err(&pdev->dev, "Failed to initialize LED %u\n", reg);
+>>>
+>>> You've ignored my previous review.
+>> I would like to clarify that I did not intend to overlook your previous
+>> review comment. Rather, I have taken it into consideration and evaluated it
+>> in the context of the current approach, which is derived from the code in
+>> other LED drivers.
+>> To eliminate any potential confusion, it may be best to adopt a consistent
+>> approach that all LED drivers should adhere to in similar circumstances.
+> 
+> I agree.  That's start with this one.
+> 
+> You should not error and continue.  If you encounter an error, please
+> unwind what you have done before and return the error.
+Ack.
 
-"comparison"  :)
-
-> Signed-off-by: Alexander Dahl <ada@thorsis.com>
-> ---
->  Documentation/leds/ledtrig-oneshot.rst | 2 +-
-"  1 file changed, 1 insertion(+), 1 deletion(-)
-
-I fixed your spelling mistake in the commit fixing a spelling mistake.
-
-Applied, thanks
-
--- 
-Lee Jones [李琼斯]
+> 
+>>>> +	}
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static struct platform_driver max597x_led_driver = {
+>>>> +	.driver = {
+>>>> +		.name = "max597x-led",
+>>>> +	},
+>>>> +	.probe = max597x_led_probe,
+>>>> +};
+>>>> +
+>>>> +module_platform_driver(max597x_led_driver);
+>>>> +MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
+>>>> +MODULE_DESCRIPTION("MAX5970_hot-swap controller LED driver");
+>>>> +MODULE_LICENSE("GPL");
+>>>>
+>>>> base-commit: 9d8d0d98885abba451d7ffc4885236d14ead3c9a
+>>>> -- 
+>>>> 2.39.1
+>>>>
+>>>
+>> Regards,
+>> Naresh
+> 
+Regards,
+Naresh
