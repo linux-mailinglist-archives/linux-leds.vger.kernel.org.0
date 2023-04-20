@@ -2,74 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD3376E93A3
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 14:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D836E9418
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 14:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233978AbjDTME7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 Apr 2023 08:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57432 "EHLO
+        id S234825AbjDTMSp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Apr 2023 08:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjDTME6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 08:04:58 -0400
+        with ESMTP id S234826AbjDTMSo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 08:18:44 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F05219AF
-        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 05:04:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2734C1A
+        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 05:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681992254;
+        s=mimecast20190719; t=1681993077;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2IqO0QJ9HI2C8wG45AjZhDHrUxI4thUozNM/m4hfC5o=;
-        b=etgnSiWGnTuu98A1DVZbWHgoxoF3YdsNmij39xsvTIKcGhZKAaHJDR5U06s6eB0XsWYeTh
-        2kVc+qq96fPtIvrbYvobbB1mC1iYqLcUDHDjmmddA0X1CMhHJt4yO7eFoT54xa5qfod/4R
-        kxTs1QZIxPc9xPHtWVI5JO7Z6X8vYnw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=fYkHirar8n5qlvrbZea8UuPJ5PvWK+R8q3/9VMG0mDE=;
+        b=WsXUcfDpNf5x0IyJO9v3a03CURsVEy60sQdKqG0rg+Yo/z3lDOFaqK0vKETIVdkz/9MhV/
+        oOswV8jASW5y1rCrQbKTdyHxY5ImQKeKxX/MA9Q33nEI0DkVKdKlb4OJYQXKxgJ2uo+c+V
+        HX/m4sg0f8vBi/IRoxUiLv+quUK5LjE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-0QbB7x_hMw6z8NAeiKhvDw-1; Thu, 20 Apr 2023 08:04:13 -0400
-X-MC-Unique: 0QbB7x_hMw6z8NAeiKhvDw-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-505b696f254so466266a12.3
-        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 05:04:13 -0700 (PDT)
+ us-mta-638-1d4t-52IPGiR_ATZ19fJrg-1; Thu, 20 Apr 2023 08:17:54 -0400
+X-MC-Unique: 1d4t-52IPGiR_ATZ19fJrg-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-506a455ee4cso473603a12.3
+        for <linux-leds@vger.kernel.org>; Thu, 20 Apr 2023 05:17:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681992251; x=1684584251;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1681993073; x=1684585073;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2IqO0QJ9HI2C8wG45AjZhDHrUxI4thUozNM/m4hfC5o=;
-        b=lQjUrP6JnInH+D39RfBCfwyO7ajZ0kSsn6LkahWctGm4YCUZFgLTtqtDFUsNXz43Dw
-         5qC6VT8INeuRc7AbiExlvVAVVnb5TkVNKutEhkOOzSjn55DuBqC6QZYPyI8EFN4mWBtk
-         yOYndMFmlxA1D+5gFGVZx7eRfJjzCpp/CWcJ+z03KIJ+FWvEAb5569/K82c5opbV2TkP
-         MYWHTkYQ1+dYp67BRULLDPfl5Xta9xnRGnHDs8bqzqE74YH+IWeoY14sm35L2yZasD0/
-         YIgyfSskJa3bMS4Zowk7KqV5FMivYHR/tddUNeAOaZqBImDWk431+a96G8iR8eiYrgNO
-         w7Gw==
-X-Gm-Message-State: AAQBX9ekmRnSgwBPxvKh0MTo0962FfVbVOIcJTy89IJgiCKoLDa+pthT
-        SIEAXt+HgOgB+7YJgz8Bxzus0COGXztKrvXT9WMvRRrah6Ka6J+WxRT5LT0myLpQe+epAFozg79
-        BV40p8ivCNdhqofVuRVyWwZpaEk31MA==
-X-Received: by 2002:a50:e604:0:b0:506:e626:2da with SMTP id y4-20020a50e604000000b00506e62602damr1954212edm.4.1681992251689;
-        Thu, 20 Apr 2023 05:04:11 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a6DOeBjhuZk2tHVt2zrqQSeasrgoP0EAiGJFZYKmkhLhnRn9t9/4v1xDJJDT6NID8bWKQrhQ==
-X-Received: by 2002:a50:e604:0:b0:506:e626:2da with SMTP id y4-20020a50e604000000b00506e62602damr1954194edm.4.1681992251427;
-        Thu, 20 Apr 2023 05:04:11 -0700 (PDT)
+        bh=fYkHirar8n5qlvrbZea8UuPJ5PvWK+R8q3/9VMG0mDE=;
+        b=RKeBsscW0e8T3PflGbVXZfasKpxVLWBLhPPLP59NihRk8V9x6aTajAE52HmmLYxO01
+         9aqi94ynB5AWsgyidlqz8CyrzqVpUI+Wzs7JCB5vQz+mUQvjwdEy/cyKZpwhp4cBou2H
+         Awvy1MVacEZeNpZhK0lX1DLNM/Rq8kydxrbQDOQtP3HPSADXmYPxD0iqP7rJMN2RJIE9
+         sfM7DbnYnPJJymEi8VQEIgkwNingMqH5gcvFh91cOS3t5Bd0gi208w+Pxf8BMp35GrrF
+         W5r4N9DZKivtFfi1OqjJ3hbNTGY/7+5lSRyx1PxwUgRt+iCd39VCoyvyaXX/YMrIELER
+         AEDw==
+X-Gm-Message-State: AAQBX9ctG4My6cty479ToUDQrtNtzhp3jRjXdpwR1I1xZjbPAVxPi3Je
+        7PV+k2k2zYz00sY1Tx/HWEHo99lt4REM3O7VA/0SvxB0QfFJbPVRkCeT+eqEV2lEIslZ6+LuOma
+        GvuHJuhu3HdSvW4QDhqOiNA==
+X-Received: by 2002:a05:6402:14c7:b0:506:9cdd:fc89 with SMTP id f7-20020a05640214c700b005069cddfc89mr1377246edx.34.1681993073389;
+        Thu, 20 Apr 2023 05:17:53 -0700 (PDT)
+X-Google-Smtp-Source: AKy350abpLURgXbQ2WRSRKW2E0BGbShetFlkKOEtR5uCMhTsrNEBJOwRuoL4uH+yOaGHC0Mo/pAPSA==
+X-Received: by 2002:a05:6402:14c7:b0:506:9cdd:fc89 with SMTP id f7-20020a05640214c700b005069cddfc89mr1377225edx.34.1681993073015;
+        Thu, 20 Apr 2023 05:17:53 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a7-20020aa7d907000000b00506a09795e6sm684298edr.26.2023.04.20.05.04.10
+        by smtp.gmail.com with ESMTPSA id i9-20020aa7c709000000b0050499afe96bsm692196edq.10.2023.04.20.05.17.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 05:04:10 -0700 (PDT)
-Message-ID: <9ba72334-6c3a-e8cd-0692-b30278c4a88d@redhat.com>
-Date:   Thu, 20 Apr 2023 14:04:10 +0200
+        Thu, 20 Apr 2023 05:17:52 -0700 (PDT)
+Message-ID: <10251577-a594-eb45-4348-ee0f9eac1194@redhat.com>
+Date:   Thu, 20 Apr 2023 14:17:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 0/4] Fix oops about sleeping in led_trigger_blink()
-To:     Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-leds@vger.kernel.org
-References: <20230412215855.593541-1-hdegoede@redhat.com>
- <20230420113653.GD970483@google.com>
+Subject: Re: [PATCH 1/5] leds: Add Intel Cherry Trail Whiskey Cove PMIC LED
+ driver
 Content-Language: en-US, nl
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Lee Jones <lee@kernel.org>, Yauhen Kharuzhy <jekhor@gmail.com>,
+        linux-leds@vger.kernel.org
+References: <20230413151808.20900-1-hdegoede@redhat.com>
+ <20230413151808.20900-2-hdegoede@redhat.com> <ZDlKyq0tLAbFGS8P@duo.ucw.cz>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230420113653.GD970483@google.com>
+In-Reply-To: <ZDlKyq0tLAbFGS8P@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -82,37 +82,46 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee,
+Hi,
 
-On 4/20/23 13:36, Lee Jones wrote:
-> On Wed, 12 Apr 2023, Hans de Goede wrote:
+On 4/14/23 14:44, Pavel Machek wrote:
+> On Thu 2023-04-13 17:18:04, Hans de Goede wrote:
+>> From: Yauhen Kharuzhy <jekhor@gmail.com>
+>>
+>> Add support for LEDs connected to the Intel Cherry Trail Whiskey Cove
+>> PMIC. Charger and general-purpose leds are supported. Hardware blinking
+>> is implemented, breathing is not.
 > 
->> Hi All,
->>
->> Here is a patch series to fix an oops about sleeping in led_trigger_blink()
->> + one other small bugfix.
->>
->> Patches 1-3 should arguably have a:
->>
->> Fixes: 0b9536c95709 ("leds: Add ability to blink via simple trigger")
->>
->> tag, but Fixes tags tend to lead to patches getting automatically added
->> to the stable series and I would prefer to see this series get some
->> significant testing time in mainline first, so I have chosen to omit
->> the tag.
+> leds->LEDs.
 > 
-> With subjects with the word "fix" in it, they will be hoovered up by the
-> Stable auto-picker anyway.
+>> diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
+>> new file mode 100644
+>> index 000000000000..06447804d050
+>> --- /dev/null
+>> +++ b/drivers/leds/leds-cht-wcove.c
+>> @@ -0,0 +1,368 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Driver for LEDs connected to the Intel Cherry Trail Whiskey Cove PMIC
+>> + *
+>> + * Copyright 2019 Yauhen Kharuzhy <jekhor@gmail.com>
+>> + * Copyright 2023 Hans de Goede <hansg@kernel.org>
+>> + *
+>> + * Based on Lenovo Yoga Book Android kernel sources
+>> + */
+> 
+> "sources." Should copyrights from Android be copied here?
 
-Ok, in that case patch 3 should have:
+Quick follow up on this, the original file has no copyright statements,
+so there is nothing to copy. Also it uses a custom sysfs API, so
+this new LED driver was pretty much done from scratch. The only thing
+which comes from the Android source is hw-interface info like
+register addresses and what various bits in the registers mean.
 
-Fixes: 0b9536c95709 ("leds: Add ability to blink via simple trigger")
+For v2 I've updated this comment to:
 
-Patches 1-2 are more preparation patches for this. Patch 2 does
-fix another race, but I'm not sure we ever hit that.
-
-Can you add the fixes tag while merging these, or do you
-want a v2 of this series ?
+ * Register info comes from the Lenovo Yoga Book Android kernel sources:
+ * YB1_source_code/kernel/cht/drivers/misc/charger_gp_led.c.
 
 Regards,
 
@@ -120,32 +129,4 @@ Hans
 
 
 
-
-
-
-> 
->> Hans de Goede (4):
->>   leds: Change led_trigger_blink[_oneshot]() delay parameters to
->>     pass-by-value
->>   leds: Fix set_brightness_delayed() race
->>   leds: Fix oops about sleeping in led_trigger_blink()
->>   leds: Clear LED_INIT_DEFAULT_TRIGGER when clearing current trigger
->>
->>  drivers/leds/led-core.c                  | 81 ++++++++++++++++++++----
->>  drivers/leds/led-triggers.c              | 17 ++---
->>  drivers/leds/trigger/ledtrig-disk.c      |  9 +--
->>  drivers/leds/trigger/ledtrig-mtd.c       |  8 +--
->>  drivers/net/arcnet/arcnet.c              |  8 +--
->>  drivers/power/supply/power_supply_leds.c |  5 +-
->>  drivers/usb/common/led.c                 |  4 +-
->>  include/linux/leds.h                     | 43 ++++++++++---
->>  net/mac80211/led.c                       |  2 +-
->>  net/mac80211/led.h                       |  8 +--
->>  net/netfilter/xt_LED.c                   |  3 +-
->>  11 files changed, 125 insertions(+), 63 deletions(-)
->>
->> -- 
->> 2.39.1
->>
-> 
 
