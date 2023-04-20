@@ -2,50 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C5D6E8C97
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 10:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6F86E8F92
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Apr 2023 12:11:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233993AbjDTIWe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 Apr 2023 04:22:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
+        id S234591AbjDTKLG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Apr 2023 06:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233947AbjDTIWd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 04:22:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEB626B3;
-        Thu, 20 Apr 2023 01:22:30 -0700 (PDT)
+        with ESMTP id S233683AbjDTKKm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Apr 2023 06:10:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C68583D2;
+        Thu, 20 Apr 2023 03:07:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 90051645E6;
-        Thu, 20 Apr 2023 08:22:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0590DC433D2;
-        Thu, 20 Apr 2023 08:22:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C3A4646CD;
+        Thu, 20 Apr 2023 10:07:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A866C4339C;
+        Thu, 20 Apr 2023 10:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681978947;
-        bh=S6H5PDpbon+c+zJoAhcp+xf9q+yBVa0TMRe9t5rUVuw=;
+        s=k20201202; t=1681985250;
+        bh=53QLwZPPKzJH40ikLifxF/eEvsi/41eaVa72AdqOWj0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RSaIJl/4PHmkhfJoMtSl5CpTBcy/cZJuGad086SLCzEOg8G/jdfICrHPmzS+W6yfB
-         wWdQWhlkG317bH19nQaG1MCodBqczMZeCgJoeWbnGh6QU0TSdXuSUO2HhzpSxFpNLj
-         ULkkYU7cNemnI3HIg2OtoYgIwa/vpwu9/xH41LU0N29VAolyIJ3B3qTOkP8YQb7dy9
-         EojsJUlOE2ND6wBXv8hFHbffAiEnhhH16wpQT4vQPYU9j9dONS0vnXjJDPPLNx9dlg
-         PMKxNcrQMrUFHbPPq4oSN7Bi+lEBy/meI9REsEB539/TlKC+01BnYq6A/vnSHqHp00
-         cq3q+SsMDCpDg==
-Date:   Thu, 20 Apr 2023 09:22:22 +0100
+        b=Fy54VTkK9JsIVbHK59MJW7TKmajmZH4XSyhXzKKmmdMJAkwMf7+2LFsx8+cuS+zbJ
+         7jm45I/rRK+JeOw1WOpBhRn+2l/zonfj4h3LWrNE/4gWAcoYgFNbX+pX+LSRi0a4E3
+         pxVhipwvhuM6EVsV/1XsVZnDCBOO0Is3sIpPGoDYZEVR3N/S9hhdvT6dDyB77nJq2V
+         ZpTcrGn2g2SB0xQyi92qYmh6B3Hbr2cVrmtHXiEAifxGwGoXkpxKDzU6WmedfusJcn
+         NRCXTVvdGbTzAZSKW26rgl6f/9dEvHOGYMnBJFtLGs+RKCS3vixvF9ligiFRW7HdGH
+         +gDxtC8ucgW1w==
+Date:   Thu, 20 Apr 2023 11:07:24 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pavel@ucw.cz
-Subject: Re: [RESEND] leds: Ensure hardware blinking turns off when requested
-Message-ID: <20230420082222.GC9904@google.com>
-References: <20230405165028.73579-1-eajames@linux.ibm.com>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: leds-qcom-lpg: Add qcom,pmk8550-pwm
+ compatible string
+Message-ID: <20230420100724.GD9904@google.com>
+References: <20230407223849.17623-1-quic_amelende@quicinc.com>
+ <20230407223849.17623-2-quic_amelende@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230405165028.73579-1-eajames@linux.ibm.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230407223849.17623-2-quic_amelende@quicinc.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,44 +59,18 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 05 Apr 2023, Eddie James wrote:
+On Fri, 07 Apr 2023, Anjelique Melendez wrote:
 
-> If an LED is blinking through the hardware and the trigger is deactivated,
-> the driver will set the brightness to 0 to disable blinking. However, if
-> the LED driver doesn't support non-blocking operations, the request for
-> setting brightness to 0 will get queued. Then if a user requests a new
-> non-zero brightness before the request for 0 brightness is executed, the
-> LED blinking will not get disabled since the brightness will simply be
-> updated.
-> Fix this by flushing the workqueue before updating the requested
-> brightness.
-
-You make a convincing argument for this.
- 
-> Fixes: 4d71a4a12b13 ("leds: Add support for setting brightness in a synchronous way")
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> ---
->  drivers/leds/led-class.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Add qcom,pmk8550-pwm compatible string for the Qualcomm Technologies, Inc.
+> PMK8550 PMIC which has two high resolution PWM channels.
 > 
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 9255bc11f99d..78a270300d30 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -57,6 +57,8 @@ static ssize_t brightness_store(struct device *dev,
->  
->  	if (state == LED_OFF)
->  		led_trigger_remove(led_cdev);
-> +	/* flush out any request to disable blinking */
-> +	flush_work(&led_cdev->set_brightness_work);
->  	led_set_brightness(led_cdev, state);
->  	flush_work(&led_cdev->set_brightness_work);
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Just to be clear, you want to flush the work before AND after setting
-the brightness?
-
-In the commit message, could you make it clear why simply moving this
-flush won't work.
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
