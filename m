@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34DDF6EA5CE
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Apr 2023 10:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 036236EA5D8
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Apr 2023 10:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbjDUI06 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Apr 2023 04:26:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
+        id S231680AbjDUIaN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 Apr 2023 04:30:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbjDUI05 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Apr 2023 04:26:57 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A8B8A62
-        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 01:26:55 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-b95c3b869dcso3226303276.1
-        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 01:26:55 -0700 (PDT)
+        with ESMTP id S229529AbjDUIaM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Apr 2023 04:30:12 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F30E7DAA
+        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 01:30:10 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-b95c3b869dcso3234867276.1
+        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 01:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682065614; x=1684657614;
+        d=linaro.org; s=google; t=1682065809; x=1684657809;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lAuTtwnqd4lYOEj0afl/oqM3QX+uTDaG/z7kPpmXMgE=;
-        b=FnAG5n9T3CD6MkdDL3/tPICCqZcLHI/s4UBGK7V7gpdZvmEqzDQGicUK9q9/3S3+Xb
-         nRCokJZNgnJYEtFgUY45U+1/ZPKdE3FghOazEEoYcSL8o/BU6yUqJeZMnlJVI8VSrnTq
-         3j+yfjW10H5AajWw1gYYA/SdMdSOeyKigcAFySQ4Os3JD1v07pg27apxg+EWC0Xjyi7h
-         wg1ZZokiPn5Tmw88ZXN4MfHOm4yNQDlIGgwp3Ui3YzZ4X9I9bX7H+9J2V47HK65xN9sF
-         gorzPCtNRDANru/Auc4m9nQ7vB0vnQ13COO0+tBNk5isKTUQ5U9GdAYiqmIvupvmaOfm
-         XY4g==
+        bh=5klHMq64VIljoSVkOwPJ2cgj8nj1Si169hW4IY+bP4U=;
+        b=lrQhs+vo1k2UBUSg8IofSsZ0KVGmRL89oDZ8r7Zsg/81K9QtNTz6+xArvTE25AQkL9
+         BP0uHNf/IPGoUxcGQHCgqUORb2Gtr5OsXnQB9uJbd5eqCC/zfA5ZrCnP97clOCzTNa5d
+         mdD0NN1a6M7wE2U8hzBjrWffRXQWPMwKTYOh9O23KUEypN98MMGQhVbYBiZPKQwI0Ctw
+         pSXb56zGQtocA0R7fJxPCqoruGf80AFomCpYq0IDtzX+1vcZGVGjdTy4JS4OaVnPCD2s
+         gGD5i9mwhakqDnYpSsy858vGSBeCSAXzcSwkRjAcYDllLLMjU2Q16vs0pDIsEQwMeRvp
+         tEPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682065615; x=1684657615;
+        d=1e100.net; s=20221208; t=1682065809; x=1684657809;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lAuTtwnqd4lYOEj0afl/oqM3QX+uTDaG/z7kPpmXMgE=;
-        b=CtK7rADEhudDqZqpb95g6TO4PUGurH0HQM1JFS+h/SF44J3ZnbXJ4BCo7TcUIiWgre
-         X9Y8k+s1g1JhofrgaTNhHVyntaQQN2OSlLGnsbi9+7JIEc8MjCuU/8vHann4+i1v5F1n
-         9dz30c0wcMA+HQy80HGTfvHeyNJ6xXQvFTOmz7RiOd8RrXvv3nudV81Grks/ahiRWZGV
-         XmNPx1h5noYwNo9+FgdBs92sHdkrIIe1MHzwNGo/7AnTvHv+sX2SupxLxeSJSTdyRtyE
-         DVsM3AKNWiwTA21oBvLbME7QqXp/nTRKgquefiHo79WgWnA0zcuw1xV8F8rLS8pIAlgO
-         0+Dg==
-X-Gm-Message-State: AAQBX9fV+IlHndOls/NlEkP0M6V0m79LtrUikizXzGM1asYpGv+/ljKY
-        9DaaeMoD/PLkE0Le8OMLvFBAOP+K+/CHSjiuBBFqtcEgD+vL/xVF
-X-Google-Smtp-Source: AKy350Z8XcyFNX2JboNAaFrt3oSnc7DS4Jc7Id9gYXDPevkIo3K9uThotJdC51FnQkL/TPRP4jQP8FzcMgBbAAn2v24=
-X-Received: by 2002:a81:12d3:0:b0:54f:54c5:70d with SMTP id
- 202-20020a8112d3000000b0054f54c5070dmr1414029yws.20.1682065614765; Fri, 21
- Apr 2023 01:26:54 -0700 (PDT)
+        bh=5klHMq64VIljoSVkOwPJ2cgj8nj1Si169hW4IY+bP4U=;
+        b=JD8Vm9Bd979LrBXcJAnv95JXIPxtLYHC7AxCDX3VAoj2eym6LVeDODWT+XNuuNA0ZS
+         xGmvuNJHguI1NkanuwYMBCIyC+Uh3WObX1asJ8xb0MDqTmAfEgpqZuh30GejsPEW437z
+         ffqisZ0OULnjVA+Px9ckOwH4wCBOwobC2dGGWdUe0HGPLG2FGvvYfp1Z2ax4kPaVVmGU
+         bwml/BpLI3lqMlO8VR72W2Rs3Tjm0qkab0j8cuVkDnF+bjvEFTsCGdWXoKmC3EHBIeI6
+         OzbTiCJ+/LnB1ApwDaa4fUbIlbPSO4ZdUec1zuqGyyYhE6rm8w173qnpkjqYNz1ROkRo
+         FImA==
+X-Gm-Message-State: AAQBX9ecRHE5x+uedKsVJ/k27o5S/Ue6QU784ShCud2T8XBgbZwy15Vz
+        btaBU2n53UjrAyY9xjrfyaL+LZ2UHajk337Ra+H1Ow==
+X-Google-Smtp-Source: AKy350Zns/U+3vpNmpMzNn8WbDce9++folijXpvxedcLeNyjLrhBVN1M2j1Bs3JSk09cKtYRX5696eR1QSUH/+GFEPI=
+X-Received: by 2002:a25:46d4:0:b0:b8f:1cea:e064 with SMTP id
+ t203-20020a2546d4000000b00b8f1ceae064mr1238150yba.32.1682065809654; Fri, 21
+ Apr 2023 01:30:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230414-pmi632-v1-0-fe94dc414832@z3ntu.xyz> <20230414-pmi632-v1-2-fe94dc414832@z3ntu.xyz>
-In-Reply-To: <20230414-pmi632-v1-2-fe94dc414832@z3ntu.xyz>
+References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
+In-Reply-To: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 21 Apr 2023 10:26:43 +0200
-Message-ID: <CACRpkdb0oncz5UB8vtu3csvBQXojvdxxfDMPrnGeH3qRBr6=AQ@mail.gmail.com>
-Subject: Re: [PATCH 2/8] pinctrl: qcom: spmi-gpio: Add PMI632 support
+Date:   Fri, 21 Apr 2023 10:29:58 +0200
+Message-ID: <CACRpkdYgDC0QJhH4s1P2ga3W=xXqjovhsNS2i5nikgu_ikenKQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] Add PMI632 PMIC and RGB LED on sdm632-fairphone-fp3
 To:     Luca Weiss <luca@z3ntu.xyz>
 Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         Andy Gross <agross@kernel.org>,
@@ -63,29 +63,38 @@ Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Jonathan Cameron <jic23@kernel.org>,
         Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-iio@vger.kernel.org
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Apr 14, 2023 at 1:18=E2=80=AFAM Luca Weiss <luca@z3ntu.xyz> wrote:
+On Tue, Apr 18, 2023 at 6:43=E2=80=AFPM Luca Weiss <luca@z3ntu.xyz> wrote:
 
-> Add support for the 8 GPIOs found on PMI632.
+> Add support for the PMI632 PMIC in the spmi-gpio & qcom-lpg driver, add
+> the dtsi for the PMIC and enable the notification LED on fairphone-fp3.
 >
 > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+(...)
+> Luca Weiss (8):
+>       dt-bindings: pinctrl: qcom,pmic-gpio: add PMI632
+>       pinctrl: qcom: spmi-gpio: Add PMI632 support
 
-This patch (2/8) applied as uncontroversial.
+Patches 1 & 2 are finished so I applied them to the pinctrl tree so
+Luca does not need to keep reiterating these for the next kernel cycle.
 
 Yours,
 Linus Walleij
