@@ -2,164 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C5CF6EA48D
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Apr 2023 09:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 546B46EA546
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Apr 2023 09:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbjDUHTa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Apr 2023 03:19:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59280 "EHLO
+        id S231382AbjDUHxP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 Apr 2023 03:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbjDUHT2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Apr 2023 03:19:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A74E69;
-        Fri, 21 Apr 2023 00:19:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D236A64E34;
-        Fri, 21 Apr 2023 07:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D160C433EF;
-        Fri, 21 Apr 2023 07:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682061566;
-        bh=TwURzmdKdOLJrTJUjIHJtvNBCCXhpuGR1PKZmBeayak=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QAsx3wC65hjJPXgHVKdM+WY5xuKvVrv06hu+I6Reao6eQcDjZqm1x6fC/wV567ymA
-         Hvv1rtpFBB6rGHNHrYkm37XoLqW5SwGo6p5eFzbOGT/aPKTmFtBMwd9lcxe+Akpt6r
-         R1Rpae+lsJH6lSmVAAumg0NNU3QtPWz35pcGJvIfMSWzjTuPQ74VJVX/uOZ8AgKNcj
-         O0GHDATEdxhNxmqOrAa0l7AdivbfaTIABJGdVEBRwbYbxwrsnb/bKwpEkaQ/EzKmbM
-         uGxIlkQSVsu7OSMekz17Y2JYMepZ1YZv9lk5zvM9GckOgk8SOp3AOQXcdchCp+nCOj
-         kLSduA3Vw6y+Q==
-Date:   Fri, 21 Apr 2023 08:19:21 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5] leds: max597x: Add support for max597x
-Message-ID: <20230421071921.GI996918@google.com>
-References: <20230417094035.998965-1-Naresh.Solanki@9elements.com>
- <20230420115035.GE970483@google.com>
- <079eca63-54f5-7a4b-3b1c-e2515ceae9cc@9elements.com>
- <20230420135428.GD996918@google.com>
- <40b72025-16a8-1af5-d69f-659d37cdeab9@9elements.com>
+        with ESMTP id S231307AbjDUHxO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Apr 2023 03:53:14 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA17C8A78
+        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 00:53:10 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-94a34a14a54so217927266b.1
+        for <linux-leds@vger.kernel.org>; Fri, 21 Apr 2023 00:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mind.be; s=google; t=1682063589; x=1684655589;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=njOMebupF1nfguyxa2HVeQ44xxQhsRp/Byzj17JlSeo=;
+        b=SiRwBt6/PH4AkBNRp3X3mI7Vdejak84wcvbF9wKaNnDdhl/35eO94s2T0IwsZ2U9QI
+         ShTKJvRE8kCEttdris04yYqTLjhq1MC7Thuc76WqfWUcuVORwyp4dtonXFWBftQUYzl4
+         Kd9/KiI6TgmcQfljVGloP8kWRo/OJ2s8QIduoXhRhKs95wkkujbDciTPf+U6qgbUBEFO
+         7EmejfxUO0i7OIGjjcuOBvR3Y89acDZSjNRZ4N/37YDZMXmEqsb8h5tRGrQrr/eirVaJ
+         Uehk+aoQFt0SYluRqNccehZ+DbT81wOcfT5Leh+8/2N39xbW+DDt6zj4qdvEGsEd0rmo
+         b3/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682063589; x=1684655589;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=njOMebupF1nfguyxa2HVeQ44xxQhsRp/Byzj17JlSeo=;
+        b=dN+QR/6Bb4FnjKjPxMitwHp4yiUsKO/fpH19//6SabBfIkabMnvBOcNdp4gp4TPGUN
+         C/fI7gBMp1VBIvfJPwKDdhG7h6A/9QjF44Q2s4XU0B2UmCQTYfNwIiigytCPqjMnf6ho
+         A2jChqUDcmgt7CVyhwianErH6wqKakjFGVVgRzWUUPrltMzuvpHbXKwtH1odC0tlG/j4
+         VyjeBQu7Gh0NKi9MZbmOnnOBZL3TSEl314Y9r+IgW2qeQukSxGBvqvfvXeXZ3qHHI3NP
+         XYolmCfTVLvDOxUNMBAz67+1/+6/2aLqJklkuoFQVysqJnJFpfCySLfpAJA+IMzH1GVI
+         blVg==
+X-Gm-Message-State: AAQBX9fbBrhsAl2ptrlfuYe47GPqC+vI+9cW4Mg1ofwtPLk6Ouwq0U43
+        6np8P5BBI+fK9/eWWUD5IWnHNAPRE6c3Zkguk50=
+X-Google-Smtp-Source: AKy350ZrPOyb5gNqJDCECrzhUNI+s0cndb1LmsWNk9uyVe6i2HFgL1SS9e2xdOpAxGc2SwfEA3auVA==
+X-Received: by 2002:a17:906:34cb:b0:953:42c0:86e7 with SMTP id h11-20020a17090634cb00b0095342c086e7mr1478572ejb.4.1682063589337;
+        Fri, 21 Apr 2023 00:53:09 -0700 (PDT)
+Received: from dtpc.zanders.be (78-22-137-109.access.telenet.be. [78.22.137.109])
+        by smtp.gmail.com with ESMTPSA id vp3-20020a170907a48300b0094f14286f86sm1716329ejc.48.2023.04.21.00.53.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 00:53:08 -0700 (PDT)
+From:   Maarten Zanders <maarten.zanders@mind.be>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Maarten Zanders <maarten.zanders@mind.be>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/2] leds: lp55xx: configure internal charge pump
+Date:   Fri, 21 Apr 2023 09:53:03 +0200
+Message-Id: <20230421075305.37597-1-maarten.zanders@mind.be>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <40b72025-16a8-1af5-d69f-659d37cdeab9@9elements.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 20 Apr 2023, Naresh Solanki wrote:
+A new option in the devicetree "ti,charge-pump-mode" allows the user to
+configure the charge pump in a certain mode. The previous implementation
+was "auto" mode, which remains the default.
 
-> Hi Lee,
-> 
-> On 20-04-2023 07:24 pm, Lee Jones wrote:
-> > On Thu, 20 Apr 2023, Naresh Solanki wrote:
-> > 
-> > > Hi Lee,
-> > > 
-> > > On 20-04-2023 05:20 pm, Lee Jones wrote:
-> > > > On Mon, 17 Apr 2023, Naresh Solanki wrote:
-> > > > 
-> > > > > From: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > > > 
-> > > > > max597x is hot swap controller with indicator LED support.
-> > > > > This driver uses DT property to configure led during boot time &
-> > > > > also provide the LED control in sysfs.
-> > > > > 
-> > > > > DTS example:
-> > > > >       i2c {
-> > > > >           #address-cells = <1>;
-> > > > >           #size-cells = <0>;
-> > > > >           regulator@3a {
-> > > > >               compatible = "maxim,max5978";
-> > > > >               reg = <0x3a>;
-> > > > >               vss1-supply = <&p3v3>;
-> > > > > 
-> > > > >               regulators {
-> > > > >                   sw0_ref_0: sw0 {
-> > > > >                       shunt-resistor-micro-ohms = <12000>;
-> > > > >                   };
-> > > > >               };
-> > > > > 
-> > > > >               leds {
-> > > > >                   #address-cells = <1>;
-> > > > >                   #size-cells = <0>;
-> > > > >                   led@0 {
-> > > > >                       reg = <0>;
-> > > > >                       label = "ssd0:green";
-> > > > >                       default-state = "on";
-> > > > >                   };
-> > > > >                   led@1 {
-> > > > >                       reg = <1>;
-> > > > >                       label = "ssd1:green";
-> > > > >                       default-state = "on";
-> > > > >                   };
-> > > > >               };
-> > > > >           };
-> > > > >       };
-> > > > 
-> > > > Where is the DT binding document for this?
-> https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/tree/Documentation/devicetree/bindings/mfd/maxim,max5970.yaml?h=for-mfd-next
+v1 of the patch implemented a bool to disable the charge pump and had some
+issues in the yaml binding.
 
-You need to update it.  It is different to the one you supplied here.
+v2 implemented all options of the charge pump as a string which was too
+complex to parse & check.
 
-> > > > > Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > > > Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> > > > > ...
-> > > > > Changes in V5:
-> > > > > - Update commit message
-> > > > > - Fix comments
-> > > > > - Add necessary new line
-> > > > > Changes in V4:
-> > > > > - Remove unwanted preinitialise
-> > > > > - Remove unneeded line breaks
-> > > > > - Fix variable name to avoid confusion
-> > > > > - Update module description to mention LED driver.
-> > > > > Changes in V3:
-> > > > > - Remove of_node_put as its handled by for loop
-> > > > > - Print error if an LED fails to register.
-> > > > > - Update driver name in Kconfig description
-> > > > > - Remove unneeded variable assignment
-> > > > > - Use devm_led_classdev_register to reget led
-> > > > > Changes in V2:
-> > > > > - Fix regmap update
-> > > > > - Remove devm_kfree
-> > > > > - Remove default-state
-> > > > > - Add example dts in commit message
-> > > > > - Fix whitespace in Kconfig
-> > > > > - Fix comment
-> > > > > ---
-> > > > >    drivers/leds/Kconfig        |  11 ++++
-> > > > >    drivers/leds/Makefile       |   1 +
-> > > > >    drivers/leds/leds-max597x.c | 115 ++++++++++++++++++++++++++++++++++++
-> > > > >    3 files changed, 127 insertions(+)
-> > > > >    create mode 100644 drivers/leds/leds-max597x.c
+v3 replaces the string by constants.
 
-[...]
+v4 resend with changelog (notes) in each patch
 
-> > > > +	led_node = of_get_child_by_name(np, "leds");
-> > > > > +	if (!led_node)
-> > > > > +		return -ENODEV;
-> > 
-> > It's odd for a device to be referring to itself as the "child".
-> As this is leaf driver, LED specific info is present in "leds" node in DT.
+v5 dual license in dt header, change property type to u32
 
-I'm aware of the architecture.
+v6 change license type, simplify DT parameter check
 
-If you give the LEDs driver it's own compatible you don't need to keep
-doing this self->parent->child level-jumping craziness to obtain
-resources.
+v7 formatting changes, adapt to max 100 char line length
+
+v8 devicetree binding documentation: add default & maximum constraints
+
+Maarten Zanders (2):
+  dt-bindings: leds-lp55xx: add ti,charge-pump-mode
+  leds: lp55xx: configure internal charge pump
+
+ .../devicetree/bindings/leds/leds-lp55xx.yaml      | 10 ++++++++++
+ drivers/leds/leds-lp5521.c                         | 11 +++++------
+ drivers/leds/leds-lp5523.c                         | 14 +++++++++-----
+ drivers/leds/leds-lp55xx-common.c                  |  9 +++++++++
+ drivers/leds/leds-lp8501.c                         |  8 +++++---
+ include/dt-bindings/leds/leds-lp55xx.h             | 10 ++++++++++
+ include/linux/platform_data/leds-lp55xx.h          |  3 +++
+ 7 files changed, 51 insertions(+), 14 deletions(-)
+ create mode 100644 include/dt-bindings/leds/leds-lp55xx.h
 
 -- 
-Lee Jones [李琼斯]
+2.37.3
+
