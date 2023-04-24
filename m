@@ -2,76 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 525026EC924
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Apr 2023 11:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE1546ECCF8
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Apr 2023 15:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbjDXJkT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Apr 2023 05:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37258 "EHLO
+        id S231344AbjDXNRw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Apr 2023 09:17:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjDXJkS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Apr 2023 05:40:18 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFB5E66
-        for <linux-leds@vger.kernel.org>; Mon, 24 Apr 2023 02:40:16 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-2f40b891420so4044005f8f.0
-        for <linux-leds@vger.kernel.org>; Mon, 24 Apr 2023 02:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1682329215; x=1684921215;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BmtJHqgiwvXx/8gjp5v9kiWbqKm1+hRv4Ak4FX7g+qg=;
-        b=PZbkhwli/ViShMSoWBxjP+7nfjqJNvla0jfeniKbMDx7VqKLZKVKas/JFD3WbC+YD3
-         FDcDwsrjc/pkoRmiy/p1nc9hCDKRcn1ZTvnD6gn1bwvlV0mdDHP/0OCgavBel8tRh4/V
-         QNZttuKibnAzs+UB350A5ko9QiaMxORlPeAs0TRnxsfM4udcUyZJq5H3pmxAU9DuqEoW
-         lmFouUs5XJzmFViFAV4s9FiPCUFw61TrsPVDgJcbnOWV21uSvWPQ+TT4+2tu77+UoEhX
-         lumHSKfPsn2xW+Qnp5Z7Lo3/htLYPT/U69JXfyvL82djCXsqjMEGWWaVEyexBbFJFFzX
-         JtmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682329215; x=1684921215;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmtJHqgiwvXx/8gjp5v9kiWbqKm1+hRv4Ak4FX7g+qg=;
-        b=MJGrpSVRa338OWiN7njiJbxi1RDW3CjkJgmjlmYoVDUdexMDWIreF0P8XKWhB1nVL1
-         Rc2qCxnVY3pKJ/KG+yqWeyZcElkJh9oKcwuiRW3/XdBbU8vqA5pzJZx8XfPXVIRY0O7T
-         XJ6K+aOvTNq4xZpLrvjD1X+0EZn0NY+7qMLEdIlV3tArYsDrwBLXsoRL9fy7Pd7e9nrN
-         53xJuQnN6FNMvVcNBNomKAiGBFL2SbrKNM1HyoyxO5w4orm1n5o4AvaSLade9BnbcPGw
-         KjMj8M5y4OIkUtVdSvLAgIS++5C2Ylo8Dm7o9PATSHWTr9D6lR0jyOKK2uN/Cd02nWo6
-         IsPw==
-X-Gm-Message-State: AAQBX9cFqTJluEntYM46KRVIUkSdKT5iJnxMMjj1sTMvTkZDSfKPAwhO
-        ts6/jNT+cEeNoo/t6o4A7CrJAQ==
-X-Google-Smtp-Source: AKy350b+JJBv78Bl3d1mUBUw1PAmpTxrMXAlFY5AJ+h+vCWFg/VNn9S50+cXGxbg2QLFKY3fsU0gDA==
-X-Received: by 2002:adf:cd85:0:b0:2ef:2cce:d7d8 with SMTP id q5-20020adfcd85000000b002ef2cced7d8mr10414410wrj.22.1682329215430;
-        Mon, 24 Apr 2023 02:40:15 -0700 (PDT)
-Received: from [192.168.29.232] ([49.37.170.173])
-        by smtp.gmail.com with ESMTPSA id n3-20020a7bcbc3000000b003f175b360e5sm11838246wmi.0.2023.04.24.02.40.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Apr 2023 02:40:15 -0700 (PDT)
-Message-ID: <03f1691e-bdc2-90cc-4014-585703d2cf4e@9elements.com>
-Date:   Mon, 24 Apr 2023 15:10:08 +0530
+        with ESMTP id S231250AbjDXNRv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Apr 2023 09:17:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8DCE76;
+        Mon, 24 Apr 2023 06:17:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F1DA621EA;
+        Mon, 24 Apr 2023 13:16:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35AF1C433D2;
+        Mon, 24 Apr 2023 13:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682342217;
+        bh=Qor63KPZKV7QHdfEndKbYPownrJfBHOA94uMZQ+6dJ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m2uDwGyD9Z7nkiTxLkKry8lqsUlqi69KK+ovYC7R0Z67A5H+RqEYaifWly6G9aUtp
+         usw62JHz7T5cuvFTm1Cr2f9niePFXg9+peOrKyBnPPG9MICVZJw0wX42xETSEvU+ZX
+         V9cMEJm+iRxQsJjzJ7lKcVGsL9ACGdEob+610fUPC7pK/IHjch/lZgOVHtdSsAOp8l
+         nI7Vp2T6xzkC95AU/Wxm4AqTCwr+OLxLbKwMWSzHm7KC8FMu5V5cL8t59zFFA/8e4s
+         yoT0mW7YEg8wq6vEhWJpg49XjlSGrpv49o9j3gjJeHZp9dNfS65+qCcOi56XTu6kQi
+         Z8JtKr1xa8euQ==
+Date:   Mon, 24 Apr 2023 14:16:51 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 1/2] dt-bindings: leds: Add ROHM BD2606MVV LED
+Message-ID: <20230424131651.GD50521@google.com>
+References: <20230419111806.1100437-1-andreas@kemnade.info>
+ <20230419111806.1100437-2-andreas@kemnade.info>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v5] leds: max597x: Add support for max597x
-Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20230417094035.998965-1-Naresh.Solanki@9elements.com>
- <20230420115035.GE970483@google.com>
- <079eca63-54f5-7a4b-3b1c-e2515ceae9cc@9elements.com>
- <20230420135428.GD996918@google.com>
- <40b72025-16a8-1af5-d69f-659d37cdeab9@9elements.com>
- <20230421071921.GI996918@google.com>
-From:   Naresh Solanki <naresh.solanki@9elements.com>
-In-Reply-To: <20230421071921.GI996918@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230419111806.1100437-2-andreas@kemnade.info>
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -80,118 +58,19 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Wed, 19 Apr 2023, Andreas Kemnade wrote:
 
-On 21-04-2023 12:49 pm, Lee Jones wrote:
-> On Thu, 20 Apr 2023, Naresh Solanki wrote:
+> Document ROHM BD2606MVV LED driver devicetree bindings.
 > 
->> Hi Lee,
->>
->> On 20-04-2023 07:24 pm, Lee Jones wrote:
->>> On Thu, 20 Apr 2023, Naresh Solanki wrote:
->>>
->>>> Hi Lee,
->>>>
->>>> On 20-04-2023 05:20 pm, Lee Jones wrote:
->>>>> On Mon, 17 Apr 2023, Naresh Solanki wrote:
->>>>>
->>>>>> From: Patrick Rudolph <patrick.rudolph@9elements.com>
->>>>>>
->>>>>> max597x is hot swap controller with indicator LED support.
->>>>>> This driver uses DT property to configure led during boot time &
->>>>>> also provide the LED control in sysfs.
->>>>>>
->>>>>> DTS example:
->>>>>>        i2c {
->>>>>>            #address-cells = <1>;
->>>>>>            #size-cells = <0>;
->>>>>>            regulator@3a {
->>>>>>                compatible = "maxim,max5978";
->>>>>>                reg = <0x3a>;
->>>>>>                vss1-supply = <&p3v3>;
->>>>>>
->>>>>>                regulators {
->>>>>>                    sw0_ref_0: sw0 {
->>>>>>                        shunt-resistor-micro-ohms = <12000>;
->>>>>>                    };
->>>>>>                };
->>>>>>
->>>>>>                leds {
->>>>>>                    #address-cells = <1>;
->>>>>>                    #size-cells = <0>;
->>>>>>                    led@0 {
->>>>>>                        reg = <0>;
->>>>>>                        label = "ssd0:green";
->>>>>>                        default-state = "on";
->>>>>>                    };
->>>>>>                    led@1 {
->>>>>>                        reg = <1>;
->>>>>>                        label = "ssd1:green";
->>>>>>                        default-state = "on";
->>>>>>                    };
->>>>>>                };
->>>>>>            };
->>>>>>        };
->>>>>
->>>>> Where is the DT binding document for this?
->> https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/tree/Documentation/devicetree/bindings/mfd/maxim,max5970.yaml?h=for-mfd-next
-> 
-> You need to update it.  It is different to the one you supplied here.
-Ack.
-> 
->>>>>> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
->>>>>> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
->>>>>> ...
->>>>>> Changes in V5:
->>>>>> - Update commit message
->>>>>> - Fix comments
->>>>>> - Add necessary new line
->>>>>> Changes in V4:
->>>>>> - Remove unwanted preinitialise
->>>>>> - Remove unneeded line breaks
->>>>>> - Fix variable name to avoid confusion
->>>>>> - Update module description to mention LED driver.
->>>>>> Changes in V3:
->>>>>> - Remove of_node_put as its handled by for loop
->>>>>> - Print error if an LED fails to register.
->>>>>> - Update driver name in Kconfig description
->>>>>> - Remove unneeded variable assignment
->>>>>> - Use devm_led_classdev_register to reget led
->>>>>> Changes in V2:
->>>>>> - Fix regmap update
->>>>>> - Remove devm_kfree
->>>>>> - Remove default-state
->>>>>> - Add example dts in commit message
->>>>>> - Fix whitespace in Kconfig
->>>>>> - Fix comment
->>>>>> ---
->>>>>>     drivers/leds/Kconfig        |  11 ++++
->>>>>>     drivers/leds/Makefile       |   1 +
->>>>>>     drivers/leds/leds-max597x.c | 115 ++++++++++++++++++++++++++++++++++++
->>>>>>     3 files changed, 127 insertions(+)
->>>>>>     create mode 100644 drivers/leds/leds-max597x.c
-> 
-> [...]
-> 
->>>>> +	led_node = of_get_child_by_name(np, "leds");
->>>>>> +	if (!led_node)
->>>>>> +		return -ENODEV;
->>>
->>> It's odd for a device to be referring to itself as the "child".
->> As this is leaf driver, LED specific info is present in "leds" node in DT.
-> 
-> I'm aware of the architecture.
-> 
-> If you give the LEDs driver it's own compatible you don't need to keep
-> doing this self->parent->child level-jumping craziness to obtain
-> resources.
- From my understanding, it is preferable to have only one compatible per 
-chip(in this case MFD driver), and the leaf driver can leverage it 
-unless it is not serving the purpose/breaks something.
-I think this is acceptable as long as it doesn't creates any 
-issue/breaks anything.
-> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/leds/rohm,bd2606mvv.yaml         | 81 +++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/rohm,bd2606mvv.yaml
 
+Applied, thanks
 
-Regards,
-Naresh
+-- 
+Lee Jones [李琼斯]
