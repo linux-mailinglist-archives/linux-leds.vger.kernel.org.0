@@ -2,75 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA8136EE33A
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Apr 2023 15:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 474396EE397
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Apr 2023 16:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233976AbjDYNip (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Apr 2023 09:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
+        id S233725AbjDYOE6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Apr 2023 10:04:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233361AbjDYNio (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 09:38:44 -0400
+        with ESMTP id S234070AbjDYOE5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 10:04:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E840013C19
-        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 06:37:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2184210A
+        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 07:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682429874;
+        s=mimecast20190719; t=1682431450;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=F0NXFla26l08ayk1xwYTvvvgy9onxuW/1gwR6K6EQvo=;
-        b=Ez37c7Zy4IZ4JzKOZTFmp18j3Q0pyb/JQmQ0HfIz2rAz5J33QipUJGKadJ10Dq/v9cUAN/
-        JwqcyhImmtL4FXSELrA4DHhfMxVvWg3w1Y+Tw+kiruHfnN4+v71j2KaN9KX+d0a1BX20iy
-        T3CyPIPt6zQuCzFQglB9XGGi92G5jGM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=EPQ+aZ2sW1R1Pm8AVWUGXu1yd14S2HDVdTV3O0XQWiY=;
+        b=QJlo5hfwURCiZx2SBKeJGofHfw9Z5JxcFXvTkbPSFeuAmcOPibD0tsVxjVbMubnhmQDMsi
+        mWRcejbWFaAJnEZVErUxRR3+B3EAYIvzXTD7TIZRbFMYyR8qW5yuT4Nv68OpzCitjZcQHp
+        WKANyugkwCx3tpDaPSCYj/dm8kgYBZM=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-15-cAogOHDnPYK_TQxwc_iANA-1; Tue, 25 Apr 2023 09:37:52 -0400
-X-MC-Unique: cAogOHDnPYK_TQxwc_iANA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso660976266b.2
-        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 06:37:52 -0700 (PDT)
+ us-mta-9-URanCQ4cM4awJyVD27nKYA-1; Tue, 25 Apr 2023 10:03:58 -0400
+X-MC-Unique: URanCQ4cM4awJyVD27nKYA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94ec76d7a26so535372266b.1
+        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 07:03:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682429872; x=1685021872;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+        d=1e100.net; s=20221208; t=1682431434; x=1685023434;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F0NXFla26l08ayk1xwYTvvvgy9onxuW/1gwR6K6EQvo=;
-        b=CF1EMGS0hVCP4nA+7IkTEqK3as7ww30vYGF6lC5+LJ/G3dvUKEyvg7di+sXggDhs6c
-         cT7acurK+JK+t03zrx7MoEmSUOvDqRalSFY9wHui/hPXYc6SDOGFmeycNwQTuyC5RFaZ
-         KjY7onzzu4uyXWRnQFJ7K6bx/zMNSq9PipWgoG+f8KHm4GQqmofzEc6h+zfwKaKBgL6i
-         1nB+qT/WgQbNYYqA1G8+y7w+uU/OJYM1JIH3VMhMedQOrsDvTXppnEkOmnA324+qrk0v
-         ihtJRtmA3HnzVUbVxETTm2gMSn/6kN8+JYpfNW+/UTgA3pHXIyIjFJpKhvLJ6m7rPwRC
-         1FGA==
-X-Gm-Message-State: AAQBX9d4NY3HTfc37D7K0/vVIuZWz21siT8+y3+66kjMbUJBk2I4Thn1
-        XfNM6/mTsQtDJjryLbZq9jfWllOV/DDfY8ir1AuDvvvQMNIpfzF5bWpo8m5LZDAHHjS41RWuJTw
-        6TKH60tudy9Mtw0xnTJzvvA==
-X-Received: by 2002:a17:906:1b08:b0:94f:9f76:c74d with SMTP id o8-20020a1709061b0800b0094f9f76c74dmr12565345ejg.23.1682429871880;
-        Tue, 25 Apr 2023 06:37:51 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bjjU8PcgzMNhNqGgJLm/6gp5IV+BXOiUT5LLhUzW07/d5ijGtUgJOG+NY2TJKSteQA/zKEew==
-X-Received: by 2002:a17:906:1b08:b0:94f:9f76:c74d with SMTP id o8-20020a1709061b0800b0094f9f76c74dmr12565325ejg.23.1682429871498;
-        Tue, 25 Apr 2023 06:37:51 -0700 (PDT)
+        bh=EPQ+aZ2sW1R1Pm8AVWUGXu1yd14S2HDVdTV3O0XQWiY=;
+        b=B+BIlwpgOHRtVWX2AGmbVB/8/1kgyR5nLXKkm1NxFJN28jdWQClRWyQyVcJYhqPBra
+         ZgoO1iGh9gcxVJES4KxpeGNNoROv+9nhz2At+Ib0U62kvfWgBl7EyHRrCvL6JhT5T0z8
+         zBhHkYcI1GdvtaGv646Xo6CqM5lgHCP7sLJCLdSK/KJfaWLb06yW9FqOMRk54hMTxGJd
+         rBr7Qb/MzmKUKe0X70g2Ov7aiiwk/k2MEMvysws0uNTxBuaNYoR6l0+qPyIxNcRFjSAK
+         hof0EtNk+Gu8hN0/83XzE2T6h8U9FkjYNwdM/zcwR838umL+0MfG3H02L/+eluxxF6hf
+         Q9jw==
+X-Gm-Message-State: AAQBX9fpjYT9/2Bhjms77jl3BIkww/DaivcSH1J3GTuJu2uJCW14q6Uf
+        c0VcE4juKRRenoDJpTsrK9WMkzXl3bAgYk7rjP1j6MIyiaHn0yn6WLKkwBl8sMCdFAYQUwWJWJn
+        BC3Gh94B1e7r4KNY+HhKaoA==
+X-Received: by 2002:a17:906:7c41:b0:956:fdb6:bc77 with SMTP id g1-20020a1709067c4100b00956fdb6bc77mr12878834ejp.30.1682431434371;
+        Tue, 25 Apr 2023 07:03:54 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zc4YdKUR/TAy4cFXuLdb/aeLn1txnka6RU+bVIQo43sRzNaDllZyLeEJU0aNotarb0WK36wQ==
+X-Received: by 2002:a17:906:7c41:b0:956:fdb6:bc77 with SMTP id g1-20020a1709067c4100b00956fdb6bc77mr12878810ejp.30.1682431434082;
+        Tue, 25 Apr 2023 07:03:54 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
-        by smtp.gmail.com with ESMTPSA id tk5-20020a170907c28500b0095004c87676sm6672838ejc.199.2023.04.25.06.37.50
+        by smtp.gmail.com with ESMTPSA id hy12-20020a1709068a6c00b0094f09cd4658sm6897246ejc.71.2023.04.25.07.03.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 06:37:50 -0700 (PDT)
-Message-ID: <ece24674-a42b-efb7-0337-b94b2628c56c@redhat.com>
-Date:   Tue, 25 Apr 2023 15:37:50 +0200
+        Tue, 25 Apr 2023 07:03:53 -0700 (PDT)
+Message-ID: <bce6c285-60a7-d7ca-d9ea-202f3ef63d4d@redhat.com>
+Date:   Tue, 25 Apr 2023 16:03:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 0/5] leds: Add Intel Cherry Trail Whiskey Cove PMIC LED
- driver
+Subject: Re: [PATCH 0/4] Fix oops about sleeping in led_trigger_blink()
 Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-leds@vger.kernel.org, Yauhen Kharuzhy <jekhor@gmail.com>
+References: <20230412215855.593541-1-hdegoede@redhat.com>
+ <20230420113653.GD970483@google.com>
+ <9ba72334-6c3a-e8cd-0692-b30278c4a88d@redhat.com>
+ <20230420135635.GE996918@google.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org
-References: <20230413151808.20900-1-hdegoede@redhat.com>
- <ZDsJ6oH1/15gpAr0@jeknote.loshitsa1.net>
- <ab04d6ed-ee83-ea89-c668-f9958d9cc400@redhat.com>
-In-Reply-To: <ab04d6ed-ee83-ea89-c668-f9958d9cc400@redhat.com>
+In-Reply-To: <20230420135635.GE996918@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -83,84 +84,72 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Yauhen,
+Hi Lee,
 
-On 4/16/23 15:04, Hans de Goede wrote:
-> Hi Yauhen,
+On 4/20/23 15:56, Lee Jones wrote:
+> On Thu, 20 Apr 2023, Hans de Goede wrote:
 > 
-> On 4/15/23 22:32, Yauhen Kharuzhy wrote:
->> On Thu, Apr 13, 2023 at 05:18:03PM +0200, Hans de Goede wrote:
->>> Hi All,
->>>
->>> Here is a patch series to add support for the LED controller on
->>> Intel Cherry Trail Whiskey Cove PMICs.
->>>
->>> This is based on the original patch for this from Yauhen Kharuzhy,
->>> with additional work on top by me.
->>>
->>> This addresses the review remarks on the v2 posting from Yauhen:
->>> - Since the PMIC is connected to the battery any changes we make to
->>>   the LED settings are permanent, even surviving reboot / poweroff.
->>>   Save LED1 register settings on probe() and if auto-/hw-control was
->>>   enabled on probe() restore the settings on remove() and shutdown().
->>> - Add support for the pattern trigger to select breathing mode
->>>
->>> This makes the charging LED on devices with these PMICs properly
->>> reflect the charging status (this relies on sw control on most
->>> devices) and this also allows control of the LED behind the pen
->>> (digitizer on) symbol on the keyboard half of the Lenovo Yoga Book
->>> 1 models.
->>>
->>> Regards,
->>>
->>> Hans
->>>
->>>
->>> Hans de Goede (4):
->>>   leds: cht-wcove: Add suspend/resume handling
->>>   leds: cht-wcove: Add support for breathing mode use hw_pattern sysfs
->>>     API
->>>   leds: cht-wcove: Set default trigger for charging LED
->>>   leds: cht-wcove: Use breathing when LED_INIT_DEFAULT_TRIGGER is set
->>>
->>> Yauhen Kharuzhy (1):
->>>   leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver
->>>
->>>  Documentation/leds/index.rst          |   1 +
->>>  Documentation/leds/leds-cht-wcove.rst |  29 ++
->>>  drivers/leds/Kconfig                  |  11 +
->>>  drivers/leds/Makefile                 |   1 +
->>>  drivers/leds/leds-cht-wcove.c         | 466 ++++++++++++++++++++++++++
->>>  5 files changed, 508 insertions(+)
->>>  create mode 100644 Documentation/leds/leds-cht-wcove.rst
->>>  create mode 100644 drivers/leds/leds-cht-wcove.c
+>> Hi Lee,
 >>
->> Hi Hans,
+>> On 4/20/23 13:36, Lee Jones wrote:
+>>> On Wed, 12 Apr 2023, Hans de Goede wrote:
+>>>
+>>>> Hi All,
+>>>>
+>>>> Here is a patch series to fix an oops about sleeping in led_trigger_blink()
+>>>> + one other small bugfix.
+>>>>
+>>>> Patches 1-3 should arguably have a:
+>>>>
+>>>> Fixes: 0b9536c95709 ("leds: Add ability to blink via simple trigger")
+>>>>
+>>>> tag, but Fixes tags tend to lead to patches getting automatically added
+>>>> to the stable series and I would prefer to see this series get some
+>>>> significant testing time in mainline first, so I have chosen to omit
+>>>> the tag.
+>>>
+>>> With subjects with the word "fix" in it, they will be hoovered up by the
+>>> Stable auto-picker anyway.
 >>
->> Thanks for reviving this patch!
+>> Ok, in that case patch 3 should have:
+>>
+>> Fixes: 0b9536c95709 ("leds: Add ability to blink via simple trigger")
+>>
+>> Patches 1-2 are more preparation patches for this. Patch 2 does
+>> fix another race, but I'm not sure we ever hit that.
+>>
+>> Can you add the fixes tag while merging these, or do you
+>> want a v2 of this series ?
 > 
-> You're welcome.
-> 
->> I haven't tested it on linux-next yet but on v6.2.11 (with few patches for
->> Yoabook) I catched following trace. I will investigate it later but maybe you
->> can take a look also?
-> 
-> Right, this is an unrelated pre-existing kernel bug when using
-> led_trigger_blink().
-> 
-> I already hit that myself and I have a fix for it, see this series:
-> https://lore.kernel.org/linux-leds/20230412215855.593541-1-hdegoede@redhat.com/
+> I'm holding out for either a Pavel review or some Tested-by's suggested
+> by Jacek.
 
-Lee is asking for testers of this series, if you have time it would be
-good if you can give this series a try in combination with this new
-leds-cht-wcove driver.
+Hmm, ok. I have asked Yauhen to give this a test since they have hit
+the oops/backtrace fixed by path 3/4 while testing the new leds-cht-wcove
+driver too.
 
-Assuming the other series fixed the oops/backtrace for you can you
-please reply with your Tested-by to that series:
+But Yauhen has the same hw as me (I have already tested this on
+3 different laptop models).
 
-https://lore.kernel.org/linux-leds/20230412215855.593541-1-hdegoede@redhat.com/
+Note that Jacek did already give his Reviewed-by:
 
-(or even better give your Tested-by for both series)
+Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+
+I think the bug this fixes was never an issue before because only
+very few triggers use regular blinking (rather then one-shot
+blinking which always uses the sw-blink implementation).
+
+To hit this you need to use one of the few triggers which
+actually use regular-blinking in combination with a
+driver which supports hw-blinking and where its blink_set
+callbavck may sleep. It looks to me like no-one has hit
+this combination before. Which is why there are no bug reports
+for the issue and which also is why finding testers is going
+to be tricky.
+
+I think that the best thing to do here is add this series to -next
+early in the upcoming cycle, so that it gets the maximum testing
+time possible in -next.
 
 Regards,
 
