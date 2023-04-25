@@ -2,62 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B24956EDF9B
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Apr 2023 11:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 938086EE32D
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Apr 2023 15:35:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233746AbjDYJpk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Apr 2023 05:45:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42204 "EHLO
+        id S234277AbjDYNft (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Apr 2023 09:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233719AbjDYJpg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 05:45:36 -0400
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E54C179
-        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 02:45:35 -0700 (PDT)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id A5E03833AF; Tue, 25 Apr 2023 10:45:02 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1682415925; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=O6PlNPflTkCv1JIPeRL/NhhcGfVtP3tVqij4Pt1NvfHAIu1ABufd93kt4bfC4ODbK
-         YUEPZ4gjjrEOJrnofVFjfUUgd8nxdh7wL1rltCxYqimYItz3GdvPvSdZkkZX//uIG7
-         wSmZtve8uMkMv7B7QgbHdgLUAEI2fj0OCE0ZiYHb4ALsBYrvTi1eg8Vk/TLEunZRQQ
-         klEk4+XzTv/1dNUqtV3MaD413aoUMsM7JV93J0KWbCZ64jfmAGDzs2Wbjr7ro/Zj6B
-         +br34o4GwVtOBjCRVBvdPYG3vTm8fH6OybXIIhl9XYTd/yuQa36PGWxKOYYaN1p+rx
-         0+oIbnoS6+l4A==
-Received: by mail.lokoho.com for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 09:42:51 GMT
-Message-ID: <20230425102243-0.1.5k.2021y.0.um7eigj9f5@lokoho.com>
-Date:   Tue, 25 Apr 2023 09:42:51 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        with ESMTP id S234158AbjDYNf0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 09:35:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70EE14444;
+        Tue, 25 Apr 2023 06:35:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37DAB62E7B;
+        Tue, 25 Apr 2023 13:35:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC30C433EF;
+        Tue, 25 Apr 2023 13:35:00 +0000 (UTC)
+Date:   Tue, 25 Apr 2023 19:04:57 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Nishanth Menon <nm@ti.com>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Vignesh Raghavendra <vigneshr@ti.com>
+Subject: Re: [PATCH] dt-bindings: leds: Drop redundant cpus enum match
+Message-ID: <20230425133457.GA5640@thinkpad>
+References: <20230424151437.256073-1-nm@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230424151437.256073-1-nm@ti.com>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Mon, Apr 24, 2023 at 10:14:37AM -0500, Nishanth Menon wrote:
+> Commit e91a4d5deb96 ("dt-bindings: leds: Document commonly used
+> LED triggers") introduced a enum match for cpu, while a pattern
+> '^cpu[0-9]*$' already exists.
+> 
+> This causes linux,default-trigger = "cpu" to have more than one match
+> and generates the following dtbs_check warning:
+> 
+> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: leds: led-2:linux,default-trigger: More than one condition true in oneOf schema:
+> 	{'$ref': '/schemas/types.yaml#/definitions/string',
+> 	 'oneOf': [{'items': [{'enum': ['backlight',
+> 	                                'default-on',
+> 	                                'heartbeat',
+> 	                                'disk-activity',
+> 	                                'disk-read',
+> 	                                'disk-write',
+> 	                                'timer',
+> 	                                'pattern',
+> 	                                'audio-micmute',
+> 	                                'audio-mute',
+> 	                                'bluetooth-power',
+> 	                                'cpu',
+> 	                                'flash',
+> 	                                'kbd-capslock',
+> 	                                'mtd',
+> 	                                'nand-disk',
+> 	                                'none',
+> 	                                'torch',
+> 	                                'usb-gadget',
+> 	                                'usb-host',
+> 	                                'usbport']}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^cpu[0-9]*$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^hci[0-9]+-power$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^mmc[0-9]+$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^phy[0-9]+tx$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'}]}
+> 
+> Drop the explicit match against cpu since the pattern match already
+> covers the same.
+> 
+> Fixes: e91a4d5deb96 ("dt-bindings: leds: Document commonly used LED triggers")
+> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Signed-off-by: Nishanth Menon <nm@ti.com>
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+- Mani
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index 11aedf1650a1..58b492d00246 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -105,8 +105,6 @@ properties:
+>            - audio-mute
+>              # LED indicates bluetooth power state
+>            - bluetooth-power
+> -            # LED indicates activity of all CPUs
+> -          - cpu
+>              # LED indicates camera flash state
+>            - flash
+>              # LED indicated keyboard capslock
+> -- 
+> 2.40.0
+> 
 
-
-Pozdrawiam
-Adam Charachuta
+-- 
+மணிவண்ணன் சதாசிவம்
