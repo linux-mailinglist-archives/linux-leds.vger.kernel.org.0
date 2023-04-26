@@ -2,136 +2,180 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C51BE6EE7E4
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Apr 2023 20:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 754D66EEB84
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Apr 2023 02:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235173AbjDYS4e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Apr 2023 14:56:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53708 "EHLO
+        id S236933AbjDZAkL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Apr 2023 20:40:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235112AbjDYS4P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 14:56:15 -0400
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CEB218B9F;
-        Tue, 25 Apr 2023 11:55:52 -0700 (PDT)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-187fc21f6acso2242955fac.2;
-        Tue, 25 Apr 2023 11:55:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682448951; x=1685040951;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZOYO9VcZmL3OuUTiqSJiXINw03Ze8xYqi62GLai31bU=;
-        b=Uvq+RUL3H7M/gO0x0v8e1ii741DkCwXcmrU0VEeeNiq5EP7498cMfrngnZk0X5tTv1
-         QvBkgSMj7tAY2PVfHqjyyNMEqVtKflCJu0GyqpzWuLzagLeu7cVtBMavXuXCtHbVh4+9
-         dGisVtPwR039iZat/cKSP6TgO+DnL2Aft0BQ9yL5oBTIspW2me+IOBr7gsWXMTrV3QCa
-         FM0GTA6qLUKW97V1lO6FrOnij3EzIsnVU3qwDiy7rM7ECqSrl/1Evo7bLc+8lZ8uIs4m
-         v/cqwyoZkgl9vmUjxVvviCdK16PiJopNzGFDpx5WkHJESnxOL8NscEYtQT9+GSB679Ie
-         k4Ow==
-X-Gm-Message-State: AC+VfDzLQ7AJFZFAe9H+M4IqaXNePGxf5tWAJtmlQ9JS8uVt3/Sddbw2
-        K8+Zl1R+eyVSHTOmjANcxQ==
-X-Google-Smtp-Source: AKy350ZFzcrzJb63mNKNH0YEsQQiHvjn8FXThu1xVj9+IaSO0IdB0kkzpV7zE31AxJ15OFZoudPEIA==
-X-Received: by 2002:a05:6870:1699:b0:18e:bbfc:4ee2 with SMTP id j25-20020a056870169900b0018ebbfc4ee2mr3428485oae.41.1682448951528;
-        Tue, 25 Apr 2023 11:55:51 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w2-20020a9d6382000000b006a41ab165dfsm6042065otk.34.2023.04.25.11.55.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 11:55:51 -0700 (PDT)
-Received: (nullmailer pid 2080853 invoked by uid 1000);
-        Tue, 25 Apr 2023 18:55:50 -0000
-Date:   Tue, 25 Apr 2023 13:55:50 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Nishanth Menon <nm@ti.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: leds: Drop redundant cpus enum match
-Message-ID: <168244894963.2080814.13396719387956216399.robh@kernel.org>
-References: <20230424151437.256073-1-nm@ti.com>
+        with ESMTP id S229772AbjDZAkK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Apr 2023 20:40:10 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D3B49DF
+        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 17:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682469609; x=1714005609;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8vKZNmbZWWb/Oq7XvmHv+nSs1EigZDl1Pv7nsunv/fE=;
+  b=aVYIZQxlGyhLMWFWwhd+cZx+36BZl74FAwsZkq+io/yQuqX9UAVaE8Na
+   x2VNSpiTTMaq2FAfz6jhhksxntNDd2LFv9J9dzAtFg9raJ4nAK8+lri3u
+   jziGF1xK5QtnGYxWZtN0dkoLl5izW/MC8KcMKBETDldAVFQb3et+XEZDy
+   fYqZ4WY3KeR5rW1Uf3yrBlw/AgSW8BL8saa1kwTLwyk7jNxnkQhKWpoQF
+   wIm5Itdneh1AiPAvif0DzeGrCs8aaTLjrteU+34StI3Efpvtz1pOgI6tW
+   Da1iSa2lRpWBMSPY+5JcaMQQt8Y6HE6+1WHwL4Fltr+ZKGOcSj5qEq/zZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="345700092"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
+   d="scan'208";a="345700092"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 17:40:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="817918761"
+X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
+   d="scan'208";a="817918761"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 25 Apr 2023 17:40:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1prTCY-000juh-2N;
+        Wed, 26 Apr 2023 00:40:06 +0000
+Date:   Wed, 26 Apr 2023 08:39:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next-next] BUILD SUCCESS
+ fea27b037127c924221325d65c7966cb4c8c3603
+Message-ID: <644872ca.mLC2YUZ2RQCNFTKn%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230424151437.256073-1-nm@ti.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next-next
+branch HEAD: fea27b037127c924221325d65c7966cb4c8c3603  leds: bd2606mvv: Driver for the Rohm 6 Channel i2c LED driver
 
-On Mon, 24 Apr 2023 10:14:37 -0500, Nishanth Menon wrote:
-> Commit e91a4d5deb96 ("dt-bindings: leds: Document commonly used
-> LED triggers") introduced a enum match for cpu, while a pattern
-> '^cpu[0-9]*$' already exists.
-> 
-> This causes linux,default-trigger = "cpu" to have more than one match
-> and generates the following dtbs_check warning:
-> 
-> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: leds: led-2:linux,default-trigger: More than one condition true in oneOf schema:
-> 	{'$ref': '/schemas/types.yaml#/definitions/string',
-> 	 'oneOf': [{'items': [{'enum': ['backlight',
-> 	                                'default-on',
-> 	                                'heartbeat',
-> 	                                'disk-activity',
-> 	                                'disk-read',
-> 	                                'disk-write',
-> 	                                'timer',
-> 	                                'pattern',
-> 	                                'audio-micmute',
-> 	                                'audio-mute',
-> 	                                'bluetooth-power',
-> 	                                'cpu',
-> 	                                'flash',
-> 	                                'kbd-capslock',
-> 	                                'mtd',
-> 	                                'nand-disk',
-> 	                                'none',
-> 	                                'torch',
-> 	                                'usb-gadget',
-> 	                                'usb-host',
-> 	                                'usbport']}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^cpu[0-9]*$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^hci[0-9]+-power$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^mmc[0-9]+$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^phy[0-9]+tx$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'}]}
-> 
-> Drop the explicit match against cpu since the pattern match already
-> covers the same.
-> 
-> Fixes: e91a4d5deb96 ("dt-bindings: leds: Document commonly used LED triggers")
-> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Nishanth Menon <nm@ti.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 2 --
->  1 file changed, 2 deletions(-)
-> 
+elapsed time: 724m
 
-Acked-by: Rob Herring <robh@kernel.org>
+configs tested: 100
+configs skipped: 6
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r005-20230423   gcc  
+alpha                randconfig-r022-20230424   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r006-20230423   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r001-20230423   gcc  
+arc                  randconfig-r001-20230424   gcc  
+arc                  randconfig-r022-20230423   gcc  
+arc                  randconfig-r043-20230425   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r004-20230424   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r006-20230423   clang
+arm                  randconfig-r046-20230425   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r023-20230424   gcc  
+csky         buildonly-randconfig-r005-20230424   gcc  
+csky         buildonly-randconfig-r006-20230424   gcc  
+csky                                defconfig   gcc  
+hexagon      buildonly-randconfig-r004-20230423   clang
+hexagon              randconfig-r006-20230424   clang
+hexagon              randconfig-r021-20230423   clang
+hexagon              randconfig-r041-20230425   clang
+hexagon              randconfig-r045-20230425   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a011-20230424   gcc  
+i386                 randconfig-a012-20230424   gcc  
+i386                 randconfig-a013-20230424   gcc  
+i386                 randconfig-a014-20230424   gcc  
+i386                 randconfig-a015-20230424   gcc  
+i386                 randconfig-a016-20230424   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r005-20230423   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r024-20230423   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r001-20230423   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r004-20230424   gcc  
+microblaze   buildonly-randconfig-r002-20230424   gcc  
+microblaze           randconfig-r002-20230423   gcc  
+microblaze           randconfig-r002-20230424   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r023-20230423   gcc  
+openrisc     buildonly-randconfig-r003-20230423   gcc  
+openrisc     buildonly-randconfig-r003-20230424   gcc  
+parisc       buildonly-randconfig-r002-20230423   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r004-20230423   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r025-20230423   clang
+riscv                randconfig-r042-20230425   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r001-20230424   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230425   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r026-20230424   gcc  
+sparc                               defconfig   gcc  
+sparc64              randconfig-r003-20230423   gcc  
+sparc64              randconfig-r025-20230424   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230424   clang
+x86_64               randconfig-a002-20230424   clang
+x86_64               randconfig-a003-20230424   clang
+x86_64               randconfig-a004-20230424   clang
+x86_64               randconfig-a005-20230424   clang
+x86_64               randconfig-a006-20230424   clang
+x86_64               randconfig-a011-20230424   gcc  
+x86_64               randconfig-a012-20230424   gcc  
+x86_64               randconfig-a013-20230424   gcc  
+x86_64               randconfig-a014-20230424   gcc  
+x86_64               randconfig-a015-20230424   gcc  
+x86_64               randconfig-a016-20230424   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r003-20230424   gcc  
+xtensa               randconfig-r021-20230424   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
