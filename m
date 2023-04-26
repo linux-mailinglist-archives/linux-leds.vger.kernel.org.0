@@ -2,74 +2,207 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664086EED01
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Apr 2023 06:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 614C36EF0FA
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Apr 2023 11:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239393AbjDZEmx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Apr 2023 00:42:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
+        id S240173AbjDZJWC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Apr 2023 05:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239401AbjDZEmu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Apr 2023 00:42:50 -0400
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B28C2701
-        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 21:42:48 -0700 (PDT)
-Received: by mail-oo1-xc41.google.com with SMTP id 006d021491bc7-549d9c295dfso1466145eaf.2
-        for <linux-leds@vger.kernel.org>; Tue, 25 Apr 2023 21:42:48 -0700 (PDT)
+        with ESMTP id S240087AbjDZJWB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Apr 2023 05:22:01 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4F5B3A87
+        for <linux-leds@vger.kernel.org>; Wed, 26 Apr 2023 02:21:26 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-51b33c72686so5099838a12.1
+        for <linux-leds@vger.kernel.org>; Wed, 26 Apr 2023 02:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682484168; x=1685076168;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JEkw1KmmzfmMdZjy2G/k2kJ9Rp06l3CUoffIihDDUro=;
-        b=ahJMIWTh5hWsknwjxsHnHQo9L9VjzYcn1k/0nU23PU9uEZU8NalnBK3f9aVgzZCo5r
-         +p006FX/ZwqMvKSjA6VHEj3uIqzR993g9P1CrFK9Fivzgwmca8kxjeyWkyvWkLEi20By
-         rct6ZAMuikhMKj/3DXx5AKfXigvurLbq4PilgTtzLaX/aYV2jyLFb01f0/lE77UE8BOc
-         ML+1/nS9zkVDTQXcJNJoyM+er+SvJwqMhIgEhQBdEjVaUbzrCEWRuqiCz7c6sMP2L2E+
-         MlXEZJFcfRL02s5L4RO1N8I6SOXxlWfGIeqLuoo5V3O7DfHscz5K73m9EKR1oRzUmK1z
-         5l7w==
+        d=9elements.com; s=google; t=1682500883; x=1685092883;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GxCxYUQlhPobw2YaHoERc69tjdRgnWZj+VY019M7IAU=;
+        b=bvIR4KnC6Zzuh+3JQCJs7pwK+l2c7ezp/MVII5CzoKt4+A0E4ZCFlR3a0kINPtS4fV
+         wVp3TgxR2yflOIBxLS54ClrNOoCyuLo8DjlI27JjjGofJTPkxXV3lt6/3eImb3oNB1e7
+         /tTiuHOD91z6eabm5UZDAS6MhKxEDAharqs0EDXaiA7EeOu2nemA1yso+E3ylmi0Z3OB
+         HUD4AHDkUNOWWW+NosZX3VFbqHzw52V1wH0h2cumFO2J1Bd79VUORFfRPo82UqBI6gLZ
+         16kiRHo47w92iCszX7j/YxJRJENN/qDaFty7iUHaRDH1od8Qa6/HHsNW5Wk9aZBHhEaT
+         SBYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682484168; x=1685076168;
-        h=to:subject:message-id:date:from:sender:mime-version
+        d=1e100.net; s=20221208; t=1682500883; x=1685092883;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JEkw1KmmzfmMdZjy2G/k2kJ9Rp06l3CUoffIihDDUro=;
-        b=Wz9NZQ92T5TRtKUMWOMLeSmA7hJabWPoM1u96iiNPhnsyh4CHcK0dwl4eXof2TslI3
-         ir7bLP9qhynK6J5HVC3qjGgY33+0jThlkqsVg2H6N2Ze0FzW6MAPRxmQc5tDR84YaiXR
-         f0mYcxtNs78XUQf9gdJvGMcVf5gM8qFq5/O/d5LP6qzbOhfCZvgMLxbH03nXIh8/X+Hz
-         j+J7dQxCF6xTQuNNA722Siq/MhGQ58VZroeZs8DtX7k+27O5rHfj9Z7AcABmCw2ZUwSd
-         +AQDPVa0QhQMIO7C5ix282cr5hN56th6Kkm9ZzwxJGim4urVuhmynnfVaeP0kUyy2vfF
-         2kfg==
-X-Gm-Message-State: AAQBX9dncZikSLsFtQgm3PqmqFtWI7s7D2AC2EPhMF/UVK8qFqKGeLFw
-        yS1hZZA8cXMVaewSW6OOoHEyS/HCSeZXooqkWaw=
-X-Google-Smtp-Source: AKy350bOLIyI+w9KrBjo8wnTDAYvlhBLAGs13pccFIMH9r8rI9git9fbIly8hLQTWzX3A/fyOGsGfQkHlyrIgnqmVnc=
-X-Received: by 2002:a05:6808:1885:b0:38b:6c2c:3168 with SMTP id
- bi5-20020a056808188500b0038b6c2c3168mr10879839oib.35.1682484167861; Tue, 25
- Apr 2023 21:42:47 -0700 (PDT)
+        bh=GxCxYUQlhPobw2YaHoERc69tjdRgnWZj+VY019M7IAU=;
+        b=XjoaS2yPAgUMZChF7mbSV1MWj9tPdYTrz3hdTQQxA23705Eg/pEgNrxfjysbOy8lL2
+         aU81eWRqhq2P1/exCLmgu41LXzVFn3RhyqCri7xMF4Iz2gHTGpIQdHHdB013C0VG1i4C
+         MlFoj7OMWW/jdOlUZrqCF5+iun+XhE6MPCU1oa60OOWTpx8cfQyFYwYBrlitksnzcRQG
+         7CyH9K1bb5WSiPbWmPVisu+nxtwbZsjESZrbMEIhEDx+UHOwBw9Rlyot8QsCtF3Mq3XE
+         djW/XwTD994gUTXpsyt8iZLg2lMwcMeZhxn4Yultosfp4PtS1tktTqOqG61zd9Sfner7
+         lYvw==
+X-Gm-Message-State: AAQBX9eSBlBYdOLM5nYfVidPhiHoBpHSJLroXzug9qqGtxqWMmLWO9WB
+        p0jOUHSc0Tn13WgFh8JQzAIwg2L9oYd9C6BN/0DeRQ==
+X-Google-Smtp-Source: AKy350YkLfCKdwJFqWdBbiclvdhiSi9Ia1cb+z/3icUJQz9gfl++MYJ55Q6nVFyZ75K6+8fIBbqF/Q==
+X-Received: by 2002:a05:6a20:8e10:b0:f3:168f:4c52 with SMTP id y16-20020a056a208e1000b000f3168f4c52mr17386642pzj.25.1682500883243;
+        Wed, 26 Apr 2023 02:21:23 -0700 (PDT)
+Received: from ?IPV6:2405:201:d02f:d855:461d:14be:2cce:b776? ([2405:201:d02f:d855:461d:14be:2cce:b776])
+        by smtp.gmail.com with ESMTPSA id q22-20020a63e956000000b005033e653a17sm9384884pgj.85.2023.04.26.02.21.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Apr 2023 02:21:22 -0700 (PDT)
+Message-ID: <f966a8df-6998-f6f1-cc3c-fa92e1d5d34b@9elements.com>
+Date:   Wed, 26 Apr 2023 14:51:20 +0530
 MIME-Version: 1.0
-Sender: mrs.nicolemarois555@gmail.com
-Received: by 2002:a05:6850:190d:b0:472:4a8e:9aa6 with HTTP; Tue, 25 Apr 2023
- 21:42:47 -0700 (PDT)
-From:   AVA SMITH <avasmith1181@gmail.com>
-Date:   Wed, 26 Apr 2023 04:42:47 +0000
-X-Google-Sender-Auth: oLN8TkQTeeK3qe33xEXBWukGFxo
-Message-ID: <CANiD9SJaRynGGmJb2Z8thdK8fg7qLtPr09Js5yoCTSpw2g-c1Q@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5] leds: max597x: Add support for max597x
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+References: <20230417094035.998965-1-Naresh.Solanki@9elements.com>
+ <20230420115035.GE970483@google.com>
+ <079eca63-54f5-7a4b-3b1c-e2515ceae9cc@9elements.com>
+ <20230420135428.GD996918@google.com>
+ <40b72025-16a8-1af5-d69f-659d37cdeab9@9elements.com>
+ <20230421071921.GI996918@google.com>
+ <03f1691e-bdc2-90cc-4014-585703d2cf4e@9elements.com>
+Content-Language: en-US
+In-Reply-To: <03f1691e-bdc2-90cc-4014-585703d2cf4e@9elements.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
-My name is Dr Ava Smith,a medical doctor from United States.I have
-Dual citizenship which is English and French.I will share more details
-about me as soon as i get a response from you.
+Hi Lee,
 
-Thanks
-Ava
+On 24-04-2023 03:10 pm, Naresh Solanki wrote:
+> Hi,
+> 
+> On 21-04-2023 12:49 pm, Lee Jones wrote:
+>> On Thu, 20 Apr 2023, Naresh Solanki wrote:
+>>
+>>> Hi Lee,
+>>>
+>>> On 20-04-2023 07:24 pm, Lee Jones wrote:
+>>>> On Thu, 20 Apr 2023, Naresh Solanki wrote:
+>>>>
+>>>>> Hi Lee,
+>>>>>
+>>>>> On 20-04-2023 05:20 pm, Lee Jones wrote:
+>>>>>> On Mon, 17 Apr 2023, Naresh Solanki wrote:
+>>>>>>
+>>>>>>> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>>>>>
+>>>>>>> max597x is hot swap controller with indicator LED support.
+>>>>>>> This driver uses DT property to configure led during boot time &
+>>>>>>> also provide the LED control in sysfs.
+>>>>>>>
+>>>>>>> DTS example:
+>>>>>>>        i2c {
+>>>>>>>            #address-cells = <1>;
+>>>>>>>            #size-cells = <0>;
+>>>>>>>            regulator@3a {
+>>>>>>>                compatible = "maxim,max5978";
+>>>>>>>                reg = <0x3a>;
+>>>>>>>                vss1-supply = <&p3v3>;
+>>>>>>>
+>>>>>>>                regulators {
+>>>>>>>                    sw0_ref_0: sw0 {
+>>>>>>>                        shunt-resistor-micro-ohms = <12000>;
+>>>>>>>                    };
+>>>>>>>                };
+>>>>>>>
+>>>>>>>                leds {
+>>>>>>>                    #address-cells = <1>;
+>>>>>>>                    #size-cells = <0>;
+>>>>>>>                    led@0 {
+>>>>>>>                        reg = <0>;
+>>>>>>>                        label = "ssd0:green";
+>>>>>>>                        default-state = "on";
+>>>>>>>                    };
+>>>>>>>                    led@1 {
+>>>>>>>                        reg = <1>;
+>>>>>>>                        label = "ssd1:green";
+>>>>>>>                        default-state = "on";
+>>>>>>>                    };
+>>>>>>>                };
+>>>>>>>            };
+>>>>>>>        };
+>>>>>>
+>>>>>> Where is the DT binding document for this?
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/tree/Documentation/devicetree/bindings/mfd/maxim,max5970.yaml?h=for-mfd-next
+>>
+>> You need to update it.  It is different to the one you supplied here.
+> Ack.
+>>
+>>>>>>> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+>>>>>>> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+>>>>>>> ...
+>>>>>>> Changes in V5:
+>>>>>>> - Update commit message
+>>>>>>> - Fix comments
+>>>>>>> - Add necessary new line
+>>>>>>> Changes in V4:
+>>>>>>> - Remove unwanted preinitialise
+>>>>>>> - Remove unneeded line breaks
+>>>>>>> - Fix variable name to avoid confusion
+>>>>>>> - Update module description to mention LED driver.
+>>>>>>> Changes in V3:
+>>>>>>> - Remove of_node_put as its handled by for loop
+>>>>>>> - Print error if an LED fails to register.
+>>>>>>> - Update driver name in Kconfig description
+>>>>>>> - Remove unneeded variable assignment
+>>>>>>> - Use devm_led_classdev_register to reget led
+>>>>>>> Changes in V2:
+>>>>>>> - Fix regmap update
+>>>>>>> - Remove devm_kfree
+>>>>>>> - Remove default-state
+>>>>>>> - Add example dts in commit message
+>>>>>>> - Fix whitespace in Kconfig
+>>>>>>> - Fix comment
+>>>>>>> ---
+>>>>>>>     drivers/leds/Kconfig        |  11 ++++
+>>>>>>>     drivers/leds/Makefile       |   1 +
+>>>>>>>     drivers/leds/leds-max597x.c | 115 
+>>>>>>> ++++++++++++++++++++++++++++++++++++
+>>>>>>>     3 files changed, 127 insertions(+)
+>>>>>>>     create mode 100644 drivers/leds/leds-max597x.c
+>>
+>> [...]
+>>
+>>>>>> +    led_node = of_get_child_by_name(np, "leds");
+>>>>>>> +    if (!led_node)
+>>>>>>> +        return -ENODEV;
+>>>>
+>>>> It's odd for a device to be referring to itself as the "child".
+>>> As this is leaf driver, LED specific info is present in "leds" node 
+>>> in DT.
+>>
+>> I'm aware of the architecture.
+>>
+>> If you give the LEDs driver it's own compatible you don't need to keep
+>> doing this self->parent->child level-jumping craziness to obtain
+>> resources.
+>  From my understanding, it is preferable to have only one compatible per 
+> chip(in this case MFD driver), and the leaf driver can leverage it 
+> unless it is not serving the purpose/breaks something.
+> I think this is acceptable as long as it doesn't creates any 
+> issue/breaks anything.
+I just wanted to kindly follow up and check if we are aligned with the 
+approach. And kindly let me know if you have any concerns regarding this.
+
+Thank you very much for your time and I look forward to hearing back 
+from you soon :)
+>>
+> 
+> 
+> Regards,
+> Naresh
