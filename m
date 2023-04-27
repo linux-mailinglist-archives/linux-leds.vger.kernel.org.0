@@ -2,127 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4357F6F0AA2
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71BF06F0B6E
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:51:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244315AbjD0RRv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Apr 2023 13:17:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S243708AbjD0RvX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 Apr 2023 13:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244326AbjD0RRi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:17:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF1A59F1;
-        Thu, 27 Apr 2023 10:17:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E92263DCE;
-        Thu, 27 Apr 2023 17:17:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6F5C433EF;
-        Thu, 27 Apr 2023 17:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682615847;
-        bh=0xWA8A0zUyKpHuYdXUaZ5SCZXM9LKzezszDIXzsri/I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EFLNI5Y8xqGLUGpTKLeRHASq6Vz8HG18a76B1ZAevLGlYgFL45sxMgHqW65HWt7Kf
-         V2oGRRSayE9yxw3fDhhT5oy8/BX9egr9j3YWsai/fNpdjnJ10QottK2SQn9CZawxTC
-         vC1O5BXmzfbpSsyeDZamy51tCyvCjyXJiPNhFWDBM1JJap3SxNkV3jBN2DcUUFPk2M
-         drjRHy+Wtk/lUpBPEQ415pY6wkMEbi36h7MysKSBznJgSEdCPcN+bRqUmpFAmKtAzp
-         fFLPuKsM+epJDb1xmW4oN67Cj9HtuNKw7OlHO7IwrDL59b+I9FONeoxC3gltaSc9DV
-         mogPQQ78asJTQ==
-Date:   Thu, 27 Apr 2023 18:17:22 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Nishanth Menon <nm@ti.com>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        with ESMTP id S243982AbjD0RvW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:51:22 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CFC210D;
+        Thu, 27 Apr 2023 10:51:21 -0700 (PDT)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id DD897CCBE1;
+        Thu, 27 Apr 2023 17:50:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1682617849; bh=NIY1N6khezq9+ZTcdf4CI2PZJx2zYchLwM1fp6lZo0A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=aXEMnvun3ENv8iPHd1MiLBtsE5FXHEqngQMklwv+OslGFTyAdx9vqOnq8xShhCEg8
+         +0cqiUeamn2INSEdAz7NDlFZU70J9NNbqnAuwo/H2kbdGg2ph3hEco01xg0Qs4Wtnr
+         2WXv4VZNp1i33nchNq6wUl9EyUd3WxUh4R8YyEEk=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Lee Jones <lee@kernel.org>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH] dt-bindings: leds: Drop redundant cpus enum match
-Message-ID: <20230427171722.GG620451@google.com>
-References: <20230424151437.256073-1-nm@ti.com>
+        Pavel Machek <pavel@ucw.cz>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] Documentation: leds: Add "rgb:status" path
+Date:   Thu, 27 Apr 2023 19:50:47 +0200
+Message-ID: <5823752.MhkbZ0Pkbq@z3ntu.xyz>
+In-Reply-To: <20230427160559.GC50521@google.com>
+References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
+ <20230414-pmi632-v2-8-98bafa909c36@z3ntu.xyz>
+ <20230427160559.GC50521@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230424151437.256073-1-nm@ti.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 24 Apr 2023, Nishanth Menon wrote:
+On Donnerstag, 27. April 2023 18:05:59 CEST Lee Jones wrote:
+> On Tue, 18 Apr 2023, Luca Weiss wrote:
+> > The path /sys/class/leds/rgb:status is already widely used with the
+> > qcom-lpg driver and others. Document it.
+> 
+> Where is this used?
+> 
+> $ grep status drivers/leds/rgb/leds-qcom-lpg.c
+> <no results>
 
-> Commit e91a4d5deb96 ("dt-bindings: leds: Document commonly used
-> LED triggers") introduced a enum match for cpu, while a pattern
-> '^cpu[0-9]*$' already exists.
-> 
-> This causes linux,default-trigger = "cpu" to have more than one match
-> and generates the following dtbs_check warning:
-> 
-> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: leds: led-2:linux,default-trigger: More than one condition true in oneOf schema:
-> 	{'$ref': '/schemas/types.yaml#/definitions/string',
-> 	 'oneOf': [{'items': [{'enum': ['backlight',
-> 	                                'default-on',
-> 	                                'heartbeat',
-> 	                                'disk-activity',
-> 	                                'disk-read',
-> 	                                'disk-write',
-> 	                                'timer',
-> 	                                'pattern',
-> 	                                'audio-micmute',
-> 	                                'audio-mute',
-> 	                                'bluetooth-power',
-> 	                                'cpu',
-> 	                                'flash',
-> 	                                'kbd-capslock',
-> 	                                'mtd',
-> 	                                'nand-disk',
-> 	                                'none',
-> 	                                'torch',
-> 	                                'usb-gadget',
-> 	                                'usb-host',
-> 	                                'usbport']}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^cpu[0-9]*$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^hci[0-9]+-power$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^mmc[0-9]+$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'},
-> 	           {'items': [{'pattern': '^phy[0-9]+tx$'}],
-> 	            'maxItems': 1,
-> 	            'minItems': 1,
-> 	            'type': 'array'}]}
-> 
-> Drop the explicit match against cpu since the pattern match already
-> covers the same.
-> 
-> Fixes: e91a4d5deb96 ("dt-bindings: leds: Document commonly used LED triggers")
-> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Nishanth Menon <nm@ti.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 2 --
->  1 file changed, 2 deletions(-)
+This is set in devicetree, e.g. from qcom-msm8974pro-fairphone-fp2.dts[0]:
 
-Applied, thanks
+    color = <LED_COLOR_ID_RGB>;
+    function = LED_FUNCTION_STATUS;
 
--- 
-Lee Jones [李琼斯]
+And then something in the LED core sets the name based on that, I'd have
+to dig to find where exactly.
+
+Regards
+Luca
+
+[0] https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/qcom-msm8974pro-fairphone-fp2.dts#L105-L106
+
+> 
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> > 
+> >  Documentation/leds/well-known-leds.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/leds/well-known-leds.txt
+> > b/Documentation/leds/well-known-leds.txt index 2160382c86be..439d4dac4472
+> > 100644
+> > --- a/Documentation/leds/well-known-leds.txt
+> > +++ b/Documentation/leds/well-known-leds.txt
+> > @@ -58,6 +58,7 @@ LEDs on notebook body, indicating that sound input /
+> > output is muted.> 
+> >  * System notification
+> > 
+> > +Good: "rgb:status"
+> > 
+> >  Legacy: "status-led:{red,green,blue}" (Motorola Droid 4)
+> >  Legacy: "lp5523:{r,g,b}" (Nokia N900)
+
+
+
+
