@@ -2,53 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2EC6F0A92
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4357F6F0AA2
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244315AbjD0RPw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Apr 2023 13:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
+        id S244315AbjD0RRv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 Apr 2023 13:17:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243894AbjD0RPv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:15:51 -0400
+        with ESMTP id S244326AbjD0RRi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:17:38 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD31B1993;
-        Thu, 27 Apr 2023 10:15:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF1A59F1;
+        Thu, 27 Apr 2023 10:17:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B33963BB9;
-        Thu, 27 Apr 2023 17:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5ABC4339E;
-        Thu, 27 Apr 2023 17:15:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E92263DCE;
+        Thu, 27 Apr 2023 17:17:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6F5C433EF;
+        Thu, 27 Apr 2023 17:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682615749;
-        bh=6lphV+9yp+4j33QChmFrKQxUY8ArwGcehoykxFMj7QU=;
+        s=k20201202; t=1682615847;
+        bh=0xWA8A0zUyKpHuYdXUaZ5SCZXM9LKzezszDIXzsri/I=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T1pfzL4mwgyxQN6l2n2mNG8FVUxAqYlre5o1+veoWSGdtDsrOuCSCKnXwI2486SKW
-         BzkN3jVHdx81+gNh9VWnGcZkr788fptNJXiG5h2+YNf4PXeXNC/m8WjSmQBoUDSQRR
-         60fEt/SOURAFBZRNIaFXqZCheH6XEU77uX+HfuaWursAcb3sIaIcYjXbFstLgoqGox
-         Tsa1aUEQl6Y4y2/LbM9BQe4caqngSMZOi3SGam/ud9/CYtNLKBwd5wx4ldJsZB4BR7
-         ZwI8ngMpIN4thRLHYlRnpt0vPCt2CbHjhCg76KVPVLUAibhNFEpcl8DAONcmKwIwPT
-         tKP6nNaC7Jjjg==
-Date:   Thu, 27 Apr 2023 18:15:44 +0100
+        b=EFLNI5Y8xqGLUGpTKLeRHASq6Vz8HG18a76B1ZAevLGlYgFL45sxMgHqW65HWt7Kf
+         V2oGRRSayE9yxw3fDhhT5oy8/BX9egr9j3YWsai/fNpdjnJ10QottK2SQn9CZawxTC
+         vC1O5BXmzfbpSsyeDZamy51tCyvCjyXJiPNhFWDBM1JJap3SxNkV3jBN2DcUUFPk2M
+         drjRHy+Wtk/lUpBPEQ415pY6wkMEbi36h7MysKSBznJgSEdCPcN+bRqUmpFAmKtAzp
+         fFLPuKsM+epJDb1xmW4oN67Cj9HtuNKw7OlHO7IwrDL59b+I9FONeoxC3gltaSc9DV
+         mogPQQ78asJTQ==
+Date:   Thu, 27 Apr 2023 18:17:22 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     "larry.lai" <larry.lai@yunjingtech.com>
-Cc:     andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org,
-        pavel@ucw.cz, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
-        GaryWang@aaeon.com.tw, musa.lin@yunjingtech.com,
-        jack.chang@yunjingtech.com, noah.hung@yunjingtech.com,
-        michael.wang@yunjingtech.com
-Subject: Re: [RFC RESEND 3/3] leds: Add support for UP board CPLD onboard LEDS
-Message-ID: <20230427171544.GF620451@google.com>
-References: <20230425152135.30745-1-larry.lai@yunjingtech.com>
- <20230425152135.30745-4-larry.lai@yunjingtech.com>
+To:     Nishanth Menon <nm@ti.com>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH] dt-bindings: leds: Drop redundant cpus enum match
+Message-ID: <20230427171722.GG620451@google.com>
+References: <20230424151437.256073-1-nm@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230425152135.30745-4-larry.lai@yunjingtech.com>
+In-Reply-To: <20230424151437.256073-1-nm@ti.com>
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -59,36 +60,69 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 25 Apr 2023, larry.lai wrote:
+On Mon, 24 Apr 2023, Nishanth Menon wrote:
 
-> The UP boards come with a few FPGA-controlled onboard LEDs:
-> * UP Board: yellow, green, red
-> * UP Squared: blue, yellow, green, red
+> Commit e91a4d5deb96 ("dt-bindings: leds: Document commonly used
+> LED triggers") introduced a enum match for cpu, while a pattern
+> '^cpu[0-9]*$' already exists.
 > 
-> This patch depends on patch "mfd: Add support for UP board CPLD/FPGA".
+> This causes linux,default-trigger = "cpu" to have more than one match
+> and generates the following dtbs_check warning:
 > 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Lee Jones <lee@kernel.org>
-
-Definitely not.  Please try again after reading:
-
-  Documentation/process/submitting-patches.rst
-
-> Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
+> arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dtb: leds: led-2:linux,default-trigger: More than one condition true in oneOf schema:
+> 	{'$ref': '/schemas/types.yaml#/definitions/string',
+> 	 'oneOf': [{'items': [{'enum': ['backlight',
+> 	                                'default-on',
+> 	                                'heartbeat',
+> 	                                'disk-activity',
+> 	                                'disk-read',
+> 	                                'disk-write',
+> 	                                'timer',
+> 	                                'pattern',
+> 	                                'audio-micmute',
+> 	                                'audio-mute',
+> 	                                'bluetooth-power',
+> 	                                'cpu',
+> 	                                'flash',
+> 	                                'kbd-capslock',
+> 	                                'mtd',
+> 	                                'nand-disk',
+> 	                                'none',
+> 	                                'torch',
+> 	                                'usb-gadget',
+> 	                                'usb-host',
+> 	                                'usbport']}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^cpu[0-9]*$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^hci[0-9]+-power$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^mmc[0-9]+$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'},
+> 	           {'items': [{'pattern': '^phy[0-9]+tx$'}],
+> 	            'maxItems': 1,
+> 	            'minItems': 1,
+> 	            'type': 'array'}]}
+> 
+> Drop the explicit match against cpu since the pattern match already
+> covers the same.
+> 
+> Fixes: e91a4d5deb96 ("dt-bindings: leds: Document commonly used LED triggers")
+> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Signed-off-by: Nishanth Menon <nm@ti.com>
 > ---
-> RFC 2022/11/23 --> RFC 2023/04/25: Refer 2022/12/08 Lee Jones review,
-> cleaned up coding style.
-> PATCH V3 -> RFC 2022/11/23: Update the changes Copyright.
-> PATCH V1 -> V3: There is no change.
-> PATCH --> PATCH V1: Refer 2022/10/03 Andy Shevchenko review, cleaned up
-> coding style.
-> ---
-> ---
->  drivers/leds/Kconfig        | 10 +++++
->  drivers/leds/Makefile       |  1 +
->  drivers/leds/leds-upboard.c | 79 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 90 insertions(+)
->  create mode 100644 drivers/leds/leds-upboard.c
+>  Documentation/devicetree/bindings/leds/common.yaml | 2 --
+>  1 file changed, 2 deletions(-)
+
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
