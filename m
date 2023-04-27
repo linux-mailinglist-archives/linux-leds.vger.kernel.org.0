@@ -2,53 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC9E6F0A57
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 18:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B22C6F0A8D
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244163AbjD0Q5p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Apr 2023 12:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
+        id S244012AbjD0ROX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 Apr 2023 13:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244313AbjD0Q5l (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 12:57:41 -0400
+        with ESMTP id S239857AbjD0ROV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:14:21 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F3C30D5
-        for <linux-leds@vger.kernel.org>; Thu, 27 Apr 2023 09:57:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3EE91990;
+        Thu, 27 Apr 2023 10:14:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 758D963A3D
-        for <linux-leds@vger.kernel.org>; Thu, 27 Apr 2023 16:57:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFB0C433EF;
-        Thu, 27 Apr 2023 16:57:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7C81E63BB9;
+        Thu, 27 Apr 2023 17:14:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD2BC4339B;
+        Thu, 27 Apr 2023 17:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682614650;
-        bh=L3dPg5iNGe76UPv384aiPR4uTq1mWRLVkW1lWJ+AnZw=;
+        s=k20201202; t=1682615659;
+        bh=VxbpbS/ZvGtLooC7WKWDiaWh8HMGWlf144SHZLQ/yDo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ew9A2kd7rd5j/UoYC5JkWo5DcA2Vi0IeG7gbz+e36gFxvmYhycPoeuvHTZL5HESC0
-         tsZqDJkj3tpU7Ccizdx3Ajg0Z/ODqBahbXdsZ/VMO4O6ia+2vP+VR9LqT+Fx8+ugRG
-         jWxHo4Q/IoDZB4oawjzGObEQ04F8Otr2DQ5riR4FKh+7pH6BeUuiTGuLQCfVn0vcBE
-         aKhrYJCn5qy1EAI7oGwrC7beG1JrnCDYbS5Ypx+iAg8pBX41Qq1Vez5bLjQr3wzTN/
-         3qiHHETsLW6uojlJ2KbSVP9Jr4cwFTmWwJ1NP7H9j+2LlQPKroNGnd7jwhgONJBHf+
-         DZ73P8+85qH3w==
-Date:   Thu, 27 Apr 2023 17:57:26 +0100
+        b=n2EREdRnxzcw+CBcKzhsANF86pi/exGxJERUK0HG9s4/f2YDweC0DyA7rkG6MnzVj
+         cHcjIgzU6D7hZ9h0lLe7OaKdmvu9a8fkY/eMgPepntaVjw0pA29LAFd/tz6S6ydUnK
+         Vh1Qdg2dBHj6N9udyq2vEFawQCU3nVnp/J+PkX/3HPV+EsK+sXkxIPkkbW/xK2B10J
+         UdiZKfKcGI0uchgQ5WbmsHvDMXA1/2alRSxoo7uxiTW9VI2UHbVd/vYrBVThC1xaTI
+         pVGT/+ULJJNXlFKc8ogp3yd0ngwn4VtqHtWF0FJu+KPkg8yrJIo5WY0qoHX2LTUg9N
+         hgZbO94gDhfkg==
+Date:   Thu, 27 Apr 2023 18:14:14 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Yauhen Kharuzhy <jekhor@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] leds: Add Intel Cherry Trail Whiskey Cove PMIC
- LED driver
-Message-ID: <20230427165726.GC620451@google.com>
-References: <20230420123741.57160-1-hdegoede@redhat.com>
- <20230420123741.57160-2-hdegoede@redhat.com>
- <20230424141505.GL50521@google.com>
- <5f6452f3-4013-8dad-c220-3ad2f4922993@redhat.com>
+To:     "larry.lai" <larry.lai@yunjingtech.com>
+Cc:     andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org,
+        pavel@ucw.cz, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
+        GaryWang@aaeon.com.tw, musa.lin@yunjingtech.com,
+        jack.chang@yunjingtech.com, noah.hung@yunjingtech.com,
+        michael.wang@yunjingtech.com, Javier Arteaga <javier@emutex.com>,
+        Nicola Lunghi <nicola.lunghi@emutex.com>
+Subject: Re: [RFC RESEND 1/3] mfd: Add support for UP board CPLD/FPGA
+Message-ID: <20230427171414.GE620451@google.com>
+References: <20230425152135.30745-1-larry.lai@yunjingtech.com>
+ <20230425152135.30745-2-larry.lai@yunjingtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f6452f3-4013-8dad-c220-3ad2f4922993@redhat.com>
+In-Reply-To: <20230425152135.30745-2-larry.lai@yunjingtech.com>
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -59,273 +60,70 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 24 Apr 2023, Hans de Goede wrote:
+On Tue, 25 Apr 2023, larry.lai wrote:
 
-> Hi Lee,
+> The UP Squared board <http://www.upboard.com> implements certain
+> features (pin control, onboard LEDs or CEC) through an on-board CPLD/FPGA.
 > 
-> On 4/24/23 16:15, Lee Jones wrote:
-> > On Thu, 20 Apr 2023, Hans de Goede wrote:
-> > 
-> >> From: Yauhen Kharuzhy <jekhor@gmail.com>
-> >>
-> >> Add support for LEDs connected to the Intel Cherry Trail Whiskey Cove
-> >> PMIC. Charger and general-purpose LEDs are supported. Hardware blinking
-> >> is implemented, breathing is not.
-> >>
-> >> This driver was tested with Lenovo Yoga Book notebook.
-> >>
-> >> Changes by Hans de Goede (in response to review of v2):
-> >> - Since the PMIC is connected to the battery any changes we make to
-> >>   the LED settings are permanent, even surviving reboot / poweroff.
-> >>   Save LED1 register settings on probe() and if auto-/hw-control was
-> >>   enabled on probe() restore the settings on remove() and shutdown().
-> >> - Delay switching LED1 to software control mode to first brightness write.
-> >> - Use dynamically allocated drvdata instead of a global drvdata variable.
-> >> - Ensure the LED is on when activating blinking.
-> >> - Fix CHT_WC_LED_EFF_BREATHING val ((3 << 1) rather then BIT(3)).
-> >>
-> >> Link: https://lore.kernel.org/r/20190212205901.13037-2-jekhor@gmail.com
-> >> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> >> Co-developed-by: Hans de Goede <hdegoede@redhat.com>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >> Changes in v2:
-> >> - Update comment about YB1 kernel source usage for register info
-> >> - Replace "cht-wc::" LED name prefix with "platform::"
-> >> - Add leds-cht-wcove to list of drivers using "platform::charging" in
-> >>   Documentation/leds/well-known-leds.txt
-> >> - Bail from cht_wc_leds_brightness_set() on first error
-> >> - Make default blink 1Hz, like sw-blink default blink
-> >> ---
-> >>  Documentation/leds/well-known-leds.txt |   2 +-
-> >>  drivers/leds/Kconfig                   |  11 +
-> >>  drivers/leds/Makefile                  |   1 +
-> >>  drivers/leds/leds-cht-wcove.c          | 373 +++++++++++++++++++++++++
-> >>  4 files changed, 386 insertions(+), 1 deletion(-)
-> >>  create mode 100644 drivers/leds/leds-cht-wcove.c
-> > 
-> > Generally nice.  Couple of small nits.
-> > 
-> >> diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
-> >> index 2160382c86be..7640debee6c0 100644
-> >> --- a/Documentation/leds/well-known-leds.txt
-> >> +++ b/Documentation/leds/well-known-leds.txt
-> >> @@ -65,7 +65,7 @@ Phones usually have multi-color status LED.
-> >>  
-> >>  * Power management
-> >>  
-> >> -Good: "platform:*:charging" (allwinner sun50i)
-> >> +Good: "platform:*:charging" (allwinner sun50i, leds-cht-wcove)
-> >>  
-> >>  * Screen
-> >>  
-> >> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> >> index 9dbce09eabac..90835716f14a 100644
-> >> --- a/drivers/leds/Kconfig
-> >> +++ b/drivers/leds/Kconfig
-> >> @@ -122,6 +122,17 @@ config LEDS_BCM6358
-> >>  	  This option enables support for LEDs connected to the BCM6358
-> >>  	  LED HW controller accessed via MMIO registers.
-> >>  
-> >> +config LEDS_CHT_WCOVE
-> >> +	tristate "LED support for Intel Cherry Trail Whiskey Cove PMIC"
-> >> +	depends on LEDS_CLASS
-> >> +	depends on INTEL_SOC_PMIC_CHTWC
-> >> +	help
-> >> +	  This option enables support for charger and general purpose LEDs
-> >> +	  connected to the Intel Cherrytrail Whiskey Cove PMIC.
-> >> +
-> >> +	  To compile this driver as a module, choose M here: the module
-> >> +	  will be called leds-cht-wcove.
-> >> +
-> >>  config LEDS_CPCAP
-> >>  	tristate "LED Support for Motorola CPCAP"
-> >>  	depends on LEDS_CLASS
-> >> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> >> index d30395d11fd8..78b5b69f9c54 100644
-> >> --- a/drivers/leds/Makefile
-> >> +++ b/drivers/leds/Makefile
-> >> @@ -19,6 +19,7 @@ obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
-> >>  obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
-> >>  obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
-> >>  obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
-> >> +obj-$(CONFIG_LEDS_CHT_WCOVE)		+= leds-cht-wcove.o
-> >>  obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
-> >>  obj-$(CONFIG_LEDS_COBALT_QUBE)		+= leds-cobalt-qube.o
-> >>  obj-$(CONFIG_LEDS_COBALT_RAQ)		+= leds-cobalt-raq.o
-> >> diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-> >> new file mode 100644
-> >> index 000000000000..908965e25552
-> >> --- /dev/null
-> >> +++ b/drivers/leds/leds-cht-wcove.c
-> >> @@ -0,0 +1,373 @@
-> >> +// SPDX-License-Identifier: GPL-2.0
-> >> +/*
-> >> + * Driver for LEDs connected to the Intel Cherry Trail Whiskey Cove PMIC
-> >> + *
-> >> + * Copyright 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-> >> + * Copyright 2023 Hans de Goede <hansg@kernel.org>
-> >> + *
-> >> + * Register info comes from the Lenovo Yoga Book Android kernel sources:
-> >> + * YB1_source_code/kernel/cht/drivers/misc/charger_gp_led.c.
-> > 
-> > How does one browse to this?
+> This mfd driver implements the line protocol to read and write registers
+> from the FPGA through regmap. The register address map is also included.
 > 
-> There is a tarbal with kernel sources available for download from
-> the support page for the Android version of the Yoga Book (yb1-x90f / yb1-x90l).
+> The UP Boards provide a few I/O pin headers (for both GPIO and
+> functions), including a 40-pin Raspberry Pi compatible header.
 > 
-> This is the file path within that tarbal. I add a deep-link
-> to the tarbal here, but I'm afraid that will not be a stable link.
+> This patch implements support for the FPGA-based pin controller that
+> manages direction and enable state for those header pins.
 > 
-> Or I guess I could omit the filename too? I added the filename because
-> even if you have the tarbal the file is still sort of non trivial to find.
-
-That's not the issue I have with it.
-
-How about:
-
-  <tarball>/YB1_source_code/kernel/cht/drivers/misc/charger_gp_led.c
-
-Or:
-
-  file:///YB1_source_code/kernel/cht/drivers/misc/charger_gp_led.c
-
-[...]
-
-> >> +enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
-> >> +{
-> >> +	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
-> >> +	unsigned int val;
-> >> +	int ret;
-> >> +
-> >> +	mutex_lock(&led->mutex);
-> >> +
-> >> +	ret = regmap_read(led->regmap, led->regs->ctrl, &val);
-> >> +	if (ret < 0) {
-> >> +		dev_err(cdev->dev, "Failed to read LED CTRL reg: %d\n", ret);
-> >> +		ret = LED_OFF;
-> > 
-> > 
-> > include/linux/leds.h:
-> > 
-> > /* This is obsolete/useless. We now support variable maximum brightness. */
-> > enum led_brightness {
-> >    LED_OFF         = 0,
-> >    LED_ON          = 1,
-> >    LED_HALF        = 127,
-> >    LED_FULL        = 255,
-> > };
+> Partial support UP boards:
+> * UP core + CREX
+> * UP core + CRST02
 > 
-> I know but LED_OFF is still somewhat useful, it makes it
-> clear that wat is being returned is a brightness value
-> where as "ret = 0" reads like returning success.
-> 
-> With that said if you prefer 0/1 over LED_OFF / LED_ON
-> I'm happy to replace them all ?
+> Signed-off-by: Javier Arteaga <javier@emutex.com>
+> [merge various fixes]
+> Signed-off-by: Nicola Lunghi <nicola.lunghi@emutex.com>
 
-This is probably for Pavel to answer.
+> Reviewed-by: Lee Jones <lee@kernel.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Ideally it'll either be:
+Wait, what?!
 
- "still useful and thus not deprecated"
+When did Andy or I provide you with Reviewed-by tags?
 
-Or:
+You must to apply any tag that isn't explicitly provided to you.
 
- "deprecated and therefore must not be used"
+> Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
+> ---
+> RFC 2022/11/23 -> RFC 2023/04/25
+> (1) Refer 2022/12/08 Andy Shevchenko review, cleaned up coding style
+> and addressed review comments.
+> PATCH V3 -> RFC 2022/11/23:
+> (1) Refer 2022/11/16 Lee Jones review, cleaned up coding style and
+> addressed review comments.
+> (2) Description on the UP Boards FPGA register read/write protocols
+> PATCH V2 -> V3:
+> (1) fixed kernel test robot compiler warning
+> PATCH V1 -> V2:
+> (1) Synchronizing upboard github to rc2
+> (2) Refer 2022/10/31 Lee Jones review, fixed some of the issues.
+> ---
+> ---
+>  drivers/mfd/Kconfig              |  12 +
+>  drivers/mfd/Makefile             |   1 +
+>  drivers/mfd/upboard-fpga.c       | 527 +++++++++++++++++++++++++++++++
+>  include/linux/mfd/upboard-fpga.h |  61 ++++
+>  4 files changed, 601 insertions(+)
+>  create mode 100644 drivers/mfd/upboard-fpga.c
+>  create mode 100644 include/linux/mfd/upboard-fpga.h
 
-I'm less happy with a deprecated but still okay to use limbo-land.
+I'm not even going to try and review this (again).
 
-[...]
+Looking at the subject line, this is patch is masquerading as a RESEND
+of an unreviewed v1.  However, at best this is a RESEND of a reviewed
+(which was ignored) v3, perhaps even just a straight v4.
 
-> >> +static void cht_wc_led_restore_regs(struct cht_wc_led *led,
-> >> +				    const struct cht_wc_led_saved_regs *saved_regs)
-> >> +{
-> >> +	regmap_write(led->regmap, led->regs->ctrl, saved_regs->ctrl);
-> >> +	regmap_write(led->regmap, led->regs->fsm, saved_regs->fsm);
-> >> +	regmap_write(led->regmap, led->regs->pwm, saved_regs->pwm);
-> >> +}
-> >> +
-> >> +static int cht_wc_leds_probe(struct platform_device *pdev)
-> >> +{
-> >> +	struct intel_soc_pmic *pmic = dev_get_drvdata(pdev->dev.parent);
-> > 
-> > platform_*()
-> 
-> This is getting the parent's driver data so platform_get_drvdata()
-> can not be used here.
-
-Fair point.
-
-> >> +	struct cht_wc_leds *leds;
-> >> +	int ret;
-> >> +	int i;
-> >> +
-> >> +	leds = devm_kzalloc(&pdev->dev, sizeof(*leds), GFP_KERNEL);
-> >> +	if (!leds)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	/*
-> >> +	 * LED1 might be in hw-controlled mode when this driver gets loaded; and
-> >> +	 * since the PMIC is always powered by the battery any changes made are
-> >> +	 * permanent. Save LED1 regs to restore them on remove() or shutdown().
-> >> +	 */
-> >> +	leds->leds[0].regs = &cht_wc_led_regs[0];
-> >> +	leds->leds[0].regmap = pmic->regmap;
-> >> +	ret = cht_wc_led_save_regs(&leds->leds[0], &leds->led1_initial_regs);
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >> +	for (i = 0; i < CHT_WC_LED_COUNT; i++) {
-> >> +		struct cht_wc_led *led = &leds->leds[i];
-> >> +
-> >> +		led->regs = &cht_wc_led_regs[i];
-> >> +		led->regmap = pmic->regmap;
-> >> +		mutex_init(&led->mutex);
-> >> +		led->cdev.name = cht_wc_leds_names[i];
-> >> +		led->cdev.brightness_set_blocking = cht_wc_leds_brightness_set;
-> >> +		led->cdev.brightness_get = cht_wc_leds_brightness_get;
-> >> +		led->cdev.blink_set = cht_wc_leds_blink_set;
-> >> +		led->cdev.max_brightness = 255;
-> >> +
-> >> +		ret = led_classdev_register(&pdev->dev, &led->cdev);
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	platform_set_drvdata(pdev, leds);
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static void cht_wc_leds_remove(struct platform_device *pdev)
-> >> +{
-> >> +	struct cht_wc_leds *leds = platform_get_drvdata(pdev);
-> >> +	int i;
-> >> +
-> >> +	for (i = 0; i < CHT_WC_LED_COUNT; i++)
-> >> +		led_classdev_unregister(&leds->leds[i].cdev);
-> >> +
-> >> +	/* Restore LED1 regs if hw-control was active, else leave LED1 off. */
-> > 
-> > Either use full-stops, or don't.  Please be consistent.
-> 
-> I added the full-stop here because there is a ',' in the comment, I'll drop it.
-
-Please apply this review comment widely, not just for this one line.
-
-[...]
-
-> >> +static struct platform_driver cht_wc_leds_driver = {
-> >> +	.probe = cht_wc_leds_probe,
-> >> +	.remove_new = cht_wc_leds_remove,
-> > 
-> > This is new to me.  What does remove_new do?
-> > 
-> > Just returns void?
-> 
-> Yes all the platform_device remove callbacks are being moved over to this which
-> indeed returns void.
-
-Thanks.
+Either way, it appears as though the review comments you received in v3
+were ignored.  Please go back and fix those before submitting v5,
+thanks.
 
 -- 
 Lee Jones [李琼斯]
