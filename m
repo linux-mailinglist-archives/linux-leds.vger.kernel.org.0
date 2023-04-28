@@ -2,108 +2,195 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BF06F0B6E
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Apr 2023 19:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E855F6F112C
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Apr 2023 06:58:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243708AbjD0RvX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Apr 2023 13:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+        id S230137AbjD1E6V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Apr 2023 00:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243982AbjD0RvW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Apr 2023 13:51:22 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CFC210D;
-        Thu, 27 Apr 2023 10:51:21 -0700 (PDT)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id DD897CCBE1;
-        Thu, 27 Apr 2023 17:50:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1682617849; bh=NIY1N6khezq9+ZTcdf4CI2PZJx2zYchLwM1fp6lZo0A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=aXEMnvun3ENv8iPHd1MiLBtsE5FXHEqngQMklwv+OslGFTyAdx9vqOnq8xShhCEg8
-         +0cqiUeamn2INSEdAz7NDlFZU70J9NNbqnAuwo/H2kbdGg2ph3hEco01xg0Qs4Wtnr
-         2WXv4VZNp1i33nchNq6wUl9EyUd3WxUh4R8YyEEk=
-From:   Luca Weiss <luca@z3ntu.xyz>
+        with ESMTP id S229570AbjD1E6V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Apr 2023 00:58:21 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1963426A1
+        for <linux-leds@vger.kernel.org>; Thu, 27 Apr 2023 21:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682657900; x=1714193900;
+  h=date:from:to:cc:subject:message-id;
+  bh=JoXjL8DWeez8lektwez/cNt2hVWhQtC4d95hEWKCX1U=;
+  b=bTSiF8ea97UnvHwqIW4NQcNAhaNHtdTMU00B3r/VWRZ+7hJezZkAnhVx
+   zY7l7rGDjSnli7CKjvLZKvFlnWeMrqm9Q6Z3ryzefXA1VeFtCyrP6mdFu
+   CyaHCuPco0pzHyJVpBoq1XUg1liEctpr0BqsvusJpl4jttWqsTZks5RGJ
+   w471XU3XAmhGL54I1pxeZa/zT1ffwQtAU5a/wWN8T6JHLz15jLbRYjl53
+   AMjVMUmawG34Lg6Zbd/Br3eBqI15LyNCa1elMG7Mkx9dA1W7oA7Lg9GbV
+   4NYXxS+CG4LxSsPxPkhs8MOQsMzfHRU5zsZld/FUDsJaD87RXLjnhtZPI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="375644334"
+X-IronPort-AV: E=Sophos;i="5.99,233,1677571200"; 
+   d="scan'208";a="375644334"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 21:58:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="727399248"
+X-IronPort-AV: E=Sophos;i="5.99,233,1677571200"; 
+   d="scan'208";a="727399248"
+Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 27 Apr 2023 21:58:18 -0700
+Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1psGBW-00007l-0e;
+        Fri, 28 Apr 2023 04:58:18 +0000
+Date:   Fri, 28 Apr 2023 12:58:02 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Lee Jones <lee@kernel.org>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] Documentation: leds: Add "rgb:status" path
-Date:   Thu, 27 Apr 2023 19:50:47 +0200
-Message-ID: <5823752.MhkbZ0Pkbq@z3ntu.xyz>
-In-Reply-To: <20230427160559.GC50521@google.com>
-References: <20230414-pmi632-v2-0-98bafa909c36@z3ntu.xyz>
- <20230414-pmi632-v2-8-98bafa909c36@z3ntu.xyz>
- <20230427160559.GC50521@google.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 8325642d2757eba80210dec727bb0bcffb837ff1
+Message-ID: <20230428045802.E9MUI%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Donnerstag, 27. April 2023 18:05:59 CEST Lee Jones wrote:
-> On Tue, 18 Apr 2023, Luca Weiss wrote:
-> > The path /sys/class/leds/rgb:status is already widely used with the
-> > qcom-lpg driver and others. Document it.
-> 
-> Where is this used?
-> 
-> $ grep status drivers/leds/rgb/leds-qcom-lpg.c
-> <no results>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 8325642d2757eba80210dec727bb0bcffb837ff1  leds: bd2606mvv: Driver for the Rohm 6 Channel i2c LED driver
 
-This is set in devicetree, e.g. from qcom-msm8974pro-fairphone-fp2.dts[0]:
+elapsed time: 722m
 
-    color = <LED_COLOR_ID_RGB>;
-    function = LED_FUNCTION_STATUS;
+configs tested: 118
+configs skipped: 11
 
-And then something in the LED core sets the name based on that, I'd have
-to dig to find where exactly.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Regards
-Luca
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r014-20230427   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r023-20230428   gcc  
+arc                  randconfig-r043-20230427   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                           h3600_defconfig   gcc  
+arm                  randconfig-r004-20230427   clang
+arm                  randconfig-r012-20230427   gcc  
+arm                  randconfig-r046-20230427   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r003-20230427   gcc  
+csky         buildonly-randconfig-r003-20230427   gcc  
+csky         buildonly-randconfig-r004-20230427   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230427   gcc  
+csky                 randconfig-r023-20230427   gcc  
+csky                 randconfig-r026-20230428   gcc  
+hexagon              randconfig-r021-20230427   clang
+hexagon              randconfig-r034-20230427   clang
+hexagon              randconfig-r041-20230427   clang
+hexagon              randconfig-r045-20230427   clang
+i386                             alldefconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                          randconfig-a001   gcc  
+i386                          randconfig-a002   clang
+i386                          randconfig-a003   gcc  
+i386                          randconfig-a004   clang
+i386                          randconfig-a005   gcc  
+i386                          randconfig-a006   clang
+i386                          randconfig-a011   clang
+i386                          randconfig-a012   gcc  
+i386                          randconfig-a013   clang
+i386                          randconfig-a014   gcc  
+i386                          randconfig-a015   clang
+i386                          randconfig-a016   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r002-20230427   gcc  
+ia64                 randconfig-r025-20230427   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch            randconfig-r024-20230427   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze   buildonly-randconfig-r002-20230427   gcc  
+microblaze           randconfig-r004-20230428   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ip27_defconfig   clang
+mips                 randconfig-r036-20230427   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r035-20230427   gcc  
+openrisc     buildonly-randconfig-r005-20230427   gcc  
+openrisc             randconfig-r001-20230428   gcc  
+openrisc             randconfig-r005-20230428   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r022-20230428   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc              randconfig-r026-20230427   clang
+powerpc              randconfig-r033-20230427   gcc  
+powerpc                     tqm8548_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230427   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230427   gcc  
+s390                 randconfig-r021-20230428   gcc  
+s390                 randconfig-r044-20230427   clang
+sh                               allmodconfig   gcc  
+sh                          r7780mp_defconfig   gcc  
+sh                   randconfig-r016-20230427   gcc  
+sh                   randconfig-r022-20230427   gcc  
+sh                      rts7751r2d1_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r006-20230428   gcc  
+sparc                randconfig-r013-20230427   gcc  
+sparc                randconfig-r032-20230427   gcc  
+sparc64                             defconfig   gcc  
+sparc64              randconfig-r024-20230428   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                        randconfig-a001   clang
+x86_64                        randconfig-a002   gcc  
+x86_64                        randconfig-a003   clang
+x86_64                        randconfig-a004   gcc  
+x86_64                        randconfig-a005   clang
+x86_64                        randconfig-a006   gcc  
+x86_64                        randconfig-a011   gcc  
+x86_64                        randconfig-a012   clang
+x86_64                        randconfig-a013   gcc  
+x86_64                        randconfig-a014   clang
+x86_64                        randconfig-a015   gcc  
+x86_64                        randconfig-a016   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r006-20230427   gcc  
+xtensa               randconfig-r015-20230427   gcc  
 
-[0] https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/qcom-msm8974pro-fairphone-fp2.dts#L105-L106
-
-> 
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> > 
-> >  Documentation/leds/well-known-leds.txt | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/leds/well-known-leds.txt
-> > b/Documentation/leds/well-known-leds.txt index 2160382c86be..439d4dac4472
-> > 100644
-> > --- a/Documentation/leds/well-known-leds.txt
-> > +++ b/Documentation/leds/well-known-leds.txt
-> > @@ -58,6 +58,7 @@ LEDs on notebook body, indicating that sound input /
-> > output is muted.> 
-> >  * System notification
-> > 
-> > +Good: "rgb:status"
-> > 
-> >  Legacy: "status-led:{red,green,blue}" (Motorola Droid 4)
-> >  Legacy: "lp5523:{r,g,b}" (Nokia N900)
-
-
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
