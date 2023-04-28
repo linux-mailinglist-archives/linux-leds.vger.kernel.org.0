@@ -2,97 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB3E6F1871
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Apr 2023 14:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE4956F1C27
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Apr 2023 18:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjD1Muv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Apr 2023 08:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46784 "EHLO
+        id S229748AbjD1QDB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Apr 2023 12:03:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjD1Muu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Apr 2023 08:50:50 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8641BF0
-        for <linux-leds@vger.kernel.org>; Fri, 28 Apr 2023 05:50:43 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id EA2331C0CAF; Fri, 28 Apr 2023 14:50:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1682686240;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kYwn4hhpxEXP9DUViyPpxJtmLsk8sBrBe6XIaa286/w=;
-        b=NRALV8hL7TiO3Tz98qhPXZF/Lzr37OYj2U0DuUis9LLe42Y30Gd0S9vftaC2xdHMJupuSs
-        fdcdpLuTktB2jk/n3jw7fsEigPcLYD4VHQUWYnRwkdYh9Le9VA7j3ZLSuu+gavIJ/Jd6Xz
-        stEr37Q0bmCGbTlQf1Py7GucOTO6i3A=
-Date:   Fri, 28 Apr 2023 14:50:40 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Cc:     lee.jones@linaro.org, andy.shevchenko@gmail.com,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v8 0/6] Add a multicolor LED driver for groups of
- monochromatic LEDs
-Message-ID: <ZEvBIKJKDHL2X2pu@duo.ucw.cz>
-References: <20230328161541.599463-1-jjhiblot@traphandler.com>
- <4c3bdb25-47b9-3442-860d-2c77f8e9f861@traphandler.com>
+        with ESMTP id S229662AbjD1QDA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Apr 2023 12:03:00 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A94B2709;
+        Fri, 28 Apr 2023 09:02:59 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-64115e652eeso13597439b3a.0;
+        Fri, 28 Apr 2023 09:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682697779; x=1685289779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
+        b=PwjZmFWjx0l6/Cp3B6ZEV6WQ7Zx28GfcOc51v/XK+23ClDY50ePtgxT09IwNgPEopC
+         XgFev2tc3ytoXpXLsu2m7KZ5WzuFJI08T+0tRjFosmfzexucrkduyA3QGDctCx5X1sl3
+         1Enws9t3ncavnNHrV7394jQs6V2A1q0TUYUigkpb3CxG/rDvjjqvkDXW0VazHIbG+l7L
+         bkjeRYHv6/rRV69VLp7KVgFOX3e9KAbdkhb6BWIUhT/urHkwkoMdUf5v9LLm6CeLVkRr
+         z0fnVDsae2mmHQiEdZuIdHcl6LHoFqiGR5rtgFHEVb5carY4Nr9lqieW4rWV43BzLB25
+         TPPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682697779; x=1685289779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
+        b=TzyT3czTpo8LpGEnHaBuOQyA0xWNMvu1eQepYtGzzlMFaRuOKKRRctXffPVhxh3IBZ
+         5qVVjbTbm7v++leWh6PIS12G2pj1vmD6XxcatVepDVoelmB4eVeTjlSVA4D+RlWPYdqW
+         r9r/f5t4gKnkqzJwhoGoSdD4zsVnMepcBo5k5gYNKz8KsX7X4eK0iDJ6R4UCXPFxCJuq
+         5UVP9lCNq2INia9T2jsIV22Rzfsnci1VjO7s4D1TGYiUDM0RZzqiuZCH7/RhkBZtwfLA
+         rUSuEXAswbm8Vk/hGuqqWOhI+Odeoyc+lMYC7lx/PhcKXb7kQbf6IMTShGvRk/RmWHJX
+         TXeg==
+X-Gm-Message-State: AC+VfDwpcH/uD6scI98zjFCX6FCj+yfditoTyGAQ28hDKOF9Jvgp1e9B
+        4sg55r1XrmCioJZp7fd2arc=
+X-Google-Smtp-Source: ACHHUZ4n9eWm1zNiFdfRPnFXpG+pdAIxXQZgdvnrdjIN6cuRBezH8a5Vp7dwCkgu/eE23rnzdDfxEw==
+X-Received: by 2002:a17:902:dacb:b0:1a2:a904:c42e with SMTP id q11-20020a170902dacb00b001a2a904c42emr7025837plx.24.1682697778013;
+        Fri, 28 Apr 2023 09:02:58 -0700 (PDT)
+Received: from localhost.localdomain (n220246252240.netvigator.com. [220.246.252.240])
+        by smtp.gmail.com with ESMTPSA id x15-20020a170902820f00b001a045f45d49sm13354756pln.281.2023.04.28.09.02.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 09:02:57 -0700 (PDT)
+From:   Jianhua Lu <lujianhua000@gmail.com>
+To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: [PATCH] dt-bindings: leds: backlight: ktz8866: Add reg property and update example
+Date:   Sat, 29 Apr 2023 00:02:46 +0800
+Message-Id: <20230428160246.16982-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="cK/0P1/oaAarjxlI"
-Content-Disposition: inline
-In-Reply-To: <4c3bdb25-47b9-3442-860d-2c77f8e9f861@traphandler.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The kinetic,ktz8866 is a I2C driver, so add the missing reg property.
+And update example to make it clear.
 
---cK/0P1/oaAarjxlI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+ .../leds/backlight/kinetic,ktz8866.yaml       | 29 ++++++++++++-------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-On Fri 2023-04-28 14:39:20, Jean-Jacques Hiblot wrote:
-> On 28/03/2023 18:15, Jean-Jacques Hiblot wrote:
-> > Some HW design implement multicolor LEDs with several monochromatic LED=
-s.
-> > Grouping the monochromatic LEDs allows to configure them in sync and use
-> > the triggers.
-> > The PWM multicolor LED driver implements such grouping but only for
-> > PWM-based LEDs. As this feature is also desirable for the other types of
-> > LEDs, this series implements it for any kind of LED device.
-> >=20
-> > changes v7->v8:
-> >   - consistently use "LEDs group multicolor" throughout the code.
-> >   - rename some variables with more explicit names.
-> >   - improve comments.
-> >   - use the 100-characters per line limit.
-> >=20
-> Hi Lee,
->=20
-> Are there any pending items regarding this series ?
-> If not, can you consider merging it ?
+diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+index e1191453c2f0..6ec40cce3f11 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+@@ -21,6 +21,9 @@ properties:
+   compatible:
+     const: kinetic,ktz8866
+ 
++  reg:
++    maxItems: 1
++
+   vddpos-supply:
+     description: positive boost supply regulator.
+ 
+@@ -53,6 +56,7 @@ properties:
+ 
+ required:
+   - compatible
++  - reg
+   - vddpos-supply
+   - vddneg-supply
+   - enable-gpios
+@@ -63,14 +67,19 @@ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+ 
+-    backlight {
+-        compatible = "kinetic,ktz8866";
+-
+-        vddpos-supply = <&bl_vddpos_5p5>;
+-        vddneg-supply = <&bl_vddneg_5p5>;
+-        enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
+-        current-num-sinks = <5>;
+-        kinetic,current-ramp-delay-ms = <128>;
+-        kinetic,led-enable-ramp-delay-ms = <1>;
+-        kinetic,enable-lcd-bias;
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        backlight@11 {
++            compatible = "kinetic,ktz8866";
++            reg = <0x11>;
++            vddpos-supply = <&bl_vddpos_5p5>;
++            vddneg-supply = <&bl_vddneg_5p5>;
++            enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
++            current-num-sinks = <5>;
++            kinetic,current-ramp-delay-ms = <128>;
++            kinetic,led-enable-ramp-delay-ms = <1>;
++            kinetic,enable-lcd-bias;
++        };
+     };
+-- 
+2.39.2
 
-We should not be merging it in the middle of merge window... right?
-
-BR,
-								Pavel
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---cK/0P1/oaAarjxlI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZEvBIAAKCRAw5/Bqldv6
-8iKRAKCqEZ5UYhfFlhZkuJIMM/xYnaLP5wCfXg5jLM4E8YG+Y3P6luSY4pVct5E=
-=A61z
------END PGP SIGNATURE-----
-
---cK/0P1/oaAarjxlI--
