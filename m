@@ -2,137 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4956F1C27
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Apr 2023 18:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1CD6F242B
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Apr 2023 12:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjD1QDB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Apr 2023 12:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
+        id S230466AbjD2Kp5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 29 Apr 2023 06:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbjD1QDA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Apr 2023 12:03:00 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A94B2709;
-        Fri, 28 Apr 2023 09:02:59 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-64115e652eeso13597439b3a.0;
-        Fri, 28 Apr 2023 09:02:59 -0700 (PDT)
+        with ESMTP id S229507AbjD2Kp4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 Apr 2023 06:45:56 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A5F1FCD;
+        Sat, 29 Apr 2023 03:45:55 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-506b2a08877so1150534a12.2;
+        Sat, 29 Apr 2023 03:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682697779; x=1685289779;
+        d=gmail.com; s=20221208; t=1682765153; x=1685357153;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
-        b=PwjZmFWjx0l6/Cp3B6ZEV6WQ7Zx28GfcOc51v/XK+23ClDY50ePtgxT09IwNgPEopC
-         XgFev2tc3ytoXpXLsu2m7KZ5WzuFJI08T+0tRjFosmfzexucrkduyA3QGDctCx5X1sl3
-         1Enws9t3ncavnNHrV7394jQs6V2A1q0TUYUigkpb3CxG/rDvjjqvkDXW0VazHIbG+l7L
-         bkjeRYHv6/rRV69VLp7KVgFOX3e9KAbdkhb6BWIUhT/urHkwkoMdUf5v9LLm6CeLVkRr
-         z0fnVDsae2mmHQiEdZuIdHcl6LHoFqiGR5rtgFHEVb5carY4Nr9lqieW4rWV43BzLB25
-         TPPg==
+        bh=WTQTEbLPt4h9veixLWM+5ZtwRhk8Wsy+ewL1TGUe3D0=;
+        b=oH5Kvm5drzQdcOXTiqEwKZhd7EmXTc4PzAK03AaVxM3T9Y3Z4v02nzKRQw+JKmLXDa
+         hHfP3cVaROpARK80o9Px6dby16oN8U2ony8aEDqo8HHSJYrw5t9GKqy0MYpUDPsSctle
+         CB5SFrTFkL7WFcReoHDaLQ+ZnfqxjD9ApSysyxIZqU9aGCQTW2yGDXSgWl+dwsvJesdi
+         o3Ip7JbO0A3s2iZ9i4dUvZ2Whyo6X392jfNqd8+xo4TXHXLJUPAeM5t4MwR6TarTO9Uu
+         aTa8+CWtcK4O+7PvC/eVLW87vMxxlDlsx4436E1Hf3iuF1Fbl8XLaxy6kbTgA48kCq1x
+         A1gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682697779; x=1685289779;
+        d=1e100.net; s=20221208; t=1682765153; x=1685357153;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NFqCvF6zcr5bU/PC6sitkV28Z2TiIUDFVfcU6fA1uhs=;
-        b=TzyT3czTpo8LpGEnHaBuOQyA0xWNMvu1eQepYtGzzlMFaRuOKKRRctXffPVhxh3IBZ
-         5qVVjbTbm7v++leWh6PIS12G2pj1vmD6XxcatVepDVoelmB4eVeTjlSVA4D+RlWPYdqW
-         r9r/f5t4gKnkqzJwhoGoSdD4zsVnMepcBo5k5gYNKz8KsX7X4eK0iDJ6R4UCXPFxCJuq
-         5UVP9lCNq2INia9T2jsIV22Rzfsnci1VjO7s4D1TGYiUDM0RZzqiuZCH7/RhkBZtwfLA
-         rUSuEXAswbm8Vk/hGuqqWOhI+Odeoyc+lMYC7lx/PhcKXb7kQbf6IMTShGvRk/RmWHJX
-         TXeg==
-X-Gm-Message-State: AC+VfDwpcH/uD6scI98zjFCX6FCj+yfditoTyGAQ28hDKOF9Jvgp1e9B
-        4sg55r1XrmCioJZp7fd2arc=
-X-Google-Smtp-Source: ACHHUZ4n9eWm1zNiFdfRPnFXpG+pdAIxXQZgdvnrdjIN6cuRBezH8a5Vp7dwCkgu/eE23rnzdDfxEw==
-X-Received: by 2002:a17:902:dacb:b0:1a2:a904:c42e with SMTP id q11-20020a170902dacb00b001a2a904c42emr7025837plx.24.1682697778013;
-        Fri, 28 Apr 2023 09:02:58 -0700 (PDT)
-Received: from localhost.localdomain (n220246252240.netvigator.com. [220.246.252.240])
-        by smtp.gmail.com with ESMTPSA id x15-20020a170902820f00b001a045f45d49sm13354756pln.281.2023.04.28.09.02.53
+        bh=WTQTEbLPt4h9veixLWM+5ZtwRhk8Wsy+ewL1TGUe3D0=;
+        b=KJKcNnQz/K4qo840e0i52cHK5FBN8Fecfg/r38iaC5aQ3ec41FXYatMVJkW7h5Uqef
+         pbu+SDVnJCowHLQ2qSRIoayA5f5tP1KP+epa5hqXtGXhS8E0pMpYqOenUJUmxQLaGnM7
+         +Te6ogx6Nm6k8Brz346mlf8l4gKNIYAK6rJzkaXDysVtY+IT9Did4WO7qdxUIEVzFW8s
+         sBt9Zku8dav7a8BxRtX/nUivEht+t279Np1THpbq3g7dV6p0amHmfJe06VAWsRkFkzOS
+         aH4dq+O8zke96l9YJhQCeUsE1vplqIo52nI1h5tzowKOu3Dod6WhgaUx0VyOURM7tN15
+         7maQ==
+X-Gm-Message-State: AC+VfDyzEAU3nO6bLZynWFVHn/JL7bQid25mB06bP6P25V3U8zra/aWG
+        W9HUlDSCE8shR7Cym+COV9E=
+X-Google-Smtp-Source: ACHHUZ4x/Gdg5OzSrpmM9phfXhSpLi+EARAapUnJz09J7J4N94Z160t6oxkz+44oNxD3ND2gGUwSvg==
+X-Received: by 2002:aa7:d547:0:b0:4fc:709f:7abd with SMTP id u7-20020aa7d547000000b004fc709f7abdmr1241415edr.2.1682765153465;
+        Sat, 29 Apr 2023 03:45:53 -0700 (PDT)
+Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl. [83.8.115.30])
+        by smtp.gmail.com with ESMTPSA id b11-20020a056402138b00b004bd6e3ed196sm9952522edv.86.2023.04.29.03.45.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 09:02:57 -0700 (PDT)
-From:   Jianhua Lu <lujianhua000@gmail.com>
-To:     Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+        Sat, 29 Apr 2023 03:45:53 -0700 (PDT)
+From:   Artur Weber <aweber.kernel@gmail.com>
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Helge Deller <deller@gmx.de>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: [PATCH] dt-bindings: leds: backlight: ktz8866: Add reg property and update example
-Date:   Sat, 29 Apr 2023 00:02:46 +0800
-Message-Id: <20230428160246.16982-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-pwm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH 0/4] video: backlight: lp855x: modernize bindings
+Date:   Sat, 29 Apr 2023 12:45:30 +0200
+Message-Id: <20230429104534.28943-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The kinetic,ktz8866 is a I2C driver, so add the missing reg property.
-And update example to make it clear.
+Convert TI LP855X backlight controller bindings from TXT to YAML and,
+while we're at it, rework some of the code related to PWM handling.
+Also correct existing DTS files to avoid introducing new dtb_check
+errors.
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
----
- .../leds/backlight/kinetic,ktz8866.yaml       | 29 ++++++++++++-------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-index e1191453c2f0..6ec40cce3f11 100644
---- a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-@@ -21,6 +21,9 @@ properties:
-   compatible:
-     const: kinetic,ktz8866
- 
-+  reg:
-+    maxItems: 1
-+
-   vddpos-supply:
-     description: positive boost supply regulator.
- 
-@@ -53,6 +56,7 @@ properties:
- 
- required:
-   - compatible
-+  - reg
-   - vddpos-supply
-   - vddneg-supply
-   - enable-gpios
-@@ -63,14 +67,19 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
- 
--    backlight {
--        compatible = "kinetic,ktz8866";
--
--        vddpos-supply = <&bl_vddpos_5p5>;
--        vddneg-supply = <&bl_vddneg_5p5>;
--        enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
--        current-num-sinks = <5>;
--        kinetic,current-ramp-delay-ms = <128>;
--        kinetic,led-enable-ramp-delay-ms = <1>;
--        kinetic,enable-lcd-bias;
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        backlight@11 {
-+            compatible = "kinetic,ktz8866";
-+            reg = <0x11>;
-+            vddpos-supply = <&bl_vddpos_5p5>;
-+            vddneg-supply = <&bl_vddneg_5p5>;
-+            enable-gpios = <&tlmm 139 GPIO_ACTIVE_HIGH>;
-+            current-num-sinks = <5>;
-+            kinetic,current-ramp-delay-ms = <128>;
-+            kinetic,led-enable-ramp-delay-ms = <1>;
-+            kinetic,enable-lcd-bias;
-+        };
-     };
+Artur Weber (4):
+  dt-bindings: backlight: lp855x: convert to YAML and modernize
+  video: backlight: lp855x: get PWM for PWM mode during probe
+  ARM: dts: adapt to LP855X bindings changes
+  arm64: dts: adapt to LP855X bindings changes
+
+ .../leds/backlight/lp855x-backlight.yaml      | 148 ++++++++++++++++++
+ .../bindings/leds/backlight/lp855x.txt        |  72 ---------
+ .../dts/qcom-apq8026-samsung-matisse-wifi.dts |   1 -
+ ...-msm8974pro-sony-xperia-shinano-castor.dts |  23 +--
+ .../boot/dts/nvidia/tegra210-p2371-2180.dts   |   6 +-
+ drivers/video/backlight/lp855x_bl.c           |  48 +++---
+ 6 files changed, 188 insertions(+), 110 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x.txt
+
+
+base-commit: e154a338e16cc3b3bbd54c891253319d22383746
 -- 
-2.39.2
+2.40.1
 
