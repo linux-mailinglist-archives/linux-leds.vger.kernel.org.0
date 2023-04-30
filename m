@@ -2,107 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC1B46F2A8D
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Apr 2023 22:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AB1F6F2B67
+	for <lists+linux-leds@lfdr.de>; Mon,  1 May 2023 00:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjD3UBo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Apr 2023 16:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
+        id S231223AbjD3Wmh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Apr 2023 18:42:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230319AbjD3UBg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Apr 2023 16:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AFCEE4E
-        for <linux-leds@vger.kernel.org>; Sun, 30 Apr 2023 13:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682884811;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ccPhiSeQxMca4c8tEuubKQRV3y9ln8JSCpI2EtQe6gI=;
-        b=aqgkGmcK9n/L6NKQg+QBQEAQw9WBDQLTrmDVxMItDCUsP+PSk07zQmoxxuMCKwNJ0j1vM3
-        FfRWPPPyzcRVTZoR8u2/Jq9/f4JOhptuoFMTnIlhf6Rq7QfVLdfOh/DJpizn5gWJxd4BOF
-        KRJMVcc46BIyHRPckeTM7Gw5OwcIxrg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-MzT_7wgdNYCCTzjDJ2jBlA-1; Sun, 30 Apr 2023 16:00:07 -0400
-X-MC-Unique: MzT_7wgdNYCCTzjDJ2jBlA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 566E9185A790;
-        Sun, 30 Apr 2023 20:00:07 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 737EDC15BA0;
-        Sun, 30 Apr 2023 20:00:06 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>, linux-leds@vger.kernel.org
-Subject: [PATCH v3 5/5] leds: cht-wcove: Use breathing when LED_INIT_DEFAULT_TRIGGER is set
-Date:   Sun, 30 Apr 2023 21:59:52 +0200
-Message-Id: <20230430195952.862527-6-hdegoede@redhat.com>
-In-Reply-To: <20230430195952.862527-1-hdegoede@redhat.com>
-References: <20230430195952.862527-1-hdegoede@redhat.com>
+        with ESMTP id S229659AbjD3Wmg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Apr 2023 18:42:36 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A83C1A6;
+        Sun, 30 Apr 2023 15:42:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=IUE5amqL9BucAB7kjVHcdUTO9lbn54HNTdXpB2O3GWo=; b=S5G4muzsQiNHompW+/7NLfCi/j
+        a1S/2mXy0uwc0m2pZSf/OvblklkSFzoQNL9rCj6Q21uM4CqsPKPDA+5xQTuYV0T27F5q19uwMmzDf
+        WYBhCwtFMjSUkxndoLQJoFsViJ0BSq/G196+VTFiPeNYZ/Z33GjdA0kQ3HKGT33Ui2h4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1ptFkJ-00BZoa-Fk; Mon, 01 May 2023 00:42:19 +0200
+Date:   Mon, 1 May 2023 00:42:19 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 05/11] leds: trigger: netdev: introduce validating
+ requested mode
+Message-ID: <43f6a729-7003-4d52-b806-964dec4f9447@lunn.ch>
+References: <20230427001541.18704-1-ansuelsmth@gmail.com>
+ <20230427001541.18704-6-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230427001541.18704-6-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The desired default behavior of LED1 / the charge LED is breathing
-while charging and on/solid when full. Since triggers cannot select
-breathing, blink_set() gets called when charging. Use breathing
-when the default "charging-blink-full-solid" trigger is used to
-achieve the desired default behavior.
+> @@ -168,7 +174,7 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
+>  				     size_t size, enum led_trigger_netdev_modes attr)
+>  {
+>  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> -	unsigned long state;
+> +	unsigned long state, new_mode = trigger_data->mode;
+>  	int ret;
+>  	int bit;
+>  
+> @@ -186,12 +192,18 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
+>  		return -EINVAL;
+>  	}
+>  
+> -	cancel_delayed_work_sync(&trigger_data->work);
+> -
+>  	if (state)
+> -		set_bit(bit, &trigger_data->mode);
+> +		set_bit(bit, &new_mode);
+>  	else
+> -		clear_bit(bit, &trigger_data->mode);
+> +		clear_bit(bit, &new_mode);
+> +
+> +	ret = validate_requested_mode(trigger_data, new_mode);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cancel_delayed_work_sync(&trigger_data->work);
+> +
+> +	trigger_data->mode = new_mode;
+>  
+>  	set_baseline_state(trigger_data);
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v3:
-- Also set on/off delay to 1000 so that we get a slow breathing effect,
-  this counter-acts the v2 cht_wc_leds_set_effect() change changing
-  the default delays from 1000 to 500
----
- drivers/leds/leds-cht-wcove.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+I think you need to hold the trigger_data lock here, otherwise there
+are potential race conditions.
 
-diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-index ee9fb4bee018..0cfebee98910 100644
---- a/drivers/leds/leds-cht-wcove.c
-+++ b/drivers/leds/leds-cht-wcove.c
-@@ -270,7 +270,21 @@ static int cht_wc_leds_blink_set(struct led_classdev *cdev,
- 				 unsigned long *delay_on,
- 				 unsigned long *delay_off)
- {
--	return cht_wc_leds_set_effect(cdev, delay_on, delay_off, CHT_WC_LED_EFF_BLINKING);
-+	u8 effect = CHT_WC_LED_EFF_BLINKING;
-+
-+	/*
-+	 * The desired default behavior of LED1 / the charge LED is breathing
-+	 * while charging and on/solid when full. Since triggers cannot select
-+	 * breathing, blink_set() gets called when charging. Use slow breathing
-+	 * when the default "charging-blink-full-solid" trigger is used to
-+	 * achieve the desired default behavior.
-+	 */
-+	if (cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
-+		*delay_on = *delay_off = 1000;
-+		effect = CHT_WC_LED_EFF_BREATHING;
-+	}
-+
-+	return cht_wc_leds_set_effect(cdev, delay_on, delay_off, effect);
- }
- 
- static int cht_wc_leds_pattern_set(struct led_classdev *cdev,
--- 
-2.39.2
-
+    Andrew
