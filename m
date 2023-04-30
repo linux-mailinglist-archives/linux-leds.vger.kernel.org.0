@@ -2,49 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BA4F6F2A8B
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Apr 2023 22:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D54A6F2A8A
+	for <lists+linux-leds@lfdr.de>; Sun, 30 Apr 2023 22:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjD3UA7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Apr 2023 16:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
+        id S229788AbjD3UA6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Apr 2023 16:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbjD3UA6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Apr 2023 16:00:58 -0400
+        with ESMTP id S231131AbjD3UA5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Apr 2023 16:00:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59D5E47
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F3BE45
         for <linux-leds@vger.kernel.org>; Sun, 30 Apr 2023 13:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682884809;
+        s=mimecast20190719; t=1682884808;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=KNo1S+xdE4zW7WLOikSpF7IKsrkn8JFnjLjPWGcoGpA=;
-        b=DpSSgV0xg0lh0s2uAgDBVt3jDtKG08qLpX/7+FLeXgw1pM6t5fHMyNy1nF/FIcY+6IwmVn
-        +S7xIKAc/Ra1WNBnwQA1rxo4+da5qHgr4AU/k8hOS5TQstmvr6M7BzzA1gBdgrCFwFEMmZ
-        fsFD2RQ95y17O2dlKX6NJgYWz90DdHo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=hr2PHum63fe/9khUa+j7FghLfPpLZRFIPFxlmdxODG0=;
+        b=B8Ii1mBIbSfe4rz13NkVmNTqMaSV3iiKTMyYlffh2Emzojfypaww7mraBXDOck8BRSvh2Q
+        0IeWSzgyyY0dDtnsuvK2sZ2/jzQChVZY9hr4x7roKLYpsjHlVCC3cRtd2OtA8JDCvS9lOc
+        8QrQvR/WEYa8WmREsHzVhe7elDVT7wY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-XUZDrYNTOwiIx0sBsLEobw-1; Sun, 30 Apr 2023 16:00:03 -0400
-X-MC-Unique: XUZDrYNTOwiIx0sBsLEobw-1
+ us-mta-163-MAB0eVSYNb-Suk_AnQx8jQ-1; Sun, 30 Apr 2023 16:00:04 -0400
+X-MC-Unique: MAB0eVSYNb-Suk_AnQx8jQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB5A085C1A5;
-        Sun, 30 Apr 2023 20:00:02 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0EAF93C0DDB2;
+        Sun, 30 Apr 2023 20:00:04 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0E9AEC15BA0;
-        Sun, 30 Apr 2023 20:00:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 29272C15BA0;
+        Sun, 30 Apr 2023 20:00:03 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Yauhen Kharuzhy <jekhor@gmail.com>, linux-leds@vger.kernel.org
-Subject: [PATCH v3 1/5] leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver
-Date:   Sun, 30 Apr 2023 21:59:48 +0200
-Message-Id: <20230430195952.862527-2-hdegoede@redhat.com>
+Subject: [PATCH v3 2/5] leds: cht-wcove: Add suspend/resume handling
+Date:   Sun, 30 Apr 2023 21:59:49 +0200
+Message-Id: <20230430195952.862527-3-hdegoede@redhat.com>
 In-Reply-To: <20230430195952.862527-1-hdegoede@redhat.com>
 References: <20230430195952.862527-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -60,482 +60,88 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Yauhen Kharuzhy <jekhor@gmail.com>
+When LED1 is showing the tablet is charging and then the device gets
+suspended followed by unplugging the charger, then it will incorrectly
+still show it is charging.
 
-Add support for LEDs connected to the Intel Cherry Trail Whiskey Cove
-PMIC. Charger and general-purpose LEDs are supported. Hardware blinking
-is implemented, breathing is not.
+To avoid this turn both LEDs off on suspend, just like the PMIC always
+turns them off when the tablet is powered off (even if the tablet is
+charging). If hw-control is supported for LED1, then restore the
+initial hw-control settings to let the hw control LED1 while suspended.
 
-This driver was tested with Lenovo Yoga Book notebook.
+To restore the state the LEDs had before suspending, save it before
+turning the LEDs off and restore it on resume.
 
-Changes by Hans de Goede (in response to review of v2):
-- Since the PMIC is connected to the battery any changes we make to
-  the LED settings are permanent, even surviving reboot / poweroff.
-  Save LED1 register settings on probe() and if auto-/hw-control was
-  enabled on probe() restore the settings on remove() and shutdown().
-- Delay switching LED1 to software control mode to first brightness write.
-- Use dynamically allocated drvdata instead of a global drvdata variable.
-- Ensure the LED is on when activating blinking.
-- Fix CHT_WC_LED_EFF_BREATHING val ((3 << 1) rather then BIT(3)).
-
-Link: https://lore.kernel.org/r/20190212205901.13037-2-jekhor@gmail.com
-Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v3:
-- Some comment tweaks and s/LED_OFF/0/
-- Refuse to load on the Yoga Tab 3 as it turns out the LED1 driver output
-  is connected to a haptic feedback motor there (and LED2 is unused)
+ drivers/leds/leds-cht-wcove.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-Changes in v2:
-- Update comment about YB1 kernel source usage for register info
-- Replace "cht-wc::" LED name prefix with "platform::"
-- Add leds-cht-wcove to list of drivers using "platform::charging" in
-  Documentation/leds/well-known-leds.txt
-- Bail from cht_wc_leds_brightness_set() on first error
-- Make default blink 1Hz, like sw-blink default blink
----
- Documentation/leds/well-known-leds.txt |   2 +-
- drivers/leds/Kconfig                   |  11 +
- drivers/leds/Makefile                  |   1 +
- drivers/leds/leds-cht-wcove.c          | 380 +++++++++++++++++++++++++
- 4 files changed, 393 insertions(+), 1 deletion(-)
- create mode 100644 drivers/leds/leds-cht-wcove.c
-
-diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
-index 2160382c86be..7640debee6c0 100644
---- a/Documentation/leds/well-known-leds.txt
-+++ b/Documentation/leds/well-known-leds.txt
-@@ -65,7 +65,7 @@ Phones usually have multi-color status LED.
- 
- * Power management
- 
--Good: "platform:*:charging" (allwinner sun50i)
-+Good: "platform:*:charging" (allwinner sun50i, leds-cht-wcove)
- 
- * Screen
- 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 9dbce09eabac..90835716f14a 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -122,6 +122,17 @@ config LEDS_BCM6358
- 	  This option enables support for LEDs connected to the BCM6358
- 	  LED HW controller accessed via MMIO registers.
- 
-+config LEDS_CHT_WCOVE
-+	tristate "LED support for Intel Cherry Trail Whiskey Cove PMIC"
-+	depends on LEDS_CLASS
-+	depends on INTEL_SOC_PMIC_CHTWC
-+	help
-+	  This option enables support for charger and general purpose LEDs
-+	  connected to the Intel Cherrytrail Whiskey Cove PMIC.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-cht-wcove.
-+
- config LEDS_CPCAP
- 	tristate "LED Support for Motorola CPCAP"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index d30395d11fd8..78b5b69f9c54 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
- obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
- obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
- obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
-+obj-$(CONFIG_LEDS_CHT_WCOVE)		+= leds-cht-wcove.o
- obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
- obj-$(CONFIG_LEDS_COBALT_QUBE)		+= leds-cobalt-qube.o
- obj-$(CONFIG_LEDS_COBALT_RAQ)		+= leds-cobalt-raq.o
 diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-new file mode 100644
-index 000000000000..9fe76a0c62c8
---- /dev/null
+index 9fe76a0c62c8..166b140e132a 100644
+--- a/drivers/leds/leds-cht-wcove.c
 +++ b/drivers/leds/leds-cht-wcove.c
-@@ -0,0 +1,380 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for LEDs connected to the Intel Cherry Trail Whiskey Cove PMIC
-+ *
-+ * Copyright 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-+ * Copyright 2023 Hans de Goede <hansg@kernel.org>
-+ *
-+ * Register info comes from the Lenovo Yoga Book Android opensource code
-+ * available from Lenovo. File lenovo_yb1_x90f_l_osc_201803.7z path in the 7z:
-+ * YB1_source_code/kernel/cht/drivers/misc/charger_gp_led.c
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/leds.h>
-+#include <linux/mfd/intel_soc_pmic.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define CHT_WC_LED1_CTRL		0x5e1f
-+#define CHT_WC_LED1_FSM			0x5e20
-+#define CHT_WC_LED1_PWM			0x5e21
-+
-+#define CHT_WC_LED2_CTRL		0x4fdf
-+#define CHT_WC_LED2_FSM			0x4fe0
-+#define CHT_WC_LED2_PWM			0x4fe1
-+
-+#define CHT_WC_LED1_SWCTL		BIT(0)		/* HW or SW control of charging led */
-+#define CHT_WC_LED1_ON			BIT(1)
-+
-+#define CHT_WC_LED2_ON			BIT(0)
-+#define CHT_WC_LED_I_MA2_5		(2 << 2)	/* LED current limit */
-+#define CHT_WC_LED_I_MASK		GENMASK(3, 2)	/* LED current limit mask */
-+
-+#define CHT_WC_LED_F_1_4_HZ		(0 << 4)
-+#define CHT_WC_LED_F_1_2_HZ		(1 << 4)
-+#define CHT_WC_LED_F_1_HZ		(2 << 4)
-+#define CHT_WC_LED_F_2_HZ		(3 << 4)
-+#define CHT_WC_LED_F_MASK		GENMASK(5, 4)
-+
-+#define CHT_WC_LED_EFF_OFF		(0 << 1)
-+#define CHT_WC_LED_EFF_ON		(1 << 1)
-+#define CHT_WC_LED_EFF_BLINKING		(2 << 1)
-+#define CHT_WC_LED_EFF_BREATHING	(3 << 1)
-+#define CHT_WC_LED_EFF_MASK		GENMASK(2, 1)
-+
-+#define CHT_WC_LED_COUNT		2
-+
-+struct cht_wc_led_regs {
-+	/* Register addresses */
-+	u16 ctrl;
-+	u16 fsm;
-+	u16 pwm;
-+	/* Mask + values for turning the LED on/off */
-+	u8 on_off_mask;
-+	u8 on_val;
-+	u8 off_val;
-+};
-+
-+struct cht_wc_led_saved_regs {
-+	unsigned int ctrl;
-+	unsigned int fsm;
-+	unsigned int pwm;
-+};
-+
-+struct cht_wc_led {
-+	struct led_classdev cdev;
-+	const struct cht_wc_led_regs *regs;
-+	struct regmap *regmap;
-+	struct mutex mutex;
-+};
-+
-+struct cht_wc_leds {
-+	struct cht_wc_led leds[CHT_WC_LED_COUNT];
-+	/* Saved LED1 initial register values */
-+	struct cht_wc_led_saved_regs led1_initial_regs;
-+};
-+
-+static const struct cht_wc_led_regs cht_wc_led_regs[CHT_WC_LED_COUNT] = {
-+	{
-+		.ctrl		= CHT_WC_LED1_CTRL,
-+		.fsm		= CHT_WC_LED1_FSM,
-+		.pwm		= CHT_WC_LED1_PWM,
-+		.on_off_mask	= CHT_WC_LED1_SWCTL | CHT_WC_LED1_ON,
-+		.on_val		= CHT_WC_LED1_SWCTL | CHT_WC_LED1_ON,
-+		.off_val	= CHT_WC_LED1_SWCTL,
-+	},
-+	{
-+		.ctrl		= CHT_WC_LED2_CTRL,
-+		.fsm		= CHT_WC_LED2_FSM,
-+		.pwm		= CHT_WC_LED2_PWM,
-+		.on_off_mask	= CHT_WC_LED2_ON,
-+		.on_val		= CHT_WC_LED2_ON,
-+		.off_val	= 0,
-+	},
-+};
-+
-+static const char * const cht_wc_leds_names[CHT_WC_LED_COUNT] = {
-+	"platform::" LED_FUNCTION_CHARGING,
-+	"platform::" LED_FUNCTION_INDICATOR,
-+};
-+
-+static int cht_wc_leds_brightness_set(struct led_classdev *cdev,
-+				      enum led_brightness value)
+@@ -17,6 +17,7 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
++#include <linux/suspend.h>
+ 
+ #define CHT_WC_LED1_CTRL		0x5e1f
+ #define CHT_WC_LED1_FSM			0x5e20
+@@ -69,6 +70,7 @@ struct cht_wc_led {
+ 	const struct cht_wc_led_regs *regs;
+ 	struct regmap *regmap;
+ 	struct mutex mutex;
++	struct cht_wc_led_saved_regs saved_regs;
+ };
+ 
+ struct cht_wc_leds {
+@@ -364,12 +366,43 @@ static void cht_wc_leds_disable(struct platform_device *pdev)
+ 		cht_wc_led_restore_regs(&leds->leds[0], &leds->led1_initial_regs);
+ }
+ 
++/* On suspend save current settings and turn LEDs off */
++static int cht_wc_leds_suspend(struct device *dev)
 +{
-+	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
-+	int ret;
-+
-+	mutex_lock(&led->mutex);
-+
-+	if (!value) {
-+		ret = regmap_update_bits(led->regmap, led->regs->ctrl,
-+					 led->regs->on_off_mask, led->regs->off_val);
-+		if (ret < 0) {
-+			dev_err(cdev->dev, "Failed to turn off: %d\n", ret);
-+			goto out;
-+		}
-+
-+		/* Disable HW blinking */
-+		ret = regmap_update_bits(led->regmap, led->regs->fsm,
-+					 CHT_WC_LED_EFF_MASK, CHT_WC_LED_EFF_ON);
-+		if (ret < 0)
-+			dev_err(cdev->dev, "Failed to update LED FSM reg: %d\n", ret);
-+	} else {
-+		ret = regmap_write(led->regmap, led->regs->pwm, value);
-+		if (ret < 0) {
-+			dev_err(cdev->dev, "Failed to set brightness: %d\n", ret);
-+			goto out;
-+		}
-+
-+		ret = regmap_update_bits(led->regmap, led->regs->ctrl,
-+					 led->regs->on_off_mask, led->regs->on_val);
-+		if (ret < 0)
-+			dev_err(cdev->dev, "Failed to turn on: %d\n", ret);
-+	}
-+out:
-+	mutex_unlock(&led->mutex);
-+	return ret;
-+}
-+
-+enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
-+{
-+	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
-+	unsigned int val;
-+	int ret;
-+
-+	mutex_lock(&led->mutex);
-+
-+	ret = regmap_read(led->regmap, led->regs->ctrl, &val);
-+	if (ret < 0) {
-+		dev_err(cdev->dev, "Failed to read LED CTRL reg: %d\n", ret);
-+		ret = 0;
-+		goto done;
-+	}
-+
-+	val &= led->regs->on_off_mask;
-+	if (val != led->regs->on_val) {
-+		ret = 0;
-+		goto done;
-+	}
-+
-+	ret = regmap_read(led->regmap, led->regs->pwm, &val);
-+	if (ret < 0) {
-+		dev_err(cdev->dev, "Failed to read LED PWM reg: %d\n", ret);
-+		ret = 0;
-+		goto done;
-+	}
-+
-+	ret = val;
-+done:
-+	mutex_unlock(&led->mutex);
-+
-+	return ret;
-+}
-+
-+/* Return blinking period for given CTRL reg value */
-+static unsigned long cht_wc_leds_get_period(int ctrl)
-+{
-+	ctrl &= CHT_WC_LED_F_MASK;
-+
-+	switch (ctrl) {
-+	case CHT_WC_LED_F_1_4_HZ:
-+		return 1000 * 4;
-+	case CHT_WC_LED_F_1_2_HZ:
-+		return 1000 * 2;
-+	case CHT_WC_LED_F_1_HZ:
-+		return 1000;
-+	case CHT_WC_LED_F_2_HZ:
-+		return 1000 / 2;
-+	};
-+
-+	return 0;
-+}
-+
-+/*
-+ * Find suitable hardware blink mode for given period.
-+ * period < 750 ms - select 2 HZ
-+ * 750 ms <= period < 1500 ms - select 1 HZ
-+ * 1500 ms <= period < 3000 ms - select 1/2 HZ
-+ * 3000 ms <= period < 5000 ms - select 1/4 HZ
-+ * 5000 ms <= period - return -1
-+ */
-+static int cht_wc_leds_find_freq(unsigned long period)
-+{
-+	if (period < 750)
-+		return CHT_WC_LED_F_2_HZ;
-+	else if (period < 1500)
-+		return CHT_WC_LED_F_1_HZ;
-+	else if (period < 3000)
-+		return CHT_WC_LED_F_1_2_HZ;
-+	else if (period < 5000)
-+		return CHT_WC_LED_F_1_4_HZ;
-+	else
-+		return -1;
-+}
-+
-+static int cht_wc_leds_blink_set(struct led_classdev *cdev,
-+				 unsigned long *delay_on,
-+				 unsigned long *delay_off)
-+{
-+	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
-+	unsigned int ctrl;
-+	int ret;
-+
-+	mutex_lock(&led->mutex);
-+
-+	/* Blink with 1 Hz as default if nothing specified */
-+	if (!*delay_on && !*delay_off)
-+		*delay_on = *delay_off = 500;
-+
-+	ctrl = cht_wc_leds_find_freq(*delay_on + *delay_off);
-+	if (ctrl < 0) {
-+		/* Disable HW blinking */
-+		ret = regmap_update_bits(led->regmap, led->regs->fsm,
-+					 CHT_WC_LED_EFF_MASK, CHT_WC_LED_EFF_ON);
-+		if (ret < 0)
-+			dev_err(cdev->dev, "Failed to update LED FSM reg: %d\n", ret);
-+
-+		/* Fallback to software timer */
-+		*delay_on = *delay_off = 0;
-+		ret = -EINVAL;
-+		goto done;
-+	}
-+
-+	ret = regmap_update_bits(led->regmap, led->regs->fsm,
-+				 CHT_WC_LED_EFF_MASK, CHT_WC_LED_EFF_BLINKING);
-+	if (ret < 0)
-+		dev_err(cdev->dev, "Failed to update LED FSM reg: %d\n", ret);
-+
-+	/* Set the frequency and make sure the LED is on */
-+	ret = regmap_update_bits(led->regmap, led->regs->ctrl,
-+				 CHT_WC_LED_F_MASK | led->regs->on_off_mask,
-+				 ctrl | led->regs->on_val);
-+	if (ret < 0)
-+		dev_err(cdev->dev, "Failed to update LED CTRL reg: %d\n", ret);
-+
-+	*delay_off = *delay_on = cht_wc_leds_get_period(ctrl) / 2;
-+
-+done:
-+	mutex_unlock(&led->mutex);
-+
-+	return ret;
-+}
-+
-+static int cht_wc_led_save_regs(struct cht_wc_led *led,
-+				struct cht_wc_led_saved_regs *saved_regs)
-+{
-+	int ret;
-+
-+	ret = regmap_read(led->regmap, led->regs->ctrl, &saved_regs->ctrl);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_read(led->regmap, led->regs->fsm, &saved_regs->fsm);
-+	if (ret < 0)
-+		return ret;
-+
-+	return regmap_read(led->regmap, led->regs->pwm, &saved_regs->pwm);
-+}
-+
-+static void cht_wc_led_restore_regs(struct cht_wc_led *led,
-+				    const struct cht_wc_led_saved_regs *saved_regs)
-+{
-+	regmap_write(led->regmap, led->regs->ctrl, saved_regs->ctrl);
-+	regmap_write(led->regmap, led->regs->fsm, saved_regs->fsm);
-+	regmap_write(led->regmap, led->regs->pwm, saved_regs->pwm);
-+}
-+
-+static int cht_wc_leds_probe(struct platform_device *pdev)
-+{
-+	struct intel_soc_pmic *pmic = dev_get_drvdata(pdev->dev.parent);
-+	struct cht_wc_leds *leds;
-+	int ret;
-+	int i;
-+
-+	/*
-+	 * On the Lenovo Yoga Tab 3 the LED1 driver output is actually
-+	 * connected to a haptic feedback motor rather then a LED.
-+	 * So do not register a LED classdev there (LED2 is unused).
-+	 */
-+	if (pmic->cht_wc_model == INTEL_CHT_WC_LENOVO_YT3_X90)
-+		return -ENODEV;
-+
-+	leds = devm_kzalloc(&pdev->dev, sizeof(*leds), GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	/*
-+	 * LED1 might be in hw-controlled mode when this driver gets loaded; and
-+	 * since the PMIC is always powered by the battery any changes made are
-+	 * permanent. Save LED1 regs to restore them on remove() or shutdown().
-+	 */
-+	leds->leds[0].regs = &cht_wc_led_regs[0];
-+	leds->leds[0].regmap = pmic->regmap;
-+	ret = cht_wc_led_save_regs(&leds->leds[0], &leds->led1_initial_regs);
-+	if (ret < 0)
-+		return ret;
++	struct cht_wc_leds *leds = dev_get_drvdata(dev);
++	int i, ret;
 +
 +	for (i = 0; i < CHT_WC_LED_COUNT; i++) {
-+		struct cht_wc_led *led = &leds->leds[i];
-+
-+		led->regs = &cht_wc_led_regs[i];
-+		led->regmap = pmic->regmap;
-+		mutex_init(&led->mutex);
-+		led->cdev.name = cht_wc_leds_names[i];
-+		led->cdev.brightness_set_blocking = cht_wc_leds_brightness_set;
-+		led->cdev.brightness_get = cht_wc_leds_brightness_get;
-+		led->cdev.blink_set = cht_wc_leds_blink_set;
-+		led->cdev.max_brightness = 255;
-+
-+		ret = led_classdev_register(&pdev->dev, &led->cdev);
++		ret = cht_wc_led_save_regs(&leds->leds[i], &leds->leds[i].saved_regs);
 +		if (ret < 0)
 +			return ret;
 +	}
 +
-+	platform_set_drvdata(pdev, leds);
++	cht_wc_leds_disable(to_platform_device(dev));
 +	return 0;
 +}
 +
-+static void cht_wc_leds_remove(struct platform_device *pdev)
++/* On resume restore the saved settings */
++static int cht_wc_leds_resume(struct device *dev)
 +{
-+	struct cht_wc_leds *leds = platform_get_drvdata(pdev);
++	struct cht_wc_leds *leds = dev_get_drvdata(dev);
 +	int i;
 +
 +	for (i = 0; i < CHT_WC_LED_COUNT; i++)
-+		led_classdev_unregister(&leds->leds[i].cdev);
++		cht_wc_led_restore_regs(&leds->leds[i], &leds->leds[i].saved_regs);
 +
-+	/* Restore LED1 regs if hw-control was active else leave LED1 off */
-+	if (!(leds->led1_initial_regs.ctrl & CHT_WC_LED1_SWCTL))
-+		cht_wc_led_restore_regs(&leds->leds[0], &leds->led1_initial_regs);
++	return 0;
 +}
 +
-+static void cht_wc_leds_disable(struct platform_device *pdev)
-+{
-+	struct cht_wc_leds *leds = platform_get_drvdata(pdev);
-+	int i;
++static DEFINE_SIMPLE_DEV_PM_OPS(cht_wc_leds_pm, cht_wc_leds_suspend, cht_wc_leds_resume);
 +
-+	for (i = 0; i < CHT_WC_LED_COUNT; i++)
-+		cht_wc_leds_brightness_set(&leds->leds[i].cdev, 0);
-+
-+	/* Restore LED1 regs if hw-control was active else leave LED1 off */
-+	if (!(leds->led1_initial_regs.ctrl & CHT_WC_LED1_SWCTL))
-+		cht_wc_led_restore_regs(&leds->leds[0], &leds->led1_initial_regs);
-+}
-+
-+static struct platform_driver cht_wc_leds_driver = {
-+	.probe = cht_wc_leds_probe,
-+	.remove_new = cht_wc_leds_remove,
-+	.shutdown = cht_wc_leds_disable,
-+	.driver = {
-+		.name = "cht_wcove_leds",
-+	},
-+};
-+module_platform_driver(cht_wc_leds_driver);
-+
-+MODULE_ALIAS("platform:cht_wcove_leds");
-+MODULE_DESCRIPTION("Intel Cherry Trail Whiskey Cove PMIC LEDs driver");
-+MODULE_AUTHOR("Yauhen Kharuzhy <jekhor@gmail.com>");
-+MODULE_LICENSE("GPL");
+ static struct platform_driver cht_wc_leds_driver = {
+ 	.probe = cht_wc_leds_probe,
+ 	.remove_new = cht_wc_leds_remove,
+ 	.shutdown = cht_wc_leds_disable,
+ 	.driver = {
+ 		.name = "cht_wcove_leds",
++		.pm = pm_sleep_ptr(&cht_wc_leds_pm),
+ 	},
+ };
+ module_platform_driver(cht_wc_leds_driver);
 -- 
 2.39.2
 
