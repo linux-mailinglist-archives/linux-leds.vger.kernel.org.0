@@ -2,63 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A05F36F9157
-	for <lists+linux-leds@lfdr.de>; Sat,  6 May 2023 13:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5F6D6F9A9B
+	for <lists+linux-leds@lfdr.de>; Sun,  7 May 2023 19:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbjEFLA0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 6 May 2023 07:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
+        id S231686AbjEGRcN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 7 May 2023 13:32:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231553AbjEFLA0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 May 2023 07:00:26 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25A9659D7
-        for <linux-leds@vger.kernel.org>; Sat,  6 May 2023 04:00:25 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id 4fb4d7f45d1cf-50b383222f7so4112246a12.3
-        for <linux-leds@vger.kernel.org>; Sat, 06 May 2023 04:00:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683370823; x=1685962823;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4jTliqUkmhKiwNzwktrQ9SUvY0HMDiN7hYUlvaA9PWE=;
-        b=enapkLbbhTBO9AJZzeiKG/djW75yasJ3J89fRLo8GEgjZkwVT3qZGOmTRT8baWF9L0
-         XjYFbZGrmX2+gnQgwx+FPs2zjjrhLbTIqyL2ByhyFtHbU71UREGIX+YgY/JcWL4xTJIn
-         /NawaiFm8nklDLURfOYCFnCPQJcu9ShNku9X6ZHX2b8YpcJqS0NQCvh2NvDDctfyAsdA
-         +TlcQByCAqi0EaM9krDuOkDm7+sNg6QMROP9EN5Je6DgNdZVdidShKlhA2JYrzgcUWCn
-         SZRdaTMCNZcPlltluYkjWDG69trT8Klmu0ToNV4J2es/3Mvvl08iSOScQyBKIZJLbSo/
-         gzxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683370823; x=1685962823;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4jTliqUkmhKiwNzwktrQ9SUvY0HMDiN7hYUlvaA9PWE=;
-        b=a20Tg/RX91mwfRRVkvsvSt6W3eXvHOWQngdWULX3gI0oh8rx7L/7QgVvMYK9CpKDB9
-         Uh7VovU9KJwKTeATTAaRjmIGHVE5FjEJalKQvm5ZRpEGGmegEsKJVZDDcboP4M1CwEua
-         utB37MWiTCYcYlKWpdX5HEg3d0zXipU8ao/6JYNy6tQgKJMsApy4clpymez571b1QqfK
-         8EmYMGY1i+6mcXPWBH8QjDUdHRdyFF6yHHolhM1r2m2Ma6MUxbqDH5mRX7E4FKkSnKwD
-         FzGej8znVfFcP1c5KTU4Be1ek15ZFZWKL2K+ONOHtPQaEKkHBUvYDne6YfX4jchJwDkY
-         WUJw==
-X-Gm-Message-State: AC+VfDwT1iyEisbH/fDlRrlONDLQL7m0DY2XhtxFQXymCko774tDtQMI
-        s/4hI8RXiZwlObzkZRnWF+YRD8E/X5XsnIgwuW0=
-X-Google-Smtp-Source: ACHHUZ7ugXWpz0wYD000wciGSwTtaEAmkaw2w6uG+p+mu4OvF/Bf9yGHFR29K5znTorWs2fomLAMCLMa0EtUuUyrslg=
-X-Received: by 2002:a17:907:1c23:b0:966:2984:3da0 with SMTP id
- nc35-20020a1709071c2300b0096629843da0mr313810ejc.63.1683370823232; Sat, 06
- May 2023 04:00:23 -0700 (PDT)
+        with ESMTP id S231771AbjEGRcG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 May 2023 13:32:06 -0400
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91DFC9018
+        for <linux-leds@vger.kernel.org>; Sun,  7 May 2023 10:32:03 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QDs144nl0z9sTS;
+        Sun,  7 May 2023 19:31:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanvanassche.be;
+        s=MBO0001; t=1683480712;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=RQPVnOmT5Rx6sI76v3BMcGlgaIUBrNyVx3grvraWAAE=;
+        b=mArWJN/XkWGwWEminCzDSpCuEYz3WmdnYbQch6QNsnn5d/AJsz4sGEOWyHD8Rr2erguK4f
+        te9rOhRgpcPlhl6P/anviRThQ7J+hkEOsMenVTU6MGu/VboJu2nqFJm0a5OCP8qXu4KEBI
+        q4mtiR/qTzMfyCoJ0qW0Pft394kBxeqzcrasWUNBdomM9s8AGAvz0KegHs20+aL6km6fDd
+        hfsZve6VNxAcuaRo2Hj8vC3suHfYoxT2B1C6MHfdJ/SzCLWil/CxWWgMvs+x0HrX1o3t+5
+        idPs0lUsFQriX3hJV+EeuBZaaaaY8enWOKOcxdtZxSbhHzMaeCcr29PFedkxJA==
+From:   Dylan Van Assche <me@dylanvanassche.be>
+To:     pavel@ucw.cz, quic_fenglinw@quicinc.com, lee@kernel.org
+Cc:     trix@redhat.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Dylan Van Assche <me@dylanvanassche.be>
+Subject: [PATCH 0/2] leds: flash: leds-qcom-flash: add PMI8998 support
+Date:   Sun,  7 May 2023 19:29:39 +0200
+Message-Id: <20230507172941.364852-1-me@dylanvanassche.be>
 MIME-Version: 1.0
-Sender: muhammadfatimah2003@gmail.com
-Received: by 2002:a05:6f02:122:b0:4a:b9be:1370 with HTTP; Sat, 6 May 2023
- 04:00:20 -0700 (PDT)
-From:   "Mrs. Margaret Christopher" <mrsmargaretchristopher001@gmail.com>
-Date:   Sat, 6 May 2023 05:00:20 -0600
-X-Google-Sender-Auth: 1UFGVkwM4jrwYjZms1a9_1Afpvw
-Message-ID: <CAOkfcune26djrZvYDx4O6knSDiG2bkiMMy1BP309Gfgit1gdhw@mail.gmail.com>
-Subject: Humanitarian Project For Less Privileged.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,15 +52,30 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This patchserie adds support for the Qualcomm PMI8998 PMIC to the 
+pending leds-qcom-flash LED driver (v8) [1]. The following changes 
+are necessary to support the Qualcomm PMI8998 PMIC:
+
+- Add subtype 0x3 for the Qualcomm PMI8998 PMIC.
+- Disable LED when changing the brightness to make brightness changes
+propagate when the LED was already enabled.
+
+@Fenglin Wu: Feel free to pull these patches in with your v9 if you like them.
+We discussed support for this PMIC in the past around v3, but never could make
+it work until now.
+
+[1] https://lore.kernel.org/all/20230303095023.538917-1-quic_fenglinw@quicinc.com/
+
+Kind regards,
+Dylan Van Assche
+
+Dylan Van Assche (2):
+  leds: flash: leds-qcom-flash: add PMI8998 support
+  leds: flash: leds-qcom-flash: disable LED when changing brightness
+
+ drivers/leds/flash/leds-qcom-flash.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
 -- 
-Hello Dear
+2.40.1
 
-  Am a dying woman here in the hospital, i was diagnose as a
-Coronavirus patient over 2 months ago. I am A business woman who is
-dealing with Gold Exportation, I Am 59 year old from USA California i
-have a charitable and unfufilling  project that am about to handover
-to you, if you are interested to know more about this project please reply me.
-
- Hope to hear from you
-
-Best Regard
