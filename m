@@ -2,87 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 687096F9A98
-	for <lists+linux-leds@lfdr.de>; Sun,  7 May 2023 19:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F69F6F9CA5
+	for <lists+linux-leds@lfdr.de>; Mon,  8 May 2023 01:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231738AbjEGRcG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 7 May 2023 13:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58306 "EHLO
+        id S231961AbjEGXLh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 7 May 2023 19:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231686AbjEGRcF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 May 2023 13:32:05 -0400
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF1A1BD1;
-        Sun,  7 May 2023 10:32:01 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S229716AbjEGXLg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 May 2023 19:11:36 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502E67ED1
+        for <linux-leds@vger.kernel.org>; Sun,  7 May 2023 16:11:34 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4QDs1B61f7z9skr;
-        Sun,  7 May 2023 19:31:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanvanassche.be;
-        s=MBO0001; t=1683480718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SQHQgsnbPJTgsXPCqG4AqQGuAPuZsFrH5o3VxE1rTc4=;
-        b=L8DHt6oqMQ8+MSjhjgvR8ROjEp/xzp//i4ahR1oot9wJb9ksy9p4mq7TVNSDmY2bjQffzU
-        6PyzNP/QvBRbBiXG2THMOqGShi6WG5B7bTACe2E3Ew4b+GTYPzawtWWKe41tQBA1qZn33/
-        P2kW/icoEIwE3GyDua1Hmep0/3lRWUZ9c8qNlgMbDP/CdAMNjUEzo2IfBR3VWmAs3lZXZV
-        5pg6FsY0mGznF5gKGBvmXpDavzgcnwGuadaCdgRwvn5Dw6EBo51DyiibPGjxq6WgAe9Z3T
-        LpWi0Sh1FM7IdQBqjL6FwrOI2wMAAOnzxSiKNGPl3qjEwyibISoTU/mobYdAqQ==
-From:   Dylan Van Assche <me@dylanvanassche.be>
-To:     pavel@ucw.cz, quic_fenglinw@quicinc.com, lee@kernel.org
-Cc:     trix@redhat.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Dylan Van Assche <me@dylanvanassche.be>
-Subject: [PATCH 2/2] leds: flash: leds-qcom-flash: disable LED when changing brightness
-Date:   Sun,  7 May 2023 19:29:41 +0200
-Message-Id: <20230507172941.364852-3-me@dylanvanassche.be>
-In-Reply-To: <20230507172941.364852-1-me@dylanvanassche.be>
-References: <20230507172941.364852-1-me@dylanvanassche.be>
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 72335846E0;
+        Mon,  8 May 2023 01:11:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1683501091;
+        bh=XClQi6IV1faU3jsFLMw7HbLhHvx9X66EMVK8G+WqV0A=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=ePLw1lWLH48/rRggi0CZQHbOrrrI0GUULM12/0xxiFJTzkuuIMWjobhWSsppEcOU8
+         dWEolwUVdevLLheYGZcStugKqQl8ISP/7bHDim1MDzawYQwqjH3FUYbb8dwXTH9NcM
+         sJYgHfQO6yv2OGue/dF4Bt184wgn+eihzVcQ29ZH0i9bOD6A/jSBQEaZjF9PDGZQSU
+         NuUSQENPWNWmAVqZLDlNFpIvho8VROGQWw1x4duH8YfZzirVvM2TnwtaeZcPPQ9NYn
+         QKfiV2IYtUebMELOCxY3hKM47bzRaJFbefjq1HnnYdubrCYy+RMKUh6643MXxyTSsk
+         OsCUmhwN38FCQ==
+Message-ID: <1e22f00a-490a-503d-463c-d7d4df1da64e@denx.de>
+Date:   Mon, 8 May 2023 01:11:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] leds: gpio: Configure per-LED pin control
+From:   Marek Vasut <marex@denx.de>
+To:     Pavel Machek <pavel@ucw.cz>, lee.jones@linaro.org
+Cc:     linux-leds@vger.kernel.org,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>
+References: <20221107003133.377704-1-marex@denx.de>
+ <ZCGE/6hzeJNeJKTj@duo.ucw.cz> <5156c474-9f44-6cda-6090-c3e58f7459f0@denx.de>
+Content-Language: en-US
+In-Reply-To: <5156c474-9f44-6cda-6090-c3e58f7459f0@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The Qualcomm PMI8998 PMIC requires the LED to be disabled when configuring
-the brightness. Always disable the LED when setting the brightness and
-re-enable it afterwards.
+On 4/2/23 23:58, Marek Vasut wrote:
+> On 3/27/23 13:58, Pavel Machek wrote:
+>> Hi!
+>>
+>>> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+>>> to it, parse the DT subnode pinctrl properties and configure each pin
+>>> accordingly.
+>>
+>> Do we need update to
+>> Documentation/devicetree/bindings/leds/leds-gpio.yaml ?
+> 
+> As far as I can tell, no. The pinctrl properties are generic and outside 
+> of the leds-gpio yaml schema.
 
-Signed-off-by: Dylan Van Assche <me@dylanvanassche.be>
----
- drivers/leds/flash/leds-qcom-flash.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Are there any further concerns or can this patch be applied now ?
 
-diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
-index 16045b5d89b1..c8d41a3caf38 100644
---- a/drivers/leds/flash/leds-qcom-flash.c
-+++ b/drivers/leds/flash/leds-qcom-flash.c
-@@ -417,6 +417,14 @@ static int qcom_flash_led_brightness_set(struct led_classdev *led_cdev,
- 	bool enable = !!brightness;
- 	int rc;
- 
-+	rc = set_flash_strobe(led, SW_STROBE, false);
-+	if (rc)
-+		return rc;
-+
-+	rc = set_flash_module_en(led, false);
-+	if (rc)
-+		return rc;
-+
- 	rc = set_flash_current(led, current_ma, TORCH_MODE);
- 	if (rc)
- 		return rc;
--- 
-2.40.1
-
+Thanks!
