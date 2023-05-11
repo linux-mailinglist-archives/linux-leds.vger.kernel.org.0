@@ -2,88 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A95966FE793
-	for <lists+linux-leds@lfdr.de>; Thu, 11 May 2023 00:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F186FEA04
+	for <lists+linux-leds@lfdr.de>; Thu, 11 May 2023 05:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236314AbjEJWxS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 10 May 2023 18:53:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51358 "EHLO
+        id S229791AbjEKDGO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 10 May 2023 23:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231486AbjEJWxS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 10 May 2023 18:53:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3418E3A8E;
-        Wed, 10 May 2023 15:53:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B9F2361486;
-        Wed, 10 May 2023 22:53:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEF6C433EF;
-        Wed, 10 May 2023 22:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1683759196;
-        bh=0SZCsJwaN3AewUnoK7ahUFPcOXKKisj7UKcNsbIMmPI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XQc6WYHRDg0MBsZEyfCJ+vnkMjJlaVGOEx3mwuGtVdl5YOeoVKISE+iU91Kis8YeS
-         oiuGG6EB+L8X4l2LTlLW4tSagbRG6Euq8Qsedz3o1mAtfEDf1SBV4tgBd5gSPpMDG5
-         vIrRC4772kxNLYeCzjZ9oQoZU2ydqNJS6DFET+TE=
-Date:   Thu, 11 May 2023 07:53:09 +0900
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: Re: [PATCH RESEND 1/4] leds: Change led_trigger_blink[_oneshot]()
- delay parameters to pass-by-value
-Message-ID: <2023051102-reseller-oat-3566@gregkh>
-References: <20230510162234.291439-1-hdegoede@redhat.com>
- <20230510162234.291439-2-hdegoede@redhat.com>
+        with ESMTP id S231797AbjEKDGL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 10 May 2023 23:06:11 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72621FCE;
+        Wed, 10 May 2023 20:06:06 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1ab267e3528so57296275ad.0;
+        Wed, 10 May 2023 20:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683774366; x=1686366366;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mb/zuNQK49JSoqZKwSKfTZmkk+ujcZ98MeItuBZs6L8=;
+        b=bwyZE92K1QVP/JmxyndrCoWQOcxAuaGX1jlplGForAeh8CGTIOlxImtFr6pchUiXUh
+         trKy+l2nAhxGL76XsXOBiL0rcW3v3g05Uom9Vg9abDSAozJ8Fip0pK8d383EKf87mlT+
+         hQe06HIeEbg8XVEG4tF/uwGI6roIDpkRFYPTutkdqPG1kJnjq2j9IdhR2R6WmZHl+pOy
+         QBFrdfNRG9tNPi49BS1QWu/wWTeK3AXxS92bQtNygqQq4mEzOpk8rqD5IbWaQWSZcTug
+         8kDgp+KYXHW7NIDlTUJr3JIHmRulOX10b5gqQ5adfuaLkBOa7n4fasWbxBziNcRPAyOC
+         GQkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683774366; x=1686366366;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mb/zuNQK49JSoqZKwSKfTZmkk+ujcZ98MeItuBZs6L8=;
+        b=PzEweIZkezCwSBwDdRBdBZVUUUTLc1I9jeOvquYBmAV1G1NTpSeeY1ccEDBh5hexNZ
+         oNuaSSBhNfSYhfpF/2pdNp2T5Cph2E2pV14qBzepO8btTtCAYVdCp1ajk4uEnEGUvw1G
+         uX6CXhbG3UjniYR1TBT+FTl7hEuEPSP3amZMPg2y2e8cc5pVdGrb5AyE/c+z+sAPbLDN
+         KYmNXwxvv6j7v5/5GfGMeVbQZfHmKM+Os0C+MQKn+7GxKbVi/hIvO44avJaseeBsgZMM
+         d0+k2su8lGsuAPdkC8YEN7xcwkDPWVEPJFSr1lVnWOxC2AnhitrCnyLXFXnHGY2ysbYu
+         D9VA==
+X-Gm-Message-State: AC+VfDzjW45XjgdQ5HyvAJysfRzU5MTFcniQ5wj+siIKIz1YiJpfVR4J
+        RuVCKEaXiNR9dvkqdvz/7tJDDVoCB9yvJw==
+X-Google-Smtp-Source: ACHHUZ6DxRWILStkbEGhuxycP2yMCvHSPfP5Hy3bFVSdBAogx9o/CbCGEwkYMepCkSomZpZmCcHb/Q==
+X-Received: by 2002:a17:902:ec87:b0:1a9:9ace:3e74 with SMTP id x7-20020a170902ec8700b001a99ace3e74mr24758509plg.65.1683774366252;
+        Wed, 10 May 2023 20:06:06 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-26.three.co.id. [180.214.232.26])
+        by smtp.gmail.com with ESMTPSA id f2-20020a170902ce8200b0019ef86c2574sm4544891plg.270.2023.05.10.20.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 20:06:05 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id AC961106778; Thu, 11 May 2023 10:06:02 +0700 (WIB)
+Date:   Thu, 11 May 2023 10:06:02 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 04/11] Documentation: leds: leds-class: Document new
+ Hardware driven LEDs APIs
+Message-ID: <ZFxbmnMeQO/rNUFu@debian.me>
+References: <20230427001541.18704-1-ansuelsmth@gmail.com>
+ <20230427001541.18704-5-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="AWn32Q89nm9OZbgz"
 Content-Disposition: inline
-In-Reply-To: <20230510162234.291439-2-hdegoede@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230427001541.18704-5-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 10, 2023 at 06:22:31PM +0200, Hans de Goede wrote:
-> led_blink_set[_oneshot]()'s delay_on and delay_off function parameters
-> are pass by reference, so that hw-blink implementations can report
-> back the actual achieved delays when the values have been rounded
-> to something the hw supports.
-> 
-> This is really only interesting for the sysfs API / the timer trigger.
-> Other triggers don't really care about this and none of the callers of
-> led_trigger_blink[_oneshot]() do anything with the returned delay values.
-> 
-> Change the led_trigger_blink[_oneshot]() delay parameters to pass-by-value,
-> there are 2 reasons for this:
-> 
-> 1. led_cdev->blink_set() may sleep, while led_trigger_blink() may not.
-> So on hw where led_cdev->blink_set() sleeps the call needs to be deferred
-> to a workqueue, in which case the actual achieved delays are unknown
-> (this is a preparation patch for the deferring).
-> 
-> 2. Since the callers don't care about the actual achieved delays, allowing
-> callers to directly pass a value leads to simpler code for most callers.
-> 
-> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+--AWn32Q89nm9OZbgz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 27, 2023 at 02:15:34AM +0200, Christian Marangi wrote:
+> +     - hw_control_set:
+> +                activate hw control, LED driver will use the provided
+                   "activate hw control. LED driver will use ..."
+> +                flags passed from the supported trigger, parse them to
+> +                a set of mode and setup the LED to be driven by hardware
+> +                following the requested modes.
+> +
+> +                Set LED_OFF via the brightness_set to deactivate hw cont=
+rol.
+> +
+> +    - hw_control_get:
+> +                get from a LED already in hw control, the active modes,
+                   "get active modes from a LED already in hw control ..."
+> +                parse them and set in flags the current active flags for
+> +                the supported trigger.
+> +
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--AWn32Q89nm9OZbgz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZFxbkgAKCRD2uYlJVVFO
+o3uUAQCycfI5RmXv7icFa57Dzw2XngBZ3pd8MbyU02vwfYCdgAEAp89CPou30fxe
+wUlacpgcoBCjcNFpSXZ67WzwxGq41wY=
+=RzHE
+-----END PGP SIGNATURE-----
+
+--AWn32Q89nm9OZbgz--
