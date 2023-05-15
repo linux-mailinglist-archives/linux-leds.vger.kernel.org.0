@@ -2,73 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 332677032BC
-	for <lists+linux-leds@lfdr.de>; Mon, 15 May 2023 18:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 026C87032DD
+	for <lists+linux-leds@lfdr.de>; Mon, 15 May 2023 18:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242639AbjEOQTX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 May 2023 12:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51850 "EHLO
+        id S242679AbjEOQ0e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 May 2023 12:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242598AbjEOQTT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 May 2023 12:19:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8192D7B;
-        Mon, 15 May 2023 09:19:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE3E362731;
-        Mon, 15 May 2023 16:19:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61AB4C433D2;
-        Mon, 15 May 2023 16:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684167553;
-        bh=wGmHjULaB4K+d9rVSqKFuZ2TbAXjbfXY9XsUoCw450I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ohhblgiF2++69aGSjknukLerRP/MQGOr1owztduLX5ditGEHStBumSO6qS8yGN6Ou
-         1c+DN3kHn/TnKuxP7d4u4wdXUV5iEj3J8PZiAYqlbUkBFRq/ErzOlCLjSpFSnRWX0v
-         3X18fv4TVt7kSmcb2Ve7GIwbsgY7om/CdhNle7txiMLMSy+9Xn8u9x5lMx1+F4S+Ze
-         2Z5GfnMzNsTEG6N5E1HJCxrLcZDDy0LiSavNGGA8DnAPkfNIl0jC7wrCm0e+b4UchC
-         SMBxp82hdJUgiJweaneu4HAw4Ci0uJ9k1g5At6f1BLTgGKY/r/grD9JjjalkxWRdw0
-         njHOKUCw3aGEg==
-Date:   Mon, 15 May 2023 17:19:07 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Dylan Van Assche <me@dylanvanassche.be>
-Cc:     pavel@ucw.cz, quic_fenglinw@quicinc.com, trix@redhat.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: flash: leds-qcom-flash: disable LED when
- changing brightness
-Message-ID: <20230515161907.GA10825@google.com>
-References: <20230507172941.364852-1-me@dylanvanassche.be>
- <20230507172941.364852-3-me@dylanvanassche.be>
+        with ESMTP id S242501AbjEOQ0d (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 May 2023 12:26:33 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE67A2136;
+        Mon, 15 May 2023 09:26:29 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34FEdtd7028319;
+        Mon, 15 May 2023 16:26:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=41opc/0UrQd/HOm8o9Kr2RoTJPOV3lSeWNpIRjNplSw=;
+ b=J11sgL98b0XZeK5XnnfKT+Ml2Zx/IWGgySJPLbvh4t83ki+c+AGQzk4KbVqAlku6RdUf
+ s6Er41Bqp7aCiF+x1i+8IJx/UJQWbt1W+8rIN7Ckyctir0e+LD5cTPt5cIAzOmmH8Z4q
+ n9oXav3V2JNxLLdZILa7ftP4LetBwTX7F0/nLY3k533dZswH/J6XdxR4qogvtwzwCU5d
+ 9eqZ5ePQNdqcGQeaPS3Db5c3fiafxdk95SeJxulTqpxqQmGdUMAZVTi4Yog9qpQslG+D
+ iCDH0uRuZ0YTKzc5zAr1YcLMKAybi4J+1bkp6c/1Lt301Dng4mbHuDwqmvC6wAWnhlFT CQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkgq6se8p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 May 2023 16:26:10 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FGQ9gS014052
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 May 2023 16:26:09 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Mon, 15 May 2023 09:26:09 -0700
+From:   Bjorn Andersson <quic_bjorande@quicinc.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        "Anjelique Melendez" <quic_amelende@quicinc.com>
+CC:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        Caleb Connolly <caleb.connolly@linaro.org>,
+        Steev Klimaszewski <steev@kali.org>
+Subject: [PATCH v2] leds: qcom-lpg: Fix PWM period limits
+Date:   Mon, 15 May 2023 09:26:04 -0700
+Message-ID: <20230515162604.649203-1-quic_bjorande@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230507172941.364852-3-me@dylanvanassche.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 1_n6mVl2ihmA9SLfs40B1k1h90FUV1-y
+X-Proofpoint-GUID: 1_n6mVl2ihmA9SLfs40B1k1h90FUV1-y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-15_14,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=790 clxscore=1011
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305150137
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 07 May 2023, Dylan Van Assche wrote:
+The introduction of high resolution PWM support changed the order of the
+operations in the calculation of min and max period. The result in both
+divisions is in most cases a truncation to 0, which limits the period to
+the range of [0, 0].
 
-> The Qualcomm PMI8998 PMIC requires the LED to be disabled when configuring
-> the brightness. Always disable the LED when setting the brightness and
-> re-enable it afterwards.
-> 
-> Signed-off-by: Dylan Van Assche <me@dylanvanassche.be>
-> ---
->  drivers/leds/flash/leds-qcom-flash.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+Both numerators (and denominators) are within 64 bits, so the whole
+expression can be put directly into the div64_u64, instead of doing it
+partially.
 
-Applied, thanks
+Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high resolution PWM")
+Reviewed-by: Caleb Connolly <caleb.connolly@linaro.org>
+Tested-by: Steev Klimaszewski <steev@kali.org>
+Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+---
 
+Changes since v1:
+- Reworded first sentence to express that it's the order and not the
+  previously non-existent parenthesis that changed...
+- Picked up review tags.
+
+ drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index c9cea797a697..7287fadc00df 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -312,14 +312,14 @@ static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
+ 		max_res = LPG_RESOLUTION_9BIT;
+ 	}
+ 
+-	min_period = (u64)NSEC_PER_SEC *
+-			div64_u64((1 << pwm_resolution_arr[0]), clk_rate_arr[clk_len - 1]);
++	min_period = div64_u64((u64)NSEC_PER_SEC * (1 << pwm_resolution_arr[0]),
++			       clk_rate_arr[clk_len - 1]);
+ 	if (period <= min_period)
+ 		return -EINVAL;
+ 
+ 	/* Limit period to largest possible value, to avoid overflows */
+-	max_period = (u64)NSEC_PER_SEC * max_res * LPG_MAX_PREDIV *
+-			div64_u64((1 << LPG_MAX_M), 1024);
++	max_period = div64_u64((u64)NSEC_PER_SEC * max_res * LPG_MAX_PREDIV * (1 << LPG_MAX_M),
++			       1024);
+ 	if (period > max_period)
+ 		period = max_period;
+ 
 -- 
-Lee Jones [李琼斯]
+2.25.1
+
