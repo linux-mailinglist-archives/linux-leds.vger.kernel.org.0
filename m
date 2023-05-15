@@ -2,80 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6047E7032E9
-	for <lists+linux-leds@lfdr.de>; Mon, 15 May 2023 18:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392FB703FF7
+	for <lists+linux-leds@lfdr.de>; Mon, 15 May 2023 23:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242694AbjEOQ3b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 May 2023 12:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
+        id S245616AbjEOVkz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 May 2023 17:40:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242506AbjEOQ31 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 May 2023 12:29:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1724E78;
-        Mon, 15 May 2023 09:29:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7EC0B620A8;
-        Mon, 15 May 2023 16:29:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAE8C433D2;
-        Mon, 15 May 2023 16:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684168158;
-        bh=5XprFilnhuGul/8RuO7nBubqxMRZkO5vyT5plQ1G+J0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gQmOvdO4PG/MZUVNbBTrHxIVWjWgxmrVwaD4pJE/uQjPweq3dIsSmfk2GrnYonkog
-         IHx5+uCrY9W6qnP8Q2GaSzwDz7F6RnvkqlVA4+sWkkGR0z66grSJSFdh0E8ZLbvOv0
-         7kLIAanTbXvr8eWr4y/fpIbJG8ZlrfpPBzH+l6WPzwNBsqkHmIhj4NR2rhdMBIeRuJ
-         jiLy5X6fdxzBs47o3vZWHjCA1w5EYq8Et/0yGo4llNmQwRQcd6OlUS9kekd8iuRKtj
-         XMRST4JZg17OrPrjYprYMUy96HoH8CooS6LrBIHapFxc5c0TcWp+edRlm+XH3r7J5f
-         h07+1jas+J0bA==
-Date:   Mon, 15 May 2023 17:29:14 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: Make LEDS_TI_LMU_COMMON invisible
-Message-ID: <20230515162914.GB10825@google.com>
-References: <91f6efaa48c36320e58b6a312025ae9b39ee206b.1683644796.git.geert+renesas@glider.be>
+        with ESMTP id S245568AbjEOVkx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 May 2023 17:40:53 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82E510E5C;
+        Mon, 15 May 2023 14:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684186846; x=1715722846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uvW3OVIO11rtZpjrfrNpvFqRUCOTmH5JtdCGGW08rcc=;
+  b=St8h7TAqtAIL2rGevUCLUw5t5eIe3C1tpdy+SnA27qAaKc9gqDmTqRrc
+   B83czgAuCPmt66PTlWZXac60OiL4mPdudx0cMK/Y9WrLQmEYb2ZjIntfz
+   I2Leui3u5nhdWi1uRn9d1YwJIcAhsMgajmkoNUzMEkZhBd9KbLXP0f/QR
+   oFx30n3yrnUaSydRJ8/JHZ3R3dNRJw2RobipWH0x7zXJUDifu9Sws0R11
+   wwgnHpzM75jOPi0G+d2C4WT0aDlTN8l+lQ9W1XhLbD/N+LitmX+l7MxaS
+   O8JS8j6EIqk0+fkJrpnW9KM1rCh3LVBGkHT2Mo+gtt0O465z7zwgX+/f2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437656217"
+X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
+   d="scan'208";a="437656217"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 14:40:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="651583790"
+X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
+   d="scan'208";a="651583790"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 15 May 2023 14:40:36 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pyfvm-00074t-2o;
+        Tue, 16 May 2023 00:40:34 +0300
+Date:   Tue, 16 May 2023 00:40:34 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] leds: simatic-ipc-leds-gpio: move two extra gpio
+ pins into another table
+Message-ID: <ZGKm0jQv/8/Tgg/a@smile.fi.intel.com>
+References: <20230515150352.30925-1-henning.schild@siemens.com>
+ <20230515150352.30925-2-henning.schild@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <91f6efaa48c36320e58b6a312025ae9b39ee206b.1683644796.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230515150352.30925-2-henning.schild@siemens.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 09 May 2023, Geert Uytterhoeven wrote:
+On Mon, May 15, 2023 at 05:03:50PM +0200, Henning Schild wrote:
+> There are two special pins needed to init the LEDs. We used to have them
+> at the end of the gpiod_lookup table to give to "leds-gpio". A cleaner
+> way is to have a dedicated table for the special pins.
 
-> Currently, LEDS_LM3697 and LEDS_LM36274 depend on LEDS_TI_LMU_COMMON,
-> which contains the common code to support TI LMU devices.  This means
-> the user is asked about the common code first, followed by the
-> individual drivers, if their dependencies are met.
-> 
-> Simplify this, and reduce the number of questions by making
-> LEDS_TI_LMU_COMMON invisible, and letting it be selected when needed.
-> 
-> Fixes: 3fce8e1eb9945c27 ("leds: TI LMU: Add common code for TI LMU devices")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Exposed by commit a61079efc8788858 ("leds: TI_LMU_COMMON: select REGMAP
-> instead of depending on it").
-> ---
->  drivers/leds/Kconfig | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+...
 
-Fixes: tag removed and applied, thanks.
+>  static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e = {
+>  	.dev_id = "leds-gpio",
+> @@ -26,6 +27,12 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e = {
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 58, NULL, 3, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 60, NULL, 4, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 5, GPIO_ACTIVE_LOW),
+
+Missing terminator. I'm wondering how this works...
+
+> +	},
+> +};
+> +
+> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e_extra = {
+> +	.dev_id = NULL, /* Filled during initialization */
+> +	.table = {
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 56, NULL, 6, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 59, NULL, 7, GPIO_ACTIVE_HIGH),
+>  	},
+> @@ -40,9 +47,15 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-2", 3, NULL, 3, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-2", 4, NULL, 4, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-2", 5, NULL, 5, GPIO_ACTIVE_LOW),
+
+Ditto.
+
+> +	},
+> +};
+> +
+> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g_extra = {
+> +	.dev_id = NULL, /* Filled during initialization */
+> +	.table = {
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-3", 7, NULL, 7, GPIO_ACTIVE_HIGH),
+
+Ditto.
+
+> -	}
+> +	},
+>  };
 
 -- 
-Lee Jones [李琼斯]
+With Best Regards,
+Andy Shevchenko
+
+
