@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E97E7705167
-	for <lists+linux-leds@lfdr.de>; Tue, 16 May 2023 17:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 517F2705169
+	for <lists+linux-leds@lfdr.de>; Tue, 16 May 2023 17:02:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233572AbjEPPCQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 May 2023 11:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33226 "EHLO
+        id S233629AbjEPPCW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 May 2023 11:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233624AbjEPPCP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 May 2023 11:02:15 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA925FC2
-        for <linux-leds@vger.kernel.org>; Tue, 16 May 2023 08:02:13 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-510b56724caso603400a12.1
-        for <linux-leds@vger.kernel.org>; Tue, 16 May 2023 08:02:13 -0700 (PDT)
+        with ESMTP id S233585AbjEPPCQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 May 2023 11:02:16 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D8D5B85
+        for <linux-leds@vger.kernel.org>; Tue, 16 May 2023 08:02:15 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-96aa0cab88dso831944966b.1
+        for <linux-leds@vger.kernel.org>; Tue, 16 May 2023 08:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684249332; x=1686841332;
+        d=linaro.org; s=google; t=1684249334; x=1686841334;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EW6F/zPBbypHWDTGQl44KAM/klcDgb6LbEcAMdPHpO4=;
-        b=CCwVB9hCZ10YwDiFV+bl+/dNzmxglHroRkpL3TygJd9izEuGXi0RX4RMincFf2sKPT
-         mVvojcTwe/lq45vzUnY6pW4t7ogLr9nvbU84dwexK40fbmXm4sD/Tl4HsaqB2rBEqx2L
-         2XR2kOd24PfkodCgd1BX/s9+4EURL8y54TWn/XA6X+zB8R4BVSJZRE85BfNkyF27jvbb
-         /f2oRoP2oxB6yNDC1gueW9+RJIxGDUHIgNd56xL+FdoOKByXSQVcdk4xiFW/ubx8uxX6
-         CgFVZy7+XLi0lzYwTYeZ6jnLCvJOV9B/yVCPspOLA9vKV7itAT//TdXFbZ3cqP4gxlIs
-         gzYA==
+        bh=VePVeWeMN4U523V4h2u5VAkH2pemNZtifrJeB9imluE=;
+        b=tHUblVWXjbga/qyXdtscen1tQezhSIXXVDcOhHoYCWA8pD+7Ch8fNZrlCR6OyBxGoL
+         P47/t4DREklIq5kERQ8XdLUcTUHnnIxxCFthqIXt/qw3b8VwDt/0umoWi1C/f5sysnQs
+         GKx2jUgHj4NvB2L4Sw8xmGzEI5JCh2X1NNU0t6GJbdwB3GhPOWbdANoP3Vn8zKmvzQ6U
+         1sCwX9ZoxY6MotNdE9zuO0fQPDWqielOVTjcf10m4Cb9TMoe/hWBi8L+r93oNWbv5g0n
+         nagoRYaQk2E4XhGlehnUuCY8iWoMF5AIQvWPKdILKn/VrS+Llm9OLO7efFUs4uLMp7z8
+         VrYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684249332; x=1686841332;
+        d=1e100.net; s=20221208; t=1684249334; x=1686841334;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EW6F/zPBbypHWDTGQl44KAM/klcDgb6LbEcAMdPHpO4=;
-        b=C/s1GDGKGKVgS/wKdvHu/FdHYz6KG8IUuU/d5ETeZj1RnURB7nqt8QNUiKu/iiqGWG
-         KLXYEzax4FJJMgU25NB0JkWakmhZQgMDul9VzIFJstcKMGgEclm7lK5XEbmNN36aAih0
-         RSxIg8l43K/zlLJB0zrHkL0vqHbDbfINMtFGc3HvNGk6NrrSJJyo6EPLfVafGdBs9N3D
-         c2DyBg/P4gtZ/4m9lx9b4NdzfOeuqtMfYxh7l+3dSlGGwVRFZdB0tITC03rIob/VOSAi
-         uSLWfLnRlz9mq3rn5knkethps/dpPWuepljzRMMml9QtFEQ1n+1dH5TsuebHIYxOeKEh
-         z0VQ==
-X-Gm-Message-State: AC+VfDxvvawQg/a/r9Oph6ck3YwnUTS+yAE/AvJmgfaDRBtcifmt1Re8
-        6asmQF0mmm1D8UF00MKVc5sGHQ==
-X-Google-Smtp-Source: ACHHUZ4RoHylUFACTNPVTpfQwulbKXPzLTkVoGQ4VYmlSdw7riw8YJzFNBNn5v4KK69iknDnLCtojg==
-X-Received: by 2002:a17:907:c17:b0:965:ae3a:52c8 with SMTP id ga23-20020a1709070c1700b00965ae3a52c8mr38020261ejc.32.1684249332030;
-        Tue, 16 May 2023 08:02:12 -0700 (PDT)
+        bh=VePVeWeMN4U523V4h2u5VAkH2pemNZtifrJeB9imluE=;
+        b=eiBdCFXuzy7elQIePHmfEIJjnsia53kHwQKg95WivhRn6g87+2O8OWK15AdAVhNipg
+         f+Il5rOoyb+Wit4odlUKTZaZGtfk/R/f3b/OT4iIT06GcOaS6cvoTniaEWcXKhHdoWcj
+         Q0I9px87+LkbA942WtuIqiw2ChYaqxjZObGk/KwErozYltbe3qxL3di7XGTK32ZXpDTe
+         Ya99yKIe05Pe3/g8vWhiwXH3620MDomaNjm1WXZ3lGdDT2HRm10Q+H21jzmYspU4tnNZ
+         bprTqfaZATiG13erv1xQd3afweS44ytrYZpjSr3TJzpVTNHBhsoYwK6LlRZzYuSTjZ/l
+         +dEA==
+X-Gm-Message-State: AC+VfDyzmUwwwryWq0HKmWvNRln48oatX9gp8nFEp79NwsQ2BE5Gwxw5
+        yO6fToXN/KWLJB+Uz2/iv0Pxwg==
+X-Google-Smtp-Source: ACHHUZ5VH9AGY5veDnFd4MlMOrguGe+tiiK2Z58ztuVDR7pEcisRKFXyJPLhKkTJ6Zzsc1k7+szcEA==
+X-Received: by 2002:a17:907:961d:b0:966:6056:a7c1 with SMTP id gb29-20020a170907961d00b009666056a7c1mr32801710ejc.74.1684249333756;
+        Tue, 16 May 2023 08:02:13 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:77d1:16a1:abe1:84fc])
-        by smtp.gmail.com with ESMTPSA id q24-20020a170906541800b0096aa7d25a65sm6361810ejo.23.2023.05.16.08.02.10
+        by smtp.gmail.com with ESMTPSA id q24-20020a170906541800b0096aa7d25a65sm6361810ejo.23.2023.05.16.08.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 08:02:11 -0700 (PDT)
+        Tue, 16 May 2023 08:02:13 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -63,9 +63,9 @@ To:     Andy Gross <agross@kernel.org>,
 Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
         "Signed-off-by : Abel Vesa" <abel.vesa@linaro.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/3] arm64: dts: qcom: pm8550: add flash LED controller
-Date:   Tue, 16 May 2023 17:02:01 +0200
-Message-Id: <20230516150202.188655-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 3/3] arm64: dts: qcom: sm8550-qrd: add flash LEDs
+Date:   Tue, 16 May 2023 17:02:02 +0200
+Message-Id: <20230516150202.188655-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230516150202.188655-1-krzysztof.kozlowski@linaro.org>
 References: <20230516150202.188655-1-krzysztof.kozlowski@linaro.org>
@@ -74,36 +74,69 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add node for PM8550 PMIC flash LED controller.
+Enable PM8550 PMIC flash LED controller and add two flash LEDs using
+four current outputs.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm64/boot/dts/qcom/pm8550.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/pm8550.dtsi b/arch/arm64/boot/dts/qcom/pm8550.dtsi
-index 46396ec1a330..33f357a80636 100644
---- a/arch/arm64/boot/dts/qcom/pm8550.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pm8550.dtsi
-@@ -55,5 +55,11 @@ pm8550_gpios: gpio@8800 {
- 			interrupt-controller;
- 			#interrupt-cells = <2>;
- 		};
-+
-+		pm8550_flash: led-controller@ee00 {
-+			compatible = "qcom,pm8550-flash-led", "qcom,spmi-flash-led";
-+			reg = <0xee00>;
-+			status = "disabled";
-+		};
- 	};
+---
+
+Context in the patch depends on:
+https://lore.kernel.org/linux-arm-msm/20230516133011.108093-1-krzysztof.kozlowski@linaro.org/T/#t
+---
+ arch/arm64/boot/dts/qcom/sm8550-qrd.dts | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sm8550-qrd.dts b/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
+index 88b7d3ecdbc9..30b36a149125 100644
+--- a/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
++++ b/arch/arm64/boot/dts/qcom/sm8550-qrd.dts
+@@ -5,6 +5,7 @@
+ 
+ /dts-v1/;
+ 
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+ #include "sm8550.dtsi"
+ #include "pm8010.dtsi"
+@@ -451,6 +452,30 @@ &pcie0_phy {
+ 	status = "okay";
  };
+ 
++&pm8550_flash {
++	status = "okay";
++
++	led-0 {
++		function = LED_FUNCTION_FLASH;
++		color = <LED_COLOR_ID_YELLOW>;
++		led-sources = <1>, <4>;
++		led-max-microamp = <500000>;
++		flash-max-microamp = <2000000>;
++		flash-max-timeout-us = <1280000>;
++		function-enumerator = <0>;
++	};
++
++	led-1 {
++		function = LED_FUNCTION_FLASH;
++		color = <LED_COLOR_ID_WHITE>;
++		led-sources = <2>, <3>;
++		led-max-microamp = <500000>;
++		flash-max-microamp = <2000000>;
++		flash-max-timeout-us = <1280000>;
++		function-enumerator = <1>;
++	};
++};
++
+ &pm8550b_eusb2_repeater {
+ 	vdd18-supply = <&vreg_l15b_1p8>;
+ 	vdd3-supply = <&vreg_l5b_3p1>;
 -- 
 2.34.1
 
