@@ -2,106 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB33707E53
-	for <lists+linux-leds@lfdr.de>; Thu, 18 May 2023 12:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5BE7080DB
+	for <lists+linux-leds@lfdr.de>; Thu, 18 May 2023 14:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbjERKox (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 May 2023 06:44:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57998 "EHLO
+        id S231536AbjERMMm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 May 2023 08:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230491AbjERKou (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 May 2023 06:44:50 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48FB510D8;
-        Thu, 18 May 2023 03:44:49 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-7577f03e131so104049585a.0;
-        Thu, 18 May 2023 03:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684406688; x=1686998688;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ad4zvcNwIJ/Y2lxdLHrr7ZSM1z29dpOAu+LMx49JNDM=;
-        b=b2AhZYR6zvngv+IqdmflIhp7f0NhcvZ57umiQCrcz4uNi0gPFRZMtWK0up3K7NFSQK
-         EWHcOA8hX9fy4FYGI1MKal2UOgWbQtST7fCojtrKxgogfIhn5bhaG3uwIFLoKkzpQoeK
-         7nhnDs5GTO+FXw2RsSS7LuAu30LD3cmNF5zF8PXCs1QqOOm+uNUU4zGazcWBmDRUwQgL
-         XQx8XzOjLu4VZDNmmERxzWgwjD8B+C1tBl5/x6xMCdVGIYktmO+RBYD3Kr0SIJ0Y3V2D
-         jJyPo9s914C8b0WhzVm/bQ/W2raTWabMozoKzJQoc8H19feMM8uGA34lJVqg9X8RTBtv
-         keDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684406688; x=1686998688;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ad4zvcNwIJ/Y2lxdLHrr7ZSM1z29dpOAu+LMx49JNDM=;
-        b=j23IQzxt8kho69gQ4VWUIHGlWA8H2iOnQ20UrwW474Kg57zItvlCPJ2I2VWixRQM4e
-         EP0coQ+SLflkGeQfBp8p9K6C6YW8iS1eoLA2SQ5pbDBvCArKM184O7qVnoazhB/GVPfh
-         4a+EoGf4VoCe9WAoHfuHCl0Wn8XLUN6D3dzySk3r2fnCG8wRsxRvogYyNLT/zT4mBVWH
-         sC3lo3AbwGvc4EubsdoWgzKA+ZDDp6F2sN81WgAUxPCJwaxcTYoNzn3lBQ2pvIiJvPqA
-         v3OrF33gAS4GOGuooU13hjDDPBJdMkwd7RLvssBBoOddY07VMXwec6NqJqbwb7MWleR9
-         MpIQ==
-X-Gm-Message-State: AC+VfDx4jdRXV2tSkOX/5vq6/nd3KjWZkWXfyUlPukHeLKA0TQT9ToPz
-        Ol4wK3SP525lhkVnLR4ScSKi3Zeov2Ji5PW5yUg=
-X-Google-Smtp-Source: ACHHUZ4+auQIwwa/9xwdgQ6Fbzy71Bs2iS5UXlf38NxRYJCVolmxDRAUQbSyH+vxtPVwcz139sCAXC7Nz1vknB0W+TE=
-X-Received: by 2002:a05:6214:1bcb:b0:5e0:7ecb:8ffb with SMTP id
- m11-20020a0562141bcb00b005e07ecb8ffbmr4587748qvc.8.1684406688384; Thu, 18 May
- 2023 03:44:48 -0700 (PDT)
+        with ESMTP id S230308AbjERMMl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 May 2023 08:12:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38BEDE46;
+        Thu, 18 May 2023 05:12:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B003A64EC0;
+        Thu, 18 May 2023 12:12:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17CA4C433EF;
+        Thu, 18 May 2023 12:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684411959;
+        bh=HQbrGsVEWGpBhnO+Kgnh4OFttxZ6LnaXdPUMdYq0FQE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TUWMgZFdbGzjVGrh45IXRwY5fY9S25C+cCktX+MQhc9z2Gdb82NKa+siLaasFrQAh
+         EAjWyKqZygY3e//EKQxNPP/PANdDrwjP5PpU6V0ZE3VH3RyHFAnkR/OdLyL0twtgoX
+         cvQQ3RMPjPbhd637yWeLZAKwJbjm1tGjobsvkwsAesU7sloVoZDo5AWMP2ri5eHtLD
+         uh/wgXl3GTty6q7wLW5gAR2LINbwHYyOcVuEtqD+1cMonQNZ7z5GLhImoc49lgcPgN
+         6+Va9pcqeldMG43kRT5DPhxxkirg7FN+5NPrmhio0atSP11NgsUIplUieTg3MTSYi9
+         315kjE7Vl/d2Q==
+Date:   Thu, 18 May 2023 13:12:32 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: Re: [PATCH RESEND 1/4] leds: Change led_trigger_blink[_oneshot]()
+ delay parameters to pass-by-value
+Message-ID: <20230518121232.GG404509@google.com>
+References: <20230510162234.291439-1-hdegoede@redhat.com>
+ <20230510162234.291439-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20230517195238.34069-1-mmkurbanov@sberdevices.ru> <20230517195238.34069-3-mmkurbanov@sberdevices.ru>
-In-Reply-To: <20230517195238.34069-3-mmkurbanov@sberdevices.ru>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 18 May 2023 13:44:11 +0300
-Message-ID: <CAHp75VdEc9x=v-NU4wqrg-S0vEjqc27JPqZAK0TJsNUc37ZTmg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] leds: add aw20xx driver
-To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@sberdevices.ru
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230510162234.291439-2-hdegoede@redhat.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 17, 2023 at 10:52=E2=80=AFPM Martin Kurbanov
-<mmkurbanov@sberdevices.ru> wrote:
->
-> This commit adds support for AWINIC AW20036/AW20054/AW20072 LED driver.
-> This driver supports following AW200XX features:
->   - Individual 64-level DIM currents
+On Wed, 10 May 2023, Hans de Goede wrote:
 
-With or without below
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> led_blink_set[_oneshot]()'s delay_on and delay_off function parameters
+> are pass by reference, so that hw-blink implementations can report
+> back the actual achieved delays when the values have been rounded
+> to something the hw supports.
+> 
+> This is really only interesting for the sysfs API / the timer trigger.
+> Other triggers don't really care about this and none of the callers of
+> led_trigger_blink[_oneshot]() do anything with the returned delay values.
+> 
+> Change the led_trigger_blink[_oneshot]() delay parameters to pass-by-value,
+> there are 2 reasons for this:
+> 
+> 1. led_cdev->blink_set() may sleep, while led_trigger_blink() may not.
+> So on hw where led_cdev->blink_set() sleeps the call needs to be deferred
+> to a workqueue, in which case the actual achieved delays are unknown
+> (this is a preparation patch for the deferring).
+> 
+> 2. Since the callers don't care about the actual achieved delays, allowing
+> callers to directly pass a value leads to simpler code for most callers.
+> 
+> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/leds/led-triggers.c              | 16 ++++++++--------
+>  drivers/leds/trigger/ledtrig-disk.c      |  9 +++------
+>  drivers/leds/trigger/ledtrig-mtd.c       |  8 ++------
+>  drivers/net/arcnet/arcnet.c              |  8 ++------
+>  drivers/power/supply/power_supply_leds.c |  5 +----
+>  drivers/usb/common/led.c                 |  4 +---
+>  include/linux/leds.h                     | 16 ++++++++--------
+>  net/mac80211/led.c                       |  2 +-
+>  net/mac80211/led.h                       |  8 ++------
+>  net/netfilter/xt_LED.c                   |  3 +--
+>  10 files changed, 29 insertions(+), 50 deletions(-)
 
-...
+Applied, thanks
 
-> +static int aw200xx_probe_dt(struct device *dev, struct aw200xx *chip)
-
-_dt is not fully correct suffix, it's now firmware properties, so perhaps _=
-fw?
-
-...
-
-I would do
-
-  i =3D 0;
-
-here and drop the assignment in the definition block to be more robust
-against sudden reuse of i in between.
-
-> +       device_for_each_child_node(dev, child) {
-
-> +               i++;
-> +       }
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Lee Jones [李琼斯]
