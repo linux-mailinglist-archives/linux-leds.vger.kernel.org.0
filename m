@@ -2,80 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E9EC708113
-	for <lists+linux-leds@lfdr.de>; Thu, 18 May 2023 14:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80EEF7082B8
+	for <lists+linux-leds@lfdr.de>; Thu, 18 May 2023 15:31:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbjERMUy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 May 2023 08:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56366 "EHLO
+        id S230315AbjERNbe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 May 2023 09:31:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229920AbjERMUx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 May 2023 08:20:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04170186;
-        Thu, 18 May 2023 05:20:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230200AbjERNbd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 May 2023 09:31:33 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B84FE;
+        Thu, 18 May 2023 06:31:30 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9430464E56;
-        Thu, 18 May 2023 12:20:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B18C433D2;
-        Thu, 18 May 2023 12:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684412452;
-        bh=B2tSmJJEwLINlxxk8NveBTh3Pb3iwAg/mTfnyo2eGto=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QzGOPdH6JnfBswuwfL0JlmLPJfNEjGl9HMPs24NhhL3n7wP88zBc9yiHtcwBoVlDz
-         JPA60d1XU2LWG0bRD6qzSluGnLytILCFCETMMnPi0yh1YRaBff9sH3jvB09W85iSZ2
-         yeNVjC4obEt8XTL1bajkLVR8wgoWIiYzxZalIbawLNuLb/j+MBNHu7ogov62Br+SnW
-         fKgvQrisPk1dAKUeCGyK+UySmbeda/RLiaOxBPFYE6pqYsVhsllvP8xbDIYO8jLZKi
-         GopNh57fCLWLX9vjiijuRq4Aghqe6wVWOtvahRjpjReTDZ+fMBXRJ7v0xhACDR51IK
-         A5fNhVHN6dOwQ==
-Date:   Thu, 18 May 2023 13:20:47 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next] leds: trigger: netdev: NULL check before dev_{put,
- hold}
-Message-ID: <20230518122047.GK404509@google.com>
-References: <20230511070820.52731-1-yang.lee@linux.alibaba.com>
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4QMW8Z5gf5z9sbP;
+        Thu, 18 May 2023 15:31:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanvanassche.be;
+        s=MBO0001; t=1684416686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BYYC753MdUNsI3e8pjfC0ipVhim97KERMV0n3XYIbQU=;
+        b=TQ/Jbr9NYTiqNzy3J5xFj7wjV3GMgq8Il5hco8tG/l9qOUbRE+emWoSKoA5q5LVEJaJUdd
+        CRMsNgjc+3OBaHa66VBSl9f+il6JF0QQx8OIw9lfHuNLmJqwe+KhFKCPQC9sK0qfxek3q2
+        52eToyTuQOYIRr+nQMDBF9h12SF09S3S6c3f/HHipmc1SDNmC93Yb3ofuBelseIi6USOrM
+        B3MQoEukn1a/sXPXg+Li7bVHq066iV4HiHTH4xhVjbIz/0dpehcQBzEM8JpXpvr1fo8oQ4
+        uxh243+7ngACBKCtAgSSisTeky68MWEPHM3O2unzMH1+/oU67bXwJ3ILLNOUww==
+From:   Dylan Van Assche <me@dylanvanassche.be>
+To:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        quic_fenglinw@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        amartinz@shiftphones.com, Dylan Van Assche <me@dylanvanassche.be>
+Subject: [PATCH v3 0/3] arm64: dts: qcom: pmi8998: add and enable flash LED controller
+Date:   Thu, 18 May 2023 15:31:10 +0200
+Message-Id: <20230518133113.273880-1-me@dylanvanassche.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230511070820.52731-1-yang.lee@linux.alibaba.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 11 May 2023, Yang Li wrote:
+Qualcomm PMI8998 has support for 3 flash LEDs which got support in [1].
+Add this driver to the PMI8998 DTS and enable 2 flash LEDs in the SHIFTPHONES SHIFT6mq
+smartphone. This smartphone has a white and yellow flash LED.
 
-> The call netdev_{put, hold} of dev_{put, hold} will check NULL,
-> so there is no need to check before using dev_{put, hold},
-> remove it to silence the warnings:
-> 
-> ./drivers/leds/trigger/ledtrig-netdev.c:291:3-10: WARNING: NULL check before dev_{put, hold} functions is not needed.
-> ./drivers/leds/trigger/ledtrig-netdev.c:401:2-9: WARNING: NULL check before dev_{put, hold} functions is not needed.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4929
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/leds/trigger/ledtrig-netdev.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+* Changelog *
 
-Don't forget to run checkpatch.pl before submission.
+Changes in v2:
+- Document compatible for PMI8998 to fix missing compatible in DTS.
+- Improved commit messages, following [2]
 
-WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+Changes in v3:
+- Adjust led-max-microamp and flash-max-microamp to better match downstream.
+- Add Acked-by and Reviewed-by tags
 
-Fixed and applied, thanks.
+[1] https://lore.kernel.org/all/20230507172941.364852-1-me@dylanvanassche.be
+[2] https://lore.kernel.org/all/20230516150202.188655-1-krzysztof.kozlowski@linaro.org/
+
+Kind regards,
+Dylan Van Assche
+
+Dylan Van Assche (3):
+  dt-bindings: leds: qcom,spmi-flash-led: add PMI8998
+  arm64: dts: qcom: pmi8998: add flash LED controller
+  arm64: dts: qcom: sdm845-shift-axolotl: enable flash LEDs
+
+ .../bindings/leds/qcom,spmi-flash-led.yaml    |  1 +
+ arch/arm64/boot/dts/qcom/pmi8998.dtsi         |  6 +++++
+ .../boot/dts/qcom/sdm845-shift-axolotl.dts    | 22 +++++++++++++++++++
+ 3 files changed, 29 insertions(+)
 
 -- 
-Lee Jones [李琼斯]
+2.40.1
+
