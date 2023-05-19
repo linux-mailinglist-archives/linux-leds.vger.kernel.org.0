@@ -2,70 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A243D709B74
-	for <lists+linux-leds@lfdr.de>; Fri, 19 May 2023 17:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D44E709EC4
+	for <lists+linux-leds@lfdr.de>; Fri, 19 May 2023 20:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbjESPi6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 May 2023 11:38:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
+        id S230011AbjESSJR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 May 2023 14:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbjESPi4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 May 2023 11:38:56 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B3F1A5;
-        Fri, 19 May 2023 08:38:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=Content-Disposition:Content-Type:MIME-Version:Message-ID:
-        Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
-        MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=omVuV1TDQWVA/C8v3UWExSrY1jklCeTmaHbrNW9ZbLg=; b=IgmJojbaIGWeZg6IwZRxGIH3tE
-        vcvDuUVMDmbs5ANGFsnGM/MUi4tsBsANq1MOOx0NDRUln/vFv7NSv9egRkVW6JyYd3pPiOu0NYdfM
-        jb5v9D+kCKZI/PkGx7wjEF6dHoU9dXCoj+LXK1b1c6JwzkR6lhqQ6KAN5eqMFSc/mMs4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1q02Bp-00DLEd-4e; Fri, 19 May 2023 17:38:45 +0200
-Date:   Fri, 19 May 2023 17:38:45 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        netdev <netdev@vger.kernel.org>
-Subject: Stable branch for LEDs
-Message-ID: <02004a73-2768-46f6-86ad-c6c631631abf@lunn.ch>
+        with ESMTP id S229456AbjESSJR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 May 2023 14:09:17 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D405C107;
+        Fri, 19 May 2023 11:09:15 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-510dabb3989so5415495a12.0;
+        Fri, 19 May 2023 11:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684519754; x=1687111754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8o05QKrR9i4VTufIFRtl+AkR5mq9b5z62LFHT8IgVfw=;
+        b=aNrpVUMvMUZrfYK8lfSebmNQYE99vsyydV1N10nkuzsz9DUJKm80hRtutMT81CQ/v1
+         erlLrLCFEXvUHu/3uUhhbpbghSv5bwZ+8TMFNzun5FCWpaWmZjOnmptTd3qkUrwhmt5O
+         FfhqPY8IcOd1FM9R/q00TxXX9eAQbHmNXSwp32D8gjp+kN/FOrHK8Cxr3Uvm5ux5dGsY
+         ExChZOjnPNs28nvEl7HsDVYGM4eXf5T6jZxxneuqtn5Q7p1mkSenltRNq0ufI8Pj9YWv
+         zxkaJ6UR+/j+X5Z0VlaIjleiwsjCvChv0Uv/YqSkgyWNsjYs0Qq4Z2N7Ryxx9mzHG/0P
+         bqfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684519754; x=1687111754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8o05QKrR9i4VTufIFRtl+AkR5mq9b5z62LFHT8IgVfw=;
+        b=TvWQilo/16Zu8bETHM15cGMpuYq2dI1YAefj0bPxfZWR0crygEaIp9buG709u51u9/
+         ZtOtVpy2t18kewJdJSiMi+S9woG4O8QtwkwaMlAH5S0MZfP/xivENxa3oaRs5EApP08j
+         kCrCVv0ROrkGCaOeVHKaXxkTl8dZA3KXtB3V+oyJIytLhpm1QnLMzT3av0HIfKJmpjP9
+         318H7FQR11u4vEfXbdCQYe3yvlcxqvH2lugwgG/p7BYQpzRguMwCPhseue2+8v166gFC
+         Zy0b7gbDQRzEuKV+sZntkp9htlkd3+ipF9BYJoe0fJb2+yO4EK1BXk/hPIbOB5LjEB5S
+         WXqg==
+X-Gm-Message-State: AC+VfDwGIC7vhKU43+Cluc3yw1AH70HqPdR0WLjJZ5IFdvlYOmWZLhRA
+        MuZ9zKPpK3McylEVan3g4Ag=
+X-Google-Smtp-Source: ACHHUZ4QuWMsmHNjfxTEGVqbmvSkwEgThKA2QEo9J/htJiK0EVr0kMRbpREmzY4yQ1LotTfnAwMbxQ==
+X-Received: by 2002:aa7:d9c3:0:b0:50b:cae1:d7a3 with SMTP id v3-20020aa7d9c3000000b0050bcae1d7a3mr2639608eds.14.1684519754252;
+        Fri, 19 May 2023 11:09:14 -0700 (PDT)
+Received: from localhost.my.domain (83.11.222.198.ipv4.supernova.orange.pl. [83.11.222.198])
+        by smtp.gmail.com with ESMTPSA id g26-20020aa7c85a000000b0050690bc07a3sm19824edt.18.2023.05.19.11.09.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 11:09:13 -0700 (PDT)
+From:   Artur Weber <aweber.kernel@gmail.com>
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Helge Deller <deller@gmx.de>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Luca Weiss <luca@z3ntu.xyz>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-pwm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: [PATCH v2 0/4] video: backlight: lp855x: modernize bindings
+Date:   Fri, 19 May 2023 20:07:24 +0200
+Message-Id: <20230519180728.2281-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee
+Convert TI LP855X backlight controller bindings from TXT to YAML and,
+while we're at it, rework some of the code related to PWM handling.
+Also correct existing DTS files to avoid introducing new dtb_check
+errors.
 
-Christian Marangi and I will be continuing the work of offloading LED
-blinking to Ethernet MAC and PHY LED controllers. The next set of
-patches is again cross subsystem, LEDs and netdev. It also requires
-some patches you have in for-leds-next:
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 
-a286befc24e8 leds: trigger: netdev: Use mutex instead of spinlocks
-509412749002 leds: trigger: netdev: Convert device attr to macro
-0fd93ac85826 leds: trigger: netdev: Rename add namespace to netdev trigger enum modes
-eb31ca4531a0 leds: trigger: netdev: Drop NETDEV_LED_MODE_LINKUP from mode
-3fc498cf54b4 leds: trigger: netdev: Recheck NETDEV_LED_MODE_LINKUP on dev rename
+Changed in v2:
+ - Added additionalProperties to ROM patternProperties in DT binding
 
-I'm assuming the new series will get nerged via netdev, with your
-Acked-by. Could you create a stable branch with these patches which
-can be pulled into netdev?
+Artur Weber (4):
+  dt-bindings: backlight: lp855x: convert to YAML and modernize
+  video: backlight: lp855x: get PWM for PWM mode during probe
+  ARM: dts: adapt to LP855X bindings changes
+  arm64: dts: adapt to LP855X bindings changes
 
-Thanks
-	Andrew
+ .../leds/backlight/lp855x-backlight.yaml      | 149 ++++++++++++++++++
+ .../bindings/leds/backlight/lp855x.txt        |  72 ---------
+ .../dts/qcom-apq8026-samsung-matisse-wifi.dts |   1 -
+ ...-msm8974pro-sony-xperia-shinano-castor.dts |  23 +--
+ .../boot/dts/nvidia/tegra210-p2371-2180.dts   |   6 +-
+ drivers/video/backlight/lp855x_bl.c           |  48 +++---
+ 6 files changed, 189 insertions(+), 110 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x-backlight.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x.txt
+
+
+base-commit: fb200218b40b7864f64f1a47de61e035d8934e92
+-- 
+2.40.1
+
