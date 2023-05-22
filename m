@@ -2,131 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F0C70BA98
-	for <lists+linux-leds@lfdr.de>; Mon, 22 May 2023 12:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A75E70C33B
+	for <lists+linux-leds@lfdr.de>; Mon, 22 May 2023 18:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbjEVKwV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 22 May 2023 06:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41022 "EHLO
+        id S231686AbjEVQ0L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 22 May 2023 12:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbjEVKvq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 May 2023 06:51:46 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA34137;
-        Mon, 22 May 2023 03:51:23 -0700 (PDT)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34M9mUD4032270;
-        Mon, 22 May 2023 10:51:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=johbE40XqSHUAOrj12by5TCMX9zCA/W+s5M07e40jQY=;
- b=e1LybSwU7NEOfhFzEK1YaPZw6dEoZi9pU8mDARbEbk7hM79r7q2T+zQNshhqbGr2Fzty
- TlSMQ8UDOdRHYnaeJhSD31f1hmHuOZ+3QLBrj5Igmeffh47cPAQ2C4qSER6waRGdGyYI
- VOqyPCUoOHdpik1SXySMqeykQMNTnppvxwnAuOfyKrnAZT2kWEPHj2YpgzdNOgt+PEw3
- TYVnS0Crl8nCFaMod++ilpeLxwmhET4g7JjHRxr/AxoK2gc+NAnQqfm/v86PjQQGts+2
- kAm+z6vYvgpG7uFnFqsfEcQsQMbUEctKfjjVOzRGqZUuGr5mpLVTwFY0niV2wRBDt6Ey YQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqfq39qth-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:09 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34MAm941030301;
-        Mon, 22 May 2023 10:51:08 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqfq39qst-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:08 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34M4CeEJ026245;
-        Mon, 22 May 2023 10:51:06 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qppdk0w97-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 May 2023 10:51:06 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34MAp3dW8782540
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 May 2023 10:51:04 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DB14320043;
-        Mon, 22 May 2023 10:51:03 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 64FF120040;
-        Mon, 22 May 2023 10:51:03 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 22 May 2023 10:51:03 +0000 (GMT)
-From:   Niklas Schnelle <schnelle@linux.ibm.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH v5 17/44] leds: add HAS_IOPORT dependencies
-Date:   Mon, 22 May 2023 12:50:22 +0200
-Message-Id: <20230522105049.1467313-18-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230522105049.1467313-1-schnelle@linux.ibm.com>
-References: <20230522105049.1467313-1-schnelle@linux.ibm.com>
+        with ESMTP id S231841AbjEVQ0J (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 May 2023 12:26:09 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCBAF4
+        for <linux-leds@vger.kernel.org>; Mon, 22 May 2023 09:26:08 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f6042d605dso10661735e9.2
+        for <linux-leds@vger.kernel.org>; Mon, 22 May 2023 09:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684772766; x=1687364766;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nepH5iGXOLHccajnwZc6MTpZ6uEQTRzg8VCSEJy8tmc=;
+        b=gWJwYpP7gTRBrwW4cmlkuK1Z/0BJz5LSdzCYfFaJIJaM+nSUk3rE65+ey+IKvXfIKO
+         6t6c+y2kd6TQJRjmM6A18PcEO7F+iAd4PhFpqynjBhAdGou5Wn2T/aHKfptHgJA2IPbN
+         5tROKTDzz6c/CZL+0o0pESpp4nPmz+BB8j/gckqyrrgQ+qmRpuWQBLBlS4oD28wvCbnh
+         WBgQ8xCDFJtSHK5oSDmID3pT0wq3e15kg2wZWwVqdM6zzjgrQZ5L1EeshEe84FVO7+iB
+         bZ8piFfEujllavjt82XlR7wGRGfU+vdW9J7FpqYGSRJIbeE0Bgx4TgfuxvPXdk4/zo1Y
+         d+Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684772766; x=1687364766;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nepH5iGXOLHccajnwZc6MTpZ6uEQTRzg8VCSEJy8tmc=;
+        b=XWBS0E8QcMs6N1YWJnfrxAqOU9ColNj2suyVHRctI7AfyZwGvhKKBJa1LcEG73fPGe
+         OzgYUioUYIp4dMMnxp8CfZKVuNH3IYayRHz/bolxJMQO8QUoT9OWF37ZzOQt++hE3Eqr
+         ZFGwYKIsVDR8Ggi0F4KVfhmNJnpphjuWTsX0m7ZIagh5WWddOPpnN+IyJcYN4YLC4dsc
+         e8heSNf4qivVFFL8IRUC8VmlCQiIK8CvScU3MDhKIN1AWtaltcxpfb4EbnPbHxCWnzTp
+         B6y9FU5q7XsqNSXvhrsigwmknLhAZdxEMJynNysmAfWBtynYckkG4h7WlYg0FyodtsHQ
+         nMkQ==
+X-Gm-Message-State: AC+VfDyclGsVAlJ1NG0OtjsvsWvBWYgZ0bZCo7aihgKBfpDsAgc2Ehe7
+        GT2kDlaXaVNh7u0DFWO2a94O8g==
+X-Google-Smtp-Source: ACHHUZ7d2aVRFO488Vr0xe0B74fe0JEXcSzeGPGqM+ptNYfwIpjNDbuN2+OAgxnq1/vdXYvu28525g==
+X-Received: by 2002:a7b:ce89:0:b0:3f6:7ff:b3bd with SMTP id q9-20020a7bce89000000b003f607ffb3bdmr1382197wmj.21.1684772766650;
+        Mon, 22 May 2023 09:26:06 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id p24-20020a05600c205800b003f6041f5a6csm4317746wmg.12.2023.05.22.09.26.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 May 2023 09:26:06 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Date:   Mon, 22 May 2023 18:26:01 +0200
+Subject: [PATCH] dt-bindings: leds: qcom-lpg: document PM8550 compatible
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 665_KEuqf91La7AQLb2657Hfz0w6eQDn
-X-Proofpoint-GUID: 8YbAzfsDD8WEqAgv8X_WHLt1AW0qzF4j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-22_06,2023-05-22_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=786
- priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305220089
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230522-topic-sm8550-upstream-pm8550-lpg-v1-1-f016578d9e63@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAJiXa2QC/yXNQQqDMBCF4avIrDuQRgO2VyldJHHUgRjDjEpBv
+ HtDu/ze4n8nKAmTwrM5Qehg5TVX3G8NxNnniZCHarDGtsZZi9taOKIuvXMG96KbkF+w/J3KhC6
+ MnXn0nY3tADUTvBIG8TnONZT3lOpYhEb+/H5f7+v6Ar7SzHyHAAAA
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1727;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=1iBfYlBa2kOii/Fa1CWOA2mUunOJhoOPHiCd2fuv9dU=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBka5edtsQEAgiDR8UamS6yCyhQYv4K0McfLEHN9Oji
+ VuDnCMGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZGuXnQAKCRB33NvayMhJ0XB/D/
+ 4822iruHdb5epzVHXaQ4evPsPnMkXPhmS5l33u+HdybZ+1ui00u1ShwOKB7BUVC3sXZDx+//5BoS9F
+ gF4xBb5OzUX5ORZGaLBJJEmop4whg8CXzAJIbvud2lcyB8zsJ1+Ld0VSAHjVV5Yas8i9FcFpkyuBYT
+ I7cQHgYS3m6n/1clO35GeR4N2MAFrDal1j2DnrxZs+JXXeDHWdYVJ/3dQHOhLclQxtaNo/QiIXXlvR
+ mX+nR0N8GP3qsyAQP62xJ1vOSoCUtpUjwOp1GuPYMdEMQXhWW4HzXxchZLPHFvQKC1TB9DKvoHhPDz
+ q462mYIqsciDQnj9St+utotYcr9NDiTM2toAvsMtD6QwvkljHNwldSByKGXm4Ch/qqrxALrZKDADy6
+ b4HwH3Yhdfr+GzLV5YEA6Lm8W0qIi/S011LO3NdDvnH9hod5b+g2kmZUnpJhvUuhwDLBIUKDhjIvKT
+ 5GSr20nXEDdyRxYcZVsqkd/WmEwykVYWUFPpUnjAL7dyGBq46KgL5xdIUzeZIpcZLi59/RFPjiPjOy
+ bDf0LTfOvct/koB+tSx77dhyTDD75OQhNBS9dis3ufbOH621j+EKVsqBN3EKpFD6a/SKGsThLKir9V
+ 764I9K5kqdu8dUW+v3j8+IHlRxyTGqMdDAwJRixUDPmBJUV8PNRudyHNv0Hw==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+The PM8550 PWM modules are compatible with the PM8350c PWM modules,
+document the PM8350c PWM compatible as fallback for the PM8550 PWM.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/leds/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/leds/leds-qcom-lpg.yaml    | 30 +++++++++++++---------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 2c5fdf848210..6573a4473fe5 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -676,7 +676,7 @@ config LEDS_LM355x
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 6295c91f43e8..fa378ee05c16 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -16,18 +16,24 @@ description: >
  
- config LEDS_OT200
- 	tristate "LED support for the Bachmann OT200"
--	depends on LEDS_CLASS && HAS_IOMEM && (X86_32 || COMPILE_TEST)
-+	depends on LEDS_CLASS && HAS_IOPORT && (X86_32 || COMPILE_TEST)
- 	help
- 	  This option enables support for the LEDs on the Bachmann OT200.
- 	  Say Y to enable LEDs on the Bachmann OT200.
+ properties:
+   compatible:
+-    enum:
+-      - qcom,pm660l-lpg
+-      - qcom,pm8150b-lpg
+-      - qcom,pm8150l-lpg
+-      - qcom,pm8350c-pwm
+-      - qcom,pm8916-pwm
+-      - qcom,pm8941-lpg
+-      - qcom,pm8994-lpg
+-      - qcom,pmc8180c-lpg
+-      - qcom,pmi8994-lpg
+-      - qcom,pmi8998-lpg
+-      - qcom,pmk8550-pwm
++    oneOf:
++      - enum:
++          - qcom,pm660l-lpg
++          - qcom,pm8150b-lpg
++          - qcom,pm8150l-lpg
++          - qcom,pm8350c-pwm
++          - qcom,pm8916-pwm
++          - qcom,pm8941-lpg
++          - qcom,pm8994-lpg
++          - qcom,pmc8180c-lpg
++          - qcom,pmi8994-lpg
++          - qcom,pmi8998-lpg
++          - qcom,pmk8550-pwm
++      - items:
++          - enum:
++              - qcom,pm8550-pwm
++          - const: qcom,pm8350c-pwm
++
+ 
+   "#pwm-cells":
+     const: 2
+
+---
+base-commit: 44c026a73be8038f03dbdeef028b642880cf1511
+change-id: 20230522-topic-sm8550-upstream-pm8550-lpg-5bf409842c3d
+
+Best regards,
 -- 
-2.39.2
+Neil Armstrong <neil.armstrong@linaro.org>
 
