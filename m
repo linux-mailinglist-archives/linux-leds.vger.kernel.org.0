@@ -2,38 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ABCF70C474
-	for <lists+linux-leds@lfdr.de>; Mon, 22 May 2023 19:39:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BBDB70C4C2
+	for <lists+linux-leds@lfdr.de>; Mon, 22 May 2023 20:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjEVRjj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 22 May 2023 13:39:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47000 "EHLO
+        id S229960AbjEVSAY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 22 May 2023 14:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229764AbjEVRji (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 May 2023 13:39:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37F9DB;
-        Mon, 22 May 2023 10:39:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7825362334;
-        Mon, 22 May 2023 17:39:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D108AC433D2;
-        Mon, 22 May 2023 17:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684777176;
-        bh=Kk6mby5P1tf8oTeyObXljroIwmNVqfqbu+Q9j5a2xb0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DnRSE3VBaPYHZ+XI5MyAO5m9rXr+zZ/6NY6dwsgM76rLJ5C/HIcZqIeZ8FgzOKCkN
-         m6782JCKSHNmvo21eUQhoCKVLQ4V2NBOHfQBaWVcfd4VsprgyNT1vibL3uCihCaAZ7
-         0s+jkXSsSMaW7JHi6m0XiLFfYgJptF3L7RtwtxFJ3MHsokArrotEAT4uuTESKU/sN0
-         BjubL2KsMix0q2UXFaAEs9t81WGmHBFr70UOVtkQFyJ3+Z/0lL3CNJUT+B+3HQQwc9
-         qdBgK4ZLNwcn4CGj2JWmc5BOq7QYOl5/SuCTr4FgVKG1sWnyXHuZfNV39hUNusdHfI
-         shOsr/rj3UNVg==
-Date:   Mon, 22 May 2023 18:39:32 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
+        with ESMTP id S230184AbjEVSAX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 May 2023 14:00:23 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B58FC6
+        for <linux-leds@vger.kernel.org>; Mon, 22 May 2023 11:00:21 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-30959c0dfd6so3488860f8f.3
+        for <linux-leds@vger.kernel.org>; Mon, 22 May 2023 11:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684778420; x=1687370420;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vocPlTf+ndsafl6F5PjhtF9Wtlm84gCaZwk1AEvD+Ss=;
+        b=H4c1FwkLdAp3OmJc5rPt8/ZqW05C27palNnKEG0y2m2GKxeUVA3qY8m2fNUgjXCDe4
+         NpcgfoLkCCD5RFUfDPrQgymfaR51wB663CutVLjI93lND/Mr0tJSYSnWUrG+F4KmcRzr
+         lAOZve54WQ88cJZSn1eRC6K5QBNwcxYr6k9jfz2206lEOmivqClzjEisBiQZAHq4gejj
+         e2Igtp60U4rLLIeaH2AaJ89DUmy2WirhG5sF4v3NlHq03lUJlwbZakUXZBR8pvOBne7c
+         mtddh2KLOdMO347tJhgKIMgUZKGKLQGXxhaPDAa3l2cqW1I4k9Nq4gSPeltQ4fwX5FGc
+         ZaiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684778420; x=1687370420;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vocPlTf+ndsafl6F5PjhtF9Wtlm84gCaZwk1AEvD+Ss=;
+        b=degpPinNrL5lWUXk2xpAKp+AHdYp1wDV5Eh3bYKvRbcAUOHl7WvOeTZmNIoM9uJRWy
+         J7dvUeX89hCoYBdB7K0iTGdKwd07b6oqL7VP1vgpZ/xacJ4RJ8WclyFP3lAX8Qvlu1wI
+         qrw0BKki3QwrAjaIozKFLRBnLcVcSggtEf+ZxKSW7P+x2NW4vTReCmCSlfPJsuJJ87/X
+         dcsDNxir+CaZA83IPjpS/5sLjO/Bagzhp3eckh3LeqnSJMszxLa9BiStLavu3NWIRPue
+         T2p7zIepfrh7ZnENC9Ov76Wn3nyYtmPAfni5mTJm5H5gtvQctr24WgYXEaAkPjd5SSk7
+         uWHg==
+X-Gm-Message-State: AC+VfDzMk9hCVnVgeoAvubkF5DtqdhGlk0TSQ5jwyl+H+Cobt/vcE4GH
+        fMqSvQTpN9Mg1BKQeV2FZ8gMiA==
+X-Google-Smtp-Source: ACHHUZ4I1Dq9nv0jiPs69KxQAtlwWmqlxEDOYy4D5O2HgeUQXRiBPn3opMwLJOxY25ymE2D+Lpwq+g==
+X-Received: by 2002:a5d:4cd1:0:b0:2f6:bf04:c8cc with SMTP id c17-20020a5d4cd1000000b002f6bf04c8ccmr7525738wrt.55.1684778419889;
+        Mon, 22 May 2023 11:00:19 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:a478:d61d:5bb5:7df? ([2a01:e0a:982:cbb0:a478:d61d:5bb5:7df])
+        by smtp.gmail.com with ESMTPSA id 16-20020a05600c021000b003f50d6ee334sm9035660wmi.47.2023.05.22.11.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 May 2023 11:00:19 -0700 (PDT)
+Message-ID: <e98e39e3-c10d-65d1-3093-2d54888b1829@linaro.org>
+Date:   Mon, 22 May 2023 20:00:18 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH] dt-bindings: leds: qcom-lpg: document PM8550 compatible
+Content-Language: en-US
+To:     Conor Dooley <conor@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -41,17 +67,15 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: qcom-lpg: document PM8550 compatible
-Message-ID: <20230522-childhood-eastbound-06a5f02f1f4a@spud>
 References: <20230522-topic-sm8550-upstream-pm8550-lpg-v1-1-f016578d9e63@linaro.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1qfQUUVRK2UvHwkM"
-Content-Disposition: inline
-In-Reply-To: <20230522-topic-sm8550-upstream-pm8550-lpg-v1-1-f016578d9e63@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+ <20230522-childhood-eastbound-06a5f02f1f4a@spud>
+Organization: Linaro Developer Services
+In-Reply-To: <20230522-childhood-eastbound-06a5f02f1f4a@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,91 +83,78 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 22/05/2023 19:39, Conor Dooley wrote:
+> On Mon, May 22, 2023 at 06:26:01PM +0200, Neil Armstrong wrote:
+>> The PM8550 PWM modules are compatible with the PM8350c PWM modules,
+>> document the PM8350c PWM compatible as fallback for the PM8550 PWM.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> 
+> I suppose you picked "items/enum", rather than "items/const" to reduce
+> future churn?
 
---1qfQUUVRK2UvHwkM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 22, 2023 at 06:26:01PM +0200, Neil Armstrong wrote:
-> The PM8550 PWM modules are compatible with the PM8350c PWM modules,
-> document the PM8350c PWM compatible as fallback for the PM8550 PWM.
->=20
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-I suppose you picked "items/enum", rather than "items/const" to reduce
-future churn?
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Yes indeed.
 
 Thanks,
-Conor.
+Neil
 
-> ---
->  .../devicetree/bindings/leds/leds-qcom-lpg.yaml    | 30 +++++++++++++---=
-------
->  1 file changed, 18 insertions(+), 12 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/=
-Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> index 6295c91f43e8..fa378ee05c16 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> @@ -16,18 +16,24 @@ description: >
-> =20
->  properties:
->    compatible:
-> -    enum:
-> -      - qcom,pm660l-lpg
-> -      - qcom,pm8150b-lpg
-> -      - qcom,pm8150l-lpg
-> -      - qcom,pm8350c-pwm
-> -      - qcom,pm8916-pwm
-> -      - qcom,pm8941-lpg
-> -      - qcom,pm8994-lpg
-> -      - qcom,pmc8180c-lpg
-> -      - qcom,pmi8994-lpg
-> -      - qcom,pmi8998-lpg
-> -      - qcom,pmk8550-pwm
-> +    oneOf:
-> +      - enum:
-> +          - qcom,pm660l-lpg
-> +          - qcom,pm8150b-lpg
-> +          - qcom,pm8150l-lpg
-> +          - qcom,pm8350c-pwm
-> +          - qcom,pm8916-pwm
-> +          - qcom,pm8941-lpg
-> +          - qcom,pm8994-lpg
-> +          - qcom,pmc8180c-lpg
-> +          - qcom,pmi8994-lpg
-> +          - qcom,pmi8998-lpg
-> +          - qcom,pmk8550-pwm
-> +      - items:
-> +          - enum:
-> +              - qcom,pm8550-pwm
-> +          - const: qcom,pm8350c-pwm
-> +
-> =20
->    "#pwm-cells":
->      const: 2
->=20
-> ---
-> base-commit: 44c026a73be8038f03dbdeef028b642880cf1511
-> change-id: 20230522-topic-sm8550-upstream-pm8550-lpg-5bf409842c3d
->=20
-> Best regards,
-> --=20
-> Neil Armstrong <neil.armstrong@linaro.org>
->=20
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Thanks,
+> Conor.
+> 
+>> ---
+>>   .../devicetree/bindings/leds/leds-qcom-lpg.yaml    | 30 +++++++++++++---------
+>>   1 file changed, 18 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+>> index 6295c91f43e8..fa378ee05c16 100644
+>> --- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+>> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+>> @@ -16,18 +16,24 @@ description: >
+>>   
+>>   properties:
+>>     compatible:
+>> -    enum:
+>> -      - qcom,pm660l-lpg
+>> -      - qcom,pm8150b-lpg
+>> -      - qcom,pm8150l-lpg
+>> -      - qcom,pm8350c-pwm
+>> -      - qcom,pm8916-pwm
+>> -      - qcom,pm8941-lpg
+>> -      - qcom,pm8994-lpg
+>> -      - qcom,pmc8180c-lpg
+>> -      - qcom,pmi8994-lpg
+>> -      - qcom,pmi8998-lpg
+>> -      - qcom,pmk8550-pwm
+>> +    oneOf:
+>> +      - enum:
+>> +          - qcom,pm660l-lpg
+>> +          - qcom,pm8150b-lpg
+>> +          - qcom,pm8150l-lpg
+>> +          - qcom,pm8350c-pwm
+>> +          - qcom,pm8916-pwm
+>> +          - qcom,pm8941-lpg
+>> +          - qcom,pm8994-lpg
+>> +          - qcom,pmc8180c-lpg
+>> +          - qcom,pmi8994-lpg
+>> +          - qcom,pmi8998-lpg
+>> +          - qcom,pmk8550-pwm
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,pm8550-pwm
+>> +          - const: qcom,pm8350c-pwm
+>> +
+>>   
+>>     "#pwm-cells":
+>>       const: 2
+>>
+>> ---
+>> base-commit: 44c026a73be8038f03dbdeef028b642880cf1511
+>> change-id: 20230522-topic-sm8550-upstream-pm8550-lpg-5bf409842c3d
+>>
+>> Best regards,
+>> -- 
+>> Neil Armstrong <neil.armstrong@linaro.org>
+>>
 
---1qfQUUVRK2UvHwkM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGuo1AAKCRB4tDGHoIJi
-0p6EAQDTIZTlFFa55WeO6xB3Ese2p9pWCG0HVK0S/9lsyT/vQgEAqmnB1lZVPXFo
-H7E/qCropV1xS+Vq+mRyzXy6AflNGA0=
-=QH2B
------END PGP SIGNATURE-----
-
---1qfQUUVRK2UvHwkM--
