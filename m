@@ -2,61 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E2AD70E3E6
-	for <lists+linux-leds@lfdr.de>; Tue, 23 May 2023 19:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4157E70E4BA
+	for <lists+linux-leds@lfdr.de>; Tue, 23 May 2023 20:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbjEWRgU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 May 2023 13:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        id S237420AbjEWScI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 May 2023 14:32:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238239AbjEWRgE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 May 2023 13:36:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2835E41;
-        Tue, 23 May 2023 10:35:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230283AbjEWScH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 May 2023 14:32:07 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 917638F
+        for <linux-leds@vger.kernel.org>; Tue, 23 May 2023 11:32:05 -0700 (PDT)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E54D63547;
-        Tue, 23 May 2023 17:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9C8C433D2;
-        Tue, 23 May 2023 17:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684863349;
-        bh=V6La7xHuyVytMAyfQCoW1fs5fxMyIO2p76AI2SCUOEA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GtPdzUJqCnuCdbrKHnn6ERa4f+5zTE+NOlHT2B2jd36yEoOXyZEbzZGuHV6/xr73A
-         FXH4S5r69z3TpvH5ecaYAKiR9+zuR4vRRQy2LmCkz/cGZt3LNgpnQ+VdFufEwgc+aZ
-         y+8dhTUguas7Ej+7mZ3fCjz+I4XOtDxm3kysvSLUl8bib7rwnOO961Gh14b5OslPA2
-         jnZQTEnr176dhlZWml11cjIcPJ0CDW6KM203OioUtuzMuv3HkJ6qmMRtFYvHZ3s6/c
-         CLRezJz/AoZ6jI9uEi9DTSItUODShygq9vv5BEwMW4JFGG+R9DEjOz79RWSUHSXO1i
-         3Vn6LiKRGOa/A==
-Date:   Tue, 23 May 2023 18:35:44 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
- required
-Message-ID: <20230523-outlying-repulsive-efc0f9e1435e@spud>
-References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 1CA3785723;
+        Tue, 23 May 2023 20:32:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1684866723;
+        bh=MzDtpJzrkToYeVBVUyTXcAqZcnZVI5/3Hk+liskeBoE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=wGocq2oxHKztHfPUJl0XN5usNG6XoR9BYSnMyYFTmLAyLxLZFOGLlJaQUj7YkY6At
+         gDTvoAUq9CQAA04/DlKdzflx24fA19Ngr2LY/039H+Np8JW6JV214gpF/0M4A9reXN
+         cY5tLWzfzSfoFpr4Ge3C5SHYq2YB2pWyTr+2u8FsAHVXxDentJOh+gEafyj07cfra+
+         ZRwtTuVTDdJfU+ZnSEUeA6v2SXw/NMcIh1RPDbrViDUFpLvLSgw8Fq2HOeAMunt5+P
+         9vrYzuoB41GRMhQtBfLu2Y3kW/9fe0CKK4wsdTsLGDTTTOiD/fsffiKnwY/57yot1d
+         KVb1RfyHvmB0w==
+From:   Marek Vasut <marex@denx.de>
+To:     linux-leds@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Subject: [PATCH v2] leds: gpio: Configure per-LED pin control
+Date:   Tue, 23 May 2023 20:31:51 +0200
+Message-Id: <20230523183151.5460-1-marex@denx.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nG5CKQOdzr5W/qlH"
-Content-Disposition: inline
-In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,77 +53,66 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+to it, parse the DT subnode pinctrl properties and configure each pin
+accordingly.
 
---nG5CKQOdzr5W/qlH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+To: linux-leds@vger.kernel.org
+---
+V2: Cc Lee
+---
+ drivers/leds/leds-gpio.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-On Tue, May 23, 2023 at 05:38:37PM +0200, Geert Uytterhoeven wrote:
-> make dtbs_check:
->=20
->     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-su=
-pply' is a required property
-> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-ba=
-cklight.yaml
->=20
-> As that backlight device node already has an "enable-gpios" property to
-> control the power supplied to the backlight, it sounds a bit silly to
-> have to add a "power-supply" property just to silence this warning.  In
-> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
-> on a disabled PWM emiting inactive state"), the Linux driver considers
-> the power supply optional.
->=20
-> Fix this by synchronizing the bindings with actual driver behavior by
-> making the "power-supply" optional.
+diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+index ce4e79939731d..7bfe40a6bfddf 100644
+--- a/drivers/leds/leds-gpio.c
++++ b/drivers/leds/leds-gpio.c
+@@ -13,6 +13,7 @@
+ #include <linux/leds.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
+@@ -77,6 +78,7 @@ static int create_gpio_led(const struct gpio_led *template,
+ 	struct fwnode_handle *fwnode, gpio_blink_set_t blink_set)
+ {
+ 	struct led_init_data init_data = {};
++	struct pinctrl *pinctrl;
+ 	int ret, state;
+ 
+ 	led_dat->cdev.default_trigger = template->default_trigger;
+@@ -119,6 +121,22 @@ static int create_gpio_led(const struct gpio_led *template,
+ 						     &init_data);
+ 	}
+ 
++	if (ret)
++		return ret;
++
++	pinctrl = devm_pinctrl_get_select_default(led_dat->cdev.dev);
++	if (IS_ERR(pinctrl)) {
++		ret = PTR_ERR(pinctrl);
++		if (ret != -ENODEV) {
++			dev_warn(led_dat->cdev.dev,
++				 "Failed to select %pOF pinctrl: %d\n",
++				 to_of_node(fwnode), ret);
++		} else {
++			/* pinctrl-%d not present, not an error */
++			ret = 0;
++		}
++	}
++
+ 	return ret;
+ }
+ 
+-- 
+2.39.2
 
-That seems to follow from reading the aforementioned commit.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
->=20
-> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM=
- emiting inactive state")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
-> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
-> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
->=20
-> Thanks!
-> ---
->  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlig=
-ht.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.ya=
-ml
-> index 5ec47a8c6568b60e..53569028899020d6 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> @@ -68,7 +68,6 @@ dependencies:
->  required:
->    - compatible
->    - pwms
-> -  - power-supply
-> =20
->  additionalProperties: false
-> =20
-> --=20
-> 2.34.1
->=20
-
---nG5CKQOdzr5W/qlH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGz5cAAKCRB4tDGHoIJi
-0mDPAQDCdFT25r3FjLLlJyhgTRdLJpa3ifbcKQxOZ20+M4dpXQD/dsHStncq/F4X
-8OY2cqOzQwlc8EIm4K1E801mM1/RQwA=
-=HU1s
------END PGP SIGNATURE-----
-
---nG5CKQOdzr5W/qlH--
