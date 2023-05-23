@@ -2,60 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D45070D86B
-	for <lists+linux-leds@lfdr.de>; Tue, 23 May 2023 11:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BEE370D8A0
+	for <lists+linux-leds@lfdr.de>; Tue, 23 May 2023 11:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230082AbjEWJHM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 May 2023 05:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
+        id S236320AbjEWJOQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 May 2023 05:14:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236339AbjEWJGw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 May 2023 05:06:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944CA118;
-        Tue, 23 May 2023 02:06:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A42462555;
-        Tue, 23 May 2023 09:06:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82939C4339B;
-        Tue, 23 May 2023 09:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684832810;
-        bh=5AHcJMuMuyYhhAsyGVbPQl1L5/pgWSOiDxGcQFt0A2I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MBcfyAbRHVYm6FQ+aE1bIUk41h7kZ4HW51VRE0eDzTBbLzDq0pL0VluiST4Ib6PNn
-         R6M1ySA5PNQPtvYdpKGYyGm0Tpzi2f4QEB8TuPKOHH43SsAhHH/70pndSjLz7owvVe
-         1Tefq0777T0sIghCOgWwSQLwabtKoZgSYYqu7OOYNtTkehWD5ZxAqTomXz1QQpnTcf
-         R6kKq7qVeWWnGaQ7UTxrW7B8ibd27fF4t1eNvdn4ZX01IhI3nU+ew5N46fMqOMnPyR
-         HywRVAqtaSce0BuJE5XnNcak0pQkAZ0t8EkvY57TrnlvKHpDlWvzcmut67uTW+zRIP
-         MEFqkz+LDm74w==
-Date:   Tue, 23 May 2023 10:06:45 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@sberdevices.ru
-Subject: Re: [PATCH v4 2/2] leds: add aw20xx driver
-Message-ID: <20230523090645.GD2174496@google.com>
-References: <20230517195238.34069-1-mmkurbanov@sberdevices.ru>
- <20230517195238.34069-3-mmkurbanov@sberdevices.ru>
- <CAHp75VdEc9x=v-NU4wqrg-S0vEjqc27JPqZAK0TJsNUc37ZTmg@mail.gmail.com>
- <20230522071426.GP404509@google.com>
- <CAHp75VdG6nSHgzmp9yA2aAwvzWuaYf2Q71tz2ruDPnwb=h=hiQ@mail.gmail.com>
- <20230522163537.GR404509@google.com>
- <CAHp75Ve4EAAj+6VTtYPS-5n+RSobN6ZcwS61kHFaGzHQ-8YhYw@mail.gmail.com>
+        with ESMTP id S236340AbjEWJON (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 May 2023 05:14:13 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1352D18C;
+        Tue, 23 May 2023 02:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684833241; x=1716369241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p11Fh3zV0aO7V1029S8TVD+DK0K/zYni8ofbYQ7Ur8U=;
+  b=dhjVFSoymcX7tLWEY1tE4i6E5V9Hi2pI2RP3t6LQzFhjY6nNfICgtWri
+   tgVhPUASZjT54s7XPSlhtjN4Vj1xayWdbV7k4zIKj/EfkBCvheO/1TjaD
+   rm0qGTIrBC1ftVZe/f+rPghk1C6l64thEWrReyT5fh26QuCAuWrw7Ck39
+   0MtZ2y36vFEci8VNzsKi/MlMw9kmkJS8hBZPjyQyVJWkBAkuIvHz9sHCj
+   MUz+8QXQgS69FvrIgfOZxKioDHD/xNKXjG9P4otYKBNxP54xHhLZHJGKk
+   IouYIpqm2YawlllW16qEMf/bMNvXskXjvEondvjOMx1YSpQfjEnjdJ6rM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="439538453"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; 
+   d="scan'208";a="439538453"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 02:13:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="697986976"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; 
+   d="scan'208";a="697986976"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 02:13:46 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id E8B301202A8;
+        Tue, 23 May 2023 12:13:43 +0300 (EEST)
+Date:   Tue, 23 May 2023 09:13:43 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Lee Jones <lee@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-hardening@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH] i2c: Replace all non-returning strlcpy with strscpy
+Message-ID: <ZGyDx4Jg9j2zmjD6@kekkonen.localdomain>
+References: <20230523021150.2406032-1-azeemshaikh38@gmail.com>
+ <20230523090540.GC2174496@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Ve4EAAj+6VTtYPS-5n+RSobN6ZcwS61kHFaGzHQ-8YhYw@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <20230523090540.GC2174496@google.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,43 +65,40 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 22 May 2023, Andy Shevchenko wrote:
+Hi Lee, Azeem,
 
-> On Mon, May 22, 2023 at 7:35 PM Lee Jones <lee@kernel.org> wrote:
-> > On Mon, 22 May 2023, Andy Shevchenko wrote:
-> > > On Mon, May 22, 2023 at 10:14 AM Lee Jones <lee@kernel.org> wrote:
-> > > > On Thu, 18 May 2023, Andy Shevchenko wrote:
-> > > > > On Wed, May 17, 2023 at 10:52 PM Martin Kurbanov
-> > > > > <mmkurbanov@sberdevices.ru> wrote:
+On Tue, May 23, 2023 at 10:05:40AM +0100, Lee Jones wrote:
+> On Tue, 23 May 2023, Azeem Shaikh wrote:
 > 
-> ...
+> > strlcpy() reads the entire source buffer first.
+> > This read may exceed the destination size limit.
+> > This is both inefficient and can lead to linear read
+> > overflows if a source string is not NUL-terminated [1].
+> > In an effort to remove strlcpy() completely [2], replace
+> > strlcpy() here with strscpy().
+> > No return values were used, so direct replacement is safe.
+> > 
+> > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+> > [2] https://github.com/KSPP/linux/issues/89
+> > 
+> > Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+> > ---
+> >  drivers/leds/flash/leds-as3645a.c |    4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> > > > > I would do
-> > > > >
-> > > > >   i = 0;
-> > > > >
-> > > > > here and drop the assignment in the definition block to be more robust
-> > > >
-> > > > "here" where?
-> > >
-> > > > You've removed all context.
-> > >
-> > > That's not true. The below line exclusively defines the location in
-> > > the code that I'm talking about. Note, Martin understood that AFAICT
-> > > and addressed in the new version.
-> >
-> > I'd expect the author to have a solid understanding of the code.  I
-> > found this difficult to read as-was and had to go look at the patch to
-> > understand it.
-> 
-> I see your point.
-> 
-> > No biggy.  Just something to bear in mind.
-> 
-> No worries, and thanks for the remark. I'll try my best to satisfy
-> others and not only the author of the code in the future reviews.
+> Please resubmit, taking the time to check the subject line please.
 
-Thanks mate.
+I'd say also shorter description will suffice. Nowadays people understand
+the motivation replacing strlcpy() by strscpy() without too much
+elaboration. Lines may be up to 74 characters long, too, and period isn't
+automatically followed by a newline.
+
+The patch itself seems fine.
+
+I also prefer my @linux.intel.com address, as in MAINTAINERS for this
+driver.
 
 -- 
-Lee Jones [李琼斯]
+Kind regards,
+
+Sakari Ailus
