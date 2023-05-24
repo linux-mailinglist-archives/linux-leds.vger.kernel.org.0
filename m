@@ -2,138 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2225170F603
-	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 14:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3585670F61F
+	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 14:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbjEXMP0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 May 2023 08:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
+        id S230031AbjEXMVc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 May 2023 08:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232240AbjEXMPY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 08:15:24 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF13A18C;
-        Wed, 24 May 2023 05:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684930523; x=1716466523;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=YWFNqek+VRG2S1Kpq+u/LIuoteJFwt9202gfFrPSfKQ=;
-  b=JfnqMsM+npo4c+ck2bENMDYNj4A8L3OrRLeJcX2CwB3HCg0mcYCh6gYt
-   FiD52Gh5aR+KQRK0AkHz3u35IUZJ3mMWT4JD4Pr3LVfSNtoEQvtNlD+fP
-   1+3rtafkz0CQ94T5RTvIeaEBYnkwz0v/1LNunDNKHJihlqi6+Q0WnSl1R
-   q+eZe9qDATD2QtnCo7jqBVBCWlyYdYYuWLLCXhDBJLr+Y4S0gwyTzuV/s
-   Z7K8mEy9G02tjOLIZcQLrPbgPP/rj8SMENNjxdKmHW+t01DDAwMp8Z7ru
-   +GyS0xpI5oNt+mgBS7qANZRwRe1/LwviheekcYRTOaHBqajtpKpWjSuCO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="338122845"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="338122845"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:15:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="816552403"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="816552403"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:15:19 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 914151202A9;
-        Wed, 24 May 2023 15:15:16 +0300 (EEST)
-Date:   Wed, 24 May 2023 12:15:16 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Azeem Shaikh <azeemshaikh38@gmail.com>
-Cc:     Lee Jones <lee@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-hardening@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH] i2c: Replace all non-returning strlcpy with strscpy
-Message-ID: <ZG3/1JS7UBzWNZBD@kekkonen.localdomain>
-References: <20230523021150.2406032-1-azeemshaikh38@gmail.com>
- <20230523090540.GC2174496@google.com>
- <ZGyDx4Jg9j2zmjD6@kekkonen.localdomain>
- <CADmuW3W+-7GeKX2LqvvTW408v6x1o_as5xuUFxrdHf9TyTTsnQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        with ESMTP id S229521AbjEXMVb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 08:21:31 -0400
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF9B139;
+        Wed, 24 May 2023 05:21:30 -0700 (PDT)
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-54fb0fce238so335182eaf.1;
+        Wed, 24 May 2023 05:21:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684930890; x=1687522890;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yOUV3NHIV/iK6R+sZSedSwk/RX0eGbK5K3EGZstC8H0=;
+        b=Fy6MKbiLWRBv19EuOTb4U7jU/2TFWgfzIbFoSdJWFwnWnM+rkomYDpuZr2gm/4IVyJ
+         18FMjnB5nNaHKx8cro57r/of9+G5S2/+rrHTrOMmIHJDxZULXLIJ0ximNcJ3bWN2/Vct
+         0wwQsdZo51LyvNc6KlBosNf5R016dPAdQbdvIxYzOavhXsKMvgThrsETuhqpqNZuWe4G
+         IZvNBypyX0b/qu/aCnQiNCH83hmuHAgGmhDZ1ibOz6JxQQ/kWOlvbtOD5K/3DItLa5NP
+         RWd0IS0G138y19IstYj7OP+AWsPdTna+c0ooCV7iWKHido/EFJRdvT7/hQ+ZyK1JZ6FV
+         rJaw==
+X-Gm-Message-State: AC+VfDw/M+IeCLzOw29a3PxE9cpW9YFm/BkOxLvBBdt9w2E3lX8TpEVP
+        vO5jvlrzTwBIsS2n5C62lOqOL4fQ9g==
+X-Google-Smtp-Source: ACHHUZ66O66EuFjQbNWR3pl96eJfkG4L7dl3KrN6aJ/WSlwBvmiYkyuqf+RUzqZi+hUYIdOmA6CD8Q==
+X-Received: by 2002:a4a:3c4b:0:b0:555:53ce:4164 with SMTP id p11-20020a4a3c4b000000b0055553ce4164mr3183730oof.9.1684930889639;
+        Wed, 24 May 2023 05:21:29 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s9-20020a9d7589000000b006abb3b660a9sm4460678otk.54.2023.05.24.05.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 05:21:28 -0700 (PDT)
+Received: (nullmailer pid 3462753 invoked by uid 1000);
+        Wed, 24 May 2023 12:21:27 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADmuW3W+-7GeKX2LqvvTW408v6x1o_as5xuUFxrdHf9TyTTsnQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Vladimir Barinov <v.barinov@yadro.com>
+Cc:     linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
+        linux@yadro.com, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+In-Reply-To: <20230524114056.196518-1-v.barinov@yadro.com>
+References: <20230524113910.196321-1-v.barinov@yadro.com>
+ <20230524114056.196518-1-v.barinov@yadro.com>
+Message-Id: <168493088788.3462735.2834416618033227181.robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Document Awinic AW2016 bindings
+Date:   Wed, 24 May 2023 07:21:27 -0500
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Azeema,
 
-On Tue, May 23, 2023 at 10:34:34AM -0400, Azeem Shaikh wrote:
-> Thanks for the quick response Lee and Sakari.
+On Wed, 24 May 2023 14:40:56 +0300, Vladimir Barinov wrote:
+> Add Awinic AW2026 binding documentation
 > 
-> On Tue, May 23, 2023 at 5:13 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Lee, Azeem,
-> >
-> > On Tue, May 23, 2023 at 10:05:40AM +0100, Lee Jones wrote:
-> > > On Tue, 23 May 2023, Azeem Shaikh wrote:
-> > >
-> > > > strlcpy() reads the entire source buffer first.
-> > > > This read may exceed the destination size limit.
-> > > > This is both inefficient and can lead to linear read
-> > > > overflows if a source string is not NUL-terminated [1].
-> > > > In an effort to remove strlcpy() completely [2], replace
-> > > > strlcpy() here with strscpy().
-> > > > No return values were used, so direct replacement is safe.
-> > > >
-> > > > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
-> > > > [2] https://github.com/KSPP/linux/issues/89
-> > > >
-> > > > Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
-> > > > ---
-> > > >  drivers/leds/flash/leds-as3645a.c |    4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > Please resubmit, taking the time to check the subject line please.
-> >
-> > I'd say also shorter description will suffice. Nowadays people understand
-> > the motivation replacing strlcpy() by strscpy() without too much
-> > elaboration. Lines may be up to 74 characters long, too, and period isn't
-> > automatically followed by a newline.
-> >
+> Signed-off-by: Vladimir Barinov <v.barinov@yadro.com>
+> ---
+>  .../bindings/leds/awinic,aw2026.yaml          | 92 +++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
 > 
-> Let me know if this commit log looks good to you both and I'll send over a v2.
-> 
-> Subject: [PATCH] leds: as3645a: Replace all non-returning strlcpy with strscpy
 
-All instances are replaced, so you can drop "all non-returning ".
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> 
-> Part of a tree-wide effort to remove deprecated strlcpy()[1] and replace
-> it with strscpy()[2]. No return values were used, so direct replacement
-> is safe.
-> 
-> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
-> [2] https://github.com/KSPP/linux/issues/89
+yamllint warnings/errors:
 
-Looks good to me.
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dts:52.3-53.1 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1512: dt_binding_check] Error 2
 
-> 
-> > I also prefer my @linux.intel.com address, as in MAINTAINERS for this
-> > driver.
-> 
-> Fyi that the email address mentioned for this driver is not the
-> @linux.intel.com -
-> https://github.com/torvalds/linux/blob/44c026a73be8038f03dbdeef028b642880cf1511/MAINTAINERS#L3070.
-> I'm happy to send the v2 patch to sakari.ailus@linux.intel.com if you
-> prefer that instead.
+doc reference errors (make refcheckdocs):
 
-Oops, my mistake then. :-) I thought I already had changed this. Oh well.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230524114056.196518-1-v.barinov@yadro.com
 
--- 
-Regards,
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Sakari Ailus
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
