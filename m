@@ -2,173 +2,138 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7A670F57B
-	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 13:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2225170F603
+	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 14:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232392AbjEXLlI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 May 2023 07:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
+        id S232046AbjEXMP0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 May 2023 08:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232493AbjEXLlG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 07:41:06 -0400
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D4CC5;
-        Wed, 24 May 2023 04:41:04 -0700 (PDT)
-Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
-        by mta-01.yadro.com (Proxmox) with ESMTP id EF695342601;
-        Wed, 24 May 2023 14:41:02 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :from:from:in-reply-to:message-id:mime-version:references
-        :reply-to:subject:subject:to:to; s=mta-01; bh=jrRDmOqJ59jFD1JNUC
-        yXP6sJZgAfaOqXnTVjJmcIeoo=; b=fw6HS4Uux6dCkhlCJ3z2lin2OUVtEwQ6cO
-        qXr45cZnPhDw6DnKzfIQLetqz4+NonMxVNzEz9IZzdgg9KHXcT+EpI5J4LQ7A8l4
-        dsbAdQ42fSqXJ7uUsLHVq1gTk0Pd/RhtC3hPI7F0S0Y6BmKRwN+sSnbmAQuRy1Az
-        /9uGsdUk8=
-Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mta-01.yadro.com (Proxmox) with ESMTPS id E65B83425F3;
-        Wed, 24 May 2023 14:41:02 +0300 (MSK)
-Received: from xpad.Home (10.199.28.63) by T-EXCH-08.corp.yadro.com
- (172.17.11.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Wed, 24 May
- 2023 14:41:02 +0300
-From:   Vladimir Barinov <v.barinov@yadro.com>
-To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Vladimir Barinov <v.barinov@yadro.com>, <linux@yadro.com>
-Subject: [PATCH 2/2] dt-bindings: leds: Document Awinic AW2016 bindings
-Date:   Wed, 24 May 2023 14:40:56 +0300
-Message-ID: <20230524114056.196518-1-v.barinov@yadro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230524113910.196321-1-v.barinov@yadro.com>
-References: <20230524113910.196321-1-v.barinov@yadro.com>
+        with ESMTP id S232240AbjEXMPY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 08:15:24 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF13A18C;
+        Wed, 24 May 2023 05:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684930523; x=1716466523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=YWFNqek+VRG2S1Kpq+u/LIuoteJFwt9202gfFrPSfKQ=;
+  b=JfnqMsM+npo4c+ck2bENMDYNj4A8L3OrRLeJcX2CwB3HCg0mcYCh6gYt
+   FiD52Gh5aR+KQRK0AkHz3u35IUZJ3mMWT4JD4Pr3LVfSNtoEQvtNlD+fP
+   1+3rtafkz0CQ94T5RTvIeaEBYnkwz0v/1LNunDNKHJihlqi6+Q0WnSl1R
+   q+eZe9qDATD2QtnCo7jqBVBCWlyYdYYuWLLCXhDBJLr+Y4S0gwyTzuV/s
+   Z7K8mEy9G02tjOLIZcQLrPbgPP/rj8SMENNjxdKmHW+t01DDAwMp8Z7ru
+   +GyS0xpI5oNt+mgBS7qANZRwRe1/LwviheekcYRTOaHBqajtpKpWjSuCO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="338122845"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="338122845"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:15:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="816552403"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="816552403"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:15:19 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 914151202A9;
+        Wed, 24 May 2023 15:15:16 +0300 (EEST)
+Date:   Wed, 24 May 2023 12:15:16 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Azeem Shaikh <azeemshaikh38@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-hardening@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH] i2c: Replace all non-returning strlcpy with strscpy
+Message-ID: <ZG3/1JS7UBzWNZBD@kekkonen.localdomain>
+References: <20230523021150.2406032-1-azeemshaikh38@gmail.com>
+ <20230523090540.GC2174496@google.com>
+ <ZGyDx4Jg9j2zmjD6@kekkonen.localdomain>
+ <CADmuW3W+-7GeKX2LqvvTW408v6x1o_as5xuUFxrdHf9TyTTsnQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.199.28.63]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-08.corp.yadro.com (172.17.11.58)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CADmuW3W+-7GeKX2LqvvTW408v6x1o_as5xuUFxrdHf9TyTTsnQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add Awinic AW2026 binding documentation
+Hi Azeema,
 
-Signed-off-by: Vladimir Barinov <v.barinov@yadro.com>
----
- .../bindings/leds/awinic,aw2026.yaml          | 92 +++++++++++++++++++
- 1 file changed, 92 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
+On Tue, May 23, 2023 at 10:34:34AM -0400, Azeem Shaikh wrote:
+> Thanks for the quick response Lee and Sakari.
+> 
+> On Tue, May 23, 2023 at 5:13 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Lee, Azeem,
+> >
+> > On Tue, May 23, 2023 at 10:05:40AM +0100, Lee Jones wrote:
+> > > On Tue, 23 May 2023, Azeem Shaikh wrote:
+> > >
+> > > > strlcpy() reads the entire source buffer first.
+> > > > This read may exceed the destination size limit.
+> > > > This is both inefficient and can lead to linear read
+> > > > overflows if a source string is not NUL-terminated [1].
+> > > > In an effort to remove strlcpy() completely [2], replace
+> > > > strlcpy() here with strscpy().
+> > > > No return values were used, so direct replacement is safe.
+> > > >
+> > > > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+> > > > [2] https://github.com/KSPP/linux/issues/89
+> > > >
+> > > > Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+> > > > ---
+> > > >  drivers/leds/flash/leds-as3645a.c |    4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > Please resubmit, taking the time to check the subject line please.
+> >
+> > I'd say also shorter description will suffice. Nowadays people understand
+> > the motivation replacing strlcpy() by strscpy() without too much
+> > elaboration. Lines may be up to 74 characters long, too, and period isn't
+> > automatically followed by a newline.
+> >
+> 
+> Let me know if this commit log looks good to you both and I'll send over a v2.
+> 
+> Subject: [PATCH] leds: as3645a: Replace all non-returning strlcpy with strscpy
 
-diff --git a/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml b/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
-new file mode 100664
-index 000000000000..abacf746677b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
-@@ -0,0 +1,92 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/awinic,aw2026.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Awinic AW2026 3-channel LED Driver
-+
-+maintainers:
-+  - Vladimir Barinov <v.barinov@yadro.com>
-+
-+description: |
-+  The AW2026 is a 3-channel LED driver with I2C interface. It can control
-+  LED brightness with PWM output. It supports hardware blinking and
-+  hardware patterns.
-+
-+properties:
-+  compatible:
-+    const: awinic,aw2026
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  awinic,led-max-microamp:
-+    description:
-+      Maximum current at LED output
-+    enum:
-+      [3000, 6375, 12750, 25500]
-+
-+  vcc-supply:
-+    description: Regulator providing power to the "VBAT" pin.
-+
-+patternProperties:
-+  "^led@[0-2]$":
-+    type: object
-+    $ref: common.yaml#
-+
-+    properties:
-+      reg:
-+        description: Index of the LED.
-+        minimum: 0
-+        maximum: 2
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led-controller@64 {
-+                compatible = "awinic,aw2026";
-+                reg = <0x64>;
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                awinic,led-max-microamp = <6375>;
-+                vcc-supply = <&vcc_3v3_s0>;
-+
-+                led@0 {
-+                        reg = <0>;
-+                        function = LED_FUNCTION_INDICATOR;
-+                        color = <LED_COLOR_ID_RED>;
-+                };
-+
-+                led@1 {
-+                        reg = <1>;
-+                        function = LED_FUNCTION_INDICATOR;
-+                        color = <LED_COLOR_ID_BLUE>;
-+                };
-+
-+                led@2 {
-+                        reg = <2>;
-+                        function = LED_FUNCTION_INDICATOR;
-+                        color = <LED_COLOR_ID_GREEN>;
-+                };
-+        };
-+...
+All instances are replaced, so you can drop "all non-returning ".
+
+> 
+> Part of a tree-wide effort to remove deprecated strlcpy()[1] and replace
+> it with strscpy()[2]. No return values were used, so direct replacement
+> is safe.
+> 
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+> [2] https://github.com/KSPP/linux/issues/89
+
+Looks good to me.
+
+> 
+> > I also prefer my @linux.intel.com address, as in MAINTAINERS for this
+> > driver.
+> 
+> Fyi that the email address mentioned for this driver is not the
+> @linux.intel.com -
+> https://github.com/torvalds/linux/blob/44c026a73be8038f03dbdeef028b642880cf1511/MAINTAINERS#L3070.
+> I'm happy to send the v2 patch to sakari.ailus@linux.intel.com if you
+> prefer that instead.
+
+Oops, my mistake then. :-) I thought I already had changed this. Oh well.
+
 -- 
-2.34.1
+Regards,
 
-
+Sakari Ailus
