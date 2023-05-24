@@ -2,116 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E1570F8C5
-	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 16:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5686B70F911
+	for <lists+linux-leds@lfdr.de>; Wed, 24 May 2023 16:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232882AbjEXOcd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 May 2023 10:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57220 "EHLO
+        id S234014AbjEXOsa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 May 2023 10:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjEXOcd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 10:32:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCFF12E;
-        Wed, 24 May 2023 07:32:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B038D63DCE;
-        Wed, 24 May 2023 14:32:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157BAC433EF;
-        Wed, 24 May 2023 14:32:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684938751;
-        bh=ifJBDlw42lQEKWaVj8j5eUTS/S5Ep1/jzziFfDLCiO4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=melxsfpBFtterXW0JEI2hR1uTm+mQVU/WRPDBctYpMXB5oHsEhxirRtVJoWadJbB+
-         wm+j+6QppuphP9oXHCaBdahw5H1ZYuPJUGdgtdFdW95izchtrOT21G3jnyq5mUw0lJ
-         da0i404+4aND5DSCX7KkT6yqfSSozVbvxwxa5GR+IW0ZKRMG8NLMIqO+9wzfZ8WoRg
-         mcJuRH4XY3/uDJ7sSeKYUETKI3wLbdr7RANte6nVYD1eIH7ngUhE1mz4k1CB/j9IzN
-         w41+PPU/Eu6FyDYyf13bHZEbaY7cUa/XxVEZexzaGtTJXHdMUTf+JaXpocqTBk0jp8
-         h8MWRCYi6pl5Q==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1q1pXY-0000jp-U7; Wed, 24 May 2023 16:32:37 +0200
-Date:   Wed, 24 May 2023 16:32:36 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        with ESMTP id S231773AbjEXOsa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 May 2023 10:48:30 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20987130;
+        Wed, 24 May 2023 07:48:28 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-76c5558ba95so32047939f.1;
+        Wed, 24 May 2023 07:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684939707; x=1687531707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fXem3yKXOihJJdx17tUBQkjwgvhxr2WQLiz8jXaVkhE=;
+        b=FlMIwTim4LKgFxNH+zhsenhJP4RenIiD00DuPobzZ27zTWHuvDDRdkoGECsDn4pA96
+         rkU1L103lIgwpF6y43ixGXnqBUUuIprszE9K+CKXdIQWIfRVutaWNL1MgscqT4Ebumsl
+         W6rPW03pey7/xLqD9DxGYOy3tLc3ChnBm19L48mzT9aIrJCrW/VYL1W8LfRH6uPXwCZQ
+         luv2DwDSGJYi1JKn6Wzwpyn3tYFfjYdJ/t8VSBqCEvO3w1hNuHMBNPswH0ieG9a2JQRi
+         TUfrb6eUmrdziGVOnlIYXB/7chtRC7Pq/4K7+JFXFInkLgax0x2fJhoKmNmKdeOWzmul
+         Q6Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684939707; x=1687531707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fXem3yKXOihJJdx17tUBQkjwgvhxr2WQLiz8jXaVkhE=;
+        b=PHOwvtng37BpTMehbTyD9v6LROvhyMrECkASOhcFmCnh6E+PSpi14I4yN6GcrHHyfL
+         PVnEvAnzWiVEWNKqsPNiL9wTywuJvtf5FfSg5ZTYSEx29o3twTKo5z7xg+4/M1BixmC3
+         Blkmb7vDESnvMr6bizqXEjOV2KimEKmmZ14YHw9jMpngxyv3HedtlLYjMn4mJg9f6qBf
+         IQkDMa5tyu35y6fZ41wXtVgmWDmL4/jUXkLklVExb03YKnuHwmPh4maDq3OLVy/vsUXn
+         6GMAYWoL53RcW4hIMgSIbBWArEIDRi67jDT1qkAWV7/ySisCwPQ5TLVmL7VhEAVXOjOE
+         K3yA==
+X-Gm-Message-State: AC+VfDwfA+V1UKosug2zPInDGyDKvPs77g9ZBeEdqmdqkXypQmgJh2cb
+        inTxAMo13mQ5bSoDYu1IS0m0U6e4yYRAZA==
+X-Google-Smtp-Source: ACHHUZ7JrqUKTCOM6ub887EdDypsGhllvk8ADf8XHgpBckkrWx13A81YEYd+2AW3oPp9iVKGhBTZ0A==
+X-Received: by 2002:a6b:750c:0:b0:760:ed78:a252 with SMTP id l12-20020a6b750c000000b00760ed78a252mr11717592ioh.9.1684939707197;
+        Wed, 24 May 2023 07:48:27 -0700 (PDT)
+Received: from azeems-kspp.c.googlers.com.com (54.70.188.35.bc.googleusercontent.com. [35.188.70.54])
+        by smtp.gmail.com with ESMTPSA id r22-20020a6bd916000000b0076efc7f0dd4sm3398910ioc.42.2023.05.24.07.48.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 07:48:26 -0700 (PDT)
+From:   Azeem Shaikh <azeemshaikh38@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-hardening@vger.kernel.org,
+        Azeem Shaikh <azeemshaikh38@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Caleb Connolly <caleb.connolly@linaro.org>,
-        Steev Klimaszewski <steev@kali.org>
-Subject: Re: [PATCH v2] leds: qcom-lpg: Fix PWM period limits
-Message-ID: <ZG4gBE1rqkMIllV3@hovoldconsulting.com>
-References: <20230515162604.649203-1-quic_bjorande@quicinc.com>
+Subject: [PATCH v2] leds: as3645a: Replace strlcpy with strscpy
+Date:   Wed, 24 May 2023 14:48:23 +0000
+Message-ID: <20230524144824.2360607-1-azeemshaikh38@gmail.com>
+X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230515162604.649203-1-quic_bjorande@quicinc.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 15, 2023 at 09:26:04AM -0700, Bjorn Andersson wrote:
-> The introduction of high resolution PWM support changed the order of the
-> operations in the calculation of min and max period. The result in both
-> divisions is in most cases a truncation to 0, which limits the period to
-> the range of [0, 0].
-> 
-> Both numerators (and denominators) are within 64 bits, so the whole
-> expression can be put directly into the div64_u64, instead of doing it
-> partially.
-> 
-> Fixes: b00d2ed37617 ("leds: rgb: leds-qcom-lpg: Add support for high resolution PWM")
-> Reviewed-by: Caleb Connolly <caleb.connolly@linaro.org>
-> Tested-by: Steev Klimaszewski <steev@kali.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+Part of a tree-wide effort to remove deprecated strlcpy()[1] and replace
+it with strscpy()[2]. No return values were used, so direct replacement
+is safe.
 
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+[2] https://github.com/KSPP/linux/issues/89
 
-Pavel or Lee, could you pick this one up for 6.4 as it fixes a
-regression (e.g. broken backlight on a number of laptops like the X13s)?
+Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+---
+v1: https://lore.kernel.org/all/20230523021150.2406032-1-azeemshaikh38@gmail.com/
 
-> ---
-> 
-> Changes since v1:
-> - Reworded first sentence to express that it's the order and not the
->   previously non-existent parenthesis that changed...
-> - Picked up review tags.
-> 
->  drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index c9cea797a697..7287fadc00df 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -312,14 +312,14 @@ static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
->  		max_res = LPG_RESOLUTION_9BIT;
->  	}
->  
-> -	min_period = (u64)NSEC_PER_SEC *
-> -			div64_u64((1 << pwm_resolution_arr[0]), clk_rate_arr[clk_len - 1]);
-> +	min_period = div64_u64((u64)NSEC_PER_SEC * (1 << pwm_resolution_arr[0]),
-> +			       clk_rate_arr[clk_len - 1]);
->  	if (period <= min_period)
->  		return -EINVAL;
->  
->  	/* Limit period to largest possible value, to avoid overflows */
-> -	max_period = (u64)NSEC_PER_SEC * max_res * LPG_MAX_PREDIV *
-> -			div64_u64((1 << LPG_MAX_M), 1024);
-> +	max_period = div64_u64((u64)NSEC_PER_SEC * max_res * LPG_MAX_PREDIV * (1 << LPG_MAX_M),
-> +			       1024);
->  	if (period > max_period)
->  		period = max_period;
+Changes in v2:
+ - Updated subject and commit log.
+ 
+ drivers/leds/flash/leds-as3645a.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Johan
+diff --git a/drivers/leds/flash/leds-as3645a.c b/drivers/leds/flash/leds-as3645a.c
+index bb2249771acb..7dc574b18f5f 100644
+--- a/drivers/leds/flash/leds-as3645a.c
++++ b/drivers/leds/flash/leds-as3645a.c
+@@ -651,8 +651,8 @@ static int as3645a_v4l2_setup(struct as3645a *flash)
+ 		},
+ 	};
+ 
+-	strlcpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
+-	strlcpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
++	strscpy(cfg.dev_name, led->dev->kobj.name, sizeof(cfg.dev_name));
++	strscpy(cfgind.dev_name, flash->iled_cdev.dev->kobj.name,
+ 		sizeof(cfgind.dev_name));
+ 
+ 	flash->vf = v4l2_flash_init(
+-- 
+2.40.1.698.g37aff9b760-goog
+
+
