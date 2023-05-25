@@ -2,59 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BB62710AFA
-	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 13:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AC98710B2E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 13:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239497AbjEYLc6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 May 2023 07:32:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
+        id S241097AbjEYLgj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 May 2023 07:36:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233511AbjEYLc6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 07:32:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6240212F;
-        Thu, 25 May 2023 04:32:57 -0700 (PDT)
+        with ESMTP id S241098AbjEYLgV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 07:36:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712431986
+        for <linux-leds@vger.kernel.org>; Thu, 25 May 2023 04:34:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E592B644FE;
-        Thu, 25 May 2023 11:32:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB3FC433D2;
-        Thu, 25 May 2023 11:32:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E685D61C04
+        for <linux-leds@vger.kernel.org>; Thu, 25 May 2023 11:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 120C6C433D2;
+        Thu, 25 May 2023 11:34:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685014376;
-        bh=jaRONdRd6B0UlNlUVZ+/ikDOkKVWHh2BtpYHjqX5Dx4=;
+        s=k20201202; t=1685014486;
+        bh=5tqCe0o3qHHHqEwQ9G+N+YXbE4JiX5k0oC93jBjks2w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cS9Ci5AmeT5wj5DyTVrXrwLsibXdknNMbMEU1HKPk3s2DxnoxvRH8hphi4kyxbTfU
-         oajVPD4z/K6wyGmVZPiSE70s+hF+bT6wfEM1m+KaFVTPqIiA0R2cPvS63BwYwGYyvV
-         HOcOttkjzt2QoEI818WUc1AZesOkCM24s973fEK9sUI9CHTJjuLZp63UY9CNBthUPh
-         1kCvLPJT1Lo91kIU99815LbSzBDOSsPR5Qlto76nqlATInwfOd2BT0OyzEp2K36g5W
-         pSpgD5G7ByyBO/2/j6SvxH5NC1qKZROZLb8SwxFi1kgZ51Sn5Z/YSxOwpwvcSawLVI
-         Fj+PZqi+mg2dg==
-Date:   Thu, 25 May 2023 12:32:50 +0100
+        b=cpui8xDeDsBFgt91SI/wvp5RLp2xe9cHiirgDgaDmbQQXxa+EqNUaimR6gXa/pp8N
+         sKvU/BsjGPChZmpFts97y2nIUdlYLg8o4aEIq+KuuuwlHif4NBIM/QgziLjj54Vlu5
+         bZsOxnaxbmP/9AtRH68cTNZQc77TbTzjsfP4VpVm8sBHtFiXN7+zeQ5nxeDWWzQprO
+         Z36o51QYTIEh14ety/yfAhmp2iHqRP+LaG0vkcZx0YxUC2t3GfJEjserSGgA2W21Xu
+         Y7iz/6xYJ5sXViUPejs1cvvdttlWcFETdflmJ1WewytChOdymGHEm2WXiUV6zMeY3G
+         eewTVPAbdvblQ==
+Date:   Thu, 25 May 2023 12:34:41 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
- required
-Message-ID: <20230525113250.GF423913@google.com>
-References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-leds@vger.kernel.org,
+        Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v2] leds: gpio: Configure per-LED pin control
+Message-ID: <20230525113441.GG423913@google.com>
+References: <20230523183151.5460-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230523183151.5460-1-marex@denx.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,34 +55,24 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 23 May 2023, Geert Uytterhoeven wrote:
+On Tue, 23 May 2023, Marek Vasut wrote:
 
-> make dtbs_check:
+> Each gpio-leds DT node DT subnode can have a pinctrl property assigned
+> to it, parse the DT subnode pinctrl properties and configure each pin
+> accordingly.
 > 
->     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-supply' is a required property
-> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> 
-> As that backlight device node already has an "enable-gpios" property to
-> control the power supplied to the backlight, it sounds a bit silly to
-> have to add a "power-supply" property just to silence this warning.  In
-> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
-> on a disabled PWM emiting inactive state"), the Linux driver considers
-> the power supply optional.
-> 
-> Fix this by synchronizing the bindings with actual driver behavior by
-> making the "power-supply" optional.
-> 
-> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM emiting inactive state")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
-> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
-> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
-> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
-> 
-> Thanks!
+> Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> To: linux-leds@vger.kernel.org
 > ---
->  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
->  1 file changed, 1 deletion(-)
+> V2: Cc Lee
+> ---
+>  drivers/leds/leds-gpio.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
 Applied, thanks
 
