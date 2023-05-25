@@ -2,56 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE05710B94
-	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 14:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3361710B9E
+	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 14:02:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240522AbjEYMAm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 May 2023 08:00:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43048 "EHLO
+        id S239601AbjEYMCb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 May 2023 08:02:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240300AbjEYMAl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 08:00:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BABE7;
-        Thu, 25 May 2023 05:00:39 -0700 (PDT)
+        with ESMTP id S229754AbjEYMCa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 08:02:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2DD13A;
+        Thu, 25 May 2023 05:02:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 200AD63163;
-        Thu, 25 May 2023 12:00:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D0CBC433D2;
-        Thu, 25 May 2023 12:00:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60135644EF;
+        Thu, 25 May 2023 12:02:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69EC6C433EF;
+        Thu, 25 May 2023 12:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685016038;
-        bh=UZTlDfi4bEdRqD3JDM7L3ZRvVfkiRMW5k0IPD/z4eNQ=;
+        s=k20201202; t=1685016148;
+        bh=6cMWfyYxquh84atqJ0WzGSDvducDprtXvAOZRpr31oI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IlwG3hmic6u/yOAwqznwUTOLSeNUVNfAppJMXdOAy/k231evK34D1ziGK/9/CyLhV
-         uNEk5CcIGZWAWDAvDZKqZdR3Fi6hwQzsk1N3ZCvPaCv1GMsfnpXJdzQWlVa3PuDmf4
-         H7LwJl6cvlfTdMw9rFmNPI4lZYq1XNUubQlPQgC3aDd1bg21FaxFEXXwE+eRmbYm/i
-         F1XsUdKq3sVSMwcXeVTAq6bDDQFMraCNL+JZXjCyidC+DRvy4veNrdND0husQH8dbu
-         H9HuawrSh0ZZ2h2V4Vb4E0PqvPLebGwpGyWaMKq2kx4tqck5mS3grcSX7b9Z7JmSoS
-         /aIAZcw6cmo9Q==
-Date:   Thu, 25 May 2023 13:00:33 +0100
+        b=tnkvNLlr3a3x8Et9TQ8vy2AlfVZcIiCRCGv6tEHDyJTXxTv3CsSZ75a/ttzPxs1/O
+         tRS8OiqD0QxYW94FzpEHoCdh84oD3lBhaoqFXCsuH8xlnluCn+WO6EWUC4O1dpW94R
+         BUScCsjemNDrUVvuE0ndm/ZoN/vT4gHTUJ8LCvy86gJlejQjbEz/DCiDvdtnuNt8vP
+         gU/I6+ciIaPktxIPdZAO1egTUVmfSwygzxd4MQrddYrVK5wajLQSPjjOb3Y9SbG+Rv
+         9xFBoRT34nvd7wAg0PebxgyZ8KzEQ2w7caNm4tKQ6IEFCXtkQ7o1LirdrhtSaYjsDP
+         rXQYJRWJZK6zg==
+Date:   Thu, 25 May 2023 13:02:23 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2] dt-bindings: leds: qcom-lpg: document PM8550
- compatible
-Message-ID: <20230525120033.GA443478@google.com>
-References: <20230522-topic-sm8550-upstream-pm8550-lpg-v2-1-c5117f1d41f9@linaro.org>
+To:     Lu Hongfei <luhongfei@vivo.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Anjelique Melendez <quic_amelende@quicinc.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Lu Hongfei <11117923@bbktel.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        opensource.kernel@vivo.com
+Subject: Re: [PATCH] led: qcom-lpg: Fix resource leaks in
+ for_each_available_child_of_node() loops
+Message-ID: <20230525120223.GB443478@google.com>
+References: <20230525111705.3055-1-luhongfei@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230522-topic-sm8550-upstream-pm8550-lpg-v2-1-c5117f1d41f9@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230525111705.3055-1-luhongfei@vivo.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,20 +64,18 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 25 May 2023, Neil Armstrong wrote:
+On Thu, 25 May 2023, Lu Hongfei wrote:
 
-> The PM8550 PWM modules are compatible with the PM8350c PWM modules,
-> document the PM8350c PWM compatible as fallback for the PM8550 PWM.
+> for_each_available_child_of_node in lpg_probe and lpg_add_led need
+> to execute of_node_put before return. this patch could fix this bug.
 > 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
 > ---
-> Changes in v2:
-> - Rebased on for-leds-next
-> - Link to v1: https://lore.kernel.org/r/20230522-topic-sm8550-upstream-pm8550-lpg-v1-1-f016578d9e63@linaro.org
-> ---
->  .../devicetree/bindings/leds/leds-qcom-lpg.yaml    | 31 +++++++++++++---------
->  1 file changed, 18 insertions(+), 13 deletions(-)
+>  drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>  mode change 100644 => 100755 drivers/leds/rgb/leds-qcom-lpg.c
+
+I made a few tweaks to the commit messaged.
 
 Applied, thanks
 
