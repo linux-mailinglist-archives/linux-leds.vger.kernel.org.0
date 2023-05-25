@@ -2,82 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3361710B9E
-	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 14:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE172710CC7
+	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 15:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239601AbjEYMCb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 May 2023 08:02:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
+        id S241287AbjEYNAb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 May 2023 09:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbjEYMCa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 08:02:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2DD13A;
-        Thu, 25 May 2023 05:02:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60135644EF;
-        Thu, 25 May 2023 12:02:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69EC6C433EF;
-        Thu, 25 May 2023 12:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685016148;
-        bh=6cMWfyYxquh84atqJ0WzGSDvducDprtXvAOZRpr31oI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tnkvNLlr3a3x8Et9TQ8vy2AlfVZcIiCRCGv6tEHDyJTXxTv3CsSZ75a/ttzPxs1/O
-         tRS8OiqD0QxYW94FzpEHoCdh84oD3lBhaoqFXCsuH8xlnluCn+WO6EWUC4O1dpW94R
-         BUScCsjemNDrUVvuE0ndm/ZoN/vT4gHTUJ8LCvy86gJlejQjbEz/DCiDvdtnuNt8vP
-         gU/I6+ciIaPktxIPdZAO1egTUVmfSwygzxd4MQrddYrVK5wajLQSPjjOb3Y9SbG+Rv
-         9xFBoRT34nvd7wAg0PebxgyZ8KzEQ2w7caNm4tKQ6IEFCXtkQ7o1LirdrhtSaYjsDP
-         rXQYJRWJZK6zg==
-Date:   Thu, 25 May 2023 13:02:23 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Lu Hongfei <luhongfei@vivo.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Anjelique Melendez <quic_amelende@quicinc.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Lu Hongfei <11117923@bbktel.com>,
-        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        opensource.kernel@vivo.com
-Subject: Re: [PATCH] led: qcom-lpg: Fix resource leaks in
- for_each_available_child_of_node() loops
-Message-ID: <20230525120223.GB443478@google.com>
-References: <20230525111705.3055-1-luhongfei@vivo.com>
+        with ESMTP id S241195AbjEYNAK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 09:00:10 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B49E42
+        for <linux-leds@vger.kernel.org>; Thu, 25 May 2023 05:59:57 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id a640c23a62f3a-969f90d71d4so91008166b.3
+        for <linux-leds@vger.kernel.org>; Thu, 25 May 2023 05:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685019596; x=1687611596;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cpy7HUUl9JUJVfHeyZRx3CTbUVGObKlyKlmgTELiasw=;
+        b=F0j/0BGqkV+g1s//XRbh/qZbYYT/zVg925VF/Y/PwGKL5doE5KF0ftitU2wlO/3iWf
+         emtmJabb7vvO7k8Q9o7X80sm6mhMgrHJpNXTxYi7/wSZslLjcL8D8CkRUyjI8WwX+cNP
+         K0qTRgIVOeG/5aWzBPLMf3cPR7iLIK0636bqBX2+VKZrTRmZxxxZ8VvoPZYY6HZtwziZ
+         6dBcjWyl6cvGIyprCDKGymOhUBkR8kAgA/cHp0FAeePwu+PvMlog+lhj8vG1iVUV8C4i
+         /Cavw73D6lN5wi+rsqcE4WdxUOHdbI+Anw3cs2vu0CkY7k7qmOfVY9cHPioHIDyVWC1O
+         j0zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685019596; x=1687611596;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cpy7HUUl9JUJVfHeyZRx3CTbUVGObKlyKlmgTELiasw=;
+        b=Raw7Rc/o6Lcwx8ccqLkIYfGyrdJcnfuu0AYW4PQ+BmeQNZewkCobn+S1uv9VnnDA11
+         im8XGg92AlSN1W54RIJxv9k/4VxUMvFyfW4c5gAvwqOusNaLU21r0jBk03A6cD1SDnaI
+         vlkZ3Wqe6DoajkhcbZpcEYHWpwUXnqnIfvVsorW2FWwcTnDtGvKDlwy43yAMqQ1A5plE
+         eZCqxLOQvacCRFaPM9bvvZitbUq/fNc1amUYSAQoLy0WhtDQd5ngaevJ3atRoECv9NST
+         yxDOewZtX+1Lhh/Ec6EwMwhNaXDiQOPg7FK8pH/zgF8gtAs0vZOU2K6KJklvsqK4whdu
+         8b1w==
+X-Gm-Message-State: AC+VfDwMJ8c9ut+2UsH/Kd1kKZrEkAUKEOKD8BOVtz7jio3qYI/SgezU
+        fnerMzEHeSpjryRvIUtX8cPD3CtQbAtHct7o+G4=
+X-Google-Smtp-Source: ACHHUZ7vApnlZTNzQwuszyTX9ej/W6Pi9U/c+lzwA29qoCr5/SOJWP/PTLR4mt+fu0KM9v4evFD1McD0XXJUjY8A4RA=
+X-Received: by 2002:a17:907:3da3:b0:969:acdc:c4df with SMTP id
+ he35-20020a1709073da300b00969acdcc4dfmr1738237ejc.4.1685019595735; Thu, 25
+ May 2023 05:59:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230525111705.3055-1-luhongfei@vivo.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a17:907:944b:b0:957:1d94:103d with HTTP; Thu, 25 May 2023
+ 05:59:54 -0700 (PDT)
+Reply-To: philipsjohnsongoodp@gmail.com
+From:   philips <ekesineugwu5@gmail.com>
+Date:   Thu, 25 May 2023 14:59:54 +0200
+Message-ID: <CALM=UYrzD0kbQeZFYpew1U5zjVwvnnvtqb1=o0rRfdUsKBm6aA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 25 May 2023, Lu Hongfei wrote:
-
-> for_each_available_child_of_node in lpg_probe and lpg_add_led need
-> to execute of_node_put before return. this patch could fix this bug.
-> 
-> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
-> ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->  mode change 100644 => 100755 drivers/leds/rgb/leds-qcom-lpg.c
-
-I made a few tweaks to the commit messaged.
-
-Applied, thanks
-
--- 
-Lee Jones [李琼斯]
+0JTQvtGA0L7Qs9C+0Lkg0LTRgNGD0LMsDQrQnNC10L3RjyDQt9C+0LLRg9GCINCR0LDRgC7QpNC4
+0LvQuNC/0YEg0JTQttC+0L3RgdC+0L0sINGPINCw0LTQstC+0LrQsNGCINC4INGH0LDRgdGC0L3R
+i9C5DQrQvNC10L3QtdC00LbQtdGAINC/0L4g0YDQsNCx0L7RgtC1INGBINC60LvQuNC10L3RgtCw
+0LzQuCDQvNC+0LXQvNGDINC/0L7QutC+0LnQvdC+0LzRgyDQutC70LjQtdC90YLRgy4g0JIgMjAx
+NyDQs9C+0LTRgw0K0LzQvtC5INC60LvQuNC10L3RgiDQv9C+INC40LzQtdC90LgNCtCc0LjRgdGC
+0LXRgCDQmtCw0YDQu9C+0YEsINGPINGB0LLRj9C30LDQu9GB0Y8g0YEg0LLQsNC80Lgg0L/QviDR
+gtC+0Lkg0L/RgNC40YfQuNC90LUsINGH0YLQviDQstGLDQrQvdC+0YHQuNGC0Ywg0L7QtNC90YMg
+0YTQsNC80LjQu9C40Y4g0YEg0L/QvtC60L7QudC90YvQvCwg0Lgg0Y8g0LzQvtCz0YMg0L/RgNC1
+0LTRgdGC0LDQstC40YLRjCDQstCw0YEg0LrQsNC6DQrQsdC10L3QtdGE0LjRhtC40LDRgCDQuCDQ
+sdC70LjQttCw0LnRiNC40Lkg0YDQvtC00YHRgtCy0LXQvdC90LjQuiDRgdGA0LXQtNGB0YLQsiDQ
+vNC+0LXQs9C+INC/0L7QutC+0LnQvdC+0LPQviDQutC70LjQtdC90YLQsCwg0YLQvtCz0LTQsCDQ
+stGLDQrQstGL0YHRgtGD0L/QuNGC0Ywg0LIg0LrQsNGH0LXRgdGC0LLQtSDQtdCz0L4g0LHQu9C4
+0LbQsNC50YjQtdCz0L4g0YDQvtC00YHRgtCy0LXQvdC90LjQutCwINC4INC/0L7RgtGA0LXQsdC+
+0LLQsNGC0YwNCtGB0YDQtdC00YHRgtCy0LAuINC+0YHRgtCw0LLQu9GP0YLRjCDQvdCw0LvQuNGH
+0L3Ri9C1DQrQvdCw0YHQu9C10LTRgdGC0LLQviDRgdC10LzQuCDQvNC40LvQu9C40L7QvdC+0LIg
+0L/Rj9GC0LjRgdC+0YIg0YLRi9GB0Y/RhyDQodC+0LXQtNC40L3QtdC90L3Ri9GFINCo0YLQsNGC
+0L7Qsg0K0JTQvtC70LvQsNGA0L7QsiAoNyA1MDAgMDAwLDAwINC00L7Qu9C70LDRgNC+0LIg0KHQ
+qNCQKS4g0JzQvtC5INC/0L7QutC+0LnQvdGL0Lkg0LrQu9C40LXQvdGCINC4INC30LDQutCw0LTR
+i9GH0L3Ri9C5DQrQtNGA0YPQsyDQstGL0YDQvtGBINCyDQrCq9CU0L7QvCDQsdC10Lcg0LzQsNGC
+0LXRgNC4wrsuINCjINC90LXQs9C+INC90LUg0LHRi9C70L4g0L3QuCDRgdC10LzRjNC4LCDQvdC4
+INCx0LXQvdC10YTQuNGG0LjQsNGA0LAsINC90Lgg0YHQu9C10LTRg9GO0YnQtdCz0L4NCtGA0L7Q
+tNGB0YLQstC10L3QvdC40LrQvtCyINCyINC90LDRgdC70LXQtNGB0YLQstC+INCh0YDQtdC00YHR
+gtCy0LAg0L7RgdGC0LDQstC70LXQvdGLINCyINCx0LDQvdC60LUuDQrQktGLINC00L7Qu9C20L3R
+iyDRgdCy0Y/Qt9Cw0YLRjNGB0Y8g0YHQviDQvNC90L7QuSDRh9C10YDQtdC3INC80L7QuSDQu9C4
+0YfQvdGL0Lkg0LDQtNGA0LXRgSDRjdC70LXQutGC0YDQvtC90L3QvtC5INC/0L7Rh9GC0Ys6DQpw
+aGlsaXBzam9obnNvbmdvb2RwQGdtYWlsLmNvbQ0K0KEg0L3QsNC40LvRg9GH0YjQuNC80Lgg0L/Q
+vtC20LXQu9Cw0L3QuNGP0LzQuCwNCtCR0LDRgC4g0KTQuNC70LjQv9GBINCU0LbQvtC90YHQvtC9
+DQo=
