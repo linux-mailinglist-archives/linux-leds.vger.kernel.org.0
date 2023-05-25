@@ -2,50 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AED82710AF5
-	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 13:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB62710AFA
+	for <lists+linux-leds@lfdr.de>; Thu, 25 May 2023 13:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231766AbjEYLcM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 25 May 2023 07:32:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55284 "EHLO
+        id S239497AbjEYLc6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 May 2023 07:32:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233558AbjEYLcL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 07:32:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B90F191;
-        Thu, 25 May 2023 04:32:10 -0700 (PDT)
+        with ESMTP id S233511AbjEYLc6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 May 2023 07:32:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6240212F;
+        Thu, 25 May 2023 04:32:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F907644FE;
-        Thu, 25 May 2023 11:32:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B606C433D2;
-        Thu, 25 May 2023 11:32:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E592B644FE;
+        Thu, 25 May 2023 11:32:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB3FC433D2;
+        Thu, 25 May 2023 11:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685014329;
-        bh=VG5yn04NwanfKjO6oV4SFyhVMVBXC+08ULhNZEAi/hY=;
+        s=k20201202; t=1685014376;
+        bh=jaRONdRd6B0UlNlUVZ+/ikDOkKVWHh2BtpYHjqX5Dx4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GNIBsA5Kecihknz9JIsRewQ/BluS/1kWTkDalIqsvkS8A/kettLyAmvamRcKESvKZ
-         JoP6PsXCeN2hyV3Xmu6Nu+JtXQ2Un6d02LUWbk0YmfNoF87GILE1dvm8FLoyWc/2Qa
-         X+lMKHec+NuPys+uEFVx1jW42DoFj1MbdQ442SQbItJlTfw8Ka22469sHK/Cck+iwd
-         rIb6s5tdobRvvp6GX8HH9vca+56BEarK5t9smvn57acwbmubZjeMJklxM23mzKJ7nw
-         v3L24M24uM/qtXIIJI8dO5f5Qgzv5xY5Bxd7tMMvDFLCfzh11s4mhRC1ZvzsHPtT4x
-         Win4q8BoJ/xRw==
-Date:   Thu, 25 May 2023 12:32:05 +0100
+        b=cS9Ci5AmeT5wj5DyTVrXrwLsibXdknNMbMEU1HKPk3s2DxnoxvRH8hphi4kyxbTfU
+         oajVPD4z/K6wyGmVZPiSE70s+hF+bT6wfEM1m+KaFVTPqIiA0R2cPvS63BwYwGYyvV
+         HOcOttkjzt2QoEI818WUc1AZesOkCM24s973fEK9sUI9CHTJjuLZp63UY9CNBthUPh
+         1kCvLPJT1Lo91kIU99815LbSzBDOSsPR5Qlto76nqlATInwfOd2BT0OyzEp2K36g5W
+         pSpgD5G7ByyBO/2/j6SvxH5NC1qKZROZLb8SwxFi1kgZ51Sn5Z/YSxOwpwvcSawLVI
+         Fj+PZqi+mg2dg==
+Date:   Thu, 25 May 2023 12:32:50 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Azeem Shaikh <azeemshaikh38@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-hardening@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: Replace all non-returning strlcpy with strscpy
-Message-ID: <20230525113205.GE423913@google.com>
-References: <20230523021451.2406362-1-azeemshaikh38@gmail.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
+ required
+Message-ID: <20230525113250.GF423913@google.com>
+References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230523021451.2406362-1-azeemshaikh38@gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,25 +63,34 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 23 May 2023, Azeem Shaikh wrote:
+On Tue, 23 May 2023, Geert Uytterhoeven wrote:
 
-> strlcpy() reads the entire source buffer first.
-> This read may exceed the destination size limit.
-> This is both inefficient and can lead to linear read
-> overflows if a source string is not NUL-terminated [1].
-> In an effort to remove strlcpy() completely [2], replace
-> strlcpy() here with strscpy().
-> No return values were used, so direct replacement is safe.
+> make dtbs_check:
 > 
-> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
-> [2] https://github.com/KSPP/linux/issues/89
+>     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-supply' is a required property
+> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
 > 
-> Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+> As that backlight device node already has an "enable-gpios" property to
+> control the power supplied to the backlight, it sounds a bit silly to
+> have to add a "power-supply" property just to silence this warning.  In
+> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
+> on a disabled PWM emiting inactive state"), the Linux driver considers
+> the power supply optional.
+> 
+> Fix this by synchronizing the bindings with actual driver behavior by
+> making the "power-supply" optional.
+> 
+> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM emiting inactive state")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/leds/flash/leds-aat1290.c |    2 +-
->  drivers/leds/led-class.c          |    2 +-
->  drivers/leds/leds-spi-byte.c      |    2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
+> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
+> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
+> 
+> Thanks!
+> ---
+>  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
+>  1 file changed, 1 deletion(-)
 
 Applied, thanks
 
