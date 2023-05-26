@@ -2,67 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE0EF7121BA
-	for <lists+linux-leds@lfdr.de>; Fri, 26 May 2023 10:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42A7C71246E
+	for <lists+linux-leds@lfdr.de>; Fri, 26 May 2023 12:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235137AbjEZIBV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 May 2023 04:01:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
+        id S242666AbjEZKUk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 May 2023 06:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230061AbjEZIBU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 May 2023 04:01:20 -0400
-Received: from mail.mahavavy.com (mail.mahavavy.com [92.222.170.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F6EE2
-        for <linux-leds@vger.kernel.org>; Fri, 26 May 2023 01:01:19 -0700 (PDT)
-Received: by mail.mahavavy.com (Postfix, from userid 1002)
-        id 0225A234E3; Fri, 26 May 2023 08:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mahavavy.com; s=mail;
-        t=1685088077; bh=IfqQW79nVX/qUpmHcJiWDpV9BQnOf/s+Zcq9ON74QJY=;
-        h=Date:From:To:Subject:From;
-        b=zXmD7J61npRWbSzTJAALZHtEJCfkkNxEPeHOu3+b5q+qskAxDjf1ODfLaidYxU7jx
-         cCQOmul531YjYx/jztwX8Ajd5e5rsjUconE+6Onh6AGpYPvh84Gqyz81nlO7sN6HDa
-         /RFICTMiQRNJ7xKR31EAkNuFZcuy8YtShnkWu/JmMvqCx2vv69b8It5CkoG4W6c6hm
-         U0zQ7gmmCFf/8T7Dqb8EQxao6tHYyh1ueM6G18AUtiFF2R/QebmwaeZCGrIY4vSiwK
-         Wn8PI2wVSUgoD6ma5JjYxuN4Os4PUrsPLcE7paoTHTjSzrtb47vzH0I69bBbbjW+yX
-         OxWg/3EuuQM6w==
-Received: by mail.mahavavy.com for <linux-leds@vger.kernel.org>; Fri, 26 May 2023 08:01:01 GMT
-Message-ID: <20230526064500-0.1.2r.5atc.0.4egd0aeq0v@mahavavy.com>
-Date:   Fri, 26 May 2023 08:01:01 GMT
-From:   =?UTF-8?Q? "Kristi=C3=A1n_Plet=C3=A1nek" ?= 
-        <kristian.pletanek@mahavavy.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?Tlakov=C4=9B_lit=C3=BD?=
-X-Mailer: mail.mahavavy.com
+        with ESMTP id S236752AbjEZKUj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 May 2023 06:20:39 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B78D6E7
+        for <linux-leds@vger.kernel.org>; Fri, 26 May 2023 03:20:36 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3f606a80d34so4183135e9.0
+        for <linux-leds@vger.kernel.org>; Fri, 26 May 2023 03:20:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685096435; x=1687688435;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K3s8ooFUr7HL+mpTddtdIbpP60KFH9AqWFjPieFL2f0=;
+        b=p544sBJGWXY4zsoCH8La6KGT/b7IZ3KC4/Cb2RBc6TTAQ079uZ0TwZKZIDE9bY9mdN
+         jSyDQeGQHabEWxnqNhx+63wreMSikab92tS6SWP0/5800mboefbLbjXRsQMYDiedr1WA
+         KIEhNxV63VtqbDewUfiGREsbFWZZsTzTxdWXp6ufmAiqrfiH5WGmBkgpMk2SHJtBRcRp
+         EmlqjNdxsElkCSvP/mwKx7jx83BCMzCjjf+Ufqv4D47faVqctT4cyWTwNlRZ6P9XLUaO
+         1vePDY7gGucj3mMbS8Jv1+7zmqhSzuCEVMaa5xmHv/zb8F/ivWyzy8DSK/Giu8OVFr8o
+         SHig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685096435; x=1687688435;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K3s8ooFUr7HL+mpTddtdIbpP60KFH9AqWFjPieFL2f0=;
+        b=KI8DeL6ctbCZJ+tkqIpq9VxMRaHNCVcITXY/x+DZwjlTi8LKO//J82LsnUa644W6Es
+         +1/A+ziF2GCM4J0YH1zppfuW6JBvj3JaV9aCdz6wmI8o10MSqOkA1rhPO7QRJ4HcPDTp
+         gMqnCjUIDls7KCMf/RD6outAx+CQpR+UMMqUWXf+MbA8NCJHXPB1V0nLZtXrg7J1xTzP
+         C40ZFBu+bkX2yT3apaLEcjGkxbep5mcaRkfVD1yRvRPiVOmxXKoyvE6OlBPshTRS/q3I
+         EoiZptBZ93v6XKOKD1hCG0g6iBBtbCpHAg1KKQihHK+iTh/RBTXY8wOI44A7kMB0fDN3
+         uxQg==
+X-Gm-Message-State: AC+VfDyFPFXAN4Yv729sK2+wmSAywI3W3Yy1JTY1JiuXWq7NyImesit/
+        X8k0Uqv0YC/1Xdw6vIQ6MFBr/w==
+X-Google-Smtp-Source: ACHHUZ6Yy3l1CCvu264LHxVdtKGZKPPjZRT/yx0dNniT9+GDgWRelslel+8Hr4u3Yzz8fMPt5HybXQ==
+X-Received: by 2002:a5d:5402:0:b0:30a:b030:9cdd with SMTP id g2-20020a5d5402000000b0030ab0309cddmr956532wrv.25.1685096435053;
+        Fri, 26 May 2023 03:20:35 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id a15-20020a5d508f000000b002ceacff44c7sm4535860wrt.83.2023.05.26.03.20.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 03:20:34 -0700 (PDT)
+Date:   Fri, 26 May 2023 11:20:32 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Alexandru Ardelean <alex@shruggie.ro>
+Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, lee@kernel.org, jingoohan1@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        deller@gmx.de, Yannick Fertre <yannick.fertre@foss.st.com>,
+        Philippe CORNU <philippe.cornu@foss.st.com>
+Subject: Re: [PATCH 2/2] dt-bindings: backlight: document new property
+ default-brightness-level
+Message-ID: <20230526102032.GB626291@aspen.lan>
+References: <20230519200520.10657-1-alex@shruggie.ro>
+ <20230519200520.10657-2-alex@shruggie.ro>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MIXED_ES,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230519200520.10657-2-alex@shruggie.ro>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Fri, May 19, 2023 at 11:05:20PM +0300, Alexandru Ardelean wrote:
+> From: Yannick Fertre <yannick.fertre@foss.st.com>
+>
+> Add documentation for new default-brightness-level property.
+>
+> Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+> ---
+>
+> Link to original patch:
+>   https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
+>
+>  .../bindings/leds/backlight/gpio-backlight.yaml          | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> index 584030b6b0b9..b96c08cff0f0 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> @@ -23,6 +23,15 @@ properties:
+>      description: enable the backlight at boot.
+>      type: boolean
+>
+> +  default-brightness-level:
+> +    description:
+> +      The default brightness level (index into the array defined by the
+> +      "brightness-levels" property).
 
-zaji=C5=A1=C5=A5ujeme technologii tlakov=C3=A9ho lit=C3=AD hlin=C3=ADku.
+gpio-backlight does not have a brightness-levels array property!
 
-M=C3=A1me v=C3=BDrobn=C3=AD z=C3=A1vody v Polsku, =C5=A0v=C3=A9dsku a =C4=
-=8C=C3=ADn=C4=9B se schopnost=C3=AD flexibiln=C4=9B p=C5=99esouvat v=C3=BD=
-robu mezi lokalitami.
+I think it is also necessary to improve the docs of both properties to
+distinguish between the meaning of default-on and
+default-brightness-level. The result of setting default-on and
+default-brightness level to zero is that the GPIO will be off (this is
+correct behaviour but hard to figure out from the current text).
 
-Na=C5=A1e lic=C3=AD bu=C5=88ky jsou v=C4=9Bt=C5=A1inou automatick=C3=A9 n=
-ebo poloautomatick=C3=A9, co=C5=BE umo=C5=BE=C5=88uje v=C3=BDrobu velk=C3=
-=BDch v=C3=BDrobn=C3=ADch s=C3=A9ri=C3=AD s vysokou flexibilitou detail=C5=
-=AF.
-=20
-Poskytujeme podporu v ka=C5=BEd=C3=A9 f=C3=A1zi v=C3=BDvoje projektu, vyv=
-=C3=ADj=C3=ADme strukturu detailu.
+default-on is a control that can "enable" the backlight at boot when it
+is not linked to a display in the DT (e.g. it is mostly for legacy
+cases). When the backlight is linked to a display then the backlight
+enable state will be automatically linked to the display enable state
+instead.
 
-Cht=C4=9Bli byste mluvit o spolupr=C3=A1ci v t=C3=A9to oblasti?
+default-brightness-level is useful for handling displays that
+are still readable with the backlight off (e-ink, reflective/
+transflexive LCD, etc), otherwise is should be absent or set to 1.
 
-Pozdravy
-Kristi=C3=A1n Plet=C3=A1nek
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +dependencies:
+> +  default-brightness-level: [ "brightness-levels" ]
+
+As above, depending on brightness-levels doesn't make any sense here.
+
+
+Daniel.
