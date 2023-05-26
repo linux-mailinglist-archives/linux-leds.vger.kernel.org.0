@@ -2,50 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9574712633
-	for <lists+linux-leds@lfdr.de>; Fri, 26 May 2023 14:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07C31712640
+	for <lists+linux-leds@lfdr.de>; Fri, 26 May 2023 14:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237295AbjEZME4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 May 2023 08:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47722 "EHLO
+        id S242934AbjEZMGM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 May 2023 08:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231158AbjEZMEo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 May 2023 08:04:44 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDE9E42;
-        Fri, 26 May 2023 05:04:34 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34QB9RZk010987;
-        Fri, 26 May 2023 14:04:14 +0200
+        with ESMTP id S236664AbjEZMGL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 May 2023 08:06:11 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CA2E66;
+        Fri, 26 May 2023 05:05:41 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34QAhvxC025540;
+        Fri, 26 May 2023 14:05:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=selector1;
- bh=m3cJVkCFNQF2leqnS9Qg9XF0d/nmB54SuFFqMjaXqbc=;
- b=RskGATPlhzQdHBxRTT8T+tyvofn6NYBLv46g3YoFniuh6BY4WVRBIbfgpFUcVJ9jPiqX
- ZjVtahK0Ista0dD/OP8cq6L/aG9qcwH/2+QslBnVgMSStLZndPrEvcEIpvtKqKbvb7U9
- kJFe7XKDnSqxtDscih73Nt4N7jXKs0a3ZKta5xerWJ62T/tQIel1mLMXWUEs8uzZTde5
- E5jbDCeVf6UpMQlgON54AOmshCvFjxlG+T2KVCbQiHBnKeRv6VCWAe/flR2mx01iFpmX
- SxCpfVoU12u9wbBW8/KWQqoRmrjwHNSM34aKXRbv1O5367+SVmtJdQp/7KMY0T4nc+05 /w== 
+ bh=YAD+QRu+FHSj9Eq1EY9SbCn4rmGwV2pr6NVxlQDczT4=;
+ b=wYtieyBeRLzTpSRPI2RhKrx6qYAPDZgi3DIrkVXlJyo+PapREfB8HoriEnHC5su1uWNX
+ DDWQPWXM4vi1rEkWIcnff37ctkqyK1B6JMKQ1vVER9tOMJW2Mp8xIoWaRX6wJg3aDTHa
+ ASfitvxXOz4zpbJ++Hx9w5/rt1MXMlKN/JB+rUOm2obqn84xgN5M0CL95jLSPcC6OCY8
+ +MQ4piAWWWxkUOJdV3MQyjxpVEOCJNZwLhqnN7hRIkh3NG1eXd8TacVDZ2REdShRImvP
+ S4CC0/Fo2oJ4/nbmK8SlzriSVSXPVFc7HXTCSFTGhhG5UXTSWqFsgotV2sfSK4mdhfbG hg== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qt2uyhjja-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qt4aw0r16-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 May 2023 14:04:14 +0200
+        Fri, 26 May 2023 14:05:24 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5A02710002A;
-        Fri, 26 May 2023 14:04:13 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5E2FB10002A;
+        Fri, 26 May 2023 14:05:23 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5172C22A6FC;
-        Fri, 26 May 2023 14:04:13 +0200 (CEST)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 550F122AFEF;
+        Fri, 26 May 2023 14:05:23 +0200 (CEST)
 Received: from [10.48.0.148] (10.48.0.148) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 26 May
- 2023 14:04:12 +0200
-Message-ID: <d7fc3df2-aae7-d3b2-ea29-14d266289d1d@foss.st.com>
-Date:   Fri, 26 May 2023 14:04:11 +0200
+ 2023 14:05:22 +0200
+Message-ID: <9faab8c9-a38b-3f06-c2fb-6c7803b22eb1@foss.st.com>
+Date:   Fri, 26 May 2023 14:05:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] backlight: gpio_backlight: add new property
+Subject: Re: [PATCH 2/2] dt-bindings: backlight: document new property
  default-brightness-level
 Content-Language: en-US
 To:     Alexandru Ardelean <alex@shruggie.ro>,
@@ -57,8 +57,9 @@ CC:     <lee@kernel.org>, <daniel.thompson@linaro.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
         <deller@gmx.de>, Yannick Fertre <yannick.fertre@foss.st.com>
 References: <20230519200520.10657-1-alex@shruggie.ro>
+ <20230519200520.10657-2-alex@shruggie.ro>
 From:   Philippe CORNU <philippe.cornu@foss.st.com>
-In-Reply-To: <20230519200520.10657-1-alex@shruggie.ro>
+In-Reply-To: <20230519200520.10657-2-alex@shruggie.ro>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.48.0.148]
@@ -78,27 +79,18 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
+
 On 5/19/23 22:05, Alexandru Ardelean wrote:
 > From: Yannick Fertre <yannick.fertre@foss.st.com>
 > 
-> Add new property to set a brightness by default at probe.
+> Add documentation for new default-brightness-level property.
 > 
 > Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>
 
 Hi Alexandru,
-
-Many thanks for your patch.
-
-You have sent a patch originally pushed on the STMicroelectronics github 
-as mentioned in your commit message (no problem with that :-). But, the 
-"Reviewed-by" inside this github patch is linked to our gerrit STM 
-internal server so you can not use it directly for mainlining this patch.
-
-So please, re-send your this patch without my "Reviewed-by".
-
+same comments as for the 1/2 patch.
 Many thanks
 Philippe :-)
-
 
 > Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
@@ -107,31 +99,26 @@ Philippe :-)
 > Link to original patch:
 >    https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
 > 
->   drivers/video/backlight/gpio_backlight.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>   .../bindings/leds/backlight/gpio-backlight.yaml          | 9 +++++++++
+>   1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> index 6f78d928f054..d3fa3a8bef4d 100644
-> --- a/drivers/video/backlight/gpio_backlight.c
-> +++ b/drivers/video/backlight/gpio_backlight.c
-> @@ -53,6 +53,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->   	struct backlight_device *bl;
->   	struct gpio_backlight *gbl;
->   	int ret, init_brightness, def_value;
-> +	u32 value;
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> index 584030b6b0b9..b96c08cff0f0 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> @@ -23,6 +23,15 @@ properties:
+>       description: enable the backlight at boot.
+>       type: boolean
 >   
->   	gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
->   	if (gbl == NULL)
-> @@ -93,7 +94,11 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->   	else
->   		bl->props.power = FB_BLANK_UNBLANK;
->   
-> -	bl->props.brightness = 1;
-> +	ret = device_property_read_u32(dev, "default-brightness-level", &value);
-> +	if (!ret && value <= props.max_brightness)
-> +		bl->props.brightness = value;
-> +	else
-> +		bl->props.brightness = 1;
->   
->   	init_brightness = backlight_get_brightness(bl);
->   	ret = gpiod_direction_output(gbl->gpiod, init_brightness);
+> +  default-brightness-level:
+> +    description:
+> +      The default brightness level (index into the array defined by the
+> +      "brightness-levels" property).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +dependencies:
+> +  default-brightness-level: [ "brightness-levels" ]
+> +
+>   required:
+>     - compatible
+>     - gpios
