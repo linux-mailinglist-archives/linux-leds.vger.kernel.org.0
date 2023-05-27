@@ -2,123 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C31712640
-	for <lists+linux-leds@lfdr.de>; Fri, 26 May 2023 14:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32224713387
+	for <lists+linux-leds@lfdr.de>; Sat, 27 May 2023 10:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242934AbjEZMGM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 May 2023 08:06:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49224 "EHLO
+        id S231788AbjE0IyP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 27 May 2023 04:54:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236664AbjEZMGL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 May 2023 08:06:11 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CA2E66;
-        Fri, 26 May 2023 05:05:41 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34QAhvxC025540;
-        Fri, 26 May 2023 14:05:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=YAD+QRu+FHSj9Eq1EY9SbCn4rmGwV2pr6NVxlQDczT4=;
- b=wYtieyBeRLzTpSRPI2RhKrx6qYAPDZgi3DIrkVXlJyo+PapREfB8HoriEnHC5su1uWNX
- DDWQPWXM4vi1rEkWIcnff37ctkqyK1B6JMKQ1vVER9tOMJW2Mp8xIoWaRX6wJg3aDTHa
- ASfitvxXOz4zpbJ++Hx9w5/rt1MXMlKN/JB+rUOm2obqn84xgN5M0CL95jLSPcC6OCY8
- +MQ4piAWWWxkUOJdV3MQyjxpVEOCJNZwLhqnN7hRIkh3NG1eXd8TacVDZ2REdShRImvP
- S4CC0/Fo2oJ4/nbmK8SlzriSVSXPVFc7HXTCSFTGhhG5UXTSWqFsgotV2sfSK4mdhfbG hg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qt4aw0r16-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 May 2023 14:05:24 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5E2FB10002A;
-        Fri, 26 May 2023 14:05:23 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 550F122AFEF;
-        Fri, 26 May 2023 14:05:23 +0200 (CEST)
-Received: from [10.48.0.148] (10.48.0.148) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 26 May
- 2023 14:05:22 +0200
-Message-ID: <9faab8c9-a38b-3f06-c2fb-6c7803b22eb1@foss.st.com>
-Date:   Fri, 26 May 2023 14:05:21 +0200
+        with ESMTP id S229678AbjE0IyO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 27 May 2023 04:54:14 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683A8124;
+        Sat, 27 May 2023 01:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685177653; x=1716713653;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ktI2GnKQXBYUpJgyqu0yKmTKYiR+/wbaze1GTqEtbk8=;
+  b=WyidlPJa1SYObJpyTZY10Q4Pe5gORZdzSiXbJzyEbkgxdPu/xPK6V30V
+   gxh5lklQbkQROrM0V9MCsuF4E9eO+FVqIgib0E5EfdeYEDSl9jFcgdETJ
+   /2mFler00w0FhF7gTQBKt3KwolLP/bxcMcbRrHA8exYGkjZEyQdiBhrKt
+   EKhofFmhXLiJJBbuA7AmP/89yy1wZtkFFY68JyhZlTSz+fM5ogG+0qt1J
+   uykebhtq9NzIX8wqIxxWkWBZsgJinb7OLO3LePYykg4fCN6doXg0/3RVi
+   74yjxtpIF7wdSwJVbOIjaro5AVA7M37YhCZgtp4+z5+x0sAaMBS0pZiK5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382629538"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="382629538"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 01:54:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="736262786"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="736262786"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 27 May 2023 01:54:10 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1q2pgf-000Irv-0Y;
+        Sat, 27 May 2023 11:54:09 +0300
+Date:   Sat, 27 May 2023 11:54:08 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] leds: simatic-ipc-leds-gpio: add terminating
+ entries to gpio tables
+Message-ID: <ZHHFMPEYNz9jBBRd@smile.fi.intel.com>
+References: <20230524124628.32295-1-henning.schild@siemens.com>
+ <20230524124628.32295-2-henning.schild@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] dt-bindings: backlight: document new property
- default-brightness-level
-Content-Language: en-US
-To:     Alexandru Ardelean <alex@shruggie.ro>,
-        <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fbdev@vger.kernel.org>
-CC:     <lee@kernel.org>, <daniel.thompson@linaro.org>,
-        <jingoohan1@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <deller@gmx.de>, Yannick Fertre <yannick.fertre@foss.st.com>
-References: <20230519200520.10657-1-alex@shruggie.ro>
- <20230519200520.10657-2-alex@shruggie.ro>
-From:   Philippe CORNU <philippe.cornu@foss.st.com>
-In-Reply-To: <20230519200520.10657-2-alex@shruggie.ro>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.0.148]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524124628.32295-2-henning.schild@siemens.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, May 24, 2023 at 02:46:25PM +0200, Henning Schild wrote:
+> The entries do not seem to be stricly needed when the number of entries
+> is given via the number of LEDs. But adding them is a safeguard should
+> anyone ever iterate over the tables to their end, it also gets us in
+> line with other drivers that register "leds-gpio" tables.
 
+Reported-by?
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-On 5/19/23 22:05, Alexandru Ardelean wrote:
-> From: Yannick Fertre <yannick.fertre@foss.st.com>
-> 
-> Add documentation for new default-brightness-level property.
-> 
-> Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>
-
-Hi Alexandru,
-same comments as for the 1/2 patch.
-Many thanks
-Philippe :-)
-
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+> Signed-off-by: Henning Schild <henning.schild@siemens.com>
 > ---
+>  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Link to original patch:
->    https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
+> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c b/drivers/leds/simple/simatic-ipc-leds-gpio.c
+> index e8d329b5a68c..1a1cfdad6218 100644
+> --- a/drivers/leds/simple/simatic-ipc-leds-gpio.c
+> +++ b/drivers/leds/simple/simatic-ipc-leds-gpio.c
+> @@ -28,6 +28,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e = {
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 5, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 56, NULL, 6, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 59, NULL, 7, GPIO_ACTIVE_HIGH),
+> +		{} /* Terminating entry */
+>  	},
+>  };
+>  
+> @@ -42,6 +43,7 @@ static struct gpiod_lookup_table simatic_ipc_led_gpio_table_227g = {
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-2", 5, NULL, 5, GPIO_ACTIVE_LOW),
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
+>  		GPIO_LOOKUP_IDX("gpio-f7188x-3", 7, NULL, 7, GPIO_ACTIVE_HIGH),
+> +		{} /* Terminating entry */
+>  	}
+>  };
+>  
+> -- 
+> 2.39.3
 > 
->   .../bindings/leds/backlight/gpio-backlight.yaml          | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> index 584030b6b0b9..b96c08cff0f0 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> @@ -23,6 +23,15 @@ properties:
->       description: enable the backlight at boot.
->       type: boolean
->   
-> +  default-brightness-level:
-> +    description:
-> +      The default brightness level (index into the array defined by the
-> +      "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [ "brightness-levels" ]
-> +
->   required:
->     - compatible
->     - gpios
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
