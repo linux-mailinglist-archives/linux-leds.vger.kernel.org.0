@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 336F3714D4D
-	for <lists+linux-leds@lfdr.de>; Mon, 29 May 2023 17:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83EC714D53
+	for <lists+linux-leds@lfdr.de>; Mon, 29 May 2023 17:47:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbjE2Pp7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 May 2023 11:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40428 "EHLO
+        id S229846AbjE2PrT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 May 2023 11:47:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230036AbjE2Pp5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 May 2023 11:45:57 -0400
+        with ESMTP id S229677AbjE2PrS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 May 2023 11:47:18 -0400
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693ABC4;
-        Mon, 29 May 2023 08:45:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B0AA3;
+        Mon, 29 May 2023 08:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=rOnUNLgy0uJnQ1Nieea+DB3PN7mIsSIgBYdXTpxYz0s=; b=eDwOtnbbikiiTvgrnireaeLzjV
-        UK3lwNgEGiKJQQn2kFkNubbwxCXwKOLhM6rFtQdIp3oPcDMJPiOSyjOzv7XiG0NIRdqq5jl0LN5mX
-        S6bXsbvi8RevSEG6O3lxir4+9YhOxcOwNopAn/jsutd0N5IyKB6NHaUSw9clcY9Ke8/M=;
+        bh=SKJ4N9nq0FEnXlydmVRv6LAm39tc/x6QCJ/lBF2Ow4E=; b=YbWsl/FYw51ix05mJYM88x1RKh
+        jgxNrKVJExPu+0Zl0I5vv257xOUWhWd6z6c6Kg1TWJBN6K0xSlhxxhKP3b/lH91K3FmHbajBB8RIb
+        MuOpODyqDjPpf+M5sbk4Z78+Mnx7q2xRreCiErHlYvSM55Hd3LmoCodVxkHzQ487XE+8=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1q3f45-00EF3c-4j; Mon, 29 May 2023 17:45:45 +0200
-Date:   Mon, 29 May 2023 17:45:45 +0200
+        id 1q3f5S-00EF59-KY; Mon, 29 May 2023 17:47:10 +0200
+Date:   Mon, 29 May 2023 17:47:10 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Christian Marangi <ansuelsmth@gmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
@@ -38,15 +38,15 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v3 08/13] leds: trigger: netdev: add support for
- LED hw control
-Message-ID: <41bbeede-b88a-431f-8bcf-ba3c8a951dc5@lunn.ch>
+Subject: Re: [net-next PATCH v3 11/13] leds: trigger: netdev: expose netdev
+ trigger modes in linux include
+Message-ID: <de1f3097-260b-4290-a865-08a022b7253b@lunn.ch>
 References: <20230527112854.2366-1-ansuelsmth@gmail.com>
- <20230527112854.2366-9-ansuelsmth@gmail.com>
+ <20230527112854.2366-12-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230527112854.2366-9-ansuelsmth@gmail.com>
+In-Reply-To: <20230527112854.2366-12-ansuelsmth@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -56,17 +56,11 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
->  static bool can_hw_control(struct led_netdev_data *trigger_data)
->  {
-> +	unsigned int interval = atomic_read(&trigger_data->interval);
->  	struct led_classdev *led_cdev = trigger_data->led_cdev;
-> +	unsigned long default_interval = msecs_to_jiffies(50);
-
-nitpick:
-
-We have 50 in netdev_trig_activate(). Now it is used twice, it would
-be nice to replace it with a #define. I doubt it will ever get
-changed, but we do want them to be identical.
+On Sat, May 27, 2023 at 01:28:52PM +0200, Christian Marangi wrote:
+> Expose netdev trigger modes to make them accessible by LED driver that
+> will support netdev trigger for hw control.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
