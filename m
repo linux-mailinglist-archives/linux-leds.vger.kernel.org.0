@@ -2,179 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B17B71664C
-	for <lists+linux-leds@lfdr.de>; Tue, 30 May 2023 17:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5DFF7171F0
+	for <lists+linux-leds@lfdr.de>; Wed, 31 May 2023 01:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbjE3PLM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 May 2023 11:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
+        id S233987AbjE3Xsr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 May 2023 19:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjE3PLL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 May 2023 11:11:11 -0400
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2058.outbound.protection.outlook.com [40.107.249.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEFF88F;
-        Tue, 30 May 2023 08:11:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jTX0PHUZAHNJXLuJxgE5pi6svM989k6wNO9nre7dijsaMNQQUkkyxTk9foiQJQrRkzMMPGaJ2E4FNC1muVxwgVoKxKb8c6+RX2N+xwgc+/Z5YsxAePBtMK8ObHYfHKVOVWWI0cn1z7oSotDMuYVV5c0eB4UXPz7kohVA41Vc4dyXyvSMnOSWn2ZXCTBE7ymm+uuhwKZ7O4qOigF0G1ZEbsoPhxhDVlNUuKagzjNfYiKWtU0o9D1FNBcLSpLcimns59yMHfoQlEWVQDhiIs+SInSfRnWgkreTVObT3Zp9+k2M6lbnN/yEyRcf1pJIZOFA79qIuYsUt0C9BGc/G/PLZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6+hmlbP2DGELuiNJ60ADUpQe7VDNjwogAZfrkGjVpzA=;
- b=P9lj4iW6VZWeOOdjPpcVbg9se+mhr5aE9D7vB4vez75bO+Md5bA4af/ZAB29ZGbW3KAmW7FtGRtgMHgBAaRCMG7C69W2Qdi5gEyd9/GyHwSCOxV5fylVU+v4x00rGi+JvYcZNSO9eF1eHj+BVMgjwsieM2eFeBoLFEsmDVIXCQF9nSivZ1yjKpT3plM/7zOH73xrNQSIAJyeW5IxNc9yyt9ex6q5D6hOIm58EUQA4MXVIH5n35TlKkI/FkZywW37aQwDOgP6Lh40QPyjQqmzG56O1lw6PRPRasBRxEs1uTx/VKwqU1KhuGH9B1oPiaOZKrzO20jYuc5QEgYvDJ00IQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6+hmlbP2DGELuiNJ60ADUpQe7VDNjwogAZfrkGjVpzA=;
- b=sOoPI4lbm3Ab7aQZ4OQSTUvv5EOISOzSTZoV1KjzgfDQUFA8OKxGgmqIq8XGK7SDgrpIE7QZgkpLrbjEIQjId/zMIOh8NDlA+SH1MFILn6DXX81OJMEp4HfQqJzitQI52hXwy4wtEPNEpmDrZadWP6xs1W4k6zHIKcN/fTa9azreS1E3nUbDW3fsrMHCV+kaaqkVdVrpxz/RWCEk6RKWd3uQx2HQYdyuhBV5EJHZ3Nx+4I29fQIArPtlXhD/3ESt6pErYLtMrmP5/vWwk1VrbF5s2t8+prTOAMVU2DCfpcUOnDKMFcam+IjRHG54ySFcMXItp76CAxKepHQneVbQ6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by VI1PR10MB3230.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:136::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.21; Tue, 30 May
- 2023 15:11:07 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a171:a3f2:99b7:5f29]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a171:a3f2:99b7:5f29%6]) with mapi id 15.20.6433.022; Tue, 30 May 2023
- 15:11:07 +0000
-Date:   Tue, 30 May 2023 17:11:00 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] leds: simatic-ipc-leds-gpio: add terminating
- entries to gpio tables
-Message-ID: <20230530171100.75e5b86c@md1za8fc.ad001.siemens.net>
-In-Reply-To: <ZHHFMPEYNz9jBBRd@smile.fi.intel.com>
-References: <20230524124628.32295-1-henning.schild@siemens.com>
-        <20230524124628.32295-2-henning.schild@siemens.com>
-        <ZHHFMPEYNz9jBBRd@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0161.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::8) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+        with ESMTP id S229590AbjE3Xsl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 May 2023 19:48:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA623D9
+        for <linux-leds@vger.kernel.org>; Tue, 30 May 2023 16:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685490476;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=7FN5z/Bbo4F41FMSmQdaTAQtO0xV9HpjcxuBSMJEC24=;
+        b=RJenlZyMVNnMupvgxxQ71IpL7mmSaYZ+Aur/89B8G+wZqvix4gO5nnFW1nTCqfeoi6zBtz
+        zRi7m91uVGTAHk2ZcPcJlwo3yXXp+5LGOgn05QLJ7SotIoPLnCG6U7UNXG/cN3Au6DIUKd
+        lqZ0aWuoUoTCKiuE2VnSllse686x334=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-134--qC0hNSTPMullbOlifEIdQ-1; Tue, 30 May 2023 19:47:52 -0400
+X-MC-Unique: -qC0hNSTPMullbOlifEIdQ-1
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-62621cdb1f0so16864406d6.0
+        for <linux-leds@vger.kernel.org>; Tue, 30 May 2023 16:47:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685490471; x=1688082471;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7FN5z/Bbo4F41FMSmQdaTAQtO0xV9HpjcxuBSMJEC24=;
+        b=NlorJt2n24+jU9B6SaipGHVp4Xu6K49rz6BExpwMDqbA4j2+zxdRMSRp8cJ0U6EP4C
+         hPYN7sztbTG2C8zMm48tv3fEPsFOopVmgGfCFz+MhwsZqZk1+GSCn/PsSwLCdXt1Nw54
+         /nSbAtaEJ02k4zDcUzKFZr0U0RBK3d59se9hailq6BIPUEGXiZ6NTrehc1lEOYhU0zoi
+         ZK5Eie3CWO/J1KgYBebcnSYd2JPdintU+vsOH6Qk7IRwG9xMiSwe6ID7uirTofLzhzM7
+         EFHrwtRlx/iJbluJCZoxjWf2QgbMuz1w9WjxPYngCmmWvp+s3N9M3vTq8/oLr2uqo3q2
+         s71Q==
+X-Gm-Message-State: AC+VfDyhtFDN8CwfkG+G129kDiK204DizCOWX1cH3iGL5GpQHXS6GHXe
+        Qnwvw6cXrTy/SDx9nkdbMngYjR1rCsk8/Sj4JoQmYP18kKMPlyjbrsfsIyaMaLy8ckjB5XRR6Hp
+        Hx5RbYwZZXPPbCrNEyGC5Bg==
+X-Received: by 2002:ad4:5ec7:0:b0:625:aa48:fb71 with SMTP id jm7-20020ad45ec7000000b00625aa48fb71mr5034832qvb.59.1685490471705;
+        Tue, 30 May 2023 16:47:51 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ60mXRe5Ihq4KWw1KK9rQ5jhVTVA8tPG2DdnzZJHcMocr84jJ8U/hMSce/y4Cl6rhAuwQUpNw==
+X-Received: by 2002:ad4:5ec7:0:b0:625:aa48:fb71 with SMTP id jm7-20020ad45ec7000000b00625aa48fb71mr5034822qvb.59.1685490471480;
+        Tue, 30 May 2023 16:47:51 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id e7-20020ad450c7000000b00626234be222sm2320369qvq.57.2023.05.30.16.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 16:47:51 -0700 (PDT)
+From:   Tom Rix <trix@redhat.com>
+To:     pavel@ucw.cz, lee@kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] leds: cht-wcove: set function cht_wc_leds_brightness_get storage-class-specifier to static
+Date:   Tue, 30 May 2023 19:47:48 -0400
+Message-Id: <20230530234748.3641630-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|VI1PR10MB3230:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6171f370-f7c8-41f2-f84c-08db612017e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbKYJujlQ9dR1b5wARMS4JwpU6JWpvIc78EHXIAjk0SI0Sa4jlgUlvPpDsoLuo6wAuYbftbXN9BNdytyzhNvM4NX2QmcDxM8UmiKhfgs+3+i3GzZIx5QcvkMA/EAg4dGqgAI7x3+/EWQ5nAHoUiDhNBlCCoWyEKb7PfEsCZ4xRvUcJgsIGIVuvT5EM+aBC+UePdZMZiLmXjnpGafmEhOerH7VRESj3DtQr6I2osUU9KthE3/iMafMxL972VmtifR5Ay/yJldZdQzgVKdA5Kw1brlqK7Fx0sBXxyILWDnICKFXHYs2DqNlDJXbeVrqazkKLrzf1oIceKecPTUkgSl07DZ1ZPQgQORy4d7+s5hcsXDtD4brYff852xxFryYFdwDq8AxajzGvkGkEodYeTrTampWKA4jVCyPnqnS0bDhZoYPYUdwNmEZGNUlm8mrKAbp6LuWvCCrxU01VcwlonBGOoMgHURU7GsmerU4oblFLPadVK0nLYslvzCK6pd0s9/fmRsphg3fUJEtU5qcAtz30CykDlGQZOe6QzElcu6tOd1TVqLjsvgjk2HF26QaCi2
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(396003)(39860400002)(136003)(376002)(451199021)(6506007)(9686003)(6512007)(186003)(2906002)(54906003)(478600001)(1076003)(44832011)(86362001)(38100700002)(8676002)(82960400001)(41300700001)(6486002)(8936002)(5660300002)(66556008)(66946007)(66476007)(316002)(6666004)(6916009)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TVg8pPzogruTFM14+q1G2KB96YBm2EBTJ3iYuFzyu7ENMN8B0EHRr+CQgiXX?=
- =?us-ascii?Q?7bc6Q8B4bnXWn8dwt4emVa0i38qLACbkkHOqdIKwO5W7Qb90ReLKnU/erbPx?=
- =?us-ascii?Q?brHHwR634s9ryqOD0g0B5m8hjEje5NMvJupX4+NUFTFjEFi7DML7sCabQ/f9?=
- =?us-ascii?Q?Dt/JtcV30c/uH9LAF3IbQGTbYodF0jfulWTwVDsTpDJy/9eKLDwN56MmGkAs?=
- =?us-ascii?Q?IGIh8Ugfi07+GbJUF+Ebj05UAvEPs9U2giIj0d9f0GeghvYGpbkhe4sJ1Qs6?=
- =?us-ascii?Q?XxmAwXYC51/Kwsy2RBU130Vv4ryMW56eJy66+FWVTttf/as/CzDb3+X8TjVf?=
- =?us-ascii?Q?sx1QT7bQ2e7p14QxoGSCHZ3U5rbliYCAoJ8iyasa3xfbi1+V6nH5Dv5dc30V?=
- =?us-ascii?Q?MOG4JtqoDO+gMwscvO2BJ4TGHumRyyaVVBwaojeJ7TVykSG8ABbCmCmUKu1+?=
- =?us-ascii?Q?AGS6wGaJP9zYeZQlCHp5e3clYKzs/ajsmqefKsW78RNcrXDdcrsZXqbdWXYu?=
- =?us-ascii?Q?dZFNoxU2xalPM9gUsix4lh+9wurH5+DRHHmDlQJ9eem3YL4rDXasi2mWHyRA?=
- =?us-ascii?Q?MPriIJCiJgMw0/a+wnmyofz3xycjOauDj7mrwn9jbKzaOAa23zWIW3yqlDRc?=
- =?us-ascii?Q?oD4mKBgVXUuEHeG4zcmZMqXNt0+KxxkQrWANxi01oW/dq90xt6NUQCIaUJPb?=
- =?us-ascii?Q?aknyfschXDrw+Z+XYB31Q5sMRaXDNSdqxs/Qxga8eKIHdp7iGjuRefBHbBvE?=
- =?us-ascii?Q?NukKWWHOn1uJQOJl0Pn7NI+uCY6xTZ5W7Y6N+/FoijGWNBsgUZpQebtolPvC?=
- =?us-ascii?Q?9JMKfB1MbjMRSIwez9fJq27rZx6sM52nSaYhtCfdfGK1u5WqGidAjjoUOQWT?=
- =?us-ascii?Q?wL7EqXicci1O9Iq3CLOujd5OlLk/O/6HQpcnliaxpNfQg/00ni68bH+pLglt?=
- =?us-ascii?Q?zMdWK9p3rFyZDfIJfiJAZIEU4MQIe8F9dMlwcxoOq+62CaFUhvcXkUOvW1Ua?=
- =?us-ascii?Q?h1FrkvNDHqlxwZHhg+7YLWdFzqyj352Lcn3+LeSIaHsMe5ylD5I99vlrFwHQ?=
- =?us-ascii?Q?LnvftoePtCxGOmnKeB/6AgiRXDNzyDvFbopv60Z95Tl1gZ+D2KY8K5DaLkdN?=
- =?us-ascii?Q?4KAwMwaH4ljwGTJGA+hS5OWfJSJi+mDu+5lfNoz8vhlQz1tv8aCfwaKWAlZF?=
- =?us-ascii?Q?E7/kwY8g6TSfKpDcpEDEAtVQG4RVRfTbPGanqFh0Q2KtVQW+pMYUGjTS3IJd?=
- =?us-ascii?Q?iqmALwRhxOr0wBD/BN+KfvM26imklOzE/QR0PHxz4y4c6FsofO0ukIeNvmyC?=
- =?us-ascii?Q?AHarlYsgCQwfhtEZawNGFkwoGdadEh8O5Gzi7swtyRsfCN+7HRT4AdEGKWdH?=
- =?us-ascii?Q?7j8Sljw5/hfcu6bAhoqc68GhJIClcjjZjXJLzdd0fkFsnWiN+kBGYW1Pmtd+?=
- =?us-ascii?Q?4A81a3hHgPKDmmNZkuJgli/tI2TKrYYSmc3Io02FL/eDqr7PN7XPwtL4WRrH?=
- =?us-ascii?Q?bEtckxcfoJEPnUqr6g+NcnByBTEHmm9JPav8qAeKqOoaeGdMUdzwJZSSH90g?=
- =?us-ascii?Q?bDD3TGmrT3+szC6fQb/I6NqAMDtYPCr3L3fewMkn/AcQtW4mrEJ3qG1wYVBc?=
- =?us-ascii?Q?Uj9ojq5hL1jMbaEwgsc01Qa0ZtGu3d83IRmGyDT/DOevPUIxqytizKqu1YWc?=
- =?us-ascii?Q?qAEhCw=3D=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6171f370-f7c8-41f2-f84c-08db612017e2
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 15:11:07.2011
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WTgaFeyCBDACKQ7qT3kNPFjALl1GVH1PuNw+pM8piaOz0OKHIJsUaojoOsbsi1ejuW7cQ4AEXpFJ7CId8KCyTmZVLu47rPFxKVklKdhDE9c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3230
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Sat, 27 May 2023 11:54:08 +0300
-schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+smatch reports
+drivers/leds/leds-cht-wcove.c:144:21: warning: symbol
+  'cht_wc_leds_brightness_get' was not declared. Should it be static?
 
-> On Wed, May 24, 2023 at 02:46:25PM +0200, Henning Schild wrote:
-> > The entries do not seem to be stricly needed when the number of
-> > entries is given via the number of LEDs. But adding them is a
-> > safeguard should anyone ever iterate over the tables to their end,
-> > it also gets us in line with other drivers that register
-> > "leds-gpio" tables.  
-> 
-> Reported-by?
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+This function is only used in its defining file, so it should be static.
 
-I think we could do
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/leds/leds-cht-wcove.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-on merge. But i would not want to send the whole series again for that
-one line.
-
-Thanks!
-Henning
-
-> > Signed-off-by: Henning Schild <henning.schild@siemens.com>
-> > ---
-> >  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.c
-> > b/drivers/leds/simple/simatic-ipc-leds-gpio.c index
-> > e8d329b5a68c..1a1cfdad6218 100644 ---
-> > a/drivers/leds/simple/simatic-ipc-leds-gpio.c +++
-> > b/drivers/leds/simple/simatic-ipc-leds-gpio.c @@ -28,6 +28,7 @@
-> > static struct gpiod_lookup_table simatic_ipc_led_gpio_table_127e =
-> > { GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 51, NULL, 5,
-> > GPIO_ACTIVE_LOW), GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 56, NULL,
-> > 6, GPIO_ACTIVE_LOW), GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 59,
-> > NULL, 7, GPIO_ACTIVE_HIGH),
-> > +		{} /* Terminating entry */
-> >  	},
-> >  };
-> >  
-> > @@ -42,6 +43,7 @@ static struct gpiod_lookup_table
-> > simatic_ipc_led_gpio_table_227g = {
-> > GPIO_LOOKUP_IDX("gpio-f7188x-2", 5, NULL, 5, GPIO_ACTIVE_LOW),
-> > GPIO_LOOKUP_IDX("gpio-f7188x-3", 6, NULL, 6, GPIO_ACTIVE_HIGH),
-> > GPIO_LOOKUP_IDX("gpio-f7188x-3", 7, NULL, 7, GPIO_ACTIVE_HIGH),
-> > +		{} /* Terminating entry */
-> >  	}
-> >  };
-> >  
-> > -- 
-> > 2.39.3
-> >   
-> 
+diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
+index 0cfebee98910..0a5c30e5ed5d 100644
+--- a/drivers/leds/leds-cht-wcove.c
++++ b/drivers/leds/leds-cht-wcove.c
+@@ -141,7 +141,7 @@ static int cht_wc_leds_brightness_set(struct led_classdev *cdev,
+ 	return ret;
+ }
+ 
+-enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
++static enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
+ {
+ 	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
+ 	unsigned int val;
+-- 
+2.27.0
 
