@@ -2,31 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E78E7173D9
-	for <lists+linux-leds@lfdr.de>; Wed, 31 May 2023 04:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B452A717642
+	for <lists+linux-leds@lfdr.de>; Wed, 31 May 2023 07:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbjEaCkh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 May 2023 22:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
+        id S231357AbjEaFgW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 31 May 2023 01:36:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231417AbjEaCkg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 May 2023 22:40:36 -0400
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835FB113;
-        Tue, 30 May 2023 19:40:34 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VjvYWmU_1685500821;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VjvYWmU_1685500821)
+        with ESMTP id S229865AbjEaFgV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 31 May 2023 01:36:21 -0400
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62345D9;
+        Tue, 30 May 2023 22:36:19 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R561e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VjwC2E9_1685511360;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VjwC2E9_1685511360)
           by smtp.aliyun-inc.com;
-          Wed, 31 May 2023 10:40:31 +0800
+          Wed, 31 May 2023 13:36:15 +0800
 From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To:     pavel@ucw.cz
 Cc:     lee@kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
         Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] leds: cht-wcove: remove unneeded semicolon
-Date:   Wed, 31 May 2023 10:40:20 +0800
-Message-Id: <20230531024020.106641-1-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] leds: flash: leds-qcom-flash: Fix an unsigned comparison which can never be negative
+Date:   Wed, 31 May 2023 13:35:59 +0800
+Message-Id: <20230531053559.5702-1-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,30 +40,38 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-No functional modification involved.
+The variable 'count' is defined as unsigned type, so the following if
+statement is invalid, we can modify the type of count to int.
+if (count <= 0) {
+	dev_err(dev, "No led-sources specified\n");
+	return -ENODEV;
+}
 
-./drivers/leds/leds-cht-wcove.c:193:2-3: Unneeded semicolon.
+./drivers/leds/flash/leds-qcom-flash.c:546:5-10: WARNING: Unsigned expression compared with zero: count <= 0.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5343
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5344
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/leds/leds-cht-wcove.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/leds/flash/leds-qcom-flash.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-index 0cfebee98910..e35a25990048 100644
---- a/drivers/leds/leds-cht-wcove.c
-+++ b/drivers/leds/leds-cht-wcove.c
-@@ -190,7 +190,7 @@ static unsigned long cht_wc_leds_get_period(int ctrl)
- 		return 1000;
- 	case CHT_WC_LED_F_2_HZ:
- 		return 1000 / 2;
--	};
-+	}
+diff --git a/drivers/leds/flash/leds-qcom-flash.c b/drivers/leds/flash/leds-qcom-flash.c
+index c8d41a3caf38..b089ca1a1901 100644
+--- a/drivers/leds/flash/leds-qcom-flash.c
++++ b/drivers/leds/flash/leds-qcom-flash.c
+@@ -538,9 +538,9 @@ static int qcom_flash_register_led_device(struct device *dev,
+ 	struct led_init_data init_data;
+ 	struct led_classdev_flash *flash = &led->flash;
+ 	struct led_flash_setting *brightness, *timeout;
+-	u32 count, current_ua, timeout_us;
++	u32 current_ua, timeout_us;
+ 	u32 channels[4];
+-	int i, rc;
++	int i, rc, count;
  
- 	return 0;
- }
+ 	count = fwnode_property_count_u32(node, "led-sources");
+ 	if (count <= 0) {
 -- 
 2.20.1.7.g153144c
 
