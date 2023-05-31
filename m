@@ -2,30 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF5A717373
-	for <lists+linux-leds@lfdr.de>; Wed, 31 May 2023 04:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E78E7173D9
+	for <lists+linux-leds@lfdr.de>; Wed, 31 May 2023 04:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231534AbjEaCCq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 May 2023 22:02:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        id S231396AbjEaCkh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 May 2023 22:40:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231219AbjEaCCp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 May 2023 22:02:45 -0400
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB7CEEC;
-        Tue, 30 May 2023 19:02:43 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R481e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VjvXqog_1685498559;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VjvXqog_1685498559)
+        with ESMTP id S231417AbjEaCkg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 May 2023 22:40:36 -0400
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835FB113;
+        Tue, 30 May 2023 19:40:34 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VjvYWmU_1685500821;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VjvYWmU_1685500821)
           by smtp.aliyun-inc.com;
-          Wed, 31 May 2023 10:02:40 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
+          Wed, 31 May 2023 10:40:31 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To:     pavel@ucw.cz
 Cc:     lee@kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
         Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] leds: cht-wcove: Fix an unsigned comparison which can never be negative
-Date:   Wed, 31 May 2023 10:02:38 +0800
-Message-Id: <20230531020238.102684-1-yang.lee@linux.alibaba.com>
+Subject: [PATCH] leds: cht-wcove: remove unneeded semicolon
+Date:   Wed, 31 May 2023 10:40:20 +0800
+Message-Id: <20230531024020.106641-1-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,34 +40,30 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The return value from the call to cht_wc_leds_find_freq() is int.
-However, the return value is being assigned to an unsigned
-int variable 'ctrl', so making it an int.
+No functional modification involved.
 
-Eliminate the following warning:
-drivers/leds/leds-cht-wcove.c:236 cht_wc_leds_set_effect() warn: unsigned 'ctrl' is never less than zero.
+./drivers/leds/leds-cht-wcove.c:193:2-3: Unneeded semicolon.
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5341
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5343
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/leds/leds-cht-wcove.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/leds/leds-cht-wcove.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-index 0cfebee98910..10afd03164b4 100644
+index 0cfebee98910..e35a25990048 100644
 --- a/drivers/leds/leds-cht-wcove.c
 +++ b/drivers/leds/leds-cht-wcove.c
-@@ -223,8 +223,7 @@ static int cht_wc_leds_set_effect(struct led_classdev *cdev,
- 				  u8 effect)
- {
- 	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
--	unsigned int ctrl;
--	int ret;
-+	int ctrl, ret;
+@@ -190,7 +190,7 @@ static unsigned long cht_wc_leds_get_period(int ctrl)
+ 		return 1000;
+ 	case CHT_WC_LED_F_2_HZ:
+ 		return 1000 / 2;
+-	};
++	}
  
- 	mutex_lock(&led->mutex);
- 
+ 	return 0;
+ }
 -- 
 2.20.1.7.g153144c
 
