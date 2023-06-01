@@ -2,96 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 914D071EFA9
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Jun 2023 18:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E3D571F251
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Jun 2023 20:47:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbjFAQvn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Jun 2023 12:51:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34982 "EHLO
+        id S233149AbjFASrL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Jun 2023 14:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbjFAQvm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Jun 2023 12:51:42 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3601B1;
-        Thu,  1 Jun 2023 09:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685638270; x=1717174270;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sAhDo5ijB5QiHtdByjW35ccQhPA3g20K+nzOIsyvDVE=;
-  b=Zp9+3RQhlqcCP/4krIzcZl+67L2FqeuojoZRG2YZOxkF3FCVQ5OUdlJv
-   6lo/X26n642ID0Z96Km6sZk/M96L7WWDg2A/6CASDBSViU27JtbH3AwMZ
-   TdQU6L/uH7VwQ0qNknzfgX/5V0mQW0/7uIo7Yjob7aGSxBOXZpG3vbkDy
-   0s8VLHtrLtIM1sEJw8MQCCXSllpdIeui/bXrNQ9AkKoBlBPb6WMyrfAml
-   dDkA2UjzD0Il99jWKEBwsKJmoXeRZGWRzda+V+DetVs/1vnFFcOwwmeG+
-   tNdwTLTBuYvIq60anDLt3LpJYD3+v3me9D2DjEHRP4/sjEotUvFXI8ivi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421426638"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="421426638"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:51:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="777283038"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="777283038"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Jun 2023 09:51:01 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1q4lVr-000Soq-38;
-        Thu, 01 Jun 2023 19:50:59 +0300
-Date:   Thu, 1 Jun 2023 19:50:59 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
+        with ESMTP id S229682AbjFASrE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Jun 2023 14:47:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A81AE134;
+        Thu,  1 Jun 2023 11:47:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 43BF9648FF;
+        Thu,  1 Jun 2023 18:47:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C38C433D2;
+        Thu,  1 Jun 2023 18:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685645222;
+        bh=7hUAGbr9RVd5xxY7KJ0giO7dZSBPaVt+/ij4dmRrwXU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n3oP1GfneAo4/coUi5NUoMPGbju4mM0do35Bvy0WcgYxEv0s14RYctQP7TQVEq/hf
+         uKJt0I43RQRc3JPjLxZt8tRVg8iQ82JpD3+oYFeWu/AfOJfGXJwysYV//voJklgMh1
+         C7WbNo9e20K7JBYgDUpZHmHHMGfM9WYXS9raJG9soR6jQ7owKACJPptTPcfoOrkhjw
+         nmNmnxiveaC1g4lQg0ZeGsdCvWBW27QYVHxczBDDwwJ/hN9hPfq1Qy7vDvgY855prk
+         SmQm9JrpS9TX/CcvxLS29hi4ymPfW8LFoHhSWQ15nU0eNpfAR344y2d5VjydSEfkNA
+         RkklAtMvBnMCg==
+Date:   Thu, 1 Jun 2023 19:46:58 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] leds: simatic-ipc-leds-gpio: add new model BX-21A
-Message-ID: <ZHjMcwcCbSyMx5d9@smile.fi.intel.com>
-References: <20230531155457.31632-1-henning.schild@siemens.com>
- <20230531155457.31632-2-henning.schild@siemens.com>
+        devicetree@vger.kernel.org, kernel@sberdevices.ru
+Subject: Re: [PATCH v5 2/2] leds: add aw20xx driver
+Message-ID: <20230601184658.GI449117@google.com>
+References: <20230519130403.212479-1-mmkurbanov@sberdevices.ru>
+ <20230519130403.212479-3-mmkurbanov@sberdevices.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230531155457.31632-2-henning.schild@siemens.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230519130403.212479-3-mmkurbanov@sberdevices.ru>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 31, 2023 at 05:54:57PM +0200, Henning Schild wrote:
-> This adds support for the Siemens Simatic IPC BX-21A. Its LEDs are
-> connected to GPIO pins provided by the Intel Elkhart Lake pinctrl
-> driver.
+On Fri, 19 May 2023, Martin Kurbanov wrote:
 
-...
+> This commit adds support for AWINIC AW20036/AW20054/AW20072 LED driver.
+> This driver supports following AW200XX features:
+>   - Individual 64-level DIM currents
+> 
+> Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> ---
+>  .../testing/sysfs-class-led-driver-aw200xx    |   5 +
+>  drivers/leds/Kconfig                          |  13 +
+>  drivers/leds/Makefile                         |   1 +
+>  drivers/leds/leds-aw200xx.c                   | 594 ++++++++++++++++++
+>  4 files changed, 613 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-aw200xx
+>  create mode 100644 drivers/leds/leds-aw200xx.c
 
-> +static struct platform_driver simatic_ipc_led_gpio_elkhartlake_driver = {
-> +	.probe = simatic_ipc_leds_gpio_elkhartlake_probe,
-> +	.remove = simatic_ipc_leds_gpio_elkhartlake_remove,
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-
-Just wondering if module name and hence device instance name (which may be
-longer) can be so long.
-
-Hint: you can use EHL/ehl for elkhartlake and in same way for the rest if any.
-
-> +	},
-> +};
+Applied, thanks
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
