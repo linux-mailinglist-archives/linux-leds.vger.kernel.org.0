@@ -2,290 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78EB571961B
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Jun 2023 10:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BFB8719A8A
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Jun 2023 13:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231508AbjFAIyj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Jun 2023 04:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53554 "EHLO
+        id S232584AbjFALIX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Jun 2023 07:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbjFAIyi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Jun 2023 04:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10306E2
-        for <linux-leds@vger.kernel.org>; Thu,  1 Jun 2023 01:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685609634;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Y85+H09EVrraft6UYcmNFDvtbIuHgYDgtawu93D8ue0=;
-        b=cftdT1d5PaE3sux1xpuPgtxezGVXwe/1wqDq3B658WtuxV3dAr2PeY/ADXuyZQSeFBMIN4
-        5cMblmCYnKLJgB9FCssneVuBlvA05DOKMVRvB1SqYd86+8Xm128OoB9xp1vjtJDS7aBGdU
-        7DYwciazCY0GJDOeBtvmAdJp1I8jBRU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-369-PrF_9wQFNe-b6yVQfT03xw-1; Thu, 01 Jun 2023 04:53:51 -0400
-X-MC-Unique: PrF_9wQFNe-b6yVQfT03xw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94a34d3e5ebso34926066b.3
-        for <linux-leds@vger.kernel.org>; Thu, 01 Jun 2023 01:53:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685609630; x=1688201630;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y85+H09EVrraft6UYcmNFDvtbIuHgYDgtawu93D8ue0=;
-        b=fLrSweukWW9b+SJ4xJoJfmyaNdvgLihS9bUUXL0MnerG9Pl5aPm7Si8PWnpNdQp350
-         35b5zjqigfh9byrwjDcNKc9RKTSFzE7gXjdh3rd0QtElw2//Rye/x6/rRhIZBef7vdLS
-         SlCBAal0CIicOPM3SULOKsgTU53KopNcXcpH/tcDJbSJa/ufBPmn+vs37o5WPXw/TPYU
-         yXlPWQOMEd9+wR58TK+T6yPq1ZDDaZZADa8qveGV29rtX+bkrkEpBxVQR+fUtxB/0xGo
-         xETpnXNNyrXXHffQc3X47P5a7+ZOsr2AKvd285SAq4Hx0Rd1rpLFYHutYc1sK4bQezIn
-         yHqg==
-X-Gm-Message-State: AC+VfDz43OXjDxM0AvSVefVBnshFhnyoaxwPZBBhXYllk9xne/VpzGPo
-        yDdCwjPOZFRdvMCgHDwcWGU75hWV1DyKXvnI9wUhbaL9lQK63cfifSwyCHK402or9gAL8vmZ3Xk
-        n+wagP6N+DzMRXheEl3PP7A==
-X-Received: by 2002:a17:907:1c22:b0:94b:cd7c:59f4 with SMTP id nc34-20020a1709071c2200b0094bcd7c59f4mr8343822ejc.16.1685609630047;
-        Thu, 01 Jun 2023 01:53:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6OwrBwkbyOccrBgx+FBlzOxAlRKDhWvn4BF9AZuUDgZjj/RCQn/C88C7t+iiQLUww1b3i/Yg==
-X-Received: by 2002:a17:907:1c22:b0:94b:cd7c:59f4 with SMTP id nc34-20020a1709071c2200b0094bcd7c59f4mr8343810ejc.16.1685609629696;
-        Thu, 01 Jun 2023 01:53:49 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id oq27-20020a170906cc9b00b009662c57b4ffsm10226845ejb.96.2023.06.01.01.53.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 01:53:49 -0700 (PDT)
-Message-ID: <5109f2da-3b7f-421f-555c-810484d92b4c@redhat.com>
-Date:   Thu, 1 Jun 2023 10:53:48 +0200
+        with ESMTP id S231726AbjFALIW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Jun 2023 07:08:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7628107;
+        Thu,  1 Jun 2023 04:08:20 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C5E26606EBB;
+        Thu,  1 Jun 2023 12:08:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1685617698;
+        bh=Sse+Q1M/NQWUrVoTeA+SiLfS8fyeSQsrOZ1ZDEDAn2U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lRPk/Z3FXbz2jdk5r/vUaSO1C6jjTZmtwzaAZGeFXsPn+6Dx0WyuyeJF1VNxMCfUj
+         n1VC4p+3H3MkKKmUB6WyVFbujawywFv9CMmkKe6VwikoYjjbjeSAv/KL61dXq1PiG6
+         EormIXqeimQpdSJeKy/FM2LowMeX0yOqN9+xOPESI3zBuHu6+NQH44NTvFvvE8BnZi
+         frJU1KlWKv2s4P8igJ7x6p5OmJEmOFnU1d7qBJ/s98YVq1G7Mbn9b8fqefe88kRVOE
+         mECU7d2tH7sa8ftssUXSC2QhAA6qmgl5FOD8ig99MJ5kfPdficOXYCplkJyBtRSZIv
+         4jbLR9Sj+js2w==
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+To:     pavel@ucw.cz
+Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 0/8] Add support for MT6331 and MT6332 LEDs
+Date:   Thu,  1 Jun 2023 13:08:05 +0200
+Message-Id: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/1] leds: simatic-ipc-leds-gpio: add new model BX-21A
-Content-Language: en-US, nl
-To:     Henning Schild <henning.schild@siemens.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20230531155457.31632-1-henning.schild@siemens.com>
- <20230531155457.31632-2-henning.schild@siemens.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230531155457.31632-2-henning.schild@siemens.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Changes in v3:
+ - Rebase over next-20230601
+ - Beautified ISINK_CON0 comment
+ - Added binding for mediatek,is-wled property
 
-On 5/31/23 17:54, Henning Schild wrote:
-> This adds support for the Siemens Simatic IPC BX-21A. Its LEDs are
-> connected to GPIO pins provided by the Intel Elkhart Lake pinctrl
-> driver.
-> 
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
+Changes in v2:
+ - Rebase over next-20230412
 
-Thank you for the patch.
-
-Since this mostly touches files under drivers/leds I believe it would be best for this to be merged through Lee's LEDs tree.
-
-Here is my ack for merging the pdx86 bits through that tree:
-
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
+NOTE: Since v1 of this series was sent in Semptember 2022 and got
+ignored for *7 months* with no feedback, I'm retrying the upstreaming
+of this same series.
+There are no changes, if not just a simple rebase and another test
+run on the same hardware.
 
 
+MT6323 is not the only PMIC that has a LEDs controller IP and it was
+found that the others do have a compatible register layout, except
+for some register offsets.
+The logic contained in this driver can be totally reused for other
+PMICs as well, so I can't see any reason to keep this specific to
+the MT6323 part.
 
+This series brings meaningful platform data to this driver, giving
+it flexibility and adding support for LED controllers found in the
+MT6331 and MT6332 PMICs.
 
-> ---
->  drivers/leds/simple/Kconfig                   | 13 +++++
->  drivers/leds/simple/Makefile                  |  1 +
->  .../leds/simple/simatic-ipc-leds-gpio-core.c  |  4 ++
->  .../simatic-ipc-leds-gpio-elkhartlake.c       | 57 +++++++++++++++++++
->  drivers/platform/x86/simatic-ipc.c            |  3 +
->  .../platform_data/x86/simatic-ipc-base.h      |  1 +
->  include/linux/platform_data/x86/simatic-ipc.h |  3 +-
->  7 files changed, 81 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
-> 
-> diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
-> index 44fa0f93cb3b..626ab18ac09d 100644
-> --- a/drivers/leds/simple/Kconfig
-> +++ b/drivers/leds/simple/Kconfig
-> @@ -34,3 +34,16 @@ config LEDS_SIEMENS_SIMATIC_IPC_F7188X
->  
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called simatic-ipc-leds-gpio-f7188x.
-> +
-> +config LEDS_SIEMENS_SIMATIC_IPC_ELKHARTLAKE
-> +	tristate "LED driver for Siemens Simatic IPCs based on Intel Elkhart Lake GPIO"
-> +	depends on LEDS_GPIO
-> +	depends on PINCTRL_ELKHARTLAKE
-> +	depends on SIEMENS_SIMATIC_IPC
-> +	default LEDS_SIEMENS_SIMATIC_IPC
-> +	help
-> +	  This option enables support for the LEDs of several Industrial PCs
-> +	  from Siemens based on Elkhart Lake GPIO i.e. BX-21A.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-leds-gpio-elkhartlake.
-> diff --git a/drivers/leds/simple/Makefile b/drivers/leds/simple/Makefile
-> index e3e840cea275..783578f11bb0 100644
-> --- a/drivers/leds/simple/Makefile
-> +++ b/drivers/leds/simple/Makefile
-> @@ -2,3 +2,4 @@
->  obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)			+= simatic-ipc-leds.o
->  obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_APOLLOLAKE)	+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-apollolake.o
->  obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_F7188X)		+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-f7188x.o
-> +obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC_ELKHARTLAKE)	+= simatic-ipc-leds-gpio-core.o simatic-ipc-leds-gpio-elkhartlake.o
-> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> index 2a21b663df87..c552ea73ed9d 100644
-> --- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> +++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
-> @@ -57,6 +57,7 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
->  	switch (plat->devmode) {
->  	case SIMATIC_IPC_DEVICE_127E:
->  	case SIMATIC_IPC_DEVICE_227G:
-> +	case SIMATIC_IPC_DEVICE_BX_21A:
->  		break;
->  	default:
->  		return -ENODEV;
-> @@ -72,6 +73,9 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
->  		goto out;
->  	}
->  
-> +	if (!table_extra)
-> +		return 0;
-> +
->  	table_extra->dev_id = dev_name(dev);
->  	gpiod_add_lookup_table(table_extra);
->  
-> diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
-> new file mode 100644
-> index 000000000000..6ba21dbb3ba0
-> --- /dev/null
-> +++ b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
-> @@ -0,0 +1,57 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Siemens SIMATIC IPC driver for GPIO based LEDs
-> + *
-> + * Copyright (c) Siemens AG, 2023
-> + *
-> + * Author:
-> + *  Henning Schild <henning.schild@siemens.com>
-> + */
-> +
-> +#include <linux/gpio/machine.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/platform_data/x86/simatic-ipc-base.h>
-> +
-> +#include "simatic-ipc-leds-gpio.h"
-> +
-> +static struct gpiod_lookup_table simatic_ipc_led_gpio_table = {
-> +	.dev_id = "leds-gpio",
-> +	.table = {
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 72, NULL, 0, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 77, NULL, 1, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 78, NULL, 2, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 58, NULL, 3, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 60, NULL, 4, GPIO_ACTIVE_HIGH),
-> +		GPIO_LOOKUP_IDX("INTC1020:04", 62, NULL, 5, GPIO_ACTIVE_HIGH),
-> +		{} /* Terminating entry */
-> +	},
-> +};
-> +
-> +static int simatic_ipc_leds_gpio_elkhartlake_probe(struct platform_device *pdev)
-> +{
-> +	return simatic_ipc_leds_gpio_probe(pdev, &simatic_ipc_led_gpio_table,
-> +					   NULL);
-> +}
-> +
-> +static int simatic_ipc_leds_gpio_elkhartlake_remove(struct platform_device *pdev)
-> +{
-> +	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
-> +					    NULL);
-> +}
-> +
-> +static struct platform_driver simatic_ipc_led_gpio_elkhartlake_driver = {
-> +	.probe = simatic_ipc_leds_gpio_elkhartlake_probe,
-> +	.remove = simatic_ipc_leds_gpio_elkhartlake_remove,
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-> +	},
-> +};
-> +module_platform_driver(simatic_ipc_led_gpio_elkhartlake_driver);
-> +
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:" KBUILD_MODNAME);
-> +MODULE_SOFTDEP("pre: simatic-ipc-leds-gpio-core platform:elkhartlake-pinctrl");
-> +MODULE_AUTHOR("Henning Schild <henning.schild@siemens.com>");
-> diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/simatic-ipc.c
-> index c773995b230d..4402cd354104 100644
-> --- a/drivers/platform/x86/simatic-ipc.c
-> +++ b/drivers/platform/x86/simatic-ipc.c
-> @@ -48,6 +48,7 @@ static struct {
->  	{SIMATIC_IPC_IPC477E, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_427E},
->  	{SIMATIC_IPC_IPCBX_39A, SIMATIC_IPC_DEVICE_227G, SIMATIC_IPC_DEVICE_227G},
->  	{SIMATIC_IPC_IPCPX_39A, SIMATIC_IPC_DEVICE_NONE, SIMATIC_IPC_DEVICE_227G},
-> +	{SIMATIC_IPC_IPCBX_21A, SIMATIC_IPC_DEVICE_BX_21A, SIMATIC_IPC_DEVICE_NONE},
->  };
->  
->  static int register_platform_devices(u32 station_id)
-> @@ -72,6 +73,8 @@ static int register_platform_devices(u32 station_id)
->  			pdevname = KBUILD_MODNAME "_leds_gpio_apollolake";
->  		if (ledmode == SIMATIC_IPC_DEVICE_227G)
->  			pdevname = KBUILD_MODNAME "_leds_gpio_f7188x";
-> +		if (ledmode == SIMATIC_IPC_DEVICE_BX_21A)
-> +			pdevname = KBUILD_MODNAME "_leds_gpio_elkhartlake";
->  		platform_data.devmode = ledmode;
->  		ipc_led_platform_device =
->  			platform_device_register_data(NULL,
-> diff --git a/include/linux/platform_data/x86/simatic-ipc-base.h b/include/linux/platform_data/x86/simatic-ipc-base.h
-> index 57d6a10dfc9e..00bf18ecb160 100644
-> --- a/include/linux/platform_data/x86/simatic-ipc-base.h
-> +++ b/include/linux/platform_data/x86/simatic-ipc-base.h
-> @@ -20,6 +20,7 @@
->  #define SIMATIC_IPC_DEVICE_127E 3
->  #define SIMATIC_IPC_DEVICE_227E 4
->  #define SIMATIC_IPC_DEVICE_227G 5
-> +#define SIMATIC_IPC_DEVICE_BX_21A 6
->  
->  struct simatic_ipc_platform {
->  	u8	devmode;
-> diff --git a/include/linux/platform_data/x86/simatic-ipc.h b/include/linux/platform_data/x86/simatic-ipc.h
-> index a48bb5240977..1a8e4c1099e3 100644
-> --- a/include/linux/platform_data/x86/simatic-ipc.h
-> +++ b/include/linux/platform_data/x86/simatic-ipc.h
-> @@ -2,7 +2,7 @@
->  /*
->   * Siemens SIMATIC IPC drivers
->   *
-> - * Copyright (c) Siemens AG, 2018-2021
-> + * Copyright (c) Siemens AG, 2018-2023
->   *
->   * Authors:
->   *  Henning Schild <henning.schild@siemens.com>
-> @@ -34,6 +34,7 @@ enum simatic_ipc_station_ids {
->  	SIMATIC_IPC_IPC227G = 0x00000F01,
->  	SIMATIC_IPC_IPCBX_39A = 0x00001001,
->  	SIMATIC_IPC_IPCPX_39A = 0x00001002,
-> +	SIMATIC_IPC_IPCBX_21A = 0x00001101,
->  };
->  
->  static inline u32 simatic_ipc_get_station_id(u8 *data, int max_len)
+Tested on MT6795 Sony Xperia M5 smartphone.
+
+AngeloGioacchino Del Regno (8):
+  dt-bindings: leds: leds-mt6323: Document mt6331 compatible
+  dt-bindings: leds: leds-mt6323: Document mt6332 compatible
+  dt-bindings: leds: leds-mt6323: Support WLED output
+  leds: leds-mt6323: Specify registers and specs in platform data
+  leds: leds-mt6323: Drop MT6323_ prefix from macros and defines
+  leds: leds-mt6323: Open code and drop MT6323_CAL_HW_DUTY macro
+  leds: leds-mt6323: Add support for MT6331 leds
+  leds: leds-mt6323: Add support for WLEDs and MT6332
+
+ .../devicetree/bindings/leds/leds-mt6323.txt  |   6 +-
+ drivers/leds/leds-mt6323.c                    | 448 ++++++++++++++----
+ 2 files changed, 352 insertions(+), 102 deletions(-)
+
+-- 
+2.40.1
 
