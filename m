@@ -2,44 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7862720EFA
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Jun 2023 11:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF5871FE18
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 11:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjFCJfC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 3 Jun 2023 05:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
+        id S235081AbjFBJmF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 05:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjFCJez (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Jun 2023 05:34:55 -0400
-X-Greylist: delayed 89353 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 02:34:53 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8087FE58
-        for <linux-leds@vger.kernel.org>; Sat,  3 Jun 2023 02:34:53 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id 43DE7A3872; Fri,  2 Jun 2023 09:45:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685695539;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=h59rRVc2it3VHbxOmooIQmjYUWxRynlYDWy/hJUgDI//3pIvWO2dYKvKapj/gFylf
-         wO0ftyb0vPuXAQ91/4AvEbmGSNwqIlmLALiVMmXR+8IfTJZDWLvgIHK9PvgXQiLuq0
-         wsJqEMw0t5inR5qFAts3TMPeXYS6H26dtb0XTmL4dj89fG543duEt8oB870BMXf7/e
-         tzE5oCMFTW6n2ynf/Qe+yu6+qop55ws00Pb4z7HR2qCHskv9BAqT2PxFQ6Rk9M1/+Z
-         l/JJ+tilsUt7NgBgsbNhZC0GlGwHmrjBpi2YpQqJeyqQJnLS5v9vTh6zhw5Qvpz/02
-         T5x4lhlCHv76w==
-Received: by mail.webtopbits.pl for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 08:45:39 GMT
-Message-ID: <20230602085530-0.1.8w.5kg9.0.rj4zbz5qp3@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:45:39 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S234554AbjFBJmB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 05:42:01 -0400
+X-Greylist: delayed 1801 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Jun 2023 02:41:46 PDT
+Received: from mta-04.yadro.com (mta-04.yadro.com [89.207.88.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 706821AB;
+        Fri,  2 Jun 2023 02:41:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-04.yadro.com 358EAC0005
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
+        t=1685695598; bh=IyHRJF/zre043k98ZDshtLNWhe8WKi2wLyzTArL8jtA=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+        b=X1aWV4csjSO2RPP7ImF6gPm9floXV+c11hTO2RkkL5ZpwwzncQKcuUEf6rOTwZED2
+         cK7P4r6MKAnwdXitp+dXJ/sPDFIv26m4F3ZKVirRTZp+8sdiPmromGeQj+zBKl1fbM
+         RVevDZleSvrJ0PAeuaZZgJiXv5s6h3aMm/FPY06osUXdzXKLRDwySvnSvA8lxKyqi3
+         nfIRxMTfyMpPqQE8/zJkFC/tXZa+KBdKHCconvupGk2vkv6otDPX0YncapaIEsP+Du
+         WpfTChvxpL3Buro9euVycxE1eJTNTvEz26vg9vS23G+q82w8RwZMN5GgWGuQDPFbMZ
+         4p+u/R32A8Vbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+        t=1685695598; bh=IyHRJF/zre043k98ZDshtLNWhe8WKi2wLyzTArL8jtA=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+        b=wRROsHfNTT80YN/60jvIiKOv3gjfU+1kjKfFYX40vJy0dSOm+PNpuByNgxDVeGt0C
+         PStAyU6eViXSd7KEXZKMc4hh5sUOFk62rMX2MKFy9uBrKLVmN8u9l/CV9wbydrm4eq
+         hjULC5hamswiGAr8RiaI/oR+jk4ESS4sN+QWpDU6hCz0jTc4NKxrQSEsq2snqGH5I6
+         6bbPA9A04v7GyUR0+03X2PKNGmtC9XYiyhXV+3x0JkwuHq1dYsUeBz9hVYK5tJJ4jC
+         Oq9bTdW16BnTPQfa7cyIbkLAkrk2ju6u1dEy/IQ6/1urjMIR06cVxxTQBbR9m/oCfa
+         NJy8vPex3zfKw==
+Message-ID: <b9fc06dd-d9e4-58fc-6252-87590c416ce7@yadro.com>
+Date:   Fri, 2 Jun 2023 11:46:36 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Document Awinic AW2016 bindings
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux@yadro.com>,
+        <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230524113910.196321-1-v.barinov@yadro.com>
+ <20230524114056.196518-1-v.barinov@yadro.com>
+ <168493088788.3462735.2834416618033227181.robh@kernel.org>
+ <20230602080655.GN449117@google.com>
+Content-Language: en-US
+From:   Vladimir Barinov <v.barinov@yadro.com>
+In-Reply-To: <20230602080655.GN449117@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-08.corp.yadro.com (172.17.11.58)
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,24 +66,47 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Lee,
 
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+On 6/2/23 11:06, Lee Jones wrote:
+> «Внимание! Данное письмо от внешнего адресата!»
+>
+> On Wed, 24 May 2023, Rob Herring wrote:
+>
+>> On Wed, 24 May 2023 14:40:56 +0300, Vladimir Barinov wrote:
+>>> Add Awinic AW2026 binding documentation
+>>>
+>>> Signed-off-by: Vladimir Barinov <v.barinov@yadro.com>
+>>> ---
+>>>   .../bindings/leds/awinic,aw2026.yaml          | 92 +++++++++++++++++++
+>>>   1 file changed, 92 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
+>>>
+>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> Error: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dts:52.3-53.1 syntax error
+>> FATAL ERROR: Unable to parse input tree
+>> make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dtb] Error 1
+>> make[1]: *** Waiting for unfinished jobs....
+>> make: *** [Makefile:1512: dt_binding_check] Error 2
+> Taking this set out of my review queue until this is rectified.
 
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+Thank you for paying attention for this commit.
 
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
+I've already resent fixes in v2 version:
 
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
+https://lore.kernel.org/all/20230525101341.2036563-1-v.barinov@yadro.com/
+
+>
+> --
+> Lee Jones [李琼斯]
 
 
-Pozdrawiam
-Kamil Durjasz
+-- 
+Regards
+Vladimir
+
