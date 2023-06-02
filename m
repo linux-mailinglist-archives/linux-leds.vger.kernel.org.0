@@ -2,31 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9AD572037A
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 15:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 266F0720382
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 15:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235465AbjFBNg1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Jun 2023 09:36:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
+        id S235666AbjFBNiZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 09:38:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235107AbjFBNgY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 09:36:24 -0400
-X-Greylist: delayed 1515 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Jun 2023 06:36:24 PDT
-Received: from mail-40140.protonmail.ch (mail-40140.protonmail.ch [185.70.40.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173C8132
-        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 06:36:23 -0700 (PDT)
-Date:   Fri, 02 Jun 2023 13:36:16 +0000
+        with ESMTP id S235354AbjFBNiY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 09:38:24 -0400
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0687137
+        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 06:38:23 -0700 (PDT)
+Date:   Fri, 02 Jun 2023 13:38:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1685712981; x=1685972181;
-        bh=NRGchtLxh/pDAhu/N6OG7r6+gfYDUQwYJ2aFLIaPuIY=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=EpsRzqfTZ7tTBDhxdn2tRU+BMJOsq1jTIr+XYyx8unS64mMiLOn9dwUpGUbDBmWQN
-         SmIZAlulH9zYkLxti1KbAxMxBrn/qHd1Reif1m0CLM0hJLkTYSaKjNLfax7KH512Mn
-         z5J9gdYiPaLV9anarWYQUjJlreSzpZjGY4QdNLWMxMMUobLgaiWejKMQRx4PNJNcxR
-         BEDtAkDhauXdapYtqL3MOXNFexlLzPE/5xyk/YJRiU9y0hUDLD/Cx2ztlVKcYByFbF
-         kynY3YylfyL6whGd68YISyIPgGEcZCZUMJVBRdM951xQa1X050GyNfolwipOMckIUv
-         W8IH7q+rPoeiQ==
+        s=protonmail3; t=1685713100; x=1685972300;
+        bh=bsHSAN20PI+leXRVPAKhT58R/jP9fMKdBTvAX0E8FqU=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=DNccUdTJebMvcEBYi5E1OBB0768TRLbkYqrJUHLtZ9tns+jgLFGq9evDSFUyLzmqG
+         G7BCNMchvygYVc1pkDGuBl+ipJwYaaPjpl28ZtqxcS4CyayG2mC1EJ8mh6Y468dH2D
+         27GMl3y45RL4JN9pHalBVka8l2cV4d6vCsdOdlJ35CfKpGVN7yvhKT8DVBPPmb8pWu
+         aBfcUhFki+oRA3xJYAybc9EJSqNLnZEbBW+wVdXiYFD60G1Xi7Jzwh6w0MF3+Xx/72
+         Dotx5FX+ybQXEEv6yK+c3JgMjub153jQBu5WzZ4YRBmiB79mwhe4Tbrniw3mzmGaoV
+         TYJ/dDlbXVAAA==
 To:     open list <linux-kernel@vger.kernel.org>
 From:   Raymond Hackley <raymondhackley@protonmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
@@ -35,25 +35,47 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Luca Weiss <luca@z3ntu.xyz>,
         "open list : LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
         "open list : OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Raymond Hackley <raymondhackley@protonmail.com>
-Subject: [RESEND PATCH 0/2] leds: sgm3140: Add richtek,rt5033-led compatible
-Message-ID: <20230602133533.260502-1-raymondhackley@protonmail.com>
+        <devicetree@vger.kernel.org>, ~postmarketos/upstreaming@lists.sr.ht
+Subject: [RESEND PATCH 1/2] dt-bindings: leds: sgm3140: Document richtek,rt5033 compatible
+Message-ID: <20230602133714.260556-1-raymondhackley@protonmail.com>
+In-Reply-To: <20230602133533.260502-1-raymondhackley@protonmail.com>
+References: <20230602133533.260502-1-raymondhackley@protonmail.com>
 Feedback-ID: 49437091:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Richtek's rt5033-led has pin configurations similar to sgm3140.
-Add it to the compatible list.
+Add devicetree binding for Richtek RT5033 Flash LED charge pump used for
+camera flash LEDs.
+
+Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
+---
+ Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Doc=
+umentation/devicetree/bindings/leds/leds-sgm3140.yaml
+index 4d2ffe5fcfc7..37d2a93780ab 100644
+--- a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+@@ -20,6 +20,7 @@ properties:
+   compatible:
+     enum:
+       - ocs,ocp8110
++      - richtek,rt5033-led
+       - sgmicro,sgm3140
+=20
+   enable-gpios:
+--=20
+2.30.2
+
 
