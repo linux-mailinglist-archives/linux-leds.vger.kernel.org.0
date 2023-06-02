@@ -2,61 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D61E720439
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 16:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B376D720AAB
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 23:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236043AbjFBOVj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Jun 2023 10:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
+        id S236115AbjFBVAH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 17:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235998AbjFBOV3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 10:21:29 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2C419A;
-        Fri,  2 Jun 2023 07:21:21 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 313D55FD29;
-        Fri,  2 Jun 2023 17:21:18 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1685715678;
-        bh=zTX6nnvG2aoCdNRhBXc6vwxxfNZ2pPTOuQQZFEsfVZQ=;
-        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=MCzj951D8iECya5SouC/yl0v2P22WraCIVFBH7IlqxPElbwZ1NV/iy/CsfPAUSFSH
-         oN7UhnBZtbktbN5nSV7J5CHtSeHoLGC+Q+2QA4Cc+8ioQM4X5JfC35QdNnG9Pa7F4W
-         ypVOsKTfNQehb+o7oHWmhTHVuKV1YgCg8Joi5/KamVmCrr6A3UrdUwyX31C0Ah0RZa
-         0atXCdfcl/rpdXdJp3TTQMHTBNjlnOyg824UfZxokWSJB2p/DFp3dgATs3QtIg8d4W
-         +Dl4St+Xi6DgXcLyzbfNyqerunqnh30rjOKLNe8BalufPTHtcpi/RaDGivQqhWr6Pm
-         076AAFkmz5+PQ==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Fri,  2 Jun 2023 17:21:13 +0300 (MSK)
-From:   Martin Kurbanov <mmkurbanov@sberdevices.ru>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Kalle Valo <kvalo@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <kernel@sberdevices.ru>,
-        Martin Kurbanov <mmkurbanov@sberdevices.ru>
-Subject: [PATCH v2] leds: trigger: pattern: add support for hrtimer
-Date:   Fri, 2 Jun 2023 17:20:34 +0300
-Message-ID: <20230602142034.161259-1-mmkurbanov@sberdevices.ru>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/02 10:04:00 #21403755
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        with ESMTP id S236010AbjFBVAG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 17:00:06 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93200E45
+        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 14:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685739605; x=1717275605;
+  h=date:from:to:cc:subject:message-id;
+  bh=LbKU8ZdwR5tPZK7zJ8XWXFOXvPOx1L0HDPT8chszwAk=;
+  b=f7lVFp56Pkw21qpXaZTWYucA422xnuz/elFn0Qt6SuWcukeEmA0Ls9Q6
+   32pL4PNErDhVx+qHS3+JzDlOP9xOyKt3ce+8A5zM+JRv3V723Gq23zDPg
+   reU3CN56/DObhnY3zugLIQozXH2druZ/6sSGq2U9eVGiv71RRQLT0TaT/
+   6Xc1xF04RTuyFUSRW9+nh7tSLbwibRUeNWgGx7WKwQlpIUzVZ4K6Oc4yF
+   0kHF8L6D/bq9eoDxtk6HMTN9+SaTDu85ysQyL/grY9EUsVQ8hUqhCwBH7
+   I90N+ewAQ9yn5iOEozxNVDT/dn4InphfjUL9HEc3nI8a51z4qnqWUEZDr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="384252460"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="384252460"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 14:00:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="711099607"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="711099607"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 02 Jun 2023 14:00:02 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q5BsP-0000xc-1l;
+        Fri, 02 Jun 2023 21:00:01 +0000
+Date:   Sat, 03 Jun 2023 04:59:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS WITH WARNING
+ e338a05e76cab377c9227c1d4f591b5879d6062a
+Message-ID: <20230602205926.UISID%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,362 +60,226 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Currently, led pattern trigger uses timer_list to schedule brightness
-changing. As we know from timer_list API [1], it's not accurate to
-milliseconds and depends on HZ granularity.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: e338a05e76cab377c9227c1d4f591b5879d6062a  dt-bindings: leds: Add binding for AW200xx
 
-Example:
-"0 10 0 0 50 10 50 0 100 10 100 0 150 10 150 0 200 10 200 0 250 10 250 0",
-we expect it to be 60ms long, but it can actually be up to ~120ms
-(add ~10ms for each pattern when HZ == 100).
+Warning reports:
 
-But sometimes, userspace needs time accurate led patterns to make sure
-that pattern will be executed during expected time slot.
-To achieve this goal the patch introduces optional hrtimer usage for
-led trigger pattern, because hrtimer is microseconds accurate timer.
+https://lore.kernel.org/oe-kbuild-all/202305260008.QCRrKILf-lkp@intel.com
 
-[1]: kernel/time/timer.c#L104
+Warning: (recently discovered and may have been fixed)
 
-Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
----
-Changes v2 since v1 at [1]:
-  - Fix build warning reported by kernel test robot [2]
+drivers/leds/leds-cht-wcove.c:144:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
 
-Links:
-  [1] https://lore.kernel.org/all/20230522190412.374474-1-mmkurbanov@sberdevices.ru/
-  [2] https://lore.kernel.org/oe-kbuild-all/202305230549.ekneaQ89-lkp@intel.com/
+Warning ids grouped by kconfigs:
 
- .../testing/sysfs-class-led-trigger-pattern   |  10 ++
- drivers/leds/trigger/ledtrig-pattern.c        | 126 ++++++++++++++----
- 2 files changed, 113 insertions(+), 23 deletions(-)
+gcc_recent_errors
+|-- arm64-allyesconfig
+|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
+|-- i386-allyesconfig
+|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
+`-- x86_64-allyesconfig
+    `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-pattern b/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
-index 8c57d2780554..8abfea4aabdd 100644
---- a/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
-@@ -12,6 +12,16 @@ Description:
- 		The exact format is described in:
- 		Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt
+elapsed time: 724m
 
-+What:		/sys/class/leds/<led>/hr_pattern
-+Date:		June 2023
-+Description:
-+		Specify a software pattern for the LED, that supports altering
-+		the brightness for the specified duration with one software
-+		timer. It can do gradual dimming and step change of brightness.
-+
-+		Unlike the /sys/class/leds/<led>/pattern, this attribute runs
-+		a pattern on high-resolution timer (hrtimer).
-+
- What:		/sys/class/leds/<led>/hw_pattern
- Date:		September 2018
- KernelVersion:	4.20
-diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
-index fadd87dbe993..aad48c2540fc 100644
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -13,6 +13,7 @@
- #include <linux/mutex.h>
- #include <linux/slab.h>
- #include <linux/timer.h>
-+#include <linux/hrtimer.h>
+configs tested: 192
+configs skipped: 19
 
- #define MAX_PATTERNS		1024
- /*
-@@ -21,6 +22,12 @@
-  */
- #define UPDATE_INTERVAL		50
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r005-20230531   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r013-20230531   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                 nsimosci_hs_smp_defconfig   gcc  
+arc                  randconfig-r003-20230531   gcc  
+arc                  randconfig-r021-20230531   gcc  
+arc                  randconfig-r043-20230531   gcc  
+arc                           tb10x_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                            hisi_defconfig   gcc  
+arm                            mmp2_defconfig   clang
+arm                        multi_v5_defconfig   clang
+arm                             mxs_defconfig   clang
+arm                          pxa910_defconfig   gcc  
+arm                  randconfig-r014-20230601   clang
+arm                  randconfig-r016-20230601   clang
+arm                  randconfig-r022-20230531   gcc  
+arm                  randconfig-r024-20230531   gcc  
+arm                  randconfig-r046-20230531   gcc  
+arm                             rpc_defconfig   gcc  
+arm                           sunxi_defconfig   gcc  
+arm64                            alldefconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r005-20230531   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r004-20230602   gcc  
+arm64                randconfig-r012-20230602   clang
+arm64                randconfig-r016-20230601   gcc  
+arm64                randconfig-r026-20230531   clang
+arm64                randconfig-r034-20230602   gcc  
+arm64                randconfig-r036-20230602   gcc  
+csky         buildonly-randconfig-r002-20230531   gcc  
+csky         buildonly-randconfig-r003-20230531   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230602   gcc  
+csky                 randconfig-r012-20230601   gcc  
+csky                 randconfig-r023-20230531   gcc  
+csky                 randconfig-r035-20230602   gcc  
+hexagon              randconfig-r031-20230531   clang
+hexagon              randconfig-r036-20230531   clang
+hexagon              randconfig-r041-20230531   clang
+hexagon              randconfig-r045-20230531   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r001-20230531   gcc  
+i386         buildonly-randconfig-r001-20230602   gcc  
+i386         buildonly-randconfig-r002-20230531   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230531   gcc  
+i386                 randconfig-i002-20230531   gcc  
+i386                 randconfig-i003-20230531   gcc  
+i386                 randconfig-i004-20230531   gcc  
+i386                 randconfig-i005-20230531   gcc  
+i386                 randconfig-i006-20230531   gcc  
+i386                 randconfig-i051-20230531   gcc  
+i386                 randconfig-i052-20230531   gcc  
+i386                 randconfig-i053-20230531   gcc  
+i386                 randconfig-i054-20230531   gcc  
+i386                 randconfig-i055-20230531   gcc  
+i386                 randconfig-i056-20230531   gcc  
+i386                 randconfig-i061-20230531   gcc  
+i386                 randconfig-i062-20230531   gcc  
+i386                 randconfig-i063-20230531   gcc  
+i386                 randconfig-i064-20230531   gcc  
+i386                 randconfig-i065-20230531   gcc  
+i386                 randconfig-i066-20230531   gcc  
+i386                 randconfig-r003-20230531   gcc  
+i386                 randconfig-r004-20230531   gcc  
+i386                 randconfig-r006-20230531   gcc  
+ia64                          tiger_defconfig   gcc  
+ia64                            zx1_defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r006-20230602   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r002-20230531   gcc  
+loongarch            randconfig-r012-20230601   gcc  
+loongarch            randconfig-r024-20230531   gcc  
+loongarch            randconfig-r033-20230602   gcc  
+m68k                             allmodconfig   gcc  
+m68k                         amcore_defconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k         buildonly-randconfig-r004-20230531   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5249evb_defconfig   gcc  
+m68k                        m5307c3_defconfig   gcc  
+m68k                 randconfig-r002-20230531   gcc  
+m68k                 randconfig-r021-20230531   gcc  
+m68k                 randconfig-r031-20230531   gcc  
+m68k                 randconfig-r036-20230531   gcc  
+m68k                          sun3x_defconfig   gcc  
+microblaze           randconfig-r003-20230531   gcc  
+microblaze           randconfig-r014-20230601   gcc  
+microblaze           randconfig-r015-20230531   gcc  
+microblaze           randconfig-r021-20230531   gcc  
+microblaze           randconfig-r022-20230531   gcc  
+microblaze           randconfig-r025-20230531   gcc  
+microblaze           randconfig-r031-20230602   gcc  
+microblaze           randconfig-r036-20230602   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r003-20230531   clang
+mips                           ci20_defconfig   gcc  
+mips                          rb532_defconfig   gcc  
+nios2                            alldefconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230531   gcc  
+nios2                randconfig-r024-20230531   gcc  
+openrisc     buildonly-randconfig-r001-20230531   gcc  
+openrisc     buildonly-randconfig-r003-20230531   gcc  
+openrisc     buildonly-randconfig-r005-20230531   gcc  
+openrisc             randconfig-r025-20230531   gcc  
+parisc       buildonly-randconfig-r006-20230531   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r016-20230531   gcc  
+parisc               randconfig-r026-20230531   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      arches_defconfig   gcc  
+powerpc                      chrp32_defconfig   gcc  
+powerpc                      mgcoge_defconfig   gcc  
+powerpc                   motionpro_defconfig   gcc  
+powerpc                     mpc83xx_defconfig   gcc  
+powerpc                      ppc44x_defconfig   clang
+powerpc              randconfig-r002-20230602   gcc  
+powerpc              randconfig-r011-20230601   gcc  
+powerpc                     tqm8555_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r002-20230531   clang
+riscv        buildonly-randconfig-r006-20230531   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r005-20230531   gcc  
+riscv                randconfig-r033-20230531   gcc  
+riscv                randconfig-r034-20230531   gcc  
+riscv                randconfig-r034-20230602   gcc  
+riscv                randconfig-r042-20230531   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r016-20230602   clang
+s390                 randconfig-r044-20230531   clang
+sh                               allmodconfig   gcc  
+sh                            hp6xx_defconfig   gcc  
+sh                   randconfig-r005-20230602   gcc  
+sh                   randconfig-r015-20230601   gcc  
+sh                          rsk7264_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7721_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           se7751_defconfig   gcc  
+sh                              ul2_defconfig   gcc  
+sh                          urquell_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc        buildonly-randconfig-r002-20230602   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r002-20230531   gcc  
+sparc                randconfig-r016-20230601   gcc  
+sparc                randconfig-r035-20230602   gcc  
+sparc64              randconfig-r013-20230601   gcc  
+sparc64              randconfig-r025-20230531   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r003-20230531   gcc  
+x86_64       buildonly-randconfig-r005-20230602   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230531   gcc  
+x86_64               randconfig-a002-20230531   gcc  
+x86_64               randconfig-a003-20230531   gcc  
+x86_64               randconfig-a004-20230531   gcc  
+x86_64               randconfig-a005-20230531   gcc  
+x86_64               randconfig-a006-20230531   gcc  
+x86_64               randconfig-r004-20230531   gcc  
+x86_64               randconfig-r032-20230602   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                              defconfig   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa               randconfig-r001-20230531   gcc  
+xtensa               randconfig-r023-20230531   gcc  
+xtensa               randconfig-r033-20230602   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
 
-+enum pattern_type {
-+	PATTERN_TYPE_SW, /* Use standard timer for software pattern */
-+	PATTERN_TYPE_HR, /* Use hrtimer for software pattern */
-+	PATTERN_TYPE_HW, /* Hardware pattern */
-+};
-+
- struct pattern_trig_data {
- 	struct led_classdev *led_cdev;
- 	struct led_pattern patterns[MAX_PATTERNS];
-@@ -32,8 +39,9 @@ struct pattern_trig_data {
- 	int last_repeat;
- 	int delta_t;
- 	bool is_indefinite;
--	bool is_hw_pattern;
-+	enum pattern_type type;
- 	struct timer_list timer;
-+	struct hrtimer hrtimer;
- };
-
- static void pattern_trig_update_patterns(struct pattern_trig_data *data)
-@@ -71,10 +79,35 @@ static int pattern_trig_compute_brightness(struct pattern_trig_data *data)
- 		return data->curr->brightness - step_brightness;
- }
-
--static void pattern_trig_timer_function(struct timer_list *t)
-+static void pattern_trig_timer_start(struct pattern_trig_data *data)
- {
--	struct pattern_trig_data *data = from_timer(data, t, timer);
-+	if (data->type == PATTERN_TYPE_HR) {
-+		hrtimer_start(&data->hrtimer, ns_to_ktime(0), HRTIMER_MODE_REL);
-+	} else {
-+		data->timer.expires = jiffies;
-+		add_timer(&data->timer);
-+	}
-+}
-
-+static void pattern_trig_timer_cancel(struct pattern_trig_data *data)
-+{
-+	if (data->type == PATTERN_TYPE_HR)
-+		hrtimer_cancel(&data->hrtimer);
-+	else
-+		del_timer_sync(&data->timer);
-+}
-+
-+static void pattern_trig_timer_restart(struct pattern_trig_data *data,
-+				       unsigned long interval)
-+{
-+	if (data->type == PATTERN_TYPE_HR)
-+		hrtimer_forward_now(&data->hrtimer, ms_to_ktime(interval));
-+	else
-+		mod_timer(&data->timer, jiffies + msecs_to_jiffies(interval));
-+}
-+
-+static void pattern_trig_timer_common_function(struct pattern_trig_data *data)
-+{
- 	for (;;) {
- 		if (!data->is_indefinite && !data->repeat)
- 			break;
-@@ -83,8 +116,7 @@ static void pattern_trig_timer_function(struct timer_list *t)
- 			/* Step change of brightness */
- 			led_set_brightness(data->led_cdev,
- 					   data->curr->brightness);
--			mod_timer(&data->timer,
--				  jiffies + msecs_to_jiffies(data->curr->delta_t));
-+			pattern_trig_timer_restart(data, data->curr->delta_t);
- 			if (!data->next->delta_t) {
- 				/* Skip the tuple with zero duration */
- 				pattern_trig_update_patterns(data);
-@@ -106,8 +138,7 @@ static void pattern_trig_timer_function(struct timer_list *t)
-
- 			led_set_brightness(data->led_cdev,
- 					   pattern_trig_compute_brightness(data));
--			mod_timer(&data->timer,
--				  jiffies + msecs_to_jiffies(UPDATE_INTERVAL));
-+			pattern_trig_timer_restart(data, UPDATE_INTERVAL);
-
- 			/* Accumulate the gradual dimming time */
- 			data->delta_t += UPDATE_INTERVAL;
-@@ -117,6 +148,25 @@ static void pattern_trig_timer_function(struct timer_list *t)
- 	}
- }
-
-+static void pattern_trig_timer_function(struct timer_list *t)
-+{
-+	struct pattern_trig_data *data = from_timer(data, t, timer);
-+
-+	return pattern_trig_timer_common_function(data);
-+}
-+
-+static enum hrtimer_restart pattern_trig_hrtimer_function(struct hrtimer *t)
-+{
-+	struct pattern_trig_data *data =
-+		container_of(t, struct pattern_trig_data, hrtimer);
-+
-+	pattern_trig_timer_common_function(data);
-+	if (!data->is_indefinite && !data->repeat)
-+		return HRTIMER_NORESTART;
-+
-+	return HRTIMER_RESTART;
-+}
-+
- static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
- {
- 	struct pattern_trig_data *data = led_cdev->trigger_data;
-@@ -124,7 +174,7 @@ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
- 	if (!data->npatterns)
- 		return 0;
-
--	if (data->is_hw_pattern) {
-+	if (data->type == PATTERN_TYPE_HW) {
- 		return led_cdev->pattern_set(led_cdev, data->patterns,
- 					     data->npatterns, data->repeat);
- 	}
-@@ -136,8 +186,7 @@ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
- 	data->delta_t = 0;
- 	data->curr = data->patterns;
- 	data->next = data->patterns + 1;
--	data->timer.expires = jiffies;
--	add_timer(&data->timer);
-+	pattern_trig_timer_start(data);
-
- 	return 0;
- }
-@@ -175,9 +224,9 @@ static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
-
- 	mutex_lock(&data->lock);
-
--	del_timer_sync(&data->timer);
-+	pattern_trig_timer_cancel(data);
-
--	if (data->is_hw_pattern)
-+	if (data->type == PATTERN_TYPE_HW)
- 		led_cdev->pattern_clear(led_cdev);
-
- 	data->last_repeat = data->repeat = res;
-@@ -196,14 +245,14 @@ static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
- static DEVICE_ATTR_RW(repeat);
-
- static ssize_t pattern_trig_show_patterns(struct pattern_trig_data *data,
--					  char *buf, bool hw_pattern)
-+					  char *buf, enum pattern_type type)
- {
- 	ssize_t count = 0;
- 	int i;
-
- 	mutex_lock(&data->lock);
-
--	if (!data->npatterns || (data->is_hw_pattern ^ hw_pattern))
-+	if (!data->npatterns || data->type != type)
- 		goto out;
-
- 	for (i = 0; i < data->npatterns; i++) {
-@@ -260,19 +309,19 @@ static int pattern_trig_store_patterns_int(struct pattern_trig_data *data,
-
- static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
- 					   const char *buf, const u32 *buf_int,
--					   size_t count, bool hw_pattern)
-+					   size_t count, enum pattern_type type)
- {
- 	struct pattern_trig_data *data = led_cdev->trigger_data;
- 	int err = 0;
-
- 	mutex_lock(&data->lock);
-
--	del_timer_sync(&data->timer);
-+	pattern_trig_timer_cancel(data);
-
--	if (data->is_hw_pattern)
-+	if (data->type == PATTERN_TYPE_HW)
- 		led_cdev->pattern_clear(led_cdev);
-
--	data->is_hw_pattern = hw_pattern;
-+	data->type = type;
- 	data->npatterns = 0;
-
- 	if (buf)
-@@ -297,7 +346,7 @@ static ssize_t pattern_show(struct device *dev, struct device_attribute *attr,
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct pattern_trig_data *data = led_cdev->trigger_data;
-
--	return pattern_trig_show_patterns(data, buf, false);
-+	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_SW);
- }
-
- static ssize_t pattern_store(struct device *dev, struct device_attribute *attr,
-@@ -305,7 +354,8 @@ static ssize_t pattern_store(struct device *dev, struct device_attribute *attr,
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-
--	return pattern_trig_store_patterns(led_cdev, buf, NULL, count, false);
-+	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
-+					   PATTERN_TYPE_SW);
- }
-
- static DEVICE_ATTR_RW(pattern);
-@@ -316,7 +366,7 @@ static ssize_t hw_pattern_show(struct device *dev,
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct pattern_trig_data *data = led_cdev->trigger_data;
-
--	return pattern_trig_show_patterns(data, buf, true);
-+	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_HW);
- }
-
- static ssize_t hw_pattern_store(struct device *dev,
-@@ -325,11 +375,33 @@ static ssize_t hw_pattern_store(struct device *dev,
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-
--	return pattern_trig_store_patterns(led_cdev, buf, NULL, count, true);
-+	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
-+					   PATTERN_TYPE_HW);
- }
-
- static DEVICE_ATTR_RW(hw_pattern);
-
-+static ssize_t hr_pattern_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct pattern_trig_data *data = led_cdev->trigger_data;
-+
-+	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_HR);
-+}
-+
-+static ssize_t hr_pattern_store(struct device *dev,
-+				struct device_attribute *attr,
-+				const char *buf, size_t count)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+
-+	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
-+					   PATTERN_TYPE_HR);
-+}
-+
-+static DEVICE_ATTR_RW(hr_pattern);
-+
- static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
- 				       struct attribute *attr, int index)
- {
-@@ -338,6 +410,8 @@ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
-
- 	if (attr == &dev_attr_repeat.attr || attr == &dev_attr_pattern.attr)
- 		return attr->mode;
-+	else if (attr == &dev_attr_hr_pattern.attr)
-+		return attr->mode;
- 	else if (attr == &dev_attr_hw_pattern.attr && led_cdev->pattern_set)
- 		return attr->mode;
-
-@@ -347,6 +421,7 @@ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
- static struct attribute *pattern_trig_attrs[] = {
- 	&dev_attr_pattern.attr,
- 	&dev_attr_hw_pattern.attr,
-+	&dev_attr_hr_pattern.attr,
- 	&dev_attr_repeat.attr,
- 	NULL
- };
-@@ -376,7 +451,8 @@ static void pattern_init(struct led_classdev *led_cdev)
- 		goto out;
- 	}
-
--	err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size, false);
-+	err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size,
-+					  PATTERN_TYPE_SW);
- 	if (err < 0)
- 		dev_warn(led_cdev->dev,
- 			 "Pattern initialization failed with error %d\n", err);
-@@ -400,12 +476,15 @@ static int pattern_trig_activate(struct led_classdev *led_cdev)
- 		led_cdev->pattern_clear = NULL;
- 	}
-
-+	data->type = PATTERN_TYPE_SW;
- 	data->is_indefinite = true;
- 	data->last_repeat = -1;
- 	mutex_init(&data->lock);
- 	data->led_cdev = led_cdev;
- 	led_set_trigger_data(led_cdev, data);
- 	timer_setup(&data->timer, pattern_trig_timer_function, 0);
-+	hrtimer_init(&data->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	data->hrtimer.function = pattern_trig_hrtimer_function;
- 	led_cdev->activated = true;
-
- 	if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
-@@ -431,6 +510,7 @@ static void pattern_trig_deactivate(struct led_classdev *led_cdev)
- 		led_cdev->pattern_clear(led_cdev);
-
- 	timer_shutdown_sync(&data->timer);
-+	hrtimer_cancel(&data->hrtimer);
-
- 	led_set_brightness(led_cdev, LED_OFF);
- 	kfree(data);
---
-2.40.0
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
