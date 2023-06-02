@@ -2,106 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACAF371FC21
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 10:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7862720EFA
+	for <lists+linux-leds@lfdr.de>; Sat,  3 Jun 2023 11:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234014AbjFBIdA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Jun 2023 04:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42150 "EHLO
+        id S231932AbjFCJfC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 3 Jun 2023 05:35:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234116AbjFBIc5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 04:32:57 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71445196
-        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 01:32:55 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-96f53c06babso245208466b.3
-        for <linux-leds@vger.kernel.org>; Fri, 02 Jun 2023 01:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685694774; x=1688286774;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S6o32+EXqkQOwwvwWTyyFIWUzWvHCRd3bW8dtLzYc0M=;
-        b=SF+7px9QcZH1m1Vj1b2GfXALro+NdRTuZIllFGdKVav7TEBvES/2uDpWKVI9xCZWZj
-         Iv4bT38X4VR2ZAahaID8tl7YnfQCN+dfYwrgfbmTjOg1U7rD7NSOfjpjrWHShz7TJyZY
-         YcTLPTBP6SIuO7QCpCu72aRFZO6EQUipoA2O/r+AmyTKNT45OebGXlQrEew7g4fHcWMF
-         OVrAocSDqDleCKKAaH70gdYegshPK3bxyqFB5qSxqTmvtlaZcG4jmIc5e0rMFKGEzSJA
-         Tysc9o6h3haQDhWXsvkxQhM8zCT2RaiSSLJOfFY3rkol/FC7XZY12Jh9hC8Fk6fX5yEm
-         ajHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685694774; x=1688286774;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6o32+EXqkQOwwvwWTyyFIWUzWvHCRd3bW8dtLzYc0M=;
-        b=e/oo66NC5g1suoi4UAuztK1hm+YWzBdedUc1msemVMhg3GilFKDFPgiParXlU6BUsz
-         JlxlToeqfMLbSJb55wzgXIg9mWkRzXqkYZ/18tm4rwdDATGz7hBXi+Vdcdu3Mz3J5PEF
-         Vj/Bf6Wzbntk282s5sYXfPJH7aTBWfktDh0G21WyK4DsQjkQe5gE1MEXEnjb1v2jKjR4
-         k+vuG/PsZnHf+g7IHI76oZCarOCKgYNaCjwr2fh1NFN6wyPUwyhanWR693SeZipV7+0J
-         ZcFVtr7Ux3K1jqO8U9a9bqhnPz3N7/ZwJ+9LF7cFtbaT66VBJUstE3y1ABdGaysbkdnN
-         NsZw==
-X-Gm-Message-State: AC+VfDxhJeuEDvVjh9Jb1WrmGvxP7q3QCxqbsNc5ILlmxj22dnfygPbg
-        QTZJ29l6m1dtRpeDCwYHHzxDeg==
-X-Google-Smtp-Source: ACHHUZ5bbkg1zhdbdLCCj6ww+0OpxboaT0r5ApjCE5h604Y3MUUFQIlVUcvBkPvczEmb5mkg4VqJdw==
-X-Received: by 2002:a17:907:a42a:b0:96f:912d:7922 with SMTP id sg42-20020a170907a42a00b0096f912d7922mr9551134ejc.53.1685694773958;
-        Fri, 02 Jun 2023 01:32:53 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.199.204])
-        by smtp.gmail.com with ESMTPSA id y26-20020a17090668da00b00947ed087a2csm461979ejr.154.2023.06.02.01.32.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 01:32:53 -0700 (PDT)
-Message-ID: <75d78713-fc8f-24a9-a422-2b4d57c5d488@linaro.org>
-Date:   Fri, 2 Jun 2023 10:32:51 +0200
+        with ESMTP id S230028AbjFCJez (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 3 Jun 2023 05:34:55 -0400
+X-Greylist: delayed 89353 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 02:34:53 PDT
+Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8087FE58
+        for <linux-leds@vger.kernel.org>; Sat,  3 Jun 2023 02:34:53 -0700 (PDT)
+Received: by mail.webtopbits.pl (Postfix, from userid 1001)
+        id 43DE7A3872; Fri,  2 Jun 2023 09:45:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
+        s=mail; t=1685695539;
+        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
+        h=Date:From:To:Subject:From;
+        b=h59rRVc2it3VHbxOmooIQmjYUWxRynlYDWy/hJUgDI//3pIvWO2dYKvKapj/gFylf
+         wO0ftyb0vPuXAQ91/4AvEbmGSNwqIlmLALiVMmXR+8IfTJZDWLvgIHK9PvgXQiLuq0
+         wsJqEMw0t5inR5qFAts3TMPeXYS6H26dtb0XTmL4dj89fG543duEt8oB870BMXf7/e
+         tzE5oCMFTW6n2ynf/Qe+yu6+qop55ws00Pb4z7HR2qCHskv9BAqT2PxFQ6Rk9M1/+Z
+         l/JJ+tilsUt7NgBgsbNhZC0GlGwHmrjBpi2YpQqJeyqQJnLS5v9vTh6zhw5Qvpz/02
+         T5x4lhlCHv76w==
+Received: by mail.webtopbits.pl for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 08:45:39 GMT
+Message-ID: <20230602085530-0.1.8w.5kg9.0.rj4zbz5qp3@webtopbits.pl>
+Date:   Fri,  2 Jun 2023 08:45:39 GMT
+From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
+To:     <linux-leds@vger.kernel.org>
+Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
+X-Mailer: mail.webtopbits.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 3/8] dt-bindings: leds: leds-mt6323: Support WLED
- output
-Content-Language: en-US
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, pavel@ucw.cz
-Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
- <20230601110813.2373764-4-angelogioacchino.delregno@collabora.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230601110813.2373764-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 01/06/2023 13:08, AngeloGioacchino Del Regno wrote:
-> Some PMICs have a separated WLED string output: add a property
-> `mediatek,is-wled` to indicate which LED string is a WLED.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  Documentation/devicetree/bindings/leds/leds-mt6323.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> index 052dccb8f2ce..904b2222a5fe 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> +++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
-> @@ -30,6 +30,7 @@ Optional properties for the LED child node:
->  - label : See Documentation/devicetree/bindings/leds/common.txt
->  - linux,default-trigger : See Documentation/devicetree/bindings/leds/common.txt
->  - default-state: See Documentation/devicetree/bindings/leds/common.txt
-> +- mediatek,is-wled: LED string is connected to WLED output
+Dzie=C5=84 dobry,
 
-Why would it matter to what the output is connected to?
+w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
 
-Best regards,
-Krzysztof
+Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
+alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
+=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
 
+Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
+g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
+=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
+mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
+ na oczekiwane rezultaty.
+
+Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
+stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
+ si=C4=99 skontaktowa=C4=87?
+
+
+Pozdrawiam
+Kamil Durjasz
