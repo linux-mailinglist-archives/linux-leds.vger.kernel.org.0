@@ -2,80 +2,425 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12EFE72037F
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 15:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D61E720439
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 16:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235456AbjFBNiV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Jun 2023 09:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46212 "EHLO
+        id S236043AbjFBOVj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 10:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235354AbjFBNiU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 09:38:20 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99EC1B5
-        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 06:38:18 -0700 (PDT)
-Date:   Fri, 02 Jun 2023 13:38:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1685713095; x=1685972295;
-        bh=JFatXUbuyrOmuslFYZorSsbJ/niD1OMN+SFRZ93mUp0=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=P9w9TClBgI+Je7GgWb9dXSFJ7zYBMTvmerw9q0r7kVJi1d6Tyg4s66/YeQKWLcDyY
-         2DeXa+L8HFJrQHSlOoYpsEOajOLRYOLPgu39wxZ8Ul0GceuNcFwTt4fpnKfNrkP2Ue
-         8/Yu3llp6tMKc8TOzLEDhLtJlqNkDZl/AcMdj4VztklFjd9d3wiubaWkRM0VSgghZJ
-         s2yS3fJaYL+G2ZCFAaLTqFI/le2RenOBz5hQ5MIO1Q1+Di+ZRUPKAvxONdbgUACCAM
-         Hxe6Dbwui/HhHSRfM83yHFip4KxSHhr3riO07pwKQMKqbLvINjFZdkB1ZVGQ8NQfuj
-         0hYOt4NiJoD5g==
-To:     open list <linux-kernel@vger.kernel.org>
-From:   Raymond Hackley <raymondhackley@protonmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        "open list : LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
-        "open list : OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, ~postmarketos/upstreaming@lists.sr.ht
-Subject: [RESEND PATCH 2/2] leds: sgm3140: Add richtek,rt5033-led compatible
-Message-ID: <20230602133726.260610-1-raymondhackley@protonmail.com>
-In-Reply-To: <20230602133533.260502-1-raymondhackley@protonmail.com>
-References: <20230602133533.260502-1-raymondhackley@protonmail.com>
-Feedback-ID: 49437091:user:proton
+        with ESMTP id S235998AbjFBOV3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 10:21:29 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2C419A;
+        Fri,  2 Jun 2023 07:21:21 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 313D55FD29;
+        Fri,  2 Jun 2023 17:21:18 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1685715678;
+        bh=zTX6nnvG2aoCdNRhBXc6vwxxfNZ2pPTOuQQZFEsfVZQ=;
+        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+        b=MCzj951D8iECya5SouC/yl0v2P22WraCIVFBH7IlqxPElbwZ1NV/iy/CsfPAUSFSH
+         oN7UhnBZtbktbN5nSV7J5CHtSeHoLGC+Q+2QA4Cc+8ioQM4X5JfC35QdNnG9Pa7F4W
+         ypVOsKTfNQehb+o7oHWmhTHVuKV1YgCg8Joi5/KamVmCrr6A3UrdUwyX31C0Ah0RZa
+         0atXCdfcl/rpdXdJp3TTQMHTBNjlnOyg824UfZxokWSJB2p/DFp3dgATs3QtIg8d4W
+         +Dl4St+Xi6DgXcLyzbfNyqerunqnh30rjOKLNe8BalufPTHtcpi/RaDGivQqhWr6Pm
+         076AAFkmz5+PQ==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Fri,  2 Jun 2023 17:21:13 +0300 (MSK)
+From:   Martin Kurbanov <mmkurbanov@sberdevices.ru>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        ye xingchen <ye.xingchen@zte.com.cn>,
+        Kalle Valo <kvalo@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <kernel@sberdevices.ru>,
+        Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Subject: [PATCH v2] leds: trigger: pattern: add support for hrtimer
+Date:   Fri, 2 Jun 2023 17:20:34 +0300
+Message-ID: <20230602142034.161259-1-mmkurbanov@sberdevices.ru>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/02 10:04:00 #21403755
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Richtek's rt5033-led has pin configurations similar to sgm3140.
-Add it to the compatible list.
+Currently, led pattern trigger uses timer_list to schedule brightness
+changing. As we know from timer_list API [1], it's not accurate to
+milliseconds and depends on HZ granularity.
 
-Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
+Example:
+"0 10 0 0 50 10 50 0 100 10 100 0 150 10 150 0 200 10 200 0 250 10 250 0",
+we expect it to be 60ms long, but it can actually be up to ~120ms
+(add ~10ms for each pattern when HZ == 100).
+
+But sometimes, userspace needs time accurate led patterns to make sure
+that pattern will be executed during expected time slot.
+To achieve this goal the patch introduces optional hrtimer usage for
+led trigger pattern, because hrtimer is microseconds accurate timer.
+
+[1]: kernel/time/timer.c#L104
+
+Signed-off-by: Martin Kurbanov <mmkurbanov@sberdevices.ru>
 ---
- drivers/leds/flash/leds-sgm3140.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes v2 since v1 at [1]:
+  - Fix build warning reported by kernel test robot [2]
 
-diff --git a/drivers/leds/flash/leds-sgm3140.c b/drivers/leds/flash/leds-sg=
-m3140.c
-index d3a30ad94ac4..d3f50dca5136 100644
---- a/drivers/leds/flash/leds-sgm3140.c
-+++ b/drivers/leds/flash/leds-sgm3140.c
-@@ -291,6 +291,7 @@ static int sgm3140_remove(struct platform_device *pdev)
-=20
- static const struct of_device_id sgm3140_dt_match[] =3D {
- =09{ .compatible =3D "ocs,ocp8110" },
-+=09{ .compatible =3D "richtek,rt5033-led" },
- =09{ .compatible =3D "sgmicro,sgm3140" },
- =09{ /* sentinel */ }
+Links:
+  [1] https://lore.kernel.org/all/20230522190412.374474-1-mmkurbanov@sberdevices.ru/
+  [2] https://lore.kernel.org/oe-kbuild-all/202305230549.ekneaQ89-lkp@intel.com/
+
+ .../testing/sysfs-class-led-trigger-pattern   |  10 ++
+ drivers/leds/trigger/ledtrig-pattern.c        | 126 ++++++++++++++----
+ 2 files changed, 113 insertions(+), 23 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-pattern b/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
+index 8c57d2780554..8abfea4aabdd 100644
+--- a/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
++++ b/Documentation/ABI/testing/sysfs-class-led-trigger-pattern
+@@ -12,6 +12,16 @@ Description:
+ 		The exact format is described in:
+ 		Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt
+
++What:		/sys/class/leds/<led>/hr_pattern
++Date:		June 2023
++Description:
++		Specify a software pattern for the LED, that supports altering
++		the brightness for the specified duration with one software
++		timer. It can do gradual dimming and step change of brightness.
++
++		Unlike the /sys/class/leds/<led>/pattern, this attribute runs
++		a pattern on high-resolution timer (hrtimer).
++
+ What:		/sys/class/leds/<led>/hw_pattern
+ Date:		September 2018
+ KernelVersion:	4.20
+diff --git a/drivers/leds/trigger/ledtrig-pattern.c b/drivers/leds/trigger/ledtrig-pattern.c
+index fadd87dbe993..aad48c2540fc 100644
+--- a/drivers/leds/trigger/ledtrig-pattern.c
++++ b/drivers/leds/trigger/ledtrig-pattern.c
+@@ -13,6 +13,7 @@
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
+ #include <linux/timer.h>
++#include <linux/hrtimer.h>
+
+ #define MAX_PATTERNS		1024
+ /*
+@@ -21,6 +22,12 @@
+  */
+ #define UPDATE_INTERVAL		50
+
++enum pattern_type {
++	PATTERN_TYPE_SW, /* Use standard timer for software pattern */
++	PATTERN_TYPE_HR, /* Use hrtimer for software pattern */
++	PATTERN_TYPE_HW, /* Hardware pattern */
++};
++
+ struct pattern_trig_data {
+ 	struct led_classdev *led_cdev;
+ 	struct led_pattern patterns[MAX_PATTERNS];
+@@ -32,8 +39,9 @@ struct pattern_trig_data {
+ 	int last_repeat;
+ 	int delta_t;
+ 	bool is_indefinite;
+-	bool is_hw_pattern;
++	enum pattern_type type;
+ 	struct timer_list timer;
++	struct hrtimer hrtimer;
  };
---=20
-2.30.2
 
+ static void pattern_trig_update_patterns(struct pattern_trig_data *data)
+@@ -71,10 +79,35 @@ static int pattern_trig_compute_brightness(struct pattern_trig_data *data)
+ 		return data->curr->brightness - step_brightness;
+ }
+
+-static void pattern_trig_timer_function(struct timer_list *t)
++static void pattern_trig_timer_start(struct pattern_trig_data *data)
+ {
+-	struct pattern_trig_data *data = from_timer(data, t, timer);
++	if (data->type == PATTERN_TYPE_HR) {
++		hrtimer_start(&data->hrtimer, ns_to_ktime(0), HRTIMER_MODE_REL);
++	} else {
++		data->timer.expires = jiffies;
++		add_timer(&data->timer);
++	}
++}
+
++static void pattern_trig_timer_cancel(struct pattern_trig_data *data)
++{
++	if (data->type == PATTERN_TYPE_HR)
++		hrtimer_cancel(&data->hrtimer);
++	else
++		del_timer_sync(&data->timer);
++}
++
++static void pattern_trig_timer_restart(struct pattern_trig_data *data,
++				       unsigned long interval)
++{
++	if (data->type == PATTERN_TYPE_HR)
++		hrtimer_forward_now(&data->hrtimer, ms_to_ktime(interval));
++	else
++		mod_timer(&data->timer, jiffies + msecs_to_jiffies(interval));
++}
++
++static void pattern_trig_timer_common_function(struct pattern_trig_data *data)
++{
+ 	for (;;) {
+ 		if (!data->is_indefinite && !data->repeat)
+ 			break;
+@@ -83,8 +116,7 @@ static void pattern_trig_timer_function(struct timer_list *t)
+ 			/* Step change of brightness */
+ 			led_set_brightness(data->led_cdev,
+ 					   data->curr->brightness);
+-			mod_timer(&data->timer,
+-				  jiffies + msecs_to_jiffies(data->curr->delta_t));
++			pattern_trig_timer_restart(data, data->curr->delta_t);
+ 			if (!data->next->delta_t) {
+ 				/* Skip the tuple with zero duration */
+ 				pattern_trig_update_patterns(data);
+@@ -106,8 +138,7 @@ static void pattern_trig_timer_function(struct timer_list *t)
+
+ 			led_set_brightness(data->led_cdev,
+ 					   pattern_trig_compute_brightness(data));
+-			mod_timer(&data->timer,
+-				  jiffies + msecs_to_jiffies(UPDATE_INTERVAL));
++			pattern_trig_timer_restart(data, UPDATE_INTERVAL);
+
+ 			/* Accumulate the gradual dimming time */
+ 			data->delta_t += UPDATE_INTERVAL;
+@@ -117,6 +148,25 @@ static void pattern_trig_timer_function(struct timer_list *t)
+ 	}
+ }
+
++static void pattern_trig_timer_function(struct timer_list *t)
++{
++	struct pattern_trig_data *data = from_timer(data, t, timer);
++
++	return pattern_trig_timer_common_function(data);
++}
++
++static enum hrtimer_restart pattern_trig_hrtimer_function(struct hrtimer *t)
++{
++	struct pattern_trig_data *data =
++		container_of(t, struct pattern_trig_data, hrtimer);
++
++	pattern_trig_timer_common_function(data);
++	if (!data->is_indefinite && !data->repeat)
++		return HRTIMER_NORESTART;
++
++	return HRTIMER_RESTART;
++}
++
+ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
+ {
+ 	struct pattern_trig_data *data = led_cdev->trigger_data;
+@@ -124,7 +174,7 @@ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
+ 	if (!data->npatterns)
+ 		return 0;
+
+-	if (data->is_hw_pattern) {
++	if (data->type == PATTERN_TYPE_HW) {
+ 		return led_cdev->pattern_set(led_cdev, data->patterns,
+ 					     data->npatterns, data->repeat);
+ 	}
+@@ -136,8 +186,7 @@ static int pattern_trig_start_pattern(struct led_classdev *led_cdev)
+ 	data->delta_t = 0;
+ 	data->curr = data->patterns;
+ 	data->next = data->patterns + 1;
+-	data->timer.expires = jiffies;
+-	add_timer(&data->timer);
++	pattern_trig_timer_start(data);
+
+ 	return 0;
+ }
+@@ -175,9 +224,9 @@ static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
+
+ 	mutex_lock(&data->lock);
+
+-	del_timer_sync(&data->timer);
++	pattern_trig_timer_cancel(data);
+
+-	if (data->is_hw_pattern)
++	if (data->type == PATTERN_TYPE_HW)
+ 		led_cdev->pattern_clear(led_cdev);
+
+ 	data->last_repeat = data->repeat = res;
+@@ -196,14 +245,14 @@ static ssize_t repeat_store(struct device *dev, struct device_attribute *attr,
+ static DEVICE_ATTR_RW(repeat);
+
+ static ssize_t pattern_trig_show_patterns(struct pattern_trig_data *data,
+-					  char *buf, bool hw_pattern)
++					  char *buf, enum pattern_type type)
+ {
+ 	ssize_t count = 0;
+ 	int i;
+
+ 	mutex_lock(&data->lock);
+
+-	if (!data->npatterns || (data->is_hw_pattern ^ hw_pattern))
++	if (!data->npatterns || data->type != type)
+ 		goto out;
+
+ 	for (i = 0; i < data->npatterns; i++) {
+@@ -260,19 +309,19 @@ static int pattern_trig_store_patterns_int(struct pattern_trig_data *data,
+
+ static ssize_t pattern_trig_store_patterns(struct led_classdev *led_cdev,
+ 					   const char *buf, const u32 *buf_int,
+-					   size_t count, bool hw_pattern)
++					   size_t count, enum pattern_type type)
+ {
+ 	struct pattern_trig_data *data = led_cdev->trigger_data;
+ 	int err = 0;
+
+ 	mutex_lock(&data->lock);
+
+-	del_timer_sync(&data->timer);
++	pattern_trig_timer_cancel(data);
+
+-	if (data->is_hw_pattern)
++	if (data->type == PATTERN_TYPE_HW)
+ 		led_cdev->pattern_clear(led_cdev);
+
+-	data->is_hw_pattern = hw_pattern;
++	data->type = type;
+ 	data->npatterns = 0;
+
+ 	if (buf)
+@@ -297,7 +346,7 @@ static ssize_t pattern_show(struct device *dev, struct device_attribute *attr,
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+ 	struct pattern_trig_data *data = led_cdev->trigger_data;
+
+-	return pattern_trig_show_patterns(data, buf, false);
++	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_SW);
+ }
+
+ static ssize_t pattern_store(struct device *dev, struct device_attribute *attr,
+@@ -305,7 +354,8 @@ static ssize_t pattern_store(struct device *dev, struct device_attribute *attr,
+ {
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+
+-	return pattern_trig_store_patterns(led_cdev, buf, NULL, count, false);
++	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
++					   PATTERN_TYPE_SW);
+ }
+
+ static DEVICE_ATTR_RW(pattern);
+@@ -316,7 +366,7 @@ static ssize_t hw_pattern_show(struct device *dev,
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+ 	struct pattern_trig_data *data = led_cdev->trigger_data;
+
+-	return pattern_trig_show_patterns(data, buf, true);
++	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_HW);
+ }
+
+ static ssize_t hw_pattern_store(struct device *dev,
+@@ -325,11 +375,33 @@ static ssize_t hw_pattern_store(struct device *dev,
+ {
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+
+-	return pattern_trig_store_patterns(led_cdev, buf, NULL, count, true);
++	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
++					   PATTERN_TYPE_HW);
+ }
+
+ static DEVICE_ATTR_RW(hw_pattern);
+
++static ssize_t hr_pattern_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct pattern_trig_data *data = led_cdev->trigger_data;
++
++	return pattern_trig_show_patterns(data, buf, PATTERN_TYPE_HR);
++}
++
++static ssize_t hr_pattern_store(struct device *dev,
++				struct device_attribute *attr,
++				const char *buf, size_t count)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++
++	return pattern_trig_store_patterns(led_cdev, buf, NULL, count,
++					   PATTERN_TYPE_HR);
++}
++
++static DEVICE_ATTR_RW(hr_pattern);
++
+ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
+ 				       struct attribute *attr, int index)
+ {
+@@ -338,6 +410,8 @@ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
+
+ 	if (attr == &dev_attr_repeat.attr || attr == &dev_attr_pattern.attr)
+ 		return attr->mode;
++	else if (attr == &dev_attr_hr_pattern.attr)
++		return attr->mode;
+ 	else if (attr == &dev_attr_hw_pattern.attr && led_cdev->pattern_set)
+ 		return attr->mode;
+
+@@ -347,6 +421,7 @@ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
+ static struct attribute *pattern_trig_attrs[] = {
+ 	&dev_attr_pattern.attr,
+ 	&dev_attr_hw_pattern.attr,
++	&dev_attr_hr_pattern.attr,
+ 	&dev_attr_repeat.attr,
+ 	NULL
+ };
+@@ -376,7 +451,8 @@ static void pattern_init(struct led_classdev *led_cdev)
+ 		goto out;
+ 	}
+
+-	err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size, false);
++	err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size,
++					  PATTERN_TYPE_SW);
+ 	if (err < 0)
+ 		dev_warn(led_cdev->dev,
+ 			 "Pattern initialization failed with error %d\n", err);
+@@ -400,12 +476,15 @@ static int pattern_trig_activate(struct led_classdev *led_cdev)
+ 		led_cdev->pattern_clear = NULL;
+ 	}
+
++	data->type = PATTERN_TYPE_SW;
+ 	data->is_indefinite = true;
+ 	data->last_repeat = -1;
+ 	mutex_init(&data->lock);
+ 	data->led_cdev = led_cdev;
+ 	led_set_trigger_data(led_cdev, data);
+ 	timer_setup(&data->timer, pattern_trig_timer_function, 0);
++	hrtimer_init(&data->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	data->hrtimer.function = pattern_trig_hrtimer_function;
+ 	led_cdev->activated = true;
+
+ 	if (led_cdev->flags & LED_INIT_DEFAULT_TRIGGER) {
+@@ -431,6 +510,7 @@ static void pattern_trig_deactivate(struct led_classdev *led_cdev)
+ 		led_cdev->pattern_clear(led_cdev);
+
+ 	timer_shutdown_sync(&data->timer);
++	hrtimer_cancel(&data->hrtimer);
+
+ 	led_set_brightness(led_cdev, LED_OFF);
+ 	kfree(data);
+--
+2.40.0
 
