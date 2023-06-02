@@ -2,201 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62DDD71FDD4
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 11:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71D3171FFE5
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 13:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234526AbjFBJ2o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Jun 2023 05:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47190 "EHLO
+        id S234992AbjFBLDb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 07:03:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234235AbjFBJ2Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 05:28:16 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3166B1BD0
-        for <linux-leds@vger.kernel.org>; Fri,  2 Jun 2023 02:26:14 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5147f4bbfdaso2575083a12.0
-        for <linux-leds@vger.kernel.org>; Fri, 02 Jun 2023 02:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685697972; x=1688289972;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y5mONN4wL/Liqce4VaaIxlv40SSoKGs7lYJ0PeAaNVU=;
-        b=YArpIdjhBau4bUHncRhdtnLrifllglfO2cL4Y2QdyOAAb/ShSvsnO47/l5v0J7eqTR
-         C4MHZhLJkLj0XoIiySwbWvER/8TCvSpzYm0mPI0o4ot0Qxlx4eg5ZCuQN2hQ86bmkWGY
-         dVYCffeP5ojLv1NwIv62nYSegwQemmZCZHhlO1IzmB20ERZCdXdNZ0FNzcNM6VhKq7R5
-         gnDZYGBJ47qswZR7Hu5UWtOqusuyll0RL2cT+njLETFKD+7FFlW6rqc1qBepy/qUisRC
-         h0t3XsFQ47fpCI9Hvcex92O45cez+naHuCMUfbr00t1OQTVtr4MyQ9NCJD0+L2nj/vye
-         dQWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685697972; x=1688289972;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y5mONN4wL/Liqce4VaaIxlv40SSoKGs7lYJ0PeAaNVU=;
-        b=VBrOSDXYJb8tTct3ex4QQvwVsxTfj4k6wxIydjcwakTgoL9efVQ94KiNO/TjXxCW8f
-         DQ/hjwUbUZcRa+HCGZEzc5QjdUI0nnpc937H8Jeo05VSbuXasuxEIG8fSiHRHX1cI9kC
-         KePkbsDpu+Ivh0vIUQ7U06eUyAZAwEkmr94WwUd/abR7ubMumH8SIVybclpp8dnfEQoD
-         df+aMVjY4xiA+2n3/i9wyOeWIdO+MQCE4cnfGXyCypIuJkCgOyGK3W4m/eASl1pH5yHh
-         pUmasfpNnEQLiJ5+pr04kq9AMgFLByuCP3WWRJ0CXydjqQEmTjug3MGY+v1WLMERIfu+
-         AWcQ==
-X-Gm-Message-State: AC+VfDxwyUp3kGjo9N3nAp9mNDSNGZYUN73qn9tpmLdGPOgvDmj7UzB0
-        5KMLbUmpKsoCGKSawo6WDVgg7g==
-X-Google-Smtp-Source: ACHHUZ7kLXNcFuvemWZ7GVhVmmdkvpqq44En4YBUYu4k69KzyVyYRAdzmK7csLF19ZEPgvY4RM+wMQ==
-X-Received: by 2002:aa7:da42:0:b0:510:e80f:fa4e with SMTP id w2-20020aa7da42000000b00510e80ffa4emr1752627eds.1.1685697972632;
-        Fri, 02 Jun 2023 02:26:12 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.199.204])
-        by smtp.gmail.com with ESMTPSA id y17-20020a50e611000000b005149e90115bsm459518edm.83.2023.06.02.02.26.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 02:26:12 -0700 (PDT)
-Message-ID: <88f91fc2-3b10-872d-4ade-486b25e94129@linaro.org>
-Date:   Fri, 2 Jun 2023 11:26:10 +0200
+        with ESMTP id S235023AbjFBLDb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 07:03:31 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C3ACE;
+        Fri,  2 Jun 2023 04:03:29 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 35DCA5FD1D;
+        Fri,  2 Jun 2023 14:03:27 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1685703807;
+        bh=P21ZCO8cvJf6YwlmF8pYgOOnkYfHNy2KTyAlbb0APBE=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+        b=kmylLnV7Csqk12Xvc0Kg+idFZT1QbN8IU3H1rnWJi24+VlEVvT6mFRIIVlprgmIqm
+         7fjR7BL/zgn0viCj8vWO7Vdw2Kjq66n6NME1f2zxetKrwqJrgWat4ClJGF6Myjw/wN
+         D49WKauAxcUcTUyWslpRrsM+6ZZ0O6TZVUI9A/ZtBA1J9k4cRNoQHnGomjAHLGva78
+         8/s7NJ+4dxuNiX3EeFhMewOPtzyXJ2K8gXCu55KAX5D64nS+7spOzdKA8x3XjE6BZs
+         D84N6D0D3f8NrrghoJv34G83VFDkU6zdKcwzb60Zre1iLn+wIkYxoN7Jygj5F+toX6
+         cEOqA7RhIlkXw==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Fri,  2 Jun 2023 14:03:17 +0300 (MSK)
+Message-ID: <e6302401-7a07-a2fa-621b-29f62ef60261@sberdevices.ru>
+Date:   Fri, 2 Jun 2023 14:03:14 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: Document Awinic AW2026 bindings
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v1] leds: trigger: pattern: add support for hrtimer
 Content-Language: en-US
-To:     Vladimir Barinov <v.barinov@yadro.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux@yadro.com
-References: <20230525101341.2036563-1-v.barinov@yadro.com>
- <20230525101428.2037061-1-v.barinov@yadro.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230525101428.2037061-1-v.barinov@yadro.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Lee Jones <lee@kernel.org>, kernel test robot <lkp@intel.com>
+CC:     Pavel Machek <pavel@ucw.cz>, ye xingchen <ye.xingchen@zte.com.cn>,
+        Kalle Valo <kvalo@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <kernel@sberdevices.ru>
+References: <20230522190412.374474-1-mmkurbanov@sberdevices.ru>
+ <202305230549.ekneaQ89-lkp@intel.com> <20230601185116.GL449117@google.com>
+From:   Martin Kurbanov <mmkurbanov@sberdevices.ru>
+In-Reply-To: <20230601185116.GL449117@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/02 03:06:00 #21401484
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 25/05/2023 12:14, Vladimir Barinov wrote:
-> Add Awinic AW2026 binding documentation
+Hello Lee,
+
+On 01.06.2023 21:51, Lee Jones wrote:
+>>    drivers/leds/trigger/ledtrig-pattern.c: In function 'pattern_init':
+>>>> drivers/leds/trigger/ledtrig-pattern.c:454:74: warning: implicit conversion from 'enum <anonymous>' to 'enum pattern_type' [-Wenum-conversion]
+>>      454 |         err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size, false);
+>>          |                                                                          ^~~~~
+>  
+> Did you fix this already? 
 > 
-> Signed-off-by: Vladimir Barinov <v.barinov@yadro.com>
-> ---
-> Changes in version 2:
-> - fixed typos in patch header 2016 -> 2026
-> - fixed typo in example section that break dt_binding_check
-> 
->  .../bindings/leds/awinic,aw2026.yaml          | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml b/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
-> new file mode 100664
-> index 000000000000..abacf746677b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/awinic,aw2026.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Awinic AW2026 3-channel LED Driver
-> +
-> +maintainers:
-> +  - Vladimir Barinov <v.barinov@yadro.com>
-> +
-> +description: |
+> I don't see a subsequent submission?
 
-Do not need '|' unless you need to preserve formatting.
+Sure, I intend to send the updated version very soon (hopefully today).
 
-> +  The AW2026 is a 3-channel LED driver with I2C interface. It can control
-> +  LED brightness with PWM output. It supports hardware blinking and
-> +  hardware patterns.
-> +
-> +properties:
-> +  compatible:
-> +    const: awinic,aw2026
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  awinic,led-max-microamp:
-
-microamp is per sub-LED, not per entire device. This is already
-expressed by common bindings. Drop entire property and use common one in
-children.
-
-
-
-> +    description:
-> +      Maximum current at LED output
-> +    enum:
-> +      [3000, 6375, 12750, 25500]
-> +
-> +  vcc-supply:
-> +    description: Regulator providing power to the "VBAT" pin.
-> +
-> +patternProperties:
-> +  "^led@[0-2]$":
-> +    type: object
-> +    $ref: common.yaml#
-
-unevaluatedProperties: false
-
-Just open existing bindings and do not code it differently...
-
-> +
-> +    properties:
-> +      reg:
-> +        description: Index of the LED.
-> +        minimum: 0
-> +        maximum: 2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c0 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led-controller@64 {
-> +            compatible = "awinic,aw2026";
-> +            reg = <0x64>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            awinic,led-max-microamp = <6375>;
-> +            vcc-supply = <&vcc_3v3_s0>;
-> +
-> +            led@0 {
-> +                    reg = <0>;
-
-Wrong indenration.
-Use 4 spaces for example indentation.
-
-> +                    function = LED_FUNCTION_INDICATOR;
-> +                    color = <LED_COLOR_ID_RED>;
-> +            };
-
-Best regards,
-Krzysztof
-
+-- 
+Best Regards,
+Martin Kurbanov
