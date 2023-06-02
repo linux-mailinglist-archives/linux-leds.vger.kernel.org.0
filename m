@@ -2,49 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2843A71F4CF
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Jun 2023 23:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F1F71FB87
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Jun 2023 10:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232724AbjFAVey (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 1 Jun 2023 17:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52302 "EHLO
+        id S234203AbjFBIHC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 2 Jun 2023 04:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232986AbjFAVev (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Jun 2023 17:34:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF7519D;
-        Thu,  1 Jun 2023 14:34:45 -0700 (PDT)
+        with ESMTP id S233812AbjFBIHB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 2 Jun 2023 04:07:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB6CD3;
+        Fri,  2 Jun 2023 01:07:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0641E649ED;
-        Thu,  1 Jun 2023 21:34:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF33EC433EF;
-        Thu,  1 Jun 2023 21:34:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B34C660F29;
+        Fri,  2 Jun 2023 08:06:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F132C433D2;
+        Fri,  2 Jun 2023 08:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685655284;
-        bh=AbHfTr5p4zXcglalc0/KHf9eaa46MDixzs0334/nXsk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=VW0jA7Mwu5T2MtFg9L0vQu1b9YVdZekxH9ULe+m0nXatTeu6X8r9m9FiG1BsE+FOl
-         WdZ7GxIsHpuUSnndQ+1LYlfe/nXD5SbyLxtMPQE5d91G+su3YyMruiUFSBSxgCe+Pp
-         cIvF7mNE3Ti4ZHkgj78V0jgXWnM9LcPXckXXESitFhUXzBrh8qEWC6Sg4F5IFfMD8L
-         3KbQp1gKVzLCMZ22wEOo+ANXEj0SwHIKsN3d9RXq0IcAwFzH5P2h1LIyitVwu99MoP
-         YWwj13wlayXxtVOBkxkM25bHaBNE7EQ/bexf19RG+LA3tDgdxbYiq8uIehYldPm+SI
-         dNCn+CP0KKWIA==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: cht-wcove: mark cht_wc_leds_brightness_get static
-Date:   Thu,  1 Jun 2023 23:34:33 +0200
-Message-Id: <20230601213439.3398794-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        s=k20201202; t=1685693219;
+        bh=3I5CwM0h7zM2RpqeipzAicM8qi8sXEOoMLfEVMaOBiA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qKEdr7hYIE2TEU5V+/owMIpIc7uOBuYb/UzWNkgVPQBNDVIZeR3x7a7Il2LzAESC4
+         PUhrg2WUwMnPf9V0fgyExDIqgImzXzwal+0BD9+qyNwpY0Zj55YjQGOafvGqSwVd7I
+         I/bddeUQjy6uhu4CnZWe/r/ByPyxI1w2jl3eWRdSyceBh+1HfqJpCfERhZg1OJ7PIB
+         3Iy4+r615dW8ZLCc/0CyZXFp7Jsxu78RdeMX0kEtTanSiQh4ycIjEj9sdx0h6RekOr
+         JkFeFKuCmz35a6Jq6uUOC8DW+GNHMui1mcNXIHZFX69y7A4eQQqqxDPhx7/nbRmnlC
+         P/5NuCpPsHt/Q==
+Date:   Fri, 2 Jun 2023 09:06:55 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Vladimir Barinov <v.barinov@yadro.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux@yadro.com,
+        linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Document Awinic AW2016 bindings
+Message-ID: <20230602080655.GN449117@google.com>
+References: <20230524113910.196321-1-v.barinov@yadro.com>
+ <20230524114056.196518-1-v.barinov@yadro.com>
+ <168493088788.3462735.2834416618033227181.robh@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <168493088788.3462735.2834416618033227181.robh@kernel.org>
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -53,31 +59,32 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 24 May 2023, Rob Herring wrote:
 
-This was apparently made global but is not called from anywhere else:
+> 
+> On Wed, 24 May 2023 14:40:56 +0300, Vladimir Barinov wrote:
+> > Add Awinic AW2026 binding documentation
+> > 
+> > Signed-off-by: Vladimir Barinov <v.barinov@yadro.com>
+> > ---
+> >  .../bindings/leds/awinic,aw2026.yaml          | 92 +++++++++++++++++++
+> >  1 file changed, 92 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/awinic,aw2026.yaml
+> > 
+> 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Error: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dts:52.3-53.1 syntax error
+> FATAL ERROR: Unable to parse input tree
+> make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/leds/awinic,aw2026.example.dtb] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1512: dt_binding_check] Error 2
 
-drivers/leds/leds-cht-wcove.c:144:21: error: no previous prototype for 'cht_wc_leds_brightness_get' [-Werror=missing-prototypes]
+Taking this set out of my review queue until this is rectified.
 
-Fixes: 047da762b9a93 ("leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/leds/leds-cht-wcove.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
-index 0cfebee989107..0a5c30e5ed5d4 100644
---- a/drivers/leds/leds-cht-wcove.c
-+++ b/drivers/leds/leds-cht-wcove.c
-@@ -141,7 +141,7 @@ static int cht_wc_leds_brightness_set(struct led_classdev *cdev,
- 	return ret;
- }
- 
--enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
-+static enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
- {
- 	struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
- 	unsigned int val;
 -- 
-2.39.2
-
+Lee Jones [李琼斯]
