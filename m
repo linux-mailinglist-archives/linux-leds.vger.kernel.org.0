@@ -2,49 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5575728608
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jun 2023 19:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC5872864A
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jun 2023 19:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235466AbjFHRNP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 8 Jun 2023 13:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40458 "EHLO
+        id S236951AbjFHRZt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 8 Jun 2023 13:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233726AbjFHRNO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Jun 2023 13:13:14 -0400
+        with ESMTP id S237059AbjFHRZs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Jun 2023 13:25:48 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DBB2719;
-        Thu,  8 Jun 2023 10:13:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAA22729;
+        Thu,  8 Jun 2023 10:25:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6842964EB9;
-        Thu,  8 Jun 2023 17:13:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A402C4339B;
-        Thu,  8 Jun 2023 17:13:11 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5881D64F82;
+        Thu,  8 Jun 2023 17:25:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A1DC433D2;
+        Thu,  8 Jun 2023 17:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686244392;
-        bh=6+JRZqiU7AewFw7RNLWggb98WSNCC6TPNiR7/Ri3VSU=;
+        s=k20201202; t=1686245145;
+        bh=sKEE1Ha7Onv2/h4XglcashuT7Hsevk+zCcxzbAznYIM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZUhU2SEf33TrikSZq9vuyNczD7e5d4ZVVFLPnodMSLlHB6wvCLf56LV0lv+DLgw1d
-         UmjaEzYHEozhnCKAftUiKahxOKWmMxivbeGYhY7W/lZGIyisLOtPhQ4mlycbwiTTjd
-         ZqLkmFCK8HRgKn+2bVdQJnR/b/FtfSTQ2ajH2ODJxjtR66RhN2Biq81BKQ8j2VAM6a
-         LxejJZhJ0AEhrSaRCYgJPOFZd+Imh0vWZH0rlYWqi5EZxpL369tWbC4ujaxzRhFra3
-         099H1iO4oZ4AKWVhSdKbFp8YOpfqaeXQYJM6wwBq0/aCIkV1LBZiByJKEMh+R7Quqr
-         SoNDKfEc3rbew==
-Date:   Thu, 8 Jun 2023 18:13:08 +0100
+        b=A3intFhY6AW3soEmjHN+z/uRHcbHuuytfhyvrgmQ+ZZmte3qGf6yS5NcWlx2MZdOR
+         KNgNpFarInlPWPlvBe9hFDILFw2qyohv9pCibWlfrPdTd+4sSzKvZDTJv7psvgReCC
+         ZIW0yFy97ecYw/az2D5nZwCpc2KnOFg6A8hgyKeIHAtXfapysA2CBVSQoyu+9BCSEG
+         n+0A4nwhzETT9g1SjHMJPAGlU0IHu0Xu49vu1MP2jWM0g6CKrku7k+DhhvPvz5x9O1
+         R1fEql7U4sqKnohcsX9WhggIl2rpy7gey8oDADEomzPXHE+f2Iw5VRPwUg88XsaCv2
+         G0Oy0DEHxxm+A==
+Date:   Thu, 8 Jun 2023 18:25:40 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH] leds: flash: leds-qcom-flash: Fix an unsigned comparison
- which can never be negative
-Message-ID: <20230608171308.GE3572061@google.com>
-References: <20230531053559.5702-1-jiapeng.chong@linux.alibaba.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] leds: simatic-ipc-leds-gpio: add terminating
+ entries to gpio tables
+Message-ID: <20230608172540.GH3572061@google.com>
+References: <20230524124628.32295-1-henning.schild@siemens.com>
+ <20230524124628.32295-2-henning.schild@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230531053559.5702-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20230524124628.32295-2-henning.schild@siemens.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -55,23 +59,17 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 31 May 2023, Jiapeng Chong wrote:
+On Wed, 24 May 2023, Henning Schild wrote:
 
-> The variable 'count' is defined as unsigned type, so the following if
-> statement is invalid, we can modify the type of count to int.
-> if (count <= 0) {
-> 	dev_err(dev, "No led-sources specified\n");
-> 	return -ENODEV;
-> }
+> The entries do not seem to be stricly needed when the number of entries
+> is given via the number of LEDs. But adding them is a safeguard should
+> anyone ever iterate over the tables to their end, it also gets us in
+> line with other drivers that register "leds-gpio" tables.
 > 
-> ./drivers/leds/flash/leds-qcom-flash.c:546:5-10: WARNING: Unsigned expression compared with zero: count <= 0.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5344
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Signed-off-by: Henning Schild <henning.schild@siemens.com>
 > ---
->  drivers/leds/flash/leds-qcom-flash.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/leds/simple/simatic-ipc-leds-gpio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Applied, thanks
 
