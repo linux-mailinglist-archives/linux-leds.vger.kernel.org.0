@@ -2,57 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E5D728064
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Jun 2023 14:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7105F72831D
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Jun 2023 16:56:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236280AbjFHMsq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 8 Jun 2023 08:48:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60606 "EHLO
+        id S236417AbjFHO4a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 8 Jun 2023 10:56:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235413AbjFHMsp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Jun 2023 08:48:45 -0400
+        with ESMTP id S235886AbjFHO43 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Jun 2023 10:56:29 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C1811FE9;
-        Thu,  8 Jun 2023 05:48:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D1A2D4A
+        for <linux-leds@vger.kernel.org>; Thu,  8 Jun 2023 07:56:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 26EC56122A;
-        Thu,  8 Jun 2023 12:48:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A51D8C433EF;
-        Thu,  8 Jun 2023 12:48:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D315F6181A
+        for <linux-leds@vger.kernel.org>; Thu,  8 Jun 2023 14:56:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23DBDC433D2;
+        Thu,  8 Jun 2023 14:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686228523;
-        bh=jPcGpn8aAgVyQF0FLkHjbbdweYMC3zhE3JcaVkwmgRI=;
+        s=k20201202; t=1686236188;
+        bh=guzezODL1OpG1dkwE+w+K/a7eZRjPG0n9i0v5yDJBPE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uvvws6kDhjhKdaTfLujdUw8Uqpo7SoSYo/1a8kQmSxZx+7QJiAnJM1CVA86DZhYqS
-         ndTQoOGv48XKwGx/el8nJn1yCikoeCD6mftLErEVhyDKRkTA8TPUsKXUZ6sy8O+J1I
-         f+y3nkq9mQDMlKQ52o5hMCDV+7Rj4exO/yZwK6BMKUv6GMywNjoqWUXCJlcTU2YH+i
-         4n+hDURD0AnIiOmQpY7GWfiivUQx+O6rDs4vYLNAttp5T7AqakIiWAQ/5tMSbtZhey
-         TkGL8nk9D/o8x42NISurByK3SbWAX+TVlzJ3Mf/WPjjnRruv3ritJ3vYxLZJbMkglM
-         Pgj6oqnWCkZiw==
-Date:   Thu, 8 Jun 2023 13:48:38 +0100
+        b=gFNjau4vgZy8sa4CQZ0cnmzGguFAIQEz/2JQ9NpA1HLz0kxxDlrTEPqQ4L/13l27R
+         WxlwOMSJ82HJLyouO5JGxD9HDGLApInkPayfXfuniaJwYqqoULWCsc3iAdxjkDZWQ8
+         nS7XGeQ0cbUWSQLZN+rPS3TuBIHsbAfqSpFGARhqjBHZfeKW0Bp23pFfyRgG1+1lQG
+         BLn2whSPGw7zkQtkMsA1BwrS2UtWA+2yXwHtesRIQMzf565yZDL1bsOqYhoGUyY9XD
+         PMkVBRcGEwVI3YF4GqSHWN6DIEKGAv8C6ocm3OtmvobOAyJuRz5LTs0lzVFalXfxqW
+         bRqgtLiPd6e4A==
+Date:   Thu, 8 Jun 2023 15:56:23 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Anjelique Melendez <quic_amelende@quicinc.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Caleb Connolly <caleb.connolly@linaro.org>,
-        Steev Klimaszewski <steev@kali.org>
-Subject: Re: [PATCH v2] leds: qcom-lpg: Fix PWM period limits
-Message-ID: <20230608124838.GK1930705@google.com>
-References: <20230515162604.649203-1-quic_bjorande@quicinc.com>
- <ZG4gBE1rqkMIllV3@hovoldconsulting.com>
- <20230602091928.GR449117@google.com>
- <ZHtfvyklEmonogf2@hovoldconsulting.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        Yauhen Kharuzhy <jekhor@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] leds: cht-wcove: Mark cht_wc_leds_brightness_get() static
+Message-ID: <20230608145623.GM1930705@google.com>
+References: <20230525183317.129232-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZHtfvyklEmonogf2@hovoldconsulting.com>
+In-Reply-To: <20230525183317.129232-1-hdegoede@redhat.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -63,27 +55,19 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 03 Jun 2023, Johan Hovold wrote:
+On Thu, 25 May 2023, Hans de Goede wrote:
 
-> On Fri, Jun 02, 2023 at 10:19:28AM +0100, Lee Jones wrote:
-> > On Wed, 24 May 2023, Johan Hovold wrote:
+> cht_wc_leds_brightness_get() is only used internally, mark it static.
 > 
-> > > Pavel or Lee, could you pick this one up for 6.4 as it fixes a
-> > > regression (e.g. broken backlight on a number of laptops like the X13s)?
-> > 
-> > I don't presently have any plans for a -fixes submission.
-> > 
-> > If anyone else would like to submit it, please be my guest:
-> > 
-> > Acked-by: Lee Jones <lee@kernel.org>
-> 
-> That was not the answer I expected, but sure, I've sent it on to Linus:
+> Cc: Yauhen Kharuzhy <jekhor@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202305260008.QCRrKILf-lkp@intel.com/
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/leds/leds-cht-wcove.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry, soooo busy right now.  Trying not to drop too many plates.
-
-> 	https://lore.kernel.org/lkml/ZHte5sPkB6-D-94G@hovoldconsulting.com/
-
-*fist bump*
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
