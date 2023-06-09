@@ -2,118 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A95A729CD8
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 16:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456DF729D02
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 16:37:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241082AbjFIO1U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Jun 2023 10:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50960 "EHLO
+        id S239211AbjFIOg7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Jun 2023 10:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241437AbjFIO1R (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 10:27:17 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B0B3C2A;
-        Fri,  9 Jun 2023 07:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686320799; x=1717856799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9bI0m+ifES+6k8pQzzNX2KP969ALq4IZ/1G6tuuvLB4=;
-  b=K144sWYmy7kS/OcBx/NatGVj1PpWLxBtZHp22ZoTz6O4QTinr5LPDmgj
-   qZV1aRqJrUNnKIzdhGP89ybnzJlxJVODjC0FgtG5biHG9FDpi6vemlooa
-   TkzgjtlFHjf2qg+d1+/OmMwcdHVhnx6OdiyGz3dMC7MIYmbJGqNz5bH7d
-   KFmGV2ZGJQrQEs98UtHcTESAbbK1SRopfH94DClGbkbirVjH8SFJo07dV
-   6RVLzUPSQ2EYnwjv9nLbAbdSynMl5xuj8g2IhiZAqoCRv+/yg14fFZ8sQ
-   SuSCOo2pr5rTwLi804fLNikna74vUNWoPVT02USYWSSAz+hDr2ppHBusK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355096131"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="355096131"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:25:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="780330340"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="780330340"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jun 2023 07:25:26 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1q7d3M-002Pzt-31;
-        Fri, 09 Jun 2023 17:25:24 +0300
-Date:   Fri, 9 Jun 2023 17:25:24 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Henning Schild <henning.schild@siemens.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] leds: simatic-ipc-leds-gpio: add terminating
- entries to gpio tables
-Message-ID: <ZIM2VK9MlxGqBfDT@smile.fi.intel.com>
-References: <20230524124628.32295-1-henning.schild@siemens.com>
- <20230524124628.32295-2-henning.schild@siemens.com>
- <ZHHFMPEYNz9jBBRd@smile.fi.intel.com>
- <20230530171100.75e5b86c@md1za8fc.ad001.siemens.net>
- <ZHjLjU7WPv2W9SuJ@smile.fi.intel.com>
- <20230608173027.GL3572061@google.com>
+        with ESMTP id S241359AbjFIOg6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 10:36:58 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D2DE43;
+        Fri,  9 Jun 2023 07:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=m3NdTkg/3DxRk6TFjsN9Xni0yRQdVPltZMic4MOLBFE=; b=u5ciJ4oA9gS4p532LXtDx1+Pp1
+        DJEiCgOYRfujWkWwvxoJfauSb8A80bQq5Hw/DPlV1Um1XKt8z+ArlyMweXPkzRyhVzSakgk40onN+
+        MgS6I66yK0PVsNtD85Pl1a80lSwgbxaSw/KvvmJlJxYKvU+9JO1ZdJP2SJ6ot3uVVIig=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q7dEO-00FLuH-PP; Fri, 09 Jun 2023 16:36:48 +0200
+Date:   Fri, 9 Jun 2023 16:36:48 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] leds: trigger: netdev: add additional mode for
+ unified tx/rx traffic
+Message-ID: <20b33e91-1058-4ddd-9502-9b2018594e96@lunn.ch>
+References: <20230609135103.14221-1-ansuelsmth@gmail.com>
+ <20230609135103.14221-4-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608173027.GL3572061@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230609135103.14221-4-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jun 08, 2023 at 06:30:27PM +0100, Lee Jones wrote:
-> On Thu, 01 Jun 2023, Andy Shevchenko wrote:
-> > On Tue, May 30, 2023 at 05:11:00PM +0200, Henning Schild wrote:
-> > > Am Sat, 27 May 2023 11:54:08 +0300
-> > > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> > > 
-> > > > On Wed, May 24, 2023 at 02:46:25PM +0200, Henning Schild wrote:
-> > > > > The entries do not seem to be stricly needed when the number of
-> > > > > entries is given via the number of LEDs. But adding them is a
-> > > > > safeguard should anyone ever iterate over the tables to their end,
-> > > > > it also gets us in line with other drivers that register
-> > > > > "leds-gpio" tables.  
-> > > > 
-> > > > Reported-by?
-> > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > I think we could do
-> > > 
-> > > Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > on merge. But i would not want to send the whole series again for that
-> > > one line.
-> > 
-> > Since you added it, `b4` will happily take it, I believe no manual work even
-> > needed for that, thank you!
+On Fri, Jun 09, 2023 at 03:51:03PM +0200, Christian Marangi wrote:
+> Add additional mode for unified tx/rx traffic. LED will blink on both tx
+> or rx traffic.
 > 
-> b4 didn't pick this up.  Nor the whole-series Ack provided by Hans.
+> This is especially useful for PHY and Switch that supports LEDs hw
+> control that doesn't support split tx/rx traffic but supports blinking
+> on any kind of traffic in the link.
 > 
-> I added both manually.
+> On mode set from sysfs we check if we have enabled split tx/rx mode and
+> reject enabling activity mode to prevent wrong and redundant
+> configuration.
 
-There is an option to take this
+TRIGGER_NETDEV_TX + TRIGGER_NETDEV_RX = TRIGGER_NETDEV_ACTIVITY:
 
-  -t, --apply-cover-trailers
-                        Apply trailers sent to the cover letter to all patches
+When calling into the driver, it probably makes the drivers simpler if
+you do this simplification. Within the trigger code, keep them
+separate, because that is what the user has configured.
 
-have you tried it?
+I know such a simplification will make the marvell PHY driver simpler.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+	Andrew
