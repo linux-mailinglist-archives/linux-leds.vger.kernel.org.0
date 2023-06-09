@@ -2,100 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6857291C4
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 09:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86EB72967F
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 12:13:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbjFIHwR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Jun 2023 03:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56240 "EHLO
+        id S240958AbjFIKNo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Jun 2023 06:13:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239479AbjFIHwC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 03:52:02 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EBC3C0F;
-        Fri,  9 Jun 2023 00:51:20 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0362E6606F2A;
-        Fri,  9 Jun 2023 08:51:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686297078;
-        bh=gET5+wLpIL9IzLnk5TgUuGrRAUjK20F8Y3m38Tws6Is=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=S1ooMctYRZn1jRx0gvlWhXL/zZS7WZHs5NjTzOtAz20TLcOI7MvBI54Xx2CpFTh9u
-         hLCBr+g2ulHDGGkArNCn3yaUFfLu2LJjjOKjM3iqWu9KuPeVYmpvCgZpK89J6tlr+X
-         Z+N/U1yKX9TSFO2zmc279KreqI1Lg1mvlLxwusSsO+j6ZH9w5cfo2KckHRMQ+diJke
-         AnyNEtQw+C8erxUblmkPv1ouJl4yRJkVSQXYZGNAuvtae2hqFyjw69xohcGRE56mM3
-         4l3em+6M84SNOcvGF2z0HUuCar0H2JYftb8k7YAk2pFl0JiDJG+y0Qee0qcDJDfFXp
-         ZJZl6bAxFq0Bw==
-Message-ID: <88f37d33-6545-d307-17a9-896e86d0ed50@collabora.com>
-Date:   Fri, 9 Jun 2023 09:51:15 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 3/8] dt-bindings: leds: leds-mt6323: Support WLED
- output
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, pavel@ucw.cz
-Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
- <20230601110813.2373764-4-angelogioacchino.delregno@collabora.com>
- <75d78713-fc8f-24a9-a422-2b4d57c5d488@linaro.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <75d78713-fc8f-24a9-a422-2b4d57c5d488@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S238828AbjFIKNM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 06:13:12 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA514210;
+        Fri,  9 Jun 2023 03:02:39 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-973f78329e3so282575766b.3;
+        Fri, 09 Jun 2023 03:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686304957; x=1688896957;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Sy3PFH0i16OR495KV2SRJ9doNRvKz2foyZHcs8gVG8=;
+        b=F0Ba6tXNsPudB2pZ2F0mCXv5biLezbUIw8pnUlcxQcn0zO0/VEvYGHXnDXJUsr5KUn
+         X+umIxtRTdq4m0rMvcjVwLXaZ3qhBU/O+YW/mdfjSkTpOJZj+95QQ7CqRftoc4AxB8WK
+         OUWZLytwgjVUYmYAGt2ILIPnI+tZiNHNx0yZnREMgQj/iq1/xOGXF2OSwDiHTDsec+/K
+         dSxaB3PTibkwdORlubFqcdhTHNKQ3b5DbYnYt3jPz7YsSUjhQgQ5nDhzcqMsJXIJmGtZ
+         QfkdUKqhrf9TJmRuCrmCDzr88II+qBqDm6UZeNn4ZgqfPHOiYckq9jO8CC2PT0pNlUZQ
+         rA8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686304957; x=1688896957;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1Sy3PFH0i16OR495KV2SRJ9doNRvKz2foyZHcs8gVG8=;
+        b=H+EkXjiqzsyhpxoLqapJ/zk1Wq8PYnBcOxwsaF3+5Clx9jGEi9XNH6WSOSObcZQ9uc
+         Yd6GPw/U1hEvONKCH2101Sqig35px7NZIRcTZhX/WIXk0rw8rbWOfYXstJd4pHeqpQKI
+         fdmaPQMCEWiXDqXg1cj4F922SrRiLEOfI0EWjctGYxLh01IksM2rAzS4W9kFWP6DjYxI
+         WqFEzxjQVZ3eDpr2NhP9vC66lISikdJERhQQHnKV4ZlIIM9bxTDnuIy6oFkQl301BkQW
+         sGIr9VglK60d/hucCjzu0vgppjrGEpTjNG1+IIbFy+XSJGMRCh104QQKYb2Le+8MnwKh
+         GFmg==
+X-Gm-Message-State: AC+VfDySGJqjGky7yJZxqI6QJdIEc37SBgG9UyfIKFFDb9lytOY1WHpL
+        3AG0uJnAFU+JR6nn2b+6WjaRPi7WSJs=
+X-Google-Smtp-Source: ACHHUZ7tlE78bo7phZxc+4W/jhKp9bIIfvPnF2aJ3QHzGcMGyBy3fuQPnAoGaDzXmhb8e0JU4L9dxA==
+X-Received: by 2002:a17:907:6e12:b0:977:ab43:731f with SMTP id sd18-20020a1709076e1200b00977ab43731fmr1639678ejc.66.1686304957254;
+        Fri, 09 Jun 2023 03:02:37 -0700 (PDT)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:f180:ae6e:6e9a:f400])
+        by smtp.gmail.com with ESMTPSA id oq19-20020a170906cc9300b00977e0bcff1esm1123149ejb.10.2023.06.09.03.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 03:02:36 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Martin Kurbanov <mmkurbanov@sberdevices.ru>,
+        linux-leds@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] leds: fix config reference for AW200xx driver
+Date:   Fri,  9 Jun 2023 12:02:33 +0200
+Message-Id: <20230609100233.4111-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 02/06/23 10:32, Krzysztof Kozlowski ha scritto:
-> On 01/06/2023 13:08, AngeloGioacchino Del Regno wrote:
->> Some PMICs have a separated WLED string output: add a property
->> `mediatek,is-wled` to indicate which LED string is a WLED.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/leds/leds-mt6323.txt | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->> index 052dccb8f2ce..904b2222a5fe 100644
->> --- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->> +++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->> @@ -30,6 +30,7 @@ Optional properties for the LED child node:
->>   - label : See Documentation/devicetree/bindings/leds/common.txt
->>   - linux,default-trigger : See Documentation/devicetree/bindings/leds/common.txt
->>   - default-state: See Documentation/devicetree/bindings/leds/common.txt
->> +- mediatek,is-wled: LED string is connected to WLED output
-> 
-> Why would it matter to what the output is connected to?
+Commit 36a87f371b7a ("leds: Add AW20xx driver") adds config LEDS_AW200XX
+in drivers/leds/Kconfig, but then in drivers/leds/Makefile accidently
+refers to CONFIG_LEDS_W200XX; note the missing A!
 
-When this property is present, the MT6323 LEDs are managed through different
-hardware registers which are specific to WLEDs: if we have no indication of
-whether this is a WLED or a LED, we would program the wrong registers.
+This typo makes it impossible to add the driver to a kernel build.
 
-P.S.: Sorry for the very late reply
+Fix this wrong config reference.
 
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
+Fixes: 36a87f371b7a ("leds: Add AW20xx driver")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ drivers/leds/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index df6bf408212c..d71f1226540c 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -14,7 +14,7 @@ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
+ obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
+ obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
+ obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
+-obj-$(CONFIG_LEDS_W200XX)		+= leds-aw200xx.o
++obj-$(CONFIG_LEDS_AW200XX)		+= leds-aw200xx.o
+ obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
+ obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+ obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
+-- 
+2.17.1
 
