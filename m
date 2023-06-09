@@ -2,112 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0AE3729C4C
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 16:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D283729CCF
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Jun 2023 16:25:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbjFIOID (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Jun 2023 10:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
+        id S240587AbjFIOZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Jun 2023 10:25:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbjFIOHu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 10:07:50 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D7735B8
-        for <linux-leds@vger.kernel.org>; Fri,  9 Jun 2023 07:07:30 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9786c67ec32so312152466b.1
-        for <linux-leds@vger.kernel.org>; Fri, 09 Jun 2023 07:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686319649; x=1688911649;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HpeQIGODYHiGNSJMSQBwMoymm4hyXLVLPd2HVnrBGo=;
-        b=pHD2Wxo2pxl205iXGtKph6ZcHVn1BfhoRC+ZK1oHcGDuotM6Fk1GEwH64l7S9+aIV2
-         P9zF+hwcXHvC7f9pYidQ0MhVZl0D0SOdb1A7r0gnVe9dWmwp1rIlLnReI8yFKdfMOSuK
-         qziv42dwHwO0mqkdtEYjTF692Z9+pVVed1kW/cezxVtQBC1/NH2fle021m0FuV+mfGI4
-         qjqwxOP42Q8lwTonc7VLFrG4WU71WigCKPFjjtpvZK/EMREkKecngF1WLe2PfNe6perH
-         J2sY4krSa8WYYKkWoRNnVIp0lcLx3SZU9Irys/16kS9hHkO4Wy0ofVar0yzw9CZt0qBj
-         /4Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686319649; x=1688911649;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/HpeQIGODYHiGNSJMSQBwMoymm4hyXLVLPd2HVnrBGo=;
-        b=LEnm2/wce4vaNKwAwTCtqST4L4M2caQ4bBbg8qSz7cO9UMnvo2+6MJlb6omPUQlOXO
-         KsqOjDnNllfCKPbQXGyNIIi5zl0axKfaExkLB9UZhJCg0dKopRTdLzoiW4npBou2QsKR
-         cvgXC2vj3xNvWSXEXMrQRfHwdoY+X7kps0X80cU0c8PSdGebl2x+pNQgQIgf/hn9yCXS
-         6FV7eGQcTz00ixWPUiSNl4+1kRgIIMJo8vKvPABiEQVtAKH4m27uEcCCOSsQhpEoTsLl
-         +xArnBDBi0A11q2XcQcVdQCTWwSrS4dbWCv4xSyXpUEt9Hsr8NEevzkE35nJ4HiLB3j7
-         yonA==
-X-Gm-Message-State: AC+VfDx8jBt+0y0Sno72aAmWn0ZjX+5npSGLivcihEuJchLpyjSpUPKp
-        +lgLVCvh+xEb4Q1l30m4JwjiIw==
-X-Google-Smtp-Source: ACHHUZ7wlJsxn5X1kZkujNDi1sdAIGPpKLmfLVyoRs08KWVtW6wXqss1eE8xxbnfA1mnP6w9EphneQ==
-X-Received: by 2002:a17:907:3687:b0:974:4f34:b04a with SMTP id bi7-20020a170907368700b009744f34b04amr2046459ejc.34.1686319649094;
-        Fri, 09 Jun 2023 07:07:29 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id p6-20020a1709061b4600b00977e4c1727esm1343394ejg.29.2023.06.09.07.07.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 07:07:28 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: leds: drop unneeded quotes
-Date:   Fri,  9 Jun 2023 16:07:25 +0200
-Message-Id: <20230609140725.64771-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S241386AbjFIOZq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Jun 2023 10:25:46 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46B683A92;
+        Fri,  9 Jun 2023 07:25:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=bXpo5an5196WDZpIgE59UGMtc7zp7G/aFyDLKV93j7A=; b=JIK9TLd62MQWABt6DFJ6ya498i
+        0Yk/8AY13/C0NHcZ85hzeW4GlfHxmY3u8T3JDZCEFwam2tMt3BS3n43Zx6Goqs1qK7JG7AEFYrRUj
+        VjRGL0Hkd4KZr9F6WbiAfwyj3UzXJRzgR7a+1vPjID+SSH5lpk4HGRJgibUsKgJQZN0c=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q7d3C-00FLqi-7Q; Fri, 09 Jun 2023 16:25:14 +0200
+Date:   Fri, 9 Jun 2023 16:25:14 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] leds: trigger: netdev: add additional specific link
+ speed mode
+Message-ID: <b4d25621-f89a-4b48-9a00-33274f130e8c@lunn.ch>
+References: <20230609135103.14221-1-ansuelsmth@gmail.com>
+ <20230609135103.14221-2-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609135103.14221-2-ansuelsmth@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-checking for this can be enabled in yamllint.
+> +	if (trigger_data->net_dev != NULL) {
+> +		struct ethtool_link_ksettings cmd;
+> +
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
- Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+cmd is a stack variable, so contains random junk:
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-index 31840e33dcf5..e850a8894758 100644
---- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-@@ -34,7 +34,7 @@ required:
-   - color
- 
- allOf:
--  - $ref: "common.yaml#"
-+  - $ref: common.yaml#
- 
- additionalProperties: true
- 
-diff --git a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-index 64b0be9cf70b..58f0d94c6d71 100644
---- a/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-+++ b/Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml
-@@ -32,7 +32,7 @@ patternProperties:
-     properties:
-       rohm,led-compatible:
-         description: LED identification string
--        $ref: "/schemas/types.yaml#/definitions/string"
-+        $ref: /schemas/types.yaml#/definitions/string
-         enum:
-           - bd71828-ambled
-           - bd71828-grnled
--- 
-2.34.1
+>  		trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
+>  
+> +		if (trigger_data->carrier_link_up) {
+> +			rtnl_lock();
+> +			__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd);
 
+/* Internal kernel helper to query a device ethtool_link_settings. */
+int __ethtool_get_link_ksettings(struct net_device *dev,
+				 struct ethtool_link_ksettings *link_ksettings)
+{
+	ASSERT_RTNL();
+
+	if (!dev->ethtool_ops->get_link_ksettings)
+		return -EOPNOTSUPP;
+
+If the op is not implemented, it just returns.
+
+
+> +			rtnl_unlock();
+> +
+> +			trigger_data->link_speed = cmd.base.speed;
+
+and now you are accessing the random junk.
+
+> +			__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd);
+> +
+> +			trigger_data->link_speed = cmd.base.speed;
+
+You have this code three times. I suggest you pull it out into a
+little helper, and within the helper, deal with the return code, and
+set speed to 0 if it is unknown.
+
+    Andrew
