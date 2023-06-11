@@ -2,211 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 551AF72B499
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Jun 2023 00:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 601E972B2A8
+	for <lists+linux-leds@lfdr.de>; Sun, 11 Jun 2023 17:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbjFKWaT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 11 Jun 2023 18:30:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35826 "EHLO
+        id S232254AbjFKP5P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 11 Jun 2023 11:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjFKWaS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Jun 2023 18:30:18 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED02E4E;
-        Sun, 11 Jun 2023 15:30:16 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f6e1393f13so26709645e9.0;
-        Sun, 11 Jun 2023 15:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686522615; x=1689114615;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZEXma0Sl180nUlDy6+RTrJLABcn2sDvoD62d8qplRAU=;
-        b=VCCc/A2cfpGNAa3ZCYJfYjZG9Ogc9ISQJ9820DHNQPBlM3feGZqTajn4qcaPWBGShC
-         ifcQCYgLQY20LhxjB5yE2QnBeThS0AKvCv60cC2PGr08xZOlLdkX6tK9F93KhvnHri8E
-         ZPH1aNYzv8uc73SN+Cll23lHm2OpGd/R0bFJ34bgqMnsaolm+KVwh0JOyXW2WcKN8C8X
-         wKyWi29I4VKIjU+ZPt1Tqpcj9AdZWS9Dip/RjycddMaPSKsrVQ59KPSm7/c1fq4nCrEn
-         LZ6DXhqe7YazUBMLn+MDhZhoK0K3yNttCwgshY/zNyF35J8EoUcy3d6IWnxeJHwOu2+/
-         tu1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686522615; x=1689114615;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZEXma0Sl180nUlDy6+RTrJLABcn2sDvoD62d8qplRAU=;
-        b=RlFIsv+vTMvhjYC4CDTMKrqmQVS99FAaGCSGSE6hArsC5YV0vtk6udtrnZQ/SzAkuh
-         Pe/bIJMCNeavgKyangknkak7EO3eH1OTxttNNiTwWi7qhNg8h7zqlwtuIzPtFcys7dJS
-         e0lxQXpHUM8eMPlyNxvBe4NT0buMPhERXa50bO7Nm7kWJjRv+aSWXOZFLohaI5Z0B90I
-         U4sa10YWINzB8PZvBTOvvuO7l7u7UBZiHQYak9YTMF2NwX9IzUEJz/pYlg7/suknYomM
-         8M+AICQr/nkhuNfPAmu+DFJIVLnot63Wt032AmA0iEtZlsfc4v0dSqHxWP6hAV+PHB9G
-         aB3w==
-X-Gm-Message-State: AC+VfDx0laPQ0eNkuuWInm0U+fYs8z09c5CdcsmuZheffE37RFCLtvM4
-        oqXJe+cYwvnfgEyJWj0CHQo=
-X-Google-Smtp-Source: ACHHUZ4lcl90P4fKNIUb69EmUEMLI+Rhrj4RTVKZDzmWnzHynvoU9e9Ff5p0ws0qDxjDfjuQdPZ5MQ==
-X-Received: by 2002:a7b:c84c:0:b0:3f7:33cf:707b with SMTP id c12-20020a7bc84c000000b003f733cf707bmr5563528wml.1.1686522615332;
-        Sun, 11 Jun 2023 15:30:15 -0700 (PDT)
-Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
-        by smtp.googlemail.com with ESMTPSA id a7-20020a05600c224700b003f60a9ccd34sm9509479wmm.37.2023.06.11.15.30.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 15:30:14 -0700 (PDT)
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        with ESMTP id S229455AbjFKP5O (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Jun 2023 11:57:14 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F5FA97;
+        Sun, 11 Jun 2023 08:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=O155xlsWatty/vA22Zc9zho7iQTVGa+NrR8XT21K/Tk=; b=otdvCnjtSg9IT7hk2j96Y7df1I
+        Ixow3w8GfZyD1HYabAWVOlv7bAwLFC3lphAShk29m376zECDOaKJSsHDsCcfpJG3s9wCXKCuw0XMj
+        MKDt6XZSZR2hjfjDWn3DdkrwNKTf5CgJZx273gDO9iLiSpdcPWq1y25Pb2MfMaQs6UP8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q8NRA-00FVrE-QN; Sun, 11 Jun 2023 17:57:04 +0200
+Date:   Sun, 11 Jun 2023 17:57:04 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Yang Li <yang.lee@linux.alibaba.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] leds: trigger: netdev: add additional specific link duplex mode
-Date:   Sun, 11 Jun 2023 16:47:59 +0200
-Message-Id: <20230611144759.6096-3-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230611144759.6096-1-ansuelsmth@gmail.com>
-References: <20230611144759.6096-1-ansuelsmth@gmail.com>
+Subject: Re: [PATCH v2 1/2] leds: trigger: netdev: add additional specific
+ link speed mode
+Message-ID: <ef4f7d7b-6dd9-4dbc-adea-2470b5478b50@lunn.ch>
+References: <20230610041616.21141-1-ansuelsmth@gmail.com>
+ <20230610041616.21141-2-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230610041616.21141-2-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add additional modes for specific link duplex. Use ethtool APIs to get the
-current link duplex and enable the LED accordingly. Under netdev event
-handler the rtnl lock is already held and is not needed to be set to
-access ethtool APIs.
+On Sat, Jun 10, 2023 at 06:16:15AM +0200, Christian Marangi wrote:
+> Add additional modes for specific link speed. Use ethtool APIs to get the
+> current link speed and enable the LED accordingly. Under netdev event
+> handler the rtnl lock is already held and is not needed to be set to
+> access ethtool APIs.
+> 
+> This is especially useful for PHY and Switch that supports LEDs hw
+> control for specific link speed. (example scenario a PHY that have 2 LED
+> connected one green and one orange where the green is turned on with
+> 1000mbps speed and orange is turned on with 10mpbs speed)
+> 
+> On mode set from sysfs we check if we have enabled split link speed mode
+> and reject enabling generic link mode to prevent wrong and redundant
+> configuration.
+> 
+> Rework logic on the set baseline state to support these new modes to
+> select if we need to turn on or off the LED.
+> 
+> Add additional modes:
+> - link_10: Turn on LED when link speed is 10mbps
+> - link_100: Turn on LED when link speed is 100mbps
+> - link_1000: Turn on LED when link speed is 1000mbps
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
-This is especially useful for PHY and Switch that supports LEDs hw
-control for specific link duplex.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Add additional modes:
-- half_duplex: Turn on LED when link is half duplex
-- full_duplex: Turn on LED when link is full duplex
-
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 27 +++++++++++++++++++++++++--
- include/linux/leds.h                  |  2 ++
- 2 files changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 8e6132f069af..90b682d49998 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -55,6 +55,7 @@ struct led_netdev_data {
- 
- 	unsigned long mode;
- 	int link_speed;
-+	u8 duplex;
- 
- 	bool carrier_link_up;
- 	bool hw_control;
-@@ -98,6 +99,14 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
- 		    trigger_data->link_speed == SPEED_1000)
- 			blink_on = true;
- 
-+		if (test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) &&
-+		    trigger_data->duplex == DUPLEX_HALF)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &trigger_data->mode) &&
-+		    trigger_data->duplex == DUPLEX_FULL)
-+			blink_on = true;
-+
- 		if (blink_on)
- 			led_set_brightness(led_cdev,
- 					   led_cdev->blink_brightness);
-@@ -190,8 +199,10 @@ static void get_device_state(struct led_netdev_data *trigger_data)
- 	if (!trigger_data->carrier_link_up)
- 		return;
- 
--	if (!__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd))
-+	if (!__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd)) {
- 		trigger_data->link_speed = cmd.base.speed;
-+		trigger_data->duplex = cmd.base.duplex;
-+	}
- }
- 
- static ssize_t device_name_show(struct device *dev,
-@@ -230,6 +241,7 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 
- 	trigger_data->carrier_link_up = false;
- 	trigger_data->link_speed = SPEED_UNKNOWN;
-+	trigger_data->duplex = DUPLEX_UNKNOWN;
- 	if (trigger_data->net_dev != NULL) {
- 		rtnl_lock();
- 		get_device_state(trigger_data);
-@@ -274,6 +286,8 @@ static ssize_t netdev_led_attr_show(struct device *dev, char *buf,
- 	case TRIGGER_NETDEV_LINK_10:
- 	case TRIGGER_NETDEV_LINK_100:
- 	case TRIGGER_NETDEV_LINK_1000:
-+	case TRIGGER_NETDEV_HALF_DUPLEX:
-+	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
- 	case TRIGGER_NETDEV_RX:
- 		bit = attr;
-@@ -302,6 +316,8 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	case TRIGGER_NETDEV_LINK_10:
- 	case TRIGGER_NETDEV_LINK_100:
- 	case TRIGGER_NETDEV_LINK_1000:
-+	case TRIGGER_NETDEV_HALF_DUPLEX:
-+	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
- 	case TRIGGER_NETDEV_RX:
- 		bit = attr;
-@@ -348,6 +364,8 @@ DEFINE_NETDEV_TRIGGER(link, TRIGGER_NETDEV_LINK);
- DEFINE_NETDEV_TRIGGER(link_10, TRIGGER_NETDEV_LINK_10);
- DEFINE_NETDEV_TRIGGER(link_100, TRIGGER_NETDEV_LINK_100);
- DEFINE_NETDEV_TRIGGER(link_1000, TRIGGER_NETDEV_LINK_1000);
-+DEFINE_NETDEV_TRIGGER(half_duplex, TRIGGER_NETDEV_HALF_DUPLEX);
-+DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
- DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
- DEFINE_NETDEV_TRIGGER(rx, TRIGGER_NETDEV_RX);
- 
-@@ -394,6 +412,8 @@ static struct attribute *netdev_trig_attrs[] = {
- 	&dev_attr_link_10.attr,
- 	&dev_attr_link_100.attr,
- 	&dev_attr_link_1000.attr,
-+	&dev_attr_full_duplex.attr,
-+	&dev_attr_half_duplex.attr,
- 	&dev_attr_rx.attr,
- 	&dev_attr_tx.attr,
- 	&dev_attr_interval.attr,
-@@ -425,6 +445,7 @@ static int netdev_trig_notify(struct notifier_block *nb,
- 
- 	trigger_data->carrier_link_up = false;
- 	trigger_data->link_speed = SPEED_UNKNOWN;
-+	trigger_data->duplex = DUPLEX_UNKNOWN;
- 	switch (evt) {
- 	case NETDEV_CHANGENAME:
- 		get_device_state(trigger_data);
-@@ -486,7 +507,9 @@ static void netdev_trig_work(struct work_struct *work)
- 		invert = test_bit(TRIGGER_NETDEV_LINK, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_10, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_100, &trigger_data->mode) ||
--			 test_bit(TRIGGER_NETDEV_LINK_1000, &trigger_data->mode);
-+			 test_bit(TRIGGER_NETDEV_LINK_1000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &trigger_data->mode);
- 		interval = jiffies_to_msecs(
- 				atomic_read(&trigger_data->interval));
- 		/* base state is ON (link present) */
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 39f15b1e772c..7d428100b42b 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -585,6 +585,8 @@ enum led_trigger_netdev_modes {
- 	TRIGGER_NETDEV_LINK_10,
- 	TRIGGER_NETDEV_LINK_100,
- 	TRIGGER_NETDEV_LINK_1000,
-+	TRIGGER_NETDEV_HALF_DUPLEX,
-+	TRIGGER_NETDEV_FULL_DUPLEX,
- 	TRIGGER_NETDEV_TX,
- 	TRIGGER_NETDEV_RX,
- 
--- 
-2.40.1
-
+    Andrew
