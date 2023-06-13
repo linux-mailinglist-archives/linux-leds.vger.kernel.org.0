@@ -2,105 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4CAA72DA18
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Jun 2023 08:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D72472DA4A
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Jun 2023 08:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239362AbjFMGrN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 13 Jun 2023 02:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41660 "EHLO
+        id S233700AbjFMG73 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 13 Jun 2023 02:59:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238754AbjFMGrL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Jun 2023 02:47:11 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE221BC7
-        for <linux-leds@vger.kernel.org>; Mon, 12 Jun 2023 23:47:01 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f8d2bfec9bso523285e9.0
-        for <linux-leds@vger.kernel.org>; Mon, 12 Jun 2023 23:47:01 -0700 (PDT)
+        with ESMTP id S240275AbjFMG71 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Jun 2023 02:59:27 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585261734
+        for <linux-leds@vger.kernel.org>; Mon, 12 Jun 2023 23:59:20 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-977d4a1cf0eso738726966b.1
+        for <linux-leds@vger.kernel.org>; Mon, 12 Jun 2023 23:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686638819; x=1689230819;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=linaro.org; s=google; t=1686639559; x=1689231559;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=02cZUxsOqGfZ8lXmchHjzAFGxYbEcf/VDvBL7ckHl/M=;
-        b=hKm0C1CuMJaIu2eNk6rIDpUz1RWQ/iGh9mP7XAV/Qht00URUaHpXipQXWiXvxvxQ10
-         jc1Hm2Ewm9nsGigWSZ4P7mjQNRH606pxCpTGwkHFQ9+1tCEge7+8nUmnl5Sd9Ra7r7xq
-         YpVPe/OPAIkKEfcWGUR4VPYS5D4pf6kB5g0Bwtgz831JXhToLyyfY6fDsQUPzaZTY0Pm
-         PDYGSEk/qV3XPF97oPZUD3EDOmpUbIYpjU0dnXiIhtTPpOZeMiNqgUnSVoddTRAhk+rM
-         bBEuW4yf1lm/ZMz0yb4IfOLXRCQUzhdt1aYcM0aEMVDEkFIyZ+rYrFk+E93zjGRehG+3
-         sr+A==
+        bh=kUom7HJpVJoM9u75rT8LlJsMQ4Qj71rU7ZteFE9/Wg4=;
+        b=m4XzXJjCD1NIVb9noSZsYX0RV1+q1j2eA+ujnldMADVT4a/YPUejB686DxU0MrB12a
+         6xlADstB9BqKJjw0Ycf0q+rp1TmOJhWnx3O4KwWpG3np2APHC4Gt0N4FKF0EhylROSn3
+         PMUs6RxF0qdZpBNlUkkVl1veBkafWg4GYikDVMSNSpd3fUiZMBlb6GjZp29gndbi/Cny
+         r6dHIZa1orIXnVbh3imeut7O6l7U6P1ii42k+7if+UtlUxfVMv55lPJ1DsXuL6yFLINw
+         A035ibIFPeSNNxXySyxGwzgnZkFCMgvUSjF0i8LZgES5bRQ5Wg5NB7dNI2HNCvI0EO5r
+         1IRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686638819; x=1689230819;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1686639559; x=1689231559;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=02cZUxsOqGfZ8lXmchHjzAFGxYbEcf/VDvBL7ckHl/M=;
-        b=kWtclIP3LNRy3U/qWbKxO3AlzdHY/hG6n+E7dhvBt5WaKItbIocaZEJCK5/MRJwQhu
-         hSbV5cjIE3/R7DOI5F+i1sz9U7fEQLEzlTABEiUQUU/NLjhExA0qWHvI6lMR6G57DQGs
-         eUlDGjEgb7pW6KUyEdZR10BnKFGmS5BjQ9e1TuTZGQQ1a+JBbUuL3Z2BQDSxCXN4i6RK
-         qGadRw9OizPCUJ+kAsJCTOA/Kxhe0Ht9Jwx4g6ULWPDuE4qHWtlUB+iJfavX9SyzWddZ
-         DQHE3O5Wf8GAADUk7RMtRPDu/8GeEQh63UWYYHatzvtPm3RJ3kA5QhfuR/O8FDYmvA2T
-         hOAw==
-X-Gm-Message-State: AC+VfDwbLfQKiv4QTYCVQ/TDeQ+n8pODLVVMYey9PlM4scEGSWlkEEEC
-        UkvdLZbW0JevT4w3qyhJU1pNUg==
-X-Google-Smtp-Source: ACHHUZ7jLXGNINNFmi15PwujwvIU2N90t+1cq56bMQ/WiVjOp1HKtrySJyLsof5kHSHuUy2YkGQ3YA==
-X-Received: by 2002:a7b:c349:0:b0:3f7:408e:b89b with SMTP id l9-20020a7bc349000000b003f7408eb89bmr9070856wmj.33.1686638819250;
-        Mon, 12 Jun 2023 23:46:59 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c228b00b003f7361ca753sm13326057wmf.24.2023.06.12.23.46.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 23:46:57 -0700 (PDT)
-Date:   Tue, 13 Jun 2023 09:46:53 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v2 led] leds: trigger: netdev: uninitialized variable in
- netdev_trig_activate()
-Message-ID: <6fbb3819-a348-4cc3-a1d0-951ca1c380d6@moroto.mountain>
+        bh=kUom7HJpVJoM9u75rT8LlJsMQ4Qj71rU7ZteFE9/Wg4=;
+        b=fT8HQ6SeJWNXpw1dkPWIs1Uij+aDV7W/Ppg8gkuGaA9nnsajmHo67zHQjscYEfacS4
+         Za3wctD7CDuC3uscSYWGoGEu0QIeRhHFrWL0jd1awS/sNPqOwPG6M6Q/4+H2IOPJglpZ
+         /kEnYWxOz8qs7ypBBuSU+cooNFkW9HSyonxCclgHleDNKzhvoTI+smq/udKNCejPiIg8
+         QWi57buF9QS1k5D9Is5cGZpbtlYKyTWD0F7nppLOKJXRjKaeAAU/KDLYXoALdEiJqMS9
+         UPApseGntS22OvqHq/eQt5NawV50thg/U4bJhl+TtXbuY6UcZWaf4b3p3o5AXpLLEWnf
+         Cfpg==
+X-Gm-Message-State: AC+VfDxczoH81RKaHRfh2YA6yL3XC/eQd4Y5zG3BnAVhheyDQVP5mvQm
+        UB13wJQyh1NUN59hDcp2szt4Hg==
+X-Google-Smtp-Source: ACHHUZ6/EQX5Qczk2I0uyYwLKFD4UijnTnxAYgIgn0fDlI00ItETyXmRKPL/ABG4AclC+GxCfRQMow==
+X-Received: by 2002:a17:906:fe0a:b0:977:d048:ff9c with SMTP id wy10-20020a170906fe0a00b00977d048ff9cmr9967874ejb.31.1686639558860;
+        Mon, 12 Jun 2023 23:59:18 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id l14-20020a170906a40e00b0097382ed45cbsm6151099ejz.108.2023.06.12.23.59.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 23:59:18 -0700 (PDT)
+Message-ID: <d8a09620-9891-8072-8602-403128ba8d30@linaro.org>
+Date:   Tue, 13 Jun 2023 08:59:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v3 3/8] dt-bindings: leds: leds-mt6323: Support WLED
+ output
+Content-Language: en-US
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, pavel@ucw.cz
+Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
+ <20230601110813.2373764-4-angelogioacchino.delregno@collabora.com>
+ <75d78713-fc8f-24a9-a422-2b4d57c5d488@linaro.org>
+ <88f37d33-6545-d307-17a9-896e86d0ed50@collabora.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <88f37d33-6545-d307-17a9-896e86d0ed50@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The qca8k_cled_hw_control_get() function which implements ->hw_control_get
-sets the appropriate bits but does not clear them.  This leads to an
-uninitialized variable bug.  Fix this by setting mode to zero at the
-start.
+On 09/06/2023 09:51, AngeloGioacchino Del Regno wrote:
+> Il 02/06/23 10:32, Krzysztof Kozlowski ha scritto:
+>> On 01/06/2023 13:08, AngeloGioacchino Del Regno wrote:
+>>> Some PMICs have a separated WLED string output: add a property
+>>> `mediatek,is-wled` to indicate which LED string is a WLED.
+>>>
+>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>> ---
+>>>   Documentation/devicetree/bindings/leds/leds-mt6323.txt | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+>>> index 052dccb8f2ce..904b2222a5fe 100644
+>>> --- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+>>> +++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+>>> @@ -30,6 +30,7 @@ Optional properties for the LED child node:
+>>>   - label : See Documentation/devicetree/bindings/leds/common.txt
+>>>   - linux,default-trigger : See Documentation/devicetree/bindings/leds/common.txt
+>>>   - default-state: See Documentation/devicetree/bindings/leds/common.txt
+>>> +- mediatek,is-wled: LED string is connected to WLED output
+>>
+>> Why would it matter to what the output is connected to?
+> 
+> When this property is present, the MT6323 LEDs are managed through different
+> hardware registers which are specific to WLEDs: if we have no indication of
+> whether this is a WLED or a LED, we would program the wrong registers.
+> 
 
-Fixes: e0256648c831 ("net: dsa: qca8k: implement hw_control ops")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-v2: In the original patch I fixed qca8k_cled_hw_control_get() instead
-so that patch went to netdev instead of to the led subsystem.
-https://lore.kernel.org/all/5dff3719-f827-45b6-a0d3-a00efed1099b@moroto.mountain/
-Fixing it here is a more reliable way to do it.
+OK, so it is rather the choice of output in the device? What is "LED
+string" in this context?
 
- drivers/leds/trigger/ledtrig-netdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index b0a6f2749552..2311dae7f070 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -445,7 +445,7 @@ static void netdev_trig_work(struct work_struct *work)
- static int netdev_trig_activate(struct led_classdev *led_cdev)
- {
- 	struct led_netdev_data *trigger_data;
--	unsigned long mode;
-+	unsigned long mode = 0;
- 	struct device *dev;
- 	int rc;
- 
--- 
-2.39.2
+Best regards,
+Krzysztof
 
