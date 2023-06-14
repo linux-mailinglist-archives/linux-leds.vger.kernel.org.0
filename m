@@ -2,87 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C10372EF27
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Jun 2023 00:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F1F872F10B
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Jun 2023 02:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232159AbjFMW1Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 13 Jun 2023 18:27:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60580 "EHLO
+        id S230495AbjFNAgC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 13 Jun 2023 20:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbjFMW1P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Jun 2023 18:27:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2FA19B1;
-        Tue, 13 Jun 2023 15:27:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE03463B91;
-        Tue, 13 Jun 2023 22:27:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3AEC433CC;
-        Tue, 13 Jun 2023 22:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686695232;
-        bh=tRJQBbwZtaJ6NQT1/dC04nb57z6Mm49syrgZQgiFZKQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X0pHg8OA3PIfY7MEpiGS4CnR5QMTkebIhMLdLJmHcRcpVHwREOR1oYpB7Wggf+kZw
-         avODGCtlWEgJ4Y1b5LG31rvjyNps2PmPgKHclDT8EBRJ4K0TWlVvrrfYeAP4bfTuKS
-         Wmq8In4o92ccnRshzFA4bCKgC/If8ceFCzCEWzWr7jKG4g025woNc7wDw5ZZUABIho
-         awV0MmSL5+NGCve9LrduhLoQDS4DK1uQf19VDD4NIP7xk3uBuw23WSecOHoD+UIkiT
-         /ju2/cYcamhhlwUk7qqik25+aRhWlb87XNJgR7in1HU0DUuq+ogDvZWIIMy2qGRbE9
-         rrtnTp2wxtdlQ==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Artur Weber <aweber.kernel@gmail.com>, Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jingoo Han <jingoohan1@gmail.com>, linux-tegra@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, linux-leds@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Helge Deller <deller@gmx.de>,
-        linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
-        Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/4] video: backlight: lp855x: modernize bindings
-Date:   Tue, 13 Jun 2023 15:30:10 -0700
-Message-Id: <168669542896.1315701.6764382551599027707.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230519180728.2281-1-aweber.kernel@gmail.com>
-References: <20230519180728.2281-1-aweber.kernel@gmail.com>
+        with ESMTP id S229641AbjFNAgB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Jun 2023 20:36:01 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043931732;
+        Tue, 13 Jun 2023 17:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=bVKrrNJwZuVmv2f2UGRtWZ+13ZxBHIFMIaxVs/EFkcY=; b=YHg/JEBYL8p4bhBqIXwBh78T2j
+        STlPxAnCQHka/7x5IiRlrS7zqZl0KBQMEfAsVrWvb6/oJNeacIkvC/tIS4llAymWCn0tab1eroWBf
+        pSbmKNLYIdPJtMiYRqv61P+OP6mafMDxHKC3/P8d0yDTtbPG2aa1ygJEzRYBy+P/G/WY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q9EU8-00FsAB-2A; Wed, 14 Jun 2023 02:35:40 +0200
+Date:   Wed, 14 Jun 2023 02:35:40 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] leds: trigger: netdev: add additional specific
+ link duplex mode
+Message-ID: <19414dda-845c-4d7e-ba22-a5f3ef8c0e09@lunn.ch>
+References: <20230611144759.6096-1-ansuelsmth@gmail.com>
+ <20230611144759.6096-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230611144759.6096-3-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 19 May 2023 20:07:24 +0200, Artur Weber wrote:
-> Convert TI LP855X backlight controller bindings from TXT to YAML and,
-> while we're at it, rework some of the code related to PWM handling.
-> Also correct existing DTS files to avoid introducing new dtb_check
-> errors.
+On Sun, Jun 11, 2023 at 04:47:59PM +0200, Christian Marangi wrote:
+> Add additional modes for specific link duplex. Use ethtool APIs to get the
+> current link duplex and enable the LED accordingly. Under netdev event
+> handler the rtnl lock is already held and is not needed to be set to
+> access ethtool APIs.
 > 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> This is especially useful for PHY and Switch that supports LEDs hw
+> control for specific link duplex.
 > 
-> [...]
+> Add additional modes:
+> - half_duplex: Turn on LED when link is half duplex
+> - full_duplex: Turn on LED when link is full duplex
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
-Applied, thanks!
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-[4/4] arm64: dts: adapt to LP855X bindings changes
-      commit: ebdcfc8c42c2b9d5ca1b27d8ee558eefb3e904d8
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+    Andrew
