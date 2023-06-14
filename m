@@ -2,109 +2,206 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08D3072F7EA
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Jun 2023 10:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EA9072F800
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Jun 2023 10:40:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234266AbjFNIdR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Jun 2023 04:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58356 "EHLO
+        id S235045AbjFNIkP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Jun 2023 04:40:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243263AbjFNIdP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Jun 2023 04:33:15 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC7B1985;
-        Wed, 14 Jun 2023 01:33:13 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EA0EB6606F13;
-        Wed, 14 Jun 2023 09:33:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686731592;
-        bh=O4wceCLCcU4ElsM9C74KpJfkq3+lvd+dFw6bAs1GHuI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=UabF4q/AwVwNZNBrPx33yKyXzurYBJFapho6dYnLVtDEWtAxSdHWo8zd0MbGkWVuz
-         kLNHFkQq9vPSkVS3bq6uQzKJkEN3o6Wbbjl2D6DGjm/Ha9rOGjOruUW+aieZp1CAt0
-         eP1CjrKxLJIto7O7nBt72xAiakCihCQA9bdFsJPs6mZw1+5lkad/5pdnaNNRoGt7do
-         tL8RxHK8tG0luAGntFRK7ObLFpuyxtgvsDUsGJL0qrE0dnP36XKwcsbeWDBfGc3oM+
-         TFUvyZu0fRoSCaKgurJNAarfJBlVnpgeXBTRbx2vxIQFfIq0GqafeSLEVTypJ7plkc
-         mBf618f6rVFVQ==
-Message-ID: <6daa58c7-055f-bcef-f82d-c83c0941d13c@collabora.com>
-Date:   Wed, 14 Jun 2023 10:33:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 3/8] dt-bindings: leds: leds-mt6323: Support WLED
- output
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, pavel@ucw.cz
-Cc:     lee@kernel.org, sean.wang@mediatek.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        with ESMTP id S233158AbjFNIkO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Jun 2023 04:40:14 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A65186
+        for <linux-leds@vger.kernel.org>; Wed, 14 Jun 2023 01:40:13 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9M2n-0006Xo-A7; Wed, 14 Jun 2023 10:39:57 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9M2l-007JTu-5z; Wed, 14 Jun 2023 10:39:55 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q9M2j-00E9QN-TW; Wed, 14 Jun 2023 10:39:53 +0200
+Date:   Wed, 14 Jun 2023 10:39:53 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Artur Weber <aweber.kernel@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
- <20230601110813.2373764-4-angelogioacchino.delregno@collabora.com>
- <75d78713-fc8f-24a9-a422-2b4d57c5d488@linaro.org>
- <88f37d33-6545-d307-17a9-896e86d0ed50@collabora.com>
- <d8a09620-9891-8072-8602-403128ba8d30@linaro.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <d8a09620-9891-8072-8602-403128ba8d30@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-pwm@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 2/4] video: backlight: lp855x: get PWM for PWM mode
+ during probe
+Message-ID: <20230614083953.e4kkweddjz7wztby@pengutronix.de>
+References: <20230429104534.28943-1-aweber.kernel@gmail.com>
+ <20230429104534.28943-3-aweber.kernel@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ek7wuekooig4rg5c"
+Content-Disposition: inline
+In-Reply-To: <20230429104534.28943-3-aweber.kernel@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 13/06/23 08:59, Krzysztof Kozlowski ha scritto:
-> On 09/06/2023 09:51, AngeloGioacchino Del Regno wrote:
->> Il 02/06/23 10:32, Krzysztof Kozlowski ha scritto:
->>> On 01/06/2023 13:08, AngeloGioacchino Del Regno wrote:
->>>> Some PMICs have a separated WLED string output: add a property
->>>> `mediatek,is-wled` to indicate which LED string is a WLED.
->>>>
->>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>> ---
->>>>    Documentation/devicetree/bindings/leds/leds-mt6323.txt | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->>>> index 052dccb8f2ce..904b2222a5fe 100644
->>>> --- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->>>> +++ b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
->>>> @@ -30,6 +30,7 @@ Optional properties for the LED child node:
->>>>    - label : See Documentation/devicetree/bindings/leds/common.txt
->>>>    - linux,default-trigger : See Documentation/devicetree/bindings/leds/common.txt
->>>>    - default-state: See Documentation/devicetree/bindings/leds/common.txt
->>>> +- mediatek,is-wled: LED string is connected to WLED output
->>>
->>> Why would it matter to what the output is connected to?
->>
->> When this property is present, the MT6323 LEDs are managed through different
->> hardware registers which are specific to WLEDs: if we have no indication of
->> whether this is a WLED or a LED, we would program the wrong registers.
->>
-> 
-> OK, so it is rather the choice of output in the device? What is "LED
-> string" in this context?
-> 
 
-"LED string" is a term that is commonly used to refer to an array of LEDs.
-Usually, in the context of displays (so, WLED!), it refers to the LEDs array
-that forms the backlight.
+--ek7wuekooig4rg5c
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And yes, it's choice of output in the HW.
+On Sat, Apr 29, 2023 at 12:45:32PM +0200, Artur Weber wrote:
+> Also deprecate the pwm-period DT property, as it is now redundant
+> (pwms property already contains period value).
+>=20
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> ---
+>  drivers/video/backlight/lp855x_bl.c | 48 ++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backligh=
+t/lp855x_bl.c
+> index 81012bf29baf..21eb4943ed56 100644
+> --- a/drivers/video/backlight/lp855x_bl.c
+> +++ b/drivers/video/backlight/lp855x_bl.c
+> @@ -218,23 +218,10 @@ static int lp855x_configure(struct lp855x *lp)
+> =20
+>  static void lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
+>  {
+> -	struct pwm_device *pwm;
+>  	struct pwm_state state;
+> =20
+> -	/* request pwm device with the consumer name */
+> -	if (!lp->pwm) {
+> -		pwm =3D devm_pwm_get(lp->dev, lp->chipname);
+> -		if (IS_ERR(pwm))
+> -			return;
+> -
+> -		lp->pwm =3D pwm;
+> -
+> -		pwm_init_state(lp->pwm, &state);
+> -	} else {
+> -		pwm_get_state(lp->pwm, &state);
+> -	}
+> +	pwm_get_state(lp->pwm, &state);
 
-Cheers,
-Angelo
+pwm_get_state returns an error code. Do you care if it fails? (You
+probably should.)
+> =20
+> -	state.period =3D lp->pdata->period_ns;
+>  	state.duty_cycle =3D div_u64(br * state.period, max_br);
+>  	state.enabled =3D state.duty_cycle;
+> =20
+> @@ -339,6 +326,7 @@ static int lp855x_parse_dt(struct lp855x *lp)
+>  	of_property_read_string(node, "bl-name", &pdata->name);
+>  	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
+>  	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
+> +	/* Deprecated, specify period in pwms property instead */
+>  	of_property_read_u32(node, "pwm-period", &pdata->period_ns);
+> =20
+>  	/* Fill ROM platform data if defined */
+> @@ -399,6 +387,7 @@ static int lp855x_probe(struct i2c_client *cl)
+>  	const struct i2c_device_id *id =3D i2c_client_get_device_id(cl);
+>  	const struct acpi_device_id *acpi_id =3D NULL;
+>  	struct device *dev =3D &cl->dev;
+> +	struct pwm_state pwmstate;
+>  	struct lp855x *lp;
+>  	int ret;
+> =20
+> @@ -457,11 +446,6 @@ static int lp855x_probe(struct i2c_client *cl)
+>  		}
+>  	}
+> =20
+> -	if (lp->pdata->period_ns > 0)
+> -		lp->mode =3D PWM_BASED;
+> -	else
+> -		lp->mode =3D REGISTER_BASED;
+> -
+>  	lp->supply =3D devm_regulator_get(dev, "power");
+>  	if (IS_ERR(lp->supply)) {
+>  		if (PTR_ERR(lp->supply) =3D=3D -EPROBE_DEFER)
+> @@ -472,11 +456,31 @@ static int lp855x_probe(struct i2c_client *cl)
+>  	lp->enable =3D devm_regulator_get_optional(dev, "enable");
+>  	if (IS_ERR(lp->enable)) {
+>  		ret =3D PTR_ERR(lp->enable);
+> -		if (ret =3D=3D -ENODEV) {
+> +		if (ret =3D=3D -ENODEV)
+>  			lp->enable =3D NULL;
+> -		} else {
+> +		else
+>  			return dev_err_probe(dev, ret, "getting enable regulator\n");
+> -		}
+> +	}
+> +
+> +	lp->pwm =3D devm_pwm_get(lp->dev, lp->chipname);
+> +	if (IS_ERR(lp->pwm)) {
+> +		ret =3D PTR_ERR(lp->pwm);
+> +		if (ret =3D=3D -ENODEV || ret =3D=3D -EINVAL)
 
+Why would you ignore EINVAL?
+
+> +			lp->pwm =3D NULL;
+> +		else
+> +			return dev_err_probe(dev, ret, "getting PWM\n");
+> +
+> +		lp->mode =3D REGISTER_BASED;
+> +		dev_dbg(dev, "mode: register based\n");
+> +	} else {
+
+pwmstate could be declared here.
+
+> +		pwm_init_state(lp->pwm, &pwmstate);
+> +		/* Legacy platform data compatibility */
+> +		if (lp->pdata->period_ns > 0)
+> +			pwmstate.period =3D lp->pdata->period_ns;
+> +		pwm_apply_state(lp->pwm, &pwmstate);
+
+This is a change in behaviour. Before lp855x_probe() didn't modify the
+state the bootloader left the backlight in. Now you're disabling it (I
+think). Is this intended?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ek7wuekooig4rg5c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJfNkACgkQj4D7WH0S
+/k5BdAgAs/Rb0sNvnazKhyxx1/2B+8B8l05A3se8y+qIfYwQkuhUfSSbRq80AX6G
+E3LMnbhe/ZeJSNWsxC27KTQfq0549+UgOrKjn6C4XgHk2hXOHTddWHmYDdwXu2WP
+Xioakfi2oNQxtyyGpx/moi+RLXGkiENoMqdoVdoXv/s4xY9vYHGOh1y6wf24yODH
+qSmd4fhumjKaqhl60wyH8n9JJJP2RFf3qIvH1Y4f421I8mZNriOjdPoou4b8ra5t
+o/MjffWe9Jx6h4IWGnl3YWM2t2c9jNnFcEnEtQKnSRBnCtFJC30WfKdGQPuxYYvh
+LF47pzLCWDJQBbJYpKZ6u02A8AOQog==
+=ZFS9
+-----END PGP SIGNATURE-----
+
+--ek7wuekooig4rg5c--
