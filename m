@@ -2,89 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6BB7315C3
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jun 2023 12:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5447319D8
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jun 2023 15:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245692AbjFOKu1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Jun 2023 06:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
+        id S1344001AbjFONZC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Jun 2023 09:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245643AbjFOKuY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jun 2023 06:50:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4969F2119;
-        Thu, 15 Jun 2023 03:50:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 816A5637CE;
-        Thu, 15 Jun 2023 10:50:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DED0DC433A9;
-        Thu, 15 Jun 2023 10:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686826220;
-        bh=LEwkqHixw0z0OGcrNEwNOb/Nt8oETkR9AizJXI9T9WQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=JI2TzUnz5SdfTzjKhtSNRAAyLJQsuOzh6e3wCpGAXEAtA2cx6ttqoTWlmhGsLhSYZ
-         QuAV+0FFdkkCe/fSNIg4FproybbjCMbQ98KF+3350iyyUZnspFq9NDa/6McKJgB9Jq
-         9Mrms2cfPhYtTDYaBHZdiLbtG9SRUmeB+K4dbdf1C0mMG0GyYrMy99l8fAbZ434QBh
-         wtI6GnV3O3adz83slsyCd5JMgdSkQBS7pZd0bO5R8+F//xykCEN/58lHDFJW3aAXLH
-         0TbkHLmCDq1NxDngQS/COh0w+ZIVoDHp7baN86KFsLEIkwewv55Tsty0Krm7BRY/JW
-         YmXnq5rq9JhXA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CA7FFC395C7;
-        Thu, 15 Jun 2023 10:50:20 +0000 (UTC)
+        with ESMTP id S240465AbjFONYp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jun 2023 09:24:45 -0400
+Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A043A270A;
+        Thu, 15 Jun 2023 06:24:44 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id E95E84E7BE85;
+        Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vCWv5wv-e4bs; Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id EBCB74E7B17E;
+        Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com EBCB74E7B17E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
+        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686792721;
+        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=Tf7FWIxmdKqazaA50P1tzZyaij5Ra09whYpkGOTGYx+leNni4csixyNmnwapzLMY2
+         +SOpRTJcX2lJnWiyFTPPI52jdJFLC3Gxr0naX/qVoa40FXnTKMGLRrGytzuhmkrmVM
+         k02AK/m4j2GD7DBUtHZE2HAZ+7UeAeKuRJ1AWMmjaihfUvhOIW8sdcNMkWbliDVDE7
+         eBGbm0b+95+pUEgOc4ZUN2bi4mz0Wl5JgtWaG6la0EW/TSHLPcdc3Jrt7NdhMutJXj
+         EIdh2qJ3eZonpgVb2xu68Wd7xlr6RojQtmjH+Aqe5kBFTbiCRiRMxjMeXTn+KenIDo
+         Ipp2GuTzEJTPQ==
+X-Virus-Scanned: amavisd-new at mail.sitirkam.com
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id eMG2ZXjSIsZl; Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+Received: from [185.169.4.111] (unknown [185.169.4.111])
+        by mail.sitirkam.com (Postfix) with ESMTPSA id 230F94E7B17F;
+        Thu, 15 Jun 2023 08:31:55 +0700 (WIB)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 net-next resend] leds: trigger: netdev: uninitialized
- variable in netdev_trig_activate()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168682622082.15431.1307423348951437453.git-patchwork-notify@kernel.org>
-Date:   Thu, 15 Jun 2023 10:50:20 +0000
-References: <ZIlmX/ClDXwxQncL@kadam>
-In-Reply-To: <ZIlmX/ClDXwxQncL@kadam>
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     ansuelsmth@gmail.com, f.fainelli@gmail.com, olteanv@gmail.com,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        pavel@ucw.cz, netdev@vger.kernel.org, lee@kernel.org,
-        andrew@lunn.ch, davem@davemloft.net, linux-leds@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <admin@sitirkam.com>
+From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
+Date:   Wed, 14 Jun 2023 18:34:03 -0700
+Reply-To: schaefflermariaelisabeth1941@gmail.com
+Message-Id: <20230615013156.230F94E7B17F@mail.sitirkam.com>
+X-Spam-Status: No, score=2.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello:
+Your email account has been selected for a donation of =E2=82=AC1,700,000. =
+Please contact me for more information.
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Wed, 14 Jun 2023 10:03:59 +0300 you wrote:
-> The qca8k_cled_hw_control_get() function which implements ->hw_control_get
-> sets the appropriate bits but does not clear them.  This leads to an
-> uninitialized variable bug.  Fix this by setting mode to zero at the
-> start.
-> 
-> Fixes: e0256648c831 ("net: dsa: qca8k: implement hw_control ops")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2,net-next,resend] leds: trigger: netdev: uninitialized variable in netdev_trig_activate()
-    https://git.kernel.org/netdev/net-next/c/97c5209b3d37
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
