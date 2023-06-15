@@ -2,53 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2C7731AD5
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jun 2023 16:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F301731DF3
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jun 2023 18:38:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344888AbjFOOIT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Jun 2023 10:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40380 "EHLO
+        id S229913AbjFOQil (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Jun 2023 12:38:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344881AbjFOOIS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jun 2023 10:08:18 -0400
+        with ESMTP id S229567AbjFOQik (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jun 2023 12:38:40 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC3C2684;
-        Thu, 15 Jun 2023 07:08:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFECFE69;
+        Thu, 15 Jun 2023 09:38:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C4B0E63805;
-        Thu, 15 Jun 2023 14:08:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2316C433C8;
-        Thu, 15 Jun 2023 14:08:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 549D361999;
+        Thu, 15 Jun 2023 16:38:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A5EC433C8;
+        Thu, 15 Jun 2023 16:38:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686838091;
-        bh=pnMGY4VOdSfwPwH1mhg80pokWgIcdnqfvZi5gTGn9PA=;
+        s=k20201202; t=1686847118;
+        bh=F22bVWQutuqXY4+tXA/ymZHSWuT7v9Xwt1AL5BPn/Ug=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jRocs38yV3gnDxREsF09Z91oBExE2+Nkj8r7L/ZLT29hDOgBRzrZz+BmVMfopWPdt
-         KBq3/ztk2pCqLSX3vvM1JfUNQANqPiTAyQknaURYp1Zh2i+oqEFvBEPW1wXsA6z/vp
-         fH91WH4qq+D7i73O5CL2yxVCOsz7z7P7TDg27DvMWYm7PZR6uUqSzxQfQU4qR5rKR0
-         G06hpnVXQuMQmCs3LVhXviJEtz/Fg/oK3v5+97lQeuhDJaOjCiEOMOXJEOiAEtC1K4
-         gy9ex126qCpQu9Y6aEJIDtw9mpg1ZEDwrxPbYlowfJqlKa5NefjAiBIxkTdGLPRhyc
-         BwmvrpX4Bx8NA==
-Date:   Thu, 15 Jun 2023 15:08:05 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        b=TgMX6Ci6I/OTSdrWAA8xWQSNewYLAz7PSAhLvL3XEzyiVsdb+fa57gAMuSUwJ+VEi
+         D8peYgh/500K9tDptketizD2OyA11Z9hhQs6EfhuUskeux0oqWl1R+mCVtTf1/81+v
+         WtdrbmquTupacBXtvNEhXwID/vFmAChiMbU0Rd9+1KgutYzZej0tuI5WzYw2H6i9In
+         hUnf6QzByudzLsdKs41jDQEcyW2DSllNSYGdAsXV6+gMhklsyGScmJxqcOZc49zGMt
+         429G5Mod+R821/wtV1v4dEzJH3zLalqcpx+xvhGYorAq+EMGOoQMFmMzKLHwX5UXZT
+         aOuOAZMjJ/hMQ==
+Date:   Thu, 15 Jun 2023 09:41:58 -0700
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Artur Weber <aweber.kernel@gmail.com>, Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: drop unneeded quotes
-Message-ID: <20230615140805.GI3635807@google.com>
-References: <20230609140725.64771-1-krzysztof.kozlowski@linaro.org>
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Jingoo Han <jingoohan1@gmail.com>, linux-tegra@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, linux-leds@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Helge Deller <deller@gmx.de>,
+        linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+        Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/4] video: backlight: lp855x: modernize
+ bindings
+Message-ID: <20230615164158.6tpsd766mqx3o7y4@ripper>
+References: <20230519180728.2281-1-aweber.kernel@gmail.com>
+ <168669542896.1315701.6764382551599027707.b4-ty@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230609140725.64771-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <168669542896.1315701.6764382551599027707.b4-ty@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -59,18 +69,33 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 09 Jun 2023, Krzysztof Kozlowski wrote:
-
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On Tue, Jun 13, 2023 at 03:30:10PM -0700, Bjorn Andersson wrote:
+> On Fri, 19 May 2023 20:07:24 +0200, Artur Weber wrote:
+> > Convert TI LP855X backlight controller bindings from TXT to YAML and,
+> > while we're at it, rework some of the code related to PWM handling.
+> > Also correct existing DTS files to avoid introducing new dtb_check
+> > errors.
+> > 
+> > Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> > 
+> > [...]
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/leds/leds-class-multicolor.yaml         | 2 +-
->  Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> Applied, thanks!
+> 
+> [4/4] arm64: dts: adapt to LP855X bindings changes
+>       commit: ebdcfc8c42c2b9d5ca1b27d8ee558eefb3e904d8
+> 
 
-Applied, thanks
+Sorry, that was not for me to pick up. So I've dropped this change
+again.
 
--- 
-Lee Jones [李琼斯]
+Please note that all other changes to the affected file is prefixed
+"arm64: tegra:". Following this is a good idea, and would have helped me
+not accidentally pick this change.
+
+Regards,
+Bjorn
+
+> Best regards,
+> -- 
+> Bjorn Andersson <andersson@kernel.org>
