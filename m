@@ -2,42 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AF9D732D0D
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jun 2023 12:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 475A1732D31
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Jun 2023 12:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241228AbjFPKHa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Jun 2023 06:07:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
+        id S241806AbjFPKQ0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Jun 2023 06:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244917AbjFPKGz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Jun 2023 06:06:55 -0400
-X-Greylist: delayed 502 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 16 Jun 2023 03:06:19 PDT
-Received: from 6.mo562.mail-out.ovh.net (6.mo562.mail-out.ovh.net [46.105.48.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E534422C
-        for <linux-leds@vger.kernel.org>; Fri, 16 Jun 2023 03:06:19 -0700 (PDT)
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net [51.68.80.175])
-        by mo562.mail-out.ovh.net (Postfix) with ESMTPS id 4F71323F51;
+        with ESMTP id S244894AbjFPKQR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Jun 2023 06:16:17 -0400
+Received: from 9.mo563.mail-out.ovh.net (9.mo563.mail-out.ovh.net [46.105.73.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7063130CF
+        for <linux-leds@vger.kernel.org>; Fri, 16 Jun 2023 03:16:15 -0700 (PDT)
+Received: from director3.derp.mail-out.ovh.net (director3.derp.mail-out.ovh.net [152.228.215.222])
+        by mo563.mail-out.ovh.net (Postfix) with ESMTPS id BFF98239AA;
         Fri, 16 Jun 2023 09:57:55 +0000 (UTC)
-Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net. [127.0.0.1])
-        by director1.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <andy.shevchenko@gmail.com>; Fri, 16 Jun 2023 09:57:55 +0000 (UTC)
-Received: from pro2.mail.ovh.net (unknown [10.108.20.117])
-        by director1.derp.mail-out.ovh.net (Postfix) with ESMTPS id E62A81FA43E;
-        Fri, 16 Jun 2023 09:57:54 +0000 (UTC)
+Received: from director3.derp.mail-out.ovh.net (director3.derp.mail-out.ovh.net. [127.0.0.1])
+        by director3.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
+        for <conor+dt@kernel.org>; Fri, 16 Jun 2023 09:57:55 +0000 (UTC)
+Received: from pro2.mail.ovh.net (unknown [10.108.16.74])
+        by director3.derp.mail-out.ovh.net (Postfix) with ESMTPS id 93AC7107971;
+        Fri, 16 Jun 2023 09:57:55 +0000 (UTC)
 Received: from traphandler.com (88.161.25.233) by DAG1EX1.emp2.local
  (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 16 Jun
- 2023 11:57:54 +0200
+ 2023 11:57:55 +0200
 From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
 To:     <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>
 CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v9 1/5] devres: provide devm_krealloc_array()
-Date:   Fri, 16 Jun 2023 11:57:42 +0200
-Message-ID: <20230616095746.872220-2-jjhiblot@traphandler.com>
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v9 3/5] leds: class: store the color index in struct led_classdev
+Date:   Fri, 16 Jun 2023 11:57:44 +0200
+Message-ID: <20230616095746.872220-4-jjhiblot@traphandler.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230616095746.872220-1-jjhiblot@traphandler.com>
 References: <20230616095746.872220-1-jjhiblot@traphandler.com>
@@ -47,10 +45,10 @@ Content-Type:   text/plain; charset=US-ASCII
 X-Originating-IP: [88.161.25.233]
 X-ClientProxiedBy: CAS3.emp2.local (172.16.1.3) To DAG1EX1.emp2.local
  (172.16.2.1)
-X-Ovh-Tracer-Id: 3612731326956714375
+X-Ovh-Tracer-Id: 3612731329022540251
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgedvgedgvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfgtihesthekredtredttdenucfhrhhomheplfgvrghnqdflrggtqhhuvghsucfjihgslhhothcuoehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepudetveelveevgffgvdeuffffjefhheehueeitdegtdejgefhheeuuddugeeffeeunecukfhppedtrddtrddtrddtpdekkedrudeiuddrvdehrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopeguihhrvggtthhorhdurdguvghrphdrmhgrihhlqdhouhhtrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjjhhhihgslhhothesthhrrghphhgrnhgulhgvrhdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhlvggushesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheeivd
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgedvgedgvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffojghfggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeduteevleevvefggfdvueffffejhfehheeuiedtgedtjeeghfehueduudegfeefueenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepughirhgvtghtohhrfedruggvrhhprdhmrghilhdqohhuthdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehieef
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
@@ -60,43 +58,100 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Implement the managed variant of krealloc_array().
-This internally uses devm_krealloc() and as such is usable with all memory
-allocated by devm_kmalloc() (or devres functions using it implicitly like
-devm_kmemdup(), devm_kstrdup() etc.).
-
-Managed realloc'ed chunks can be manually released with devm_kfree().
+This information might be useful for more than only deriving the led's
+name. And since we have this information, we can expose it in the sysfs.
 
 Signed-off-by: Jean-Jacques Hiblot <jjhiblot@traphandler.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- include/linux/device.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ Documentation/ABI/testing/sysfs-class-led |  9 +++++++++
+ drivers/leds/led-class.c                  | 20 ++++++++++++++++++++
+ include/linux/leds.h                      |  1 +
+ 3 files changed, 30 insertions(+)
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 472dd24d4823..e45dc78068b7 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -223,6 +223,19 @@ static inline void *devm_kcalloc(struct device *dev,
- {
- 	return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
+index 2e24ac3bd7ef..1509e71fcde1 100644
+--- a/Documentation/ABI/testing/sysfs-class-led
++++ b/Documentation/ABI/testing/sysfs-class-led
+@@ -59,6 +59,15 @@ Description:
+ 		brightness. Reading this file when no hw brightness change
+ 		event has happened will return an ENODATA error.
+ 
++What:		/sys/class/leds/<led>/color
++Date:		June 2023
++KernelVersion:	6.5
++Description:
++		Color of the led.
++
++		This is a read-only file. Reading this file returns the color
++		of the led as a string (ex: "red", "green", "multicolor").
++
+ What:		/sys/class/leds/<led>/trigger
+ Date:		March 2006
+ KernelVersion:	2.6.17
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index eb1a8494dc5b..6cca21b227dd 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -76,6 +76,18 @@ static ssize_t max_brightness_show(struct device *dev,
  }
-+static inline void *devm_krealloc_array(struct device *dev,
-+					void *p,
-+					size_t new_n,
-+					size_t new_size,
-+					gfp_t flags)
+ static DEVICE_ATTR_RO(max_brightness);
+ 
++static ssize_t color_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
 +{
-+	size_t bytes;
++	const char *color_text = "invalid";
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 +
-+	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
-+		return NULL;
-+
-+	return devm_krealloc(dev, p, bytes, flags);
++	if (led_cdev->color < LED_COLOR_ID_MAX)
++		color_text = led_colors[led_cdev->color];
++	return sysfs_emit(buf, "%s\n", color_text);
 +}
- void devm_kfree(struct device *dev, const void *p);
- char *devm_kstrdup(struct device *dev, const char *s, gfp_t gfp) __malloc;
- const char *devm_kstrdup_const(struct device *dev, const char *s, gfp_t gfp);
++static DEVICE_ATTR_RO(color);
++
+ #ifdef CONFIG_LEDS_TRIGGERS
+ static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
+ static struct bin_attribute *led_trigger_bin_attrs[] = {
+@@ -90,6 +102,7 @@ static const struct attribute_group led_trigger_group = {
+ static struct attribute *led_class_attrs[] = {
+ 	&dev_attr_brightness.attr,
+ 	&dev_attr_max_brightness.attr,
++	&dev_attr_color.attr,
+ 	NULL,
+ };
+ 
+@@ -482,6 +495,10 @@ int led_classdev_register_ext(struct device *parent,
+ 			if (fwnode_property_present(init_data->fwnode,
+ 						    "retain-state-shutdown"))
+ 				led_cdev->flags |= LED_RETAIN_AT_SHUTDOWN;
++
++			if (fwnode_property_present(init_data->fwnode, "color"))
++				fwnode_property_read_u32(init_data->fwnode, "color",
++							 &led_cdev->color);
+ 		}
+ 	} else {
+ 		proposed_name = led_cdev->name;
+@@ -491,6 +508,9 @@ int led_classdev_register_ext(struct device *parent,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (led_cdev->color >= LED_COLOR_ID_MAX)
++		dev_warn(parent, "LED %s color identifier out of range\n", final_name);
++
+ 	mutex_init(&led_cdev->led_access);
+ 	mutex_lock(&led_cdev->led_access);
+ 	led_cdev->dev = device_create_with_groups(leds_class, parent, 0,
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 95311c70d95c..487d00dac4de 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -100,6 +100,7 @@ struct led_classdev {
+ 	const char		*name;
+ 	unsigned int brightness;
+ 	unsigned int max_brightness;
++	unsigned int color;
+ 	int			 flags;
+ 
+ 	/* Lower 16 bits reflect status */
 -- 
 2.34.1
 
