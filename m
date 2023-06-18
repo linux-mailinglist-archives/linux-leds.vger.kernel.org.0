@@ -2,117 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B52687347FF
-	for <lists+linux-leds@lfdr.de>; Sun, 18 Jun 2023 21:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FAE1734812
+	for <lists+linux-leds@lfdr.de>; Sun, 18 Jun 2023 22:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229500AbjFRTYK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 18 Jun 2023 15:24:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S229471AbjFRUKw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 18 Jun 2023 16:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjFRTYJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Jun 2023 15:24:09 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3E5E44;
-        Sun, 18 Jun 2023 12:24:08 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-31121494630so3064714f8f.3;
-        Sun, 18 Jun 2023 12:24:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687116247; x=1689708247;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XnGtLq47RSbCF72VtOzJ7Ool5zSf+yqusBBJ8SQYN/s=;
-        b=ELkiWwvpH1jFwl2apnbhr0fwC1OCRGr3IjlkQTnIJLS8DM+RHXIrr0AwAzY++7zVve
-         TzTYdbVquMiAWxZODc/Kq4W19AcjH8xURSQPuBDaUQ8LQrGjvl3zNdd9XzGzeJM+FKeS
-         OJhqoUPydDjD1ADSPl99rumO4knlyv2FJuu//NTfdKlL6aYTDq0QirEE8CzxjX52XPWe
-         mIdt09gcgzvv7AlLQMi6Tc9DHolDcePOa5L9IjQZRtqveggD7QDrp9b2SPRUkkN459Qa
-         X1lVc2Z0ZbMtJuzX14USS8E2amLsZgpo5qEcBFiomFGF1eCBfBQgeiVye/ZyjIidSi+w
-         1RVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687116247; x=1689708247;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XnGtLq47RSbCF72VtOzJ7Ool5zSf+yqusBBJ8SQYN/s=;
-        b=dYabA/V1W+JueuJAz2kkWMBhfsNDKEYFgdGBJfb4TwD/q2+gk7pS1QmA+qazPm6qZ7
-         IlOTMWRq+BWbwCh4AoLATuW6a+7bzYgH3PqSuqExMpSLNYcyHijMRp9a60Vn+TtKNiR1
-         YIIlhJjCpV9sV8zlxEslB0to1qf6yK4t3IokZdHS4zx/mWG8XuH2BG9eBrPkNW+CkfDQ
-         2A6Ew9mWqJ+80a0uGBXZwaLJUAZ6bUTvYmTJVBtFgWzb2efJvC6cs92DGhDpvGmjE5Sw
-         Rsctk5fp4GxUYGC9Kq8OcV53LA2kP5rCa04CuLtoBn/MbO0+uo0YPAI7hLNYwxjl2mNr
-         7DiA==
-X-Gm-Message-State: AC+VfDw26sx+59OlhDh3PiX0nxWPQbXAkaSi/PPfbeKiuwKCqJ8W7nK4
-        UptCZXIbzUe1pa19TVF1TsM=
-X-Google-Smtp-Source: ACHHUZ51THCQLy6aCLWiyC//1BkuPREsIDQqL/T4aF7T6yL8yoG2LRrlknyRzAL448mwIytIJRgmGw==
-X-Received: by 2002:a5d:4c49:0:b0:307:9702:dfc8 with SMTP id n9-20020a5d4c49000000b003079702dfc8mr6642797wrt.48.1687116246447;
-        Sun, 18 Jun 2023 12:24:06 -0700 (PDT)
-Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
-        by smtp.googlemail.com with ESMTPSA id h12-20020adffd4c000000b0031130b9b173sm4065871wrs.34.2023.06.18.12.24.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jun 2023 12:24:05 -0700 (PDT)
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
+        with ESMTP id S229456AbjFRUKw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Jun 2023 16:10:52 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42899E45;
+        Sun, 18 Jun 2023 13:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=ryallP7cWmf03xUcI8HOxzHAoVEyLcnwb4V9yA2C1D4=; b=roy22sPJ+9CM5E2toPz3/JAKp4
+        r0ymVxlHF6GAptlaGmGv33CoADQbtHgui0Y1ru8z7qABfH9tjXpp4ltbBwhJpf7ZUP/VZZ1cBw6/c
+        7E/vCvVYLEUXFU8meCInio4r45hiJLNHUbvwoYyJONiGM/2nJ5L/ScpQxLEuGiPB1yBM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1qAyjI-00GrWU-Pv; Sun, 18 Jun 2023 22:10:32 +0200
+Date:   Sun, 18 Jun 2023 22:10:32 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Yang Li <yang.lee@linux.alibaba.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [net-next PATCH v4 3/3] leds: trigger: netdev: expose hw_control status via sysfs
-Date:   Sat, 17 Jun 2023 13:53:55 +0200
-Message-Id: <20230617115355.22868-4-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230617115355.22868-1-ansuelsmth@gmail.com>
+Subject: Re: [net-next PATCH v4 2/3] leds: trigger: netdev: add additional
+ specific link duplex mode
+Message-ID: <0ff1f4b2-40ab-46af-a668-850a58b668b0@lunn.ch>
 References: <20230617115355.22868-1-ansuelsmth@gmail.com>
+ <20230617115355.22868-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DATE_IN_PAST_24_48,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230617115355.22868-3-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Expose hw_control status via sysfs for the netdev trigger to give
-userspace better understanding of the current state of the trigger and
-the LED.
+On Sat, Jun 17, 2023 at 01:53:54PM +0200, Christian Marangi wrote:
+> Add additional modes for specific link duplex. Use ethtool APIs to get the
+> current link duplex and enable the LED accordingly. Under netdev event
+> handler the rtnl lock is already held and is not needed to be set to
+> access ethtool APIs.
+> 
+> This is especially useful for PHY and Switch that supports LEDs hw
+> control for specific link duplex.
+> 
+> Add additional modes:
+> - half_duplex: Turn on LED when link is half duplex
+> - full_duplex: Turn on LED when link is full duplex
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 90b682d49998..a550a1895642 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -406,6 +406,16 @@ static ssize_t interval_store(struct device *dev,
- 
- static DEVICE_ATTR_RW(interval);
- 
-+static ssize_t hw_control_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-+
-+	return sprintf(buf, "%d\n", trigger_data->hw_control);
-+}
-+
-+static DEVICE_ATTR_RO(hw_control);
-+
- static struct attribute *netdev_trig_attrs[] = {
- 	&dev_attr_device_name.attr,
- 	&dev_attr_link.attr,
-@@ -417,6 +427,7 @@ static struct attribute *netdev_trig_attrs[] = {
- 	&dev_attr_rx.attr,
- 	&dev_attr_tx.attr,
- 	&dev_attr_interval.attr,
-+	&dev_attr_hw_control.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(netdev_trig);
--- 
-2.40.1
-
+    Andrew
