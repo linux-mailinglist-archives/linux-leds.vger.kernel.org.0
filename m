@@ -2,149 +2,204 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2996739C80
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Jun 2023 11:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7492D739FF1
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Jun 2023 13:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231927AbjFVJTk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 22 Jun 2023 05:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59496 "EHLO
+        id S229522AbjFVLoh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Jun 2023 07:44:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232026AbjFVJTN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Jun 2023 05:19:13 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B1B358E;
-        Thu, 22 Jun 2023 02:10:39 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7D0B8660706C;
-        Thu, 22 Jun 2023 10:10:37 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687425038;
-        bh=5uxh5lKnVnM46Q8SEQodnpqC2oAD7Fjq5YEoHjE5Sx4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KPUAgmSdKBe8F1sbK0PJohKxD/iIlloBxRbdx2mXToR6bT0FdS/9cnpdpHyDyWPiV
-         9LYisjtoi9lQjkY6At9xAj4YncbpeIshMKIzGUJIMWyOqj3QittZD7V+6FnIquTZnH
-         kyANnfNm+j8bI8c/535TwPqRf62LvcR+18KpLAlQcC1hEy8GqAeUwjX2JbLeasux8I
-         JMqpyRqAtZuGljolnyporGOo6z6ZzqXm//GGQROy/CNoq5PYvnLri1W+ItKNrAnqxa
-         9CVUOFrfDlfafgmh31726rulYjimvN7Q790qDQmFLPxCVksLehwVx3/BZVXkSSbYjN
-         y7zmKhrAZTPiw==
-Message-ID: <99adec72-da7b-ce46-27be-b823a208a39e@collabora.com>
-Date:   Thu, 22 Jun 2023 11:10:34 +0200
+        with ESMTP id S229483AbjFVLog (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Jun 2023 07:44:36 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE43D3;
+        Thu, 22 Jun 2023 04:44:35 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b4725e9917so72683211fa.2;
+        Thu, 22 Jun 2023 04:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687434274; x=1690026274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hVmHxQFpvqY7IwmyaWzTBpCtQuGSXHWJX1dpQpAyhE8=;
+        b=mr1/UtQmFba0+SF4mL7YxXD2kU7wnD67Y7ihCEp58x6pohU8w2EVRv7QV4RcEw7+Pw
+         0QkIKpc5PQ2Q7DlM/E7aaonxJjkfEQTdshgg2z9kFTJqcuu1tgpV0WET3HgaXrPIeK97
+         LDMN22d4tuPtdVjLcGlTJeBvgrjemeMas5vQQ0NhH+eSTQwleGUyMhJ1d8c10V1gvWZe
+         TLcp1YF8E7KgWWVJcWDIA+QMqW9pb50fiYBTThBqvsSnyyicpu36X/U6EnbfIlTiwB72
+         tudza0FdoExMRL9yXX8yOr4yQca4ov2aNUOrH+S4wjoYLWKIU/9hQfqx2Ey9X7kQMeou
+         aKyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687434274; x=1690026274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hVmHxQFpvqY7IwmyaWzTBpCtQuGSXHWJX1dpQpAyhE8=;
+        b=QnarrHBgeK/6OIzA2Glu/z3mTnzDybLC6vmiz7VQ0MHHI8lZqWbZxCCjfjvMnBXPXq
+         ynSxoxUMo0hrIaz2Zgk0j14C/2JRI//AYqhRKbh7/3MCH6dfE1L150h4rd8uluFpaVPx
+         4x0mhLIGLvvdI9j9gOXN1BYhAi7cZpaEsVRtIJrDqel/9iFAWlBRY6G3QeLaRPFGPHgq
+         HH9xoO028gulEqVDh1/Uug9tb76z8tC2O7u6BF74tdllDuxMpUJgH/qomkdh0HCKBeSp
+         THKk0ls6IrY4R9Kz9CZXhByGWai4pJGkCLMYrMhDacl/tSuwS905hfeAWCH3o67V7B2+
+         Dfyw==
+X-Gm-Message-State: AC+VfDyFMfqbL28rhyWs/E0FEgnZ8Y7sRrbSb90zw2jl69sQhqB7vBjN
+        jt/IpcqyCg06LlTEsW5fW7g=
+X-Google-Smtp-Source: ACHHUZ42zItZAP+UecMaUptnUBOTycAnlXEP9zRo5USemDhZPUvfJ+/eGkdY7naOacPNeKFf3FceSA==
+X-Received: by 2002:a05:6512:3b23:b0:4f9:6221:8fae with SMTP id f35-20020a0565123b2300b004f962218faemr1632868lfv.49.1687434273224;
+        Thu, 22 Jun 2023 04:44:33 -0700 (PDT)
+Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
+        by smtp.googlemail.com with ESMTPSA id p20-20020a05600c205400b003f9a6f3f240sm11513712wmg.14.2023.06.22.04.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 04:44:32 -0700 (PDT)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Christian Marangi <ansuelsmth@gmail.com>
+Subject: [net-next PATCH] docs: ABI: sysfs-class-led-trigger-netdev: add new modes and entry
+Date:   Wed, 21 Jun 2023 11:26:53 +0200
+Message-Id: <20230621092653.23172-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 8/8] leds: leds-mt6323: Add support for WLEDs and
- MT6332
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     pavel@ucw.cz, lee@kernel.org, sean.wang@mediatek.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, llvm@lists.linux.dev
-References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
- <20230601110813.2373764-9-angelogioacchino.delregno@collabora.com>
- <20230621213124.GA2689001@dev-arch.thelio-3990X>
-Content-Language: en-US
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230621213124.GA2689001@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DATE_IN_PAST_24_48,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 21/06/23 23:31, Nathan Chancellor ha scritto:
-> Hi Angelo,
-> 
-> On Thu, Jun 01, 2023 at 01:08:13PM +0200, AngeloGioacchino Del Regno wrote:
->> Add basic code to turn on and off WLEDs and wire up MT6332 support
->> to take advantage of it.
->> This is a simple approach due to the aforementioned PMIC supporting
->> only on/off status so, at the time of writing, it is impossible for me
->> to validate more advanced functionality due to lack of hardware.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> After this patch as commit 9bb0a9e0626c ("leds: leds-mt6323: Add support
-> for WLEDs and MT6332") in -next, I see the following warnings from
-> clang, which are basically flagging potential kernel Control Flow
-> Integrity [1] violations that will be visible at runtime (this warning
-> is not enabled for the kernel yet but we would like it to be):
-> 
->    drivers/leds/leds-mt6323.c:598:49: error: incompatible function pointer types assigning to 'int (*)(struct led_classdev *, enum led_brightness)' from 'int (struct led_classdev *, unsigned int)' [-Werror,-Wincompatible-function-pointer-types-strict]
->      598 |                         leds->led[reg]->cdev.brightness_set_blocking =
->          |                                                                      ^
->      599 |                                                 mt6323_wled_set_brightness;
->          |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/leds/leds-mt6323.c:600:40: error: incompatible function pointer types assigning to 'enum led_brightness (*)(struct led_classdev *)' from 'unsigned int (struct led_classdev *)' [-Werror,-Wincompatible-function-pointer-types-strict]
->      600 |                         leds->led[reg]->cdev.brightness_get =
->          |                                                             ^
->      601 |                                                 mt6323_get_wled_brightness;
->          |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
->    2 errors generated.
-> 
->  From what I can tell/understand, 'enum led_brightness' is obsolete and
-> the value that is passed via ->brightness_set_blocking() is an 'unsigned
-> int' as well but it seems 'enum led_brightness' is used as the parameter
-> in a lot of different callback implementations, so the prototype cannot
-> be easily updated without a lot of extra work. Is there any reason not
-> to just do something like this to avoid this issue?
-> 
+Document newly introduced modes and entry for the LED netdev trigger.
 
-I don't think that this would bring any issue to the table.
+Add documentation for new modes:
+- link_10
+- link_100
+- link_1000
+- half_duplex
+- full_duplex
 
-The rework will possibly be done globally, for all drivers, when time comes... so
-feel free to send the proposed patch.
+Add documentation for new entry:
+- hw_control
 
-Thanks,
-Angelo
+Also add additional info for the interval entry and the tx/rx modes with
+the special case of hw_control ON.
 
-> [1]: https://lwn.net/Articles/898040/
-> 
-> Cheers,
-> Nathan
-> 
-> diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
-> index e8fecfc2e90a..24f35bdb55fb 100644
-> --- a/drivers/leds/leds-mt6323.c
-> +++ b/drivers/leds/leds-mt6323.c
-> @@ -76,7 +76,7 @@ struct mt6323_led {
->   	int			id;
->   	struct mt6323_leds	*parent;
->   	struct led_classdev	cdev;
-> -	unsigned int		current_brightness;
-> +	enum led_brightness	current_brightness;
->   };
->   
->   /**
-> @@ -451,7 +451,7 @@ static int mtk_wled_hw_off(struct led_classdev *cdev)
->   	return 0;
->   }
->   
-> -static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
-> +static enum led_brightness mt6323_get_wled_brightness(struct led_classdev *cdev)
->   {
->   	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
->   	struct mt6323_leds *leds = led->parent;
-> @@ -471,7 +471,7 @@ static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
->   }
->   
->   static int mt6323_wled_set_brightness(struct led_classdev *cdev,
-> -				      unsigned int brightness)
-> +				      enum led_brightness brightness)
->   {
->   	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
->   	struct mt6323_leds *leds = led->parent;
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+---
+ .../testing/sysfs-class-led-trigger-netdev    | 89 +++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
+diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
+index 646540950e38..78b62a23b14a 100644
+--- a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
++++ b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
+@@ -13,6 +13,11 @@ Description:
+ 		Specifies the duration of the LED blink in milliseconds.
+ 		Defaults to 50 ms.
+ 
++		With hw_control ON, the interval value MUST be set to the
++		default value and cannot be changed.
++		Trying to set any value in this specific mode will return
++		an EINVAL error.
++
+ What:		/sys/class/leds/<led>/link
+ Date:		Dec 2017
+ KernelVersion:	4.16
+@@ -39,6 +44,9 @@ Description:
+ 		If set to 1, the LED will blink for the milliseconds specified
+ 		in interval to signal transmission.
+ 
++		With hw_control ON, the blink interval is controlled by hardware
++		and won't reflect the value set in interval.
++
+ What:		/sys/class/leds/<led>/rx
+ Date:		Dec 2017
+ KernelVersion:	4.16
+@@ -50,3 +58,84 @@ Description:
+ 
+ 		If set to 1, the LED will blink for the milliseconds specified
+ 		in interval to signal reception.
++
++		With hw_control ON, the blink interval is controlled by hardware
++		and won't reflect the value set in interval.
++
++What:		/sys/class/leds/<led>/hw_control
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Communicate whether the LED trigger modes are driven by hardware
++		or software fallback is used.
++
++		If 0, the LED is using software fallback to blink.
++
++		If 1, the LED is using hardware control to blink and signal the
++		requested modes.
++
++What:		/sys/class/leds/<led>/link_10
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Signal the link speed state of 10Mbps of the named network device.
++
++		If set to 0 (default), the LED's normal state is off.
++
++		If set to 1, the LED's normal state reflects the link state
++		speed of 10MBps of the named network device.
++		Setting this value also immediately changes the LED state.
++
++What:		/sys/class/leds/<led>/link_100
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Signal the link speed state of 100Mbps of the named network device.
++
++		If set to 0 (default), the LED's normal state is off.
++
++		If set to 1, the LED's normal state reflects the link state
++		speed of 100Mbps of the named network device.
++		Setting this value also immediately changes the LED state.
++
++What:		/sys/class/leds/<led>/link_1000
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Signal the link speed state of 1000Mbps of the named network device.
++
++		If set to 0 (default), the LED's normal state is off.
++
++		If set to 1, the LED's normal state reflects the link state
++		speed of 1000Mbps of the named network device.
++		Setting this value also immediately changes the LED state.
++
++What:		/sys/class/leds/<led>/half_duplex
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Signal the link half duplex state of the named network device.
++
++		If set to 0 (default), the LED's normal state is off.
++
++		If set to 1, the LED's normal state reflects the link half
++		duplex state of the named network device.
++		Setting this value also immediately changes the LED state.
++
++What:		/sys/class/leds/<led>/full_duplex
++Date:		Jun 2023
++KernelVersion:	6.5
++Contact:	linux-leds@vger.kernel.org
++Description:
++		Signal the link full duplex state of the named network device.
++
++		If set to 0 (default), the LED's normal state is off.
++
++		If set to 1, the LED's normal state reflects the link full
++		duplex state of the named network device.
++		Setting this value also immediately changes the LED state.
+-- 
+2.40.1
 
