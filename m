@@ -2,60 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B68738890
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 17:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D132173886C
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 17:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229513AbjFUPOR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 11:14:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50656 "EHLO
+        id S232943AbjFUPIX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 11:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233176AbjFUPNt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 11:13:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E00B1FC9;
-        Wed, 21 Jun 2023 08:09:47 -0700 (PDT)
+        with ESMTP id S233202AbjFUPHx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 11:07:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D5E6581;
+        Wed, 21 Jun 2023 08:02:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BE41E615BE;
-        Wed, 21 Jun 2023 14:56:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC82C433C0;
-        Wed, 21 Jun 2023 14:56:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A4B4261539;
+        Wed, 21 Jun 2023 15:01:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56DA1C433C8;
+        Wed, 21 Jun 2023 15:01:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687359380;
-        bh=ln2lWCijb2V4mFtJBQotSwtqT0uvIw8cIIaLNs8TBV0=;
+        s=k20201202; t=1687359706;
+        bh=TuIlEW+QnlCN5szHBMsvumB71tGciD9z7toszAmdqdg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YDjz09CpApkkd08SxYoRrpdpQAfOz2L+/IjSDTWC5mwYrPpO6rjL02A2gakb5TGor
-         odIiypj5ogfEYDfE5Y6yCsiJl+FgV02kiVD4ntFaMSXTZ/pKyjLIP6f9tXGfh8Urey
-         HxoYfAbYc3tX85ec14PaVXemjsI87fsd3c7gXyqhTbh+1d65ZhxSEepqQ1nPzGaWWg
-         +fna6f7Bt80m4FnpSRn6c9gGWKqXWZj6eFFWTaualuKq3viMnq7HPdp0KhmrZuWNfC
-         d9nQ/25S9tzSxNgC6UaA7HIIRwaO5CniGH5yr1WN40MxAFn1rpDX5rGG6t7wJ0ZVnA
-         /Xt1elswPC8VQ==
-Date:   Wed, 21 Jun 2023 15:56:15 +0100
+        b=NaNQdRh4a0qKMdxSOhy6lt+3Hzz7URKYN2fsdozK655XPsjs+ziR8IqGWZfXITkpV
+         XfJzywHPH+FEvhnIMNv8fmMe8OebO0SGdMTGvqF3ZjSNfZLF1K8NDpuKwLM9gT5Yxg
+         JVRcsKiCe22MMapg01Q3fASchtexE4W86S7zSkPo7uZkZqHQoauzirhM3rfSBBxNFg
+         wD3xE/dl+vd4SDhAvtatch+HKU8CuQuPxLQbI9pl20cedpI2Bh8nK+61wozTjHrSlg
+         LOQ1Qk3VRmE/TglpZPuhbvC5ISNe+DXV55EgwyEjIDprX2kfDyQzMzl83EF2VtuiT3
+         V9V377/c+K/rQ==
+Date:   Wed, 21 Jun 2023 16:01:41 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "David S. Miller" <davem@davemloft.net>,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v4 0/3] leds: trigger: netdev: add additional
- modes
-Message-ID: <20230621145615.GD10378@google.com>
-References: <20230617115355.22868-1-ansuelsmth@gmail.com>
- <20230619104030.GB1472962@google.com>
- <dd82d1bd-a225-4452-a9a6-fb447bdb070e@lunn.ch>
- <20230620102629.GD1472962@google.com>
- <0462a658-8908-4b8c-9859-8d188f794283@lunn.ch>
+To:     Raymond Hackley <raymondhackley@protonmail.com>
+Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: sgm3140: Document richtek,rt5033
+ compatible
+Message-ID: <20230621150141.GE10378@google.com>
+References: <20230602130644.259933-1-raymondhackley@protonmail.com>
+ <20230602131009.260239-1-raymondhackley@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0462a658-8908-4b8c-9859-8d188f794283@lunn.ch>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230602131009.260239-1-raymondhackley@protonmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,33 +62,37 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 20 Jun 2023, Andrew Lunn wrote:
+On Fri, 02 Jun 2023, Raymond Hackley wrote:
 
-> > > If you do decided to wait, you are going to need to create another
-> > > stable branch to pull into netdev. I know it is not a huge overhead,
-> > > but it is still work, coordination etc.
-> > 
-> > Can you clarify you last point for me please?
+> Add devicetree binding for Richtek RT5033 Flash LED charge pump used for
+> camera flash LEDs.
 > 
-> This patchset extends the conditions on which the trigger blinks the
-> LED. It adds a couple more values to enum led_trigger_netdev_modes in
-> include/linux/leds.h. Once it gets merged, i will have a followup
-> patch extending the Marvell PHY driver to make us of them. It will
-> need these additional enum values. I also expect other PHY drivers to
-> gain support for them. Probably the dp83867.c driver since Alexander
-> Stein already has a patch merged adding support for what the current
-> API supports.
+> Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> If we merge this patchset now via netdev, -rc1 should have everything
-> we need for this continuing development work. If we wait to merge
-> these patches until -rc1, only the LED tree has the needed patches, so
-> these network drivers will need a stable branch we can pull into
-> netdev.
-> 
-> Both ways work, we can do either. But it is probably easier for
-> everybody to merge now via netdev.
+> diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> index 4d2ffe5fcfc7..37d2a93780ab 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+> @@ -20,6 +20,7 @@ properties:
+>    compatible:
+>      enum:
+>        - ocs,ocp8110
+> +      - richtek,rt5033-led
 
-Got it, thanks.
+Why is "-led" appended on to this one and not the others?
+
+>        - sgmicro,sgm3140
+>  
+> 
+>    enable-gpios:
+> -- 
+> 
+> 2.30.2
+> 
+
 
 -- 
 Lee Jones [李琼斯]
