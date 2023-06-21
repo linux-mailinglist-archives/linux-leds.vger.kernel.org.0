@@ -2,81 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB423736E29
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Jun 2023 16:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 470A773885D
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 17:06:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232685AbjFTOAL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Jun 2023 10:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55528 "EHLO
+        id S233081AbjFUPGz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 11:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232661AbjFTOAK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Jun 2023 10:00:10 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CF4E65;
-        Tue, 20 Jun 2023 07:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=GdFs+TWfdnzasotJ75VrXISngbpJZNZxemLtPJOd8gU=; b=57fPC07sOHvE7GaZutM9buZcIw
-        17JX9CXplffxiFW6K1Otm+XMhoTpqkN2ey0Wmo5SPQC8/hiQ/1rvQQGlourKMOxHzz1ABZOLnjWPu
-        QcYxxQbgl7TQS9U0MPre8qZWrPSyX8bMW6B/xHDSS9J+TeS5GIcNNrE4h/6PqJnRgqr8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1qBbth-00H0FV-Tw; Tue, 20 Jun 2023 15:59:53 +0200
-Date:   Tue, 20 Jun 2023 15:59:53 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S233096AbjFUPGl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 11:06:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBD55BAA;
+        Wed, 21 Jun 2023 08:01:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A8836155A;
+        Wed, 21 Jun 2023 14:54:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC66CC433C8;
+        Wed, 21 Jun 2023 14:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687359296;
+        bh=bSDgKgIaIT7I/HAb2R0Ikz2XfAeToNBLTRIqFY41i2w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fDZ6bRNauyHwq6dzmJDZBnfL7lqHk5LlP9nPVhO2IUmRMZGfhnj1f+Q9liDfa/86s
+         8P4Y2TyCqe4y1hJmblPWEVbdSjYKtw9z1vkIE/oWCF/hnMxXimkcJTwG6DDAcX2763
+         9vyLMKbKAXgOlnitHHdntphT1vIz798ohvojXaI0astRKHidJzkuCqg4cCoMPACcXm
+         7tj0/D0ERra+CpIlP0FBrXL3xKBZJrVvJT0pqfKyolFredeGkNRqCp2rrJNR9n/4x9
+         izlHFSa30qohHUt/R4c35KTDGvAAon6+FmC87iRQALDOfA/ksWXrcLwIOh9fvHg/Tb
+         Bwu7IYbjlbwqQ==
+Date:   Wed, 21 Jun 2023 15:54:51 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Christian Marangi <ansuelsmth@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Andrew Lunn <andrew@lunn.ch>,
         "David S. Miller" <davem@davemloft.net>,
-        Yang Li <yang.lee@linux.alibaba.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v4 0/3] leds: trigger: netdev: add additional
- modes
-Message-ID: <0462a658-8908-4b8c-9859-8d188f794283@lunn.ch>
-References: <20230617115355.22868-1-ansuelsmth@gmail.com>
- <20230619104030.GB1472962@google.com>
- <dd82d1bd-a225-4452-a9a6-fb447bdb070e@lunn.ch>
- <20230620102629.GD1472962@google.com>
+Subject: Re: [net-next PATCH v5 1/3] leds: trigger: netdev: add additional
+ specific link speed mode
+Message-ID: <20230621145451.GA10378@google.com>
+References: <20230619204700.6665-1-ansuelsmth@gmail.com>
+ <20230619204700.6665-2-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230620102629.GD1472962@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230619204700.6665-2-ansuelsmth@gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > If you do decided to wait, you are going to need to create another
-> > stable branch to pull into netdev. I know it is not a huge overhead,
-> > but it is still work, coordination etc.
+On Mon, 19 Jun 2023, Christian Marangi wrote:
+
+> Add additional modes for specific link speed. Use ethtool APIs to get the
+> current link speed and enable the LED accordingly. Under netdev event
+> handler the rtnl lock is already held and is not needed to be set to
+> access ethtool APIs.
 > 
-> Can you clarify you last point for me please?
+> This is especially useful for PHY and Switch that supports LEDs hw
+> control for specific link speed. (example scenario a PHY that have 2 LED
+> connected one green and one orange where the green is turned on with
+> 1000mbps speed and orange is turned on with 10mpbs speed)
+> 
+> On mode set from sysfs we check if we have enabled split link speed mode
+> and reject enabling generic link mode to prevent wrong and redundant
+> configuration.
+> 
+> Rework logic on the set baseline state to support these new modes to
+> select if we need to turn on or off the LED.
+> 
+> Add additional modes:
+> - link_10: Turn on LED when link speed is 10mbps
+> - link_100: Turn on LED when link speed is 100mbps
+> - link_1000: Turn on LED when link speed is 1000mbps
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 80 +++++++++++++++++++++++----
+>  include/linux/leds.h                  |  3 +
+>  2 files changed, 73 insertions(+), 10 deletions(-)
 
-This patchset extends the conditions on which the trigger blinks the
-LED. It adds a couple more values to enum led_trigger_netdev_modes in
-include/linux/leds.h. Once it gets merged, i will have a followup
-patch extending the Marvell PHY driver to make us of them. It will
-need these additional enum values. I also expect other PHY drivers to
-gain support for them. Probably the dp83867.c driver since Alexander
-Stein already has a patch merged adding support for what the current
-API supports.
+Acked-by: Lee Jones <lee@kernel.org>
 
-If we merge this patchset now via netdev, -rc1 should have everything
-we need for this continuing development work. If we wait to merge
-these patches until -rc1, only the LED tree has the needed patches, so
-these network drivers will need a stable branch we can pull into
-netdev.
-
-Both ways work, we can do either. But it is probably easier for
-everybody to merge now via netdev.
-
-	  Andrew
+-- 
+Lee Jones [李琼斯]
