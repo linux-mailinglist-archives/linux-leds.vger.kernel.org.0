@@ -2,76 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A9F738DED
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 19:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B92C738E39
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 20:09:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbjFUR6Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 13:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57704 "EHLO
+        id S229809AbjFUSJj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 14:09:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230412AbjFUR6Q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 13:58:16 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A321FF7;
-        Wed, 21 Jun 2023 10:57:50 -0700 (PDT)
-Date:   Wed, 21 Jun 2023 17:56:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1687370215; x=1687629415;
-        bh=wHGz+4iR1yJG9gev8O3hnv7/wXS8nRLc1LqeNaYELLY=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=tbrO/bcpzOfBc7Yum/nWOy0bJ3CmwnIO7AXP3tq+xAjz8fFi6Zdacii4PSrKoPDbH
-         g6qp5uw/I2cGFfEeyA8nqL1OuqHV+VRu0cvWICUOTxMjg4kA5kfKs4g2Odbok3mUkD
-         hMLJmRQa7ogY8baGnbtM9MlFkKAr0ut0AyPu4OTryVBnSzNb2RsOPvFIIBxIYT7m/v
-         UsEnV94qxpAGCGI8kuush9cInjpI+VPQHS+NjrELpAfzQ/ukJkNqSMktq/9UKxilh9
-         6M7ASrf9sBb1AcSAD3GnV6c9roS1sQG4k1yjzEVVenf5KYD78f225lQL94RYdL9x7E
-         DvC+lKLv7X7JQ==
-To:     krzysztof.kozlowski@linaro.org
-From:   Raymond Hackley <raymondhackley@protonmail.com>
-Cc:     devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        lee@kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, luca@z3ntu.xyz, pavel@ucw.cz,
-        raymondhackley@protonmail.com, robh+dt@kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [RESEND PATCH 1/2] dt-bindings: leds: sgm3140: Document richtek,rt5033 compatible
-Message-ID: <20230621175626.1229-1-raymondhackley@protonmail.com>
-In-Reply-To: <5cb59a5e-0ce5-7215-a14a-2ca2c1505b53@linaro.org>
-References: <20230602133533.260502-1-raymondhackley@protonmail.com> <20230602133714.260556-1-raymondhackley@protonmail.com> <5cb59a5e-0ce5-7215-a14a-2ca2c1505b53@linaro.org>
-Feedback-ID: 49437091:user:proton
+        with ESMTP id S230379AbjFUSJb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 14:09:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B821BEF;
+        Wed, 21 Jun 2023 11:09:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1FA226157D;
+        Wed, 21 Jun 2023 18:09:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D568CC433C8;
+        Wed, 21 Jun 2023 18:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687370958;
+        bh=PlIasYKsQ5UvEaRDORwyujyoektYVWvqdQghCpADg04=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=i6Vgh1/aK4fRzJPkXw4ZESR7yNMJPTkjUHEAEgvBAcABQCXTNXcam/KqLa2GaIPx5
+         2dpHk2PlLITXDx6+Dq6Y/qo4vMPRGH0dSSfsQzJo1eAhUu2Z0uG1443w4ExNNP3WpA
+         g1dNgEnsLTvCsLLY33fN5ptubv3JLuUkgJZ73JbAoGz+r9ldfDcvC9zaoRozMkVHSN
+         3m94LiJEq/mx7YLWvEafCexjXov+bVQk9PeEjssZ5EIzpX3W9MUc5DePDGaIDAHm/6
+         1IioQDCOgnZNqzObJs155htf1Hxp/pJROkTGNMhhxTcd5EcsRAPWijVqJGH7vX0U0B
+         6hItlgwNaB08Q==
+Date:   Wed, 21 Jun 2023 19:09:13 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Raymond Hackley <raymondhackley@protonmail.com>
+Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: sgm3140: Document richtek,rt5033
+ compatible
+Message-ID: <20230621180913.GS10378@google.com>
+References: <20230602130644.259933-1-raymondhackley@protonmail.com>
+ <20230602131009.260239-1-raymondhackley@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230602131009.260239-1-raymondhackley@protonmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Krzysztof,
+On Fri, 02 Jun 2023, Raymond Hackley wrote:
 
-On Sunday, June 4th, 2023 at 10:43 AM, Krzysztof Kozlowski <krzysztof.kozlo=
-wski@linaro.org> wrote:
+> Add devicetree binding for Richtek RT5033 Flash LED charge pump used for
+> camera flash LEDs.
+> 
+> Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-> On 02/06/2023 15:38, Raymond Hackley wrote:
->=20
-> > Add devicetree binding for Richtek RT5033 Flash LED charge pump used fo=
-r
-> > camera flash LEDs.
->=20
->=20
-> What are the similarities? Same register interface? Same pins? It's not
-> obvious and your commit should clear explain this. It will be also
-> justification why you did not make devices compatible.
->=20
+Applied, thanks
 
-There is a similar way to control with 2 GPIO pins, strobe and enable,
-which is not described well in this patch set.
-
-Regards,
-Raymond
-
+-- 
+Lee Jones [李琼斯]
