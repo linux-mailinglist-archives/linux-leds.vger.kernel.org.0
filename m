@@ -2,60 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41BC7738CA3
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 19:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB17F738CE6
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 19:19:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230116AbjFURFd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 13:05:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
+        id S229931AbjFURTL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 13:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjFURFc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 13:05:32 -0400
+        with ESMTP id S229502AbjFURTL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 13:19:11 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C780610D;
-        Wed, 21 Jun 2023 10:05:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EBB10C;
+        Wed, 21 Jun 2023 10:19:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01F5261601;
-        Wed, 21 Jun 2023 17:05:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B3EEC433C8;
-        Wed, 21 Jun 2023 17:05:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0EFAF61601;
+        Wed, 21 Jun 2023 17:19:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4535DC433C8;
+        Wed, 21 Jun 2023 17:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687367129;
-        bh=VgDrDN1AlEKLSxfcxPdZIOC6m3JNO0J57lFupt0/nRM=;
+        s=k20201202; t=1687367949;
+        bh=ohs90axjGL2P+Qq4eDlVdKf2VcnUUb1Drl3OZZKM5rw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tkiqn8dhJ2BLxGzsNwrl7GH0zA9Q2H5HA2XY0mrYmVXJ6UNtMexUiyMjqkDv5Kgik
-         wvjbpIdNK5OTZmbd6YaDrpat/twBHL9TgvP7hTZwo/6AZqFuP/KZt1YU71JyjrBkFO
-         gRG0hut4nnXW1zF5UzAVUXGNU9oUj70HB46C8QPdCwUrBQyw6GAWxKgYaIEQNNehom
-         m5pTHhEnmjfSimTT5xIpvfOZI1kPNyLgocS54PZmAyCBiF8AqzZvy9hUViASUnIRNU
-         RbnC+T8/mx9jvkucXKyxDUIy5CehRIMGzejVLjXtZ58N1UPzY6R6Joz8NEsYzwxbts
-         xq58MM9uoNpcQ==
-Date:   Wed, 21 Jun 2023 18:05:24 +0100
+        b=mo3yHvfUGXMmPm7yRXI9pIucRki7M1yHZyZQc5gQ+uaZ96t0LWOg8+/XnVmdiqQxI
+         vCm9wkQw5xmBeNMAg4zIj9xwmieebtgET7eiwmdsWfY/3YMVF0ojERE1hUr+AlLwdb
+         YXzM2wKoHkaD8ud+keYPNpBti7HFH/dZ0fjAFQJc+E0pG50G8scBMr+ZuOLmLoi1pO
+         r1+KJGXglZRxFCENeax8jC7DkDYuQHy4EOlIdQlimmdIjddU85MEuLVwHczZTrf2k+
+         +xjxNw8Ck2YeDaAJKYheb1YMXhECLrMFnB5J6SEowhlz3LWqjfBgVkwx3ZdhYloaOE
+         j4U48zkCBANvg==
+Date:   Wed, 21 Jun 2023 18:19:04 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Raymond Hackley <raymondhackley@protonmail.com>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jianhua Lu <lujianhua000@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: sgm3140: Document richtek,rt5033
- compatible
-Message-ID: <20230621170524.GJ10378@google.com>
-References: <20230602130644.259933-1-raymondhackley@protonmail.com>
- <20230602131009.260239-1-raymondhackley@protonmail.com>
- <20230621150141.GE10378@google.com>
- <20230621150302.GF10378@google.com>
- <20230621-stuffed-revolt-435d3d2dd4aa@spud>
+        Conor Dooley <conor+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: backlight: kinetic,ktz8866: Add missing
+ type for "current-num-sinks"
+Message-ID: <20230621171904.GO10378@google.com>
+References: <20230613201022.2823392-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230621-stuffed-revolt-435d3d2dd4aa@spud>
+In-Reply-To: <20230613201022.2823392-1-robh@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -66,53 +61,16 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 21 Jun 2023, Conor Dooley wrote:
+On Tue, 13 Jun 2023, Rob Herring wrote:
 
-> Raymond,
+> "current-num-sinks" is missing a type, add it.
 > 
-> On Wed, Jun 21, 2023 at 04:03:02PM +0100, Lee Jones wrote:
-> > On Wed, 21 Jun 2023, Lee Jones wrote:
-> > 
-> > > On Fri, 02 Jun 2023, Raymond Hackley wrote:
-> > > 
-> > > > Add devicetree binding for Richtek RT5033 Flash LED charge pump used for
-> > > > camera flash LEDs.
-> > > > 
-> > > > Signed-off-by: Raymond Hackley <raymondhackley@protonmail.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > > index 4d2ffe5fcfc7..37d2a93780ab 100644
-> > > > --- a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > > +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > > @@ -20,6 +20,7 @@ properties:
-> > > >    compatible:
-> > > >      enum:
-> > > >        - ocs,ocp8110
-> > > > +      - richtek,rt5033-led
-> > > 
-> > > Why is "-led" appended on to this one and not the others?
-> > 
-> > It's unusual for me to have to dump through a bunch of hoops just to
-> > read and then subsequently reply to mail.  Can you consider removing
-> > whatever encryption you have enabled please?
-> 
-> https://www.kernel.org/doc/html/latest/process/email-clients.html#proton-mail
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml      | 1 +
+>  1 file changed, 1 insertion(+)
 
-Thanks for the link.  This is perfect!
-
-At least I know it's not just me being unreasonable.
-
-> I was under the impression that there was no way to disable this
-> behaviour, but I saw mention somewhere that they managed to patch the
-> open source version of the protonmail bridge to function. I cannot find
-> this on lore, because the person's domain was not a proton one and I
-> completely forget their name as it was several months ago.
-> I'll reply here if I find it.
-
-Thanks.
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
