@@ -2,134 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F12739188
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 23:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B33347391D4
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 23:55:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbjFUVba (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 17:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
+        id S230505AbjFUVzK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 17:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjFUVb3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 17:31:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4041E1BC;
-        Wed, 21 Jun 2023 14:31:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D0E78616D8;
-        Wed, 21 Jun 2023 21:31:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7DDC433C0;
-        Wed, 21 Jun 2023 21:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687383087;
-        bh=HY2/KPCQv+TNb8BEUoFS/75P2bkM0JsT+gXSpFBNCJA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=inJljWazMcccbQVlONx/s92wacqeR1e65s1uXDfzP8ddik+z5pUlpBQKE5kSFyfME
-         VAkZAODssc039oYcAHlCKCTi7j5WiJy6YESntQDym3N5YRUSPeuy5YL94ZdxMxeQXY
-         I7VWEg9/4cM2agT4V2XhXpmeGxdg3TP/ZxnQBvntnfC4J8xFGdJd0exvsJgIfFpIus
-         EKy2GZ5bK/cvf4Ghg3/KblBZTk3EclqnYSzKcKxBTHU0px6Hh+9emJD9cCxfwT1E5Y
-         UvEEE8BNXEncBVjoeaw0CDY9o7wB13lrmROFp0Mowsyxs2LbLrqR35UnHU4/pCCslh
-         BOXqTkjIVAM1A==
-Date:   Wed, 21 Jun 2023 21:31:24 +0000
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     pavel@ucw.cz, lee@kernel.org, sean.wang@mediatek.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        matthias.bgg@gmail.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 8/8] leds: leds-mt6323: Add support for WLEDs and
- MT6332
-Message-ID: <20230621213124.GA2689001@dev-arch.thelio-3990X>
-References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
- <20230601110813.2373764-9-angelogioacchino.delregno@collabora.com>
+        with ESMTP id S230490AbjFUVzJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 17:55:09 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9C8E57
+        for <linux-leds@vger.kernel.org>; Wed, 21 Jun 2023 14:55:06 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-51bdc87feb1so1301471a12.3
+        for <linux-leds@vger.kernel.org>; Wed, 21 Jun 2023 14:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1687384505; x=1689976505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jn/Beteqm9A/LN1S7WLvnvRia249hgTE4o7LFlD5jW8=;
+        b=npbSrNQ6pLZxRDO4iQBtGYduK/HsPHl+AGKV9spEmgzGe0BpEo+C3nRotLaWy5cKU2
+         VpuVo+RZWhplXLWA9+t6OXb5TqnmIofJayaBIISKDeuIovO2ASqIwHJiRnT1gz9/w7tL
+         nYmMtq+gWD7SopokiNjxfwbSnVIo1hWxLUGjw1+Iz4hb6anmNCrEutXimGHEapRdFbXG
+         1GIuA0MMS/g9fvDFsIZxGIqADMyO2Fgmuh3Pm2X6dr4eq6IyBKusoHNU+vA9KXodvBFp
+         Lscod8GaAQkGDsdJWsu2ruEcOls1KzAzn/HoDe9dd6+Y4UNQyBmD2XjnoxtwzyzcyBAo
+         f4rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687384505; x=1689976505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jn/Beteqm9A/LN1S7WLvnvRia249hgTE4o7LFlD5jW8=;
+        b=FC57wva6JY7oa5P5FPBHaoB7lZmCbFXLkdilBv8MbNTHiXS7kgPcXX9FnG/zjqxq6b
+         uYI/VEwc5J6hcEXt5LVuZlK275C75VULLFgkZRVOKwZogrrADQcnI4QMGLLObV6/e04Q
+         ccfvrDDB7DXuWcKGWRNfKp5JY0JXG1GpkUdta4v4PTPttVE7xYV+JD+BnuN41ExPRhQt
+         3yoo3YlZHIt2meFS5agF9YIxRxpNh/BUaPSAzAfzY4hkxcJ/ygiaiLc6DNJxWrQDeSEX
+         vMe5GDCWdrFWiVHQgnR89r2qlCj/H9QvaE5PiHoA4i+OiQdX3oimeN5Ze5mJRWHy1wW2
+         IOFA==
+X-Gm-Message-State: AC+VfDzaNl96vTgYi2qnKhpv9j5va7NqUIMaBJfK5PDHtq6GXTsgXeS9
+        1F+SuHk03pV6kWSgTPuq5RNNoQ==
+X-Google-Smtp-Source: ACHHUZ6A/T43INsBruKaaE+va76RJMnbtzFL7HfR52IyaTewoA0XaNKUwjNnTX5qkrnskkylIa+1vw==
+X-Received: by 2002:aa7:d404:0:b0:51b:dcb7:9b45 with SMTP id z4-20020aa7d404000000b0051bdcb79b45mr2164807edq.10.1687384504976;
+        Wed, 21 Jun 2023 14:55:04 -0700 (PDT)
+Received: from localhost.localdomain ([188.27.132.2])
+        by smtp.gmail.com with ESMTPSA id d16-20020aa7d5d0000000b0051a358a76c9sm3115417eds.72.2023.06.21.14.55.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 14:55:04 -0700 (PDT)
+From:   Alexandru Ardelean <alex@shruggie.ro>
+To:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org
+Cc:     lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        deller@gmx.de, Yannick Fertre <yannick.fertre@foss.st.com>,
+        Alexandru Ardelean <alex@shruggie.ro>
+Subject: [PATCH v2 1/2] dt-bindings: backlight: document new property default-brightness-level
+Date:   Thu, 22 Jun 2023 00:54:56 +0300
+Message-Id: <20230621215457.11297-1-alex@shruggie.ro>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230601110813.2373764-9-angelogioacchino.delregno@collabora.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Angelo,
+From: Yannick Fertre <yannick.fertre@foss.st.com>
 
-On Thu, Jun 01, 2023 at 01:08:13PM +0200, AngeloGioacchino Del Regno wrote:
-> Add basic code to turn on and off WLEDs and wire up MT6332 support
-> to take advantage of it.
-> This is a simple approach due to the aforementioned PMIC supporting
-> only on/off status so, at the time of writing, it is impossible for me
-> to validate more advanced functionality due to lack of hardware.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Add documentation for new default-brightness-level property.
 
-After this patch as commit 9bb0a9e0626c ("leds: leds-mt6323: Add support
-for WLEDs and MT6332") in -next, I see the following warnings from
-clang, which are basically flagging potential kernel Control Flow
-Integrity [1] violations that will be visible at runtime (this warning
-is not enabled for the kernel yet but we would like it to be):
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+---
 
-  drivers/leds/leds-mt6323.c:598:49: error: incompatible function pointer types assigning to 'int (*)(struct led_classdev *, enum led_brightness)' from 'int (struct led_classdev *, unsigned int)' [-Werror,-Wincompatible-function-pointer-types-strict]
-    598 |                         leds->led[reg]->cdev.brightness_set_blocking =
-        |                                                                      ^
-    599 |                                                 mt6323_wled_set_brightness;
-        |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/leds/leds-mt6323.c:600:40: error: incompatible function pointer types assigning to 'enum led_brightness (*)(struct led_classdev *)' from 'unsigned int (struct led_classdev *)' [-Werror,-Wincompatible-function-pointer-types-strict]
-    600 |                         leds->led[reg]->cdev.brightness_get =
-        |                                                             ^
-    601 |                                                 mt6323_get_wled_brightness;
-        |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  2 errors generated.
+Link to original patch:
+  https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
 
-From what I can tell/understand, 'enum led_brightness' is obsolete and
-the value that is passed via ->brightness_set_blocking() is an 'unsigned
-int' as well but it seems 'enum led_brightness' is used as the parameter
-in a lot of different callback implementations, so the prototype cannot
-be easily updated without a lot of extra work. Is there any reason not
-to just do something like this to avoid this issue?
+Changelog v1 -> v2:
+* https://lore.kernel.org/dri-devel/20230519200520.10657-2-alex@shruggie.ro/
+* removed 'brightness-levels' reference
+* updated doc-text for 'default-brightness-level'
+* updated doc-text for 'default-on'
+* added 'minimum' & 'maximum' to 'default-brightness-level' property
+* removed 'Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>' as
+  requested
+* patch is first in series of 2 patches (was second patch)
 
-[1]: https://lwn.net/Articles/898040/
+ .../bindings/leds/backlight/gpio-backlight.yaml    | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Cheers,
-Nathan
-
-diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
-index e8fecfc2e90a..24f35bdb55fb 100644
---- a/drivers/leds/leds-mt6323.c
-+++ b/drivers/leds/leds-mt6323.c
-@@ -76,7 +76,7 @@ struct mt6323_led {
- 	int			id;
- 	struct mt6323_leds	*parent;
- 	struct led_classdev	cdev;
--	unsigned int		current_brightness;
-+	enum led_brightness	current_brightness;
- };
+diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+index 584030b6b0b9..2da6552a207c 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+@@ -20,9 +20,21 @@ properties:
+     maxItems: 1
  
- /**
-@@ -451,7 +451,7 @@ static int mtk_wled_hw_off(struct led_classdev *cdev)
- 	return 0;
- }
+   default-on:
+-    description: enable the backlight at boot.
++    description:
++      The default power state of the backlight at boot.
+     type: boolean
  
--static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
-+static enum led_brightness mt6323_get_wled_brightness(struct led_classdev *cdev)
- {
- 	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
- 	struct mt6323_leds *leds = led->parent;
-@@ -471,7 +471,7 @@ static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
- }
- 
- static int mt6323_wled_set_brightness(struct led_classdev *cdev,
--				      unsigned int brightness)
-+				      enum led_brightness brightness)
- {
- 	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
- 	struct mt6323_leds *leds = led->parent;
++  default-brightness-level:
++    description:
++      The default brightness level on device init. The value can be 0 or 1.
++      If omitted, the value is 1. In the context of the "gpio-backlight" driver
++      the effect of this setting will be that the backlight is on/off.
++      The difference between this setting and "default-on" is that this handles
++      brightness, while "default-on" handles the power setting of the device.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 1
++
+ required:
+   - compatible
+   - gpios
+-- 
+2.40.1
+
