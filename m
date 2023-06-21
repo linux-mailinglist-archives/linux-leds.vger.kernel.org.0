@@ -2,106 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F89739030
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 21:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47F12739188
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jun 2023 23:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbjFUThI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 15:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35000 "EHLO
+        id S229691AbjFUVba (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 17:31:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbjFUThG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 15:37:06 -0400
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8142171C;
-        Wed, 21 Jun 2023 12:37:04 -0700 (PDT)
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-341c362a851so24553935ab.2;
-        Wed, 21 Jun 2023 12:37:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687376224; x=1689968224;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=v1W5en0X6o+ZubGP6+969Y3mIZxJYwr7a66wP5yY9ik=;
-        b=NfwNsjBL49VZSWITBBChmJJve7q5HcbGBs/henr5MDmQI/yVfa0QugUPmAHjAES6xu
-         xEJMd7s3mJUQSLLUAMcNaZk2h5aNhQ8e1rCkWXOJPLzhuC4SySa1CnQ3M7xoQBjmvs6s
-         ilIJ4p8/MgELHmdHX/Wu2W4kevm7cLso2hfNHhLj2n1lkxX6zOmauCCBCG5M5ud00YtT
-         BIU1W6C1oTgVE4CLJMVB6L+OlCn89IpGkKyv0YeVIOc6mNKN5D2g+bAHdZkEGm3aHkQa
-         Hx+bMKY6Ps3MKzoRDc2pZCS/fAXP0fTWFLvETU+bWBp589yWpJlq51wsMB0Nl+Ku/PQM
-         djkQ==
-X-Gm-Message-State: AC+VfDxQVyFGqbf3LONKXRgdai2jIPsX0n9aN6dMlV5Vo1WBI4l8CuRO
-        iAausEDoMJDd99VMeNqgpw==
-X-Google-Smtp-Source: ACHHUZ56xWTEeuEUlIWxxD7+8PJ+uta1biB7UfsTJz5OyKBF7NGWPlA3R5cc3fwUFRWz8KewHgTnfA==
-X-Received: by 2002:a92:cf50:0:b0:33b:1635:359f with SMTP id c16-20020a92cf50000000b0033b1635359fmr12184456ilr.22.1687376224015;
-        Wed, 21 Jun 2023 12:37:04 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id j18-20020a926e12000000b00341c0710169sm1496585ilc.46.2023.06.21.12.37.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 12:37:03 -0700 (PDT)
-Received: (nullmailer pid 3403584 invoked by uid 1000);
-        Wed, 21 Jun 2023 19:36:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229472AbjFUVb3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 17:31:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4041E1BC;
+        Wed, 21 Jun 2023 14:31:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D0E78616D8;
+        Wed, 21 Jun 2023 21:31:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7DDC433C0;
+        Wed, 21 Jun 2023 21:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687383087;
+        bh=HY2/KPCQv+TNb8BEUoFS/75P2bkM0JsT+gXSpFBNCJA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=inJljWazMcccbQVlONx/s92wacqeR1e65s1uXDfzP8ddik+z5pUlpBQKE5kSFyfME
+         VAkZAODssc039oYcAHlCKCTi7j5WiJy6YESntQDym3N5YRUSPeuy5YL94ZdxMxeQXY
+         I7VWEg9/4cM2agT4V2XhXpmeGxdg3TP/ZxnQBvntnfC4J8xFGdJd0exvsJgIfFpIus
+         EKy2GZ5bK/cvf4Ghg3/KblBZTk3EclqnYSzKcKxBTHU0px6Hh+9emJD9cCxfwT1E5Y
+         UvEEE8BNXEncBVjoeaw0CDY9o7wB13lrmROFp0Mowsyxs2LbLrqR35UnHU4/pCCslh
+         BOXqTkjIVAM1A==
+Date:   Wed, 21 Jun 2023 21:31:24 +0000
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     pavel@ucw.cz, lee@kernel.org, sean.wang@mediatek.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        matthias.bgg@gmail.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 8/8] leds: leds-mt6323: Add support for WLEDs and
+ MT6332
+Message-ID: <20230621213124.GA2689001@dev-arch.thelio-3990X>
+References: <20230601110813.2373764-1-angelogioacchino.delregno@collabora.com>
+ <20230601110813.2373764-9-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>
-Cc:     andersson@kernel.org, linux-pwm@vger.kernel.org, pavel@ucw.cz,
-        linux-arm-msm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        konrad.dybcio@linaro.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, conor+dt@kernel.org,
-        thierry.reding@gmail.com, linux-leds@vger.kernel.org,
-        lee@kernel.org, agross@kernel.org
-In-Reply-To: <20230621185949.2068-3-quic_amelende@quicinc.com>
-References: <20230621185949.2068-1-quic_amelende@quicinc.com>
- <20230621185949.2068-3-quic_amelende@quicinc.com>
-Message-Id: <168737621786.3403563.13933135215667889399.robh@kernel.org>
-Subject: Re: [PATCH 2/7] dt-bindings: leds: leds-qcom-lpg: Add support for
- LUT through NVMEM devices
-Date:   Wed, 21 Jun 2023 13:36:57 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601110813.2373764-9-angelogioacchino.delregno@collabora.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Angelo,
 
-On Wed, 21 Jun 2023 11:59:46 -0700, Anjelique Melendez wrote:
-> Update leds-qcom-lpg bindings to support LUT patterns through NVMEM
-> devices.
+On Thu, Jun 01, 2023 at 01:08:13PM +0200, AngeloGioacchino Del Regno wrote:
+> Add basic code to turn on and off WLEDs and wire up MT6332 support
+> to take advantage of it.
+> This is a simple approach due to the aforementioned PMIC supporting
+> only on/off status so, at the time of writing, it is impossible for me
+> to validate more advanced functionality due to lack of hardware.
 > 
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
->  .../bindings/leds/leds-qcom-lpg.yaml          | 85 +++++++++++++++++++
->  1 file changed, 85 insertions(+)
-> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+After this patch as commit 9bb0a9e0626c ("leds: leds-mt6323: Add support
+for WLEDs and MT6332") in -next, I see the following warnings from
+clang, which are basically flagging potential kernel Control Flow
+Integrity [1] violations that will be visible at runtime (this warning
+is not enabled for the kernel yet but we would like it to be):
 
-yamllint warnings/errors:
+  drivers/leds/leds-mt6323.c:598:49: error: incompatible function pointer types assigning to 'int (*)(struct led_classdev *, enum led_brightness)' from 'int (struct led_classdev *, unsigned int)' [-Werror,-Wincompatible-function-pointer-types-strict]
+    598 |                         leds->led[reg]->cdev.brightness_set_blocking =
+        |                                                                      ^
+    599 |                                                 mt6323_wled_set_brightness;
+        |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  drivers/leds/leds-mt6323.c:600:40: error: incompatible function pointer types assigning to 'enum led_brightness (*)(struct led_classdev *)' from 'unsigned int (struct led_classdev *)' [-Werror,-Wincompatible-function-pointer-types-strict]
+    600 |                         leds->led[reg]->cdev.brightness_get =
+        |                                                             ^
+    601 |                                                 mt6323_get_wled_brightness;
+        |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  2 errors generated.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/leds/leds-qcom-lpg.example.dtb: /example-4/led-controller: failed to match any schema with compatible: ['qcom,pmi632-lpg']
+From what I can tell/understand, 'enum led_brightness' is obsolete and
+the value that is passed via ->brightness_set_blocking() is an 'unsigned
+int' as well but it seems 'enum led_brightness' is used as the parameter
+in a lot of different callback implementations, so the prototype cannot
+be easily updated without a lot of extra work. Is there any reason not
+to just do something like this to avoid this issue?
 
-doc reference errors (make refcheckdocs):
+[1]: https://lwn.net/Articles/898040/
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230621185949.2068-3-quic_amelende@quicinc.com
+Cheers,
+Nathan
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
+index e8fecfc2e90a..24f35bdb55fb 100644
+--- a/drivers/leds/leds-mt6323.c
++++ b/drivers/leds/leds-mt6323.c
+@@ -76,7 +76,7 @@ struct mt6323_led {
+ 	int			id;
+ 	struct mt6323_leds	*parent;
+ 	struct led_classdev	cdev;
+-	unsigned int		current_brightness;
++	enum led_brightness	current_brightness;
+ };
+ 
+ /**
+@@ -451,7 +451,7 @@ static int mtk_wled_hw_off(struct led_classdev *cdev)
+ 	return 0;
+ }
+ 
+-static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
++static enum led_brightness mt6323_get_wled_brightness(struct led_classdev *cdev)
+ {
+ 	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
+ 	struct mt6323_leds *leds = led->parent;
+@@ -471,7 +471,7 @@ static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
+ }
+ 
+ static int mt6323_wled_set_brightness(struct led_classdev *cdev,
+-				      unsigned int brightness)
++				      enum led_brightness brightness)
+ {
+ 	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
+ 	struct mt6323_leds *leds = led->parent;
