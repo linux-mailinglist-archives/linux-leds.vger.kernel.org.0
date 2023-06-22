@@ -2,55 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2935C739248
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Jun 2023 00:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 572D773954D
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Jun 2023 04:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjFUWK0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jun 2023 18:10:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33772 "EHLO
+        id S229694AbjFVCNI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jun 2023 22:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjFUWKZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 18:10:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE32B1992;
-        Wed, 21 Jun 2023 15:10:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 43340616DB;
-        Wed, 21 Jun 2023 22:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A637C433C9;
-        Wed, 21 Jun 2023 22:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687385423;
-        bh=jVgDhBoRTvZ6I5+cfLGcpChhJvWte8ZlsYgmvJp1jF8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=F1g6k8Xi0GYBBkBpJsvcB56/hPvq/w/WGd3ow/Hbfg9fdIW4ocKC7/FHvIGjz0m9b
-         PMVtapXNxNsyjHONZ8kPKPqNuYhJf70J4iFS4aUm4191/PtCptY59UVIf97TmT2MhG
-         2RwQe5Do398TcqFS/iiI7dRNHc6kRsJ4DBy62TjL9dI7x7alEf0IH0UVOVrl4IOVzu
-         GpXREwleGVmeGPz2nTKQdc6MpblUJqHDbSbhfMJtKidUVQAqjhAVDZG+8F2iqXIomA
-         hTUsIy0ECnJu00tWYzQCIJw9GJ+IZe9LpXHPRsz27PaipgINTqeIJZ30QVgETX6OAv
-         T7S6+t4Zs4RLQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 75DFAE2A034;
-        Wed, 21 Jun 2023 22:10:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229593AbjFVCNH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jun 2023 22:13:07 -0400
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A8AAC;
+        Wed, 21 Jun 2023 19:13:06 -0700 (PDT)
+Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-34220bb6a80so21522975ab.0;
+        Wed, 21 Jun 2023 19:13:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687399986; x=1689991986;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j95uarGP35hPSWnjSMr+fwYBKOEPZAg+794kgrinkk4=;
+        b=Y/y71k3J4WV+C+rQrX6xzNJaSMdhipCDKYmeDZLxNIUKBGx4cQKfOzyT4krunbn86V
+         0cDjC+8T74w4mXRjY64enG99rTHqU3z8+kHBQqfjqqnTMUthzfgWF5YIEfxg9dPJbBYr
+         ZWFfOG08b+aWcm2BBBxqsinuVs2rTp1mvsbsIiXmB6NC9CV8NpMGl0aDJ0m01wfbnALN
+         P2252teF2AKOaHBp6zDYf2IHIipaWYtPzIQedP8EyCwX5ltNplkTKulHkWROi8rS7yYi
+         OMI6JKXhobsnHdG7ygo926qYQUCIIETtXn1JtzjdkQKqipQnbTzG4y0G8U+pRC4AqQc0
+         cXqw==
+X-Gm-Message-State: AC+VfDzz9kJXTvxwXyNfRSvkIcLj9cFFHJuJkCbG2UMiM726my4RkU6+
+        oqLF+S1RVw8UXQEDnDRRoA==
+X-Google-Smtp-Source: ACHHUZ60xJYjxvtQhBhgAxqfQ0q0sG6xeGQalleS7tfQti6tA1HN+oiqOyA3+97Ja+MFSuyE+l3jBA==
+X-Received: by 2002:a92:cac8:0:b0:340:c382:f6bb with SMTP id m8-20020a92cac8000000b00340c382f6bbmr12037373ilq.26.1687399985736;
+        Wed, 21 Jun 2023 19:13:05 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id s11-20020a92d90b000000b00333b5ae4ab7sm1684468iln.87.2023.06.21.19.13.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 19:13:05 -0700 (PDT)
+Received: (nullmailer pid 75083 invoked by uid 1000);
+        Thu, 22 Jun 2023 02:13:03 -0000
+Date:   Wed, 21 Jun 2023 20:13:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Alexandru Ardelean <alex@shruggie.ro>
+Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, lee@kernel.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        deller@gmx.de, Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: document new property
+ default-brightness-level
+Message-ID: <20230622021303.GA68330-robh@kernel.org>
+References: <20230621215457.11297-1-alex@shruggie.ro>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next PATCH v5 0/3] leds: trigger: netdev: add additional modes
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168738542347.32529.17106611701898066780.git-patchwork-notify@kernel.org>
-Date:   Wed, 21 Jun 2023 22:10:23 +0000
-References: <20230619204700.6665-1-ansuelsmth@gmail.com>
-In-Reply-To: <20230619204700.6665-1-ansuelsmth@gmail.com>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     pavel@ucw.cz, lee@kernel.org, andrew@lunn.ch, davem@davemloft.net,
-        dan.carpenter@linaro.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230621215457.11297-1-alex@shruggie.ro>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,34 +67,66 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 19 Jun 2023 22:46:57 +0200 you wrote:
-> This is a continue of [1]. It was decided to take a more gradual
-> approach to implement LEDs support for switch and phy starting with
-> basic support and then implementing the hw control part when we have all
-> the prereq done.
+On Thu, Jun 22, 2023 at 12:54:56AM +0300, Alexandru Ardelean wrote:
+> From: Yannick Fertre <yannick.fertre@foss.st.com>
 > 
-> This should be the final part for the netdev trigger.
-> I added net-next tag and added netdev mailing list since I was informed
-> that this should be merged with netdev branch.
+> Add documentation for new default-brightness-level property.
+
+Why?
+
 > 
-> [...]
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+> ---
+> 
+> Link to original patch:
+>   https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
+> 
+> Changelog v1 -> v2:
+> * https://lore.kernel.org/dri-devel/20230519200520.10657-2-alex@shruggie.ro/
+> * removed 'brightness-levels' reference
+> * updated doc-text for 'default-brightness-level'
+> * updated doc-text for 'default-on'
+> * added 'minimum' & 'maximum' to 'default-brightness-level' property
+> * removed 'Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>' as
+>   requested
+> * patch is first in series of 2 patches (was second patch)
+> 
+>  .../bindings/leds/backlight/gpio-backlight.yaml    | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> index 584030b6b0b9..2da6552a207c 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> @@ -20,9 +20,21 @@ properties:
+>      maxItems: 1
+>  
+>    default-on:
+> -    description: enable the backlight at boot.
+> +    description:
+> +      The default power state of the backlight at boot.
+>      type: boolean
+>  
+> +  default-brightness-level:
+> +    description:
+> +      The default brightness level on device init. The value can be 0 or 1.
+> +      If omitted, the value is 1. In the context of the "gpio-backlight" driver
+> +      the effect of this setting will be that the backlight is on/off.
+> +      The difference between this setting and "default-on" is that this handles
+> +      brightness, while "default-on" handles the power setting of the device.
 
-Here is the summary with links:
-  - [net-next,v5,1/3] leds: trigger: netdev: add additional specific link speed mode
-    https://git.kernel.org/netdev/net-next/c/d5e01266e7f5
-  - [net-next,v5,2/3] leds: trigger: netdev: add additional specific link duplex mode
-    https://git.kernel.org/netdev/net-next/c/f22f95b9ff15
-  - [net-next,v5,3/3] leds: trigger: netdev: expose hw_control status via sysfs
-    https://git.kernel.org/netdev/net-next/c/b655892ffd6d
+What power setting? You only have 1 GPIO to control here which is 2 
+states. I fail to see why you need 6 possible states with all the 
+combinations of 2 properties.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 1
+> +
+>  required:
+>    - compatible
+>    - gpios
+> -- 
+> 2.40.1
+> 
