@@ -2,154 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7A9E73B64E
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jun 2023 13:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEBB573B6EC
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jun 2023 14:10:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230506AbjFWLcq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Jun 2023 07:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34168 "EHLO
+        id S231290AbjFWMJx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Jun 2023 08:09:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbjFWLcp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Jun 2023 07:32:45 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624DFC6
-        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 04:32:17 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3111547c8f9so634640f8f.1
-        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 04:32:17 -0700 (PDT)
+        with ESMTP id S229484AbjFWMJw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Jun 2023 08:09:52 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B06B172C
+        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 05:09:49 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f769c37d26so679906e87.1
+        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 05:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687519930; x=1690111930;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
-        b=CBjeN7Yvl5QDbituklmqZYeodwleXYQass+yos6URLcHssixFhCMZxvF+jOiJBronY
-         TUc+FzMyHVmqqqWiV9V+k5l6twTk122i3RyDlVkNHI3MWhcxB6hJgbF81mldq2SB0/o4
-         +TSgcFT7VMD+sL+b8QR5RByGb5dEfhRF0t4C3w3BJBiJ2+UdO5VsrRvXs3LNp6ofdMjA
-         kDgPzaJc8xIdR8XyFaJuykoj1vS04qnfS239pyKpQrtH4itrndfzksqWEYdq6rF8AQq/
-         PhsCgdhin9pB5O5vUA8m9f+mNTumHP8dApeX+y6jtCT4yI/ogr8Conin9X3SJ2MG2PpU
-         0u9A==
+        d=linaro.org; s=google; t=1687522187; x=1690114187;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=INyk+cs8lXfdbKNGqgibtpw8hPpbnH1cZSfvCvkoydI=;
+        b=iB4MZJgv9/CLQBd+Py56pjcfSmEYX9ng0/9Dvp43t51K7a7A8ZjkshUMk4zBV8aUPB
+         tvDPXfEYdjOqJQvRNrxctjl4q3OaHunU80o6Z+P+M9keuIPeo4z71MRWMfcrn5qrmBYl
+         7IFGJy6LtOhDG/SPt6Mp+sP76ALeMxp4Wb6J+lHbTWaz43HzD/wiGkA2YCY4AtOa6iRm
+         05TC3m+auLv7WP6DEHFLFOjvLcedkQibQ/Dn5jniPGzvzfIGCyA8SbA/wOXuFPw6GzGR
+         jKEkyOdyTOylzX7vxTfUU1fPMv7kgQimEXIB3QM3qwfhGNY07recQgHr3uMhe8dSbdjW
+         o+Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687519930; x=1690111930;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1687522187; x=1690114187;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
-        b=hTWzSgoSNCySMvq+I6CaAnMgGQ6/+DVydI+rBUWM7sw8FfYBT5WGQivLBxQhgJuZNq
-         LRW+qrNbIWh1C6NO4i7mb69DziTtDhYDYpm9hRrjLyNs2V4KRNuMu/kCxj2dtotuRWx1
-         kBADwmfZknUbKhlzCKZmKZmvu0ghlqtC8Xl6Yzi2ebJ9FvYHsl8ROSLAYK38xRvYPMd0
-         ZXF3C7HUahZSkgUAnnGTYRQSQYG3BGqpbTX9vBSaE5+nw7DruRypQeNo35jEbtyTukRm
-         ecR1KVrvuhx7UA4EWyKE70D8wiSs/1KTopHsQ5jhxRcZCCHz7LiTKZTgyVF0RDJMwBM8
-         risQ==
-X-Gm-Message-State: AC+VfDxYxY6H3A8OECEIlgBCwnSFMM6lNkQQw5522ErLFSg5aWUTuNJm
-        48CN8pM4TOsVKLZqz9EhfbhOxm0AaQx5WkqBE7Vawg==
-X-Google-Smtp-Source: ACHHUZ4yGE7Jj/528UNR5dVYTd1jl6cieW71vsAHwRVCrwh0+5oIyPiflT16AwEbtFUCmIfx+HhwlQ==
-X-Received: by 2002:a5d:5751:0:b0:30f:c943:f925 with SMTP id q17-20020a5d5751000000b0030fc943f925mr16966957wrw.49.1687519929755;
-        Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id x7-20020a5d54c7000000b0031270cf1904sm9365570wrv.59.2023.06.23.04.32.08
+        bh=INyk+cs8lXfdbKNGqgibtpw8hPpbnH1cZSfvCvkoydI=;
+        b=e2d7QygDbMY5/fR6SYg7zA9KdrrMFdvYWADkb1TbnjbCy+EqorZ20c/PRIWh/XDLv7
+         wq1sn+zLu959j6bIwZfm8Y5WX6QoKnbyEWYq+cS5rlMK5GDStoP20SzAARhp1p7NWJYc
+         1hwtcBmjepYpVlLs7xhdlzjUcqoQujaTqFLMiAWq/fUlv7C7b0TeA/lRHLwb7EdwkHa2
+         Is73ZbwBs2x0BfDwhqBQ6s1Vrn+6NqQH8daKVgUD8kyYMUMQNZpX06lNsKvotghLKxVu
+         I5LC340dYDk8RAb5lFV2ux5/+Cn35+kBM+752ijyfLIc3lRWW168PcjWeU/bUJvcUoGz
+         Hdzw==
+X-Gm-Message-State: AC+VfDz0YqY5FlTuydDZX8zhh6GOve7hD8Z3liFVnBupnYFiLyNdYzNj
+        ATCBhcmu2KAive719641w//bzo0ZG41sai3q5ZM=
+X-Google-Smtp-Source: ACHHUZ6tjcU/WuZFOxWw0NcfScpJ1hd/rSyIsPE8QHfoMpMzAPstJqG+ZiHoZ6QXgKNk0KW7ewfPKw==
+X-Received: by 2002:a05:6512:214c:b0:4f9:61a2:3592 with SMTP id s12-20020a056512214c00b004f961a23592mr3290795lfr.35.1687522187204;
+        Fri, 23 Jun 2023 05:09:47 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g17-20020a7bc4d1000000b003f7f87ba116sm2197500wmk.19.2023.06.23.05.09.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
-Date:   Fri, 23 Jun 2023 12:32:07 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Alexandru Ardelean <alex@shruggie.ro>
-Cc:     Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        lee@kernel.org, jingoohan1@gmail.com, pavel@ucw.cz,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        deller@gmx.de, Yannick Fertre <yannick.fertre@foss.st.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: document new property
- default-brightness-level
-Message-ID: <20230623113207.GB4426@aspen.lan>
-References: <20230621215457.11297-1-alex@shruggie.ro>
- <20230622021303.GA68330-robh@kernel.org>
- <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
+        Fri, 23 Jun 2023 05:09:44 -0700 (PDT)
+Date:   Fri, 23 Jun 2023 15:09:40 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Martin Kurbanov <mmkurbanov@sberdevices.ru>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] leds: aw200xx: Fix error code in probe()
+Message-ID: <4d791b69-01c7-4532-818c-63712d3f63e1@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
+X-Mailer: git-send-email haha only kidding
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 10:19:57AM +0300, Alexandru Ardelean wrote:
-> On Thu, Jun 22, 2023 at 5:13 AM Rob Herring <robh@kernel.org> wrote:
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> > >    default-on:
-> > > -    description: enable the backlight at boot.
-> > > +    description:
-> > > +      The default power state of the backlight at boot.
-> > >      type: boolean
-> > >
-> > > +  default-brightness-level:
-> > > +    description:
-> > > +      The default brightness level on device init. The value can be 0 or 1.
-> > > +      If omitted, the value is 1. In the context of the "gpio-backlight" driver
-> > > +      the effect of this setting will be that the backlight is on/off.
-> > > +      The difference between this setting and "default-on" is that this handles
-> > > +      brightness, while "default-on" handles the power setting of the device.
-> >
-> > What power setting? You only have 1 GPIO to control here which is 2
-> > states.
+The "ret" variable is zero/success here.  Don't return that, return
+-EINVAL instead.
 
-There are at least three states: On/Off/HiZ .
+Fixes: 36a87f371b7a ("leds: Add AW20xx driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/leds/leds-aw200xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Currently the DT description isn't acually rich enough to allow drivers
-to safely use the HiZ state so that is not why this change is potentially
-useful today (but does illustrate why it is not "wrong" to put it on the
-h/ware description).
+diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
+index 96979b8e09b7..7b996bc01c46 100644
+--- a/drivers/leds/leds-aw200xx.c
++++ b/drivers/leds/leds-aw200xx.c
+@@ -368,7 +368,7 @@ static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
+ 
+ 	if (!chip->display_rows ||
+ 	    chip->display_rows > chip->cdef->display_size_rows_max) {
+-		return dev_err_probe(dev, ret,
++		return dev_err_probe(dev, -EINVAL,
+ 				     "Invalid leds display size %u\n",
+ 				     chip->display_rows);
+ 	}
+-- 
+2.39.2
 
-
-> > I fail to see why you need 6 possible states with all the
-> > combinations of 2 properties.
->
-> So, the "default-on" bool gets converted to backlight power settings,
-> which eventually gets converted back to GPIO values (at some point).
-> Which sounds quirky (when saying/writing it).
-
-Modern DT practice is to for the display to link to backlight. This
-gives display control over power state (so backlight automatically
-follows the display power state). On such systems the backlight will
-be turned "on" when the display hardware comes up (regardless of whether
-or not default-on is set).
-
-Thus this control covers the case where we have a display that is
-readable when the GPIO is off (e.g. transflexive LCD or epaper).
-A display that is readable with the GPIO off means the default
-brightness brightness at boot can meaningfully be zero. In this
-case the backlight is nominally on but the GPIO is off.
-
-In short, this becomes part of the hardware description, rather than
-merely being a driver feature, due to the effect of linking display
-to backlight in the DT.
-
-Note also that most backlights do expose on/off via DT for the same
-reasons (when the off and zero states both result in the backlight
-output pin doing physically the same thing).
-
-
-> But, yeah.
-> That's one thing that also made me a bit undecided to send this.
-> On the one hand I like the uniformity it brings.
-> On the other hand, because there is the legacy behavior (the
-> "default-on" property, and the fact that we can use the GPIO DT
-> settings to control this) just explodes complexity/quirks.
->
-> We can probably just drop this.
-> I'll also admit that my doc-writing skills aren't too great.
-
-It may be potentially useful for people building kit with sunlight
-readable displays and trivial backlights as a backup in the dark.
-
-Of course if the pin the backlight is connected to is PWM capable
-then the PWM backlight is probably a better bet ;-) .
-
-
-Daniel.
