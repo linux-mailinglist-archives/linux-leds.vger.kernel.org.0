@@ -2,145 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E843273B24C
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jun 2023 10:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A9E73B64E
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Jun 2023 13:32:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbjFWIEx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Jun 2023 04:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48808 "EHLO
+        id S230506AbjFWLcq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Jun 2023 07:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231308AbjFWIEw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Jun 2023 04:04:52 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2F2212F
-        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 01:04:47 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EDC806607135;
-        Fri, 23 Jun 2023 09:04:45 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687507486;
-        bh=wU3COEvvTx4nFaqAnosOYGf9sIPS0XZKMWTKQM1B8fI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=FkHTmFBGZjhmkIy2vJ2HIV541nVjVMa0FjD00n5HTl38Sn+biTJQudQDQRr9nP9x5
-         Q9w5r/ElT3w0sPXXi0Tnlk5FugU2bYSraJ9bc3/mdpay2siJnU083xzam4fe5AU5hn
-         y/ImTXO41+jx6L2AtyHHrLBZeyJkqw0VY+IEmnO4xf/419epZzJt16XKplD+nAMRb7
-         N7/zrj5XAaAqS0bJDDpRtUhC0EvV3npPkUNNpnTQudDKC2X2+66xDy5ToU8LIIsHwX
-         D9bWFzhhMaS3PJyTJijNtgT5RRJhTmYEokxVJoDu7x0ct02nwtvn5VVxjsy0QVYr9W
-         cANoHjJEsztqQ==
-Message-ID: <57be8178-e4f9-3908-745f-bc02657e0b3a@collabora.com>
-Date:   Fri, 23 Jun 2023 10:04:43 +0200
+        with ESMTP id S230217AbjFWLcp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Jun 2023 07:32:45 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624DFC6
+        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 04:32:17 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3111547c8f9so634640f8f.1
+        for <linux-leds@vger.kernel.org>; Fri, 23 Jun 2023 04:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687519930; x=1690111930;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
+        b=CBjeN7Yvl5QDbituklmqZYeodwleXYQass+yos6URLcHssixFhCMZxvF+jOiJBronY
+         TUc+FzMyHVmqqqWiV9V+k5l6twTk122i3RyDlVkNHI3MWhcxB6hJgbF81mldq2SB0/o4
+         +TSgcFT7VMD+sL+b8QR5RByGb5dEfhRF0t4C3w3BJBiJ2+UdO5VsrRvXs3LNp6ofdMjA
+         kDgPzaJc8xIdR8XyFaJuykoj1vS04qnfS239pyKpQrtH4itrndfzksqWEYdq6rF8AQq/
+         PhsCgdhin9pB5O5vUA8m9f+mNTumHP8dApeX+y6jtCT4yI/ogr8Conin9X3SJ2MG2PpU
+         0u9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687519930; x=1690111930;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
+        b=hTWzSgoSNCySMvq+I6CaAnMgGQ6/+DVydI+rBUWM7sw8FfYBT5WGQivLBxQhgJuZNq
+         LRW+qrNbIWh1C6NO4i7mb69DziTtDhYDYpm9hRrjLyNs2V4KRNuMu/kCxj2dtotuRWx1
+         kBADwmfZknUbKhlzCKZmKZmvu0ghlqtC8Xl6Yzi2ebJ9FvYHsl8ROSLAYK38xRvYPMd0
+         ZXF3C7HUahZSkgUAnnGTYRQSQYG3BGqpbTX9vBSaE5+nw7DruRypQeNo35jEbtyTukRm
+         ecR1KVrvuhx7UA4EWyKE70D8wiSs/1KTopHsQ5jhxRcZCCHz7LiTKZTgyVF0RDJMwBM8
+         risQ==
+X-Gm-Message-State: AC+VfDxYxY6H3A8OECEIlgBCwnSFMM6lNkQQw5522ErLFSg5aWUTuNJm
+        48CN8pM4TOsVKLZqz9EhfbhOxm0AaQx5WkqBE7Vawg==
+X-Google-Smtp-Source: ACHHUZ4yGE7Jj/528UNR5dVYTd1jl6cieW71vsAHwRVCrwh0+5oIyPiflT16AwEbtFUCmIfx+HhwlQ==
+X-Received: by 2002:a5d:5751:0:b0:30f:c943:f925 with SMTP id q17-20020a5d5751000000b0030fc943f925mr16966957wrw.49.1687519929755;
+        Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id x7-20020a5d54c7000000b0031270cf1904sm9365570wrv.59.2023.06.23.04.32.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
+Date:   Fri, 23 Jun 2023 12:32:07 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Alexandru Ardelean <alex@shruggie.ro>
+Cc:     Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        lee@kernel.org, jingoohan1@gmail.com, pavel@ucw.cz,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        deller@gmx.de, Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: document new property
+ default-brightness-level
+Message-ID: <20230623113207.GB4426@aspen.lan>
+References: <20230621215457.11297-1-alex@shruggie.ro>
+ <20230622021303.GA68330-robh@kernel.org>
+ <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] leds: leds-mt6323: Adjust return/parameter types in wled
- get/set callbacks
-To:     Nathan Chancellor <nathan@kernel.org>, lee@kernel.org
-Cc:     sean.wang@mediatek.com, pavel@ucw.cz, matthias.bgg@gmail.com,
-        ndesaulniers@google.com, trix@redhat.com,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, llvm@lists.linux.dev,
-        patches@lists.linux.dev
-References: <20230622-mt6323-wled-wincompatible-function-pointer-types-strict-v1-1-6ad256f220e8@kernel.org>
-Content-Language: en-US
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230622-mt6323-wled-wincompatible-function-pointer-types-strict-v1-1-6ad256f220e8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Il 22/06/23 18:12, Nathan Chancellor ha scritto:
-> Clang's kernel Control Flow Integrity (kCFI) is a compiler-based
-> security mitigation that ensures the target of an indirect function call
-> matches the expected type of the call and trapping if they do not match
-> exactly. The warning -Wincompatible-function-pointer-types-strict aims
-> to catch these issues at compile time, which reveals:
-> 
->   drivers/leds/leds-mt6323.c:598:49: error: incompatible function pointer types assigning to 'int (*)(struct led_classdev *, enum led_brightness)' from 'int (struct led_classdev *, unsigned int)' [-Werror,-Wincompatible-function-pointer-types-strict]
->     598 |                         leds->led[reg]->cdev.brightness_set_blocking =
->         |                                                                      ^
->     599 |                                                 mt6323_wled_set_brightness;
->         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
->   drivers/leds/leds-mt6323.c:600:40: error: incompatible function pointer types assigning to 'enum led_brightness (*)(struct led_classdev *)' from 'unsigned int (struct led_classdev *)' [-Werror,-Wincompatible-function-pointer-types-strict]
->     600 |                         leds->led[reg]->cdev.brightness_get =
->         |                                                             ^
->     601 |                                                 mt6323_get_wled_brightness;
->         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
->   2 errors generated.
-> 
-> While 'unsigned int' is ABI compatible with 'enum led_brightness' (hence
-> no warning from -Wincompatible-function-pointer-types) and the callers
-> of these callbacks use/pass the values as 'unsigned int', the mismatch
-> between the prototype and the called function will trip kCFI at runtime.
-> 
-> Change the types in the implementations to match the prototypes, clearing
-> up the warning and avoiding kCFI failures.
-> 
-> Fixes: 9bb0a9e0626c ("leds: leds-mt6323: Add support for WLEDs and MT6332")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On Fri, Jun 23, 2023 at 10:19:57AM +0300, Alexandru Ardelean wrote:
+> On Thu, Jun 22, 2023 at 5:13 AM Rob Herring <robh@kernel.org> wrote:
+> > > +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> > >    default-on:
+> > > -    description: enable the backlight at boot.
+> > > +    description:
+> > > +      The default power state of the backlight at boot.
+> > >      type: boolean
+> > >
+> > > +  default-brightness-level:
+> > > +    description:
+> > > +      The default brightness level on device init. The value can be 0 or 1.
+> > > +      If omitted, the value is 1. In the context of the "gpio-backlight" driver
+> > > +      the effect of this setting will be that the backlight is on/off.
+> > > +      The difference between this setting and "default-on" is that this handles
+> > > +      brightness, while "default-on" handles the power setting of the device.
+> >
+> > What power setting? You only have 1 GPIO to control here which is 2
+> > states.
 
-leds need to deprecate said enumeration for real, since it's marked for
-deprecation but, in the meanwhile, we can't have kCFI failures on this driver.
+There are at least three states: On/Off/HiZ .
 
-For this reason,
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Cheers,
-Angelo
-
-> ---
->   drivers/leds/leds-mt6323.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
-> index e8fecfc2e90a..24f35bdb55fb 100644
-> --- a/drivers/leds/leds-mt6323.c
-> +++ b/drivers/leds/leds-mt6323.c
-> @@ -76,7 +76,7 @@ struct mt6323_led {
->   	int			id;
->   	struct mt6323_leds	*parent;
->   	struct led_classdev	cdev;
-> -	unsigned int		current_brightness;
-> +	enum led_brightness	current_brightness;
->   };
->   
->   /**
-> @@ -451,7 +451,7 @@ static int mtk_wled_hw_off(struct led_classdev *cdev)
->   	return 0;
->   }
->   
-> -static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
-> +static enum led_brightness mt6323_get_wled_brightness(struct led_classdev *cdev)
->   {
->   	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
->   	struct mt6323_leds *leds = led->parent;
-> @@ -471,7 +471,7 @@ static unsigned int mt6323_get_wled_brightness(struct led_classdev *cdev)
->   }
->   
->   static int mt6323_wled_set_brightness(struct led_classdev *cdev,
-> -				      unsigned int brightness)
-> +				      enum led_brightness brightness)
->   {
->   	struct mt6323_led *led = container_of(cdev, struct mt6323_led, cdev);
->   	struct mt6323_leds *leds = led->parent;
-> 
-> ---
-> base-commit: 7bd932d9adbcc5c5370d968bdb0b00385606bf3a
-> change-id: 20230621-mt6323-wled-wincompatible-function-pointer-types-strict-334f06d92ffb
-> 
-> Best regards,
+Currently the DT description isn't acually rich enough to allow drivers
+to safely use the HiZ state so that is not why this change is potentially
+useful today (but does illustrate why it is not "wrong" to put it on the
+h/ware description).
 
 
+> > I fail to see why you need 6 possible states with all the
+> > combinations of 2 properties.
+>
+> So, the "default-on" bool gets converted to backlight power settings,
+> which eventually gets converted back to GPIO values (at some point).
+> Which sounds quirky (when saying/writing it).
+
+Modern DT practice is to for the display to link to backlight. This
+gives display control over power state (so backlight automatically
+follows the display power state). On such systems the backlight will
+be turned "on" when the display hardware comes up (regardless of whether
+or not default-on is set).
+
+Thus this control covers the case where we have a display that is
+readable when the GPIO is off (e.g. transflexive LCD or epaper).
+A display that is readable with the GPIO off means the default
+brightness brightness at boot can meaningfully be zero. In this
+case the backlight is nominally on but the GPIO is off.
+
+In short, this becomes part of the hardware description, rather than
+merely being a driver feature, due to the effect of linking display
+to backlight in the DT.
+
+Note also that most backlights do expose on/off via DT for the same
+reasons (when the off and zero states both result in the backlight
+output pin doing physically the same thing).
+
+
+> But, yeah.
+> That's one thing that also made me a bit undecided to send this.
+> On the one hand I like the uniformity it brings.
+> On the other hand, because there is the legacy behavior (the
+> "default-on" property, and the fact that we can use the GPIO DT
+> settings to control this) just explodes complexity/quirks.
+>
+> We can probably just drop this.
+> I'll also admit that my doc-writing skills aren't too great.
+
+It may be potentially useful for people building kit with sunlight
+readable displays and trivial backlights as a backup in the dark.
+
+Of course if the pin the backlight is connected to is PWM capable
+then the PWM backlight is probably a better bet ;-) .
+
+
+Daniel.
