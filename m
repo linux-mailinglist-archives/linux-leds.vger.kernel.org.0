@@ -2,119 +2,427 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9FB073CA4D
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Jun 2023 11:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EEFA73CA51
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Jun 2023 11:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbjFXJyO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Jun 2023 05:54:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
+        id S232882AbjFXJzQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Jun 2023 05:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbjFXJyN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Jun 2023 05:54:13 -0400
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA53B0;
-        Sat, 24 Jun 2023 02:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boaniger.com;
-        s=selector3; t=1687600449; i=@boaniger.com;
-        bh=Wuj+h4mwV9Tm7duhBINktIbLhIzOXSNpyo9CJUmQGJM=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:
-         Content-Description:Subject:To:From:Date:Reply-To:Message-ID;
-        b=AolmaF45iYTnAzMAu22cDxB6PzLt3FWGr+zfvWZZayYY8g4wPv6aH2yO5nXdssTAO
-         jB0e+XsqHrI7hG/3tn+q5dKZuNJah4EMbwg7aegokGQcnmGOUlWadySwG4k8IGyCO6
-         q67h81drbRzrYjYefJ5xOBIMqhtapROEmULA0PiA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOKsWRWlGSWpSXmKPExsUyy+mus6793mk
-  pBi9fC1u0dR5isfjxYw6bxeOP95gttr5Zx2ixaFkrswOrx77v3xk9ds66y+7x89g8Vo/Pm+QC
-  WKJYM/OS8isSWDN+tLczFSRXfP31k6WBMaCLkYtDSOAbo8SX5sNMcE7vxAmsEM5BRom3b/4xd
-  zFycjAL6EncmDqFDcTmFRCUODnzCQtEXFti2cLXQDUcQLaaxNeuEpCwsAC3xJdX6xlBbBEBZY
-  kX1/YwgdhsQPbnxy/BRrIIqEpc3LoXzBYSkJNY9mA+M8R4f4lf3T/YIeLyEt9uPmSewMg3C8k
-  Vs5BcMQvJFbMQrljAyLKK0aw4tagstUjXSC+pKDM9oyQ3MTNHL7FKN1EvtVQ3L7+oJEPXUC+x
-  vFgvtbhYr7gyNzknRS8vtWQTIzDEU4pTA3YwHu36p3eIUZKDSUmUN8VkSooQX1J+SmVGYnFGf
-  FFpTmrxIUY9Dg6BC2cffmIUuPLhUxOTFEtefl6qkgSv065pKUKCRanpqRVpmTnAmIRpkODgUR
-  Lh/b8bKM1bXJCYW5yZDpE6xRjLsXnh3r3MHMcWgcjVO/cDye1g8n3TRSD56eMVIPngwDWQ+AU
-  Q+XVb1wFmIZb0osRKKXHewD1AQwVAhmaU5sGthKWfS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5
-  GJWEeSeBTOHJzCuBu+wV0NFMQEena00GObokESEl1cDkJ/pKWm1Zxyr+p1eYPp9b8uA8l/iaN
-  QyTFGYmF8fkGT/epKE1MaDhdoTU047Yr0/tfh7LZbmrLxHXrT11reyck6U7UifwR3ZrRDwV0o
-  1MXOXw8+p6t6/rO2aZL1TnzFswLfUlb5+jKd/bYx/abbZO5c5i6+sJ6l56OU7NSu1JbmP8dja
-  7tArjGSW7RXPiQtIurHz6yex17ruZC20nfl2SXdVh5jjZ0fjV1rojbomFLMvjZ4odFuLyu1d9
-  5u7hO1JCz4Nvdp9Nf/a+876OwYTTxrF9VVEuP+Qz5lzjC0yyjl/x7uev2ud6N8St5uaKc2SF/
-  jB5MvmMTmhg55O2Hxw9HNEG65n/nRdaMzkqp06JpTgj0VCLuag4EQBE2XTMugMAAA==
-X-Env-Sender: olena@boaniger.com
-X-Msg-Ref: server-8.tower-725.messagelabs.com!1687600438!65740!11
-X-Originating-IP: [154.66.221.67]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.105.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 6733 invoked from network); 24 Jun 2023 09:54:07 -0000
-Received: from unknown (HELO mail.boaniger.com) (154.66.221.67)
-  by server-8.tower-725.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Jun 2023 09:54:07 -0000
-Received: from WINSRVNE-ARCH.boaniger.local (10.107.72.27) by
- WINSRVNE-EXCH.boaniger.local (10.107.72.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Sat, 24 Jun 2023 10:54:37 +0100
-Received: from WINSRVNE-EXCH.boaniger.local (10.107.72.8) by
- WINSRVNE-ARCH.boaniger.local (10.107.72.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Sat, 24 Jun 2023 10:54:36 +0100
-Received: from [85.217.144.32] (85.217.144.32) by WINSRVNE-EXCH.boaniger.local
- (10.107.72.8) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Sat, 24 Jun 2023 10:54:35 +0100
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S232915AbjFXJzP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Jun 2023 05:55:15 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8D11BF2
+        for <linux-leds@vger.kernel.org>; Sat, 24 Jun 2023 02:55:12 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51bdca52424so1634576a12.3
+        for <linux-leds@vger.kernel.org>; Sat, 24 Jun 2023 02:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687600511; x=1690192511;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/ggSn0p3HLo2+unzYGYN7WsdbAce0K2IgCOxTMxE64k=;
+        b=BOsZzwLL4CV9Rq/0kY5hQMjmZpBy2HSSYn1/AYZDevXeurEb/EKut7HOg2GqcOlT/f
+         FC7O6wFHdARTaSaU4K0kE2z6EJYbKXHmu/+N/H9peF6U5UBL4VIhusM7McbtxA2PT0dF
+         uRUmDRSUSedd5Hn8cxxxUsN5jufrzknqJh781rF7aR+VX25puPbbIKQbeJ63BQlpSrQR
+         +cbiwlN7XldKE7u+WJawjUO8nGkqqpP+OCF0r8oItERsz1oZRG+iO/r1uVkA35lkwJfH
+         hb++YyV3kA7OH3qw+jjEi4EqVjyHyPFQvx7ZuRBSrhPYjJmlBZLkDY6mwvS1dFRl7+pL
+         ey1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687600511; x=1690192511;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ggSn0p3HLo2+unzYGYN7WsdbAce0K2IgCOxTMxE64k=;
+        b=D3nXJNudO+jckpQaRrPum9lpK2ePHCmvXes5rO8l4wMDv+wuC3VtihrfZCgdNwFXr7
+         aC1i8A0W2jZrfme7V/ssO/4flAOr0ou5q8CeFuKTqzybXV2wY5im/AnqKJJrf7aP+h/k
+         3IKUDbPmgHu3RAZHj+AklisXAQV5Qu2XtJ3EOUWb6RHweshGzldHV1+uLBPUeCnrIX4N
+         7fVd1BRQ6rkwrI+HSt/jDqvhTMaMbmWwFmGyc+ei4j98gXVE3Aw82rAaFtNQns/ZOYTd
+         F0a1m5FLSsjQ/sZSiDsLnpDgB6bgj7vQ2067JFnIUcrt5ZA0NnDIWIvBnb0XTDj04zsT
+         n5Tg==
+X-Gm-Message-State: AC+VfDyiHGr01yyL0AIcCq26PdQesf12UV8H0xlHGs9BP/2NGFJlz4Xs
+        Y8GHAYIO/SUc1DJYqd7/WyTnrA==
+X-Google-Smtp-Source: ACHHUZ5zjRbOThh8j3nf0OBEOpbhjF5ZuZKd06Q6eyvg35DgyG1nnbu1SRSk4HgVy3Pgt3+CbGrmyA==
+X-Received: by 2002:a17:907:16a3:b0:98c:e3a1:dbd0 with SMTP id hc35-20020a17090716a300b0098ce3a1dbd0mr7156275ejc.6.1687600511131;
+        Sat, 24 Jun 2023 02:55:11 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id p14-20020a1709061b4e00b009888b71c368sm696448ejg.152.2023.06.24.02.55.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Jun 2023 02:55:10 -0700 (PDT)
+Message-ID: <42126265-75b6-83be-c3aa-ee2a16cb26dd@linaro.org>
+Date:   Sat, 24 Jun 2023 11:55:08 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: hi
-To:     Recipients <olena@boaniger.com>
-From:   Ms Olena <olena@boaniger.com>
-Date:   Sat, 24 Jun 2023 11:53:13 +0200
-Reply-To: <os904425@gmail.com>
-Message-ID: <76c6ea03-0c8f-416b-80c1-34d488dc6627@WINSRVNE-EXCH.boaniger.local>
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: boaniger.com]
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [85.158.142.113 listed in list.dnswl.org]
-        *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?85.217.144.32>]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [85.217.144.32 listed in zen.spamhaus.org]
-        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4999]
-        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
-        *      [85.158.142.113 listed in wl.mailspike.net]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [os904425[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 3/7] soc: qcom: add QCOM PBS driver
+Content-Language: en-US
+To:     Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
+        lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        agross@kernel.org, andersson@kernel.org
+Cc:     konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+References: <20230621185949.2068-1-quic_amelende@quicinc.com>
+ <20230621185949.2068-4-quic_amelende@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230621185949.2068-4-quic_amelende@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-I have funds for investment. Can we partner if you have a good business ide=
-a?
-Thanks, Olena.
+On 21/06/2023 20:59, Anjelique Melendez wrote:
+> Add the Qualcomm PBS (Programmable Boot Sequencer) driver. The QCOM PBS
+> driver supports configuring software PBS trigger events through PBS RAM
+> on Qualcomm Technologies, Inc (QTI) PMICs.
+> 
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  drivers/soc/qcom/Kconfig          |   9 +
+>  drivers/soc/qcom/Makefile         |   1 +
+>  drivers/soc/qcom/qcom-pbs.c       | 343 ++++++++++++++++++++++++++++++
+>  include/linux/soc/qcom/qcom-pbs.h |  36 ++++
+>  4 files changed, 389 insertions(+)
+>  create mode 100644 drivers/soc/qcom/qcom-pbs.c
+>  create mode 100644 include/linux/soc/qcom/qcom-pbs.h
+> 
+> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+> index a491718f8064..226b668f4690 100644
+> --- a/drivers/soc/qcom/Kconfig
+> +++ b/drivers/soc/qcom/Kconfig
+> @@ -260,6 +260,15 @@ config QCOM_APR
+>  	  used by audio driver to configure QDSP6
+>  	  ASM, ADM and AFE modules.
+>  
+> +config QCOM_PBS
+> +	tristate "PBS trigger support for Qualcomm PMIC"
+> +	depends on SPMI
+> +	help
+> +	  This driver supports configuring software programmable boot sequencer (PBS)
+> +	  trigger event through PBS RAM on Qualcomm Technologies, Inc. PMICs.
+> +	  This module provides the APIs to the client drivers that wants to send the
+> +	  PBS trigger event to the PBS RAM.
+> +
+>  config QCOM_ICC_BWMON
+>  	tristate "QCOM Interconnect Bandwidth Monitor driver"
+>  	depends on ARCH_QCOM || COMPILE_TEST
+> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+> index 0f43a88b4894..4e154af3877a 100644
+> --- a/drivers/soc/qcom/Makefile
+> +++ b/drivers/soc/qcom/Makefile
+> @@ -31,5 +31,6 @@ obj-$(CONFIG_QCOM_LLCC) += llcc-qcom.o
+>  obj-$(CONFIG_QCOM_RPMHPD) += rpmhpd.o
+>  obj-$(CONFIG_QCOM_RPMPD) += rpmpd.o
+>  obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
+> +obj-$(CONFIG_QCOM_PBS) += qcom-pbs.o
+>  obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+>  obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= ice.o
+> diff --git a/drivers/soc/qcom/qcom-pbs.c b/drivers/soc/qcom/qcom-pbs.c
+> new file mode 100644
+> index 000000000000..4a2bb7ff8031
+> --- /dev/null
+> +++ b/drivers/soc/qcom/qcom-pbs.c
+> @@ -0,0 +1,343 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#define pr_fmt(fmt)	"PBS: %s: " fmt, __func__
+> +
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/spmi.h>
+> +#include <linux/soc/qcom/qcom-pbs.h>
+> +
+> +#define PBS_CLIENT_TRIG_CTL		0x42
+> +#define PBS_CLIENT_SW_TRIG_BIT		BIT(7)
+> +#define PBS_CLIENT_SCRATCH1		0x50
+> +#define PBS_CLIENT_SCRATCH2		0x51
+> +
+> +static LIST_HEAD(pbs_dev_list);
+> +static DEFINE_MUTEX(pbs_list_lock);
+
+No file-scope variables. Drop both. You don't even need it.
+
+> +
+> +struct pbs_dev {
+> +	struct device		*dev;
+> +	struct device_node	*dev_node;
+> +	struct regmap		*regmap;
+> +	struct mutex		lock;
+> +	struct list_head	link;
+> +
+> +	u32			base;
+> +};
+> +
+> +static int qcom_pbs_read(struct pbs_dev *pbs, u32 address, u8 *val)
+> +{
+> +	int ret;
+> +
+> +	address += pbs->base;
+> +	ret = regmap_bulk_read(pbs->regmap, address, val, 1);
+> +	if (ret)
+> +		pr_err("Failed to read address=%#x sid=%#x ret=%d\n",
+
+dev_err
+
+> +			address, to_spmi_device(pbs->dev->parent)->usid, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_pbs_write(struct pbs_dev *pbs, u16 address, u8 val)
+> +{
+> +	int ret;
+> +
+> +	address += pbs->base;
+> +	ret = regmap_bulk_write(pbs->regmap, address, &val, 1);
+> +	if (ret < 0)
+> +		pr_err("Failed to write address=%#x sid=%#x ret=%d\n",
+> +			  address, to_spmi_device(pbs->dev->parent)->usid, ret);
+> +	else
+> +		pr_debug("Wrote %#x to addr %#x\n", val, address);
+
+No, there is regmap debug for this. Drop such debug statements from the
+driver.
+
+Actually the error print is also wrong, IMO.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_pbs_masked_write(struct pbs_dev *pbs, u16 address, u8 mask, u8 val)
+> +{
+> +	int ret;
+> +
+> +	address += pbs->base;
+> +	ret = regmap_update_bits(pbs->regmap, address, mask, val);
+> +	if (ret < 0)
+> +		pr_err("Failed to write address=%#x ret=%d\n", address, ret);
+> +	else
+> +		pr_debug("Wrote %#x to addr %#x\n", val, address);
+
+Drop
+
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_pbs_wait_for_ack(struct pbs_dev *pbs, u8 bit_pos)
+> +{
+> +	u16 retries = 2000, delay = 1000;
+> +	int ret;
+> +	u8 val;
+> +
+> +	while (retries--) {
+> +		ret = qcom_pbs_read(pbs, PBS_CLIENT_SCRATCH2, &val);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		if (val == 0xFF) {
+> +			/* PBS error - clear SCRATCH2 register */
+> +			ret = qcom_pbs_write(pbs, PBS_CLIENT_SCRATCH2, 0);
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			pr_err("NACK from PBS for bit %u\n", bit_pos);
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (val & BIT(bit_pos)) {
+> +			pr_debug("PBS sequence for bit %u executed!\n", bit_pos);
+
+dev_dbg
+
+> +			break;
+> +		}
+> +
+> +		usleep_range(delay, delay + 100);
+> +	}
+> +
+> +	if (!retries) {
+> +		pr_err("Timeout for PBS ACK/NACK for bit %u\n", bit_pos);
+
+dev_err
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * qcom_pbs_trigger_single_event() - Trigger PBS sequence without using bitmap.
+> + * @pbs: Pointer to PBS device
+> + *
+> + * This function is used to trigger the PBS that is hooked on the
+> + * SW_TRIGGER directly in PBS client.
+> + *
+> + * Return: 0 on success, < 0 on failure
+> + */
+> +int qcom_pbs_trigger_single_event(struct pbs_dev *pbs)
+> +{
+> +	int ret = 0;
+> +
+> +	if (IS_ERR_OR_NULL(pbs))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&pbs->lock);
+> +	ret = qcom_pbs_masked_write(pbs, PBS_CLIENT_TRIG_CTL, PBS_CLIENT_SW_TRIG_BIT,
+> +				PBS_CLIENT_SW_TRIG_BIT);
+> +	if (ret < 0)
+> +		pr_err("Failed to write register %x ret=%d\n", PBS_CLIENT_TRIG_CTL, ret);
+
+dev_* everywhere
+
+> +	mutex_unlock(&pbs->lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(qcom_pbs_trigger_single_event);
+> +
+
+...
+
+> +/**
+> + * get_pbs_client_device() - Get the PBS device used by client
+> + * @dev: Client device
+> + *
+> + * This function is used to get the PBS device that is being
+> + * used by the client.
+> + *
+> + * Returns: pbs_dev on success, ERR_PTR on failure
+> + */
+> +struct pbs_dev *get_pbs_client_device(struct device *dev)
+> +{
+> +	struct device_node *pbs_dev_node;
+> +	struct pbs_dev *pbs;
+> +
+> +	pbs_dev_node = of_parse_phandle(dev->of_node, "qcom,pbs-client", 0);
+> +	if (!pbs_dev_node) {
+> +		pr_err("Missing qcom,pbs-client property\n");
+> +		return ERR_PTR(-ENODEV);
+> +	}
+> +
+> +	mutex_lock(&pbs_list_lock);
+> +	list_for_each_entry(pbs, &pbs_dev_list, link) {
+
+It does not make sense. You have the reference to the device, so you
+have the pbs (via container_of). Don't add some
+global-list-lookup-functions.
+
+Look for example at Abel Vesa's ICE patchset.
+
+> +		if (pbs_dev_node == pbs->dev_node) {
+> +			of_node_put(pbs_dev_node);
+> +			mutex_unlock(&pbs_list_lock);
+> +			return pbs;
+> +		}
+> +	}
+> +	mutex_unlock(&pbs_list_lock);
+
+Where is device_link handling?
+
+> +
+> +	pr_debug("Unable to find PBS dev_node\n");
+> +	of_node_put(pbs_dev_node);
+> +	return ERR_PTR(-EPROBE_DEFER);
+> +}
+> +EXPORT_SYMBOL(get_pbs_client_device);
+> +
+> +static int qcom_pbs_probe(struct platform_device *pdev)
+> +{
+> +	struct pbs_dev *pbs;
+> +	u32 val;
+> +	int ret;
+> +
+> +	pbs = devm_kzalloc(&pdev->dev, sizeof(*pbs), GFP_KERNEL);
+> +	if (!pbs)
+> +		return -ENOMEM;
+> +
+> +	pbs->dev = &pdev->dev;
+> +	pbs->dev_node = pdev->dev.of_node;
+
+Why do you need to store it?
+
+> +	pbs->regmap = dev_get_regmap(pbs->dev->parent, NULL);
+> +	if (!pbs->regmap) {
+> +		dev_err(pbs->dev, "Couldn't get parent's regmap\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = device_property_read_u32(pbs->dev, "reg", &val);
+> +	if (ret < 0) {
+> +		dev_err(pbs->dev, "Couldn't find reg, ret = %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	pbs->base = val;
+> +	mutex_init(&pbs->lock);
+> +
+> +	platform_set_drvdata(pdev, pbs);
+> +
+> +	mutex_lock(&pbs_list_lock);
+> +	list_add(&pbs->link, &pbs_dev_list);
+> +	mutex_unlock(&pbs_list_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int qcom_pbs_remove(struct platform_device *pdev)
+> +{
+> +	struct pbs_dev *pbs = platform_get_drvdata(pdev);
+> +
+> +	mutex_lock(&pbs_list_lock);
+> +	list_del(&pbs->link);
+> +	mutex_unlock(&pbs_list_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id qcom_pbs_match_table[] = {
+> +	{ .compatible = "qcom,pbs" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, qcom_pbs_match_table);
+> +
+> +static struct platform_driver qcom_pbs_driver = {
+> +	.driver = {
+> +		.name		= "qcom-pbs",
+> +		.of_match_table	= qcom_pbs_match_table,
+> +	},
+> +	.probe = qcom_pbs_probe,
+> +	.remove = qcom_pbs_remove,
+> +};
+> +module_platform_driver(qcom_pbs_driver)
+> +
+> +MODULE_DESCRIPTION("QCOM PBS DRIVER");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:qcom-pbs");
+
+Drop alias. Not needed. If you need it, you have missing ID table.
+
+> diff --git a/include/linux/soc/qcom/qcom-pbs.h b/include/linux/soc/qcom/qcom-pbs.h
+> new file mode 100644
+> index 000000000000..4b065951686a
+> --- /dev/null
+
+
+
+Best regards,
+Krzysztof
+
