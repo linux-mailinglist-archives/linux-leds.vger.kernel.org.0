@@ -2,205 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FBFA73CA45
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Jun 2023 11:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9FB073CA4D
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Jun 2023 11:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233068AbjFXJmt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Jun 2023 05:42:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58878 "EHLO
+        id S232835AbjFXJyO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Jun 2023 05:54:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231966AbjFXJmt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Jun 2023 05:42:49 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58821BF8
-        for <linux-leds@vger.kernel.org>; Sat, 24 Jun 2023 02:42:46 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-98d25cbbb43so200354166b.1
-        for <linux-leds@vger.kernel.org>; Sat, 24 Jun 2023 02:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687599765; x=1690191765;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uBlwLAaVch1INC96eKn5eKUTFSyd9FeySsDuSnKFv5g=;
-        b=xFrz6uKlO6J1hCJXiYfgjAvCcMA16i7mnGogxnAB1JMtPjuqSHgLhZnvwcl/FhmJxf
-         iSuW6Ok1eqbzbx+ktyzA/zRSljNZg1uzyQtlKSjb+CCyjAQ6xj1SbUu1FCeAs+ZtgT4q
-         yU9QA2ksqdMKdf6F3tZ1IV7WoE+y33ZOKZWi7xiZrIpExZydPxusSkBalepmTdJ4J9JB
-         TtUQkaNcAp51QZlefijkUamJS0V9qLjSKS7zy4MgzEoWrEv31OGWoVPZJo1yWnzwJQcS
-         AKvDHCumGYmgssX3n/G2lOc5uiVqW/TZ4c3NWbM3vvLAs+Rckkgeu5svdAxT2BQdqUm2
-         Athw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687599765; x=1690191765;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uBlwLAaVch1INC96eKn5eKUTFSyd9FeySsDuSnKFv5g=;
-        b=LQg32J+CnMmDKkUrROFMSlZSxDesYtqZN5zyAivLiNCZvysaGmYqy2i1dUuCs/13qV
-         9RFcGH51jXj/FnDW2n/rdFbk4BMp79EUGd/Xr+YnbTPlK2XGGtZQefQrdq/T9K2LyKv+
-         RgNKg5un1RJuHwWRRPHnq+8kd7XVH1deQbU3YcWCRZiInZuBPgyP5N7kyBwkptsraXDS
-         dxgBkVDa4iFWseAZ4fBzsANLNC62Duqi8HnxgsaGkoR8R/eG0EKsrTUHYRVc0LQysj57
-         HUVpNicSP2duThdrO80RRZvWCpyz8rDWY37p9xyiWjN1cwB/GqkkoJhkj4hJpUEdZ52G
-         ZGQA==
-X-Gm-Message-State: AC+VfDwdaeC1dVNr/SJ+GLOYaPZk91UsS/51rFdjqHRv7hxpC8YVVSHD
-        RJWDT7nsP0TZaL+ONiAl+ex/5w==
-X-Google-Smtp-Source: ACHHUZ7FviPXKBiOCLdCKWjxQJylLJitMT/nJmOLackYgoV7v3uRdZOFqv3PNDQ2J4TZVCzNKYFjqw==
-X-Received: by 2002:a17:907:7b96:b0:984:5c67:e73f with SMTP id ne22-20020a1709077b9600b009845c67e73fmr22933243ejc.54.1687599765183;
-        Sat, 24 Jun 2023 02:42:45 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id z18-20020a1709067e5200b00985bdb7dd5fsm665323ejr.201.2023.06.24.02.42.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Jun 2023 02:42:44 -0700 (PDT)
-Message-ID: <4ee5f3fc-3376-7421-23cd-8fc905704493@linaro.org>
-Date:   Sat, 24 Jun 2023 11:42:42 +0200
+        with ESMTP id S230525AbjFXJyN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Jun 2023 05:54:13 -0400
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA53B0;
+        Sat, 24 Jun 2023 02:54:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boaniger.com;
+        s=selector3; t=1687600449; i=@boaniger.com;
+        bh=Wuj+h4mwV9Tm7duhBINktIbLhIzOXSNpyo9CJUmQGJM=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Reply-To:Message-ID;
+        b=AolmaF45iYTnAzMAu22cDxB6PzLt3FWGr+zfvWZZayYY8g4wPv6aH2yO5nXdssTAO
+         jB0e+XsqHrI7hG/3tn+q5dKZuNJah4EMbwg7aegokGQcnmGOUlWadySwG4k8IGyCO6
+         q67h81drbRzrYjYefJ5xOBIMqhtapROEmULA0PiA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOKsWRWlGSWpSXmKPExsUyy+mus6793mk
+  pBi9fC1u0dR5isfjxYw6bxeOP95gttr5Zx2ixaFkrswOrx77v3xk9ds66y+7x89g8Vo/Pm+QC
+  WKJYM/OS8isSWDN+tLczFSRXfP31k6WBMaCLkYtDSOAbo8SX5sNMcE7vxAmsEM5BRom3b/4xd
+  zFycjAL6EncmDqFDcTmFRCUODnzCQtEXFti2cLXQDUcQLaaxNeuEpCwsAC3xJdX6xlBbBEBZY
+  kX1/YwgdhsQPbnxy/BRrIIqEpc3LoXzBYSkJNY9mA+M8R4f4lf3T/YIeLyEt9uPmSewMg3C8k
+  Vs5BcMQvJFbMQrljAyLKK0aw4tagstUjXSC+pKDM9oyQ3MTNHL7FKN1EvtVQ3L7+oJEPXUC+x
+  vFgvtbhYr7gyNzknRS8vtWQTIzDEU4pTA3YwHu36p3eIUZKDSUmUN8VkSooQX1J+SmVGYnFGf
+  FFpTmrxIUY9Dg6BC2cffmIUuPLhUxOTFEtefl6qkgSv065pKUKCRanpqRVpmTnAmIRpkODgUR
+  Lh/b8bKM1bXJCYW5yZDpE6xRjLsXnh3r3MHMcWgcjVO/cDye1g8n3TRSD56eMVIPngwDWQ+AU
+  Q+XVb1wFmIZb0osRKKXHewD1AQwVAhmaU5sGthKWfS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5
+  GJWEeSeBTOHJzCuBu+wV0NFMQEena00GObokESEl1cDkJ/pKWm1Zxyr+p1eYPp9b8uA8l/iaN
+  QyTFGYmF8fkGT/epKE1MaDhdoTU047Yr0/tfh7LZbmrLxHXrT11reyck6U7UifwR3ZrRDwV0o
+  1MXOXw8+p6t6/rO2aZL1TnzFswLfUlb5+jKd/bYx/abbZO5c5i6+sJ6l56OU7NSu1JbmP8dja
+  7tArjGSW7RXPiQtIurHz6yex17ruZC20nfl2SXdVh5jjZ0fjV1rojbomFLMvjZ4odFuLyu1d9
+  5u7hO1JCz4Nvdp9Nf/a+876OwYTTxrF9VVEuP+Qz5lzjC0yyjl/x7uev2ud6N8St5uaKc2SF/
+  jB5MvmMTmhg55O2Hxw9HNEG65n/nRdaMzkqp06JpTgj0VCLuag4EQBE2XTMugMAAA==
+X-Env-Sender: olena@boaniger.com
+X-Msg-Ref: server-8.tower-725.messagelabs.com!1687600438!65740!11
+X-Originating-IP: [154.66.221.67]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.105.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 6733 invoked from network); 24 Jun 2023 09:54:07 -0000
+Received: from unknown (HELO mail.boaniger.com) (154.66.221.67)
+  by server-8.tower-725.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Jun 2023 09:54:07 -0000
+Received: from WINSRVNE-ARCH.boaniger.local (10.107.72.27) by
+ WINSRVNE-EXCH.boaniger.local (10.107.72.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 24 Jun 2023 10:54:37 +0100
+Received: from WINSRVNE-EXCH.boaniger.local (10.107.72.8) by
+ WINSRVNE-ARCH.boaniger.local (10.107.72.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 24 Jun 2023 10:54:36 +0100
+Received: from [85.217.144.32] (85.217.144.32) by WINSRVNE-EXCH.boaniger.local
+ (10.107.72.8) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Sat, 24 Jun 2023 10:54:35 +0100
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/7] dt-bindings: leds: leds-qcom-lpg: Add support for LUT
- through NVMEM devices
-Content-Language: en-US
-To:     Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-        lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        agross@kernel.org, andersson@kernel.org
-Cc:     konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-References: <20230621185949.2068-1-quic_amelende@quicinc.com>
- <20230621185949.2068-3-quic_amelende@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230621185949.2068-3-quic_amelende@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: hi
+To:     Recipients <olena@boaniger.com>
+From:   Ms Olena <olena@boaniger.com>
+Date:   Sat, 24 Jun 2023 11:53:13 +0200
+Reply-To: <os904425@gmail.com>
+Message-ID: <76c6ea03-0c8f-416b-80c1-34d488dc6627@WINSRVNE-EXCH.boaniger.local>
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: boaniger.com]
+        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [85.158.142.113 listed in list.dnswl.org]
+        *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
+        *      bl.spamcop.net
+        *      [Blocked - see <https://www.spamcop.net/bl.shtml?85.217.144.32>]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [85.217.144.32 listed in zen.spamhaus.org]
+        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [85.158.142.113 listed in wl.mailspike.net]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [os904425[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 21/06/2023 20:59, Anjelique Melendez wrote:
-> Update leds-qcom-lpg bindings to support LUT patterns through NVMEM
-> devices.
-> 
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
->  .../bindings/leds/leds-qcom-lpg.yaml          | 85 +++++++++++++++++++
->  1 file changed, 85 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> index e6f1999cb22f..c9d53820bf83 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> @@ -63,6 +63,31 @@ properties:
->          - description: dtest line to attach
->          - description: flags for the attachment
->  
-> +  nvmem:
-> +    description: >
-> +      Phandle(s) of the nvmem device(s) to access the LUT stored in the SDAM module(s).
-
-It's the first time in this binding the "LUT" appears. Drop redundant
-parts like "Phandle(s) of ...." and describe what do you expect there
-and why the hardware needs it.
-
-> +      This property is required only when LUT mode is supported and the LUT pattern is
-> +      stored in SDAM modules instead of a LUT module.
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  nvmem-names:
-> +    description: >
-> +      The nvmem device name(s) for the SDAM module(s) where the LUT pattern data is stored.
-> +      This property is required only when LUT mode is supported with SDAM module instead of
-> +      LUT module.
-> +    minItems: 1
-> +    items:
-> +      - const: lpg_chan_sdam
-> +      - const: lut_sdam
-> +
-> +  qcom,pbs-client:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: >
-> +      Phandle of the PBS client used for sending the PBS trigger. This property is
-
-
-You need to explain what is PBS and what this property is doing.
-
-Phandle of PBS client? This is the PBS client! It does not make sense.
-
-
-
-> +      required when LUT mode is supported and the LUT pattern is stored in a single
-> +      SDAM module instead of a LUT module.
-
-Which devices support LUT? Why this is not constrained per variant?
-
-> +
->    multi-led:
->      type: object
->      $ref: leds-class-multicolor.yaml#
-> @@ -191,4 +216,64 @@ examples:
->        compatible = "qcom,pm8916-pwm";
->        #pwm-cells = <2>;
->      };
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    led-controller {
-> +      compatible = "qcom,pm8350c-pwm";
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      #pwm-cells = <2>;
-> +      nvmem-names = "lpg_chan_sdam" , "lut_sdam";
-
-Fix your whitespaces.
-
-> +      nvmem = <&pmk8550_sdam_21 &pmk8550_sdam_22>;
-
-Two entries, not one.
-
-Anyway, adding one property does not justify new example. Integrate it
-into existing one.
-
-> +
-> +      led@1 {
-> +        reg = <1>;
-> +        color = <LED_COLOR_ID_RED>;
-> +        label = "red";
-> +      };
-> +
-> +      led@2 {
-> +        reg = <2>;
-> +        color = <LED_COLOR_ID_GREEN>;
-> +        label = "green";
-> +      };
-> +
-> +      led@3 {
-> +        reg = <3>;
-> +        color = <LED_COLOR_ID_BLUE>;
-> +        label = "blue";
-> +      };
-> +    };
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    led-controller {
-> +      compatible = "qcom,pmi632-lpg";
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      #pwm-cells = <2>;
-> +      nvmem-names = "lpg_chan_sdam";
-> +      nvmem = <&pmi632_sdam7>;
-> +      qcom,pbs-client = <&pmi632_pbs_client3>;
-
-One more example? Why?
-
-Why do you have here only one NVMEM cell? Aren't you missing constraints
-in the binding?
-
-Best regards,
-Krzysztof
-
+Hi,
+I have funds for investment. Can we partner if you have a good business ide=
+a?
+Thanks, Olena.
