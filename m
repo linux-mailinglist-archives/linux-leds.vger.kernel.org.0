@@ -2,51 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F2DA73BB87
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Jun 2023 17:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AFB73CA04
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Jun 2023 11:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231994AbjFWPWp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Jun 2023 11:22:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40176 "EHLO
+        id S231752AbjFXJUv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Jun 2023 05:20:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232098AbjFWPWl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Jun 2023 11:22:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71071AC;
-        Fri, 23 Jun 2023 08:22:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3A1CB61A94;
-        Fri, 23 Jun 2023 15:22:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16AFC433C8;
-        Fri, 23 Jun 2023 15:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687533758;
-        bh=sRj5H73scWO/9TBS+e2MwEJ4mooOFaJ0HbXk3SIJWAM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=g5i0UUMm4sK9b+44ZtTnyAGB15oqq45T8zvGFnZlw7UWNvTOHaMpxcHU3sk2ieLBj
-         N2j1PBm5Ewl+dSuQsuug7lBu1PAu09qzehGzGN9XQZdsYB1XiIWIYvSffIyxB+UGMe
-         vMb1yWtjb2v+vhns3FARfi/Ppr3o98Oub/GBGkcruBfunUYXqrrr94yEC4eMLKygc2
-         5cO6fHOSYd9UFuCNlkhf0XtU7ShyaDDKOmp7nn1L/C1oXmA2LEd9ZvtJCAHmfCCu7A
-         1R+SuuslDJeeWi/XWllcgULrdPzkWnjyN0XUDjjYpRDxAO59Yac3x16Vqh1FMmUp7B
-         yMqjfclwyFQow==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Henning Schild <henning.schild@siemens.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: simatic-ipc-leds-gpio: restore LEDS_CLASS dependency
-Date:   Fri, 23 Jun 2023 17:22:29 +0200
-Message-Id: <20230623152233.2246285-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S232852AbjFXJUt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Jun 2023 05:20:49 -0400
+Received: from 9.mo563.mail-out.ovh.net (9.mo563.mail-out.ovh.net [46.105.73.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3C71BC6
+        for <linux-leds@vger.kernel.org>; Sat, 24 Jun 2023 02:20:48 -0700 (PDT)
+Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net [51.68.80.175])
+        by mo563.mail-out.ovh.net (Postfix) with ESMTPS id E1C1322EFF;
+        Sat, 24 Jun 2023 08:42:33 +0000 (UTC)
+Received: from director1.derp.mail-out.ovh.net (director1.derp.mail-out.ovh.net. [127.0.0.1])
+        by director1.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
+        for <conor+dt@kernel.org>; Sat, 24 Jun 2023 08:42:33 +0000 (UTC)
+Received: from pro2.mail.ovh.net (unknown [10.109.143.168])
+        by director1.derp.mail-out.ovh.net (Postfix) with ESMTPS id 857EE2011E3;
+        Sat, 24 Jun 2023 08:42:33 +0000 (UTC)
+Received: from traphandler.com (88.161.25.233) by DAG1EX1.emp2.local
+ (172.16.2.1) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Sat, 24 Jun
+ 2023 10:42:32 +0200
+From:   Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+To:     <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>
+CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Subject: [PATCH v10 0/5] Add a multicolor LED driver for groups of monochromatic LEDs
+Date:   Sat, 24 Jun 2023 10:42:12 +0200
+Message-ID: <20230624084217.3079205-1-jjhiblot@traphandler.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [88.161.25.233]
+X-ClientProxiedBy: DAG2EX1.emp2.local (172.16.2.11) To DAG1EX1.emp2.local
+ (172.16.2.1)
+X-Ovh-Tracer-Id: 12427964648445917659
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegjedgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflvggrnhdqlfgrtghquhgvshcujfhisghlohhtuceojhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmqeenucggtffrrghtthgvrhhnpeejuefhkeelgffhlefhtefhgeektdevvdfgkeeltdehgeeujeeutdehkeeuhffftdenucfkpheptddrtddrtddrtddpkeekrdduiedurddvhedrvdeffeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepughirhgvtghtohhruddruggvrhhprdhmrghilhdqohhuthdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhhjhhhisghlohhtsehtrhgrphhhrghnughlvghrrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqlhgvughssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehieef
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,34 +56,79 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Some HW design implement multicolor LEDs with several monochromatic LEDs.
+Grouping the monochromatic LEDs allows to configure them in sync and use
+the triggers.
+The PWM multicolor LED driver implements such grouping but only for
+PWM-based LEDs. As this feature is also desirable for the other types of
+LEDs, this series implements it for any kind of LED device.
 
-A recent rework accidentally lost the dependency on LEDS_CLASS, which
-leads to a link error when LED support is disbled:
+changes v9->v10:
+  - updated comments and kconfig description
+  - renamed all 'led_mcg_xxx' into 'leds_gmc_xxx'
 
-x86_64-linux-ld: drivers/leds/simple/simatic-ipc-leds.o: in function `simatic_ipc_leds_probe':
-simatic-ipc-leds.c:(.text+0x10c): undefined reference to `devm_led_classdev_register_ext'
+changes v8->v9:
+  - rebased on top of lee-leds/for-leds-next
+  - updated kernel version and date for /sys/class/leds/<led>/color in
+    Documentation/ABI/testing/sysfs-class-led
+  - dropped patch "leds: class: simplify the implementation of
+    devm_of_led_get()" because __devm_led_get() is now used by
+    devm_led_get()
 
-Add back the dependency that was there originally.
+changes v7->v8:
+ - consistently use "LEDs group multicolor" throughout the code.
+ - rename some variables with more explicit names.
+ - improve comments.
+ - use the 100-characters per line limit.
 
-Fixes: a6c80bec3c935 ("leds: simatic-ipc-leds-gpio: Add GPIO version of Siemens driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/leds/simple/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+changes v6->v7:
+ - in led_mcg_probe() increment the counter at the end of the loop for
+   clarity.
 
-diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
-index 44fa0f93cb3b3..02443e745ff3b 100644
---- a/drivers/leds/simple/Kconfig
-+++ b/drivers/leds/simple/Kconfig
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config LEDS_SIEMENS_SIMATIC_IPC
- 	tristate "LED driver for Siemens Simatic IPCs"
-+	depends on LEDS_CLASS
- 	depends on SIEMENS_SIMATIC_IPC
- 	help
- 	  This option enables support for the LEDs of several Industrial PCs
+changes v5->v6:
+ - restore sysfs access to the leds when the device is removed
+
+changes v4->v5:
+ - Use "depends on COMPILE_TEST || OF" in Kconfig to indicate that OF
+   is a functional requirement, not just a requirement for the
+   compilation.
+ - in led_mcg_probe() check if devm_of_led_get_optional() returns an
+   error before testing for the end of the list.
+ - use sysfs_emit() instead of sprintf() in color_show().
+ - some grammar fixes in the comments and the commit logs.
+
+changes v2->v3, only minor changes:
+ - rephrased the Kconfig descritpion
+ - make the sysfs interface of underlying LEDs read-only only if the probe
+   is successful.
+ - sanitize the header files
+ - removed the useless call to dev_set_drvdata()
+ - use dev_fwnode() to get the fwnode to the device.
+
+changes v1->v2:
+ - Followed Rob Herrings's suggestion to make the dt binding much simpler.
+ - Added a patch to store the color property of a LED in its class
+   structure (struct led_classdev).
+
+Jean-Jacques Hiblot (5):
+  devres: provide devm_krealloc_array()
+  leds: provide devm_of_led_get_optional()
+  leds: class: store the color index in struct led_classdev
+  dt-bindings: leds: Add binding for a multicolor group of LEDs
+  leds: Add a multicolor LED driver to group monochromatic LEDs
+
+ Documentation/ABI/testing/sysfs-class-led     |   9 +
+ .../bindings/leds/leds-group-multicolor.yaml  |  64 +++++++
+ drivers/leds/led-class.c                      |  45 +++++
+ drivers/leds/rgb/Kconfig                      |  12 ++
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-group-multicolor.c      | 165 ++++++++++++++++++
+ include/linux/device.h                        |  13 ++
+ include/linux/leds.h                          |   3 +
+ 8 files changed, 312 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+ create mode 100644 drivers/leds/rgb/leds-group-multicolor.c
+
 -- 
-2.39.2
+2.34.1
 
