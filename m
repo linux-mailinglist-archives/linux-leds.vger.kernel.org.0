@@ -2,74 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6545E73D9AA
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Jun 2023 10:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7502F73DACA
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Jun 2023 11:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbjFZI21 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 26 Jun 2023 04:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33156 "EHLO
+        id S229967AbjFZJG2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 26 Jun 2023 05:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbjFZI2Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Jun 2023 04:28:25 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43CB1A6
-        for <linux-leds@vger.kernel.org>; Mon, 26 Jun 2023 01:28:23 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-98de21518fbso256504866b.0
-        for <linux-leds@vger.kernel.org>; Mon, 26 Jun 2023 01:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1687768102; x=1690360102;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/z2l2uTy/cBaqn0Tj/q1FNG0VhYAlt0fDLzRyz8E7k8=;
-        b=JK5Nbe7Dt4FaRC3i+ebjZ+e0vhMzQx2cFFP5o267c/8rnB6/rAqolMs+Y4JVh2qRCx
-         EkRV2ih17UcjtBT5pMKWqiDGo60x6hNYBCvyMqPxY3wV8O3z6gNzZFHJwG0BTJlIrIbT
-         m4+Kja0R+lw+EZMJp1et/dsUO+ZgUSEqr8qiPmpb4OTu1iMxZcs0smriM//JFJ834qPn
-         lwhRtgd0+CmMdp9gWVWEnM5jFhE3oWR7ywGIG5tX2UgyO6ZumUGh3xtfWekJLYCW3bY8
-         CA02vwhK0y1kB2qvp7smxHSy8EKSJEphhxtz4xANhkFN1iddgX0WEAI3Thre7JYtepuI
-         T1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687768102; x=1690360102;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/z2l2uTy/cBaqn0Tj/q1FNG0VhYAlt0fDLzRyz8E7k8=;
-        b=Na+3ezoVzlGk/z+tHZzt4dzoAQzr1ib+DE7/ilcnNYwwjlXZBemunP/UBgDz3SS8PG
-         iWMbSpRiMerhfQP6qLWvPdrY29vN8gDAK/uXOi2vVrgIEyh30IoFTWs3wzejoY8E+sIQ
-         MCfctsZLUR4Y6lrKM2FLbtvnCkIBtivfYmHJw0ulPMIEqnXIZ6ntpr76pkS/wKYW3XHF
-         47F+JobrZ17oFRFxhpF4EE/BJlziwRZ6sShcrLy94dAAb5enI1nZRCII2K1dIO21j3Sv
-         XYTRgZP4FzakZ+oO4ekO3DRYniGkBv/0e/fRulNzrUJtAFdHErBVi/v3YM7+KRgnKmCe
-         Wyug==
-X-Gm-Message-State: AC+VfDydCWyroyTC8/RO8d6Lmwrm7FwULvHLDSem3CEgSOGfRABmr9mY
-        cUM8HoDiZpJkoRXd4lp/mefc/w==
-X-Google-Smtp-Source: ACHHUZ55jsXkC5JC4+uTvSts1tb2kV+vphkAvEWRrtvIWOryFAfdpEri5J0hl9YafwrnH52f1kpHBw==
-X-Received: by 2002:a17:907:9450:b0:989:3670:3696 with SMTP id dl16-20020a170907945000b0098936703696mr14285227ejc.58.1687768102200;
-        Mon, 26 Jun 2023 01:28:22 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id lc6-20020a170906f90600b0096637a19dccsm2956929ejb.210.2023.06.26.01.28.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jun 2023 01:28:21 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230005AbjFZJGA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Jun 2023 05:06:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7064526BE
+        for <linux-leds@vger.kernel.org>; Mon, 26 Jun 2023 02:03:02 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qDi7e-0007eC-8R; Mon, 26 Jun 2023 11:02:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qDi7d-00AAWA-A4; Mon, 26 Jun 2023 11:02:57 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qDi7c-00HUqL-C0; Mon, 26 Jun 2023 11:02:56 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] leds: aw200xx: Switch back to use struct i2c_driver::probe
+Date:   Mon, 26 Jun 2023 11:02:54 +0200
+Message-Id: <20230626090254.556206-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 26 Jun 2023 10:28:21 +0200
-Message-Id: <CTMFUY0GPRNK.532E4O05LWKW@otso>
-Cc:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH 0/7] Add support for LUT PPG
-From:   "Luca Weiss" <luca.weiss@fairphone.com>
-To:     "Anjelique Melendez" <quic_amelende@quicinc.com>, <pavel@ucw.cz>,
-        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>
-X-Mailer: aerc 0.15.1
-References: <20230621185949.2068-1-quic_amelende@quicinc.com>
-In-Reply-To: <20230621185949.2068-1-quic_amelende@quicinc.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=791; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=lOoK5gK+/1X7tH9FhZP1Y1dqUdfblWBDwp9RYsf8a6o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkmVQ9hgSBoNNnhVkTYIIdxdRjy9qR4p/FMzOrI CqxqJfPQmSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZJlUPQAKCRCPgPtYfRL+ TtrACACon6Ny0pYUUfhQf8yyOXGxgKGntk4Fulrqh5ZTHGl3NI02fLg8RAPQELyNw8VXlbK/UXV kv8K7xdeS8Abm6zg1YqSh9/fEtYVIrXKOhai8QgLQwHAfH7EsqEN58whfp8M2hsXCONLltsb9DY eSbf1G83dWNYL4N6SHgm+8sfC/GFRozxij0uE278WHu2Vf58L7cPFt0NSxazHnvoUB0cHT88a/O AUtdVdbvGVwpPpZd2+lIIKUDSsZ08YnHhsblqr/dDumBlXPfbfsEkGwXRyw+SyTW7RmuwnPiEUr 2QE+kqfF/qjv/OAlRq5IrGYttThiybtBx/TdIoYLBCa0VRJY
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,86 +52,29 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Anjelique,
+struct i2c_driver::probe_new is about to go away. Switch the driver to
+use the probe callback with the same prototype.
 
-On Wed Jun 21, 2023 at 8:59 PM CEST, Anjelique Melendez wrote:
-> In certain PMICs, LUT pattern and LPG configuration can be stored in SDAM
-> modules instead of LUT peripheral. This feature is called PPG.
->
-> This change series adds support for PPG. Thanks!
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/leds/leds-aw200xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for sending this series!
+diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
+index 96979b8e09b7..1939105efbcb 100644
+--- a/drivers/leds/leds-aw200xx.c
++++ b/drivers/leds/leds-aw200xx.c
+@@ -583,7 +583,7 @@ static struct i2c_driver aw200xx_driver = {
+ 		.name = "aw200xx",
+ 		.of_match_table = aw200xx_match_table,
+ 	},
+-	.probe_new = aw200xx_probe,
++	.probe = aw200xx_probe,
+ 	.remove = aw200xx_remove,
+ 	.id_table = aw200xx_id,
+ };
 
-I've tested this on SDM632 Fairphone 3 and everything appears to work
-fine with setting the pattern. Using fbcli from feedbackd[0] the pattern
-shows up correctly.
-
-The only thing missing really is the addition of the pbs node and adding
-the nvmem/nvmem-names & qcom,pbs-client to the lpg node in pmi632.dtsi -
-something like the patch below.
-
-Are you planning to include this in the next revision? Otherwise I can
-also send a patch for the pmi632.dtsi after this series has landed.
-
-Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pm=
-i632)
-
-[0] https://source.puri.sm/Librem5/feedbackd
-
-Regards
-Luca
-
-diff --git a/arch/arm64/boot/dts/qcom/pmi632.dtsi b/arch/arm64/boot/dts/qco=
-m/pmi632.dtsi
-index add206dee01d2e..92ddb7ac6bf311 100644
---- a/arch/arm64/boot/dts/qcom/pmi632.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pmi632.dtsi
-@@ -127,6 +127,11 @@
- 			status =3D "disabled";
- 		};
-=20
-+		pmi632_pbs_client3: qcom,pbs@7400 { // TODO: generic node name
-+			compatible =3D "qcom,pbs";
-+			reg =3D <0x7400>;
-+		};
-+
- 		pmi632_sdam_7: nvram@b600 {
- 			compatible =3D "qcom,spmi-sdam";
- 			reg =3D <0xb600>;
-@@ -155,6 +160,10 @@
- 		pmi632_lpg: pwm {
- 			compatible =3D "qcom,pmi632-lpg";
-=20
-+			nvmem =3D <&pmi632_sdam_7>;
-+			nvmem-names =3D "lpg_chan_sdam";
-+			qcom,pbs-client =3D <&pmi632_pbs_client3>;
-+
- 			#address-cells =3D <1>;
- 			#size-cells =3D <0>;
- 			#pwm-cells =3D <2>;
-
->
-> Anjelique Melendez (7):
->   dt-bindings: soc: qcom: Add qcom-pbs bindings
->   dt-bindings: leds: leds-qcom-lpg: Add support for LUT through NVMEM
->     devices
->   soc: qcom: add QCOM PBS driver
->   leds: rgb: leds-qcom-lpg: Add support for LUT pattern through single
->     SDAM
->   leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data to support PPG
->   leds: rgb: leds-qcom-lpg: Support two-nvmem PPG Scheme
->   leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
->
->  .../bindings/leds/leds-qcom-lpg.yaml          |  85 ++++
->  .../bindings/soc/qcom/qcom-pbs.yaml           |  41 ++
->  drivers/leds/rgb/leds-qcom-lpg.c              | 393 ++++++++++++++++--
->  drivers/soc/qcom/Kconfig                      |   9 +
->  drivers/soc/qcom/Makefile                     |   1 +
->  drivers/soc/qcom/qcom-pbs.c                   | 343 +++++++++++++++
->  include/linux/soc/qcom/qcom-pbs.h             |  36 ++
->  7 files changed, 877 insertions(+), 31 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom-pbs.y=
-aml
->  create mode 100644 drivers/soc/qcom/qcom-pbs.c
->  create mode 100644 include/linux/soc/qcom/qcom-pbs.h
+base-commit: 9270c97c18cbd52ec47d90678e0be7c5b410d010
+-- 
+2.39.2
 
