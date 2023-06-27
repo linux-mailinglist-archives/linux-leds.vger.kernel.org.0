@@ -2,84 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E99D473F7FB
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jun 2023 10:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D22577411DD
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jun 2023 15:01:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231165AbjF0I7M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jun 2023 04:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbjF0I7L (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jun 2023 04:59:11 -0400
-Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7999710D
-        for <linux-leds@vger.kernel.org>; Tue, 27 Jun 2023 01:59:08 -0700 (PDT)
-Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4QqzCs3TWTzBRppk
-        for <linux-leds@vger.kernel.org>; Tue, 27 Jun 2023 16:59:05 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
-        content-transfer-encoding:content-type:message-id:user-agent
-        :subject:to:from:date:mime-version; s=dkim; t=1687856344; x=
-        1690448345; bh=VFd1Mh0aeu2r5IFFYYRc/0gxv1eqPXEe+CP8QHu3Lw8=; b=d
-        TjBDrmsp+QBhy8/JJpianhAEMGMVZXX75WC+lFgWZ6Z63nFWMIOS22D7Xx3dPvS/
-        L3vqh4xkNCVEs4vumP+Yhx25+5CQkXng1ht2ihcLVN7YTkOKCiXeRSzIazWwPG6k
-        /xFkjZedF7td3bFNtpcOyDNwK9hmz4Jq7YZ0ZFtdFJ0Yvs1CEXXVHSb2lfmi1tu9
-        CUfOdrOBVi9Sfd+qYxO2f1jB4rYuPBjdDCj85lVHBz9lLRHKkmH1mD93CkLeKxO9
-        N66YoZywHpCHjMmlqLb/8tggA0DSN5N4plx1MxpwWhE4Ei3Q7ODZO08xF8V/YBS4
-        rwwG6Si4q4GrHryvxzJjQ==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
-        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id NF4X8KyLnn7J for <linux-leds@vger.kernel.org>;
-        Tue, 27 Jun 2023 16:59:04 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4QqzCr5gMCzBJBJT;
-        Tue, 27 Jun 2023 16:59:04 +0800 (CST)
+        id S229626AbjF1NBC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Wed, 28 Jun 2023 09:01:02 -0400
+Received: from [102.23.136.209] ([102.23.136.209]:2592 "EHLO mail.nsts.go.ke"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S229622AbjF1NBB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 28 Jun 2023 09:01:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.nsts.go.ke (Postfix) with ESMTP id 0A9545CAA58
+        for <linux-leds@vger.kernel.org>; Tue, 27 Jun 2023 22:04:05 +0300 (EAT)
+Received: from mail.nsts.go.ke ([127.0.0.1])
+        by localhost (mail.nsts.go.ke [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id YVuKUozPB5w9 for <linux-leds@vger.kernel.org>;
+        Tue, 27 Jun 2023 22:04:04 +0300 (EAT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.nsts.go.ke (Postfix) with ESMTP id AD993127ED6
+        for <linux-leds@vger.kernel.org>; Tue, 27 Jun 2023 22:04:04 +0300 (EAT)
+X-Virus-Scanned: amavisd-new at nsts.go.ke
+Received: from mail.nsts.go.ke ([127.0.0.1])
+        by localhost (mail.nsts.go.ke [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id TbzuXZOQAwDb for <linux-leds@vger.kernel.org>;
+        Tue, 27 Jun 2023 22:04:04 +0300 (EAT)
+Received: from [193.169.252.111] (unknown [193.169.252.111])
+        by mail.nsts.go.ke (Postfix) with ESMTPSA id 2B78C1225BC
+        for <linux-leds@vger.kernel.org>; Tue, 27 Jun 2023 22:04:03 +0300 (EAT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Date:   Tue, 27 Jun 2023 16:59:04 +0800
-From:   baomingtong001@208suo.com
-To:     pavel@ucw.cz, lee@kernel.org
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: cht-wcove: Remove unneeded semicolon
-User-Agent: Roundcube Webmail
-Message-ID: <e66d4beb79da0bfa18269c390f1ed5ef@208suo.com>
-X-Sender: baomingtong001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: URGENT MAIL
+To:     linux-leds@vger.kernel.org
+From:   "Mr. Ronald Evergreen <said"@desaque.com
+Date:   Tue, 27 Jun 2023 12:04:20 -0700
+Reply-To: evergreen5565343@gmail.com
+Message-Id: <20230627190404.2B78C1225BC@mail.nsts.go.ke>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-./drivers/leds/leds-cht-wcove.c:193:2-3: Unneeded semicolon
+Hi There,
 
-Signed-off-by: Mingtong Bao <baomingtong001@208suo.com>
----
-  drivers/leds/leds-cht-wcove.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+How are you doing? I am sorry to have contacted you this way but it is a matter of great urgency. I seek your partnership on an important business transaction which will be of great benefit to both of us. I seek to work with you to claim as next of kin to
+late John Shumejda who died in a plane crash some years back, You can read more about his death on the BBC news link below:
+http://news.bbc.co.uk/2/hi/uk_news/england/1742404.stm
 
-diff --git a/drivers/leds/leds-cht-wcove.c 
-b/drivers/leds/leds-cht-wcove.c
-index 0cfebee98910..e35a25990048 100644
---- a/drivers/leds/leds-cht-wcove.c
-+++ b/drivers/leds/leds-cht-wcove.c
-@@ -190,7 +190,7 @@ static unsigned long cht_wc_leds_get_period(int 
-ctrl)
-  		return 1000;
-  	case CHT_WC_LED_F_2_HZ:
-  		return 1000 / 2;
--	};
-+	}
+Write to me on:
+( evergreen5565343@gmail.com ) and we can talk more about this.
 
-  	return 0;
-  }
--- 
-2.40.1
 
+Yours faithfully.
+Mr. Ronald Evergreen,
+Financial Officer.
