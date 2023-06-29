@@ -2,53 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C93FA7427A7
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jun 2023 15:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A4137427F3
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Jun 2023 16:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbjF2Nrd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Jun 2023 09:47:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48356 "EHLO
+        id S229873AbjF2OIR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Jun 2023 10:08:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbjF2Nrc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Jun 2023 09:47:32 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02AB5358A;
-        Thu, 29 Jun 2023 06:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1688046452;
-  x=1719582452;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mRwhJbcypJGWdkrQyemMfvhuOL1PFCUxpQrwdJedum4=;
-  b=dKfXCQCN2vA5NEY0E47gha8oEDzuiNiCFHsPSfN3jPSzYzSOfvULH5j+
-   idHpzxvVV4ZxWhzB98MDKPoZ6mZNAvcgZp6bqleGXFNQ19ZQ+45cfwq+3
-   oIanOoHxfW/sEmP4viFSyLRqUvDdfILDwXEyvFuhh7GK0fhZgNYi6WZUO
-   5pOjo1gLEAg/xzuE6em4X8yzV4IwuTUXOj6nlX6J5kv4btfC4LWsWdn1i
-   CSZ/StfhRuDHZkKllnA6zqsNrIXIRFkyi4dBfRZjIcIXxP3vsO94A9dRW
-   XHwUINOonQ1nvRAlGlswzILMAv+up10G6yUsjbgAEbwhjc29vzwNtaIqr
-   Q==;
-From:   Astrid Rost <astrid.rost@axis.com>
-To:     Dan Murphy <dmurphy@ti.com>, Andrew Davis <afd@ti.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S231443AbjF2OIP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Jun 2023 10:08:15 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498A626B6;
+        Thu, 29 Jun 2023 07:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688047694; x=1719583694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xmDZpF6sc1XpPDTUdv/IYr02rtOyyvGSFPAQ64hfvSc=;
+  b=O9a6JblVm8P/sVHwidDQ0hN+lXyUZDUdaPvOvweRUcP1nf4X4bMWsoh3
+   yfGaUh33Z4hgxvzDj6RQJgURzTwP7aYERKiKbesPhgNLT/8+CbCM03OmY
+   weyUDKgusHAQzyLZWJPkFEwzYKbb3U/+dmi/EdxqDXhZpk36XQ4xAjqn3
+   nK3wZufEiJ98gC/P4Qsn/y6gBNaFFYbcR8VJIc5z0uMAW91JRB52JLyfT
+   RtdATzwgMW1KOJPTy9ROCGoS3SYhV80g0vWPwLqidiUdvyijT3k3cO7L5
+   pASNYetcqLzrcAoZ46Fymobo2696uqjq2hWlFcihlxQc+xxsR7dcCPcEG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="428149996"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="428149996"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 06:55:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="1047776124"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="1047776124"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2023 06:55:47 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qEs7e-000sBw-1G;
+        Thu, 29 Jun 2023 16:55:46 +0300
+Date:   Thu, 29 Jun 2023 16:55:46 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Astrid Rost <astrid.rost@axis.com>
+Cc:     Dan Murphy <dmurphy@ti.com>, Andrew Davis <afd@ti.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC:     <kernel@axis.com>, Astrid Rost <astrid.rost@axis.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] dt: bindings: lp50xx: Add max-brightness as in leds-pwm
-Date:   Thu, 29 Jun 2023 15:47:22 +0200
-Message-ID: <20230629134722.3908637-3-astrid.rost@axis.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230629134722.3908637-1-astrid.rost@axis.com>
+        kernel@axis.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] led: leds-lp50xx: Add max-brightness as in
+ leds-pwm
+Message-ID: <ZJ2NYrskskXCNJZv@smile.fi.intel.com>
 References: <20230629134722.3908637-1-astrid.rost@axis.com>
+ <20230629134722.3908637-2-astrid.rost@axis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230629134722.3908637-2-astrid.rost@axis.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,38 +70,20 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add max-brightness in order to reduce the current on the connected LEDs.
-Normally, the maximum brightness is determined by the hardware, and this
-property is not required. This property is used to set a software limit.
-It could happen that an LED is made so bright that it gets damaged or
-causes damage due to restrictions in a specific system, such as mounting
-conditions.
+On Thu, Jun 29, 2023 at 03:47:21PM +0200, Astrid Rost wrote:
+> Add max-brightness in order to reduce the current on the connected LEDs.
+> Normally, the maximum brightness is determined by the hardware, and this
+> property is not required. This property is used to set a software limit.
+> It could happen that an LED is made so bright that it gets damaged or
+> causes damage due to restrictions in a specific system, such as mounting
+> conditions.
 
-Signed-off-by: Astrid Rost <astrid.rost@axis.com>
----
- Documentation/devicetree/bindings/leds/leds-lp50xx.yaml | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This will be 4th driver in the LED subsystem that will use this (optional)
+property. Perhaps it's time to actually move it to the LED generic bindings
+and call this from led_parse_fwnode_props()?
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-index 402c25424525..6a1425969cb4 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
-@@ -73,6 +73,15 @@ patternProperties:
-       '#size-cells':
-         const: 0
- 
-+      max-brightness:
-+        description:
-+          Normally, the maximum brightness is determined by the hardware, and
-+          this property is not required. This property is used to set a software
-+          limit. It could happen that an LED is made so bright that it gets
-+          damaged or causes damage due to restrictions in a specific system,
-+          such as mounting conditions.
-+        $ref: /schemas/types.yaml#definitions/uint32
-+
-     patternProperties:
-       "^led@[0-9a-f]+$":
-         type: object
 -- 
-2.30.2
+With Best Regards,
+Andy Shevchenko
+
 
