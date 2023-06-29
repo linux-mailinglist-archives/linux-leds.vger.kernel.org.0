@@ -2,156 +2,184 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D14741D94
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jun 2023 03:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8DC2741F82
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Jun 2023 07:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230353AbjF2BTq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Jun 2023 21:19:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40094 "EHLO
+        id S229539AbjF2FIV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Jun 2023 01:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbjF2BTn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jun 2023 21:19:43 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B5626AD;
-        Wed, 28 Jun 2023 18:19:42 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T1EvEf031451;
-        Thu, 29 Jun 2023 01:19:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=oO3Cd6/0cmdN9gn+GWK3iWlbDsuo17nygEG2aeXxfaQ=;
- b=is0FlJ6EUnBeAeCD4pXg9d++NoO8z6Db/Ga+Zz7k0B1YmiBS0psPZWbhDswTwQnWDvLv
- A1xp7R/ymt/4Kc37n8GcTUqZMCb15SYbLGu/s+5nNNU1wUpFs5/2PwQfS/MgWF21b1w4
- 9by4xF64zb+S1/+6qeysb4WNGOQIAUOY6DHtA2U1e3Lov33eSzAXtc9j0aUcObmJ7M+y
- zMtYKpRMj4916Aj9i/EZ/pAUiei5jX54qXn7cYnPv9h6XpRyPFoEfPVhY22KTk+2iikN
- koqKCDeGvDwVU4d3/rSKnlZYkubDJ0paekAkmQRA31W187Yau/FKYHbuWTemOldXbiNQ pQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgnxr97n7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Jun 2023 01:19:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35T1JTXH029246
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Jun 2023 01:19:29 GMT
-Received: from [10.110.20.95] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Wed, 28 Jun
- 2023 18:19:28 -0700
-Message-ID: <2e871e21-a81d-0d7d-993b-9a9d7bd9d962@quicinc.com>
-Date:   Wed, 28 Jun 2023 18:19:27 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/7] dt-bindings: soc: qcom: Add qcom-pbs bindings
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <pavel@ucw.cz>, <lee@kernel.org>, <thierry.reding@gmail.com>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>
-References: <20230621185949.2068-1-quic_amelende@quicinc.com>
- <20230621185949.2068-2-quic_amelende@quicinc.com>
- <20230626135857.GA3118929-robh@kernel.org>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <20230626135857.GA3118929-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6Efzwhmw1uFevjBrwBdPfibktLtBEN3w
-X-Proofpoint-GUID: 6Efzwhmw1uFevjBrwBdPfibktLtBEN3w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_14,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1011 impostorscore=0 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 suspectscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306290010
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S231446AbjF2FIM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Jun 2023 01:08:12 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC1C2728
+        for <linux-leds@vger.kernel.org>; Wed, 28 Jun 2023 22:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688015292; x=1719551292;
+  h=date:from:to:cc:subject:message-id;
+  bh=OR2DRoqzgbn1FYKFSrCr4HckouNG2OKVcHEmqDsMzK4=;
+  b=dZM20TYTKIsZlfdLApKJhOy/bF2tVjjWO79PqNYTk+YGVHDcG38zqU1H
+   5MflSyqpNA0EhQkaNCQqi5BnHGiusMPqneL4Wk+Gv6/CGzbfux1a85j/J
+   o+RMoQuTMxqan1444q1ns3bwu+ApRCWQcigACulVK4H9cFgpBsJBIVcas
+   d1lcb5nK4G0/Kzdn6BPItBY4iQszhAfJ9wIEMUHqmYpX66PDVoB8fMAl1
+   DopviM4C75iYpS+ZzaUyi2K/zqU325kzDAnKnmK5nsydevC3C44Y0dq86
+   avSHdWEAbMmC4zxKa97/AemGi9Ose6g52RehNzkfvgJPRBzr79H7ApHzw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="364573216"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="364573216"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 22:08:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="830395867"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="830395867"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2023 22:08:10 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qEjt3-000Dpj-1e;
+        Thu, 29 Jun 2023 05:08:09 +0000
+Date:   Thu, 29 Jun 2023 13:07:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 877e91191ccf0782ae18c5dfa7522fb1e5bfba8c
+Message-ID: <202306291351.sftXimk5-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 877e91191ccf0782ae18c5dfa7522fb1e5bfba8c  leds: leds-mt6323: Adjust return/parameter types in wled get/set callbacks
 
+elapsed time: 723m
 
-On 6/26/2023 6:58 AM, Rob Herring wrote:
-> On Wed, Jun 21, 2023 at 11:59:45AM -0700, Anjelique Melendez wrote:
->> Add binding for the Qualcomm Programmable Boot Sequencer device.
->>
->> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->> ---
->>  .../bindings/soc/qcom/qcom-pbs.yaml           | 41 +++++++++++++++++++
->>  1 file changed, 41 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom-pbs.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom-pbs.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom-pbs.yaml
->> new file mode 100644
->> index 000000000000..0a89c334f95c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom-pbs.yaml
->> @@ -0,0 +1,41 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/soc/qcom/qcom-pbs.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Technologies, Inc. PBS
->> +
->> +maintainers:
->> +  - Anjelique Melendez <quic_amelende@quicinc.com>
->> +
->> +description: |
->> +  Qualcomm PBS (programmable boot sequencer) supports triggering sequences
->> +  for clients upon request.
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,pbs
->> +
->> +  reg:
->> +    description: |
->> +      Base address of the PBS peripheral.
->> +    maxItems: 1
->> +
->> +required:
->> + - compatible
->> + - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    pmic {
->> +      #address-cells = <1>;
->> +      #size-cells = <0>;
->> +
->> +      qcom,pbs@7400 {
->> +        compatible = "qcom,pbs";
->> +        reg = <0x7400>;
->> +      };
-> 
-> Why do you need a child node for this? Is there more than 1 instance in 
-> a PMIC? Every sub-function of a PMIC doesn't have to have a DT node.
->
+configs tested: 108
+configs skipped: 3
 
-We currently have another downstream driver (which is planned to get upstreamed)
-which also needs a handle to a pbs device in order to properly trigger events. 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> Rob
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r005-20230628   gcc  
+alpha                randconfig-r032-20230628   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230629   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230629   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r022-20230628   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r011-20230628   gcc  
+hexagon              randconfig-r041-20230629   clang
+hexagon              randconfig-r045-20230629   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230628   clang
+i386         buildonly-randconfig-r005-20230628   clang
+i386         buildonly-randconfig-r006-20230628   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230628   clang
+i386                 randconfig-i002-20230628   clang
+i386                 randconfig-i003-20230628   clang
+i386                 randconfig-i004-20230628   clang
+i386                 randconfig-i005-20230628   clang
+i386                 randconfig-i006-20230628   clang
+i386                 randconfig-i011-20230628   gcc  
+i386                 randconfig-i012-20230628   gcc  
+i386                 randconfig-i013-20230628   gcc  
+i386                 randconfig-i014-20230628   gcc  
+i386                 randconfig-i015-20230628   gcc  
+i386                 randconfig-i016-20230628   gcc  
+i386                 randconfig-r021-20230628   gcc  
+i386                 randconfig-r026-20230628   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r015-20230628   gcc  
+loongarch            randconfig-r035-20230628   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230628   gcc  
+m68k                 randconfig-r014-20230628   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r013-20230628   gcc  
+riscv                randconfig-r023-20230628   gcc  
+riscv                randconfig-r042-20230629   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230629   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r003-20230628   gcc  
+sh                   randconfig-r006-20230628   gcc  
+sh                   randconfig-r025-20230628   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r012-20230628   gcc  
+sparc                randconfig-r034-20230628   gcc  
+sparc64              randconfig-r024-20230628   gcc  
+sparc64              randconfig-r031-20230628   gcc  
+sparc64              randconfig-r033-20230628   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r036-20230628   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230628   clang
+x86_64       buildonly-randconfig-r002-20230628   clang
+x86_64       buildonly-randconfig-r003-20230628   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r016-20230628   gcc  
+x86_64               randconfig-x001-20230628   gcc  
+x86_64               randconfig-x002-20230628   gcc  
+x86_64               randconfig-x003-20230628   gcc  
+x86_64               randconfig-x004-20230628   gcc  
+x86_64               randconfig-x005-20230628   gcc  
+x86_64               randconfig-x006-20230628   gcc  
+x86_64               randconfig-x011-20230628   clang
+x86_64               randconfig-x012-20230628   clang
+x86_64               randconfig-x013-20230628   clang
+x86_64               randconfig-x014-20230628   clang
+x86_64               randconfig-x015-20230628   clang
+x86_64               randconfig-x016-20230628   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r004-20230628   gcc  
 
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
