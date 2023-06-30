@@ -2,66 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D1FE744019
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Jun 2023 18:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C16B77441AE
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Jun 2023 20:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232371AbjF3Qte (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Jun 2023 12:49:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51018 "EHLO
+        id S232042AbjF3R77 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Jun 2023 13:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbjF3Qtc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Jun 2023 12:49:32 -0400
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5607D1BD0;
-        Fri, 30 Jun 2023 09:49:31 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3459baa237bso9107515ab.3;
-        Fri, 30 Jun 2023 09:49:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688143770; x=1690735770;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cFm+MwUTJ0Nrf5st/c0X4e2ak6wIZTxERF+a0wkzT1c=;
-        b=EZ9vGeSgJuPE2tUkc1JAOJ1BvqGWz/a5IunxQIQHAXJ4xNxKS6VCy/De6dNyuJCkhF
-         jCrSoOLIq3mVsO6VLHWa3osGoY4/XitxTQuIdQ7Ac/JI2QJsgiuZPdsB2PSEARqnDV10
-         r25jHETDM7JMiPvfEc57UYIy+ZYE/5IXmCD27irJxfrDkcM8CugfH4Jcfl/zvlL9Pd0h
-         DYGj8Yjh4DuSJ84NOUzUTxw2qlnkULXOsJ1qpXFlUsE7kDBReWEwLwxzayOR2qgb24XD
-         owNlk2kJT+Nq24UeonjfzJYyNCosHQCleGwDpNKTkH9gnWHs76xq9wTZKOWONqW1ajz/
-         /ByQ==
-X-Gm-Message-State: AC+VfDw81jQsyB/cVK7cXPBf5q4yoCAyhDd+dnpXYC/gD+6B61RG5IFa
-        bjqQ47EUPZy51hx2hdIFcaGGh7eDOQ==
-X-Google-Smtp-Source: ACHHUZ7/4giS855SP320cWiO7+NFI00/wA7SRunbZLjvrL2Pjq26ubpM9I6uTDjHH7UIr0OG39MI8w==
-X-Received: by 2002:a5d:94c3:0:b0:76c:71dc:55f3 with SMTP id y3-20020a5d94c3000000b0076c71dc55f3mr3486773ior.6.1688143770566;
-        Fri, 30 Jun 2023 09:49:30 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id k8-20020a02a708000000b0042aebaf294dsm2142602jam.146.2023.06.30.09.49.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 09:49:29 -0700 (PDT)
-Received: (nullmailer pid 1887131 invoked by uid 1000);
-        Fri, 30 Jun 2023 16:49:28 -0000
-Date:   Fri, 30 Jun 2023 10:49:28 -0600
-From:   Rob Herring <robh@kernel.org>
+        with ESMTP id S229496AbjF3R76 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Jun 2023 13:59:58 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8F835AB;
+        Fri, 30 Jun 2023 10:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688147997; x=1719683997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SsGHuD60K6V+2Csu940O7qwcjIx9HfXaFouXONb7hXY=;
+  b=MsJIGi3x5Fh7DSsaFiAWg8fZuB7zFPBZ20RuKGxQbzVJNLKuBNpoclbY
+   VsILDQntt7zhU4uDKk1Zdn1dlAFyxuILxGvBoDty3WQPt+es8bHZL+aTa
+   Wx4XriaA8YnV3qFCYjLi+A8QmyPt0n9aMaivUcCyZWsv3Hm/pAyO1AGNV
+   e6g1NPk7wZLtWxPpGmIBTEBFE03M2OJkEHvFp1Vk8fMg9sCUSt9Zdu8Gs
+   eC61gfyCCuJRxNOmpBiNsdMy2S1E7qSjt7TCUspv2L25fPD3YunQzdACf
+   OJV3jcvfgKTf/MZ8mzy31c0mKMD31GXW65rD1PLSpPBWhv3R5vVOWyT5n
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="361307514"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="361307514"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 10:59:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="831030189"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="831030189"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2023 10:59:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qFIPQ-001AjG-2G;
+        Fri, 30 Jun 2023 20:59:52 +0300
+Date:   Fri, 30 Jun 2023 20:59:52 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Astrid Rost <astrid.rost@axis.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, kernel@axis.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@axis.com, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: Read max-brightness from
+Subject: Re: [PATCH v2 1/2] led: led-class: Read max-brightness from
  devicetree
-Message-ID: <20230630164928.GA1884613-robh@kernel.org>
+Message-ID: <ZJ8YGFxQCHKCCAqw@smile.fi.intel.com>
 References: <20230630092248.4146169-1-astrid.rost@axis.com>
- <20230630092248.4146169-3-astrid.rost@axis.com>
+ <20230630092248.4146169-2-astrid.rost@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230630092248.4146169-3-astrid.rost@axis.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+In-Reply-To: <20230630092248.4146169-2-astrid.rost@axis.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,7 +71,7 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 11:22:47AM +0200, Astrid Rost wrote:
+On Fri, Jun 30, 2023 at 11:22:46AM +0200, Astrid Rost wrote:
 > Add max-brightness in order to reduce the current on the connected LEDs.
 > Normally, the maximum brightness is determined by the hardware, and this
 > property is not required. This property is used to set a software limit.
@@ -77,13 +79,39 @@ On Fri, Jun 30, 2023 at 11:22:47AM +0200, Astrid Rost wrote:
 > causes damage due to restrictions in a specific system, such as mounting
 > conditions. Note that led-max-microamp should be preferably used, if it
 > is supported by the controller.
-> 
+
+LGTM,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Maybe you can also add to the cover letter that there are already users in
+the kernel that may be simplified after this change lands the upstream.
+
 > Signed-off-by: Astrid Rost <astrid.rost@axis.com>
 > ---
->  Documentation/devicetree/bindings/leds/common.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/leds/led-class.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 9255bc11f99d..ce652abf9336 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -457,6 +457,10 @@ int led_classdev_register_ext(struct device *parent,
+>  			if (fwnode_property_present(init_data->fwnode,
+>  						    "retain-state-shutdown"))
+>  				led_cdev->flags |= LED_RETAIN_AT_SHUTDOWN;
+> +
+> +			fwnode_property_read_u32(init_data->fwnode,
+> +				"max-brightness",
+> +				&led_cdev->max_brightness);
+>  		}
+>  	} else {
+>  		proposed_name = led_cdev->name;
+> -- 
+> 2.30.2
+> 
 
-The patch order is wrong. You have to define a property before you can 
-use it. Otherwise,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
