@@ -2,112 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B827448A3
-	for <lists+linux-leds@lfdr.de>; Sat,  1 Jul 2023 13:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 068D47448AF
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jul 2023 13:09:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbjGALD5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 1 Jul 2023 07:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
+        id S229534AbjGALJf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 1 Jul 2023 07:09:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjGALD4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 1 Jul 2023 07:03:56 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C4553C05
-        for <linux-leds@vger.kernel.org>; Sat,  1 Jul 2023 04:03:55 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-992f15c36fcso160222166b.3
-        for <linux-leds@vger.kernel.org>; Sat, 01 Jul 2023 04:03:55 -0700 (PDT)
+        with ESMTP id S229530AbjGALJe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 1 Jul 2023 07:09:34 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45EC13C07;
+        Sat,  1 Jul 2023 04:09:33 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4f9fdb0ef35so4639458e87.0;
+        Sat, 01 Jul 2023 04:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688209433; x=1690801433;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1688209771; x=1690801771;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HhqTMzigphscucmhe7mCsjJ8z9OVn1JSWHfhcmXyrPc=;
-        b=LKRJEBgTOj5IEA91MIUcoWTKV7pASptI2nJgvzivXbX2fZQQPuQPtaT9D4/G/z76cV
-         Arv5qP56U9XeCldVp/gDgtX6mhgDTq589HzIXYFkMERwQKqqZ/AVJgAfKt5lqQNF94/U
-         uLk69/lQT8AOYJCXW17jdBulrrrHr5u9ddwr4foMYWyexQjWllOWrcPvgQfJimTe8h+5
-         pDEn3X3MykXQ9DtTw+vB9jp2cFkOFDuapXZ+zrhOKtelAZUL5Gk3rn+kKe6h0fhg4Uad
-         GzDvMEclkp/EinOf0RHInGwDo71yAZx1+fN8J6UrV8gaOrPnYxsTRrPp2cgvNMyuLtf4
-         U9Pw==
+        bh=LyQo7oGCzL0q4nMHdOWsUgl2XzXKe7BOngdS1hsphWI=;
+        b=MpzVOfkTDGXum05mEE1Aa8/iBIcGLFakyuf9yYZoTYeGHZXIZ16CO5E5H8jLQ9lyUY
+         BhAOA/GGqNh3NEz45nHeZb1wJsqptZXbB0ZY19HUvc0cCo337TWu4OEYjlRpFPBSQEa8
+         3DvQ3sful+ygfpyRjqf9YU8nwUqQCq1OflOIThjnA39YC3EFgjgidkkreL1PcQBa56XX
+         uoDVGeOA/Dha/OoKocTDMDJAJk/iz3E2+fl2KmZjgZjXePXEm1grGoWgMwxnSzVN93DF
+         +VD1Y0buGkf0Ec1dk/ZOAHD74ITsKXHMFgA/T+ywwc6+b0wpKs3+Zj01lAX9tLo4lQLW
+         HP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688209433; x=1690801433;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1688209771; x=1690801771;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HhqTMzigphscucmhe7mCsjJ8z9OVn1JSWHfhcmXyrPc=;
-        b=XpSduBErDQhbhLO001P18c2cCG3j6SF/cu7KjCc0/8mXAeZPBuVeytgHMglNA5c4Oz
-         s0rKfF2GnYJVXMkH5MqYb803hZWkXQi4f3XGHTzlMDTzAeBJ1N8UX0Fpx/6WSLawWXB8
-         CLo1bT8JOR6GC8L3+E89dIzhEIZ09xja3N8YwCKJ3FeHKs3djrKCXWa/oslHKV26D/8t
-         NEW5v8gTbYaL5AVvLSX5cxsNgPCY1UMWo/qW5ZUCDPSceRLRbivDr26TTK2kn/BfJjvu
-         qotsbtW1LLWsjTXBVQ3VXt7KBkFmBipsZQlkr3xMhv9dOeqESwNc6dBfoxwpYO+cycOh
-         23hg==
-X-Gm-Message-State: ABy/qLaW15UBgzrbBvOhLKwpd2UZG4gLJWHijTIwfX5cv+Af+5HeOB25
-        vWL8OURidlBBCJWqBiKGYvbZew==
-X-Google-Smtp-Source: APBJJlG/KJHFR2pxeOBJd4GJGW6+VY61SdKHDQ/D5BZNk1PeSlmGkMEJJrcHYHu7Ht+MB/bZGMnvGg==
-X-Received: by 2002:a17:906:4f0a:b0:992:ba2c:2e0c with SMTP id t10-20020a1709064f0a00b00992ba2c2e0cmr4057020eju.36.1688209433622;
-        Sat, 01 Jul 2023 04:03:53 -0700 (PDT)
-Received: from [192.168.10.214] ([217.169.179.6])
-        by smtp.gmail.com with ESMTPSA id ci8-20020a170906c34800b009888aa1da11sm9047040ejb.188.2023.07.01.04.03.51
+        bh=LyQo7oGCzL0q4nMHdOWsUgl2XzXKe7BOngdS1hsphWI=;
+        b=B+8fSDQuZseJWyeh3zS6+p8XKFegF0A/zQHV/z65QoUKhR4GK587bbKlxy4/dexScF
+         uIXOj6VZnfqPaHW/qx84QO46tHwcTmLFIidCNdcxnHX0gyFTRMzuqSyXd5xS0dNpiyeJ
+         qfGlXpn7g25jiFQbkoy9Kf6PEVjlbIQf5N3PxMIpQjYaj4LYbvqnRPlJCThlVhWowKzx
+         mtQDNSq1DCxyVBQlyA4SJEtQFwyiGeG8E8ZZUvGuEWp6QrwD0IcBSl5JDANvc/LYQPFd
+         7f2Ou9vfR4FyhZjUcxDQbqD5J6tkrSH8LKNERQPm6EkjtTMuWUy539/Uxpk1kPhI1dPP
+         C8Hw==
+X-Gm-Message-State: ABy/qLYPuTNKo/PkGAaWZqkPgkrAHMTPuxM3w6HhiPB8xQaNmiKIkzEg
+        ELBZey6HFRTKuGM2nI9XLy4Jo8DWXFo=
+X-Google-Smtp-Source: APBJJlFJBnGRzqT/F8NwRkkxu9Uzyos7FGd6xZUEAGWgt3eTPo2M8RsX63JR4a+zwEAn05FPhtSxBw==
+X-Received: by 2002:a05:6512:3991:b0:4f8:49a8:a0e2 with SMTP id j17-20020a056512399100b004f849a8a0e2mr4796943lfu.16.1688209771171;
+        Sat, 01 Jul 2023 04:09:31 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id g7-20020ac25387000000b004f3945751b2sm3350944lfh.43.2023.07.01.04.09.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Jul 2023 04:03:53 -0700 (PDT)
-Message-ID: <e7298704-5a03-0961-90a3-dab4af60c326@linaro.org>
-Date:   Sat, 1 Jul 2023 13:03:51 +0200
+        Sat, 01 Jul 2023 04:09:30 -0700 (PDT)
+Message-ID: <3e8e7834-fe0e-7e92-5472-cb9fd223980e@gmail.com>
+Date:   Sat, 1 Jul 2023 13:09:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/7] dt-bindings: soc: qcom: Add qcom-pbs bindings
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/2] led: led-class: Read max-brightness from
+ devicetree
+To:     Astrid Rost <astrid.rost@axis.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>
+Cc:     kernel@axis.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230630092248.4146169-1-astrid.rost@axis.com>
+ <20230630092248.4146169-2-astrid.rost@axis.com>
 Content-Language: en-US
-To:     Anjelique Melendez <quic_amelende@quicinc.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     pavel@ucw.cz, lee@kernel.org, thierry.reding@gmail.com,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        u.kleine-koenig@pengutronix.de, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20230621185949.2068-1-quic_amelende@quicinc.com>
- <20230621185949.2068-2-quic_amelende@quicinc.com>
- <20230626135857.GA3118929-robh@kernel.org>
- <2e871e21-a81d-0d7d-993b-9a9d7bd9d962@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <2e871e21-a81d-0d7d-993b-9a9d7bd9d962@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <20230630092248.4146169-2-astrid.rost@axis.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 29/06/2023 03:19, Anjelique Melendez wrote:
+Hi Astrid,
 
->>> +examples:
->>> +  - |
->>> +    pmic {
->>> +      #address-cells = <1>;
->>> +      #size-cells = <0>;
->>> +
->>> +      qcom,pbs@7400 {
->>> +        compatible = "qcom,pbs";
->>> +        reg = <0x7400>;
->>> +      };
->>
->> Why do you need a child node for this? Is there more than 1 instance in 
->> a PMIC? Every sub-function of a PMIC doesn't have to have a DT node.
->>
+On 6/30/23 11:22, Astrid Rost wrote:
+> Add max-brightness in order to reduce the current on the connected LEDs.
+> Normally, the maximum brightness is determined by the hardware, and this
+> property is not required. This property is used to set a software limit.
+> It could happen that an LED is made so bright that it gets damaged or
+> causes damage due to restrictions in a specific system, such as mounting
+> conditions. Note that led-max-microamp should be preferably used, if it
+> is supported by the controller.
 > 
-> We currently have another downstream driver (which is planned to get upstreamed)
-> which also needs a handle to a pbs device in order to properly trigger events. 
+> Signed-off-by: Astrid Rost <astrid.rost@axis.com>
+> ---
+>   drivers/leds/led-class.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 9255bc11f99d..ce652abf9336 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -457,6 +457,10 @@ int led_classdev_register_ext(struct device *parent,
+>   			if (fwnode_property_present(init_data->fwnode,
+>   						    "retain-state-shutdown"))
+>   				led_cdev->flags |= LED_RETAIN_AT_SHUTDOWN;
+> +
+> +			fwnode_property_read_u32(init_data->fwnode,
+> +				"max-brightness",
+> +				&led_cdev->max_brightness);
+>   		}
+>   	} else {
+>   		proposed_name = led_cdev->name;
 
-I don't see how does it answer Rob's concerns. Neither mine about
-incomplete binding. You don't need pbs node here for that.
+We have led-max-microamp for that and every LED class driver is supposed
+to calculate its max brightness level basing on it.
 
-Anyway, whatever you have downstream also does not justify any changes.
-Either upstream these so we can see it or drop this binding.
-
+-- 
 Best regards,
-Krzysztof
-
+Jacek Anaszewski
