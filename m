@@ -2,116 +2,207 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C16B77441AE
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Jun 2023 20:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0D6E744897
+	for <lists+linux-leds@lfdr.de>; Sat,  1 Jul 2023 13:01:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232042AbjF3R77 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Jun 2023 13:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57590 "EHLO
+        id S229862AbjGALB1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 1 Jul 2023 07:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjF3R76 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Jun 2023 13:59:58 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8F835AB;
-        Fri, 30 Jun 2023 10:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688147997; x=1719683997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SsGHuD60K6V+2Csu940O7qwcjIx9HfXaFouXONb7hXY=;
-  b=MsJIGi3x5Fh7DSsaFiAWg8fZuB7zFPBZ20RuKGxQbzVJNLKuBNpoclbY
-   VsILDQntt7zhU4uDKk1Zdn1dlAFyxuILxGvBoDty3WQPt+es8bHZL+aTa
-   Wx4XriaA8YnV3qFCYjLi+A8QmyPt0n9aMaivUcCyZWsv3Hm/pAyO1AGNV
-   e6g1NPk7wZLtWxPpGmIBTEBFE03M2OJkEHvFp1Vk8fMg9sCUSt9Zdu8Gs
-   eC61gfyCCuJRxNOmpBiNsdMy2S1E7qSjt7TCUspv2L25fPD3YunQzdACf
-   OJV3jcvfgKTf/MZ8mzy31c0mKMD31GXW65rD1PLSpPBWhv3R5vVOWyT5n
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="361307514"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="361307514"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 10:59:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="831030189"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="831030189"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2023 10:59:54 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qFIPQ-001AjG-2G;
-        Fri, 30 Jun 2023 20:59:52 +0300
-Date:   Fri, 30 Jun 2023 20:59:52 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Astrid Rost <astrid.rost@axis.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        kernel@axis.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] led: led-class: Read max-brightness from
- devicetree
-Message-ID: <ZJ8YGFxQCHKCCAqw@smile.fi.intel.com>
-References: <20230630092248.4146169-1-astrid.rost@axis.com>
- <20230630092248.4146169-2-astrid.rost@axis.com>
+        with ESMTP id S229510AbjGALBZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 1 Jul 2023 07:01:25 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C233C02
+        for <linux-leds@vger.kernel.org>; Sat,  1 Jul 2023 04:01:24 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-992ace062f3so311488966b.2
+        for <linux-leds@vger.kernel.org>; Sat, 01 Jul 2023 04:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688209283; x=1690801283;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dZ1or/MdMx0omH5bKg4Oj18nw/lksLHMXCAGiNzJOQ4=;
+        b=l5ATTLEkTO6e3mMV4Zd/lzxiZOKjq9mQSPrWhK2DFNU1A1eHH4GcFlE4AI1mwkBhN1
+         0e3OO/PYcI/uXGYv0iBLZahCX5H4/N+CPOyQN/HD2RZVL5jVeF2xVRZ4xMRnSTQ5bAHU
+         HaBMFgPTvEQbduVWcooM13IMk7rSph8N0J1UwfkdwmHsLPZglXgeMMx3BJuqAlyj3P+o
+         LDEk8b6oVyBYRjCsT2D0wBBLK7Sxs2ZRDkhbAnhxef1475ZhyEWdu6bOgnp0UxsBHUBJ
+         LigN6sghjD2mXQKLfLpUTGhm0RAiouU+42/DfhvkaIR3j39nNWKB92zGcTecaADMKroS
+         gVjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688209283; x=1690801283;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dZ1or/MdMx0omH5bKg4Oj18nw/lksLHMXCAGiNzJOQ4=;
+        b=FVO5t4NTVpEaxcGKIRKaRqbUELpN59g+yp3pSjKz/Eqbm3MIHoj9vOFsjzgvt27KMa
+         1ZlZ+kBI6vpo4TX+KO+Uv4ywI1W2Oel3NvmfUzpC1Zis9JuV2wyw8RBn87RzJ0yD2IoV
+         tT4k7buVBoSsT4YS5ex1h5jTlIZLqNfoNlFiK/IvNZMm73skipwSYMCULU4mWa0mmI/V
+         pQ5zbKhPPkB7ibOFS/A5iWItVZ92qPby2zSMNYriQI25E3CpIIlArTjNvASgAPX6U55U
+         VWP58Bj6s6Ps5Gc95eWYkj/0kgu1GQY2iBtgbu5GUnsLvxAA+Lyy22cygYL2U6i9dTRz
+         zStA==
+X-Gm-Message-State: ABy/qLaSG6ObfxM2PP2r5yLQGJYSrjFjcE1eea87U6xizOKw0RP3JYD0
+        RwTMgMUm4hW6JzMLqNznCtwrnQ==
+X-Google-Smtp-Source: APBJJlElNbbZdOdk19QhJCE35zZn5Te95ct9xR7hyv0ISeTz7uMTomfWvFBRbgRu/jsnLzZJIKe2tA==
+X-Received: by 2002:a17:906:c3a4:b0:98d:f062:8503 with SMTP id t36-20020a170906c3a400b0098df0628503mr3168554ejz.77.1688209282661;
+        Sat, 01 Jul 2023 04:01:22 -0700 (PDT)
+Received: from [192.168.10.214] ([217.169.179.6])
+        by smtp.gmail.com with ESMTPSA id sb22-20020a170906edd600b00982a92a849asm9195404ejb.91.2023.07.01.04.01.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Jul 2023 04:01:22 -0700 (PDT)
+Message-ID: <caaf6ada-61a4-df67-0a55-06ab3c19fd3c@linaro.org>
+Date:   Sat, 1 Jul 2023 13:01:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230630092248.4146169-2-astrid.rost@axis.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 2/7] dt-bindings: leds: leds-qcom-lpg: Add support for LUT
+ through NVMEM devices
+Content-Language: en-US
+To:     Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
+        lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        agross@kernel.org, andersson@kernel.org
+Cc:     konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+References: <20230621185949.2068-1-quic_amelende@quicinc.com>
+ <20230621185949.2068-3-quic_amelende@quicinc.com>
+ <4ee5f3fc-3376-7421-23cd-8fc905704493@linaro.org>
+ <cb7630b4-4953-31df-faeb-a54f7757c1af@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <cb7630b4-4953-31df-faeb-a54f7757c1af@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 11:22:46AM +0200, Astrid Rost wrote:
-> Add max-brightness in order to reduce the current on the connected LEDs.
-> Normally, the maximum brightness is determined by the hardware, and this
-> property is not required. This property is used to set a software limit.
-> It could happen that an LED is made so bright that it gets damaged or
-> causes damage due to restrictions in a specific system, such as mounting
-> conditions. Note that led-max-microamp should be preferably used, if it
-> is supported by the controller.
+On 29/06/2023 02:12, Anjelique Melendez wrote:
+>>
+>>
+>>
+>>> +      required when LUT mode is supported and the LUT pattern is stored in a single
+>>> +      SDAM module instead of a LUT module.
+>>
+>> Which devices support LUT? Why this is not constrained per variant?
+> When you say constrained per variant, are you looking for something more like this?
+> i.e. 
+> allOf:
+>   - if: 
+>       properties:
+>         compatible:
+>           contains:
+>             const: qcom,pmi632-lpg
+>     then:
+>       properties:
+>         nvmem:
+>           maxItems: 1
+>         nvmem-names:
+>           items:
+>             - const: lpg_chan_sdam
+>       required:
+>         - nvmem
+>         - qcom,pbs-client
+>   - if: 
+>       properties:
+>         compatible:
+>           contains:
+>             const: qcom,pm8350c-pwm
+>     then:
+>       properties:
+>         nvmem:
+>           maxItems: 2
+>         nvmem-names:
+>           items:
+>             - const: lpg_chan_sdam
+>             - const: lut_sdam
+>       required:
+>        - nvmem
 
-LGTM,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Yes.
 
-Maybe you can also add to the cover letter that there are already users in
-the kernel that may be simplified after this change lands the upstream.
-
-> Signed-off-by: Astrid Rost <astrid.rost@axis.com>
-> ---
->  drivers/leds/led-class.c | 4 ++++
->  1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 9255bc11f99d..ce652abf9336 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -457,6 +457,10 @@ int led_classdev_register_ext(struct device *parent,
->  			if (fwnode_property_present(init_data->fwnode,
->  						    "retain-state-shutdown"))
->  				led_cdev->flags |= LED_RETAIN_AT_SHUTDOWN;
-> +
-> +			fwnode_property_read_u32(init_data->fwnode,
-> +				"max-brightness",
-> +				&led_cdev->max_brightness);
->  		}
->  	} else {
->  		proposed_name = led_cdev->name;
-> -- 
-> 2.30.2
+>>
+>>> +
+>>>    multi-led:
+>>>      type: object
+>>>      $ref: leds-class-multicolor.yaml#
+>>> @@ -191,4 +216,64 @@ examples:
+>>>        compatible = "qcom,pm8916-pwm";
+>>>        #pwm-cells = <2>;
+>>>      };
+>>> +  - |
+>>> +    #include <dt-bindings/leds/common.h>
+>>> +
+>>> +    led-controller {
+>>> +      compatible = "qcom,pm8350c-pwm";
+>>> +      #address-cells = <1>;
+>>> +      #size-cells = <0>;
+>>> +      #pwm-cells = <2>;
+>>> +      nvmem-names = "lpg_chan_sdam" , "lut_sdam";
+>>
+>> Fix your whitespaces.
+> Ack
+>>
+>>> +      nvmem = <&pmk8550_sdam_21 &pmk8550_sdam_22>;
+>>
+>> Two entries, not one> 
+>> Anyway, adding one property does not justify new example. Integrate it
+>> into existing one.
 > 
+> So we actually cannot integrate these properties into existing examples.
+> The current examples are for PMICs that use LUT peripherals (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/leds/rgb/leds-qcom-lpg.c?h=v6.4#n1417).
+> This patch series is adding support for PMICs that do not have a LUT peripheral
+> and instead store LUT patterns and LPG configurations in either 1 or 2 NVMEM(s). 
+>>
+>>> +
+>>> +      led@1 {
+>>> +        reg = <1>;
+>>> +        color = <LED_COLOR_ID_RED>;
+>>> +        label = "red";
+>>> +      };
+>>> +
+>>> +      led@2 {
+>>> +        reg = <2>;
+>>> +        color = <LED_COLOR_ID_GREEN>;
+>>> +        label = "green";
+>>> +      };
+>>> +
+>>> +      led@3 {
+>>> +        reg = <3>;
+>>> +        color = <LED_COLOR_ID_BLUE>;
+>>> +        label = "blue";
+>>> +      };
+>>> +    };
+>>> +  - |
+>>> +    #include <dt-bindings/leds/common.h>
+>>> +
+>>> +    led-controller {
+>>> +      compatible = "qcom,pmi632-lpg";
+>>> +      #address-cells = <1>;
+>>> +      #size-cells = <0>;
+>>> +      #pwm-cells = <2>;
+>>> +      nvmem-names = "lpg_chan_sdam";
+>>> +      nvmem = <&pmi632_sdam7>;
+>>> +      qcom,pbs-client = <&pmi632_pbs_client3>;
+>>
+>> One more example? Why?
+>>
+>> Why do you have here only one NVMEM cell? Aren't you missing constraints
+>> in the binding?The use of the qcom,pbs-client is only used when we have a PMIC device that has a single PPG NVMEM, 
+> which is why this was not included in the above 2 nvmem PPG example. I see how these two PPG examples
+> are repetitive so I am ok with getting rid of one of them but I do think we should have at least one PPG example.
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+This example probably should replace one of the previous ones, because
+it is bigger / more complete.
+
+Best regards,
+Krzysztof
 
