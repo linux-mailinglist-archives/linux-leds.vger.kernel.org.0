@@ -2,78 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0840A74586F
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Jul 2023 11:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D30745AF2
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Jul 2023 13:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbjGCJc1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Jul 2023 05:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39254 "EHLO
+        id S229608AbjGCLYH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Jul 2023 07:24:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230377AbjGCJcY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Jul 2023 05:32:24 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B64E5F;
-        Mon,  3 Jul 2023 02:32:14 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-99357737980so132666466b.2;
-        Mon, 03 Jul 2023 02:32:14 -0700 (PDT)
+        with ESMTP id S229484AbjGCLYG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Jul 2023 07:24:06 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C36CC1;
+        Mon,  3 Jul 2023 04:24:05 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4fba74870abso4119857e87.0;
+        Mon, 03 Jul 2023 04:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688376733; x=1690968733;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nvMYtyGoPKg6lXYME5kTaweQWa3SmJSNHqMo+u8KFsU=;
-        b=dIkHXlNBrl4QT1Wq6cGx2O//dXR7xrTSUmMrvX72UYDHrGSXH+hGFGyzM12EV538BJ
-         MmIE+ct0EyhP7rgDy3/GYe4Js4gZS7OIr41Xx/uW+Pdfx77qJe69vtLFJh8Yd9PbZiFC
-         2Khse9xxeDcRj3nkPidkIoXgPqgO+z+TO93jY9E/1A3pTuoBEyEV8+pJoVSgtBGi9182
-         WMrpsRtfhBkFV3tlpKXwCcM66Fy7Ol0j7ilCZwvRwDsTZia+kqDzs3jtvQyLn4GPXE7h
-         qTn6vk0s0RErUej4Lax0zL1OBfwZRy6BpDKa8CXE/F9L0wg1JIm/cMekD+l49Pv53bms
-         6byQ==
+        d=gmail.com; s=20221208; t=1688383443; x=1690975443;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8J4F0JphlS60aIlO89X6KCISi3bIatLzrPpJxxUwzNc=;
+        b=PiAchaq+cIdndnc6Ryfhwmdg8OAkoyZX6JGF3vsf8poTX4uPL66vGCqtxmkA1/c3jJ
+         24DL/trF7kW4+lL6ebg7BAHT8ZvcJflh8CgrLgT93JAz6MYMHiT8sVEFUrxYpebuA1Lb
+         pyD8pKbkURADHKH5pBWIfHr8F52B2ZF8/oK7W90EX/uhPhHtKU3Dv8fKESc3id0WbFQE
+         MTQB1eCRm9QY/kN/Z7W8ZxOtl3qOCKSbkyz75eTVcQk0LxZXQE3GEX5n0x92LR4vPY4f
+         Y4DuhlDLuKXhaVFmMMzmU5meFpRqGl60uwv3GjnmcvXl1Gq0Qyj2Ys+Lk/ccfoH3su8x
+         n5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688376733; x=1690968733;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvMYtyGoPKg6lXYME5kTaweQWa3SmJSNHqMo+u8KFsU=;
-        b=bEbCex0vb+p4Qr/c50LCdfqsy5DjhvIzAFuZIt8+IAOXYbdAYnty6GUybNTlEIHHKG
-         3VNs6WgBLwzYH5QanSSH3dpdE74fLnDm/PlPzVlVkRZo76RetdEYcN3kQAk8c+wPdhF5
-         x9i9g5s2wSsTbrtZ7sCv5NhPXGRbwiQ6acP8/kEjbV0eAIYyIeWLeqftdCC1zzr4SXa+
-         Z2forRxYSn/bNSND6Zot75ZO80nVI0YLJja3wIotX+fVC1tdgaowSllVfh+a+Xq9Jz5Z
-         Jhym6dPFyIqhufv5Lw8dx5qYBp5CHoFL0q7LplyvQe5UeahMuyfub3t2R+wpXqEUQSoZ
-         IlxA==
-X-Gm-Message-State: AC+VfDzuYRKUyGnJolP3JYCPNAceetl1beso2Jo1/1Lz8gJb9fBwk/V2
-        GKQOLs15r6Mw+hQepBWTBHY=
-X-Google-Smtp-Source: APBJJlEcBKQ92RfoGW7SIFH16Jl0HjbFTc0Yq5AAdkQl1oFPhntKF1P0GT311c3u4jAVA5XnVGeSYw==
-X-Received: by 2002:a17:907:766c:b0:982:ab8d:1e08 with SMTP id kk12-20020a170907766c00b00982ab8d1e08mr7027164ejc.59.1688376732881;
-        Mon, 03 Jul 2023 02:32:12 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id v26-20020a170906859a00b0099304c10fd3sm3709091ejx.196.2023.07.03.02.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 02:32:12 -0700 (PDT)
-Message-ID: <0d2dcb62-8475-8b2a-7ba9-bdabab3d0aa4@gmail.com>
-Date:   Mon, 3 Jul 2023 11:32:10 +0200
+        d=1e100.net; s=20221208; t=1688383443; x=1690975443;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8J4F0JphlS60aIlO89X6KCISi3bIatLzrPpJxxUwzNc=;
+        b=Wi6qFRYZLtpKZxqfPrI1KD2tCqD/u4tJ24vZr5f/aWXSjHXxFHbPpNqHP8Ysml013H
+         IFfKwEIbykGof9obTSfnU+Vdtsy/bgDQc5dhh5pu4dBLkwyGv3e7ja3PPmVOZCM14YNA
+         WifPXwsGR3a4j1keEBZDp2sTALC7Z9CBpn4VevGOInbCSTkOEWr1LuVLuTjgX06DZr7/
+         Fk+DwDGYxbtSZ6VsK06dg7zsXm/8NX0IjffFc+3b/F9mFyDYvi9daYPp7tv0oMr3bQwZ
+         I5LQONoVQaOUSl4ydn5MVhUBoN6sZCaAaXYQXEZWUzMxbo3JyQSEtW03aiYrKKiy45br
+         gwvw==
+X-Gm-Message-State: ABy/qLYrRvUw/DtzG8owMXNKBpIagwEuFfSdSlhs8uMyru0MZBJ6odOe
+        J/gk1TlRBhnk6dR3VqsK7ub7az25qzU=
+X-Google-Smtp-Source: APBJJlEN9W/KerWD+vLnjCiPAzG7pJLadxw29KfXv86kaMCxpdEBc8a5VgmDE5vE96GQVz6yTF+p5A==
+X-Received: by 2002:a05:6512:32b1:b0:4fa:5e76:7ad4 with SMTP id q17-20020a05651232b100b004fa5e767ad4mr5672119lfe.10.1688383443207;
+        Mon, 03 Jul 2023 04:24:03 -0700 (PDT)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id k22-20020a05600c0b5600b003fb40f5f553sm19632410wmr.31.2023.07.03.04.24.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 04:24:02 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: Bulk LED API
+Date:   Mon, 03 Jul 2023 13:24:02 +0200
+Message-ID: <5324811.I0CZgJUjXn@archbook>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/2] led: led-class: Read max-brightness from
- devicetree
-To:     Astrid Rost <astridr@axis.com>, Astrid Rost <astrid.rost@axis.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>
-Cc:     kernel@axis.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230630092248.4146169-1-astrid.rost@axis.com>
- <20230630092248.4146169-2-astrid.rost@axis.com>
- <3e8e7834-fe0e-7e92-5472-cb9fd223980e@gmail.com>
- <abcfb68b-b631-8a7b-e7cb-daefc58f3dde@axis.com>
-Content-Language: en-US
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <abcfb68b-b631-8a7b-e7cb-daefc58f3dde@axis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,37 +67,82 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Astrid,
+Hello,
 
-On 7/3/23 09:53, Astrid Rost wrote:
-> Hello Jacek,
-> 
-> I am having problems with the PWM controller LP5024.
-> 
-> https://www.ti.com/product/LP5024
-> 
-> There is no such a calculation in the data-sheet like:
-> max_brightness = max_current / constant.
-> 
-> I also assume it is depending on the type of LEDs and circuit, which are 
-> connected.
-> 
-> It supports two current modes: 25,5 mA and and 35 mA, both is to high 
-> for the LEDs I have.
-> 
-> For max_brightness seems to be everything inside the kernel, but reading 
-> the value from devicetree. I first thought I could add it in the lp50xx
-> driver, but Andy and Rob thought that I better put it into the general 
-> parts. And of course drivers having led-max-microamp should better use it.
-> 
-> Please, let me know if you have a better suggestion.
+I hope this message can either clear up some questions I have or
+prompt some discussion concerning a potentially new uAPI to control
+LEDs through.
 
-OK, since this LED controller is PWM-driven then there is no current per
-brightness level granulation. Bindings of leds-pwm driver also use
-max-brightness DT property. So, yeah, let's make it a common property,
-but state clearly that it is mainly for drivers like PWM ones, where it
-is not possible to map brightness level to the amount of current.
+Right now, as far as I can tell, the way to control LEDs for an
+userspace application is through sysfs. This works fine for stuff
+that has very few LEDs (e.g. your average laptop).
 
--- 
-Best regards,
-Jacek Anaszewski
+However, looking through some online listings[1], we now have
+multi-colour LED strips addressable over serial protocols that,
+assuming an SPI frequency of 1 MHz and 1024 LEDs, we can update
+30 times per second. Beyond just the problem of opening x * 1024
+file descriptors (where x is the number of parameters we want to
+change), we'll probably run into other inefficiencies pretty
+quickly.
+
+The scenario I'm picturing is the following: we have some Linux
+SBC, and an LED strip hooked up over SPI. We now want to have a
+certain pattern displayed on the LEDs, e.g. based on some machine
+vision input. This should be as interactive as possible, or else
+the machine vision part would be pointless. The way to do this
+right now is to bash around spidev from userspace which leads to
+very little reusable code across different addressable LED vendors.
+Supply chains happen, a different vendor is chosen, code is thrown
+out, nobody is happy.
+
+A solution to this might be a bulk LED API. We add a new concept of
+bulk LEDs, and have LED strip drivers implement that. These show up
+in sysfs like regular LEDs (though that might be a bit overwhelming)
+but they also have some character device for which a userspace
+program can query the format (colour components + maybe brightness
+components) and then write binary data to the device in said format
+to set each individual LED's components to individual values. We
+could then also add another ioctl or whatever to "flip" (present)
+the newly written values, causing them to be actually applied to the
+LEDs by the implementing driver.
+
+Beyond LED strips, LED matrices exist too. I'm not sure if those
+would rather be best implemented as DRM panels instead however.
+
+So here are my questions:
+
+1. Am I correct in my assumption that such an API currently does
+   not exist?
+
+2. Does mainline Linux care about addressable LED strips enough
+   to theoretically accept some of the concepts proposed in this
+   message, ignoring the fine details for now?
+
+3. What is the current LED subsystem technical debt that needs
+   addressing before one could get started on this work? I see
+   in the TODO file that there is some concern over multi-colour
+   LEDs, which would be tangentially relevant to this.
+
+4. Should the LED subsystem even be the subsystem to implement
+   these, or should they be 1xn panels in the DRM subsystem?
+   The DRM pixel formats might not map to wacky multi-colour
+   LEDs very well, but 8-bit RGB + 5-bit brightness as in the
+   example strip I linked would probably work in some vaguely
+   HDR-adjacent way.
+
+And, addressed at nobody in particular:
+
+5. Is any company willing to sponsor me in doing the work to
+   implement something like this?
+
+I'd also like to gather some ideas at this stage as for how
+such a bulk uAPI (and kernel internal implementation) might
+look like in more concrete terms, as I am quite new to kernel
+development and probably glossed over some important details.
+
+Kind regards,
+Nicolas Frattaroli
+
+[1]: https://www.adafruit.com/product/2239
+
+
