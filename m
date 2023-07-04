@@ -2,45 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6450E7478FE
-	for <lists+linux-leds@lfdr.de>; Tue,  4 Jul 2023 22:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 096EB747900
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Jul 2023 22:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbjGDU3K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 4 Jul 2023 16:29:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48072 "EHLO
+        id S230367AbjGDU3L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 4 Jul 2023 16:29:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjGDU3K (ORCPT
+        with ESMTP id S229753AbjGDU3K (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jul 2023 16:29:10 -0400
 Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF306E76;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3E5E7B;
         Tue,  4 Jul 2023 13:29:05 -0700 (PDT)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 752658556F;
+        by phobos.denx.de (Postfix) with ESMTPSA id 06166857D1;
         Tue,  4 Jul 2023 22:29:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1688502542;
-        bh=0EE1PnrDZo7waoQRGJwdl4S7gD8MtyR9VjQ5KrD3g2M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=crijqnm/dDvCLn5fK9Y9Jn31Jmrzj8sTnFGq9UqInjvC5QYV6JxFycN2c5LwumnMk
-         d7agjkkfTbZempruWFdeEq5/UFZrP8U1kUPZ68Ij6CJQMI2TlF9lRI8l1bqDNmLx0f
-         C2RXFW9HsFVLz1JuddjVkFlqZG4GTYJ09vLH8jc0DRH0/573+m529/fZJ2uZVpVLos
-         ruC8LegxTmX5v71bIUdYtzxRQeiw7a5zNJahjkpsvUtkPeyqUAL3bizVcA62PdrdEC
-         1KUJU7kTQakpWN4F7OPY/Mpw96QKcPYORijal7uizduZ8sAgticcErbgZfJz88WSDj
-         4Z4ktZxYhFFcw==
+        s=phobos-20191101; t=1688502543;
+        bh=HN9R/HlloXWzi4j6g7zfYw02I/8nMm+pwG1KLm53g1o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Br6HuacmiCZdCIqjVo6k8jtAHPieCKRsNTTr2gECBTlFMKFHQdKxFbayCX5VxXUOC
+         Mea4hZTRzv+H+C0ldd/gcIjrjrhbDTM5VoMpgsO5U1XjioJyI/WAE3vEV+xC4e0H0I
+         YDRQRZ82jg5etk2wrfEgvO9Ns5FMtyx0MoV6zNbgVyRyoCVUg+xIhroXqj4su7Uh7t
+         e0MzK+kl32z+DnMhN8MsLMLf0cQu6b++DHILfLlg3ksZsTnEWEv8z9gLdTUxgvSRre
+         tx9NG/MJG6XgbYnqIkriQ60cyh68sRGoLwB4Al6lKU9x1+PNyKXifdtGEkXCHskIvz
+         lJtWub96fFvCQ==
 From:   Marek Vasut <marex@denx.de>
 To:     linux-leds@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
-        Isai Gaspar <isaiezequiel.gaspar@nxp.com>,
+Cc:     Isai Gaspar <isaiezequiel.gaspar@nxp.com>,
+        Marek Vasut <marex@denx.de>,
+        Conor Dooley <conor+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: leds: pca995x: Add binding document for PCA995X chips
-Date:   Tue,  4 Jul 2023 22:28:42 +0200
-Message-Id: <20230704202843.91867-1-marex@denx.de>
+Subject: [PATCH 2/2] leds: pca995x: Add support for PCA995X chips
+Date:   Tue,  4 Jul 2023 22:28:43 +0200
+Message-Id: <20230704202843.91867-2-marex@denx.de>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230704202843.91867-1-marex@denx.de>
+References: <20230704202843.91867-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -55,11 +58,14 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+From: Isai Gaspar <isaiezequiel.gaspar@nxp.com>
+
 The PCA995x chips are I2C controlled LED drivers. Each chip has
 up to 16 outputs, each one with an individual 8-bit resolution
-PWM for brightness control. Add binding document.
+PWM for brightness control.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Isai Gaspar <isaiezequiel.gaspar@nxp.com>
+Signed-off-by: Marek Vasut <marex@denx.de> # Basically rewrite the driver
 ---
 Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: Isai Gaspar <isaiezequiel.gaspar@nxp.com>
@@ -71,97 +77,248 @@ Cc: Rob Herring <robh+dt@kernel.org>
 Cc: devicetree@vger.kernel.org
 Cc: linux-leds@vger.kernel.org
 ---
- .../devicetree/bindings/leds/nxp,pca995x.yaml | 81 +++++++++++++++++++
- 1 file changed, 81 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
+ drivers/leds/Kconfig        |   9 ++
+ drivers/leds/Makefile       |   1 +
+ drivers/leds/leds-pca995x.c | 198 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 208 insertions(+)
+ create mode 100644 drivers/leds/leds-pca995x.c
 
-diff --git a/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml b/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 6046dfeca16fc..b92208eccdea9 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -521,6 +521,15 @@ config LEDS_PCA963X
+ 	  LED driver chip accessed via the I2C bus. Supported
+ 	  devices include PCA9633 and PCA9634
+ 
++config LEDS_PCA995X
++	tristate "LED Support for PCA995x I2C chips"
++	depends on LEDS_CLASS
++	depends on I2C
++	help
++	  This option enables support for LEDs connected to PCA995x
++	  LED driver chips accessed via the I2C bus. Supported
++	  devices include PCA9955BTW, PCA9952TW and PCA9955TW.
++
+ config LEDS_WM831X_STATUS
+ 	tristate "LED support for status LEDs on WM831x PMICs"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index d71f1226540c2..d7348e8bc019a 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -72,6 +72,7 @@ obj-$(CONFIG_LEDS_OT200)		+= leds-ot200.o
+ obj-$(CONFIG_LEDS_PCA9532)		+= leds-pca9532.o
+ obj-$(CONFIG_LEDS_PCA955X)		+= leds-pca955x.o
+ obj-$(CONFIG_LEDS_PCA963X)		+= leds-pca963x.o
++obj-$(CONFIG_LEDS_PCA995X)		+= leds-pca995x.o
+ obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
+ obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
+ obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
+diff --git a/drivers/leds/leds-pca995x.c b/drivers/leds/leds-pca995x.c
 new file mode 100644
-index 0000000000000..562199d3ad820
+index 0000000000000..3fb78ee94d403
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/nxp,pca995x.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/nxp,pca995x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/leds/leds-pca995x.c
+@@ -0,0 +1,198 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * LED driver for PCA995x I2C LED drivers
++ *
++ * Copyright 2011 bct electronic GmbH
++ * Copyright 2013 Qtechnology/AS
++ * Copyright 2022 NXP
++ * Copyright 2023 Marek Vasut
++ */
 +
-+title: NXP PCA995x LED controllers
++#include <linux/i2c.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/mod_devicetable.h>
++#include <linux/property.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - Isai Gaspar <isaiezequiel.gaspar@nxp.com>
-+  - Marek Vasut <marex@denx.de>
++/* Register definition */
++#define PCA995X_MODE1		0x00
++#define PCA995X_MODE2		0x01
++#define PCA995X_LEDOUT0		0x02
++#define PCA9955B_PWM0		0x08
++#define PCA9952_PWM0		0x0A
++#define PCA9952_IREFALL		0x43
++#define PCA9955B_IREFALL	0x45
 +
-+description:
-+  The NXP PCA9952/PCA9955B are programmable LED controllers connected via I2C
-+  that can drive 16 separate lines. Each of them can be individually switched
-+  on and off, and brightness can be controlled via individual PWM.
++/* LED select registers determine the source that drives LED outputs */
++#define PCA995X_LED_OFF		0x0	/* LED driver off */
++#define PCA995X_LED_ON		0x1	/* LED driver on */
++#define PCA995X_LED_PWM		0x2	/* Controlled through PWM */
++#define PCA995X_LDRX_MASK	0x3	/* 2 bits per output state control */
 +
-+  Datasheets are available at
-+  https://www.nxp.com/docs/en/data-sheet/PCA9952_PCA9955.pdf
-+  https://www.nxp.com/docs/en/data-sheet/PCA9955B.pdf
++#define PCA995X_MODE_1_CFG	0x00	/* Auto-increment disabled. Normal mode */
++#define PCA995X_IREFALL_CFG	0x7F	/* Half of max current gain multiplier */
 +
-+properties:
-+  compatible:
-+    enum:
-+      - nxp,pca9952
-+      - nxp,pca9955b
++#define PCA995X_MAX_OUTPUTS	16	/* Supported outputs */
 +
-+  reg:
-+    maxItems: 1
++#define ldev_to_led(c)	container_of(c, struct pca995x_led, ldev)
 +
-+  "#address-cells":
-+    const: 1
++struct pca995x_led {
++	unsigned int led_no;
++	struct led_classdev ldev;
++	struct pca995x_chip *chip;
++};
 +
-+  "#size-cells":
-+    const: 0
++struct pca995x_chip {
++	struct regmap *regmap;
++	struct pca995x_led leds[PCA995X_MAX_OUTPUTS];
++	int btype;
++};
 +
-+patternProperties:
-+  "^led@[0-9]+$":
-+    type: object
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
++static int pca995x_brightness_set(struct led_classdev *led_cdev,
++				  enum led_brightness brightness)
++{
++	struct pca995x_led *led = ldev_to_led(led_cdev);
++	struct pca995x_chip *chip = led->chip;
++	u8 ledout_addr, pwmout_addr;
++	int shift, ret;
 +
-+    properties:
-+      reg:
-+        minimum: 0
-+        maximum: 15
++	pwmout_addr = (chip->btype ? PCA9955B_PWM0 : PCA9952_PWM0) + led->led_no;
++	ledout_addr = PCA995X_LEDOUT0 + (led->led_no / 4);
++	shift = 2 * (led->led_no % 4);
 +
-+    required:
-+      - reg
++	switch (brightness) {
++	case LED_FULL:
++		return regmap_update_bits(chip->regmap, ledout_addr,
++					  PCA995X_LDRX_MASK << shift,
++					  PCA995X_LED_ON << shift);
++	case LED_OFF:
++		return regmap_update_bits(chip->regmap, ledout_addr,
++					  PCA995X_LDRX_MASK << shift, 0);
++	default:
++		/* Adjust brightness as per user input by changing individual PWM */
++		ret = regmap_write(chip->regmap, pwmout_addr, brightness);
++		if (ret)
++			return ret;
 +
-+additionalProperties: false
++		/*
++		 * Change LDRx configuration to individual brightness via PWM.
++		 * Led will stop blinking if it's doing so
++		 */
++		return regmap_update_bits(chip->regmap, ledout_addr,
++					  PCA995X_LDRX_MASK << shift,
++					  PCA995X_LED_PWM << shift);
++	}
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
++static const struct regmap_config pca995x_regmap = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0x49,
++};
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static int pca995x_probe(struct i2c_client *client, const struct i2c_device_id *id)
++{
++	struct fwnode_handle *led_fwnodes[PCA995X_MAX_OUTPUTS] = { 0 };
++	struct fwnode_handle *np, *child;
++	struct device *dev = &client->dev;
++	struct pca995x_chip *chip;
++	struct pca995x_led *led;
++	int i, btype, reg, ret;
 +
-+        led-controller@1 {
-+            compatible = "nxp,pca9955b";
-+            reg = <0x01>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++	btype = (int)device_get_match_data(&client->dev);
 +
-+            led@0 {
-+                reg = <0x0>;
-+                color = <LED_COLOR_ID_RED>;
-+                function = LED_FUNCTION_POWER;
-+            };
++	np = dev_fwnode(dev);
++	if (!np)
++		return -ENODEV;
 +
-+            led@2 {
-+                reg = <0x2>;
-+                color = <LED_COLOR_ID_WHITE>;
-+                function = LED_FUNCTION_STATUS;
-+            };
-+        };
-+    };
++	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
 +
-+...
++	chip->btype = btype;
++	chip->regmap = devm_regmap_init_i2c(client, &pca995x_regmap);
++	if (IS_ERR(chip->regmap))
++		return PTR_ERR(chip->regmap);
++
++	i2c_set_clientdata(client, chip);
++
++	fwnode_for_each_available_child_node(np, child) {
++		ret = fwnode_property_read_u32(child, "reg", &reg);
++		if (ret) {
++			fwnode_handle_put(child);
++			return ret;
++		}
++
++		if (reg < 0 || reg >= PCA995X_MAX_OUTPUTS || led_fwnodes[reg]) {
++			fwnode_handle_put(child);
++			return -EINVAL;
++		}
++
++		led = &chip->leds[reg];
++		led_fwnodes[reg] = child;
++		led->chip = chip;
++		led->led_no = reg;
++		led->ldev.brightness_set_blocking = pca995x_brightness_set;
++		led->ldev.max_brightness = 255;
++	}
++
++	for (i = 0; i < PCA995X_MAX_OUTPUTS; i++) {
++		struct led_init_data init_data = {};
++
++		if (!led_fwnodes[i])
++			continue;
++
++		init_data.fwnode = led_fwnodes[i];
++
++		ret = devm_led_classdev_register_ext(dev,
++						     &chip->leds[i].ldev,
++						     &init_data);
++		if (ret < 0) {
++			fwnode_handle_put(child);
++			return dev_err_probe(dev, ret,
++					     "Could not register LED %s\n",
++					     chip->leds[i].ldev.name);
++		}
++	}
++
++	/* Disable LED all-call address and set normal mode */
++	ret = regmap_write(chip->regmap, PCA995X_MODE1, PCA995X_MODE_1_CFG);
++	if (ret)
++		return ret;
++
++	/* IREF Output current value for all LEDn outputs */
++	return regmap_write(chip->regmap,
++			    btype ? PCA9955B_IREFALL : PCA9952_IREFALL,
++			    PCA995X_IREFALL_CFG);
++}
++
++static const struct i2c_device_id pca995x_id[] = {
++	{ "pca9952", .driver_data = (kernel_ulong_t)0 /* non-B chip */ },
++	{ "pca9955b", .driver_data = (kernel_ulong_t)1 /* B-type chip */ },
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, pca995x_id);
++
++static const struct of_device_id pca995x_of_match[] = {
++	{ .compatible = "nxp,pca9952",  .data = (void *)0 /* non-B chip */ },
++	{ .compatible = "nxp,pca9955b", .data = (void *)1 /* B-type chip */ },
++	{},
++};
++MODULE_DEVICE_TABLE(i2c, pca995x_of_match);
++
++static struct i2c_driver pca995x_driver = {
++	.driver = {
++		.name = "leds-pca995x",
++		.owner = THIS_MODULE,
++		.of_match_table = of_match_ptr(pca995x_of_match),
++	},
++	.probe = pca995x_probe,
++	.id_table = pca995x_id,
++};
++
++module_i2c_driver(pca995x_driver);
++
++MODULE_AUTHOR("Isai Gaspar <isaiezequiel.gaspar@nxp.com>");
++MODULE_DESCRIPTION("PCA995x LED driver");
++MODULE_LICENSE("GPL");
 -- 
 2.40.1
 
