@@ -2,229 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA0ED74B87C
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jul 2023 23:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB8E74B8A4
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jul 2023 23:24:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232783AbjGGVHK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Jul 2023 17:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58418 "EHLO
+        id S230245AbjGGVYr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Jul 2023 17:24:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbjGGVHE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Jul 2023 17:07:04 -0400
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B382696;
-        Fri,  7 Jul 2023 14:07:01 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-345f1e0abf9so8764455ab.3;
-        Fri, 07 Jul 2023 14:07:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688764021; x=1691356021;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y+0fMWDG+4t53Of0wn+p5L3a9T2rXQdBwF9pV7SZhak=;
-        b=Kq+SClOpIgY/DK0hHqnnTzAQfrjDWHe194ywvOt2FDZHFn6YjVi4E14VdXsb6HaY7g
-         Yy0OWvTRW2Bqvcc7gqz0YRQbvhjbvhITkIxvuvZ5tBLJQY681fgkxTo0nz8mobXgvXFA
-         9DBaQdI9z9jEqeYrekmG9PBZx7WbYqjfwl/dDMCkT2Ptyl/S56Hk6aaSoL60qGcG4Dwt
-         ZRHN98AQUQ0KQZRBbYda+d4YEfioCozIx+52Y5sHPUST0Ec+IyxAlaPXOmBF1q7LbzFM
-         M27ka5IUdIB9/5Uh6GJaKEioVe+tOOociNOfqA5vy4Io/+/P/GMjb6Sn5iFp74bdawqG
-         gXfA==
-X-Gm-Message-State: ABy/qLY+ND8qcp50QU+8dJt2Lvv66qM1EOI1gXoXwNFB2ZkfODsl66wd
-        WvN4YKQe9WYsgzRf+CB41g==
-X-Google-Smtp-Source: APBJJlHImbGNK7xjpK4WXbh7gFvDm5zHGeWo8l7UZZYsVYEmBj/iD52Ih7d72XtKaNm2exieB/mg4Q==
-X-Received: by 2002:a92:d40d:0:b0:33b:568a:2981 with SMTP id q13-20020a92d40d000000b0033b568a2981mr6161333ilm.8.1688764020857;
-        Fri, 07 Jul 2023 14:07:00 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id t13-20020a92c90d000000b00345b34fcf34sm1558335ilp.38.2023.07.07.14.06.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 14:07:00 -0700 (PDT)
-Received: (nullmailer pid 869040 invoked by uid 1000);
-        Fri, 07 Jul 2023 21:06:58 -0000
+        with ESMTP id S229940AbjGGVYq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Jul 2023 17:24:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56BD1FC6;
+        Fri,  7 Jul 2023 14:24:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D68361866;
+        Fri,  7 Jul 2023 21:24:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D164C433C8;
+        Fri,  7 Jul 2023 21:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688765084;
+        bh=G+d4KOWEk1wXy8u9qtfZ01SmJVIBU1UrPs7uv3d7fB4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gGpy61BiU3TIVBv+6T4Bj6QSGqobJ9AVL1JxYo2Pnk+7/BGs2Z220GJ+1jGriMp+4
+         GDI8qpMfNhT4Kf1l4Leu38Xo0gWeE/9CctBDprHFr2QudGNGxgX427aKd0cK3NaURY
+         XmuC4SWV2ddixE6Lq2tZNUnIQ3vdrpWd1/mD1yqnMn6BVeqPJyN3nv17t+R12w+eil
+         OymXn7P1affC3X411MLJ727ynfFvK2tSZZkLHM5G86ZJXF+CfDj/1G00PJnF6vsfEM
+         KXTlLJmc1XSn7QJ45LMNriVDTcx0cTQTDcbIpcryDfHVEsnTlByFdLpHzgo/hf/3g4
+         H33MgHbf9VUkw==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b703d7ed3aso38621521fa.1;
+        Fri, 07 Jul 2023 14:24:44 -0700 (PDT)
+X-Gm-Message-State: ABy/qLa8KQaDD6naUi12ZhJ91GHuDq/phuY173KbQlIr/jI3BT16652I
+        LRUCzQg2qm4tzRNW87UYLVcbvYKjjWvxrm3mwA==
+X-Google-Smtp-Source: APBJJlE6ugW2YHIKmWhWhAiS7uipRKQDgwf4HnMIWjN19FfoUdxCqdZhP0gk3DrCyJ0isLVGgJQkRZgV6Tet8cPlyK8=
+X-Received: by 2002:a2e:7a16:0:b0:2b5:7a87:a85a with SMTP id
+ v22-20020a2e7a16000000b002b57a87a85amr4695203ljc.13.1688765082593; Fri, 07
+ Jul 2023 14:24:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230707210653.868907-1-robh@kernel.org>
+In-Reply-To: <20230707210653.868907-1-robh@kernel.org>
 From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 7 Jul 2023 15:24:30 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJDHG=W7sObRU5iONhrMzEG9racR2ESrtFkux36a1f=nw@mail.gmail.com>
+Message-ID: <CAL_JsqJDHG=W7sObRU5iONhrMzEG9racR2ESrtFkux36a1f=nw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: Convert Panasonic AN30259A to DT schema
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Simon Shields <simon@lineageos.org>
+        Conor Dooley <conor+dt@kernel.org>
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: leds: Convert Panasonic AN30259A to DT schema
-Date:   Fri,  7 Jul 2023 15:06:52 -0600
-Message-Id: <20230707210653.868907-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the Panasonic AN30259A 3-channel LED controller binding to DT
-schema format.
+On Fri, Jul 7, 2023 at 3:07=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
+>
+> Convert the Panasonic AN30259A 3-channel LED controller binding to DT
+> schema format.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../bindings/leds/leds-an30259a.txt           | 55 ------------
- .../bindings/leds/panasonic,an30259a.yaml     | 84 +++++++++++++++++++
- 2 files changed, 84 insertions(+), 55 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-an30259a.txt
- create mode 100644 Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+[...]
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-an30259a.txt b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-deleted file mode 100644
-index cbd833906b2b..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-+++ /dev/null
-@@ -1,55 +0,0 @@
--* Panasonic AN30259A 3-channel LED driver
--
--The AN30259A is a LED controller capable of driving three LEDs independently. It supports
--constant current output and sloping current output modes. The chip is connected over I2C.
--
--Required properties:
--	- compatible: Must be "panasonic,an30259a".
--	- reg: I2C slave address.
--	- #address-cells: Must be 1.
--	- #size-cells: Must be 0.
--
--Each LED is represented as a sub-node of the panasonic,an30259a node.
--
--Required sub-node properties:
--	- reg: Pin that the LED is connected to. Must be 1, 2, or 3.
--
--Optional sub-node properties:
--	- function :
--		see Documentation/devicetree/bindings/leds/common.txt
--	- color :
--		see Documentation/devicetree/bindings/leds/common.txt
--	- label :
--		see Documentation/devicetree/bindings/leds/common.txt (deprecated)
--	- linux,default-trigger :
--		see Documentation/devicetree/bindings/leds/common.txt
--
--Example:
--
--#include <dt-bindings/leds/common.h>
--
--led-controller@30 {
--	compatible = "panasonic,an30259a";
--	reg = <0x30>;
--	#address-cells = <1>;
--	#size-cells = <0>;
--
--	led@1 {
--		reg = <1>;
--		linux,default-trigger = "heartbeat";
--		function = LED_FUNCTION_INDICATOR;
--		color = <LED_COLOR_ID_RED>;
--	};
--
--	led@2 {
--		reg = <2>;
--		function = LED_FUNCTION_INDICATOR;
--		color = <LED_COLOR_ID_GREEN>;
--	};
--
--	led@3 {
--		reg = <3>;
--		function = LED_FUNCTION_INDICATOR;
--		color = <LED_COLOR_ID_BLUE>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
-new file mode 100644
-index 000000000000..f55f8c232bc6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/panasonic,an30259a.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Panasonic AN30259A 3-channel LED controller
-+
-+maintainers:
-+  - Simon Shields <simon@lineageos.org>
-+
-+description:
-+  The AN30259A is a LED controller capable of driving three LEDs independently.
-+  It supports constant current output and sloping current output modes. The chip
-+  is connected over I2C.
-+
-+properties:
-+  compatible:
-+    const: panasonic,an30259a
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+patternProperties:
-+  "^led@[1-3]$":
-+    $ref: common.yaml#
-+    unevaluatedProperties: false
-+
-+    properties:
-+      reg:
-+        enum: [ 1, 2, 3 ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        led-controller@30 {
-+            compatible = "panasonic,an30259a";
-+            reg = <0x30>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            led@1 {
-+                reg = <1>;
-+                linux,default-trigger = "heartbeat";
-+                function = LED_FUNCTION_INDICATOR;
-+                color = <LED_COLOR_ID_RED>;
-+            };
-+
-+            led@2 {
-+                reg = <2>;
-+                function = LED_FUNCTION_INDICATOR;
-+                color = <LED_COLOR_ID_GREEN>;
-+            };
-+
-+            led@3 {
-+                reg = <3>;
-+                function = LED_FUNCTION_INDICATOR;
-+                color = <LED_COLOR_ID_BLUE>;
-+            };
-+        };
-+    };
-+...
--- 
-2.40.1
+> diff --git a/Documentation/devicetree/bindings/leds/panasonic,an30259a.ya=
+ml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+> new file mode 100644
+> index 000000000000..f55f8c232bc6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/panasonic,an30259a.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Panasonic AN30259A 3-channel LED controller
+> +
+> +maintainers:
+> +  - Simon Shields <simon@lineageos.org>
 
+Bounces. Will need someone else.
