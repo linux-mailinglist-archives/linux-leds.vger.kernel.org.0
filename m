@@ -2,62 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BB8E74B8A4
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jul 2023 23:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C1F574D123
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Jul 2023 11:13:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230245AbjGGVYr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Jul 2023 17:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36792 "EHLO
+        id S231501AbjGJJNV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 Jul 2023 05:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjGGVYq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Jul 2023 17:24:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56BD1FC6;
-        Fri,  7 Jul 2023 14:24:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D68361866;
-        Fri,  7 Jul 2023 21:24:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D164C433C8;
-        Fri,  7 Jul 2023 21:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688765084;
-        bh=G+d4KOWEk1wXy8u9qtfZ01SmJVIBU1UrPs7uv3d7fB4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gGpy61BiU3TIVBv+6T4Bj6QSGqobJ9AVL1JxYo2Pnk+7/BGs2Z220GJ+1jGriMp+4
-         GDI8qpMfNhT4Kf1l4Leu38Xo0gWeE/9CctBDprHFr2QudGNGxgX427aKd0cK3NaURY
-         XmuC4SWV2ddixE6Lq2tZNUnIQ3vdrpWd1/mD1yqnMn6BVeqPJyN3nv17t+R12w+eil
-         OymXn7P1affC3X411MLJ727ynfFvK2tSZZkLHM5G86ZJXF+CfDj/1G00PJnF6vsfEM
-         KXTlLJmc1XSn7QJ45LMNriVDTcx0cTQTDcbIpcryDfHVEsnTlByFdLpHzgo/hf/3g4
-         H33MgHbf9VUkw==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b703d7ed3aso38621521fa.1;
-        Fri, 07 Jul 2023 14:24:44 -0700 (PDT)
-X-Gm-Message-State: ABy/qLa8KQaDD6naUi12ZhJ91GHuDq/phuY173KbQlIr/jI3BT16652I
-        LRUCzQg2qm4tzRNW87UYLVcbvYKjjWvxrm3mwA==
-X-Google-Smtp-Source: APBJJlE6ugW2YHIKmWhWhAiS7uipRKQDgwf4HnMIWjN19FfoUdxCqdZhP0gk3DrCyJ0isLVGgJQkRZgV6Tet8cPlyK8=
-X-Received: by 2002:a2e:7a16:0:b0:2b5:7a87:a85a with SMTP id
- v22-20020a2e7a16000000b002b57a87a85amr4695203ljc.13.1688765082593; Fri, 07
- Jul 2023 14:24:42 -0700 (PDT)
+        with ESMTP id S230219AbjGJJNU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jul 2023 05:13:20 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39A328E
+        for <linux-leds@vger.kernel.org>; Mon, 10 Jul 2023 02:13:19 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-51d885b0256so5915196a12.2
+        for <linux-leds@vger.kernel.org>; Mon, 10 Jul 2023 02:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688980398; x=1691572398;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CG1I6tcp3hVAXZrFqTlwpFKD5HNiYVapIGC9q/FI7qk=;
+        b=u3Z3N8bKi+D63EKsc5W2QQidjSz0pu73XtESpXnMSXp/uKHWmi9eNVtGJYt/T6+1jp
+         2///OgqFP9FCzo916Sfegm5qrgZz/dzHxVFwszHymrxqBBYirTFsSJgOi9mRvCbpspqD
+         kVYNKWR8050Bh6M6j0gdJiUnUp7c9uCWdBXdwVzCzHWg0gJ69SMmQldr/ZFiCFNtJ6Gk
+         UhAiCfNipl/2h/6ZyGXA5hj+X1pCjv/uXDSVK6kSX+sBLuT6yfsj+CoY5pdGt8VkgFdO
+         a+HsSDJ41/3+lA8yh+9Y8sBq88SoEZRfYc6GQCxFO3rwKyY6134fAIshqdDGxHQp6Das
+         X41w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688980398; x=1691572398;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CG1I6tcp3hVAXZrFqTlwpFKD5HNiYVapIGC9q/FI7qk=;
+        b=an4Ds7wv+frezBPZpWDYL3A4BVC3wPLABhlz7jJkhjugfQZCs03faNsYUKIrifmUyu
+         9BgShRCLQYXgb0UrU/0Os9Qo3C36kJuif52DiEByPZhOhh+cdC0ze/sMTFw+iSz0Zol4
+         4hxxuM60ADZ6lQEaagsum88kbRq7p5CPRjWHhI1LQQAHW71vOXhV8B/hOimRqstPRAKi
+         trKY7OkWnOpHAytdg8MRMH07vJq3sOE8Pgs+szP+uZoSLQsrFUWuqlA7z4rKHJ93N8cb
+         oAqlPMWK7S8MluDF7/SMrxFBB0a2KyeuSePEScl2Z12eZOu4Z7lulK3fYC5p7K/pJvei
+         TN+g==
+X-Gm-Message-State: ABy/qLabMlf1nqspkXXbANiwbleQnxkd5LUS6VTZ5Cq1KhPfwFeJEoin
+        35RLpmFcCZJGamt4qWoq3Grx0Q==
+X-Google-Smtp-Source: APBJJlFtjV+8ozh7/IexRCUGsvDLOnCizQ1Skj3GZ2L8qt9llerxbz6Q2n/F1po1q747/GJr+fONwg==
+X-Received: by 2002:a50:eac5:0:b0:51e:fbe:dc81 with SMTP id u5-20020a50eac5000000b0051e0fbedc81mr11272122edp.3.1688980397756;
+        Mon, 10 Jul 2023 02:13:17 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id q25-20020a056402041900b0051de3c6c5e5sm5548648edv.94.2023.07.10.02.13.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 02:13:16 -0700 (PDT)
+Message-ID: <361a4706-6a64-9322-3210-d9cd45827a2a@linaro.org>
+Date:   Mon, 10 Jul 2023 11:13:14 +0200
 MIME-Version: 1.0
-References: <20230707210653.868907-1-robh@kernel.org>
-In-Reply-To: <20230707210653.868907-1-robh@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 7 Jul 2023 15:24:30 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJDHG=W7sObRU5iONhrMzEG9racR2ESrtFkux36a1f=nw@mail.gmail.com>
-Message-ID: <CAL_JsqJDHG=W7sObRU5iONhrMzEG9racR2ESrtFkux36a1f=nw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: Convert Panasonic AN30259A to DT schema
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] dt-bindings: leds: Convert Panasonic AN30259A to DT
+ schema
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
+        Conor Dooley <conor+dt@kernel.org>,
+        Simon Shields <simon@lineageos.org>
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        linux-kernel@vger.kernel.org, Iskren Chernev <me@iskren.info>,
+        Daniele Debernardi <drebrez@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230707210653.868907-1-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230707210653.868907-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,18 +81,22 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jul 7, 2023 at 3:07=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
->
+On 07/07/2023 23:06, Rob Herring wrote:
 > Convert the Panasonic AN30259A 3-channel LED controller binding to DT
 > schema format.
->
+> 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
 
-[...]
 
-> diff --git a/Documentation/devicetree/bindings/leds/panasonic,an30259a.ya=
-ml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+>  .../bindings/leds/leds-an30259a.txt           | 55 ------------
+>  .../bindings/leds/panasonic,an30259a.yaml     | 84 +++++++++++++++++++
+
+...
+
+> diff --git a/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
 > new file mode 100644
 > index 000000000000..f55f8c232bc6
 > --- /dev/null
@@ -93,4 +113,13 @@ ml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
 > +maintainers:
 > +  - Simon Shields <simon@lineageos.org>
 
-Bounces. Will need someone else.
+Device is used in qcom-msm8974pro-samsung-klte.dts, so maybe its main
+authors would maintain this binding?
+
+Iskren Chernev <me@iskren.info>
+Daniele Debernardi <drebrez@gmail.com>
+
+
+Best regards,
+Krzysztof
+
