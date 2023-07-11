@@ -2,105 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E22A074E9ED
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jul 2023 11:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71E0F74EA57
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jul 2023 11:25:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbjGKJLK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jul 2023 05:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
+        id S231654AbjGKJZ0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jul 2023 05:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbjGKJLJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jul 2023 05:11:09 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D149093;
-        Tue, 11 Jul 2023 02:11:08 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-992e22c09edso632931266b.2;
-        Tue, 11 Jul 2023 02:11:08 -0700 (PDT)
+        with ESMTP id S230385AbjGKJZF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jul 2023 05:25:05 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5A381BDA
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jul 2023 02:21:06 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id e9e14a558f8ab-3466725f0beso7107165ab.1
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jul 2023 02:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689066667; x=1691658667;
+        d=chromium.org; s=google; t=1689067266; x=1691659266;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bioKri3FQ7BeFO8IqI3ZyTSAGeYyZhMTZ6J/K92HGIk=;
-        b=JrXZcwnd5VUv8aJGqdLl/X4EGBrtF8Silkcm4Tcb3Rd2vXTKqfQLiIyg5tOSRHqzHt
-         ghmf1iN49bet1t7qMIQ2smKBHkb9NmWHrwCpLqJ9IQag+j3t9IuPTN/N+FkKvMvEIZ2r
-         1luhtQDSCQGm4eUjDox36GBq5ISwsGIxTMFr+ykCrXuuIYJja83mDZWp2zXax26BPB5d
-         zz0Rut2/v9ixn1WlD7FycYMvGxqNiYBlg26eFfCEiZldSuEa+vBh+EUoMtez4kxXLSzY
-         NiRn5s6vm0MCmtnYmd/LSaA2++S2StZkK7O2yWsB06gRDNw+uK4b6b3FK7ijnLoGfYhd
-         Enhg==
+        bh=+EcSi56+I/iiHX6DYCKsNAvHqRVfHSrumW++BHQC568=;
+        b=FcDG0z6O6apqWaZX92K+NiLUDRZx2DzRF3R2Cl0ZCrhDUJytRpVSvFk5KzrkdrRh7k
+         fpWe93nbCwShBqEpwdqdWX3BfyRfFzJyet9kxGZmTctrc2IJH6vVoV6rkNs3rhSHNHIm
+         iQTE/5yjnnYaC+zq7GMf2xKxeA8JhCtf0xKsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689066667; x=1691658667;
+        d=1e100.net; s=20221208; t=1689067266; x=1691659266;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bioKri3FQ7BeFO8IqI3ZyTSAGeYyZhMTZ6J/K92HGIk=;
-        b=CS+8r1m0Gia7/b7NS2RBmJyJarNtYWoqCboFXhGbC28i55A6eHpnh5hno0UND9ZoV+
-         +Wy95dZO6mwK0UMXSnMil4z84M19EqvXS412wClz61tclafme4m0vwTo4nSefisl8ZUS
-         ClrJs+hSOwQcrVSXPl714sLB3G9+1KtWoZUUiFNK7N4DIJDtQvCuIzDOjjrEVS+NeNrr
-         XiiHokVq7HPZ8sxshIFXmp0Z1979XvX9ElWPsrSnEg1aknFRXu5VDL82MVyuNXA5Tikd
-         dSwmPOIcdFlwDN1lrrOneIJaqe5Bxhm68wJp1sR1iYnjY050ttsdGTJEdQd5rifg0xhY
-         o3oQ==
-X-Gm-Message-State: ABy/qLZ6YMal2i8rvS7EHenz1aUFhXbuWArAoBXBNUlvcMR2cMarOqtA
-        ApzSRERn1zDY8N2063a0vL+EobNtmg1AeexHClU=
-X-Google-Smtp-Source: APBJJlEvNuzxCogxlN5fdUm0lDfNCY5Dedbo7XssM41cv2Alx0x6Th28VZDmPQPr74DtYlS9E7VjEcr+f1TA6YV80Xc=
-X-Received: by 2002:a17:906:d965:b0:98e:1c4b:10bb with SMTP id
- rp5-20020a170906d96500b0098e1c4b10bbmr15300197ejb.35.1689066667179; Tue, 11
- Jul 2023 02:11:07 -0700 (PDT)
+        bh=+EcSi56+I/iiHX6DYCKsNAvHqRVfHSrumW++BHQC568=;
+        b=geZZFWoig/UIBWadwf+47Z88OX73tJlP84/9vZdKqjJ6uzsv5L+3sdPMs4IiHm2FhK
+         tkRsmg2VpL8iBOqcFKZvsUn60W5dRcZLBKH82/i4R7+Ae5cWwLE0Cx38usIs+bgCTCcW
+         hZrujTQAeF9awPcP4BKOnDJWjLs4qC13u5S+opVeDtD5AFx47DLiLknXdBe+CUjscreA
+         w9Spfd/x2lmmRZV6t+tFExUwRnOPwNnoeuy5WZwGJfYZipT7T23f5uUqcSiJu/py3yJn
+         Y5sGnmvRsw8zwCooT4GIETdf/uvV651IgdWBjYOwCufSZmdfTGBzqxUvRXpZkBEbF4ZU
+         Hh4Q==
+X-Gm-Message-State: ABy/qLb0/TKdwuLU+lGHn7fdxKQXC7IKn/pXvh/QQZFx53HpSWD/shDW
+        rzSo7ULYDh5Xum/Yir+tPx9qot1p0FyXgYNEHDA=
+X-Google-Smtp-Source: APBJJlHE/rwthGJkI95Z6CPBQPfghuULE6wHWqVTH4eJZiivLC+/3JSXZUX8qUqUVHLSvK5DlL0MNg==
+X-Received: by 2002:a92:d30f:0:b0:345:d6a8:8dcb with SMTP id x15-20020a92d30f000000b00345d6a88dcbmr16625757ila.19.1689067266298;
+        Tue, 11 Jul 2023 02:21:06 -0700 (PDT)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com. [209.85.166.49])
+        by smtp.gmail.com with ESMTPSA id y4-20020a920904000000b00346097ca74dsm471666ilg.71.2023.07.11.02.21.05
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 02:21:05 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-77acb944bdfso270789839f.0
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jul 2023 02:21:05 -0700 (PDT)
+X-Received: by 2002:a5d:9f48:0:b0:776:fd07:3c96 with SMTP id
+ u8-20020a5d9f48000000b00776fd073c96mr18436123iot.7.1689067265096; Tue, 11 Jul
+ 2023 02:21:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <a33b981a-b2c4-4dc2-b00a-626a090d2f11@moroto.mountain>
-In-Reply-To: <a33b981a-b2c4-4dc2-b00a-626a090d2f11@moroto.mountain>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 11 Jul 2023 12:10:31 +0300
-Message-ID: <CAHp75VeOGs8zyJpq_ZFQtm+yuS9HKev+o-=xkdmaROPD7KEu-w@mail.gmail.com>
-Subject: Re: [PATCH] leds: pwm: Fix error code in led_pwm_create_fwnode()
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20230711083055.1274409-1-fshao@chromium.org> <CAHp75VfSL5j-ZUYkezELWzq+c_V+CFL6iVQWQ=roPYrZ=h1rSw@mail.gmail.com>
+In-Reply-To: <CAHp75VfSL5j-ZUYkezELWzq+c_V+CFL6iVQWQ=roPYrZ=h1rSw@mail.gmail.com>
+From:   Fei Shao <fshao@chromium.org>
+Date:   Tue, 11 Jul 2023 17:20:28 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njKS0fLBtBS9P_K5gawaA7E804=Jkhe0PGekVAUxUbEDw@mail.gmail.com>
+Message-ID: <CAC=S1njKS0fLBtBS9P_K5gawaA7E804=Jkhe0PGekVAUxUbEDw@mail.gmail.com>
+Subject: Re: [PATCH] leds: pwm: Fix an error code
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 9:13=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Negative -EINVAL was intended, not positive EINVAL.  Fix it.
+Hi Andy,
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Thanks!
+On Tue, Jul 11, 2023 at 5:10=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Tue, Jul 11, 2023 at 11:31=E2=80=AFAM Fei Shao <fshao@chromium.org> wr=
+ote:
+> >
+> > Use the negated -EINVAL as the error code.
+>
+> Thank you, it seems Dan had been the first one.
+>
+> Message ID <a33b981a-b2c4-4dc2-b00a-626a090d2f11@moroto.mountain>
+Thanks for the pointer. Please disregard this patch.
 
-> Fixes: 95138e01275e ("leds: pwm: Make error handling more robust")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/leds/leds-pwm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-> index 29194cc382af..87c199242f3c 100644
-> --- a/drivers/leds/leds-pwm.c
-> +++ b/drivers/leds/leds-pwm.c
-> @@ -146,7 +146,7 @@ static int led_pwm_create_fwnode(struct device *dev, =
-struct led_pwm_priv *priv)
->                         led.name =3D to_of_node(fwnode)->name;
->
->                 if (!led.name) {
-> -                       ret =3D EINVAL;
-> +                       ret =3D -EINVAL;
->                         goto err_child_out;
->                 }
+Regards,
+Fei
 >
 > --
-> 2.39.2
->
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+> With Best Regards,
+> Andy Shevchenko
