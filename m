@@ -2,71 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF27E751031
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jul 2023 20:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4302C75103E
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jul 2023 20:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231819AbjGLSD0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Jul 2023 14:03:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S232167AbjGLSGx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Jul 2023 14:06:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbjGLSDY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jul 2023 14:03:24 -0400
+        with ESMTP id S232887AbjGLSGv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jul 2023 14:06:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D5411B
-        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 11:02:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851FC1BFB
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 11:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689184964;
+        s=mimecast20190719; t=1689185159;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7akjMyUHwN9vGsmA+DFD3q/5FAYq7rI0eED2DO07wo4=;
-        b=GiSeLm4Me1I/IRHWm73nlAYvK4hTftyBKIArjsVC85ZYEk8iSK7zTpPKQgI3FZ/pWa4O98
-        ghHRYAHiYp/i+YW9cfhtT/JcKG8cymFq74qJeJlV0zRdnkpLphcSaLrn3eOuY8LW42a67o
-        +dPUzCy4ctf/2rccd/n6KlwjVlAUEX4=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=EeIGmqmdptBnIHtvv5Ppu3kged11RO+ah7hjJTIpvac=;
+        b=QcurkeZefm0maQ+fDKzrWkyeDEQzcFRD5f3PUIvBoxQejkTQPeaI7YbFlQx4/ZKP9MrHlz
+        qR3v8/ucNTs9XMFL2+bg7GD51ifBG2ucH8Ie6NHnSnqjTSBZl0Q6kdxK8vLsPKJweLf2u5
+        jPpUsblsrVwbGVujVu1qNBglRpuuLHA=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-355-94bwlrTpPU-kCKzF5gjuSQ-1; Wed, 12 Jul 2023 14:02:42 -0400
-X-MC-Unique: 94bwlrTpPU-kCKzF5gjuSQ-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-4fb7b4be07bso6655083e87.1
-        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 11:02:41 -0700 (PDT)
+ us-mta-499-ii8SmzuGObGyTs4F0QYqiQ-1; Wed, 12 Jul 2023 14:05:58 -0400
+X-MC-Unique: ii8SmzuGObGyTs4F0QYqiQ-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2b6fdbe2efdso71506771fa.3
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 11:05:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689184960; x=1691776960;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1689185157; x=1691777157;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7akjMyUHwN9vGsmA+DFD3q/5FAYq7rI0eED2DO07wo4=;
-        b=a+jbNQjXTtNujaCQJjkqTUv0NCCpigKRmBxzzMGETHQtcxPyDtuJnPYU5Rx9BxHswi
-         pOfAtkrdQ3TJe5CeDqhPr9aMt6oiDAgMDKL4oxcFfGx/GBUh83xWdMbFu5X4MmkIOgml
-         d6bvpamzP+/1C6bGrYBfiM09JiorT82KTI0FyIfQjnfHiQzjQygCDxqE9M9mwscX3O3l
-         0CT0c/q6th8jYedbq7VlABRgyTv5oXZ/LkLIyU3aYYp6UFb4w0OqmueF8QmBLpgl4Osl
-         ZS5taHQ5WCIK07Rm2n7n7js099R6u94mZd4v7Y32m2cjssB17BEj7kTvZF0VmZ4kV58s
-         1PCQ==
-X-Gm-Message-State: ABy/qLakdTYsvmJhGjAIGpEeQ1ZSTiRKTvQgLp76889ZOxhhIZwnkYzq
-        7iFVngPtLJPtzpBLKP4wEpoxjewNJp3UCMDmM4WQnEG0gBJH63FI51X7eVNf9BfS1MjTIGqT/39
-        sGHUf/qxSMGJcf8Omi1FrJQ==
-X-Received: by 2002:a19:381e:0:b0:4f8:70b0:eec6 with SMTP id f30-20020a19381e000000b004f870b0eec6mr13859506lfa.28.1689184959778;
-        Wed, 12 Jul 2023 11:02:39 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlESOQQpORhn/acJKc4G/Ed56z0EcpH0+L8yRbErNs1RxGjEtVhDApRE+7doth7M2DdLlSAgUw==
-X-Received: by 2002:a19:381e:0:b0:4f8:70b0:eec6 with SMTP id f30-20020a19381e000000b004f870b0eec6mr13859479lfa.28.1689184959145;
-        Wed, 12 Jul 2023 11:02:39 -0700 (PDT)
+        bh=EeIGmqmdptBnIHtvv5Ppu3kged11RO+ah7hjJTIpvac=;
+        b=JJ24wrMu7rFLDuco8ye7/VJXUx1LIpegR+HD4T1sFIBQ0cHi0ds/EpKEppnFLiEG6W
+         WhVXOkScLd0m4mUsyb3vNLBHlwDLHL3jP1m/tmssR7vshzX+c+zU3K4nnTQe7GxEOz9l
+         /AE1V50UyKdiuwXKYkU2EBd/WHnoGfKrM2GLvja1ttnTdJ1Qp5zb3YZCJHNAhijM6zOR
+         wDdufpEp8iBSlcyFusAC7gXB14n7vdjC5HdubZYCRx69xvx8sxhIBq9AKdIqGpc7HNmo
+         AUW9/QSLaMdiNop8lC8ysvo+HjCpmuQ+qTtaHoYPXiqcW8tPa1vF63rx+HFY18oi25G1
+         tWVw==
+X-Gm-Message-State: ABy/qLaXSB1aP/pTwDEbGQGVQVSNJ9FWbBE35i4M1jByqgQfSnzxHj/9
+        TsQ0FC1/QvAwkXCp8JN0USpPK62BKiSdc1bbuKNKQ4Fkix6g41hciKRgIprPbGlBrfX5AUUcegH
+        ka7T9X26vc4SdKzclUhD6Qg==
+X-Received: by 2002:a2e:8210:0:b0:2b6:dec9:2813 with SMTP id w16-20020a2e8210000000b002b6dec92813mr16436029ljg.29.1689185156775;
+        Wed, 12 Jul 2023 11:05:56 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHwjfG/sUBROplkn142hsW+2gyHUEW28t/F9xyn+M9RWeFX3C3wRiAKV0bAcra2FIrBdWNa8Q==
+X-Received: by 2002:a2e:8210:0:b0:2b6:dec9:2813 with SMTP id w16-20020a2e8210000000b002b6dec92813mr16435994ljg.29.1689185156312;
+        Wed, 12 Jul 2023 11:05:56 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z26-20020a1709064e1a00b009937dbabbd5sm2836372eju.220.2023.07.12.11.02.37
+        by smtp.gmail.com with ESMTPSA id mj7-20020a170906af8700b0098963eb0c3dsm2882768ejb.26.2023.07.12.11.05.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 11:02:38 -0700 (PDT)
-Message-ID: <024d8246-bcc3-75fb-00be-9b611ae238f6@redhat.com>
-Date:   Wed, 12 Jul 2023 20:02:37 +0200
+        Wed, 12 Jul 2023 11:05:55 -0700 (PDT)
+Message-ID: <3b1dc0a1-94b0-4fba-07e7-b871dfc08e88@redhat.com>
+Date:   Wed, 12 Jul 2023 20:05:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
+From:   Hans de Goede <hdegoede@redhat.com>
 Subject: Re: [PATCH 2/2] platform/x86: add CMOS battery monitoring for simatic
  IPCs
-Content-Language: en-US, nl
 To:     Henning Schild <henning.schild@siemens.com>,
         Mark Gross <markgross@kernel.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>
+        Lee Jones <lee@kernel.org>
 Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Jean Delvare <jdelvare@suse.com>,
@@ -76,20 +76,22 @@ Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>
 References: <20230706154831.19100-1-henning.schild@siemens.com>
  <20230706154831.19100-3-henning.schild@siemens.com>
-From:   Hans de Goede <hdegoede@redhat.com>
+Content-Language: en-US, nl
 In-Reply-To: <20230706154831.19100-3-henning.schild@siemens.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
+
+<resend with Lee's new email address>
 
 Hi,
 
@@ -830,4 +832,5 @@ Hans
 >  
 >  struct simatic_ipc_platform {
 >  	u8	devmode;
+
 
