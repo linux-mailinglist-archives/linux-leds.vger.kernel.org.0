@@ -2,73 +2,148 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC556750ABF
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jul 2023 16:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F16750B1E
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jul 2023 16:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbjGLOYk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Jul 2023 10:24:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57118 "EHLO
+        id S233149AbjGLOfV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Jul 2023 10:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231533AbjGLOYk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jul 2023 10:24:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B76E91993;
-        Wed, 12 Jul 2023 07:24:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D53B617E8;
-        Wed, 12 Jul 2023 14:24:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE7FC433C8;
-        Wed, 12 Jul 2023 14:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689171878;
-        bh=LO3gFDTc1LRhsbk/RpDGQZEDw/RAtTG3QAU5D15yh+Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G+fTQEXGuEELYh+u/uccbV4r70V6l+MkZloBynSlAcL+m14Eu/8O/NnHL/B7FhW+k
-         SjJwnVGpp+HjjW9vVMJImBEIsQ4xM1PkpjYSJXanEGlZm4zlFdO8IoIQxRcWJe+auG
-         GjDJ1I9U7TSOJ6oCMJhyAfuBxWBkpcKjkn9UXXqoI+lqEq0c880oCIBLa4hsjU54Ew
-         KErbX4pP5soOewF/rzdjfdlVcB9G4lggEMi3St3yQeJYvoD1BGDJqQvZTisC9G1Oed
-         8RMg4lm/OECBX684//FB3h+gtmHzrlf8uHQ0jEd3FrojNABQ6CW1XmyhaGJ/K3qrXa
-         qVcmvKEIqkjYQ==
-Date:   Wed, 12 Jul 2023 15:24:33 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Martin Kurbanov <mmkurbanov@sberdevices.ru>,
-        Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] leds: aw200xx: Fix error code in probe()
-Message-ID: <20230712142433.GF10768@google.com>
-References: <4d791b69-01c7-4532-818c-63712d3f63e1@moroto.mountain>
+        with ESMTP id S231977AbjGLOfU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jul 2023 10:35:20 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA52E42
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 07:35:17 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-c2cf4e61bc6so8061728276.3
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jul 2023 07:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689172517; x=1691764517;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tbTllEpx0I78Ic+EXBEuRDRVhQRIepaTuBVKvfQ1Ua0=;
+        b=Ea4t93dvufzwmX3xkWz194R62FMWEMLF5hGPXmr+Y8OTIswfM6BhkHA4tXPKbpGZZz
+         BpbPiPy+45hZHL5QeCJSPDi5L96WAq+JXo6qe6DnBsrvcDljaT8VnDtuhoysa3YH4MAN
+         FCvMUb3pmvSTyhzvx6dUX+rQbdiuknJALnYg4PmGZ4I/s2u8i4sFlr8h8VWyDlb0rr34
+         kplTU06AqliDIhK21A/1kQ/6jKyqkrAyMa93dDVzTgSmFFjHQRED64NKu/6fp/G9PGKr
+         T/fvmgnCg2juBVFsD5Y/iZGkvVdKQrdvVvEKcOYHtSxGd7Lbu8Ij10I/RWrKtzgzkRSu
+         bZRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689172517; x=1691764517;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tbTllEpx0I78Ic+EXBEuRDRVhQRIepaTuBVKvfQ1Ua0=;
+        b=QmZMfYzbE1BmeKBflxpPFtzATY5QXXcUIciRu7EUoh3k9Hr+ZUxrlM5Ai2Bk+hDIAx
+         qJft+68BHfMBT8xBI+28WyLXeeYuMi9vzSHAXA3oqpO8gOpPNldAeV0Qn65YvidOCzhz
+         BP9VFpm39biGMRWqhptSDJ6UNq5hG3zgnppchI9wEdYwChhEMUmChDGtHaySCSBC2g7K
+         oFcP2Vw4hHv+nwNsK3vIrOsv5mnSMrbbgzAv/jQRxHDg5yFMrjwh+PJpbWlQRx4TWwtq
+         baKIMi8fsX4zzw3stdmEAMaEGkRBUvGsjHlooMYkETPPDYJeUPybfGX4JsgzTw1EUNj7
+         VGaw==
+X-Gm-Message-State: ABy/qLYK3ZyAksmJkut+shfq7R9KMLHKvuiAT9BxlsxpyMbWsxG1qUR1
+        lRhpX50qYHLGGWsnv2EfVBIohNPoYmkwCel6MxX4fA==
+X-Google-Smtp-Source: APBJJlFOHb2fSETsP1eqkByIGa7pIKNcHsnSCp51EV4sxfvYWl2o5Ta3vmVszePPggalPaZErD7+82N+DHVr7KfUX1A=
+X-Received: by 2002:a25:1e55:0:b0:c4f:c0eb:451b with SMTP id
+ e82-20020a251e55000000b00c4fc0eb451bmr18583653ybe.25.1689172517157; Wed, 12
+ Jul 2023 07:35:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d791b69-01c7-4532-818c-63712d3f63e1@moroto.mountain>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230621185949.2068-1-quic_amelende@quicinc.com>
+ <20230621185949.2068-2-quic_amelende@quicinc.com> <20230626135857.GA3118929-robh@kernel.org>
+ <2e871e21-a81d-0d7d-993b-9a9d7bd9d962@quicinc.com> <e7298704-5a03-0961-90a3-dab4af60c326@linaro.org>
+ <32e9a512-fd74-b2f6-6b8a-fefb9ad5912d@quicinc.com> <431faa87-d152-5f7a-40fd-8b6fe26f0bb9@linaro.org>
+ <71e1f36f-8fd8-9d61-d563-577d4fb54f10@quicinc.com> <69c01f0f-4eb0-bb44-a238-5c9ce5beede9@linaro.org>
+In-Reply-To: <69c01f0f-4eb0-bb44-a238-5c9ce5beede9@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Wed, 12 Jul 2023 17:35:05 +0300
+Message-ID: <CAA8EJppCSnEg1GjX8CavxRPiiE19JwVAOTspjWJR-OzdQMcu+g@mail.gmail.com>
+Subject: Re: [PATCH 1/7] dt-bindings: soc: qcom: Add qcom-pbs bindings
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Anjelique Melendez <quic_amelende@quicinc.com>,
+        Rob Herring <robh@kernel.org>, pavel@ucw.cz, lee@kernel.org,
+        thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 23 Jun 2023, Dan Carpenter wrote:
+On Wed, 12 Jul 2023 at 17:22, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 11/07/2023 22:12, Anjelique Melendez wrote:
+>
+> >>>
+> >>> On PMI632, peripherals are partitioned over 2 different SIDs
+> >>> (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/pmi632.dtsi?h=v6.5-rc1#n42
+> >>> and https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/pmi632.dtsi?h=v6.5-rc1#n149).
+> >>> Unfortunately, the pbs peripheral and the lpg peripherals are on different
+> >>> PMI632 devices and therefore have different regmaps.
+> >>>
+> >>> If we get rid of the pbs node we need to get a handle to the proper regmap.
+> >>> I see two possible options, we could either introduce a new client property
+> >>> which points to a peripheral on the same device as pbs.
+> >>>
+> >>> i.e.
+> >>>     led-controller {
+> >>>             compatible = "qcom,pmi632-lpg";
+> >>>                     #address-cells = <1>;
+> >>>                     #size-cells = <0>;
+> >>>                     #pwm-cells = <2>;
+> >>>                     nvmem-names = "lpg_chan_sdam";
+> >>>                     nvmem = <&pmi632_sdam7>;
+> >>>                     qcom,pbs-phandle = <&pmi632_gpios>;
+> >>>                     .....
+> >>>     };
+> >>> Then when client is probing could do something like the following to get the regmap
+> >>>
+> >>>     dn = of_parse_phandle(node, "qcom,pbs-phandle", 0);
+> >>>     pdev = of_find_device_by_node(dn);
+> >>>     pbs_regmap = dev_get_regmap(&pdev->dev->parent, NULL);
+> >>>
+> >>>
+> >>>
+> >>> Or we could use the nvmem phandle and just have something like this in client's probe
+> >>>
+> >>>     dn = of_parse_phandle(node, "nvmem", 0);
+> >>>     pdev = of_find_device_by_node(dn);
+> >>>     pbs_regmap = dev_get_regmap(&pdev->dev->parent, NULL);
+> >>>
+> >>>
+> >>>
+> >>> Let me know what your thoughts are on this.
+> >>
+> >> Rob asked you - "Is there more than 1 instance in a PMIC?" - and you did
+> >> not answer positively, just mentioned something about drivers in
+> >> downstream, which do not matter. So is the answer for that question:
+> >> yes, you have two instances of the same PMIC differing by presence of
+> >> PBS and other features"?
+> >>
+> > Sorry that was a misunderstanding on my part.
+> > Yes, answer to Rob's question should have been "We have two instances of PMI632,
+> > where one instance holds the pbs peripheral and the other holds the lpg
+> > peripherals. The child node for pbs is needed so lpg client can access
+> > the PMI632 regmap which contains the pbs peripheral."
+>
+> I guess I miss here something. What is "LPG client"? I don't understand
+> why this LPG client needs existence of PBS node, to be able to get the
+> regmap.
+>
+> PBS is a child of PMIC, so it can get regmap from the parent. What's
+> more, which DT property passes the regmap from PMIC to LPG client?
 
-> The "ret" variable is zero/success here.  Don't return that, return
-> -EINVAL instead.
-> 
-> Fixes: 36a87f371b7a ("leds: Add AW20xx driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/leds/leds-aw200xx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Applied, thanks
+There are some PMICs which claim two SPMI SIDs. For such PMICs, each
+SID is a separate device, so it is not directly possible to get the
+regmap of the other SID.
 
 -- 
-Lee Jones [李琼斯]
+With best wishes
+Dmitry
