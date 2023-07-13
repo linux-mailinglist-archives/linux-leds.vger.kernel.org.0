@@ -2,51 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C1E751E79
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jul 2023 12:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28251751E8A
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jul 2023 12:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233737AbjGMKKk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Jul 2023 06:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49042 "EHLO
+        id S229695AbjGMKMT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Jul 2023 06:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbjGMKKT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Jul 2023 06:10:19 -0400
+        with ESMTP id S233390AbjGMKMO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Jul 2023 06:12:14 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BA33AB1
-        for <linux-leds@vger.kernel.org>; Thu, 13 Jul 2023 03:09:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B895EE77;
+        Thu, 13 Jul 2023 03:12:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32D0C608D5
-        for <linux-leds@vger.kernel.org>; Thu, 13 Jul 2023 10:08:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254D5C433C8;
-        Thu, 13 Jul 2023 10:08:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5298C60B61;
+        Thu, 13 Jul 2023 10:12:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 598BCC433C7;
+        Thu, 13 Jul 2023 10:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689242928;
-        bh=DM40r30N6pimubvqd9IiuylUtIis5dx4RsPAIGWkUac=;
+        s=k20201202; t=1689243125;
+        bh=/5oVE1fJ7Rx2kQ67M6w6B7PP2FoE9gDbLowtvOYnBOk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dl7OCjxuf+dCW1vRAsmMzYPrqVoME/M3VPvg7wxhgDpai3fVTkd6ZEtEG2jihEIfu
-         Xvb6WWvoeV1YtzSrDJd6oZoIJypwzhf8sTFlw3PZCp7Voe04SPbksTTX0rPeiEO1Hv
-         Rf+G+8ZuZTm4sHXhASxTBQM3+OxIWNTOL6S81NdIehw4hPcTf724CFJ5sR9Q+SSHP9
-         z0GOxYoi9zAQIL2MVC9gid2j1jArHuwie18CdjL6moZi0UpVtgM+tbtVOL3wXdaL8m
-         J+E8iMyKkyLCSpZkprB/6HOuIZOsZGy+nx4XcbMppdMK6xvoG4ntpj1Xg7eic3Lgcj
-         Qe16k+MUjN87Q==
-Date:   Thu, 13 Jul 2023 11:08:43 +0100
+        b=q1pL+jJTbYn8cptPQcOTkhQBa1MoOO/BIrg/NT3tDhdSO30upwPdUD2295WN6UzLW
+         kvS7VSx0tDvy3TgUXjIzqUQWXgBi/FIrm4sd3EXKyVBhnyiZ4SkjcB5KDaJqWz6mEu
+         tGUz2ioKF7fnZkzivfafmHuyyQsuIBABINjISl5SnONlNdZuNyfGh77fHVcuwq/5/P
+         3v28e++CCy7l7B9ThIUjI4avlcviaSfZMrMio0hVd/z/so1zKorgpLjO1Cxpj+mkny
+         5OF7RWKxNl//IVzdxbSlVItge1N6Bd+W+diDJ5c4srCKnfzrAQ7ATgrQEqTnRPJ7/9
+         TyC3EkM2/sPBg==
+Date:   Thu, 13 Jul 2023 11:12:00 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH] leds: aw200xx: Switch back to use struct
- i2c_driver::probe
-Message-ID: <20230713100843.GK10768@google.com>
-References: <20230626090254.556206-1-u.kleine-koenig@pengutronix.de>
+To:     baomingtong001@208suo.com
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: cht-wcove: Remove unneeded semicolon
+Message-ID: <20230713101200.GL10768@google.com>
+References: <e66d4beb79da0bfa18269c390f1ed5ef@208suo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230626090254.556206-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <e66d4beb79da0bfa18269c390f1ed5ef@208suo.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -57,17 +55,35 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 26 Jun 2023, Uwe Kleine-König wrote:
+On Tue, 27 Jun 2023, baomingtong001@208suo.com wrote:
 
-> struct i2c_driver::probe_new is about to go away. Switch the driver to
-> use the probe callback with the same prototype.
+> ./drivers/leds/leds-cht-wcove.c:193:2-3: Unneeded semicolon
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Mingtong Bao <baomingtong001@208suo.com>
 > ---
->  drivers/leds/leds-aw200xx.c | 2 +-
+>  drivers/leds/leds-cht-wcove.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks
+Already fixed I'm afraid:
+
+https://lore.kernel.org/all/20230531024020.106641-1-jiapeng.chong@linux.alibaba.com/
+
+> diff --git a/drivers/leds/leds-cht-wcove.c b/drivers/leds/leds-cht-wcove.c
+> index 0cfebee98910..e35a25990048 100644
+> --- a/drivers/leds/leds-cht-wcove.c
+> +++ b/drivers/leds/leds-cht-wcove.c
+> @@ -190,7 +190,7 @@ static unsigned long cht_wc_leds_get_period(int ctrl)
+>  		return 1000;
+>  	case CHT_WC_LED_F_2_HZ:
+>  		return 1000 / 2;
+> -	};
+> +	}
+> 
+>  	return 0;
+>  }
+> -- 
+> 2.40.1
+> 
 
 -- 
 Lee Jones [李琼斯]
