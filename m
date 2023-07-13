@@ -2,55 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42A65752358
-	for <lists+linux-leds@lfdr.de>; Thu, 13 Jul 2023 15:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5127523D9
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Jul 2023 15:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234521AbjGMNUl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 Jul 2023 09:20:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
+        id S233731AbjGMNdM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Jul 2023 09:33:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234908AbjGMNU1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Jul 2023 09:20:27 -0400
+        with ESMTP id S235357AbjGMNdI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Jul 2023 09:33:08 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1EC2D51;
-        Thu, 13 Jul 2023 06:20:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C3CC1;
+        Thu, 13 Jul 2023 06:33:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 83CDA60C1F;
-        Thu, 13 Jul 2023 13:20:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7EC4C433CC;
-        Thu, 13 Jul 2023 13:20:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4596261087;
+        Thu, 13 Jul 2023 13:33:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1785C433C8;
+        Thu, 13 Jul 2023 13:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689254415;
-        bh=9LFKynASNpCdoV6akHpFvIz2tKVfjO0tuLEckI5k/xA=;
+        s=k20201202; t=1689255186;
+        bh=rwC+/m8RPKQ/NaQ55b5OfPkeokx//P0umPQN/vB4+oc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jjSRaWgPAdmx7R7Yk7cSErdoKEPD+nthBpuyQlbsJc0tk/Mqx6PGgFp/4j3PH8ZSJ
-         jNXJoJ0AsSlTsP5YXS+Wege1huJowL9ihdk91jLWHg6/wqtiNWobJWba0C/ixJDWLP
-         oT3EGt90GjWdcw65t9bRDEhITaGR1FaTlK1q4XWl8NMsLEQRxJxj1Y9cMd1beNUoCP
-         ZSMN6PiANdq7xuZVN+mQZgkty0RrV7tC2YpuUiRLLSJt7cz0n9oC4Rwlq3WzQCePLu
-         UKGpLldoTOpC2NeYqEOqPeidDFIhZbhr6cpbL9EaPNldYFdZwHDwnPFgML5TJnoo0j
-         sC7zVc7SaHyCw==
-Date:   Thu, 13 Jul 2023 14:20:10 +0100
+        b=beU9ZZU62oP1jtA32iHMv6r92DuWhogqDrG1wftzTde3OWWtawflTvbOCKeun41m8
+         fJJyPMHDXhkNL7GKCPpsdL+wx9F9ic+cK7lUbs5wkCWUjFQ14v8fvhG5X4A5fdsSGB
+         m2EefzOzOyhRWGKNhP0aN6JSvyPHBSycyonM7Rya0F6H/4ki99opOsXqt41UMwiNGE
+         sDqucSEiCA3GNJHrqeiTVIOl7DK8Gxrs7gXZtkPdybzSDcjanMY7FqC6K9IC0x9uQS
+         jXR77xJ1Mpjd/OgC9GCFGV77gXHUoywMg7WCvsBCFJSOOuTcMdzHzPFb91z/V5tqkR
+         5KqEM4KqKgh+A==
+Date:   Thu, 13 Jul 2023 14:33:00 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/1] leds: simatic-ipc-leds-gpio: add new model BX-21A
-Message-ID: <20230713132010.GP10768@google.com>
-References: <20230531155457.31632-1-henning.schild@siemens.com>
- <20230531155457.31632-2-henning.schild@siemens.com>
- <5109f2da-3b7f-421f-555c-810484d92b4c@redhat.com>
- <20230705124838.0e05177d@md1za8fc.ad001.siemens.net>
+To:     Astrid Rost <astrid.rost@axis.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, kernel@axis.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Read max-brightness from
+ devicetree
+Message-ID: <20230713133300.GS10768@google.com>
+References: <20230703130313.548519-1-astrid.rost@axis.com>
+ <20230703130313.548519-2-astrid.rost@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230705124838.0e05177d@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20230703130313.548519-2-astrid.rost@axis.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -61,29 +63,23 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 05 Jul 2023, Henning Schild wrote:
+On Mon, 03 Jul 2023, Astrid Rost wrote:
 
-> Am Thu, 1 Jun 2023 10:53:48 +0200
-> schrieb Hans de Goede <hdegoede@redhat.com>:
+> Normally, the maximum brightness is determined by the hardware, and this
+> property is not required. This property is used to set a software limit.
+> It could happen that an LED is made so bright that it gets damaged or
+> causes damage due to restrictions in a specific system, such as mounting
+> conditions.
+> Note that this flag is mainly used for PWM-LEDs, where it is not possible
+> to map brightness to current. Drivers for other controllers should use
+> led-max-microamp.
 > 
-> > Hi,
-> > 
-> > On 5/31/23 17:54, Henning Schild wrote:
-> > > This adds support for the Siemens Simatic IPC BX-21A. Its LEDs are
-> > > connected to GPIO pins provided by the Intel Elkhart Lake pinctrl
-> > > driver.
-> > > 
-> > > Signed-off-by: Henning Schild <henning.schild@siemens.com>  
-> > 
-> > Thank you for the patch.
-> > 
-> > Since this mostly touches files under drivers/leds I believe it would
-> > be best for this to be merged through Lee's LEDs tree.
-> 
-> Lee i saw that your tree got merged recently. This one was not yet part
-> of it.
+> Signed-off-by: Astrid Rost <astrid.rost@axis.com>
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
-That's correct.  Did I say that it would be?
+Applied, thanks
 
 -- 
 Lee Jones [李琼斯]
