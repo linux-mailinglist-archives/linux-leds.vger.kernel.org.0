@@ -2,258 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79C3675413C
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Jul 2023 19:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F31ED7543C5
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Jul 2023 22:33:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236356AbjGNRsO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Jul 2023 13:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35006 "EHLO
+        id S236399AbjGNUdE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Jul 2023 16:33:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236458AbjGNRsB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Jul 2023 13:48:01 -0400
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441ECE4F;
-        Fri, 14 Jul 2023 10:47:42 -0700 (PDT)
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-345d3c10bdfso9621955ab.2;
-        Fri, 14 Jul 2023 10:47:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689356829; x=1691948829;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D5kyFLxcFf28C4xAlfiZC8aBDg3X1GkkexShGXOhf5Q=;
-        b=apBiZkb/qMovIJHt8wf8E2fa6ZIMQ1rUlEF21JcKAyZ0paIAwVvzEDIAMidm+evptV
-         QbIU1CEUionoZEdPDKhHdIYiteQya9iMINscnBzITCLPvKbiYzSLWO1ImiCEJhcZNgkY
-         C+dkPC5OVg5+kTX+EUQttWsOI05Xd1fF7pqXiEUyQC8rj6yltBwmIcDQiRIYLjSYz0qb
-         r9vpkOcfyqBPU935p2nXpey40zKBWHFQWIskzNZckDxDgK0lQATMkplmws2uu0vAUout
-         l7Aem1ya0eGsuZnebcqRE7hOtwKFw7l3G2vl4fJ6B+N7Cf3RIddGc2COqe22uIMj0lco
-         7RUg==
-X-Gm-Message-State: ABy/qLabeskL6qFy9H5wWm6yxotmTclPelEBme9DlzQ2BLmBvNLy6qw8
-        7L011XEPKM7SzKkNEDUkaQ==
-X-Google-Smtp-Source: APBJJlGzW/bj6MXlxr0qrKz4Hhu7XzH+1onl+UixPsg/LSIkCxNFlpKp8c9aZSX7kZcWE0JPfiCpHA==
-X-Received: by 2002:a05:6e02:1544:b0:348:4ab6:98cc with SMTP id j4-20020a056e02154400b003484ab698ccmr3137663ilu.14.1689356828681;
-        Fri, 14 Jul 2023 10:47:08 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id q16-20020a920510000000b00345a769de67sm2919502ile.15.2023.07.14.10.47.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:47:07 -0700 (PDT)
-Received: (nullmailer pid 4058855 invoked by uid 1000);
-        Fri, 14 Jul 2023 17:46:54 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Riku Voipio <riku.voipio@iki.fi>
-Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: Explicitly include correct DT includes
-Date:   Fri, 14 Jul 2023 11:46:50 -0600
-Message-Id: <20230714174651.4058753-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S235954AbjGNUc7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Jul 2023 16:32:59 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16EC535AD;
+        Fri, 14 Jul 2023 13:32:58 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36EJRF0V032181;
+        Fri, 14 Jul 2023 20:32:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wOEuZ0axDfpKHVOu0u/ZkL+Xp0dWtcUrVMCcIi3yLtQ=;
+ b=T3n94NJgFrWm5u6CDeOYjOsRLB05FcOfMssSwbQiD2+n/HI02B+rhTEvXyQhrC4IjLtJ
+ 8gP/zKLi6feqdMr3kj2UJwrDHaAIbTVb3OOIbRFISeVKNlWNAg4zt1uhIV7OSH09TK/1
+ AejVXUfoRwrIlBEk2j7frnVm+h+jNw8QDp7VAPD9I2VB7Tx5waFZN9RPb3JG1ONsW+Uk
+ pQv8uWgot/M0sqDbIGoTQ+Ny8v/VkNhZtJY12JPWIqyhQ6YjbDxSQ90+pLka70BAGWgw
+ QFQBkXebOkZhvscGMWXGSL5LK6AViyvbZ+a2TfY43IRTzINUpUElqTRVJMIV4bHC5uFa Iw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpu92t68-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jul 2023 20:32:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36EKWiTf012707
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jul 2023 20:32:44 GMT
+Received: from [10.110.52.193] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 14 Jul
+ 2023 13:32:43 -0700
+Message-ID: <511a84a8-ecb4-13bb-2eab-982b19758ba5@quicinc.com>
+Date:   Fri, 14 Jul 2023 13:32:33 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/7] dt-bindings: soc: qcom: Add qcom-pbs bindings
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC:     Rob Herring <robh@kernel.org>, <pavel@ucw.cz>, <lee@kernel.org>,
+        <thierry.reding@gmail.com>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+References: <20230621185949.2068-1-quic_amelende@quicinc.com>
+ <20230621185949.2068-2-quic_amelende@quicinc.com>
+ <20230626135857.GA3118929-robh@kernel.org>
+ <2e871e21-a81d-0d7d-993b-9a9d7bd9d962@quicinc.com>
+ <e7298704-5a03-0961-90a3-dab4af60c326@linaro.org>
+ <32e9a512-fd74-b2f6-6b8a-fefb9ad5912d@quicinc.com>
+ <431faa87-d152-5f7a-40fd-8b6fe26f0bb9@linaro.org>
+ <71e1f36f-8fd8-9d61-d563-577d4fb54f10@quicinc.com>
+ <69c01f0f-4eb0-bb44-a238-5c9ce5beede9@linaro.org>
+ <CAA8EJppCSnEg1GjX8CavxRPiiE19JwVAOTspjWJR-OzdQMcu+g@mail.gmail.com>
+ <7ecf968b-45b2-c6b7-86a7-8d8caccf5002@linaro.org>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <7ecf968b-45b2-c6b7-86a7-8d8caccf5002@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FpwwqSAF9ChKQNg_KKIZS6HGqS4kVtvO
+X-Proofpoint-ORIG-GUID: FpwwqSAF9ChKQNg_KKIZS6HGqS4kVtvO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-14_10,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=781 clxscore=1011 adultscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307140188
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it as merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/leds/leds-ariel.c         | 2 +-
- drivers/leds/leds-cpcap.c         | 2 +-
- drivers/leds/leds-cr0014114.c     | 2 +-
- drivers/leds/leds-is31fl32xx.c    | 1 -
- drivers/leds/leds-mlxreg.c        | 1 -
- drivers/leds/leds-pca9532.c       | 1 -
- drivers/leds/leds-pm8058.c        | 1 -
- drivers/leds/leds-pwm.c           | 2 +-
- drivers/leds/leds-spi-byte.c      | 2 +-
- drivers/leds/leds-syscon.c        | 3 +--
- drivers/leds/leds-ti-lmu-common.c | 2 +-
- drivers/leds/leds-tlc591xx.c      | 1 -
- drivers/leds/rgb/leds-qcom-lpg.c  | 1 -
- 13 files changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/leds/leds-ariel.c b/drivers/leds/leds-ariel.c
-index 49e1bddaa15e..dd319c7e385f 100644
---- a/drivers/leds/leds-ariel.c
-+++ b/drivers/leds/leds-ariel.c
-@@ -7,8 +7,8 @@
- 
- #include <linux/module.h>
- #include <linux/leds.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
--#include <linux/of_platform.h>
- 
- enum ec_index {
- 	EC_BLUE_LED	= 0x01,
-diff --git a/drivers/leds/leds-cpcap.c b/drivers/leds/leds-cpcap.c
-index 7d41ce8c9bb1..87354f17644b 100644
---- a/drivers/leds/leds-cpcap.c
-+++ b/drivers/leds/leds-cpcap.c
-@@ -7,7 +7,7 @@
- #include <linux/mfd/motorola-cpcap.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-diff --git a/drivers/leds/leds-cr0014114.c b/drivers/leds/leds-cr0014114.c
-index c87686bd7c18..b33bca397ea6 100644
---- a/drivers/leds/leds-cr0014114.c
-+++ b/drivers/leds/leds-cr0014114.c
-@@ -4,8 +4,8 @@
- 
- #include <linux/delay.h>
- #include <linux/leds.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/spi/spi.h>
- #include <linux/workqueue.h>
- 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 72cb56d305c4..b0a0be77bb33 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -15,7 +15,6 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- 
- /* Used to indicate a device has no such register */
- #define IS31FL32XX_REG_NONE 0xFF
-diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-index b7855c93bd72..39210653acf7 100644
---- a/drivers/leds/leds-mlxreg.c
-+++ b/drivers/leds/leds-mlxreg.c
-@@ -8,7 +8,6 @@
- #include <linux/io.h>
- #include <linux/leds.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/platform_data/mlxreg.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 8b5c62083e50..bf8bb8fc007c 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -18,7 +18,6 @@
- #include <linux/leds-pca9532.h>
- #include <linux/gpio/driver.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- 
- /* m =  num_leds*/
- #define PCA9532_REG_INPUT(i)	((i) >> 3)
-diff --git a/drivers/leds/leds-pm8058.c b/drivers/leds/leds-pm8058.c
-index b9233f14b646..3f49a5181892 100644
---- a/drivers/leds/leds-pm8058.c
-+++ b/drivers/leds/leds-pm8058.c
-@@ -4,7 +4,6 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
- #include <linux/regmap.h>
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 29194cc382af..38624e5161d8 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -12,7 +12,7 @@
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/platform_device.h>
--#include <linux/of_platform.h>
-+#include <linux/of.h>
- #include <linux/leds.h>
- #include <linux/err.h>
- #include <linux/pwm.h>
-diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-index 2c7ffc3c78e6..9d91f21842f2 100644
---- a/drivers/leds/leds-spi-byte.c
-+++ b/drivers/leds/leds-spi-byte.c
-@@ -30,7 +30,7 @@
- 
- #include <linux/leds.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/spi/spi.h>
- #include <linux/mutex.h>
- #include <uapi/linux/uleds.h>
-diff --git a/drivers/leds/leds-syscon.c b/drivers/leds/leds-syscon.c
-index e38abb5e60c1..360a376fa738 100644
---- a/drivers/leds/leds-syscon.c
-+++ b/drivers/leds/leds-syscon.c
-@@ -7,8 +7,7 @@
-  */
- #include <linux/io.h>
- #include <linux/init.h>
--#include <linux/of_device.h>
--#include <linux/of_address.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/stat.h>
- #include <linux/slab.h>
-diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
-index d7f10ad721ba..b2491666b5dc 100644
---- a/drivers/leds/leds-ti-lmu-common.c
-+++ b/drivers/leds/leds-ti-lmu-common.c
-@@ -7,7 +7,7 @@
- 
- #include <linux/bitops.h>
- #include <linux/err.h>
--#include <linux/of_device.h>
-+#include <linux/property.h>
- 
- #include <linux/leds-ti-lmu-common.h>
- 
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index dfc6fb2b3e52..945e831ef4ac 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -8,7 +8,6 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
- 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 59581b3e25ca..fd7676aa243d 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -9,7 +9,6 @@
- #include <linux/led-class-multicolor.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pwm.h>
- #include <linux/regmap.h>
--- 
-2.40.1
+On 7/12/2023 1:11 PM, Krzysztof Kozlowski wrote:
+> On 12/07/2023 16:35, Dmitry Baryshkov wrote:
+>>>>> Rob asked you - "Is there more than 1 instance in a PMIC?" - and you did
+>>>>> not answer positively, just mentioned something about drivers in
+>>>>> downstream, which do not matter. So is the answer for that question:
+>>>>> yes, you have two instances of the same PMIC differing by presence of
+>>>>> PBS and other features"?
+>>>>>
+>>>> Sorry that was a misunderstanding on my part.
+>>>> Yes, answer to Rob's question should have been "We have two instances of PMI632,
+>>>> where one instance holds the pbs peripheral and the other holds the lpg
+>>>> peripherals. The child node for pbs is needed so lpg client can access
+>>>> the PMI632 regmap which contains the pbs peripheral."
+>>>
+>>> I guess I miss here something. What is "LPG client"? I don't understand
+>>> why this LPG client needs existence of PBS node, to be able to get the
+>>> regmap.
+>>>
+>>> PBS is a child of PMIC, so it can get regmap from the parent. What's
+>>> more, which DT property passes the regmap from PMIC to LPG client?
+>>
+>> There are some PMICs which claim two SPMI SIDs. For such PMICs, each
+>> SID is a separate device, so it is not directly possible to get the
+>> regmap of the other SID.
+> 
+> OK, maybe after implementing all the review changes - including dropping
+> that singleton pattern - this will be clearer. Please send new version
+> and we will discuss it from there.
+> 
+Sure, will work on getting that new version sent but I did just have clarifying question.
+When you say "dropping that singleton pattern" are you referring to dropping the 
+PBS node?
+Want to make sure we are all on the same page with what the next version will include :)
 
+Thanks,
+Anjelique
