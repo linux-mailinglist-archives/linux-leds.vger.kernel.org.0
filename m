@@ -2,125 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A1F759375
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Jul 2023 12:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6846C7595ED
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Jul 2023 14:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjGSKyM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Jul 2023 06:54:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
+        id S229822AbjGSMvN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Jul 2023 08:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjGSKyL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Jul 2023 06:54:11 -0400
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2072.outbound.protection.outlook.com [40.107.8.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB96C119;
-        Wed, 19 Jul 2023 03:54:09 -0700 (PDT)
+        with ESMTP id S230206AbjGSMvM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Jul 2023 08:51:12 -0400
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2073.outbound.protection.outlook.com [40.107.104.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A532A10B
+        for <linux-leds@vger.kernel.org>; Wed, 19 Jul 2023 05:51:10 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LJGpgTQZcyaLqQXgFV+zp0urz0NiAPghB2jQXo+htqxjLN/5xeOrmFY6Ny/BvP5SEFTJmR0WRF94eRkBJ9CqZIza8/ZqHYNP2Qj9xx/0GBD2J0j6tsYDqQ6bS+q7pPs4vmAQlvRt9aAuGJjGoiYot68RV0ImyuUgH+2mndQeqmtqsaiaDWSnCKXezCoxPRNpytwZ5v4Hch6LbHAe3e8rChyFpACcyidwyECT95DSsKZViAsvbjBXKwY48dgNJyTMZonpz/m8Ok6l+zNcQyBpnoSQCPBM5JR3WShQBQ+tQ6YZlyzOpj0I128gq9JrUmqPG0jktTkH/8XNPOv1tZmIag==
+ b=k9r0y6rPiemawub0zerzfqD7LlhJTSC0cyWEvDqneWc5csnjM6Q8OME4wkJFXL1jhEu1xCt9FiRgDiLd3PevPqS3rqYM8WH55awEmUpSggCPQBcRQI3A0D1RWvWGr1jgyP39TO8nltBRkSGM+6IXGYvx0n56Mj9u0CRpKgbFZ7Dmtx0WSbdfA6Wq/mc5bVQE87M+Wm2h1GqABgtiIib6388Vi3eqtBz7/CjET7nzw5OLDg4irjdmhkU2CBgo/zkA80uL6BI52QpOswgB7u0uf+xUakHJhwCHyxxnepxzDJE8D9yzvdxuE5ty3A5uQf8Y5SdaSuNULq/IJB9uK0RqHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b6V2PB0KIpIwIEfNLd+uN+yHmo1WQijznWXoHSnFQHo=;
- b=I6U6Xe4CbQ0flTvXx0n5OvurKESdYWQn72UE/8P9wB/U0K3MoyZalrJSMLFgaG61Ze9Br1EBHdVQeCetfpBOL2yYKIT73PyEwKWmicfkPa63Ok3mykQVRl3Ms6knMa+ok/uOpiKsfq1v1JgBA2eklfYmX5Hu/+6CWyjQ1JFRm65NbJ7TzKTbAgc1CfWQN8j/tuQhaAQtNL/t56J3xfHtEdMlN8juNvm6UtktdqiwqM+geR4pkMnlbtVTf6wn88yH3TnewfpEdpYIl4KKeptcZNtxebm6QX7mFeugAoqG5XruSFb8QwUk9Lar9SB7Lp3XroX/A3a9Tta3ai4EW5Siug==
+ bh=/GKXsUitTm5zhCEb92ZST/aOnCLBFHwkmSX7t6ViUto=;
+ b=XJQgKxrmCDca430o/SXnvsAgRpJRQK1MECOFNUCWcvXzjV/cRRrMbzKFh67yC6LoflUhRQB3FpinQJ+oeyQGbDkS9xRs8V65c3x1cvmDCNtibA0uTe77KsOimBALkaL/zn+28+thO+UGWjlPot26jNQjuDnmZj93EHKqoXqS17GAMTClwJKaJhK3SsDcqNPKAVwbA1LXQo45vKcibBGEYD20VwzXDJDDKwxiP+nksp6LvE+Ml5NZT9ac+z/ma2/1lyI58dH9DzKHN2fZq4QsVCzYMftw2dd16pKYOGsEYVDzffhRlzr9WIB9PzrQhESjCbEbQnsAw0m/8cBnFR91Bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
  dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b6V2PB0KIpIwIEfNLd+uN+yHmo1WQijznWXoHSnFQHo=;
- b=DNQZit/sRkayVRLjoWCOhwXNW6s1gqdNbiwneNs6EV56tBgaysnKWeYHfinwoK0md5lL6k5MdWMRj0cDmPOOB2MsIFMGIUQXGLl4kWu2GCfO5XC5PcfGScGWzTtNFmGKwjCgkfnaVQ/MTRK6MvufsamVeKfXeJZRju2QCLuqpwHBTwEo+P3zZp9ITou3kUZJPlldtCStj8235bkzbO6+tVtq+frh9EmAa8cxPNb+pJe9FVpbhgaDz0IVak8XxowEe1pgXh1es/2ls3a/GXtrBcu3OEQTwcwruOKXyNL7E7vtypP/SA1SfqrQkHjxeCIVLATIXrpgbDwh8atQOA1vYg==
+ bh=/GKXsUitTm5zhCEb92ZST/aOnCLBFHwkmSX7t6ViUto=;
+ b=MIqhPB26zRYHJAyjgzQRw+cQxAcvkJ737/3GthTQzTQ7vhTrk6FpBGhsBuyGxfx3DQEr7cXsxZJ8+dVdgWNzCXckYckY+hM/SUKjbSu35mhbRY9uObwybCvrMabhutleU9nh6l6g7+08blzcZV7B5txH0UC26e+5kSZF0edVJAY1RJRguwjx7yEZa5aUqosaxMJJD+z2wk5k/RDaT66sM7RP5bUTddlwOD+uMNg6uQwZLMAtFfXXVVYIg+P73FdIOyqAFvtPdZXwggASNgzOX92HpDnE62NH9MC8vtgBjIMjwclxl3wIyH9mrSCgn4RvlJeZkTVRQLmUhrZqFXwNFA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=siemens.com;
 Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by DB9PR10MB5618.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:30d::13) with
+ by AS2PR10MB7552.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:590::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Wed, 19 Jul
- 2023 10:54:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Wed, 19 Jul
+ 2023 12:51:08 +0000
 Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::a171:a3f2:99b7:5f29]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::a171:a3f2:99b7:5f29%6]) with mapi id 15.20.6588.031; Wed, 19 Jul 2023
- 10:54:07 +0000
-Date:   Wed, 19 Jul 2023 12:54:03 +0200
+ 12:51:08 +0000
+Date:   Wed, 19 Jul 2023 14:50:58 +0200
 From:   Henning Schild <henning.schild@siemens.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Mark Gross <markgross@kernel.org>,
-        Tobias Schaffner <tobias.schaffner@siemens.com>
-Subject: Re: [PATCH 2/3] leds: simatic-ipc-leds: default config switch to
- platform switch
-Message-ID: <20230719125403.61ce47e2@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20230719084301.GG1082701@google.com>
-References: <20230718105213.1275-1-henning.schild@siemens.com>
-        <20230718105213.1275-3-henning.schild@siemens.com>
-        <ZLaf0Cn2kfb0qxJJ@smile.fi.intel.com>
-        <20230718164308.6b7d875a@md1za8fc.ad001.siemens.net>
-        <20230719084301.GG1082701@google.com>
+        "xingtong.wu" <xingtong.wu@siemens.com>
+Subject: Re: [GIT PULL] Immutable branch between pdx86 and LED due for the
+ v6.6 merge window
+Message-ID: <20230719145058.5f09c0c2@md1za8fc.ad001.siemens.net>
+In-Reply-To: <f16a15a8-aa32-214d-7896-af598e9d5000@redhat.com>
+References: <f16a15a8-aa32-214d-7896-af598e9d5000@redhat.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0123.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::9) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
+X-ClientProxiedBy: CH0P223CA0011.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:610:116::26) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:102:269::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|DB9PR10MB5618:EE_
-X-MS-Office365-Filtering-Correlation-Id: 315be135-9610-4606-2b73-08db8846795c
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|AS2PR10MB7552:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6eeb30e-1a87-4ae9-0cdc-08db8856d243
+X-LD-Processed: 38ae3bcd-9579-4fd4-adda-b42e1495d55a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /zjgwvKD/3PsmiJX69dL9bE9iqXDMQdjfX1ZV5pygNjpnSjpCBtvXXKirhjWAytuu2g13XgcGEBnDSB77j7SQe7RtfDaLYH+CZBG7GK4RTu0AQ4iR6aGiQi8Ra643TrU6XZGuHSaYeW0Syg+Z0Sm9l1ViOLcdGQ7JX0AetgKe7AsH05vAm72w+Sx9vtUF/ALpkL52wdzXMk2wUbv3i8VRRn/EFYSBLi04Ug7MDHQiNCU0fMBtR9LXQNtUn/Ug75EYnBWzp/cM1JfHtM4JqJQ7XTKffEQ6ZBBeCE9KgA33QKUXBKW72C4Y3t29Co8TZ0EvoGjOL5AO3Wbm5WT1MayFaphCwn66duftrL8M6gmK1an7yTYZoMDnJ7XzUJEHUW4zS1tV0CN/aapNq7SRt8JRSMV6THHLzXV5CSaWUfohVGmixAks7C5jchxPY1I+3pK+XJg4ua1m6Op95GvvrPs3dD551BXkdVVHcYONXPmUn0jHd2Oh/0CjYdrdLvEGxJ+nQuh5hMf30x/9piAzJ2rVB1CnpIWuZ6WSRCNHxuKX1aX8HcF/O2V4i3ZcGvUJi2e
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(451199021)(83380400001)(82960400001)(478600001)(6666004)(186003)(1076003)(6506007)(6512007)(9686003)(107886003)(8936002)(66556008)(66476007)(8676002)(41300700001)(2906002)(6916009)(316002)(4744005)(4326008)(6486002)(86362001)(38100700002)(54906003)(7416002)(66946007)(44832011)(5660300002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: KmmZMAJLyhWo15P61mbu50LkMiTgOhai60sgtdd5ePziXPuMLSdaIOIWrFH67pAFcg8kw28SWiW4SzhHcSv+shykt0eSlTLDHXHuw1W2j/r66/HZP1mHlgREEl6JSLRRRtknypBUMr3bXJPTSBJreIFLOr7d0bs6wDqXl20NOfYyxk+FyZ/Adbo3u7f8LR+yNMFslxk0iRaXO6dVPskhg7jqa5prNfZQb44W0SHzFeXyjVPPzJUC7adnEYoWwbeOvmt2e86HiT9UwyyBvqovw7zf1hQR5VI8YKm8uSnChOIhpe0WUH9OsXiv0zVCW4gnXShBIXhUYoehMbblSobYmaxE9fXN3cZeXV7am51CZsXEF3dUZRUZFcsWVqJqHwQ1ccItw27Yo2+6sf9VNiLIQr0Z2EO9MNJKa+r0gS6hXZyN/AbgWn8PSFeZ7QLLolKXRX3dlN882MpKO5b5j9IgSrOjbZedjvasdrzeYq/ygoTvPjKSK8UmHDJv/xp9A7uF3vnM4m/0pDsc1d7iQ5I5BWJ3OTODEF440/oLGjh6TyQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(396003)(366004)(346002)(39860400002)(451199021)(66476007)(54906003)(8676002)(6666004)(83380400001)(82960400001)(6486002)(41300700001)(5660300002)(8936002)(316002)(66556008)(66946007)(4326008)(478600001)(6916009)(186003)(1076003)(6512007)(966005)(38100700002)(107886003)(6506007)(9686003)(86362001)(44832011)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o4Kn1UUVpBnnEqnIbatkOsN+CACnBfvsj98tGru5P69UHXLyL4ewtNEYqN4x?=
- =?us-ascii?Q?6Wp2IGbR2C2CtwieMWWjjM2z8OcNADQvdVlo+eQnT8N5Tx9A0+1CVokR6WME?=
- =?us-ascii?Q?5GnkkwPfyFUKNL+4QI3vaDURM2dN+iZOV4H8MFZMqfkpGXPAe4fSBWsNg34+?=
- =?us-ascii?Q?zURYBBGgsdzft1pMHJ3GowQZ5OfVRy/ZLK7U6bnFRsYlLWVynAnGA0iMKNSm?=
- =?us-ascii?Q?kUAer+zXvLvp8ajb5bmTzj6LD20QbOtRraVNngZ5SUyihALvESAam6g8KC4Q?=
- =?us-ascii?Q?ufscF2W6xWc/olXWNg0erLbhtH8EnLJQPT/zWXf7aQN3LAUFUtcgX3n3pgr0?=
- =?us-ascii?Q?0rJJcDhplfyHU9hb722k+Ko/s6hjT0M5FCtnmL26nBySZjF5aGU1E4e4aunJ?=
- =?us-ascii?Q?kA3DCCfmiH1lUKZKn4G0majkjV1EBr9NOVjIXLdfGY0RTVQ+8Koa1Ki5vkSc?=
- =?us-ascii?Q?rfXFfONKjVnpZqP6NDzn48HzoZxJa3fKVEaYv+sBfUredaGfxPBHq+QaOAxM?=
- =?us-ascii?Q?8HukABxI++Elv+Vq7mzbdFPY7rEl9zHEVxsgca0Cpz64YwuqQWKFbmGNmItm?=
- =?us-ascii?Q?ild33z9KDXbvmJPHGFUPCXw2ugcxw5Hf1C6gTs+Iskond6baBWCiKtEjcUDI?=
- =?us-ascii?Q?r5kjMuINfXU5QN13LNF16QFeDS898j3IXdFYftQIrij2CE5Wp+fE6WQX4LHV?=
- =?us-ascii?Q?q3dWtK9OhpMrsDeoNe6D0kh5ewtWL4kb2Da9uWHddGFUUcXagtC2Pir+AmdV?=
- =?us-ascii?Q?7ngoXcPTyMK5d3CpW2ksPdbP4HzNHKtkhM21xvHb6jtGvySRNT1CeR6bI7zY?=
- =?us-ascii?Q?IyIWhWt6VOChPPCUXWlq+OYOKaFBudJUfTeqBGOy+JVJmpRqRfTnElDuRKDo?=
- =?us-ascii?Q?dA5ufJYQn1248sD4+ZZHlq8t+WDSYhALeY4CQhjA4IQF1Wm2w1FQ6LhAzZ0/?=
- =?us-ascii?Q?eq2fPXqRqd1WW5rvDnWfIaMm7d7CUnPCDftBxuMiyVl2XIQCYWVg48qHM14g?=
- =?us-ascii?Q?Ta1aB0jqTQoE5tX+tqDj/r1YCc5YjkdtZpJ/SgzRmY00uWK9lebjQTifxRBv?=
- =?us-ascii?Q?zpxsJkjD+1UP0a4qOx5961dIt6EGlIPuLPrL4+JsxvwUMgp4OFstjn9Z3m4v?=
- =?us-ascii?Q?3bnHS1pcxhHd9uSsMyP9NibCSa4kqnzMUN9MzkDusY4/iYZWkB0HQoxYXM2A?=
- =?us-ascii?Q?cdjIanLvIkmP4dbXLfpkHS1vPLjKpDLwW2qrT3TsO2URjSgICpM8NXyszidK?=
- =?us-ascii?Q?gINTHBqtVTHTykr9muK47fF906XCCO6Mack8lqVmcLwcpYJs/6PT+M7NYutk?=
- =?us-ascii?Q?wXR4Tjn9RVgROAb/k9oJnRl3S9Ldvc9L2T2wGdbrh+IpcD3LpVvMrSH5fGr1?=
- =?us-ascii?Q?i/aUnsgHXhudmU+WUaEDsWsj8zIzOz41lszdWApA4dvieThM8CkDKZDBktzi?=
- =?us-ascii?Q?eqPsoNl8q4Imgpm7dlZRhf1hdtyv3qnIDplxO+PJj+4fh501SqqKfL1WoFNr?=
- =?us-ascii?Q?SZFGqCBHPaE1+zhapO+gPxGVduP8WQFD1oxymiwJkLMfCttUhKm5LVIVRQGB?=
- =?us-ascii?Q?jBJjM0rA9/+0YvuAY1MDcNOWHLWNXvFgkBw+7HI3IOo9y2g7RFW73sky/auX?=
- =?us-ascii?Q?MmavqZ84Ci12+f8sTragZyYhOB0I3fhztch4QXD7ils9RzwEoTAAQmms554N?=
- =?us-ascii?Q?JszJyg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8gNpbvsMdq+u5JVoaq8P0AwNJwSn0NCqDp9XcApXk0dXrEgG7rRbP/lhqwPf?=
+ =?us-ascii?Q?Aow0Oh9WfR5NPIMP+/QyNtuVmCzr0qdb1l83E5QfroT0P95sWQT1s3g0iTP2?=
+ =?us-ascii?Q?6l14JR2hbzn0VKfItPIfB4FGS69gmoHFGxiiA+LNX8pl2bUm/qAPBznenZLz?=
+ =?us-ascii?Q?ZPfq4+2Rh2XjHDlrfnw96Mh20i9cnxd1f8D3LoicmfPY0g7NZL4nMqovBOEp?=
+ =?us-ascii?Q?cG0e/ugDpguLCCBDM8d+695Dtfb/zwpDVAKCg9QNYh4NmfFupKPJVHH2RJoF?=
+ =?us-ascii?Q?VWiyQlp7+omIw7gbPsEtEA4xIgYCsHYsLm/VyyCQdBCR4zMs3gB2A6qkTmHY?=
+ =?us-ascii?Q?zJANwSjWCAfvpd9y+riKX5PYI2hNAhYVbQczIpyuvmcwFxgkGJ6ZRynbTCCx?=
+ =?us-ascii?Q?ydg6IPzCE/yBCknK+pd5lrL3BcbfhL0QQQiFOtxdYDOghURZpBgxA+CJt3Nf?=
+ =?us-ascii?Q?AuIuht8qNTbmA7xkAWAGd7gLWI+iSf0VJGpq5K5WOrGE4geAF8JZ4PeVKx+z?=
+ =?us-ascii?Q?BwkghZQSPwCLRsjpYnY3ZqPfUpsAAADzmtU16nVkyfgJY8qvXIAvpVbpFAEE?=
+ =?us-ascii?Q?Y6JSg+pgQvnaXyNQVk15m4jAO6nGiCw5GsAyvmKZaaWRed44gTSpFgnTEu+P?=
+ =?us-ascii?Q?YAKPF3bg3xvYl4vEBE5FXAd1wz+Pz2eFwPM+9BGm8mcOOl8JYQcgA4cCqDUm?=
+ =?us-ascii?Q?xs2rtFTtWP6Qh+Mkq2TYCiDsxWThT8z7HEj6aGEBxQ0l5UNWj5qaBog9+Nja?=
+ =?us-ascii?Q?/xL8tC79uLbAyg4PoxsN+HmscB4etfLA3ExVGnxtl70wVzbRLtX/MWR1UqxM?=
+ =?us-ascii?Q?f+cGXnqaPeYONmov9MdfocIjD3wdrQW3qCV8ub4U5HaayMgFgdOMF/SI0Erm?=
+ =?us-ascii?Q?VRotniSQTvZHEsq119R/n/iTJsI7ZKt2Vw/y66OUSqOdeS4Hovlucbjj/xnD?=
+ =?us-ascii?Q?Z2wvb49giebjIBx4R3VxHrUehQzwaAeXTxIsGOTXBoV2AHdjjm03EodKxCHq?=
+ =?us-ascii?Q?9iTzGR+8V6JZ5CIo+UuUAfaoVX+e1Vp6YnUEqwOjwQYV5N6wD1eje50gnl+o?=
+ =?us-ascii?Q?NHs/9RRWyoxK3SZ12eeSJrnpW83r/UQnNK+wSDwm7ga27zv0gtd6ioM4k6hn?=
+ =?us-ascii?Q?ly5AbmDuHjQa+i5H6o17J+jj3Td6w4UldFoJsyP7HYh6t9iMiJNs/t2zf166?=
+ =?us-ascii?Q?2apW9OBErGug9ZQo/fJz5Ambz9fHDorTHb90U2POaCTv6De8dtgtj0jHQLl7?=
+ =?us-ascii?Q?aDGEwpJE1zZDSYCnO0xuvRYPszZCNBrJdbPDAIv7Tl8vCCTMsZ2U2/Zqx5sI?=
+ =?us-ascii?Q?dIjT607UPMJn9M3Ykpt2AVP8nZluxkDj1Q8phkTWJMyLmRtUDbcyqPzC7w6s?=
+ =?us-ascii?Q?WS5fGs8IIP0m8R5pMDRnO8ml6QQA7m5WY9tOhESY5DO8leJCUGy8AL0VU1P1?=
+ =?us-ascii?Q?BncW4dOeB/Eo7Y8DNGV+X99UDql8hSGQ1PlZ7wVwIwxZnLrNwhcpSUuPpL1u?=
+ =?us-ascii?Q?aYDV/W00GeGWMTBBnf/GrmSj/6KWBKqmN09JF2NBiS5F3EZsfnm50PR+PQZ6?=
+ =?us-ascii?Q?yf1eBUzcZuz6fdnK+A7iBESnxW8ZWI9VsAyC8X/yLVChJZR61NtbV14NPmEv?=
+ =?us-ascii?Q?NEElmNaRXaq90hsx7HdPYffhhIfe/pETMBSsU9LLGOtOaqqzd6UQlW35Z0Ib?=
+ =?us-ascii?Q?cJiEpQ=3D=3D?=
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 315be135-9610-4606-2b73-08db8846795c
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6eeb30e-1a87-4ae9-0cdc-08db8856d243
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2023 10:54:07.0696
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2023 12:51:08.2444
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JYUaFFQMCmssE2epWZidB5JN5e9BpM9tHL3X7le4DZu1X4FF+/s7QBTWt/xqYXNUacg13753gxrnhkzx9KBxDFincRB5e15Z5tbR4am5yk0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5618
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-MS-Exchange-CrossTenant-UserPrincipalName: VATb5fSxhz1PBzTho4990isylleF74pakimDYN+V3RKx8PBZyH58wXSepb3u2kBUTN0EEdHx+koWXf1ePJFVjGyFZ/00yrmSgPpNp0gaRQw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7552
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -128,32 +120,93 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Wed, 19 Jul 2023 09:43:01 +0100
-schrieb Lee Jones <lee@kernel.org>:
+Hi Hans,
 
-> On Tue, 18 Jul 2023, Henning Schild wrote:
-> 
-> > Am Tue, 18 Jul 2023 17:21:04 +0300
-> > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
-> >   
-> > > On Tue, Jul 18, 2023 at 12:52:12PM +0200, Henning Schild wrote:  
-> > > > If a user did choose to enable Siemens Simatic platform support
-> > > > they likely want the LED drivers to be enabled without having
-> > > > to flip more config switches. So we make the LED drivers config
-> > > > switch default to the platform driver switches value.    
-> > > 
-> > > Same as per previous patch.
-> > >   
-> > 
-> > Same as per previous patch.  
-> 
-> Same as per previous patch.
-> 
+i actually do have a bug-fix commit on top of that, with a
 
-I will assume that you are asking me to "default y", as discussed on
-that other patch. And will send a v2 accordingly.
+Fixes: 917f54340794 ("platform/x86: simatic-ipc: add CMOS battery
+monitoring")
 
-In case the ordering of default, depends etc matters to you, please say
-so.
+one IPC model had a small issue left with reading out the battery state.
+
+How should i proceed with that? Send that fix on top or make a v2 of
+the CMOS battery patch after all? And if i send on top, can i assume
+that the current sha will also be "immutable" when Linus takes it?
+That last question goes into the direction of using "Fixes:", which
+might not be needed/wanted anyhow because no backporting would ever be
+needed if the fix gets in together with the patch bringing the bug.
 
 Henning
+
+Am Fri, 14 Jul 2023 15:21:12 +0200
+schrieb Hans de Goede <hdegoede@redhat.com>:
+
+> Hi Lee, Guenter,
+> 
+> Here is a pull-request for some pending pdx86 simatic-ipc changes
+> which are a pre-requisite for merging the follow LED patch:
+> 
+> https://lore.kernel.org/linux-leds/20230713115639.16419-3-henning.schild@siemens.com/
+> 
+> (Guenter this also includes the watchdog change you acked for merging
+> through the pdx86 tree in case you want to merge this into the wd
+> tree)
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> The following changes since commit
+> 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+> 
+>   Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
+> tags/ib-pdx86-simatic-v6.6
+> 
+> for you to fetch changes up to
+> 8766addf665e9f0ace15cca894ba225e5a4d580a:
+> 
+>   platform/x86: simatic-ipc: use extra module loading for watchdog
+> (2023-07-14 15:06:40 +0200)
+> 
+> ----------------------------------------------------------------
+> Immutable branch between pdx86 simatic branch and LED due for the
+> v6.6 merge window
+> 
+> v6.5-rc1 + recent pdx86 simatic-ipc patches for
+> merging into the LED subsystem for v6.6.
+> 
+> ----------------------------------------------------------------
+> Henning Schild (7):
+>       platform/x86: simatic-ipc: add another model BX-21A
+>       watchdog: simatic-ipc-wdt: make IO region access of one model
+> muxed platform/x86: simatic-ipc: add CMOS battery monitoring
+>       platform/x86: simatic-ipc: drop PCI runtime depends and header
+>       platform/x86: simatic-ipc: add another model
+>       platform/x86: simatic-ipc: add auto-loading of hwmon modules
+>       platform/x86: simatic-ipc: use extra module loading for watchdog
+> 
+>  drivers/platform/x86/Kconfig                       |  49 +++-
+>  drivers/platform/x86/Makefile                      |   6 +-
+>  drivers/platform/x86/simatic-ipc-batt-apollolake.c |  51 +++++
+>  .../platform/x86/simatic-ipc-batt-elkhartlake.c    |  51 +++++
+>  drivers/platform/x86/simatic-ipc-batt-f7188x.c     |  70 ++++++
+>  drivers/platform/x86/simatic-ipc-batt.c            | 252
+> +++++++++++++++++++++ drivers/platform/x86/simatic-ipc-batt.h
+>    |  20 ++ drivers/platform/x86/simatic-ipc.c                 | 119
+> ++++++++-- drivers/watchdog/simatic-ipc-wdt.c                 |   9 +-
+>  include/linux/platform_data/x86/simatic-ipc-base.h |   4 +-
+>  include/linux/platform_data/x86/simatic-ipc.h      |   4 +-
+>  11 files changed, 607 insertions(+), 28 deletions(-)
+>  create mode 100644 drivers/platform/x86/simatic-ipc-batt-apollolake.c
+>  create mode 100644
+> drivers/platform/x86/simatic-ipc-batt-elkhartlake.c create mode
+> 100644 drivers/platform/x86/simatic-ipc-batt-f7188x.c create mode
+> 100644 drivers/platform/x86/simatic-ipc-batt.c create mode 100644
+> drivers/platform/x86/simatic-ipc-batt.h
+> 
+
