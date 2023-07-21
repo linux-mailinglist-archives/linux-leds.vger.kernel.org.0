@@ -2,43 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F58E75C26E
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Jul 2023 11:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF97875C39E
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Jul 2023 11:50:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbjGUJG2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Jul 2023 05:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60584 "EHLO
+        id S232004AbjGUJuT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 Jul 2023 05:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjGUJG1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Jul 2023 05:06:27 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6662E2D7D;
-        Fri, 21 Jul 2023 02:06:26 -0700 (PDT)
+        with ESMTP id S231940AbjGUJtj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Jul 2023 05:49:39 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDE63C24
+        for <linux-leds@vger.kernel.org>; Fri, 21 Jul 2023 02:48:44 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbea14700bso14053825e9.3
+        for <linux-leds@vger.kernel.org>; Fri, 21 Jul 2023 02:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1689930386; x=1721466386;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CI8ECUjiJNroBfTj6qzPZAgvNKLXlm+nOlLik0fT0eQ=;
-  b=HpE1NCobRwEpS4M1281yMRISAa0yTLyP2YPlo0ICAmSxufcIZbskmCbp
-   FfQPiMlZAo5AeS3CFTRT5vBaoy1qzzyxACyiQPQWdDsLNVdRgJF+iv08L
-   WFYi+WdwSxTe5GS6HJeLsKCb9vvFOdYinqUyLRCPJCLRcoishTYz48TMl
-   UFoMWeEAVIOgEd500oL1RXuMqV1B3iuRwm2JCzyc3DCp2nWtbnjAD17iq
-   3yRkuA2b6Gw016/D8vd5fW8qpwNxLTTSfIy4Y2k2KrsktZu0IZPUP4lHE
-   Il5uAdIeiTLf5yLH+ppvdDgc0w6g4jbXMkPmgJ1kUTxOJbbLXD62j2726
-   A==;
-X-IronPort-AV: E=Sophos;i="6.01,220,1684792800"; 
-   d="scan'208";a="32049644"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 21 Jul 2023 11:06:23 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BC1F5280084;
-        Fri, 21 Jul 2023 11:06:22 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        d=linaro.org; s=google; t=1689932914; x=1690537714;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2aY4Xg/9Uh173A94JU4dqfm2DBiw/beAAiUkYe934cQ=;
+        b=kRxBi4nr899aGHDrPjiiZi9U1nuP9VX0l5v19OWwKVoakv56kXBve/kDBWOyQyiCnG
+         yhcLWDiLImh2lx1iX02pn0IDG7z3ca1enOv/JYPIMV33u3aLKweGB9R4CfwqAMCMO/wF
+         jzUHsyskF93/PTee9U94sbYqk/2yokfhz7fzSM/7hQnta/+XUz2/tW8lCkFduW/qbXLN
+         MvKSIJd/ZJBwaEcJxcLdZk0CYjncqNyqYFuGxWPRihDBavgaUg2rAdaaAVkpcW5wP3Hh
+         3jiw+2NngjtjNEiTXLMOGnNxwe5M+Znz7v9lQqkw/pe61x4Gr8S3J9o8yzpMjLhEcO2+
+         aO7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689932914; x=1690537714;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2aY4Xg/9Uh173A94JU4dqfm2DBiw/beAAiUkYe934cQ=;
+        b=Uk/Ns84clHcgGzNTMSJo+yupghl/9dEYs38TzqGfJ0T0cvZr7PFqwJNnhLKXsosYE+
+         riC8IbfaVKxGJkvL1QV73Xi82om7gxX+LzqMxvcnBi73xE+d2Q6fwZZRP7d0vJXNwLTq
+         nQwfV+KoSH8oIi9pzIuJ37DqfMH5H4K5STfvQ5GLJycnCl6nrKTCrgX6+u7cTZF5kFvK
+         BtDXr7vLAj3QsxHZQXlvSnON425hoeuVYpoql//TzJmxwPNPpxIWJBXm5xfygLqd3/c8
+         bl0lw/fQ25GFub5eCTSCm60EdpZV7uLFMS9A6QeE8PMELWCQniiQBNV3aUdb8/EeEeXZ
+         e7zg==
+X-Gm-Message-State: ABy/qLYNTRgyjVPFdhhuaCjc9EGJetGhnS9rogwxweRpU5VOfVOtvbPL
+        FB+qRR9XF5EdD7vz6F2FWHMKyj0sYLXV574rMWVenw==
+X-Google-Smtp-Source: APBJJlGtcO9n/J6kiaUVyGrHaarvzjPAzYeLnvmIRvKMEN/+BYIh02pDh7a2rCHgc+kFXm3C17vADQ==
+X-Received: by 2002:a7b:c856:0:b0:3fb:dd5d:76b with SMTP id c22-20020a7bc856000000b003fbdd5d076bmr960439wml.7.1689932914641;
+        Fri, 21 Jul 2023 02:48:34 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id f2-20020a7bc8c2000000b003fb225d414fsm5736048wml.21.2023.07.21.02.48.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jul 2023 02:48:34 -0700 (PDT)
+Message-ID: <a90e2f38-1308-cfa2-740c-02869f923171@linaro.org>
+Date:   Fri, 21 Jul 2023 11:48:32 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/2] dt-bindings: gpio: Add gpio-line-names to STMPE GPIO
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Andy Shevchenko <andy@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -47,46 +65,45 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+Cc:     linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 2/2] dt-bindings: leds: Add gpio-line-names to PCA9532 GPIO
-Date:   Fri, 21 Jul 2023 11:06:17 +0200
-Message-Id: <20230721090618.1211081-2-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230721090618.1211081-1-alexander.stein@ew.tq-group.com>
 References: <20230721090618.1211081-1-alexander.stein@ew.tq-group.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230721090618.1211081-1-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This is a gpio-controller, so gpio-line-names should be allowed as well.
+On 21/07/2023 11:06, Alexander Stein wrote:
+> This is a gpio-controller, so gpio-line-names should be allowed as well.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> index 22c0cae73425..b226a8892f8a 100644
+> --- a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> @@ -27,6 +27,7 @@ properties:
+>      const: 2
+>  
+>    gpio-controller: true
+> +  gpio-line-names: true
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- Documentation/devicetree/bindings/leds/nxp,pca953x.yaml | 1 +
- 1 file changed, 1 insertion(+)
+min/maxItems
 
-diff --git a/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml b/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
-index edf6f55df685..973c5fccaf4e 100644
---- a/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
-+++ b/Documentation/devicetree/bindings/leds/nxp,pca953x.yaml
-@@ -28,6 +28,7 @@ properties:
-     maxItems: 1
- 
-   gpio-controller: true
-+  gpio-line-names: true
- 
-   '#gpio-cells':
-     const: 2
--- 
-2.34.1
+Best regards,
+Krzysztof
 
