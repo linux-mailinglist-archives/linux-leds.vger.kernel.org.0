@@ -2,72 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 245A475DDDD
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Jul 2023 19:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECAE275DE8F
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Jul 2023 22:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjGVRdi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 22 Jul 2023 13:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38784 "EHLO
+        id S229790AbjGVUe2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 22 Jul 2023 16:34:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjGVRdg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Jul 2023 13:33:36 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7766A2707
-        for <linux-leds@vger.kernel.org>; Sat, 22 Jul 2023 10:33:33 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-55fcc15e109so1547808a12.3
-        for <linux-leds@vger.kernel.org>; Sat, 22 Jul 2023 10:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690047213; x=1690652013;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
-        b=VgzZMptrmZ8TWZlxmL7uj46LqGTn5bcQsDytmauMeEb7890xlnF7daq2CEEGMnZ9/Z
-         2YeM29/AwkqHTH0jS1CpvSk9kZVtYGiyBT6f7RMo9cKuvHoe9kZi0PhVT9S16QwWl6IJ
-         hKylPvfYWtUMI1hzwsNnorESKbmngUKjbDcVWCqohrvzxnrnZ1diQfvsyNAPN33EhcDw
-         /D3WxcSxyY44lsDuJ+oKIB1HMNlws0smCwwol4ecOLZkv5tgkze8FDT79naNiVl3ANsv
-         u8OnTj2mk9bfWSZSexMMF0mPnUX8wekGS356PXJXTSnIGQioil1IOh0CHgMKRQ/Dc5vP
-         IDcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690047213; x=1690652013;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XwQ9KTk0AvNg4YEGpLO6Mzd1tQ0NGTk2GH4qBYSzWYc=;
-        b=V4z8F5ZGwpOtBgky0EB6L9us5/+0cnj/IuR5GrS8nRI4gW9I5Y5xhxrmtIFRACiGtF
-         y2JW4nLpljZ94hc+QET8mXyEJQPQvY4csq4vW6f2Uslzux/87jNQgwvk0xEiVNepM3rX
-         tsiZ/gUu9I8xNXEw52rbGlFggO+z4n56+GmW0HORnt0sU0G4Q1CEnjFe6BlRCLa0Nq3i
-         wZsn6ecMrfsg69ps3sHFoTlBJcYa49C3DQoLYogVhlA6agfsKrIopGTmiJurmMs+/iHD
-         rfSNw/T6Db7CXszoMtwOsjNvh35R0hsGscF/9opMVciRcfUX0UPNwZoo15l50xd46mic
-         UveQ==
-X-Gm-Message-State: ABy/qLY3lBuryuav/JrxFVdGvOlAmWC6e3P+IKFJgko/CNLzfXfz6Wvg
-        1qusXtMDjuj7tXkr91NPuuqKyEbqG4KSIJ52Hto=
-X-Google-Smtp-Source: APBJJlGaafNiiHf9/1O0psWPRSU+7sNla2aMoOYF66iC/Xrx4mVCb4Rkkl5MrHBWY+m5yeh1LUIwdQAeleHpZGArl9Y=
-X-Received: by 2002:a17:90b:d8f:b0:250:6c76:fd9b with SMTP id
- bg15-20020a17090b0d8f00b002506c76fd9bmr3433350pjb.38.1690047212899; Sat, 22
- Jul 2023 10:33:32 -0700 (PDT)
+        with ESMTP id S229476AbjGVUeZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Jul 2023 16:34:25 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 22 Jul 2023 13:34:24 PDT
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9983AE6E
+        for <linux-leds@vger.kernel.org>; Sat, 22 Jul 2023 13:34:24 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id NJBjqtestHI6nNJBjqoPCR; Sat, 22 Jul 2023 22:26:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1690057613;
+        bh=/NfZHk2r0r5O3/cXEnU1+UoN/5FO53TePxKwYDuLCpA=;
+        h=From:To:Cc:Subject:Date;
+        b=PKe1cTqqVlcZfB/XOHKLcypj0NEfxBin5w2lxtP0qdd4RRKgRGSxn/m4HCEafiOkV
+         TUI6F7smKn+oyoepr6K6HVUqdlW/NEgK/AaehZR2ODes5kzkTSUhYlIoflc1pjEQu/
+         mhqu55prWGfKSkBv/caL88GXasi9SxAQPXloIq7RDUPgXv7dNIPzV8NpbtCjN/GJLW
+         lDa+uVb+19stEJXPiOl0oV9PVu2ce6MDSG0dkKTGVAfMAHIFG/enr10b3QvpoCMAwC
+         VyxXO398snf6NIaQhN+OLXknMzgVjSKnFmQQ1BWxV5QiMYMRB6heVSh/fxxL6vHJPz
+         tlt5G/3UEFAQg==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 22 Jul 2023 22:26:53 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] leds: ns2: Slightly simplify a memory allocation
+Date:   Sat, 22 Jul 2023 22:26:49 +0200
+Message-Id: <560b8f140c19a7da40f5e9540c3ef312969b0dc4.1690057595.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:6a20:556:b0:130:f967:83dc with HTTP; Sat, 22 Jul 2023
- 10:33:32 -0700 (PDT)
-Reply-To: mrsvl06@gmail.com
-From:   Veronica Lee <barr.freemanukoh@gmail.com>
-Date:   Sat, 22 Jul 2023 19:33:32 +0200
-Message-ID: <CAB6WZPoaKVWPbmVCghccn8Ed=43UndtTt_gOWQ-F7rurprkDnQ@mail.gmail.com>
-Subject: re
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-16nXnNeV150g15nXp9eZ16jXmSwg15DXoNeZINek15XXoNeUINeQ15zXmdeaINec157XmdeT16Ig
-16nXkdeo16bXldeg15kg15zXl9ec15XXpyDXkNeZ16rXmiDXkNecINeq15TXodehINec15TXqdeZ
-15Eg15zXpNeo15jXmdedDQo=
+Use devm_kcalloc() instead of devm_kzalloc()+array_size().
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/leds/leds-ns2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
+index 1677d66d8b0e..f3010c472bbd 100644
+--- a/drivers/leds/leds-ns2.c
++++ b/drivers/leds/leds-ns2.c
+@@ -247,7 +247,7 @@ static int ns2_led_probe(struct platform_device *pdev)
+ 	if (!count)
+ 		return -ENODEV;
+ 
+-	leds = devm_kzalloc(dev, array_size(sizeof(*leds), count), GFP_KERNEL);
++	leds = devm_kcalloc(dev, count, sizeof(*leds), GFP_KERNEL);
+ 	if (!leds)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
+
