@@ -2,83 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD6475F8AC
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jul 2023 15:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 180887602EC
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jul 2023 01:03:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231807AbjGXNit (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Jul 2023 09:38:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37152 "EHLO
+        id S230185AbjGXXD3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Jul 2023 19:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbjGXNiY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Jul 2023 09:38:24 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2AA3C0B
-        for <linux-leds@vger.kernel.org>; Mon, 24 Jul 2023 06:36:44 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99b78fda9a8so424410066b.1
-        for <linux-leds@vger.kernel.org>; Mon, 24 Jul 2023 06:36:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690205767; x=1690810567;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CUZQpPdIT858egNmU25ruQR94eOxPvH6ltaodarNd9g=;
-        b=uz3c1UnB5ZXJhSrBInto1AcNQVdonbA1zngvwd1fUOakUAKuUGuZ9tef8/jNk+qC8o
-         cPm3O6xdgYS3r2j422yCFMDvg81CqPMOkgBBwJ2M2zf82HkUE1fmhoX2IY67ngeGApGF
-         iW+wE1ghO7KbnzIl+y6FcBSqURnEzI/YIVsBBDvuJNYj/t324Ubx168t1tiNFzaOFfFp
-         9m0zZCAJr+xrz+WRx64Q0GhDZChKBKWya4Onl+zWI8bvZNlF5w438dyx48yK7VsGplkv
-         IVXo3kOfUWLMO1MtRM5omsRMYpgvg74H/grqZF8UlrI+B4I/dGOUP5vnDzOcYOac15WX
-         56mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690205767; x=1690810567;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CUZQpPdIT858egNmU25ruQR94eOxPvH6ltaodarNd9g=;
-        b=enDWy6icGQ+1ITugxyHFaGZ3seq036MTVg85ba/AILjC/IIv3CBGtOdnLcA1VXCsat
-         5WZnAAX+Yc8WSTUQg/oY9K6FbjioqmEsE12YAXu9SJijhChT0gLNJt3q6DnR3Go9swRL
-         ZGCoaCqNMsCQJbUK0ocVnR7F/0xsPdoCwcKLHwZnXCs9bQ2JnP0FsqKhsXdIORjjEavI
-         OTrJ0ntXZcBVBZoJK3GlILM3bhPYBfadw3wlzsZoxFFBkxe6NpGJyKPx0wZRlsmAP7+A
-         jWu3Qgaoa4j0o1WN20/xa9haT5tdkhIw6lHd1N9Q6WZl6LdDZdQqD56nyWTeOsaChbt2
-         65Vw==
-X-Gm-Message-State: ABy/qLYzHTC1Hk8ijTCZZOO31+PAu6nRgnQwtBeKkN3I1FyCuJSBPa9e
-        njfZuli/K8ML384Hr2q93l2DuA==
-X-Google-Smtp-Source: APBJJlEFZc2GAnLQ7Chh6jd7HJTFUIs3C1+QLUm3qcXM4djlWORHjq2OVwXgSuJWE+3KbN4PA5mQ5Q==
-X-Received: by 2002:a17:906:778f:b0:994:3207:cde3 with SMTP id s15-20020a170906778f00b009943207cde3mr11143513ejm.49.1690205767468;
-        Mon, 24 Jul 2023 06:36:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id p24-20020a170906a01800b00992f2befcbcsm6764671ejy.180.2023.07.24.06.36.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jul 2023 06:36:06 -0700 (PDT)
-Message-ID: <68c371ed-f178-9d85-da31-4b5b894813cd@linaro.org>
-Date:   Mon, 24 Jul 2023 15:36:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: Add gpio-line-names to PCA9532
- GPIO
-Content-Language: en-US
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S229625AbjGXXD3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Jul 2023 19:03:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A85EA;
+        Mon, 24 Jul 2023 16:03:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60C6D6145A;
+        Mon, 24 Jul 2023 23:03:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE69C433C7;
+        Mon, 24 Jul 2023 23:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690239806;
+        bh=HdXCBkJC6y8xmaikj3v3JuRSAllSb+fugmrt05+9R+8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tP4SLIjxJM84HZM8PVsNB6zuSpHeExq9O/E/+5sE5BAPATPnujMXngLls2F16qiL/
+         +GXpgss+DgrCRuMCQj1kWxFy8kEe3YbgDVd2iTSjbvg6StfMzeZFG5VCt0rtJMV/p1
+         KFGDE3zJqKs5/EMbmH6TJeU0ZqelZ01e5YD0r83VnWfsJW9240mOJZT8bCJGpiYaXK
+         IV9w5CdCu1sNAZNmsvfndWz9n7C0D53TU7BbMjOKyGi/suyQtkZhKfHj4R8loDD3Wa
+         IMNkPkAO0+grfC4sKzKR1edV4IPe3VnxuwlVAgx1Qr5d4AovDK3CZYWe8pJmOdH4AG
+         Dr5R7vokMWIDg==
+Received: (nullmailer pid 1018011 invoked by uid 1000);
+        Mon, 24 Jul 2023 23:03:24 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <20230724063520.182888-1-alexander.stein@ew.tq-group.com>
- <20230724063520.182888-2-alexander.stein@ew.tq-group.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230724063520.182888-2-alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        Iskren Chernev <me@iskren.info>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: leds: Convert Panasonic AN30259A to DT schema
+Date:   Mon, 24 Jul 2023 17:02:58 -0600
+Message-Id: <20230724230258.1017258-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,16 +58,172 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 24/07/2023 08:35, Alexander Stein wrote:
-> This is a gpio-controller, so gpio-line-names should be allowed as well.
-> pca9532 supports up to 16 GPIOs.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-
+Convert the Panasonic AN30259A 3-channel LED controller binding to DT
+schema format.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v2:
+ - Update maintainer
 
-Best regards,
-Krzysztof
+ .../bindings/leds/leds-an30259a.txt           | 55 ------------
+ .../bindings/leds/panasonic,an30259a.yaml     | 84 +++++++++++++++++++
+ 2 files changed, 84 insertions(+), 55 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-an30259a.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-an30259a.txt b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
+deleted file mode 100644
+index cbd833906b2b..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-an30259a.txt
++++ /dev/null
+@@ -1,55 +0,0 @@
+-* Panasonic AN30259A 3-channel LED driver
+-
+-The AN30259A is a LED controller capable of driving three LEDs independently. It supports
+-constant current output and sloping current output modes. The chip is connected over I2C.
+-
+-Required properties:
+-	- compatible: Must be "panasonic,an30259a".
+-	- reg: I2C slave address.
+-	- #address-cells: Must be 1.
+-	- #size-cells: Must be 0.
+-
+-Each LED is represented as a sub-node of the panasonic,an30259a node.
+-
+-Required sub-node properties:
+-	- reg: Pin that the LED is connected to. Must be 1, 2, or 3.
+-
+-Optional sub-node properties:
+-	- function :
+-		see Documentation/devicetree/bindings/leds/common.txt
+-	- color :
+-		see Documentation/devicetree/bindings/leds/common.txt
+-	- label :
+-		see Documentation/devicetree/bindings/leds/common.txt (deprecated)
+-	- linux,default-trigger :
+-		see Documentation/devicetree/bindings/leds/common.txt
+-
+-Example:
+-
+-#include <dt-bindings/leds/common.h>
+-
+-led-controller@30 {
+-	compatible = "panasonic,an30259a";
+-	reg = <0x30>;
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-
+-	led@1 {
+-		reg = <1>;
+-		linux,default-trigger = "heartbeat";
+-		function = LED_FUNCTION_INDICATOR;
+-		color = <LED_COLOR_ID_RED>;
+-	};
+-
+-	led@2 {
+-		reg = <2>;
+-		function = LED_FUNCTION_INDICATOR;
+-		color = <LED_COLOR_ID_GREEN>;
+-	};
+-
+-	led@3 {
+-		reg = <3>;
+-		function = LED_FUNCTION_INDICATOR;
+-		color = <LED_COLOR_ID_BLUE>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+new file mode 100644
+index 000000000000..e918dceea082
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/panasonic,an30259a.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/panasonic,an30259a.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Panasonic AN30259A 3-channel LED controller
++
++maintainers:
++  - Iskren Chernev <me@iskren.info>
++
++description:
++  The AN30259A is a LED controller capable of driving three LEDs independently.
++  It supports constant current output and sloping current output modes. The chip
++  is connected over I2C.
++
++properties:
++  compatible:
++    const: panasonic,an30259a
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^led@[1-3]$":
++    $ref: common.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      reg:
++        enum: [ 1, 2, 3 ]
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@30 {
++            compatible = "panasonic,an30259a";
++            reg = <0x30>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            led@1 {
++                reg = <1>;
++                linux,default-trigger = "heartbeat";
++                function = LED_FUNCTION_INDICATOR;
++                color = <LED_COLOR_ID_RED>;
++            };
++
++            led@2 {
++                reg = <2>;
++                function = LED_FUNCTION_INDICATOR;
++                color = <LED_COLOR_ID_GREEN>;
++            };
++
++            led@3 {
++                reg = <3>;
++                function = LED_FUNCTION_INDICATOR;
++                color = <LED_COLOR_ID_BLUE>;
++            };
++        };
++    };
++...
+-- 
+2.40.1
 
