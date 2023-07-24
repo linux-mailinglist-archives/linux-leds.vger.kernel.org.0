@@ -2,63 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4CE575F1EE
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jul 2023 12:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA7775F55A
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Jul 2023 13:44:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232855AbjGXKEU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Jul 2023 06:04:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36784 "EHLO
+        id S229872AbjGXLoQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Jul 2023 07:44:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233179AbjGXKDF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Jul 2023 06:03:05 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30E6525D
-        for <linux-leds@vger.kernel.org>; Mon, 24 Jul 2023 02:55:36 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-991fe70f21bso669629066b.3
-        for <linux-leds@vger.kernel.org>; Mon, 24 Jul 2023 02:55:36 -0700 (PDT)
+        with ESMTP id S229847AbjGXLoP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Jul 2023 07:44:15 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0154E5C;
+        Mon, 24 Jul 2023 04:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690192455; x=1690797255;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=94dQO8LxQMdHUG+2c49m7yEu0QyNmeaEeNnaDcdEi50=;
-        b=C6upeyf13JVH1fJWFmxl5BfIVVJfySCtaefw1vI3x426/paosiVxJES5cj2CGWW2KS
-         Cr/m8HDwA0yaKDzQUno8Nq8tigb2vq0EXkwst84ddXYuKmFLmzEaRwboQ6TczmL3wAVv
-         UZ2GE+0c4ocQG69t1izN3t24OytyRFu5kErU9QUsF8Tdc94ZLAwmly6y6rFwbSczEVMy
-         AP4yR1Xe+rvzdZ91EjcwvRQFccLWdWPr2BBk6KNL0+cl4RY1xAUR1S9oB18B8ibq4vKy
-         wZgiFS7XsagNbsm/SvbcS9oHEySLYJJJXxjVOP9bxf4y5oWwItOWI2wLPuYFtIPtowp+
-         MxKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690192455; x=1690797255;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=94dQO8LxQMdHUG+2c49m7yEu0QyNmeaEeNnaDcdEi50=;
-        b=SOj9jxEA4s8yZCoOm5WVniog6y8SI5Bk7T8aTjzYVr2n/UAdgFqpW2XRNwBrTEaH5a
-         mNpUZiS48zW19Do09P8thqV88ybiEekUKPawOgcfLHDXj+ZvzW8FxysuFpYzCdOLOPn/
-         Bbkv0pySmdz9A1RDKWiXg1Y1zupKYKqhZLS5GQHRdW+tpvJ35S/Y/2zEDmnuESlTDa61
-         1xyRRh9y3Y+WXRgF6S5Blqdc/sMT7pH7xIuGNSnVSZobdMptAQ/mcILQWcUQWfUcKPZ1
-         DOndHyMWMqZX0V8JilCmpIHeERPOsd34kJCjPH4O17eMHG9gg3QWBRkVel312ZbuApvE
-         rQXg==
-X-Gm-Message-State: ABy/qLbObhEl4t8opFbhQI1My6i1nkzWMEIvI5jTetMngHuiu/UfpMY2
-        bi/bVakyQKUZsyVkZWQlk5Fw3cFHS7T9JB3ze+S5Sg==
-X-Google-Smtp-Source: APBJJlFaYyJc7x+0ExqkM6W4yVmevNoyHsVyru+pCZlw6jseQKGHeO49Y942+w5FqL1ss44s207a2g==
-X-Received: by 2002:a17:906:778f:b0:982:45ca:ac06 with SMTP id s15-20020a170906778f00b0098245caac06mr8953749ejm.60.1690192455496;
-        Mon, 24 Jul 2023 02:54:15 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906248d00b0099307a5c564sm6473655ejb.55.2023.07.24.02.54.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jul 2023 02:54:15 -0700 (PDT)
-Message-ID: <29b62cc6-bc54-9a43-211b-b2d7579218b7@linaro.org>
-Date:   Mon, 24 Jul 2023 11:54:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: gpio: Add gpio-line-names to STMPE
- GPIO
-Content-Language: en-US
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1690199054; x=1721735054;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=AhAV6EXXTRBcrPub9eD6b5LPrOcw+eceIVL16f8Xp7s=;
+  b=ncx2rnNoUcZeDKs1NGBZnRvMyQd7Z5qWPZRF8t1QdnfQnEBTRd++j4Y3
+   LfBJ5ik34kVKelMXX5n22Kk2Floh+bKxU6iV483UU/xYLT9nbPPAvgDmb
+   NLFLqzU3isP2aX4FYBb0/Jmf1C8BgRJPxIsJujW03F8G7h5gNFmIOQ8so
+   BjZdt9b31iOpk9uSG3ZWr8uBW+cKGau2bQXUaGDxZn9FPrHlyuIyNLbr0
+   75LO4gn5+RF6JyJAj/AcgeCIt190irGKgkzECMVFwcFqC3Oj13yp065aa
+   hfYdx1Wm0+UMPlsMZyFd0Dox2rrpDPyVOcI3Qb92H2BkyyGwokI6BrbIv
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,228,1684792800"; 
+   d="scan'208";a="32080086"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 24 Jul 2023 13:44:11 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6F9B2280078;
+        Mon, 24 Jul 2023 13:44:11 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>,
         Andy Shevchenko <andy@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -66,67 +46,123 @@ To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com
-References: <20230724063520.182888-1-alexander.stein@ew.tq-group.com>
- <0f016242-2380-274e-c6a4-118a5872412e@linaro.org>
- <21957396.EfDdHjke4D@steina-w>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <21957396.EfDdHjke4D@steina-w>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2 1/2] dt-bindings: gpio: Add gpio-line-names to STMPE GPIO
+Date:   Mon, 24 Jul 2023 13:44:11 +0200
+Message-ID: <4285919.ejJDZkT8p0@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <29b62cc6-bc54-9a43-211b-b2d7579218b7@linaro.org>
+References: <20230724063520.182888-1-alexander.stein@ew.tq-group.com> <21957396.EfDdHjke4D@steina-w> <29b62cc6-bc54-9a43-211b-b2d7579218b7@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 24/07/2023 09:58, Alexander Stein wrote:
-> Hi,
-> 
-> Am Montag, 24. Juli 2023, 09:23:09 CEST schrieb Krzysztof Kozlowski:
->> On 24/07/2023 08:35, Alexander Stein wrote:
->>> This is a gpio-controller, so gpio-line-names should be allowed as well.
->>> stmpe2403 supports up to 24 GPIOs.
->>>
->>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->>> ---
->>> Changes in v2:
->>> * Add min/maxItems
->>>
->>>  Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
->>> b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml index
->>> 22c0cae73425..4555f1644a4d 100644
->>> --- a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
->>> +++ b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
->>>
->>> @@ -28,6 +28,10 @@ properties:
->>>    gpio-controller: true
->>>
->>> +  gpio-line-names:
->>> +    minItems: 1
->>> +    maxItems: 24
->>> +
->>
->> I am sure there is no variant with one GPIO.
-> 
-> That's true. But if only one GPIO is actually connected there is no use 
-> enforcing to add empty entries.
-> AFAIK it is also allowed to provide an incomplete array.
+Am Montag, 24. Juli 2023, 11:54:12 CEST schrieb Krzysztof Kozlowski:
+> On 24/07/2023 09:58, Alexander Stein wrote:
+> > Hi,
+> >=20
+> > Am Montag, 24. Juli 2023, 09:23:09 CEST schrieb Krzysztof Kozlowski:
+> >> On 24/07/2023 08:35, Alexander Stein wrote:
+> >>> This is a gpio-controller, so gpio-line-names should be allowed as we=
+ll.
+> >>> stmpe2403 supports up to 24 GPIOs.
+> >>>=20
+> >>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >>> ---
+> >>> Changes in v2:
+> >>> * Add min/maxItems
+> >>>=20
+> >>>  Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>=20
+> >>> diff --git a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> >>> b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml index
+> >>> 22c0cae73425..4555f1644a4d 100644
+> >>> --- a/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> >>> +++ b/Documentation/devicetree/bindings/gpio/st,stmpe-gpio.yaml
+> >>>=20
+> >>> @@ -28,6 +28,10 @@ properties:
+> >>>    gpio-controller: true
+> >>>=20
+> >>> +  gpio-line-names:
+> >>> +    minItems: 1
+> >>> +    maxItems: 24
+> >>> +
+> >>=20
+> >> I am sure there is no variant with one GPIO.
+> >=20
+> > That's true. But if only one GPIO is actually connected there is no use
+> > enforcing to add empty entries.
+> > AFAIK it is also allowed to provide an incomplete array.
+>=20
+> Did you test it? Linux prints warning. Warning means "not allowed".
 
-Did you test it? Linux prints warning. Warning means "not allowed".
+I did and I don't see any warnings.
+I using the following (modified) GPIO subnode on an stmpe811 chip:
+gpio {
+	compatible =3D "st,stmpe-gpio";
+	gpio-controller;
+	#gpio-cells =3D <2>;
+	interrupt-controller;
+	#interrupt-cells =3D <2>;
+	/* GPIO 5-7 used for touch */
+	st,norequest-mask =3D <0xf0>;
+	gpio-line-names =3D "GPIO_ADC_I2C1_1";
+};
 
-The expectation is that the rest are named "NC".
+I only see the warning "stmpe-gpio stmpe-gpio: DMA mask not set", but that'=
+s a=20
+different matter.
+Only GPIO 0-3 are connected. Original property is
+gpio-line-names =3D "GPIO_ADC_I2C1_1",
+	        "GPIO_ADC_I2C1_2",
+	        "GPIO_ADC_I2C1_3",
+	        "GPIO_ADC_I2C1_4";
+
+Also gpioinfo shows that the gpiochip has 8 pins while only the first one i=
+s=20
+named.
+
+gpiochip7 - 8 lines:
+        line   0: "GPIO_ADC_I2C1_1" unused input active-high=20
+        line   1:      unnamed       unused   input  active-high=20
+        line   2:      unnamed       unused   input  active-high=20
+        line   3:      unnamed       unused   input  active-high=20
+        line   4:      unnamed       unused   input  active-high=20
+        line   5:      unnamed       unused   input  active-high=20
+        line   6:      unnamed       unused   input  active-high=20
+        line   7:      unnamed       unused   input  active-high
+
+
+If 4 GPIOs are named the output shows names for lines 1-3 accordingly, but =
+no=20
+errors/warnings as well.
+
+> The expectation is that the rest are named "NC".
+
+Where does this expectation come from? Is there any pending change I am not=
+=20
+aware of?
 
 Best regards,
-Krzysztof
+Alexander
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
