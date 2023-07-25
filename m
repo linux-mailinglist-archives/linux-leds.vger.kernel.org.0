@@ -2,128 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96C20761BAC
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Jul 2023 16:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D908676224F
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jul 2023 21:34:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbjGYO3C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Jul 2023 10:29:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37208 "EHLO
+        id S230123AbjGYTeA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Jul 2023 15:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231630AbjGYO2l (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jul 2023 10:28:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03B72698
-        for <linux-leds@vger.kernel.org>; Tue, 25 Jul 2023 07:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690295243;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dJnF4IMbWJYrxuB99HnlouteaOo1bhGX9cG4fPovAcE=;
-        b=JAcYhkvJQbcwNObDYC5QL34ExxoOBTSI58BPXD2ZLgXF0g7KJ8J2f0mJv5wW70198RDYDC
-        3uuFi/7eHwRiJX2OpQSMGqrUdXkV0c9U6VjKNByJxdqGnVvebQPZGU10oMVXvQVe8w4CIO
-        wWBUuu5HU9asrzq9Rg2yeWSKnGTzmfs=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-543-tVtDr9BWMyiBSWKXVwCJuA-1; Tue, 25 Jul 2023 10:27:19 -0400
-X-MC-Unique: tVtDr9BWMyiBSWKXVwCJuA-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-4fdde274729so4651254e87.3
-        for <linux-leds@vger.kernel.org>; Tue, 25 Jul 2023 07:27:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690295238; x=1690900038;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dJnF4IMbWJYrxuB99HnlouteaOo1bhGX9cG4fPovAcE=;
-        b=OtdTjcTAyVsdRrS82FZ+1q65o1Ife9Jz/h86/Ne2W9FAc9ALEtUqavIlnyRWpEWJ3m
-         C37CHRNONc6saocJyZIRdzfLHIaRAVm+JAX27vSEm8DZ51OpLqV//N4MSH3/gOjkyID3
-         zmUBP/TgOpi6xaTNWdmXKarIgoXP/+xJiK5tCypZ2Nsi66E3YYt48GtD0o/f/hpbvPUX
-         wMNFwx4Y8ulk5VQ5KHKZO7n5hJF9+EnvdE8yg0XcMLPlO60Jpp0iE87DIYjAaHARfZAz
-         FieqOaSOdzKMt41uN/EgKV/OeV5zVN1b69fEduMchN1JCqR07zoFZjGqrl1w93Crb6AB
-         dQuA==
-X-Gm-Message-State: ABy/qLYdoFYPsEDWS7cnAkXpmckxjYywMDu/v/dTcJjG1twMHCvTlthY
-        EZpD5ijubLm8nd5GY34wsWVTt+nPljzAzLCHpbf1DpH1WDYP7FcGQchrqL8i48rytWizobMf8gw
-        c5XGKbuTdFvsfYhMDcIqFGg==
-X-Received: by 2002:a2e:9c93:0:b0:2b4:83c3:d285 with SMTP id x19-20020a2e9c93000000b002b483c3d285mr8493741lji.38.1690295238439;
-        Tue, 25 Jul 2023 07:27:18 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFhD9QRiReJqEWzsge7+DT1OKpTu9gEWpoa4J8ILHirJYUnLhsvhOt61gui1AJ/oAJbR+UhEw==
-X-Received: by 2002:a2e:9c93:0:b0:2b4:83c3:d285 with SMTP id x19-20020a2e9c93000000b002b483c3d285mr8493718lji.38.1690295237969;
-        Tue, 25 Jul 2023 07:27:17 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id u15-20020a1709064acf00b00992025654c4sm8215701ejt.182.2023.07.25.07.27.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 07:27:16 -0700 (PDT)
-Message-ID: <be72ecd8-cec1-41ec-b586-e9fb413b1458@redhat.com>
-Date:   Tue, 25 Jul 2023 16:27:16 +0200
+        with ESMTP id S229583AbjGYTeA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jul 2023 15:34:00 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1FE31FF5;
+        Tue, 25 Jul 2023 12:33:57 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36PHoDGG009819;
+        Tue, 25 Jul 2023 19:33:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=9j+VHchYnzk6UoD4RPYxVil4eIwt8y1eekFEsiJS2ew=;
+ b=XVvpPWiJxpc1DCO2/yTQ2xmeYbdpD7SCiNxaHFwiHLFKsrmAez2566zM2SBnfy1x9Gr6
+ z2LtF7ms8Y8vDfSZD16CT8TgL6VUpW4OocCaW79CI+RUE3V7Im8guLQOGWfo68iqSAp5
+ 7w09TtOTi3T+2XXah5JBReMVz+j83309IV8/qhLG7uZp1TJywIBorUJO6W2whyWNMfdM
+ dx4qLixrPLamz3GFSb483oMoHZskjobjTN7A7EJFYHQK8kUhpGnpeM6lLb5fhwzS73lC
+ qJM2/rRdYD2UFW1xPuVxjuzBUJv4gOIUOxMY2+w557STdvDa6FlyhfFCWCR6izT0VAPM uw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s2gp1rjvb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Jul 2023 19:33:44 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36PJXglB012437
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Jul 2023 19:33:42 GMT
+Received: from [10.110.48.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 25 Jul
+ 2023 12:33:41 -0700
+Message-ID: <bf8bab0c-3081-91e0-5dbc-658aa8bab68a@quicinc.com>
+Date:   Tue, 25 Jul 2023 12:33:34 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 0/3] platform/x86: move simatic drivers into subdir
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Henning Schild <henning.schild@siemens.com>
-Cc:     Lee Jones <lee@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Mark Gross <markgross@kernel.org>,
-        Tobias Schaffner <tobias.schaffner@siemens.com>
-References: <20230719153518.13073-1-henning.schild@siemens.com>
- <ZLgJ7Oz1XlicGzEn@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZLgJ7Oz1XlicGzEn@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/7] Add support for LUT PPG
+Content-Language: en-US
+To:     Luca Weiss <luca.weiss@fairphone.com>, <pavel@ucw.cz>,
+        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+CC:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+References: <20230621185949.2068-1-quic_amelende@quicinc.com>
+ <CTMFUY0GPRNK.532E4O05LWKW@otso>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <CTMFUY0GPRNK.532E4O05LWKW@otso>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nMag38QmBZyIbEOXDgw7hhKPmH-nvB9u
+X-Proofpoint-ORIG-GUID: nMag38QmBZyIbEOXDgw7hhKPmH-nvB9u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-25_10,2023-07-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=841 clxscore=1011 lowpriorityscore=0 bulkscore=0 phishscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307250167
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-
-On 7/19/23 18:06, Andy Shevchenko wrote:
-> On Wed, Jul 19, 2023 at 05:35:15PM +0200, Henning Schild wrote:
->> change since v1:
->>  - switch LED/wdt Kconfig to "default y"
->>  - remove guard which could hide whole siemens submenu, and default m
->>
->> This series does two things. It builds up a Kconfig inheritance chain
->> for all platform device drivers, namely Watchdog and LED. And then it
->> puts all Siemens Simatic IPC drivers in the platform/x86/ directory in
->> a subdirectory called "siemens".
->>
->> That is so that users have to flip less config switches, and to ease
->> maintenance.
+On 6/26/2023 1:28 AM, Luca Weiss wrote:
+> Hi Anjelique,
 > 
-> All three good enough, although I prefer the ordering that 'tristate'
-> followed by 'default' without interleaved 'depends on'. I leave it
-> to Hans. Other that that,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> On Wed Jun 21, 2023 at 8:59 PM CEST, Anjelique Melendez wrote:
+>> In certain PMICs, LUT pattern and LPG configuration can be stored in SDAM
+>> modules instead of LUT peripheral. This feature is called PPG.
+>>
+>> This change series adds support for PPG. Thanks!
+> 
+> Thanks for sending this series!
+> 
+> I've tested this on SDM632 Fairphone 3 and everything appears to work
+> fine with setting the pattern. Using fbcli from feedbackd[0] the pattern
+> shows up correctly.
+> 
+> The only thing missing really is the addition of the pbs node and adding
+> the nvmem/nvmem-names & qcom,pbs-client to the lpg node in pmi632.dtsi -
+> something like the patch below.
+> 
+> Are you planning to include this in the next revision? Otherwise I can
+> also send a patch for the pmi632.dtsi after this series has landed.
+> 
+> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pmi632)
+> 
+> [0] https://source.puri.sm/Librem5/feedbackd
+> 
+> Regards
+> Luca
+> 
 
-Thank you.
+Hi Luca,
 
-Lee, Guenter do you want me to take the entire series on top of:
+So sorry for the late response, I missed this message! Thank you for testing!
 
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=platform-drivers-x86-simatic-ipc (aka ib-pdx86-simatic-v6.6)
+I was not planning to include adding the pbs node or updating lpg node in pmi632.dtsi.
+If you are able to send a patch for pmi632.dtsi after that would be great!
 
-And send an updated pull-req ?
-
-Or shall I take just 3/3 and will you take the Kconfig
-changes from 1/3 resp 2/3 directly ?
-
-Regards,
-
-Hans
-
+Thanks,
+Anjelique
 
 
