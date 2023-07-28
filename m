@@ -2,89 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C42766496
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 08:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 971A1766559
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 09:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbjG1G6I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Jul 2023 02:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35418 "EHLO
+        id S232323AbjG1H3Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Jul 2023 03:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233249AbjG1G55 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 02:57:57 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4D51984
-        for <linux-leds@vger.kernel.org>; Thu, 27 Jul 2023 23:57:56 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qPHQ1-00087i-Fk; Fri, 28 Jul 2023 08:57:45 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qPHQ0-002eF2-5g; Fri, 28 Jul 2023 08:57:44 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qPHPz-008R2s-Dv; Fri, 28 Jul 2023 08:57:43 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH] leds: qcom-lpg: Drop assignment to struct pwmchip::base
-Date:   Fri, 28 Jul 2023 08:57:39 +0200
-Message-Id: <20230728065739.580281-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S233454AbjG1H3X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 03:29:23 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A49A3582
+        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:29:20 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fbea147034so19009105e9.0
+        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690529358; x=1691134158;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2OdGR/VabDO/LNWkLVSY7orQ8Mq9/77wQxJuYipxOG0=;
+        b=mjc6wHufEVkvRMRtcUmWZN019LJmlKVhXLbHhoXr+gQUDyLbegB+xSdrXNUFmlX+Zy
+         vYuinE6pM7MzYNLfzlGULPn/bvZYFRNMmTJRhjFw2783cudqbbEp9n9Eqm8cMsmsH1h7
+         Av7UYO413Dcz0KjyoajjSRADWSJhPgg3dOzomCpREFf5Ud26fP7aYHf7hahbSTF0OzRB
+         ujS7ebH0V/VVHPwIocFJoJQPeGlyrh5A0q4WDt49SQx1m2X7BJ6dhIhYnKPZIpbhMYN2
+         8G6yKcPFnPEL5VwaSrFGruNaCKwmVlg4nnPsc+nTT5Z0C6wt7zY/SXcq8EgyQY/0vGPs
+         i/6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690529358; x=1691134158;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2OdGR/VabDO/LNWkLVSY7orQ8Mq9/77wQxJuYipxOG0=;
+        b=NEx1v1cA5o3zhEf2P2Y96yC0FicfNTHRSGzTM0xAPNa7cm12FVJ/3Pdcp+XeXad6wb
+         hhqXmmwAhXfMF+1lhvNUE6Up9O0zzzCVFM0GvBb39TOSG3sjdzbX0HyK5VlyZbbxqC8w
+         GbjIJwoh+N2lv82CVlCcjqyrc4f0uIP/Aw/XRv0MBUVZalHKL1LwfuGNWAQb7q87Z4CI
+         3qHdjaiLIyuVef3L1peTjU7ANGKIatl9g4mzWkZTxOT/LDojUotFVv6b17KZ+B5zoFFq
+         1RuQpCi57yBS9vZaQL1XZVGpowVx3LRVOQ5wLeoJTSzUk8+UrDVzgTorHEddW0xq3vsr
+         2fiA==
+X-Gm-Message-State: ABy/qLYtBL47h2ZCpPlDxwPL+n2PZlbS0nZQufxQf/exr1BOvTGiXVQR
+        ZKL1+NqccCxKDQ9O3l5M5d8dsK03Zw9c2RXcdZX5mw==
+X-Google-Smtp-Source: APBJJlGSt9dgN5c4aTUy+hJwsr/kHnMkoxfHt5u5Ia+Xr1LsrHNFkN0Pww8Z+/PFnvKzHyM9usXBAg==
+X-Received: by 2002:a1c:f203:0:b0:3fc:85c:5ed2 with SMTP id s3-20020a1cf203000000b003fc085c5ed2mr926353wmc.11.1690529358644;
+        Fri, 28 Jul 2023 00:29:18 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id p5-20020adfcc85000000b003144b50034esm3990491wrj.110.2023.07.28.00.29.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 00:29:18 -0700 (PDT)
+Message-ID: <a5539e11-7717-b544-e1b0-8a89ec6bd1e7@linaro.org>
+Date:   Fri, 28 Jul 2023 09:29:16 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/3] dt-bindings: Add vendor prefix for Broadchip
+ Technology Group Co., Ltd.
+Content-Language: en-US
+To:     Matus Gajdos <matuszpd@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230727160525.23312-1-matuszpd@gmail.com>
+ <20230727160525.23312-2-matuszpd@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230727160525.23312-2-matuszpd@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=998; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=845Cv8LFVOCbFmNAvr+AGvykNh6/RSBGwmWMMyvTQek=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkw2bfG9fFr/jxy1Wo+A2MtDqYOB/Mz+GiwdRHz e63FK9+/1CJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZMNm3wAKCRCPgPtYfRL+ TqJNB/4p74GfdGCN4pf4v0MLm4I2BzKhxdy3/AqILmhrq6rmrSnKnO5yvNDHjL9uih+QzLh5tSX 1aWkjjZkvQBGcBLHbugh844g+Md0urtjdxott0TFdeAh/9RtSOvqOW7LrrgCCoRp9dTKOu0OwCE 9cjezfDm06anuMY+rFaidSho+HrDRO0dp1mHwA7PL+cNA2C89cVv5vv3JhlhlBed6b8pOslFVIP lCy0uZJUCBZgZ+f0MyR9+fhJ0bJaXS87zKpjOuL+31U/eWC6nA/IMuwflGybyUx88fobbWsPCGm Nu6sps0Avb9Bfx94Cg2pFrnRSrHUMzcnnsqKa4VQ5W0py9RZ
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Since commit f9a8ee8c8bcd ("pwm: Always allocate PWM chip base ID
-dynamically") there is no effect any more for assigning this variable. See
-pwmchip_add() which unconditionally overwrites this member.
+On 27/07/2023 18:05, Matus Gajdos wrote:
+> Website: http://www.broadchip.com
+> 
+> Signed-off-by: Matus Gajdos <matuszpd@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index af60bf1a6664..dc1ed3dc0c9f 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -202,6 +202,8 @@ patternProperties:
+>      description: Bosch Sensortec GmbH
+>    "^boundary,.*":
+>      description: Boundary Devices Inc.
+> +  "^broadchip,.*":
+> +    description: Broadchip Technology Group Co., Ltd.
+>    "^brcm,.*":
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+Does not look ordered. 'c' is before 'o'.
 
-this is the last driver setting .base. Would be great to get rid of that, as I
-might want to drop .base from the pwm core.
-
-Thanks for considering,
-Uwe
-
- drivers/leds/rgb/leds-qcom-lpg.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 59581b3e25ca..c2fc768eaf87 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -1093,7 +1093,6 @@ static int lpg_add_pwm(struct lpg *lpg)
- {
- 	int ret;
- 
--	lpg->pwm.base = -1;
- 	lpg->pwm.dev = lpg->dev;
- 	lpg->pwm.npwm = lpg->num_channels;
- 	lpg->pwm.ops = &lpg_pwm_ops;
-
-base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
--- 
-2.39.2
+Best regards,
+Krzysztof
 
