@@ -2,480 +2,504 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3EC2766589
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 09:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DFB766658
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 10:06:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234386AbjG1HmB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Jul 2023 03:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
+        id S233106AbjG1IG1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Jul 2023 04:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234390AbjG1HmA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 03:42:00 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C582D64
-        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:41:57 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so27487301fa.1
-        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:41:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690530116; x=1691134916;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YH0GXjtaVhK/TMonu2F4Vh27btTOGldL7tUWhIb9bOw=;
-        b=GuCPWiAIiVUTxHq1sCBm0TNcgNB1hUzg8FA5wayoNtyenmyCcQkTgxvdb8V3Dj5xfP
-         4pORprwQ3xAKLAnCmYmQOp78yYjulcOqyQHBoXwuqGbpoBUOKDQDL1DIaF7iqGQ68fuP
-         9ys860YY51xO0XH9AVUO/K7IFRn717Fdrac7sZBXpY8sID+6g/CjtAzKJObHlbcLiGXp
-         txnHjVty//epw7pxugbvUFS1FtlIjW9i8ryp5JEmmamDJL08i0RxdP38ZFF0PJwvv1II
-         VSFg0/SnOoH9gbM+9kVsPb9zZ3p+rMRCfeBNaRS157gOcpApxf0A4Fc/oZPfi3dABYY/
-         YuPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690530116; x=1691134916;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YH0GXjtaVhK/TMonu2F4Vh27btTOGldL7tUWhIb9bOw=;
-        b=Ww9hqUsryrYswYlMyAbLz/ByJGeZrDwLx7lZ04ZiaPv65OBd9N+aGM2fa/zR5Z/iyl
-         ErYjrLRN4PQyxOX/92lENwCLPcCmTIohlS4kkOeCgmb8hRWvPD1t5IdmH93mLqC/EfFC
-         tjcFpG//ZtvuXtcLvYOSx0akaCm4RAfr0erKIs6KUF/lPkaS/nqBY/hwHaMQOBiQxqrm
-         rhmMiNQMec3v/IpZd8LqwYdblHtIztFg3N4kLozfizWwwFHe6HGgml7eev7H9mmrkyP5
-         R4S7tX3w7iFb7BRv4IMi4vUupRHStS5o5tnXQuw6hWB3j5kpTt5oisisSdQwmSvWpwz5
-         ataQ==
-X-Gm-Message-State: ABy/qLaFhKEN/1qRrw+3K+Ym86SJDUq3gAhpeLmWOAHPBYkb0JO4Qqoe
-        vcuG8EIkyvi73CjvouxzSWtkoQ==
-X-Google-Smtp-Source: APBJJlF3Q/+Qg3SilY9zwDKIC0KKV+gjHMUyHV9eMz62tAvUfN8iw9my9w64tWBIJVFh0+mPtkNMzA==
-X-Received: by 2002:a2e:95c6:0:b0:2b7:339c:f791 with SMTP id y6-20020a2e95c6000000b002b7339cf791mr1119023ljh.25.1690530115906;
-        Fri, 28 Jul 2023 00:41:55 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id u22-20020a05600c211600b003fbcdba1a63sm3585055wml.12.2023.07.28.00.41.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 00:41:55 -0700 (PDT)
-Message-ID: <68dbe6b1-891c-76d4-7e5f-97cb6cc81b51@linaro.org>
-Date:   Fri, 28 Jul 2023 09:41:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] leds: Add Broadchip BCT3024 LED driver
-Content-Language: en-US
-To:     Matus Gajdos <matuszpd@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        with ESMTP id S232323AbjG1IGA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 04:06:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C444B4C13;
+        Fri, 28 Jul 2023 01:04:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E20362039;
+        Fri, 28 Jul 2023 08:04:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9882CC433C7;
+        Fri, 28 Jul 2023 08:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690531494;
+        bh=CXiZVvcV+ojGPFpfahfdm7Wb/7/9cDkOtsKxITsqOuI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nZKRfEzkiQ0izUp+ZniaHaY0JZCD+8/fpghcj1S2SXdnjd7DAh6J1vbLALVa8vrhU
+         07tumoA0fJcIhnNn+bTZhO7Qpej9Vy6cxSFJ/6uzE7AbOmQuG8pm6S/Kx1hYDLEasI
+         PFz5kztpAu8ClAAPCZxmgWv+KkM2TqjD5iMewGivje0WIwwVp+0lm6J7PE5UHII49B
+         /6/ldKZR/eCrofOaLKQZaRW0dX6pgZeYfGT8PVdiLa9Y4NNS8hA1M3klhjc2OON00V
+         llFt7sz9aB7iy2qBYUWHafEnGNWGNS+jaYPsnZ5Xok5kq2SQtk+Y74pZIueXE/h4J8
+         rHV0hQ2Z0lLDw==
+Date:   Fri, 28 Jul 2023 09:04:49 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Joseph Strauss <jstrauss@mailbox.org>
+Cc:     pavel@ucw.cz, jansimon.moeller@gmx.de, conor@kernel.org,
+        christophe.jaillet@wanadoo.fr, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20230727160525.23312-1-matuszpd@gmail.com>
- <20230727160525.23312-4-matuszpd@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230727160525.23312-4-matuszpd@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Subject: Re: [PATCH RESEND] Add multicolor support to BlinkM LED driver
+Message-ID: <20230728080449.GD8175@google.com>
+References: <20230713154425.13964-1-jstrauss@mailbox.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230713154425.13964-1-jstrauss@mailbox.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 27/07/2023 18:05, Matus Gajdos wrote:
-> The BCT3024 chip is an I2C LED driver with independent 24 output
-> channels. Each channel supports 256 levels.
+On Thu, 13 Jul 2023, Joseph Strauss wrote:
+
+> Add multicolor support to the BlinkM driver, making it easier to control
+> from userspace. The BlinkM LED is a programmable RGB LED. The driver
+> currently supports only the regular LED sysfs class, resulting in the
+> creation of three distinct classes, one for red, green, and blue. The
+> user then has to input three values into the three seperate brightness
+> files within those classes. The multicolor LED framework makes the
+> device easier to control with the multi_intensity file: the user can
+> input three values at once to form a color, while still controlling the
+> lightness with the brightness file.
 > 
-> Signed-off-by: Matus Gajdos <matuszpd@gmail.com>
+> The main struct blinkm_led has changed slightly. The struct led_classdev
+> for the regular sysfs classes remain. The blinkm_probe function checks
+> CONFIG_LEDS_BLINKM_MULTICOLOR to decide whether to load the seperate
+> sysfs classes or the single multicolor one, but never both. The
+> blinkm_set_mc_brightness() function had to be added to calculate the
+> three color components and then set the fields of the blinkm_data
+> structure accordingly.
+> 
+> Signed-off-by: Joseph Strauss <jstrauss@mailbox.org>
 > ---
->  drivers/leds/Kconfig        |   9 +
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-bct3024.c | 564 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 574 insertions(+)
->  create mode 100644 drivers/leds/leds-bct3024.c
-
-Thank you for your patch. There is something to discuss/improve.
-
-
+> Changes in v2:
+> - Replaced instances of the constant 3 with NUM_LEDS, where applicable
+> - Fixed formatting errors
+> - Replaced loop inside of blinkm_set_mc_brightness() with equivalent
+>   statements
+> - Changed id of multicolor class from 4 to 3
+> - Replaced call to devm_kmalloc_array() with devm_kcalloc()
+> Changes in v3:
+> - Add CONFIG_LEDS_BLINKM_MULTICOLOR to check whether to use multicolor
+>   funcitonality
+> - Extend well-known-leds.txt to include standard names for RGB and indicator
+>   LEDS
+> - Change name of Blinkm sysfs class according to well-known-leds.txt
+> - Simplify struct blinkm_led and struct blinkm_data
+> - Remove magic numbers
+> - Fix formatting errors
+> - Remove unrelated changes
 > 
+>  Documentation/leds/leds-blinkm.rst     |  27 +++-
+>  Documentation/leds/well-known-leds.txt |   8 +
+>  drivers/leds/Kconfig                   |   8 +
+>  drivers/leds/leds-blinkm.c             | 203 +++++++++++++++++--------
+>  4 files changed, 177 insertions(+), 69 deletions(-)
+
+Getting there.  Couple of nits now.
+
+> diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
+> index c74b5bc877b1..a483f20aead1 100644
+> --- a/Documentation/leds/leds-blinkm.rst
+> +++ b/Documentation/leds/leds-blinkm.rst
+> @@ -13,9 +13,27 @@ The device accepts RGB and HSB color values through separate commands.
+>  Also you can store blinking sequences as "scripts" in
+>  the controller and run them. Also fading is an option.
+>  
+> -The interface this driver provides is 2-fold:
+> +The interface this driver provides is 3-fold:
+>  
+> -a) LED class interface for use with triggers
+> +a) LED multicolor class interface for use with triggers
+> +#######################################################
+> +
+> +The registration follows the scheme::
+> +
+> +  blinkm-<i2c-bus-nr>-<i2c-device-nr>:rgb:indicator
+> +
+> +  $ ls -h /sys/class/leds/blinkm-1-9:rgb:indicator
+> +  brightness  device  max_brightness  multi_index  multi_intensity  power  subsystem  trigger  uevent
+> +
+> +The order in which to write the intensity values can be found in multi_index.
+> +Exactly three values between 0 and 255 must be written to multi_intensity to change the color::
+> +
+> +  $ echo 255 100 50 > multi_intensity
+> +
+> +The overall brightness of the color that you choose can also be changed by
+> +writing a value between 0 and 255 to the brightness file.
+> +
+> +b) LED class interface for use with triggers
+>  ############################################
+>  
+>  The registration follows the scheme::
+> @@ -50,7 +68,7 @@ E.g.::
+>    $
+>  
+>  
+> -b) Sysfs group to control rgb, fade, hsb, scripts ...
+> +c) Sysfs group to control rgb, fade, hsb, scripts ...
+>  #####################################################
+>  
+>  This extended interface is available as folder blinkm
+> @@ -79,6 +97,7 @@ E.g.::
+>  
+>  
+>  
+> -as of 6/2012
+> +as of 05/2023
+>  
+>  dl9pf <at> gmx <dot> de
+> +jstrauss <at> mailbox <dot> org
+> diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
+> index 2160382c86be..2ac4eaed1454 100644
+> --- a/Documentation/leds/well-known-leds.txt
+> +++ b/Documentation/leds/well-known-leds.txt
+> @@ -70,3 +70,11 @@ Good: "platform:*:charging" (allwinner sun50i)
+>  * Screen
+>  
+>  Good: ":backlight" (Motorola Droid 4)
+> +
+> +* Indicators
+> +
+> +Good: ":indicator" (Blinkm)
+> +
+> +* RGB
+> +
+> +Good: ":rgb" (Blinkm)
 > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 6046dfeca16f..75059db201e2 100644
+> index 499d0f215a8b..f38d786f9a89 100644
 > --- a/drivers/leds/Kconfig
 > +++ b/drivers/leds/Kconfig
-> @@ -135,6 +135,15 @@ config LEDS_BCM6358
->  	  This option enables support for LEDs connected to the BCM6358
->  	  LED HW controller accessed via
-
-...
-
+> @@ -736,6 +736,14 @@ config LEDS_BLINKM
+>  	  This option enables support for the BlinkM RGB LED connected
+>  	  through I2C. Say Y to enable support for the BlinkM LED.
+>  
+> +config LEDS_BLINKM_MULTICOLOR
+> +	bool "Enable multicolor support for BlinkM I2C RGB LED"
+> +	depends on LEDS_BLINKM
+> +	depends on LEDS_CLASS_MULTICOLOR
+> +	help
+> +	  This option enables multicolor sysfs class support for BlinkM LED and
+> +	  disables the older, separated sysfs interface
+> +
+>  config LEDS_POWERNV
+>  	tristate "LED support for PowerNV Platform"
+>  	depends on LEDS_CLASS
+> diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+> index e19cc8a7b7ca..a2295d0d0a2b 100644
+> --- a/drivers/leds/leds-blinkm.c
+> +++ b/drivers/leds/leds-blinkm.c
+> @@ -2,6 +2,7 @@
+>  /*
+>   *  leds-blinkm.c
+>   *  (c) Jan-Simon Möller (dl9pf@gmx.de)
+> + *  (c) Joseph Strauss (jstrauss@mailbox.org)
+>   */
+>  
+>  #include <linux/module.h>
+> @@ -15,6 +16,10 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/leds.h>
+>  #include <linux/delay.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/kconfig.h>
+> +
+> +#define NUM_LEDS 3
+>  
+>  /* Addresses to scan - BlinkM is on 0x09 by default*/
+>  static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
+> @@ -22,19 +27,24 @@ static const unsigned short normal_i2c[] = { 0x09, I2C_CLIENT_END };
+>  static int blinkm_transfer_hw(struct i2c_client *client, int cmd);
+>  static int blinkm_test_run(struct i2c_client *client);
+>  
+> +/* Contains data structures for both the color-seperated sysfs classes, and the new multicolor class */
+>  struct blinkm_led {
+>  	struct i2c_client *i2c_client;
+> +	/* used when multicolor support is disabled */
+>  	struct led_classdev led_cdev;
+> +	struct led_classdev_mc mcled_cdev;
+>  	int id;
+>  };
+>  
+> -#define cdev_to_blmled(c)          container_of(c, struct blinkm_led, led_cdev)
+> +#define led_cdev_to_blmled(c)				container_of(c, struct blinkm_led, led_cdev)
+> +#define mcled_cdev_to_led(c)				container_of(c, struct blinkm_led, mcled_cdev)
+>  
+>  struct blinkm_data {
+>  	struct i2c_client *i2c_client;
+>  	struct mutex update_lock;
+>  	/* used for led class interface */
+> -	struct blinkm_led blinkm_leds[3];
+> +	struct blinkm_led blinkm_leds[NUM_LEDS];
+> +
+>  	/* used for "blinkm" sysfs interface */
+>  	u8 red;			/* color red */
+>  	u8 green;		/* color green */
+> @@ -419,11 +429,29 @@ static int blinkm_transfer_hw(struct i2c_client *client, int cmd)
+>  	return 0;
+>  }
+>  
+> +static int blinkm_set_mc_brightness(struct led_classdev *led_cdev,
+> +				 enum led_brightness value)
+> +{
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	struct blinkm_led *led = mcled_cdev_to_led(mcled_cdev);
+> +	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
+> +
+> +	led_mc_calc_color_components(mcled_cdev, value);
+> +
+> +	data->next_red = (u8) mcled_cdev->subled_info[RED].brightness;
+> +	data->next_green = (u8) mcled_cdev->subled_info[GREEN].brightness;
+> +	data->next_blue = (u8) mcled_cdev->subled_info[BLUE].brightness;
+> +
+> +	blinkm_transfer_hw(led->i2c_client, BLM_GO_RGB);
+> +
+> +	return 0;
 > +}
 > +
-> +static int bct3024_brightness_set(struct led_classdev *ldev,
-> +				  enum led_brightness brightness)
-> +{
-> +	struct bct3024_led *led = container_of(ldev, struct bct3024_led, ldev);
-> +	struct bct3024_data *priv = led->priv;
-> +	struct device *dev = priv->dev;
-> +	int ret;
-> +	unsigned int ctrl, bright;
-> +
-> +	if (priv->state == BCT3024_STATE_INIT)
-> +		return -EIO;
-> +
-> +	if (brightness == 0) {
-> +		ctrl = 0x00;
-> +		bright = 0;
-> +	} else if (brightness < 256) {
-> +		ctrl = 0x01;
-> +		bright = brightness;
-> +	}
-> +
-> +	mutex_lock(&priv->lock);
-
-What do you protect with lock? This must be documented in lock's
-definition in your struct.
-
-> +
-> +	if (bct3024_any_active(priv) && (priv->state == BCT3024_STATE_IDLE ||
-> +	    priv->state == BCT3024_STATE_SHUTDOWN)) {
-> +		pm_runtime_get_sync(dev);
-> +		priv->state = BCT3024_STATE_ACTIVE;
-
-I don't understand why you added state machine for handling state. You
-are basically duplicating runtime PM...
-
-> +	}
-> +
-> +	for (; led; led = led->next) {
-> +		ret = bct3024_write(priv, BCT3024_REG_CONTROL(led->idx), ctrl);
-> +		if (ret < 0)
-> +			goto exit;
-> +		ret = bct3024_write(priv, BCT3024_REG_BRIGHTNESS(led->idx), bright);
-> +		if (ret < 0)
-> +			goto exit;
-> +	}
-> +
-> +	ret = bct3024_write(priv, BCT3024_REG_UPDATE, 0);
-> +	if (ret < 0)
+>  static int blinkm_led_common_set(struct led_classdev *led_cdev,
+>  				 enum led_brightness value, int color)
+>  {
+>  	/* led_brightness is 0, 127 or 255 - we just use it here as-is */
+> -	struct blinkm_led *led = cdev_to_blmled(led_cdev);
+> +	struct blinkm_led *led = led_cdev_to_blmled(led_cdev);
+>  	struct blinkm_data *data = i2c_get_clientdata(led->i2c_client);
+>  
+>  	switch (color) {
+> @@ -569,7 +597,11 @@ static int blinkm_probe(struct i2c_client *client,
+>  			const struct i2c_device_id *id)
+>  {
+>  	struct blinkm_data *data;
+> -	struct blinkm_led *led[3];
+> +	/* For multicolor support */
+> +	struct blinkm_led *mc_led;
+> +	struct mc_subled *mc_led_info;
+> +	/* 3 seperate classes for red, green, and blue respectively */
+> +	struct blinkm_led *leds[NUM_LEDS];
+>  	int err, i;
+>  	char blinkm_led_name[28];
+>  
+> @@ -580,6 +612,12 @@ static int blinkm_probe(struct i2c_client *client,
+>  		goto exit;
+>  	}
+>  
+> +	mc_led_info = devm_kcalloc(&client->dev, NUM_LEDS, sizeof(*mc_led_info),
+> +					GFP_KERNEL);
+> +	if (!mc_led_info) {
+> +		err = -ENOMEM;
 > +		goto exit;
-> +
-> +	ret = bct3024_set_shutdown_reg(priv, false);
-> +	if (ret < 0)
-> +		goto exit;
-> +
-> +	if (!ret && priv->state == BCT3024_STATE_ACTIVE) {
-> +		priv->state = BCT3024_STATE_IDLE;
-> +		pm_runtime_mark_last_busy(dev);
-> +		pm_runtime_put_autosuspend(dev);
-> +		/* Activate autosuspend */
-> +		pm_runtime_idle(dev);
 > +	}
-> +
-> +	ret = 0;
-> +
-> +exit:
-> +	mutex_unlock(&priv->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int bct3024_setup_led(struct bct3024_data *priv, u32 reg,
-> +			     struct bct3024_led **prev, struct led_init_data *idata)
-> +{
-> +	struct device *dev = priv->dev;
-> +	struct bct3024_led *led;
-> +	int ret;
-> +
-> +	if (reg >= BCT3024_LED_COUNT) {
-> +		ret = -EINVAL;
-> +		dev_err_probe(dev, ret, "invalid reg value: %u\n", reg);
-> +		return ret;
+>  	data->i2c_addr = 0x08;
+>  	/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
+>  	data->fw_ver = 0xfe;
+> @@ -598,81 +636,116 @@ static int blinkm_probe(struct i2c_client *client,
+>  		goto exit;
+>  	}
+>  
+> -	for (i = 0; i < 3; i++) {
+> -		/* RED = 0, GREEN = 1, BLUE = 2 */
+> -		led[i] = &data->blinkm_leds[i];
+> -		led[i]->i2c_client = client;
+> -		led[i]->id = i;
+> -		led[i]->led_cdev.max_brightness = 255;
+> -		led[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
+> -		switch (i) {
+> -		case RED:
+> -			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> -					 "blinkm-%d-%d-red",
+> -					 client->adapter->nr,
+> -					 client->addr);
+> -			led[i]->led_cdev.name = blinkm_led_name;
+> -			led[i]->led_cdev.brightness_set_blocking =
+> -							blinkm_led_red_set;
+> -			err = led_classdev_register(&client->dev,
+> -						    &led[i]->led_cdev);
+> +	if (!IS_ENABLED(CONFIG_LEDS_BLINKM_MULTICOLOR)) {
+> +		/* Register red, green, and blue sysfs classes */
+> +		for (i = 0; i < NUM_LEDS; i++) {
+> +			/* RED = 0, GREEN = 1, BLUE = 2 */
+> +			leds[i] = &data->blinkm_leds[i];
+> +			leds[i]->i2c_client = client;
+> +			leds[i]->id = i;
+> +			leds[i]->led_cdev.max_brightness = 255;
+> +			leds[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
+> +			switch (i) {
+> +			case RED:
+> +				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> +						 "blinkm-%d-%d-red",
+> +						 client->adapter->nr,
+> +						 client->addr);
+> +				leds[i]->led_cdev.name = blinkm_led_name;
+> +				leds[i]->led_cdev.brightness_set_blocking =
+> +								blinkm_led_red_set;
+> +				err = led_classdev_register(&client->dev,
+> +								&leds[i]->led_cdev);
+> +				if (err < 0) {
+> +					dev_err(&client->dev,
+> +						"couldn't register LED %s\n",
+> +						leds[i]->led_cdev.name);
+> +					goto failred;
+> +				}
+> +				break;
+> +			case GREEN:
+> +				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> +						 "blinkm-%d-%d-green",
+> +						 client->adapter->nr,
+> +						 client->addr);
+> +				leds[i]->led_cdev.name = blinkm_led_name;
+> +				leds[i]->led_cdev.brightness_set_blocking =
+> +								blinkm_led_green_set;
+> +				err = led_classdev_register(&client->dev,
+> +							&leds[i]->led_cdev);
+>  			if (err < 0) {
+>  				dev_err(&client->dev,
+>  					"couldn't register LED %s\n",
 
-That's not correct syntax.
+This tabbing needs adjusting too.
 
-return dev_err_probe
-> +	}
-> +
-> +	led = &priv->leds[reg];
-> +
-> +	if (led->active) {
-> +		ret = -EINVAL;
-> +		dev_err_probe(dev, ret, "reg redeclared: %u\n", reg);
-> +		return ret;
+> -					led[i]->led_cdev.name);
+> -				goto failred;
+> -			}
+> -			break;
+> -		case GREEN:
+> -			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> -					 "blinkm-%d-%d-green",
+> -					 client->adapter->nr,
+> -					 client->addr);
+> -			led[i]->led_cdev.name = blinkm_led_name;
+> -			led[i]->led_cdev.brightness_set_blocking =
+> -							blinkm_led_green_set;
+> -			err = led_classdev_register(&client->dev,
+> -						    &led[i]->led_cdev);
+> -			if (err < 0) {
+> -				dev_err(&client->dev,
+> -					"couldn't register LED %s\n",
+> -					led[i]->led_cdev.name);
+> +					leds[i]->led_cdev.name);
+>  				goto failgreen;
+>  			}
+> -			break;
+> -		case BLUE:
+> -			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> -					 "blinkm-%d-%d-blue",
+> -					 client->adapter->nr,
+> -					 client->addr);
+> -			led[i]->led_cdev.name = blinkm_led_name;
+> -			led[i]->led_cdev.brightness_set_blocking =
+> -							blinkm_led_blue_set;
+> -			err = led_classdev_register(&client->dev,
+> -						    &led[i]->led_cdev);
+> -			if (err < 0) {
+> -				dev_err(&client->dev,
+> -					"couldn't register LED %s\n",
+> -					led[i]->led_cdev.name);
+> -				goto failblue;
+> -			}
+> -			break;
+> -		}		/* end switch */
+> -	}			/* end for */
+> +				break;
+> +			case BLUE:
+> +				snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> +						 "blinkm-%d-%d-blue",
+> +						 client->adapter->nr,
+> +						 client->addr);
+> +				leds[i]->led_cdev.name = blinkm_led_name;
+> +				leds[i]->led_cdev.brightness_set_blocking =
+> +								blinkm_led_blue_set;
+> +				err = led_classdev_register(&client->dev,
+> +								&leds[i]->led_cdev);
+> +				if (err < 0) {
+> +					dev_err(&client->dev,
+> +						"couldn't register LED %s\n",
+> +						leds[i]->led_cdev.name);
+> +					goto failblue;
+> +				}
+> +				break;
+> +			}		/* end switch */
 
-Ditto
+No default?
 
-> +	}
+> +		}			/* end for */
+> +	} else {
+> +		/* Register multicolor sysfs class */
+> +		/* The first element of leds is used for multicolor facilities */
+> +		mc_led = &data->blinkm_leds[RED];
+> +		mc_led->i2c_client = client;
 > +
-> +	led->active = true;
-> +	led->priv = priv;
-> +	led->idx = reg;
+> +		mc_led_info[RED].color_index = LED_COLOR_ID_RED;
+> +		mc_led_info[GREEN].color_index = LED_COLOR_ID_GREEN;
+> +		mc_led_info[BLUE].color_index = LED_COLOR_ID_BLUE;
 > +
-> +	if (!*prev) {
-> +		led->ldev.max_brightness = 255;
-> +		led->ldev.brightness_set_blocking = bct3024_brightness_set;
+> +		mc_led->mcled_cdev.subled_info = mc_led_info;
+> +		mc_led->mcled_cdev.num_colors = NUM_LEDS;
+> +		mc_led->mcled_cdev.led_cdev.brightness = 255;
+> +		mc_led->mcled_cdev.led_cdev.max_brightness = 255;
+> +		mc_led->mcled_cdev.led_cdev.flags = LED_CORE_SUSPENDRESUME;
 > +
-> +		ret = devm_led_classdev_register_ext(dev, &led->ldev, idata);
-> +		if (ret < 0) {
-> +			dev_err_probe(dev, ret, "failed to register led %u\n", reg);
-> +			return ret;
-
-Ditto
-
+> +		snprintf(blinkm_led_name, sizeof(blinkm_led_name),
+> +			 "blinkm-%d-%d:rgb:indicator",
+> +			 client->adapter->nr,
+> +			 client->addr);
+> +		mc_led->mcled_cdev.led_cdev.name = blinkm_led_name;
+> +		mc_led->mcled_cdev.led_cdev.brightness_set_blocking = blinkm_set_mc_brightness;
+> +
+> +		err = led_classdev_multicolor_register(&client->dev, &mc_led->mcled_cdev);
+> +		if (err < 0) {
+> +			dev_err(&client->dev, "couldn't register LED %s\n",
+> +					mc_led->led_cdev.name);
+> +			goto failmulti;
 > +		}
-> +	} else
-> +		(*prev)->next = led;
-> +
-> +	*prev = led;
-> +
-> +	return 0;
-> +}
-> +
-> +static int bct3024_of_parse(struct i2c_client *client)
-> +{
-> +	struct bct3024_data *priv = i2c_get_clientdata(client);
-> +	struct device *dev = priv->dev;
-> +	struct device_node *np;
-> +	int ret;
-> +
-> +	ret = of_get_child_count(dev->of_node);
-> +	if (!ret || ret > ARRAY_SIZE(priv->leds)) {
-> +		dev_err_probe(dev, -EINVAL, "invalid nodes count: %d\n", ret);
-> +		return -EINVAL;
-
-Ditto
-
 > +	}
+>  
+> -	/* Initialize the blinkm */
+>  	blinkm_init_hw(client);
+>  
+>  	return 0;
+>  
+> +failmulti:
+> +	led_classdev_unregister(&leds[BLUE]->led_cdev);
 > +
-> +	for_each_child_of_node(dev->of_node, np) {
-> +		u32 regs[BCT3024_LED_COUNT];
-> +		struct led_init_data idata = {
-> +			.fwnode = of_fwnode_handle(np),
-> +			.devicename = client->name,
-> +		};
-> +		struct bct3024_led *led;
-> +		int count, i;
+>  failblue:
+> -	led_classdev_unregister(&led[GREEN]->led_cdev);
+> +	led_classdev_unregister(&leds[GREEN]->led_cdev);
+>  
+>  failgreen:
+> -	led_classdev_unregister(&led[RED]->led_cdev);
+> +	led_classdev_unregister(&leds[RED]->led_cdev);
+>  
+>  failred:
+>  	sysfs_remove_group(&client->dev.kobj, &blinkm_group);
 > +
-> +		count = of_property_read_variable_u32_array(np, "reg", regs, 1,
-> +							    BCT3024_LED_COUNT);
-> +		if (count < 0) {
-> +			ret = count;
-> +			dev_err_probe(dev, ret, "failed to read node reg\n");
-> +			goto fail;
+>  exit:
+>  	return err;
+>  }
+> @@ -684,7 +757,7 @@ static void blinkm_remove(struct i2c_client *client)
+>  	int i;
+>  
+>  	/* make sure no workqueue entries are pending */
+> -	for (i = 0; i < 3; i++)
+> +	for (i = 0; i < NUM_LEDS; i++)
+>  		led_classdev_unregister(&data->blinkm_leds[i].led_cdev);
+>  
+>  	/* reset rgb */
+> @@ -741,6 +814,6 @@ static struct i2c_driver blinkm_driver = {
+>  module_i2c_driver(blinkm_driver);
+>  
+>  MODULE_AUTHOR("Jan-Simon Moeller <dl9pf@gmx.de>");
+> +MODULE_AUTHOR("Joseph Strauss <jstrauss@mailbox.org>");
+>  MODULE_DESCRIPTION("BlinkM RGB LED driver");
+>  MODULE_LICENSE("GPL");
+> -
+> -- 
+> 2.40.1
+> 
 
-Ditto
-
-> +		}
-> +
-> +		for (i = 0, led = NULL; i < count; i++) {
-> +			ret = bct3024_setup_led(priv, regs[i], &led, &idata);
-> +			if (ret < 0)
-> +				goto fail;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +fail:
-> +	of_node_put(np);
-> +
-> +	return ret;
-> +}
-> +
-> +static int bct3024_i2c_probe(struct i2c_client *client)
-> +{
-> +	struct bct3024_data *priv;
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->dev = dev;
-> +
-> +	priv->supply = devm_regulator_get_optional(dev, "vdd");
-> +	if (IS_ERR(priv->supply)) {
-> +		ret = PTR_ERR(priv->supply);
-> +		if (ret != -ENODEV) {
-> +			dev_err_probe(dev, ret, "failed to get supply\n");
-> +			return ret;
-
-Ditto
-
-> +		}
-> +		priv->supply = NULL;
-> +	}
-> +
-> +	priv->shutdown_gpiod = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->shutdown_gpiod)) {
-> +		ret = PTR_ERR(priv->shutdown_gpiod);
-> +		dev_err_probe(dev, ret, "failed to get shutdown gpio\n");
-> +		return ret;
-
-Everywhere...
-
-> +	}
-> +
-> +	priv->regmap = devm_regmap_init_i2c(client, &bct3024_regmap);
-> +	if (IS_ERR(priv->regmap)) {
-> +		ret = PTR_ERR(priv->regmap);
-> +		return ret;
-
-
-It's return PTR_ERR....
-
-> +	}
-> +
-> +	mutex_init(&priv->lock);
-> +	i2c_set_clientdata(client, priv);
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, 2000);
-> +	pm_runtime_use_autosuspend(dev);
-> +	pm_runtime_enable(dev);
-> +	if (!pm_runtime_enabled(dev)) {
-> +		ret = bct3024_shutdown(priv, false);
-
-This should go to error handling path... Although why? There was no
-power on code between devm_regmap_init_i2c() and here.
-
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	ret = pm_runtime_resume_and_get(dev);
-> +	if (ret < 0)
-> +		goto fail;
-> +
-> +	ret = bct3024_of_parse(client);
-> +	if (ret < 0)
-> +		goto fail;
-> +
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
-> +	return 0;
-> +
-> +fail:
-> +	dev_err_probe(dev, ret, "probe failed\n");
-
-No, no no. Do you see any driver doing it?
-
-> +	if (!pm_runtime_status_suspended(dev))
-> +		bct3024_shutdown(priv, 2);
-
-Which call this is reversing? Each step in probe should have its reverse
-(when applicable of course). Don't add some new unrelated reverse calls
-which do not have a matching enable. If you shutdown here, I expect
-there was "bct3024_powerup". Where is it? Looks like you put unrelated
-code into the shutdown making it all very difficult to understand.
-
-Where do you reverse PM runtime calls here?
-
-> +	return ret;
-> +}
-> +
-> +static void bct3024_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct bct3024_data *priv = i2c_get_clientdata(client);
-> +
-> +	bct3024_shutdown(priv, true);
-> +	pm_runtime_disable(priv->dev);
-> +	mutex_destroy(&priv->lock);
-> +}
-> +
-> +static void bct3024_i2c_shutdown(struct i2c_client *client)
-> +{
-> +	struct bct3024_data *priv = i2c_get_clientdata(client);
-> +
-> +	bct3024_shutdown(priv, true);
-> +}
-> +
-> +#ifdef CONFIG_PM_SLEEP
-> +static int bct3024_runtime_idle(struct device *dev)
-> +{
-> +	struct bct3024_data *priv = dev_get_drvdata(dev);
-> +
-> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
-
-No simple debug statements for entry/exit of functions. There is
-extensive trace infrastructure for all this.
-
-> +
-> +	return priv->state == BCT3024_STATE_ACTIVE ? -EBUSY : 0;
-> +}
-> +
-> +static int bct3024_runtime_suspend(struct device *dev)
-> +{
-> +	struct bct3024_data *priv = dev_get_drvdata(dev);
-> +
-> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
-
-Ditto
-
-> +
-> +	switch (priv->state) {
-> +	case BCT3024_STATE_INIT:
-> +	case BCT3024_STATE_SHUTDOWN:
-> +		return 0;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return bct3024_shutdown(priv, true);
-> +}
-> +
-> +static int bct3024_runtime_resume(struct device *dev)
-> +{
-> +	struct bct3024_data *priv = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
-
-Ditto
-
-> +
-> +	switch (priv->state) {
-> +	case BCT3024_STATE_INIT:
-> +	case BCT3024_STATE_SHUTDOWN:
-> +		break;
-> +	default:
-> +		return 0;
-> +	}
-> +
-> +	ret = bct3024_shutdown(priv, false);
-> +	if (ret < 0)
-> +		bct3024_shutdown(priv, 2);
-> +
-> +	return ret;
-> +}
-> +#endif
-> +
-> +static const struct dev_pm_ops bct3024_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(bct3024_runtime_suspend, bct3024_runtime_resume,
-> +			   bct3024_runtime_idle)
-> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +};
-> +
-> +static const struct of_device_id bct3024_of_match[] = {
-> +	{ .compatible = "broadchip,bct3024" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, bct3024_of_match);
-> +
-> +static struct i2c_driver bct3024_driver = {
-> +	.driver = {
-> +		.name = "bct3024",
-> +		.of_match_table = bct3024_of_match,
-> +		.pm = &bct3024_pm_ops,
-> +	},
-> +	.probe_new = bct3024_i2c_probe,
-> +	.shutdown = bct3024_i2c_shutdown,
-> +	.remove = bct3024_i2c_remove,
-> +};
-> +
-> +module_i2c_driver(bct3024_driver);
-> +
-> +MODULE_AUTHOR("Matus Gajdos <matuszpd@gmail.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Broadchip BCT3024 LED driver");
-
-Best regards,
-Krzysztof
-
+-- 
+Lee Jones [李琼斯]
