@@ -2,60 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C22CF766562
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 09:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3EC2766589
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 09:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234279AbjG1Hbd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Jul 2023 03:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
+        id S234386AbjG1HmB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Jul 2023 03:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232749AbjG1Hbc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 03:31:32 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9E4272D
-        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:31:30 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-99b9421aaebso243707066b.2
-        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:31:30 -0700 (PDT)
+        with ESMTP id S234390AbjG1HmA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 03:42:00 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C582D64
+        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:41:57 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so27487301fa.1
+        for <linux-leds@vger.kernel.org>; Fri, 28 Jul 2023 00:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690529489; x=1691134289;
+        d=linaro.org; s=google; t=1690530116; x=1691134916;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iJmb5dhR/A69axFp1n/g3w1WP4NZBl+VMQ8J3r8W4Go=;
-        b=CMCbVYq2we1aK2YgyhLbvUPjHv8upf6iecEYG445wcF7z+ZtnBl11qU/H7Bj19u460
-         1y4KjJvJfBx/Vl3xllxT5aqmSQ6RH+kUFvp69q4awuzJ+EFcE6nLAhd70usmByNh691z
-         ICJ/ReEyhmU1uDTH6tTDY4uIG1iI+9fyksVihIKHTbBLEi0FUqTHXHlKwRDu2CmKUeFE
-         afBKX9LJQ9+HBerptlPVYAdx+LCppFn5rJjhopLk5cJwX/Ahf/DL5Zi8HATEbvYYUjxz
-         cSvemKUlV8xr60sg1SAqQzPWhvm/zujwxNjGrk7F0W224PPu+rfjVL151HRgM2gmLCMZ
-         hRcw==
+        bh=YH0GXjtaVhK/TMonu2F4Vh27btTOGldL7tUWhIb9bOw=;
+        b=GuCPWiAIiVUTxHq1sCBm0TNcgNB1hUzg8FA5wayoNtyenmyCcQkTgxvdb8V3Dj5xfP
+         4pORprwQ3xAKLAnCmYmQOp78yYjulcOqyQHBoXwuqGbpoBUOKDQDL1DIaF7iqGQ68fuP
+         9ys860YY51xO0XH9AVUO/K7IFRn717Fdrac7sZBXpY8sID+6g/CjtAzKJObHlbcLiGXp
+         txnHjVty//epw7pxugbvUFS1FtlIjW9i8ryp5JEmmamDJL08i0RxdP38ZFF0PJwvv1II
+         VSFg0/SnOoH9gbM+9kVsPb9zZ3p+rMRCfeBNaRS157gOcpApxf0A4Fc/oZPfi3dABYY/
+         YuPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690529489; x=1691134289;
+        d=1e100.net; s=20221208; t=1690530116; x=1691134916;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJmb5dhR/A69axFp1n/g3w1WP4NZBl+VMQ8J3r8W4Go=;
-        b=T+HpK2M/PthAvCSqK4Yffs8ppT5AGKPZ76OWdcYtq+9lzMPWD876cJzAm613Swq9o7
-         e+d/PrXFYsX4J4HrYpwT3vaocpUW9122Bo34bn1lARFEPW8/kbLeGPQcxQwojZdH2B3d
-         o+2Lwq6bgrMC/vYyYLBrDypWta0SQ52Pur2wtwoUfI7gf676A8YLhRhSbPiNy4w/Lz2P
-         cV+MttsdDAb08fHHvRwLjv1cJd2eozzbmFcp26IKf55WIMSFOe+XfdTsuGXgxLL5FoXX
-         6/+lc0GB08jZK7QQQXhoxSRoSqy7c3Jrn+CtuGy1FpaXRHTGtoit5/PZaERMiuWNlykH
-         sjJA==
-X-Gm-Message-State: ABy/qLYOWCEfhIA13w3roTQDipnzcE0Yz5hEgPrizwxx+MZDXRJ4EMh9
-        7vDiUJDt9TeT0xDmv8kFAUs8ew==
-X-Google-Smtp-Source: APBJJlFGeWYG4rS/QYddKDPW5upbEl7+O2bgJN59+hicqThEbi6BO/HJCDw6yicrvW9/cB7ORc4SlQ==
-X-Received: by 2002:a17:906:328d:b0:993:d1b6:61cc with SMTP id 13-20020a170906328d00b00993d1b661ccmr1157247ejw.44.1690529489331;
-        Fri, 28 Jul 2023 00:31:29 -0700 (PDT)
+        bh=YH0GXjtaVhK/TMonu2F4Vh27btTOGldL7tUWhIb9bOw=;
+        b=Ww9hqUsryrYswYlMyAbLz/ByJGeZrDwLx7lZ04ZiaPv65OBd9N+aGM2fa/zR5Z/iyl
+         ErYjrLRN4PQyxOX/92lENwCLPcCmTIohlS4kkOeCgmb8hRWvPD1t5IdmH93mLqC/EfFC
+         tjcFpG//ZtvuXtcLvYOSx0akaCm4RAfr0erKIs6KUF/lPkaS/nqBY/hwHaMQOBiQxqrm
+         rhmMiNQMec3v/IpZd8LqwYdblHtIztFg3N4kLozfizWwwFHe6HGgml7eev7H9mmrkyP5
+         R4S7tX3w7iFb7BRv4IMi4vUupRHStS5o5tnXQuw6hWB3j5kpTt5oisisSdQwmSvWpwz5
+         ataQ==
+X-Gm-Message-State: ABy/qLaFhKEN/1qRrw+3K+Ym86SJDUq3gAhpeLmWOAHPBYkb0JO4Qqoe
+        vcuG8EIkyvi73CjvouxzSWtkoQ==
+X-Google-Smtp-Source: APBJJlF3Q/+Qg3SilY9zwDKIC0KKV+gjHMUyHV9eMz62tAvUfN8iw9my9w64tWBIJVFh0+mPtkNMzA==
+X-Received: by 2002:a2e:95c6:0:b0:2b7:339c:f791 with SMTP id y6-20020a2e95c6000000b002b7339cf791mr1119023ljh.25.1690530115906;
+        Fri, 28 Jul 2023 00:41:55 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id u7-20020a170906408700b009786ae9ed50sm1698270ejj.194.2023.07.28.00.31.28
+        by smtp.gmail.com with ESMTPSA id u22-20020a05600c211600b003fbcdba1a63sm3585055wml.12.2023.07.28.00.41.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 00:31:28 -0700 (PDT)
-Message-ID: <b4c15d67-3cbd-3c02-cfa3-54d52d0b85dd@linaro.org>
-Date:   Fri, 28 Jul 2023 09:31:26 +0200
+        Fri, 28 Jul 2023 00:41:55 -0700 (PDT)
+Message-ID: <68dbe6b1-891c-76d4-7e5f-97cb6cc81b51@linaro.org>
+Date:   Fri, 28 Jul 2023 09:41:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 2/3] dt-bindings: leds: Add binding for Broadchip BCT3024
- LED driver
+Subject: Re: [PATCH 3/3] leds: Add Broadchip BCT3024 LED driver
 Content-Language: en-US
 To:     Matus Gajdos <matuszpd@gmail.com>, Pavel Machek <pavel@ucw.cz>,
         Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -64,15 +63,15 @@ To:     Matus Gajdos <matuszpd@gmail.com>, Pavel Machek <pavel@ucw.cz>,
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230727160525.23312-1-matuszpd@gmail.com>
- <20230727160525.23312-3-matuszpd@gmail.com>
+ <20230727160525.23312-4-matuszpd@gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230727160525.23312-3-matuszpd@gmail.com>
+In-Reply-To: <20230727160525.23312-4-matuszpd@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -84,70 +83,398 @@ On 27/07/2023 18:05, Matus Gajdos wrote:
 > channels. Each channel supports 256 levels.
 > 
 > Signed-off-by: Matus Gajdos <matuszpd@gmail.com>
+> ---
+>  drivers/leds/Kconfig        |   9 +
+>  drivers/leds/Makefile       |   1 +
+>  drivers/leds/leds-bct3024.c | 564 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 574 insertions(+)
+>  create mode 100644 drivers/leds/leds-bct3024.c
 
 Thank you for your patch. There is something to discuss/improve.
 
-A nit, subject: drop second/last, redundant "binding for". The
-"dt-bindings" prefix is already stating that these are bindings.
 
-> ---
->  .../bindings/leds/broadchip,bct3024.yaml      | 89 +++++++++++++++++++
->  1 file changed, 89 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/broadchip,bct3024.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/broadchip,bct3024.yaml b/Documentation/devicetree/bindings/leds/broadchip,bct3024.yaml
-> new file mode 100644
-> index 000000000000..0d622894e79c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/broadchip,bct3024.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/broadchip,bct3024.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Broadchip BCT3024 LED Driver
-> +
-> +maintainers:
-> +  - Matus Gajdos <matuszpd@gmail.com>
-> +
-> +description: |
-> +  The BCT3024 is an I2C LED driver with independent 24 output channels. Each
-> +  channel supports 256 levels and its output current can be scaled by a factor
-> +  of 1, 1/2, 1/3 and 1/4.
-> +
-> +properties:
-> +  compatible:
-> +    const: broadchip,bct3024
-> +
-> +  reg:
-> +    description: I2C slave address of the driver.
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 6046dfeca16f..75059db201e2 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -135,6 +135,15 @@ config LEDS_BCM6358
+>  	  This option enables support for LEDs connected to the BCM6358
+>  	  LED HW controller accessed via
 
-Drop description, it is obvious.
+...
 
-> +    maxItems: 1
+> +}
 > +
-> +  vdd-supply:
-> +    description: Regulator providing power to the VDD pin.
+> +static int bct3024_brightness_set(struct led_classdev *ldev,
+> +				  enum led_brightness brightness)
+> +{
+> +	struct bct3024_led *led = container_of(ldev, struct bct3024_led, ldev);
+> +	struct bct3024_data *priv = led->priv;
+> +	struct device *dev = priv->dev;
+> +	int ret;
+> +	unsigned int ctrl, bright;
 > +
-> +  shutdown-gpios:
-
-powerdown-gpios instead. See gpio-consumer-common.yaml
-
-> +    maxItems: 1
-
-And this won't be needed.
-
-> +    description: GPIO attached to the SDB pin.
+> +	if (priv->state == BCT3024_STATE_INIT)
+> +		return -EIO;
 > +
-> +  "#address-cells":
-> +    const: 1
+> +	if (brightness == 0) {
+> +		ctrl = 0x00;
+> +		bright = 0;
+> +	} else if (brightness < 256) {
+> +		ctrl = 0x01;
+> +		bright = brightness;
+> +	}
 > +
-> +  "#size-cells":
-> +    const: 0
-> +
+> +	mutex_lock(&priv->lock);
 
+What do you protect with lock? This must be documented in lock's
+definition in your struct.
+
+> +
+> +	if (bct3024_any_active(priv) && (priv->state == BCT3024_STATE_IDLE ||
+> +	    priv->state == BCT3024_STATE_SHUTDOWN)) {
+> +		pm_runtime_get_sync(dev);
+> +		priv->state = BCT3024_STATE_ACTIVE;
+
+I don't understand why you added state machine for handling state. You
+are basically duplicating runtime PM...
+
+> +	}
+> +
+> +	for (; led; led = led->next) {
+> +		ret = bct3024_write(priv, BCT3024_REG_CONTROL(led->idx), ctrl);
+> +		if (ret < 0)
+> +			goto exit;
+> +		ret = bct3024_write(priv, BCT3024_REG_BRIGHTNESS(led->idx), bright);
+> +		if (ret < 0)
+> +			goto exit;
+> +	}
+> +
+> +	ret = bct3024_write(priv, BCT3024_REG_UPDATE, 0);
+> +	if (ret < 0)
+> +		goto exit;
+> +
+> +	ret = bct3024_set_shutdown_reg(priv, false);
+> +	if (ret < 0)
+> +		goto exit;
+> +
+> +	if (!ret && priv->state == BCT3024_STATE_ACTIVE) {
+> +		priv->state = BCT3024_STATE_IDLE;
+> +		pm_runtime_mark_last_busy(dev);
+> +		pm_runtime_put_autosuspend(dev);
+> +		/* Activate autosuspend */
+> +		pm_runtime_idle(dev);
+> +	}
+> +
+> +	ret = 0;
+> +
+> +exit:
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int bct3024_setup_led(struct bct3024_data *priv, u32 reg,
+> +			     struct bct3024_led **prev, struct led_init_data *idata)
+> +{
+> +	struct device *dev = priv->dev;
+> +	struct bct3024_led *led;
+> +	int ret;
+> +
+> +	if (reg >= BCT3024_LED_COUNT) {
+> +		ret = -EINVAL;
+> +		dev_err_probe(dev, ret, "invalid reg value: %u\n", reg);
+> +		return ret;
+
+That's not correct syntax.
+
+return dev_err_probe
+> +	}
+> +
+> +	led = &priv->leds[reg];
+> +
+> +	if (led->active) {
+> +		ret = -EINVAL;
+> +		dev_err_probe(dev, ret, "reg redeclared: %u\n", reg);
+> +		return ret;
+
+Ditto
+
+> +	}
+> +
+> +	led->active = true;
+> +	led->priv = priv;
+> +	led->idx = reg;
+> +
+> +	if (!*prev) {
+> +		led->ldev.max_brightness = 255;
+> +		led->ldev.brightness_set_blocking = bct3024_brightness_set;
+> +
+> +		ret = devm_led_classdev_register_ext(dev, &led->ldev, idata);
+> +		if (ret < 0) {
+> +			dev_err_probe(dev, ret, "failed to register led %u\n", reg);
+> +			return ret;
+
+Ditto
+
+> +		}
+> +	} else
+> +		(*prev)->next = led;
+> +
+> +	*prev = led;
+> +
+> +	return 0;
+> +}
+> +
+> +static int bct3024_of_parse(struct i2c_client *client)
+> +{
+> +	struct bct3024_data *priv = i2c_get_clientdata(client);
+> +	struct device *dev = priv->dev;
+> +	struct device_node *np;
+> +	int ret;
+> +
+> +	ret = of_get_child_count(dev->of_node);
+> +	if (!ret || ret > ARRAY_SIZE(priv->leds)) {
+> +		dev_err_probe(dev, -EINVAL, "invalid nodes count: %d\n", ret);
+> +		return -EINVAL;
+
+Ditto
+
+> +	}
+> +
+> +	for_each_child_of_node(dev->of_node, np) {
+> +		u32 regs[BCT3024_LED_COUNT];
+> +		struct led_init_data idata = {
+> +			.fwnode = of_fwnode_handle(np),
+> +			.devicename = client->name,
+> +		};
+> +		struct bct3024_led *led;
+> +		int count, i;
+> +
+> +		count = of_property_read_variable_u32_array(np, "reg", regs, 1,
+> +							    BCT3024_LED_COUNT);
+> +		if (count < 0) {
+> +			ret = count;
+> +			dev_err_probe(dev, ret, "failed to read node reg\n");
+> +			goto fail;
+
+Ditto
+
+> +		}
+> +
+> +		for (i = 0, led = NULL; i < count; i++) {
+> +			ret = bct3024_setup_led(priv, regs[i], &led, &idata);
+> +			if (ret < 0)
+> +				goto fail;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +fail:
+> +	of_node_put(np);
+> +
+> +	return ret;
+> +}
+> +
+> +static int bct3024_i2c_probe(struct i2c_client *client)
+> +{
+> +	struct bct3024_data *priv;
+> +	struct device *dev = &client->dev;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->dev = dev;
+> +
+> +	priv->supply = devm_regulator_get_optional(dev, "vdd");
+> +	if (IS_ERR(priv->supply)) {
+> +		ret = PTR_ERR(priv->supply);
+> +		if (ret != -ENODEV) {
+> +			dev_err_probe(dev, ret, "failed to get supply\n");
+> +			return ret;
+
+Ditto
+
+> +		}
+> +		priv->supply = NULL;
+> +	}
+> +
+> +	priv->shutdown_gpiod = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->shutdown_gpiod)) {
+> +		ret = PTR_ERR(priv->shutdown_gpiod);
+> +		dev_err_probe(dev, ret, "failed to get shutdown gpio\n");
+> +		return ret;
+
+Everywhere...
+
+> +	}
+> +
+> +	priv->regmap = devm_regmap_init_i2c(client, &bct3024_regmap);
+> +	if (IS_ERR(priv->regmap)) {
+> +		ret = PTR_ERR(priv->regmap);
+> +		return ret;
+
+
+It's return PTR_ERR....
+
+> +	}
+> +
+> +	mutex_init(&priv->lock);
+> +	i2c_set_clientdata(client, priv);
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 2000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_enable(dev);
+> +	if (!pm_runtime_enabled(dev)) {
+> +		ret = bct3024_shutdown(priv, false);
+
+This should go to error handling path... Although why? There was no
+power on code between devm_regmap_init_i2c() and here.
+
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret < 0)
+> +		goto fail;
+> +
+> +	ret = bct3024_of_parse(client);
+> +	if (ret < 0)
+> +		goto fail;
+> +
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +	return 0;
+> +
+> +fail:
+> +	dev_err_probe(dev, ret, "probe failed\n");
+
+No, no no. Do you see any driver doing it?
+
+> +	if (!pm_runtime_status_suspended(dev))
+> +		bct3024_shutdown(priv, 2);
+
+Which call this is reversing? Each step in probe should have its reverse
+(when applicable of course). Don't add some new unrelated reverse calls
+which do not have a matching enable. If you shutdown here, I expect
+there was "bct3024_powerup". Where is it? Looks like you put unrelated
+code into the shutdown making it all very difficult to understand.
+
+Where do you reverse PM runtime calls here?
+
+> +	return ret;
+> +}
+> +
+> +static void bct3024_i2c_remove(struct i2c_client *client)
+> +{
+> +	struct bct3024_data *priv = i2c_get_clientdata(client);
+> +
+> +	bct3024_shutdown(priv, true);
+> +	pm_runtime_disable(priv->dev);
+> +	mutex_destroy(&priv->lock);
+> +}
+> +
+> +static void bct3024_i2c_shutdown(struct i2c_client *client)
+> +{
+> +	struct bct3024_data *priv = i2c_get_clientdata(client);
+> +
+> +	bct3024_shutdown(priv, true);
+> +}
+> +
+> +#ifdef CONFIG_PM_SLEEP
+> +static int bct3024_runtime_idle(struct device *dev)
+> +{
+> +	struct bct3024_data *priv = dev_get_drvdata(dev);
+> +
+> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
+
+No simple debug statements for entry/exit of functions. There is
+extensive trace infrastructure for all this.
+
+> +
+> +	return priv->state == BCT3024_STATE_ACTIVE ? -EBUSY : 0;
+> +}
+> +
+> +static int bct3024_runtime_suspend(struct device *dev)
+> +{
+> +	struct bct3024_data *priv = dev_get_drvdata(dev);
+> +
+> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
+
+Ditto
+
+> +
+> +	switch (priv->state) {
+> +	case BCT3024_STATE_INIT:
+> +	case BCT3024_STATE_SHUTDOWN:
+> +		return 0;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return bct3024_shutdown(priv, true);
+> +}
+> +
+> +static int bct3024_runtime_resume(struct device *dev)
+> +{
+> +	struct bct3024_data *priv = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	dev_dbg(dev, "%s: %d\n", __func__, priv->state);
+
+Ditto
+
+> +
+> +	switch (priv->state) {
+> +	case BCT3024_STATE_INIT:
+> +	case BCT3024_STATE_SHUTDOWN:
+> +		break;
+> +	default:
+> +		return 0;
+> +	}
+> +
+> +	ret = bct3024_shutdown(priv, false);
+> +	if (ret < 0)
+> +		bct3024_shutdown(priv, 2);
+> +
+> +	return ret;
+> +}
+> +#endif
+> +
+> +static const struct dev_pm_ops bct3024_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(bct3024_runtime_suspend, bct3024_runtime_resume,
+> +			   bct3024_runtime_idle)
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+> +};
+> +
+> +static const struct of_device_id bct3024_of_match[] = {
+> +	{ .compatible = "broadchip,bct3024" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, bct3024_of_match);
+> +
+> +static struct i2c_driver bct3024_driver = {
+> +	.driver = {
+> +		.name = "bct3024",
+> +		.of_match_table = bct3024_of_match,
+> +		.pm = &bct3024_pm_ops,
+> +	},
+> +	.probe_new = bct3024_i2c_probe,
+> +	.shutdown = bct3024_i2c_shutdown,
+> +	.remove = bct3024_i2c_remove,
+> +};
+> +
+> +module_i2c_driver(bct3024_driver);
+> +
+> +MODULE_AUTHOR("Matus Gajdos <matuszpd@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Broadchip BCT3024 LED driver");
 
 Best regards,
 Krzysztof
