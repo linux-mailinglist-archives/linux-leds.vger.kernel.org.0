@@ -2,82 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21BC5766DB9
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 15:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E411B76705E
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Jul 2023 17:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236236AbjG1NAI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Jul 2023 09:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33666 "EHLO
+        id S236176AbjG1PUh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 Jul 2023 11:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234146AbjG1NAH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 09:00:07 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAE130FB;
-        Fri, 28 Jul 2023 06:00:03 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id A36ED1C0A94; Fri, 28 Jul 2023 15:00:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1690549201;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JKS/b2M/HWHjyDnw5rB47P97LOiieqrljDHQRQUo3Vc=;
-        b=kThL5cu+yg9D/jJWcF1BqCTJGP+BfiLz2GGX2S2gcOX115M2aPkEFwAfQspeFVZvdV5baj
-        WJrP9JJC8wlL6Dtacy6LkUjON1IV/DMLvDwGYBvXJfn9RjnXG4xptzFfpDjAEewU4SVfGZ
-        Z/p/vEISZrwIP3qN+NdWyeDQHUeWXIo=
-Date:   Fri, 28 Jul 2023 15:00:01 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Daniel Golle <daniel@makrotopia.org>
-Cc:     Lee Jones <lee@kernel.org>,
+        with ESMTP id S234742AbjG1PUh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jul 2023 11:20:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710F23580;
+        Fri, 28 Jul 2023 08:20:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 053F46216C;
+        Fri, 28 Jul 2023 15:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BA1C433C8;
+        Fri, 28 Jul 2023 15:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690557635;
+        bh=85EdRWkikIMBuWzYz9zr0M6a4S8P+N877KIBHuPUOUA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K1tMNpGBX2sPXA35jIqt9P33/wYYRwL9CSFkMYtpB429n7aQm0vzxFG8xgdFlbPab
+         nF6iWivm/qICWwmdXDcQZplnyskRujkHCHgB4gn6NpuD6M4nxUtmxpi1aHR/orXuFu
+         njINj4C+UF3NTeRD0QYFtLzkYLW+24469dyLqjzRX0ZTM/LvXX0sCYRZgsnNE722mU
+         EhVS5jhu5SukMj2/ebDChR7S/7rB6i7iFT7fpT/sMc0ZdqQFC2oaCG+LIxywdg5s98
+         x8TFcIhSLPkaGFYmvVNPbHz/nSXwGzWtJ2sxBk40fD/dqjdyr6zjV00VWLX4D056gL
+         8CCDMUreBBTsw==
+Date:   Fri, 28 Jul 2023 16:20:30 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Daniel Golle <daniel@makrotopia.org>,
         Johannes Berg <johannes.berg@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Richard Purdie <rpurdie@linux.intel.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] led: trig: timer: stop offloading on deactivation
-Message-ID: <ZMO70XCBY3dqpdAY@duo.ucw.cz>
+Message-ID: <20230728152030.GM8175@google.com>
 References: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
+ <ZMO70XCBY3dqpdAY@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="w6eIOp2g1QdzPVPd"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZMO70XCBY3dqpdAY@duo.ucw.cz>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Fri, 28 Jul 2023, Pavel Machek wrote:
 
---w6eIOp2g1QdzPVPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri 2023-07-28 13:30:58, Daniel Golle wrote:
+> > Stop hardware blinking when switching from 'timer' to another trigger.
+> > 
+> > Fixes: 5ada28bf7675 ("led-class: always implement blinking")
+> > Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> 
+> ACK.
 
-On Fri 2023-07-28 13:30:58, Daniel Golle wrote:
-> Stop hardware blinking when switching from 'timer' to another trigger.
->=20
-> Fixes: 5ada28bf7675 ("led-class: always implement blinking")
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Could I have that in full please, such that b4 can pick it up?
 
-ACK.
-
-BR,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---w6eIOp2g1QdzPVPd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZMO70QAKCRAw5/Bqldv6
-8p5sAKCYGF57bp7vqaoc2ZKj4bEe+eClVwCcCKy6SM0lnrWHHWzdxlU9f1z1L1Q=
-=r1Gt
------END PGP SIGNATURE-----
-
---w6eIOp2g1QdzPVPd--
+-- 
+Lee Jones [李琼斯]
