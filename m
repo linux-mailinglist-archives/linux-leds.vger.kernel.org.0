@@ -2,86 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97448769366
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Jul 2023 12:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32EA7696E2
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Jul 2023 14:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229940AbjGaKsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 31 Jul 2023 06:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38138 "EHLO
+        id S229815AbjGaM55 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 31 Jul 2023 08:57:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbjGaKrv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Jul 2023 06:47:51 -0400
+        with ESMTP id S231516AbjGaM5u (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Jul 2023 08:57:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A367E48
-        for <linux-leds@vger.kernel.org>; Mon, 31 Jul 2023 03:47:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD0D10EB
+        for <linux-leds@vger.kernel.org>; Mon, 31 Jul 2023 05:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690800423;
+        s=mimecast20190719; t=1690808220;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mI5wUOEnZT5MMbC9DqxmGyKMLKWx0FpMXmr9pHBPoMo=;
-        b=Zlsgo/b7XiC06ocyDp0VcXuQIROKTPdRyyGiVK5G3TcpqFHfhvsSM99i+bGQJQTSm1hznU
-        YC4gOmV66A3HglCPk/B8hJEwiJZvhALl01vfz8ULa5xxDFkt4/Bt3mGdZEU6YscudFw517
-        cxmp9nNotciYvApaDMtuGN6dQ6yWBRI=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=MxMqYbXDgca7Zo00Ck+hxplFR8Ah4pQzZkZMPsG9f9s=;
+        b=IdaLe+G2pCTmiwPosg/mrKG6ioD4jeEOjW0tFrtHWAqertilkPSgkgrjwAWQ+xln9yviUM
+        4KJ1VLa6eb8NKyUWz4ODoRyxA+S2VuR/wGbVOnn6Q/MH9YjFnu7GkCvfFXPcBWHODOevGp
+        rpKY4OJk6SKGZqzRlFvUhY1+TyLpeEI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-195-AojwkmPGMQyvT5xX2Gju5w-1; Mon, 31 Jul 2023 06:46:59 -0400
-X-MC-Unique: AojwkmPGMQyvT5xX2Gju5w-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2b934194964so38797931fa.1
-        for <linux-leds@vger.kernel.org>; Mon, 31 Jul 2023 03:46:59 -0700 (PDT)
+ us-mta-615-Tq3IjRuoNSCajIk3kqYADw-1; Mon, 31 Jul 2023 08:56:58 -0400
+X-MC-Unique: Tq3IjRuoNSCajIk3kqYADw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99bebfada8cso196391466b.1
+        for <linux-leds@vger.kernel.org>; Mon, 31 Jul 2023 05:56:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690800418; x=1691405218;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mI5wUOEnZT5MMbC9DqxmGyKMLKWx0FpMXmr9pHBPoMo=;
-        b=hr/tFAcQqirGIHQ+gwwLiZgCy8NCmDa5+ncHR2Q+mLO/oaKsvRxs5bEqqb3tRnebyK
-         lt4GoHqqJuZc/waNe92fL2Q8i3MQF1NbdLViKnRNZBBB+0WiUevWTx9u4p/3i7eKTYly
-         hDV3M7v4hWduF62AMDg+1niJioyw2uJF+vxayR95h6P1nYKzNyGcuGxS3BcL0Owua0Dz
-         gJa/cbfrvKiGa8qmynY8nhfMr124VImzsC9UAi4ougmYeWJvmcRhJMn+B97vp8+6JtQF
-         mVj4dGB3EU0wvbf4+7lhUdfsFM1SZd1tUduowtuHU8HG93ti/fMcWyt9Bxo/yN+stBlN
-         sQbQ==
-X-Gm-Message-State: ABy/qLbPiAHteGQvqoHh4C1t9q6JqGW6CAwJjbkEV94OnpjSAr19mRi1
-        UikgSm5fSe0xl98iecTcBLGkkvpgRb0i/dVxYm8ZAoc2vQkPV+FojquyLRh9KJnB61jrPz/ZnyT
-        zrirmG1tyaMLbbleOhjmboujGzZtw2A==
-X-Received: by 2002:a2e:80c5:0:b0:2b9:ee3e:240b with SMTP id r5-20020a2e80c5000000b002b9ee3e240bmr1129327ljg.41.1690800417701;
-        Mon, 31 Jul 2023 03:46:57 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHcXUe3wE+uQC1mdFXAZd/fTs7afCX1RT6gv70TGoakC/qgwTeUPzG9yZlbaQEaKty2GNFOnw==
-X-Received: by 2002:a2e:80c5:0:b0:2b9:ee3e:240b with SMTP id r5-20020a2e80c5000000b002b9ee3e240bmr1129302ljg.41.1690800417231;
-        Mon, 31 Jul 2023 03:46:57 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690808217; x=1691413017;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MxMqYbXDgca7Zo00Ck+hxplFR8Ah4pQzZkZMPsG9f9s=;
+        b=YpykM/Xjxqsbugv7m7OaYGE3Lq44TuffcNU/5edX8YHIxKprFEzBfJ1GeI9Rav8dlh
+         DyYqrboT+osvyH2xIFiAUbOeArd1pV0aq0ShHjAOMX61CC7Oq1qa/q9wLQrJSt0yjpwF
+         JDTo9d3ntpPmtbPKO/k/L52lDvC+o6Rg0QG0C7HoZJmvKNaa3ZRvKzjkeXO7MPZjeGLW
+         /WX6L9bUEomNzYR/u5yOrp9ihcL+ZniutznAdhYRBbx61tqDYOhfFuOdVlgdjCHxy2WT
+         EU1eWI2IQvr5qqBkBjkwxTuRmrX7x/JhYf54ltGjVyFVuUuwsuUYETrfmNW/Xm8XY0kR
+         KTkg==
+X-Gm-Message-State: ABy/qLaG1Zc0gWKQsvMHiubodgzXoJYWDiUeG0xbVVZ261nW0CdBDb5T
+        2F6NCU45DokQli27j58bsr9MUmNr8bBvebXxECjdlrZV2qO5Xk3J4zQAnqE6QOFlEG4UMtqnXl6
+        lM7Yzf48HpmGx6QE262hGsA==
+X-Received: by 2002:a17:906:3112:b0:973:d06d:545f with SMTP id 18-20020a170906311200b00973d06d545fmr5455027ejx.24.1690808217616;
+        Mon, 31 Jul 2023 05:56:57 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGAviMwmpJs0KSJ+G23RyLgzszwVjqCaw+gK13SaeYs0iYj/rL8+vo0bW2loUHBzZRl25wWVw==
+X-Received: by 2002:a17:906:3112:b0:973:d06d:545f with SMTP id 18-20020a170906311200b00973d06d545fmr5455018ejx.24.1690808217334;
+        Mon, 31 Jul 2023 05:56:57 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id t26-20020a1709064f1a00b0099bd86f9248sm5983673eju.63.2023.07.31.03.46.56
+        by smtp.gmail.com with ESMTPSA id b14-20020a1709062b4e00b00992acab8c45sm6192228ejg.12.2023.07.31.05.56.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 03:46:56 -0700 (PDT)
-Message-ID: <befb4205-2457-1e9f-1722-c583642a6607@redhat.com>
-Date:   Mon, 31 Jul 2023 12:46:56 +0200
+        Mon, 31 Jul 2023 05:56:56 -0700 (PDT)
+Message-ID: <f16554b9-d34e-4e19-052b-c818ef81d361@redhat.com>
+Date:   Mon, 31 Jul 2023 14:56:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v2 3/3] platform/x86: Move all simatic ipc drivers to the
- subdirectory siemens
-Content-Language: en-US
-To:     Henning Schild <henning.schild@siemens.com>,
-        Lee Jones <lee@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-watchdog@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tobias Schaffner <tobias.schaffner@siemens.com>
-References: <20230719153518.13073-1-henning.schild@siemens.com>
- <20230719153518.13073-4-henning.schild@siemens.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230719153518.13073-4-henning.schild@siemens.com>
+Subject: [GIT PULL] Immutable branch between pdx86 and LED due for the v6.6
+ merge window v2
+To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        "xingtong.wu" <xingtong.wu@siemens.com>,
+        Gerd Haeussler <gerd.haeussler@t-online.de>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,272 +81,75 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hi Lee,
 
-On 7/19/23 17:35, Henning Schild wrote:
-> With more files around move everything to a subdirectory. Users will
-> only see the several options once they enable the main one.
-> 
-> Suggested-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Henning Schild <henning.schild@siemens.com>
+Here is an updated pull-request for pending pdx86 simatic-ipc changes which
+are a pre-requisite for merging the following *new* LED patch:
 
-Thank you, I have merged this entire series into
-the platform-drivers-x86-simatic-ipc branch now:
+https://lore.kernel.org/linux-leds/20230731071833.4725-1-xingtong_wu@163.com/
 
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=platform-drivers-x86-simatic-ipc
-
-I did make 2 small changes to patch 3/3 while merging:
-
-1. Only decend into the siemens subdir if CONFIG_SIEMENS_SIMATIC_IPC is set:
-
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -131,7 +131,7 @@ obj-$(CONFIG_INTEL_SCU_IPC_UTIL)	+= intel_scu_ipcutil.o
- obj-$(CONFIG_X86_INTEL_LPSS)		+= pmc_atom.o
- 
- # Siemens Simatic Industrial PCs
--obj-y					+= siemens/
-+obj-$(CONFIG_SIEMENS_SIMATIC_IPC)	+= siemens/
- 
- # Winmate
- obj-$(CONFIG_WINMATE_FM07_KEYS)		+= winmate-fm07-keys.o
-
-2. Move the "default SIEMENS_SIMATIC_IPC*" lines to directly under
-the "tristate ..." lines as suggested by Andy.
-
-Note it will show up there once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-merged into the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+Note this is a new/updated pull-request with pre-requisites for
+the new LED patch linked above, this PR and the below diffstat are based
+on top of the previous pull-request for the ib-pdx86-simatic-v6.6 tag,
+which I believe you have already merged.
 
 Regards,
 
 Hans
 
 
+The following changes since commit 8766addf665e9f0ace15cca894ba225e5a4d580a:
 
+  platform/x86: simatic-ipc: use extra module loading for watchdog (2023-07-14 15:06:40 +0200)
 
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/ib-pdx86-simatic-v6.6-2
 
-> ---
->  drivers/platform/x86/Kconfig                  | 59 +----------------
->  drivers/platform/x86/Makefile                 |  6 +-
->  drivers/platform/x86/siemens/Kconfig          | 63 +++++++++++++++++++
->  drivers/platform/x86/siemens/Makefile         | 11 ++++
->  .../simatic-ipc-batt-apollolake.c             |  0
->  .../simatic-ipc-batt-elkhartlake.c            |  0
->  .../{ => siemens}/simatic-ipc-batt-f7188x.c   |  0
->  .../x86/{ => siemens}/simatic-ipc-batt.c      |  0
->  .../x86/{ => siemens}/simatic-ipc-batt.h      |  0
->  .../platform/x86/{ => siemens}/simatic-ipc.c  |  0
->  10 files changed, 76 insertions(+), 63 deletions(-)
->  create mode 100644 drivers/platform/x86/siemens/Kconfig
->  create mode 100644 drivers/platform/x86/siemens/Makefile
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-apollolake.c (100%)
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-elkhartlake.c (100%)
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-f7188x.c (100%)
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt.c (100%)
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt.h (100%)
->  rename drivers/platform/x86/{ => siemens}/simatic-ipc.c (100%)
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 487d3d8f4da9..f5fcb1ca1b63 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -1074,64 +1074,7 @@ config INTEL_SCU_IPC_UTIL
->  	  low level access for debug work and updating the firmware. Say
->  	  N unless you will be doing this on an Intel MID platform.
->  
-> -config SIEMENS_SIMATIC_IPC
-> -	tristate "Siemens Simatic IPC Class driver"
-> -	help
-> -	  This Simatic IPC class driver is the central of several drivers. It
-> -	  is mainly used for system identification, after which drivers in other
-> -	  classes will take care of driving specifics of those machines.
-> -	  i.e. LEDs and watchdog.
-> -
-> -	  To compile this driver as a module, choose M here: the module
-> -	  will be called simatic-ipc.
-> -
-> -config SIEMENS_SIMATIC_IPC_BATT
-> -	tristate "CMOS battery driver for Siemens Simatic IPCs"
-> -	depends on HWMON
-> -	depends on SIEMENS_SIMATIC_IPC
-> -	default SIEMENS_SIMATIC_IPC
-> -	help
-> -	  This option enables support for monitoring the voltage of the CMOS
-> -	  batteries of several Industrial PCs from Siemens.
-> -
-> -	  To compile this driver as a module, choose M here: the module
-> -	  will be called simatic-ipc-batt.
-> -
-> -config SIEMENS_SIMATIC_IPC_BATT_APOLLOLAKE
-> -	tristate "CMOS Battery monitoring for Simatic IPCs based on Apollo Lake GPIO"
-> -	depends on PINCTRL_BROXTON
-> -	depends on SIEMENS_SIMATIC_IPC_BATT
-> -	default SIEMENS_SIMATIC_IPC_BATT
-> -	help
-> -	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> -	  from Siemens based on Apollo Lake GPIO.
-> -
-> -	  To compile this driver as a module, choose M here: the module
-> -	  will be called simatic-ipc-batt-apollolake.
-> -
-> -config SIEMENS_SIMATIC_IPC_BATT_ELKHARTLAKE
-> -	tristate "CMOS Battery monitoring for Simatic IPCs based on Elkhart Lake GPIO"
-> -	depends on PINCTRL_ELKHARTLAKE
-> -	depends on SIEMENS_SIMATIC_IPC_BATT
-> -	default SIEMENS_SIMATIC_IPC_BATT
-> -	help
-> -	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> -	  from Siemens based on Elkhart Lake GPIO.
-> -
-> -	  To compile this driver as a module, choose M here: the module
-> -	  will be called simatic-ipc-batt-elkhartlake.
-> -
-> -config SIEMENS_SIMATIC_IPC_BATT_F7188X
-> -	tristate "CMOS Battery monitoring for Simatic IPCs based on Nuvoton GPIO"
-> -	depends on GPIO_F7188X
-> -	depends on SIEMENS_SIMATIC_IPC_BATT
-> -	default SIEMENS_SIMATIC_IPC_BATT
-> -	help
-> -	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> -	  from Siemens based on Nuvoton GPIO.
-> -
-> -	  To compile this driver as a module, choose M here: the module
-> -	  will be called simatic-ipc-batt-elkhartlake.
-> +source "drivers/platform/x86/siemens/Kconfig"
->  
->  config WINMATE_FM07_KEYS
->  	tristate "Winmate FM07/FM07P front-panel keys driver"
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index 522da0d1584d..d4a6c18d0dde 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -131,11 +131,7 @@ obj-$(CONFIG_INTEL_SCU_IPC_UTIL)	+= intel_scu_ipcutil.o
->  obj-$(CONFIG_X86_INTEL_LPSS)		+= pmc_atom.o
->  
->  # Siemens Simatic Industrial PCs
-> -obj-$(CONFIG_SIEMENS_SIMATIC_IPC)			+= simatic-ipc.o
-> -obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT)			+= simatic-ipc-batt.o
-> -obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_APOLLOLAKE)	+= simatic-ipc-batt-apollolake.o
-> -obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_ELKHARTLAKE)	+= simatic-ipc-batt-elkhartlake.o
-> -obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_F7188X)		+= simatic-ipc-batt-f7188x.o
-> +obj-y					+= siemens/
->  
->  # Winmate
->  obj-$(CONFIG_WINMATE_FM07_KEYS)		+= winmate-fm07-keys.o
-> diff --git a/drivers/platform/x86/siemens/Kconfig b/drivers/platform/x86/siemens/Kconfig
-> new file mode 100644
-> index 000000000000..8e78dc609a38
-> --- /dev/null
-> +++ b/drivers/platform/x86/siemens/Kconfig
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Siemens X86 Platform Specific Drivers
-> +#
-> +
-> +config SIEMENS_SIMATIC_IPC
-> +	tristate "Siemens Simatic IPC Class driver"
-> +	help
-> +	  This Simatic IPC class driver is the central of several drivers. It
-> +	  is mainly used for system identification, after which drivers in other
-> +	  classes will take care of driving specifics of those machines.
-> +	  i.e. LEDs and watchdog.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc.
-> +
-> +config SIEMENS_SIMATIC_IPC_BATT
-> +	tristate "CMOS battery driver for Siemens Simatic IPCs"
-> +	depends on HWMON
-> +	depends on SIEMENS_SIMATIC_IPC
-> +	default SIEMENS_SIMATIC_IPC
-> +	help
-> +	  This option enables support for monitoring the voltage of the CMOS
-> +	  batteries of several Industrial PCs from Siemens.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-batt.
-> +
-> +config SIEMENS_SIMATIC_IPC_BATT_APOLLOLAKE
-> +	tristate "CMOS Battery monitoring for Simatic IPCs based on Apollo Lake GPIO"
-> +	depends on PINCTRL_BROXTON
-> +	depends on SIEMENS_SIMATIC_IPC_BATT
-> +	default SIEMENS_SIMATIC_IPC_BATT
-> +	help
-> +	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> +	  from Siemens based on Apollo Lake GPIO.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-batt-apollolake.
-> +
-> +config SIEMENS_SIMATIC_IPC_BATT_ELKHARTLAKE
-> +	tristate "CMOS Battery monitoring for Simatic IPCs based on Elkhart Lake GPIO"
-> +	depends on PINCTRL_ELKHARTLAKE
-> +	depends on SIEMENS_SIMATIC_IPC_BATT
-> +	default SIEMENS_SIMATIC_IPC_BATT
-> +	help
-> +	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> +	  from Siemens based on Elkhart Lake GPIO.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-batt-elkhartlake.
-> +
-> +config SIEMENS_SIMATIC_IPC_BATT_F7188X
-> +	tristate "CMOS Battery monitoring for Simatic IPCs based on Nuvoton GPIO"
-> +	depends on GPIO_F7188X
-> +	depends on SIEMENS_SIMATIC_IPC_BATT
-> +	default SIEMENS_SIMATIC_IPC_BATT
-> +	help
-> +	  This option enables CMOS battery monitoring for Simatic Industrial PCs
-> +	  from Siemens based on Nuvoton GPIO.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called simatic-ipc-batt-elkhartlake.
-> diff --git a/drivers/platform/x86/siemens/Makefile b/drivers/platform/x86/siemens/Makefile
-> new file mode 100644
-> index 000000000000..2b384b4cb8ba
-> --- /dev/null
-> +++ b/drivers/platform/x86/siemens/Makefile
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for linux/drivers/platform/x86/siemens
-> +# Siemens x86 Platform-Specific Drivers
-> +#
-> +
-> +obj-$(CONFIG_SIEMENS_SIMATIC_IPC)			+= simatic-ipc.o
-> +obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT)			+= simatic-ipc-batt.o
-> +obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_APOLLOLAKE)	+= simatic-ipc-batt-apollolake.o
-> +obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_ELKHARTLAKE)	+= simatic-ipc-batt-elkhartlake.o
-> +obj-$(CONFIG_SIEMENS_SIMATIC_IPC_BATT_F7188X)		+= simatic-ipc-batt-f7188x.o
-> diff --git a/drivers/platform/x86/simatic-ipc-batt-apollolake.c b/drivers/platform/x86/siemens/simatic-ipc-batt-apollolake.c
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc-batt-apollolake.c
-> rename to drivers/platform/x86/siemens/simatic-ipc-batt-apollolake.c
-> diff --git a/drivers/platform/x86/simatic-ipc-batt-elkhartlake.c b/drivers/platform/x86/siemens/simatic-ipc-batt-elkhartlake.c
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc-batt-elkhartlake.c
-> rename to drivers/platform/x86/siemens/simatic-ipc-batt-elkhartlake.c
-> diff --git a/drivers/platform/x86/simatic-ipc-batt-f7188x.c b/drivers/platform/x86/siemens/simatic-ipc-batt-f7188x.c
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc-batt-f7188x.c
-> rename to drivers/platform/x86/siemens/simatic-ipc-batt-f7188x.c
-> diff --git a/drivers/platform/x86/simatic-ipc-batt.c b/drivers/platform/x86/siemens/simatic-ipc-batt.c
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc-batt.c
-> rename to drivers/platform/x86/siemens/simatic-ipc-batt.c
-> diff --git a/drivers/platform/x86/simatic-ipc-batt.h b/drivers/platform/x86/siemens/simatic-ipc-batt.h
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc-batt.h
-> rename to drivers/platform/x86/siemens/simatic-ipc-batt.h
-> diff --git a/drivers/platform/x86/simatic-ipc.c b/drivers/platform/x86/siemens/simatic-ipc.c
-> similarity index 100%
-> rename from drivers/platform/x86/simatic-ipc.c
-> rename to drivers/platform/x86/siemens/simatic-ipc.c
+for you to fetch changes up to c56beff2037549c951042d178de75e535818a98a:
+
+  platform/x86/siemens: simatic-ipc-batt: add support for module BX-59A (2023-07-31 14:24:44 +0200)
+
+----------------------------------------------------------------
+Immutable branch between pdx86 simatic branch and LED due for the v6.6 merge window
+
+ib-pdx86-simatic-v6.6-2: v6.5-rc1 + ib-pdx86-simatic-v6.6 +
+more recent pdx86 simatic-ipc patches for merging into
+the LED subsystem for v6.6.
+
+----------------------------------------------------------------
+Henning Schild (4):
+      watchdog: make Siemens Simatic watchdog driver default on platform
+      leds: simatic-ipc-leds: default config switch to platform switch
+      platform/x86: Move all simatic ipc drivers to the subdirectory siemens
+      platform/x86/siemens: Kconfig: adjust help text
+
+xingtong.wu (3):
+      platform/x86/siemens: simatic-ipc-batt: fix bat reading in BX_21A
+      platform/x86/siemens: simatic-ipc: add new models BX-56A/BX-59A
+      platform/x86/siemens: simatic-ipc-batt: add support for module BX-59A
+
+ drivers/leds/simple/Kconfig                        |  1 +
+ drivers/platform/x86/Kconfig                       | 59 +-------------------
+ drivers/platform/x86/Makefile                      |  6 +-
+ drivers/platform/x86/siemens/Kconfig               | 64 ++++++++++++++++++++++
+ drivers/platform/x86/siemens/Makefile              | 11 ++++
+ .../{ => siemens}/simatic-ipc-batt-apollolake.c    |  0
+ .../{ => siemens}/simatic-ipc-batt-elkhartlake.c   |  0
+ .../x86/{ => siemens}/simatic-ipc-batt-f7188x.c    | 37 +++++++++----
+ .../platform/x86/{ => siemens}/simatic-ipc-batt.c  | 22 ++++----
+ .../platform/x86/{ => siemens}/simatic-ipc-batt.h  |  0
+ drivers/platform/x86/{ => siemens}/simatic-ipc.c   | 12 +++-
+ drivers/watchdog/Kconfig                           |  1 +
+ include/linux/platform_data/x86/simatic-ipc-base.h |  1 +
+ include/linux/platform_data/x86/simatic-ipc.h      |  2 +
+ 14 files changed, 130 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/platform/x86/siemens/Kconfig
+ create mode 100644 drivers/platform/x86/siemens/Makefile
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-apollolake.c (100%)
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-elkhartlake.c (100%)
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt-f7188x.c (65%)
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt.c (95%)
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc-batt.h (100%)
+ rename drivers/platform/x86/{ => siemens}/simatic-ipc.c (92%)
 
