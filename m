@@ -2,73 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D4776C5D0
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Aug 2023 08:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A833876C86D
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Aug 2023 10:37:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232555AbjHBGyD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Aug 2023 02:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        id S232664AbjHBIhY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Aug 2023 04:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232560AbjHBGxt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Aug 2023 02:53:49 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561C83C13;
-        Tue,  1 Aug 2023 23:53:23 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4fe216edaf7so724373e87.0;
-        Tue, 01 Aug 2023 23:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690959200; x=1691564000;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F4Pl5BdSH4byRA35L85xc6zgO1CbzCWnR5yIepndUv4=;
-        b=dG3UvMXulrUfNJ6jRi002t7IMTXDRFa3EkIjXo4YZNoRRElB8ESgvKp655SVVhEW+s
-         WqK3tMXaREEjwHcNlgWUiIW0S755S+bbP8MgPvVzansTiM5Hmk2/h9X1qWkaFBdcJIzp
-         FuEAbmNQ5pA6Z2CG1aIyNb+NXuSXUGp8bXNvPOdFfOqB5mPK2BtWbjXM9+sSmTKtnyUX
-         mqbEkv3XqPyAgUo3WsrCJzZN7FLg2y8DnK04LOupId8sDYi2FB3zwc6vXZUjnCTkeljY
-         l9Sd7WNg/lnIDfHesFVLvn9Lnnov8idFVo0cjv0+YENOWnrDv1H+1JKBYXP0uV28DWf6
-         QFLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690959200; x=1691564000;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4Pl5BdSH4byRA35L85xc6zgO1CbzCWnR5yIepndUv4=;
-        b=ZPKHHyJbL/1Y6fL9xO98qiXkB9bgK/pjkisXuaacxBcy9G6u4M9+JFgSUa3aQhm2mu
-         +g2YCTyVve52s4J5SjBKj04eXSGFrjF9uhpXE7Dha+oOIp82BXGXsB5BHUlODUIroHt9
-         klHTiTNeyT6E6YJ5oNjZy/ok0XV0mwV3YpwGC2aSFyIj/KmKvIGtdqLAbS0ueVg5kp9A
-         tEo9yETGqHmauOp+rdWxvn2rYuC2PMvnQh1CEecVmltAsBuhffl5zVs7KrcN5qTq/00O
-         WF2TJhc+rBox0Xdjr08PcDNoajkL36bDfMuXfIDHycumtRr20cFiHYd8Y/sO9CEhjsgV
-         3Ofg==
-X-Gm-Message-State: ABy/qLZbtSJ7KzYg6KWZD3SOR2n+Xuofz/g3f4tmxr3X1iua4cLoyrBy
-        kEKd7+Kf9fWCAZbTVf5GWTU=
-X-Google-Smtp-Source: APBJJlE+MsFBV416mdrDP4Oa0sGHVarFSvTi8K1fbAzufL0Uiiw35c+ZN+Sy5dLJWmGJzMM6O7lp8w==
-X-Received: by 2002:ac2:4301:0:b0:4fe:32cd:481f with SMTP id l1-20020ac24301000000b004fe32cd481fmr1833475lfh.1.1690959200258;
-        Tue, 01 Aug 2023 23:53:20 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:16f8:1500::5? (dc78bmyyyyyyyyyyyyyct-3.rev.dnainternet.fi. [2001:14ba:16f8:1500::5])
-        by smtp.gmail.com with ESMTPSA id j29-20020ac2551d000000b004fe09920fe5sm2867897lfk.47.2023.08.01.23.53.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Aug 2023 23:53:19 -0700 (PDT)
-Message-ID: <f28f74f9-e88b-55a3-28e5-5997474a8238@gmail.com>
-Date:   Wed, 2 Aug 2023 09:53:19 +0300
+        with ESMTP id S232346AbjHBIhX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Aug 2023 04:37:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD81171B
+        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 01:37:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 533BA6185F
+        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 08:37:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7981C433C8;
+        Wed,  2 Aug 2023 08:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690965441;
+        bh=+/U7g4YdcO4zxl8QHTmjFr89ZSxQ2OdpJ9wz7H4I1Sk=;
+        h=Date:From:To:Subject:In-Reply-To:References:From;
+        b=SHN1CSPIKn68XVL1T0VrQ/Sae3Tny2gqasn2YqfjzT9sBjeQDbEoGAxdI5t8H8auN
+         ROAir2c7D7LA3G6GIdv9yv626Hzrr0zMS+kp1V8qWDZUY8wAtu65pzymAf4xiMqm44
+         HIboTzVTsq5wC7fxv53GTK/ElQFJojSkDEt61jwDWIArdgk+GdqBzESAydF4CBtWNi
+         SkiQhZ87mOdp3UY2pCQ9mPOPXg57i1pw0D8TZnrS9+4A9zkfb3t6QlSN1pqzMN/8JW
+         bxP8EZ7Wiaj6qz4JtEx2Fj8oi1ORnGlhKSsvcXq73I7LzTsihQKtsF0/DkxL5HfSot
+         e0+8B2fwJvdPg==
+Date:   Wed, 2 Aug 2023 10:37:17 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: tty: Fix tty trigger when LED's
+ max_brightness is greater than 1
+Message-ID: <20230802103717.03ed40f6@dellmb>
+In-Reply-To: <20230801142642.21335-1-kabel@kernel.org>
+References: <20230801142642.21335-1-kabel@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] dt-bindings: leds: rohm,bd71828: Drop select:false
-Content-Language: en-US, en-GB
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230728171123.110489-1-krzysztof.kozlowski@linaro.org>
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20230728171123.110489-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -77,23 +56,24 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/28/23 20:11, Krzysztof Kozlowski wrote:
-> select:false makes the schema basically ignored (not selected for given
-> compatible), unless some other binding references it.  It's not really
-> useful nor needed for device bindings, even if they are part of other
-> binding (like MFD).
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue,  1 Aug 2023 16:26:42 +0200
+Marek Beh=C3=BAn <kabel@kernel.org> wrote:
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> The tty LED trigger uses the obsolete LED_ON & LED_OFF constants when
+> setting LED brightness. This is bad because the LED_ON constant is equal
+> to 1, and so when activating the tty LED trigger on a LED class device
+> with max_brightness greater than 1, the LED is dimmer than it can be
+> (when max_brightness is 255, the LED is very dimm indeed; some devices
+> translate 1/255 to 0, so the LED is OFF all the time).
+>=20
+> Use a mechanism similar to the netdev trigger, wherein on activation
+> time, the current LED brightness is taken as blinking brightness, and if
+> it is zero, the max_brightness is taken instead.
+>=20
+> Fixes: fd4a641ac88f ("leds: trigger: implement a tty trigger")
+> Signed-off-by: Marek Beh=C3=BAn <kabel@kernel.org>
+> ---
+> PS: We need to get rid of the LED_ON, LED_OFF, LED_FULL and LED_HALF or
+>     we're bound to repeat this kind of issues.
 
-Yours,
-	Matti
-
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
+Ignore this, even better fix coming utilizing led_blink_set_oneshot()
