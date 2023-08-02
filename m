@@ -2,117 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBFBC76C8F9
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Aug 2023 11:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CCFF76D34F
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Aug 2023 18:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233780AbjHBJII (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Aug 2023 05:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S231766AbjHBQIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Aug 2023 12:08:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234001AbjHBJIA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Aug 2023 05:08:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E4C2721
-        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 02:07:59 -0700 (PDT)
+        with ESMTP id S235052AbjHBQHz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Aug 2023 12:07:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6324F198A
+        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 09:07:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E075E618A6
-        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 09:07:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28642C433C7;
-        Wed,  2 Aug 2023 09:07:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E02AB61A18
+        for <linux-leds@vger.kernel.org>; Wed,  2 Aug 2023 16:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C956C433C8;
+        Wed,  2 Aug 2023 16:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690967278;
-        bh=xXV/ZatAgF57LmCFa30lg7X1kaWBIlAv/kfKSZBZwQo=;
+        s=k20201202; t=1690992472;
+        bh=LS/hzCHnMZGkygLiyYSNo0gKng+PKlNYWfkl8NzGJGE=;
         h=From:To:Cc:Subject:Date:From;
-        b=OhUrZAfsRzFuLHD5LvaXchSwX9yV8H3cDoNgHn8z7YoMFi4uYWGC/kRmr4Y/Pwjr2
-         RxJ+lEPbF0g+sLxC7vv82T/Fgd4hmityF6WpaYzdvWgt5jSD7YkFFCD8pIgDn8/FL6
-         f5yPt62glmoeMMUIY+ZeRVcnuKwrzl3QP44dpQEUSLHmJPTlyJm/4Nj+DBi8dCPB3D
-         yNzylw1uizpjN6hQwlzOZrXmtbFgUWcBxc8dUkMnvBVsDy9fDf1S6Hr49az8yuhpgE
-         aqlKJXVvWtZAHpgAlxiigYM7NTxnHFEDBbo8+deHyOZ4/vPzeoSnFFPtjPtMAVpgbz
-         BLBj9GZXxUKJA==
+        b=XxoQf78FM+y2xAE4eL7IHFfSYsigQLIjJwba/6iws2a1PLBHUyNigrxIPOFkphgdF
+         /ZyYyeCLGF+SW3G4iluj8aJWSwK0Y639wtYPT6/+DSgxIsCEPh7OPc0hoHP2tH6yNQ
+         ZK20JnhCYNRKoMaUPRkXOYi8rE1GjjGPNwxEKLoOWBHTsrkpbHBVBaIUj/URVto9Bd
+         5mhmb5pZpFgBV7HY7AmqRnEBN62/Y880OETbIna3lRsACTyNqIv2fQWiPILUcPLmlC
+         IxDsQuMDXuSw4f/zLVdeMk1eQMHfC4sbJuy41Ru864+Zn0Gw5QfV/2dTDGXxoIlnE2
+         dI/o4edI+eWxA==
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-To:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org
 Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH v2] leds: trigger: tty: Do not use LED_ON/OFF constants, use led_blink_set_oneshot instead
-Date:   Wed,  2 Aug 2023 11:07:53 +0200
-Message-ID: <20230802090753.13611-1-kabel@kernel.org>
+Subject: [PATCH v3 0/6] leds: turris-omnia: updates
+Date:   Wed,  2 Aug 2023 18:07:42 +0200
+Message-ID: <20230802160748.11208-1-kabel@kernel.org>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The tty LED trigger uses the obsolete LED_ON & LED_OFF constants when
-setting LED brightness. This is bad because the LED_ON constant is equal
-to 1, and so when activating the tty LED trigger on a LED class device
-with max_brightness greater than 1, the LED is dimmer than it can be
-(when max_brightness is 255, the LED is very dimm indeed; some devices
-translate 1/255 to 0, so the LED is OFF all the time).
+Hi Pavel, Lee,
 
-Instead of directly setting brightness to a specific value, use the
-led_blink_set_oneshot() function from LED core to configure the blink.
-This function takes the current configured brightness as blink
-brightness if not zero, and max brightness otherwise.
+I am sending version 3 of Turris Omnia's LED controller updates.
+Please read the summary (changes from version 2):
+- added patch 1, which drops unnecessary mutex locking
+- added patch 2, which changes SMBUS calls to regular I2C transfers
+- added patch 3, changing sprintf() to dedicated sysfs_emit()
+- patch 4 replaces patch 1 from v2, which changed max_brightness to 1.
+  Instead, we make set_brightness() more effective by avoiding
+  unnecessary I2C transactions (for example if brightness is being
+  changed between 0 and 255, we do not send the color changing I2C
+  command, only the enabling/disabling command)
+- patch 5 is updated patch 3 from v2, which adds support for enabling
+  HW blinking mode on the LEDs
+- patch 6 adds support for enabling/disabling HW gamma correction of
+  the RGB LEDs. Gamma correction is supported by newer MCU firmware
+  versions
 
-This also changes the behavior of the TTY LED trigger. Previously if
-rx/tx stats kept changing, the LED was ON all the time they kept
-changing. With this patch the LED will blink on TTY activity.
+Marek
 
-Fixes: fd4a641ac88f ("leds: trigger: implement a tty trigger")
-Signed-off-by: Marek Behún <kabel@kernel.org>
----
- drivers/leds/trigger/ledtrig-tty.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Marek Behún (6):
+  leds: turris-omnia: drop unnecessary mutex locking
+  leds: turris-omnia: do not use SMBUS calls
+  leds: turris-omnia: use sysfs_emit() instead of sprintf()
+  leds: turris-omnia: make set_brightness() more efficient
+  leds: turris-omnia: support HW controlled mode via private trigger
+  leds: turris-omnia: add support for enabling/disabling HW gamma
+    correction
 
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index f62db7e520b5..8ae0d2d284af 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -7,6 +7,8 @@
- #include <linux/tty.h>
- #include <uapi/linux/serial.h>
- 
-+#define LEDTRIG_TTY_INTERVAL	50
-+
- struct ledtrig_tty_data {
- 	struct led_classdev *led_cdev;
- 	struct delayed_work dwork;
-@@ -122,17 +124,19 @@ static void ledtrig_tty_work(struct work_struct *work)
- 
- 	if (icount.rx != trigger_data->rx ||
- 	    icount.tx != trigger_data->tx) {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-+		unsigned long interval = LEDTRIG_TTY_INTERVAL;
-+
-+		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
-+				      &interval, 0);
- 
- 		trigger_data->rx = icount.rx;
- 		trigger_data->tx = icount.tx;
--	} else {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
- 	}
- 
- out:
- 	mutex_unlock(&trigger_data->mutex);
--	schedule_delayed_work(&trigger_data->dwork, msecs_to_jiffies(100));
-+	schedule_delayed_work(&trigger_data->dwork,
-+			      msecs_to_jiffies(LEDTRIG_TTY_INTERVAL * 2));
- }
- 
- static struct attribute *ledtrig_tty_attrs[] = {
+ .../sysfs-class-led-driver-turris-omnia       |  14 +
+ drivers/leds/Kconfig                          |   1 +
+ drivers/leds/leds-turris-omnia.c              | 363 +++++++++++++++---
+ 3 files changed, 329 insertions(+), 49 deletions(-)
+
 -- 
 2.41.0
 
