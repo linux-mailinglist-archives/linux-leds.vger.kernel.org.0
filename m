@@ -2,91 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D952A772710
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Aug 2023 16:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 324EA773012
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Aug 2023 22:03:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbjHGOIw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Aug 2023 10:08:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57748 "EHLO
+        id S231177AbjHGUD3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Aug 2023 16:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbjHGOIv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Aug 2023 10:08:51 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C016F3
-        for <linux-leds@vger.kernel.org>; Mon,  7 Aug 2023 07:08:50 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1bc34b32785so28993565ad.3
-        for <linux-leds@vger.kernel.org>; Mon, 07 Aug 2023 07:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691417329; x=1692022129;
-        h=reply-to:date:to:subject:content-description
-         :content-transfer-encoding:mime-version:from:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qeJMC8uQd6uF4qr+WdPwE3eIC4QtXm265LEcDc12V2I=;
-        b=JhkyP5eL66t+SBxz0Vh5Z5iTwF5X2f1vMlB5XIcSWYxwSB352dNzLKuMfM1pY8q/E6
-         v3vNVp/sRfSnL/316O+SbArJ6G01G1i8N5bpPJHSBgLhgMTk3ulh8u7ousFKj6F327oC
-         Rz109quaTDnE6vBkNClT4rrAfJ5SsRC/nkyk2/D4b/6WuhjIdZ8ueRSQAyfedU+n49Iw
-         uUVSD4O/gtmHnYP8rZLvffCHYv6hf+c+L+DReOVv7kgd9jwDGF3on3+YK0XmBmsCZip0
-         F0ycjYiXP7/yWTdpJYcSNb5PWo8DxqXNAKXO9Er4Ufp8mg8HtuwwA+V16FVtCII1T8Fr
-         cYlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691417329; x=1692022129;
-        h=reply-to:date:to:subject:content-description
-         :content-transfer-encoding:mime-version:from:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qeJMC8uQd6uF4qr+WdPwE3eIC4QtXm265LEcDc12V2I=;
-        b=h1YTb7CdcNO0/N0Ylh8W7Kgtv7PBiC4enqUATvfgzF2tBqixdgFusqerMVDhMGEoiR
-         WBLGt1fR0wXrwI/A92+j6F3vE/NJt9egtePXbv7gzV1ChLHtavD/QVa15P9A6zCw4uwL
-         qLNh4tI2sLA03UOsRxLcXu6ICStISWPYM9FDmm1iKrACon5eIRqHyaVgjMs9zcSM5S5G
-         enpvpZa1geqlxlBoHbzcgKGuwVDR8zjjkp/BeDuGIgSqncOkfzXmJrkrmH4KouJb1F6V
-         kgUuYfzzEAElisqKSRj85g/3wdNXR8SN0IMBD4g1zsuUYVl0j4UGe1Zv7yCZJZobNGhS
-         9f7w==
-X-Gm-Message-State: AOJu0Yxaf0aa+1CzaKEuenVPLsfsB4/XBQ7MtPWMtpKwLcNyYeQY3hET
-        lKXAZjN0hW2bd8lr68hsxrgGas7lApLvHRuf
-X-Google-Smtp-Source: AGHT+IHcq8FrAyjiozJDdypve4ClLbIOssaL7Aodpu1wwSM4VCFGCHXV8n0hP7oLn8wq4C3Ye/QgMA==
-X-Received: by 2002:a17:903:1209:b0:1b6:b445:36d4 with SMTP id l9-20020a170903120900b001b6b44536d4mr8704801plh.43.1691417329445;
-        Mon, 07 Aug 2023 07:08:49 -0700 (PDT)
-Received: from [192.168.1.102] ([192.166.244.71])
-        by smtp.gmail.com with ESMTPSA id jk21-20020a170903331500b001bbfa86ca3bsm7002018plb.78.2023.08.07.07.08.47
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Mon, 07 Aug 2023 07:08:49 -0700 (PDT)
-Message-ID: <64d0faf1.170a0220.94af6.c297@mx.google.com>
-From:   World Health Organization Empowerment Group <rakesround@gmail.com>
-X-Google-Original-From: World Health Organization Empowerment Group
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S230389AbjHGUD0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Aug 2023 16:03:26 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF54172B;
+        Mon,  7 Aug 2023 13:03:21 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 377HUMfN016146;
+        Mon, 7 Aug 2023 20:03:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iuZ3TDQo1tozN5VS9Wo/E3D3xrzfQoD/Zc3kj7u+4tc=;
+ b=i7m7+5zDsDl65yll7O8V+0VXjZ2JB0/0xyII8rp/O9xXwYePXbpkplVQxe5PI6Y8q2jA
+ 4fePmJPuDZm8c0PhzKkN5tUTEY/IDyyTk3cUTfJ/kAKBcjpVfmTlhLRToMozcCakGiXI
+ s4HVeQW+Wt5PYkgliGFVXVRKr8Z5r6eCkLIHDcqEgz87I1z9rsCzgtkdS483t740lCLU
+ rArF5CBgKPrfZOmjwI1JlT4UzAf69sMyprbyvjotv/DMmdg3z14Sm/yB2COPKrLPKqUt
+ AnKB/LsBUIc1TW58ny0nxPaF3lNSuSTygvS5stC5YrxCV/axkoMjSC3HaSEdlRPbfriv tg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sawbg9dan-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Aug 2023 20:03:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 377K37Js019208
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 7 Aug 2023 20:03:07 GMT
+Received: from [10.110.62.211] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
+ 2023 13:03:06 -0700
+Message-ID: <900b3b16-cfad-d043-39b4-8ea6802f87bc@quicinc.com>
+Date:   Mon, 7 Aug 2023 13:03:05 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: We have a Job opportunity for you in your country;
-To:     Recipients <World@vger.kernel.org>
-Date:   Mon, 07 Aug 2023 21:08:31 +0700
-Reply-To: drjeromewalcott@gmail.com
-X-Spam-Status: No, score=1.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,TO_MALFORMED,
-        T_FILL_THIS_FORM_SHORT autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/7] dt-bindings: leds: leds-qcom-lpg: Add support for
+ LPG PPG
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+CC:     <pavel@ucw.cz>, <lee@kernel.org>, <thierry.reding@gmail.com>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
+        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+References: <20230725193423.25047-1-quic_amelende@quicinc.com>
+ <20230725193423.25047-3-quic_amelende@quicinc.com>
+ <20230803002502.GA1569972-robh@kernel.org>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <20230803002502.GA1569972-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tA45PtcBV9TNqiAInbRxmq3CJjyHZ6KV
+X-Proofpoint-GUID: tA45PtcBV9TNqiAInbRxmq3CJjyHZ6KV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-07_22,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=745
+ impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ mlxscore=0 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308070183
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Greetings! Sir /Madam.
-                   =
-
-We are writing this email to you from (World Health Organization Empowermen=
-t Group) to inform you that we have a Job opportunity for you in your count=
-ry, if you receive this message, send your CV or your information, Your Ful=
-l Name, Your Address, Your Occupation, to (Dr.Jerome) via this email addres=
-s: drjeromewalcott@gmail.com  For more information about the Job. The Job c=
-annot stop your business or the work you are doing already. =
 
 
-We know that this Message may come as a surprise to you.
+On 8/2/2023 5:25 PM, Rob Herring wrote:
+> On Tue, Jul 25, 2023 at 12:34:18PM -0700, Anjelique Melendez wrote:
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - qcom,pm8350c-pw
+>> +              - qcom,pm8550-pwm
+>> +    then:
+>> +      properties:
+>> +        nvmem:
+>> +          minItems: 2
+>> +        nvmem-names:
+>> +          items:
+>> +            - const: lpg_chan_sdam
+>> +            - const: lut_sdam
+> 
+> This can go into the main section and then here you just say 
+> 'minItems: 2'. And similar for the 1st if/then.
+> 
+ACK
+>> +      required:
+>> +        - nvmem
+>> +        - nvmem-names
+> 
+> Looks like these are always required.
+These are only required for the compatibles properties that do not
+have lut peripherals. Right now this is is only for qcom,pmi632-lpg, 
+qcom,pm8350c-pwm and qcom,pm8550-pwm.
 
-Best Regards
-Dr.Jerome Walcott
-Office Email:drjeromewalcott@gmail.com
-Office  WhatsApp Number: +447405575102. =
 
-Office Contact Number: +1-7712204594
