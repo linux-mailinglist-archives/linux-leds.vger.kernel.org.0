@@ -2,201 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3563A77535B
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Aug 2023 08:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADA7A77551F
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Aug 2023 10:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231302AbjHIG7d (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Aug 2023 02:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46418 "EHLO
+        id S231190AbjHIIYH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Aug 2023 04:24:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbjHIG7c (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Aug 2023 02:59:32 -0400
-X-Greylist: delayed 1201 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Aug 2023 23:59:32 PDT
-Received: from mx0b-002bf204.pphosted.com (mx0b-002bf204.pphosted.com [205.220.172.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1588519BC;
-        Tue,  8 Aug 2023 23:59:31 -0700 (PDT)
-Received: from pps.filterd (m0207525.ppops.net [127.0.0.1])
-        by mx0a-002bf204.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3794XkT3008020;
-        Tue, 8 Aug 2023 23:39:17 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        monolithicpower.com; h=from:to:cc:subject:date:message-id
-        :content-type:content-transfer-encoding:mime-version; s=pps1;
-         bh=PVgDAh533IF8A1V/gz7z2rt2KqDkLxlapAP43n6ZwH0=; b=eyja0Ayeqfk1
-        74i0/0Bj77wPGlE68KO/MaB86rMfxolz1yEXayFeec3vM9MfVSuqZlPJgLohNu7I
-        0j3vhj+RB37Cdb3nvHYJU1daY6UU1Y9PW8EmppGHlCc1EkPj3Il9EgF3ad8pbxmi
-        w++nZt639GwpbksaIafMWvbiLc8sdEmzA3WKCgKOU1AP+6i9awBnEktG3beZZbc+
-        rw582Dfw1DktkfR6VmfuQsxnZGOCgEZZj/fz5riBClAhVDsQZcpfDQnSwesepnq9
-        rqpM77r5p1UMMr/Qw9mDRHQhnly+0ULZs6RZzFftEjJUj+uT8ZESuHzS3XiqUIIa
-        LC1XLA8Pjg==
-Received: from webmail.monolithicpower.com (mps-mslbn02.monolithicpower.com [12.192.228.33])
-        by mx0a-002bf204.pphosted.com (PPS) with ESMTPS id 3s9k3ycru3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 08 Aug 2023 23:39:16 -0700 (PDT)
-Received: from CD-MSH04.monolithicpower.com (10.10.70.213) by
- mps-mslbn02.monolithicpower.com (10.10.10.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 8 Aug 2023 23:39:14 -0700
-Received: from CD-MSH04.monolithicpower.com (10.10.70.213) by
- CD-MSH04.monolithicpower.com (10.10.70.213) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 9 Aug 2023 14:39:12 +0800
-Received: from CD-MSH04.monolithicpower.com ([fe80::fd9c:129e:f4d1:923f]) by
- CD-MSH04.monolithicpower.com ([fe80::fd9c:129e:f4d1:923f%4]) with mapi id
- 15.01.2242.004; Wed, 9 Aug 2023 14:39:12 +0800
-From:   "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>
-To:     "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>,
-        "wyx137120466@gmail.com" <wyx137120466@gmail.com>,
-        "Leal (Long) Li" <Leal.Li@monolithicpower.com>
-Subject: [PATCH 2/2] dt-bindings: leds: add mp3326
-Thread-Topic: [PATCH 2/2] dt-bindings: leds: add mp3326
-Thread-Index: AdnKikmg3hkiMAssTrO1eGgOEih83Q==
-Date:   Wed, 9 Aug 2023 06:39:12 +0000
-Message-ID: <fb09088db71f45169739addbaae770be@monolithicpower.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.84.38]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229541AbjHIIYG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Aug 2023 04:24:06 -0400
+X-Greylist: delayed 456 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Aug 2023 01:24:05 PDT
+Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D527899
+        for <linux-leds@vger.kernel.org>; Wed,  9 Aug 2023 01:24:05 -0700 (PDT)
+Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
+        id 989D44DDE7; Wed,  9 Aug 2023 08:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
+        s=mail; t=1691568988;
+        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
+        h=Date:From:To:Subject:From;
+        b=C5XOYYfWZYIrxRvxoxHmf03G0TscMJicLQfNkpAm6WFRabJ+aiRkkFVDQjnIWXQ49
+         RbaZYeBYECjJir5CES7nYONJwOuUR8zTChZQc62mEWBNKhuho1dQ8Y5i5L3gGgmVUf
+         cfKWZrhA7wJOAGfNr6QOOk8ArCdcYq0/8maz21RUTGL/siy1Jl/nDLdNcLCulwUCb5
+         Ws/RBYSvgp+ztgBomqk2VlXW+WKS46Ge8ApQKyRnHflDD7mKB2GTN+Lw+yNZAGDrst
+         Scw9iLOP23QPvNKZcVC7fSlcHA/pDIbV1zwwKCt5nlHeWl3YBdq0UdHgSqEW7lzVkV
+         g0uNU9ANF2j8g==
+Received: by mail.profitpathwaygo.com for <linux-leds@vger.kernel.org>; Wed,  9 Aug 2023 08:16:11 GMT
+Message-ID: <20230809064500-0.1.10.4rzt.0.mwlkwet56f@profitpathwaygo.com>
+Date:   Wed,  9 Aug 2023 08:16:11 GMT
+From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
+To:     <linux-leds@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
+X-Mailer: mail.profitpathwaygo.com
 MIME-Version: 1.0
-X-Proofpoint-GUID: BM0EgNcdq1SQ8RnN06o4QNonQnqSchKw
-X-Proofpoint-ORIG-GUID: BM0EgNcdq1SQ8RnN06o4QNonQnqSchKw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-09_04,2023-08-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 phishscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 mlxscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2308090058
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add dt-bindings for Monolithic Power System MP3326.
+Dzie=C5=84 dobry,
 
-Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
----
- .../devicetree/bindings/leds/leds-mp3326.yaml | 99 +++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-mp3326.yaml
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-mp3326.yaml b/Docu=
-mentation/devicetree/bindings/leds/leds-mp3326.yaml
-new file mode 100644
-index 000000000000..3a059340b902
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-mp3326.yaml
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-mp3326.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: LED driver for MP3326 from Monolithic Power Systems.
-+
-+maintainers:
-+  - Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-+
-+description: |
-+  Bindings for the Monolithic Power Systems MP3326 LED Drivers.
-+
-+  For more product information please see the link below:
-+    https://www.monolithicpower.com/en/products/mp3326.html
-+properties:
-+  compatible:
-+    const: MPS,MP3326
-+
-+  reg:
-+    description: I2C slave address of the controller.
-+    maxItems: 1
-+
-+  led-protect:
-+    description: LED short protection threshold.
-+    enum:
-+      - 0 #2V
-+      - 1 #3V
-+      - 2 #4V
-+      - 3 #5V
-+
-+  switch_status:
-+    description: Master switch for all channels.
-+    enum:
-+      - 0 #close all channels
-+      - 1 #open all channels
-+
-+patternProperties:
-+  "^rgb(-[0-9a-f]+)?$":
-+    description: RGB group.
-+    type: object
-+    unevaluatedProperties: false
-+    properties:
-+      rgb_r:
-+        description: Red light of the RGB group.
-+        maxItems: 16
-+        minItems: 1
-+      rgb_g:
-+        description: Green light of the RGB group.
-+        maxItems: 16
-+        minItems: 1
-+      rgb_b:
-+        description: Blue light of the RGB group.
-+        maxItems: 16
-+        minItems: 1
-+      brightness:
-+        description: Brightness of the RGB group.
-+        maxItems: 63
-+        minItems: 0
-+      required:
-+        - rgb_r
-+        - rgb_g
-+        - rgb_b
-+        - brightness
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    MP3326@30 {
-+        compatible =3D "mps,MP3326";
-+        reg =3D <0x30>;
-+        led-protect =3D<3>;
-+        switch_status=3D<1>;
-+
-+        /*RGB group 1*/
-+        rgb1@0{
-+            rgb_r=3D<1>;
-+            rgb_g=3D<2>;
-+            rgb_b=3D<3>;
-+            brightness=3D<30>;
-+        };
-+
-+        /*RGB group 2*/
-+        rgb2@1{
-+            rgb_r=3D<7>;
-+            rgb_g=3D<8>;
-+            rgb_b=3D<9>;
-+            brightness=3D<30>;
-+        };
-+    };
-+
-+
-+...
---=20
-2.25.1
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam serdecznie
+Adam Charachuta
