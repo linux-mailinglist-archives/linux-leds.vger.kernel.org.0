@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 176F6776E60
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Aug 2023 05:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77EAF776F8A
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Aug 2023 07:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231794AbjHJDNZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Aug 2023 23:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59996 "EHLO
+        id S229447AbjHJF1W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Aug 2023 01:27:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjHJDNZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Aug 2023 23:13:25 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A54B9;
-        Wed,  9 Aug 2023 20:13:23 -0700 (PDT)
+        with ESMTP id S229539AbjHJF1V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Aug 2023 01:27:21 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6132DE75;
+        Wed,  9 Aug 2023 22:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691637204; x=1723173204;
+  t=1691645239; x=1723181239;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HxGWHKx9Iwk/BOa+mNcHI9v6yPigjZskuc2ISwPW4EU=;
-  b=U/V0bjgYz6ICANLOxa5c6gqVD0FHepDlGm/kRWRCJELdKXWuchG60OeP
-   IOn+a7NTPTcnr6EvGSfcRJYrFmDh2Q0p9z1cXpEXZZj+FFk/5edbaU7+Z
-   JB1j/Ir8pKFshinieM58LxJsCYkkQO0IvKcdkuhfNkGgGWs64Iu+1puXf
-   alvStrfgzH/fmi8fvxcwlt6On6wrB+14svjCwpYhncK1Y2q8A/u6n4HVY
-   GqPTuj2pp9KyvxiUU3OMq+bMQ45Vb+t3IsaRt5LhsAZx6QVTIueUqhurM
-   YBq/E4r7wi+lGAtYRs2pBgGp+UH0Ofo6zFoO8ehJtazElKS/2S9i172gt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="457642658"
+  bh=CDDSGY8hGxxSb7SjMKYwkHW7gRDzh7794XSMlm6EQNE=;
+  b=ccb/53uBiGpBUhrlWEvPllfl3t9KFanuFbHHktNeMBxa3irmLP5S5bvE
+   911AzuYPbqRRs4odz5YVvdbnDbQux3s8tAK/LzDGjk31Y/1ESAsBxm8S2
+   VuzMT47Yxm0Yf9j0j7Bq2h1t6qNid0VMW60QA+/CqqBDBrbUmpqdlvyq6
+   slc413ZB9LjcoGuu3lWrJUiPDaV1mwlqCFjzFfEuk7/uMI7C2/jXwfQ9U
+   /0szNT8EWxiqNsmR2b0PWhqQJNul9BzsdIRgzCyNtx87vC5BaBgoUyIKq
+   KnQGal4v+9NPzZqRmhyGSHlUyFFiGaIoRY6Ntw/A0MQWI3Yjp6SWOqe+5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="402260230"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="457642658"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 20:13:01 -0700
+   d="scan'208";a="402260230"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 22:27:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="732047061"
-X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
-   d="scan'208";a="732047061"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="822100593"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="822100593"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 09 Aug 2023 20:12:57 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2023 22:27:00 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qTw6b-0006gi-06;
-        Thu, 10 Aug 2023 03:12:57 +0000
-Date:   Thu, 10 Aug 2023 11:12:50 +0800
+        id 1qTyCJ-0006kG-2N;
+        Thu, 10 Aug 2023 05:26:59 +0000
+Date:   Thu, 10 Aug 2023 13:26:52 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "larry.lai" <larry.lai@yunjingtech.com>, lee@kernel.org,
         andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org,
@@ -52,15 +52,17 @@ Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
         GaryWang@aaeon.com.tw, musa.lin@yunjingtech.com,
         michael.wang@yunjingtech.com, jack.chang@yunjingtech.com,
         noah.hung@yunjingtech.com, "larry.lai" <larry.lai@yunjingtech.com>
-Subject: Re: [PATCH V5 1/3] mfd: Add support for UP board CPLD/FPGA
-Message-ID: <202308101112.LWcBvo24-lkp@intel.com>
-References: <20230808145601.9401-2-larry.lai@yunjingtech.com>
+Subject: Re: [PATCH V5 2/3] pinctrl: Add support pin control for UP board
+ CPLD/FPGA
+Message-ID: <202308101342.i8bVXJ0S-lkp@intel.com>
+References: <20230808145601.9401-3-larry.lai@yunjingtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230808145601.9401-2-larry.lai@yunjingtech.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230808145601.9401-3-larry.lai@yunjingtech.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,176 +76,409 @@ kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on lee-mfd/for-mfd-fixes]
 [also build test WARNING on pavel-leds/for-next]
-[cannot apply to lee-mfd/for-mfd-next linusw-pinctrl/devel linusw-pinctrl/for-next]
+[cannot apply to lee-mfd/for-mfd-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.5-rc5 next-20230809]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/larry-lai/pinctrl-Add-support-pin-control-for-UP-board-CPLD-FPGA/20230809-013857
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-fixes
-patch link:    https://lore.kernel.org/r/20230808145601.9401-2-larry.lai%40yunjingtech.com
-patch subject: [PATCH V5 1/3] mfd: Add support for UP board CPLD/FPGA
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230810/202308101112.LWcBvo24-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20230808145601.9401-3-larry.lai%40yunjingtech.com
+patch subject: [PATCH V5 2/3] pinctrl: Add support pin control for UP board CPLD/FPGA
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230810/202308101342.i8bVXJ0S-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101112.LWcBvo24-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101342.i8bVXJ0S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308101112.LWcBvo24-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308101342.i8bVXJ0S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mfd/upboard-fpga.c:344:5: warning: no previous prototype for 'upboard_led_gpio_register' [-Wmissing-prototypes]
-     344 | int upboard_led_gpio_register(struct upboard_fpga *fpga)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mfd/upboard-fpga.c: In function 'upboard_fpga_probe':
->> drivers/mfd/upboard-fpga.c:460:30: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     460 |         ddata->regmap_config = fpga_data->regmap_config;
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_pin_dbg_show':
+   drivers/pinctrl/pinctrl-upboard.c:737:17: error: implicit declaration of function 'seq_puts' [-Werror=implicit-function-declaration]
+     737 |                 seq_puts(s, "GPIO ");
+         |                 ^~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:739:17: error: implicit declaration of function 'seq_printf'; did you mean 'bstr_printf'? [-Werror=implicit-function-declaration]
+     739 |                 seq_printf(s, "mode %d ", mode);
+         |                 ^~~~~~~~~~
+         |                 bstr_printf
+>> drivers/pinctrl/pinctrl-upboard.c:727:13: warning: unused variable 'locked' [-Wunused-variable]
+     727 |         int locked;
+         |             ^~~~~~
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_alt_func_enable':
+>> drivers/pinctrl/pinctrl-upboard.c:792:9: warning: ISO C90 forbids variable length array 'offset' [-Wvla]
+     792 |         int offset[pctrl->pctldesc->npins];
+         |         ^~~
+>> drivers/pinctrl/pinctrl-upboard.c:805:17: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     805 |                 bool input = false;
+         |                 ^~~~
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_gpio_request':
+   drivers/pinctrl/pinctrl-upboard.c:936:16: error: implicit declaration of function 'pinctrl_gpio_request'; did you mean 'upboard_gpio_request'? [-Werror=implicit-function-declaration]
+     936 |         return pinctrl_gpio_request(gpio);
+         |                ^~~~~~~~~~~~~~~~~~~~
+         |                upboard_gpio_request
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_gpio_free':
+   drivers/pinctrl/pinctrl-upboard.c:945:9: error: implicit declaration of function 'pinctrl_gpio_free' [-Werror=implicit-function-declaration]
+     945 |         pinctrl_gpio_free(gpio);
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_gpio_get_direction':
+   drivers/pinctrl/pinctrl-upboard.c:958:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     958 |         unsigned int padcfg0 = readl(pctrl->pins[pin].regs);
+         |         ^~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_gpio_direction_input':
+   drivers/pinctrl/pinctrl-upboard.c:1039:16: error: implicit declaration of function 'pinctrl_gpio_direction_input'; did you mean 'upboard_gpio_direction_input'? [-Werror=implicit-function-declaration]
+    1039 |         return pinctrl_gpio_direction_input(gpio);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                upboard_gpio_direction_input
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_gpio_direction_output':
+   drivers/pinctrl/pinctrl-upboard.c:1051:16: error: implicit declaration of function 'pinctrl_gpio_direction_output'; did you mean 'upboard_gpio_direction_output'? [-Werror=implicit-function-declaration]
+    1051 |         return pinctrl_gpio_direction_output(gpio);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                upboard_gpio_direction_output
+   drivers/pinctrl/pinctrl-upboard.c: At top level:
+>> drivers/pinctrl/pinctrl-upboard.c:1106:5: warning: no previous prototype for 'upboard_acpi_node_pin_mapping' [-Wmissing-prototypes]
+    1106 | int upboard_acpi_node_pin_mapping(struct upboard_fpga *fpga,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-upboard.c:91:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      91 | #define BOARD_UP_APL03                          9
+         |                                                 ^
+   drivers/pinctrl/pinctrl-upboard.c:1166:26: note: in expansion of macro 'BOARD_UP_APL03'
+    1166 |                 .ident = BOARD_UP_APL03,
+         |                          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:91:49: note: (near initialization for 'upboard_dmi_table[0].ident')
+      91 | #define BOARD_UP_APL03                          9
+         |                                                 ^
+   drivers/pinctrl/pinctrl-upboard.c:1166:26: note: in expansion of macro 'BOARD_UP_APL03'
+    1166 |                 .ident = BOARD_UP_APL03,
+         |                          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:88:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      88 | #define BOARD_UP_WHL01                          5
+         |                                                 ^
+   drivers/pinctrl/pinctrl-upboard.c:1173:26: note: in expansion of macro 'BOARD_UP_WHL01'
+    1173 |                 .ident = BOARD_UP_WHL01,
+         |                          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:88:49: note: (near initialization for 'upboard_dmi_table[1].ident')
+      88 | #define BOARD_UP_WHL01                          5
+         |                                                 ^
+   drivers/pinctrl/pinctrl-upboard.c:1173:26: note: in expansion of macro 'BOARD_UP_WHL01'
+    1173 |                 .ident = BOARD_UP_WHL01,
+         |                          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:93:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      93 | #define BOARD_UPX_TGL                           11
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1180:26: note: in expansion of macro 'BOARD_UPX_TGL'
+    1180 |                 .ident = BOARD_UPX_TGL,
+         |                          ^~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:93:49: note: (near initialization for 'upboard_dmi_table[2].ident')
+      93 | #define BOARD_UPX_TGL                           11
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1180:26: note: in expansion of macro 'BOARD_UPX_TGL'
+    1180 |                 .ident = BOARD_UPX_TGL,
+         |                          ^~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:95:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      95 | #define BOARD_UPN_EHL01                         13
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1187:26: note: in expansion of macro 'BOARD_UPN_EHL01'
+    1187 |                 .ident = BOARD_UPN_EHL01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:95:49: note: (near initialization for 'upboard_dmi_table[3].ident')
+      95 | #define BOARD_UPN_EHL01                         13
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1187:26: note: in expansion of macro 'BOARD_UPN_EHL01'
+    1187 |                 .ident = BOARD_UPN_EHL01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:95:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      95 | #define BOARD_UPN_EHL01                         13
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:96:49: note: in expansion of macro 'BOARD_UPN_EHL01'
+      96 | #define BOARD_UPS_EHL01                         BOARD_UPN_EHL01
+         |                                                 ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1194:26: note: in expansion of macro 'BOARD_UPS_EHL01'
+    1194 |                 .ident = BOARD_UPS_EHL01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:95:49: note: (near initialization for 'upboard_dmi_table[4].ident')
+      95 | #define BOARD_UPN_EHL01                         13
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:96:49: note: in expansion of macro 'BOARD_UPN_EHL01'
+      96 | #define BOARD_UPS_EHL01                         BOARD_UPN_EHL01
+         |                                                 ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1194:26: note: in expansion of macro 'BOARD_UPS_EHL01'
+    1194 |                 .ident = BOARD_UPS_EHL01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:97:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      97 | #define BOARD_UPX_ADLP01                        15
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1201:26: note: in expansion of macro 'BOARD_UPX_ADLP01'
+    1201 |                 .ident = BOARD_UPX_ADLP01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:97:49: note: (near initialization for 'upboard_dmi_table[5].ident')
+      97 | #define BOARD_UPX_ADLP01                        15
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1201:26: note: in expansion of macro 'BOARD_UPX_ADLP01'
+    1201 |                 .ident = BOARD_UPX_ADLP01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:98:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      98 | #define BOARD_UPN_ADLN01                        16
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1208:26: note: in expansion of macro 'BOARD_UPN_ADLN01'
+    1208 |                 .ident = BOARD_UPN_ADLN01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:98:49: note: (near initialization for 'upboard_dmi_table[6].ident')
+      98 | #define BOARD_UPN_ADLN01                        16
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:1208:26: note: in expansion of macro 'BOARD_UPN_ADLN01'
+    1208 |                 .ident = BOARD_UPN_ADLN01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:97:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      97 | #define BOARD_UPX_ADLP01                        15
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:99:49: note: in expansion of macro 'BOARD_UPX_ADLP01'
+      99 | #define BOARD_UPS_ADLP01                        BOARD_UPX_ADLP01
+         |                                                 ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1215:26: note: in expansion of macro 'BOARD_UPS_ADLP01'
+    1215 |                 .ident = BOARD_UPS_ADLP01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:97:49: note: (near initialization for 'upboard_dmi_table[7].ident')
+      97 | #define BOARD_UPX_ADLP01                        15
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:99:49: note: in expansion of macro 'BOARD_UPX_ADLP01'
+      99 | #define BOARD_UPS_ADLP01                        BOARD_UPX_ADLP01
+         |                                                 ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1215:26: note: in expansion of macro 'BOARD_UPS_ADLP01'
+    1215 |                 .ident = BOARD_UPS_ADLP01,
+         |                          ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:98:49: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      98 | #define BOARD_UPN_ADLN01                        16
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:100:49: note: in expansion of macro 'BOARD_UPN_ADLN01'
+     100 | #define BOARD_UP_ADLN01                         BOARD_UPN_ADLN01
+         |                                                 ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1222:26: note: in expansion of macro 'BOARD_UP_ADLN01'
+    1222 |                 .ident = BOARD_UP_ADLN01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:98:49: note: (near initialization for 'upboard_dmi_table[8].ident')
+      98 | #define BOARD_UPN_ADLN01                        16
+         |                                                 ^~
+   drivers/pinctrl/pinctrl-upboard.c:100:49: note: in expansion of macro 'BOARD_UPN_ADLN01'
+     100 | #define BOARD_UP_ADLN01                         BOARD_UPN_ADLN01
+         |                                                 ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c:1222:26: note: in expansion of macro 'BOARD_UP_ADLN01'
+    1222 |                 .ident = BOARD_UP_ADLN01,
+         |                          ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-upboard.c: In function 'upboard_pinctrl_probe':
+>> drivers/pinctrl/pinctrl-upboard.c:1353:30: warning: assignment to 'int' from 'const char *' makes integer from pointer without a cast [-Wint-conversion]
+    1353 |                 pctrl->ident = system_id->ident;
          |                              ^
+   drivers/pinctrl/pinctrl-upboard.c: At top level:
+>> drivers/pinctrl/pinctrl-upboard.c:327:38: warning: 'pin_functions' defined but not used [-Wunused-const-variable=]
+     327 | static const struct upboard_function pin_functions[] = {
+         |                                      ^~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-upboard.c:305:38: warning: 'pin_groups' defined but not used [-Wunused-const-variable=]
+     305 | static const struct upboard_pingroup pin_groups[] = {
+         |                                      ^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/upboard_led_gpio_register +344 drivers/mfd/upboard-fpga.c
+vim +/locked +727 drivers/pinctrl/pinctrl-upboard.c
 
-   343	
- > 344	int upboard_led_gpio_register(struct upboard_fpga *fpga)
-   345	{
-   346		struct gpio_led blue_led, yellow_led, green_led, red_led;
-   347		struct gpio_desc *desc;
-   348		static struct gpio_led leds[4];
-   349		int num_leds = 0;
-   350		int ret;
-   351	
-   352		desc = devm_gpiod_get(fpga->dev, "blue", GPIOD_OUT_LOW);
-   353		if (!IS_ERR(desc)) {
-   354			blue_led.name = "upboard:blue:";
-   355			blue_led.gpio = desc_to_gpio(desc);
-   356			blue_led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
-   357			leds[num_leds++] = blue_led;
-   358			devm_gpiod_put(fpga->dev, desc);
-   359		}
-   360	
-   361		desc = devm_gpiod_get(fpga->dev, "yellow", GPIOD_OUT_LOW);
-   362		if (!IS_ERR(desc)) {
-   363			yellow_led.name = "upboard:yellow:";
-   364			yellow_led.gpio = desc_to_gpio(desc);
-   365			yellow_led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
-   366			leds[num_leds++] = yellow_led;
-   367			devm_gpiod_put(fpga->dev, desc);
-   368		}
-   369	
-   370		desc = devm_gpiod_get(fpga->dev, "green", GPIOD_OUT_LOW);
-   371		if (!IS_ERR(desc)) {
-   372			green_led.name = "upboard:green:";
-   373			green_led.gpio = desc_to_gpio(desc);
-   374			green_led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
-   375			leds[num_leds++] = green_led;
-   376			devm_gpiod_put(fpga->dev, desc);
-   377		}
-   378	
-   379		desc = devm_gpiod_get(fpga->dev, "red", GPIOD_OUT_LOW);
-   380		if (!IS_ERR(desc)) {
-   381			red_led.name = "upboard:red:";
-   382			red_led.gpio = desc_to_gpio(desc);
-   383			red_led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
-   384			leds[num_leds++] = red_led;
-   385			devm_gpiod_put(fpga->dev, desc);
-   386		}
-   387	
-   388		/* No optional LEDs defined */
-   389		if (num_leds == 0)
-   390			return 0;
-   391	
-   392		pdata.num_leds = num_leds;
-   393		pdata.leds = leds;
-   394	
-   395		ret = devm_mfd_add_devices(fpga->dev, PLATFORM_DEVID_AUTO,
-   396					   upboard_gpio_led_cells,
-   397					   ARRAY_SIZE(upboard_gpio_led_cells),
-   398					   NULL, 0, NULL);
-   399		if (ret) {
-   400			dev_err(fpga->dev, "Failed to add GPIO LEDs, %d", ret);
-   401			return ret;
-   402		}
-   403	
-   404		return 0;
-   405	}
-   406	
-   407	/*
-   408	 * --------------------------------------       ------------
-   409	 * |    Intel SOC,1.8V                   | --- |ADC Chip   |  native driver
-   410	 * | GPIO/I2C/SPI/UART/PWM               |     |SPI/I2C    |
-   411	 * --------------------------------------      -------------
-   412	 *            |                                     |
-   413	 * ----------------------------------------------------------
-   414	 * |        CPLD/FPGA Driver                                |   upboard-fpga CPLD control driver
-   415	 * |   provide more GPIO driving power                      |   register leds-upboard
-   416	 * |        HAT 40 pin mux function                         |   register pinctrl-upboard
-   417	 * ---------------------------------------------------------
-   418	 *    |                                      |
-   419	 * ----------   -------------------------------------------
-   420	 * |3 or 4|     |    HAT 40 pins, 3.3V                    |   leds-upboard
-   421	 * | Leds |     |GPIO/ADC/I2C/SPI/UART/PWM                |  pinctrl-upboard
-   422	 * ----------   -------------------------------------------
-   423	 */
-   424	static const struct acpi_device_id upboard_fpga_acpi_match[] = {
-   425		{ "AANT0000", (kernel_ulong_t)&upboard_pinctrl_data },
-   426		{ "AANT0F00", (kernel_ulong_t)&upboard_up_fpga_data },
-   427		{ "AANT0F01", (kernel_ulong_t)&upboard_up2_fpga_data },
-   428		{ "AANT0F02", (kernel_ulong_t)&upboard_up_fpga_data },
-   429		{ "AANT0F03", (kernel_ulong_t)&upboard_upcore_crst02_fpga_data },
-   430		{ "AANT0F04", (kernel_ulong_t)&upboard_up_fpga_data },
-   431		{ }
-   432	};
-   433	MODULE_DEVICE_TABLE(acpi, upboard_fpga_acpi_match);
-   434	
-   435	static int __init upboard_fpga_probe(struct platform_device *pdev)
-   436	{
-   437		struct device *dev = &pdev->dev;
-   438		struct upboard_fpga *ddata;
-   439		const struct acpi_device_id *id;
-   440		const struct upboard_fpga_data *fpga_data;
-   441		int ret;
-   442	
-   443		id = acpi_match_device(upboard_fpga_acpi_match, dev);
-   444		if (!id)
-   445			return -ENODEV;
-   446	
-   447		fpga_data = (const struct upboard_fpga_data *) id->driver_data;
-   448	
-   449		ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-   450		if (!ddata)
-   451			return -ENOMEM;
-   452	
-   453		platform_set_drvdata(pdev, ddata);
-   454		ddata->dev = dev;
-   455	
-   456		ddata->regmap = devm_regmap_init(dev, NULL, ddata, fpga_data->regmap_config);
-   457		if (IS_ERR(ddata->regmap))
-   458			return PTR_ERR(ddata->regmap);
-   459	
- > 460		ddata->regmap_config = fpga_data->regmap_config;
-   461	
-   462		ret = upboard_fpga_gpio_init(ddata);
-   463		if (ret) {
-   464			/* Not FPGA firmware, abort FPGA GPIO initialize process */
-   465			dev_warn(dev, "Failed to initialize FPGA common GPIOs: %d", ret);
-   466		} else {
-   467			upboard_fpga_verify_device(ddata);
-   468		}
-   469	
-   470		ret = upboard_led_gpio_register(ddata);
-   471		if (ret) {
-   472			/* LEDs are optional. */
-   473			dev_warn(dev, "Failed to register LEDs: %d", ret);
-   474		}
-   475	
-   476		return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO,
-   477					    fpga_data->cells,
-   478					    fpga_data->ncells,
-   479					    NULL, 0, NULL);
-   480	}
-   481	
+   720	
+   721	static void upboard_pin_dbg_show(struct pinctrl_dev *pctldev, struct seq_file *s,
+   722					 unsigned int pin)
+   723	{
+   724		struct upboard_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+   725		void __iomem *padcfg;
+   726		u32 cfg0, cfg1, mode;
+ > 727		int locked;
+   728	
+   729		if (pctrl->pins[pin].regs == NULL)
+   730			return;
+   731	
+   732		cfg0 = readl(pctrl->pins[pin].regs);
+   733		cfg1 = readl(pctrl->pins[pin].regs + PADCFG1);
+   734	
+   735		mode = (cfg0 & PADCFG0_PMODE_MASK) >> PADCFG0_PMODE_SHIFT;
+   736		if (mode == PADCFG0_PMODE_GPIO)
+ > 737			seq_puts(s, "GPIO ");
+   738		else
+ > 739			seq_printf(s, "mode %d ", mode);
+   740	
+   741		seq_printf(s, "0x%08x 0x%08x", cfg0, cfg1);
+   742	
+   743		/* Dump the additional PADCFG registers if available */
+   744		padcfg = pctrl->pins[pin].regs + PADCFG2;
+   745		if (padcfg)
+   746			seq_printf(s, " 0x%08x", readl(padcfg));
+   747	
+   748		seq_printf(s, " 0x%08x", pctrl->pins[pin].regs);
+   749	}
+   750	
+   751	static const struct pinctrl_ops upboard_pinctrl_ops = {
+   752		.get_groups_count = upboard_get_groups_count,
+   753		.get_group_name = upboard_get_group_name,
+   754		.pin_dbg_show = upboard_pin_dbg_show,
+   755	};
+   756	
+   757	static struct pinctrl_desc upboard_up_pinctrl_desc = {
+   758		.pins = upboard_up_pins,
+   759		.npins = ARRAY_SIZE(upboard_up_pins),
+   760		.pctlops = &upboard_pinctrl_ops,
+   761		.pmxops = &upboard_pinmux_ops,
+   762		.owner = THIS_MODULE,
+   763	};
+   764	
+   765	static struct pinctrl_desc upboard_up2_pinctrl_desc = {
+   766		.pins = upboard_up2_pins,
+   767		.npins = ARRAY_SIZE(upboard_up2_pins),
+   768		.pctlops = &upboard_pinctrl_ops,
+   769		.pmxops = &upboard_pinmux_ops,
+   770		.owner = THIS_MODULE,
+   771	};
+   772	
+   773	static struct pinctrl_desc upboard_upcore_crex_pinctrl_desc = {
+   774		.pins = upboard_upcore_crex_pins,
+   775		.npins = ARRAY_SIZE(upboard_upcore_crex_pins),
+   776		.pctlops = &upboard_pinctrl_ops,
+   777		.pmxops = &upboard_pinmux_ops,
+   778		.owner = THIS_MODULE,
+   779	};
+   780	
+   781	static struct pinctrl_desc upboard_upcore_crst02_pinctrl_desc = {
+   782		.pins = upboard_upcore_crst02_pins,
+   783		.npins = ARRAY_SIZE(upboard_upcore_crst02_pins),
+   784		.pctlops = &upboard_pinctrl_ops,
+   785		.pmxops = &upboard_pinmux_ops,
+   786		.owner = THIS_MODULE,
+   787	};
+   788	
+   789	static void upboard_alt_func_enable(struct gpio_chip *gc, const char *name, int id)
+   790	{
+   791		struct upboard_pinctrl *pctrl = container_of(gc, struct upboard_pinctrl, chip);
+ > 792		int offset[pctrl->pctldesc->npins];
+   793		int i, cnt;
+   794	
+   795		/* find all pins */
+   796		for (i = 0, cnt = 0; i < pctrl->pctldesc->npins; i++) {
+   797			if (strstr(pctrl->pctldesc->pins[i].name, name))
+   798				offset[cnt++] = i;
+   799		}
+   800	
+   801		/* change to alternate function */
+   802		for (i = 0; i < cnt; i++) {
+   803			if (pctrl->pins[offset[i]].regs == NULL)
+   804				continue;
+ > 805			bool input = false;
+   806			int mode = 0; /* default GPIO */
+   807			unsigned int val = readl(pctrl->pins[offset[i]].regs);
+   808	
+   809			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "I2C") ||
+   810			    strstr(pctrl->pctldesc->pins[offset[i]].name, "PINMUX")) {
+   811				mode = 1;
+   812				switch (id) {
+   813				case BOARD_UPN_ADLN01:
+   814				case BOARD_UPX_ADLP01:
+   815					mode = 2;
+   816					break;
+   817				default:
+   818					break;
+   819				}
+   820	
+   821				val |= mode<<PADCFG0_PMODE_SHIFT;
+   822				writel(val, pctrl->pins[offset[i]].regs);
+   823				upboard_fpga_request_free(pctrl->pctldev, offset[i]);
+   824				continue;
+   825			}
+   826	
+   827			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "UART")) {
+   828				mode = 1;
+   829				switch (id) {
+   830				case BOARD_UPN_EHL01:
+   831					mode = 4;
+   832					break;
+   833				case BOARD_UPN_ADLN01:
+   834				case BOARD_UPX_ADLP01:
+   835					mode = 2;
+   836					break;
+   837				default:
+   838					break;
+   839				}
+   840			}
+   841	
+   842			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "SPI")) {
+   843				mode = 1;
+   844				switch (id) {
+   845				case BOARD_UP_WHL01:
+   846					mode = 3;
+   847					break;
+   848				case BOARD_UPN_ADLN01:
+   849				case BOARD_UPX_ADLP01:
+   850					mode = 7;
+   851					if (strstr(pctrl->pctldesc->pins[offset[i]].name, "MOSI")) {
+   852						val &= ~PADCFG0_GPIOTXDIS;
+   853						val |= PADCFG0_GPIORXDIS;
+   854					}
+   855	
+   856					if (strstr(pctrl->pctldesc->pins[offset[i]].name, "MISO"))
+   857						val |= PADCFG0_GPIORXDIS;
+   858	
+   859					if (strstr(pctrl->pctldesc->pins[offset[i]].name, "CLK")) {
+   860						val &= ~PADCFG0_GPIOTXDIS;
+   861						val |= PADCFG0_GPIORXDIS;
+   862					}
+   863					if (strstr(pctrl->pctldesc->pins[offset[i]].name, "CS0"))
+   864						val |= PADCFG0_GPIORXDIS;
+   865	
+   866					if (strstr(pctrl->pctldesc->pins[offset[i]].name, "CS1"))
+   867						continue;
+   868					break;
+   869				default:
+   870					break;
+   871				}
+   872			}
+   873	
+   874			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "I2S")) {
+   875				mode = 1;
+   876				switch (id) {
+   877				case BOARD_UPX_ADLP01:
+   878					mode = 4;
+   879					break;
+   880				default:
+   881					break;
+   882				}
+   883			}
+   884	
+   885			val |= mode<<PADCFG0_PMODE_SHIFT;
+   886			writel(val, pctrl->pins[offset[i]].regs);
+   887	
+   888			/* input pins */
+   889			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "RX"))
+   890				input = true;
+   891	
+   892			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "CTS"))
+   893				input = true;
+   894	
+   895			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "ADC")) {
+   896				input = true;
+   897				if (id == BOARD_UP_APL01)
+   898					upboard_fpga_request_enable(pctrl->pctldev, NULL, offset[i]);
+   899				else
+   900					upboard_fpga_request_free(pctrl->pctldev, offset[i]);
+   901			}
+   902	
+   903			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "MISO"))
+   904				input = true;
+   905	
+   906			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "DIN"))
+   907				input = true;
+   908	
+   909			if (strstr(pctrl->pctldesc->pins[offset[i]].name, "SDI"))
+   910				input = true;
+   911	
+   912			upboard_fpga_set_direction(pctrl->pctldev, NULL, offset[i], input);
+   913		}
+   914	}
+   915	
 
 -- 
 0-DAY CI Kernel Test Service
