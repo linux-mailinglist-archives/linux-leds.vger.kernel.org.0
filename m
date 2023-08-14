@@ -2,108 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D4DE77BA88
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Aug 2023 15:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA5D77BE2F
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Aug 2023 18:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbjHNNqb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Aug 2023 09:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59598 "EHLO
+        id S232448AbjHNQhL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Aug 2023 12:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231700AbjHNNqS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Aug 2023 09:46:18 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B64B106;
-        Mon, 14 Aug 2023 06:46:17 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-34aa2883f1cso2893845ab.3;
-        Mon, 14 Aug 2023 06:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692020777; x=1692625577;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9yKMPxUGe84xvNf8pYF68HzMRRk71stM/ItQSRJOA3k=;
-        b=sX+Sbzaeg5OOm/s+UizNkCgX2zeHA5HPploXfuUVhikqDqFfRm23IwYoX3/jPH8lsS
-         KD0YbGTDaAS/zDnKlvAqYwmzMBszYiFlLNKpCabd6x0rjhPNw4PwheGvhYRYtcNqR5q7
-         PcbWBhEdfvYdLLNQmHWRjHuCDPpuZGwynTbwi1w/zVaBC3XAtpEQNu6/3+3ZbNUweWfx
-         VDFara0unQ+olJ4ptNYY66tT4/l0mlo/nvsNdlFLcFXoXMgFWW33BN2inJ7ILVOrYZdS
-         zC/+frcGxM9VH0+IuvZIA5ghcHmavTHWzACH5nDugUtUUWzOPGqruuMjeSzYmPc15EVN
-         Q3HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692020777; x=1692625577;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9yKMPxUGe84xvNf8pYF68HzMRRk71stM/ItQSRJOA3k=;
-        b=Bv/6/BdSPZ6TdagmbZnkisRFGfo+v6tGU92O6UaJvpffR5CmXegIFE6O/9C6WNIIBj
-         IqtmcIeVUC/unT3dpZ+UbVQrEDEEVuwWzCHKPWn6Bm/2VR69Z5QtCwV4PuSxySLoamfe
-         K3Z1lKRC/AEYxI6a0cyE5u7CSG4sb5CtxifqIhovnkvJ9gfiXq1vwhfEj554hNVz0evg
-         KHZ1Bpk7iA5jpx6DiY/daMxKmso4f6KjvS2UWzTMrviWyVkEbXtLeh8nZVwQFKMu5GHM
-         6CKkIE2Wo9yLm+tC3kcXwwhbayISdcvyU//nW7EDI0d9zUxh/tknXWt93Ir7Rd3okUw4
-         piHw==
-X-Gm-Message-State: AOJu0Yz+PjUJVprDYJpOXSKOC/kBB2vAHqAThTbAutL4LosEaCAEDXjn
-        GkOaoip4wIP/t5UeI0xVs3I=
-X-Google-Smtp-Source: AGHT+IF1ZkjHYTAqORYWQkSZckevSGpcdYvx95BZ20yXmvWcSuKnv1NxDwAsmCC/O3CxhjfPqm0Stw==
-X-Received: by 2002:a05:6e02:20e7:b0:348:8576:15b5 with SMTP id q7-20020a056e0220e700b00348857615b5mr13574235ilv.3.1692020776945;
-        Mon, 14 Aug 2023 06:46:16 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z6-20020a92d186000000b0034a921bc93asm1538168ilz.1.2023.08.14.06.46.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 06:46:16 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 14 Aug 2023 06:46:15 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Gerd Haeussler <haeussler.gerd@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Tobias Schaffner <tobias.schaffner@siemens.com>,
-        Xing Tong Wu <xingtong.wu@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-Subject: Re: [PATCH] MAINTAINERS: Add entries for Siemens IPC modules
-Message-ID: <5f072764-b4c5-49cb-b880-a735f6d152b6@roeck-us.net>
-References: <20230814073114.2885-1-haeussler.gerd@gmail.com>
+        with ESMTP id S231520AbjHNQgs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Aug 2023 12:36:48 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3FD124;
+        Mon, 14 Aug 2023 09:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=s31663417; t=1692031005; x=1692635805; i=j.neuschaefer@gmx.net;
+ bh=arIfURks3B5Vf0o5lhr2f1M0B+uljezROcQ5CKR6D/E=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=nfmnsPRajTRJ1BzFYln1wimrbHO+bDp/zu0MSB1j761DFiZlCwanNRA8LIX+fFtY+WzNSCH
+ rCEGZaWQIBn7HZRnXlgmae7GKn9tpJpT44/8attvVkNLiWZ6aqbjoK2nbDVINQx9z9THcMDYS
+ LtP+h+xZbbMqtN1wI31MqPzRGHoKQDNrwR/u2PtYZqnRDehF+VF/h3nmkXtQcDsq4G3/TK4KJ
+ JS62Ph5nS69Ha6PNMzNBIjI5wPHMaHWC4b8Jl5NqfIQk5P05UwD/1y4Nm//UgEdg8fB8br3Du
+ sDOl9MHLqwIJRZd2H16uL8IJ/V8LU2v8zwehBXlRATbd9Ffku1fg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from probook ([151.216.154.44]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK4f-1pf8PU3OhF-00rIfq; Mon, 14
+ Aug 2023 18:31:17 +0200
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v3] dt-bindings: leds: Fix reference to definition of default-state
+Date:   Mon, 14 Aug 2023 18:31:15 +0200
+Message-Id: <20230814163116.1696092-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230814073114.2885-1-haeussler.gerd@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kyk89y2Os9QLpyXCC2oVuYUPrP479VWYGZotKMM8bkxf3w6FVWK
+ hi7hiGpR66ycC5GlXKavQ6gQXMVLsBadVvO4bzWVh+B003VzUpm2P+kihy6GySuCidEkzpu
+ vkp30foIyrle6MveHZWq/FExBT72OmEd1MQWQhtO3rRoPgRxKcbs7uVmgJM5dta5elxYD+B
+ qjBPOgMLxd3bxYCIWCqSg==
+UI-OutboundReport: notjunk:1;M01:P0:ral/hzWxdXI=;BOIVTbOJwvwtjSwJCW5QldncwLg
+ VkHKXjwDxm4oGec/cJqwGx/zxsjR7GJ4fRRApfR+jmfdkmLdmr8z10E/S3vc/EwtWMcRsMdzM
+ d1jhEMIoE9EvvfGDqB6l51N8JX2fe0OjtBfFYcMVVjR9v444SkTbn/kihau550qvWAQPaNaYL
+ qTHQwNq49DYlNtjYapiYDzwZsFKBakxtMzmzsORAQOqsU1i7FPv7J+DU2O5aTm855SCAtPjpT
+ JP8iVRg9rU1n4cd/fLS67E522roBcWsgbj01B9RF9cMMFqn4SL8dPgvMj1LYqcf43OeiuSw+d
+ XhPQXzKOJnZXAR9Ji561nmbPhpxHMKZQpTnjayNK3O9AOpvqtXDbuMHgu4lmEHFt1BYKf1wXV
+ DqNuv7Mi4IW/JBQgkrq5tPLjYUsp5pJu2wm+RwVS2j/8aPc5EDgYrndVsPmIUjgrCA9xdHtpy
+ 0hy3P9JKNy8w/QSRW7bS6jSMhN+uAkpeFZdQx4DT1jKmPs5CmqqmZ4EWB6cHwT7rL34Ez1Tda
+ 1c01eE2AG8wWKVmTAhKZebXoFHd9ofDsfJy6oUwTDZxMUKmHGsklv5vUf7qDzCgE01nCnYWcp
+ KznOtfV4hq9AS0y6GYAV4wQMtCcSxyBd9m89Wri/ED7OJdb6+ty8af3bh5XYIgyNN2bbTVbfU
+ 24jjm6mmCKbi34JKn3/ZFGFw2JN4StQGVCzYnTa26NSpFwKbkOUjOEXCV6dxSyB0ftatOIycY
+ YXOMApPt/Ci7pVtv3Cb+b9GFiHQZfl/QSbKFidwfq8f7OIj5rGizWz/WBkV623Q+F4nVLdju3
+ Wn+t1D2XuNngQlcMmYJcIOTEUD6lKVlq4CbY4BX5SDeZF7ZtRj7cLHNjJyCx1W/nvyhFs/7x0
+ i9/0KugoSMqd+lHHznIliTESUtQlO5BSzDqMzhSLXuuDsP5tX8f+TyqekjbVquXmnnaFP/XaD
+ Sg1AGtAK0k0JkIWDRJ22FKBzr4E=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Aug 14, 2023 at 09:31:14AM +0200, Gerd Haeussler wrote:
-> From: Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-> 
-> There are different IPC driver modules in the kernel that are actively
-> maintained by Siemens but not yet listed in the MAINTAINERS file.
-> Add the missing entries.
-> 
-> Signed-off-by: Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-> ---
->  MAINTAINERS | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0f966f05fb0d..6ca5564a4f8c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-[ ... ]
-> +
-> +SIEMENS IPC WATCHDOG DRIVERS
-> +M:	Gerd Haeussler <gerd.haeussler.ext@siemens.com>
-> +M:	Xing Tong Wu <xingtong.wu@siemens.com>
-> +M:	Tobias Schaffner <tobias.schaffner@siemens.com>
-> +L:	linux-watchdog@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/watchdog/simatic-ipc-wdt.c
-> +
+At least since the YAML conversion, the default-state property is
+described in leds/common.yaml, so there's no need to point to another
+file for its definition.
 
-For watchdog:
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+Acked-by: Rob Herring <robh@kernel.org>
+=2D--
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+v3:
+- Rebase on v6.3-rc6
+
+v2:
+- https://lore.kernel.org/lkml/20221008131918.1235397-1-j.neuschaefer@gmx.=
+net/
+- Add Rob's ACK
+- Rebase on Marek Vasut's patch in -next
+=2D--
+ Documentation/devicetree/bindings/leds/common.yaml | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Document=
+ation/devicetree/bindings/leds/common.yaml
+index 15e3f6645682e..c9b0dde44986c 100644
+=2D-- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -83,8 +83,7 @@ properties:
+       - enum:
+             # LED will act as a back-light, controlled by the framebuffer=
+ system
+           - backlight
+-            # LED will turn on (but for leds-gpio see "default-state" pro=
+perty in
+-            # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
++            # LED will turn on (see also "default-state" property)
+           - default-on
+             # LED "double" flashes at a load average based rate
+           - heartbeat
+=2D-
+2.39.2
+
