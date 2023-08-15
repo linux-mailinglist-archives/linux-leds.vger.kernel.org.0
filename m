@@ -2,211 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D4977D0E7
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Aug 2023 19:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E0F977D105
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Aug 2023 19:31:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233741AbjHORXw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Aug 2023 13:23:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54244 "EHLO
+        id S238850AbjHORau (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Aug 2023 13:30:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238832AbjHORX1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Aug 2023 13:23:27 -0400
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FABD1FD3;
-        Tue, 15 Aug 2023 10:22:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1692120073; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=C012Y9qXc/PB1zJSuKZORoTQ+pQIARb8BSL3IL+khozXE6h/MmuLnKyRwRY81LhBJ7
-    cCTrygfcJHVvmDavaa0kSV2cHKkroYzS0Re07J2jCFilAErlmwnMgrabq0F8ua3KEmz+
-    KxJn7iUrmZtDdCVmEbhV244icE2GoLQCl7V6laEo39aaQ+lJvPGo4t57nqjO/I7bouYB
-    /zPpoNqDyye7NAW1L/jhmcpoM3vWKO4V6KPwn1pPuEIiQkOfWdVb7VB4NsjFa5IXYyx4
-    8Di67VOIU/EF6EsL4Jg4SWGB4bdXl5ty2LK3dtsVj1k9+y6axciIRCPxaBMkfRvuMulh
-    /Vug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1692120073;
-    s=strato-dkim-0002; d=strato.com;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=vg0I1e+3Uavk5AFQsbqxBi73cjCoILcwb93qzM6Ocl8=;
-    b=gUJ1GQgjzlWC1wGJO1eH8b7lgbi8+J8QAKngpc7/IhRYk6AJVDGN0HBsHWBXfwN/hi
-    jqKog1ugCVKAFgmoZXXqhN1k8+BpdaemSjuNCvkRWPyT31MYhbkkVJL/7nMrp2GpcHfA
-    9VCKjosSjBTzigfUhUUHLwB+VG46MvBQQsyNNKs7MuCzgCtayFS4VAuv0+LKkyFztqha
-    OgcVrstuVbm3EAVGztXrvR96YYB5TwwZp7UJkz/igL+PQqoikE3Ku23E3+dcmHAhIoxh
-    gUKdnZum2eYlhco1+pLTXEyukYi0ueK8VGhPeU0Wu+RNgxhAd3X1nUmooTfrh6RjoUfh
-    hGIQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1692120073;
-    s=strato-dkim-0002; d=gerhold.net;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=vg0I1e+3Uavk5AFQsbqxBi73cjCoILcwb93qzM6Ocl8=;
-    b=rHoTgPtZI2N35HAGaKd54QCHSx3QG+OQFcg29WehMjxL8NK4SMGlvPoL7CzDQIZwkC
-    cxmAasl8sgMA21U2xWgROR76pGciH3E+lUQ/bkruw8UJ68Otld8H1NirOXJ2LnR9MFq2
-    t/Q2chrWRcNu9zkEqY/f+HC4opX96ETb6uqAGrtMfkyWPhveC+UF0aVEVKkEK7pUhGpe
-    ErfesW756Jsp/WL8RwlPzchosZclDmviBV8bSm9lqUDOKbaR6THOGLS7b2isRLJ+dAaz
-    wGHjSHsb1zIstWfbiGSGjalP9WGM6DaodxMuiFn8BfTX84LjNPssTHqKJnHQAtSSNP0O
-    TXlw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1692120073;
-    s=strato-dkim-0003; d=gerhold.net;
-    h=Cc:To:In-Reply-To:References:Message-Id:Subject:Date:From:Cc:Date:
-    From:Subject:Sender;
-    bh=vg0I1e+3Uavk5AFQsbqxBi73cjCoILcwb93qzM6Ocl8=;
-    b=3vT5zvGpa/8MQOfthdNdZ8u3BRRLcK65sAslSIKXSVdqNQ3/i7kUxRidtucR6uWgkz
-    kw8XHF0Al39Nxmt3POCA==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQjVd4CteZ/7jYgS+mLFY+H0JAn8u4F1mw=="
-Received: from [192.168.244.3]
-    by smtp.strato.de (RZmta 49.8.0 DYNA|AUTH)
-    with ESMTPSA id v41b8bz7FHLC0YW
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Tue, 15 Aug 2023 19:21:12 +0200 (CEST)
-From:   Stephan Gerhold <stephan@gerhold.net>
-Date:   Tue, 15 Aug 2023 19:21:06 +0200
-Subject: [PATCH v3 3/3] leds: aw2013: Enable pull-up supply for interrupt
- and I2C
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230815-aw2013-vio-v3-3-2505296b0856@gerhold.net>
-References: <20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net>
-In-Reply-To: <20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S238887AbjHORaf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Aug 2023 13:30:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31BF41BD8;
+        Tue, 15 Aug 2023 10:30:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BA9116165D;
+        Tue, 15 Aug 2023 17:30:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64025C433C7;
+        Tue, 15 Aug 2023 17:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692120633;
+        bh=WT7lqYYbdnO4EQaTflZ5JYKuu+SrEFSusULuRq8He1I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PNo8IYa5Pi25Df4UPmxhVnagL6F7Pg/oui7goNBJXi+lGnMPxjMW4lRUDzPH/xyYI
+         wI5t//FUqvKDDS9r2tOdC/duh4rU7QMYE1gNLu6+k2XaUKsG9p5tFZm+Eo7EymNR+1
+         aT93AGIsohFgsVIBk3I3cPhHj9GLansOjbz8ZTcSR9g0ioaV7/ExUQ4AIJXPrTkNKh
+         q6ayNVSZitoLpRB8JGMhs9TclNViO5HiR42Zbgej0mUBti8VApR2DM2HJRDGYZrMXK
+         Y+mTNLLecgHYPJ7nION0Rq9fHyd4z+U1IOZUJoSBfh0sGwWq+MNqMHNPDDNpi66lMe
+         E1hMuEuzTJAKA==
+Date:   Tue, 15 Aug 2023 18:30:28 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Marek Vasut <marex@denx.de>
+Cc:     linux-leds@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+        Isai Gaspar <isaiezequiel.gaspar@nxp.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Lin, Meng-Bo" <linmengbo0689@protonmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>
-X-Mailer: b4 0.12.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] leds: pca995x: Fix MODULE_DEVICE_TABLE for OF
+Message-ID: <20230815173028.GE648357@google.com>
+References: <20230809125314.531806-1-marex@denx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230809125314.531806-1-marex@denx.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
+On Wed, 09 Aug 2023, Marek Vasut wrote:
 
-Request and enable the "vio" regulator that represents the power supply
-that is needed for the pull-up resistors of the interrupt and I2C lines
-of AW2013. While this regulator is not wired directly to the AW2013
-chip it is best managed as part of the AW2013 driver since it decides
-when AW2013 is powered on and when the interrupt is enabled or
-disabled.
+> Fix copy-paste error in MODULE_DEVICE_TABLE() for the OF table,
+> use the 'of' first parameter instead of duplicate 'i2c'.
+> 
+> Fixes: ee4e80b2962e ("leds: pca995x: Add support for PCA995X chips")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Isai Gaspar <isaiezequiel.gaspar@nxp.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> ---
+> NOTE: This should be added on top of leds-lj or squashed into the driver patch
+> ---
+>  drivers/leds/leds-pca995x.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This regulator should always be enabled in conjunction with the main
-VCC power supply, so use the bulk regulator functions to enable both
-at the same time.
-
-Signed-off-by: Lin, Meng-Bo <linmengbo0689@protonmail.com>
-[rewrite commit message based on discussion]
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
----
- drivers/leds/leds-aw2013.c | 36 ++++++++++++++++++++++--------------
- 1 file changed, 22 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/leds/leds-aw2013.c b/drivers/leds/leds-aw2013.c
-index 59765640b70f..0010c0927434 100644
---- a/drivers/leds/leds-aw2013.c
-+++ b/drivers/leds/leds-aw2013.c
-@@ -62,7 +62,7 @@ struct aw2013_led {
- 
- struct aw2013 {
- 	struct mutex mutex; /* held when writing to registers */
--	struct regulator *vcc_regulator;
-+	struct regulator_bulk_data regulators[2];
- 	struct i2c_client *client;
- 	struct aw2013_led leds[AW2013_MAX_LEDS];
- 	struct regmap *regmap;
-@@ -106,10 +106,11 @@ static void aw2013_chip_disable(struct aw2013 *chip)
- 
- 	regmap_write(chip->regmap, AW2013_GCR, 0);
- 
--	ret = regulator_disable(chip->vcc_regulator);
-+	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-+				     chip->regulators);
- 	if (ret) {
- 		dev_err(&chip->client->dev,
--			"Failed to disable regulator: %d\n", ret);
-+			"Failed to disable regulators: %d\n", ret);
- 		return;
- 	}
- 
-@@ -123,10 +124,11 @@ static int aw2013_chip_enable(struct aw2013 *chip)
- 	if (chip->enabled)
- 		return 0;
- 
--	ret = regulator_enable(chip->vcc_regulator);
-+	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
-+				    chip->regulators);
- 	if (ret) {
- 		dev_err(&chip->client->dev,
--			"Failed to enable regulator: %d\n", ret);
-+			"Failed to enable regulators: %d\n", ret);
- 		return ret;
- 	}
- 	chip->enabled = true;
-@@ -348,19 +350,23 @@ static int aw2013_probe(struct i2c_client *client)
- 		goto error;
- 	}
- 
--	chip->vcc_regulator = devm_regulator_get(&client->dev, "vcc");
--	ret = PTR_ERR_OR_ZERO(chip->vcc_regulator);
--	if (ret) {
-+	chip->regulators[0].supply = "vcc";
-+	chip->regulators[1].supply = "vio";
-+	ret = devm_regulator_bulk_get(&client->dev,
-+				      ARRAY_SIZE(chip->regulators),
-+				      chip->regulators);
-+	if (ret < 0) {
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(&client->dev,
--				"Failed to request regulator: %d\n", ret);
-+				"Failed to request regulators: %d\n", ret);
- 		goto error;
- 	}
- 
--	ret = regulator_enable(chip->vcc_regulator);
-+	ret = regulator_bulk_enable(ARRAY_SIZE(chip->regulators),
-+				    chip->regulators);
- 	if (ret) {
- 		dev_err(&client->dev,
--			"Failed to enable regulator: %d\n", ret);
-+			"Failed to enable regulators: %d\n", ret);
- 		goto error;
- 	}
- 
-@@ -382,10 +388,11 @@ static int aw2013_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto error_reg;
- 
--	ret = regulator_disable(chip->vcc_regulator);
-+	ret = regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-+				     chip->regulators);
- 	if (ret) {
- 		dev_err(&client->dev,
--			"Failed to disable regulator: %d\n", ret);
-+			"Failed to disable regulators: %d\n", ret);
- 		goto error;
- 	}
- 
-@@ -394,7 +401,8 @@ static int aw2013_probe(struct i2c_client *client)
- 	return 0;
- 
- error_reg:
--	regulator_disable(chip->vcc_regulator);
-+	regulator_bulk_disable(ARRAY_SIZE(chip->regulators),
-+			       chip->regulators);
- 
- error:
- 	mutex_destroy(&chip->mutex);
+Applied, thanks
 
 -- 
-2.41.0
-
+Lee Jones [李琼斯]
