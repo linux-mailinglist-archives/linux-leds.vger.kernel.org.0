@@ -2,72 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 707AF77E9C4
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Aug 2023 21:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB09D77F22F
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 10:30:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344538AbjHPTiD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Aug 2023 15:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55964 "EHLO
+        id S1348920AbjHQI3k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Aug 2023 04:29:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345849AbjHPTh4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Aug 2023 15:37:56 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A84270D
-        for <linux-leds@vger.kernel.org>; Wed, 16 Aug 2023 12:37:53 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-58caf216c55so3911497b3.0
-        for <linux-leds@vger.kernel.org>; Wed, 16 Aug 2023 12:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692214673; x=1692819473;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/+LjxTcw3v2yMw5zpUVuw9q5BXCTvUMFQpgpNYN1QVg=;
-        b=1RfasmD5jzy0I/e7fuP4O4msfCkc4u2H08gbfAC3qAftXA19agDf4QuMpKi7mcsQzz
-         7A8usSg1wizAqPFu8bw91CUEJoYIW+aa8Lu60tYXwAZJtdJgOG1t6jZi2d1CyZ+AQVsR
-         6NlE51G1wSnE5Iqd82c4OXO+WwZIq5rVrGSkuPo/VweY6XLbkWi83BrvP8FwYcQATKAY
-         F2LrJax10hZWS/YPww0yQbFbomashQmlx003/LCfvl6BAx9+AusKYSN6U8+vJfOc8LSn
-         iePayOwC+1s+oBAVaKDuJTf/W950iu8gnYBZO4q6zUhfgEBxA5uxr97nKKzbmRm2NXK8
-         34QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692214673; x=1692819473;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/+LjxTcw3v2yMw5zpUVuw9q5BXCTvUMFQpgpNYN1QVg=;
-        b=HVP/CG6MLZ6EHl8KYAS3n1nCCPCk5EHYxLRcXTGp+vDQGxK4H9gLc/rJF85Sjy8qsp
-         6tT6LlnXFR0iZWAqShYztTw3jj16PfRrgPZIt/sLQLeCRsdBnKmJXBeVSjvMn3CIl9PT
-         aI3W+RbJE/eKCZbwmcTVMr/45skytnP/hVt7GMPtR5g7oFqvXPWiQO6Zl7Moq3rzkgWg
-         zEUC2Fhb9NUZdxFVg7fOCMKen3OfLBWKME5BqlxCstHMMxf3U2yFpx4UzVCRo1rQTUkq
-         PeZl0sM/Tn8ud5JUMnkzJHVKmdp/gPxTpDRKHxiYqmQck/UxcOoIS75kXhf90ddf6iOO
-         HCvA==
-X-Gm-Message-State: AOJu0YzNu3snfaBSIjt9n3RQYfLBGgGjTB55LPNJJVD7VuY2aHBE+0Se
-        xdwKOkL00K5Q9twoEpVDl6G1BP+iJFfPjqAYCA==
-X-Google-Smtp-Source: AGHT+IFSPI1nblCHVMtOyfqUjsfaIPN4xVKpcpnHV1rjUFdjIsIGvbSQUjHcmsRPBah8JEyGwYVPR1Ff456AHTz/bg==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a81:b623:0:b0:589:a3d6:2e02 with SMTP
- id u35-20020a81b623000000b00589a3d62e02mr11481ywh.3.1692214673138; Wed, 16
- Aug 2023 12:37:53 -0700 (PDT)
-Date:   Wed, 16 Aug 2023 19:37:52 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAI8l3WQC/y2NQQqAIBAAvxJ7bkGNsvpKdBDdaiEsVpAg+nsSX
- QbmMnNDImFKMFY3CGVOfMQiuq7Aby6uhByKg1GmUb3uMB8cMAhnkoQ7hR+nd0PbXmiVMt531pl BQ4mcQgtf32Can+cF6SNRInAAAAA=
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692214672; l=1884;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=DImqGSc3DxMYYtM+y3nWIyr7RKQ7ZF8igdoNKRIjvLQ=; b=oZtCzrNRhX+BmRVUVvDSMSHtFevQke6DkQXuUAFvKDDJ1JsC/SVF5cWpFkKp1YFqFV2ZBkibS
- Xr8bPbEJ4bVDVADcU3GcnzqSWeXBFKsF6nxpOmdDkzqD7eO6tjNDrAm
-X-Mailer: b4 0.12.3
-Message-ID: <20230816-void-drivers-leds-leds-pca955x-v1-1-2967e4c1bdcc@google.com>
-Subject: [PATCH] leds: pca955x: fix -Wvoid-pointer-to-enum-cast warning
-From:   Justin Stitt <justinstitt@google.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Justin Stitt <justinstitt@google.com>
+        with ESMTP id S1348953AbjHQI3R (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 04:29:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A62292723;
+        Thu, 17 Aug 2023 01:29:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DBD46562E;
+        Thu, 17 Aug 2023 08:29:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1E6C433C9;
+        Thu, 17 Aug 2023 08:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692260941;
+        bh=BbGi2kVrkXBHhaot+Rw7YbWMiGVGl0ctmnn+aGT0E4o=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=CynTVj+yi93r/Igaep0/WKTWTBkNtE7nW4KF/yyRu+To3Cn7uW5U48dL/7WowW9zo
+         pKFlW1MSSWfHeDeUHTW5u+FHLeDZXjgK0oUGAKawfMHShM2lzG0y986EECC4dYfu8l
+         7l+4uw+meDMz7scVoZtLtktRn2LAP7+uhCBK0SW5L3a3wz6QF1tXwvglPM0wstkybW
+         WWqraoAkR/S9bART/hkWUAWri5F8ltsefOq7Ai01YyHKcGcin4AyRfTVs8Jw0quCHU
+         ZJLK0Ne8YbfgbpLtCnR/m8iw+xEKQbJErxiRoE6CrSWext2x8ZcwwLxJOe7CyBkvC7
+         zs4d+ob3+DafA==
+From:   Lee Jones <lee@kernel.org>
+To:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        Jean-Jacques Hiblot <jjhiblot@traphandler.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+In-Reply-To: <20230718092527.37516-1-jjhiblot@traphandler.com>
+References: <20230718092527.37516-1-jjhiblot@traphandler.com>
+Subject: Re: [PATCH v11 0/5] Add a multicolor LED driver for groups of
+ monochromatic LEDs
+Message-Id: <169226093956.909741.13461014038581088073.b4-ty@kernel.org>
+Date:   Thu, 17 Aug 2023 09:28:59 +0100
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,54 +58,29 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-When building with clang 18 I see the following warning:
-|      drivers/leds/leds-pca955x.c:487:15: warning: cast to smaller integer
-|      type 'enum pca955x_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-|        487 |                 chip_type = (enum pca955x_type)md;
+On Tue, 18 Jul 2023 11:25:22 +0200, Jean-Jacques Hiblot wrote:
+> Some HW design implement multicolor LEDs with several monochromatic LEDs.
+> Grouping the monochromatic LEDs allows to configure them in sync and use
+> the triggers.
+> The PWM multicolor LED driver implements such grouping but only for
+> PWM-based LEDs. As this feature is also desirable for the other types of
+> LEDs, this series implements it for any kind of LED device.
+> 
+> [...]
 
-This is due to the fact that `md` is a void* while `enum pca995x_type` has the
-size of an int.
+Applied, thanks!
 
-Add uintptr_t cast to silence clang warning while also keeping enum cast
-for readability and consistency with other `chip_type` assignment just a
-few lines below:
-|	chip_type = (enum pca955x_type)id->driver_data;
+[1/5] devres: provide devm_krealloc_array()
+      (no commit info)
+[2/5] leds: provide devm_of_led_get_optional()
+      (no commit info)
+[3/5] leds: class: store the color index in struct led_classdev
+      (no commit info)
+[4/5] dt-bindings: leds: Add binding for a multicolor group of LEDs
+      commit: 099c52d9448c1ca832b4695e982221a521282b94
+[5/5] leds: Add a multicolor LED driver to group monochromatic LEDs
+      (no commit info)
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1910
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
-
-
-leds: pca955x: fix -Wvoid-pointer-to-enum-cast warning
----
-Note: I've opted to keep the initial `enum pca955x_type` cast and just
-place the uintptr_t cast first to silence the warning. It seemed weird
-to me to see the same variable being assigned to two different casted
-values within just a few lines.
----
- drivers/leds/leds-pca955x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index b10e1ef38db0..1d7fa0cd97bf 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -484,7 +484,7 @@ static int pca955x_probe(struct i2c_client *client)
- 	const void *md = device_get_match_data(&client->dev);
- 
- 	if (md) {
--		chip_type = (enum pca955x_type)md;
-+		chip_type = (enum pca955x_type)(uintptr_t)md;
- 	} else {
- 		const struct i2c_device_id *id = i2c_match_id(pca955x_id,
- 							      client);
-
----
-base-commit: 2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-change-id: 20230816-void-drivers-leds-leds-pca955x-7002cc67a291
-
-Best regards,
 --
-Justin Stitt <justinstitt@google.com>
+Lee Jones [李琼斯]
 
