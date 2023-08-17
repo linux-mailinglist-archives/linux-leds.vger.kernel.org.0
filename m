@@ -2,57 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD3777F312
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 11:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC6077F447
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 12:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349399AbjHQJRq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Aug 2023 05:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
+        id S1348253AbjHQKZe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Aug 2023 06:25:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349534AbjHQJRa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 05:17:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3052D64;
-        Thu, 17 Aug 2023 02:17:10 -0700 (PDT)
+        with ESMTP id S1349356AbjHQKZT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 06:25:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A70D213F
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 03:25:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DDBCA65138;
-        Thu, 17 Aug 2023 09:16:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BCB1C433C7;
-        Thu, 17 Aug 2023 09:16:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B09A763824
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 10:25:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA5AC433C8;
+        Thu, 17 Aug 2023 10:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692263796;
-        bh=E1xYM3eicIY2J4yt1dfa9Zc0USpwfRjN/j9GTHStkK0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J4LpdgarkYOJtZ15VDnKThnh9eMePVRKBPf1FdgsJzZ/bItnsb+40z+OWdFqfr82o
-         F15NkfthCAQ95a55659cBYBloXtT3atkdPxAT8N1bxSZxi1qWmFnkphBTRgI5WIZE2
-         CwuJYMev/D9t8y4oAXAL8COZCes/9K61dmRKvmKuAHmDT1r4Plo0uiKet2mV3jVggI
-         fBJ4XGFGksBTQ7NZGXM+lhFzg7ayfYdKLNllHVg3A9JHe3DYWlwIBSRIAfmzw0eHeS
-         KTdHwgQx1b39K4pZvVqmDDZn/W7EEGCMgeGgjX5KGxVthtBV0rCajaAFSBUukxmgCV
-         IQKqSCxnRa/yA==
-Date:   Thu, 17 Aug 2023 10:16:31 +0100
+        s=k20201202; t=1692267917;
+        bh=pCUN09EH3++c0bmgvTjU2PMIGEkhY2GrVQVoZ3sj3EE=;
+        h=From:To:In-Reply-To:References:Subject:Date:From;
+        b=M6AzHdEWoElId2kd0H6Nj7n5s8v8V5NiLItMF3QsGlifhNbM6AEb4A82/6rUmFnMA
+         j+2SjnZbc2MrerpP6yhIUczqBl3nwu18pyyjjSpKD4zBqeVr+e6WFRkHWzB1IDGHA9
+         y8TwaiuvyXCeGP1ayG6sOGkSkm+zD1V3Q6FRwdpbBUGv0/MuTESHqFEb6C27uPjq6F
+         /3pjxba9ASK0kpSMHw77PuRCpEO7+XDXYwp4f3mmZPLxHtXpi167RGnaDgpgWg1W/Z
+         M6p4KgcEVCuvQX5rjWkLgDExQMVsP1MsRjeCYBSurX7Wlt6OS/GrYtqCOzygjxdKQY
+         qN3veaRSjBWng==
 From:   Lee Jones <lee@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Daniel Golle <daniel@makrotopia.org>, Pavel Machek <pavel@ucw.cz>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Richard Purdie <rpurdie@linux.intel.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH] led: trig: timer: stop offloading on deactivation
-Message-ID: <20230817091631.GH648357@google.com>
-References: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
- <202307290641.SUCRTRMI-lkp@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+In-Reply-To: <20230801124931.8661-1-kabel@kernel.org>
+References: <20230801124931.8661-1-kabel@kernel.org>
+Subject: Re: (subset) [PATCH] leds: multicolor: Use rounded division when
+ calculating color components
+Message-Id: <169226791578.964523.16524805525375125286.b4-ty@kernel.org>
+Date:   Thu, 17 Aug 2023 11:25:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <202307290641.SUCRTRMI-lkp@intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,52 +55,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 29 Jul 2023, kernel test robot wrote:
+On Tue, 01 Aug 2023 14:49:31 +0200, Marek Behún wrote:
+> Given channel intensity, LED brightness and max LED brightness, the
+> multicolor LED framework helper led_mc_calc_color_components() computes
+> the color channel brightness as
+> 
+>     chan_brightness = brightness * chan_intensity / max_brightness
+> 
+> Consider the situation when (brightness, intensity, max_brightness) is
+> for example (16, 15, 255), then chan_brightness is computed to 0
+> although the fractional divison would give 0.94, which should be rounded
+> to 1.
+> 
+> [...]
 
-> Hi Daniel,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on lee-leds/for-leds-next]
-> [also build test WARNING on wireless-next/main wireless/main linus/master pavel-leds/for-next v6.5-rc3 next-20230728]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/led-trig-timer-stop-offloading-on-deactivation/20230728-203243
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-> patch link:    https://lore.kernel.org/r/728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel%40makrotopia.org
-> patch subject: [PATCH] led: trig: timer: stop offloading on deactivation
-> config: mips-randconfig-r093-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307290641.SUCRTRMI-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/leds/trigger/ledtrig-timer.c:129:47: sparse: sparse: Using plain integer as NULL pointer
->    drivers/leds/trigger/ledtrig-timer.c:129:50: sparse: sparse: Using plain integer as NULL pointer
+Applied, thanks!
 
-Are you planning on fixing this?
+[1/1] leds: multicolor: Use rounded division when calculating color components
+      commit: 065d099f1be58187e6629273c50b948a02b7e1bf
 
-> vim +129 drivers/leds/trigger/ledtrig-timer.c
-> 
->    123	
->    124	static void timer_trig_deactivate(struct led_classdev *led_cdev)
->    125	{
->    126		/* Stop blinking */
->    127		led_set_brightness(led_cdev, LED_OFF);
->    128		if (led_cdev->blink_set)
->  > 129			led_cdev->blink_set(led_cdev, 0, 0);
->    130	}
->    131	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
--- 
+--
 Lee Jones [李琼斯]
+
