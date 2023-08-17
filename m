@@ -2,51 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 048A377F44F
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 12:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C63C77F49C
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 12:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349537AbjHQK35 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Aug 2023 06:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
+        id S244446AbjHQK7U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Aug 2023 06:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349421AbjHQK3Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 06:29:25 -0400
+        with ESMTP id S1350058AbjHQK6t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 06:58:49 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021D62D54;
-        Thu, 17 Aug 2023 03:29:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3D72D4A
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 03:58:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 719C663D63;
-        Thu, 17 Aug 2023 10:29:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71DDC433C7;
-        Thu, 17 Aug 2023 10:29:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C6D3617EB
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 10:58:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6FDFC433C8;
+        Thu, 17 Aug 2023 10:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692268162;
-        bh=kZwwMK65BocKYlXt+xCfcxEkAY2vY1NEmm4JyhjbwcI=;
+        s=k20201202; t=1692269927;
+        bh=xPZG3HTZv1wucVcqUqXx5lwi8sd2c+6gU9u1Cp6vU20=;
         h=From:To:In-Reply-To:References:Subject:Date:From;
-        b=inau0KofU33iBmtvkrVF88taotlkiuDMJwd4XBg3FUeYVkkLyvtzzOl9aTBpjEc4r
-         f9NkCOgRcwiB4QF5jsrmaxsGkt3LvNBAGM4Mx6JFWPPCBX3zReJ6IN1ESrUR5HEqdF
-         CHygqvt3+LCiJC5837DBLr7IRQogvwnTiSHWo3QyVMYht4Frl/QuthFZZCalYniiDR
-         rHvTrM9r7i9JdcdDX91HUpyove7ij0VgXPG5CqNpKLX4CdmQA7EYTbrpSMYUFf6yXW
-         d04lB9KuBQ+dHhDGoKT/sG3v4cLhLJCzv5aS3AnQC1PjmowYAywIcyat81eF0JHUiQ
-         IaRVoGIQStHLA==
+        b=rh3C96OLwXB3l9vwutsGrtvKn4Qsdcv+SVBl0WWSXgpF8mFT4Wj2cqsTblSVIQZMN
+         TnPudqxlQO/z9SOsGWGmNKK9VPZEBYXEWcZVoNaoDjubwbGFuks2XFfClo+EzLrY1X
+         LoPlI5Dp4eJTPtHxkOWTOkV/FJvg4HugQyxgTHtmyPoBZkNjtV1Npme9wROKDaULGo
+         KdyfIK7Stm/cadcbe2vKCt+JTCM1glfYor/ETsBboausG7ix0my2elL9xEer16FYTZ
+         ukzvgza/faJv/K5ihj9PcA/PWB+WrGqu0i61X60OJbgYfcMhF0FulY+mnsLsi/J8z0
+         SeMdQ0PzCxZNA==
 From:   Lee Jones <lee@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230728171123.110489-1-krzysztof.kozlowski@linaro.org>
-References: <20230728171123.110489-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH] dt-bindings: leds: rohm,bd71828: Drop
- select:false
-Message-Id: <169226816059.966886.7816769511198769175.b4-ty@kernel.org>
-Date:   Thu, 17 Aug 2023 11:29:20 +0100
+To:     =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+In-Reply-To: <20230802090753.13611-1-kabel@kernel.org>
+References: <20230802090753.13611-1-kabel@kernel.org>
+Subject: Re: (subset) [PATCH v2] leds: trigger: tty: Do not use LED_ON/OFF
+ constants, use led_blink_set_oneshot instead
+Message-Id: <169226992647.980052.16310484890492443129.b4-ty@kernel.org>
+Date:   Thu, 17 Aug 2023 11:58:46 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -60,18 +56,20 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 28 Jul 2023 19:11:23 +0200, Krzysztof Kozlowski wrote:
-> select:false makes the schema basically ignored (not selected for given
-> compatible), unless some other binding references it.  It's not really
-> useful nor needed for device bindings, even if they are part of other
-> binding (like MFD).
+On Wed, 02 Aug 2023 11:07:53 +0200, Marek Behún wrote:
+> The tty LED trigger uses the obsolete LED_ON & LED_OFF constants when
+> setting LED brightness. This is bad because the LED_ON constant is equal
+> to 1, and so when activating the tty LED trigger on a LED class device
+> with max_brightness greater than 1, the LED is dimmer than it can be
+> (when max_brightness is 255, the LED is very dimm indeed; some devices
+> translate 1/255 to 0, so the LED is OFF all the time).
 > 
-> 
+> [...]
 
 Applied, thanks!
 
-[1/1] dt-bindings: leds: rohm,bd71828: Drop select:false
-      commit: f044ae6b5a215df5420705dbaa287c59d8d5ef6b
+[1/1] leds: trigger: tty: Do not use LED_ON/OFF constants, use led_blink_set_oneshot instead
+      commit: 730094577e0c37e1bc40be37cbd41f71b0a8a2a4
 
 --
 Lee Jones [李琼斯]
