@@ -2,77 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A33D177FC60
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 18:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4282277FF4D
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Aug 2023 22:52:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352028AbjHQQy5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Aug 2023 12:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45728 "EHLO
+        id S244092AbjHQUvy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Aug 2023 16:51:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353793AbjHQQyn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 12:54:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BA72D7D;
-        Thu, 17 Aug 2023 09:54:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 09551650F4;
-        Thu, 17 Aug 2023 16:54:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFCFC433C9;
-        Thu, 17 Aug 2023 16:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692291275;
-        bh=RmSAB4XZQa5AqTnuFBlgXIUu2P/Oxf/lSy2CeI8+irA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j22dLx0eM4jTeMXgIWvqDIHjQHfM3pOBE9DJJ6ZA5bgQTh8/4D5E/ITmRShU3jRa1
-         vmUYPAjPgI/XJ3T/xMucWw55PmyT4tXJsGFKoxI8+gHaaFWF6mj/NhJdHFwG1JaIma
-         7/ZynfBlCQuoFs207XN+Bw5cw2g6YZWERpzs/fg9v+Ob5gtAnTuznkhFa5KyQsI/rt
-         xWHTIeFofCmJe7qvzc9oliHZ5AEgOsQz/ZRKtWCDIDhseAoYXiUnKoE/mJ42/mDaXd
-         WhX/B4eizWnVm4RFjPI27fRq0YQ5JEHc2/aJ/8VjjKyG45MNWi+XpY6a9I/LD2DhDT
-         QgfkOQc82PvKQ==
-Date:   Thu, 17 Aug 2023 17:54:30 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>
-Cc:     "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "Leal (Long) Li" <Leal.Li@monolithicpower.com>,
-        "wyx137120466@gmail.com" <wyx137120466@gmail.com>
-Subject: Re: [PATCH 1/2] leds: Add driver for mp3326
-Message-ID: <20230817165430.GG986605@google.com>
-References: <97598d1812a7430d8f11682038ecf6dd@monolithicpower.com>
+        with ESMTP id S1355121AbjHQUvw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Aug 2023 16:51:52 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF76C3AA3
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 13:51:35 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4ff09632194so205850e87.2
+        for <linux-leds@vger.kernel.org>; Thu, 17 Aug 2023 13:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692305494; x=1692910294;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=74GlaUWpOuTA0MhN5VZiM4NKezqQZlM+zhhkyJSJmPM=;
+        b=F577ohvCOpg72JvVGeJHsLkJkNGaO1PRrrhWEVwO5VgnlOkQEXg9OsH8goUePLb9J7
+         lK0Qg8Vo8OZsEgY0ug1/Qz9tWN7WpSzaoAv4/X2r7rxBzKLb0zWQWj8AZ25+DNIG+84H
+         JoVKKo3LuoYl+d5ZA6ToOrdc1/xmn6WTZTfH4gsQ/fzCtMtV6wZmJseXHpH/sf3AwH9C
+         brO0D2dOin7ioxUwE9hfHRfjP9FKmMsX9vinwdXUMLl/HFKosGZZmU5AoSB10bKYD58D
+         rFTIZ2BCsyOcQmFfjba6+ayYAUpdLdfpEnVGGNJuiwMf5a1Nd38vdJSMTeOOpE8dI2B8
+         +9DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692305494; x=1692910294;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=74GlaUWpOuTA0MhN5VZiM4NKezqQZlM+zhhkyJSJmPM=;
+        b=DwGBP9nlbTrkj9VDGsVHSSMxUL4b8MIIBKR+UafkibVOWTK2u+npKw1Xd0EyKb1n2t
+         qg+yu6fubsAClgQbItvXnMeyCys5A022vQfJ/+p4CPN6P+OMeCWgX1K3NJvouEnczQxC
+         nnq2H+CefOHUxe58jEL+0/9iYOqtWSS/KwsVLPtR7JedYKf0V3yRzWZFolkOCWB0cBr7
+         FSD48Wzl5GzvURHZz2OYKtxIlssnJLfpjRNj14oLcEFfn7TNRsGsMgetfqDlJ86EVsbj
+         X8JvEQXifYGylQHHUr/h6Nirr6b/LS+D/RMQR1wgyIxOMGkQA9NLehoMygpllm4xdn2q
+         GBfQ==
+X-Gm-Message-State: AOJu0Yy0/LDJqNbDZeVEUxZxI5iP0/5eYeieVDEjf8fekTYo4cxbL3jC
+        HZFcc3iqeqHwQGUnspWLv1r91EfUNcnFloA1UGk=
+X-Google-Smtp-Source: AGHT+IF6gZU3cPRYtFl/4G8ccc82OVpA90WlGzsHAQfz9fynGmrHSbJz/lfhrXX/exNTsKckyu14cWttzA1kXvDrik0=
+X-Received: by 2002:a05:6512:2024:b0:4fe:17d6:af2b with SMTP id
+ s4-20020a056512202400b004fe17d6af2bmr256883lfs.42.1692305493599; Thu, 17 Aug
+ 2023 13:51:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <97598d1812a7430d8f11682038ecf6dd@monolithicpower.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Sender: zandaicvises9@gmail.com
+Received: by 2002:a98:b603:0:b0:1ce:699b:639f with HTTP; Thu, 17 Aug 2023
+ 13:51:33 -0700 (PDT)
+From:   pernille <pernilleerenbjerg164@gmail.com>
+Date:   Thu, 17 Aug 2023 13:51:33 -0700
+X-Google-Sender-Auth: 9Y9HsBIQPSDAgkYI2Y1n0SGvTIU
+Message-ID: <CADgrzVuu-AdpoYv-ewwJreQw7jLtAnD1X1-bBZJ5P3i2CpmN5g@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 09 Aug 2023, Yuxi (Yuxi) Wang wrote:
-
-> This patch adds a led
->  driver for the mp3326 which is from Monolithic Power Systems, Inc.
-> 
-> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-> ---
->  drivers/leds/Kconfig       |   7 +
->  drivers/leds/Makefile      |   1 +
->  drivers/leds/leds-mp3326.c | 836 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 844 insertions(+)
->  create mode 100644 drivers/leds/leds-mp3326.c
-
-Where is patch 2/2?  Is it related to this one?
-
-Please sent all patches to all people, so we can see what's happening.
-
 -- 
-Lee Jones [李琼斯]
+I've been trying to reach you, I have a business proposal for you contact me
