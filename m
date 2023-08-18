@@ -2,51 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90E21780A39
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Aug 2023 12:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20842780A5F
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Aug 2023 12:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358574AbjHRKdl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Aug 2023 06:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38006 "EHLO
+        id S238601AbjHRKmf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Aug 2023 06:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376339AbjHRKdR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Aug 2023 06:33:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DDC558A;
-        Fri, 18 Aug 2023 03:31:39 -0700 (PDT)
+        with ESMTP id S1376266AbjHRKmV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Aug 2023 06:42:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F179B13E
+        for <linux-leds@vger.kernel.org>; Fri, 18 Aug 2023 03:42:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B008E640A4;
-        Fri, 18 Aug 2023 10:31:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2524CC433C8;
-        Fri, 18 Aug 2023 10:31:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 881D264C40
+        for <linux-leds@vger.kernel.org>; Fri, 18 Aug 2023 10:42:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD06C433C8;
+        Fri, 18 Aug 2023 10:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692354666;
-        bh=ndPPycUmNOCCYOqfOXo/JaEow5hs7D6ZOxkE3o7r+4c=;
+        s=k20201202; t=1692355339;
+        bh=1Yw7OTlPPxOuSR9Q4He2A6LTB8qpe26jb0AgMxQeb9g=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=kdD3a+iwdCWYN0+Nl0UFrIp6h4yJQKFR1LBEdnsP8kjZFir9LsOA5qPeMYWdXahEn
-         /YCLlkk46lkxGWX/KQ56wrv1e07MB2VyWmmsxjCKXoWx4p53ftgXQeraAifkW/420x
-         kaX5cWlCyeJxx4Glsazr7HWiD7VfnpSZRNyQdgPdDo6h/A/kL/+6uc5DCFN1cFj3qd
-         iAqcUvEY3F2O43EG7eQ7nVAcsa/A/mmKqZejrbcnmudQrp0h7HxRgb3b1BY1WFbFrU
-         sMewgdoP02r3xh2wBLi8Hvj5H+GP1PYNET1MzRSdD824P3Rzn2iR0WJ7g7asJ4ImKS
-         BFEie740wXOqQ==
+        b=vL4woRUO0EYODnBm848OwI/ne5t+bZ1ME/ZWIma3Ms37upc/ObvZBKO9Dxokr4tzZ
+         1Tl0mvgIgM7ZqBiBYYsvwW2SzwgAU/fpX7hpzwneWlLkxFB7vfWK6XX35x8vGlYsVp
+         pAcJiF/XCF7zecbsQFlv5MJeUdOwF0Pweiauu0vAH60vGEkcHOCy6Rh635BXNMNDks
+         egVNn+9XhWD3ulQXc/dpYQWgRT3T/HPhK/AaELE9qhR9ExhX/LzaM/q29bYowu6xaR
+         oT+UDugUSsnqRy3NTG2D5XhMdBDjE7Bk+M3GvBPeMvPvQmCKwYf/VQdqQDVmDEflvi
+         uRQQmqN2V6nrQ==
 From:   Lee Jones <lee@kernel.org>
-To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20230814163116.1696092-1-j.neuschaefer@gmx.net>
-References: <20230814163116.1696092-1-j.neuschaefer@gmx.net>
-Subject: Re: (subset) [RESEND PATCH v3] dt-bindings: leds: Fix reference to
- definition of default-state
-Message-Id: <169235466385.1241692.15168908576778455160.b4-ty@kernel.org>
-Date:   Fri, 18 Aug 2023 11:31:03 +0100
+To:     pavel@ucw.cz, lee@kernel.org, andrew@lunn.ch, ansuelsmth@gmail.com,
+        davem@davemloft.net, kuba@kernel.org, dan.carpenter@linaro.org,
+        Li Zetao <lizetao1@huawei.com>
+Cc:     yang.lee@linux.alibaba.com, linux-leds@vger.kernel.org
+In-Reply-To: <20230815075944.1089298-2-lizetao1@huawei.com>
+References: <20230815075944.1089298-1-lizetao1@huawei.com>
+ <20230815075944.1089298-2-lizetao1@huawei.com>
+Subject: Re: (subset) [PATCH -next 1/2] leds: trigger: netdev: Use
+ module_led_trigger macro to simplify the code
+Message-Id: <169235533685.1247426.17850934051203206321.b4-ty@kernel.org>
+Date:   Fri, 18 Aug 2023 11:42:16 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -61,17 +58,16 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 14 Aug 2023 18:31:15 +0200, Jonathan Neuschäfer wrote:
-> At least since the YAML conversion, the default-state property is
-> described in leds/common.yaml, so there's no need to point to another
-> file for its definition.
+On Tue, 15 Aug 2023 15:59:43 +0800, Li Zetao wrote:
+> Use the module_led_trigger macro to simplify the code, which is the
+> same as declaring with module_init() and module_exit().
 > 
 > 
 
 Applied, thanks!
 
-[1/1] dt-bindings: leds: Fix reference to definition of default-state
-      commit: d3679199f6847061683069d65737a55a8a5c60ef
+[1/2] leds: trigger: netdev: Use module_led_trigger macro to simplify the code
+      commit: 74cd23e87d7b5ebd5185d3930a7d95fbd859a256
 
 --
 Lee Jones [李琼斯]
