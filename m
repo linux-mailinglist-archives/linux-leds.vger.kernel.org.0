@@ -2,90 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E96D780F8C
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Aug 2023 17:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50D53780FC0
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Aug 2023 18:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236170AbjHRPro (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Aug 2023 11:47:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
+        id S1378387AbjHRQCY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Aug 2023 12:02:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378303AbjHRPrl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Aug 2023 11:47:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9693BF;
-        Fri, 18 Aug 2023 08:47:39 -0700 (PDT)
+        with ESMTP id S1378413AbjHRQCI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Aug 2023 12:02:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47BCD421E;
+        Fri, 18 Aug 2023 09:02:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FC8C617A7;
-        Fri, 18 Aug 2023 15:47:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB7AC433C8;
-        Fri, 18 Aug 2023 15:47:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DA60163982;
+        Fri, 18 Aug 2023 16:01:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F623C433C7;
+        Fri, 18 Aug 2023 16:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692373658;
-        bh=UJoBya+wdS9sWcpW5mjYgKHW60p+meiYnGzDA/IaDSM=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=L0yaXP2oATAqSCXMvSAwxjWzaZtukjl4iKkscqm2A8oU1zjn7aJixPofHhfHJP9yN
-         uaCuFsmVhp6w1EH1ChEXwBOqFeUb1RC3++06i3gckcNbAy3E+xxMhnao9MeMECBDG8
-         sTjWxwZyr6Eedz5nVfosqfa3RO0ayhTFqts4zQ/LoDbQYFNcGJCROLJhBqtfv04XOR
-         7MoMelTOVBOSVuoEI82iwdag29oOvnxx5CEdNtu6ERgUe5kROxGygGgdmVaFYP70Mw
-         rdW66MTmTXQfGmSw87ToXzz4yM1EZyLWnhfzX2jGJ1RUEAvAvzvTY5utV6uEU3W7rK
-         z158YDZJ3YGSA==
+        s=k20201202; t=1692374519;
+        bh=yjW1SJSFumpPs+wJmIr381ix9dt6xfcRT4QIG0PkQq4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cvgCPt9e3kyaPovSv1rYGnIIB0sJqvqbjExtGZHx7BQck9qw5NWRyEpBREMooxnag
+         m2YddmbJjd3RUORT0meLun5nsXOZ9MfoK5w3XyX08bqUVtsvyxgZhcRDaJDCofiDbR
+         qQYQzDUqP1UumKz9gKIfYXpnJNdoFrLuVV6Gua/V9qtEvsZA6Y+1YHj2f3xf38GAkE
+         GjamPP8BZ8MyWig2KAKmpyt8qt1uaGYq/uT72XCTfIhNVz+OVNixmIJLuauXcdVzGb
+         uuRBJPM72KXJS2LoiWwlri6hpE9bU5PVpc2iPIU5y40AzjPEIGzt/vsx3PUQIzEQAP
+         D02LuNKYx48pA==
+Date:   Fri, 18 Aug 2023 17:01:54 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Stephan Gerhold <stephan@gerhold.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nikita Travkin <nikita@trvn.ru>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Lin, Meng-Bo" <linmengbo0689@protonmail.com>
-In-Reply-To: <20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net>
-References: <20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net>
-Subject: Re: [PATCH v3 0/3] leds: aw2013: Document interrupt and pull-up
- supply
-Message-Id: <169237365663.1285443.14239471615825184081.b4-ty@kernel.org>
-Date:   Fri, 18 Aug 2023 16:47:36 +0100
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] leds: pca955x: fix -Wvoid-pointer-to-enum-cast warning
+Message-ID: <20230818160154.GZ986605@google.com>
+References: <20230816-void-drivers-leds-leds-pca955x-v1-1-2967e4c1bdcc@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230816-void-drivers-leds-leds-pca955x-v1-1-2967e4c1bdcc@google.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 15 Aug 2023 19:21:03 +0200, Stephan Gerhold wrote:
-> AW2013 has an optional interrupt pin "INTN" which is used to report
-> completion of started operations (e.g. power up or LED breath effects).
-> The driver does not use it (yet) but it should be already described for
-> completeness inside the DT schema.
+On Wed, 16 Aug 2023, Justin Stitt wrote:
+
+> When building with clang 18 I see the following warning:
+> |      drivers/leds/leds-pca955x.c:487:15: warning: cast to smaller integer
+> |      type 'enum pca955x_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+> |        487 |                 chip_type = (enum pca955x_type)md;
 > 
-> Since the interrupt and I2C lines operate in open drain low active mode
-> a pull-up supply is needed for correct operation. Unfortunately there
-> is no ideal place to describe it in the DT: The pull-up needed for the
-> I2C lines could be described on the I2C bus. However, the pull-up
-> needed for the interrupt line belongs neither directly to the interrupt
-> controller nor to AW2013. Since the AW2013 driver will be typically in
-> control of the power management and interrupt masking it makes more
-> sense to describe it inside the AW2013 device tree node.
+> This is due to the fact that `md` is a void* while `enum pca995x_type` has the
+> size of an int.
 > 
-> [...]
+> Add uintptr_t cast to silence clang warning while also keeping enum cast
+> for readability and consistency with other `chip_type` assignment just a
+> few lines below:
+> |	chip_type = (enum pca955x_type)id->driver_data;
+> 
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1910
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
 
-Applied, thanks!
+A review from Nathan would be good here.
 
-[1/3] dt-bindings: leds: aw2013: Document interrupt
-      commit: 9422bcf125b94e553c795af4f6c59d8e8fd8affa
-[2/3] dt-bindings: leds: Document pull-up supply for interrupt and I2C
-      commit: 2cccb179addedff6a5234e37237fc6b22d9217d4
-[3/3] leds: aw2013: Enable pull-up supply for interrupt and I2C
-      commit: baca986e1f2c31f8e4b2a6d99d47c3bc844033e8
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
---
+Also please make checkpatch.pl happy before resending, thanks.
+
+> ---
+> 
+> 
+> leds: pca955x: fix -Wvoid-pointer-to-enum-cast warning
+> ---
+> Note: I've opted to keep the initial `enum pca955x_type` cast and just
+> place the uintptr_t cast first to silence the warning. It seemed weird
+> to me to see the same variable being assigned to two different casted
+> values within just a few lines.
+> ---
+>  drivers/leds/leds-pca955x.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+> index b10e1ef38db0..1d7fa0cd97bf 100644
+> --- a/drivers/leds/leds-pca955x.c
+> +++ b/drivers/leds/leds-pca955x.c
+> @@ -484,7 +484,7 @@ static int pca955x_probe(struct i2c_client *client)
+>  	const void *md = device_get_match_data(&client->dev);
+>  
+>  	if (md) {
+> -		chip_type = (enum pca955x_type)md;
+> +		chip_type = (enum pca955x_type)(uintptr_t)md;
+>  	} else {
+>  		const struct i2c_device_id *id = i2c_match_id(pca955x_id,
+>  							      client);
+> 
+> ---
+> base-commit: 2ccdd1b13c591d306f0401d98dedc4bdcd02b421
+> change-id: 20230816-void-drivers-leds-leds-pca955x-7002cc67a291
+> 
+> Best regards,
+> --
+> Justin Stitt <justinstitt@google.com>
+> 
+
+-- 
 Lee Jones [李琼斯]
-
