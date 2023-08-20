@@ -2,140 +2,150 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E376C7817D6
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Aug 2023 09:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 499C1781CEB
+	for <lists+linux-leds@lfdr.de>; Sun, 20 Aug 2023 10:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343763AbjHSHDt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Aug 2023 03:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43372 "EHLO
+        id S230161AbjHTIUv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 20 Aug 2023 04:20:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343941AbjHSHDV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Aug 2023 03:03:21 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA764234
-        for <linux-leds@vger.kernel.org>; Sat, 19 Aug 2023 00:03:17 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id 46e09a7af769-6bd0afbd616so1350665a34.0
-        for <linux-leds@vger.kernel.org>; Sat, 19 Aug 2023 00:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692428597; x=1693033397;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :reply-to:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
-        b=nLON0lFU1HFxhxnwtvUZc9wvmWS7rbdnt2RdpqIoCtsDwWwHx0Gyjn1xZGSC5eb2FC
-         WmmpNW+ObIBj4H3oVA528E09LKJ9Oh4DAMKSu6pEL6PL1RhqFN61P9gLSK/8SD4vx9bP
-         JUWK2MGIfhLYg/xJvX06ahmCeb/lUSvcNrFKmvYLJLEYQO5IwjUSUqLNIk0w8cK+2/XQ
-         dSqtK5eCnXC+wrkDAzHrF00pkROWtcttibp6ntDQXOVUlo6vsHjNyWdY7UHT1JYeF2xL
-         PB0ef0uQvzc5mw6gaoXP2KOWKvpRua/iGaOI4B4VGugPnWVRf5iIcCLUY0NkKk3Xl8rO
-         5wkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692428597; x=1693033397;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
-        b=gRZ4VttCDFeTfvgaM75uqs92Pxoj8yY6M0F6YUwavGKmHeg4Z/u97sCDY8vp2OTVzq
-         RQXMTGtE6EnQR0ICt83Y8TfTeghf3S8S+HelYlB6hNlfQJy4xB/0k06QaE0gwPN7677u
-         pImEpzoMytKUnuAajg6D253TyxLWXcpCBWlvgKLkeON+C8iRDZU9qKha6Kk7+xl/odXY
-         0ASqy1L1hhkKjO/Yo7HhsHJv8/ER87XQ7a1k1O58y03eoHp9RPaQapgUJVFAbLBSDagS
-         /mxQAqNsGy/u0IdMzvHh0OTH+76/tTxpQC+pPccW7aadn2Ef6JKPKzcoWvfEoQv4XNOS
-         cyEg==
-X-Gm-Message-State: AOJu0YwsoJdrElWYa8JSNPE6G6ledv/mF4WVPuDKx3CILGFtiyi+8YUe
-        Zt+B3U9EKqVG1BdN14ZVIvHCs3P9/91a97XKEvixVVVVw4+EqQ==
-X-Google-Smtp-Source: AGHT+IHBFHux9W7amy752XAKQ4G+pXj9K8KLABgekYkKVjTaNiUovhqWPJjy5q7mdLIzANUAVG24gzrYlmHT6Kjn7Kk=
-X-Received: by 2002:a81:8782:0:b0:589:a9fc:ffcd with SMTP id
- x124-20020a818782000000b00589a9fcffcdmr1407212ywf.20.1692428576106; Sat, 19
- Aug 2023 00:02:56 -0700 (PDT)
+        with ESMTP id S230140AbjHTIUs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 20 Aug 2023 04:20:48 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 904EA10F5;
+        Sun, 20 Aug 2023 01:20:12 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.01,187,1684767600"; 
+   d="scan'208";a="173382663"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 20 Aug 2023 17:20:11 +0900
+Received: from localhost.localdomain (unknown [10.226.92.18])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2BCDA400449D;
+        Sun, 20 Aug 2023 17:20:08 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-leds@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] leds: pca955x: Convert enum->pointer for data in the match tables
+Date:   Sun, 20 Aug 2023 09:20:05 +0100
+Message-Id: <20230820082005.55124-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Reply-To: razumkoykhailo@gmail.com
-Sender: mrtombaba@gmail.com
-Received: by 2002:a05:7000:5395:b0:4f4:2174:eed4 with HTTP; Sat, 19 Aug 2023
- 00:02:55 -0700 (PDT)
-From:   "Mr.Razum Khailo" <razumkoykhailo@gmail.com>
-Date:   Sat, 19 Aug 2023 00:02:55 -0700
-X-Google-Sender-Auth: TD1SbUwALQWUaG93zNo0ky4SaO8
-Message-ID: <CADXgghn2t3mU_VvtZDjHwnbadg2QnVcJ30yFd0kN8SL6NDhY1g@mail.gmail.com>
-Subject: Greetings from Ukraine,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
-        MILLION_USD,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [2607:f8b0:4864:20:0:0:0:341 listed in]
-        [list.dnswl.org]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [razumkoykhailo[at]gmail.com]
-        *  2.0 MILLION_USD BODY: Talks about millions of dollars
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.4 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *****
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-R3JlZXRpbmdzwqBmcm9twqBVa3JhaW5lLA0KDQpNci7CoFJhenVta292wqBNeWtoYWlsbyzCoGFu
-wqBlbnRyZXByZW5ldXLCoGJ1c2luZXNzbWFuwqBmcm9twqBPZGVzc2ENClVrcmFpbmUuwqBXaXRo
-aW7CoGHCoHllYXLCoHBsdXPCoHNvbWXCoG1vbnRoc8Kgbm93LMKgbW9yZcKgdGhhbsKgOC4ywqBt
-aWxsaW9uDQpwZW9wbGXCoGFyb3VuZMKgdGhlwqBjaXRpZXPCoG9mwqBtecKgY291bnRyecKgVWty
-YWluZcKgaGF2ZcKgYmVlbsKgZXZhY3VhdGVkwqB0bw0KYcKgc2FmZcKgbG9jYXRpb27CoGFuZMKg
-b3V0wqBvZsKgdGhlwqBjb3VudHJ5LMKgbW9zdMKgZXNwZWNpYWxsecKgY2hpbGRyZW7CoHdpdGgN
-CnRoZWlywqBwYXJlbnRzLMKgbnVyc2luZ8KgbW90aGVyc8KgYW5kwqBwcmVnbmFudMKgd29tZW4s
-wqBhbmTCoHRob3NlwqB3aG/CoGhhdmUNCmJlZW7CoHNlcmlvdXNsecKgd291bmRlZMKgYW5kwqBu
-ZWVkwqB1cmdlbnTCoG1lZGljYWzCoGF0dGVudGlvbi7CoEnCoHdhc8KgYW1vbmcNCnRob3NlwqB0
-aGF0wqB3ZXJlwqBhYmxlwqB0b8KgZXZhY3VhdGXCoHRvwqBvdXLCoG5laWdoYm91cmluZ8KgY291
-bnRyaWVzwqBhbmTCoEnigJltDQpub3fCoGluwqB0aGXCoHJlZnVnZWXCoGNhbXDCoG9mwqBUZXLC
-oEFwZWzCoEdyb25pbmdlbsKgaW7CoHRoZcKgTmV0aGVybGFuZHMuDQoNCknCoG5lZWTCoGHCoGZv
-cmVpZ27CoHBhcnRuZXLCoHRvwqBlbmFibGXCoG1lwqB0b8KgdHJhbnNwb3J0wqBtecKgaW52ZXN0
-bWVudA0KY2FwaXRhbMKgYW5kwqB0aGVuwqByZWxvY2F0ZcKgd2l0aMKgbXnCoGZhbWlseSzCoGhv
-bmVzdGx5wqBpwqB3aXNowqBJwqB3aWxsDQpkaXNjdXNzwqBtb3JlwqBhbmTCoGdldMKgYWxvbmcu
-wqBJwqBuZWVkwqBhwqBwYXJ0bmVywqBiZWNhdXNlwqBtecKgaW52ZXN0bWVudA0KY2FwaXRhbMKg
-aXPCoGluwqBtecKgaW50ZXJuYXRpb25hbMKgYWNjb3VudC7CoEnigJltwqBpbnRlcmVzdGVkwqBp
-bsKgYnV5aW5nDQpwcm9wZXJ0aWVzLMKgaG91c2VzLMKgYnVpbGRpbmfCoHJlYWzCoGVzdGF0ZXMs
-wqBtecKgY2FwaXRhbMKgZm9ywqBpbnZlc3RtZW50DQppc8KgKCQzMMKgTWlsbGlvbsKgVVNEKcKg
-LsKgVGhlwqBmaW5hbmNpYWzCoGluc3RpdHV0aW9uc8KgaW7CoG15wqBjb3VudHJ5DQpVa3JhaW5l
-wqBhcmXCoGFsbMKgc2hvdMKgZG93bsKgZHVlwqB0b8KgdGhlwqBjcmlzaXPCoG9mwqB0aGlzwqB3
-YXLCoG9uwqBVa3JhaW5lDQpzb2lswqBiecKgdGhlwqBSdXNzaWFuwqBmb3JjZXMuwqBNZWFud2hp
-bGUswqBpZsKgdGhlcmXCoGlzwqBhbnnCoHByb2ZpdGFibGUNCmludmVzdG1lbnTCoHRoYXTCoHlv
-dcKgaGF2ZcKgc2/CoG11Y2jCoGV4cGVyaWVuY2XCoGluwqB5b3VywqBjb3VudHJ5LMKgdGhlbsKg
-d2UNCmNhbsKgam9pbsKgdG9nZXRoZXLCoGFzwqBwYXJ0bmVyc8Kgc2luY2XCoEnigJltwqBhwqBm
-b3JlaWduZXIuDQoNCknCoGNhbWXCoGFjcm9zc8KgeW91csKgZS1tYWlswqBjb250YWN0wqB0aHJv
-dWdowqBwcml2YXRlwqBzZWFyY2jCoHdoaWxlwqBpbsKgbmVlZA0Kb2bCoHlvdXLCoGFzc2lzdGFu
-Y2XCoGFuZMKgScKgZGVjaWRlZMKgdG/CoGNvbnRhY3TCoHlvdcKgZGlyZWN0bHnCoHRvwqBhc2vC
-oHlvdcKgaWYNCnlvdcKga25vd8KgYW55wqBsdWNyYXRpdmXCoGJ1c2luZXNzwqBpbnZlc3RtZW50
-wqBpbsKgeW91csKgY291bnRyecKgacKgY2FuDQppbnZlc3TCoG15wqBtb25lecKgc2luY2XCoG15
-wqBjb3VudHJ5wqBVa3JhaW5lwqBzZWN1cml0ecKgYW5kwqBlY29ub21pYw0KaW5kZXBlbmRlbnTC
-oGhhc8KgbG9zdMKgdG/CoHRoZcKgZ3JlYXRlc3TCoGxvd2VywqBsZXZlbCzCoGFuZMKgb3VywqBj
-dWx0dXJlwqBoYXMNCmxvc3TCoGluY2x1ZGluZ8Kgb3VywqBoYXBwaW5lc3PCoGhhc8KgYmVlbsKg
-dGFrZW7CoGF3YXnCoGZyb23CoHVzLsKgT3VywqBjb3VudHJ5DQpoYXPCoGJlZW7CoG9uwqBmaXJl
-wqBmb3LCoG1vcmXCoHRoYW7CoGHCoHllYXLCoG5vdy4NCg0KSWbCoHlvdcKgYXJlwqBjYXBhYmxl
-wqBvZsKgaGFuZGxpbmfCoHRoaXPCoGJ1c2luZXNzwqBwYXJ0bmVyc2hpcCzCoGNvbnRhY3TCoG1l
-DQpmb3LCoG1vcmXCoGRldGFpbHMswqBJwqB3aWxswqBhcHByZWNpYXRlwqBpdMKgaWbCoHlvdcKg
-Y2FuwqBjb250YWN0wqBtZQ0KaW1tZWRpYXRlbHkuwqBZb3XCoG1hecKgYXPCoHdlbGzCoHRlbGzC
-oG1lwqBhwqBsaXR0bGXCoG1vcmXCoGFib3V0wqB5b3Vyc2VsZi4NCkNvbnRhY3TCoG1lwqB1cmdl
-bnRsecKgdG/CoGVuYWJsZcKgdXPCoHRvwqBwcm9jZWVkwqB3aXRowqB0aGXCoGJ1c2luZXNzLsKg
-ScKgd2lsbA0KYmXCoHdhaXRpbmfCoGZvcsKgeW91csKgcmVzcG9uc2UuwqBNecKgc2luY2VyZcKg
-YXBvbG9naWVzwqBmb3LCoHRoZQ0KaW5jb252ZW5pZW5jZS4NCg0KDQpUaGFua8KgeW91IQ0KDQpN
-ci4gUmF6dW1rb3bCoE15a2hhaWxvLg0K
+Convert enum->pointer for data in the match tables, so that
+device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+bus type match support added to it.
+
+Replace enum->struct *pca955x_chipdefs for data in the match table.
+Simplify the probe() by replacing device_get_match_data() and ID lookup
+for retrieving data by i2c_get_match_data().
+
+While at it, add const definition to pca955x_chipdefs[].
+
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Note:
+ This patch is only compile tested.
+---
+ drivers/leds/leds-pca955x.c | 45 +++++++++++++------------------------
+ 1 file changed, 16 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+index b10e1ef38db0..e28fd205678e 100644
+--- a/drivers/leds/leds-pca955x.c
++++ b/drivers/leds/leds-pca955x.c
+@@ -76,7 +76,7 @@ struct pca955x_chipdef {
+ 	int			slv_addr_shift;	/* Number of bits to ignore */
+ };
+ 
+-static struct pca955x_chipdef pca955x_chipdefs[] = {
++static const struct pca955x_chipdef pca955x_chipdefs[] = {
+ 	[pca9550] = {
+ 		.bits		= 2,
+ 		.slv_addr	= /* 110000x */ 0x60,
+@@ -105,11 +105,11 @@ static struct pca955x_chipdef pca955x_chipdefs[] = {
+ };
+ 
+ static const struct i2c_device_id pca955x_id[] = {
+-	{ "pca9550", pca9550 },
+-	{ "pca9551", pca9551 },
+-	{ "pca9552", pca9552 },
+-	{ "ibm-pca9552", ibm_pca9552 },
+-	{ "pca9553", pca9553 },
++	{ "pca9550", (kernel_ulong_t)&pca955x_chipdefs[pca9550] },
++	{ "pca9551", (kernel_ulong_t)&pca955x_chipdefs[pca9551] },
++	{ "pca9552", (kernel_ulong_t)&pca955x_chipdefs[pca9552] },
++	{ "ibm-pca9552", (kernel_ulong_t)&pca955x_chipdefs[ibm_pca9552] },
++	{ "pca9553", (kernel_ulong_t)&pca955x_chipdefs[pca9553] },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, pca955x_id);
+@@ -458,11 +458,11 @@ pca955x_get_pdata(struct i2c_client *client, struct pca955x_chipdef *chip)
+ }
+ 
+ static const struct of_device_id of_pca955x_match[] = {
+-	{ .compatible = "nxp,pca9550", .data = (void *)pca9550 },
+-	{ .compatible = "nxp,pca9551", .data = (void *)pca9551 },
+-	{ .compatible = "nxp,pca9552", .data = (void *)pca9552 },
+-	{ .compatible = "ibm,pca9552", .data = (void *)ibm_pca9552 },
+-	{ .compatible = "nxp,pca9553", .data = (void *)pca9553 },
++	{ .compatible = "nxp,pca9550", .data = &pca955x_chipdefs[pca9550] },
++	{ .compatible = "nxp,pca9551", .data = &pca955x_chipdefs[pca9551] },
++	{ .compatible = "nxp,pca9552", .data = &pca955x_chipdefs[pca9552] },
++	{ .compatible = "ibm,pca9552", .data = &pca955x_chipdefs[ibm_pca9552] },
++	{ .compatible = "nxp,pca9553", .data = &pca955x_chipdefs[pca9553] },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, of_pca955x_match);
+@@ -471,7 +471,7 @@ static int pca955x_probe(struct i2c_client *client)
+ {
+ 	struct pca955x *pca955x;
+ 	struct pca955x_led *pca955x_led;
+-	struct pca955x_chipdef *chip;
++	const struct pca955x_chipdef *chip;
+ 	struct led_classdev *led;
+ 	struct led_init_data init_data;
+ 	struct i2c_adapter *adapter;
+@@ -480,24 +480,11 @@ static int pca955x_probe(struct i2c_client *client)
+ 	bool set_default_label = false;
+ 	bool keep_pwm = false;
+ 	char default_label[8];
+-	enum pca955x_type chip_type;
+-	const void *md = device_get_match_data(&client->dev);
+-
+-	if (md) {
+-		chip_type = (enum pca955x_type)md;
+-	} else {
+-		const struct i2c_device_id *id = i2c_match_id(pca955x_id,
+-							      client);
+-
+-		if (id) {
+-			chip_type = (enum pca955x_type)id->driver_data;
+-		} else {
+-			dev_err(&client->dev, "unknown chip\n");
+-			return -ENODEV;
+-		}
+-	}
+ 
+-	chip = &pca955x_chipdefs[chip_type];
++	chip = i2c_get_match_data(&client->dev);
++	if (!chip)
++		return dev_err_probe(&client->dev, -ENODEV, "unknown chip\n");
++
+ 	adapter = client->adapter;
+ 	pdata = dev_get_platdata(&client->dev);
+ 	if (!pdata) {
+-- 
+2.25.1
+
