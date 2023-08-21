@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C8C782940
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 14:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FFFE78294E
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 14:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233451AbjHUMgb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Aug 2023 08:36:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
+        id S235016AbjHUMkK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Aug 2023 08:40:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233109AbjHUMga (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 08:36:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2BDCBE
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 05:36:29 -0700 (PDT)
+        with ESMTP id S232895AbjHUMkK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 08:40:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76D2CC
+        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 05:39:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BBAE60DDE
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 12:36:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D30FC433C8;
-        Mon, 21 Aug 2023 12:36:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 38D7B63436
+        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 12:39:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD843C433C8;
+        Mon, 21 Aug 2023 12:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692621388;
-        bh=NsFBidOr4jaeoaMol+QQ1LaIWQphjG12JPUbN9WwROg=;
+        s=k20201202; t=1692621596;
+        bh=foE5IJYCULnBmEfn8C28QzAc4Q85Jw1bxklUH8D+tQk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D2cngKnoS22mKF7wyDbuFXhh2XSGxL8V2w5Y7IjWtHCsxguJYKTRRYFksTh1WVZFq
-         E3UMMzTH+4Tx7XMslIPzF3VNmZ/lja6+h96UYtpA4cqzWgpQzcgkOBseKvSx1p2yGZ
-         nhC9JB/wLbLvyK5qIbG/NhrGevTxp1H8537w2n2kLVGE8wDV6I2TnBZoFCu6TuBdOU
-         fqm5UHLHNarNeUAieCslrvDzE7dqtEIk9Fo0bdbhbMN938ubaaJl2UBSTdsRGia6k6
-         c7mRT4Agfz4fbMln67BU6nPDS0tLjFFSRKSgkMx2sioRgw9UkJs3KCCJcJdhY41zSN
-         /lFu1BFC+pLag==
-Date:   Mon, 21 Aug 2023 13:36:24 +0100
+        b=OryOoRDQ3aYhk2wut4hpM5koWMdNz5OsvuysvUNDvcEg4gsnBD86VQkyOMWjhhJqu
+         /hQWjW7Cg27EbaHT6iOM4LD8h0OAQI6vnRRAj9Am2SUceLc9Pla5mzSLusB5kqmHHT
+         0l0GCAYR7rZtkqqFEfZgiIF4lpp8SZgxn0Iv0JutzrRd720BBMPc2bdnlgnFo4oad7
+         vpESLhcuXn6OyGImXCznNNv19zmAus2ljmrO+ETej2Ie0ubekb+71Q4dtTNopICl2Z
+         Ar5jbwqElPa3MSntHIRVaukg2jCIrdX2HCkqT5hRlIUPP5/EyXFNktSCxl0MorMKIO
+         pA+hmeQSq6fAg==
+Date:   Mon, 21 Aug 2023 13:39:52 +0100
 From:   Lee Jones <lee@kernel.org>
 To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] leds: turris-omnia: support HW controlled mode
- via private trigger
-Message-ID: <20230821123624.GK1380343@google.com>
+Subject: Re: [PATCH v3 4/6] leds: turris-omnia: make set_brightness() more
+ efficient
+Message-ID: <20230821123952.GL1380343@google.com>
 References: <20230802160748.11208-1-kabel@kernel.org>
- <20230802160748.11208-6-kabel@kernel.org>
- <20230818090921.GQ986605@google.com>
- <20230821123411.6ea98dac@dellmb>
+ <20230802160748.11208-5-kabel@kernel.org>
+ <20230818094255.GR986605@google.com>
+ <20230821121418.67155ca3@dellmb>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230821123411.6ea98dac@dellmb>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230821121418.67155ca3@dellmb>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -60,57 +59,113 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Mon, 21 Aug 2023, Marek Behún wrote:
 
-> On Fri, 18 Aug 2023 10:09:21 +0100
+> On Fri, 18 Aug 2023 10:42:55 +0100
 > Lee Jones <lee@kernel.org> wrote:
 > 
-> > > +	if (!err) {
-> > > +		/* put the LED into MCU controlled mode */  
+> > On Wed, 02 Aug 2023, Marek Behún wrote:
 > > 
-> > Nit: You improved the comment above to be more grammatically correct by
-> > starting with an uppercase character.  Please continue with this
-> > improvement for all comments there in.
-> 
-> OK.
-> 
-> > > +static struct led_trigger omnia_hw_trigger = {
-> > > +	.name		= "omnia-mcu",
-> > > +	.activate	= omnia_hwtrig_activate,
-> > > +	.deactivate	= omnia_hwtrig_deactivate,
-> > > +	.trigger_type	= &omnia_hw_trigger_type,  
+> > > Implement caching of the LED color and state values that are sent to MCU
+> > > in order to make the set_brightness() operation more efficient by
+> > > avoiding I2C transactions which are not needed.  
 > > 
-> > Not sure I understand this interface.
+> > How many transactions does all of this extra code actually save?
+> 
+> Depends on how many transactions are requested by userspace wanting to
+> change LED brightness, but see below.
+> 
+> > > On Turris Omnia's MCU, which acts as the RGB LED controller, each LED
+> > > has a RGB color, and a ON/OFF state, which are configurable via I2C
+> > > commands CMD_LED_COLOR and CMD_LED_STATE.
+> > > 
+> > > The CMD_LED_COLOR command sends 5 bytes and the CMD_LED_STATE command 2
+> > > bytes over the I2C bus, which operates at 100 kHz. With I2C overhead
+> > > this allows only ~1670 color changing commands and ~3200 state changing
+> > > commands per second.  
 > > 
-> > Why not just set a bool instead of carrying around an empty struct?
+> > Only?  Seems like quite a lot.
 > 
-> Let me explain:
+> I may have chosen the wrong argument here. Yes, 1670 color changing
+> commands are more than enough for a LED controller. This is not the
+> problem.
 > 
-> So, if a LED class device has the same trigger type as a LED trigger,
-> the trigger will be available for that LED (it is listed in the sysfs
-> trigger file and can be chosen).
+> The problem is that the we need to be able to send other commands over
+> the same I2C bus, unrelated to the LED controller, and they need the
+> bandwidth. The MCU exposes an interrupt interface, and it can trigger
+> hundreds of interrupts per second. Each time we need to read the
+> interrupt state register. Whenever we are sending a LED color/state
+> changing command, the interrupt reading is waiting.
 > 
-> So we have a mechanism to "pair" a LED with a given trigger, to make it
-> possible for the LED core to distinguish whether a given trigger is
-> available for the LED.
+> So this is the reason why I want to avoid unnecessary I2C transactions.
 > 
-> A boolean information would not be enough: if we used a bool, we would
-> know that the trigger is private. But the LED core would not know for
-> which LEDs the trigger should be avaiable.
-> 
-> In pseudocode:
-> 
-> list_triggers_for_led(led) {
->   for (trigger in trigger_list) {
->     if (!trigger.trigger_type || trigger.trigger_type ==
->                                  led.trigger_type)
->       trigger is available for led
->     else 
->       trigger is not available for led
->   }
-> }
-> 
-> Is this explaination good enough?
+> If I change the commit message to explain this, will you be satisfied?
 
-Yes, thank you.
+Yes, I expect so.
+
+> > > Currently, every time LED brightness or LED multi intensity is changed,
+> > > we send a CMD_LED_STATE command, and if the computed color (brightness
+> > > adjusted multi_intensity) is non-zero, we also send a CMD_LED_COLOR
+> > > command.
+> > > 
+> > > Consider for example the situation when we have a netdev trigger enabled
+> > > for a LED. The netdev trigger does not change the LED color, only the
+> > > brightness (either to 0 or to currently configured brightness), and so
+> > > there is no need to send the CMD_LED_COLOR command. But each change of
+> > > brightness to 0 sends one CMD_LED_STATE command, and each change of
+> > > brightness to max_brightness sends one CMD_LED_STATE command and one
+> > > CMD_LED_COLOR command:
+> > >     set_brightness(0)   ->  CMD_LED_STATE
+> > >     set_brightness(255) ->  CMD_LED_STATE + CMD_LED_COLOR
+> > >                                             (unnecessary)
+> > > 
+> > > We can avoid the unnecessary I2C transactions if we cache the values of
+> > > state and color that are sent to the controller. If the color does not
+> > > change from the one previously sent, there is no need to do the
+> > > CMD_LED_COLOR I2C transaction, and if the state does not change, there
+> > > is no need to do the CMD_LED_STATE transaction.
+> > > 
+> > > Because we need to make sure that out cached values are consistent with  
+> > 
+> > Nit: "our"
+> > 
+> 
+> Thanks, I will fix this.
+> 
+> > > +
+> > > +	/* send the color change command */  
+> > 
+> > Nit: Please start comments with an upper case char.
+> 
+> OK, I will change it.
+> 
+> > > +	ret = i2c_master_send(client, cmd, 5);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	/* cache the RGB channel brightnesses */
+> > > +	for (int i = 0; i < OMNIA_LED_NUM_CHANNELS; ++i)  
+> > 
+> > Why the pre-increment?
+> > 
+> > It's non-standard and doesn't appear to have any affect.
+> 
+> According to git grep, current Linux sources contain around 7606
+> occurances of pre-increment (++x) in for cycles:
+>   git grep '; ++[a-z_]\+)' | wc -l
+> 
+> and 81360 occurances of post-increment (x++):
+>   git grep '; [a-z_]\+++)' | wc -l
+> 
+> Yes, I admit that pre-increment is 10 times less frequent, but I do not
+> consider that to be non-standard.
+> 
+> If you insist on this, I will change it. But I consider this
+> non-consequential...
+> 
+> Please let me know whether you insist on it.
+
+I don't.  It was a genuine question I was curious about.
+
+Just looks odd and made me wonder if it actually served a purpose.
 
 -- 
 Lee Jones [李琼斯]
