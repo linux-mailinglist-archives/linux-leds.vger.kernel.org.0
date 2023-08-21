@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCB9678272A
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 12:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA7D782756
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 12:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233656AbjHUKeU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Aug 2023 06:34:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45070 "EHLO
+        id S232758AbjHUKqT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Aug 2023 06:46:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234766AbjHUKeS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 06:34:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFDADC
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 03:34:16 -0700 (PDT)
+        with ESMTP id S234857AbjHUKqS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 06:46:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD230E1
+        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 03:46:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 43A2863047
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 10:34:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2BFC433C7;
-        Mon, 21 Aug 2023 10:34:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A4866306D
+        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 10:46:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2D9C433CC;
+        Mon, 21 Aug 2023 10:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692614055;
-        bh=cAkCHh7VD1dZlQ3NE1NF3wgandeGde5jCyqCouw1NGA=;
+        s=k20201202; t=1692614775;
+        bh=65wh16l+ICzU8nHCRWK8MMfP6V+OTIGsyMZhuVYGVuI=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=P90VG4+uYF2xHULpfO5T9hcU94Lj1tnQ0swCxTa92RD6I48aQbinDfmNM/yGHSnVw
-         JnCzK1GMjA9cTWB0NmC6nuXuqVrsKBCo7ePsJ/jvzsuWdnl9DOshYIjaPcA2mMtqR/
-         N4udh4hEbWIBY31KVbrNrSDRJp0Zq/MC11Bw8tp9XTrwY5pdIZqDo06Km+Vcl3Ayfu
-         gSNUtimhQPiRbINQVuaOEK3vut5trmkQuqRcvViRd2xM6x+Af1CKjL5+cyrm9qn7Uw
-         y24cAHXwx1p1jWVCcpRgfz03lCTlSeCweapk6rX3/Q03fyGIj4Xnh8KmcY0dOJ6OGQ
-         bbMeOOXLsp32A==
-Date:   Mon, 21 Aug 2023 12:34:11 +0200
+        b=Oi+KrBI36kZkq3WH5E8DLjWMjC8Q+6/iDWypFCocDpFQT0k0C/KkaeKqjT07pHvKa
+         xwVkDJRKWwLqF+5rLOWqT/5pYDXU9Us/4cMB/PYAh3iLy1Kdt5qFoWJCGOmerSmSud
+         OZWiQiRYlY89bqPM7NVc/AEAbY6r7KYf/7pUU3V93GnLDQ2f/nily84OfjxY633PIZ
+         MIr2JNiaHUzOHK7yLYLw0ML1ZXufnJe4kXIpj6PRH3X+lTxF58w8Pv07XRtRR210Kb
+         kTiWBXtXA7cblB8TDeBqwsEtvctv1d6ZZly2cUQimhQzFhPxNYndgJqIywPwsvyTXQ
+         WGfgiMKkrYUBw==
+Date:   Mon, 21 Aug 2023 12:46:11 +0200
 From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
 To:     Lee Jones <lee@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] leds: turris-omnia: support HW controlled mode
- via private trigger
-Message-ID: <20230821123411.6ea98dac@dellmb>
-In-Reply-To: <20230818090921.GQ986605@google.com>
+Subject: Re: [PATCH v3 6/6] leds: turris-omnia: add support for
+ enabling/disabling HW gamma correction
+Message-ID: <20230821124611.56bc70c3@dellmb>
+In-Reply-To: <20230818103003.GS986605@google.com>
 References: <20230802160748.11208-1-kabel@kernel.org>
-        <20230802160748.11208-6-kabel@kernel.org>
-        <20230818090921.GQ986605@google.com>
+        <20230802160748.11208-7-kabel@kernel.org>
+        <20230818103003.GS986605@google.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,54 +57,62 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Aug 2023 10:09:21 +0100
+On Fri, 18 Aug 2023 11:30:03 +0100
 Lee Jones <lee@kernel.org> wrote:
 
-> > +	if (!err) {
-> > +		/* put the LED into MCU controlled mode */  
+> > -static int omnia_cmd_read(const struct i2c_client *client, u8 cmd)
+> > +static int omnia_cmd_read_raw(struct i2c_adapter *adapter, u8 addr, u8 cmd,
+> > +			      void *reply, size_t len)
+> >  {
+> >  	struct i2c_msg msgs[2];
+> > -	u8 reply;
+> >  	int ret;
+> >  
+> > -	msgs[0].addr = client->addr;
+> > +	msgs[0].addr = addr;
+> >  	msgs[0].flags = 0;
+> >  	msgs[0].len = 1;
+> >  	msgs[0].buf = &cmd;
+> > -	msgs[1].addr = client->addr;
+> > +	msgs[1].addr = addr;
+> >  	msgs[1].flags = I2C_M_RD;
+> > -	msgs[1].len = 1;
+> > -	msgs[1].buf = &reply;
+> > +	msgs[1].len = len;
+> > +	msgs[1].buf = reply;
+> >  
+> > -	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+> > +	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
+> >  	if (likely(ret == ARRAY_SIZE(msgs)))
+> > -		return reply;
+> > +		return 0;  
 > 
-> Nit: You improved the comment above to be more grammatically correct by
-> starting with an uppercase character.  Please continue with this
-> improvement for all comments there in.
-
-OK.
-
-> > +static struct led_trigger omnia_hw_trigger = {
-> > +	.name		= "omnia-mcu",
-> > +	.activate	= omnia_hwtrig_activate,
-> > +	.deactivate	= omnia_hwtrig_deactivate,
-> > +	.trigger_type	= &omnia_hw_trigger_type,  
+> Why not return ret and use that throughout?
 > 
-> Not sure I understand this interface.
+> >  	else if (ret < 0)
+> >  		return ret;
+> >  	else
+> >  		return -EIO;
+> >  }  
 > 
-> Why not just set a bool instead of carrying around an empty struct?
 
-Let me explain:
+As I explained to your similar question in your reply to patch 2/6
 
-So, if a LED class device has the same trigger type as a LED trigger,
-the trigger will be available for that LED (it is listed in the sysfs
-trigger file and can be chosen).
+  https://lore.kernel.org/linux-leds/20230821120136.130cc916@dellmb/T/#me5782c9896bc3d994cb36e8b5485d6368cd92da0
 
-So we have a mechanism to "pair" a LED with a given trigger, to make it
-possible for the LED core to distinguish whether a given trigger is
-available for the LED.
+the reason I normalize to zero is because of the intended semantics of
+these functions: return 0 on success, -errno on error.
 
-A boolean information would not be enough: if we used a bool, we would
-know that the trigger is private. But the LED core would not know for
-which LEDs the trigger should be avaiable.
+If instead in omnia_cmd_read() and omnia_cmd_write() I simply return
+the return value of the underlying functions, which are
+  i2c_transfer()    for omnia_cmd_read()
+  i2c_master_send() for omnia_cmd_write()
+the semantics would be inconsistent, because:
+  i2c_transfer() returns the number of successful I2C transfers,
+  i2c_manster_send() returns the number of written bytes over I2C.
 
-In pseudocode:
-
-list_triggers_for_led(led) {
-  for (trigger in trigger_list) {
-    if (!trigger.trigger_type || trigger.trigger_type ==
-                                 led.trigger_type)
-      trigger is available for led
-    else 
-      trigger is not available for led
-  }
-}
-
-Is this explaination good enough?
+Nonetheless, if you insist on this change, I will do it. Reluctantly
+and with a silent protest, but I will not argue further, since I want
+this functionality in upstream more than to argue over nitpicks :-)
 
 Marek
