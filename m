@@ -2,51 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA7D782756
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 12:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C93677828D9
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 14:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232758AbjHUKqT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Aug 2023 06:46:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
+        id S234780AbjHUMTO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Aug 2023 08:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234857AbjHUKqS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 06:46:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD230E1
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 03:46:16 -0700 (PDT)
+        with ESMTP id S234612AbjHUMTO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 08:19:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21ABDCC;
+        Mon, 21 Aug 2023 05:19:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A4866306D
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 10:46:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2D9C433CC;
-        Mon, 21 Aug 2023 10:46:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AF960633D8;
+        Mon, 21 Aug 2023 12:19:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CC0C433D9;
+        Mon, 21 Aug 2023 12:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692614775;
-        bh=65wh16l+ICzU8nHCRWK8MMfP6V+OTIGsyMZhuVYGVuI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Oi+KrBI36kZkq3WH5E8DLjWMjC8Q+6/iDWypFCocDpFQT0k0C/KkaeKqjT07pHvKa
-         xwVkDJRKWwLqF+5rLOWqT/5pYDXU9Us/4cMB/PYAh3iLy1Kdt5qFoWJCGOmerSmSud
-         OZWiQiRYlY89bqPM7NVc/AEAbY6r7KYf/7pUU3V93GnLDQ2f/nily84OfjxY633PIZ
-         MIr2JNiaHUzOHK7yLYLw0ML1ZXufnJe4kXIpj6PRH3X+lTxF58w8Pv07XRtRR210Kb
-         kTiWBXtXA7cblB8TDeBqwsEtvctv1d6ZZly2cUQimhQzFhPxNYndgJqIywPwsvyTXQ
-         WGfgiMKkrYUBw==
-Date:   Mon, 21 Aug 2023 12:46:11 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] leds: turris-omnia: add support for
- enabling/disabling HW gamma correction
-Message-ID: <20230821124611.56bc70c3@dellmb>
-In-Reply-To: <20230818103003.GS986605@google.com>
-References: <20230802160748.11208-1-kabel@kernel.org>
-        <20230802160748.11208-7-kabel@kernel.org>
-        <20230818103003.GS986605@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+        s=k20201202; t=1692620351;
+        bh=kB8/0xQIfQX31Rkx5+9jQQr4Xco0EkIX8SGBsy14+88=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TqJDLzUkWk/f2E+cW8ICLMqsDpNmUF0v85Q7ClG5Ee+Cuv9vmp8I43W7bEZHxzTrX
+         JOmfDMT3oHckQPQhqcEvhqZq9dST90to7aHXkkkRVBBDgwjDJikrlkpRsRha0fl7xz
+         fslQDLBu1gNp6Jn7+GRHy4aJu7eipd8Sb7eN76uSHwbYcBGJv28f9VweaDub1c4xuh
+         Jbq6CJmoU3PHdJRYAGPcGOcekqwNdaQsQH4yJUD/3Tld2DOqlcpSbu4X3pCNm9icQy
+         eILUdD41n0a3/uldcbclyihosduQ/M6aMhcdcjW5zXkC/u+Uh40MT13+dOgd64E+mZ
+         Sien050Iq1dHQ==
+Date:   Mon, 21 Aug 2023 13:19:07 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] leds: pca955x: Convert enum->pointer for data in the
+ match tables
+Message-ID: <20230821121907.GI1380343@google.com>
+References: <20230820082005.55124-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230820082005.55124-1-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -57,62 +58,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Aug 2023 11:30:03 +0100
-Lee Jones <lee@kernel.org> wrote:
+On Sun, 20 Aug 2023, Biju Das wrote:
 
-> > -static int omnia_cmd_read(const struct i2c_client *client, u8 cmd)
-> > +static int omnia_cmd_read_raw(struct i2c_adapter *adapter, u8 addr, u8 cmd,
-> > +			      void *reply, size_t len)
-> >  {
-> >  	struct i2c_msg msgs[2];
-> > -	u8 reply;
-> >  	int ret;
-> >  
-> > -	msgs[0].addr = client->addr;
-> > +	msgs[0].addr = addr;
-> >  	msgs[0].flags = 0;
-> >  	msgs[0].len = 1;
-> >  	msgs[0].buf = &cmd;
-> > -	msgs[1].addr = client->addr;
-> > +	msgs[1].addr = addr;
-> >  	msgs[1].flags = I2C_M_RD;
-> > -	msgs[1].len = 1;
-> > -	msgs[1].buf = &reply;
-> > +	msgs[1].len = len;
-> > +	msgs[1].buf = reply;
-> >  
-> > -	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> > +	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
-> >  	if (likely(ret == ARRAY_SIZE(msgs)))
-> > -		return reply;
-> > +		return 0;  
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it.
 > 
-> Why not return ret and use that throughout?
+> Replace enum->struct *pca955x_chipdefs for data in the match table.
+> Simplify the probe() by replacing device_get_match_data() and ID lookup
+> for retrieving data by i2c_get_match_data().
 > 
-> >  	else if (ret < 0)
-> >  		return ret;
-> >  	else
-> >  		return -EIO;
-> >  }  
+> While at it, add const definition to pca955x_chipdefs[].
 > 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Note:
+>  This patch is only compile tested.
+> ---
+>  drivers/leds/leds-pca955x.c | 45 +++++++++++++------------------------
+>  1 file changed, 16 insertions(+), 29 deletions(-)
 
-As I explained to your similar question in your reply to patch 2/6
+This is too big of a change to be added this late in the cycle.
 
-  https://lore.kernel.org/linux-leds/20230821120136.130cc916@dellmb/T/#me5782c9896bc3d994cb36e8b5485d6368cd92da0
+Especially since this is only compile tested.
 
-the reason I normalize to zero is because of the intended semantics of
-these functions: return 0 on success, -errno on error.
+Pushing review until after v6.5 is out.
 
-If instead in omnia_cmd_read() and omnia_cmd_write() I simply return
-the return value of the underlying functions, which are
-  i2c_transfer()    for omnia_cmd_read()
-  i2c_master_send() for omnia_cmd_write()
-the semantics would be inconsistent, because:
-  i2c_transfer() returns the number of successful I2C transfers,
-  i2c_manster_send() returns the number of written bytes over I2C.
-
-Nonetheless, if you insist on this change, I will do it. Reluctantly
-and with a silent protest, but I will not argue further, since I want
-this functionality in upstream more than to argue over nitpicks :-)
-
-Marek
+-- 
+Lee Jones [李琼斯]
