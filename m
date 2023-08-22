@@ -2,136 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97899784869
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Aug 2023 19:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFF32784EA2
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Aug 2023 04:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbjHVR2k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Aug 2023 13:28:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43922 "EHLO
+        id S232209AbjHWCTp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Aug 2023 22:19:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbjHVR2j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Aug 2023 13:28:39 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD626159E
-        for <linux-leds@vger.kernel.org>; Tue, 22 Aug 2023 10:28:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fnZf1ZDASftDPwOcgByK43vEZDvKj0hWraGbFqn4V49BlpT2D04yTVJ5ZWFHMS+mw2tZRLrehZEvZ25KY5Agyg6i+O5FgWw2vHAezLKv53Zz+v28HrQSctNbDxGxX3awVE/YdZp3JHLPe3a9RNX4vTALhLZsbiFUaMdXHbMwJwxwoWEZIcqKgCWzewlNxp8OoK/hqebzlxlUvggfFLVWuOYj7GDRTm6sZyOgv+1cSRZ0HSZ/HVfUOgeJ0CpAjqVBk20akFKNg7IykzzpOmyaElXlXuqF8eajYMCWOQIyRMF0T5aaMvaG//2z+QAHwSJmft2c4BD76j8yY3VgKwia7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4mh+THOVVQGftJPnkkl4pGnk+Vkw/Dw88txCx1b8m24=;
- b=QjPhtnoGdS8vv2/zqPmSDIjKINPaF3DPg+B/Vht3tlxljDxPPpxlC1+Cj5ijQT7OHbt0f1p0F4zYN1HbdPOEj31pcKYyJ+IHv7T0tieXNNIOsun3ZpwcIKjIEOmCBmQl57NhR1pAZY7Umpd2kr3BrSOvU7R9kO6fERcw9BixFoEsiXZq2AIKgVqO8HOqIp4KiYtYOGqdbq+NAPbfOfqDGlbLgHlg/AGAJN2xn6zdKra5orb/cyY+2SGIDv/8n1S4H+Zo/rr2ADA0s9v0bPxrvIqRrm7obL15WDxNot4EJvBGpdZkCS4c+O07+H+UR6pK81h6p1NfirFiQ7FJTj4EPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=ucw.cz smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4mh+THOVVQGftJPnkkl4pGnk+Vkw/Dw88txCx1b8m24=;
- b=qLM43knatAD3TimuqrHlVmDwokPVcgAUCwTf1PrDBjCs8BAAuF1aafNebek1kT08X26d+2E5r+6loCKbYHCwvbTRzBZv7CFzg2IBw9jqZcvaE/5ux0B/FF0AJ1R9RkDlh3Yl30w4PEOuERbc6FExflrE9nRX9VMozISQsgEBKFxEfklNR/GLn7z6v6OJOGAuS+Du6tJu5GWfBtQ2tkZ/azm9RK1zcpUrUctWktiUAbLauKqLBUw3GdQlHgYrfT065ifaxpqm6PxbI2PvG7e22Dop5N2ruP1SUtd04R+f35or2NRDDhT3hdTxTOXLNSeGNG5EF/n2I52op01sf9y36A==
-Received: from MW4PR04CA0303.namprd04.prod.outlook.com (2603:10b6:303:82::8)
- by BY5PR12MB4968.namprd12.prod.outlook.com (2603:10b6:a03:1d2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
- 2023 17:28:35 +0000
-Received: from CO1PEPF000042AC.namprd03.prod.outlook.com
- (2603:10b6:303:82:cafe::3) by MW4PR04CA0303.outlook.office365.com
- (2603:10b6:303:82::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20 via Frontend
- Transport; Tue, 22 Aug 2023 17:28:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CO1PEPF000042AC.mail.protection.outlook.com (10.167.243.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6699.14 via Frontend Transport; Tue, 22 Aug 2023 17:28:34 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 22 Aug 2023
- 10:28:20 -0700
-Received: from r-build-bsp-02.mtr.labs.mlnx (10.126.230.37) by
- rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.37; Tue, 22 Aug 2023 10:28:19 -0700
-From:   Vadim Pasternak <vadimp@nvidia.com>
-To:     <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, Vadim Pasternak <vadimp@nvidia.com>
-Subject: [PATCH platform-next 2/2] leds: mlxreg: Skip setting LED color during initialization
-Date:   Tue, 22 Aug 2023 17:27:57 +0000
-Message-ID: <20230822172757.60851-3-vadimp@nvidia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230822172757.60851-1-vadimp@nvidia.com>
-References: <20230822172757.60851-1-vadimp@nvidia.com>
+        with ESMTP id S229497AbjHWCTp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Aug 2023 22:19:45 -0400
+X-Greylist: delayed 903 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Aug 2023 19:19:42 PDT
+Received: from symantec4.comsats.net.pk (symantec4.comsats.net.pk [203.124.41.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0CB185
+        for <linux-leds@vger.kernel.org>; Tue, 22 Aug 2023 19:19:42 -0700 (PDT)
+X-AuditID: cb7c291e-055ff70000002aeb-e4-64e5544fa61e
+Received: from iesco.comsatshosting.com (iesco.comsatshosting.com [210.56.28.11])
+        (using TLS with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        by symantec4.comsats.net.pk (Symantec Messaging Gateway) with SMTP id C6.E2.10987.F4455E46; Wed, 23 Aug 2023 05:35:27 +0500 (PKT)
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns;
+        d=iesco.com.pk; s=default;
+        h=received:content-type:mime-version:content-transfer-encoding
+          :content-description:subject:to:from:date:reply-to;
+        b=HtFyutjs3in0QBqzVM6E7XSjnSH/DX/zi/7qmVX+TG6gE6WQXVgNVSK943R+eEDNv
+          fFZkafcoaM3t0rAz2uKWxYadavOOv9BT6Hw8SRtrpDatFSGlz8V1yr9tjswCtgkr6
+          /vH8m2uKwY+k2XVHTKVxC0B3uUbvdbqiysQPg1oPM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=iesco.com.pk; s=default;
+        h=reply-to:date:from:to:subject:content-description
+          :content-transfer-encoding:mime-version:content-type;
+        bh=GMzYzcyTxDsE6wX/XHG6MHqAdAiHrhqbmmLQ/TZ1QnQ=;
+        b=EBOQxbqqH9G1F5F/LIX84dJOWd9rY2xRiSOaEr7XZamj3AzDn+KiK5yz7Xkem9EWV
+          kQg3ZGinF4wqoidpYYZMKBvkbXzD45pkWup4AYgvwdVRCVLsWxh36FCpufPeUrJj1
+          sujCIMIvSBxE0k8SIAlB4fjgzh+QgZld4eiGb8KBY=
+Received: from [94.156.6.90] (UnknownHost [94.156.6.90]) by iesco.comsatshosting.com with SMTP;
+   Wed, 23 Aug 2023 04:31:02 +0500
+Message-ID: <C6.E2.10987.F4455E46@symantec4.comsats.net.pk>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.37]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AC:EE_|BY5PR12MB4968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4208a0ed-01b9-4346-181b-08dba33536c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QNi8aV2thtGBkpL3my7OQEGyLzLhtG/N8BuNP0NQXc39zvFrlXlbcSSMHnCKK4nEWxRDdIdu7V2qF1zQG/nsTig3QaFcQdozaoeSKVGo/2gnLTEw4FC3g8PKl/uxmUeUZYusdf8OU1BngFdM/smKlXoZyMTRcrKbLIl4vKzgP99RJAB3ceY7NOT7Krb8hRuac4zH2A108rdK73+89zw0uxjdnpp8PfPGv6ncHeat90fkTcdj8k9MZjkRQZGjKPXCEuSSXeYeMQy2N6h97CCtCoRi+N6QzsmufWf70jiHcSAPD6DtUH/iwTHBrSVAzPxPERuiRGQqmm7u4RsQecqPOcwpCq5RApt2Gh16A+144cJwLr7QnPFm19nFBAN/GhF+ozcyGhWqGxFH+aQ4pxBFBQEj80ddsZNHbcZxbHd949cg68CuoGR9HWUbHcgU76Ipz4EMV+wElCJ3KZW7/bgs8ElUPC/HqT+C01msYnBZWkWcTwsr7D1EoYX1H3HJ/a7lkZ0EAb9JV+TPlTBYAy+MeTWTgwhLe8E0lTI7VXdGYSM8fHgiGL8SsmgmM6Cg2Zs6KKYnCtoEDJGS9rgnTIkhE21d98YLe7ylDCK6/DmikeA64aN5+0lTCkwgXXrVl8f/Q6JALvCzbHC9N1sl6ovOJxz90lzARZllcNQZnZfSdFtkElASpuFWpuGE+figS3jC6eJ8++et+/uCq16HkeuZBWKeUf6SwIAj4oJNHyanofCAFD8Aqp/hDaHiFGbDh8jv
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(451199024)(82310400011)(186009)(1800799009)(46966006)(36840700001)(40470700004)(2906002)(40480700001)(83380400001)(5660300002)(426003)(336012)(16526019)(26005)(36860700001)(86362001)(47076005)(8676002)(2616005)(107886003)(8936002)(4326008)(70586007)(316002)(6916009)(54906003)(70206006)(478600001)(356005)(82740400003)(6666004)(40460700003)(36756003)(1076003)(41300700001)(7636003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 17:28:34.9600
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4208a0ed-01b9-4346-181b-08dba33536c5
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042AC.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4968
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Re; Interest,
+To:     linux-leds@vger.kernel.org
+From:   "Chen Yun" <pso.chairmanbod@iesco.com.pk>
+Date:   Tue, 22 Aug 2023 16:31:17 -0700
+Reply-To: chnyne@gmail.com
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDLMWRmVeSWpSXmKPExsVyyUKGW9c/5GmKwbmZShZb36xjdGD0+LxJ
+        LoAxissmJTUnsyy1SN8ugStjyboLLAW7mSva+hexNDA+Zupi5OSQEDCR2H/nM3sXIxeHkMAe
+        Jol3J3cwgjgsAquZJdY+aWOFcB4ySyz8vpgRoqyZUeJeYx8zSD+vgLXE+f2vWEFsZgE9iRtT
+        p7BBxAUlTs58wgIR15ZYtvA1UD0HkK0m8bWrBCQsLCAm8WnaMnaQsIiAnMTOM5UgYTYBfYkV
+        X5sZQWwWAVWJg5veg00XEpCS2HhlPdsERv5ZSJbNQrJsFpJlsxCWLWBkWcUoUVyZmwgMtWQT
+        veT83OLEkmK9vNQSvYLsTYzAMDxdoym3g3HppcRDjAIcjEo8vD/XPUkRYk0sA+o6xCjBwawk
+        wiv9/WGKEG9KYmVValF+fFFpTmrxIUZpDhYlcV5boWfJQgLpiSWp2ampBalFMFkmDk6pBka1
+        1OxYz6dMazm2L3odsCbynlyK3KtrbxaHGhXxHKtfffRMxLrQuaX3d250KYnZdJr/fv2HuNub
+        f3X8bovo7K26b7r44pr5QUzHqy+t395jV99xMGxGZ6f65gOPVrR2aF83itR9bS4bX2Bh1zTX
+        5Yl45/7+EN51FTEO9Sn+d5KziljUfX+u2abEUpyRaKjFXFScCACblFpDPwIAAA==
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_SBL,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: iesco.com.pk]
+        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *      [94.156.6.90 listed in zen.spamhaus.org]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
+        *       low trust
+        *      [203.124.41.30 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hardware controls LED through CPLD device and LED control ownership
-passes to the software after it performs the first write operation for
-any LED on a system.
-For example, hardware sets "system" LED "green blink" during boot and
-might change it to "red", in case something is went wrong from hardware
-point of view.
-The motivation for not setting LED during kernel initialization is for
-keeping hardware settings visible for user, until user will not decide
-to set LEDs according to user OS specific requirements.
+Re; Interest,
 
-Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
-Reviewed-by: Michael Shych <michaelsh@nvidia.com>
----
- drivers/leds/leds-mlxreg.c | 3 ---
- 1 file changed, 3 deletions(-)
+I am interested in discussing the Investment proposal as I explained
+in my previous mail. May you let me know your interest and the
+possibility of a cooperation aimed for mutual interest.
 
-diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-index 916544e95e26..d4e08d243804 100644
---- a/drivers/leds/leds-mlxreg.c
-+++ b/drivers/leds/leds-mlxreg.c
-@@ -240,9 +240,6 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
- 		if (err)
- 			return err;
- 
--		if (led_cdev->brightness)
--			mlxreg_led_brightness_set(led_cdev,
--						  led_cdev->brightness);
- 		dev_info(led_cdev->dev, "label: %s, mask: 0x%02x, offset:0x%02x\n",
- 			 data->label, data->mask, data->reg);
- 	}
--- 
-2.20.1
+Looking forward to your mail for further discussion.
+
+Regards
+
+------
+Chen Yun - Chairman of CREC
+China Railway Engineering Corporation - CRECG
+China Railway Plaza, No.69 Fuxing Road, Haidian District, Beijing, P.R.
+China
 
