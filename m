@@ -2,196 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B615A782958
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Aug 2023 14:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D92CD784867
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Aug 2023 19:28:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbjHUMpi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Aug 2023 08:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
+        id S229698AbjHVR2e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Aug 2023 13:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232657AbjHUMpi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Aug 2023 08:45:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AA5CC
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 05:45:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 09C0E61508
-        for <linux-leds@vger.kernel.org>; Mon, 21 Aug 2023 12:45:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65EECC433C8;
-        Mon, 21 Aug 2023 12:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692621935;
-        bh=s4maidcSv5HJ4g28Pzt0uOth7X8u0qN0z99wNgFEXhU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B6w2Rpnd20d0Jvb6LIVnmOnKnRYw68iFq1vZziajLE84hTc6WpUVLNydZpiFzZ9qZ
-         ttDS800p3/9fanvydbuav4AsGvAOE7Dri7Og1Zc3n+R/54FNHfAOivG9yTt3ZbNWAb
-         d74cmOYzAWd6/WuIwk+RK1oeFly2fwltikosz4Ty9MmgcQKcp3iwyCsaBUWX6zPUf9
-         V9KXqOh/bLTPguIuTISBPEq4KEDUaOcoqSRbDjuM8X2dhpzF8msRmtwPD/d4ha4Vuw
-         eDEJC4CuuW9wyVaQBaNyrA0o/GjdemOTcERQ2fVDZwhcI0ERy6prW2nciYVvC0J6MG
-         RiEb6wjW7HGIA==
-Date:   Mon, 21 Aug 2023 13:45:31 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] leds: turris-omnia: do not use SMBUS calls
-Message-ID: <20230821124531.GM1380343@google.com>
-References: <20230802160748.11208-1-kabel@kernel.org>
- <20230802160748.11208-3-kabel@kernel.org>
- <20230818080854.GO986605@google.com>
- <20230821120136.130cc916@dellmb>
+        with ESMTP id S229595AbjHVR2d (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Aug 2023 13:28:33 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2062.outbound.protection.outlook.com [40.107.220.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3C7615B5
+        for <linux-leds@vger.kernel.org>; Tue, 22 Aug 2023 10:28:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QlsF9zMutj1ch5wSQsbYcPYrkaY+K2v28IWsY/5a09R6LarYLiPAIvQUv2RAf70UwvKnEAv9xlm/GOD38w4jbhhtfSvZQwN6HRWkablQO83dDJzqeeOGFSjTIjD5cv3qx9W48mCb+oldo5FBZIB9l8QhpEnBIih9ihEDo/w4m2yPXY4QhaPnuU6T0vJBnWK4kzhj/1Hg0vTDdroO40gtG7kjY4RByFew02YYfNjlB3lgN59240yrZ5S/o6/3hI9z3krjL72ZrlW/CE3uxLzMFrBnL7Cga+ho6QQUZ10wlBaTlK/LyS6CsGrXwzAiaq793YuT5aF2apbecdfxQirsOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Y7Dzm7B4kFw1PbfwoTr9ZJZ28H20ahCegTklnh9ZCs=;
+ b=nBpNzE71ijvsrTNVvYPzpXVyZNZUkeEQYLO2gei02aQJlP/f/W7K2IXHW7rDgJkWQN1g0zFNNzdf8hEKK7EzQD6SZbylbCRBQ/dJ2DHwnY54YQ84mcFvD6Gei9tMRjTURKIjPS6rPfXkJ9wahVFl5e+h4jphWCnhpAKOZ9lOLmuouUI7YjTq2i4yglgEA+FynUtfYTyPwpsG3+QBrkgTU8Q9FEDkdI9Nj6zm2Je4B6HTP/SHaL6bkkN2A5a0qNJ1A75VBW7cu5kYUAc6tHUoLgF69W0WQFs31B2HadDvIT4+gAS0QZzTMiX/HiX6Z9RDUl1bRi0XvHr5e8z0kCgH8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=ucw.cz smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Y7Dzm7B4kFw1PbfwoTr9ZJZ28H20ahCegTklnh9ZCs=;
+ b=C48Y62RxIjyq272VAvW0e2Sbbo4IG47fhktrfFURNpPQa6M+QdS1jSI6bqnPTCpZMPql6MldkNySnYj7j8NytTUCdOU/xG+j6BgfuRPmXGYSDVioJyrWJjo8kW6YV7tz49huu23mcRJEShunhw55KAqS1JtG1ji+JasLa0KVDgVkf0/iDMvWCRaDhEAcoONloAGd+xXq4ypjpkhxbGQb1jJ7z1mb2i3EFv0ByFJ/sKaRxXZ+cjRVIcpHdz3RUj8TtQdoct9/qFp55SSrxyiLu2jlktU+XU6xKQl9O+hi6QcVeivwX5g9Ym12CCvu3CsYLuNJ/azbGIxt9zO91rLJ/w==
+Received: from SN7P222CA0009.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::34)
+ by SJ0PR12MB6781.namprd12.prod.outlook.com (2603:10b6:a03:44b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Tue, 22 Aug
+ 2023 17:28:28 +0000
+Received: from SN1PEPF00026368.namprd02.prod.outlook.com
+ (2603:10b6:806:124:cafe::43) by SN7P222CA0009.outlook.office365.com
+ (2603:10b6:806:124::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20 via Frontend
+ Transport; Tue, 22 Aug 2023 17:28:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SN1PEPF00026368.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.14 via Frontend Transport; Tue, 22 Aug 2023 17:28:27 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 22 Aug 2023
+ 10:28:15 -0700
+Received: from r-build-bsp-02.mtr.labs.mlnx (10.126.230.37) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.37; Tue, 22 Aug 2023 10:28:13 -0700
+From:   Vadim Pasternak <vadimp@nvidia.com>
+To:     <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, Vadim Pasternak <vadimp@nvidia.com>
+Subject: [PATCH platform-next 0/2] leds: mlxreg: Change behavior during init and remove unused definition
+Date:   Tue, 22 Aug 2023 17:27:55 +0000
+Message-ID: <20230822172757.60851-1-vadimp@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230821120136.130cc916@dellmb>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.37]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00026368:EE_|SJ0PR12MB6781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1685cfe1-cc33-4202-87d6-08dba3353224
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U5kZewLPx6k8oqaW64Ui0oTxfBLl48BmDvxmsaqhqVYwjWmU6/JW+jbYJ60klGiA/8pZTgibdzDQqJzeb/bSO4R7MiMAlcwRCkVT2hABbrocctr05umQaBMAjH39V0eKFDlOa1SSlsEgTVnclAlhpUEs2ErWTtFcM1WEFGqtwzhWQhIKLlT6VjlKt7Y1S3DnoFjYQ2Dy4qNu/Sepj78TxpRsWqG0+v6H1ad+k0YSwoYhRwfP+unt1T0BNEWtSOtM7a2bdi42JyuMHGTf6Ni9+16q9goxW01qsgom8RwYM0hFqPWg7F/arvmjs5hz3AO9bmwJxSD5kBGl5b+Rt/uFRi6RJ4t0NUpSiWYxtOZZKr7P/KA/E8MUtV17Y2Fo6usIA+VSeSAZ7QRi3ciVesZKoVNkjc1Gs3omOciXZDdBTzyLzFH+HiqLGZ+AyxQ5m02L59MYGZSzru6SBnh+GOo0mLBx87LBD1KD2Vt1LAsrDQAfKRpY+9VJl2sh9cTMdctjH1SbUwlUhTLeFS52BbgilvBj7YHiJLJ6QUI7ZvpCe4VQxGSrgc5N3lomV3J9Gmp5+x5IVbFFuAqRz+HOumSpkUcg0WDrra3WZgHBn6wj9XDCVRLq0setl1rgy+9BYMKtPpLjc0DvYc6jEPd3wJXlLOskz3aOO2+u/atx2XdzpZhPA1XPe7K0DfrhsYkGIT71TAbHxwK/SZBNKxkqQ6v8a7PnML4o/B8/pjbWx5H43RnMAEL1vnk/uxiMZJUkAErw
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(396003)(376002)(346002)(186009)(1800799009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(70586007)(316002)(6916009)(54906003)(8676002)(2616005)(4326008)(107886003)(8936002)(70206006)(1076003)(36756003)(40460700003)(41300700001)(82740400003)(356005)(478600001)(6666004)(40480700001)(4744005)(2906002)(7636003)(47076005)(83380400001)(86362001)(36860700001)(426003)(5660300002)(336012)(16526019)(26005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 17:28:27.1343
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1685cfe1-cc33-4202-87d6-08dba3353224
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026368.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6781
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 21 Aug 2023, Marek Behún wrote:
+The patch set contains:
+Patch #1 - remove unused color definition.
+Patch #2 - remove LED color setting during initialization, leaving this
+	   decision to application level.
 
-> On Fri, 18 Aug 2023 09:08:54 +0100
-> Lee Jones <lee@kernel.org> wrote:
-> 
-> > On Wed, 02 Aug 2023, Marek Behún wrote:
-> > 
-> > > The leds-turris-omnia driver uses three function for I2C access:
-> > > - i2c_smbus_write_byte_data() and i2c_smbus_read_byte_data(), which
-> > >   cause an emulated SMBUS transfer,
-> > > - i2c_master_send(), which causes an ordinary I2C transfer.
-> > > 
-> > > The Turris Omnia MCU LED controller is not semantically SMBUS, it
-> > > operates as a simple I2C bus. It does not implement any of the SMBUS
-> > > specific features, like PEC, or procedure calls, or anything. Moreover
-> > > the I2C controller driver also does not implement SMBUS, and so the
-> > > emulated SMBUS procedure from drivers/i2c/i2c-core-smbus.c is used for
-> > > the SMBUS calls, which gives an unnecessary overhead.
-> > > 
-> > > When I first wrote the driver, I was unaware of these facts, and I
-> > > simply used the first function that worked.
-> > > 
-> > > Drop the I2C SMBUS calls and instead use simple I2C transfers.
-> > > 
-> > > Fixes: 089381b27abe ("leds: initial support for Turris Omnia LEDs")
-> > > Signed-off-by: Marek Behún <kabel@kernel.org>
-> > > ---
-> > >  drivers/leds/leds-turris-omnia.c | 56 +++++++++++++++++++++++++-------
-> > >  1 file changed, 44 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-> > > index bbd610100e41..bb2a2b411a56 100644
-> > > --- a/drivers/leds/leds-turris-omnia.c
-> > > +++ b/drivers/leds/leds-turris-omnia.c
-> > > @@ -2,7 +2,7 @@
-> > >  /*
-> > >   * CZ.NIC's Turris Omnia LEDs driver
-> > >   *
-> > > - * 2020 by Marek Behún <kabel@kernel.org>
-> > > + * 2020, 2023 by Marek Behún <kabel@kernel.org>
-> > >   */
-> > >  
-> > >  #include <linux/i2c.h>
-> > > @@ -41,6 +41,40 @@ struct omnia_leds {
-> > >  	struct omnia_led leds[];
-> > >  };
-> > >  
-> > > +static int omnia_cmd_write(const struct i2c_client *client, u8 cmd, u8 val)
-> > > +{
-> > > +	u8 buf[2] = { cmd, val };
-> > > +	int ret;
-> > > +
-> > > +	ret = i2c_master_send(client, buf, sizeof(buf));
-> > > +
-> > > +	return ret < 0 ? ret : 0;  
-> > 
-> > You don't need to normalise to zero here.
-> > 
-> > The checks below all appear adequate to accept >0 as success.
-> 
-> The intended semantics of the new functions omnia_cmd_write()
-> and omnia_cmd_read() are that they inform about success. No other
-> information is required.
-> 
-> If I do not normalize to zero and simply return ret, on success, the
-> omnia_cmd_write() function would return the number of bytes written
-> over I2C, since that is what i2c_master_send(). But the code below that
-> uses these function is not interested in that information.
-> 
-> Moreover if I do this, one would expect similar semantics in the other
-> function introduced by this patch, omnia_cmd_read(). I do normalization
-> to zero here as well:
-> 
-> > > +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> > > +	if (likely(ret == ARRAY_SIZE(msgs)))
-> > > +		return reply;
-> > > +	else if (ret < 0)
-> > > +		return ret;
-> > > +	else
-> > > +		return -EIO;
-> > > +}
-> 
-> But how to do similar semantics here? i2c_transfer() returns the number
-> of successful I2C transfers, not the number of bytes read + written.
-> 
-> This is why I chose the semantics that I did: that both of these
-> functions should return zero on success, and negative errno on error.
-> This is a standard thing in Linux sources.
-> 
-> So, if you do insist on dropping the normalization to zero, I will do
-> it. But I do not agree with it...
-> 
-> Please reply if you do insist.
+Vadim Pasternak (2):
+  leds: mlxreg: Remove code for amber LED colour
+  leds: mlxreg: Skip setting LED color during initialization
 
-I don't insist on much.  This is not a dictatorship.
-
-My job is to get people to reason about their choices.
-
-Ideally read() and write() type functions should return how many
-successful Bytes have been read and written, but there are exceptions to
-every rule.
-
-> > > @@ -179,8 +212,7 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *a,
-> > >  	if (brightness > 100)
-> > >  		return -EINVAL;
-> > >  
-> > > -	ret = i2c_smbus_write_byte_data(client, CMD_LED_SET_BRIGHTNESS,
-> > > -					(u8)brightness);
-> > > +	ret = omnia_cmd_write(client, CMD_LED_SET_BRIGHTNESS, brightness);
-> > >  
-> > >  	return ret < 0 ? ret : count;  
-> > 
-> > What's count here?  Is it bytes written?
-> > 
-> > If so, can you simplify again and just return ret.
-> 
-> Device attribute _store method must always return count on success.
-> Count is the number of bytes written into the sysfs file. This has
-> nothing to do with the return value of omnia_cmd_write().
-> 
-> I can't return ret. If I did, on success, omnia_cmd_write() returns 0,
-> or it would return 2 if I dropped the normalization to zero as you
-> suggested above. None of these are related to the actual value I need
-> to return, which can be 2, 3 or 4. Consider the following command
-> 
->   $ echo 100 >/sys/class/leds/<LED>/device/brightness
-> 
-> This would invoke calling the brightness_store() function with count=4,
-> because the buffer is 4 bytes long: "100\n". If I return ret, the
-> userspace would think that not all 4 bytes were written, and it would
-> try to write the remainign bytes again, invoking the function agagin...
-
-Right, which is why I have previously said that normalising isn't the
-issue.  Normalising to Bytes read/written would be the ideal.  However,
-if that's not practical for any reason then common sense would win out.
+ drivers/leds/leds-mlxreg.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.20.1
+
