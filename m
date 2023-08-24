@@ -2,52 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13527786E99
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Aug 2023 14:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EBD778781E
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Aug 2023 20:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233348AbjHXL7k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Aug 2023 07:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56418 "EHLO
+        id S230073AbjHXSia (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Aug 2023 14:38:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241317AbjHXL7W (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Aug 2023 07:59:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0205198B;
-        Thu, 24 Aug 2023 04:59:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S243087AbjHXSiX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Aug 2023 14:38:23 -0400
+X-Greylist: delayed 320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Aug 2023 11:38:19 PDT
+Received: from office2.cesnet.cz (office2.cesnet.cz [IPv6:2001:718:ff05:10b::237])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9848419B0;
+        Thu, 24 Aug 2023 11:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1692901973;
+        bh=FqBxkg0Usx4H3yO9c7I2yoVkevWm26on/RPV63zVcDc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=BS1nLzG+SgW36sXAe5oCCqXacdg+ur7T2PFzx76XyTsPLRNK3esUZcBRs8qmZtnVi
+         CW4Su3x90HAO05eLfHhaWFE5Y8Hxf79IE89CaHtQcF+rlA0Alz3PKLpb4hSPgPPN2Y
+         2UIzEnr4Dp6tkAj7DYUHzZK4wIaCaqRgQ0u+d2q/imEt/puqxJ4QjoYmHLzdQkTsfK
+         dgRinCbzd95HjjbEs6negfG7KB700b4ysC+MpKUResW+qEBjP95kRooaFYIw2uEi5o
+         KbCfOs8PNeO8V6v1UXr8832fmspd48GuwzluVlAiLpSrlL2mEn0pwlYYfr1v4Ambut
+         RMhCiIxYYkahQ==
+Received: from localhost (tlha232.cesnet.cz [IPv6:2001:718:1:6::134:232])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 35C5A66AF5;
-        Thu, 24 Aug 2023 11:59:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F583C433C7;
-        Thu, 24 Aug 2023 11:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692878358;
-        bh=+PV2XW4U5Rbut0MTv49hBcdhZ5aEQZBFo5S55w+PYXI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CVkLPFB5fOJAnrKZIzoEH0XkTesJmHCk4Mo/tShe8uO+WICNN2d1MV7rLX7Dfjlmn
-         mnMNhctRW4TG1KV+jrBSfoAWw9vjfXJWuRFMH8y0cbQ+AsaKhvBO3i2H7bJYoXPNNb
-         vPJCeoWnzAS0M480ndqtYxoyH9F2Onr/KhUpI1TLNcyIU88DInnqq6roNxELfMiAyE
-         TB/tALc9jYPxFDB98qbgCUbqmeJCK5VCk1L7IKAZXJSIvIwBzoTkkY3Et2pgOdVyRY
-         bjiOLb05tQt5nv+9+FliYulAnpJOVR9bwab1CSAyYVFzMBh03ogGgG6suUVknAnl7P
-         AoVMS2/0qK7+g==
-Date:   Thu, 24 Aug 2023 12:59:14 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3] leds: max5970: Add support for max5970
-Message-ID: <20230824115914.GQ1380343@google.com>
-References: <20230824111337.2589755-1-Naresh.Solanki@9elements.com>
+        by office2.cesnet.cz (Postfix) with ESMTPSA id 1E219118000E;
+        Thu, 24 Aug 2023 20:32:47 +0200 (CEST)
+From:   =?iso-8859-1?Q?Jan_Kundr=E1t?= <jan.kundrat@cesnet.cz>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        <linux-leds@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Felipe Balbi <balbi@kernel.org>, <linux-omap@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v2] leds: Mark GPIO LED trigger broken
+Date:   Thu, 24 Aug 2023 20:32:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824111337.2589755-1-Naresh.Solanki@9elements.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Message-ID: <1d11e190-df52-4941-946e-209238dd3e99@cesnet.cz>
+In-Reply-To: <20230314210059.419159-1-linus.walleij@linaro.org>
+References: <20230314210059.419159-1-linus.walleij@linaro.org>
+Organization: CESNET
+User-Agent: Trojita/unstable-2022-08-22; Qt/5.15.9; wayland; Linux; 
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MIME_QP_LONG_LINE,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -56,34 +58,58 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 24 Aug 2023, Naresh Solanki wrote:
+> I want to know that this trigger has active users that
+> cannot live without it if we are to continue to support it.
 
-> From: Patrick Rudolph <patrick.rudolph@9elements.com>
-> 
-> The MAX5970 is hot swap controller and has 4 indication LED.
-> 
-> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> ---
-> Changes in V3:
-> - Drop array for ddata variable.
-> Changes in V2:
-> - Add of_node_put before return.
-> - Code cleanup
-> - Refactor code & remove max5970_setup_led function.
+We're using this feature. Our use case is a LED at the front panel which=20
+shows whether a signal is present at an input LC optical connector (DWDM=20
+network stuff). Here's how we're setting it up:
 
-This is 3 revisions in the past 24hrs.
+https://gerrit.cesnet.cz/plugins/gitiles/CzechLight/br2-external/+/6570b571bb=
+f3f53cf24ef2be3079bc282c445b9e/package/czechlight-clearfog-leds/init-leds-edf=
+a.sh
 
-Please refrain from machine-gunning revisions out like this.
+I understand that the GPIO numeric namespace is racy, but it's never been a=20=
 
-Send one and give reviewers a good few days to review.
+problem for us in the past 5 years since this script runs much later during=20=
 
-> ---
->  drivers/leds/Kconfig        |  11 ++++
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-max5970.c | 110 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 122 insertions(+)
->  create mode 100644 drivers/leds/leds-max5970.c
+boot than any driver probing.
 
--- 
-Lee Jones [李琼斯]
+> Option if this is really needed: I can develop a new trigger
+> that can associate GPIOs with LEDs as triggers using device
+> tree, which should also remove the use of userspace custom
+> scripts to achieve this and be much more trustworthy, if
+> someone with the Nokia n810 or a device with a similar need
+> is willing to test it.
+
+I'll be happy to test a patch like that.
+
+However, the GPIO in question on our board is connected to a MCP23S18, and=20=
+
+we have a pair of these. When used in this configuration (two chips at the=20=
+
+same SPI CS, differing by a chip-specific "HW address" on a HW level),=20
+there are some impedance mismatches because it's essentially two=20
+independent pinctrl instances on the same SPI address. This causes=20
+problems, e.g. the debugfs pinctrl instance won't be created for the second=20=
+
+chip because of a naming conflict. We also carry this out-of-tree patch to=20=
+
+make the GPIO labels work when set from DTS:
+
+https://patchwork.ozlabs.org/project/linux-gpio/patch/517dcdda21ea0b0df884bc6=
+adcba1dadb78b66b1.1551966077.git.jan.kundrat@cesnet.cz/
+
+(Feedback on how to solve that problem is welcome, btw.)
+
+Since I am not that much familiar with pinctrl/gpio stuff in kernel, I=20
+wanted to bring this up to make sure that your future trigger works even on=20=
+
+a setup like ours. Here's how it's used via DTS in case it's relevant:
+
+https://gerrit.cesnet.cz/plugins/gitiles/CzechLight/br2-external/+/6570b571bb=
+f3f53cf24ef2be3079bc282c445b9e/board/czechlight/clearfog/sdn-roadm-clearfog.d=
+tsi#151
+
+With kind regards,
+Jan
