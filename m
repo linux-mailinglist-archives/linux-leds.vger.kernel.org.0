@@ -2,281 +2,244 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 629A2786C7E
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Aug 2023 12:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84865786D20
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Aug 2023 12:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240923AbjHXKAX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Aug 2023 06:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
+        id S236262AbjHXKtd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Aug 2023 06:49:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240824AbjHXJ75 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Aug 2023 05:59:57 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C4919AD
-        for <linux-leds@vger.kernel.org>; Thu, 24 Aug 2023 02:59:54 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-44d3666c6cfso2251760137.3
-        for <linux-leds@vger.kernel.org>; Thu, 24 Aug 2023 02:59:54 -0700 (PDT)
+        with ESMTP id S240843AbjHXKt3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Aug 2023 06:49:29 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524F81711
+        for <linux-leds@vger.kernel.org>; Thu, 24 Aug 2023 03:49:27 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2b974031aeaso102080731fa.0
+        for <linux-leds@vger.kernel.org>; Thu, 24 Aug 2023 03:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1692871193; x=1693475993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V7niQIdqSj3magIfw0G01bTXlocxuig+rGg0t1RLnPI=;
-        b=C5BvWEElzmVaLi3cV54p5/i8FW778qAxWD9nFjCP0HiuGe14kHcl6rc0AU8J1bSel0
-         49EVN2tnPl8yfcb55s0jTqCC8R40L03kpYQIh+WT0P2cLz72Ftzqpr6NGiBmo56mhHu3
-         ePOSegiMCGy84M8G42wxfg6F4zd0+gg3+jSW7YQzVnACDL9ohE358uK5H2hxHMAueQsy
-         RZu8/ZLa5uH4q/GLnhmB0RZlzfIEl3cVjrWoD1n0SpCjMdZ2kY62v2OGr+w70gXdNRQC
-         Ki2dxSpcILTlsXaRwZWJFxUZ6nxXTFJDxcAe5XeGBjvo2hO3DPgPsiagvd/aO1uYbTGW
-         HXoQ==
+        d=9elements.com; s=google; t=1692874165; x=1693478965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U2QSKQ/83/43p/qAa+Lm0R0OYAZElaQVoZevD5EWLWg=;
+        b=KCzIc1MjLtX5BE4+VRpevemNFKGb2TsLLDtvnq8nmjtJ5ztTPV0U9cuTmKjtcCGiQL
+         vb9CpFodiXI8uCZJwLY2+k0Pjpws0By7nuHsUWdycBYGZRtW/1jjC38XiIX8WSwe3yn0
+         oJ2cV69iq0g8y3YG6gkTdMBBXlfASdfH9MPnndExKR8NTQKzjH3p1fBrGKIdu+7kDgBT
+         jkcK8hrHx0I3PIHw08eOVQzYUsMHIU1+WADHo3fFVT0NA6SS6eZ8c8TqcUecLc5VwsSN
+         NJ2uIgvFJCj9rjgrfLk9j4CZczZPwAZpzO2pcXUibujsQXD1cMvn+Jn4G5ISYuaRoocM
+         Xv0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692871193; x=1693475993;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V7niQIdqSj3magIfw0G01bTXlocxuig+rGg0t1RLnPI=;
-        b=ZyRdUxSJV4G6nvDTU1w+QNJIqBNTOg2ev0bOygKPqdgHk92kMtNGFZvRU0CL4V4cku
-         kTomePezlupUjYQen60+2Y0TC4Gclt3ssMSIbocUFCDij4Yjs3oc0OFKQ5K7bs6G9bdO
-         7nWTVKPNmhGlaLIsn6PKAKwTMKnA1xbtB8i2FKIrN/JCzA9LuBWhedWBe9TuctbreLLs
-         05ktEyfEpJWAFay3FpHTm293wc4wG64KZuVVv9bHigsyn9xKgrjJD6mB6gIU0XXReL81
-         /wyyi7Wx/lKdcv8u/QARuKiGvFwYYU03SvIfuHR1Dh9pNHn8dL2/vFHBx6zMc2Cf1Bhz
-         e0sQ==
-X-Gm-Message-State: AOJu0Yy5B3iCu/sKFqrPGh4utwtMlnMz8TMyibQuSO/XXtsNKR+Umou9
-        oMJG3PLvwvzjjempQLAlliQDc/3tAiE8OqK4c8UCmQ==
-X-Google-Smtp-Source: AGHT+IFlFmaKIQY3uhB1FHb6+wPlSD4qLwrBUIOYv06tzHYykeBLUaHHx05TmdlJzO4TB8afpemqIKGVEeiaiJ3ipIY=
-X-Received: by 2002:a05:6102:c4:b0:44d:5c61:e475 with SMTP id
- u4-20020a05610200c400b0044d5c61e475mr7500689vsp.32.1692871193345; Thu, 24 Aug
- 2023 02:59:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230823212309.1463769-1-Naresh.Solanki@9elements.com>
-In-Reply-To: <20230823212309.1463769-1-Naresh.Solanki@9elements.com>
-From:   Patrick Rudolph <patrick.rudolph@9elements.com>
-Date:   Thu, 24 Aug 2023 11:59:42 +0200
-Message-ID: <CALNFmy0H2pg_hJvvNPrq7XkqUS2rDbMnpfFMEC4jOG-Ghhj3zQ@mail.gmail.com>
-Subject: Re: [PATCH] leds: max5970: Add support for max5970
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        d=1e100.net; s=20221208; t=1692874165; x=1693478965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U2QSKQ/83/43p/qAa+Lm0R0OYAZElaQVoZevD5EWLWg=;
+        b=AxLso48emEubLtA/WibGW1zfSbrva9bkR//JEKgimpTqs5JMllUn6+LohGWzDoixc4
+         Kx/sVDEfoRfHr0HJ1YDhR7Fzq9hWhuDr8TCozZPc4O/BzQRGgsTXYPeUfSx4Ex6aNYDZ
+         ZQ5y0PTZcYElvmCYyuW7+nlfVaMxEMgw3FULJf/4ofXk8hmSj7JdDmIbOHypTnEbmTvT
+         emFm6LNZLm4Kc18iEBb4M1rvhk763Ay9hZpIokuTGMA/to/QQhEVaLi/TI5+eCv37R4g
+         L0TKC9hUwG9ga8Bqj1Jcqv0xXxubWQeQL7HaxIhiZ5rpran0M27qyptuBpTTdmIriNUU
+         MhiA==
+X-Gm-Message-State: AOJu0Yy5fguYNq7fHpzx025/IzjJ87K2B6oUM52SWf1k3l7b0Sna8rSH
+        zhDvSeCcBAgePppxgfHE/gLt2A==
+X-Google-Smtp-Source: AGHT+IElyEncgNbRYW+dsOkc7aLQbs5D+YwNHeV6E3BV249cK6RVTDS/4OzZhsIPXWb4GX1jA00G5w==
+X-Received: by 2002:a2e:9c99:0:b0:2bc:dd6b:9220 with SMTP id x25-20020a2e9c99000000b002bcdd6b9220mr3407626lji.24.1692874165470;
+        Thu, 24 Aug 2023 03:49:25 -0700 (PDT)
+Received: from stroh80.sec.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
+        by smtp.gmail.com with ESMTPSA id k25-20020a05600c0b5900b003feea62440bsm2223743wmr.43.2023.08.24.03.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 03:49:24 -0700 (PDT)
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+X-Google-Original-From: Naresh Solanki <Naresh.Solanki@9elements.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Naresh Solanki <Naresh.Solanki@9elements.com>,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v2] leds: max5970: Add support for max5970
+Date:   Thu, 24 Aug 2023 12:49:08 +0200
+Message-ID: <20230824104909.2451625-1-Naresh.Solanki@9elements.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 11:23=E2=80=AFPM Naresh Solanki
-<naresh.solanki@9elements.com> wrote:
->
-> From: Patrick Rudolph <patrick.rudolph@9elements.com>
->
-> The MAX5970 is hot swap controller and has 4 indication LED.
->
-> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> ---
->  drivers/leds/Kconfig        |  11 +++
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-max5970.c | 129 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 141 insertions(+)
->  create mode 100644 drivers/leds/leds-max5970.c
->
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index b92208eccdea..03ef527cc545 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -637,6 +637,17 @@ config LEDS_ADP5520
->           To compile this driver as a module, choose M here: the module w=
-ill
->           be called leds-adp5520.
->
-> +config LEDS_MAX5970
-> +       tristate "LED Support for Maxim 5970"
-> +       depends on LEDS_CLASS
-> +       depends on MFD_MAX5970
-> +       help
-> +         This option enables support for the Maxim MAX5970 & MAX5978 sma=
-rt
-> +         switch indication LEDs via the I2C bus.
-> +
-> +         To compile this driver as a module, choose M here: the module w=
-ill
-> +         be called leds-max5970.
-> +
->  config LEDS_MC13783
->         tristate "LED Support for MC13XXX PMIC"
->         depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d7348e8bc019..6eaee0a753c6 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)             +=3D leds-lp8501.=
-o
->  obj-$(CONFIG_LEDS_LP8788)              +=3D leds-lp8788.o
->  obj-$(CONFIG_LEDS_LP8860)              +=3D leds-lp8860.o
->  obj-$(CONFIG_LEDS_LT3593)              +=3D leds-lt3593.o
-> +obj-$(CONFIG_LEDS_MAX5970)             +=3D leds-max5970.o
->  obj-$(CONFIG_LEDS_MAX77650)            +=3D leds-max77650.o
->  obj-$(CONFIG_LEDS_MAX8997)             +=3D leds-max8997.o
->  obj-$(CONFIG_LEDS_MC13783)             +=3D leds-mc13783.o
-> diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max5970.c
-> new file mode 100644
-> index 000000000000..5be1b927f39e
-> --- /dev/null
-> +++ b/drivers/leds/leds-max5970.c
-> @@ -0,0 +1,129 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device driver for leds in MAX5970 and MAX5978 IC
-> + *
-> + * Copyright (c) 2022 9elements GmbH
-> + *
-> + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
-> + */
-> +
-> +#include <linux/leds.h>
-> +#include <linux/mfd/max5970.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define ldev_to_maxled(c)       container_of(c, struct max5970_led, cdev=
-)
-> +
-> +struct max5970_led {
-> +       struct device *dev;
-> +       struct regmap *regmap;
-> +       struct led_classdev cdev;
-> +       unsigned int index;
-> +};
-> +
-> +static int max5970_led_set_brightness(struct led_classdev *cdev,
-> +                                     enum led_brightness brightness)
-> +{
-> +       struct max5970_led *ddata =3D ldev_to_maxled(cdev);
-> +       int ret, val;
-> +
-> +       if (!ddata->regmap)
-> +               return -ENODEV;
-Can this ever happen? Looks like this conditions is always false.
+From: Patrick Rudolph <patrick.rudolph@9elements.com>
 
-> +
-> +       /* Set/clear corresponding bit for given led index */
-> +       val =3D !brightness ? BIT(ddata->index) : 0;
-> +
-> +       ret =3D regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, =
-BIT(ddata->index), val);
-> +       if (ret < 0)
-> +               dev_err(cdev->dev, "failed to set brightness %d", ret);
-> +
-> +       return ret;
-> +}
-> +
-> +static int max5970_setup_led(struct max5970_led *ddata, struct regmap *r=
-egmap,
-> +                            struct device_node *nc, u32 reg)
-> +{
-regmap and reg is not used within this function.
-I don't see the need for this function, just add those 8 lines in the
-loop below.
+The MAX5970 is hot swap controller and has 4 indication LED.
 
-> +       int ret;
-> +
-> +       if (of_property_read_string(nc, "label", &ddata->cdev.name))
-> +               ddata->cdev.name =3D nc->name;
-> +
-> +       ddata->cdev.max_brightness =3D 1;
-> +       ddata->cdev.brightness_set_blocking =3D max5970_led_set_brightnes=
-s;
-> +       ddata->cdev.default_trigger =3D "none";
-> +
-> +       ret =3D devm_led_classdev_register(ddata->dev, &ddata->cdev);
-> +       if (ret)
-> +               dev_err(ddata->dev, "Error initializing LED %s", ddata->c=
-dev.name);
-> +
-> +       return ret;
-> +}
-> +
-> +static int max5970_led_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev =3D &pdev->dev;
-> +       struct device_node *np =3D dev_of_node(dev->parent);
-> +       struct regmap *regmap;
-> +       struct device_node *led_node;
-> +       struct device_node *child;
-> +       struct max5970_led *ddata[MAX5970_NUM_LEDS];
-> +       int ret =3D -ENODEV, num_leds =3D 0;
-> +
-> +       regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
-> +       if (!regmap)
-> +               return -EPROBE_DEFER;
-> +
-> +       led_node =3D of_get_child_by_name(np, "leds");
-> +       if (!led_node)
-> +               return -ENODEV;
-> +
-> +       for_each_available_child_of_node(led_node, child) {
-> +               u32 reg;
-> +
-> +               if (of_property_read_u32(child, "reg", &reg))
-> +                       continue;
-> +
-> +               if (reg >=3D MAX5970_NUM_LEDS) {
-> +                       dev_err(dev, "invalid LED (%u >=3D %d)\n", reg, M=
-AX5970_NUM_LEDS);
-> +                       continue;
-> +               }
-> +
-> +               ddata[num_leds] =3D devm_kzalloc(dev, sizeof(struct max59=
-70_led), GFP_KERNEL);
-> +               if (!ddata[num_leds]) {
-> +                       ret =3D -ENOMEM;
-> +                       goto exit;
-> +               }
-> +
-> +               ddata[num_leds]->index =3D reg;
-> +               ddata[num_leds]->regmap =3D regmap;
-> +               ddata[num_leds]->dev =3D dev;
-> +
-> +               ret =3D max5970_setup_led(ddata[num_leds], regmap, child,=
- reg);
-> +               if (ret < 0) {
-> +                       dev_err(dev, "Failed to initialize LED %u\n", reg=
-);
-> +                       goto exit;
-> +               }
-> +               num_leds++;
-> +       }
-> +
-> +       return ret;
-> +
-> +exit:
-> +       for (int j =3D 0; j < num_leds; j++)
-> +               devm_led_classdev_unregister(dev, &ddata[j]->cdev);
-> +
-> +       return ret;
-> +}
-> +
-> +static struct platform_driver max5970_led_driver =3D {
-> +       .driver =3D {
-> +               .name =3D "max5970-led",
-> +       },
-> +       .probe =3D max5970_led_probe,
-> +};
-> +
-> +module_platform_driver(max5970_led_driver);
-> +MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
+Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+---
+Changes in V2:
+- Add of_node_put before return.
+- Code cleanup
+- Refactor code & remove max5970_setup_led function.
+---
+ drivers/leds/Kconfig        |  11 ++++
+ drivers/leds/Makefile       |   1 +
+ drivers/leds/leds-max5970.c | 110 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 122 insertions(+)
+ create mode 100644 drivers/leds/leds-max5970.c
 
-You might want to put your name here, as you've rewritten the complete
-driver code.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index b92208eccdea..03ef527cc545 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -637,6 +637,17 @@ config LEDS_ADP5520
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called leds-adp5520.
+ 
++config LEDS_MAX5970
++	tristate "LED Support for Maxim 5970"
++	depends on LEDS_CLASS
++	depends on MFD_MAX5970
++	help
++	  This option enables support for the Maxim MAX5970 & MAX5978 smart
++	  switch indication LEDs via the I2C bus.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called leds-max5970.
++
+ config LEDS_MC13783
+ 	tristate "LED Support for MC13XXX PMIC"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index d7348e8bc019..6eaee0a753c6 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
+ obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
+ obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
+ obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
++obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
+ obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
+ obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
+ obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
+diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max5970.c
+new file mode 100644
+index 000000000000..79277d47e1bc
+--- /dev/null
++++ b/drivers/leds/leds-max5970.c
+@@ -0,0 +1,110 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device driver for leds in MAX5970 and MAX5978 IC
++ *
++ * Copyright (c) 2022 9elements GmbH
++ *
++ * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
++ */
++
++#include <linux/leds.h>
++#include <linux/mfd/max5970.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++#define ldev_to_maxled(c)       container_of(c, struct max5970_led, cdev)
++
++struct max5970_led {
++	struct device *dev;
++	struct regmap *regmap;
++	struct led_classdev cdev;
++	unsigned int index;
++};
++
++static int max5970_led_set_brightness(struct led_classdev *cdev,
++				      enum led_brightness brightness)
++{
++	struct max5970_led *ddata = ldev_to_maxled(cdev);
++	int ret, val;
++
++	/* Set/clear corresponding bit for given led index */
++	val = !brightness ? BIT(ddata->index) : 0;
++
++	ret = regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, BIT(ddata->index), val);
++	if (ret < 0)
++		dev_err(cdev->dev, "failed to set brightness %d", ret);
++
++	return ret;
++}
++
++static int max5970_led_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev_of_node(dev->parent);
++	struct regmap *regmap;
++	struct device_node *led_node;
++	struct device_node *child;
++	struct max5970_led *ddata[MAX5970_NUM_LEDS];
++	int ret = -ENODEV, num_leds = 0;
++
++	regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!regmap)
++		return -EPROBE_DEFER;
++
++	led_node = of_get_child_by_name(np, "leds");
++	if (!led_node)
++		return -ENODEV;
++
++	for_each_available_child_of_node(led_node, child) {
++		u32 reg;
++
++		if (of_property_read_u32(child, "reg", &reg))
++			continue;
++
++		if (reg >= MAX5970_NUM_LEDS) {
++			dev_err(dev, "invalid LED (%u >= %d)\n", reg, MAX5970_NUM_LEDS);
++			continue;
++		}
++
++		ddata[num_leds] = devm_kzalloc(dev, sizeof(struct max5970_led), GFP_KERNEL);
++		if (!ddata[num_leds]) {
++			of_node_put(child);
++			return -ENOMEM;
++		}
++
++		ddata[num_leds]->index = reg;
++		ddata[num_leds]->regmap = regmap;
++		ddata[num_leds]->dev = dev;
++
++		if (of_property_read_string(child, "label", &ddata[num_leds]->cdev.name))
++			ddata[num_leds]->cdev.name = child->name;
++
++		ddata[num_leds]->cdev.max_brightness = 1;
++		ddata[num_leds]->cdev.brightness_set_blocking = max5970_led_set_brightness;
++		ddata[num_leds]->cdev.default_trigger = "none";
++
++		ret = devm_led_classdev_register(ddata[num_leds]->dev, &ddata[num_leds]->cdev);
++		if (ret < 0) {
++			of_node_put(child);
++			dev_err(dev, "Failed to initialize LED %u\n", reg);
++			return ret;
++		}
++		num_leds++;
++	}
++
++	return ret;
++}
++
++static struct platform_driver max5970_led_driver = {
++	.driver = {
++		.name = "max5970-led",
++	},
++	.probe = max5970_led_probe,
++};
++
++module_platform_driver(max5970_led_driver);
++MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
++MODULE_AUTHOR("Naresh Solanki <Naresh.Solanki@9elements.com>");
++MODULE_DESCRIPTION("MAX5970_hot-swap controller LED driver");
++MODULE_LICENSE("GPL");
 
-> +MODULE_DESCRIPTION("MAX5970_hot-swap controller LED driver");
-> +MODULE_LICENSE("GPL");
->
-> base-commit: baca986e1f2c31f8e4b2a6d99d47c3bc844033e8
-> --
-> 2.41.0
->
+base-commit: baca986e1f2c31f8e4b2a6d99d47c3bc844033e8
+-- 
+2.41.0
+
