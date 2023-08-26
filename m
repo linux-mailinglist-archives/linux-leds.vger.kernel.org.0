@@ -2,64 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1447A78810B
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Aug 2023 09:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4A797899B7
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 00:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbjHYHjr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 25 Aug 2023 03:39:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47850 "EHLO
+        id S229885AbjHZWYL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Aug 2023 18:24:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243179AbjHYHjZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 25 Aug 2023 03:39:25 -0400
-Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B051FDF
-        for <linux-leds@vger.kernel.org>; Fri, 25 Aug 2023 00:39:24 -0700 (PDT)
-Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
-        id 6A89A4E7FF; Fri, 25 Aug 2023 07:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
-        s=mail; t=1692949075;
-        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
-        h=Date:From:To:Subject:From;
-        b=HFQT95R6Z70KHU5RWSV1EDulVzKOYH2EzLRWrNRvExeWLjo/UyEjqOrgp2TgdXOI4
-         PToigAtzOB2Gv+kdY5dNxI4/JSSB/cOhlbYFHUWJZezDlkyN7ax2DXnedGz6k9Thw9
-         MYgPepRZ9Fb5inBeMWgPJMAwzY19iL1wZZaErXHey4wII4KjyO+Ko5BCy7E/JHlx4/
-         Tz4fqNPC9pQ3J4Cx4P7J6es/y2dhaZvUvhMVV7Tyw8TLGyw1l8PQ/doGb+gwA43HaW
-         4tqp98STGt5JuYNWMGUBHsi6NVngHDlR/eGgVLjdFqlJ3COQLkb/Efqp65YtT1efo4
-         GUV+WEyMhsWQA==
-Received: by mail.profitpathwaygo.com for <linux-leds@vger.kernel.org>; Fri, 25 Aug 2023 07:36:10 GMT
-Message-ID: <20230825064500-0.1.1d.crau.0.i4bkr15t2p@profitpathwaygo.com>
-Date:   Fri, 25 Aug 2023 07:36:10 GMT
-From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
-X-Mailer: mail.profitpathwaygo.com
+        with ESMTP id S229650AbjHZWYG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Aug 2023 18:24:06 -0400
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407E11BE
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 15:24:04 -0700 (PDT)
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5734b893a11so1038180eaf.1
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 15:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693088643; x=1693693443;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pTK2P+dSNpLdhHcbff7i9fxYGYQXK5wNucMBi2Hv5F0=;
+        b=WiVYDkyXjmo68r8MWhq+C29UmOxeouMmYP/OJJeCxtbD7KgmGWQGDI5EqYgVCDqlPM
+         xrBDoqvoj02bzDXTQypVM43frC2KeoN/CwgYmiPHEu8ZgR1dbAOIOBLTWVSiXILyBYDu
+         SMQShMb6ZLpXFfQd12r+wquntSs/P/5QRUuztR4ymx1YVKNFmeIHitfYdV70PSZLTU3P
+         MS1+Pcsr3iktEN4PDmwBrb38GNlhSIGywLh7buISSSQiu8stWhcffoRjK/AbNKC/MtSZ
+         8qb8JKSZrGLS2Jh1awBhFTDbK8kKdTc6/GY6FV4B1VbNXXRH/ooA2EUiHCSMypOlubsJ
+         Gjog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693088643; x=1693693443;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pTK2P+dSNpLdhHcbff7i9fxYGYQXK5wNucMBi2Hv5F0=;
+        b=JqCQqFmdhEXuj6/YA0FFC2Jejlp5LC9pCf/ncwsH1tcyj+ndpfnIYxXjuakKT+5EYW
+         m62H2Au6IUd30Fx3UctiseaqJuU+QCSVFFaotylzzQzNtBUcY7WAEVcT6N1Ztpx0ldDu
+         IdsCPTptst64AZKK3Li7N+0Bx0BQ7lcIen4zWlHabtB3cpo0MadS/kEo/lIPVEDvCPsh
+         atGIz7/JvRUPxDC/VerbAU+jJ6pScNitAqrVr+bTmBzAAzZt3cUSFT0ZIxuq/ZR59BYh
+         uJpZ7eYL4pgzatVF6nTq/KloXmFHSTP7PWaL3uigTB9Q0G6rAgaNVcM2Q3qT6plPnZD+
+         sa0w==
+X-Gm-Message-State: AOJu0Yw9Wbj4zl9DgOpapGJ//9CBdWn/DV+3SwjoKEJpnEsfTMZaHoNq
+        NOaHTbAceO97eOegVoN7E6+K0Z0zwZmKd+RZbEw=
+X-Google-Smtp-Source: AGHT+IH3/4FqdEi+0VbRuiDiqN95qIVZ31Hm3GEWhygTBlrJbJETMRw2gI3Td9C2ioa8Xj9JLdpsKnF3LkWWXDj0UvE=
+X-Received: by 2002:a05:6358:63a8:b0:139:cf80:1845 with SMTP id
+ k40-20020a05635863a800b00139cf801845mr29488028rwh.12.1693088643260; Sat, 26
+ Aug 2023 15:24:03 -0700 (PDT)
 MIME-Version: 1.0
+Reply-To: mrselizabethedward13@gmail.com
+Sender: olamidevirgil@gmail.com
+Received: by 2002:a05:7300:5798:b0:d9:922:9031 with HTTP; Sat, 26 Aug 2023
+ 15:24:02 -0700 (PDT)
+From:   "Mrs. Elizabeth" <mrselizabethedward13@gmail.com>
+Date:   Sat, 26 Aug 2023 15:24:02 -0700
+X-Google-Sender-Auth: zWfgx6L3fuQgntQ62Ij6dZEDgIo
+Message-ID: <CAM6Xz8J2m+RB54ud59KsuKk++aaoq50c2_c-V-RqT2x8X_WUoQ@mail.gmail.com>
+Subject: Am Expecting Your Response
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FRAUD_8,
+        MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_BLOCKED,RISK_FREE,SPF_HELO_NONE,
+        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [2607:f8b0:4864:20:0:0:0:c2b listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrselizabethedward13[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [olamidevirgil[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  2.4 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  0.0 RISK_FREE No risk!
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+My Dear Friend,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+I am Mrs. Elizabeth Edward, 63 years, from USA, I am childless and I
+am suffering from a pro-long critical cancer, my doctors confirmed I
+may not live beyond two months from now as my ill health has defile
+all forms of medical treatment.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Please forgive me for stressing you with my predicaments and am sorry
+to approach you through this media, it is because it serves the
+fastest means of communication. I came across your E-mail from my
+personal search and I decided to contact you believing you will be
+honest to fulfill my final wish before I die.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+Since my days are numbered, I=E2=80=99ve decided, willingly to fulfill my l=
+ong
+time promise to donate you the sum(=E2=82=AC9.5 Million Euros) I nherited f=
+rom
+my late husband Mr. Edward Herbart, foreign bank account over years. I
+need a very honest person who can assist in transfer of this money to
+his or her account and use the funds for charities work of God while
+you use 50% for yourself. I want you to know there are no risks
+involved; it is 100% hitch free & safe. If you will be interesting to
+assist in getting this fund into your account for charity project to
+fulfill my promise before I die please let me know immediately. I will
+appreciate your utmost confidentiality as I wait for your reply.
 
+Best Regards
 
-Pozdrawiam serdecznie
-Adam Charachuta
+Mrs. Elizabeth Edward.
