@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 871AC789E69
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 15:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A9A789E7E
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 15:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbjH0N03 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 27 Aug 2023 09:26:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34620 "EHLO
+        id S230135AbjH0N0b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 27 Aug 2023 09:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbjH0NZz (ORCPT
+        with ESMTP id S230149AbjH0NZz (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Aug 2023 09:25:55 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4737319B
-        for <linux-leds@vger.kernel.org>; Sun, 27 Aug 2023 06:25:49 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe15bfb1adso3624142e87.0
-        for <linux-leds@vger.kernel.org>; Sun, 27 Aug 2023 06:25:49 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4925E1B7
+        for <linux-leds@vger.kernel.org>; Sun, 27 Aug 2023 06:25:50 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5007c8308c3so3693107e87.0
+        for <linux-leds@vger.kernel.org>; Sun, 27 Aug 2023 06:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693142747; x=1693747547;
+        d=linaro.org; s=google; t=1693142748; x=1693747548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eDlULPpCaiOZl9KqGYW1vmjYvdhVYMx48DSYOBdmQVg=;
-        b=DhWv1rm1ioeBtCmQWaCoWrjgq2mKczHYX1Dn+SkW6YPiG7rB7q51bKgq4rJtW+QFHM
-         IjTkAN+YanySzVL45DzxPLJsv9n1A/I4r3VXHkns5Q4Zwo02U4vhi2zGJgk2RRDY30UF
-         6tcg4A9sccNc2OVAZJ5IvyaR4hNX7f04lvVf5xXvsIjv7o+WwqsD/XSazVvA99Oqzvm7
-         nD1QRJsoeDkLzdq5gcTpS+cLr359QQmJQyIvk7z7V2/fbnFRK2aLNyUdHkoWs9FrFIvp
-         paP3/N/39VIByvw/qGZoNEFaRSbD9SVnhtn1K0F1X1SZbzx6SDVKt3m6MMOweIp037lI
-         Rnqw==
+        bh=OFX9JomlQAWrg2wVtXgvkj8bMtfCZmpZ79ww1DHQiqs=;
+        b=O6SBeyNyl2Y2KY7TtNVcGggkWGoQFcQiQLCCIb/nYc/zY5e5i5GFzWc2creJJp66J5
+         RGeiTtCkVpqVehN6l24POWnFCDZstQ/I4vW5Bi6Mau0C3DJIpzwdDG1EkFgensWWG4ck
+         yc4Rd/tGmVmYPqeIPdvqeckUTg1fy7Eq7GNSVQ6RsMi6Ozw/vlQNi01gu5M4iKtpzjJ1
+         Bcc1F8TR4bQVBXr6XQi9zsOOx5TvrObUY9oNsj0+o0V4kD16G9U/yPhTsZ+AcQjFSdj7
+         mnooa0aMSTt6vsg86brqXmU3rRjgp/kGhxjcgyQE4OxjeV7qOSml1eVIf9n04VwmSO0/
+         OKew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693142747; x=1693747547;
+        d=1e100.net; s=20221208; t=1693142748; x=1693747548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eDlULPpCaiOZl9KqGYW1vmjYvdhVYMx48DSYOBdmQVg=;
-        b=Vr8ZZiNwENCPLBVQmvGEcHq2IkGL09t+6PgPIL5GLD7LySwaut9mOnlgtevMJJrLWd
-         0hpWgL3m1wKGRTSsvo2gVHoFdEeFkouYaoDLOg+p4IpIlt5p97TJWJjPJqaUjPOECbny
-         VuQqMWGkqodPE3+D/yUMrpFHYniKCgnfY/3y7OKIQtCmWzBS/aK+GPu/OsvM60nVsahR
-         5k9Im3ZoYU+7R+vD9u7RV2f3PVSBnGkZKZdkOsN/ijG3w9UKmtncoQWlfDkOflr5xCG4
-         KWcjTmhWyJJzBTM3UiNqfrebY+34umIGqwGT6OQ5FlQrjJKeA3cxa5h7go6WBZgSgGhH
-         cApA==
-X-Gm-Message-State: AOJu0YzsGK0HXvzfDK5jSbQq+7EiBhTs/IjCmGNwxQG06tsIXyIx7Dwx
-        tYbeXfj0uEIxPOAW1S82RwPy5g==
-X-Google-Smtp-Source: AGHT+IHsZRq1RqRgSkF7zLgdEqWXLN9KsUMyvJAQIcDaV2HlsaqCd6W/wQJA3fWmlxBCvXwrEUnwGg==
-X-Received: by 2002:a19:4f07:0:b0:500:9a29:bcb8 with SMTP id d7-20020a194f07000000b005009a29bcb8mr6737101lfb.4.1693142747568;
-        Sun, 27 Aug 2023 06:25:47 -0700 (PDT)
+        bh=OFX9JomlQAWrg2wVtXgvkj8bMtfCZmpZ79ww1DHQiqs=;
+        b=K4o2WaDUFe5ILVaIR0S6yKCPzXhxCT5FLLZe6RnNK1E9HpR8K79Ucm8UAR5WcJL9C4
+         4TH5pchPWTW+kkIfbevpsdEFII+O4bwaCsoC5LYGsTub7loZi9k6zHBRf6gC2p/cDV+i
+         2xlnBXzSjLIPrCmiOCsBLGONZLhjId9/tXWGkfTeekSRyVMyb2fDhRj9y4bbFqF1k/w+
+         cV00BIvIy/kgdxm3w/bjDRq5p27o5a2KhZAH+wvmyXgT07ux5+SpKgkZDItHnEHLzqUJ
+         lDT1u25j4eYlvxyl25Kc9nPZuKdCAg20Bm9/zHP55syXxB+tkALjWnX5+rPO+KfGaDMa
+         gDkg==
+X-Gm-Message-State: AOJu0YzrzbxcmXxaeNXB6IxXBwJAa+bvPE4KZ1DNPILDT0DC3j339Ipw
+        el7hl2iXP86xelbcc7GVjGk69w==
+X-Google-Smtp-Source: AGHT+IHjfwt1dEUkbeEli+5qs9ZJG+9CIU9y+ic++AuCIyt5zzcd8QRW/Kl9vpzy/kxEkPXtzWVCIw==
+X-Received: by 2002:ac2:562f:0:b0:4f8:4512:c844 with SMTP id b15-20020ac2562f000000b004f84512c844mr15483497lff.48.1693142748561;
+        Sun, 27 Aug 2023 06:25:48 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id t9-20020ac243a9000000b004faa2de9877sm1142040lfl.286.2023.08.27.06.25.46
+        by smtp.gmail.com with ESMTPSA id t9-20020ac243a9000000b004faa2de9877sm1142040lfl.286.2023.08.27.06.25.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 27 Aug 2023 06:25:47 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -62,9 +62,9 @@ Cc:     Andy Gross <agross@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
-Subject: [PATCH v5 25/37] ARM: dts: qcom: pm8058: use defined IRQ flags
-Date:   Sun, 27 Aug 2023 16:25:13 +0300
-Message-Id: <20230827132525.951475-26-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 26/37] ARM: dts: qcom: pm8921: switch to interrupts-extended
+Date:   Sun, 27 Aug 2023 16:25:14 +0300
+Message-Id: <20230827132525.951475-27-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
 References: <20230827132525.951475-1-dmitry.baryshkov@linaro.org>
@@ -72,54 +72,61 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use symbolic names for IRQ flags instead of using the numeric values.
+Merge interrups and interrupt-parent properties into a single
+interrupts-extended property.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Konrad DYbcio <konrad.dybcio@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm/boot/dts/qcom/pm8058.dtsi | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ arch/arm/boot/dts/qcom/pm8921.dtsi | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm/boot/dts/qcom/pm8058.dtsi b/arch/arm/boot/dts/qcom/pm8058.dtsi
-index 913a511719fa..3683d7b60918 100644
---- a/arch/arm/boot/dts/qcom/pm8058.dtsi
-+++ b/arch/arm/boot/dts/qcom/pm8058.dtsi
-@@ -12,7 +12,8 @@ pwrkey@1c {
- 			compatible = "qcom,pm8058-pwrkey";
+diff --git a/arch/arm/boot/dts/qcom/pm8921.dtsi b/arch/arm/boot/dts/qcom/pm8921.dtsi
+index fa00b57e28b9..360a179670c5 100644
+--- a/arch/arm/boot/dts/qcom/pm8921.dtsi
++++ b/arch/arm/boot/dts/qcom/pm8921.dtsi
+@@ -11,9 +11,8 @@ pm8921: pmic {
+ 		pwrkey@1c {
+ 			compatible = "qcom,pm8921-pwrkey";
  			reg = <0x1c>;
- 			interrupt-parent = <&pm8058>;
--			interrupts = <50 1>, <51 1>;
-+			interrupts = <50 IRQ_TYPE_EDGE_RISING>,
-+				     <51 IRQ_TYPE_EDGE_RISING>;
+-			interrupt-parent = <&pm8921>;
+-			interrupts = <50 IRQ_TYPE_EDGE_RISING>,
+-				     <51 IRQ_TYPE_EDGE_RISING>;
++			interrupts-extended = <&pm8921 50 IRQ_TYPE_EDGE_RISING>,
++					      <&pm8921 51 IRQ_TYPE_EDGE_RISING>;
  			debounce = <15625>;
  			pull-up;
  		};
-@@ -61,7 +62,8 @@ pm8058_keypad: keypad@148 {
- 			compatible = "qcom,pm8058-keypad";
+@@ -32,17 +31,15 @@ pm8921_mpps: mpps@50 {
+ 		rtc@11d {
+ 			compatible = "qcom,pm8921-rtc";
+ 			reg = <0x11d>;
+-			interrupt-parent = <&pm8921>;
+-			interrupts = <39 IRQ_TYPE_EDGE_RISING>;
++			interrupts-extended = <&pm8921 39 IRQ_TYPE_EDGE_RISING>;
+ 			allow-set-time;
+ 		};
+ 
+ 		pm8921_keypad: keypad@148 {
+ 			compatible = "qcom,pm8921-keypad";
  			reg = <0x148>;
- 			interrupt-parent = <&pm8058>;
--			interrupts = <74 1>, <75 1>;
-+			interrupts = <74 IRQ_TYPE_EDGE_RISING>,
-+				     <75 IRQ_TYPE_EDGE_RISING>;
+-			interrupt-parent = <&pm8921>;
+-			interrupts = <74 IRQ_TYPE_EDGE_RISING>,
+-				     <75 IRQ_TYPE_EDGE_RISING>;
++			interrupts-extended = <&pm8921 74 IRQ_TYPE_EDGE_RISING>,
++					      <&pm8921 75 IRQ_TYPE_EDGE_RISING>;
  			debounce = <15>;
  			scan-delay = <32>;
  			row-hold = <91500>;
-@@ -135,7 +137,7 @@ rtc@1e8 {
- 			compatible = "qcom,pm8058-rtc";
- 			reg = <0x1e8>;
- 			interrupt-parent = <&pm8058>;
--			interrupts = <39 1>;
-+			interrupts = <39 IRQ_TYPE_EDGE_RISING>;
- 			allow-set-time;
- 		};
- 	};
 -- 
 2.39.2
 
