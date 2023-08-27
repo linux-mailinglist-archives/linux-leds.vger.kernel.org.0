@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 320DF7899FD
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 03:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07EC0789A0B
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 03:00:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjH0BAC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 26 Aug 2023 21:00:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56940 "EHLO
+        id S229750AbjH0BAD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Aug 2023 21:00:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbjH0A73 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Aug 2023 20:59:29 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF4DCDE
-        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:26 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4ffa94a7a47so3217939e87.1
-        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:26 -0700 (PDT)
+        with ESMTP id S229814AbjH0A7a (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Aug 2023 20:59:30 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631B3E50
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:27 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4ff882397ecso3190640e87.3
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693097964; x=1693702764;
+        d=linaro.org; s=google; t=1693097965; x=1693702765;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vjW4ylzO3JtTT7kFnJy7UM1EVNTfgYpip/fK2M89nnA=;
-        b=Qwcn4viHz9TYTNSV6wVszVXF6e9BQPpP+eaN4Z+zvgoiIwRrRXPSNvkJJIyQPL758p
-         mEywqFU+vdNhV97gcnuWKbd0kZerfnY1tvmVVW8JYTMS0KvIT0JfBTFYg7/pALl+nsKl
-         BmhuygRif/1VdHqs6gIyQCHVWh6UUcvwfUG/G7u7Hx01rRXxlVAcW4Wzfme3TBdlhpCn
-         QLWpX5lBRzD5scuB1wT5IwoZETJel96zDbKNngkYwsqqKemB/HMdwC9UFt1oQPOJoHDE
-         26DeQODGorZjqR66jZkU2U3aVjElF4TMGCiSmbFNNQ0farmD6xumr6C6UdwSwbGRQ0Nu
-         qHYg==
+        bh=ftZ2Tumjuft2L/jMeghfFCeyN+7Sk5vcVoiCNz6lz7w=;
+        b=RLc0vPJ9nWphLou1W4l+fZ7B8H1v95f2drjxgJpKCR+uWMGa/QDa4152vcfEJAc5B5
+         87aOUXTPE1vj/j2y/+iAXk3Fji445jqkRSFzJ5aYnnUbsvIV9GXyKMSAu/sx8O8V8K4C
+         Ww2w2zpMlTq5sdvYfCzSDybwbbs4NDgV0zc58m8BgNqj/14p9bM8lAy/23zr8pvWteKn
+         Etpx1rvGv20sgW12Qb4aStQqg0eDu9/I9AyHcR3kPE1kH5tYxug7VsDH+vpVSYLipuan
+         3lDdgGfrxUisf9LJy0cVRGR8eElf32sSXvnnTrLj2pOuGvbyj1ELVdG8fJ1BG72MC86n
+         VRNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693097964; x=1693702764;
+        d=1e100.net; s=20221208; t=1693097965; x=1693702765;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vjW4ylzO3JtTT7kFnJy7UM1EVNTfgYpip/fK2M89nnA=;
-        b=BKAoT9GoVZF6Pa4SUJRg0DIrUu9/XbHUfmcAYHd89MlR572dcmHqg0S7JHi4v5oO2q
-         xKcXnLPZVTVThbgn1PUAj9PTe3+x2SKB+ybovcpP/mQ2LS8JyoT2yCPtgFjS/JNXTKaV
-         QfHK8viKRcu0dCM+2yBeROznOdp7LkrAO38A6ozxUDdWjCRTYYVoz18h6lWFhhYNL2N4
-         WtO1/89GAj8tMkxPyeTatFWncQ3KYH59X1Cm9eIXHLtoUKMuEBlReTU8xGLBFk3WlVYy
-         4IRi8wKdLKGcFC+JJtekLX4n00HWZoVTMK1zfQotgOKPZch1GHTPGRbjUQMkA3lbg70N
-         BMyg==
-X-Gm-Message-State: AOJu0Yzxm8o2W2igGS5o85fotQYwkHQPl1jHTJtUpsjX6lL1ab1ULCFi
-        0rQDu/dsPZOoYBZppkKRFjhWpA==
-X-Google-Smtp-Source: AGHT+IFwRYPvmJ8NJfWHi6Muugz6fnx7Fjay7imp78oq8M35zIaI6+K3KpFztiCZXhRUVVWgFmNF1A==
-X-Received: by 2002:a19:381d:0:b0:500:96fc:129d with SMTP id f29-20020a19381d000000b0050096fc129dmr6990081lfa.14.1693097964681;
-        Sat, 26 Aug 2023 17:59:24 -0700 (PDT)
+        bh=ftZ2Tumjuft2L/jMeghfFCeyN+7Sk5vcVoiCNz6lz7w=;
+        b=jxPU6CWpCJAqBHoS0Fzx1CvwGT5TBABhiiGHfu8M4IQQnOXcTrS6teska4GSE0txa/
+         tfZHSvOynn5hYglwc3RV1REOs91rktz8Xh4RldhTSomu4xeVhyIGVPdN9X6NDDWT5r+b
+         z6tODd31Hq/AXkbAPLPBnZyoR1XPeHln2jz5M5I1t5P9c/vqLsZJFBmxLV6bCgmIZVfW
+         lCNwSSTWgLiPoweeHHF6HDkuSZ5qx+P0BP37N3XDManN00voctlHL3S1hidtdPzdEkW9
+         MgrWgYIyvN/RBkp+oziCx1X1Kj6/2HwTWRvyKOGKG/2UUdlwcM/x92XclCdAFiJEWTkS
+         q62A==
+X-Gm-Message-State: AOJu0YxqF0Wh6ZHnAV89cKNVBhkTEwJa7NoT1S6bzwJ0v7Ushk6ORJGy
+        sG78RPFZqfc+1iZYcDCXpZqr/w==
+X-Google-Smtp-Source: AGHT+IENHKPsw9h+nW13xatHL0xF5smcFOWLqTWgwdnLDje/K+y8BeQmcNjf7LWfgd+GhfqOgdbVTQ==
+X-Received: by 2002:a05:6512:3189:b0:4f7:6453:f3f1 with SMTP id i9-20020a056512318900b004f76453f3f1mr21068807lfe.15.1693097965514;
+        Sat, 26 Aug 2023 17:59:25 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id p18-20020ac246d2000000b00500a08e42e7sm917729lfo.124.2023.08.26.17.59.23
+        by smtp.gmail.com with ESMTPSA id p18-20020ac246d2000000b00500a08e42e7sm917729lfo.124.2023.08.26.17.59.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 26 Aug 2023 17:59:24 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -61,80 +61,65 @@ Cc:     Andy Gross <agross@kernel.org>,
         linux-iio@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org,
-        Satya Priya <quic_c_skakit@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 02/38] dt-bindings: mfd: qcom-pm8xxx: add missing child nodes
-Date:   Sun, 27 Aug 2023 03:58:44 +0300
-Message-Id: <20230827005920.898719-3-dmitry.baryshkov@linaro.org>
+        linux-leds@vger.kernel.org
+Subject: [PATCH v4 03/38] dt-bindings: mfd: qcom-pm8xxx: allow using interrupts-extended
+Date:   Sun, 27 Aug 2023 03:58:45 +0300
+Message-Id: <20230827005920.898719-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
 References: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add gpio, keypad, led, mpps, pwrkey, vibrator and xoadc as possible
-child nodes of qcom,pm8xxx, referencing existint schema files.
+Allow using interrupts-extended, which is a preferred form of interrupts
+specification compared to the interrupt-parrent + interrupts pair.
 
-Cc: Lee Jones <lee@kernel.org>
-Cc: Satya Priya <quic_c_skakit@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../devicetree/bindings/mfd/qcom-pm8xxx.yaml  | 26 ++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
-index 9c51c1b19067..7fe3875a5996 100644
+index 7fe3875a5996..33d9615e63c8 100644
 --- a/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
 +++ b/Documentation/devicetree/bindings/mfd/qcom-pm8xxx.yaml
-@@ -43,13 +43,37 @@ properties:
-   interrupt-controller: true
+@@ -37,6 +37,9 @@ properties:
+   interrupts:
+     maxItems: 1
  
- patternProperties:
-+  "gpio@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/pinctrl/qcom,pmic-gpio.yaml#
++  interrupts-extended:
++    maxItems: 1
 +
-+  "keypad@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/input/qcom,pm8921-keypad.yaml#
-+
-   "led@[0-9a-f]+$":
+   '#interrupt-cells':
+     const: 2
+ 
+@@ -75,11 +78,16 @@ patternProperties:
      type: object
-     $ref: /schemas/leds/qcom,pm8058-led.yaml#
+     $ref: /schemas/iio/adc/qcom,pm8018-adc.yaml#
  
-+  "mpps@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/pinctrl/qcom,pmic-mpp.yaml#
++oneOf:
++  - required:
++      - interrupts
++  - required:
++      - interrupts-extended
 +
-+  "pwrkey@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/input/qcom,pm8921-pwrkey.yaml#
-+
-   "rtc@[0-9a-f]+$":
-     type: object
--    $ref: ../rtc/qcom-pm8xxx-rtc.yaml
-+    $ref: /schemas/rtc/qcom-pm8xxx-rtc.yaml#
-+
-+  "vibrator@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/input/qcom,pm8xxx-vib.yaml#
-+
-+  "xoadc@[0-9a-f]+$":
-+    type: object
-+    $ref: /schemas/iio/adc/qcom,pm8018-adc.yaml#
- 
  required:
    - compatible
+   - '#address-cells'
+   - '#size-cells'
+-  - interrupts
+   - '#interrupt-cells'
+   - interrupt-controller
+ 
 -- 
 2.39.2
 
