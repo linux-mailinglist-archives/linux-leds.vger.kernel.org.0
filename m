@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF6B0789A3F
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 03:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56F1F789A50
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Aug 2023 03:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbjH0BAH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S229515AbjH0BAH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Sat, 26 Aug 2023 21:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43322 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjH0A7j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Aug 2023 20:59:39 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 822E0CD2
-        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:37 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-5007c8308c3so3289100e87.0
-        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:37 -0700 (PDT)
+        with ESMTP id S230055AbjH0A7k (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Aug 2023 20:59:40 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEB11BE
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:38 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-5008d16cc36so3200813e87.2
+        for <linux-leds@vger.kernel.org>; Sat, 26 Aug 2023 17:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1693097976; x=1693702776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZHnM0hu7z2BD25024RNiZ2OtoQYiaBNdLcRYXHmhZNU=;
-        b=rLKN1cho4vy1uhqSey9bdUkpmVhUJUds1fDXQ1nZDvmWHujNLNzmlvjcJxECsxa3Gv
-         Ir0v6xx5QDjTk6zPOxD1S9gwvPfm48BAzAHO/87FRdD0Cd6scvDYAAawt58QGs0PdKFv
-         Z1VMcDJ3nVIscdF6toc4v3HYDOZTiBDZth97UhUBYk2rpY/d5uOCHYg7o320LFR0RiRA
-         gZ4+UDs1Fb7dSTIwhPQEEsfBTpVyIjDyKojaJUS84beU7F4q5M8CnzlaWkN/EQF7oB6d
-         iFp4U816I8hsp6zkV0gEOh2U0OqfXW7MWZEwWbYQNZb08sTyUeOiwLcH2Su4mmnoC3Qn
-         bhNw==
+        bh=yHj6Imq7uBO+05o7KAPbPJTeLf8QZzIWxV/Jhqsh6bk=;
+        b=x3unbMnpIpIWFXGBHZNCqcCHOslZLcTn21up01mGhDhoGKUrxk90dkv0TbKePqFpEZ
+         3zJi5CNRfXxMNuGx2acImGZZC2g6FELgoypRQG9CcdP8ab4mNEUb6DeqQpXrRWhDiY8n
+         ONeLWMH4YT64hE2Br+5N9kUXL71EB751mWZJluB8ordRy6dI46AObvaJcUffYZ2rx2TD
+         EBjrqPKWxeNCmBTldmd3w0wz0gni8xEIMrFPk9VDh3TaAv2cJs/Hz8cgA+cLm5c9oOgp
+         thmwRnDKmprtarfrZA4A8WCSzWpRLFw1RMqbGWojt89GT3gSXDhMCOoyQMtZahQ2Y0gz
+         T9UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1693097976; x=1693702776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZHnM0hu7z2BD25024RNiZ2OtoQYiaBNdLcRYXHmhZNU=;
-        b=McvGEJAn6IDz/A9HzyRlyhuKJMIe+7G0hCy5iv9yvjdSSTFBVxSnPTxiKnHJvv54gd
-         hxnfp5PoCD/DlxbaXrNxVaLd768IJeo3/fDz5L2e6BlTnXhVuMvBW3cq6G8m5YVeL7J5
-         l6lUATTF6XSFE3WHwFWxsM6fe9G4voEyJbqHMgL7nFdhfRydUPTGzIOWtYam9KZLKw14
-         TN3AwYtRwR+UgXpKusBE581OgXj8FVq4hRiGFlg5BZwCgRKZZqWvc15FCbEhItAKAvkS
-         3IWRrzcgNE76tAEC505opDIkZN/nX94RqQ5no5MA47u0scxTJZ9JlKvi4e2VFL8sPQbW
-         zotQ==
-X-Gm-Message-State: AOJu0YzSJxiXB1InEPULOSr093s3sVkbksI4BNKF1I9dFHLD6f9ReZbR
-        ChIQ/87T2FLUmU09Nyny/WDh9g==
-X-Google-Smtp-Source: AGHT+IEvHyFGyFD+Z7Ob/AsiUpHOk48hjW01+vZcO2hKm4MhKOgsawJySq0cs2hJvoFZ090SOhsnsQ==
-X-Received: by 2002:a05:6512:31c8:b0:4f8:714e:27a8 with SMTP id j8-20020a05651231c800b004f8714e27a8mr18106145lfe.0.1693097975950;
-        Sat, 26 Aug 2023 17:59:35 -0700 (PDT)
+        bh=yHj6Imq7uBO+05o7KAPbPJTeLf8QZzIWxV/Jhqsh6bk=;
+        b=DgGKUN8oTu2ahAHcSkOaGBR6VlytOaAOBGhiC1GhlmKnN3RYeqAXss+58+R1tDcWOu
+         Qasqz+qSP0w2pg5h0VdqtJgvRC5DtRduK7UPCM6RfmVn/MD6IBBUa3e+4uSzpO/GrZlm
+         nN5q6ApyisWYZ3TjBFsGl5ULQz+nziStzsAYbJv8243d+wIxZBzbAP/yFeaAo0qV6r98
+         QGapK8t6rwzqFF3ogQvpVgeFWwihnVgD9FEj+rVMB6qja3lPgaIN6Rv+wnKZMdMjzlo7
+         A4QBjoIKB7JplAmwxAqs2sQB9QiRLdP0PfeybxJh1ILE9omkajraYLZCjdM6+Op9BSFg
+         hUzA==
+X-Gm-Message-State: AOJu0YyCKm2ebfha1e51xp99e8TL/XmiMndEp3VcnejEOobrQNrKAmDj
+        vlqdD/ESEeFih6lo0GPMOo0wMQ==
+X-Google-Smtp-Source: AGHT+IFCExfmls6iHApArPk1DNWvWs3BaiyqV+9NL5OM3dv9Un0eKoV/bimwcZ8Vjus4ACksKLaVlw==
+X-Received: by 2002:a05:6512:2354:b0:4fb:9168:1fce with SMTP id p20-20020a056512235400b004fb91681fcemr16432929lfu.59.1693097976767;
+        Sat, 26 Aug 2023 17:59:36 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id p18-20020ac246d2000000b00500a08e42e7sm917729lfo.124.2023.08.26.17.59.35
+        by smtp.gmail.com with ESMTPSA id p18-20020ac246d2000000b00500a08e42e7sm917729lfo.124.2023.08.26.17.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 17:59:35 -0700 (PDT)
+        Sat, 26 Aug 2023 17:59:36 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     devicetree@vger.kernel.org, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -62,9 +62,9 @@ Cc:     Andy Gross <agross@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
-Subject: [PATCH v4 15/38] ARM: dts: qcom: mdm9615: move PMIC interrupts to the board files
-Date:   Sun, 27 Aug 2023 03:58:57 +0300
-Message-Id: <20230827005920.898719-16-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 16/38] ARM: dts: qcom: msm8660: move PMIC interrupts to the board files
+Date:   Sun, 27 Aug 2023 03:58:58 +0300
+Message-Id: <20230827005920.898719-17-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
 References: <20230827005920.898719-1-dmitry.baryshkov@linaro.org>
@@ -72,7 +72,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,34 +87,51 @@ interrupt specifications to the board files.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm/boot/dts/qcom/qcom-mdm9615-wp8548.dtsi | 4 ++++
- arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi        | 1 -
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts | 4 ++++
+ arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts        | 4 ++++
+ arch/arm/boot/dts/qcom/qcom-msm8660.dtsi            | 2 --
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/qcom/qcom-mdm9615-wp8548.dtsi b/arch/arm/boot/dts/qcom/qcom-mdm9615-wp8548.dtsi
-index dac3aa793f71..b782ff0d16cd 100644
---- a/arch/arm/boot/dts/qcom/qcom-mdm9615-wp8548.dtsi
-+++ b/arch/arm/boot/dts/qcom/qcom-mdm9615-wp8548.dtsi
-@@ -76,6 +76,10 @@ reset-out-pins {
+diff --git a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
+index 48fd1a1feea3..e4261d729d35 100644
+--- a/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
++++ b/arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts
+@@ -273,6 +273,10 @@ kxsd9@18 {
  	};
  };
  
-+&pm8018 {
-+	interrupts-extended = <&intc GIC_PPI 226 IRQ_TYPE_LEVEL_HIGH>;
++&pm8058 {
++	interrupts-extended = <&tlmm 88 IRQ_TYPE_LEVEL_LOW>;
 +};
 +
- &pm8018_gpio {
- 	usb_vbus_5v_pins: usb-vbus-5v-state {
- 		pins = "gpio4";
-diff --git a/arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi b/arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi
-index c4cfbdbcdf14..373d9425b8bd 100644
---- a/arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi
-+++ b/arch/arm/boot/dts/qcom/qcom-mdm9615.dtsi
-@@ -265,7 +265,6 @@ qcom,ssbi@500000 {
+ &pm8058_gpio {
+ 	dragon_ethernet_gpios: ethernet-state {
+ 		pinconf {
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts b/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
+index 86fbb6dfdc2a..a5441aecd637 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
++++ b/arch/arm/boot/dts/qcom/qcom-msm8660-surf.dts
+@@ -34,6 +34,10 @@ &gsbi12_serial {
+ 	status = "okay";
+ };
  
- 			pm8018: pmic {
- 				compatible = "qcom,pm8018", "qcom,pm8921";
--				interrupts = <GIC_PPI 226 IRQ_TYPE_LEVEL_HIGH>;
++&pm8058 {
++	interrupts-extended = <&tlmm 88 IRQ_TYPE_LEVEL_LOW>;
++};
++
+ &pm8058_keypad {
+ 	linux,keymap = <
+ 		MATRIX_KEY(0, 0, KEY_FN_F1)
+diff --git a/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi b/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
+index 9217ced108c4..84b0366792d4 100644
+--- a/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
++++ b/arch/arm/boot/dts/qcom/qcom-msm8660.dtsi
+@@ -341,8 +341,6 @@ ssbi@500000 {
+ 
+ 			pm8058: pmic {
+ 				compatible = "qcom,pm8058";
+-				interrupt-parent = <&tlmm>;
+-				interrupts = <88 8>;
  				#interrupt-cells = <2>;
  				interrupt-controller;
  				#address-cells = <1>;
