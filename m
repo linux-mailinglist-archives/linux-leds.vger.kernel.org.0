@@ -2,59 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71AF678C28D
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Aug 2023 12:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 203CA78C2AE
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Aug 2023 12:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235158AbjH2Kr1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Aug 2023 06:47:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49592 "EHLO
+        id S235179AbjH2Ky3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Aug 2023 06:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234952AbjH2KrF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Aug 2023 06:47:05 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B311AC
-        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 03:46:59 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-99c4923195dso522908766b.2
-        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 03:46:59 -0700 (PDT)
+        with ESMTP id S235343AbjH2KyY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Aug 2023 06:54:24 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346E9CFC
+        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 03:53:55 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-52a4b62c2f5so5547201a12.1
+        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 03:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693306018; x=1693910818;
+        d=linaro.org; s=google; t=1693306421; x=1693911221;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZquQGH3YlkI7GcHQlQ+NoYufrmiWxvCLzebRk+1WfNA=;
-        b=PkEFbmKD5uma/JBHqsP6/bofddHmNMN6CD9jvliy74vDRBfO4tdCkdnDcsKA35Txai
-         4rIJoj826f8gDvIqF03KZiDLdnPrzV+0iBTzFoQB0Vd3dNyIsSUKuDIeXEdTuLQHPYDi
-         VKv6D8SBCbAIKeDZZFSa6BO1iTAnBIDKA5RYQC4q6/z3eo2pk79gcGq17djdhtIWGSIh
-         +e4E+ZH1ts3RiSEAITZvFzJAfcCcafcPzBIyOEb5MhJqpeR+qcvGTMsV5fssXp5FvpCf
-         s7NBkVyXZpwHSYDnzRmokFnADXourtpGMXx2Yr0xQ0rTp4H8hNHfErnwSEnkjiMJW8Da
-         llTA==
+        bh=ScYLHmfpyeacZnUk3RAsTGCOdLcciysG/Eo/y0cpOvw=;
+        b=Z38RDbTCVeGtAWGwNP/kSpyGlANDzT0RUhcyIWbDR6aJ9NfhercehioT/dxYT80CFd
+         Zv3GhMrdY9zty56+9QAFHnfKJoAr9eIhUmfUgzbdsCuu5gGYk+J8SBM4CU1Xh7KlbTpZ
+         buFE30gGVt0sFP8W0W7Va1y0lF/hJjEPf6aE1FrkDBIfrjbyD80hSVGfOEeASQvNqUXT
+         gUPWAqCa6ZYUPTMiK96Qo6ahZ8PEjIYJQf07douid0JRSmwjBfRqw2HMbOfWFJtyRB/B
+         d/ghDuvqThvNAXuTcoWHTyjWU6J8x1Im1JAfS6tdLLcbEU5HmXem/UVzEqtWm3SVWGaT
+         BgUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693306018; x=1693910818;
+        d=1e100.net; s=20221208; t=1693306421; x=1693911221;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZquQGH3YlkI7GcHQlQ+NoYufrmiWxvCLzebRk+1WfNA=;
-        b=FW8vbytMoOIACBmgZX21QuuQ53+X4RO5YJ1pl+m6y6qxUEQ/KhkspqxUelBaAWyY0/
-         fNJ4totAk4Cu03I1yhEvgT+1eqSb9aGhYYhOfyILe4oxTcUAr3TEO98dd5rC5cTvPEF2
-         +zEI9B2A4aHCSe6QLkt4/DvPex3cT32ES9anZ90cwj/VshoSNBoRXnKcONbgkOoXolbT
-         UOxVVL9vk6DQqO9xDE2ayGPKnusIh5H9cVmK04DD08t4ZoeXM02yAs3Fh2yqUcKOWE8v
-         MOVe33CofOCVMadcUkyL6dIuDQj44Di2vZGY7IqouC2aeBW6EHchxS4jBiphMzcYCRpt
-         JAEQ==
-X-Gm-Message-State: AOJu0YxrxrFf4TobggpK8m792S8rFaP5OCQdcnMqJlLC3WwYROXqHGB1
-        BE8yPeGQy580GSfbAGCEj1flwA==
-X-Google-Smtp-Source: AGHT+IGtUs0X+65jo71fTdUePj61g8XHcY50jM3qd8wBrwjGtJJIyOztbqpenthC6XK4vZ7GXIQn4w==
-X-Received: by 2002:a17:906:76d1:b0:9a3:c4f4:12de with SMTP id q17-20020a17090676d100b009a3c4f412demr9130372ejn.37.1693306017829;
-        Tue, 29 Aug 2023 03:46:57 -0700 (PDT)
+        bh=ScYLHmfpyeacZnUk3RAsTGCOdLcciysG/Eo/y0cpOvw=;
+        b=cUfDu07k5E7Qb6SINi7G3oCZyK1S5KCikjF6mlWoCq3W69ZULKrUeGHF2wH9IMZUyh
+         jHTdzgF4ndLRh2t+4pktqmxbAJ/WJVxHcByjnRLgQOHF75+a53L7ODvCFhkl739D5Pf3
+         KVziG+nK4qW52NclbA9faBak2iHexN3L+9oYzz9FxZNoVB6nGc1f+ueUpLq7La75sg1K
+         0SrpLbxhLXy9WYv+c0QfGvHNIuAc1mSOhUNug4/bvq5+97XC31JVhFH9brhSsxTVaod7
+         KloQRIMgOxaWE0xOvSGnyzXruS8tbdX0AfkAH+l+P2FmK4otvjFaxzCcLDDX7q4NRtbU
+         I6/w==
+X-Gm-Message-State: AOJu0Yy3EK5+CZZqphbEzSELcUwLsri3kB0wUBTGHnGCeIlkTCWd+9/U
+        iez+DRp8n0NVs2IO3ujDr2ocOg==
+X-Google-Smtp-Source: AGHT+IGCqK5Wx4jpyAbSwSpv6d2WKd80TDtZhvdTujd1k9XqZ/jSAgncpdCEQb3nkbimc7eJq1YDzw==
+X-Received: by 2002:a17:907:a0c6:b0:9a5:ca17:b58c with SMTP id hw6-20020a170907a0c600b009a5ca17b58cmr1129568ejc.60.1693306421404;
+        Tue, 29 Aug 2023 03:53:41 -0700 (PDT)
 Received: from [192.168.0.22] ([77.252.47.196])
-        by smtp.gmail.com with ESMTPSA id k11-20020a1709063e0b00b009a1a653770bsm5768558eji.87.2023.08.29.03.46.56
+        by smtp.gmail.com with ESMTPSA id v15-20020a1709064e8f00b00991e2b5a27dsm5803023eju.37.2023.08.29.03.53.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Aug 2023 03:46:57 -0700 (PDT)
-Message-ID: <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
-Date:   Tue, 29 Aug 2023 12:46:56 +0200
+        Tue, 29 Aug 2023 03:53:40 -0700 (PDT)
+Message-ID: <ac4dcf4a-af8d-61fd-92c5-f90f62aa643b@linaro.org>
+Date:   Tue, 29 Aug 2023 12:53:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
+Subject: Re: [PATCH v1 2/2] backlight: mp3309c: Add support for MPS MP3309C
 Content-Language: en-US
 To:     Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
         Daniel Thompson <daniel.thompson@linaro.org>,
@@ -67,8 +67,9 @@ Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230829101546.483189-1-f.suligoi@asem.it>
+ <20230829101546.483189-2-f.suligoi@asem.it>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230829101546.483189-1-f.suligoi@asem.it>
+In-Reply-To: <20230829101546.483189-2-f.suligoi@asem.it>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,261 +88,472 @@ On 29/08/2023 12:15, Flavio Suligoi wrote:
 > mode) or by a PWM input signal (PWM mode).
 > This driver supports both modes.
 > 
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
+> For DT configuration details, please refer to:
+> - Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
 > 
 > The datasheet is available at:
 > - https://www.monolithicpower.com/en/mp3309c.html
 > 
 > Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
 > ---
->  .../bindings/leds/backlight/mps,mp3309c.yaml  | 202 ++++++++++++++++++
->  1 file changed, 202 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+>  MAINTAINERS                          |   6 +
+>  drivers/video/backlight/Kconfig      |  13 +
+>  drivers/video/backlight/Makefile     |   1 +
+>  drivers/video/backlight/mp3309c_bl.c | 491 +++++++++++++++++++++++++++
+>  4 files changed, 511 insertions(+)
+>  create mode 100644 drivers/video/backlight/mp3309c_bl.c
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3be1bdfe8ecc..895c56ff4f1e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14333,6 +14333,12 @@ S:	Maintained
+>  F:	Documentation/driver-api/tty/moxa-smartio.rst
+>  F:	drivers/tty/mxser.*
+>  
+> +MP3309C BACKLIGHT DRIVER
+> +M:	Flavio Suligoi <f.suligoi@asem.it>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> +F:	drivers/video/backlight/mp3309c_bl.c
+> +
+>  MR800 AVERMEDIA USB FM RADIO DRIVER
+>  M:	Alexey Klimov <klimov.linux@gmail.com>
+>  L:	linux-media@vger.kernel.org
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..65d0ac9f611d 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -389,6 +389,19 @@ config BACKLIGHT_LM3639
+>  	help
+>  	  This supports TI LM3639 Backlight + 1.5A Flash LED Driver
+>  
+> +config BACKLIGHT_MP3309C
+
+Why is this placed between LM and LP entries? Keep things ordered.
+
+> +	tristate "Backlight Driver for MPS MP3309C"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	select NEW_LEDS
+> +	select LEDS_CLASS
+> +	help
+> +	  This supports MPS MP3309C backlight WLED Driver in both PWM and
+> +	  analog/I2C dimming modes.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called mp3309c_bl.
+> +
+>  config BACKLIGHT_LP855X
+
+
+>  	tristate "Backlight driver for TI LP855X"
+>  	depends on I2C && PWM
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index f72e1c3c59e9..c42c5bccc5ac 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+>  obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
+> +obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c_bl.o
+>  obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+>  obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+> diff --git a/drivers/video/backlight/mp3309c_bl.c b/drivers/video/backlight/mp3309c_bl.c
 > new file mode 100644
-> index 000000000000..a58904f2a271
+> index 000000000000..7cb7a542ceca
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> @@ -0,0 +1,202 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/video/backlight/mp3309c_bl.c
+> @@ -0,0 +1,491 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Driver for MPS MP3309C White LED driver with I2C interface
+> + *
+> + * Copyright (C) 2023 ASEM Srl
+> + * Author: Flavio Suligoi <f.suligoi@asem.it>
+> + */
 > +
-> +title: MPS MP3309C backlight
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/workqueue.h>
 > +
-> +maintainers:
-> +  - Flavio Suligoi <f.suligoi@asem.it>
+> +#define REG_I2C_0	0x00
+> +#define REG_I2C_1	0x01
 > +
-> +description: |
-> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> +  programmable switching frequency to optimize efficiency.
-> +  It supports both analog (via I2C commands) and PWM dimming mode.
+> +#define REG_I2C_0_EN	0x80
+> +#define REG_I2C_0_D0	0x40
+> +#define REG_I2C_0_D1	0x20
+> +#define REG_I2C_0_D2	0x10
+> +#define REG_I2C_0_D3	0x08
+> +#define REG_I2C_0_D4	0x04
+> +#define REG_I2C_0_RSRV1	0x02
+> +#define REG_I2C_0_RSRV2	0x01
 > +
-> +  The datasheet is available at:
-> +  https://www.monolithicpower.com/en/mp3309c.html
+> +#define REG_I2C_1_RSRV1	0x80
+> +#define REG_I2C_1_DIMS	0x40
+> +#define REG_I2C_1_SYNC	0x20
+> +#define REG_I2C_1_OVP0	0x10
+> +#define REG_I2C_1_OVP1	0x08
+> +#define REG_I2C_1_VOS	0x04
+> +#define REG_I2C_1_LEDO	0x02
+> +#define REG_I2C_1_OTP	0x01
 > +
-> +properties:
-> +  compatible:
-> +    const: mps,mp3309c-backlight
+> +#define ANALOG_MAX_VAL	31
+> +#define ANALOG_REG_MASK 0x7c
+> +
+> +enum backlight_status {
+> +	FIRST_POWER_ON,
+> +	BACKLIGHT_OFF,
+> +	BACKLIGHT_ON,
+> +};
+> +
+> +enum dimming_mode_value {
+> +	DIMMING_PWM,
+> +	DIMMING_ANALOG_I2C,
+> +};
+> +
+> +struct mp3309c_platform_data {
+> +	u32 max_brightness;
+> +	u32 brightness;
+> +	u32 switch_on_delay_ms;
+> +	u32 switch_off_delay_ms;
+> +	u32 reset_on_delay_ms;
+> +	u32 reset_on_length_ms;
+> +	u8  dimming_mode;
+> +	u8  reset_pulse_enable;
+> +	u8  over_voltage_protection;
+> +
+> +	unsigned int status;
+> +};
+> +
+> +struct mp3309c_chip {
+> +	struct device *dev;
+> +	struct mp3309c_platform_data *pdata;
+> +	struct backlight_device *bl;
+> +	struct gpio_desc *enable_gpio;
+> +	struct regmap *regmap;
+> +	struct pwm_device *pwmd;
+> +
+> +	struct delayed_work enable_work;
+> +	struct delayed_work reset_gpio_work;
+> +	int irq;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static const struct regmap_config mp3309c_regmap = {
+> +	.name = "mp3309c_regmap",
+> +	.reg_bits = 8,
+> +	.reg_stride = 1,
+> +	.val_bits = 8,
+> +	.max_register = REG_I2C_1,
+> +};
+> +
+> +static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
+> +				 struct mp3309c_platform_data *pdata)
 
-Drop "-backlight". Can it be anything else?
+This should be just before probe function. It is part of probe path.
 
+> +{
+> +	struct device_node *node = chip->dev->of_node;
+> +	const char *tmp_string;
+> +	int ret;
 > +
-> +  reg:
-> +    maxItems: 1
+> +	if (!node) {
+> +		dev_err(chip->dev, "failed to get DT node\n");
+> +		return -ENODEV;
+> +	}
 > +
-> +  mps,dimming-mode:
-> +    description: The dimming mode (PWM or analog by I2C commands).
-> +    $ref: '/schemas/types.yaml#/definitions/string'
-
-Drop quotes, you should see warnings for this.
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-> +    enum:
-> +      - pwm
-> +      - analog-i2c
-
-Why do you think this is a property of a board? Is PWM signal optional?
-If so, its presence would define it. Otherwise it seems you want to
-control the driver.
-
-> +
-> +  pinctrl-names:
-> +    items:
-> +      - const: default
+> +	/*
+> +	 * Dimming mode: the MP3309C provides two dimming methods:
+> +	 *
+> +	 * - PWM mode
+> +	 * - Analog by I2C control mode
+> +	 */
+> +	ret = of_property_read_string(node, "mps,dimming-mode", &tmp_string);
+> +	if (ret < 0) {
+> +		dev_err(chip->dev, "missed dimming-mode in DT\n");
+> +		return ret;
+> +	}
+> +	if (!strcmp(tmp_string, "pwm")) {
+> +		dev_info(chip->dev, "dimming method: PWM\n");
 
 Drop
 
-> +
-> +  pinctrl-0: true
+> +		pdata->dimming_mode = DIMMING_PWM;
+> +	}
+> +	if (!strcmp(tmp_string, "analog-i2c")) {
+> +		dev_info(chip->dev, "dimming method: analog by I2C commands\n");
 
 Drop
 
-> +
-> +  pwms:
-> +    description: PWM channel used for controlling the backlight in "pwm" dimming
-> +      mode.
-> +    maxItems: 1
-> +
-> +  default-brightness:
-> +    minimum: 0
 
-0 is minimum. Provide rather maximum? or just skip the property.
+> +		pdata->dimming_mode = DIMMING_ANALOG_I2C;
+> +	}
+> +
+> +	/* PWM steps (levels): 0 .. max_brightness */
+> +	ret = of_property_read_u32(node, "max-brightness",
+> +				   &pdata->max_brightness);
+> +	if (ret < 0) {
+> +		dev_err(chip->dev, "failed to get max-brightness from DT\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Default brightness at startup */
+> +	ret = of_property_read_u32(node, "default-brightness",
+> +				   &pdata->brightness);
+> +	if (ret < 0) {
+> +		dev_err(chip->dev,
+> +			"failed to get default-brightness from DT\n");
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * Optional backlight switch-on/off delay
+> +	 *
+> +	 * Note: set 10ms as minimal value for switch-on delay, to stabilize
+> +	 *       video data
+> +	 */
+> +	pdata->switch_on_delay_ms = 50;
+> +	of_property_read_u32(node, "mps,switch-on-delay-ms",
+> +			     &pdata->switch_on_delay_ms);
+> +	if (pdata->switch_on_delay_ms < 10) {
+> +		pdata->switch_on_delay_ms = 10;
 
-> +
-> +  max-brightness:
-> +    minimum: 1
+You miss constraints in the bindings.
 
-Same concerns.
+> +		dev_warn(chip->dev,
+> +			 "switch-on-delay-ms set to 10ms as minimal value\n");
+> +	}
+> +	pdata->switch_off_delay_ms = 0;
+> +	of_property_read_u32(node, "mps,switch-off-delay-ms",
+> +			     &pdata->switch_off_delay_ms);
+> +
+> +	/*
+> +	 * Reset: GPIO, initial delay and pulse length
+> +	 *
+> +	 * Use this optional GPIO to reset an external device (LCD panel, video
+> +	 * FPGA, etc) when the backlight is switched on
+> +	 */
+> +	pdata->reset_pulse_enable = 0;
+> +	chip->reset_gpio = devm_gpiod_get_optional(chip->dev, "mps,reset",
+> +						   GPIOD_OUT_LOW);
+> +	if (IS_ERR(chip->reset_gpio)) {
+> +		ret = PTR_ERR(chip->reset_gpio);
+> +		dev_err(chip->dev, "error acquiring reset gpio: %d\n", ret);
+> +		return ret;
 
-> +
-> +  enable-gpios:
-> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
-> +    maxItems: 1
-> +
-> +  mps,switch-on-delay-ms:
-> +    description: delay (in ms) before switch on the backlight, to wait for image
-> +      stabilization.
-> +    default: 10
-> +
-> +  mps,switch-off-delay-ms:
-> +    description: delay (in ms) after the switch off command to the backlight.
-> +    default: 0
-> +
-> +  mps,overvoltage-protection-13v:
-> +    description: overvoltage protection set to 13.5V.
-> +    type: boolean
-> +  mps,overvoltage-protection-24v:
-> +    description: overvoltage protection set to 24V.
-> +    type: boolean
-> +  mps,overvoltage-protection-35v:
-> +    description: overvoltage protection set to 35.5V.
-> +    type: boolean
+return dev_err_probe()
 
-Nope for these three. Use -microvolt suffix for one property.
-
+> +	}
+> +	if (chip->reset_gpio) {
+> +		pdata->reset_pulse_enable = 1;
 > +
-> +  mps,reset-gpios:
-> +    description: optional GPIO to reset an external device (LCD panel, FPGA,
-> +      etc.) when the backlight is switched on.
-> +    maxItems: 1
-
-No, you should not add here GPIOs for other devices.
-
+> +		pdata->reset_on_delay_ms = 10;
+> +		of_property_read_u32(node, "mps,reset-on-delay-ms",
+> +				     &pdata->reset_on_delay_ms);
+> +		pdata->reset_on_length_ms = 10;
+> +		of_property_read_u32(node, "mps,reset-on-length-ms",
+> +				     &pdata->reset_on_length_ms);
+> +	}
 > +
-> +  mps,reset-on-delay-ms:
-> +    description: delay (in s) before generating the reset-gpios.
+> +	/*
+> +	 * Over-voltage protection (OVP)
+> +	 *
+> +	 * These (optional) properties are:
+> +	 *
+> +	 *  - overvoltage-protection-13v --> OVP point set to 13.5V
+> +	 *  - overvoltage-protection-24v --> OVP point set to 24V
+> +	 *  - overvoltage-protection-35v --> OVP point set to 35.5V
+> +	 *
+> +	 * If not chosen, the hw default value for OVP is 35.5V
+> +	 */
+> +	pdata->over_voltage_protection = REG_I2C_1_OVP1;
+> +	if (of_property_read_bool(node, "mps,overvoltage-protection-13v"))
+> +		pdata->over_voltage_protection = 0x00;
+> +	if (of_property_read_bool(node, "mps,overvoltage-protection-24v"))
+> +		pdata->over_voltage_protection = REG_I2C_1_OVP0;
+> +	if (of_property_read_bool(node, "mps,overvoltage-protection-35v"))
+> +		pdata->over_voltage_protection = REG_I2C_1_OVP1;
+> +
+> +	return 0;
+> +}
+> +
 
-in ms
-
-> +    default: 10
-> +
-> +  mps,reset-on-length-ms:
-> +    description: pulse length (in ms) for reset-gpios.
-> +    default: 10
-> +
-> +oneOf:
-> +  - required:
-> +      - mps,overvoltage-protection-13v
-> +  - required:
-> +      - mps,overvoltage-protection-24v
-> +  - required:
-> +      - mps,overvoltage-protection-35.5v
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +  - if:
-> +      properties:
-> +        mps,dimming-mode:
-> +          contains:
-> +            enum:
-> +              - pwm
-> +    then:
-> +      required:
-> +        - pwms
-
-So this proves the point - mps,dimming-mode looks redundant and not
-hardware related.
-
-> +      not:
-> +        required:
-> +          - enable-gpios
-> +
-> +  - if:
-> +      properties:
-> +        mps,dimming-mode:
-> +          contains:
-> +            enum:
-> +              - analog-i2c
-> +    then:
-> +      required:
-> +        - enable-gpios
-> +      not:
-> +        required:
-> +          - pwms
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mps,dimming-mode
-> +  - max-brightness
-> +  - default-brightness
-> +
-> +additionalProperties: false
-
-Instead:
-unevaluatedProperties: false
+...
 
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c3 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +static const struct backlight_ops mp3309c_bl_ops = {
+> +	.update_status = mp3309c_bl_update_status,
+> +};
 > +
-> +        clock-frequency = <100000>;
-
-Drop
-
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_i2c3>;
-> +        status = "okay";
-
-Drop all except of cells.
-
+> +static int mp3309c_probe(struct i2c_client *client)
+> +{
+> +	struct mp3309c_platform_data *pdata = dev_get_platdata(&client->dev);
+> +	struct mp3309c_chip *chip;
+> +	struct backlight_properties props;
+> +	int ret;
 > +
-> +        /* Backlight with PWM control */
-> +        backlight_pwm: backlight@17 {
-> +            compatible = "mps,mp3309c-backlight";
-> +            reg = <0x17>;
-> +            mps,dimming-mode = "pwm";
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_fpga_reset>;
-> +            pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
-> +            max-brightness = <100>;
-> +            default-brightness = <80>;
-> +            mps,switch-on-delay-ms = <800>;
-> +            mps,switch-off-delay-ms = <10>;
-> +            mps,overvoltage-protection-24v;
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> +		dev_err(&client->dev, "failed to check i2c functionality\n");
+> +		return -EOPNOTSUPP;
+> +	}
 > +
-> +            /*
-> +             * Enable an FPGA reset pulse when MIPI data are stable,
-> +             * before switch on the backlight
-> +             */
-> +            mps,reset-gpios = <&gpio4 20 GPIO_ACTIVE_HIGH>;
+> +	chip = devm_kzalloc(&client->dev, sizeof(struct mp3309c_chip),
 
-Nope, nope. FPGA reset pin is not related to this device.
+sizeof(*)
 
-> +            mps,reset-on-delay-ms = <100>;
-> +            mps,reset-on-length-ms = <10>;
-> +        };
-> +    };
+> +			    GFP_KERNEL);
+> +	if (!chip)
+> +		return -ENOMEM;
+> +	chip->dev = &client->dev;
 > +
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    /* Backlight with analog control via I2C bus */
-> +    i2c3 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        clock-frequency = <100000>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_i2c3>;
-> +        status = "okay";
+> +	chip->regmap = devm_regmap_init_i2c(client, &mp3309c_regmap);
+> +	if (IS_ERR(chip->regmap)) {
+> +		ret = PTR_ERR(chip->regmap);
+> +		dev_err(&client->dev, "failed to allocate register map\n");
 
-Drop entire example. It differs by one property - missing pwms.
+Are you sure regmap allocation should be followed by error message?
+Allocations must not... so if this is not allocation, then syntax is:
+
+return dev_err_probe()
+
+> +		return ret;
+> +	}
+> +
+> +	i2c_set_clientdata(client, chip);
+> +
+> +	if (!pdata) {
+> +		pdata = devm_kzalloc(chip->dev,
+> +				     sizeof(struct mp3309c_platform_data),
+
+sizeof(*)
+
+> +				     GFP_KERNEL);
+> +		if (!pdata)
+> +			return -ENOMEM;
+> +
+> +		ret = pm3309c_parse_dt_node(chip, pdata);
+> +		if (ret) {
+> +			dev_err(&client->dev, "failed parsing DT node\n");
+
+Why do you print errors multiple times? parse_dt_node already does it.
+
+> +			return ret;
+> +		}
+> +	}
+> +	chip->pdata = pdata;
+> +
+> +	chip->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+> +						    GPIOD_OUT_HIGH);
+> +	if (IS_ERR(chip->enable_gpio)) {
+> +		ret = PTR_ERR(chip->enable_gpio);
+> +		return ret;
+
+return dev_err_probe()
+
+> +	}
+> +
+> +	/* Backlight */
+> +	props.type = BACKLIGHT_RAW;
+> +	props.brightness = pdata->brightness;
+> +	props.max_brightness = pdata->max_brightness;
+> +	props.scale = BACKLIGHT_SCALE_LINEAR;
+> +	chip->bl =
+> +	    devm_backlight_device_register(chip->dev, "mp3309c_bl",
+> +					   chip->dev, chip, &mp3309c_bl_ops,
+> +					   &props);
+> +	if (IS_ERR(chip->bl)) {
+> +		dev_err(&client->dev, "failed registering backlight\n");
+> +		return PTR_ERR(chip->bl);
+
+return dev_err_probe()
+
+> +	}
+> +	pdata->status = FIRST_POWER_ON;
+> +
+> +	/* Enable PWM, if required */
+> +	if (pdata->dimming_mode == DIMMING_PWM) {
+> +		chip->pwmd = devm_pwm_get(chip->dev, NULL);
+> +		if (IS_ERR(chip->pwmd)) {
+> +			dev_err(&client->dev, "failed getting pwm device\n");
+> +			return PTR_ERR(chip->pwmd);
+
+return dev_err_probe()
+
+> +		}
+> +		pwm_apply_args(chip->pwmd);
+> +	}
+> +
+> +	/*
+> +	 * Workqueue for delayed backlight enabling
+> +	 */
+> +	INIT_DELAYED_WORK(&chip->enable_work, mp3309c_enable);
+> +
+> +	/*
+> +	 * Workqueue for (optional) external device GPIO reset
+> +	 */
+> +	if (pdata->reset_pulse_enable) {
+> +		dev_info(&client->dev, "reset pulse enabled\n");
+
+Drop, not really helpful.
+
+> +		INIT_DELAYED_WORK(&chip->reset_gpio_work, mp3309c_reset_gpio);
+> +	}
+> +
+> +	dev_info(&client->dev, "MP3309C backlight initialized");
+
+Drop simple tracing messages.
+
+> +	return 0;
+> +}
+> +
+> +static int mp3309c_backlight_switch_off(struct pwm_device *pwmd)
+> +{
+> +	struct pwm_state pwmstate;
+> +
+> +	/* Switch-off the backlight */
+> +	pwm_get_state(pwmd, &pwmstate);
+> +	pwmstate.duty_cycle = 0;
+> +	pwmstate.enabled = false;
+> +	pwm_apply_state(pwmd, &pwmstate);
+> +
+> +	return 0;
+> +}
+> +
+> +static void mp3309c_remove(struct i2c_client *client)
+> +{
+> +	struct mp3309c_chip *chip = i2c_get_clientdata(client);
+> +
+> +	if (chip->pdata->dimming_mode == DIMMING_PWM)
+> +		mp3309c_backlight_switch_off(chip->pwmd);
+> +	if (chip->pdata->reset_pulse_enable)
+> +		cancel_delayed_work(&chip->reset_gpio_work);
+> +}
+> +
+> +static void mp3309c_shutdown(struct i2c_client *client)
+> +{
+> +	struct mp3309c_chip *chip = i2c_get_clientdata(client);
+> +
+> +	if (chip->pdata->dimming_mode == DIMMING_PWM)
+> +		mp3309c_backlight_switch_off(chip->pwmd);
+
+Why do you need shutdown function?
+
+> +}
+> +
+> +static const struct of_device_id mp3309c_match_table[] = {
+> +	{ .compatible = "mps,mp3309c-backlight", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, mp3309c_match_table);
+> +
 
 
 Best regards,
