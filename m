@@ -2,237 +2,207 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 000D078C73B
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Aug 2023 16:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C101E78C9A8
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Aug 2023 18:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbjH2OTK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Aug 2023 10:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
+        id S236948AbjH2Q3B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Aug 2023 12:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236733AbjH2OS5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Aug 2023 10:18:57 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2072.outbound.protection.outlook.com [40.107.104.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1768A109;
-        Tue, 29 Aug 2023 07:18:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U6jiPvsKCDHg+XH1CUHyA5kTtX97DUAoUNKrMXpS6DbRIsdbQuDSypn9Aar5ewV23G5LAN3nDpIi0wcykvRX6/s7//NPstuTyqq2wFSFucCcQhPZ/Le1BwTN9Pme/PKriduWwmYNMqVkg2fTUQRkK0krgw6sYVKwgfjxZpVqQp/XfKGVCfOPXcNUh4pZMEWpMQiTrv8tsRBOVMmg/sxn/tcIq7pkU0NHcaLFNlLq18PKzYzLZXsNnWELaBJMR6FqhxukuWiRtfzhSy84IoUjkJqJ+7sazWuBUBx6TRy0FP57mJu7nQ1LMXk+T6PWYiwOyn2Jjac5VME+cP3lMQd5TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n0loHVv+9i78r63tVwNQN2DZg9OJwxWdlSJCeanSQt0=;
- b=ZW+op2Xx0zhmdS6kOwcUL1JSXN755eLTSuSBtAppAO3ZYaLoyDjRWmnYActzV7qVDvCnc0nI0QfqIyO0GZ+/5o+0lUTwXbd55UHh35IEg4V0XcxHY3T3pAj8OH4wuAjmHnwWPQPKnm71sJWLJqxM5/xwvSQBl2FffefihhqV7bYrnpJPNlIM53yMaTQRbc/QutwvVWrCNNciZR1g2QWOgnLMLQ+JS5Fx+5/31YJOIHFULJd/YLyzjI1EvxLGSHl8GhdFUEUZS83I10/qhloC9yBLByUlEziKMj1e+4ZXQnTUDX/fFletqG4z2OCnAkfPxFVA266rSW1Dg8HnNznu9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
- header.d=asem.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n0loHVv+9i78r63tVwNQN2DZg9OJwxWdlSJCeanSQt0=;
- b=m4IgYB9NHux8PmiKoNClMcAsZz3x9S48nCdiKoZ591ZdlSMtWjkgqaXXOmjXes7xmTg4M/WJrR86ngaZT53GlI6PhNVPhbmTcEsxmYAHFiP1ejij06NhKXPGoPcGTJfQaEgnpEd0T5XrnbPCmU9X0YpgTGgPT+5gXccF+VHnUnI=
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:273::14) by DB9PR01MB7353.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:215::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Tue, 29 Aug
- 2023 14:18:48 +0000
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::11d:15c1:fca6:e077]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::11d:15c1:fca6:e077%7]) with mapi id 15.20.6745.015; Tue, 29 Aug 2023
- 14:18:48 +0000
-From:   Flavio Suligoi <f.suligoi@asem.it>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
+        with ESMTP id S237514AbjH2Q23 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Aug 2023 12:28:29 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D1ECCE
+        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 09:28:18 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-401d24f1f27so13287945e9.1
+        for <linux-leds@vger.kernel.org>; Tue, 29 Aug 2023 09:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693326496; x=1693931296;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rpqa6ldHA7+s03xx4g9dxalk6uI6N/wZjkRdFsn+Mzw=;
+        b=KnmcT3f4tVKSrqfCvp4riPVv63u5NlCU3AyN1khUxhpySjV3IVDDE8W8eXge76a1Pm
+         6VXcNXVjPqGvzFLXTz4QGSyIEDIxaoFhfQnu4PI3ARFdL/0WRG0jhFZFmBJMLPQ2vSjr
+         LQCWdLnf6nwhPF+of9zRRtocUu0UFOxOvGuXEH7OBbyeySBhlt5UHHL2KtjVzJAO3a2d
+         yJF7/gCM+5/wsTGoLIJpXiLKLd3cWEKGizMSL/lHcTQNPp3IPRSb84ov3vojrJtscU7p
+         gIUKBC0l79dwzNOcRYsvkdkJ4/0Afkni/8BwNud1r1hZdVVotmJuz96XZya/IfZ/9m7F
+         Scfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693326496; x=1693931296;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rpqa6ldHA7+s03xx4g9dxalk6uI6N/wZjkRdFsn+Mzw=;
+        b=QtTvFZ4c7aUgdZ/jpjtSIeT9ukB1R2sSFtBuXWPMmqYf5FiX4nV1Qlqdz1OmZwle83
+         ICGS3Q5V7KBAX7VIa9LxGq99r/Z9i5ReSLuTbZYPvSXzNuLAj/dgKOijVSIUMFZjxm98
+         5/yEdO5W2fYtQwwOuaxXB6qVFBnrkIdEp+4xsq8+z1fFBlsjZHG0rmXmej8WHGL7vTLM
+         lb53YpoUjWUIrjD8z9yfUiwJf3rWG1DutJI2EThNRSXRDruhrebxgCrdxeLD64euW4VY
+         2dNxQrMhB1APCa2a+coO0oj9qs//3xloyLNx8Mlyadb5i7DQmQixfkMT41IwN8CwmcgP
+         gnVA==
+X-Gm-Message-State: AOJu0YxIkY8R9Fpro8bn4P2keLOUHAPUdrGgqauliqQnJEFfWE0vb727
+        kBsJheacoAk2BKt98FH5gWEjhQ==
+X-Google-Smtp-Source: AGHT+IEfJSUBL42nyBdyLW7ZL/n8wPUN1nrSlKl/LyAkDJ2R2cEWy2EjLFUTZblF2ciDwd/UsdyPjQ==
+X-Received: by 2002:a7b:cbcd:0:b0:3fe:25b3:951d with SMTP id n13-20020a7bcbcd000000b003fe25b3951dmr21965260wmi.5.1693326496479;
+        Tue, 29 Aug 2023 09:28:16 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id k8-20020a7bc408000000b003fe23b10fdfsm17577866wmi.36.2023.08.29.09.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Aug 2023 09:28:16 -0700 (PDT)
+Date:   Tue, 29 Aug 2023 17:28:14 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Flavio Suligoi <f.suligoi@asem.it>
+Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
         Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Topic: [PATCH v1 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Index: AQHZ2mHPrVopNJPC/kuEF9j2J1TebbABF34AgAAdZbA=
-Date:   Tue, 29 Aug 2023 14:18:48 +0000
-Message-ID: <DU2PR01MB8034C85013ECF222D12BAAA4F9E7A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
+        Conor Dooley <conor+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] backlight: mp3309c: Add support for MPS MP3309C
+Message-ID: <20230829162814.GA56339@aspen.lan>
 References: <20230829101546.483189-1-f.suligoi@asem.it>
- <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
-In-Reply-To: <6dfae492-5533-df97-5c72-373d5e89444f@linaro.org>
-Accept-Language: it-IT, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=asem.it;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|DB9PR01MB7353:EE_
-x-ms-office365-filtering-correlation-id: 8f9298d0-9c1b-4032-a446-08dba89adc8b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6t8dzaM19HqgLGte8RpmgB/nI5zfN+eGxnTQEhHTrQklX/y3M6pzC/fVRco+NU1LWi9YFT51qgyaFPIZvP1NL0nRfDZCZCGqiB90jApy7xVBO/Bf/ud2jEG0Lv5A48DyaZo+ywmcmj/CtAhG55sdlXo+q0ipoftXNGwX5x3xNTkO8DxLK+tAio3yXr+GXbD3yoy4uHltqOT/qas62lbDmznNrWU58uAghrl9bnBUDljTfW+S7eTHSct6WoyYb3qJVk1dXfJ6sTA1ULK5D7PJihu52jyB4BVkE2HUowbxX0wm8F9K/+uJKWIrWlbPwvjZsE8NeNAEnAAU8W1E1v47Y4r98EESVjUY+b/tshF+bb8KaHqmw5Oez0o9+SNKQ5FzFfYlwL9uZZ6FDLOzpMb7JTdus3Q7cPfLQOQy6CVD19jojrQZ8wMkOEQibkIs+c6psvlMrvJFT6R0eHdkxfHj73kfdFweQY3LlPfhgliok5H1uNk7Q4rW5xkmBCQVjN6CUzDtzUgjCiYDDgV2XrXk14eV3s+9HQ4sct6ZCv+iEnc6WC0WdYWOJ1dUFPJ7/dcE09Ski/Vb2BwGf71Mk872ABubcuaRUqvlVJHVk4r0MOuYS0I0BDbs+uDeXA9Q+DbP
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(39850400004)(346002)(136003)(366004)(1800799009)(186009)(451199024)(8936002)(122000001)(66946007)(110136005)(76116006)(478600001)(6506007)(7696005)(71200400001)(66446008)(64756008)(66556008)(66476007)(54906003)(38070700005)(316002)(38100700002)(41300700001)(9686003)(26005)(8676002)(5660300002)(83380400001)(2906002)(52536014)(86362001)(55016003)(7416002)(33656002)(4326008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YTJUclZqeUF6aWRQWE4yYTRNVzIydlVOV1hXRnZqTGQ5L1R6MjdmaS9uUUt3?=
- =?utf-8?B?QWZrSWUwbHJNc0J5dTJ6VTI3TDJFeGpoaXcvNjBWNHE1Z1FSeFdLNzE5TElY?=
- =?utf-8?B?Y0g2eTIxNjVwWjdwOVdaNmpQbERvV0lEL3JDZmY5cExKMnBhUWNxblNXUnoy?=
- =?utf-8?B?ZXJZL2VCdFpnbmpZdXE0ZVM1UWJxYkZkazBJMDlsTVV6YkFFb3NhNUhQQXZG?=
- =?utf-8?B?WUFsNUp2WWgxWWtsdUNxRVdPU3dIdlVFY2o4MDlpRVFSUnAxYjAzNGJMWXAz?=
- =?utf-8?B?SzZVaUZNVXBxMnJLYUJUUEF1MGJBWVlUWldYWWwyTUt0dkdGMk0wc01jMTQw?=
- =?utf-8?B?N2d6N2E3V2JtQXBxRUVRSENrdS9jdENsZEJObDBHMlFzSDhlN1orSndoTWJh?=
- =?utf-8?B?L2ZUMktQY2xKTDcxdnhCQ0hFckRCeG16RkhvZTFqWFNEaE5ZWG5sY1FDMjEv?=
- =?utf-8?B?MnFUaFZuZHJGS21pTVlUeFNJK3JUQmdNL3E3aUYwaWlRem1meDRJVnFSODky?=
- =?utf-8?B?OEM3aitzdEd5Y3c5bGtmbnB0dTJxZDZIMTZLTTBycjZ0MGhhZjBEM090MFVT?=
- =?utf-8?B?SnlSVnpzVXBzbG9GZG1QdzJMTXZZRGN0VU91SFEzWVNxSmRZVVZnTVlYd0g4?=
- =?utf-8?B?bTdIWWVRWmlUR0NYa2hieXNlNndnajlzK3NGWnBtUnp6bC9pTTJhMEd3Q1BE?=
- =?utf-8?B?QWxkemZxRllCanNhUzVQQkd4cXB6OWlvVlJ1ajhuVW5jQ25DWGRLVnZGb2RY?=
- =?utf-8?B?VVN2KzhJZFlNcjBzZzQzSE5rcFozdE93dHhVSUNEcytsTHlSbE5TNGdWMlkz?=
- =?utf-8?B?S3hYTmZTYTRvcDJsZys0citEK1lFNmIwZFFhKy9wQmhnekRDenlPKzhySVZs?=
- =?utf-8?B?dlJKSjZoWWlQdzRjM0VtNVlWRlppVGpmSmZodVd0bTI1aS9CZUZnMjdHblli?=
- =?utf-8?B?WVVhekloRXR3NFR3a0RvblJvblRGODQ3Smp2MjRhNnYwSHM1Rjk0aWwyMG0v?=
- =?utf-8?B?R1NyZDd5bERDTE5WTER4bDlwc1pDREdwK2xiTnpkeG85QWorMTZiUXBjM09z?=
- =?utf-8?B?Q0FCLys4QXJJZ21ldk1MZHpsUFdCaDR6YzNkTjVXSkM5bnZXT0hyaEVqaEJk?=
- =?utf-8?B?Qm9mNm5JQnhlUDJyOVdrSGtabUFrR0xnOUhxMVJFc21XSy9kTThZV2NtNHhZ?=
- =?utf-8?B?RlpNZDMwWTg3SmU5RlF2VVA5Z3hiTFpIOHVzZGxKajFBSWxzYk5aZTNQYVY2?=
- =?utf-8?B?QWJwNXhCNHM3Zm9oT2RiYkRDcjhUajQ0QVhaMXpNaGdweDRvMGF4T05oS3ZS?=
- =?utf-8?B?bmp6TDlucnZlQk84bkFzRkIvcXBHTWkybFhTWHpYcXZWdUJlMWJzYysvQkxC?=
- =?utf-8?B?VnVSSHRGUHVKdnB1WE9VYUV5eFk0MmFmR0J6elAyd3QyNHRzNnppMEVaNjli?=
- =?utf-8?B?YTV4cTVpb1FtdEVVdEdLcmZLZDBGcWdZVUR3T09Nblk5VitKT2tyUXZmKzBz?=
- =?utf-8?B?T01KUFNTaTV6aFhxQktwTU5aSnpPMFJpS1FQMHRMK01McmFKcGFIK0lWVWk3?=
- =?utf-8?B?VWtjY0ZDblN6eXpueUFoVEZvZzQydWlMTThxU0pwNmVmbGdGMjBueDlCanlE?=
- =?utf-8?B?NFV6bTcydWNST2RwOXVYSk16NnlqV2FXN2hRVktiM3dVaUMwVjAyQlVobHdj?=
- =?utf-8?B?bWRGQ09SY1V4Y2FzNFAyWDdLaisvbkVZc2Fzdi9ReVVtOUVEenJpQjJ6L3Ur?=
- =?utf-8?B?L1ZVWjFxcmZnM3dFbk9xN25CV2lXWk1VK0g4bWJQTGtvdXN1M3hmaENCZkZ3?=
- =?utf-8?B?dVU3b0VmZ3pzRFQ0WGJ4YVFjS0lMbFJJR0h6a0l1SU1FMXp4QlUwN2t0OW9Z?=
- =?utf-8?B?OGtQYzN5YitNTm83cndaUGxXenJRUlpvOWlUZ2t3cjZDSFBPRTM5Vi9KbFdZ?=
- =?utf-8?B?MHVUc3phYkpkaDJudlFGdXVIUHRGT1d3ZUVPTjRCUVdLWTF1TTgyK29talhj?=
- =?utf-8?B?UklQdzlDMTFROTd5UkV4QnBiMFp3dmtCVXRIQVdTRThvd3hOUUxxZlVzL1NH?=
- =?utf-8?B?OXZZNERBeDVuM25xZmpTNnUxVzlCZ2drZ2NiZVR2dEJMNmJid1pzVFU4ZUJY?=
- =?utf-8?Q?6IeA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20230829101546.483189-2-f.suligoi@asem.it>
 MIME-Version: 1.0
-X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f9298d0-9c1b-4032-a446-08dba89adc8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2023 14:18:48.1400
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QXKXMr/AFIU1PTLnTbTqt5ACOENiAErML+CkUXjvlm71/DLWJHSUnLllY/RVfUK1NUCIbLLgDtsR7OC86mOPKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB7353
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230829101546.483189-2-f.suligoi@asem.it>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHlvdXIgcXVpY2sgcmVwbGF5IGFuZCBjb3JyZWN0
-aW9ucyENCkp1c3Qgc29tZSBxdWVzdGlvbnMgYWJvdXQgc29tZSBvZiB5b3VyIHJlbWFya3M6DQoN
-Cj4gPiBAQCAtMCwwICsxLDIwMiBAQA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAo
-R1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpICVZQU1MIDEuMg0KPiA+ICstLS0NCj4gDQo+ID4gKw0K
-PiA+ICsgIHJlZzoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0KPiA+ICsgIG1wcyxkaW1t
-aW5nLW1vZGU6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogVGhlIGRpbW1pbmcgbW9kZSAoUFdNIG9y
-IGFuYWxvZyBieSBJMkMgY29tbWFuZHMpLg0KPiA+ICsgICAgJHJlZjogJy9zY2hlbWFzL3R5cGVz
-LnlhbWwjL2RlZmluaXRpb25zL3N0cmluZycNCj4gDQo+IERyb3AgcXVvdGVzLCB5b3Ugc2hvdWxk
-IHNlZSB3YXJuaW5ncyBmb3IgdGhpcy4NCj4gDQo+IEl0IGRvZXMgbm90IGxvb2sgbGlrZSB5b3Ug
-dGVzdGVkIHRoZSBiaW5kaW5ncywgYXQgbGVhc3QgYWZ0ZXIgcXVpY2sgbG9vay4gUGxlYXNlDQo+
-IHJ1biBgbWFrZSBkdF9iaW5kaW5nX2NoZWNrYCAoc2VlDQo+IERvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy93cml0aW5nLXNjaGVtYS5yc3QgZm9yIGluc3RydWN0aW9ucykuDQo+IE1h
-eWJlIHlvdSBuZWVkIHRvIHVwZGF0ZSB5b3VyIGR0c2NoZW1hIGFuZCB5YW1sbGludC4NCj4gDQo+
-ID4gKyAgICBlbnVtOg0KPiA+ICsgICAgICAtIHB3bQ0KPiA+ICsgICAgICAtIGFuYWxvZy1pMmMN
-Cj4gDQo+IFdoeSBkbyB5b3UgdGhpbmsgdGhpcyBpcyBhIHByb3BlcnR5IG9mIGEgYm9hcmQ/IElz
-IFBXTSBzaWduYWwgb3B0aW9uYWw/DQo+IElmIHNvLCBpdHMgcHJlc2VuY2Ugd291bGQgZGVmaW5l
-IGl0LiBPdGhlcndpc2UgaXQgc2VlbXMgeW91IHdhbnQgdG8gY29udHJvbCB0aGUNCj4gZHJpdmVy
-Lg0KPiANCg0KVGhlIE1QMzMwOUMgZGV2aWNlIGFsd2F5cyBuZWVkIGEgSTJDIGJ1cyB0byByZC93
-ciBpdHMgaW50ZXJuYWwgcmVnaXN0ZXJzLg0KQnV0IHRoZSBicmlnaHRuZXNzIGNhbiBiZSBjb250
-cm9sbGVkIGluIG9uZSBvZiB0aGUgZm9sbG93aW5nIHdheXMgKG11dHVhbGx5IGV4Y2x1c2l2ZSwN
-CmJ1dCBtYW5kYXRvcnkpOg0KLSBhIFBXTSBpbnB1dCBzaWduYWwNCiAgICBvcg0KLSBhIEkyQyBj
-b21tYW5kDQpTbywgdGhlIGRyaXZlciBuZWVkcyBhIHByb3BlcnR5IHRvIHNlbGVjdCB0aGUgZGlt
-bWluZyBtb2RlIHVzZWQ7IHRoaXMgcHJvcGVydHkgaXMgbWFuZGF0b3J5Lg0KVGhpcyBpcyB0aGUg
-cmVhc29uIG9mIHRoZSBleGlzdGVuY2Ugb2YgdGhlICcgbXBzLGRpbW1pbmctbW9kZScgcHJvcGVy
-dHkuDQpQV00gc2lnbmFsIGlzIG5vdCBvcHRpb25hbCwgaXQgaXMgcmVxdWlyZWQgaWYgYW5kIG9u
-bHkgaWYgdGhlICdwd20nIGRpbW1pbmcgbW9kZSBpcyB1c2VkLg0KSWYgdGhlICdhbmFsb2ctaTJj
-JyBkaW1taW5nIG1vZGUgaXMgdXNlZCwgaW5zdGVhZCwgdGhlIFBXTSBzaWduYWwgbXVzdCBub3Qg
-YmUgdXNlZC4NClNvIHRoZSBwcm9wZXJ0eSAnbXBzLGRpbW1pbmctbW9kZScgY29udHJvbHMgaG93
-IHRoZSBNUDMzMDlDIGlzIHVzZWQuDQpJIGNhbiBhZGQgbW9yZSBkZXRhaWxzIGFib3V0IHRoaXMg
-aW4gdGhlIGRlc2NyaXB0aW9uIHNlY3Rpb24uDQouLi4NCiANCj4gPiArDQo+ID4gKyAgbXBzLG92
-ZXJ2b2x0YWdlLXByb3RlY3Rpb24tMTN2Og0KPiA+ICsgICAgZGVzY3JpcHRpb246IG92ZXJ2b2x0
-YWdlIHByb3RlY3Rpb24gc2V0IHRvIDEzLjVWLg0KPiA+ICsgICAgdHlwZTogYm9vbGVhbg0KPiA+
-ICsgIG1wcyxvdmVydm9sdGFnZS1wcm90ZWN0aW9uLTI0djoNCj4gPiArICAgIGRlc2NyaXB0aW9u
-OiBvdmVydm9sdGFnZSBwcm90ZWN0aW9uIHNldCB0byAyNFYuDQo+ID4gKyAgICB0eXBlOiBib29s
-ZWFuDQo+ID4gKyAgbXBzLG92ZXJ2b2x0YWdlLXByb3RlY3Rpb24tMzV2Og0KPiA+ICsgICAgZGVz
-Y3JpcHRpb246IG92ZXJ2b2x0YWdlIHByb3RlY3Rpb24gc2V0IHRvIDM1LjVWLg0KPiA+ICsgICAg
-dHlwZTogYm9vbGVhbg0KPiANCj4gTm9wZSBmb3IgdGhlc2UgdGhyZWUuIFVzZSAtbWljcm92b2x0
-IHN1ZmZpeCBmb3Igb25lIHByb3BlcnR5Lg0KDQpPaw0KDQo+IA0KPiA+ICsNCj4gPiArICBtcHMs
-cmVzZXQtZ3Bpb3M6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogb3B0aW9uYWwgR1BJTyB0byByZXNl
-dCBhbiBleHRlcm5hbCBkZXZpY2UgKExDRCBwYW5lbCwgRlBHQSwNCj4gPiArICAgICAgZXRjLikg
-d2hlbiB0aGUgYmFja2xpZ2h0IGlzIHN3aXRjaGVkIG9uLg0KPiA+ICsgICAgbWF4SXRlbXM6IDEN
-Cj4gDQo+IE5vLCB5b3Ugc2hvdWxkIG5vdCBhZGQgaGVyZSBHUElPcyBmb3Igb3RoZXIgZGV2aWNl
-cy4NCg0KRG8geW91IG1lYW4gdGhhdCBJIGhhdmUgdG8gcmVtb3ZlIHRoaXMgcHJvcGVydHkgb3Ig
-dGhhdCBJIGhhdmUgdG8gbW92ZSBpdCBzb21ld2hlcmUgZWxzZT8NCkkgYWRkZWQgdGhpcyBmZWF0
-dXJlIGJlY2F1c2Ugc29tZXRpbWVzLCBpbiBlbWJlZGRlZCBib2FyZHMsIHlvdSBuZWVkIGEgcHVs
-c2Ugc2lnbmFsIHRvDQp1c2UgYWZ0ZXIgdGhlIGJhY2tsaWdodCBwcm9iaW5nLCBmb3IgZXhhbXBs
-ZSB0byByZXNldCBhbm90aGVyIGRldmljZSBpbiBzeW5jIHdpdGggdGhlIGJhY2tsaWdodA0KcHJv
-YmUuDQpEbyB5b3UgdGhpbmsgSSBoYXZlIHRvIHJlbW92ZSB0aGlzIGZlYXR1cmUgZnJvbSB0aGUg
-ZHJpdmVyPw0KDQouLi4NCg0KPiA+ICthbGxPZjoNCj4gPiArICAtICRyZWY6IGNvbW1vbi55YW1s
-Iw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgbXBz
-LGRpbW1pbmctbW9kZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0KPiA+ICsgICAgICAgICAg
-ICBlbnVtOg0KPiA+ICsgICAgICAgICAgICAgIC0gcHdtDQo+ID4gKyAgICB0aGVuOg0KPiA+ICsg
-ICAgICByZXF1aXJlZDoNCj4gPiArICAgICAgICAtIHB3bXMNCj4gDQo+IFNvIHRoaXMgcHJvdmVz
-IHRoZSBwb2ludCAtIG1wcyxkaW1taW5nLW1vZGUgbG9va3MgcmVkdW5kYW50IGFuZCBub3QNCj4g
-aGFyZHdhcmUgcmVsYXRlZC4NCg0KU2VlIG15IHByZXZpb3VzIGNvbW1lbnQuDQoNCj4gDQo+ID4g
-KyAgICAgIG5vdDoNCj4gPiArICAgICAgICByZXF1aXJlZDoNCj4gPiArICAgICAgICAgIC0gZW5h
-YmxlLWdwaW9zDQo+ID4gKw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+
-ID4gKyAgICAgICAgbXBzLGRpbW1pbmctbW9kZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0K
-PiA+ICsgICAgICAgICAgICBlbnVtOg0KPiA+ICsgICAgICAgICAgICAgIC0gYW5hbG9nLWkyYw0K
-PiA+ICsgICAgdGhlbjoNCj4gPiArICAgICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgICAgLSBlbmFi
-bGUtZ3Bpb3MNCj4gPiArICAgICAgbm90Og0KPiA+ICsgICAgICAgIHJlcXVpcmVkOg0KPiA+ICsg
-ICAgICAgICAgLSBwd21zDQo+ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNvbXBhdGli
-bGUNCj4gPiArICAtIHJlZw0KPiA+ICsgIC0gbXBzLGRpbW1pbmctbW9kZQ0KPiA+ICsgIC0gbWF4
-LWJyaWdodG5lc3MNCj4gPiArICAtIGRlZmF1bHQtYnJpZ2h0bmVzcw0KPiA+ICsNCj4gPiArYWRk
-aXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+IA0KPiBJbnN0ZWFkOg0KPiB1bmV2YWx1YXRlZFBy
-b3BlcnRpZXM6IGZhbHNlDQo+IA0KDQpPaw0KDQo+ID4gKw0KPiA+ICtleGFtcGxlczoNCj4gPiAr
-ICAtIHwNCj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dwaW8uaD4NCj4gPiAr
-ICAgIGkyYzMgew0KPiANCj4gaTJjDQo+IA0KPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0g
-PDE+Ow0KPiA+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiA+ICsNCj4gPiArICAgICAg
-ICBjbG9jay1mcmVxdWVuY3kgPSA8MTAwMDAwPjsNCj4gDQo+IERyb3ANCj4gDQo+ID4gKyAgICAg
-ICAgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsNCj4gPiArICAgICAgICBwaW5jdHJsLTAgPSA8
-JnBpbmN0cmxfaTJjMz47DQo+ID4gKyAgICAgICAgc3RhdHVzID0gIm9rYXkiOw0KPiANCj4gRHJv
-cCBhbGwgZXhjZXB0IG9mIGNlbGxzLg0KDQpPaw0KDQo+IA0KPiA+ICsNCj4gPiArICAgICAgICAv
-KiBCYWNrbGlnaHQgd2l0aCBQV00gY29udHJvbCAqLw0KPiA+ICsgICAgICAgIGJhY2tsaWdodF9w
-d206IGJhY2tsaWdodEAxNyB7DQo+ID4gKyAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibXBzLG1w
-MzMwOWMtYmFja2xpZ2h0IjsNCj4gPiArICAgICAgICAgICAgcmVnID0gPDB4MTc+Ow0KPiA+ICsg
-ICAgICAgICAgICBtcHMsZGltbWluZy1tb2RlID0gInB3bSI7DQo+ID4gKyAgICAgICAgICAgIHBp
-bmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+ID4gKyAgICAgICAgICAgIHBpbmN0cmwtMCA9IDwm
-cGluY3RybF9mcGdhX3Jlc2V0PjsNCj4gPiArICAgICAgICAgICAgcHdtcyA9IDwmcHdtMSAwIDMz
-MzMzMzMgMD47IC8qIDMwMCBIeiAtLT4gKDEvZikgKiAxKjEwXjkgKi8NCj4gPiArICAgICAgICAg
-ICAgbWF4LWJyaWdodG5lc3MgPSA8MTAwPjsNCj4gPiArICAgICAgICAgICAgZGVmYXVsdC1icmln
-aHRuZXNzID0gPDgwPjsNCj4gPiArICAgICAgICAgICAgbXBzLHN3aXRjaC1vbi1kZWxheS1tcyA9
-IDw4MDA+Ow0KPiA+ICsgICAgICAgICAgICBtcHMsc3dpdGNoLW9mZi1kZWxheS1tcyA9IDwxMD47
-DQo+ID4gKyAgICAgICAgICAgIG1wcyxvdmVydm9sdGFnZS1wcm90ZWN0aW9uLTI0djsNCj4gPiAr
-DQo+ID4gKyAgICAgICAgICAgIC8qDQo+ID4gKyAgICAgICAgICAgICAqIEVuYWJsZSBhbiBGUEdB
-IHJlc2V0IHB1bHNlIHdoZW4gTUlQSSBkYXRhIGFyZSBzdGFibGUsDQo+ID4gKyAgICAgICAgICAg
-ICAqIGJlZm9yZSBzd2l0Y2ggb24gdGhlIGJhY2tsaWdodA0KPiA+ICsgICAgICAgICAgICAgKi8N
-Cj4gPiArICAgICAgICAgICAgbXBzLHJlc2V0LWdwaW9zID0gPCZncGlvNCAyMCBHUElPX0FDVElW
-RV9ISUdIPjsNCj4gDQo+IE5vcGUsIG5vcGUuIEZQR0EgcmVzZXQgcGluIGlzIG5vdCByZWxhdGVk
-IHRvIHRoaXMgZGV2aWNlLg0KDQpTZWUgbXkgcHJldmlvdXMgY29tbWVudC9xdWVzdGlvbiBhYm91
-dCB0aGlzIGZlYXR1cmUuDQoNCj4gDQo+ID4gKyAgICAgICAgICAgIG1wcyxyZXNldC1vbi1kZWxh
-eS1tcyA9IDwxMDA+Ow0KPiA+ICsgICAgICAgICAgICBtcHMscmVzZXQtb24tbGVuZ3RoLW1zID0g
-PDEwPjsNCj4gPiArICAgICAgICB9Ow0KPiA+ICsgICAgfTsNCj4gPiArDQo+ID4gKyAgLSB8DQo+
-ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZ3Bpby9ncGlvLmg+DQo+ID4gKyAgICAvKiBC
-YWNrbGlnaHQgd2l0aCBhbmFsb2cgY29udHJvbCB2aWEgSTJDIGJ1cyAqLw0KPiA+ICsgICAgaTJj
-MyB7DQo+ID4gKyAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+ID4gKyAgICAgICAgI3Np
-emUtY2VsbHMgPSA8MD47DQo+ID4gKw0KPiA+ICsgICAgICAgIGNsb2NrLWZyZXF1ZW5jeSA9IDwx
-MDAwMDA+Ow0KPiA+ICsgICAgICAgIHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+ID4gKyAg
-ICAgICAgcGluY3RybC0wID0gPCZwaW5jdHJsX2kyYzM+Ow0KPiA+ICsgICAgICAgIHN0YXR1cyA9
-ICJva2F5IjsNCj4gDQo+IERyb3AgZW50aXJlIGV4YW1wbGUuIEl0IGRpZmZlcnMgYnkgb25lIHBy
-b3BlcnR5IC0gbWlzc2luZyBwd21zLg0KDQpPaw0KDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0K
-PiBLcnp5c3p0b2YNCg0KVGhhbmtzIGFuZCBiZXN0IHJlZ2FyZHMsDQpGbGF2aW8NCg0K
+On Tue, Aug 29, 2023 at 12:15:46PM +0200, Flavio Suligoi wrote:
+> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+> programmable switching frequency to optimize efficiency.
+> The brightness can be controlled either by I2C commands (called "analog"
+> mode) or by a PWM input signal (PWM mode).
+> This driver supports both modes.
+>
+> For DT configuration details, please refer to:
+> - Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+>
+> The datasheet is available at:
+> - https://www.monolithicpower.com/en/mp3309c.html
+>
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..65d0ac9f611d 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -389,6 +389,19 @@ config BACKLIGHT_LM3639
+>  	help
+>  	  This supports TI LM3639 Backlight + 1.5A Flash LED Driver
+>
+> +config BACKLIGHT_MP3309C
+> +	tristate "Backlight Driver for MPS MP3309C"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	select NEW_LEDS
+> +	select LEDS_CLASS
+
+This doesn't seem right.
+
+Shouldn't PWM and GPIOLIB be listed here? Why are NEW_LEDS and
+LEDS_CLASS needed?
+
+> +	help
+> +	  This supports MPS MP3309C backlight WLED Driver in both PWM and
+> +	  analog/I2C dimming modes.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called mp3309c_bl.
+> +
+>  config BACKLIGHT_LP855X
+>  	tristate "Backlight driver for TI LP855X"
+>  	depends on I2C && PWM
+
+> +static int mp3309c_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mp3309c_chip *chip = bl_get_data(bl);
+> +	int brightness = backlight_get_brightness(bl);
+> +	struct pwm_state pwmstate;
+> +	unsigned int analog_val, bits_val;
+> +	int i, ret;
+> +
+> +	if (chip->pdata->dimming_mode == DIMMING_PWM) {
+> +		/*
+> +		 * PWM dimming mode
+> +		 */
+> +		pwm_init_state(chip->pwmd, &pwmstate);
+> +		pwm_set_relative_duty_cycle(&pwmstate, brightness,
+> +					    chip->pdata->max_brightness);
+> +		pwmstate.enabled = true;
+> +		ret = pwm_apply_state(chip->pwmd, &pwmstate);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		/*
+> +		 * Analog dimming mode by I2C commands
+> +		 *
+> +		 * The 5 bits of the dimming analog value D4..D0 is allocated
+> +		 * in the I2C register #0, in the following way:
+> +		 *
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 *     |EN|D0|D1|D2|D3|D4|XX|XX|
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 */
+> +		analog_val = DIV_ROUND_UP(ANALOG_MAX_VAL * brightness,
+> +					  chip->pdata->max_brightness);
+> +		bits_val = 0;
+> +		for (i = 0; i <= 5; i++)
+> +			bits_val += ((analog_val >> i) & 0x01) << (6 - i);
+> +		ret = regmap_update_bits(chip->regmap, REG_I2C_0,
+> +					 ANALOG_REG_MASK, bits_val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (brightness > 0) {
+> +		switch (chip->pdata->status) {
+> +		case FIRST_POWER_ON:
+> +			/*
+> +			 * Only for the first time, wait for the optional
+> +			 * switch-on delay and then enable the device.
+> +			 * Otherwise enable the backlight immediately.
+> +			 */
+> +			schedule_delayed_work(&chip->enable_work,
+> +					      msecs_to_jiffies(chip->pdata->switch_on_delay_ms));
+
+Delaying this work makes no sense to me, especially when it is only
+going to happen at initial power on.
+
+If you are (ab)using this property to try and sequence the backlight
+power-on with display initialization then this is not the way to do it.
+Normally backlight drivers that support sequencing versus the panel
+work by having a backlight property set on the panel linking it to the
+backlight. When the panel is ready this power status of the backlight
+will be updated accordingly.
+
+All the backlight driver need do is make sure that is the initial
+power status is "powerdown" on systems when the link is present (e.g.
+leave the backlight off and wait to be told the display has settled).
+
+
+> +			/*
+> +			 * Optional external device GPIO reset, with
+> +			 * delay pulse length
+> +			 */
+> +			if (chip->pdata->reset_pulse_enable)
+> +				schedule_delayed_work(&chip->reset_gpio_work,
+> +						      msecs_to_jiffies(chip->pdata->reset_on_delay_ms));
+
+Similarly I don't understand what this property is for. A backlight is
+directly perceivable by the user. There is nothing downstream of a
+light that needs to be reset!
+
+What is this used for?
+
+
+Daniel.
