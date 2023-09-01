@@ -2,124 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3F278FF2E
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Sep 2023 16:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51336790326
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Sep 2023 23:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240795AbjIAO2s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Sep 2023 10:28:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38014 "EHLO
+        id S1350832AbjIAVq0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Sep 2023 17:46:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232185AbjIAO2r (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Sep 2023 10:28:47 -0400
-X-Greylist: delayed 560 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Sep 2023 07:28:45 PDT
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B88F9C
-        for <linux-leds@vger.kernel.org>; Fri,  1 Sep 2023 07:28:45 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 501)
-        id 37F211007FB; Fri,  1 Sep 2023 15:19:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1693577964; bh=Lbm8wzOKC2M9GeSPbw06e8KPiOFgpvPECNpJXbRnIo4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OR/WtiAGuMKYxvf8uQg/v/LcwgzCqcfQeQwtjWN1P/XAXpiUqnVCw1bqZ1m46Z2pd
-         ZRfvNTR31CfeB3FWXaYYK8HSYRPj6GEZ7lSzdTvZcsLaoS5Zyx0Y9GQkpzLSWIR7Zr
-         Tjye0gETkda+BrjYmukIM/gFAxuIcMHJcNJKyB9zP7346F2u64M0hLibr4N4I1pyvA
-         ye2fPxbJZ1bLOwPi7yNyS4zcdkJPYkKUjI9RD5Gan/pi4Gxtoj8sAizvyB8xW09TZc
-         fYLBZze8QleCNfx2a/VKxk3agUvxYsGmaO/3BDsIg9EhFwjL/gEyITxK3kNb74xXbp
-         wLd7fBIPNP5Kw==
+        with ESMTP id S1350810AbjIAVmu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Sep 2023 17:42:50 -0400
+Received: from smtprelay07.ispgateway.de (smtprelay07.ispgateway.de [134.119.228.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148D71FFB;
+        Fri,  1 Sep 2023 14:37:50 -0700 (PDT)
+Received: from [77.64.243.219] (helo=note-book.lan)
+        by smtprelay07.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <git@apitzsch.eu>)
+        id 1qcBZ5-0004Wd-2w; Fri, 01 Sep 2023 23:20:27 +0200
+From:   =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Subject: [PATCH v2 0/2] leds: Add a driver for KTD202x
+Date:   Fri, 01 Sep 2023 23:19:57 +0200
+Message-Id: <20230901-ktd202x-v2-0-3cb8b0ca02ed@apitzsch.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAH1V8mQC/2WNyw6CMBBFf4V0bU1becWV/2EImbZT26iAHSQo4
+ d8tbN3dc3OSszDCGJDYOVtYxClQ6LsE6pAx46G7IQ82MVNCnUQpa34fbdozL/JSK6isyoVmydZ
+ AyHWEzvjN169n0boHkG8jQtyMIaIL8966Nol9oLGPnz09ye39r0ySC+6MrJVDB9ZWFxjC+CXjj
+ /hmzbquP1zDyV3CAAAA
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.12.3
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
-Received: from localhost.localdomain (bigcore.mess.org [IPv6:2a02:8011:d000:212:44e0:1480:5a2d:d8ed])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by gofer.mess.org (Postfix) with ESMTPSA id CB23E1007F5;
-        Fri,  1 Sep 2023 15:19:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1693577962; bh=Lbm8wzOKC2M9GeSPbw06e8KPiOFgpvPECNpJXbRnIo4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mTjVgXPwKuo4921vycPIOm2LJTc7VMoFgoMgAKciGPX9RJuSuxbA5qXdHuiBoie4m
-         +SLlaXXO/jTkWO1u+X4xKCcgMEIxG5SEfHOQ6i6kBIZOZDFQaGx+lDUnQwMl0uP9Mt
-         238pRWyiJAxl3zpG5ZEyV71jK9A0mdFe4gwcfkoEJiU46PjeVnvK2vS0Z0+B/0pdLk
-         EqqOfPxfW23k8KE+zx7xh3YGYJF4ZU3WGie6AXC/hNt1WXrhLfG2JL5s8CrsAukcfc
-         ka0hYlbrcATg3vXSbWQLEuN/QXzwyGFxXApwR0UYJVZsJhiuLi9ZrrBwERuf5kjZ5s
-         58oYuDkVQasoQ==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 1/2] dt-bindings: media: remove nokia,n900-ir as pwm-ir-tx is compatible
-Date:   Fri,  1 Sep 2023 15:18:55 +0100
-Message-ID: <25e8f2626d15199a1bf727fee375b5b149004c8e.1693577725.git.sean@mess.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1693577725.git.sean@mess.org>
-References: <cover.1693577725.git.sean@mess.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
-can be removed.
+Add the binding description and the corresponding driver for
+the Kinetic KTD2026 and KTD2027.
 
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- .../bindings/leds/irled/pwm-ir-tx.yaml        |  5 ++++-
- .../devicetree/bindings/media/nokia,n900-ir   | 20 -------------------
- 2 files changed, 4 insertions(+), 21 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
+Changes in v2:
+- Make binding description filename match compatible
+- Address comments by Lee Jones
+  - Extend driver description in Kconfig
+  - Add copyright + link to datasheet
+  - Add unit to definition/variable names, where needed
+  - Define magic numbers
+  - Remove forward declaration of 'struct ktd202x'
+  - Remove superfluous comments
+  - Get rid of struct ktd202x_info
+  - Join ktd202x_chip_init() with ktd202x_chip_enable()
+  - Return the error on ktd202x_chip_disable()
+  - Remove unreachable case from chip_in_use()
+  - Rename ktd202x_brightness_set() argument from num_colors to num_channels
+  - Forward errors received in ktd202x_brightness_set()
+  - Remove variable for 'num_channels = 1'
+  - Add some explanations to blink time calculation
+  - Remove unneeded lcdev from ktd202x_blink_*_set()
+  - Add define for max brightness and replace deprecated LED_FULL by it
+  - Move setting led_classdev.brightness to ktd202x_brightness_*_set()
+  - Move mutex_lock inside ktd202x_blink_set()
+  - Add comment that 'color' property is optional (allow EINVAL)
+  - Replace escaped double quotes by single quotes
+  - Avoid overloading variable 'color'
+  - Do not lock during probe
+  - Remove usage of 'of_match_ptr'
+- Document interrupt and pull-up supply, like done for aw2013[1]
+- Fix error in num_steps calculation
+- Link to v1: https://lore.kernel.org/r/20230618-ktd202x-v1-0-fc182fefadd7@apitzsch.eu
 
-diff --git a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-index f2a6fa140f38..7526e3149f72 100644
---- a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-+++ b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-@@ -15,7 +15,10 @@ description:
- 
- properties:
-   compatible:
--    const: pwm-ir-tx
-+    oneOf:
-+      - const: pwm-ir-tx
-+      - const: nokia,n900-ir
-+        deprecated: true
- 
-   pwms:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/media/nokia,n900-ir b/Documentation/devicetree/bindings/media/nokia,n900-ir
-deleted file mode 100644
-index 13a18ce37dd1..000000000000
---- a/Documentation/devicetree/bindings/media/nokia,n900-ir
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Device-Tree bindings for LIRC TX driver for Nokia N900(RX51)
--
--Required properties:
--	- compatible: should be "nokia,n900-ir".
--	- pwms: specifies PWM used for IR signal transmission.
--
--Example node:
--
--	pwm9: dmtimer-pwm@9 {
--		compatible = "ti,omap-dmtimer-pwm";
--		ti,timers = <&timer9>;
--		ti,clock-source = <0x00>; /* timer_sys_ck */
--		#pwm-cells = <3>;
--	};
--
--	ir: n900-ir {
--		compatible = "nokia,n900-ir";
--
--		pwms = <&pwm9 0 26316 0>; /* 38000 Hz */
--	};
+[1] https://lore.kernel.org/linux-leds/20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net/
+
+---
+André Apitzsch (2):
+      dt-bindings: leds: Add Kinetic KTD2026/2027 LED
+      leds: add ktd202x driver
+
+ .../devicetree/bindings/leds/kinetic,ktd202x.yaml  | 171 ++++++
+ drivers/leds/rgb/Kconfig                           |  13 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-ktd202x.c                    | 625 +++++++++++++++++++++
+ 4 files changed, 810 insertions(+)
+---
+base-commit: a47fc304d2b678db1a5d760a7d644dac9b067752
+change-id: 20230618-ktd202x-546b2a7d240b
+
+Best regards,
 -- 
-2.42.0
+André Apitzsch <git@apitzsch.eu>
 
