@@ -2,132 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E11A87919A7
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Sep 2023 16:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4378792A06
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Sep 2023 18:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351423AbjIDO2u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Sep 2023 10:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41108 "EHLO
+        id S1351198AbjIEQdK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Sep 2023 12:33:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345104AbjIDO2r (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Sep 2023 10:28:47 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59899CE5;
-        Mon,  4 Sep 2023 07:28:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 4D834CE0ED3;
-        Mon,  4 Sep 2023 14:28:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56398C433C7;
-        Mon,  4 Sep 2023 14:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693837718;
-        bh=Up07sfErFvj6d+ATkEHYNBDmwHdFvbMBAGVYWlJsRWo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wcr5RIvKGmcsqGx7hxbCl+2tlzvjsDIh8LjcB2+BcpPBVo2/RCSrbH7KPlgJw04oM
-         9JBD/OA3g89RWKKGo6lNP3gjqgLxlcsWYkrbH/7GiWojDqKVXCzd9ZyTwoDvQ6hRKh
-         a/PREKMgMzt8YTmlXyGqesMNThjqiW3ngRnXjH0dL07EXQpe+UuXdeuB8oCEFr0b8+
-         Q9m8hwJ05cYczviRgmTuOFK9t1sVzDPy2hr5lVTcAxcM5UqMuNE/wnGvrbebXkslSu
-         vQWpKiUjgtfLTyvb7go7fugVVaR54abRRzEpxFmGyajsJmHwgux8ZlusCUhGNTLDHf
-         WCZ87NW5zC2BA==
-Date:   Mon, 4 Sep 2023 15:28:33 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: media: remove nokia,n900-ir as
- pwm-ir-tx is compatible
-Message-ID: <20230904142833.GE13143@google.com>
-References: <cover.1693577725.git.sean@mess.org>
- <25e8f2626d15199a1bf727fee375b5b149004c8e.1693577725.git.sean@mess.org>
- <20230902-gender-sandstone-7da75af72f4f@spud>
+        with ESMTP id S1353832AbjIEIUk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Sep 2023 04:20:40 -0400
+X-Greylist: delayed 86464 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 01:20:36 PDT
+Received: from mail.equinoxrise.pl (mail.equinoxrise.pl [217.61.112.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8629F1AE
+        for <linux-leds@vger.kernel.org>; Tue,  5 Sep 2023 01:20:36 -0700 (PDT)
+Received: by mail.equinoxrise.pl (Postfix, from userid 1002)
+        id 51B5B83257; Mon,  4 Sep 2023 09:41:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=equinoxrise.pl;
+        s=mail; t=1693813327;
+        bh=v6OgBfK5dN7P5dQ0wCu59rOfZaiqziJeLNblJ8dOcGI=;
+        h=Date:From:To:Subject:From;
+        b=VJp89lAhAs0PTmilzncUnVSHgf/oCwCW08ErXuC0TLVDJj8rSX0bEl2e/NnUxhDPR
+         bfyMEfvyAFzZw1H94Iezx9Rd+xg70tO8uEFKyRIKKrJJ3j3BV3SXaqIGO55f07Du6g
+         fKFo2MgVQ5rC90aXZGLVuDSoBC/rJpHED8JSdY1oW8U1jbEkKhHDMYpRVpVssN1lg3
+         N1VgicrWqUB59vJJeynqYOcgmrUMX6pL5301jGD/JwkBs1uAOOd72mhA3ZSHnvOy8p
+         MyVLIVcwrK7WlH7gmyhy3Obg9h8KZ7eushUxnXf6vDXIE5cNeEbyJvdKA4fTx9D67O
+         rR3hx1mWqNB8A==
+Received: by mail.equinoxrise.pl for <linux-leds@vger.kernel.org>; Mon,  4 Sep 2023 07:40:34 GMT
+Message-ID: <20230904084500-0.1.7.rl0.0.p432v9qtq7@equinoxrise.pl>
+Date:   Mon,  4 Sep 2023 07:40:34 GMT
+From:   "Mateusz Talaga" <mateusz.talaga@equinoxrise.pl>
+To:     <linux-leds@vger.kernel.org>
+Subject: Prezentacja
+X-Mailer: mail.equinoxrise.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230902-gender-sandstone-7da75af72f4f@spud>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 02 Sep 2023, Conor Dooley wrote:
+Dzie=C5=84 dobry!
 
-> On Fri, Sep 01, 2023 at 03:18:55PM +0100, Sean Young wrote:
-> > The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
-> > can be removed.
-> > 
-> > Signed-off-by: Sean Young <sean@mess.org>
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
+=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
+zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
 
-> > ---
-> >  .../bindings/leds/irled/pwm-ir-tx.yaml        |  5 ++++-
+Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
+=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
+dostaw.
 
-Acked-by: Lee Jones <lee@kernel.org>
+Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
+nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
+ co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
 
-> >  .../devicetree/bindings/media/nokia,n900-ir   | 20 -------------------
-> >  2 files changed, 4 insertions(+), 21 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > index f2a6fa140f38..7526e3149f72 100644
-> > --- a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > @@ -15,7 +15,10 @@ description:
-> >  
-> >  properties:
-> >    compatible:
-> > -    const: pwm-ir-tx
-> > +    oneOf:
-> > +      - const: pwm-ir-tx
-> > +      - const: nokia,n900-ir
-> > +        deprecated: true
-> >  
-> >    pwms:
-> >      maxItems: 1
-> > diff --git a/Documentation/devicetree/bindings/media/nokia,n900-ir b/Documentation/devicetree/bindings/media/nokia,n900-ir
-> > deleted file mode 100644
-> > index 13a18ce37dd1..000000000000
-> > --- a/Documentation/devicetree/bindings/media/nokia,n900-ir
-> > +++ /dev/null
-> > @@ -1,20 +0,0 @@
-> > -Device-Tree bindings for LIRC TX driver for Nokia N900(RX51)
-> > -
-> > -Required properties:
-> > -	- compatible: should be "nokia,n900-ir".
-> > -	- pwms: specifies PWM used for IR signal transmission.
-> > -
-> > -Example node:
-> > -
-> > -	pwm9: dmtimer-pwm@9 {
-> > -		compatible = "ti,omap-dmtimer-pwm";
-> > -		ti,timers = <&timer9>;
-> > -		ti,clock-source = <0x00>; /* timer_sys_ck */
-> > -		#pwm-cells = <3>;
-> > -	};
-> > -
-> > -	ir: n900-ir {
-> > -		compatible = "nokia,n900-ir";
-> > -
-> > -		pwms = <&pwm9 0 26316 0>; /* 38000 Hz */
-> > -	};
-> > -- 
-> > 2.42.0
-> > 
+Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
+=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
+zania w Pa=C5=84stwa firmie.
 
 
-
--- 
-Lee Jones [李琼斯]
+Pozdrawiam
+Mateusz Talaga
