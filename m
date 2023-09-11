@@ -2,166 +2,158 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7894A798E8B
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Sep 2023 21:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F33A79ADE4
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Sep 2023 01:41:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244081AbjIHTAE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 8 Sep 2023 15:00:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33926 "EHLO
+        id S235699AbjIKVrO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Sep 2023 17:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243959AbjIHTAD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 8 Sep 2023 15:00:03 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03F7171F;
-        Fri,  8 Sep 2023 11:59:39 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 388I26Ce030483;
-        Fri, 8 Sep 2023 18:58:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=+WQdbdr4J6HJwmpZ71Qm9fOJMUg5zNqlCiOlxRECRj4=;
- b=fLFG0bGbbJFrgpBnTUWeYVTo873rCgC7WlDm9B5hcMHdcN93vDmuXT840PdG1Rxc+wgp
- 6w9elWehN+QWz3pB3QXrvyki1NwIIfzqEbZ1s6ks3QGA9UydJIaxG1lSAPQjmg4+K0nP
- 2T90221ww+3yEsBbJhXxBG2Ph8m4mrBuo+GcAoXeM+tJkepyJ4vKH1S7a6Azk+ijl0rw
- 7kJZr9Z8q62SXY718IjemP51uKXsaQeKlyhhrf6s5rxF/wm+lvV53w2o5s5BTA93RUOP
- 0eQSOYt34DITgtfupXkavV2ExWqvFXWO/9PFnerXGcAJ9s2DvSIjDI9ISWZNNbO1oOvO /Q== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sym36as3p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Sep 2023 18:58:18 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 388IwHmu006485
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 8 Sep 2023 18:58:17 GMT
-Received: from [10.110.13.62] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 8 Sep
- 2023 11:58:13 -0700
-Message-ID: <18bdcbdf-9ff6-5498-41db-8388eb8bf1ed@quicinc.com>
-Date:   Fri, 8 Sep 2023 11:58:06 -0700
+        with ESMTP id S235660AbjIKJSN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Sep 2023 05:18:13 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3885CD7
+        for <linux-leds@vger.kernel.org>; Mon, 11 Sep 2023 02:18:07 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-d7b91422da8so3656965276.2
+        for <linux-leds@vger.kernel.org>; Mon, 11 Sep 2023 02:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694423887; x=1695028687; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tW6YKdiguD7VHOKXxQu1gxDdGm/d8SqD6g51/GtMMmg=;
+        b=Oaeecpxs5IJ3SpxewW/SElSm4NIO3XZrNiZpdO0bdpocU+sNdUfGbXNCNFTn+hpnZ8
+         LnTKQ+mVlRJRlbtC1h6QBA1UQZg0QfQeUbJRITU3v/78uVC/woMrmQdl1uM2Unpho07v
+         rkPCqv4bVWnxkCnZiLZRn0yw7gtrAFGNdzWTjKCay4ZjdIiABsUAOOyU0ASGbTKXH2TQ
+         2TIpnzLQcE5bQe/7LoK58UJnX9LAm5n5/Fjbafc5Roc4KJzaBTYIFxUwdZ2A/3rbQzHP
+         h3ZjWW7UflTs48jSKxn2WluEqkO6dZaQj7O0+BL9Kl8uVQPp0B3MRzBqNXZ4Ph38T664
+         Qoeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694423887; x=1695028687;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tW6YKdiguD7VHOKXxQu1gxDdGm/d8SqD6g51/GtMMmg=;
+        b=bE/Sb0vwEmbw0iG+cIwrpTDuR1+yJgMikp1i9AIejwvO13JzbMvlkiuAmAtlPHIap4
+         7mo5OyrE4dJkVsT2Nrh/l17+ty1FPMLwQzVsNhklJxmb/3u4SmvqW0bAkb4KbUuUlnLy
+         hkOcePPi3btBhVxiaBmqi+E/Cqh+Q5g9gBVUNOOXdrLG1OmGf+R3EbmJ1y7+g+UHFM3s
+         7f9WeLzqXc6CD+HOj1VmIAvP7dMMRRjSEo+BFw//q+PGvDHGZcPsmo8pWf6bQua4nTxF
+         bg6bHK/7B80SWNy0rKH57zKhVUM82Oll/TZD5zTy7R9WuWJi2t8LQqJ0GlMdR4vq4IE0
+         oaTQ==
+X-Gm-Message-State: AOJu0YyQ0Oqdl9vvCOjvFhjouSK5vrMMnMDU/YydjrPE+I+aAIyVEfzj
+        hkkL0tK5kg1niZom39Je3axEqVmjpaB30JuDTu+3sh4q6jvCtyy9aJc=
+X-Google-Smtp-Source: AGHT+IGOdtTO3nq2CqOS8Fe/BVRV113m66vWiq1vxCAykGrR7V7ezGwZ0RvYBUzLau7Cmu+4Z78LgVVp6+SUT6E2A0k=
+X-Received: by 2002:a25:29c2:0:b0:d44:351c:8ac2 with SMTP id
+ p185-20020a2529c2000000b00d44351c8ac2mr8693867ybp.35.1694423887130; Mon, 11
+ Sep 2023 02:18:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 5/7] leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data
- to support PPG
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, <pavel@ucw.cz>,
-        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>
-CC:     <luca.weiss@fairphone.com>, <u.kleine-koenig@pengutronix.de>,
-        <quic_subbaram@quicinc.com>, <quic_gurus@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <kernel@quicinc.com>
-References: <20230830180600.1865-2-quic_amelende@quicinc.com>
- <20230830180600.1865-8-quic_amelende@quicinc.com>
- <951a2f24-931a-4a25-a3b7-c3009e135d7d@linaro.org>
- <ca451c20-57c1-6fb4-8c8e-b3446944a0f6@quicinc.com>
- <ab237850-4724-48a8-bea8-f1287445358f@linaro.org>
- <83f88e88-5624-4ffd-b2df-f58c6988c649@linaro.org>
- <2321f4e9-5db2-126a-c5ab-fc18cc507822@quicinc.com>
- <cdf51ad9-d342-4a9c-a55d-384e04bd8754@linaro.org>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <cdf51ad9-d342-4a9c-a55d-384e04bd8754@linaro.org>
+References: <20230314210059.419159-1-linus.walleij@linaro.org> <1d11e190-df52-4941-946e-209238dd3e99@cesnet.cz>
+In-Reply-To: <1d11e190-df52-4941-946e-209238dd3e99@cesnet.cz>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 11 Sep 2023 11:17:55 +0200
+Message-ID: <CACRpkdZAvE5ZwVN=G57t_+aMMZ25OBKTgsf9=rRnk3-LnNEqUg@mail.gmail.com>
+Subject: Re: [PATCH v2] leds: Mark GPIO LED trigger broken
+To:     =?UTF-8?B?SmFuIEt1bmRyw6F0?= <jan.kundrat@cesnet.cz>
+Cc:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Tony Lindgren <tony@atomide.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-omap@vger.kernel.org,
+        linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ETez3sdKsdJpIv4z7VUmQkzc-vK8RIR_
-X-Proofpoint-GUID: ETez3sdKsdJpIv4z7VUmQkzc-vK8RIR_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-08_15,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- bulkscore=0 impostorscore=0 clxscore=1015 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
- definitions=main-2309080173
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/8/2023 1:28 AM, Konrad Dybcio wrote:
-> On 8.09.2023 02:30, Anjelique Melendez wrote:
->> On 9/7/2023 1:31 PM, Konrad Dybcio wrote:
->>> On 7.09.2023 22:26, Konrad Dybcio wrote:
->>>> On 7.09.2023 21:54, Anjelique Melendez wrote:
->>>>> On 8/30/2023 11:34 AM, Konrad Dybcio wrote:
->>>>>> On 30.08.2023 20:06, Anjelique Melendez wrote:
->>>>>>> Update the pmi632 lpg_data struct so that pmi632 devices use PPG
->>>>>>> for LUT pattern.
->>>>>>>
->>>>>>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->>>>>>> ---
->>>>>>>  drivers/leds/rgb/leds-qcom-lpg.c | 9 ++++++---
->>>>>>>  1 file changed, 6 insertions(+), 3 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
->>>>>>> index 90dc27d5eb7c..0b37d3b539f8 100644
->>>>>>> --- a/drivers/leds/rgb/leds-qcom-lpg.c
->>>>>>> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
->>>>>>> @@ -1672,11 +1672,14 @@ static const struct lpg_data pm8994_lpg_data = {
->>>>>>>  static const struct lpg_data pmi632_lpg_data = {
->>>>>>>  	.triled_base = 0xd000,
->>>>>>>  
->>>>>>> +	.lut_size = 64,
->>>>>>> +	.lut_sdam_base = 0x80,
->>>>>> Is that a predefined space for use with LPG?
->>>>>>
->>>>>> Or can it be reclaimed for something else?
->>>>>>
->>>>>> Konrad
->>>>> Yes, this is a predefined space for use with LPG
->>>> We represent the SDAM as a NVMEM device, generally it would
->>>> be nice to add all regions within it as subnodes in the devicetree.
->>> Wait hmm.. we already get it as a nvmem cell.. Or at least that's
->>> how I understand it (lut_sdam_base == lpg_chan_nvmem->start, pseudocode)
->>>
->>> Why don't we access it through the nvmem r/w ops then?
->>>
->>> Konrad
->> I think I might be a little confused on what you are asking so please let
->> me know if this does not answer your question.
->>
->> lut_sdam_base is the offset where lut pattern begins in the SDAM. So when we are writing back
->> our LED pattern we end up calling nvmem_device_write(lpg_chan_nvmem, lut_sdam_base + offset, 1, brightness).
->> So far for every single SDAM PPG devices we have seen the lpg_sdam_base be 0x80 and every
->> LUT SDAM PPG devices (pm8350c) we have seen lpg_sdam_base be 0x45, which is why we 
->> included this value in the lpg_data rather than as a devicetree property since it has
->> been consistent across a few pmics.
->>
->> I am ok if you would like the lut_sdam_base to be moved to a devicetree property.
-> So.. we have a slice of SDAM represented as an NVMEM cell (and that
-> part of SDAM is reserved solely for LPG), and then within that cell,
-> we need to add an additional offset to get to what we want. Correct?
-> 
-> What's in LPG_NVMEM_CELL[0:offset-1] then?
-> 
-> Konrad
-All SDAMs being used for lpg have the first few registers (0x40 - 0x44) used by PBS
-and also contain register map info and sdam size. For the lpg_chan_nvmem SDAM, after
-the first few registers we have all of the per channel data such as LUT_EN,
-PATTERN_CONFIG, START_INDEX, and END_INDEX. All of these register addresses
-that we write back to are defined at the top of leds-qcom-lpg.c and qcom-pbs.c.
+On Thu, Aug 24, 2023 at 8:32=E2=80=AFPM Jan Kundr=C3=A1t <jan.kundrat@cesne=
+t.cz> wrote:
 
-When we have single SDAM PPG, pattern entries begin after all of the per channel data at 0x80.
-When we have a second SDAM used for LUT, pattern entries begin after the PBS registers at 0x45.
+> > I want to know that this trigger has active users that
+> > cannot live without it if we are to continue to support it.
+>
+> We're using this feature. Our use case is a LED at the front panel which
+> shows whether a signal is present at an input LC optical connector (DWDM
+> network stuff). Here's how we're setting it up:
+>
+> https://gerrit.cesnet.cz/plugins/gitiles/CzechLight/br2-external/+/6570b5=
+71bbf3f53cf24ef2be3079bc282c445b9e/package/czechlight-clearfog-leds/init-le=
+ds-edfa.sh
 
-I just went through all of the code again and lut_sdam_base is really only used twice, so we could
-define these register addresses instead of having them in device_data if you think that would
-make more sense. Would just need to work on variable name that makes the most sense
+Interesting!
 
-#define SDAM_LPG_CHAN_SDAM_LUT_PATTERN_OFFSET 0x80
-#define SDAM_LUT_SDAM_LUT_PATTERN_OFFSET 0x45
+> I understand that the GPIO numeric namespace is racy, but it's never been=
+ a
+> problem for us in the past 5 years since this script runs much later duri=
+ng
+> boot than any driver probing.
 
-Anjelique
+Hm OK that does make sequential sense in a way.
+
+> > Option if this is really needed: I can develop a new trigger
+> > that can associate GPIOs with LEDs as triggers using device
+> > tree, which should also remove the use of userspace custom
+> > scripts to achieve this and be much more trustworthy, if
+> > someone with the Nokia n810 or a device with a similar need
+> > is willing to test it.
+>
+> I'll be happy to test a patch like that.
+
+OK let's just do it. I'll cook something up.
+
+> However, the GPIO in question on our board is connected to a MCP23S18, an=
+d
+> we have a pair of these. When used in this configuration (two chips at th=
+e
+> same SPI CS, differing by a chip-specific "HW address" on a HW level),
+> there are some impedance mismatches because it's essentially two
+> independent pinctrl instances on the same SPI address. This causes
+> problems, e.g. the debugfs pinctrl instance won't be created for the seco=
+nd
+> chip because of a naming conflict. We also carry this out-of-tree patch t=
+o
+> make the GPIO labels work when set from DTS:
+>
+> https://patchwork.ozlabs.org/project/linux-gpio/patch/517dcdda21ea0b0df88=
+4bc6adcba1dadb78b66b1.1551966077.git.jan.kundrat@cesnet.cz/
+>
+> (Feedback on how to solve that problem is welcome, btw.)
+
+Instead of using the of_* prefixed device tree traversal
+functions, use the fwnode API because we have Intel ACPI
+users of this driver, so we need to use the right abstraction.
+Just use the similar functions from include/linux/property.h
+and grep around for some example that does this already.
+
+Use the bits in spi-present-mask =3D <0x05>; to iterate perhaps?
+Like use for_each_set_bit() from <linux/bitmap.h> and
+then we should in theory make the YAML description warn
+if that bitmask and the nodes don't match up (yeah...)
+since the kernel is not a device tree (or other HW description)
+validator.
+
+Then I think you should just split up that patch in one DT binding patch
+and one patch for the driver and send it out in a series
+"support line names on MCP23S18" or somthing, the MCP
+expander is really popular so this is highly desired.
+
+I hope the DT people don't randomly ask you to rewrite the
+bindings in YAML. It could happen that they do.
+
+> Since I am not that much familiar with pinctrl/gpio stuff in kernel, I
+> wanted to bring this up to make sure that your future trigger works even =
+on
+> a setup like ours. Here's how it's used via DTS in case it's relevant:
+>
+> https://gerrit.cesnet.cz/plugins/gitiles/CzechLight/br2-external/+/6570b5=
+71bbf3f53cf24ef2be3079bc282c445b9e/board/czechlight/clearfog/sdn-roadm-clea=
+rfog.dtsi#151
+
+Looks reasonable to me.
+
+Yours,
+Linus Walleij
