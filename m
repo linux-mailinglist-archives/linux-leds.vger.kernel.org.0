@@ -2,125 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB94F79D74C
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Sep 2023 19:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5521579E965
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Sep 2023 15:34:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234211AbjILRLm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 12 Sep 2023 13:11:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45070 "EHLO
+        id S239451AbjIMNe6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Sep 2023 09:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236653AbjILRLm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 12 Sep 2023 13:11:42 -0400
+        with ESMTP id S240950AbjIMNe5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Sep 2023 09:34:57 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1C210D9;
-        Tue, 12 Sep 2023 10:11:38 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71AF0C433C8;
-        Tue, 12 Sep 2023 17:11:35 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C707C1BC2;
+        Wed, 13 Sep 2023 06:34:53 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7736DC433C7;
+        Wed, 13 Sep 2023 13:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694538697;
-        bh=K6ujrGAxc6bLs1J/Thn8Dd/Rjofr6FM6gvQYymz/WYo=;
+        s=k20201202; t=1694612093;
+        bh=MFeimr0DIDPO6o9ZoxuaDIxx2Q83zZVFEoaPaVha1Xs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lRGa/mdd4iQg/yWCh58/qb7FKBECU7PHMviCpZYG2k7ZVqdqUWXnI5OsRtSZY1D9C
-         mEQBFnUI+3mWCLlKn2M+Y5Fn9SBWP2yChfBc+iEDrJUTW5vBVyRi1/sGnNd7CM81u2
-         pZnkd8LMEBsuWeeyxrXn+Gzbxdlf2cI3DH4/QL8aLuqrCX/m5jDv8+30liiohICNOs
-         WWEPRHVxMtQMKeMGbm+pgvyJCeqpHpbEkioYtoPLz049YvfAOUMz7wDuWnTXx3ctFF
-         kpq4w9AaV6nLRfqoxgy6VNLubwOwYpel54C8dTLlG0h+5aWhOqV4lEKdPHWzjthxd3
-         WeZToxgbHEwtQ==
-Date:   Tue, 12 Sep 2023 18:11:33 +0100
-From:   Conor Dooley <conor@kernel.org>
+        b=MAFWhsjGgOaFx6m3fEdBnZ8zllzmp1PsOQ2YRNblZyV5oteDXkCZ3ljKi02ctQQ5L
+         ZnaZ5St3rUUbQLTCUtwwuNLNjg9XA/9vqZitiQLIXWIf3Ma71jFt4Pn6PeeOOqdXl5
+         6llM1ZKU55Niu6JIk5ciEiOMLjckqIg5V3qyrFIniTFTqyjKFTwEFxmDe8r2a2Ak55
+         23sZwasiRTXw/9RY9EPxVxVTzbCIyH6iqyRjloIoQys72KG9PB3yF1Nk5kiEQhAby0
+         w8s4YTTJqThLOEtN0WS/79wCJVNbZbc0+vc8KJpNvFvJN17iNqNZRMSQt3vgn+dsSc
+         v/9cg5kpFVowg==
+Received: (nullmailer pid 2855562 invoked by uid 1000);
+        Wed, 13 Sep 2023 13:34:51 -0000
+Date:   Wed, 13 Sep 2023 08:34:51 -0500
+From:   Rob Herring <robh@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jan =?iso-8859-1?Q?Kundr=E1t?= <jan.kundrat@cesnet.cz>,
         Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/2] dt-bindings: leds: Mention GPIO triggers
-Message-ID: <20230912-squeamish-legal-424d4f8a3453@spud>
+Message-ID: <20230913133451.GA2841610-robh@kernel.org>
 References: <20230912-gpio-led-trigger-dt-v1-0-1b50e3756dda@linaro.org>
  <20230912-gpio-led-trigger-dt-v1-1-1b50e3756dda@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dtprEHGdUyw2Qv/N"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20230912-gpio-led-trigger-dt-v1-1-1b50e3756dda@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---dtprEHGdUyw2Qv/N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 On Tue, Sep 12, 2023 at 03:44:30PM +0200, Linus Walleij wrote:
 > We reuse the trigger-sources phandle to just point to
 > GPIOs we may want to use as LED triggers.
->=20
+> 
 > Example:
->=20
+> 
 > gpio: gpio@0 {
 >     compatible "my-gpio";
 >     gpio-controller;
->     #gpio-cells =3D <2>;
+>     #gpio-cells = <2>;
 >     interrupt-controller;
->     #interrupt-cells =3D <2>;
->     #trigger-source-cells =3D <2>;
+>     #interrupt-cells = <2>;
+>     #trigger-source-cells = <2>;
+
+BTW, this is not documented for any GPIO binding. If we want to specify 
+the cell size, then it has to be added to every GPIO controller binding. 
+If not, we then need to reference gpio.yaml in every GPIO controller 
+binding (along with unevaluatedProperties). Doesn't have to be done for 
+this patch to go in though.
+
 > };
->=20
+> 
 > leds {
->     compatible =3D "gpio-leds";
+>     compatible = "gpio-leds";
 >     led-my-gpio {
->         label =3D "device:blue:myled";
->         gpios =3D <&gpio 0 GPIO_ACTIVE_HIGH>;
->         default-state =3D "off";
->         linux,default-trigger =3D "gpio";
->         trigger-sources =3D <&gpio 1 GPIO_ACTIVE_HIGH>;
+>         label = "device:blue:myled";
+>         gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
+>         default-state = "off";
+>         linux,default-trigger = "gpio";
+>         trigger-sources = <&gpio 1 GPIO_ACTIVE_HIGH>;
 >     };
 > };
->=20
+> 
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
 >  Documentation/devicetree/bindings/leds/common.yaml | 2 ++
 >  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documen=
-tation/devicetree/bindings/leds/common.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
 > index 5fb7007f3618..b42950643b9d 100644
 > --- a/Documentation/devicetree/bindings/leds/common.yaml
 > +++ b/Documentation/devicetree/bindings/leds/common.yaml
 > @@ -191,6 +191,8 @@ properties:
 >        each of them having its own LED assigned (assuming they are not
->        hardwired). In such cases this property should contain phandle(s) =
-of
+>        hardwired). In such cases this property should contain phandle(s) of
 >        related source device(s).
-> +      Another example is a GPIO line that will be monitored and mirror t=
-he
+> +      Another example is a GPIO line that will be monitored and mirror the
 > +      state of the line (with or without inversion flags) to the LED.
->        In many cases LED can be related to more than one device (e.g. one=
- USB LED
->        vs. multiple USB ports). Each source should be represented by a no=
-de in
+>        In many cases LED can be related to more than one device (e.g. one USB LED
+>        vs. multiple USB ports). Each source should be represented by a node in
 >        the device tree and be referenced by a phandle and a set of phandle
->=20
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
---dtprEHGdUyw2Qv/N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQCbxAAKCRB4tDGHoIJi
-0jR+AP4+jmFjuVM/kMEexCYC/xCeNWS4H6kBNsQozxT46NucvQEAzVuZw7tsRPe1
-DS1rf3XkxHkfNv9BeZiDam9yoVAieQY=
-=2ggV
------END PGP SIGNATURE-----
-
---dtprEHGdUyw2Qv/N--
+> 
+> -- 
+> 2.34.1
+> 
