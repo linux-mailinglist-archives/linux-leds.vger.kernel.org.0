@@ -2,132 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 980737A018C
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Sep 2023 12:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 642417A0187
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Sep 2023 12:21:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235604AbjINKVv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Sep 2023 06:21:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
+        id S238279AbjINKVV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Sep 2023 06:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236906AbjINJLE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Sep 2023 05:11:04 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF8D26A8
-        for <linux-leds@vger.kernel.org>; Thu, 14 Sep 2023 02:10:32 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-403012f27e1so7412295e9.1
-        for <linux-leds@vger.kernel.org>; Thu, 14 Sep 2023 02:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694682631; x=1695287431; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/p/h+1hjRJPkTJw7ohFZfNjwicd4vOn5u73LLVp5Pws=;
-        b=pCzhq7HLcxAm3ltl3eMVbQMWzzvuDOW1/9FU7XBZOX8LaKhwH7GFKrhSCfPjRQAsWm
-         tQ8Rvr8KoUzDtPrTLLXjWlwGK6BosWJelWXv4sd2mdIBz+SfORyAuL8nqkR/nCaV4+GH
-         13CfYmjE+0mdmWf7cEMQERm8tNBDni3pLbYJasAL0AD4LzbOVg36Hcd5J4VHT69ghDhZ
-         rJR+JYruxINgrEpRsPjjhLA0HSNUD5pNsg8hQMVCuFLDtXfAHG3qRIIqADzBDeXyeNMN
-         fXP7ScemVXR1lHC/J2klOWm6itysF+MyW831kjL0gZFgmgNvJ2VoMK3EJ9GhEeKQG0ax
-         CbWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694682631; x=1695287431;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/p/h+1hjRJPkTJw7ohFZfNjwicd4vOn5u73LLVp5Pws=;
-        b=m9No1Dk9AB7v/jPngddMJg6/qtSJTpUPVTpXNj7haU/o/F4goul1ss8cy3Ehw2gXjH
-         Wyqo4AXfWvJO/ufdC4CJCaneBCzPsmWu1KvCia91sSjamQLB5pRsCXV+IRQojeWYa12k
-         2i5gPoNsf8DmS2lclmvdEWphVuNEaq/KuOjEbE2he4EroaeV0MNKoO8Erw/W2yQ0fTB+
-         QfEfQM99ly3L8nHN2Ld0IQ4+sUg90LGtcmHPzlEdcUHWl4NzltyHlX3+N9H7u8KB7Ru3
-         SjfbbxQ+kq00/aVRoHsVBa93Q3RVwOVSXhO6U2ptXFgn2L1zRsRymWDe0G7W4ljtALlp
-         glhQ==
-X-Gm-Message-State: AOJu0YyHWiOrSGOraptPczfSJVHjDwzquaEBE7tz6wI3rO07IR+Tnehs
-        n9ZKW6YSUUQSW3s4u23fEubTyw==
-X-Google-Smtp-Source: AGHT+IHOJr+9i6NWOvvuN/NveO9DgZMU7hC3xHft4L2jEtjxakLoHExd0GgllOpjdXdC9Tnpdx852A==
-X-Received: by 2002:a7b:ce93:0:b0:401:daf2:2735 with SMTP id q19-20020a7bce93000000b00401daf22735mr4087319wmj.31.1694682630841;
-        Thu, 14 Sep 2023 02:10:30 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m7-20020a05600c280700b003fed630f560sm1379458wmb.36.2023.09.14.02.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 02:10:30 -0700 (PDT)
-Date:   Thu, 14 Sep 2023 12:10:27 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     oe-kbuild@lists.linux.dev,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jan =?iso-8859-1?Q?Kundr=E1t?= <jan.kundrat@cesnet.cz>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2] leds: triggers: gpio: Rewrite to use trigger-sources
-Message-ID: <21f871bb-d409-4337-9d90-27e5c9389aaf@kadam.mountain>
+        with ESMTP id S238107AbjINKVQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Sep 2023 06:21:16 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559B61BE9;
+        Thu, 14 Sep 2023 03:21:12 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0F3AC1C001A; Thu, 14 Sep 2023 12:21:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1694686870;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9VuvLFAgOapdxIBaFQmCyHnGviBZ/c74QA8VXYTIyQA=;
+        b=kjrUGT2++ncwIXHKIoX2n8QjkUoCQkDyOcKaaPMwc2w7NDkHVlZ8MrOceUKeDa2h4HHfXX
+        GhE4IKiJctHjOD/kavNUg+F6E7DITOlwyJhZ/MEqlqv76EOHlzwgtTlEArS1piEFYA1/TJ
+        O8V9LyCpgATysKpn0oODDAHJG7cimag=
+Date:   Thu, 14 Sep 2023 12:21:09 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Da Xue <da@libre.computer>, kabel@kernel.org, lee@kernel.org,
+        sashal@kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-stable <stable@vger.kernel.org>
+Subject: Re: linux-stable 6.1.53 kernel crash on COLOR_ID_MULTI handling
+ change
+Message-ID: <ZQLelWcNjjp2xndY@duo.ucw.cz>
+References: <CACqvRUb_X14pjaxA0Q7bQf53TAFmk5rjQOSWqx3Tvi4g+vcNMw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="5BBXTsWOpV35xwsR"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230912-gpio-led-trigger-dt-v1-2-1b50e3756dda@linaro.org>
+In-Reply-To: <CACqvRUb_X14pjaxA0Q7bQf53TAFmk5rjQOSWqx3Tvi4g+vcNMw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Linus,
 
-kernel test robot noticed the following build warnings:
+--5BBXTsWOpV35xwsR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/dt-bindings-leds-Mention-GPIO-triggers/20230912-214554
-base:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-patch link:    https://lore.kernel.org/r/20230912-gpio-led-trigger-dt-v1-2-1b50e3756dda%40linaro.org
-patch subject: [PATCH 2/2] leds: triggers: gpio: Rewrite to use trigger-sources
-config: x86_64-randconfig-161-20230913 (https://download.01.org/0day-ci/archive/20230914/202309140825.cVUTHU1K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230914/202309140825.cVUTHU1K-lkp@intel.com/reproduce)
+Hi!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309140825.cVUTHU1K-lkp@intel.com/
+> We have running systems that use COLOR_ID_MULTI. The GPIO toggles
+> between two colors and we have used the identifier. RGB is not a good
+> fit since it is not a RGB LED. Please provide guidance.
+>=20
+> This patch causes the system to not start: f741121a2251 leds: Fix
+> BUG_ON check for LED_COLOR_ID_MULTI that is always false
+>=20
+> It was also backported to stable causing previously booting systems to
+> no longer boot.
 
-smatch warnings:
-drivers/leds/trigger/ledtrig-gpio.c:98 gpio_trig_activate() error: dereferencing freed memory 'gpio_data'
+Lets cc patch authors.
 
-vim +/gpio_data +98 drivers/leds/trigger/ledtrig-gpio.c
+And please drop this from stable, it does not belong there.
 
-2282e125a406e0 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02   78  static int gpio_trig_activate(struct led_classdev *led)
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   79  {
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   80  	struct gpio_trig_data *gpio_data;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   81  	struct device *dev = led->dev;
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   82  	int ret;
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   83  
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   84  	gpio_data = kzalloc(sizeof(*gpio_data), GFP_KERNEL);
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   85  	if (!gpio_data)
-9bfd7d9e5d6353 drivers/leds/trigger/ledtrig-gpio.c Uwe Kleine-König 2018-07-02   86  		return -ENOMEM;
-17354bfe85275f drivers/leds/ledtrig-gpio.c         Felipe Balbi     2009-02-17   87  
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   88  	/*
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   89  	 * The generic property "trigger-sources" is followed,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   90  	 * and we hope that this is a GPIO.
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   91  	 */
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   92  	gpio_data->gpiod = fwnode_gpiod_get_index(dev->fwnode,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   93  						  "trigger-sources",
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   94  						  0, GPIOD_IN,
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   95  						  "led-trigger");
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   96  	if (IS_ERR(gpio_data->gpiod)) {
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   97  		kfree(gpio_data);
-                                                                                                ^^^^^^^^^^^^^^^^
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  @98  		return PTR_ERR(gpio_data->gpiod);
-                                                                                                               ^^^^^^^^^^^^^^^^
-Dereferencing freed memory.
+--5BBXTsWOpV35xwsR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12   99  	}
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  100  	if (!gpio_data->gpiod) {
-2689cea6283a47 drivers/leds/trigger/ledtrig-gpio.c Linus Walleij    2023-09-12  101  		dev_err(dev, "no valid GPIO for the trigger\n");
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZQLelQAKCRAw5/Bqldv6
+8g40AJoD27etLUUmaYCy5BPMt6NYcBV+TgCcCl2ikwBAgGDPWOQA+8bYY4vwjm0=
+=EZAw
+-----END PGP SIGNATURE-----
 
+--5BBXTsWOpV35xwsR--
