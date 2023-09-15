@@ -2,143 +2,213 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A05C97A1DD9
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 14:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B8F7A206E
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 16:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234495AbjIOMCC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Sep 2023 08:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45284 "EHLO
+        id S235529AbjIOOFb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Sep 2023 10:05:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234477AbjIOMCA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 08:02:00 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3719A1FFA
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 05:01:55 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3acac5d0b91so1007941b6e.0
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 05:01:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694779314; x=1695384114; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zuzQxwfRLuYYkwxb5IQRfayhhE4ZirTH79+QLFntvNk=;
-        b=CEfMEXmsbyIuGqvbygabO1En6V4IMycikaWkDvggkARLODvpenZvEei+kpmVgDZRvo
-         gfWiz9WoC9844HvNOsmw50cosh2esFnCWLBNHIP62ag6DH0R3qaLTmB+xxQg79ThAPhz
-         5WV9bw2ekwhlDl6MyDnKFEvnYSqpHbnvWizVJVDqQzVctUP6MiUcn70yzslw5qLkQVnJ
-         Y4VuTGGBnAAVwVlInKQKG+cmuHA8uGRqeRTvpXvN4eoX9YmgdS9Pxa+iAatUdAyUxdek
-         B4+IzR7dIrEQjYZ/tQnB4c3BPTNu3J1LxfdCMxDfpC9ECDKY8xHRYJIioP8XzRp1pr89
-         Dalw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694779314; x=1695384114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zuzQxwfRLuYYkwxb5IQRfayhhE4ZirTH79+QLFntvNk=;
-        b=qRivQWtQ+oPcIQTV/0bgWbFdKfT1LYgiFFam5yHg/wsAfBxf4yna81ZszkAs3TrzMT
-         tm3BIxarIMy1aGEdduTsis81IAT2HosLQtREkJqR1keGm5uVFAn4dJ85Yq6LG8h8/5P0
-         Vj6Ooa7dmTLvh3EwRfCMhMtt9GfI24io/1i1Up+bd09rv+uaJJ6+FjaBVtFjB/Adag9b
-         tySc8PWlHNoUlyxA0inkn9DgUo8lMcdlCDmYOu/SdQaCCwkgnoiuVVJH0e/TtycqJYo9
-         hLZdo4t58bt9aQbLyYm8WrpNhS20NMqOyecD7vtszwD/SHJ50nNhWw6tFqoInH2V0Xov
-         dryQ==
-X-Gm-Message-State: AOJu0YwQriZOV0T/tU+uFaYjtmvZ6zOKChKqXTNhPZ2Ud0g5NP8yT03z
-        rxrEM3TB/r8kupDZ3uDPvcz6rk5r/Lu5725xcXatqQ==
-X-Google-Smtp-Source: AGHT+IHXYWlChyP+R5UJVlYYmmHJCl+tnMgAPu0WP9s+/l6g32qgvo20rfSpiMfxlQu/zTy0jBjRr2rZGTClg3uns3M=
-X-Received: by 2002:a05:6808:182:b0:3a3:6e43:e681 with SMTP id
- w2-20020a056808018200b003a36e43e681mr1497539oic.58.1694779314420; Fri, 15 Sep
- 2023 05:01:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230912-gpio-led-trigger-dt-v1-0-1b50e3756dda@linaro.org>
- <20230912-gpio-led-trigger-dt-v1-1-1b50e3756dda@linaro.org>
- <20230913133451.GA2841610-robh@kernel.org> <CACRpkdb72f9WFeEGo-tXscZaBmFH04WiePM+tJSmuuXQxxy=3A@mail.gmail.com>
- <CAL_Jsq+PizSdqJ5Yc4TpNscy5e3gBP4vjQF+ka6SRwnJhSt-0w@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+PizSdqJ5Yc4TpNscy5e3gBP4vjQF+ka6SRwnJhSt-0w@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 15 Sep 2023 14:01:42 +0200
-Message-ID: <CACRpkdZeCjRrQ1iKQhYzhWgQOXH8nQ=TN5AsdoQm2jr7wtdPQQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Mention GPIO triggers
-To:     Rob Herring <robh@kernel.org>
-Cc:     =?UTF-8?B?SmFuIEt1bmRyw6F0?= <jan.kundrat@cesnet.cz>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        with ESMTP id S235470AbjIOOFa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 10:05:30 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2054.outbound.protection.outlook.com [40.107.6.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0DD1FCC;
+        Fri, 15 Sep 2023 07:05:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=byxp5s74KzQpULehQgGzu49lSYOadqYhIFLBqkXp6HLN9axa6iSETvfAKCe4PCdN+E9GOeXMPZ4ISA1wUf3+cViaGbP7OUXZI/NKFTtOirCVcKMw8NnHa5kA4UL8F/0/7Bq9ZAyU8ljrvamg3SSc2IET8MYwh1w/W6e9JKtDam7EzUULybAmYszBuc+k6p4Hoq+FQYnnTIyHOTXfHHt8NugGNzthqUsC+vTwTSWG577h9RfCv6yT4Y729/xf5zcseZzmgwOtRRgEBVOF+x62fPbU2LIP3N+Mt/H+8xzLerpE/DZa/saq2kLQ3Uy8gc9c9DNOF4wSImyghsjfIGkeIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=py9fIa4DYNUu9u5VEoQ5z5bqAm59jnw+4sHK1LITt0E=;
+ b=cFAR+wvXvPq1XqJdQksdi6/fyAVVx0B4YZC/j/S960nirYis60Jzxe1svtVpERk4G1f1Nva52rlqGK2o3vf3NFZb4aGNcAzIuQwVWdRiOALu6ws0r6IiCC/c5c1YYsLPkzdl6eXVTCuzM5a5yx2OjAnsvQwmKnCUS9th1lVCDkIvp9kg5ubBHH+tkOxDh9E0mbEY+6Aq3mVvZIiS8eb49n9NjQnml+fAsEbm+iDKf/0eN/jSYdYMMHw8PUHMmWrTawXalSj2qoSiOLuORfVAw6HSdbbuW5caEK66qQ6GujWMaW9iHK8g5gldgo28nEhhFgaefC3LMO0QKyYCaqvxVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 151.1.184.193) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=asem.it;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=asem.it;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=py9fIa4DYNUu9u5VEoQ5z5bqAm59jnw+4sHK1LITt0E=;
+ b=l/e2Gk1z8sTHGQKPVWPf4QpyiYZ5eu8k7zlLv0ML2nT5SZTpQie0Gtr+JWOU9gJu0Df9bhKHvhkDiKeqMChVnjpoccFhw9MrCo8YYdqL2a5D+POOLZf0CeIy2c1L4A/CrZiL5dItjK+aaXDOvY2KH6CxcX51VI8ec7H+YQUmU0g=
+Received: from AM0PR04CA0095.eurprd04.prod.outlook.com (2603:10a6:208:be::36)
+ by AS8PR01MB8603.eurprd01.prod.exchangelabs.com (2603:10a6:20b:44b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.7; Fri, 15 Sep
+ 2023 14:05:21 +0000
+Received: from AM4PEPF00025F99.EURPRD83.prod.outlook.com
+ (2603:10a6:208:be:cafe::74) by AM0PR04CA0095.outlook.office365.com
+ (2603:10a6:208:be::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21 via Frontend
+ Transport; Fri, 15 Sep 2023 14:05:21 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 151.1.184.193) smtp.mailfrom=asem.it; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=asem.it;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ asem.it discourages use of 151.1.184.193 as permitted sender)
+Received: from asas054.asem.intra (151.1.184.193) by
+ AM4PEPF00025F99.mail.protection.outlook.com (10.167.16.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.0 via Frontend Transport; Fri, 15 Sep 2023 14:05:20 +0000
+Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with Microsoft SMTPSVC(10.0.14393.4169);
+         Fri, 15 Sep 2023 16:05:20 +0200
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v2 1/2] dt-bindings: backlight: Add MPS MP3309C
+Date:   Fri, 15 Sep 2023 16:05:15 +0200
+Message-Id: <20230915140516.1294925-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 15 Sep 2023 14:05:20.0279 (UTC) FILETIME=[A9912270:01D9E7DD]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F99:EE_|AS8PR01MB8603:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: a7d04cf5-8ae5-4f69-7cfb-08dbb5f4cc93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D5Dl+jch3IoJzEVXlELOpfLsFJuCEgkQsowD7rDcgFQWoywZZWe8mz+9vNxjtqCrYjOPdtVGDlPG1/ksPsg4Nx4qw948RjB0tvQ6DMDpaAd8copdYhWjSZGmad6uoEkpfFcVN+1EEGvo837jvxWze115Q7J0Dwmu4wU/bUO3C3BCQziRVCOSxbcmQZAElqQBpqfCW8TNxUkNoYGmB7fB5f8d8AcFcN7JTFVLN0OoVx3ecE21GSnkHGCiU8eu2B6qQU7Nbg/RC/vSwCz/3pGpfD0FQcaMfrJdjRZHa9s8yCi3q8vu6wvXN1RtPX2LX2jrH7Yg2OP+gYWSIaz9kEttbHcGUXYVqwWFOKBA6yGAXSO6XgK5iYRTya0uXTLnbH8S1E/wCP+6qH1pvASoS+dADU4OXpirJtVjfWmi4h6Wu+wqyaBbpRMnVZfjzGg9BG72CpoRAClqCioa1yltLM4kAdqGY+Bhb+Afew6vvGhymkoEaMbNd4fkou3J/bIIW06m1Sy21q7Bwqcvy8MvkqXUcuHC3ajxAaBnB6edYmLEysk1ULuPDNtHoB5iHIExaTUPf6saHrK5DeunJUNyQKNeKSCFjST6A4tn1My8LuY+tBEiuQwTsY9UjHcmiR/VV9A3+yKL09o+he6R+muQ3ovYEMZwzB4ogQcOQVTauaBNCuyFFvDO36jRzIa+3rF86Eek36fCz1z6MB5VE2vae/0PbpbF0HlO6/tTGoEJxrqzx6s=
+X-Forefront-Antispam-Report: CIP:151.1.184.193;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:asas054.asem.intra;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(376002)(39850400004)(1800799009)(82310400011)(186009)(451199024)(46966006)(36840700001)(36756003)(8936002)(110136005)(5660300002)(86362001)(36860700001)(40480700001)(8676002)(450100002)(41300700001)(82740400003)(6666004)(2616005)(26005)(336012)(1076003)(107886003)(356005)(47076005)(4326008)(70206006)(70586007)(81166007)(478600001)(2906002)(966005)(316002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 14:05:20.9735
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7d04cf5-8ae5-4f69-7cfb-08dbb5f4cc93
+X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2;Ip=[151.1.184.193];Helo=[asas054.asem.intra]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00025F99.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB8603
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 14, 2023 at 4:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
-> On Thu, Sep 14, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@lina=
-ro.org> wrote:
-> > On Wed, Sep 13, 2023 at 3:34=E2=80=AFPM Rob Herring <robh@kernel.org> w=
-rote:
-> > > On Tue, Sep 12, 2023 at 03:44:30PM +0200, Linus Walleij wrote:
-> > > > We reuse the trigger-sources phandle to just point to
-> > > > GPIOs we may want to use as LED triggers.
-> > > >
-> > > > Example:
-> > > >
-> > > > gpio: gpio@0 {
-> > > >     compatible "my-gpio";
-> > > >     gpio-controller;
-> > > >     #gpio-cells =3D <2>;
-> > > >     interrupt-controller;
-> > > >     #interrupt-cells =3D <2>;
-> > > >     #trigger-source-cells =3D <2>;
-> > >
-> > > BTW, this is not documented for any GPIO binding. If we want to speci=
-fy
-> > > the cell size, then it has to be added to every GPIO controller bindi=
-ng.
-> > > If not, we then need to reference gpio.yaml in every GPIO controller
-> > > binding (along with unevaluatedProperties). Doesn't have to be done f=
-or
-> > > this patch to go in though.
-> >
-> > Yeah I mean this trigger-sources =3D <...>; one-size-fits-all is a bit
-> > weird in a way.
-> >
-> > My other idea was to simply add trigger-gpios to the normal way
-> > and be done with it, but now the trigger binding has this weird
-> > thing.
-> >
-> > Would trigger-gpios be better?
->
-> Then GPIOs are different than everyone else. I think we have to think
-> about other bindings too. While we could standardize the naming here
-> with trigger-gpios, that won't work with the foos/foo-names style of
-> bindings.
->
-> trigger-sources is not widely used as it is just USB ATM and a few
-> platforms. We could come up with something different.
-> "trigger-sources-<cellname>" is the only idea I have. Then the
-> property name gives you the cell name to read. But variable property
-> names have their own challenges. We would need to look at all the
-> current trigger sources (i.e. the linux,default-trigger ones) and see
-> what else might need this.
+The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+programmable switching frequency to optimize efficiency.
+The brightness can be controlled either by I2C commands (called "analog"
+mode) or by a PWM input signal (PWM mode).
+This driver supports both modes.
 
-I think it in a way is elegant with the trigger-sources phandle as it
-is so I would stick with this.
+For device driver details, please refer to:
+- drivers/video/backlight/mp3309c_bl.c
 
-I can just add '#trigger-source-cells' to the existing GPIO
-bindings and it's a bit tedious since we don't have a common file
-for the GPIO chip stuff, but it's just lots of lines.
+The datasheet is available at:
+- https://www.monolithicpower.com/en/mp3309c.html
 
-I guess it would be better to break out gpio-common.yaml and
-gpio-common-irq.yaml for GPIO controllers with or without
-interrupt support and then add '#trigger-source-cells' to just
-those supporting IRQs because I think only that makes sense,
-polling for a line to change isn't quite a "trigger".
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
 
-Yours,
-Linus Walleij
+v2:
+ - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
+   switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
+   reset-on-length-ms)
+ - add common.yaml#
+ - remove already included properties (default-brightness, max-brightness)
+ - substitute three boolean properties, used for the overvoltage-protection
+   values, with a single enum property
+ - remove some conditional definitions
+ - remove the 2nd example
+v1:
+ - first version
+
+ .../bindings/leds/backlight/mps,mp3309c.yaml  | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+new file mode 100644
+index 000000000000..99ccdba2c08f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MPS MP3309C backlight
++
++maintainers:
++  - Flavio Suligoi <f.suligoi@asem.it>
++
++description: |
++  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
++  programmable switching frequency to optimize efficiency.
++  It supports two different dimming modes:
++
++  - analog mode, via I2C commands (default)
++  - PWM controlled mode.
++
++  The datasheet is available at:
++  https://www.monolithicpower.com/en/mp3309c.html
++
++allOf:
++  - $ref: common.yaml#
++
++properties:
++  compatible:
++    const: mps,mp3309c
++
++  reg:
++    maxItems: 1
++
++  pwms:
++    description: if present, the backlight is controlled in PWM mode.
++    maxItems: 1
++
++  enable-gpios:
++    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
++    maxItems: 1
++
++  mps,overvoltage-protection-microvolt:
++    description: Overvoltage protection (13.5V, 24V or 35.5V). If missing, the
++      hardware default of 35.5V is used.
++    enum: [ 13500000, 24000000, 35500000 ]
++
++  mps,no-sync-mode:
++    description: disable synchronous rectification mode
++    type: boolean
++
++required:
++  - compatible
++  - reg
++  - max-brightness
++  - default-brightness
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* Backlight with PWM control */
++        backlight_pwm: backlight@17 {
++            compatible = "mps,mp3309c-backlight";
++            reg = <0x17>;
++            pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
++            max-brightness = <100>;
++            default-brightness = <80>;
++            overvoltage-protection-microvolt = <24000000>;
++        };
++    };
+-- 
+2.34.1
+
