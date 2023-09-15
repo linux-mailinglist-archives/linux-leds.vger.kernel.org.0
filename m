@@ -2,68 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 301BD7A19E6
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 11:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A05C97A1DD9
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 14:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbjIOJFI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Sep 2023 05:05:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52982 "EHLO
+        id S234495AbjIOMCC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Sep 2023 08:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233250AbjIOJFH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 05:05:07 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8860B49F0
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 02:02:18 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-d8032efa2bfso2656911276.1
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 02:02:18 -0700 (PDT)
+        with ESMTP id S234477AbjIOMCA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 08:02:00 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3719A1FFA
+        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 05:01:55 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3acac5d0b91so1007941b6e.0
+        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 05:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694768532; x=1695373332; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694779314; x=1695384114; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wYhuR58x0PfWp746xuq3bl6Wnhj1B6G4ZyoH5DkvAmk=;
-        b=cIRQXFXUYUlp7ECWE+6fj5e2i7UmAVv1JRey8nIvLDcDmETZ7Y5X1eG1p9KooDc8T/
-         k5cXaKRLpQQEyLd1cinaPmuljSCnFuTulPJvJtOGmleGYYADnPdm4oIDKX6/q3CtNCM/
-         IrvhdebisdkQt2JcmH0vEMUnb9f0TcD3wGDs2y/cEhqKJnYjHDlSTwYs3xYE3qTm0mk/
-         ggYi4ybWfu5twZzmTKwLHDrp66UGyGv2E6vO9EMWWkTIN4KD/xfyQxfpu0PYKecVdHkW
-         tnMtvV4t3aYcA2Ffz9/UB8IM9BvBu2r1fRYtDHbETulUEDsWNRJmYybB8FWHIVgE1f25
-         CNDw==
+        bh=zuzQxwfRLuYYkwxb5IQRfayhhE4ZirTH79+QLFntvNk=;
+        b=CEfMEXmsbyIuGqvbygabO1En6V4IMycikaWkDvggkARLODvpenZvEei+kpmVgDZRvo
+         gfWiz9WoC9844HvNOsmw50cosh2esFnCWLBNHIP62ag6DH0R3qaLTmB+xxQg79ThAPhz
+         5WV9bw2ekwhlDl6MyDnKFEvnYSqpHbnvWizVJVDqQzVctUP6MiUcn70yzslw5qLkQVnJ
+         Y4VuTGGBnAAVwVlInKQKG+cmuHA8uGRqeRTvpXvN4eoX9YmgdS9Pxa+iAatUdAyUxdek
+         B4+IzR7dIrEQjYZ/tQnB4c3BPTNu3J1LxfdCMxDfpC9ECDKY8xHRYJIioP8XzRp1pr89
+         Dalw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694768532; x=1695373332;
+        d=1e100.net; s=20230601; t=1694779314; x=1695384114;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wYhuR58x0PfWp746xuq3bl6Wnhj1B6G4ZyoH5DkvAmk=;
-        b=lb1aIXEWwJRJWce3bbGacwYogQ4+aRobjJuEE5ubiVWAplE2pXE5GdIwUM4FXwiJd1
-         7LvySZvwltcOyS+yLZHZbvsgS6VSYBEOJMGU7FIP7wmCMWgj6lw+WhSw3/DqRJY5mKyg
-         /KW8YdnrFk9sNzOk/typ+ZZVjsuylelndp/Xb7hzo8Qo6QBo3zscQmOEIpX7QNWwAKDh
-         GCPEJQCQ+HYWNBtuSH4mUr2ey9fryKflhZY1T2WYaprZVjUlXJi3ZTJBy78qDBTi/Vss
-         iavWB+wEaecrKk3tg5t5cH28bp3N6DDG0IqwCJ+hZ+xpReAzTtuotK1XLUST+c2tQhLa
-         /lYg==
-X-Gm-Message-State: AOJu0YwR96pwdb6jaQphJysraXoT0DWUlYXnKYVfu5oG6DXczNYQ1+OW
-        OTJE3y8Et5YO97S/NLOOwXke0Q3uwt/u9kw2gWmsHw==
-X-Google-Smtp-Source: AGHT+IG5PlShkx8XUQaH04ChTdxjlTUZHDSyYhtXGqNxvmL4QyV4L8VamjlX4xQtVG1x/DUlfzOCVJsHwm17BQNpPwM=
-X-Received: by 2002:a25:f61f:0:b0:d81:41e9:6cf5 with SMTP id
- t31-20020a25f61f000000b00d8141e96cf5mr4312903ybd.27.1694768532590; Fri, 15
- Sep 2023 02:02:12 -0700 (PDT)
+        bh=zuzQxwfRLuYYkwxb5IQRfayhhE4ZirTH79+QLFntvNk=;
+        b=qRivQWtQ+oPcIQTV/0bgWbFdKfT1LYgiFFam5yHg/wsAfBxf4yna81ZszkAs3TrzMT
+         tm3BIxarIMy1aGEdduTsis81IAT2HosLQtREkJqR1keGm5uVFAn4dJ85Yq6LG8h8/5P0
+         Vj6Ooa7dmTLvh3EwRfCMhMtt9GfI24io/1i1Up+bd09rv+uaJJ6+FjaBVtFjB/Adag9b
+         tySc8PWlHNoUlyxA0inkn9DgUo8lMcdlCDmYOu/SdQaCCwkgnoiuVVJH0e/TtycqJYo9
+         hLZdo4t58bt9aQbLyYm8WrpNhS20NMqOyecD7vtszwD/SHJ50nNhWw6tFqoInH2V0Xov
+         dryQ==
+X-Gm-Message-State: AOJu0YwQriZOV0T/tU+uFaYjtmvZ6zOKChKqXTNhPZ2Ud0g5NP8yT03z
+        rxrEM3TB/r8kupDZ3uDPvcz6rk5r/Lu5725xcXatqQ==
+X-Google-Smtp-Source: AGHT+IHXYWlChyP+R5UJVlYYmmHJCl+tnMgAPu0WP9s+/l6g32qgvo20rfSpiMfxlQu/zTy0jBjRr2rZGTClg3uns3M=
+X-Received: by 2002:a05:6808:182:b0:3a3:6e43:e681 with SMTP id
+ w2-20020a056808018200b003a36e43e681mr1497539oic.58.1694779314420; Fri, 15 Sep
+ 2023 05:01:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230915031123.14515-1-larry.lai@yunjingtech.com> <20230915031123.14515-3-larry.lai@yunjingtech.com>
-In-Reply-To: <20230915031123.14515-3-larry.lai@yunjingtech.com>
+References: <20230912-gpio-led-trigger-dt-v1-0-1b50e3756dda@linaro.org>
+ <20230912-gpio-led-trigger-dt-v1-1-1b50e3756dda@linaro.org>
+ <20230913133451.GA2841610-robh@kernel.org> <CACRpkdb72f9WFeEGo-tXscZaBmFH04WiePM+tJSmuuXQxxy=3A@mail.gmail.com>
+ <CAL_Jsq+PizSdqJ5Yc4TpNscy5e3gBP4vjQF+ka6SRwnJhSt-0w@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+PizSdqJ5Yc4TpNscy5e3gBP4vjQF+ka6SRwnJhSt-0w@mail.gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 15 Sep 2023 11:02:01 +0200
-Message-ID: <CACRpkdbi0bS0yiJ9ac6Z44os0w6FyKm+UsvbgQEYzYKymjww-w@mail.gmail.com>
-Subject: Re: [PATCH V6 2/3] pinctrl: Add support pin control for UP board CPLD/FPGA
-To:     "larry.lai" <larry.lai@yunjingtech.com>
-Cc:     lee@kernel.org, andriy.shevchenko@linux.intel.com, pavel@ucw.cz,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
-        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
-        noah.hung@yunjingtech.com
+Date:   Fri, 15 Sep 2023 14:01:42 +0200
+Message-ID: <CACRpkdZeCjRrQ1iKQhYzhWgQOXH8nQ=TN5AsdoQm2jr7wtdPQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: Mention GPIO triggers
+To:     Rob Herring <robh@kernel.org>
+Cc:     =?UTF-8?B?SmFuIEt1bmRyw6F0?= <jan.kundrat@cesnet.cz>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLACK autolearn=no autolearn_force=no
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,39 +76,69 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 5:12=E2=80=AFAM larry.lai <larry.lai@yunjingtech.co=
-m> wrote:
-
-> The UP Squared board <http://www.upboard.com> implements certain
-> features (pin control) through an on-board FPGA.
+On Thu, Sep 14, 2023 at 4:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> On Thu, Sep 14, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@lina=
+ro.org> wrote:
+> > On Wed, Sep 13, 2023 at 3:34=E2=80=AFPM Rob Herring <robh@kernel.org> w=
+rote:
+> > > On Tue, Sep 12, 2023 at 03:44:30PM +0200, Linus Walleij wrote:
+> > > > We reuse the trigger-sources phandle to just point to
+> > > > GPIOs we may want to use as LED triggers.
+> > > >
+> > > > Example:
+> > > >
+> > > > gpio: gpio@0 {
+> > > >     compatible "my-gpio";
+> > > >     gpio-controller;
+> > > >     #gpio-cells =3D <2>;
+> > > >     interrupt-controller;
+> > > >     #interrupt-cells =3D <2>;
+> > > >     #trigger-source-cells =3D <2>;
+> > >
+> > > BTW, this is not documented for any GPIO binding. If we want to speci=
+fy
+> > > the cell size, then it has to be added to every GPIO controller bindi=
+ng.
+> > > If not, we then need to reference gpio.yaml in every GPIO controller
+> > > binding (along with unevaluatedProperties). Doesn't have to be done f=
+or
+> > > this patch to go in though.
+> >
+> > Yeah I mean this trigger-sources =3D <...>; one-size-fits-all is a bit
+> > weird in a way.
+> >
+> > My other idea was to simply add trigger-gpios to the normal way
+> > and be done with it, but now the trigger binding has this weird
+> > thing.
+> >
+> > Would trigger-gpios be better?
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Gary Wang <garywang@aaeon.com.tw>
-> Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
+> Then GPIOs are different than everyone else. I think we have to think
+> about other bindings too. While we could standardize the naming here
+> with trigger-gpios, that won't work with the foos/foo-names style of
+> bindings.
+>
+> trigger-sources is not widely used as it is just USB ATM and a few
+> platforms. We could come up with something different.
+> "trigger-sources-<cellname>" is the only idea I have. Then the
+> property name gives you the cell name to read. But variable property
+> names have their own challenges. We would need to look at all the
+> current trigger sources (i.e. the linux,default-trigger ones) and see
+> what else might need this.
 
-This v6 overall looks good to me!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I think it in a way is elegant with the trigger-sources phandle as it
+is so I would stick with this.
 
-Can the patch be merged on its own?
+I can just add '#trigger-source-cells' to the existing GPIO
+bindings and it's a bit tedious since we don't have a common file
+for the GPIO chip stuff, but it's just lots of lines.
 
-> +#include "core.h"
-> +#include "intel/pinctrl-intel.h"
-
-Didn't notice this before. But if Andy is OK with it, I'm
-OK with it, I guess there is a reason? Perhaps it warrants
-a comment explaining why you do this?
-
-Valid reasons:
-- You are using Intel-specific HW features also found in this
-   FPGA
-
-Invalid reasons:
-- Using nifty macros or helpers, then either make them generic
-  or (if they are small) duplicate them.
-
-If it was that thing I asked Andy to keep locally because I didn't
-agree with its generic usefulness, maybe I should be told to
-reconsider.
+I guess it would be better to break out gpio-common.yaml and
+gpio-common-irq.yaml for GPIO controllers with or without
+interrupt support and then add '#trigger-source-cells' to just
+those supporting IRQs because I think only that makes sense,
+polling for a line to change isn't quite a "trigger".
 
 Yours,
 Linus Walleij
