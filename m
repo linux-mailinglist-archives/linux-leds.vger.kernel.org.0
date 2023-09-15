@@ -2,49 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F467A27B8
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 22:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE4627A27BC
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 22:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237126AbjIOUKS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Sep 2023 16:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49702 "EHLO
+        id S237179AbjIOUKs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Sep 2023 16:10:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237325AbjIOUKL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 16:10:11 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E6E2120
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 13:10:06 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-69042d398b1so1169200b3a.0
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 13:10:06 -0700 (PDT)
+        with ESMTP id S237087AbjIOUKR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 16:10:17 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B78A8
+        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 13:10:12 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-27499bb759cso889654a91.3
+        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 13:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694808605; x=1695413405; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1694808612; x=1695413412; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WQVzGWkf7HVCqp2OLBRlKNzMbLz4neMZQx2JbqpcRaM=;
-        b=lt+q7GPxpB921tTwWGcrV8LRA9Ayx0aYOCsXDLxt9nzla3GPsHC+H393rGekTWjsgv
-         tAmGJgXqXoHiX1NRI/O0TJ/hnS0Uk1TH3+F5ZrqRocr6HcyaUE2V5bN4ffTBmWsVvf0C
-         ZSipyrvv0A5HaWm43QY9jx1ywKKHTr3zcZPEI=
+        bh=xnN3gHkGLtoNA2QTGtMAmFrJjm3lWByeM/YOF1ick6M=;
+        b=mxE74pomv1v1sYJxR9mmyug+RE7jUOCOGYAsO5l2r/1fkUWBuZ+/lfmuInnOh8rMNZ
+         Szxye0kVNj0Q6Pz4iUz9OCcVPJdJMhlAHhrZ2X0kseXgf3/3LQlKjhOLotPS19mSF1i6
+         Bc47b7UxnHVx73w939+X9nWsWBlmKlCj09oSw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694808605; x=1695413405;
+        d=1e100.net; s=20230601; t=1694808612; x=1695413412;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WQVzGWkf7HVCqp2OLBRlKNzMbLz4neMZQx2JbqpcRaM=;
-        b=L3JQMGo/KcHEuWSyJD96DD+wq/lGcPw1ShIe6pT6nzKSi6Gg90BL5NAm8IztngegGN
-         +eIg+MMRu4QZxz2t5ymMLIepJv3Hdu23pLWIlHQSApjYg/72cbZOiSDQKS4v6eE02BX5
-         WTIgYY4xyl1haty5mUDf5AAdd7+yltoU6Lnvybwex9t76Cl96gNUdwX5YHRQHNL12rN1
-         K7cGxKu9braJuYHh+fvh/bMi++Jw7s2PwqpOXx2R+7gcpM0LastTuMEmCPtYvbzNhUM2
-         2vZh5tWBRAeDPsyHCc5l5x+IXg4Wq43awx2UWHS+L5cGvqc+JF21IuS2mwqW97Eq7q/L
-         P0lA==
-X-Gm-Message-State: AOJu0Yw564T7SxVqENSpuIUYTqW6nkitylhsSFkWWjTo2PLzhkMRgUu2
-        8jCPdc66j9UmdKEIGlxmSOqD4w==
-X-Google-Smtp-Source: AGHT+IGmItHIYws5zyT5WqbbkI7YE7oVstUZ5sjqy97PsqZuhg23r5YqzwQVqjclJm+2VOByiXr3VA==
-X-Received: by 2002:a05:6a00:2386:b0:68f:edfd:2ac6 with SMTP id f6-20020a056a00238600b0068fedfd2ac6mr3092215pfc.0.1694808605765;
-        Fri, 15 Sep 2023 13:10:05 -0700 (PDT)
+        bh=xnN3gHkGLtoNA2QTGtMAmFrJjm3lWByeM/YOF1ick6M=;
+        b=HGR0v7hcErd1tjLq/5Z5wmVzGqqcljurdmpP9VEaelAQ68drE1WMJcSS791OvsxgpD
+         5+xbbJ7achPxb5FlMC9PAlXcBRCuRYreVA4JGKph5sh6242En3EKZ/S4GoSXB42Rd2mC
+         OKv7fWOXju2sZO7nB0jpwwMxzAJ5xnlx3fOIpmovPHqeHAxFSGkDGEO92+GnAl15gurF
+         F8HiYZCdNPa4HwISQ45VmYU+KzHxNk6h7VxV/2vOIk1f2zfnfxI1tABl6fRj5OPaTQMA
+         ZFCxUUhdmLIWGWyzwNU2b4Nhx3rXtXNQ4geuHSS2ZXz7hEXCxOJ7fn/rWCBZ+dzTeoQ0
+         DMWA==
+X-Gm-Message-State: AOJu0Yy9+YkmDpogQZzYX11S2g2hS9+HhTSVKfS1ib4gus4Y98f7EGT3
+        4uOFlk6QZbua/KxCDuGloeeM2g==
+X-Google-Smtp-Source: AGHT+IFTakrAd/P9IgFg/t1kORbe5OsEnV1TC7veShETUWveOXxBj4Is85OM+v2tEfU42/NGU94RCw==
+X-Received: by 2002:a17:90b:4a11:b0:26b:49de:13bd with SMTP id kk17-20020a17090b4a1100b0026b49de13bdmr2581678pjb.36.1694808612530;
+        Fri, 15 Sep 2023 13:10:12 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id v2-20020a62a502000000b0066a2e8431a0sm3327325pfm.183.2023.09.15.13.10.05
+        by smtp.gmail.com with ESMTPSA id 28-20020a17090a195c00b0026f90d7947csm3649999pjh.34.2023.09.15.13.10.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 13:10:05 -0700 (PDT)
+        Fri, 15 Sep 2023 13:10:12 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Kees Cook <keescook@chromium.org>, Lee Jones <lee@kernel.org>,
@@ -52,31 +52,30 @@ Cc:     Kees Cook <keescook@chromium.org>, Lee Jones <lee@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
         llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: [PATCH] leds: gpio: Annotate struct gpio_leds_priv with __counted_by
-Date:   Fri, 15 Sep 2023 13:10:04 -0700
-Message-Id: <20230915201003.never.148-kees@kernel.org>
+Subject: [PATCH] leds: lm3697: Annotate struct lm3697 with __counted_by
+Date:   Fri, 15 Sep 2023 13:10:10 -0700
+Message-Id: <20230915201010.never.399-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1202; i=keescook@chromium.org;
- h=from:subject:message-id; bh=g02eNjr5fSoURtZM+k1a/ubK96yp9CuHHEf8Va6oCXs=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlBLoc1T3DPO/feL5xYpcIAm3aABR+QIrhafXXM
- d7a0I9P3G6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQS6HAAKCRCJcvTf3G3A
- JgF0D/0dSbBzS492RBJC5to7Z7xpPsdhDREw7ReyYb514AFImFYtfefyrXtgazrHIHNZn4m7Az8
- FgRcUDkK3CTgj+V3JKf0wDPP4C/d8PCw+xH7XqaBEW941EUScRUWE2SqLw3gAOc4Aj3IsQJX8Wx
- gtdUmH0UVn3q5MryLs2McFw1Mq30XRTKc/6Q7uHQmbVC4QCRfzQrtCrM1jDpboifV06dq14KF6l
- oEr0YDZ0k3Yeou6mJn/tuI572iYKNb8qB7hDVGmwSg02fz7UiXvg7aphfoNO0ryeNiNiSSTzu+M
- QwKDfckpPlBKFUf6qeZPmQ/Q8bBNMmoADkm4hD3EfjaawXW2FnImRi0badqtgZxk2Xih+NncdqX
- X4MtYVyYMLdV1NCWkISWWNXMdbThdueTVadzPDZW92YPXEsAL6L0nUH5q/ze5r6ioJ2KdWrrQdB
- vzkHeQFOeoCSgE9sVl8DKWCb3ZDTD6CSLyTVJ/OJizlcer9Jw0/Xdn3YRlsAd9hvGuF+oupTKV5
- YcZ6Q1c8U47QRaqFHPP/dhTiLwlA40dJ0mEMg8nl73LW70H11mjwx92hSY1txdMa10UCv+kb8mQ
- UjF1ot4h8AOLsczLvc0cp1Uzxv4ncZryevLgmxtwaewWy/o0g8kZ6dCEc3Ga+/7DhGHPSYRBg8K
- J4iPM9i JX2KsxXA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=UTGtDE2akLSsdTySqF59uiPuDzz1OaDB2cv0YvrcVBc=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlBLoiuSQ3SORqIHxgEzXMXxgMfoY6915BNtJRe
+ 8pDUP6OpliJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQS6IgAKCRCJcvTf3G3A
+ JpbaD/0clVqVUxTw1+EOL/tG6W6RoCiaXFDUaXAPcnNTfob2vfYL2KQkMIjFYbgvOOwd9Z3glI2
+ b95tMT0bCRoHujNvqOOpI/cdAfKFKxz6SD522+Hhrx1ufi0cCHh2iO0HT7UgOLrW0+Rr/AgXFUm
+ CBjn0TNqarPBQOJNSrk0AoIdpKp4HYfydvM1AhzU8YlakmhAqVlNM3gy2pwnDars5U5ed3p9pBO
+ vj8XrD3iumDh/0eVACxk2cIdIRztZ7sjPNJ/HrzdxEfb60YXjHFqRJAc3BlmNTJhiqCW1mpPDzD
+ R2+WA7VEcEoj0oTFmLEJGeOCjLizRTkRt4AVyMXG//RfLOiwD/FGV8i/9BU0CjArO5KZDbiN6pg
+ XkXTlGgx2udPvdFKjs0oIBd7/sAOPWAk4I+5qLhSkAZkB+PzoRZbGM00+/JYYrAgPD+n8sBi0eD
+ 8VIeXQJvQ1t6NCjw3GwU/5AkySxbWyCL5fMpTHI+P65znv3n2QAYJ2idcC5/x7F9E07cxhsP29l
+ 6eHYhQYkfFHL+F+PQ/t1v2XeXg/v4GqAM1+9N41ktDpoP47HeFBhs9wwVj96wbU0sGgrkBpZJs4
+ wydpIoJeJ2wJ68fdxIXE0QKuxqbCL4kqgVri1VsGVVia6NO+TM5kM4KVQw67PaY7QgMX8Yj1w72
+ mgcWtvz G82BZOPA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -89,7 +88,7 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct gpio_leds_priv.
+As found with Coccinelle[1], add __counted_by for struct lm3697.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
@@ -98,22 +97,22 @@ Cc: Lee Jones <lee@kernel.org>
 Cc: linux-leds@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/leds/leds-gpio.c | 2 +-
+ drivers/leds/leds-lm3697.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-index 7bfe40a6bfdd..a6597f0f3eb4 100644
---- a/drivers/leds/leds-gpio.c
-+++ b/drivers/leds/leds-gpio.c
-@@ -142,7 +142,7 @@ static int create_gpio_led(const struct gpio_led *template,
+diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
+index cfb8ac220db6..380d17a58fe9 100644
+--- a/drivers/leds/leds-lm3697.c
++++ b/drivers/leds/leds-lm3697.c
+@@ -89,7 +89,7 @@ struct lm3697 {
+ 	int bank_cfg;
+ 	int num_banks;
  
- struct gpio_leds_priv {
- 	int num_leds;
--	struct gpio_led_data leds[];
-+	struct gpio_led_data leds[] __counted_by(num_leds);
+-	struct lm3697_led leds[];
++	struct lm3697_led leds[] __counted_by(num_banks);
  };
  
- static struct gpio_leds_priv *gpio_leds_create(struct platform_device *pdev)
+ static const struct reg_default lm3697_reg_defs[] = {
 -- 
 2.34.1
 
