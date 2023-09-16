@@ -2,147 +2,207 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F597A286F
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Sep 2023 22:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA677A317A
+	for <lists+linux-leds@lfdr.de>; Sat, 16 Sep 2023 18:45:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237176AbjIOUrr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Sep 2023 16:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39040 "EHLO
+        id S229699AbjIPQpa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 16 Sep 2023 12:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237629AbjIOUri (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Sep 2023 16:47:38 -0400
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC63D272C
-        for <linux-leds@vger.kernel.org>; Fri, 15 Sep 2023 13:47:04 -0700 (PDT)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-        by cmsmtp with ESMTP
-        id h8ddqX1lSyYOwhFiSq0ueu; Fri, 15 Sep 2023 20:47:04 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id hFiRqTfbuyBEYhFiRqk0dM; Fri, 15 Sep 2023 20:47:03 +0000
-X-Authority-Analysis: v=2.4 cv=durItns4 c=1 sm=1 tr=0 ts=6504c2c7
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=cm27Pg_UAAAA:8 a=kq8QUv3EmJHY_xMh51UA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=TjNXssC_j7lpFel5tvFf:22
- a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=yKhOxxWLxAri40XueJnco58aHEIoesBYB2GFloDdhY4=; b=mzx04ehPgz4nIvWD9CyP4dzfAH
-        BgyFapgR2/UQRc2e6a4lbdc4JWn+G1p0nVlFO+wAAZJxOM7lDZ9YyKqAhYC2wk+fl7B5jTJ9wgFHc
-        SaWK9ycZskPITeWO8tvis6aVBepN58SaUpjNZ//dN7hewtu4YqaTYbpzxwe6De+qkXDAePM5vMqcm
-        M5DzFoE4FqShL5ubb0yn9inPgCR96G2hwcbi67PXjvJDtu9RhxkprnUY3tSb3Wl15HAtfd2wBW+6K
-        jMk++bd9lsbWimS4Pso2LWj6a59G5VpkMPwTIx15lhFgYzdvwXwEzpFQ+ZhX5nZFJNJSBd2MoyDsm
-        YTwhcVzw==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:37846 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qhFiP-002blM-0t;
-        Fri, 15 Sep 2023 15:47:01 -0500
-Message-ID: <3b98d3af-02ef-8929-1e6b-7287f470df2a@embeddedor.com>
-Date:   Fri, 15 Sep 2023 14:47:56 -0600
+        with ESMTP id S231942AbjIPQp2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 16 Sep 2023 12:45:28 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB367131
+        for <linux-leds@vger.kernel.org>; Sat, 16 Sep 2023 09:45:22 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qhYQ3-0003kE-25; Sat, 16 Sep 2023 18:45:19 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qhYQ2-006nmE-2z; Sat, 16 Sep 2023 18:45:18 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qhYQ1-0028SY-Pi; Sat, 16 Sep 2023 18:45:17 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Xing Tong Wu <xingtong.wu@siemens.com>,
+        Tobias Schaffner <tobias.schaffner@siemens.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        kernel@pengutronix.de, Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v2] leds: simatic-ipc-leds-gpio: Convert to platform remove callback returning void
+Date:   Sat, 16 Sep 2023 18:45:16 +0200
+Message-Id: <20230916164516.1063380-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] leds: qcom-lpg: Annotate struct lpg_led with __counted_by
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     Lee Jones <lee@kernel.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Douglas Anderson <dianders@chromium.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>,
-        linux-leds@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>, Lu Hongfei <luhongfei@vivo.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-References: <20230915201059.never.086-kees@kernel.org>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230915201059.never.086-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6592; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=cq13E7pRQ+3SBSLOb1AheCs/jzrUFq2IwQ+H4e+wpKw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlBdubQT5XWnfMNcbB3aeFoLjz+9OB6VqvxpW8M gh1G9JqRQOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQXbmwAKCRCPgPtYfRL+ TvBGB/4/AA18gzPO3S0DQaJr0Nnt8uDrauFsunxQV7Y8NUNPvsWkjCuyLY+3bONM8IQ0Q0AEchB O6CJxPDQQRwqbfw9+dMt6PPJTN5sXBPeRroQ4RWYNCmd+Nknh75AGR/btpgtWtQJ0eeu7Ci1jYj lP9fJZtn6zFPuanFq1RLU/LO7JubWabSjxActgxsaZ4QtjjAPUKvjw/GgWXefpFlUhVHswlPClA neYdCySEzPvnoILCJbye8YQTsL8fA4RRNpRHqSr/+mVw9tj1fF4FZztkot9ie6QakGlpGdKNG1v ivb+er6qev4vvGIWHwb9dFOV3hTepcBMThW0dxtBeYL78s03
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qhFiP-002blM-0t
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:37846
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 279
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfF4GbvosNhDMc84IrPcaZAxcqcFs5BtHDO40nQL1obDFwTulMhusXoFHlticyKJyfg2WHDNyyy+AQjLmSAxM5iBdHr3r5Zgu6KcvYMwsra+flAqZlbTe
- zxex4FNgHzMs3CSZxOvT1N7xEog3lZWsdpGFnwkVG7TCR49FiL91FCs+Ao/601uB5DsAqp9pOkKm1uCqKDt1u+c4oANp1dr5E19yjUhE5BcAybww1EkYXJKw
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
+Make simatic_ipc_leds_gpio_remove() return void instead of returning
+zero unconditionally. After that the three remove callbacks that use
+this function were trivial to convert to return void, too.
 
-On 9/15/23 14:11, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct lpg_led.
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Bjorn Andersson <quic_bjorande@quicinc.com>
-> Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Anjelique Melendez <quic_amelende@quicinc.com>
-> Cc: linux-leds@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+compared to (implicit) v1 that can be found at
+https://lore.kernel.org/linux-leds/20230724054743.310750-1-u.kleine-koenig@pengutronix.de
+this copes for the addition of another simatic LED driver in commit 
+7e6d86e99a5d ("leds: simatic-ipc-leds-gpio: Add Elkhart Lake version").
 
-Thanks
+Henning mentioned another patch "platform/x86: add CMOS battery
+monitoring for simatic IPCs" that would conflict with my v1 patch. I
+didn't spot a conflict there, though.
+
+Best regards
+Uwe
+
+ drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c  | 8 ++++----
+ drivers/leds/simple/simatic-ipc-leds-gpio-core.c        | 4 +---
+ drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c | 7 +++----
+ drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c      | 8 ++++----
+ drivers/leds/simple/simatic-ipc-leds-gpio.h             | 6 +++---
+ 5 files changed, 15 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c b/drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c
+index e1c712729dcf..4183ee71fcce 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio-apollolake.c
+@@ -45,15 +45,15 @@ static int simatic_ipc_leds_gpio_apollolake_probe(struct platform_device *pdev)
+ 					   &simatic_ipc_led_gpio_table_extra);
+ }
+ 
+-static int simatic_ipc_leds_gpio_apollolake_remove(struct platform_device *pdev)
++static void simatic_ipc_leds_gpio_apollolake_remove(struct platform_device *pdev)
+ {
+-	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
+-					    &simatic_ipc_led_gpio_table_extra);
++	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
++				     &simatic_ipc_led_gpio_table_extra);
+ }
+ 
+ static struct platform_driver simatic_ipc_led_gpio_apollolake_driver = {
+ 	.probe = simatic_ipc_leds_gpio_apollolake_probe,
+-	.remove = simatic_ipc_leds_gpio_apollolake_remove,
++	.remove_new = simatic_ipc_leds_gpio_apollolake_remove,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 	},
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
+index c552ea73ed9d..667ba1bc3a30 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio-core.c
+@@ -33,15 +33,13 @@ static const struct gpio_led_platform_data simatic_ipc_gpio_leds_pdata = {
+ 	.leds		= simatic_ipc_gpio_leds,
+ };
+ 
+-int simatic_ipc_leds_gpio_remove(struct platform_device *pdev,
++void simatic_ipc_leds_gpio_remove(struct platform_device *pdev,
+ 				 struct gpiod_lookup_table *table,
+ 				 struct gpiod_lookup_table *table_extra)
+ {
+ 	gpiod_remove_lookup_table(table);
+ 	gpiod_remove_lookup_table(table_extra);
+ 	platform_device_unregister(simatic_leds_pdev);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(simatic_ipc_leds_gpio_remove);
+ 
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
+index 6ba21dbb3ba0..4a53d4dbf52f 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio-elkhartlake.c
+@@ -36,15 +36,14 @@ static int simatic_ipc_leds_gpio_elkhartlake_probe(struct platform_device *pdev)
+ 					   NULL);
+ }
+ 
+-static int simatic_ipc_leds_gpio_elkhartlake_remove(struct platform_device *pdev)
++static void simatic_ipc_leds_gpio_elkhartlake_remove(struct platform_device *pdev)
+ {
+-	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
+-					    NULL);
++	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table, NULL);
+ }
+ 
+ static struct platform_driver simatic_ipc_led_gpio_elkhartlake_driver = {
+ 	.probe = simatic_ipc_leds_gpio_elkhartlake_probe,
+-	.remove = simatic_ipc_leds_gpio_elkhartlake_remove,
++	.remove_new = simatic_ipc_leds_gpio_elkhartlake_remove,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 	},
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
+index 583a6b6c7c22..c7c3a1f986e6 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio-f7188x.c
+@@ -45,15 +45,15 @@ static int simatic_ipc_leds_gpio_f7188x_probe(struct platform_device *pdev)
+ 					   &simatic_ipc_led_gpio_table_extra);
+ }
+ 
+-static int simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
++static void simatic_ipc_leds_gpio_f7188x_remove(struct platform_device *pdev)
+ {
+-	return simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
+-					    &simatic_ipc_led_gpio_table_extra);
++	simatic_ipc_leds_gpio_remove(pdev, &simatic_ipc_led_gpio_table,
++				     &simatic_ipc_led_gpio_table_extra);
+ }
+ 
+ static struct platform_driver simatic_ipc_led_gpio_driver = {
+ 	.probe = simatic_ipc_leds_gpio_f7188x_probe,
+-	.remove = simatic_ipc_leds_gpio_f7188x_remove,
++	.remove_new = simatic_ipc_leds_gpio_f7188x_remove,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 	},
+diff --git a/drivers/leds/simple/simatic-ipc-leds-gpio.h b/drivers/leds/simple/simatic-ipc-leds-gpio.h
+index 3d4877aa4e0c..6b2519809cee 100644
+--- a/drivers/leds/simple/simatic-ipc-leds-gpio.h
++++ b/drivers/leds/simple/simatic-ipc-leds-gpio.h
+@@ -15,8 +15,8 @@ int simatic_ipc_leds_gpio_probe(struct platform_device *pdev,
+ 				struct gpiod_lookup_table *table,
+ 				struct gpiod_lookup_table *table_extra);
+ 
+-int simatic_ipc_leds_gpio_remove(struct platform_device *pdev,
+-				 struct gpiod_lookup_table *table,
+-				 struct gpiod_lookup_table *table_extra);
++void simatic_ipc_leds_gpio_remove(struct platform_device *pdev,
++				  struct gpiod_lookup_table *table,
++				  struct gpiod_lookup_table *table_extra);
+ 
+ #endif /* _SIMATIC_IPC_LEDS_GPIO_H */
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-Gustavo
+2.40.1
 
-> ---
->   drivers/leds/rgb/leds-qcom-lpg.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index df469aaa7e6e..7d93e02a030a 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -173,7 +173,7 @@ struct lpg_led {
->   	struct led_classdev_mc mcdev;
->   
->   	unsigned int num_channels;
-> -	struct lpg_channel *channels[];
-> +	struct lpg_channel *channels[] __counted_by(num_channels);
->   };
->   
->   /**
