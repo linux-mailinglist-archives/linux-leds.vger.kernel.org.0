@@ -2,63 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1D7A7A4C94
-	for <lists+linux-leds@lfdr.de>; Mon, 18 Sep 2023 17:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC597A4F63
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Sep 2023 18:41:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjIRPgp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 18 Sep 2023 11:36:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
+        id S229436AbjIRQlb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 18 Sep 2023 12:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjIRPgn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Sep 2023 11:36:43 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF87137
-        for <linux-leds@vger.kernel.org>; Mon, 18 Sep 2023 08:32:09 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-502934c88b7so7674209e87.2
-        for <linux-leds@vger.kernel.org>; Mon, 18 Sep 2023 08:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695050939; x=1695655739; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qpkia8kMLrWz8ddvYuwxZ25DCyYDGFA4RB5AWzn1+X4=;
-        b=KX88Crc9BrAmp0Syq8AqZqkAihk2zEcGb/bUfAiJ+13LfbprkT+dWcALgTDo8bXeuv
-         N0q6QsarRlLrm3v/t3SVXHwP6c8XZ1QuCmHv8tkJpGvQPWmRESStsDYQaba+mnOmYd6P
-         +ydxoNjIsCGP8KjfiHLmrb9ZypPQYk7GeAavZv06ERW8fGyLfuW4KD+xD9DdP/96VJbm
-         K/BoHN43qMhhetwy0IE0iTScEOvKTuTyTg9ObNXa3Ue5fZb1BgJ0/wHiewgpinPahffQ
-         DAwvTqqOqqwnJ2RzHccSgw6GICUtQEnqtNzJ4Or8L6y6ZvXR6MwkKO8KlJwkf9IhN7q9
-         Ty4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695050939; x=1695655739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qpkia8kMLrWz8ddvYuwxZ25DCyYDGFA4RB5AWzn1+X4=;
-        b=ufMENoNzXkB5sCjD7LtCn+z+18l0cvcyDYszlHdMhE291Xm8nnlF1wA/0K84K5fWpN
-         LO+txzRkthVMaqjqlQdGwrt22PC1UPfIig8Wubad4kzOq1cjNsywU5ORLk81L7jTM6AZ
-         Vq6QanOnTgGCFJ8aLAk5TbGRHniBLEPbNn1rwHGZq6OJBdztVmISLGETcpCPaXHMxVP6
-         yX1lqyO5jlTjsgctcJwnTuh8g6v+s5QcxqtpbRtMRsQnP6fn2P1aPB5bR5B3q+7dBmiA
-         JDBJhy1m3BEGhn1Rt1gb7cmBjJlPc/S0NSpagxi1SBDtJ2z0W3JiLp4GWiExJRx5Nue7
-         pOig==
-X-Gm-Message-State: AOJu0YzdQTeZDRzZwQM50JjAG44ggwmWE1Pm1gHF/4w3UfiQs12vOMPj
-        kAP8zLMGNctFdn80mI5ko5h0zl+xk68=
-X-Google-Smtp-Source: AGHT+IFn3Uub80JJFkkHOMPy9v3+XdW+kVvZa5y0aEAe3GfaGI+NlChbBf+/obOsPXWfHuXaP6egkw==
-X-Received: by 2002:a05:6000:11d1:b0:31f:8e7c:6ebe with SMTP id i17-20020a05600011d100b0031f8e7c6ebemr8156993wrx.5.1695047559395;
-        Mon, 18 Sep 2023 07:32:39 -0700 (PDT)
-Received: from eichest-laptop.netmodule.intranet ([2a02:168:af72:0:fee5:6aa7:222c:e5be])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05600010d000b0031aef72a021sm12621708wrx.86.2023.09.18.07.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Sep 2023 07:32:39 -0700 (PDT)
-From:   Stefan Eichenberger <eichest@gmail.com>
-To:     linux-leds@vger.kernel.org
-Cc:     pavel@ucw.cz, lee@kernel.org
-Subject: [PATCH] leds: lp55xx: use gpiod_set_value_cansleep
-Date:   Mon, 18 Sep 2023 16:32:38 +0200
-Message-Id: <20230918143238.75600-1-eichest@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229905AbjIRQlA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Sep 2023 12:41:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713AA30C3
+        for <linux-leds@vger.kernel.org>; Mon, 18 Sep 2023 09:37:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8341C3277B;
+        Mon, 18 Sep 2023 14:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695046049;
+        bh=sIT9k1TK/Df2T/mR4SCR2OKfZ0n5lS5Q9qwaQdUZ+NU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nX15XlwZh/VvT/QyzTlaZz/f8egJCWLh7rm6e4nRCj63iOmqzvJxditVgHGGcC1Lt
+         DuGFhrd+L9JQvezQzdDfCq5YJxH/Ui47/YI3j0jQionnOV0OcP4fd0o5AjKxLnb1rJ
+         t4wnv6wStx5Vh34R7ewwO6n5iw22QEssFGs+Nysq6KEzG+VICiyvmd+dwxyIZYDrkO
+         +RtUscwb0tdcCzl2PkNSA0D7vKrA8LRPs5/jal1AB4Iwc1sjnW9hPsaCzMmzLSX4pv
+         LJbP25QjI7MMp2eTLF2VB7HW0HOM1ud+giSB2OwQ0nm+8sJCAccW8btoDQ1vwZIm3M
+         Nrzl2xTbxiZNg==
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, Da Xue <da@libre.computer>
+Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH] leds: Drop BUG_ON check for LED_COLOR_ID_MULTI
+Date:   Mon, 18 Sep 2023 16:07:24 +0200
+Message-ID: <20230918140724.18634-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -67,32 +47,36 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use gpiod_set_value_cansleep in the init_device function. Without this
-change, the driver may print a warning if the LP55xx enable pin is
-connected to a GPIO chip which can sleep (e.g. a GPIO expander):
-WARNING: CPU: 0 PID: 2719 at drivers/gpio/gpiolib.c:3051 gpiod_set_value+0x64/0xbc
+Commit c3f853184bed ("leds: Fix BUG_ON check for LED_COLOR_ID_MULTI that
+is always false") fixed a no-op BUG_ON. This turned out to cause a
+regression, since some in-tree device-tree files already use
+LED_COLOR_ID_MULTI.
 
-Signed-off-by: Stefan Eichenberger <eichest@gmail.com>
+Drop the BUG_ON altogether.
+
+Fixes: c3f853184bed ("leds: Fix BUG_ON check for LED_COLOR_ID_MULTI that is always false")
+Reported-by: Da Xue <da@libre.computer>
+Closes: https://lore.kernel.org/linux-leds/ZQLelWcNjjp2xndY@duo.ucw.cz/T/
+Signed-off-by: Marek Behún <kabel@kernel.org>
 ---
- drivers/leds/leds-lp55xx-common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/leds/led-core.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index 77bb26906ea6e..8e7074f0fee00 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -442,9 +442,9 @@ int lp55xx_init_device(struct lp55xx_chip *chip)
- 		gpiod_direction_output(pdata->enable_gpiod, 0);
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index 04f9ea675f2c..214ed81eb0e9 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -479,10 +479,6 @@ int led_compose_name(struct device *dev, struct led_init_data *init_data,
  
- 		gpiod_set_consumer_name(pdata->enable_gpiod, "LP55xx enable");
--		gpiod_set_value(pdata->enable_gpiod, 0);
-+		gpiod_set_value_cansleep(pdata->enable_gpiod, 0);
- 		usleep_range(1000, 2000); /* Keep enable down at least 1ms */
--		gpiod_set_value(pdata->enable_gpiod, 1);
-+		gpiod_set_value_cansleep(pdata->enable_gpiod, 1);
- 		usleep_range(1000, 2000); /* 500us abs min. */
- 	}
+ 	led_parse_fwnode_props(dev, fwnode, &props);
  
+-	/* We want to label LEDs that can produce full range of colors
+-	 * as RGB, not multicolor */
+-	BUG_ON(props.color == LED_COLOR_ID_MULTI);
+-
+ 	if (props.label) {
+ 		/*
+ 		 * If init_data.devicename is NULL, then it indicates that
 -- 
-2.39.2
+2.41.0
 
