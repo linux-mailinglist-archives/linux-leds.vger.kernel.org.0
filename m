@@ -2,43 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F2727A6612
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Sep 2023 16:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9D37A6657
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Sep 2023 16:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232465AbjISOBq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Sep 2023 10:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
+        id S232678AbjISOQp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Sep 2023 10:16:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232437AbjISOBq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Sep 2023 10:01:46 -0400
+        with ESMTP id S232671AbjISOQo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Sep 2023 10:16:44 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A98F3
-        for <linux-leds@vger.kernel.org>; Tue, 19 Sep 2023 07:01:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C172AC433C8;
-        Tue, 19 Sep 2023 14:01:39 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB7D196
+        for <linux-leds@vger.kernel.org>; Tue, 19 Sep 2023 07:16:35 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62E8BC433C7;
+        Tue, 19 Sep 2023 14:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695132100;
-        bh=Y1HrPjGHxQoe3prmJj3/1H0+ywLIRMDI4XlNFndO1HQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bw8D8eTNIK3eV0vz9ghfQM8wqq2EHipqRvrfAxcYjiluzeahaLVCLkGj8dXWj3rLx
-         yhhWXcrrIvpEIWpB9Xm/pKRxug1bJy+unZi55md5SB2XoXfbz1IhXpNYqGR12Ite2m
-         TyJoJvLCF0zgFyfW6kPsYk1MfXSjGICYs5l4+EQ9LOJdrJpv/8mtgIjo7jlQeP7Fqq
-         MNIDwvenV9fnopLl4HceRO6jIV8jeZjSJ4PjBAlImfSVXVZwbFXO0x1Xpxs61kn2w0
-         /fuMYTGkU5/n+hS+IVIW59gezGX4+1XdIKsuZSEIY1QQAaDBb95u5BFRx1OSeoZY9y
-         qaAHe8viWn/Kw==
-Date:   Tue, 19 Sep 2023 15:01:36 +0100
+        s=k20201202; t=1695132994;
+        bh=7AIdKcG05QpiAfsf6tDRS2aJWOyI0lTZOsAJyWJmWUQ=;
+        h=From:To:In-Reply-To:References:Subject:Date:From;
+        b=E3g/ecTb6s0MpuZ64nmycGCvJcVOU0Tz+zZY8J3943XJN2b26dXA7JqrwXSo7puQj
+         iYZ2OEPJEbfjoB3+w/qKLzA16coziSOWIzrEOrUvpr6jVET8h1TqblQcdpPtioqJhC
+         tzdjGS7YS0QJDYSux3QMHUAwPcbIsvGqBquzberuLYwrIe8+0SblO0dg9A8nsQ0lh9
+         6yUcPYyhQmQ9LoKp+YgXPRLxhmxaoko0LZ9rCtMhioKCREnjiwzfQE/JPJ4NTWFW4p
+         HByO9t+d42hr0cRZH1Sor8DyEcwUwiOtyUD4xwFi+EW9Fu+ZgL9uTqZaZFDJsP+YJB
+         r5kwUDvU7I4nw==
 From:   Lee Jones <lee@kernel.org>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: Drop BUG_ON check for LED_COLOR_ID_MULTI
-Message-ID: <20230919140136.GU13143@google.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, Da Xue <da@libre.computer>,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+In-Reply-To: <20230918140724.18634-1-kabel@kernel.org>
 References: <20230918140724.18634-1-kabel@kernel.org>
- <20230919104207.7bf1b237@dellmb>
+Subject: Re: (subset) [PATCH] leds: Drop BUG_ON check for
+ LED_COLOR_ID_MULTI
+Message-Id: <169513299310.3234548.9496108015469823923.b4-ty@kernel.org>
+Date:   Tue, 19 Sep 2023 15:16:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230919104207.7bf1b237@dellmb>
+X-Mailer: b4 0.12.2
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -49,21 +50,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 19 Sep 2023, Marek Behún wrote:
-
-> Hello,
+On Mon, 18 Sep 2023 16:07:24 +0200, Marek Behún wrote:
+> Commit c3f853184bed ("leds: Fix BUG_ON check for LED_COLOR_ID_MULTI that
+> is always false") fixed a no-op BUG_ON. This turned out to cause a
+> regression, since some in-tree device-tree files already use
+> LED_COLOR_ID_MULTI.
 > 
-> Greg tells me to pester LED maintainers to get this into Linus' tree
-> soon, so that we can avoid stable incosistencies (see
-> https://lore.kernel.org/stable/2023091901-vessel-giggling-55ee@gregkh/).
+> Drop the BUG_ON altogether.
 > 
-> Sorry about the inconvenience, this would not happen if this was not
-> sent into stable in the first place, which is my fault, since I added
-> the Fixes tag.
+> [...]
 
-Starting back on upstream work now.
+Applied, thanks!
 
-I'll get something out shortly.
+[1/1] leds: Drop BUG_ON check for LED_COLOR_ID_MULTI
+      commit: 9dc1664fab2246bc2c3e9bf2cf21518a857f9b5b
 
--- 
+--
 Lee Jones [李琼斯]
+
