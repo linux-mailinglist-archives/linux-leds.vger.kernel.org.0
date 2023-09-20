@@ -2,51 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D047A83DE
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 978A17A83E1
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234936AbjITNu1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Sep 2023 09:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
+        id S234936AbjITNu7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Sep 2023 09:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236398AbjITNu0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:50:26 -0400
+        with ESMTP id S234960AbjITNu7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:50:59 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A0FD8;
-        Wed, 20 Sep 2023 06:50:21 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA712C433C8;
-        Wed, 20 Sep 2023 13:50:17 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5225CF;
+        Wed, 20 Sep 2023 06:50:53 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9AAC433C7;
+        Wed, 20 Sep 2023 13:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695217820;
-        bh=F0w62KOri4+nv8ORRuidRDPCFETZBxnGyBhVgs19590=;
+        s=k20201202; t=1695217853;
+        bh=ZYMgDvz7cLiEi48+fLoU5oYwxYC+RNXpuugTwerelA4=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=hg6DG5H3voBk4yi1xt3gVxtpWKQwL7f+Xg1hqn+I02tKlteuaHdIGKPKgtDakRgHe
-         fmTD4cXn9KSlneOaoR3WQeicN/z5g2sgz/GofMHLn2z2F/Kyq9qU759Hg/vdrQ9k9+
-         5GAsapzYRZKp+opUKaAuXToOADpp6z9wcbbM6BxUWb94RZPxGvjtMtqV6fgzlNvDaP
-         U3v9zQOXnETzESzXbZFX9czV0eXkXknpCFGA7j2WDmd664c/xI9KbMJvScvEvEr1MC
-         1GqH1UznXTFpO8/Moj4m1AZEMXxI5OA0W+bL79vIF5i6YBaTfWh6tz7tsdp83WBSe1
-         j9QypSGog46Kw==
+        b=WYgV42Q41zYcX7fcsQWLwwrxbrrEfVse9h5Cv+phqauR1/HCAert4KodJzA2HkWy3
+         5wb0UyHx1o0VXHcCKUn0jNRzJu6mPirdPh0AkNjOfjEPMcqPrX6Ireg2yoYheIqCBy
+         ldUg/NPOhKMcsQgNwz0zG0fd9GnxJnb/ulC14E2LjwHAL95gx65ZV8wVCMjDGBlPh9
+         vv+8yLllFz9LnvyNzDaIvrT/CHK8cT2GuvVL2I8zN5MzJy5HdZJRhRpgW/JDNIaD7C
+         UUHRvK8FRsxpNZa6IRv3BFf2JudeMvzr4gO5/I7NJindbB8LJ388l971g3oLd9K6NG
+         RG/djIE3eg1eA==
 From:   Lee Jones <lee@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>, Kees Cook <keescook@chromium.org>
 Cc:     Lee Jones <lee@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Gene Chen <gene_chen@richtek.com>,
+        Alice Chen <alice_chen@richtek.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        ChiaEn Wu <chiaen_wu@richtek.com>,
+        kernel test robot <lkp@intel.com>,
         linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
         llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-In-Reply-To: <20230915201020.never.433-kees@kernel.org>
-References: <20230915201020.never.433-kees@kernel.org>
-Subject: Re: (subset) [PATCH] leds: mt6360: Annotate struct mt6360_priv
+In-Reply-To: <20230915201051.never.429-kees@kernel.org>
+References: <20230915201051.never.429-kees@kernel.org>
+Subject: Re: (subset) [PATCH] leds: mt6370: Annotate struct mt6370_priv
  with __counted_by
-Message-Id: <169521781759.3448785.6991953068239903845.b4-ty@kernel.org>
-Date:   Wed, 20 Sep 2023 14:50:17 +0100
+Message-Id: <169521784990.3449392.15396251707007241017.b4-ty@kernel.org>
+Date:   Wed, 20 Sep 2023 14:50:49 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -61,21 +63,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 15 Sep 2023 13:10:20 -0700, Kees Cook wrote:
+On Fri, 15 Sep 2023 13:10:52 -0700, Kees Cook wrote:
 > Prepare for the coming implementation by GCC and Clang of the __counted_by
 > attribute. Flexible array members annotated with __counted_by can have
 > their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 > (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 > functions).
 > 
-> As found with Coccinelle[1], add __counted_by for struct mt6360_priv.
+> As found with Coccinelle[1], add __counted_by for struct mt6370_priv.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: mt6360: Annotate struct mt6360_priv with __counted_by
-      commit: cecdfff8f5c82816d8b9ef2f4b3d7f4943dfd360
+[1/1] leds: mt6370: Annotate struct mt6370_priv with __counted_by
+      commit: 799107c1bb9049f9b3f28b5d651e336d09856019
 
 --
 Lee Jones [李琼斯]
