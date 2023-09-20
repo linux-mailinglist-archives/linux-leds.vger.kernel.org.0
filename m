@@ -2,92 +2,248 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DFBD7A750C
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 09:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1D5C7A82B8
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232870AbjITH5x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Sep 2023 03:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
+        id S236423AbjITNFj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Sep 2023 09:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233506AbjITH5u (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 03:57:50 -0400
-X-Greylist: delayed 399 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 00:57:44 PDT
-Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21ABB4
-        for <linux-leds@vger.kernel.org>; Wed, 20 Sep 2023 00:57:44 -0700 (PDT)
-Received: by mail.venturelinkage.com (Postfix, from userid 1002)
-        id 4C04582718; Wed, 20 Sep 2023 09:51:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
-        s=mail; t=1695196264;
-        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
-        h=Date:From:To:Subject:From;
-        b=RVlBRfue2Km0RmVo5onwmwEuEeoxp9UsgZ7m6yuQ0so9MfMRLiDZO5QcHaVrWrCPm
-         PB4KqxFmM94xp8xJktlZrjMOUt6710BNGnwfaUtf/IJk9n/UQhc5fxUKlT7Qcv0ayd
-         mR4iKRxEerdAq7Nr4AyQA4zxOQV/kpqSqn3opDrh4LxY9VF8FrYFrUVHL9eO8v2Rvv
-         bcA0LYQYCxL4kQY3WzF2DZxO5r+XLrZjsQjac1v5WDgEtKgZYtuZqzYTc86CCG6upg
-         gptgDWcM/kDRGhsEklyRdqdvV4OE1h31QhJz8ZlIcWJLSe0qBJHzX+CMlW8yorpDIj
-         kfK7bUsFSWT3Q==
-Received: by mail.venturelinkage.com for <linux-leds@vger.kernel.org>; Wed, 20 Sep 2023 07:51:03 GMT
-Message-ID: <20230920084500-0.1.l.1223.0.p0hedei7lh@venturelinkage.com>
-Date:   Wed, 20 Sep 2023 07:51:03 GMT
-From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
-To:     <linux-leds@vger.kernel.org>
-Subject: =?UTF-8?Q?Popt=C3=A1vka?=
-X-Mailer: mail.venturelinkage.com
+        with ESMTP id S236499AbjITNFj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:05:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3D0CF;
+        Wed, 20 Sep 2023 06:05:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BA0C433CA;
+        Wed, 20 Sep 2023 13:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695215132;
+        bh=WI94jAe83bYDoVs4qzGUTqHeVVXgXwGTtyrojt6IuZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GGo2tSXAQQTTttxYWAjHaKXK8QhtOjG5uiRl8wgYPsPbiBSYHk/zSPePcL2QYkbEh
+         i4ieUAg+61z0CDMA+vpz0Fz9PUNMUN3DwMq/kL/dT7WaghiVGC456Eqtw+X9C8aniQ
+         fdBQTj8sr65gRcOUv/TtdI7u49x9OZgKVZcpGdVib24BTv9NzAQyfFbVciquY9G0/X
+         +Et0LBTYL7n3gGxScAloqtrq0RjHkjgWDwrQc+D4AsyCtAp6G9HtMN1dbTlnmlvhnZ
+         s0UPmf4h7E7qQsnOZj1ZU5I9sGgnT6YGTVMeurDMKzTvnVtSIIH0rmH51WcYAfqg8U
+         7M4hGL7SMWlZA==
+Date:   Wed, 20 Sep 2023 14:05:28 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Naresh Solanki <naresh.solanki@9elements.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RESEND PATCH v3] leds: max5970: Add support for max5970
+Message-ID: <20230920130528.GG13143@google.com>
+References: <20230914114521.1491390-1-naresh.solanki@9elements.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: venturelinkage.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [80.211.143.151 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: venturelinkage.com]
-        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [80.211.143.151 listed in list.dnswl.org]
-        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
-        *      [score: 0.0630]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
-        *      days
-X-Spam-Level: ******
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230914114521.1491390-1-naresh.solanki@9elements.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Thu, 14 Sep 2023, Naresh Solanki wrote:
 
-Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
-=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
+> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+> 
+> The MAX5970 is hot swap controller and has 4 indication LED.
+> 
+> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+> ---
+> Changes in V3:
+> - Drop array for ddata variable.
+> Changes in V2:
+> - Add of_node_put before return.
+> - Code cleanup
+> - Refactor code & remove max5970_setup_led function.
+> ---
+>  drivers/leds/Kconfig        |  11 ++++
+>  drivers/leds/Makefile       |   1 +
+>  drivers/leds/leds-max5970.c | 110 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 122 insertions(+)
+>  create mode 100644 drivers/leds/leds-max5970.c
 
-Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
-odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
+Couple of nits and you're good to go.
 
-M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
+Once fixed please resubmit with my:
 
-V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
- anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
+  Reviewed-by: Lee Jones <lee@kernel.org>
 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index b92208eccdea..03ef527cc545 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -637,6 +637,17 @@ config LEDS_ADP5520
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called leds-adp5520.
+>  
+> +config LEDS_MAX5970
+> +	tristate "LED Support for Maxim 5970"
+> +	depends on LEDS_CLASS
+> +	depends on MFD_MAX5970
+> +	help
+> +	  This option enables support for the Maxim MAX5970 & MAX5978 smart
+> +	  switch indication LEDs via the I2C bus.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called leds-max5970.
+> +
+>  config LEDS_MC13783
+>  	tristate "LED Support for MC13XXX PMIC"
+>  	depends on LEDS_CLASS
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index d7348e8bc019..6eaee0a753c6 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
+>  obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
+>  obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
+>  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
+> +obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
+>  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
+>  obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
+>  obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
+> diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max5970.c
+> new file mode 100644
+> index 000000000000..c9685990e26e
+> --- /dev/null
+> +++ b/drivers/leds/leds-max5970.c
+> @@ -0,0 +1,110 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device driver for leds in MAX5970 and MAX5978 IC
+> + *
+> + * Copyright (c) 2022 9elements GmbH
+> + *
+> + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
+> + */
+> +
+> +#include <linux/leds.h>
+> +#include <linux/mfd/max5970.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#define ldev_to_maxled(c)       container_of(c, struct max5970_led, cdev)
+> +
+> +struct max5970_led {
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	struct led_classdev cdev;
+> +	unsigned int index;
+> +};
+> +
+> +static int max5970_led_set_brightness(struct led_classdev *cdev,
+> +				      enum led_brightness brightness)
+> +{
+> +	struct max5970_led *ddata = ldev_to_maxled(cdev);
+> +	int ret, val;
+> +
+> +	/* Set/clear corresponding bit for given led index */
+> +	val = !brightness ? BIT(ddata->index) : 0;
+> +
+> +	ret = regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, BIT(ddata->index), val);
+> +	if (ret < 0)
+> +		dev_err(cdev->dev, "failed to set brightness %d", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int max5970_led_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *np = dev_of_node(dev->parent);
+> +	struct regmap *regmap;
+> +	struct device_node *led_node;
+> +	struct device_node *child;
 
-Pozdravy
-Lukas Varga
+Nit: You can place these on the same line.
+
+> +	struct max5970_led *ddata;
+> +	int ret = -ENODEV, num_leds = 0;
+> +
+> +	regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +	if (!regmap)
+> +		return -EPROBE_DEFER;
+
+Why are you deferring here?
+
+> +	led_node = of_get_child_by_name(np, "leds");
+> +	if (!led_node)
+> +		return -ENODEV;
+> +
+> +	for_each_available_child_of_node(led_node, child) {
+> +		u32 reg;
+> +
+> +		if (of_property_read_u32(child, "reg", &reg))
+> +			continue;
+> +
+> +		if (reg >= MAX5970_NUM_LEDS) {
+> +			dev_err(dev, "invalid LED (%u >= %d)\n", reg, MAX5970_NUM_LEDS);
+> +			continue;
+> +		}
+> +
+> +		ddata = devm_kzalloc(dev, sizeof(struct max5970_led), GFP_KERNEL);
+
+Nit: sizeof(*ddata)
+
+> +		if (!ddata) {
+> +			of_node_put(child);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		ddata->index = reg;
+> +		ddata->regmap = regmap;
+> +		ddata->dev = dev;
+> +
+> +		if (of_property_read_string(child, "label", &ddata->cdev.name))
+> +			ddata->cdev.name = child->name;
+> +
+> +		ddata->cdev.max_brightness = 1;
+> +		ddata->cdev.brightness_set_blocking = max5970_led_set_brightness;
+> +		ddata->cdev.default_trigger = "none";
+> +
+> +		ret = devm_led_classdev_register(ddata->dev, &ddata->cdev);
+
+Nit: Use the shorter 'dev' version whilst it's available.
+
+> +		if (ret < 0) {
+> +			of_node_put(child);
+> +			dev_err(dev, "Failed to initialize LED %u\n", reg);
+> +			return ret;
+> +		}
+> +		num_leds++;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static struct platform_driver max5970_led_driver = {
+> +	.driver = {
+> +		.name = "max5970-led",
+> +	},
+> +	.probe = max5970_led_probe,
+> +};
+> +
+> +module_platform_driver(max5970_led_driver);
+> +MODULE_AUTHOR("Patrick Rudolph <patrick.rudolph@9elements.com>");
+> +MODULE_AUTHOR("Naresh Solanki <Naresh.Solanki@9elements.com>");
+> +MODULE_DESCRIPTION("MAX5970_hot-swap controller LED driver");
+> +MODULE_LICENSE("GPL");
+> 
+> base-commit: baca986e1f2c31f8e4b2a6d99d47c3bc844033e8
+> -- 
+> 2.41.0
+> 
+
+-- 
+Lee Jones [李琼斯]
