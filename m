@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04A937A8396
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC357A839C
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:40:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236372AbjITNjA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Sep 2023 09:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54338 "EHLO
+        id S234771AbjITNkE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Sep 2023 09:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236165AbjITNi6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:38:58 -0400
+        with ESMTP id S236133AbjITNkC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:40:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDCDDE;
-        Wed, 20 Sep 2023 06:38:49 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A7FC433C7;
-        Wed, 20 Sep 2023 13:38:47 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19AC1A9;
+        Wed, 20 Sep 2023 06:39:57 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFC9C433C8;
+        Wed, 20 Sep 2023 13:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695217129;
-        bh=pP1eXibM2XF9AVZiEeducJytLu6b4fRhxtC+s2WLHok=;
+        s=k20201202; t=1695217196;
+        bh=Z6ejmmjRTjZqLnbvfZ8oZxem+kdH68CzZ5r8tDSPkVA=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=RUtVhgRUXHgvIAUA6eZisimvx4dHVon1muBzkge8QCpU8ixknMmdqE1dxEWSu2Pf9
-         i8NOnu7GTV507B/cVo8FwP/SX9iRm+cw095oWSJkf8l+1cr58qQ4L6/BZy/hV8Do2a
-         sT6nM0XSa/2Qf0ODN3rmEc/bBvc9yrduhxxC5IXmcab2RAS/3GYQBvwhZGER9hahi7
-         cxRiLWIRnG/LNnKjKv5qowsCAlQmHaiv+sMnK6kPu/kJBQAUrKlWOtECUmLAJyIC6v
-         esSofuyHFur3+b11sHaqHkge7eGLul2D/pEo3Oqe/ldsqPmURem+1J/jEIymOcWrDS
-         WzKCtuSTTK7mw==
+        b=PoUwz4Fh01i0saDu8+MZ160+t4E0BW+Kol97RGoAA7DHTezdDsrSPp5MD7uy4sd1l
+         ThDbzIakglaWQ6GdDPV0NoH8o/EqV1yGAxaq5eRowqotGOz4crQehkoSZt3620c2wZ
+         2MK69ykqngfoIdNC4qTHijpVSmyWqmzKR6hllz0Pl3ORhTTC0zmvc8FFYe6cv6sQnA
+         5CqTqmul+EnIMz5WqkBoGVKZilx65+HJ0I+h9OuauPSHOuQaDcsB8Q252jwWVIkAO0
+         D0MBDEjSWCEG0lfvMGDK41Z1O7QdHF88jPEsiiG61VjS3BsP6o45U60dN1zzp4Uu3T
+         mpCo3Gi6ZAEVA==
 From:   Lee Jones <lee@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>, Kees Cook <keescook@chromium.org>
 Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
@@ -33,12 +33,12 @@ Cc:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
         llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-In-Reply-To: <20230915201003.never.148-kees@kernel.org>
-References: <20230915201003.never.148-kees@kernel.org>
-Subject: Re: (subset) [PATCH] leds: gpio: Annotate struct gpio_leds_priv
- with __counted_by
-Message-Id: <169521712728.3441672.12465778864045972543.b4-ty@kernel.org>
-Date:   Wed, 20 Sep 2023 14:38:47 +0100
+In-Reply-To: <20230915201010.never.399-kees@kernel.org>
+References: <20230915201010.never.399-kees@kernel.org>
+Subject: Re: (subset) [PATCH] leds: lm3697: Annotate struct lm3697 with
+ __counted_by
+Message-Id: <169521719452.3442331.11802360098056654412.b4-ty@kernel.org>
+Date:   Wed, 20 Sep 2023 14:39:54 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -53,21 +53,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 15 Sep 2023 13:10:04 -0700, Kees Cook wrote:
+On Fri, 15 Sep 2023 13:10:10 -0700, Kees Cook wrote:
 > Prepare for the coming implementation by GCC and Clang of the __counted_by
 > attribute. Flexible array members annotated with __counted_by can have
 > their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 > (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 > functions).
 > 
-> As found with Coccinelle[1], add __counted_by for struct gpio_leds_priv.
+> As found with Coccinelle[1], add __counted_by for struct lm3697.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: gpio: Annotate struct gpio_leds_priv with __counted_by
-      commit: 00f91ead9c8037d044414ae44a0e75ef3df27e6f
+[1/1] leds: lm3697: Annotate struct lm3697 with __counted_by
+      commit: 1a210f7d060854f541be9a613bf942849fd5c0b5
 
 --
 Lee Jones [李琼斯]
