@@ -2,51 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F4167A83AA
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC3427A83D0
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Sep 2023 15:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbjITNmm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 20 Sep 2023 09:42:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56714 "EHLO
+        id S234961AbjITNsk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Sep 2023 09:48:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235399AbjITNml (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:42:41 -0400
+        with ESMTP id S234996AbjITNsi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Sep 2023 09:48:38 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94E1CE;
-        Wed, 20 Sep 2023 06:42:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48616C433C8;
-        Wed, 20 Sep 2023 13:42:32 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5290D9
+        for <linux-leds@vger.kernel.org>; Wed, 20 Sep 2023 06:48:29 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F93C433C7;
+        Wed, 20 Sep 2023 13:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695217355;
-        bh=4VZ2d49H7sr9rWHygFCjye19MowJnLLFSJFfbWTj9ys=;
+        s=k20201202; t=1695217709;
+        bh=lb+x07hlo2cz3JFK+XVatMaU4UEuHZxj4rF4v4Q1aQ4=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=Vyv2x2GYTtyai6iEOn85f2Wrj3TEznKggifWFV/zogAhZaNgBRhySwvoYpq83BjEM
-         08QgEV9tO1VdSbGPCqNqCSwoXiPpNZYIdOQXVG2mQeEKdpyHVSYWt4PNU0ihPNpWj9
-         MP+n/TOb9dAJd2eFSYcwZRNxJ03byJV+swXPpKRnGmKm0cHb1UUz3oYhFI0TDG6Yyi
-         ESzXRyHt86kWp1WgFTC8QujZKdq5TuKh4m1tpCnJNNvoeY3Qkfh28xriZWyYp/rAnt
-         WDUqCmu9nCsASquz5OFMiHopKGb88AUt6NfcYabjQjY/rP/7bDOk91INmDokrp138u
-         tSCxUtJec4kDg==
+        b=YIfcpIhnVqaFNxkbz1MGt9dMUOHmDqi81Fw8+P14EgU6NFDD6PnjhSn7H6r44mfaS
+         HpL1qxNZMH2lJo5pC2erpT2dJMARFPzJe/WhxATN9go4UGsVUfyRFmJPZpuNiCxivW
+         NeIlEWL93GycbiWpXBlzS2Ti6FQ4IW6Ir269+ONHKyV/+e1ire9e7t24R3JZDzSMlr
+         D3nPbjcP91Oi7Vr6s1/AGYgyp++08YexTUiPbN3fO1HwDxBstIm8Hpml3+u8nbZsXV
+         kQmW414HAVKpiaOG4Wt5LTEJUiOxwBN3cKMUNPxFBgnRM3E6nB8aO4nMB8miE+ir1R
+         evbRTR1wasHLA==
 From:   Lee Jones <lee@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Kees Cook <keescook@chromium.org>
-Cc:     Lee Jones <lee@kernel.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Douglas Anderson <dianders@chromium.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>,
-        linux-leds@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>, Lu Hongfei <luhongfei@vivo.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-In-Reply-To: <20230915201059.never.086-kees@kernel.org>
-References: <20230915201059.never.086-kees@kernel.org>
-Subject: Re: (subset) [PATCH] leds: qcom-lpg: Annotate struct lpg_led with
- __counted_by
-Message-Id: <169521735205.3443473.3273251476364082094.b4-ty@kernel.org>
-Date:   Wed, 20 Sep 2023 14:42:32 +0100
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-leds@vger.kernel.org,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Xing Tong Wu <xingtong.wu@siemens.com>,
+        Tobias Schaffner <tobias.schaffner@siemens.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        kernel@pengutronix.de, Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230916164516.1063380-1-u.kleine-koenig@pengutronix.de>
+References: <20230916164516.1063380-1-u.kleine-koenig@pengutronix.de>
+Subject: Re: (subset) [PATCH v2] leds: simatic-ipc-leds-gpio: Convert to
+ platform remove callback returning void
+Message-Id: <169521770737.3447233.13285439111674870237.b4-ty@kernel.org>
+Date:   Wed, 20 Sep 2023 14:48:27 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -61,21 +55,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 15 Sep 2023 13:11:00 -0700, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct lpg_led.
+On Sat, 16 Sep 2023 18:45:16 +0200, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: qcom-lpg: Annotate struct lpg_led with __counted_by
-      commit: 3a2a14ad346d60da60aef0a2afc1fb256a56c83c
+[1/1] leds: simatic-ipc-leds-gpio: Convert to platform remove callback returning void
+      commit: 5af618bb43581f2c7d1bdfe8b769a2c85025854e
 
 --
 Lee Jones [李琼斯]
