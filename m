@@ -2,171 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 726537A9ACB
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 20:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FF57A998C
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 20:15:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbjIUSuj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Sep 2023 14:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59260 "EHLO
+        id S230094AbjIUSP4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Sep 2023 14:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbjIUSuf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 14:50:35 -0400
+        with ESMTP id S230267AbjIUSP1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 14:15:27 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0835E1FC9;
-        Thu, 21 Sep 2023 09:58:16 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C2CC3279A;
-        Thu, 21 Sep 2023 10:33:08 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3629584F24
+        for <linux-leds@vger.kernel.org>; Thu, 21 Sep 2023 10:37:43 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01118C4AF6D;
+        Thu, 21 Sep 2023 10:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695292389;
-        bh=znMmmtUolq/3rZ6hqAdIblfLa4SGUSETXPL9cWzpQkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YpOw0dpzNu0HppSGdiZHRtAQkjjG7fQ779n1Loo09yhPoN/PPxmQPkuok5HU1g1NV
-         fYIp7QmV4/uanrScQLNZHoEiGH+HDxBeZKllxrpJZKB+HRRYxWiCwQSCIy3yS/i80i
-         LD4/yVZQmwqRUpsrprIgmd8PaxQEVP3gjaMSNKm16vtCawfqbUVWzUu3hopLbRmACC
-         Mqyt1beqP2Hk7GLvgAr65kBor6SlE343RcEpJB/JK6yQXoyJN0hktXfdPaQjlAsm6t
-         06P/zLogLS90CmBOle70T+ljRSObvjVoV1QEd6Y9C6icqbQ3837xuwUyn8mgeqAtIi
-         ImyDIdAVAiu6A==
-Date:   Thu, 21 Sep 2023 11:33:05 +0100
+        s=k20201202; t=1695293498;
+        bh=rH55MFNjDQ/8I7YHhB4kiilVQZ7xNdmDJuvsySbx/yI=;
+        h=From:To:In-Reply-To:References:Subject:Date:From;
+        b=Q8C39Qq4VlyebbuaKTVCa3ZwRw+o/p9L7vMD68Zope3cZsfDjnpgEaMnENko8Z2J9
+         u0VoydC+W8Sd/dbRrKxAn2bxsZhkWk373Q3xmD0GCaCZ+axJEufB0EVszbeOOhYYhO
+         u1aj1JSHnEMz+oVDZCvVI5cX6mN6Wq8ecCp5pkXCFz6MeU3h4351s/O3fucGEq1r0E
+         5A3+khgvHFOs0FxWOAFNp/CeC7uL5+swIbAKSt0d4E4XbujBDev4g5naE5Lu81tGi0
+         hK2+YB1EljYZZlXMRToOaDtkOfsHLYVUCpKmkcUjrLXCnu2nldQoyL2Id/WECEL+ph
+         5pSJLY0UBhagQ==
 From:   Lee Jones <lee@kernel.org>
-To:     Naresh Solanki <naresh.solanki@9elements.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4] leds: max5970: Add support for max5970
-Message-ID: <20230921103305.GC3449785@google.com>
-References: <20230921091255.3792179-1-naresh.solanki@9elements.com>
+To:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
+        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+In-Reply-To: <20230918161104.20860-1-kabel@kernel.org>
+References: <20230918161104.20860-1-kabel@kernel.org>
+Subject: Re: [PATCH v4 0/4] leds: turris-omnia: updates
+Message-Id: <169529349771.3611714.16560372288467225688.b4-ty@kernel.org>
+Date:   Thu, 21 Sep 2023 11:51:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230921091255.3792179-1-naresh.solanki@9elements.com>
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 21 Sep 2023, Naresh Solanki wrote:
-
-> From: Patrick Rudolph <patrick.rudolph@9elements.com>
+On Mon, 18 Sep 2023 18:11:00 +0200, Marek Behún wrote:
+> I am sending version 4 of Turris Omnia's LED controller updates.
+> I tried to address the issues you mentioned:
+> - I made the omnia_cmd_read_raw() function to return the number of read
+>   bytes on success
+> - I have renamed omnia_cmd_read() to omnia_cmd_read_u8() since it always
+>   reads one byte. The function returns the read byte on success and
+>   a negative errno on failure
+> - accordingly, I have renamed omnia_cmd_write() to omnia_cmd_write_u8(),
+>   and made it so that it returns the number of written bytes on success
+> - the newly added comments now start with a capital letter
 > 
-> The MAX5970 is hot swap controller and has 4 indication LED.
-> 
-> Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> Reviewed-by: Lee Jones <lee@kernel.org>
-> ---
-> Changes in V4:
-> - Compact declaration of variable to single line
-> - Use sizeof(*ddata) instead of sizeof(struct max5970_led).
-> - Use the shorter 'dev' version whilst it's available
-> Changes in V3:
-> - Drop array for ddata variable.
-> Changes in V2:
-> - Add of_node_put before return.
-> - Code cleanup
-> - Refactor code & remove max5970_setup_led function.
-> ---
->  drivers/leds/Kconfig        |  11 ++++
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-max5970.c | 109 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 121 insertions(+)
->  create mode 100644 drivers/leds/leds-max5970.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index b92208eccdea..03ef527cc545 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -637,6 +637,17 @@ config LEDS_ADP5520
->  	  To compile this driver as a module, choose M here: the module will
->  	  be called leds-adp5520.
->  
-> +config LEDS_MAX5970
-> +	tristate "LED Support for Maxim 5970"
-> +	depends on LEDS_CLASS
-> +	depends on MFD_MAX5970
-> +	help
-> +	  This option enables support for the Maxim MAX5970 & MAX5978 smart
-> +	  switch indication LEDs via the I2C bus.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called leds-max5970.
-> +
->  config LEDS_MC13783
->  	tristate "LED Support for MC13XXX PMIC"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d7348e8bc019..6eaee0a753c6 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
->  obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
->  obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
->  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
-> +obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
->  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
->  obj-$(CONFIG_LEDS_MAX8997)		+= leds-max8997.o
->  obj-$(CONFIG_LEDS_MC13783)		+= leds-mc13783.o
-> diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max5970.c
-> new file mode 100644
-> index 000000000000..5b87f078af85
-> --- /dev/null
-> +++ b/drivers/leds/leds-max5970.c
-> @@ -0,0 +1,109 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device driver for leds in MAX5970 and MAX5978 IC
-> + *
-> + * Copyright (c) 2022 9elements GmbH
-> + *
-> + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
-> + */
-> +
-> +#include <linux/leds.h>
-> +#include <linux/mfd/max5970.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define ldev_to_maxled(c)       container_of(c, struct max5970_led, cdev)
-> +
-> +struct max5970_led {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct led_classdev cdev;
-> +	unsigned int index;
-> +};
-> +
-> +static int max5970_led_set_brightness(struct led_classdev *cdev,
-> +				      enum led_brightness brightness)
-> +{
-> +	struct max5970_led *ddata = ldev_to_maxled(cdev);
-> +	int ret, val;
-> +
-> +	/* Set/clear corresponding bit for given led index */
-> +	val = !brightness ? BIT(ddata->index) : 0;
-> +
-> +	ret = regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLASH, BIT(ddata->index), val);
-> +	if (ret < 0)
-> +		dev_err(cdev->dev, "failed to set brightness %d", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int max5970_led_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np = dev_of_node(dev->parent);
-> +	struct regmap *regmap;
-> +	struct device_node *led_node, *child;
-> +	struct max5970_led *ddata;
-> +	int ret = -ENODEV, num_leds = 0;
-> +
-> +	regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +	if (!regmap)
-> +		return -EPROBE_DEFER;
+> [...]
 
-You're too quick off the mark.
+Applied, thanks!
 
-Let's finish the discussion about this first.
+[1/4] leds: turris-omnia: do not use SMBUS calls
+      commit: 2b423ec3d05b5b9f6e663e99d40314c011a23a41
+[2/4] leds: turris-omnia: make set_brightness() more efficient
+      commit: aa5799d8cf1958e1359023aa13842952c6fde267
+[3/4] leds: turris-omnia: support HW controlled mode via private trigger
+      commit: 276f5ece909ee04676c92d4a942354a75059d832
+[4/4] leds: turris-omnia: add support for enabling/disabling HW gamma correction
+      commit: d82d0db48329785d31e7fed3ead8429383c94127
 
--- 
+--
 Lee Jones [李琼斯]
+
