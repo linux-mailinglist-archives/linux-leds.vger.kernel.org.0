@@ -2,45 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C349B7AA1F2
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 23:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 912647AA078
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 22:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbjIUVLB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Sep 2023 17:11:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35566 "EHLO
+        id S232214AbjIUUh4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Sep 2023 16:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232944AbjIUVFM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 17:05:12 -0400
+        with ESMTP id S232138AbjIUUhb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 16:37:31 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC53984F0C
-        for <linux-leds@vger.kernel.org>; Thu, 21 Sep 2023 10:37:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC848C4AF69;
-        Thu, 21 Sep 2023 10:47:30 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C9085D0A;
+        Thu, 21 Sep 2023 10:37:47 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76E7C4AF7F;
+        Thu, 21 Sep 2023 12:05:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695293251;
-        bh=pp/Ue0iJyhffHYtzdMOm63r/ONxHdXIt8bLLQR/6yi0=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=IceBFM9LW3Dck4N9l5/4NGIpmgL98u3n6mCzR9h7lexzAMzRWS9OP6qFxYxxOd5Dr
-         /2He4+mO3dhlgLznoZ3M4jVXK4BPc8xTAI6zh1bo44GRtpTL4/1OUlX2sg9rG7TEYa
-         TYmc9yht/W6sbHcDXF5poQJlRA8JEByaIPth6URbNDdQE8XXHxXz3eQBPOL6KixILJ
-         v9IoLj4uQg9TsAuMUNS0dX24DtVRVUxShthTgLYvEOJ0ami6ZETzhoWDSbnPol0TK8
-         r5dGkBLpCcASlBVlb2c92+rfu4iiegs2WlEVNh5E/3HDgn1Dr+44qmFZf/MkQz+7yx
-         EI3gYZGIGMUfA==
+        s=k20201202; t=1695297950;
+        bh=MIAPvm2D9dsEYNFzb9MK6Q/J1mLxxDhkVeMPqNpuQBA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ok/dWXRP9v159kkOVgc53JH6vyyUhzV3W+r6S3w/1w8QLcDNkW69KJVswMQB/M9oE
+         wh+RcUcW32Sjce2VvVCNyDevZ8UCjUnSGDg8VnAKjh3SiqW+neZyGIO/Z7KKysMG8m
+         ecvUHb/QqzURDC0OWJzkM10DSFGcx0Gvn7g6TCb0WuTRpGsq/w8op3H2dmZgyOOsMI
+         9Y0l12npuO7ZDU0WjCzWpGnR78dPlE3Bo9CwHA/wi7HyI/eTkFkAO+S/PDWNUvHN4J
+         h0uVDnj8m0TxnI6LDE+kTDdvNhNIfRtP1uFtSe8k95zKF6Blh3g0cMVTLOjUfCVbmp
+         LnqNneqNG4epA==
+Date:   Thu, 21 Sep 2023 13:05:46 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     linux-leds@vger.kernel.org, Stefan Eichenberger <eichest@gmail.com>
-Cc:     pavel@ucw.cz, lee@kernel.org
-In-Reply-To: <20230918143238.75600-1-eichest@gmail.com>
-References: <20230918143238.75600-1-eichest@gmail.com>
-Subject: Re: (subset) [PATCH] leds: lp55xx: use gpiod_set_value_cansleep
-Message-Id: <169529325053.3610185.2120920781056406705.b4-ty@kernel.org>
-Date:   Thu, 21 Sep 2023 11:47:30 +0100
+To:     Chunyan Zhang <chunyan.zhang@unisoc.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] leds: sc27xx: Add a missing mutex_destory()
+Message-ID: <20230921120546.GI3449785@google.com>
+References: <20230921024314.615370-1-chunyan.zhang@unisoc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-        DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+In-Reply-To: <20230921024314.615370-1-chunyan.zhang@unisoc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,19 +52,35 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 18 Sep 2023 16:32:38 +0200, Stefan Eichenberger wrote:
-> Use gpiod_set_value_cansleep in the init_device function. Without this
-> change, the driver may print a warning if the LP55xx enable pin is
-> connected to a GPIO chip which can sleep (e.g. a GPIO expander):
-> WARNING: CPU: 0 PID: 2719 at drivers/gpio/gpiolib.c:3051 gpiod_set_value+0x64/0xbc
+On Thu, 21 Sep 2023, Chunyan Zhang wrote:
+
+> In sc27xx_led_probe() there's one error branch missing mutex_destory()
+> after mutex_init(), it seems that we should add it since other branches
+> which follow it called mutex_destoy() before return failure.
+
+Wouldn't it be better to move the mutex_init() to the end of .probe()?
+
+> Fixes: e081c49e30ec ("leds: Add Spreadtrum SC27xx breathing light controller driver")
+> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
+> ---
+>  drivers/leds/leds-sc27xx-bltc.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
+> diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
+> index e199ea15e406..122094bbf444 100644
+> --- a/drivers/leds/leds-sc27xx-bltc.c
+> +++ b/drivers/leds/leds-sc27xx-bltc.c
+> @@ -300,6 +300,7 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+>  	priv->base = base;
+>  	priv->regmap = dev_get_regmap(dev->parent, NULL);
+>  	if (!priv->regmap) {
+> +		mutex_destroy(&priv->lock);
+>  		err = -ENODEV;
+>  		dev_err(dev, "failed to get regmap: %d\n", err);
+>  		return err;
+> -- 
+> 2.41.0
 > 
 
-Applied, thanks!
-
-[1/1] leds: lp55xx: use gpiod_set_value_cansleep
-      commit: e62db9d5be9bc96e121013b35987dfa850c040f9
-
---
+-- 
 Lee Jones [李琼斯]
-
