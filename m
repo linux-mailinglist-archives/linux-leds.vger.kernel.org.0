@@ -2,85 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 912647AA078
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 22:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6964A7AA29A
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 23:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232214AbjIUUh4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Sep 2023 16:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48028 "EHLO
+        id S231846AbjIUVWs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Sep 2023 17:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232138AbjIUUhb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 16:37:31 -0400
+        with ESMTP id S231918AbjIUVWg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 17:22:36 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C9085D0A;
-        Thu, 21 Sep 2023 10:37:47 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76E7C4AF7F;
-        Thu, 21 Sep 2023 12:05:48 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E27897E4
+        for <linux-leds@vger.kernel.org>; Thu, 21 Sep 2023 13:50:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A816C433C9;
+        Thu, 21 Sep 2023 20:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695297950;
-        bh=MIAPvm2D9dsEYNFzb9MK6Q/J1mLxxDhkVeMPqNpuQBA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ok/dWXRP9v159kkOVgc53JH6vyyUhzV3W+r6S3w/1w8QLcDNkW69KJVswMQB/M9oE
-         wh+RcUcW32Sjce2VvVCNyDevZ8UCjUnSGDg8VnAKjh3SiqW+neZyGIO/Z7KKysMG8m
-         ecvUHb/QqzURDC0OWJzkM10DSFGcx0Gvn7g6TCb0WuTRpGsq/w8op3H2dmZgyOOsMI
-         9Y0l12npuO7ZDU0WjCzWpGnR78dPlE3Bo9CwHA/wi7HyI/eTkFkAO+S/PDWNUvHN4J
-         h0uVDnj8m0TxnI6LDE+kTDdvNhNIfRtP1uFtSe8k95zKF6Blh3g0cMVTLOjUfCVbmp
-         LnqNneqNG4epA==
-Date:   Thu, 21 Sep 2023 13:05:46 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Chunyan Zhang <chunyan.zhang@unisoc.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] leds: sc27xx: Add a missing mutex_destory()
-Message-ID: <20230921120546.GI3449785@google.com>
-References: <20230921024314.615370-1-chunyan.zhang@unisoc.com>
+        s=k20201202; t=1695329429;
+        bh=o/Agu4YpPPbLZVgNf6CK3kCG/+pD6mnDaJlC2mGAkdM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XML8PgsHmjjo+J3USVhE/uxEqviDVz/8QN5eHRB4VcT46hA6tvM/vdhaq+ZBG73g8
+         iN6fDp0RNZyuWL8y3mCjXfA9sdWSmd5qdBNGubkkEXpSKdk5XQKqdxgbsEboFcKTV4
+         9GVTiGA3oVnVpidMyPeQA8vdiJh1aDBYau2PTLs75zbhtzaTbyp0foe4aV6pSm5C11
+         2oSDyaG/xc3UfD8mssZc0BKI0wSFl5d8QkYmqBkmP6xiGHd11S224i5oDZkChXgLh8
+         bZIRI/2EuKGTsAedqEYRBC/N7C8FLiI0URQ5yhf0Msj0IPyg0EvkUKBIgP8HuXLJgk
+         uM/b6pkKYgyYw==
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
+Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH] leds: turris-omnia: Fix unused variable
+Date:   Thu, 21 Sep 2023 22:50:25 +0200
+Message-ID: <20230921205025.20303-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230921024314.615370-1-chunyan.zhang@unisoc.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 21 Sep 2023, Chunyan Zhang wrote:
+The variable ret is not used in this function.
 
-> In sc27xx_led_probe() there's one error branch missing mutex_destory()
-> after mutex_init(), it seems that we should add it since other branches
-> which follow it called mutex_destoy() before return failure.
+Fixes: 28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls")
+Closes: https://lore.kernel.org/linux-leds/202309212215.Yl5VQaSm-lkp@intel.com/T/#u
+Signed-off-by: Marek Behún <kabel@kernel.org>
+---
+ drivers/leds/leds-turris-omnia.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Wouldn't it be better to move the mutex_init() to the end of .probe()?
-
-> Fixes: e081c49e30ec ("leds: Add Spreadtrum SC27xx breathing light controller driver")
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
->  drivers/leds/leds-sc27xx-bltc.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
-> index e199ea15e406..122094bbf444 100644
-> --- a/drivers/leds/leds-sc27xx-bltc.c
-> +++ b/drivers/leds/leds-sc27xx-bltc.c
-> @@ -300,6 +300,7 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->  	priv->base = base;
->  	priv->regmap = dev_get_regmap(dev->parent, NULL);
->  	if (!priv->regmap) {
-> +		mutex_destroy(&priv->lock);
->  		err = -ENODEV;
->  		dev_err(dev, "failed to get regmap: %d\n", err);
->  		return err;
-> -- 
-> 2.41.0
-> 
-
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+index e1a4629479c5..f27241896970 100644
+--- a/drivers/leds/leds-turris-omnia.c
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -60,7 +60,6 @@ struct omnia_leds {
+ static int omnia_cmd_write_u8(const struct i2c_client *client, u8 cmd, u8 val)
+ {
+ 	u8 buf[2] = { cmd, val };
+-	int ret;
+ 
+ 	return i2c_master_send(client, buf, sizeof(buf));
+ }
 -- 
-Lee Jones [李琼斯]
+2.41.0
+
