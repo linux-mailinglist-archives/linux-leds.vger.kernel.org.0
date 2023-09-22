@@ -2,103 +2,212 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA9D7AB05E
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 13:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77E377AB281
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 15:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233512AbjIVLRE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Sep 2023 07:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54176 "EHLO
+        id S231516AbjIVNG3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Sep 2023 09:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbjIVLRE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 07:17:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD26CA
-        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 04:16:58 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3F73C433C7;
-        Fri, 22 Sep 2023 11:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695381418;
-        bh=QT5O7/kfb/gaCVF7M6/tTux1PfknB5+vtoV0TxuTvlU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Wz7ySW3FaryTwP5M5E2N2PAv/zv9ug62100Bn87mtf5D7+51+wNBtyjpf0LaxXsx3
-         2HRgrXPQqOHiMv0pqSAGdBM6hy+oy7aLSWL/fc6AAkq4B6Atl7zGs8RweqF8S5mDme
-         36BA9gegoXRZPIIKywm9OE58egseZsp3yHs5jBA0t1hR0bFa4lutGD4+C6YZrhqq3A
-         4YDwp1W4+Xa8feE2IneBFPAWU9mL0oGwHyDK7gq5G4RPtlRtRGC62Iso/S8t/jOJay
-         uErGSir5mUDR8p/C4+yzXrtdFwTNga/L+hPhcSwj9DJp6ELVpElQjhrP2Wsdp2gsMZ
-         L6u6SRLzIEcAw==
-Date:   Fri, 22 Sep 2023 13:16:54 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+        with ESMTP id S229971AbjIVNG3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 09:06:29 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E13C9C6
+        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 06:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695387982; x=1726923982;
+  h=date:from:to:cc:subject:message-id;
+  bh=qFCz3DeAP/Qz9kQQonkW1fMPxhVQ/ipbJ5VC+3YTusw=;
+  b=XGj27b8xqcwKk6n1KkeELpv87rNQKZblGUHnmApbDIp8HftM5u/0vaAZ
+   R5dhHTLX6Ik5SkP5w74XfF4JuO6h3x4dRzMAW/fk+M+K1cEIMierYPf4s
+   wogBWRM9aBtQZSo60gTpTuxArmstreZyXIzBf5CndYkry4w92xuGb5Uzv
+   oYbdFthKfgu0Z69KusaJ4d+Y1Vna/mTARNnYB/6T7i6BPx/NmfWuds49Y
+   XlFlr9HltYHY3+qzs9at/8QHrr5uMwDhU0cHHKVTIMbrEr+BtMM+sxZwY
+   rq89o1un2gnYWoMyDtXJJPQT8hA/3bJ4sl26ljbVXwcGdPqKO840iyZB2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="384659515"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="384659515"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 06:06:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="747515066"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="747515066"
+Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 22 Sep 2023 06:06:21 -0700
+Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qjfrO-0000jd-2N;
+        Fri, 22 Sep 2023 13:06:18 +0000
+Date:   Fri, 22 Sep 2023 21:06:16 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Lee Jones <lee@kernel.org>
 Cc:     linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: turris-omnia: Fix unused variable
-Message-ID: <20230922131654.2172a184@dellmb>
-In-Reply-To: <20230922065919.GA3660432@google.com>
-References: <20230921205025.20303-1-kabel@kernel.org>
-        <20230922065919.GA3660432@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Subject: [lee-leds:leds-fixes] BUILD SUCCESS
+ 9dc1664fab2246bc2c3e9bf2cf21518a857f9b5b
+Message-ID: <202309222113.Qq5oIFXn-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 22 Sep 2023 07:59:19 +0100
-Lee Jones <lee@kernel.org> wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git leds-fixes
+branch HEAD: 9dc1664fab2246bc2c3e9bf2cf21518a857f9b5b  leds: Drop BUG_ON check for LED_COLOR_ID_MULTI
 
-> On Thu, 21 Sep 2023, Marek Beh=C3=BAn wrote:
->=20
-> > The variable ret is not used in this function.
-> >=20
-> > Fixes: 28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls")
-> > Closes: https://lore.kernel.org/linux-leds/202309212215.Yl5VQaSm-lkp@in=
-tel.com/T/#u
-> > Signed-off-by: Marek Beh=C3=BAn <kabel@kernel.org>
-> > ---
-> >  drivers/leds/leds-turris-omnia.c | 1 -
-> >  1 file changed, 1 deletion(-) =20
->=20
-> I already fixed and squashed this.
->=20
-> How was this missed when you tested the set?
+elapsed time: 1461m
 
-I am not sure, but it is possible that I've refactored that function
-from my original (return 0 on success) to your proposed (return number
-of written bytes on success) and did not notice the warning. I am sure
-I tested that the result works. Maybe I switched to another terminal
-where I was testing it too fast and did not notice the warning.
+configs tested: 136
+configs skipped: 2
 
-Sorry about this.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Anyway, I have a question. Several days ago I also sent for review
-a new driver for other feautres the Turris Omnia MCU provides (GPIO,
-watchdog, wakeup+poweroff).
-There, I also refactored the _write and _read functions as you
-suggested (to return the number of bytes written/read).
-On review, Andy Shevchenko requested [1] to refactor it to my original
-(return 0 on success). I mentioned to him [2] your request, to which he
-replied [3]:
-  This is strange. For example, regmap APIs never returns amount of
-  data written or read. I think it's solely depends on the API. It might
-  be useful for i=C2=B2c APIs, in case you can do something about it. but if
-  you have wrappers on top of that already (meaning not using directly
-  the i2c_*() calls, I dunno the positive return is anyhow useful.
-Since I agree with him, taking this into account, would you accept a
-patch that returns those function to how I originally wrote them
-(return 0 on success)?
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230921   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20230921   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230921   gcc  
+i386         buildonly-randconfig-002-20230921   gcc  
+i386         buildonly-randconfig-003-20230921   gcc  
+i386         buildonly-randconfig-004-20230921   gcc  
+i386         buildonly-randconfig-005-20230921   gcc  
+i386         buildonly-randconfig-006-20230921   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230921   gcc  
+i386                  randconfig-002-20230921   gcc  
+i386                  randconfig-003-20230921   gcc  
+i386                  randconfig-004-20230921   gcc  
+i386                  randconfig-005-20230921   gcc  
+i386                  randconfig-006-20230921   gcc  
+i386                  randconfig-011-20230921   gcc  
+i386                  randconfig-012-20230921   gcc  
+i386                  randconfig-013-20230921   gcc  
+i386                  randconfig-014-20230921   gcc  
+i386                  randconfig-015-20230921   gcc  
+i386                  randconfig-016-20230921   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230921   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230921   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230921   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230921   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230921   gcc  
+x86_64       buildonly-randconfig-002-20230921   gcc  
+x86_64       buildonly-randconfig-003-20230921   gcc  
+x86_64       buildonly-randconfig-004-20230921   gcc  
+x86_64       buildonly-randconfig-005-20230921   gcc  
+x86_64       buildonly-randconfig-006-20230921   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230921   gcc  
+x86_64                randconfig-002-20230921   gcc  
+x86_64                randconfig-003-20230921   gcc  
+x86_64                randconfig-004-20230921   gcc  
+x86_64                randconfig-005-20230921   gcc  
+x86_64                randconfig-006-20230921   gcc  
+x86_64                randconfig-011-20230922   gcc  
+x86_64                randconfig-012-20230922   gcc  
+x86_64                randconfig-013-20230922   gcc  
+x86_64                randconfig-014-20230922   gcc  
+x86_64                randconfig-015-20230922   gcc  
+x86_64                randconfig-016-20230922   gcc  
+x86_64                randconfig-071-20230921   gcc  
+x86_64                randconfig-072-20230921   gcc  
+x86_64                randconfig-073-20230921   gcc  
+x86_64                randconfig-074-20230921   gcc  
+x86_64                randconfig-075-20230921   gcc  
+x86_64                randconfig-076-20230921   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
 
-Thanks.
-
-Marek
-
-[1]
-https://lore.kernel.org/linux-gpio/ZQmUFPvIx91+ps6k@smile.fi.intel.com/
-[2]
-https://lore.kernel.org/linux-gpio/ZQnn+Gi0xVlsGCYA@smile.fi.intel.com/
-[3]
-https://lore.kernel.org/linux-gpio/ZQnn+Gi0xVlsGCYA@smile.fi.intel.com/
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
