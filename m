@@ -2,40 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6964A7AA29A
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Sep 2023 23:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A34A7AA99D
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 08:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231846AbjIUVWs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Sep 2023 17:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43096 "EHLO
+        id S229556AbjIVG7a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Sep 2023 02:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231918AbjIUVWg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Sep 2023 17:22:36 -0400
+        with ESMTP id S229623AbjIVG73 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 02:59:29 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E27897E4
-        for <linux-leds@vger.kernel.org>; Thu, 21 Sep 2023 13:50:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A816C433C9;
-        Thu, 21 Sep 2023 20:50:28 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBBFCE
+        for <linux-leds@vger.kernel.org>; Thu, 21 Sep 2023 23:59:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4127DC433C7;
+        Fri, 22 Sep 2023 06:59:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695329429;
-        bh=o/Agu4YpPPbLZVgNf6CK3kCG/+pD6mnDaJlC2mGAkdM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=XML8PgsHmjjo+J3USVhE/uxEqviDVz/8QN5eHRB4VcT46hA6tvM/vdhaq+ZBG73g8
-         iN6fDp0RNZyuWL8y3mCjXfA9sdWSmd5qdBNGubkkEXpSKdk5XQKqdxgbsEboFcKTV4
-         9GVTiGA3oVnVpidMyPeQA8vdiJh1aDBYau2PTLs75zbhtzaTbyp0foe4aV6pSm5C11
-         2oSDyaG/xc3UfD8mssZc0BKI0wSFl5d8QkYmqBkmP6xiGHd11S224i5oDZkChXgLh8
-         bZIRI/2EuKGTsAedqEYRBC/N7C8FLiI0URQ5yhf0Msj0IPyg0EvkUKBIgP8HuXLJgk
-         uM/b6pkKYgyYw==
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-To:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org
-Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH] leds: turris-omnia: Fix unused variable
-Date:   Thu, 21 Sep 2023 22:50:25 +0200
-Message-ID: <20230921205025.20303-1-kabel@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        s=k20201202; t=1695365963;
+        bh=2n8SD+onKMJABH4WMhTAB1SsrMLN1yDHzsgPQ+4sc3k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aG1J4bn5YJ+sfPda1ZNWXajcMhMxx67Mm6WKAqlmz3wWSMmOFMg1vGtXT4vhmiRpm
+         l72kkCU5rankG31iHp3O8RR6wdFkI7sJdbIrrOIqdsXpQ6OGfCz4XgTI2EiHpjB7vq
+         LCaZy6Pk6Hxb2MNUJw2BAZcjzMfCQQVg6LmfWes7pVT3+vuXiEpS/zITA1oX2qrp20
+         52hSPf26Oa4GxkBoGQUbjb5tcsw+H1q0MU8r3EYozlhL21GxGJiQXJxcc0vzMhl4Py
+         dlsL+l+HDB5b8SwIub7+v5XdYISUX82v6HnDi+r80S7zN9kNe/kfGwrqTSM+OPRcbb
+         RzGR0rdXMhtEA==
+Date:   Fri, 22 Sep 2023 07:59:19 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: turris-omnia: Fix unused variable
+Message-ID: <20230922065919.GA3660432@google.com>
+References: <20230921205025.20303-1-kabel@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230921205025.20303-1-kabel@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -45,27 +47,20 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The variable ret is not used in this function.
+On Thu, 21 Sep 2023, Marek Behún wrote:
 
-Fixes: 28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls")
-Closes: https://lore.kernel.org/linux-leds/202309212215.Yl5VQaSm-lkp@intel.com/T/#u
-Signed-off-by: Marek Behún <kabel@kernel.org>
----
- drivers/leds/leds-turris-omnia.c | 1 -
- 1 file changed, 1 deletion(-)
+> The variable ret is not used in this function.
+> 
+> Fixes: 28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls")
+> Closes: https://lore.kernel.org/linux-leds/202309212215.Yl5VQaSm-lkp@intel.com/T/#u
+> Signed-off-by: Marek Behún <kabel@kernel.org>
+> ---
+>  drivers/leds/leds-turris-omnia.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index e1a4629479c5..f27241896970 100644
---- a/drivers/leds/leds-turris-omnia.c
-+++ b/drivers/leds/leds-turris-omnia.c
-@@ -60,7 +60,6 @@ struct omnia_leds {
- static int omnia_cmd_write_u8(const struct i2c_client *client, u8 cmd, u8 val)
- {
- 	u8 buf[2] = { cmd, val };
--	int ret;
- 
- 	return i2c_master_send(client, buf, sizeof(buf));
- }
+I already fixed and squashed this.
+
+How was this missed when you tested the set?
+
 -- 
-2.41.0
-
+Lee Jones [李琼斯]
