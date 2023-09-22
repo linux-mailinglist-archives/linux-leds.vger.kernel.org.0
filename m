@@ -2,53 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23A197ABA14
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 21:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A2447ABBDF
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Sep 2023 00:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233876AbjIVT27 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Sep 2023 15:28:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50472 "EHLO
+        id S230107AbjIVWiT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Sep 2023 18:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233905AbjIVT26 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 15:28:58 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C39AF
-        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 12:28:51 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qjlpT-0008Ti-OT; Fri, 22 Sep 2023 21:28:43 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qjlpS-008Ei9-7n; Fri, 22 Sep 2023 21:28:42 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qjlpR-003ymr-UV; Fri, 22 Sep 2023 21:28:41 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-pwm@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
-        Rogan Dawes <rogan@dawes.za.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        kernel@pengutronix.de, linux-leds@vger.kernel.org
-Subject: [PATCH v2] leds: pwm: Don't disable the PWM when the LED should be off
-Date:   Fri, 22 Sep 2023 21:28:34 +0200
-Message-Id: <20230922192834.1695727-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2101; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=YQULS5nn70vH2x9IM1JE9IcARldHBYVPhEH9hJaOOCo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlDerhBE4sCtfRtqVTUH+6U2VMDRD+b3qTqOnpn b0KngBbpciJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQ3q4QAKCRCPgPtYfRL+ TqCBB/9jmSxn2JnBS6EcdbL+qkiJJQcQvkHo+BCtXDLmgKYZQLlaCgtOXxkVIfwbQ8JkUCGY5Pm 3T/TNSFPEXkIYmqHMwYL/NExJ+zBCF7n7GzDoTXPlrk0yMtvRJFEXKOYFKuTadbE4bRkv/lI7t/ h3e5z4tRJNPUr2OnBwTu8LvBBgI5PRnKiFDmBDXd6QCg4fR0cJVQPIFp1ZT2CBCrfz7posysR+Y +SIYPoRTa5AN/cNNeJFxfyKmsvvT7thppItHaMaLnkqcDMZs9XMuNoE6VRXox82s5/nvWfLb/uz un2Olo8hBQQ8bLx9kgr+VWCq6tDWPTQQ5c4jgHMXzFMkgfZi
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        with ESMTP id S230105AbjIVWiT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 18:38:19 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70675AB
+        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 15:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695422293; x=1726958293;
+  h=date:from:to:cc:subject:message-id;
+  bh=6nSvU8EMzHh5qVdRiL7QbHcVjFtPXPq7GsoDBKzxtuY=;
+  b=JviM2C+NPnwy0IX0h6lYL+Z8KhdcLRTzmdNSAj+hcc+ujH9NViO69oNC
+   CxBqIRXwwWkPVPQdC8MoLNh3gAFAqaoLVLdZBDN6/kwmW/yy0UAiRps6x
+   yy/eFPUtklCCfSZJDGLKQSufsAT5XcONA/dRwnaD8y/ZsmgydpI4wm/wB
+   wP5taaY6KHu7LC2gDBw8AhDYcZ2lGmaqkjO4LL6lT4ujQcyyNt1G/VwOx
+   N23tjC8eEmOjqsUNmk4ayt6CrtCJ03VCOFW36qg2nC/nsMmguuCsGNPc6
+   lMr7T56pXpy9mmXKaNhsDRSVHINg/anHs9ZZnt2CesyZfGtpXpgIGheXv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="411889416"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="411889416"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 15:38:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="837924614"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="837924614"
+Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2023 15:38:12 -0700
+Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qjomn-0001Q9-2Z;
+        Fri, 22 Sep 2023 22:38:09 +0000
+Date:   Sat, 23 Sep 2023 06:37:43 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 685f192b3a0a80af8000cb90692bd4ef7bc6f7f9
+Message-ID: <202309230640.XKYgX5RN-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,62 +60,150 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Disabling a PWM (i.e. calling pwm_apply_state with .enabled = false)
-gives no guarantees what the PWM output does. It might freeze where it
-currently is, or go in a High-Z state or drive the active or inactive
-state, it might even continue to toggle.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 685f192b3a0a80af8000cb90692bd4ef7bc6f7f9  leds: turris-omnia: Add support for enabling/disabling HW gamma correction
 
-To ensure that the LED gets really disabled, don't disable the PWM even
-when .duty_cycle is zero.
+elapsed time: 1807m
 
-This fixes disabling a leds-pwm LED on i.MX28. The PWM on this SoC is
-one of those that freezes its output on disable, so if you disable an
-LED that is full on, it stays on. If you disable a LED with half
-brightness it goes off in 50% of the cases and full on in the other 50%.
+configs tested: 131
+configs skipped: 2
 
-Reported-by: Rogan Dawes <rogan@dawes.za.net>
-Reported-by: Fabio Estevam <festevam@denx.de>
-Reviewed-by: Fabio Estevam <festevam@denx.de>
-Fixes: 41c42ff5dbe2 ("leds: simple driver for pwm driven LEDs")
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-changes since (implicit) v1 sent with Message-Id:
-20230922142304.1685985-1-u.kleine-koenig@pengutronix.de:
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230922   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20230922   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386         buildonly-randconfig-001-20230922   gcc  
+i386         buildonly-randconfig-002-20230922   gcc  
+i386         buildonly-randconfig-003-20230922   gcc  
+i386         buildonly-randconfig-004-20230922   gcc  
+i386         buildonly-randconfig-005-20230922   gcc  
+i386         buildonly-randconfig-006-20230922   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230922   gcc  
+i386                  randconfig-002-20230922   gcc  
+i386                  randconfig-003-20230922   gcc  
+i386                  randconfig-004-20230922   gcc  
+i386                  randconfig-005-20230922   gcc  
+i386                  randconfig-006-20230922   gcc  
+i386                  randconfig-011-20230922   gcc  
+i386                  randconfig-012-20230922   gcc  
+i386                  randconfig-013-20230922   gcc  
+i386                  randconfig-014-20230922   gcc  
+i386                  randconfig-015-20230922   gcc  
+i386                  randconfig-016-20230922   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230922   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230922   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230922   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230922   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230922   gcc  
+x86_64       buildonly-randconfig-002-20230922   gcc  
+x86_64       buildonly-randconfig-003-20230922   gcc  
+x86_64       buildonly-randconfig-004-20230922   gcc  
+x86_64       buildonly-randconfig-005-20230922   gcc  
+x86_64       buildonly-randconfig-006-20230922   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230922   gcc  
+x86_64                randconfig-002-20230922   gcc  
+x86_64                randconfig-003-20230922   gcc  
+x86_64                randconfig-005-20230922   gcc  
+x86_64                randconfig-006-20230922   gcc  
+x86_64                randconfig-011-20230922   gcc  
+x86_64                randconfig-012-20230922   gcc  
+x86_64                randconfig-013-20230922   gcc  
+x86_64                randconfig-014-20230922   gcc  
+x86_64                randconfig-015-20230922   gcc  
+x86_64                randconfig-016-20230922   gcc  
+x86_64                randconfig-071-20230922   gcc  
+x86_64                randconfig-072-20230922   gcc  
+x86_64                randconfig-073-20230922   gcc  
+x86_64                randconfig-074-20230922   gcc  
+x86_64                randconfig-075-20230922   gcc  
+x86_64                randconfig-076-20230922   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
 
- - Use true instead of 1 to assign the boot .enabled. Thanks Fabio for
-   that hint.
- - Add Reviewed-by: tag for Fabio
-
-In reply to the first iteration, Rogan wrote that
-"led_dat->pwmstate.enabled = true; also addresses the problem".
-
-BTW, this patch is similar to deaeeda2051f ("backlight: pwm_bl: Don't
-rely on a disabled PWM emiting inactive state") which fixed the same
-issue for PWM backlights.
-
-Best regards
-Uwe
-
- drivers/leds/leds-pwm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 419b710984ab..2b3bf1353b70 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -53,7 +53,7 @@ static int led_pwm_set(struct led_classdev *led_cdev,
- 		duty = led_dat->pwmstate.period - duty;
- 
- 	led_dat->pwmstate.duty_cycle = duty;
--	led_dat->pwmstate.enabled = duty > 0;
-+	led_dat->pwmstate.enabled = true;
- 	return pwm_apply_state(led_dat->pwm, &led_dat->pwmstate);
- }
- 
-
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
