@@ -2,130 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5987AB4C1
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 17:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6ED7AB556
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Sep 2023 17:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230269AbjIVP1Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Sep 2023 11:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
+        id S230445AbjIVP7W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Sep 2023 11:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbjIVP1Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 11:27:25 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D38196
-        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 08:27:18 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d81a76a11eeso2807564276.3
-        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 08:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695396438; x=1696001238; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Yx7UXzctOd2GGBJ46MDq+/W8zRb8/97PbfKpOmbNRf0=;
-        b=sb12I//8gdjw5oaEDIJtIciZtGFg0h9rcFpt5ZUmbzOb0slqLwdSPbNjbOAlJUcd2x
-         CbKSnO05ZR4pfumMbNWdNgWogZ9gNECI0chhNnghiowRoETc6YORJfgwyNNImS0y4EtL
-         gI5oxqau9LFVbb1v9DJu2wZqmz/GJAk/uG6AN+NFHshZo+W1xPCl+zxcD8iQjpam0ju6
-         lVC3GyDAr+1Jr0pOds9kSiwG85Jyexf15LEBBilg6rZXSRN54kX2gHjwIjtKSnHN/4WI
-         5IatoDDedspua/oaYEsOx0XsUDZs9nsen/k3p0MNBaMGUkNhUXELFHiRtPQZXYNe2MfK
-         NDMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695396438; x=1696001238;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yx7UXzctOd2GGBJ46MDq+/W8zRb8/97PbfKpOmbNRf0=;
-        b=wG+liPOZEMOv+qiCNqR6BtFZE3rXF8oHbuK9aI482IJ9lLeOsF9umMlpEEMjzXTqhf
-         6JvhwKjFtekg/Ew+Sm9yOIJnw2pQwK6BTNLyJ1QHyTLCEvCiDQhwSkO/wvM+/XQgOll0
-         sAblzp8NKU0/9/YqMF3y036X6AjdEZzgisb+WsX5nyx4OmNJHXqiL5nmQBpHoPjBcjhe
-         +E689UnH6BbMgGmEJTjVlHl4Km99s7vM3hFAbi4bFPCey9uraiQ2gkM21Y5fqJxSyusP
-         Mo/z1ClfUmeZ9bU44+a8imSzo6Vx+r9P3QB3GPAeKo3SOSV77RDaI5xhO031R30y/Ouc
-         l/fw==
-X-Gm-Message-State: AOJu0YzG5/4227PKxo4tTWxvpxQAJP7lbMWbs8+u/ziI5QDjEemPVBVX
-        I81b9IExogkOTwXMtzk7/ZZCfAD4/jsvhA+FNA==
-X-Google-Smtp-Source: AGHT+IGhilpQEKV9O207YDv1J0qcSmizheQgufZAYvlFGhdU6rhX28q78Gv+I6sxf+lQ2mrUQRJLbz3S0PtHE/WGmA==
-X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a05:6902:562:b0:d85:ae1e:f696 with
- SMTP id a2-20020a056902056200b00d85ae1ef696mr116487ybt.0.1695396438208; Fri,
- 22 Sep 2023 08:27:18 -0700 (PDT)
-Date:   Fri, 22 Sep 2023 15:27:17 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAFSyDWUC/zWNwQrCMBAFf6Xs2YW6pYH6K+KhTV50QWLYlaKU/
- rtB6GVgLjMbOUzhdOk2Mqzq+ipNzqeO4mMud7Cm5iS9DP0kwv62EuuXk+kKc34iHajDNApHDiH kmOcFWBK1UDVk/fwn19u+/wBIt94ddAAAAA==
-X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1695396437; l=1995;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=aH/Nw0wgXmPofMn8+msmli+1RTvUcNQ+NVlfyvVDvCQ=; b=ZWRxzHHGGdhrY8rSZAUGiKrWyLXM756BR/zKBvIX99dEWy6+GTHX00h/IgVVA6bNhrmDfH8cn
- 7IfSxl4KYjvBBbUfHKpbcjv9tL4vZ5rcDPVYRGc6Nfp33Bo/GSGKYLe
-X-Mailer: b4 0.12.3
-Message-ID: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
-Subject: [PATCH] leds: lp3952: replace deprecated strncpy with strscpy
-From:   Justin Stitt <justinstitt@google.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        Justin Stitt <justinstitt@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230051AbjIVP7W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 11:59:22 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A9D83;
+        Fri, 22 Sep 2023 08:59:13 -0700 (PDT)
+Received: from mail.denx.de (unknown [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: festevam@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 276BE8646A;
+        Fri, 22 Sep 2023 17:59:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1695398346;
+        bh=sErq8NJlreRkeeEbGvAm57zpF27Gru13ThY6NB0gH5g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=zTwEhzX5UPOFkW9IhycQs/kb9GdIQoyVtmmM3o0U4sOIzFjPd65MM4z3Y/bGZz+Ms
+         Xdm+PNF0wGQckrYuA4+/IA0yeFgg+KpAzOt/POjHM+/SwxHJjqo1u4gsr2mmBcpDp9
+         mBUaEQ9ggMy47VXe3Q9CB/Mzg8qNRt74POoC3XSF0T2SqNxm4ZUAYEJKqDxEjhzPBi
+         v4tE2MKmjtxovNMtiohGPuKcrdcL3jXwyH5HcNWHYADe+TqF4oTeyVw2KB5tpo+VOI
+         hPZMj6DTj488hlG/vomhCLRibtRkYfjLVpeT1vjZza6SU/NBX9KMeEZD8JY0u98c8p
+         vCEwjn0MQmINA==
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Fri, 22 Sep 2023 12:59:06 -0300
+From:   Fabio Estevam <festevam@denx.de>
+To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org,
+        kernel@pengutronix.de, Rogan Dawes <rogan@dawes.za.net>
+Subject: Re: [PATCH] leds: pwm: Don't disable the PWM when the LED should be
+ off
+In-Reply-To: <20230922142304.1685985-1-u.kleine-koenig@pengutronix.de>
+References: <20230922142304.1685985-1-u.kleine-koenig@pengutronix.de>
+Message-ID: <4b5874469878821a7144fb85f143a88d@denx.de>
+X-Sender: festevam@denx.de
+User-Agent: Roundcube Webmail/1.3.6
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-`strncpy` is deprecated for use on NUL-terminated destination strings
-[1] and as such we should prefer more robust and less ambiguous string
-interfaces.
+Hi Uwe,
 
-We expect `dest` to be NUL-terminated due to its use with dev_err.
+On 22/09/2023 11:23, Uwe Kleine-König wrote:
 
-lp3952_get_label()'s  dest argument is priv->leds[i].name:
-|    acpi_ret = lp3952_get_label(&priv->client->dev, led_name_hdl[i],
-|                                priv->leds[i].name);
-... which is then assigned to:
-|    priv->leds[i].cdev.name = priv->leds[i].name;
-... which is used with a format string
-|    dev_err(&priv->client->dev,
-|            "couldn't register LED %s\n",
-|            priv->leds[i].cdev.name);
+>  	led_dat->pwmstate.duty_cycle = duty;
+> -	led_dat->pwmstate.enabled = duty > 0;
+> +	led_dat->pwmstate.enabled = 1;
 
-There is no indication that NUL-padding is required but if it is let's
-opt for strscpy_pad.
+Thanks for the fix.
 
-Considering the above, a suitable replacement is `strscpy` [2] due to
-the fact that it guarantees NUL-termination on the destination buffer
-without unnecessarily NUL-padding.
+Nit: I would suggest:
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-Link: https://github.com/KSPP/linux/issues/90
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
-Note: build-tested only.
----
- drivers/leds/leds-lp3952.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+led_dat->pwmstate.enabled = true;
 
-diff --git a/drivers/leds/leds-lp3952.c b/drivers/leds/leds-lp3952.c
-index 3bd55652a706..62ade3f05a87 100644
---- a/drivers/leds/leds-lp3952.c
-+++ b/drivers/leds/leds-lp3952.c
-@@ -101,7 +101,7 @@ static int lp3952_get_label(struct device *dev, const char *label, char *dest)
- 	if (ret)
- 		return ret;
- 
--	strncpy(dest, str, LP3952_LABEL_MAX_LEN);
-+	strscpy(dest, str, LP3952_LABEL_MAX_LEN);
- 	return 0;
- }
- 
-
----
-base-commit: 2cf0f715623872823a72e451243bbf555d10d032
-change-id: 20230922-strncpy-drivers-leds-leds-lp3952-c-666fcfabeebd
-
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
-
+Reviewed-by: Fabio Estevam <festevam@denx.de>
