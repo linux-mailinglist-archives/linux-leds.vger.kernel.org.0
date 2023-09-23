@@ -2,208 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2447ABBDF
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Sep 2023 00:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8517ABE54
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Sep 2023 09:23:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbjIVWiT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Sep 2023 18:38:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57814 "EHLO
+        id S230114AbjIWHXT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 23 Sep 2023 03:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbjIVWiT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Sep 2023 18:38:19 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70675AB
-        for <linux-leds@vger.kernel.org>; Fri, 22 Sep 2023 15:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695422293; x=1726958293;
-  h=date:from:to:cc:subject:message-id;
-  bh=6nSvU8EMzHh5qVdRiL7QbHcVjFtPXPq7GsoDBKzxtuY=;
-  b=JviM2C+NPnwy0IX0h6lYL+Z8KhdcLRTzmdNSAj+hcc+ujH9NViO69oNC
-   CxBqIRXwwWkPVPQdC8MoLNh3gAFAqaoLVLdZBDN6/kwmW/yy0UAiRps6x
-   yy/eFPUtklCCfSZJDGLKQSufsAT5XcONA/dRwnaD8y/ZsmgydpI4wm/wB
-   wP5taaY6KHu7LC2gDBw8AhDYcZ2lGmaqkjO4LL6lT4ujQcyyNt1G/VwOx
-   N23tjC8eEmOjqsUNmk4ayt6CrtCJ03VCOFW36qg2nC/nsMmguuCsGNPc6
-   lMr7T56pXpy9mmXKaNhsDRSVHINg/anHs9ZZnt2CesyZfGtpXpgIGheXv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="411889416"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="411889416"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 15:38:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="837924614"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="837924614"
-Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2023 15:38:12 -0700
-Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qjomn-0001Q9-2Z;
-        Fri, 22 Sep 2023 22:38:09 +0000
-Date:   Sat, 23 Sep 2023 06:37:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- 685f192b3a0a80af8000cb90692bd4ef7bc6f7f9
-Message-ID: <202309230640.XKYgX5RN-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S230049AbjIWHXS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 23 Sep 2023 03:23:18 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 23 Sep 2023 00:23:12 PDT
+Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 91904A7
+        for <linux-leds@vger.kernel.org>; Sat, 23 Sep 2023 00:23:12 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id jwrbqrekTcLIgjwrbqAzVs; Sat, 23 Sep 2023 09:15:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1695453340;
+        bh=Pwbdp/ALGy4X1W3d5bb3j8VmlzglmaHLWQ82s+zIwjM=;
+        h=From:To:Cc:Subject:Date;
+        b=bsXnvC+OsPEQQYIP6GC2EcGJcwME9UMZuNil/vQx6pXE8Vz3SIcCBxlJuXLeu8Uqj
+         uw+ErlMH6E+a7lSNvdRjPzzE8qGDtwKYul1uni7zIapmNguUaCcOnjAoM5+IY9xYgk
+         pwJujQ1DJpxrWbwmvXnz170LInVGPwBPVs2YfLvrHLnfgD+EFf2Flv33TkyBxC6yUl
+         2DnTgiOfGDV3j/I0pT0DjAWDYibH/W0bTkzpCCm9TDUOx0v14Vz6hybqdK+f3Se6E1
+         Dd+foaEyIbawZ71lt4+4d+Rwn6QLFbLV7ZLAanJWFfSSoFz1oXb7xYNqkYv4dlay80
+         FyTjIFWMxs7aA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 23 Sep 2023 09:15:40 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Bryan Wu <bryan.wu@canonical.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jamie Iles <jamie@jamieiles.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] leds: trigger: ledtrig-cpu:: Fix a warning when compiling with W=1
+Date:   Sat, 23 Sep 2023 09:15:38 +0200
+Message-Id: <3f4be7a99933cf8566e630da54f6ab913caac432.1695453322.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: 685f192b3a0a80af8000cb90692bd4ef7bc6f7f9  leds: turris-omnia: Add support for enabling/disabling HW gamma correction
+In order to teach the compiler that 'trig->name' will never be truncated,
+we need to tell it that 'cpu' is not negative.
 
-elapsed time: 1807m
+When building with W=1, this fixes the following warnings:
 
-configs tested: 131
-configs skipped: 2
+  drivers/leds/trigger/ledtrig-cpu.c: In function ‘ledtrig_cpu_init’:
+  drivers/leds/trigger/ledtrig-cpu.c:155:56: error: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Werror=format-truncation=]
+    155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
+        |                                                        ^~
+  drivers/leds/trigger/ledtrig-cpu.c:155:52: note: directive argument in the range [-2147483648, 7]
+    155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
+        |                                                    ^~~~~~~
+  drivers/leds/trigger/ledtrig-cpu.c:155:17: note: ‘snprintf’ output between 5 and 15 bytes into a destination of size 8
+    155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
+        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Fixes: 8f88731d052d ("led-triggers: create a trigger for CPU activity")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/leds/trigger/ledtrig-cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230922   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20230922   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386         buildonly-randconfig-001-20230922   gcc  
-i386         buildonly-randconfig-002-20230922   gcc  
-i386         buildonly-randconfig-003-20230922   gcc  
-i386         buildonly-randconfig-004-20230922   gcc  
-i386         buildonly-randconfig-005-20230922   gcc  
-i386         buildonly-randconfig-006-20230922   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230922   gcc  
-i386                  randconfig-002-20230922   gcc  
-i386                  randconfig-003-20230922   gcc  
-i386                  randconfig-004-20230922   gcc  
-i386                  randconfig-005-20230922   gcc  
-i386                  randconfig-006-20230922   gcc  
-i386                  randconfig-011-20230922   gcc  
-i386                  randconfig-012-20230922   gcc  
-i386                  randconfig-013-20230922   gcc  
-i386                  randconfig-014-20230922   gcc  
-i386                  randconfig-015-20230922   gcc  
-i386                  randconfig-016-20230922   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230922   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230922   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230922   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230922   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230922   gcc  
-x86_64       buildonly-randconfig-002-20230922   gcc  
-x86_64       buildonly-randconfig-003-20230922   gcc  
-x86_64       buildonly-randconfig-004-20230922   gcc  
-x86_64       buildonly-randconfig-005-20230922   gcc  
-x86_64       buildonly-randconfig-006-20230922   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230922   gcc  
-x86_64                randconfig-002-20230922   gcc  
-x86_64                randconfig-003-20230922   gcc  
-x86_64                randconfig-005-20230922   gcc  
-x86_64                randconfig-006-20230922   gcc  
-x86_64                randconfig-011-20230922   gcc  
-x86_64                randconfig-012-20230922   gcc  
-x86_64                randconfig-013-20230922   gcc  
-x86_64                randconfig-014-20230922   gcc  
-x86_64                randconfig-015-20230922   gcc  
-x86_64                randconfig-016-20230922   gcc  
-x86_64                randconfig-071-20230922   gcc  
-x86_64                randconfig-072-20230922   gcc  
-x86_64                randconfig-073-20230922   gcc  
-x86_64                randconfig-074-20230922   gcc  
-x86_64                randconfig-075-20230922   gcc  
-x86_64                randconfig-076-20230922   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-
+diff --git a/drivers/leds/trigger/ledtrig-cpu.c b/drivers/leds/trigger/ledtrig-cpu.c
+index 8af4f9bb9cde..05848a2fecff 100644
+--- a/drivers/leds/trigger/ledtrig-cpu.c
++++ b/drivers/leds/trigger/ledtrig-cpu.c
+@@ -130,7 +130,7 @@ static int ledtrig_prepare_down_cpu(unsigned int cpu)
+ 
+ static int __init ledtrig_cpu_init(void)
+ {
+-	int cpu;
++	unsigned int cpu;
+ 	int ret;
+ 
+ 	/* Supports up to 9999 cpu cores */
+@@ -152,7 +152,7 @@ static int __init ledtrig_cpu_init(void)
+ 		if (cpu >= 8)
+ 			continue;
+ 
+-		snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
++		snprintf(trig->name, MAX_NAME_LEN, "cpu%u", cpu);
+ 
+ 		led_trigger_register_simple(trig->name, &trig->_trig);
+ 	}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
