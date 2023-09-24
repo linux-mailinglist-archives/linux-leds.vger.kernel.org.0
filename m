@@ -2,39 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D5447AC3EB
-	for <lists+linux-leds@lfdr.de>; Sat, 23 Sep 2023 19:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE67F7AC684
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Sep 2023 05:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231381AbjIWRTm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 23 Sep 2023 13:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
+        id S229498AbjIXDnR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 23 Sep 2023 23:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjIWRTj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 23 Sep 2023 13:19:39 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 91978100;
-        Sat, 23 Sep 2023 10:19:33 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,171,1694703600"; 
-   d="scan'208";a="176996641"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Sep 2023 02:19:33 +0900
-Received: from localhost.localdomain (unknown [10.226.92.12])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1D53F4000AAE;
-        Sun, 24 Sep 2023 02:19:30 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Biju Das <biju.das.au@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 2/2] leds: pca955x: Cleanup OF/ID table terminators
-Date:   Sat, 23 Sep 2023 18:19:21 +0100
-Message-Id: <20230923171921.53503-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230923171921.53503-1-biju.das.jz@bp.renesas.com>
-References: <20230923171921.53503-1-biju.das.jz@bp.renesas.com>
+        with ESMTP id S229437AbjIXDnP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 23 Sep 2023 23:43:15 -0400
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E88DA103
+        for <linux-leds@vger.kernel.org>; Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
+Received: by mail-oo1-xc2f.google.com with SMTP id 006d021491bc7-57ba2cd3507so924996eaf.2
+        for <linux-leds@vger.kernel.org>; Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695526989; x=1696131789; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=seBNO35I6t27+aW9cJIbrOKykhwY8CBfF73TPyxAkzU=;
+        b=EDFXaiYkSd1bB8l0T5fa8bmSbpBIrk1zJeZoev6LOoy0s0jSOIXjiJtr+XPk517mCe
+         vW8k3VAizHB85g+A8uuCFlJtOPhHO55Z3Ilsqw46eFFernrVTPXTQ42bEn6sS9HDganI
+         5ZJxuRwCRizbTpOZ/jBfOfHyaA86KqFaUoNYs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695526989; x=1696131789;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=seBNO35I6t27+aW9cJIbrOKykhwY8CBfF73TPyxAkzU=;
+        b=JTUIl2G/cHcE+DiD5Hu/XnNUvgJI/XUlhSd4EkBfJdiyVrEllKG827xAYxMNLMsxkD
+         zXKGq9JUBCNUpROVDkmYeA9QUKQv1XSPV36v/C1p7BkIXFZvpE/csLClRxYnDARV4s4P
+         wJmQf/1pwUrbAklGvT/q36vxwmbNpezcL3Dv8cyYF5A+ZPEyDGnYdOERnLbRb2wsKT/L
+         ffg6QCo+1QUsYAlvym31N5TnFkWzEgfo6XaKEc8BPvM4b+KZAkF5err+JLcN+B4nRpCY
+         vutEO0AGTO21RnUQkZiTGCAvxoi4SgjEI4tgv0yaSlCK+g8Q43fBBaEWJ6fCRXvUMEB+
+         EGHQ==
+X-Gm-Message-State: AOJu0YyzyPlsfh2gpdEHfCoMif9A5UxhwnForUlytwjkDHfDYJM8HfvC
+        e8MyMud3k2zwiC6DLsvcbgctuQ==
+X-Google-Smtp-Source: AGHT+IE2/HgUIEM6nD5lxm0qSmNTG5hyr9cbCU3gawGphubnH/fGhDM5TcuGczSqA2L3/1x/UlkG6A==
+X-Received: by 2002:a05:6358:41a3:b0:143:9f18:d71a with SMTP id w35-20020a05635841a300b001439f18d71amr3868238rwc.14.1695526989027;
+        Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 23-20020a17090a199700b002694fee879csm8008047pji.36.2023.09.23.20.43.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Sep 2023 20:43:08 -0700 (PDT)
+Date:   Sat, 23 Sep 2023 20:43:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] leds: lp3952: replace deprecated strncpy with strscpy
+Message-ID: <202309232039.979F3B4@keescook>
+References: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -43,88 +68,83 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Some cleanups:
- * Remove the trailing comma in the terminator entry for the OF
-   table making code robust against (theoretical) misrebases or other
-   similar things where the new entry goes _after_ the termination without
-   the compiler noticing.
- * Drop a space from terminator entry for ID table.
+On Fri, Sep 22, 2023 at 03:27:17PM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
+> 
+> We expect `dest` to be NUL-terminated due to its use with dev_err.
+> 
+> lp3952_get_label()'s  dest argument is priv->leds[i].name:
+> |    acpi_ret = lp3952_get_label(&priv->client->dev, led_name_hdl[i],
+> |                                priv->leds[i].name);
+> ... which is then assigned to:
+> |    priv->leds[i].cdev.name = priv->leds[i].name;
+> ... which is used with a format string
+> |    dev_err(&priv->client->dev,
+> |            "couldn't register LED %s\n",
+> |            priv->leds[i].cdev.name);
+> 
+> There is no indication that NUL-padding is required but if it is let's
+> opt for strscpy_pad.
+> 
+> Considering the above, a suitable replacement is `strscpy` [2] due to
+> the fact that it guarantees NUL-termination on the destination buffer
+> without unnecessarily NUL-padding.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> ---
+> Note: build-tested only.
+> ---
+>  drivers/leds/leds-lp3952.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-lp3952.c b/drivers/leds/leds-lp3952.c
+> index 3bd55652a706..62ade3f05a87 100644
+> --- a/drivers/leds/leds-lp3952.c
+> +++ b/drivers/leds/leds-lp3952.c
+> @@ -101,7 +101,7 @@ static int lp3952_get_label(struct device *dev, const char *label, char *dest)
+>  	if (ret)
+>  		return ret;
+>  
+> -	strncpy(dest, str, LP3952_LABEL_MAX_LEN);
+> +	strscpy(dest, str, LP3952_LABEL_MAX_LEN);
 
-While at it, move OF/ID table near to the user.
+Given my desire to use sizeof(dest) for these things, I wonder if it'd
+be nicer to pass more context here for the compiler as the only user of
+this function is the immediately next function. Instead of passing in
+"char *dest", it could pass "struct lp3952_led_array *priv", and
+suddenly sizeof() would be possible.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- * New patch.
----
- drivers/leds/leds-pca955x.c | 40 ++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+But, since it's technically correct as-is:
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 891cfc05301d..94a9f8a54b35 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -104,16 +104,6 @@ static const struct pca955x_chipdef pca955x_chipdefs[] = {
- 	},
- };
- 
--static const struct i2c_device_id pca955x_id[] = {
--	{ "pca9550", (kernel_ulong_t)&pca955x_chipdefs[pca9550] },
--	{ "pca9551", (kernel_ulong_t)&pca955x_chipdefs[pca9551] },
--	{ "pca9552", (kernel_ulong_t)&pca955x_chipdefs[pca9552] },
--	{ "ibm-pca9552", (kernel_ulong_t)&pca955x_chipdefs[ibm_pca9552] },
--	{ "pca9553", (kernel_ulong_t)&pca955x_chipdefs[pca9553] },
--	{ }
--};
--MODULE_DEVICE_TABLE(i2c, pca955x_id);
--
- struct pca955x {
- 	struct mutex lock;
- 	struct pca955x_led *leds;
-@@ -457,16 +447,6 @@ pca955x_get_pdata(struct i2c_client *client, const struct pca955x_chipdef *chip)
- 	return pdata;
- }
- 
--static const struct of_device_id of_pca955x_match[] = {
--	{ .compatible = "nxp,pca9550", .data = &pca955x_chipdefs[pca9550] },
--	{ .compatible = "nxp,pca9551", .data = &pca955x_chipdefs[pca9551] },
--	{ .compatible = "nxp,pca9552", .data = &pca955x_chipdefs[pca9552] },
--	{ .compatible = "ibm,pca9552", .data = &pca955x_chipdefs[ibm_pca9552] },
--	{ .compatible = "nxp,pca9553", .data = &pca955x_chipdefs[pca9553] },
--	{},
--};
--MODULE_DEVICE_TABLE(of, of_pca955x_match);
--
- static int pca955x_probe(struct i2c_client *client)
- {
- 	struct pca955x *pca955x;
-@@ -650,6 +630,26 @@ static int pca955x_probe(struct i2c_client *client)
- 	return 0;
- }
- 
-+static const struct i2c_device_id pca955x_id[] = {
-+	{ "pca9550", (kernel_ulong_t)&pca955x_chipdefs[pca9550] },
-+	{ "pca9551", (kernel_ulong_t)&pca955x_chipdefs[pca9551] },
-+	{ "pca9552", (kernel_ulong_t)&pca955x_chipdefs[pca9552] },
-+	{ "ibm-pca9552", (kernel_ulong_t)&pca955x_chipdefs[ibm_pca9552] },
-+	{ "pca9553", (kernel_ulong_t)&pca955x_chipdefs[pca9553] },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, pca955x_id);
-+
-+static const struct of_device_id of_pca955x_match[] = {
-+	{ .compatible = "nxp,pca9550", .data = &pca955x_chipdefs[pca9550] },
-+	{ .compatible = "nxp,pca9551", .data = &pca955x_chipdefs[pca9551] },
-+	{ .compatible = "nxp,pca9552", .data = &pca955x_chipdefs[pca9552] },
-+	{ .compatible = "ibm,pca9552", .data = &pca955x_chipdefs[ibm_pca9552] },
-+	{ .compatible = "nxp,pca9553", .data = &pca955x_chipdefs[pca9553] },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, of_pca955x_match);
-+
- static struct i2c_driver pca955x_driver = {
- 	.driver = {
- 		.name	= "leds-pca955x",
+struct lp3952_ctrl_hdl {
+        struct led_classdev cdev;
+        char name[LP3952_LABEL_MAX_LEN];
+
+There's no pressing need to actually do the priv refactor. It's just a
+comment on the coding style of the original code. :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+>  	return 0;
+>  }
+>  
+> 
+> ---
+> base-commit: 2cf0f715623872823a72e451243bbf555d10d032
+> change-id: 20230922-strncpy-drivers-leds-leds-lp3952-c-666fcfabeebd
+> 
+> Best regards,
+> --
+> Justin Stitt <justinstitt@google.com>
+> 
+
 -- 
-2.25.1
-
+Kees Cook
