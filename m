@@ -2,64 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE67F7AC684
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Sep 2023 05:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 423ED7ACEB6
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Sep 2023 05:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjIXDnR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 23 Sep 2023 23:43:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49024 "EHLO
+        id S230293AbjIYDZy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 24 Sep 2023 23:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjIXDnP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 23 Sep 2023 23:43:15 -0400
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E88DA103
-        for <linux-leds@vger.kernel.org>; Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
-Received: by mail-oo1-xc2f.google.com with SMTP id 006d021491bc7-57ba2cd3507so924996eaf.2
-        for <linux-leds@vger.kernel.org>; Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695526989; x=1696131789; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=seBNO35I6t27+aW9cJIbrOKykhwY8CBfF73TPyxAkzU=;
-        b=EDFXaiYkSd1bB8l0T5fa8bmSbpBIrk1zJeZoev6LOoy0s0jSOIXjiJtr+XPk517mCe
-         vW8k3VAizHB85g+A8uuCFlJtOPhHO55Z3Ilsqw46eFFernrVTPXTQ42bEn6sS9HDganI
-         5ZJxuRwCRizbTpOZ/jBfOfHyaA86KqFaUoNYs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695526989; x=1696131789;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=seBNO35I6t27+aW9cJIbrOKykhwY8CBfF73TPyxAkzU=;
-        b=JTUIl2G/cHcE+DiD5Hu/XnNUvgJI/XUlhSd4EkBfJdiyVrEllKG827xAYxMNLMsxkD
-         zXKGq9JUBCNUpROVDkmYeA9QUKQv1XSPV36v/C1p7BkIXFZvpE/csLClRxYnDARV4s4P
-         wJmQf/1pwUrbAklGvT/q36vxwmbNpezcL3Dv8cyYF5A+ZPEyDGnYdOERnLbRb2wsKT/L
-         ffg6QCo+1QUsYAlvym31N5TnFkWzEgfo6XaKEc8BPvM4b+KZAkF5err+JLcN+B4nRpCY
-         vutEO0AGTO21RnUQkZiTGCAvxoi4SgjEI4tgv0yaSlCK+g8Q43fBBaEWJ6fCRXvUMEB+
-         EGHQ==
-X-Gm-Message-State: AOJu0YyzyPlsfh2gpdEHfCoMif9A5UxhwnForUlytwjkDHfDYJM8HfvC
-        e8MyMud3k2zwiC6DLsvcbgctuQ==
-X-Google-Smtp-Source: AGHT+IE2/HgUIEM6nD5lxm0qSmNTG5hyr9cbCU3gawGphubnH/fGhDM5TcuGczSqA2L3/1x/UlkG6A==
-X-Received: by 2002:a05:6358:41a3:b0:143:9f18:d71a with SMTP id w35-20020a05635841a300b001439f18d71amr3868238rwc.14.1695526989027;
-        Sat, 23 Sep 2023 20:43:09 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 23-20020a17090a199700b002694fee879csm8008047pji.36.2023.09.23.20.43.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Sep 2023 20:43:08 -0700 (PDT)
-Date:   Sat, 23 Sep 2023 20:43:07 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Justin Stitt <justinstitt@google.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] leds: lp3952: replace deprecated strncpy with strscpy
-Message-ID: <202309232039.979F3B4@keescook>
-References: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
+        with ESMTP id S229907AbjIYDZx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 24 Sep 2023 23:25:53 -0400
+Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587CAC5;
+        Sun, 24 Sep 2023 20:25:45 -0700 (PDT)
+Received: from dlp.unisoc.com ([10.29.3.86])
+        by SHSQR01.spreadtrum.com with ESMTP id 38P3P3TH045477;
+        Mon, 25 Sep 2023 11:25:03 +0800 (+08)
+        (envelope-from Chunyan.Zhang@unisoc.com)
+Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
+        by dlp.unisoc.com (SkyGuard) with ESMTPS id 4Rv7Sv3hfGz2SX8n4;
+        Mon, 25 Sep 2023 11:21:35 +0800 (CST)
+Received: from ubt.spreadtrum.com (10.0.73.70) by BJMBX02.spreadtrum.com
+ (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.23; Mon, 25 Sep
+ 2023 11:25:01 +0800
+From:   Chunyan Zhang <chunyan.zhang@unisoc.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+CC:     <linux-leds@vger.kernel.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chunyan Zhang <chunyan.zhang@unisoc.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH V2] leds: sc27xx: Move mutex_init() to the end of probe
+Date:   Mon, 25 Sep 2023 11:24:53 +0800
+Message-ID: <20230925032453.724518-1-chunyan.zhang@unisoc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.0.73.70]
+X-ClientProxiedBy: SHCAS01.spreadtrum.com (10.0.1.201) To
+ BJMBX02.spreadtrum.com (10.0.64.8)
+X-MAIL: SHSQR01.spreadtrum.com 38P3P3TH045477
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,83 +52,58 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 03:27:17PM +0000, Justin Stitt wrote:
-> `strncpy` is deprecated for use on NUL-terminated destination strings
-> [1] and as such we should prefer more robust and less ambiguous string
-> interfaces.
-> 
-> We expect `dest` to be NUL-terminated due to its use with dev_err.
-> 
-> lp3952_get_label()'s  dest argument is priv->leds[i].name:
-> |    acpi_ret = lp3952_get_label(&priv->client->dev, led_name_hdl[i],
-> |                                priv->leds[i].name);
-> ... which is then assigned to:
-> |    priv->leds[i].cdev.name = priv->leds[i].name;
-> ... which is used with a format string
-> |    dev_err(&priv->client->dev,
-> |            "couldn't register LED %s\n",
-> |            priv->leds[i].cdev.name);
-> 
-> There is no indication that NUL-padding is required but if it is let's
-> opt for strscpy_pad.
-> 
-> Considering the above, a suitable replacement is `strscpy` [2] due to
-> the fact that it guarantees NUL-termination on the destination buffer
-> without unnecessarily NUL-padding.
-> 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-> Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-> Link: https://github.com/KSPP/linux/issues/90
-> Cc: linux-hardening@vger.kernel.org
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
-> ---
-> Note: build-tested only.
-> ---
->  drivers/leds/leds-lp3952.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-lp3952.c b/drivers/leds/leds-lp3952.c
-> index 3bd55652a706..62ade3f05a87 100644
-> --- a/drivers/leds/leds-lp3952.c
-> +++ b/drivers/leds/leds-lp3952.c
-> @@ -101,7 +101,7 @@ static int lp3952_get_label(struct device *dev, const char *label, char *dest)
->  	if (ret)
->  		return ret;
->  
-> -	strncpy(dest, str, LP3952_LABEL_MAX_LEN);
-> +	strscpy(dest, str, LP3952_LABEL_MAX_LEN);
+Move the mutex_init() to avoid redundant mutex_destroy() calls after
+that for each time the probe fails.
 
-Given my desire to use sizeof(dest) for these things, I wonder if it'd
-be nicer to pass more context here for the compiler as the only user of
-this function is the immediately next function. Instead of passing in
-"char *dest", it could pass "struct lp3952_led_array *priv", and
-suddenly sizeof() would be possible.
+Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
+---
+V2:
+- Move the mutex_init() to the end of .probe() instead of adding
+mutex_destroy() according to Lee's comments.
+---
+ drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-But, since it's technically correct as-is:
-
-struct lp3952_ctrl_hdl {
-        struct led_classdev cdev;
-        char name[LP3952_LABEL_MAX_LEN];
-
-There's no pressing need to actually do the priv refactor. It's just a
-comment on the coding style of the original code. :)
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
->  	return 0;
->  }
->  
-> 
-> ---
-> base-commit: 2cf0f715623872823a72e451243bbf555d10d032
-> change-id: 20230922-strncpy-drivers-leds-leds-lp3952-c-666fcfabeebd
-> 
-> Best regards,
-> --
-> Justin Stitt <justinstitt@google.com>
-> 
-
+diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
+index e199ea15e406..d9183addf7f5 100644
+--- a/drivers/leds/leds-sc27xx-bltc.c
++++ b/drivers/leds/leds-sc27xx-bltc.c
+@@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	platform_set_drvdata(pdev, priv);
+-	mutex_init(&priv->lock);
+ 	priv->base = base;
+ 	priv->regmap = dev_get_regmap(dev->parent, NULL);
+ 	if (!priv->regmap) {
+@@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		err = of_property_read_u32(child, "reg", &reg);
+ 		if (err) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return err;
+ 		}
+ 
+ 		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 
+ 	err = sc27xx_led_register(dev, priv);
+ 	if (err)
+-		mutex_destroy(&priv->lock);
++		return err;
+ 
+-	return err;
++	mutex_init(&priv->lock);
++
++	return 0;
+ }
+ 
+ static int sc27xx_led_remove(struct platform_device *pdev)
 -- 
-Kees Cook
+2.41.0
+
