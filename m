@@ -2,108 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 423ED7ACEB6
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Sep 2023 05:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC037AD14E
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Sep 2023 09:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjIYDZy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 24 Sep 2023 23:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
+        id S229619AbjIYHVe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Sep 2023 03:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjIYDZx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 24 Sep 2023 23:25:53 -0400
-Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587CAC5;
-        Sun, 24 Sep 2023 20:25:45 -0700 (PDT)
-Received: from dlp.unisoc.com ([10.29.3.86])
-        by SHSQR01.spreadtrum.com with ESMTP id 38P3P3TH045477;
-        Mon, 25 Sep 2023 11:25:03 +0800 (+08)
-        (envelope-from Chunyan.Zhang@unisoc.com)
-Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
-        by dlp.unisoc.com (SkyGuard) with ESMTPS id 4Rv7Sv3hfGz2SX8n4;
-        Mon, 25 Sep 2023 11:21:35 +0800 (CST)
-Received: from ubt.spreadtrum.com (10.0.73.70) by BJMBX02.spreadtrum.com
- (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.23; Mon, 25 Sep
- 2023 11:25:01 +0800
-From:   Chunyan Zhang <chunyan.zhang@unisoc.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-CC:     <linux-leds@vger.kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH V2] leds: sc27xx: Move mutex_init() to the end of probe
-Date:   Mon, 25 Sep 2023 11:24:53 +0800
-Message-ID: <20230925032453.724518-1-chunyan.zhang@unisoc.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S229714AbjIYHVd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Sep 2023 03:21:33 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B136C0;
+        Mon, 25 Sep 2023 00:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695626487; x=1727162487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iwm0ztNtqQCxIpKMtplcbblkEbTF1amu+3/nhNLIbIQ=;
+  b=j9oiRVS41sZd4cG/paNUPhh4xsm6WjVz0xsace+w9WxcBus96bYjhQj1
+   R9N6IzBZbtZ1NafDUQlbA8Ir6ezToZ1sBjRTLwQFjwBDpXe3ON03+GsZL
+   jMjAgZiBO9Rr+qDcU+U4+jTO3xUb3JnHAcikkMUjm1xI9eE9sNqPW9++a
+   8IF6DpGupK4WyS5tPyLjTq2zIWoT0FN0GJ+XeFdvBC6AcKrHjrnQbT9eg
+   FYicMCaUaJOAMM+ehRyOTCrFiqsYHMxU3zbEVPz6YMzupXO19EI11lXSy
+   DyUZdRodh7nlbDcXnTS8uf6Qt5HvYkyfeCDw/v9N/uWBpwBoHlpqYUHBu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="378455991"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="378455991"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 00:21:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="813835171"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="813835171"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 00:21:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qkfuE-00000000HGa-0Dhf;
+        Mon, 25 Sep 2023 10:21:22 +0300
+Date:   Mon, 25 Sep 2023 10:21:21 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH v2 1/2] leds: pca955x: Convert enum->pointer for data in
+ the match tables
+Message-ID: <ZRE08RkhG2C+Pi3l@smile.fi.intel.com>
+References: <20230923171921.53503-1-biju.das.jz@bp.renesas.com>
+ <20230923171921.53503-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.0.73.70]
-X-ClientProxiedBy: SHCAS01.spreadtrum.com (10.0.1.201) To
- BJMBX02.spreadtrum.com (10.0.64.8)
-X-MAIL: SHSQR01.spreadtrum.com 38P3P3TH045477
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230923171921.53503-2-biju.das.jz@bp.renesas.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Move the mutex_init() to avoid redundant mutex_destroy() calls after
-that for each time the probe fails.
+On Sat, Sep 23, 2023 at 06:19:20PM +0100, Biju Das wrote:
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it.
+> 
+> Replace enum->struct *pca955x_chipdefs for data in the match table.
+> Simplify the probe() by replacing device_get_match_data() and ID lookup
+> for retrieving data by i2c_get_match_data().
+> 
+> While at it, add const definition to pca955x_chipdefs[].
 
-Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
----
-V2:
-- Move the mutex_init() to the end of .probe() instead of adding
-mutex_destroy() according to Lee's comments.
----
- drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+...
 
-diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
-index e199ea15e406..d9183addf7f5 100644
---- a/drivers/leds/leds-sc27xx-bltc.c
-+++ b/drivers/leds/leds-sc27xx-bltc.c
-@@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	platform_set_drvdata(pdev, priv);
--	mutex_init(&priv->lock);
- 	priv->base = base;
- 	priv->regmap = dev_get_regmap(dev->parent, NULL);
- 	if (!priv->regmap) {
-@@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
- 		err = of_property_read_u32(child, "reg", &reg);
- 		if (err) {
- 			of_node_put(child);
--			mutex_destroy(&priv->lock);
- 			return err;
- 		}
- 
- 		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
- 			of_node_put(child);
--			mutex_destroy(&priv->lock);
- 			return -EINVAL;
- 		}
- 
-@@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
- 
- 	err = sc27xx_led_register(dev, priv);
- 	if (err)
--		mutex_destroy(&priv->lock);
-+		return err;
- 
--	return err;
-+	mutex_init(&priv->lock);
-+
-+	return 0;
- }
- 
- static int sc27xx_led_remove(struct platform_device *pdev)
+> -	struct pca955x_chipdef	*chipdef;
+> +	const struct pca955x_chipdef	*chipdef;
+
+No need to preserve TAB(s) here.
+
+Otherwise looks good to me,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
 -- 
-2.41.0
+With Best Regards,
+Andy Shevchenko
+
 
