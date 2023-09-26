@@ -2,102 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA9117AEC1B
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Sep 2023 14:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23F507AED8A
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Sep 2023 15:01:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233884AbjIZMEU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 Sep 2023 08:04:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51716 "EHLO
+        id S234717AbjIZNB1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 Sep 2023 09:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233899AbjIZMEU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Sep 2023 08:04:20 -0400
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BE5E6;
-        Tue, 26 Sep 2023 05:04:08 -0700 (PDT)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=8647860101=fe@dev.tdt.de>)
-        id 1ql6nJ-00DGsF-TT; Tue, 26 Sep 2023 14:04:01 +0200
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1ql6nJ-00FZfF-0r; Tue, 26 Sep 2023 14:04:01 +0200
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id 90A63240049;
-        Tue, 26 Sep 2023 14:04:00 +0200 (CEST)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id E4C63240040;
-        Tue, 26 Sep 2023 14:03:59 +0200 (CEST)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 83F0E2EFEB;
-        Tue, 26 Sep 2023 14:03:59 +0200 (CEST)
+        with ESMTP id S233992AbjIZNB0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Sep 2023 09:01:26 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786B710E
+        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:01:18 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4053c6f1087so78660135e9.0
+        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695733277; x=1696338077; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
+        b=M8L9LXTkDz+7332Nfeu+v1GxqrkptjhEGYXwCpVTXVZhfgf/Pb9rEcIb8u/7B+n9fY
+         h8/9Tda3aP0Hp0QRA+OA4d9sa2P9XuDRCUWcu+iEOWUK93JOHoFpkpRE/EcwbYeOYPAx
+         B6XUdlK8GoFDCXTvJTQ5iyCiJjDgcCcLPaEVdRLywhW1N2FGOkC+5xYIrIRgwY7/2hal
+         Ork/wpFt/OPksXcVETJb4fv3FjEq8LYlBBcTuaEHnZ4qBgomyJ1mfCiexrxF4atXfb6i
+         o1pDOumELs5vTzhFO+7YKV8GGOgdZ5Q7rSPbQH5xh7IAXyIXBBdGKu4D9zGDzKuVlJ5c
+         WhUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695733277; x=1696338077;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
+        b=T4wwCHzv7/jJZnSxV7V8F0mUkACGANIaSh96QrbsFQYsq49guGgtYQYLg5yjLK1t1s
+         30G0gHktbwT1jnNt5E9GAppHzNLltClCUdmNKa5ClbWxwCv3p//CU0aEEgOm3LH9oKBg
+         AJSfX2Tr15r/Dh5iSL+vO/oG51eLN8afiT1gUFUsyJG2tzqtukH5CPrghviiURNDkMwU
+         /elGcwMYjWLkLgd2pgZut+W38PFxAH/ocaG4MkYUi0k5LfXamDHiYUkFdvLYPgBMQ1OG
+         CBofeBwsavr+ekXeJ8UjC89bFuvZuUfaewQEm/AJwEXjIAYr15UWIl914bzOdKsLcBpL
+         VNMQ==
+X-Gm-Message-State: AOJu0Yzhko8Mr/wBW+CedzVUAE+ftXnzFoDMwIUrEAazVjrVmpaY4Etp
+        tT0icS98eMkMjz5I4aTH/qXeMw==
+X-Google-Smtp-Source: AGHT+IHQuRtjXPocWtmNLqUsEHc9Fm36NC/aEQcNjyXW9d+4nNeVH9BfrSCCtcERycCPCpPfFQ8z1Q==
+X-Received: by 2002:a05:600c:3658:b0:3f6:9634:c8d6 with SMTP id y24-20020a05600c365800b003f69634c8d6mr8513184wmq.18.1695733276393;
+        Tue, 26 Sep 2023 06:01:16 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id e9-20020adfe7c9000000b003197efd1e7bsm693730wrn.114.2023.09.26.06.01.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 06:01:15 -0700 (PDT)
+Date:   Tue, 26 Sep 2023 14:01:13 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Flavio Suligoi <f.suligoi@asem.it>
+Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
+Message-ID: <20230926130113.GB4356@aspen.lan>
+References: <20230925122609.78849-1-f.suligoi@asem.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 26 Sep 2023 14:03:59 +0200
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        pavel@ucw.cz, lee@kernel.org, kabel@kernel.org,
-        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 1/2] tty: add new helper function tty_get_mget
-In-Reply-To: <dc5ac2cb-71b3-4946-a58b-2ec353bc40a4@kernel.org>
-References: <20230926093607.59536-1-fe@dev.tdt.de>
- <20230926093607.59536-2-fe@dev.tdt.de>
- <dc5ac2cb-71b3-4946-a58b-2ec353bc40a4@kernel.org>
-Message-ID: <2c36a83654942416cfdcb2e40ecb539d@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230925122609.78849-1-f.suligoi@asem.it>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-purgate-ID: 151534::1695729841-26600C1B-B82AB986/0/0
-X-purgate: clean
-X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Thanks for your fast respond!
+On Mon, Sep 25, 2023 at 02:26:08PM +0200, Flavio Suligoi wrote:
+> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+> programmable switching frequency to optimize efficiency.
+> The brightness can be controlled either by I2C commands (called "analog"
+> mode) or by a PWM input signal (PWM mode).
+> This driver supports both modes.
+>
+> For device driver details, please refer to:
+> - drivers/video/backlight/mp3309c_bl.c
+>
+> The datasheet is available at:
+> - https://www.monolithicpower.com/en/mp3309c.html
+>
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>
+> v3:
+>  - add default value for mps,overvoltage-protection-microvolt property
+>  - fix the example, changing from "mps,mp3309c-backlight" to "mps,mp3309c" in
+>    compatible property
+> v2:
+>  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
+>    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
+>    reset-on-length-ms)
+>  - add common.yaml#
+>  - remove already included properties (default-brightness, max-brightness)
+>  - substitute three boolean properties, used for the overvoltage-protection
+>    values, with a single enum property
+>  - remove some conditional definitions
+>  - remove the 2nd example
+> v1:
+>  - first version
+>
+>  .../bindings/leds/backlight/mps,mp3309c.yaml  | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> new file mode 100644
+> index 000000000000..4191e33626f5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MPS MP3309C backlight
+> +
+> +maintainers:
+> +  - Flavio Suligoi <f.suligoi@asem.it>
+> +
+> +description: |
+> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+> +  programmable switching frequency to optimize efficiency.
+> +  It supports two different dimming modes:
+> +
+> +  - analog mode, via I2C commands (default)
+> +  - PWM controlled mode.
+> +
+> +  The datasheet is available at:
+> +  https://www.monolithicpower.com/en/mp3309c.html
+> +
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: mps,mp3309c
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  pwms:
+> +    description: if present, the backlight is controlled in PWM mode.
+> +    maxItems: 1
+> +
+> +  enable-gpios:
+> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
+> +    maxItems: 1
+> +
+> +  mps,overvoltage-protection-microvolt:
+> +    description: Overvoltage protection (13.5V, 24V or 35.5V).
+> +    enum: [ 13500000, 24000000, 35500000 ]
+> +    default: 35500000
+> +
+> +  mps,no-sync-mode:
+> +    description: disable synchronous rectification mode
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - max-brightness
 
->> @@ -2494,6 +2494,25 @@ static int send_break(struct tty_struct *tty, 
->> unsigned int duration)
->>   	return retval;
->>   }
->>   +/**
->> + * tty_get_mget		-	get modem status
-> 
-> Heh, the naming is funny. It apparently comes from tiocmget. But that
-> comes from:
-> tty ioctl modem get (TIOCMGET)
-> tty ioctl modem set (TIOCMSET)
-> 
-> So you should name it like tty_get_modem() not get_mget().
+Why is this mandatory?
 
-I didn't like the name too, but I couldn't think of another.
-The function is returning the state of serial control and status 
-signals.
-
- From your suggestion for the name, however, you can not deduce that at 
-all.
-How would it be then with the following name?
-
-tty_tioctl_state() ?
-
-> 
-> Also those extra spaces around "-" caused some issues in the generated
-> output and should be removed (everywhere).
-
-Ok, I will change this in an own commit throughout the file.
+There's no point in setting max-brightness when running in I2C mode
+(max-brightness should default to 31 in that case).
 
 
-Thanks
+> +  - default-brightness
 
-Florian
+Again. I'm not clear why this needs to be mandatory.
 
-@jirislaby: Forgot to send this message to the mailing list as well!
+
+Daniel.
