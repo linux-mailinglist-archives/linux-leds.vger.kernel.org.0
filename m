@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23F507AED8A
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Sep 2023 15:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7C57AEDC1
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Sep 2023 15:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234717AbjIZNB1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 Sep 2023 09:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
+        id S229604AbjIZNKw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 Sep 2023 09:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233992AbjIZNB0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Sep 2023 09:01:26 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786B710E
-        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:01:18 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4053c6f1087so78660135e9.0
-        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:01:18 -0700 (PDT)
+        with ESMTP id S234789AbjIZNKu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Sep 2023 09:10:50 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD2E10E
+        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:10:43 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-405361bb9f7so88238385e9.2
+        for <linux-leds@vger.kernel.org>; Tue, 26 Sep 2023 06:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695733277; x=1696338077; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695733842; x=1696338642; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
-        b=M8L9LXTkDz+7332Nfeu+v1GxqrkptjhEGYXwCpVTXVZhfgf/Pb9rEcIb8u/7B+n9fY
-         h8/9Tda3aP0Hp0QRA+OA4d9sa2P9XuDRCUWcu+iEOWUK93JOHoFpkpRE/EcwbYeOYPAx
-         B6XUdlK8GoFDCXTvJTQ5iyCiJjDgcCcLPaEVdRLywhW1N2FGOkC+5xYIrIRgwY7/2hal
-         Ork/wpFt/OPksXcVETJb4fv3FjEq8LYlBBcTuaEHnZ4qBgomyJ1mfCiexrxF4atXfb6i
-         o1pDOumELs5vTzhFO+7YKV8GGOgdZ5Q7rSPbQH5xh7IAXyIXBBdGKu4D9zGDzKuVlJ5c
-         WhUg==
+        bh=gUb8ILoSgQFCLFSqMOXdU7OSCDKaDGHaYb2wQZ5A7J8=;
+        b=XynLUSsP+m2kqkkoUMuXe2Gxvl37narI78SLbxBtHplKza8Q5BXwE5TnbWOSK1iVnP
+         G8V5H6TBaNKdyRRCGVE2sivsBv7Pnjh0zyIlXoZBtR2S4Xepe5/b04p4l524cjZhu9zy
+         KLJ6T1ugbCZyRU2nsCQdcBXf9r4nKEsEOA3QdJm/2b0lvp5LpM/ZNsooyzv0vJlQjhz/
+         FgxweQ733/Bn4bROQY5qaeGTju+zvOwdPJpYWhAMcopZL+HltwMHeDFONOjh58PlkCeW
+         KbHpYA6mH4StKYXJk9nHX83DISi3skSYgN3XaHQBkxxGvRLzUAWRsl/yhfEFfUo0No14
+         dUhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695733277; x=1696338077;
+        d=1e100.net; s=20230601; t=1695733842; x=1696338642;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MS7T5qNcaaAtsXyLYljAh+1Xxln9bcBRkmzw4oED08Y=;
-        b=T4wwCHzv7/jJZnSxV7V8F0mUkACGANIaSh96QrbsFQYsq49guGgtYQYLg5yjLK1t1s
-         30G0gHktbwT1jnNt5E9GAppHzNLltClCUdmNKa5ClbWxwCv3p//CU0aEEgOm3LH9oKBg
-         AJSfX2Tr15r/Dh5iSL+vO/oG51eLN8afiT1gUFUsyJG2tzqtukH5CPrghviiURNDkMwU
-         /elGcwMYjWLkLgd2pgZut+W38PFxAH/ocaG4MkYUi0k5LfXamDHiYUkFdvLYPgBMQ1OG
-         CBofeBwsavr+ekXeJ8UjC89bFuvZuUfaewQEm/AJwEXjIAYr15UWIl914bzOdKsLcBpL
-         VNMQ==
-X-Gm-Message-State: AOJu0Yzhko8Mr/wBW+CedzVUAE+ftXnzFoDMwIUrEAazVjrVmpaY4Etp
-        tT0icS98eMkMjz5I4aTH/qXeMw==
-X-Google-Smtp-Source: AGHT+IHQuRtjXPocWtmNLqUsEHc9Fm36NC/aEQcNjyXW9d+4nNeVH9BfrSCCtcERycCPCpPfFQ8z1Q==
-X-Received: by 2002:a05:600c:3658:b0:3f6:9634:c8d6 with SMTP id y24-20020a05600c365800b003f69634c8d6mr8513184wmq.18.1695733276393;
-        Tue, 26 Sep 2023 06:01:16 -0700 (PDT)
+        bh=gUb8ILoSgQFCLFSqMOXdU7OSCDKaDGHaYb2wQZ5A7J8=;
+        b=uLGG5pX5uk6w7TXyBfgGXKW/n/e9hS1yZsLjII2rYJHCCdJWcYmTOjX9akpXaTqHH6
+         XxNRPkahshqP6KBNglJ/9DL6ZkhD6b+UZW41KruEzIkPXMUncjvQSoPdSujpQzrf+BV4
+         88ueOyZhe+8NxES3kXu+lzyRD0TGb3N9cl1KVoCOXiVRPbllbZw12vIOLuAhgq20F2Oe
+         mMxJjT68Nm8I4C3lgCkHfLQ2VSLGw/t+CYb6KzYd5LJc2LJ9YxXawVwlrF15XBC93BDz
+         ofZf7PX/cBody2YOXS4hA3gDs3TclNCu0KbXSgMk1Urbr+3L4pZPj/Bs2Mo29uoNLKSK
+         6+gA==
+X-Gm-Message-State: AOJu0YyknWj7dMWeWtp9w2duyBL21V5MjGDndVIBgFEPv9wnEOQdL/wa
+        4DWRM2ImgdzsIkWguFCgfWRcuw==
+X-Google-Smtp-Source: AGHT+IGeSiQ3WveeVgUpyC7fww+V4WeYYuKrHSsckzOgpEr82JSyPAjlpUwHyvObx/ZUX2OzY5V6rg==
+X-Received: by 2002:a05:600c:2489:b0:405:3dbc:8821 with SMTP id 9-20020a05600c248900b004053dbc8821mr8955020wms.22.1695733842083;
+        Tue, 26 Sep 2023 06:10:42 -0700 (PDT)
 Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id e9-20020adfe7c9000000b003197efd1e7bsm693730wrn.114.2023.09.26.06.01.14
+        by smtp.gmail.com with ESMTPSA id j13-20020adfd20d000000b003232c2109cbsm4788764wrh.7.2023.09.26.06.10.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 06:01:15 -0700 (PDT)
-Date:   Tue, 26 Sep 2023 14:01:13 +0100
+        Tue, 26 Sep 2023 06:10:41 -0700 (PDT)
+Date:   Tue, 26 Sep 2023 14:10:39 +0100
 From:   Daniel Thompson <daniel.thompson@linaro.org>
 To:     Flavio Suligoi <f.suligoi@asem.it>
 Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
@@ -58,14 +58,15 @@ Cc:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
-Message-ID: <20230926130113.GB4356@aspen.lan>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] backlight: mp3309c: Add support for MPS MP3309C
+Message-ID: <20230926131039.GC4356@aspen.lan>
 References: <20230925122609.78849-1-f.suligoi@asem.it>
+ <20230925122609.78849-2-f.suligoi@asem.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230925122609.78849-1-f.suligoi@asem.it>
+In-Reply-To: <20230925122609.78849-2-f.suligoi@asem.it>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -76,113 +77,98 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 25, 2023 at 02:26:08PM +0200, Flavio Suligoi wrote:
-> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> programmable switching frequency to optimize efficiency.
-> The brightness can be controlled either by I2C commands (called "analog"
-> mode) or by a PWM input signal (PWM mode).
-> This driver supports both modes.
->
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
->
-> The datasheet is available at:
-> - https://www.monolithicpower.com/en/mp3309c.html
->
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->
-> v3:
->  - add default value for mps,overvoltage-protection-microvolt property
->  - fix the example, changing from "mps,mp3309c-backlight" to "mps,mp3309c" in
->    compatible property
-> v2:
->  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
->    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
->    reset-on-length-ms)
->  - add common.yaml#
->  - remove already included properties (default-brightness, max-brightness)
->  - substitute three boolean properties, used for the overvoltage-protection
->    values, with a single enum property
->  - remove some conditional definitions
->  - remove the 2nd example
-> v1:
->  - first version
->
->  .../bindings/leds/backlight/mps,mp3309c.yaml  | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
->
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+On Mon, Sep 25, 2023 at 02:26:09PM +0200, Flavio Suligoi wrote:
+> diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
 > new file mode 100644
-> index 000000000000..4191e33626f5
+> index 000000000000..923ac7f7b291
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/video/backlight/mp3309c.c
+> @@ -0,0 +1,398 @@
+> ...
+> +static int mp3309c_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mp3309c_chip *chip = bl_get_data(bl);
+> +	int brightness = backlight_get_brightness(bl);
+> +	struct pwm_state pwmstate;
+> +	unsigned int analog_val, bits_val;
+> +	int i, ret;
 > +
-> +title: MPS MP3309C backlight
+> +	if (chip->pdata->dimming_mode == DIMMING_PWM) {
+> +		/*
+> +		 * PWM dimming mode
+> +		 */
+> +		pwm_get_state(chip->pwmd, &pwmstate);
+> +		pwm_set_relative_duty_cycle(&pwmstate, brightness,
+> +					    chip->pdata->max_brightness);
+> +		pwmstate.enabled = true;
+> +		ret = pwm_apply_state(chip->pwmd, &pwmstate);
+> +		if (ret)
+> +			return ret;
 > +
-> +maintainers:
-> +  - Flavio Suligoi <f.suligoi@asem.it>
+> +		switch (chip->pdata->status) {
+> +		case FIRST_POWER_ON:
+> +		case BACKLIGHT_OFF:
+> +			/*
+> +			 * After 20ms of low pwm signal level, the chip turns
+> +			   off automatically. In this case, before enabling the
+> +			   chip again, we must wait about 10ms for pwm signal to
+> +			   stabilize.
+> +			 */
+> +			if (brightness > 0) {
+> +				msleep(10);
+> +				mp3309c_enable_device(chip);
+> +				chip->pdata->status = BACKLIGHT_ON;
+> +			} else {
+> +				chip->pdata->status = BACKLIGHT_OFF;
+> +			}
+> +			break;
+> +		case BACKLIGHT_ON:
+> +			if (brightness == 0)
+> +				chip->pdata->status = BACKLIGHT_OFF;
+> +			break;
+> +		}
+> +	} else {
+> +		/*
+> +		 * Analog dimming (by I2C command) dimming mode
+> +		 *
+> +		 * The first time, before setting brightness, we must enable the
+> +		 * device
+> +		 */
+> +		if (chip->pdata->status == FIRST_POWER_ON)
+> +			mp3309c_enable_device(chip);
 > +
-> +description: |
-> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> +  programmable switching frequency to optimize efficiency.
-> +  It supports two different dimming modes:
-> +
-> +  - analog mode, via I2C commands (default)
-> +  - PWM controlled mode.
-> +
-> +  The datasheet is available at:
-> +  https://www.monolithicpower.com/en/mp3309c.html
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: mps,mp3309c
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  pwms:
-> +    description: if present, the backlight is controlled in PWM mode.
-> +    maxItems: 1
-> +
-> +  enable-gpios:
-> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
-> +    maxItems: 1
-> +
-> +  mps,overvoltage-protection-microvolt:
-> +    description: Overvoltage protection (13.5V, 24V or 35.5V).
-> +    enum: [ 13500000, 24000000, 35500000 ]
-> +    default: 35500000
-> +
-> +  mps,no-sync-mode:
-> +    description: disable synchronous rectification mode
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - max-brightness
+> +		/*
+> +		 * Dimming mode I2C command
+> +		 *
+> +		 * The 5 bits of the dimming analog value D4..D0 is allocated
+> +		 * in the I2C register #0, in the following way:
+> +		 *
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 *     |EN|D0|D1|D2|D3|D4|XX|XX|
+> +		 *     +--+--+--+--+--+--+--+--+
+> +		 */
+> +		analog_val = DIV_ROUND_UP(ANALOG_MAX_VAL * brightness,
+> +					  chip->pdata->max_brightness);
 
-Why is this mandatory?
+Sorry to only notice after sharing a Reviewed-by:[1] but...
 
-There's no point in setting max-brightness when running in I2C mode
-(max-brightness should default to 31 in that case).
+Scaling brightness here isn't right. When running in I2C dimming mode then
+max_brightness *must* be 31 or lower, meaning the value in brightness can
+be applied directly to the hardware without scaling.
 
+Quoting the DT binding docs about how max-brightness should be
+interpretted:
 
-> +  - default-brightness
-
-Again. I'm not clear why this needs to be mandatory.
+  Normally the maximum brightness is determined by the hardware and this
+  property is not required. This property is used to put a software
+  limit on the brightness apart from what the driver says, as it could
+  happen that a LED can be made so bright that it gets damaged or causes
+  damage due to restrictions in a specific system, such as mounting
+  conditions.
 
 
 Daniel.
+
+
+[1] I remember checking if this code could overflow the field but I was
+    so distracted by that I ended up missing the obvious!
