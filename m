@@ -2,46 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C1DF7B1EA4
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 868FB7B1EB7
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231966AbjI1NiE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Sep 2023 09:38:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40940 "EHLO
+        id S232207AbjI1Nlf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Sep 2023 09:41:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231868AbjI1NiD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:38:03 -0400
+        with ESMTP id S231966AbjI1Nle (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:41:34 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D00292;
-        Thu, 28 Sep 2023 06:38:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7874BC433C7;
-        Thu, 28 Sep 2023 13:37:59 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41BC219C;
+        Thu, 28 Sep 2023 06:41:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA69FC433C8;
+        Thu, 28 Sep 2023 13:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695908281;
-        bh=tNJPrSt0EbpYHgUGMbTFOG600cX1nU2foR/sWCpczbM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JmPchohDyoQ6K0w5lf2CBErfA/MK9ZiuDsSClS02RQTKpm36prB0Afz4G9prWxgNa
-         zgGeel0htRoZnDUpGT4kmqcI2+KZRs9cFvwT0ehSaIGNBeAW8Dc0bsBO3BQlkbatOT
-         i4k/EEVwrJYA0nUP309m89dkrCztL/rL0tDyQhPfNkvWsANgU7Fh9lbCD8d/JiXsVW
-         slyMxycwEMCZaz1BypRUfJMMjdsZT9zNTNky6UjK6O6cvdEhNEdjRkpkXAa30ZnQCt
-         SRj1FE2QRYTSonX4Xp3UJTt6QdqRh4+cD3+XMupimFUtT8NVq38xwuDUBdeLE9m6KG
-         IClVlEMWWIgFQ==
-Date:   Thu, 28 Sep 2023 14:37:56 +0100
+        s=k20201202; t=1695908491;
+        bh=rJxLo1ABDRJDSxy1BujIrMAZQ/znSO0a+HwmrquB1+U=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=mav+ZW23Dj6p8y5GSitPt1RgAPgFnreDpKvaTT6jmn2sRET+o9tGZOq2vct+4wJ6p
+         MCV8h6xcv3Y5m81H44uouJ6banZb+ZuA0Fl/yCI7xzrOSbD+kSjc3ZK0C4tE9KiDhF
+         2SeONbWxfHiJwFLNbBj+jY9iCz+eIAT8Vxa7VD90pT997dMhU8rgpjFO7/wJx6nycQ
+         OrqX2d9nItKFqSD4BRx1sKWnSRZjyd4NsX52kcB+6N0yyAXSlmmIaOe6xs5m4llaXl
+         o8TjNhUw1SxgRvIvrv6NkpaG2Kq+rlIdBN8CRzEMzGeyc1F8usoGT0oIpB72QnFybG
+         pIrof6A38DGHw==
 From:   Lee Jones <lee@kernel.org>
-To:     Chunyan Zhang <chunyan.zhang@unisoc.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V2] leds: sc27xx: Move mutex_init() to the end of probe
-Message-ID: <20230928133756.GI9999@google.com>
-References: <20230925032453.724518-1-chunyan.zhang@unisoc.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Justin Stitt <justinstitt@google.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+In-Reply-To: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
+References: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
+Subject: Re: (subset) [PATCH] leds: lp3952: replace deprecated strncpy with
+ strscpy
+Message-Id: <169590849042.1603670.14283146758350554856.b4-ty@kernel.org>
+Date:   Thu, 28 Sep 2023 14:41:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230925032453.724518-1-chunyan.zhang@unisoc.com>
+X-Mailer: b4 0.12.2
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -51,23 +50,30 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 25 Sep 2023, Chunyan Zhang wrote:
-
-> Move the mutex_init() to avoid redundant mutex_destroy() calls after
-> that for each time the probe fails.
+On Fri, 22 Sep 2023 15:27:17 +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
 > 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
-> V2:
-> - Move the mutex_init() to the end of .probe() instead of adding
-> mutex_destroy() according to Lee's comments.
-> ---
->  drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> We expect `dest` to be NUL-terminated due to its use with dev_err.
+> 
+> lp3952_get_label()'s  dest argument is priv->leds[i].name:
+> |    acpi_ret = lp3952_get_label(&priv->client->dev, led_name_hdl[i],
+> |                                priv->leds[i].name);
+> ... which is then assigned to:
+> |    priv->leds[i].cdev.name = priv->leds[i].name;
+> ... which is used with a format string
+> |    dev_err(&priv->client->dev,
+> |            "couldn't register LED %s\n",
+> |            priv->leds[i].cdev.name);
+> 
+> [...]
 
-Nice patch, but doesn't apply.
+Applied, thanks!
 
-Please rebase (onto linux-next or for-leds-next) and resend.
+[1/1] leds: lp3952: replace deprecated strncpy with strscpy
+      commit: 821d3ff4b4e2c689576a623348555114e3f2f1c2
 
--- 
+--
 Lee Jones [李琼斯]
+
