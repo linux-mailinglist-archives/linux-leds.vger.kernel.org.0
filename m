@@ -2,80 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C34817B1D67
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC267B1E3D
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231986AbjI1NKG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Sep 2023 09:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40598 "EHLO
+        id S232002AbjI1N0y convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Thu, 28 Sep 2023 09:26:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232600AbjI1NKF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:10:05 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F46F199;
-        Thu, 28 Sep 2023 06:10:03 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4134BC433C8;
-        Thu, 28 Sep 2023 13:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695906603;
-        bh=GLVG9ldXyJU6qewPVL4UMRgmAme+5Qm869GRWAEEMoA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bJXtpu6sUggzT2YIoRwqecDse1Tdkpvkb8C1qJ0i1WD9bIhbeHqT22lmudzlCxgCV
-         hrJ7qzQzHh7ibpP8bLWIYz6nh+5IxVsmMN9oiVakOWYG4CgdXUQ6aA7jZdMst1Vimd
-         LFP60ebWQ23Pkx8nZcyUr9BlTOvi0LAjtPfZFCyDHt41nOcEY9yFbEDchfXUFSYpzR
-         t3aXo6vGnWmz+nPHJk5VztLwmq1J89XTcQG2ZD4+JRzq06lMqrF9JHQCy8dFwA9nZw
-         vrn57oB6EbSwjzzCKCsrzccz3PL1K933E2Ed4qGQuIoOBVkWoKKvrrXvdKxexoVuCx
-         0SkLYf7cQPGNg==
-Date:   Thu, 28 Sep 2023 14:09:58 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Pavel Machek <pavel@ucw.cz>, Bryan Wu <bryan.wu@canonical.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jamie Iles <jamie@jamieiles.com>, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: ledtrig-cpu:: Fix a warning when
- compiling with W=1
-Message-ID: <20230928130958.GH9999@google.com>
-References: <3f4be7a99933cf8566e630da54f6ab913caac432.1695453322.git.christophe.jaillet@wanadoo.fr>
+        with ESMTP id S231975AbjI1N0r (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:26:47 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754F819D;
+        Thu, 28 Sep 2023 06:26:45 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=8649084492=fe@dev.tdt.de>)
+        id 1qlr2M-007Wbe-KI; Thu, 28 Sep 2023 15:26:38 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qlr2L-009JBq-Is; Thu, 28 Sep 2023 15:26:37 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 0DF2D240049;
+        Thu, 28 Sep 2023 15:26:37 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 601D5240040;
+        Thu, 28 Sep 2023 15:26:36 +0200 (CEST)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id 0DA0632071;
+        Thu, 28 Sep 2023 15:26:36 +0200 (CEST)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v2 0/4] ledtrig-tty: add new state evaluation
+Date:   Thu, 28 Sep 2023 15:26:28 +0200
+Message-ID: <20230928132632.200263-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f4be7a99933cf8566e630da54f6ab913caac432.1695453322.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+X-purgate: clean
+X-purgate-type: clean
+X-purgate-ID: 151534::1695907598-3EC89A8C-CDBCAF2E/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 23 Sep 2023, Christophe JAILLET wrote:
+Changes in v2:
+- rename new function from tty_get_mget() to tty_get_tiocm() as
+  requested by 'Jiri Slaby'.
+- As suggested by 'Jiri Slaby', fixed tabs in function documentation
+  throughout the file '/drivers/tty/tty_io.c' in a separate commit.
+- Move the variable definition to the top in function 'ledtrig_tty_work()'.
+  This was reported by the 'kernel test robot' after my change in v1.
+- Also set the 'max_brightness' to 'blink_brightness' if no
+  'blink_brightness' was set. This fixes a problem at startup when the
+  brightness is still set to 0 and only 'line_*' is evaluated. I looked in
+  the netdev trigger and that's exactly how it's done there.
 
-> In order to teach the compiler that 'trig->name' will never be truncated,
-> we need to tell it that 'cpu' is not negative.
-> 
-> When building with W=1, this fixes the following warnings:
-> 
->   drivers/leds/trigger/ledtrig-cpu.c: In function ‘ledtrig_cpu_init’:
->   drivers/leds/trigger/ledtrig-cpu.c:155:56: error: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Werror=format-truncation=]
->     155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
->         |                                                        ^~
->   drivers/leds/trigger/ledtrig-cpu.c:155:52: note: directive argument in the range [-2147483648, 7]
->     155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
->         |                                                    ^~~~~~~
->   drivers/leds/trigger/ledtrig-cpu.c:155:17: note: ‘snprintf’ output between 5 and 15 bytes into a destination of size 8
->     155 |                 snprintf(trig->name, MAX_NAME_LEN, "cpu%d", cpu);
->         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Fixes: 8f88731d052d ("led-triggers: create a trigger for CPU activity")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/leds/trigger/ledtrig-cpu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+v1:
+This is a follow-up patchset, based on the mailing list discussion from
+March 2023 based on the old patchset v7 [1]. I have changed, the LED trigger
+handling via the sysfs interfaces as suggested by Uwe Kleine-König.
 
-I made the subject line less generic and applied it, thanks.
+[1]
+https://lore.kernel.org/linux-leds/20230306093524.amm7o4ppa7gon4ew@pengutronix.de/
+
+Florian Eckert (4):
+  tty: whitespaces in descriptions corrected by replacing tabs with
+    spaces.
+  tty: add new helper function tty_get_tiocm
+  trigger: ledtrig-tty: move variable definition to the top
+  trigger: ledtrig-tty: add new line mode to triggers
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  53 ++++
+ drivers/leds/trigger/ledtrig-tty.c            | 280 +++++++++++++++++-
+ drivers/tty/tty_io.c                          | 130 ++++----
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 396 insertions(+), 68 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
+2.30.2
+
