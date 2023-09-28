@@ -2,45 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA437B1EBD
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A276A7B1ECA
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 15:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231966AbjI1NmG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Sep 2023 09:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44844 "EHLO
+        id S231966AbjI1NoI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Sep 2023 09:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232031AbjI1NmF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:42:05 -0400
+        with ESMTP id S231871AbjI1NoH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 09:44:07 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53461193;
-        Thu, 28 Sep 2023 06:42:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A42C433C8;
-        Thu, 28 Sep 2023 13:42:02 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EECD196;
+        Thu, 28 Sep 2023 06:44:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABEFAC433C7;
+        Thu, 28 Sep 2023 13:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695908523;
-        bh=7Y2PniOfB3kAjyIQoXZvNLWZUM33zoeeBRwcWGGreJE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EdCBwGo9bet5FaWMwSzUMysVdQ1j2UDHxdKtNQQNmov93Gt1hWyFARuBLcAT4KTji
-         GF3NtTvyR8v11b9egen8g+/6/5gS/7F1M3z7fqcsRQQR1na/P+bW1rvTo+GagHtls3
-         B4sE3Wuf29K5Ml9/eCNrCTDn1o6xQMlHDu0WuuG05WsweybtEna+YLleDJ2y6Yl865
-         ii6JEkd1sRhRT2k5HZjY7bpLrnoxw36rPq6vcRbeeFRVsUsvvg1oR9bvmKPSDcDI4C
-         UZyMC7yPpqDbfYH7+fkoXSMPH1GiPCXHadDL2VVYs/RrkGe31FCY5RRSliOP7XQ7km
-         SWTHDg4xHR8Wg==
-Date:   Thu, 28 Sep 2023 14:41:59 +0100
+        s=k20201202; t=1695908646;
+        bh=/a8QarklBOFtA5LfqC8eHnpGOfZd/G2pFvn+2e3tt7U=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=RizwdQz85d2/AQDT3DBz/rZt/eWB7YIo/p0YnJyYIXNexLClNbwEfiRDU1hqcPVtS
+         pz1hrt5muYGerY8AsNBL/w0s+N4bdd6FCidNOTB2dzSeneWhuZfPWgaeEKeFn2lyPI
+         O3GnLLI1lVtRkjaTP5z7jvkGclb5x+M9oY9tEaA0eahegB1A4cP/7eaW2KMcieNg5g
+         U3X5jHGtxpxO3aEwwtKqQrQbXiHRl2yiYbptDTD26zx/0aXq+69k0Ij2+WpI6umFdp
+         DrKmZ0vjqNS1/jNz74Cc2qgsyb8+avPvtFd7AMrnfNecmbckk6JosI4oeKqyEzvNSB
+         WOh2VSYJUD4JQ==
 From:   Lee Jones <lee@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Justin Stitt <justinstitt@google.com>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] leds: lp3952: replace deprecated strncpy with strscpy
-Message-ID: <20230928134159.GJ9999@google.com>
-References: <20230922-strncpy-drivers-leds-leds-lp3952-c-v1-1-4941d6f60ca4@google.com>
- <202309232039.979F3B4@keescook>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     linux-leds@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20230820082005.55124-1-biju.das.jz@bp.renesas.com>
+References: <20230820082005.55124-1-biju.das.jz@bp.renesas.com>
+Subject: Re: (subset) [PATCH] leds: pca955x: Convert enum->pointer for data
+ in the match tables
+Message-Id: <169590864442.1606171.7587176714186983511.b4-ty@kernel.org>
+Date:   Thu, 28 Sep 2023 14:44:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <202309232039.979F3B4@keescook>
+X-Mailer: b4 0.12.2
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -50,72 +52,22 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 23 Sep 2023, Kees Cook wrote:
+On Sun, 20 Aug 2023 09:20:05 +0100, Biju Das wrote:
+> Convert enum->pointer for data in the match tables, so that
+> device_get_match_data() can do match against OF/ACPI/I2C tables, once i2c
+> bus type match support added to it.
+> 
+> Replace enum->struct *pca955x_chipdefs for data in the match table.
+> Simplify the probe() by replacing device_get_match_data() and ID lookup
+> for retrieving data by i2c_get_match_data().
+> 
+> [...]
 
-> On Fri, Sep 22, 2023 at 03:27:17PM +0000, Justin Stitt wrote:
-> > `strncpy` is deprecated for use on NUL-terminated destination strings
-> > [1] and as such we should prefer more robust and less ambiguous string
-> > interfaces.
-> > 
-> > We expect `dest` to be NUL-terminated due to its use with dev_err.
-> > 
-> > lp3952_get_label()'s  dest argument is priv->leds[i].name:
-> > |    acpi_ret = lp3952_get_label(&priv->client->dev, led_name_hdl[i],
-> > |                                priv->leds[i].name);
-> > ... which is then assigned to:
-> > |    priv->leds[i].cdev.name = priv->leds[i].name;
-> > ... which is used with a format string
-> > |    dev_err(&priv->client->dev,
-> > |            "couldn't register LED %s\n",
-> > |            priv->leds[i].cdev.name);
-> > 
-> > There is no indication that NUL-padding is required but if it is let's
-> > opt for strscpy_pad.
-> > 
-> > Considering the above, a suitable replacement is `strscpy` [2] due to
-> > the fact that it guarantees NUL-termination on the destination buffer
-> > without unnecessarily NUL-padding.
-> > 
-> > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
-> > Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
-> > Link: https://github.com/KSPP/linux/issues/90
-> > Cc: linux-hardening@vger.kernel.org
-> > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > ---
-> > Note: build-tested only.
-> > ---
-> >  drivers/leds/leds-lp3952.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/leds/leds-lp3952.c b/drivers/leds/leds-lp3952.c
-> > index 3bd55652a706..62ade3f05a87 100644
-> > --- a/drivers/leds/leds-lp3952.c
-> > +++ b/drivers/leds/leds-lp3952.c
-> > @@ -101,7 +101,7 @@ static int lp3952_get_label(struct device *dev, const char *label, char *dest)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	strncpy(dest, str, LP3952_LABEL_MAX_LEN);
-> > +	strscpy(dest, str, LP3952_LABEL_MAX_LEN);
-> 
-> Given my desire to use sizeof(dest) for these things, I wonder if it'd
-> be nicer to pass more context here for the compiler as the only user of
-> this function is the immediately next function. Instead of passing in
-> "char *dest", it could pass "struct lp3952_led_array *priv", and
-> suddenly sizeof() would be possible.
-> 
-> But, since it's technically correct as-is:
-> 
-> struct lp3952_ctrl_hdl {
->         struct led_classdev cdev;
->         char name[LP3952_LABEL_MAX_LEN];
-> 
-> There's no pressing need to actually do the priv refactor. It's just a
-> comment on the coding style of the original code. :)
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+Applied, thanks!
 
-I've applied this as-is, but please consider Kees' proposal.
+[1/1] leds: pca955x: Convert enum->pointer for data in the match tables
+      commit: 734adca71b2ccc6df12c244037e0b284aab7cf58
 
--- 
+--
 Lee Jones [李琼斯]
+
