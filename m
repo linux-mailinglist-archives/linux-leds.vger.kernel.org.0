@@ -2,48 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97BFA7B1F27
-	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 16:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9399A7B1F44
+	for <lists+linux-leds@lfdr.de>; Thu, 28 Sep 2023 16:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232425AbjI1ODb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Sep 2023 10:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S232201AbjI1OMb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 28 Sep 2023 10:12:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231902AbjI1ODb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 10:03:31 -0400
+        with ESMTP id S232142AbjI1OMa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 10:12:30 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6E311F;
-        Thu, 28 Sep 2023 07:03:29 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 974D9C433C8;
-        Thu, 28 Sep 2023 14:03:26 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36FF711F;
+        Thu, 28 Sep 2023 07:12:29 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 982BFC433C8;
+        Thu, 28 Sep 2023 14:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695909809;
-        bh=n2bDHzk2s5pAtaibWAwFVOIL4i6SiOY2rnYokEWoql0=;
+        s=k20201202; t=1695910348;
+        bh=wtGe4SsbGGcWY1/IDsDw79ZQnLnIek+nUMtbOAOYDhM=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=D95uGPuTGA8Y7UqNsKhGsRlqlnJe4RWQUvfGWgj2Oiqdg81cL0lj4N5/qOxosGS35
-         SvP2gCSX24agKDhZXJrfpkPsSjTQmB40EVJ4EVkP7NkUQsY4BPgIe3wQjm040jlvH9
-         7KSxZJJNEynr3A/CTsxG65POGEpaTUUPDoCUTNEwR/NYAWcWz7PjargFlC8bomS/07
-         QOmyZenXmNiowWfEP9W+UYLNLxGwU9ypIFHxP+chWW/UB+hylroPiHW6hC4VGjCd+g
-         vDRDnfukLR8pou+/HDi5fcl4NxQ441P417cyMETI6OtkQUj2dlOT1x39xCMx0u9ATA
-         5rE7iH3hJopKg==
+        b=pfSTfRbXDXPGTcCYn+1RDdOLPiFjsTqIybxiXnvRHC3TAzghtBnkAiU0YGjhlepS7
+         9bTekmGi1Cf4YkHVs/dZA0+xPlOXVZrHvgnnbIFQF8TrJ2q6sqSf0TY/q9z5M7Qm+U
+         csKesPMUaNsHT0BZBADqCQ4lphHqBF66z5h3YeV2m1b+5sDMuKqOzQVsunhHG0qV35
+         Xe6DecmygpDEuDIC8SAnvWBsRV8NO7ElK6W1dCGDGStTZeJBynsIfaNMaZWvKREyJB
+         oDZpuJ2wXu0+4VhWwhjk854ex+9it60dDZc2rCDu1SpL6G7IhADS5fCxCJrbkt4OUl
+         1rtVXf39UPpcA==
 From:   Lee Jones <lee@kernel.org>
-To:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+To:     =?utf-8?q?Jan_Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Flavio Suligoi <f.suligoi@asem.it>
-Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-In-Reply-To: <20230925122609.78849-1-f.suligoi@asem.it>
-References: <20230925122609.78849-1-f.suligoi@asem.it>
-Subject: Re: (subset) [PATCH v3 1/2] dt-bindings: backlight: Add MPS
- MP3309C
-Message-Id: <169590980634.1618521.3566617275020298182.b4-ty@kernel.org>
-Date:   Thu, 28 Sep 2023 15:03:26 +0100
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-leds@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20230926-gpio-led-trigger-dt-v2-0-e06e458b788e@linaro.org>
+References: <20230926-gpio-led-trigger-dt-v2-0-e06e458b788e@linaro.org>
+Subject: Re: (subset) [PATCH v2 0/3] Rewrite GPIO LED trigger to use
+ trigger-sources
+Message-Id: <169591034632.1624130.7939810399934804656.b4-ty@kernel.org>
+Date:   Thu, 28 Sep 2023 15:12:26 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -57,22 +56,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 25 Sep 2023 14:26:08 +0200, Flavio Suligoi wrote:
-> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
-> programmable switching frequency to optimize efficiency.
-> The brightness can be controlled either by I2C commands (called "analog"
-> mode) or by a PWM input signal (PWM mode).
-> This driver supports both modes.
+On Tue, 26 Sep 2023 23:48:10 +0200, Linus Walleij wrote:
+> This rewrites the platform-data GPIO LED trigger to instead
+> use fwnode trigger-sources to describe the LED used.
 > 
-> For device driver details, please refer to:
-> - drivers/video/backlight/mp3309c_bl.c
+> This will work out-of-the-box with e.g. device tree.
+> 
+> Tested with real hardware by modifying a device tree adding
+> trigger-sources to a LED and trigger-source-cells to
+> a gpio chip, setting the trigger to a pushbutton. It works
+> like a charm, once the trigger is set to "gpio".
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: backlight: Add MPS MP3309C
-      commit: 02c4e661658f73d3c266c68f89f0b14bd8ba6bd8
+[2/3] dt-bindings: leds: Mention GPIO triggers
+      commit: 4aa583f1a6b85c88e3278d2461797d592ac61fcc
+[3/3] leds: triggers: gpio: Rewrite to use trigger-sources
+      commit: 1222f5dbc7723cc78741343da2e414b80de83c8f
 
 --
 Lee Jones [李琼斯]
