@@ -2,115 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D55B7B29BB
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Sep 2023 02:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 995247B36AA
+	for <lists+linux-leds@lfdr.de>; Fri, 29 Sep 2023 17:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232350AbjI2Ajq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 28 Sep 2023 20:39:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33362 "EHLO
+        id S233676AbjI2PYI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 29 Sep 2023 11:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232481AbjI2Ajp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 28 Sep 2023 20:39:45 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ED319F;
-        Thu, 28 Sep 2023 17:39:42 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38SNun1a019827;
-        Fri, 29 Sep 2023 00:39:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=I9dx6LUsLUJSb1nV43JIBs0f9oI+YdzUawuhRAHsOUw=;
- b=CfhZvQmJJEKv+b7jKpbxzBc8Vs67IaEIk0LUW9aXgcGrKqcI7xCkIDkSntbA9R63KXir
- eq6iK6bHYSS2rWktUd4fo5fVl9zFvQ2mcDrxzll01tm0ECbiVjuHGNTHaMlmPTd0c7ER
- EevtCivlwJVUT5ZK/ZJiO7bAPif+FxN5tqKExkoWwOI9aOqjcASsxjEBSTVdBdMnEngN
- 2DrddXTk6utG7/o/sn3wEbQPdzNlrcW6WKuoyB6xILRmY6g2nVlT7U0/L34PWjGmzIAx
- y3kwusMcE7SvBmXEVXuk2nybRxMiNGeFUHnwVE3tg8vSeLRqENyfLm4SudgichDOfO7P Gg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tdhru06dt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 29 Sep 2023 00:39:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38T0dX1I025949
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 29 Sep 2023 00:39:33 GMT
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 28 Sep 2023 17:39:30 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <pavel@ucw.cz>, <lee@kernel.org>, <thierry.reding@gmail.com>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>
-CC:     <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
-        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
-        <quic_gurus@quicinc.com>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <kernel@quicinc.com>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v5 7/7] leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
-Date:   Thu, 28 Sep 2023 17:39:00 -0700
-Message-ID: <20230929003901.15086-8-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230929003901.15086-1-quic_amelende@quicinc.com>
-References: <20230929003901.15086-1-quic_amelende@quicinc.com>
+        with ESMTP id S233633AbjI2PYC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 Sep 2023 11:24:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8445DD;
+        Fri, 29 Sep 2023 08:23:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 951E0C433C9;
+        Fri, 29 Sep 2023 15:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696001039;
+        bh=7MUnS5rrD0zWrSC89C22S+EJFgSBQ12YuL/KwhyLmmg=;
+        h=From:Subject:Date:To:Cc:From;
+        b=efDgvw/6IVLIpaNQ5IedOwDOplM4fB92oegV9FbV+ynNr8SNxHWiQbmEiQFFHKOnb
+         BoW1x59hV8tTt0gVGIwC/tE6+64fgRSAXUpI/Jf0UQpK8MfC20QhF7JxdBht9DO04c
+         a9UwOEU8wXDwKMmpNV8d+WXNXsvuaBZlCj/Ski73eTb5UrHzM4f9PZ40sgadZSxgNr
+         VwsYDwf4JuULJq4lx1ZbSWtieoHdZx/5wSI//RmvuiUxUlbVQ53PNsShzkkD4X01/e
+         2Dos7sVjPJEsWK/4U461y/m2Kxm6oK6uBP+Gt6FBeLPzknW7io9M3rP0VuiZ6D9o3k
+         yKBFdKY2b0uew==
+From:   Mark Brown <broonie@kernel.org>
+Subject: [PATCH 0/4] leds: Convert to use maple tree register cache
+Date:   Fri, 29 Sep 2023 17:23:34 +0200
+Message-Id: <20230929-leds-maple-v1-0-ba5f9dcb1e75@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: isK-hsiEQbyUlnLMdJ2HS70y2OGzor5j
-X-Proofpoint-GUID: isK-hsiEQbyUlnLMdJ2HS70y2OGzor5j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-28_23,2023-09-28_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 bulkscore=0 adultscore=0
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309290002
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPbrFmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDSyNL3ZzUlGLd3MSCnFRdcxMzoGBSinFikpkSUENBUWpaZgXYsOjY2lo
+ AYTQ1yFwAAAA=
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-0438c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1065; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7MUnS5rrD0zWrSC89C22S+EJFgSBQ12YuL/KwhyLmmg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlFuwJ+F0ZMV1CNFn+jQhAGs375d23RCILs8xRQ
+ BcJArN/Y/OJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZRbsCQAKCRAk1otyXVSH
+ 0FMrB/9wqL5tz69qs5QCfv7zfdP/lP0vuIK/ZlP+9ANDMdnvuG5+7WtSC7QUykM9/1h+2uItL/p
+ hFYyZ7sa2dK3F4nrIWg7cPjBd4bv6ZlphPXhSAdF/3KM1e4M7dCMviMW42gFcnTTDPO3h3ZIEZA
+ n7sE7myKl00+UaaGUoY3D8N/uji1Hay6m6l2KkmfTsFCWjCh3MnPShowDquMoVozodxS79HIjSe
+ LZ14Ym1kMnV3eJj4x4r8v6bYY88QI/xUEMVN4gq0ZoEz+uy+T9gOuzTLSYK84ok8cn6jHTrssic
+ qMWGiwGbixq0QplLWMYyDgEe21Jd4erwtFFMQz1HyeGdyqaA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Update the pm8350c lpg_data struct so that pm8350c devices are treated as
-PWM devices that support two-nvmem PPG scheme.
+The maple tree register cache is a more modern replacement for the
+rbtree cache, the underlying data structure is more modern and the
+surrounding cache implementation makes a number of choices which are
+more suited to modern systems than those made by rbtree.  This series
+updates the LED drivers that use the rbtree cache to use the maple tree
+cache.
 
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/leds/rgb/leds-qcom-lpg.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Mark Brown (4):
+      leds: lm3601x: Convert to use maple tree register cache
+      leds: aw200xx: Convert to use maple tree register cache
+      leds: lm392x: Convert to use maple tree register cache
+      leds: lp3952: Convert to use maple tree register cache
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 910c7cf740cc..8962ea13df29 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -1800,11 +1800,13 @@ static const struct lpg_data pm8150l_lpg_data = {
- static const struct lpg_data pm8350c_pwm_data = {
- 	.triled_base = 0xef00,
- 
-+	.lut_size = 122,
-+
- 	.num_channels = 4,
- 	.channels = (const struct lpg_channel_data[]) {
--		{ .base = 0xe800, .triled_mask = BIT(7) },
--		{ .base = 0xe900, .triled_mask = BIT(6) },
--		{ .base = 0xea00, .triled_mask = BIT(5) },
-+		{ .base = 0xe800, .triled_mask = BIT(7), .sdam_offset = 0x48 },
-+		{ .base = 0xe900, .triled_mask = BIT(6), .sdam_offset = 0x56 },
-+		{ .base = 0xea00, .triled_mask = BIT(5), .sdam_offset = 0x64 },
- 		{ .base = 0xeb00 },
- 	},
- };
+ drivers/leds/flash/leds-lm3601x.c | 2 +-
+ drivers/leds/leds-aw200xx.c       | 2 +-
+ drivers/leds/leds-lm3692x.c       | 2 +-
+ drivers/leds/leds-lp3952.c        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+---
+base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+change-id: 20230929-leds-maple-746230bd3ab6
+
+Best regards,
 -- 
-2.41.0
+Mark Brown <broonie@kernel.org>
 
