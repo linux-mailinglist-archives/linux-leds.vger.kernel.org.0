@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE6787B4EEE
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 11:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 193397B503F
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 12:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236037AbjJBJVp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Oct 2023 05:21:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55056 "EHLO
+        id S236481AbjJBK0j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Oct 2023 06:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235974AbjJBJVp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 05:21:45 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA56683;
-        Mon,  2 Oct 2023 02:21:42 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40651a726acso40159725e9.1;
-        Mon, 02 Oct 2023 02:21:42 -0700 (PDT)
+        with ESMTP id S236461AbjJBK0f (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 06:26:35 -0400
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56A5A6;
+        Mon,  2 Oct 2023 03:26:32 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3231dff4343so1734174f8f.0;
+        Mon, 02 Oct 2023 03:26:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696238501; x=1696843301;
+        d=1e100.net; s=20230601; t=1696242391; x=1696847191;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rTDea75BbAesYn6+R83gyiA1oIuQKnXiPmrYJHdwQzw=;
-        b=rqXeWnYTed4l4XlocXZpnWc+LQhpxA84l3XYiAxtUnUfJ1me1gZDlmI4z+FHwZQ4J1
-         qi3+uLB8Pp/+iUKkaMqkMz7r3QMx/DwFEh76HAIGStXCo42zyI+WGLg4nwKRFbXvIlya
-         MDhZmra8aCJp36Y8Vf0CY2Fh2TIeJm2Jpfzk7e/hpMRommeo3xa6s7YYrqJ8RzxU+djc
-         9T+cT/BTFjP3ghqZx/GWxpvXLLFLz9P5pbJVTS5/7ZaJpmIhO51ODlyutn9syZaKIWm2
-         dQcFRwBcbor9Kkyako0sxwoSZNQ3Y5nTjzrbbNhypoc85SgXzhKQEyBEFOJUqh5sTPlO
-         27jw==
-X-Gm-Message-State: AOJu0YxML76lXByug88FgkCk74LqGYdwASKgnzpShVyKVKmiSdHpqxrw
-        nD2f7PFau2OG3WLVJiga0rP7JP2s84YDEA==
-X-Google-Smtp-Source: AGHT+IFkg7nRcOtE/8GM4HqjHzhn7572ctmoFxID1aG0FR1BXBeDFDV6WtVuQAZpSFPEY5t7q+2pCg==
-X-Received: by 2002:a05:600c:b49:b0:3fe:ba7:f200 with SMTP id k9-20020a05600c0b4900b003fe0ba7f200mr10153185wmr.20.1696238500817;
-        Mon, 02 Oct 2023 02:21:40 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b004065e235417sm6687868wms.21.2023.10.02.02.21.39
+        bh=24MC4usJQwsXw+cCutdBFhCaS4WdFuo+q5Cyix26iKg=;
+        b=vygSqv+kWbLNxMGAZNaMALfWlAnWwkNi/ZAzTPxiN/pJlBUNShe5+SkktR4ocUovDi
+         r6xS61opAUvcwZ9dfKsY3aaM5fONk5iFeFemxM9A2kCCl46eV3ETzwAKe52PbILJod42
+         SzQX5i/4WeWG13uqVRdLqkcK0egV1PyvOlKbbtyDUjjQpqB+OOZJUvwKogFK9gJLeFVF
+         mtN0btLeruqy71nNth+ABd7nUEg6Bc6SmQmiH9OYRFb7vXq0JgzTznCV9aEpW3Sid4CN
+         PcMApYq2bVgWRdlnYy4RVYSbF5CX48YQHm97R0X1Y2Uhry6lcVDvMVfRy69LkX4l4WeM
+         by5w==
+X-Gm-Message-State: AOJu0YxmPnS2PtCF3cIvG/IaS9nLh0rcJu+lIevG4vQfZb7JvsZrHJLA
+        /woEaB9w2A3Z5izcugKmaD5qLm1nsAmxEg==
+X-Google-Smtp-Source: AGHT+IGa6VdPg3eZQJ2qdDYpjfs9HLpLNIR9qM2ZivyKgRZbuPlCJMfFAjx23fBjssN50ism065OTg==
+X-Received: by 2002:a5d:4085:0:b0:319:735f:92c5 with SMTP id o5-20020a5d4085000000b00319735f92c5mr9690873wrp.32.1696242390890;
+        Mon, 02 Oct 2023 03:26:30 -0700 (PDT)
+Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id l1-20020a5d4bc1000000b003271be8440csm5206219wrt.101.2023.10.02.03.26.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 02:21:40 -0700 (PDT)
-Message-ID: <f41dc1e1-6d34-48b2-97dd-ba67df6003c6@kernel.org>
-Date:   Mon, 2 Oct 2023 11:21:39 +0200
+        Mon, 02 Oct 2023 03:26:30 -0700 (PDT)
+Message-ID: <1220b4fe-6bca-4748-ba46-58b6045dbee6@kernel.org>
+Date:   Mon, 2 Oct 2023 12:26:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] tty: whitespaces in descriptions corrected by
- replacing tabs with spaces.
+Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
+ the top
 Content-Language: en-US
 To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
         gregkh@linuxfoundation.org, pavel@ucw.cz, lee@kernel.org,
         kabel@kernel.org, u.kleine-koenig@pengutronix.de
 Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org
+        linux-leds@vger.kernel.org, kernel test robot <lkp@intel.com>
 References: <20230928132632.200263-1-fe@dev.tdt.de>
- <20230928132632.200263-2-fe@dev.tdt.de>
+ <20230928132632.200263-4-fe@dev.tdt.de>
 From:   Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
  xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
@@ -94,7 +94,7 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <20230928132632.200263-2-fe@dev.tdt.de>
+In-Reply-To: <20230928132632.200263-4-fe@dev.tdt.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
@@ -108,14 +108,43 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 28. 09. 23, 15:26, Florian Eckert wrote:
-> Tabs were used in the function description, to make this look more
-> uniform, the tabs were replaced by spaces where necessary.
+> The Intel build robot has complained about this.
+
+How exactly?
+
+> Hence move the commit
+> of the variable definition to the beginning of the function.
 > 
+> Reported-by: kernel test robot <lkp@intel.com>
 > Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>   drivers/leds/trigger/ledtrig-tty.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> index 8ae0d2d284af..1c6fadf0b856 100644
+> --- a/drivers/leds/trigger/ledtrig-tty.c
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -82,6 +82,7 @@ static void ledtrig_tty_work(struct work_struct *work)
+>   {
+>   	struct ledtrig_tty_data *trigger_data =
+>   		container_of(work, struct ledtrig_tty_data, dwork.work);
+> +	unsigned long interval = LEDTRIG_TTY_INTERVAL;
+>   	struct serial_icounter_struct icount;
+>   	int ret;
+>   
+> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct *work)
+>   
+>   	if (icount.rx != trigger_data->rx ||
+>   	    icount.tx != trigger_data->tx) {
+> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
 
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+It's in a block, so what's the matter?
 
-thanks,
+>   		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
+>   				      &interval, 0);
+>   
+
 -- 
 js
 suse labs
