@@ -2,95 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81CA27B5480
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 16:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 234FE7B5874
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 18:57:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237636AbjJBOGI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Oct 2023 10:06:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43402 "EHLO
+        id S238372AbjJBQtn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Oct 2023 12:49:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237630AbjJBOGH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 10:06:07 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8681AD;
-        Mon,  2 Oct 2023 07:06:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558D4C433C7;
-        Mon,  2 Oct 2023 14:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696255564;
-        bh=oewcKLq9leZeLUNbvL3ga7nSrHdL0EKdi+eyXGMLtGM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LNby3amfuHQMnQB9J2b8Ap7V4xMsYjdQ+XX8Ne1yQwFKEIv84i754KEVLeJUg8gjk
-         eZTKvwinC7merJ7qh3W+Ryukjgt+Ym0L/vorD2BQb5irTxbdLjpDtXAHCd6QjBG+ei
-         dy3qg4A5giv1IyOZdkFSdZB0DqgYAVyfuB/rZgF9WspTUP/kgYYQiWx8pGDeDCPUsV
-         88TQek2wbfOllqc1CJUhTmDeKwr1V3nYM0Dx5pgKq7WA9HXKbc79/fwueApOG25YO2
-         XY2NIwNXL/Nh56LmRlwLJVInrde4+cGRsTvcZU56epMHub7GBj0vwBexSCyF3poPFl
-         fuCV5QO5Z3uIQ==
-Date:   Mon, 2 Oct 2023 15:05:59 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
-        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
- the top
-Message-ID: <20231002140559.GB8453@google.com>
-References: <20230928132632.200263-1-fe@dev.tdt.de>
- <20230928132632.200263-4-fe@dev.tdt.de>
+        with ESMTP id S238336AbjJBQtm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 12:49:42 -0400
+Received: from smtprelay07.ispgateway.de (smtprelay07.ispgateway.de [134.119.228.97])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E86A9;
+        Mon,  2 Oct 2023 09:49:39 -0700 (PDT)
+Received: from [92.206.139.21] (helo=note-book.lan)
+        by smtprelay07.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <git@apitzsch.eu>)
+        id 1qnM6w-0005X7-TD; Mon, 02 Oct 2023 18:49:34 +0200
+From:   =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Subject: [PATCH v6 0/2] leds: Add a driver for KTD202x
+Date:   Mon, 02 Oct 2023 18:48:26 +0200
+Message-Id: <20231002-ktd202x-v6-0-26be8eefeb88@apitzsch.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230928132632.200263-4-fe@dev.tdt.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-B4-Tracking: v=1; b=H4sIAFr0GmUC/2XPy27DIBAF0F+JWJeK4WWnq/5HFUXDq6A2TgqOl
+ TbyvxeyqK16x0VzuMOdFJ+TL+RldyfZT6mk81CDftoRG3F49zS5mglnXDANPf0YXT3fqJLacOw
+ cl8yQOm2weGoyDja2efN1UsfwiSUes8fcJi7Zh3R7dL0dao6pjOf8/aieoN1uWyagjAYLPQ8+o
+ HPdK17S+FNsfPZX0l6Z+CL3DBbJqxTW9IZZZNy7rRRrqRcpquyCNXuwWjmBWylXkotFyipBho7
+ LoJ0UZivVnwS23la1fyopERxTwP5tO8/zL41gmGGqAQAA
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.3
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 28 Sep 2023, Florian Eckert wrote:
+Add the binding description and the corresponding driver for
+the Kinetic KTD2026 and KTD2027.
 
-> The Intel build robot has complained about this. Hence move the commit
-> of the variable definition to the beginning of the function.
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v6:
+- Remove un-needed inits
+- Narrow scope of variables
+- Release of_node references on early exit
+- Pass child node to dev_err() in ktd202x_setup_led_rgb()
+- Link to v5: https://lore.kernel.org/r/20231001-ktd202x-v5-0-f544a1d0510d@apitzsch.eu
 
-Please copy the robot's error message into the commit message.
+Changes in v5:
+- Restructure brightness_set() + add comments to it to be easier understandable
+- Add some line breaks + remove little line-wraps to improve readability
+- Move parts of add_led() to setup_led_{rgb,single}()
+- Move mutex_init() to the end of probe to omit gotos
+- Fix grammar
+- Set initial intensity to max brightness to avoid LED staying off when
+  brightness is changed after switching to timer trigger, because of zero
+  intensity
+- Link to v4: https://lore.kernel.org/r/20230923-ktd202x-v4-0-14f724f6d43b@apitzsch.eu
 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> ---
->  drivers/leds/trigger/ledtrig-tty.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-> index 8ae0d2d284af..1c6fadf0b856 100644
-> --- a/drivers/leds/trigger/ledtrig-tty.c
-> +++ b/drivers/leds/trigger/ledtrig-tty.c
-> @@ -82,6 +82,7 @@ static void ledtrig_tty_work(struct work_struct *work)
->  {
->  	struct ledtrig_tty_data *trigger_data =
->  		container_of(work, struct ledtrig_tty_data, dwork.work);
-> +	unsigned long interval = LEDTRIG_TTY_INTERVAL;
->  	struct serial_icounter_struct icount;
->  	int ret;
->  
-> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct *work)
->  
->  	if (icount.rx != trigger_data->rx ||
->  	    icount.tx != trigger_data->tx) {
-> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
-> -
->  		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
->  				      &interval, 0);
->  
-> -- 
-> 2.30.2
-> 
+Changes in v4:
+- Annotate struct ktd202x with __counted_by
+- Link to v3: https://lore.kernel.org/r/20230906-ktd202x-v3-0-7fcb91c65d3a@apitzsch.eu
 
+Changes in v3:
+- Add r-b to bindings patch
+- Replace .probe_new by .probe
+- Link to v2: https://lore.kernel.org/r/20230901-ktd202x-v2-0-3cb8b0ca02ed@apitzsch.eu
+
+Changes in v2:
+- Make binding description filename match compatible
+- Address comments by Lee Jones
+  - Extend driver description in Kconfig
+  - Add copyright + link to datasheet
+  - Add unit to definition/variable names, where needed
+  - Define magic numbers
+  - Remove forward declaration of 'struct ktd202x'
+  - Remove superfluous comments
+  - Get rid of struct ktd202x_info
+  - Join ktd202x_chip_init() with ktd202x_chip_enable()
+  - Return the error on ktd202x_chip_disable()
+  - Remove unreachable case from chip_in_use()
+  - Rename ktd202x_brightness_set() argument from num_colors to num_channels
+  - Forward errors received in ktd202x_brightness_set()
+  - Remove variable for 'num_channels = 1'
+  - Add some explanations to blink time calculation
+  - Remove unneeded lcdev from ktd202x_blink_*_set()
+  - Add define for max brightness and replace deprecated LED_FULL by it
+  - Move setting led_classdev.brightness to ktd202x_brightness_*_set()
+  - Move mutex_lock inside ktd202x_blink_set()
+  - Add comment that 'color' property is optional (allow EINVAL)
+  - Replace escaped double quotes by single quotes
+  - Avoid overloading variable 'color'
+  - Do not lock during probe
+  - Remove usage of 'of_match_ptr'
+- Document interrupt and pull-up supply, like done for aw2013[1]
+- Fix error in num_steps calculation
+- Link to v1: https://lore.kernel.org/r/20230618-ktd202x-v1-0-fc182fefadd7@apitzsch.eu
+
+[1] https://lore.kernel.org/linux-leds/20230815-aw2013-vio-v3-0-2505296b0856@gerhold.net/
+
+---
+André Apitzsch (2):
+      dt-bindings: leds: Add Kinetic KTD2026/2027 LED
+      leds: add ktd202x driver
+
+ .../devicetree/bindings/leds/kinetic,ktd202x.yaml  | 171 ++++++
+ drivers/leds/rgb/Kconfig                           |  13 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-ktd202x.c                    | 625 +++++++++++++++++++++
+ 4 files changed, 810 insertions(+)
+---
+base-commit: 165adeea3617ea22dc49f8880474ebf3a98b696d
+change-id: 20230618-ktd202x-546b2a7d240b
+
+Best regards,
 -- 
-Lee Jones [李琼斯]
+André Apitzsch <git@apitzsch.eu>
+
