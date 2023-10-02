@@ -2,106 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF817B549A
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 16:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81CA27B5480
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 16:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237562AbjJBN4j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Oct 2023 09:56:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
+        id S237636AbjJBOGI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Oct 2023 10:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237657AbjJBN4h (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 09:56:37 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E83AD;
-        Mon,  2 Oct 2023 06:56:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696254994; x=1727790994;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iB27Y3GxWfGv0KsgGx2AoqPZrJKjVCm9lyDtEfzmT+4=;
-  b=m3LD9SquWZVsMqUOe9Rwhe2X2oKx7QUiJmfs4g2cy0FYS5GBVhyWVb6J
-   0nRLl0HsSax0RDU52YYLdZbPJLbsTZmdkBpreNggX0VDFrcLncYC8+kRo
-   KcSc4RbMxgWpYHs4MagiK8vU29HQR7CSMuXTKIi287VWNuP/xfvsQDF0S
-   G9aPTH46Sk53+OY+/NoGxDydAp58d4VIGtvcSBt5g7qzT3Dyhp/mDeAYg
-   nug1WOjlkJzlhB3JZeCoEwyaVIEvwLHDD7kTjQZObsPqt+RPWjf4WYdmw
-   9+uAnsjfBY4nXEH9pfhSxh2yL1rkBjxrU1u3nWkR+fsWJrVjFaBGGa8Ew
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="362912072"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="362912072"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 06:56:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="785782661"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="785782661"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 02 Oct 2023 06:56:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id C2CBB14AF; Mon,  2 Oct 2023 16:56:30 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] leds: tca6507: Don't use fixed GPIO base
-Date:   Mon,  2 Oct 2023 16:56:29 +0300
-Message-Id: <20231002135629.2605462-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+        with ESMTP id S237630AbjJBOGH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 10:06:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8681AD;
+        Mon,  2 Oct 2023 07:06:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558D4C433C7;
+        Mon,  2 Oct 2023 14:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696255564;
+        bh=oewcKLq9leZeLUNbvL3ga7nSrHdL0EKdi+eyXGMLtGM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LNby3amfuHQMnQB9J2b8Ap7V4xMsYjdQ+XX8Ne1yQwFKEIv84i754KEVLeJUg8gjk
+         eZTKvwinC7merJ7qh3W+Ryukjgt+Ym0L/vorD2BQb5irTxbdLjpDtXAHCd6QjBG+ei
+         dy3qg4A5giv1IyOZdkFSdZB0DqgYAVyfuB/rZgF9WspTUP/kgYYQiWx8pGDeDCPUsV
+         88TQek2wbfOllqc1CJUhTmDeKwr1V3nYM0Dx5pgKq7WA9HXKbc79/fwueApOG25YO2
+         XY2NIwNXL/Nh56LmRlwLJVInrde4+cGRsTvcZU56epMHub7GBj0vwBexSCyF3poPFl
+         fuCV5QO5Z3uIQ==
+Date:   Mon, 2 Oct 2023 15:05:59 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
+        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
+ the top
+Message-ID: <20231002140559.GB8453@google.com>
+References: <20230928132632.200263-1-fe@dev.tdt.de>
+ <20230928132632.200263-4-fe@dev.tdt.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230928132632.200263-4-fe@dev.tdt.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-First of all, the fixed GPIO base is source of troubles and
-it doesn't scale. Second, there is no in-kernel user of this
-base, so drop it.
+On Thu, 28 Sep 2023, Florian Eckert wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/leds/leds-tca6507.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+> The Intel build robot has complained about this. Hence move the commit
+> of the variable definition to the beginning of the function.
 
-diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
-index aab861771210..e19074614095 100644
---- a/drivers/leds/leds-tca6507.c
-+++ b/drivers/leds/leds-tca6507.c
-@@ -92,9 +92,6 @@
- 
- struct tca6507_platform_data {
- 	struct led_platform_data leds;
--#ifdef CONFIG_GPIOLIB
--	int gpio_base;
--#endif
- };
- 
- #define	TCA6507_MAKE_GPIO 1
-@@ -636,7 +633,7 @@ static int tca6507_probe_gpios(struct device *dev,
- 
- 	tca->gpio.label = "gpio-tca6507";
- 	tca->gpio.ngpio = gpios;
--	tca->gpio.base = pdata->gpio_base;
-+	tca->gpio.base = -1;
- 	tca->gpio.owner = THIS_MODULE;
- 	tca->gpio.direction_output = tca6507_gpio_direction_output;
- 	tca->gpio.set = tca6507_gpio_set_value;
-@@ -715,9 +712,6 @@ tca6507_led_dt_init(struct device *dev)
- 
- 	pdata->leds.leds = tca_leds;
- 	pdata->leds.num_leds = NUM_LEDS;
--#ifdef CONFIG_GPIOLIB
--	pdata->gpio_base = -1;
--#endif
- 
- 	return pdata;
- }
+Please copy the robot's error message into the commit message.
+
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>  drivers/leds/trigger/ledtrig-tty.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> index 8ae0d2d284af..1c6fadf0b856 100644
+> --- a/drivers/leds/trigger/ledtrig-tty.c
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -82,6 +82,7 @@ static void ledtrig_tty_work(struct work_struct *work)
+>  {
+>  	struct ledtrig_tty_data *trigger_data =
+>  		container_of(work, struct ledtrig_tty_data, dwork.work);
+> +	unsigned long interval = LEDTRIG_TTY_INTERVAL;
+>  	struct serial_icounter_struct icount;
+>  	int ret;
+>  
+> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct *work)
+>  
+>  	if (icount.rx != trigger_data->rx ||
+>  	    icount.tx != trigger_data->tx) {
+> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
+> -
+>  		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
+>  				      &interval, 0);
+>  
+> -- 
+> 2.30.2
+> 
+
 -- 
-2.40.0.1.gaa8946217a0b
-
+Lee Jones [李琼斯]
