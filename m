@@ -2,149 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BB3F7B4CC7
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 09:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6787B4EEE
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Oct 2023 11:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235708AbjJBHqP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Oct 2023 03:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52784 "EHLO
+        id S236037AbjJBJVp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Oct 2023 05:21:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbjJBHqO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 03:46:14 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE2BDC9
-        for <linux-leds@vger.kernel.org>; Mon,  2 Oct 2023 00:46:10 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-496d3e18f19so6444276e0c.2
-        for <linux-leds@vger.kernel.org>; Mon, 02 Oct 2023 00:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1696232770; x=1696837570; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pqvIhDje53OxVjVG4IMyzH0AYEEkPwbJqHOXxnNcgoM=;
-        b=SXOL3OnegeiKvhOsAGCB3Z2flJAWFYAsueQD1ka1JmjmpcdF8/YzstXeyADEsBXeyS
-         WUX1p7SyVJmv1BVQKMeoTRnfUe8tyfjVbT5KZq4KHVqRLXctbboZ8dkxam5Ids0zmF6f
-         SHyHnXQP36idqVRVjQNFlkPNeP9N/hbTdgEOxwjWejC4nFbAgHqgmThZeuxeDj2D5HNY
-         c6hHkSUPgAmnrn4ncdmp3KjwzEcvDYdhDUHggjVp4jyfJv6OuRA7oVX8uESPWITK6lFZ
-         MLai1PCfESWD73Mzjdr3yyQL/55CIqBg56UkmTErOcvlfluRENDXSY+X5Myc7Ue6ZcgG
-         wTVw==
+        with ESMTP id S235974AbjJBJVp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Oct 2023 05:21:45 -0400
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA56683;
+        Mon,  2 Oct 2023 02:21:42 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40651a726acso40159725e9.1;
+        Mon, 02 Oct 2023 02:21:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696232770; x=1696837570;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pqvIhDje53OxVjVG4IMyzH0AYEEkPwbJqHOXxnNcgoM=;
-        b=bAz86FIHkW6TYOMuhKgJcr7QWnZbpqvbCTn1dFxFSjJPR7rYhyfoSQxYRVULsTyK0t
-         0Rmm9FSJfWKY0KTVXe2bpb4Qu/M4cEpQ3pSEl+6e+gR+9ERuSL3FSDZ/liiSiHO0tBx0
-         g+tGPYNaemRTLj5EXmhbCt7E2i+WhfUllwAUEYQ2g6NWHFEG9vhXMl7gF0BdNuQCeiFx
-         SfHhuvrOuT3D9Ed3/TOiZt0Rv+9zjO8qX6AkU2y/BVHrKSaMnWAer5AO2FtGvYeWC++z
-         1uyMRxSFBPbYMLJMJvsc+pHEAsKWEQk9kCFgQ4FGU9s3erkYeChyWQGTUGN41FzQ7Hwi
-         7uaA==
-X-Gm-Message-State: AOJu0YxxHz7S1RYta5RY5yTOfH77e+wjM6sjdtu/QZtN0GL+vPReDeUf
-        tzaIZBadS+uq0UwMw+VLMhnTNe7gWCpMLxhWvOTKCQ==
-X-Google-Smtp-Source: AGHT+IHTpV2uxpyu37sYvaeFFlRCZLBZ48HAtumXYT6TL0P81tfHDEtcfQx3wfacL8SBXAzjoUIJNk0tgavHfPNw63U=
-X-Received: by 2002:a05:6122:9a9:b0:49d:d91:8b27 with SMTP id
- g41-20020a05612209a900b0049d0d918b27mr8582974vkd.2.1696232769830; Mon, 02 Oct
- 2023 00:46:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696238501; x=1696843301;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rTDea75BbAesYn6+R83gyiA1oIuQKnXiPmrYJHdwQzw=;
+        b=rqXeWnYTed4l4XlocXZpnWc+LQhpxA84l3XYiAxtUnUfJ1me1gZDlmI4z+FHwZQ4J1
+         qi3+uLB8Pp/+iUKkaMqkMz7r3QMx/DwFEh76HAIGStXCo42zyI+WGLg4nwKRFbXvIlya
+         MDhZmra8aCJp36Y8Vf0CY2Fh2TIeJm2Jpfzk7e/hpMRommeo3xa6s7YYrqJ8RzxU+djc
+         9T+cT/BTFjP3ghqZx/GWxpvXLLFLz9P5pbJVTS5/7ZaJpmIhO51ODlyutn9syZaKIWm2
+         dQcFRwBcbor9Kkyako0sxwoSZNQ3Y5nTjzrbbNhypoc85SgXzhKQEyBEFOJUqh5sTPlO
+         27jw==
+X-Gm-Message-State: AOJu0YxML76lXByug88FgkCk74LqGYdwASKgnzpShVyKVKmiSdHpqxrw
+        nD2f7PFau2OG3WLVJiga0rP7JP2s84YDEA==
+X-Google-Smtp-Source: AGHT+IFkg7nRcOtE/8GM4HqjHzhn7572ctmoFxID1aG0FR1BXBeDFDV6WtVuQAZpSFPEY5t7q+2pCg==
+X-Received: by 2002:a05:600c:b49:b0:3fe:ba7:f200 with SMTP id k9-20020a05600c0b4900b003fe0ba7f200mr10153185wmr.20.1696238500817;
+        Mon, 02 Oct 2023 02:21:40 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b004065e235417sm6687868wms.21.2023.10.02.02.21.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Oct 2023 02:21:40 -0700 (PDT)
+Message-ID: <f41dc1e1-6d34-48b2-97dd-ba67df6003c6@kernel.org>
+Date:   Mon, 2 Oct 2023 11:21:39 +0200
 MIME-Version: 1.0
-References: <20230926-gpio-led-trigger-dt-v2-0-e06e458b788e@linaro.org> <20230926-gpio-led-trigger-dt-v2-1-e06e458b788e@linaro.org>
-In-Reply-To: <20230926-gpio-led-trigger-dt-v2-1-e06e458b788e@linaro.org>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 2 Oct 2023 09:45:58 +0200
-Message-ID: <CAMRc=MecwZRE=2jG-24hFZaKZW2GdUBzD0FBYfh8Vce69qH84w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] gpiolib: of: Allow "trigger-sources" to reference
- a GPIO
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     =?UTF-8?B?SmFuIEt1bmRyw6F0?= <jan.kundrat@cesnet.cz>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] tty: whitespaces in descriptions corrected by
+ replacing tabs with spaces.
+Content-Language: en-US
+To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
+        gregkh@linuxfoundation.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+References: <20230928132632.200263-1-fe@dev.tdt.de>
+ <20230928132632.200263-2-fe@dev.tdt.de>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20230928132632.200263-2-fe@dev.tdt.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 12:41=E2=80=AFAM Linus Walleij <linus.walleij@linar=
-o.org> wrote:
->
-> The "trigger-sources" phandle used for LED triggers are special:
-> the DT bindings mandate that such triggers have the same phandle
-> references no matter what the trigger is. A GPIO is just another
-> kind of device that can trigger a LED.
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpio/gpiolib-of.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/gpio/gpiolib-of.c b/drivers/gpio/gpiolib-of.c
-> index 531faabead0f..f4a660bf11fd 100644
-> --- a/drivers/gpio/gpiolib-of.c
-> +++ b/drivers/gpio/gpiolib-of.c
-> @@ -611,6 +611,33 @@ static struct gpio_desc *of_find_mt2701_gpio(struct =
-device_node *np,
->         return desc;
->  }
->
-> +/*
-> + * Trigger sources are special, they allow us to use any GPIO as a LED t=
-rigger
-> + * and have the name "trigger-sources" no matter which kind of phandle i=
-t is
-> + * pointing to, whether to a GPIO, a USB host, a network PHY etc. So in =
-this case
-> + * we allow looking something up that is not named "foo-gpios".
-> + */
-> +static struct gpio_desc *of_find_trigger_gpio(struct device_node *np,
-> +                                             const char *con_id,
-> +                                             unsigned int idx,
-> +                                             enum of_gpio_flags *of_flag=
-s)
-> +{
-> +       struct gpio_desc *desc;
-> +
-> +       if (!IS_ENABLED(CONFIG_LEDS_TRIGGER_GPIO))
-> +               return ERR_PTR(-ENOENT);
-> +
-> +       if (!con_id || strcmp(con_id, "trigger-sources"))
-> +               return ERR_PTR(-ENOENT);
-> +
-> +       desc =3D of_get_named_gpiod_flags(np, con_id, idx, of_flags);
-> +       if (!gpiod_not_found(desc))
-> +               pr_debug("%s is used as a trigger\n", of_node_full_name(n=
-p));
-> +
-> +       return desc;
-> +}
-> +
-> +
->  typedef struct gpio_desc *(*of_find_gpio_quirk)(struct device_node *np,
->                                                 const char *con_id,
->                                                 unsigned int idx,
-> @@ -618,6 +645,7 @@ typedef struct gpio_desc *(*of_find_gpio_quirk)(struc=
-t device_node *np,
->  static const of_find_gpio_quirk of_find_gpio_quirks[] =3D {
->         of_find_gpio_rename,
->         of_find_mt2701_gpio,
-> +       of_find_trigger_gpio,
->         NULL
->  };
->
->
-> --
-> 2.34.1
->
+On 28. 09. 23, 15:26, Florian Eckert wrote:
+> Tabs were used in the function description, to make this look more
+> uniform, the tabs were replaced by spaces where necessary.
+> 
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
 
-Queued, thanks!
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-Bart
+thanks,
+-- 
+js
+suse labs
+
