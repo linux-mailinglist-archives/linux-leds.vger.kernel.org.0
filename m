@@ -2,154 +2,179 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E308D7B6029
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Oct 2023 07:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B1517B65BD
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Oct 2023 11:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjJCFBG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Oct 2023 01:01:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36006 "EHLO
+        id S231968AbjJCJn0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Oct 2023 05:43:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230049AbjJCFBE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Oct 2023 01:01:04 -0400
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94581A6;
-        Mon,  2 Oct 2023 22:01:01 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32483535e51so554020f8f.0;
-        Mon, 02 Oct 2023 22:01:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696309260; x=1696914060;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4UXmhpiqh7iZ4g5MCkKGXK5u5GuDBNQm7k6OkRgMn8=;
-        b=YqkrGrbDoMuX4E9U7aM61OBlEmORGhDX5eJ+dXyB9ujJnQGClhgRu9Sd+nIQBzL33C
-         Qlc8xyOEBErULgreRTbGpg6q4wtnVY4oYNNHOwFGfLsI8UO5y3fzO4QOT7NO6NJT+3N7
-         KQcZV5u1qVKj+ANocTey3S0ExsIK6IrphBnUW3/p9Tc6TW7MkZiHjkMiPNDMIqB5qRa4
-         0XY67oJwylwxo1tGqKfy3WsosO2lO9DsGJtLZkMccddFKTWB4zV+XZL3wFkL9H8rUApj
-         +OIQYfWgWW0seh+EWFVKFq6tWMacDk9c1dHIPWerCQFc8VGsn3v73jelNreiHOP0Y2k3
-         ojxg==
-X-Gm-Message-State: AOJu0YxqrnHYwu3NLGTCpjC14MOGul5dk7fdxD7byMki/ohNKTgiwOir
-        3W64oadqvavTRS/qV5dZ324=
-X-Google-Smtp-Source: AGHT+IGocQEcbapFYT90P3+RqaZs4AaOOGe480YgHpzunTwfYG7+fvNBDhxNEiq98ZuS+ULvN+Gk1g==
-X-Received: by 2002:a5d:574f:0:b0:31f:97e2:a924 with SMTP id q15-20020a5d574f000000b0031f97e2a924mr11484669wrw.14.1696309259752;
-        Mon, 02 Oct 2023 22:00:59 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id f17-20020a056000129100b003247f732c07sm587799wrx.12.2023.10.02.22.00.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 22:00:58 -0700 (PDT)
-Message-ID: <acda5dc4-e6d3-4870-929f-fb91636b5649@kernel.org>
-Date:   Tue, 3 Oct 2023 07:00:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
- the top
+        with ESMTP id S231626AbjJCJnZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Oct 2023 05:43:25 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2053.outbound.protection.outlook.com [40.107.7.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0454A1;
+        Tue,  3 Oct 2023 02:43:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BuUKddtX5YjGCxZq5RP6eVlza+Izp7H0wDO/uHaENzD7E5TEUvtM1/qa9Jx8IITbwzSXNSMFDKLHxpyrBUslCzptKcPHW+ryj1cmrSgP48Zg+3kJxiM8pDo2iye6rRnFKjZWBwdQokjLa8ZbydiIK6A6DEgJXdxuCZq2kSXDahLJNg4x5Xp3hebpQ758Xdyki95SWc8u5aUOFoheFpzFwigvGC9n/C02U5hFr8OWUiGZFg4dHOsRVg3jJPB5dPC4EQBRVUNOy/khebOZiToqKoCq3BT0PCwnUsp0nKUbzFCCZ7l6euOlBfKY2/8a5OZ/Cw6Jfoe0fEqrXVbogUVDlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M4TPV1SvH5xoswYo0hNT/oATHJJfoV12pNxvCJotvsY=;
+ b=f+jA1rehHt51YswNcbVrKyK5ouYRicRAMU/TZEdGauG+EfO8I6A141ofesqWdEl+7p3nHd5zh/hYBfYhBEUaBZXj9jVg3G27div4s6bedX5FalpgeSaB2ZO9sCdDOmX4aRlXQk0osFDGHCU5bgJa13bOZqrn7TpvdZMFa6qyCm1pySI+mvjaTm18JcEPxMmP1Gysy6oLz/rNpufNTTnHiysYsdEj83mdqUFoVacEL1U339poK68DXQxzfFnFldMFDZLu/41i9/xgoz1B6Vty+UyeNKqH/T7rd9X1lYk0Mm61QBoVf67cI8SCOJ1+vVAqH5JZuNMOolJoqtON/qeDvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
+ header.d=asem.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M4TPV1SvH5xoswYo0hNT/oATHJJfoV12pNxvCJotvsY=;
+ b=atsxCEhNg9ggubIwsWq82uJD8sILa9YVrgYLzALIFcKf/y0LoFT1N6wYA+NqkJB8G9zI6SgNTtTVqAnuBb9HqLWbi1GmdxlPi1Y36BxF5Ao/U3r0L5SczKRU7PuM7clSIAFp3Qvx2MGaIzZcBga/qOLLE+e+zuNmPJd6n/ocjko=
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:273::14) by VI1PR01MB6301.eurprd01.prod.exchangelabs.com
+ (2603:10a6:800:144::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26; Tue, 3 Oct
+ 2023 09:43:15 +0000
+Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::ad2b:a1e7:8828:ba2f]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+ ([fe80::ad2b:a1e7:8828:ba2f%7]) with mapi id 15.20.6838.024; Tue, 3 Oct 2023
+ 09:43:15 +0000
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+CC:     Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Topic: [PATCH v3 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Index: AQHZ76uO1Fb/EPNT/k67j1TrFzld37AtE7aAgAmVcBA=
+Date:   Tue, 3 Oct 2023 09:43:15 +0000
+Message-ID: <DU2PR01MB8034F448F6E66BAC3823CDB1F9C4A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
+References: <20230925122609.78849-1-f.suligoi@asem.it>
+ <20230926130113.GB4356@aspen.lan>
+In-Reply-To: <20230926130113.GB4356@aspen.lan>
+Accept-Language: it-IT, en-US
 Content-Language: en-US
-To:     Lee Jones <lee@kernel.org>, Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        pavel@ucw.cz, kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org, kernel test robot <lkp@intel.com>
-References: <20230928132632.200263-1-fe@dev.tdt.de>
- <20230928132632.200263-4-fe@dev.tdt.de> <20231002140559.GB8453@google.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20231002140559.GB8453@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=asem.it;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|VI1PR01MB6301:EE_
+x-ms-office365-filtering-correlation-id: ae921ce4-b6f5-43b5-6b8e-08dbc3f52a8d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Nymp5wqakQRrJ4KUsF3fkMisbmYygth/TVhor0xMmjDeZsXE5rdrS+FCC3TzCp2991QwMA4CP6z63rRhx8zf24jAaRoLJmjPk18zDN59Ka69mhawxm622VifAhQqohdBHnwIdjToXxJVsAuReqhpj2t0I49pWlmIMH9K9vTiy3VFp4qX18QRSC5xwZCWAXNRuIgzdOOl7QE8g/fRuZ49Rps5+tOYtCoZ6Ol5PHVXE2AmzZQOZqU9DlmUzl/psMbXKdGYO72E/fcrvhNZG0CJWbSu7uER6ZYR9iM5tbrriRldZa18Y6ncqDB6xyGln3IrJK8EOG9oW+nHcGPH4K+iwSepYKFgdYcyhh3X4LDZarhTHy2L1fi33RX8H9YzKAIv46hQtF/9QZ1uC8kQIfrBw2X5FhWH6yAxuhDjcmtrfyYlfGIN+AopBkmjV99RAsB7nKB5IuFAhnK2g0gpMNJ6lmuUNjqxCmKXLq4TN433A/8s1C7GUhUU0djVmWzbMzPJZcaEJQmx1qvnerPg5GRXIAVvrYa+Op+IzymqKP0xm9oOf7/n6b7GEtN011VnVywMo6+smzOENBDb/A8KAsloYsAaR000CK/QXYyq5/n4PUYcXhiVfLcu4froMZSLXHZV
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39840400004)(136003)(366004)(376002)(346002)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(6506007)(9686003)(7696005)(478600001)(71200400001)(316002)(41300700001)(66946007)(64756008)(76116006)(54906003)(66556008)(6916009)(66446008)(66476007)(26005)(8676002)(8936002)(52536014)(5660300002)(122000001)(7416002)(38100700002)(2906002)(38070700005)(4326008)(55016003)(86362001)(33656002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?S5iMIa0ehqMGwt7WQI7/W7OMXSqlgqp4IKJ7sWGPiCWUTvH9PVn9mCWE6eZ8?=
+ =?us-ascii?Q?OjmOHIEQnCSAU4ZFTKEIhf41AQwfZpm/pM8AuO5waUNjxUzupMc3zkhLcTDR?=
+ =?us-ascii?Q?tZuQixDjUP2sndcrLqZmMlHRhAgWlhnoEhp6bW3tZfroBlqIXJ9Q/uKn47g3?=
+ =?us-ascii?Q?rkdZuB3dtxtoEob7aNzUA5nNAkAFKjk3vSmNfJVRW8Uzqo4R4pNyqtqUTMCH?=
+ =?us-ascii?Q?Vx3rLvUB1OEz9yQXsWtVdwfq8b3T1RWqbwpgwL5W7eR/wErmdD0PuyebAIjR?=
+ =?us-ascii?Q?phUmgCNSbTriKPeX3KZ4p67D8ZeHc/QJdaWwvSYBMxDvERP3kdDg6Ns4w+bB?=
+ =?us-ascii?Q?i+IUj4KnaVikFGDTvV8jE7LR2HE99J0NTem4g7nhrYOykqwEzEaMh501KtVy?=
+ =?us-ascii?Q?n+BXrzQNl4SaNbR4cMcYAA92MqGCkvppxQrR5loTn8gK61hGqjkE8D04j5sN?=
+ =?us-ascii?Q?vC04gEKMI0vb67Y/mMIDmfjT0CC8P0wjUYc4kWXGkBNforh1q9nfBvmVsga6?=
+ =?us-ascii?Q?jaGTYsv7Q2Q0MOCjgpJXxzg41Avn6WS7FIOAI0co5O4kd5mvevizv6aPoJZG?=
+ =?us-ascii?Q?JnU7nyLE3ZJC5t1sNgz0f/czRqfZAdbaqFgC09ASGJqJrTVJyZATQwygGOrD?=
+ =?us-ascii?Q?FZvIlvabsah7ftpMFKOpNiQahJIu46IaLQX61WuQzORuBM4uWqVRt3X6Rc3P?=
+ =?us-ascii?Q?8ME2/mZx8m02/tWzeqwgrrS2IcpcGVaOpV+qP8mJE2L9gcTcYW5oLIfFCd4x?=
+ =?us-ascii?Q?+CB4fgNkJQ2OU+ORHqkBPG+GdxUd2JYRa5EfNTMP/FJI8/BFUCNNmsyUpAXC?=
+ =?us-ascii?Q?X+F4MyPlmOh6cGa7LhCbx4EOdi4s+y9CQgtQMLFirsmQuvobreria+gvJ5Oe?=
+ =?us-ascii?Q?XudA+tJhNyEFPXs9ZIIusH7fmW+4FinzxzfT+kfZZrZHMkmSd22vekPUVpFD?=
+ =?us-ascii?Q?CLBj/bL5Kw+JRUgMePq+7pTMlvxvM89w4kFtZrH44yWUFVXocQT9aRaA037V?=
+ =?us-ascii?Q?dSPu0rAVJBA5p/wTRfgzCV2srkNWOYbp94SaZ5iVtFOvVAbFnNaqG+vH3iv/?=
+ =?us-ascii?Q?Kf9YLWpxmoHhk3iEtxDLbJWQKV4m65w66C2E80Mz5Ei/jt2y1S4YWoiWZTPn?=
+ =?us-ascii?Q?KsuHfjCNAgXcw/G+qecqdo9j0++lYxYaonySrZiIlY/QMkBoblj7giJYzLXd?=
+ =?us-ascii?Q?WMZ2uEgQxoneYN/zv0C4jJfeXbXJwMAPiLzHlsFDppmLDqITljWUNthOSUkx?=
+ =?us-ascii?Q?9EpFWGJAKI2HFtus3PaKeYv0wl5yo6G/hJBHjBUNRSj7/EobYVX7BFVQ4hw9?=
+ =?us-ascii?Q?tgyDpvYjTMtfmSAslbgYdXtUKIywwuRIk522khUuVCgicLQrNwfjU2NqLtW9?=
+ =?us-ascii?Q?RKDYlroMnfttvBdFZmSreyTHRVYGr+UINrdkmG5S17LFTRh5q/HuIi1LO5nL?=
+ =?us-ascii?Q?Z+jKCTZ2iow4IHEN1WGEdgSEOY8TtHgWggVS2km/kn8L6wBGqcziSrw2iz5S?=
+ =?us-ascii?Q?XNIFdQIRDi6A2eOfGnYhXmi7+E8CePJvPR4ZNxbj8FPipP7ohCWF9Rl7j64S?=
+ =?us-ascii?Q?+0Li5IRzztLMqJ5b6RM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae921ce4-b6f5-43b5-6b8e-08dbc3f52a8d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2023 09:43:15.0853
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Lu/H6EQ/JAnLCA5FjtNy3BBsqIKJQsxYCnu3rxArvzCSuxnD2MXDN/2n+oqFfcfAakp2AI1G7WZLlRxgL0eLIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR01MB6301
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 02. 10. 23, 16:05, Lee Jones wrote:
-> On Thu, 28 Sep 2023, Florian Eckert wrote:
-> 
->> The Intel build robot has complained about this. Hence move the commit
->> of the variable definition to the beginning of the function.
-> 
-> Please copy the robot's error message into the commit message.
+Hi Daniel,
 
-Ah, lkp, then also the Closes: line as it suggests.
+...
 
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
->> ---
->>   drivers/leds/trigger/ledtrig-tty.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
->> index 8ae0d2d284af..1c6fadf0b856 100644
->> --- a/drivers/leds/trigger/ledtrig-tty.c
->> +++ b/drivers/leds/trigger/ledtrig-tty.c
->> @@ -82,6 +82,7 @@ static void ledtrig_tty_work(struct work_struct *work)
->>   {
->>   	struct ledtrig_tty_data *trigger_data =
->>   		container_of(work, struct ledtrig_tty_data, dwork.work);
->> +	unsigned long interval = LEDTRIG_TTY_INTERVAL;
->>   	struct serial_icounter_struct icount;
->>   	int ret;
->>   
->> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct *work)
->>   
->>   	if (icount.rx != trigger_data->rx ||
->>   	    icount.tx != trigger_data->tx) {
->> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
->> -
->>   		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
->>   				      &interval, 0);
->>   
->> -- 
->> 2.30.2
->>
-> 
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - max-brightness
+>=20
+> Why is this mandatory?
+>=20
+> There's no point in setting max-brightness when running in I2C mode (max-
+> brightness should default to 31 in that case).
+>=20
+>=20
+> > +  - default-brightness
+>=20
+> Again. I'm not clear why this needs to be mandatory.
+>=20
+>=20
 
--- 
-js
-suse labs
+Ok, you are right, I'll remove max-brightness and default-brightness from r=
+equired properties list.
+I think to change these properties, for the pwm dimming, into a clearer:
 
+- brightness-levels (uint32)=20
+- default-brightness-levels (uint32).
+
+For example:
+
+  brightness-levels:
+    description:
+      Number of brightness levels. The actual brightness
+      level (PWM duty cycle) will be interpolated from 0 to this value.
+      0 means a  0% duty cycle (darkest/off), while the brightness-levels r=
+epresents
+      a 100% duty cycle (brightest).
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  default-brightness-level:
+    description:
+      The default brightness level (from 0 to brightness-levels)
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+Example:
+brightness-levels =3D <10>;
+default-brightness-level =3D <6>;
+
+What do you think about this solution?
+
+> Daniel.
+
+Thanks for your help,
+Flavio
