@@ -2,44 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 055627BA47D
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Oct 2023 18:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CCB7BA4DA
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Oct 2023 18:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238652AbjJEQGA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Oct 2023 12:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
+        id S234557AbjJEQLS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Oct 2023 12:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239135AbjJEQEk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Oct 2023 12:04:40 -0400
+        with ESMTP id S240337AbjJEQK3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Oct 2023 12:10:29 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F862C28D;
-        Thu,  5 Oct 2023 07:27:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20C0C36AE6;
-        Thu,  5 Oct 2023 13:11:43 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A86F01BFD;
+        Thu,  5 Oct 2023 07:36:47 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17818C43391;
+        Thu,  5 Oct 2023 14:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696511505;
-        bh=AWa9aB3awlpYYHRZ8aPyhCDQYyEoopdnUDfWPzETdes=;
+        s=k20201202; t=1696516607;
+        bh=ybCbXCFBWgjsTfax0P9WErF1OiItaUIBPicnl/1gagM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p6vWk8D7UqoPbid+0FhB6M6Imd4+W70F2pTdH4/Q4Di/hpvz6wS5ho/RNBKGg1ApF
-         I+v2H2MPCvEXJoj4nkKuWSJtgT6mS0QSkE5fmm2WKZ0F/LW4+3SWD4KHoGyVNqHj31
-         ipyxc7LWFsO2Qe/iZ2Kb13wMsU/toS6ohUd2Po+uVKYoRed2sixluHhtMbPI10Ow/g
-         qdSe9zZuvYVUPKJ8BgruPfeIHRVHVFHfl8tkzs8++3ZK9EQfhfg8+hbthg8XroCT27
-         x+ikYyIEkHRvM3/Yj7+MoN6T7w5CN7PAEeHBM2W+fqa2NYFNM0PAL+YDWrRKsvQyH/
-         PqfVGoFvMSlzw==
-Date:   Thu, 5 Oct 2023 14:11:40 +0100
+        b=roKa+WwKfjewVZ5SIQ6STIGCsmxWlKmffPGmM5CMxQT96U0jYtKZUguzFWPZMOkQr
+         AJe+/X17hj0TKYkXg7FHUDKCNTYg2xQkWwuXdXfTstE2fRoXxMro1p1hD1GbbLDtNb
+         DHZfC0mFk1ADrvN5GzVGHBiwKGT6DBkZvpqLvR+g2DOG7IthjTWn7CksCPNAEEZu5W
+         bF+W63hJr9JkZ0Kg4Lfbx0a+EWQEShYSTurxVUFrz0xAbip+wH8t7x2MBPRLxReGaw
+         9o/e94xjIguBK5IuFJquCvEclNFGASHrEv4GJCwIkIxyqnaXbYSZltA38dypo3q8Pm
+         J4AJ+zGDsheDw==
+Date:   Thu, 5 Oct 2023 15:36:43 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Biju Das <biju.das.au@gmail.com>,
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v3 0/2] Match data improvements for pca955x driver
-Message-ID: <20231005131140.GC681678@google.com>
-References: <20230930175615.13301-1-biju.das.jz@bp.renesas.com>
+Cc:     Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v1 1/1] leds: tca6507: Don't use fixed GPIO base
+Message-ID: <20231005143643.GA795003@google.com>
+References: <20231002135629.2605462-1-andriy.shevchenko@linux.intel.com>
+ <169651655262.797431.9123574285135909840.b4-ty@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230930175615.13301-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <169651655262.797431.9123574285135909840.b4-ty@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -49,29 +49,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 30 Sep 2023, Biju Das wrote:
+On Thu, 05 Oct 2023, Lee Jones wrote:
 
-> This patch series aims to add match data improvements for pca955x driver.
+> On Mon, 02 Oct 2023 16:56:29 +0300, Andy Shevchenko wrote:
+> > First of all, the fixed GPIO base is source of troubles and
+> > it doesn't scale. Second, there is no in-kernel user of this
+> > base, so drop it.
+> > 
+> > 
 > 
-> This patch series is only compile tested.
+> Applied, thanks!
 > 
-> v2->v3:
->  * Added Rb tag from Andy.
->  * Dropped tabs from struct pca955x.
-> v1->v2:
->  * Added Rb tag from Lee Jones for patch#1.
->  * Adeed patch#2 for cleanup of OF/ID table terminators.
-> 
-> Biju Das (2):
->   leds: pca955x: Convert enum->pointer for data in the match tables
->   leds: pca955x: Cleanup OF/ID table terminators
-> 
->  drivers/leds/leds-pca955x.c | 71 +++++++++++++++----------------------
->  1 file changed, 29 insertions(+), 42 deletions(-)
+> [1/1] leds: tca6507: Don't use fixed GPIO base
+>       commit: ed84d55d5115455d17fa93f63dbf89697a309d6e
 
-These no longer apply.
-
-Please rebase and submit a [RESEND] so I can apply them.
+Okay, looks like the (subset) issue has been fixed.
 
 -- 
 Lee Jones [李琼斯]
