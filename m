@@ -2,36 +2,35 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09E347BAB7E
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Oct 2023 22:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B00097BAB8E
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Oct 2023 22:40:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjJEUiK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Oct 2023 16:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50644 "EHLO
+        id S229926AbjJEUkv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Oct 2023 16:40:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbjJEUiJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Oct 2023 16:38:09 -0400
+        with ESMTP id S229687AbjJEUku (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Oct 2023 16:40:50 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12BD193;
-        Thu,  5 Oct 2023 13:38:09 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 838CAC433C8;
-        Thu,  5 Oct 2023 20:38:03 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5831795;
+        Thu,  5 Oct 2023 13:40:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6401DC433C8;
+        Thu,  5 Oct 2023 20:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696538288;
-        bh=yQryibrZE9tDK5DW9orTQRcer8wGsKrGrcu9gNqUWec=;
+        s=k20201202; t=1696538449;
+        bh=ZiSfuU42hIkri3lX6i6qYBHumLjvADyoS7eztHiRywQ=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=oOzjaxO05pwD1ycdqPCwIGWIJffplVXWMUiu4BqCQv+fXiUxiBHN6LiNl1806Vx6L
-         7XUKZ9U5HexwQjaWdOzxdxKwTI8N3NPS2nY0BGmh0iyjD4BVloNcG9zkSEa5n4S412
-         FWFj2qW6oj51gUXcXNdmisBNW6OMC2Nj5WMW3hq6Bnq2jQhcX1N0TaQDwcEUb5yZvt
-         YiOdMkFGzvJZQelmauqhEopHjWf08XDZKxZ6wju+Q5dxgxG7dcZzmi8E1dfmiSiPeI
-         aMfBh+78X3XNf7TwDiNcwJlZFleO6QhIUOB4ivhnHpQhGLg2drND78kond68MICCRz
-         vJ/GH0cVmhTww==
-Message-ID: <c45a1e71-da58-4905-a0fc-faebf611af8f@kernel.org>
-Date:   Thu, 5 Oct 2023 22:37:59 +0200
+        b=nwlPnQ1BZh93ZRxulqGf6uh1OZFga1A6nrzFv/slg6YiIbBonM9PLUy42bhBxmlNO
+         40eQf+Ogdbr/d+1slQxQq4WAG6k7iNWb1QjWjqoTwKQw5psHQUAQJhzJzQPHW+k0wp
+         pOeSGEtTJGhcpB7Sj3OqEbBh6pfS9Nw24WxOTi8EhwnTnUsB3D9kpgt4sSM1uzV2rT
+         /fkTEYoVIN4OahNKwulmzaSXRd6hwsu12mtstLMw0rFenIXiztfq47t/FWgsVWovPk
+         NKLaT+PQJjseqCibht83I5ary+udGCn18wwPJtUe8ujELVbCWPthpWe//C6SMs51Xl
+         iegzjaAZqL8Iw==
+Message-ID: <d7f6edd4-d797-4a6f-8df5-d25bc557c9bb@kernel.org>
+Date:   Thu, 5 Oct 2023 22:40:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: add Kinetic KTD2801 binding
-Content-Language: en-US
+Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
 To:     =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
         Lee Jones <lee@kernel.org>,
         Daniel Thompson <daniel.thompson@linaro.org>,
@@ -45,7 +44,8 @@ Cc:     Karel Balej <balejk@matfyz.cz>, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht
 References: <20231005-ktd2801-v1-0-43cd85b0629a@skole.hr>
- <20231005-ktd2801-v1-1-43cd85b0629a@skole.hr>
+ <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
+Content-Language: en-US
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -90,13 +90,12 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20231005-ktd2801-v1-1-43cd85b0629a@skole.hr>
+In-Reply-To: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -104,15 +103,177 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 05/10/2023 20:49, Duje Mihanović wrote:
-> Add the dt binding for the Kinetic KTD2801 backlight driver.
+> Add driver for the Kinetic KTD2801 backlight driver.
 > 
 > Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
 > ---
->  .../bindings/leds/backlight/kinetic,ktd2801.yaml   | 46 ++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
+>  MAINTAINERS                                 |   6 ++
+>  drivers/video/backlight/Kconfig             |   7 ++
+>  drivers/video/backlight/Makefile            |   1 +
+>  drivers/video/backlight/ktd2801-backlight.c | 151 ++++++++++++++++++++++++++++
+>  4 files changed, 165 insertions(+)
 
+...
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +
+> +#define EW_DELAY	150
+> +#define EW_DET		270
+> +#define LOW_BIT_HIGH	5
+> +#define LOW_BIT_LOW	(4 * HIGH_BIT_LOW)
+> +#define HIGH_BIT_LOW	5
+> +#define HIGH_BIT_HIGH	(4 * HIGH_BIT_LOW)
+> +#define DS		5
+> +#define EOD_L		10
+> +#define EOD_H		350
+> +#define PWR_DOWN_DELAY	2600
+> +
+> +#define KTD2801_DEFAULT_BRIGHTNESS	100
+> +#define KTD2801_MAX_BRIGHTNESS		255
+> +
+> +struct ktd2801_backlight {
+> +	struct device *dev;
+> +	struct backlight_device *bd;
+> +	struct gpio_desc *desc;
+
+s/desc/enable_gpio/ or something similar. desc is totally not related.
+
+> +	bool was_on;
+> +};
+> +
+> +static int ktd2801_update_status(struct backlight_device *bd)
+> +{
+> +	struct ktd2801_backlight *ktd2801 = bl_get_data(bd);
+> +	u8 brightness = (u8) backlight_get_brightness(bd);
+> +
+> +	if (backlight_is_blank(bd)) {
+> +		gpiod_set_value(ktd2801->desc, 1);
+> +		udelay(PWR_DOWN_DELAY);
+> +		ktd2801->was_on = false;
+> +		return 0;
+> +	}
+> +
+> +	if (!ktd2801->was_on) {
+> +		gpiod_set_value(ktd2801->desc, 0);
+> +		udelay(EW_DELAY);
+> +		gpiod_set_value(ktd2801->desc, 1);
+> +		udelay(EW_DET);
+> +		gpiod_set_value(ktd2801->desc, 0);
+> +		ktd2801->was_on = true;
+> +	}
+> +
+> +	gpiod_set_value(ktd2801->desc, 0);
+> +	udelay(DS);
+> +
+> +	for (int i = 0; i < 8; i++) {
+> +		u8 next_bit = (brightness & 0x80) >> 7;
+> +
+> +		if (!next_bit) {
+> +			gpiod_set_value(ktd2801->desc, 1);
+> +			udelay(LOW_BIT_LOW);
+> +			gpiod_set_value(ktd2801->desc, 0);
+> +			udelay(LOW_BIT_HIGH);
+> +		} else {
+> +			gpiod_set_value(ktd2801->desc, 1);
+> +			udelay(HIGH_BIT_LOW);
+> +			gpiod_set_value(ktd2801->desc, 0);
+> +			udelay(HIGH_BIT_HIGH);
+> +		}
+> +		brightness <<= 1;
+> +	}
+> +	gpiod_set_value(ktd2801->desc, 1);
+> +	udelay(EOD_L);
+> +	gpiod_set_value(ktd2801->desc, 0);
+> +	udelay(EOD_H);
+
+Hm, why device is kept off after this? Setting 0 means enable GPIO is
+logical 0.
+
+> +	return 0;
+> +}
+> +
+> +static const struct backlight_ops ktd2801_backlight_ops = {
+> +	.update_status = ktd2801_update_status,
+> +};
+> +
+> +static int ktd2801_backlight_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct backlight_device *bd;
+> +	struct ktd2801_backlight *ktd2801;
+> +	u32 brightness, max_brightness;
+> +	int ret;
+> +
+> +	ktd2801 = devm_kzalloc(dev, sizeof(*ktd2801), GFP_KERNEL);
+> +	if (!ktd2801)
+> +		return -ENOMEM;
+> +	ktd2801->dev = dev;
+> +	ktd2801->was_on = true;
+> +
+> +	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
+> +	if (ret)
+> +		max_brightness = KTD2801_MAX_BRIGHTNESS;
+> +	if (max_brightness > KTD2801_MAX_BRIGHTNESS) {
+> +		dev_err(dev, "illegal max brightness specified\n");
+> +		max_brightness = KTD2801_MAX_BRIGHTNESS;
+> +	}
+> +
+> +	ret = device_property_read_u32(dev, "default-brightness", &brightness);
+> +	if (ret)
+> +		brightness = KTD2801_DEFAULT_BRIGHTNESS;
+> +	if (brightness > max_brightness) {
+> +		dev_err(dev, "default brightness exceeds max\n");
+> +		brightness = max_brightness;
+> +	}
+> +
+> +	ktd2801->desc = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+
+OUT_LOW is keep it disabled, so is this intentional?
+
+> +	if (IS_ERR(ktd2801->desc))
+> +		return dev_err_probe(dev, PTR_ERR(ktd2801->desc),
+> +				"failed to get backlight GPIO");
+> +	gpiod_set_consumer_name(ktd2801->desc, dev_name(dev));
+> +
+> +	bd = devm_backlight_device_register(dev, dev_name(dev), dev, ktd2801,
+> +			&ktd2801_backlight_ops, NULL);
+> +	if (IS_ERR(bd))
+> +		return dev_err_probe(dev, PTR_ERR(bd),
+> +				"failed to register backlight");
+> +
+> +	bd->props.max_brightness = max_brightness;
+> +	bd->props.brightness = brightness;
+> +
+> +	ktd2801->bd = bd;
+> +	platform_set_drvdata(pdev, bd);
+> +	backlight_update_status(bd);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id ktd2801_of_match[] = {
+> +	{ .compatible = "kinetic,ktd2801" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ktd2801_of_match);
+> +
+> +static struct platform_driver ktd2801_backlight_driver = {
+> +	.driver = {
+> +		.name = "ktd2801-backlight",
+> +		.of_match_table = ktd2801_of_match,
+> +	},
+> +	.probe = ktd2801_backlight_probe,
+> +};
+> +module_platform_driver(ktd2801_backlight_driver);
+> +
+> +MODULE_AUTHOR("Duje Mihanović <duje.mihanovic@skole.hr>");
+> +MODULE_DESCRIPTION("Kinetic KTD2801 Backlight Driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:ktd2801-backlight");
+
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong.
+
+> 
 
 Best regards,
 Krzysztof
