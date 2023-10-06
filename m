@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9987BBE42
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Oct 2023 20:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B1B7BBE48
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Oct 2023 20:04:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233085AbjJFSCR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 6 Oct 2023 14:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
+        id S233160AbjJFSE0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 6 Oct 2023 14:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233080AbjJFSCQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Oct 2023 14:02:16 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C26B6;
-        Fri,  6 Oct 2023 11:02:15 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-41959feaae2so13897501cf.0;
-        Fri, 06 Oct 2023 11:02:15 -0700 (PDT)
+        with ESMTP id S233145AbjJFSEZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Oct 2023 14:04:25 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3032CDB;
+        Fri,  6 Oct 2023 11:04:24 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-65b0216b067so28795646d6.1;
+        Fri, 06 Oct 2023 11:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696615335; x=1697220135; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1696615463; x=1697220263; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/5nBRHjJ7WNIwX/8d0eZMyTygIO0HnzObi9iT1OLYIM=;
-        b=AU5JP3nHi5QnckZgfp8lMAaOAXuF6sjQiIgl+cfJgPOn65KvtKSY8T9Cwz4jtzqgXF
-         NKQAnSB9qK1Y6B/Dq8AdT1n0bRKhTzYFNKfLKXQcQJRvOpkDNumDZfEeJfTJ0uHxKxTk
-         kp42aPG+1X5wCCA2Mcg/SS4+oLsREPVWtUBl/BZCA1rPVogrMViL/xaDET6esm+tfS2W
-         cZjeaRqagDM/HCxEjcw6ic3qyqZ2Uwbd/yzGknGp2LuNKIx9AeGEmV8VCpRpzeKJkUuA
-         bYGf0KU73MA4eEplsG3C3jOeh2a25Wa9ZJh3cOXC0sBL5VvjXAsV+xmfHLMv6ShvYkiV
-         1ZFw==
+        bh=Oahi2dyVEaZskw5jxKCp0Yrt/7KivDjXw0+gyqOGweg=;
+        b=mSRDdp7pWmEPkNQnPmZAZbKB6/gyTll9DHvCHYlnT/+xgK6BsmIIIW7AZg5d05yelo
+         pj7tZq6MeyKyQbdW5HXmqdSAtpBk39uLd1yWOFGn9YspSwh44wPrsgAPMBdSOWnBNfUV
+         ahhnlFmPtr0A8OytiPvOw+dxy+f8hfE46/M2rgk1Gsbip07+9QblRt0zzgh0UKF5+5WM
+         aO03xU6NyOENzXgZvoTgknTZPIWVCp6sRMujj4/2rzN1R9E0RAhP3MNbmNn/HSKbI0Lr
+         QskpSvpCVUc2bsG9oJH5QawERT05yIhsSCoaFtuG28C098eWsiLGo+KsvxiD6grAtKzg
+         aPGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696615335; x=1697220135;
+        d=1e100.net; s=20230601; t=1696615463; x=1697220263;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/5nBRHjJ7WNIwX/8d0eZMyTygIO0HnzObi9iT1OLYIM=;
-        b=a7bGZSR7JbJ9/s41sn+6eyTsXu4ffjvad7I3jaBKwjfh+ECFa8f02lzJm1HVdYDZPF
-         gKtwI2+OdVKRn6M1LnmE1dKnF2wO6Z2+k3ykc6x+zgOF0NLSvsUfsyqAJQeO/xk/uDJn
-         JGFyPRdLFXuObQ0eYaOwy3p+eMa/GFD++7FZU+5pkhFxcF/DOLSoLQvl6L6e2SC1xj8y
-         JFGVdesrN7TXxhHXNO+TH/t5B4fbuRnnNCIBxv3fA+Dqv/HygoxTOYHsUMhcPfgSPFkR
-         RPNi2dVDnKwOraqBCLpy5s0o4nSF3aqa4B/GfJuLF+gpAvrsoRe0SvzctqRb1PUwhYjG
-         pj2Q==
-X-Gm-Message-State: AOJu0Yz83pOg62DH1kFw/vADU2PniveRUjZ0raCs94andwQIRty8Nvv+
-        YcXRA8wqaQfdnB6sTXcRpkq7oAGSYZPudaScDBw=
-X-Google-Smtp-Source: AGHT+IG43kEbad57pMEcbcdJC4BEbpSUZcJ3CXfQlHtkDtF4VOejAo87tZGW5bfydss0IWxVdkp8iS03i5O4rILgKUY=
-X-Received: by 2002:ac8:5fc5:0:b0:413:5d52:ee17 with SMTP id
- k5-20020ac85fc5000000b004135d52ee17mr11080318qta.42.1696615334952; Fri, 06
- Oct 2023 11:02:14 -0700 (PDT)
+        bh=Oahi2dyVEaZskw5jxKCp0Yrt/7KivDjXw0+gyqOGweg=;
+        b=ahNUQ5GAgWgayUE8HhsEBsRH/uc6IC318gn5AximMCdqa7pm14HeqUFXwuf+A840M+
+         bz+4ODf1D3H+dv0Xj9ETU9gku1TrkEVfb0i9l5nmSC5Wd/WXU0BNOhYV+RoXfJhJD8Bq
+         CU0o9KyzN4soXlvWsrA79sXbKvSOFkLVveodUOrmKiWv9vLOmjwcDQsBox02K0TZ8AHB
+         0eB7AMwMvdo5kXF6+39Duk0vVdXkNEMZmAgfXyVKmJhu+Y9g62ZNolcZKzBxw4YFJEMT
+         +7M1ffnAo5p4XiEbYFxKD0Q0D2zKHjAFXlrY3AZTarxPN9pgLSGm6LR4cPFjG0UoYwvH
+         5ltw==
+X-Gm-Message-State: AOJu0Yyicv66mHgmqtgzyGy/NI78902pMu06BPSwjabVN6syOuIRK2Sc
+        q4rZPKNNm7Avk6Oa/OFc34PVBiMG0OhxoDLWe2cRppb1KtE=
+X-Google-Smtp-Source: AGHT+IE34GkElrxFcY5JkwPfFMyXCiywAt8LnJLGogO91k/Z5EQjHlqRzKTxxPay08Pse6fYrzg2vDX53XD9Fw+nCEA=
+X-Received: by 2002:a05:6214:c29:b0:658:310d:2214 with SMTP id
+ a9-20020a0562140c2900b00658310d2214mr6255280qvd.9.1696615463170; Fri, 06 Oct
+ 2023 11:04:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231006160437.15627-1-ddrokosov@salutedevices.com> <20231006160437.15627-8-ddrokosov@salutedevices.com>
-In-Reply-To: <20231006160437.15627-8-ddrokosov@salutedevices.com>
+References: <20231006160437.15627-1-ddrokosov@salutedevices.com> <20231006160437.15627-10-ddrokosov@salutedevices.com>
+In-Reply-To: <20231006160437.15627-10-ddrokosov@salutedevices.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 6 Oct 2023 21:01:39 +0300
-Message-ID: <CAHp75VdkBR5yNd-U_v_4fv2pHHwzKBg6ajnZgjw=xb8kT+y7UA@mail.gmail.com>
-Subject: Re: [PATCH v1 07/11] leds: aw200xx: add delay after software reset
+Date:   Fri, 6 Oct 2023 21:03:47 +0300
+Message-ID: <CAHp75VcntHXe31H8C9GcGhc+HRA-gZjtD=uibMMYN-FS254RJw@mail.gmail.com>
+Subject: Re: [PATCH v1 09/11] leds: aw200xx: improve autodim calculation method
 To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -64,7 +64,7 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,18 +77,19 @@ On Fri, Oct 6, 2023 at 7:05=E2=80=AFPM Dmitry Rokosov
 >
 > From: George Stark <gnstark@salutedevices.com>
 >
-> According to datasheets of aw200xx devices software reset takes at
-> least 1 ms so add delay after reset before issuing commands to device.
+> use DIV_ROUND_UP instead of coarse div
 
-> +       /* according to datasheet software reset takes at least 1ms */
+Please, respect English grammar and punctuation.
+Refer to macros and functions as func() (note the parentheses).
 
-Please, be consistent in all patches in all commit messages and code
-comments on how you supply physical units (w/ space or w/o, take also
-into consideration traditional scientific practices).
+...
 
-> +       usleep_range(1000, 2000);
+>  #define AW200XX_REG_DIM2FADE(x) ((x) + 1)
+> +#define AW200XX_REG_FADE2DIM(fade) \
+> +       DIV_ROUND_UP((fade) * AW200XX_DIM_MAX, AW200XX_FADE_MAX)
 
-fsleep() ?
+Have you checked if the overflow is _now_ possible (compiling on
+32-bit platforms as well)?
 
 --=20
 With Best Regards,
