@@ -2,43 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0AE27BCEE9
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Oct 2023 16:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 848D17BCEF0
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Oct 2023 16:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbjJHO1k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Oct 2023 10:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48934 "EHLO
+        id S233539AbjJHOkY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Oct 2023 10:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230082AbjJHO1k (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Oct 2023 10:27:40 -0400
-X-Greylist: delayed 383 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 08 Oct 2023 07:27:39 PDT
+        with ESMTP id S230303AbjJHOkY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Oct 2023 10:40:24 -0400
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CEFAB
-        for <linux-leds@vger.kernel.org>; Sun,  8 Oct 2023 07:27:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B78A4;
+        Sun,  8 Oct 2023 07:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-        t=1696774873; bh=c7Gvjps46g8yeM0WEfoJ5nEDCww/QxvKFIcDCSrUh0U=;
+        t=1696776021; bh=eDXsog+J/XXuZesNNvrWlqpieI4EjnnGtBWWP9Ztf7s=;
         h=From:To:Cc:Subject:Date:From;
-        b=MuTpJr4CVffYfoxQxFinVf0BLpukpKFNWmxvuIGDCachQ684ifqP0vFPwCujl1U/u
-         oegeQpeq+KhtxhZ8FmY6/dRLlX8pjcfHnw1p2R0U4SnSeqEOCdEFOen8bayQqpwTmQ
-         lcYEnk/irCvZ+oexaWHXEQTvhXatv3ByAktjEOW0=
+        b=gohi54XucwRpKeYO/PTNe1LudzL6ZIrrtxuR+cBgMWyegCsfnroYNw2zNXc51k7AA
+         bzx5M1FHvN0ZEEgNMhzDWfze2RIvTeIgED6EvgLTj6kYM5LUmDw79MrYpcO9Iv2tZ2
+         8VY0w5JIkWG5Y4SisPJSeQXdpbz+WaqMGXS00Pco=
 From:   =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
 To:     linux-kernel@vger.kernel.org
 Cc:     Ondrej Jirman <megi@xff.cz>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org (open list:LED SUBSYSTEM),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS)
-Subject: [PATCH] dt-bindings: leds: Last color id is now 14 (LED_COLOR_ID_LIME)
-Date:   Sun,  8 Oct 2023 16:21:00 +0200
-Message-ID: <20231008142103.1174028-1-megi@xff.cz>
+        Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+Subject: [PATCH] leds: core: Add more colors from DT bindings to led_colors
+Date:   Sun,  8 Oct 2023 16:40:13 +0200
+Message-ID: <20231008144014.1180334-1-megi@xff.cz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -47,26 +41,30 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Ondrej Jirman <megi@xff.cz>
 
-Increase the limit to match available values in dt-bindings/leds/common.h
+The colors are already part of DT bindings. Make sure the kernel is
+able to convert them to strings.
 
 Signed-off-by: Ondrej Jirman <megi@xff.cz>
 ---
- Documentation/devicetree/bindings/leds/common.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/leds/led-core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index 5fb7007f3618..8bb8a519ed28 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -43,7 +43,7 @@ properties:
-       LED_COLOR_ID available, add a new one.
-     $ref: /schemas/types.yaml#/definitions/uint32
-     minimum: 0
--    maximum: 9
-+    maximum: 14
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index 214ed81eb0e9..2230239283d0 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -36,6 +36,11 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+ 	[LED_COLOR_ID_IR] = "ir",
+ 	[LED_COLOR_ID_MULTI] = "multicolor",
+ 	[LED_COLOR_ID_RGB] = "rgb",
++	[LED_COLOR_ID_PURPLE] = "purple",
++	[LED_COLOR_ID_ORANGE] = "orange",
++	[LED_COLOR_ID_PINK] = "pink",
++	[LED_COLOR_ID_CYAN] = "cyan",
++	[LED_COLOR_ID_LIME] = "lime",
+ };
+ EXPORT_SYMBOL_GPL(led_colors);
  
-   function-enumerator:
-     description:
 -- 
 2.42.0
 
