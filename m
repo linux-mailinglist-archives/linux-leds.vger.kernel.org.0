@@ -2,82 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D7107BFFD9
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Oct 2023 16:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DCD37C015E
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Oct 2023 18:15:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232979AbjJJO6L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Oct 2023 10:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59972 "EHLO
+        id S233705AbjJJQPX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Oct 2023 12:15:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233090AbjJJO6H (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Oct 2023 10:58:07 -0400
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD1199;
-        Tue, 10 Oct 2023 07:58:01 -0700 (PDT)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-        by mx1.sberdevices.ru (Postfix) with ESMTP id 2DBAA120008;
-        Tue, 10 Oct 2023 17:57:58 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 2DBAA120008
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-        s=mail; t=1696949878;
-        bh=WKjfedJyvBDkzLdG/sTO4e60qiEDTGG07ZQdbl0pGik=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-        b=M9+zGAzAs6NiaUoSUbh7JWgTVinHLEqlbdhQTvz18rUUMNKqgSCKHgU1LrDPKrciu
-         TyEKeA2xTRifnNuKhW/ESkdlqTsB72V0/XhFLp1VSVguwdXWX1DkuB13454b8JDx1w
-         DN2b2pa10ugsXc+lFoETFz/xbSAwaMkna+gYHLvRpd6EPav+Y50qbFFippWYhwdNYd
-         ZFpSTOQmHYR1ozNNtrbgDHcMs/mNmvjM9q3fI8JkKh+VdjypGzfWGzvFIy66feF5/C
-         EVoAu++ZsEqDlZXbP/TVtZfkOSju4iKlvm+FzXabb7dZNI0ytfdZ6nIeFpwCJlFI1p
-         AFjruUWllS4ag==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.sberdevices.ru (Postfix) with ESMTPS;
-        Tue, 10 Oct 2023 17:57:57 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 10 Oct
- 2023 17:57:57 +0300
-Date:   Tue, 10 Oct 2023 17:57:56 +0300
-From:   Dmitry Rokosov <ddrokosov@salutedevices.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <lee@kernel.org>, <pavel@ucw.cz>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
-        <rockosov@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v1 04/11] dt-bindings: leds: aw200xx: introduce optional
- hwen-gpio property
-Message-ID: <20231010145756.7kvzcwjqiiq6dz4j@CAB-WSD-L081021>
-References: <20231006160437.15627-1-ddrokosov@salutedevices.com>
- <20231006160437.15627-5-ddrokosov@salutedevices.com>
- <20231010141332.GA756597-robh@kernel.org>
+        with ESMTP id S231246AbjJJQPV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Oct 2023 12:15:21 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC492B6;
+        Tue, 10 Oct 2023 09:15:19 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A06BC433C9;
+        Tue, 10 Oct 2023 16:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696954519;
+        bh=kQ2iDBdPLPq+PkT4qaZo/GhZJCoCv5+ORm9na2Gd43Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=i06qqhVwMRaYPZiIodAKuE9bsZUzbH12d7+xwnM4CvaJ+O5dnZB57DT/8sBZHHxwm
+         qvRkl9GsEHltDHyY985VYKcm3qDWnzjPcsLYRAA/78G3SkwZY96spiutPJvzzHNgg0
+         myiQSGDgYBlVKRjhw6uoyEO3yWxHWeiiADQgTZ384vlFagoo5jzhFfiP4NQokLE7/1
+         W9hF+snYo3h2Duisods1nD20/4PsySyOJTXAztrPH0pfYHlqC/uo0Y77oO3WdvePQh
+         fByDUAUizrqKOhFYpYo9aGeieCfMvZQFAtWSLVnNCAw1zu/Gtcawbxk6YFPpVQuS8m
+         8a+nqEaCkv/hg==
+Received: (nullmailer pid 998583 invoked by uid 1000);
+        Tue, 10 Oct 2023 16:15:12 -0000
+Date:   Tue, 10 Oct 2023 11:15:12 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Flavio Suligoi <f.suligoi@asem.it>
+Cc:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
+Message-ID: <20231010161512.GA944015-robh@kernel.org>
+References: <20231010121621.3009154-1-f.suligoi@asem.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010141332.GA756597-robh@kernel.org>
-User-Agent: NeoMutt/20220415
-X-Originating-IP: [100.64.160.123]
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 180514 [Oct 10 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 536 536 1ae19c7800f69da91432b5e67ed4a00b9ade0d03, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/10/10 12:47:00 #22143134
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+In-Reply-To: <20231010121621.3009154-1-f.suligoi@asem.it>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,65 +57,149 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Rob,
-
-Thank you for the review! Please find my comments below.
-
-On Tue, Oct 10, 2023 at 09:13:32AM -0500, Rob Herring wrote:
-> On Fri, Oct 06, 2023 at 07:04:30PM +0300, Dmitry Rokosov wrote:
-> > Property 'awinic,hwen-gpio' is optional, it can be used by the board
-> > developer to connect AW200XX LED controller with appropriate poweron
-> > GPIO pad.
-> > 
-> > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> > ---
-> >  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> > index 73b81f7a7258..e3ad11fc7a84 100644
-> > --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> > @@ -41,6 +41,9 @@ properties:
-> >      description:
-> >        Leds matrix size
-> >  
-> > +  awinic,hwen-gpio:
-> > +    maxItems: 1
+On Tue, Oct 10, 2023 at 02:16:21PM +0200, Flavio Suligoi wrote:
+> The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+> programmable switching frequency to optimize efficiency.
+> The brightness can be controlled either by I2C commands (called "analog"
+> mode) or by a PWM input signal (PWM mode).
+> This driver supports both modes.
 > 
-> We have standard 'enable-gpios' or 'powerdown-gpios'. Those don't work 
-> here?
+> For device driver details, please refer to:
+> - drivers/video/backlight/mp3309c_bl.c
 > 
-> Note that *-gpio is deprecated in favor of *-gpios.
+> The datasheet is available at:
+> - https://www.monolithicpower.com/en/mp3309c.html
+> 
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> ---
+> 
+> v4:
+>  - remove not more used allOf keyword
+>  - add brightness-levels and default-brightness properties
+>  - remove max-brightness and default-brightness from required properties
+>  - update example, adding brightness-levels and default-brightness properties
+> v3:
+>  - add default value for mps,overvoltage-protection-microvolt property
+>  - fix the example, changing from "mps,mp3309c-backlight" to "mps,mp3309c" in
+>    compatible property
+> v2:
+>  - remove useless properties (dimming-mode, pinctrl-names, pinctrl-0,
+>    switch-on-delay-ms, switch-off-delay-ms, reset-gpios, reset-on-delay-ms,
+>    reset-on-length-ms)
+>  - add common.yaml#
+>  - remove already included properties (default-brightness, max-brightness)
+>  - substitute three boolean properties, used for the overvoltage-protection
+>    values, with a single enum property
+>  - remove some conditional definitions
+>  - remove the 2nd example
+> v1:
+>  - first version
+> 
+>  .../bindings/leds/backlight/mps,mp3309c.yaml  | 82 +++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> new file mode 100644
+> index 000000000000..e2f9ae2b3fb4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MPS MP3309C backlight
+> +
+> +maintainers:
+> +  - Flavio Suligoi <f.suligoi@asem.it>
+> +
+> +description: |
+> +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+> +  programmable switching frequency to optimize efficiency.
+> +  It supports two different dimming modes:
+> +
+> +  - analog mode, via I2C commands, as default mode (32 dimming levels)
+> +  - PWM controlled mode (optional)
+> +
+> +  The datasheet is available at:
+> +  https://www.monolithicpower.com/en/mp3309c.html
+> +
+> +properties:
+> +  compatible:
+> +    const: mps,mp3309c
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  pwms:
+> +    description: if present, the backlight is controlled in PWM mode.
+> +    maxItems: 1
+> +
+> +  enable-gpios:
+> +    description: GPIO used to enable the backlight in "analog-i2c" dimming mode.
+> +    maxItems: 1
+> +
+> +  brightness-levels:
+> +    description:
+> +      Array of distinct brightness levels, in PWM dimming mode.
+> +      Typically these are in the range from 0 to 255, but any range starting
+> +      at 0 will do.
+> +      The 0 value means a 0% duty cycle (darkest/off), while the last value in
+> +      the array represents a 100% duty cycle (brightest).
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
 
-Yes, you are absolutely correct. Andy has already addressed this issue
-in the driver patchset. I will revise the driver to utilize the current
-GPIO API.
+This already has a type defined. Please add it to backlight/common.yaml 
+and remove from led-backlight.yaml and pwm-backlight.yaml.
 
-> > +
-> >  patternProperties:
-> >    "^led@[0-9a-f]+$":
-> >      type: object
-> > @@ -90,12 +93,15 @@ additionalProperties: false
-> >  
-> >  examples:
-> >    - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> >      #include <dt-bindings/leds/common.h>
-> >  
-> >      i2c {
-> >          #address-cells = <1>;
-> >          #size-cells = <0>;
-> >  
-> > +        awinic,hwen-gpio = <&gpio 3 GPIO_ACTIVE_HIGH>;
-> > +
-> >          led-controller@3a {
-> >              compatible = "awinic,aw20036";
-> >              reg = <0x3a>;
-> > -- 
-> > 2.36.0
-> > 
+You say 0-255 here, but your example is 0-10. One of those seems wrong. 
+Anyways, don't define constraints in prose, use a schema:
 
--- 
-Thank you,
-Dmitry
+items:
+  maximum: 10 (or 255?)
+
+> +
+> +  default-brightness:
+> +    description:
+> +      The default brightness (index into the levels array).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+Already has a type. You need to reference backlight/common.yaml.
+
+> +
+> +  mps,overvoltage-protection-microvolt:
+> +    description: Overvoltage protection (13.5V, 24V or 35.5V).
+> +    enum: [ 13500000, 24000000, 35500000 ]
+> +    default: 35500000
+> +
+> +  mps,no-sync-mode:
+> +    description: disable synchronous rectification mode
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        /* Backlight with PWM control */
+> +        backlight_pwm: backlight@17 {
+> +            compatible = "mps,mp3309c";
+> +            reg = <0x17>;
+> +            pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
+> +            brightness-levels = <0 1 2 3 4 5 6 7 8 9 10>;
+> +            default-brightness = <8>;
+> +            mps,overvoltage-protection-microvolt = <24000000>;
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
