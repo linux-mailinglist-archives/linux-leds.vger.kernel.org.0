@@ -2,108 +2,148 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA15F7BFEEC
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Oct 2023 16:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D7107BFFD9
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Oct 2023 16:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232624AbjJJORq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Oct 2023 10:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39152 "EHLO
+        id S232979AbjJJO6L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Oct 2023 10:58:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232529AbjJJORp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Oct 2023 10:17:45 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C6699;
-        Tue, 10 Oct 2023 07:17:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A73C433C8;
-        Tue, 10 Oct 2023 14:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696947464;
-        bh=0uqXFpVu4xMd/m4hEO1AB1o5xxHqn9bBpK0vECkb/vE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rvrmVv6spV6Gc04pzXp+ZXDo39SMDSuAiyargrd3zHWfVezi6KUVnJ+7cTwHlVPv9
-         RcT5QogpVfhySDASUvSXSc6FwVFUPWyi0x9RYzxx853U9xP5E5Ewf6emGZcN3GX5lj
-         4RQimH6z8DI3ldy8ImQZvKCSreTzPW2stx4hMnqPtJZQ8/uE0OnLy0LVOfuZdkImAP
-         nzox6ZGmBwWdn78zKtTInhY9QNUQoHQwLxf3bxsRoYd00q54rGm5HcWTt2EDmdHiMT
-         ID3Yx8kWCUWP90DZ1ST1IRPVjt4of5LpnQK8xmjWRl3x6wuQI1ZkGZq/n0/ZR0uoSk
-         mvoGsZpUJpoTA==
-Received: (nullmailer pid 803567 invoked by uid 1000);
-        Tue, 10 Oct 2023 14:17:41 -0000
-Date:   Tue, 10 Oct 2023 09:17:41 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc:     lee@kernel.org, pavel@ucw.cz, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, andy.shevchenko@gmail.com,
-        kernel@sberdevices.ru, rockosov@gmail.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org,
-        George Stark <gnstark@salutedevices.com>
-Subject: Re: [PATCH v1 11/11] dt-bindings: leds: Add binding for AW20108 led
- driver
-Message-ID: <20231010141741.GA779946-robh@kernel.org>
+        with ESMTP id S233090AbjJJO6H (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Oct 2023 10:58:07 -0400
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD1199;
+        Tue, 10 Oct 2023 07:58:01 -0700 (PDT)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+        by mx1.sberdevices.ru (Postfix) with ESMTP id 2DBAA120008;
+        Tue, 10 Oct 2023 17:57:58 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 2DBAA120008
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+        s=mail; t=1696949878;
+        bh=WKjfedJyvBDkzLdG/sTO4e60qiEDTGG07ZQdbl0pGik=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+        b=M9+zGAzAs6NiaUoSUbh7JWgTVinHLEqlbdhQTvz18rUUMNKqgSCKHgU1LrDPKrciu
+         TyEKeA2xTRifnNuKhW/ESkdlqTsB72V0/XhFLp1VSVguwdXWX1DkuB13454b8JDx1w
+         DN2b2pa10ugsXc+lFoETFz/xbSAwaMkna+gYHLvRpd6EPav+Y50qbFFippWYhwdNYd
+         ZFpSTOQmHYR1ozNNtrbgDHcMs/mNmvjM9q3fI8JkKh+VdjypGzfWGzvFIy66feF5/C
+         EVoAu++ZsEqDlZXbP/TVtZfkOSju4iKlvm+FzXabb7dZNI0ytfdZ6nIeFpwCJlFI1p
+         AFjruUWllS4ag==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.sberdevices.ru (Postfix) with ESMTPS;
+        Tue, 10 Oct 2023 17:57:57 +0300 (MSK)
+Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
+ (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 10 Oct
+ 2023 17:57:57 +0300
+Date:   Tue, 10 Oct 2023 17:57:56 +0300
+From:   Dmitry Rokosov <ddrokosov@salutedevices.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     <lee@kernel.org>, <pavel@ucw.cz>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
+        <rockosov@gmail.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v1 04/11] dt-bindings: leds: aw200xx: introduce optional
+ hwen-gpio property
+Message-ID: <20231010145756.7kvzcwjqiiq6dz4j@CAB-WSD-L081021>
 References: <20231006160437.15627-1-ddrokosov@salutedevices.com>
- <20231006160437.15627-12-ddrokosov@salutedevices.com>
+ <20231006160437.15627-5-ddrokosov@salutedevices.com>
+ <20231010141332.GA756597-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231006160437.15627-12-ddrokosov@salutedevices.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231010141332.GA756597-robh@kernel.org>
+User-Agent: NeoMutt/20220415
+X-Originating-IP: [100.64.160.123]
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 180514 [Oct 10 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 536 536 1ae19c7800f69da91432b5e67ed4a00b9ade0d03, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/10/10 12:47:00 #22143134
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 06, 2023 at 07:04:37PM +0300, Dmitry Rokosov wrote:
-> From: George Stark <gnstark@salutedevices.com>
-> 
-> Add aw20108 compatible in devicetree binding for aw200xx led driver.
+Hello Rob,
 
-Binding is for the hardware, not a driver.
+Thank you for the review! Please find my comments below.
 
-For the subject: dt-bindings: leds: awinic,aw200xx: Add AW20108 device
+On Tue, Oct 10, 2023 at 09:13:32AM -0500, Rob Herring wrote:
+> On Fri, Oct 06, 2023 at 07:04:30PM +0300, Dmitry Rokosov wrote:
+> > Property 'awinic,hwen-gpio' is optional, it can be used by the board
+> > developer to connect AW200XX LED controller with appropriate poweron
+> > GPIO pad.
+> > 
+> > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> > ---
+> >  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> > index 73b81f7a7258..e3ad11fc7a84 100644
+> > --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> > @@ -41,6 +41,9 @@ properties:
+> >      description:
+> >        Leds matrix size
+> >  
+> > +  awinic,hwen-gpio:
+> > +    maxItems: 1
+> 
+> We have standard 'enable-gpios' or 'powerdown-gpios'. Those don't work 
+> here?
+> 
+> Note that *-gpio is deprecated in favor of *-gpios.
 
-> 
-> Signed-off-by: George Stark <gnstark@salutedevices.com>
-> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> ---
->  .../devicetree/bindings/leds/awinic,aw200xx.yaml          | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> index 5cd167ab0f04..c3abb0f7ded3 100644
-> --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> @@ -10,15 +10,16 @@ maintainers:
->    - Martin Kurbanov <mmkurbanov@sberdevices.ru>
->  
->  description: |
-> -  This controller is present on AW20036/AW20054/AW20072.
-> -  It is a 3x12/6x9/6x12 matrix LED programmed via
-> -  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
-> +  This controller is present on AW20036/AW20054/AW20072/AW20108.
-> +  It is a 3x12/6x9/6x12/9x12 matrix LED programmed via
-> +  an I2C interface, up to 36/54/72/108 LEDs or 12/18/24/36 RGBs,
->    3 pattern controllers for auto breathing or group dimming control.
->  
->    For more product information please see the link below:
->    aw20036 - https://www.awinic.com/en/productDetail/AW20036QNR#tech-docs
->    aw20054 - https://www.awinic.com/en/productDetail/AW20054QNR#tech-docs
->    aw20072 - https://www.awinic.com/en/productDetail/AW20072QNR#tech-docs
-> +  aw20108 - https://www.awinic.com/en/productDetail/AW20108QNR#tech-docs
->  
->  properties:
->    compatible:
-> @@ -26,6 +27,7 @@ properties:
->        - awinic,aw20036
->        - awinic,aw20054
->        - awinic,aw20072
-> +      - awinic,aw20108
->  
->    reg:
->      maxItems: 1
-> -- 
-> 2.36.0
-> 
+Yes, you are absolutely correct. Andy has already addressed this issue
+in the driver patchset. I will revise the driver to utilize the current
+GPIO API.
+
+> > +
+> >  patternProperties:
+> >    "^led@[0-9a-f]+$":
+> >      type: object
+> > @@ -90,12 +93,15 @@ additionalProperties: false
+> >  
+> >  examples:
+> >    - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> >      #include <dt-bindings/leds/common.h>
+> >  
+> >      i2c {
+> >          #address-cells = <1>;
+> >          #size-cells = <0>;
+> >  
+> > +        awinic,hwen-gpio = <&gpio 3 GPIO_ACTIVE_HIGH>;
+> > +
+> >          led-controller@3a {
+> >              compatible = "awinic,aw20036";
+> >              reg = <0x3a>;
+> > -- 
+> > 2.36.0
+> > 
+
+-- 
+Thank you,
+Dmitry
