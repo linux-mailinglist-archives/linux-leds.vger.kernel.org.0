@@ -2,121 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02A907C57D8
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 17:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94B697C5D64
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 21:06:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232136AbjJKPN1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Oct 2023 11:13:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48322 "EHLO
+        id S233130AbjJKTGS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Oct 2023 15:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjJKPN1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 11:13:27 -0400
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2050.outbound.protection.outlook.com [40.107.249.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55CAE92;
-        Wed, 11 Oct 2023 08:13:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NAdR+PMR26oGSq/sTSGSMsqYa3FaGuKygHVSI7flg5y4XIcfrGyZbUu7uQTOmOsP1zqeLCla+S/rRlUul0Y+KMbYrX1PbweWvWE0SSElTla2qM8PGDSRw9fCnIcUsmAkox7J6oUniwKYjXVS8hVxbGUZh+r/VlG0X/eBgqHdfOMMWNpK66eeBiHfFr6H2DgcKSs8bRjRW/ghhRiI8Rtvtmtz3Rheris7x1QkoxOQ73jPHtN2LTNxLSAWVUSojFz93CmKCm4fi0eAPni5F1QzTea9pRcvMpPYaA5J+xY6MNukt0MlW6IKCbc1BGR1oUlcuVKrj803Ri7tubeknVJj+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EE16vw9VgEgpOxcE8Wss6/YnAjZxnvomVuTr7YjKjo0=;
- b=JaHsJlrn7FEohE3wVtOCvhJfSTUQjM0PITDtHsbQv3qK3yzIL/+5LjGPIUd0n/JMZaRlAHOYNuCmBm+TlXZrYrQVpVI26hePkEcVJmk2uAq7h/01OtF5o7Rmb+nOQ17Ul+A5lmhaVL25JFgcOHXRVjCbWyJ0JA0zoDXTegU6CNf5WGobvNJMW/i31Te93du/zyzSYQ6c8G1P1V+HskFN3alhySru0cJzJ27JuzPwb7blM3kVfV7Mdll9L0Xecktcs7PFKgz7slbIIA3fOqj/jIAI7ZFLF8YIsa5LrrjpVwaDSAo2hJ72pw2akN1RaiMTUxw20maRBY0UxxvPOrcLkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
- header.d=asem.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EE16vw9VgEgpOxcE8Wss6/YnAjZxnvomVuTr7YjKjo0=;
- b=ATXI7ByOc0dlvqE3H8wSxLfmoOBcDrk0UqVzFJtumjaE0baUHhdxhAENZOXxLpn7AUcsD0ntw0ewAfMpGJczAanDv7DJv6bVwryDG0nESTy2xWX7q0O1DYwky5tFJBYaSZ++WelJMkr+8XyPJjQpGkpWrCKE5gbwt+2cW7jjjoo=
-Received: from AM8PR01MB8045.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:320::8) by AS8PR01MB7303.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:256::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.36; Wed, 11 Oct
- 2023 15:13:20 +0000
-Received: from AM8PR01MB8045.eurprd01.prod.exchangelabs.com
- ([fe80::e0b4:579f:9463:f4cc]) by AM8PR01MB8045.eurprd01.prod.exchangelabs.com
- ([fe80::e0b4:579f:9463:f4cc%5]) with mapi id 15.20.6886.016; Wed, 11 Oct 2023
- 15:13:20 +0000
-From:   Flavio Suligoi <f.suligoi@asem.it>
-To:     Rob Herring <robh@kernel.org>
-CC:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Topic: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
-Thread-Index: AQHZ+3Oa23Umjg05nUq8U4rLHzRJ47BDMv0AgAF+mwA=
-Date:   Wed, 11 Oct 2023 15:13:20 +0000
-Message-ID: <AM8PR01MB8045F549C8A65A853E214D37F9CCA@AM8PR01MB8045.eurprd01.prod.exchangelabs.com>
-References: <20231010121621.3009154-1-f.suligoi@asem.it>
- <20231010161512.GA944015-robh@kernel.org>
-In-Reply-To: <20231010161512.GA944015-robh@kernel.org>
-Accept-Language: it-IT, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=asem.it;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM8PR01MB8045:EE_|AS8PR01MB7303:EE_
-x-ms-office365-filtering-correlation-id: ec544215-7d60-402c-fc8a-08dbca6c9acb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hENj7V3xKhaOKzeklH7qrXpIOl64n8rnMkyz83aTmUgNqAq3Tt/tmAkfe8eBI1RZfb6yEDxQgYv++nil4T7p/blCiI+2EaZUD4jBiWjLxHmC7K/1ORonAslcWMM52arxd3QFKIgEV0kOe3/oTzHsfXHJmxq4v3tyIMHT0I8ulHubzBpXL3sa/bv+IyQpcR5ntbxkegxo/Na+TkS43Yw5eLpnU1x28GjMp90GnJ38+7jkxj0+L/Ges4MohcvCpq56QHI+sGkHEG582+fgYfroWr/8K12x9z6/wzAXDCH1AmRvNFYy0RtrFG+AC2QhsT+RQrvoWd+BeVoEgMNV2vQnTw8n5sE9hyUfa/jTQ2FovoH1r1B96Ragb04oMRhUZwcxO5c0RVwafS1nUvB0+G2oE3HkmOxLda4YjjWbmwgmcrETdnnNkbT6iRxd/Z6U/9CnivFdCl06ZO1YbV4PpywHFZV0lyJS9p1niTzIkIC5PPN2QEzcahfK71yiAz6w/tXF5MiU4XBjFMUbpZrCKhq+aDG0bjHlk5o7IAviUj1I9BP3as8n+7Zpe46vdq1rRCg7RjENzwGNEAbzZ7BadLHP9PfaOQndYqNXzuM/ZEMMs3DB/PNmWiSTIOYAIRxkQbwt
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR01MB8045.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(346002)(39850400004)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(7696005)(26005)(71200400001)(6506007)(478600001)(4326008)(76116006)(2906002)(7416002)(8936002)(66446008)(54906003)(66556008)(66476007)(52536014)(5660300002)(66946007)(41300700001)(6916009)(64756008)(316002)(55016003)(38100700002)(38070700005)(122000001)(86362001)(33656002)(8676002)(9686003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iRiHXW67oFyMDo82nFwJfcKxp1Ua4gJCB4QM4iYMqQxb6+pZPZFUWmcvOwFB?=
- =?us-ascii?Q?FnBM8o77Ay9OjRSI1wftsS7EF0KsdU3AJTqdBLk8QTCX5+2eSGtM3ksHC9r2?=
- =?us-ascii?Q?SjCnkApjE6J0r4LvuaJ1CGjStWSHHOSA59HSjlUDgdRU7hjhFXm9fLM3q9JW?=
- =?us-ascii?Q?Xa5gU7PueeM/vES5Wx7XGKbX126azVOYZpfo7PW4BHCjj2UqRsWNuIMwa/0y?=
- =?us-ascii?Q?0I41k5kSiDYfG2XmHBIAKFo6xkerYQ2g3oXdNlZdaFp3YxfZwC3wUfJ/y+TF?=
- =?us-ascii?Q?3kyXRh+Ee9wzIUid9MvbMRVnWB2OL7PKmBi22xCH4nL6V1rTeTU0YJgxTk3c?=
- =?us-ascii?Q?01wP/FkbpbJlXAB8j1lp/85v305elPlerA9cRx8GKhXOZaSEMZ5Vuy5WEVUk?=
- =?us-ascii?Q?1yBvfrPqP9MrPhz2v30I6oHmvrDTmkkugESsHPRQRtjOwPysFjCi6HR2ESB5?=
- =?us-ascii?Q?6wrUy2VKDmxFbunJHgVAxl550HCs+9USF0/ZyJhxWPBNpDyQm/s6fy4mDYbM?=
- =?us-ascii?Q?mYh2VdjU/89AuLZ2CcVA7FDMMrdnonheclTdwjNkLvuUoAv99gU5g/3WDiwL?=
- =?us-ascii?Q?mk8T4MayvAw5o+Sj4nniQH5G/h6JSOpVrzf5DnN8asXnrkowRE0cZIaZom2Y?=
- =?us-ascii?Q?G5xYJKQWKLN3qY1fV+/CZRVWVSuu5A28RcL+e9mfsopintxEQqbgUJIzAtbA?=
- =?us-ascii?Q?LaHT/VoZcA3bjbOIr024mvW8/LKuMQM4XXDqYpABYev81uiUS86U+GxxTIbn?=
- =?us-ascii?Q?MIGpEFY+b009Wr4esnRf4HWhnmn630VOj0hy5Is54Q8RTIoI/U5wXBmYQRIx?=
- =?us-ascii?Q?+ivQKIitbSsY8mynLtdfG1gBQ/wjy8kWqZnq5sygOhYzn6hBJLsHptnCoV3v?=
- =?us-ascii?Q?E24lVMkD6NXIDiDE8tTdCdmLdQCvYDahAnwoTuCLdd026wql7FZbJQW+Mc3/?=
- =?us-ascii?Q?EG6TAJU0+piyT010IQaVN6FEPojWFSBG9J5l5iAYQiT9/Ufe4uP3C0j0DBmj?=
- =?us-ascii?Q?TgVNq2vZOI7S5Ad6mVbnqSlYo7deIF1xfWBnk5Z0xdtVQEFeAPjX7jhYOFsY?=
- =?us-ascii?Q?5pH82WKkd7cStl6xHaoaI8tcIkvCH0j7y089ZvNYwUKDdA/B5gB1zhS0yHPj?=
- =?us-ascii?Q?BV8ay0cMNny//5qiKJUVtILKKOkBaMC1J+Fm/UXlc5PcqURc10C1Sw4SDhqw?=
- =?us-ascii?Q?b/L77iarxCu/WTu0Wwf9pZ0DX7T6tOcP8aar4/vVCRAgt2VF1zt3i1tdqhXG?=
- =?us-ascii?Q?DKjTrmEy62RLFM/wEw2NvypvrKWRbT2B/cCa8gSYwZ1tisohdCF1MUun5Vx3?=
- =?us-ascii?Q?meNC4h3+d+HgSQwJ/DtuhniU+V8iPKCWBh11OpacITBwMddYj3P5NBS8zikL?=
- =?us-ascii?Q?TkguwhPF2meGs/L18IVxKxLZGoPai+LAc2I25Km+L9hiwzVUF3Rs7Kl6SCel?=
- =?us-ascii?Q?7WWYr+e0X4Oj/dWRJQiWWH1pj9ONbiIXDfZEQ6v4AWodXd6aBqWx5xtI0OdD?=
- =?us-ascii?Q?xZnMBIJY3q1nb2PNKzpkhPjDgHkToDRjKwVo+sYsDoXYL80eCx5e1cUrm33q?=
- =?us-ascii?Q?dJm4Pcpw7Ywx6tzstxo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232906AbjJKTGR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 15:06:17 -0400
+X-Greylist: delayed 335 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 Oct 2023 12:06:14 PDT
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F7991
+        for <linux-leds@vger.kernel.org>; Wed, 11 Oct 2023 12:06:14 -0700 (PDT)
+Received: from wse.fritz.box (p5b164245.dip0.t-ipconnect.de [91.22.66.69])
+        (Authenticated sender: wse@tuxedocomputers.com)
+        by mail.tuxedocomputers.com (Postfix) with ESMTPA id D2AC22FC004D;
+        Wed, 11 Oct 2023 21:00:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+        s=default; t=1697050836;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FLgOGjNzjHjvqXXkrWOdcFA6E5SE15uw8kWmlY3RHZM=;
+        b=At/F+ln5WUsDCFuR0oS30ih+0dD4e4IEIu5mt0va8sDQeFSPDnVI0zMaj0rorj9qj51vPa
+        4ZfHrkW+XPoTPNfkFtwc13Ip5xpFhhBwY6UzF2RT25BS3nx2AlpBDwp3bM2t5XI+Zw4twi
+        mHvRqL8dhGEPDrCfqf5CVhtgD5p9XLc=
+Authentication-Results: mail.tuxedocomputers.com;
+        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From:   Werner Sembach <wse@tuxedocomputers.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     Werner Sembach <wse@tuxedocomputers.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: [PATCH] leds: rgb: Implement per-key keyboard backlight for several TUXEDO devices
+Date:   Wed, 11 Oct 2023 21:00:16 +0200
+Message-Id: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR01MB8045.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec544215-7d60-402c-fc8a-08dbca6c9acb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2023 15:13:20.5279
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dZMpIb9arJe8PT9YSRVUuv4+CGg2KpEXs3f/4DdfSV7+O0KB38ejxdD3aTfzG0uVx9eajuqkECuyK/cmYz0izQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB7303
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -124,87 +50,523 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Rob,
+From: Christoffer Sandberg <cs@tuxedo.de>
 
-just a question about led-backlight.yaml and pwm-backlight.yaml
-common properties.
+Implement per-key keyboard backlight in the leds sysfs interface for
+several TUXEDO devices using the ite8291 controller.
 
-...
+There are however some known short comings:
+- The sysfs leds interface does only allow to write one key at a time. The
+controller however can only update row wise or the whole keyboard at once
+(whole keyboard update is currently not implemented). This means that even
+when you want to updated a whole row, the whole row is actually updated
+once for each key. So you actually write up to 18x as much as would be
+required.
+- When you want to update the brightness of the whole keyboard you have to
+write 126 sysfs entries, which inherently is somewhat slow, especially when
+using a slider that is live updating the brightness.
+- While the controller manages up to 126 leds, not all are actually
+populated. However the unused are not grouped at the end but also in
+between. To not have dead sysfs entries, this would require manual testing
+for each implemented device to see which leds are used and some kind of
+bitmap in the driver to sort out the unconnected ones.
+- It is not communicated to userspace which led entry controls which key
+exactly
 
-> > +
-> > +  brightness-levels:
-> > +    description:
-> > +      Array of distinct brightness levels, in PWM dimming mode.
-> > +      Typically these are in the range from 0 to 255, but any range st=
-arting
-> > +      at 0 will do.
-> > +      The 0 value means a 0% duty cycle (darkest/off), while the last =
-value in
-> > +      the array represents a 100% duty cycle (brightest).
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
->=20
-> This already has a type defined. Please add it to backlight/common.yaml a=
-nd
-> remove from led-backlight.yaml and pwm-backlight.yaml.
+Co-developed-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+---
+ drivers/leds/rgb/Kconfig               |   9 +
+ drivers/leds/rgb/Makefile              |   1 +
+ drivers/leds/rgb/leds-tuxedo-ite8291.c | 451 +++++++++++++++++++++++++
+ 3 files changed, 461 insertions(+)
+ create mode 100644 drivers/leds/rgb/leds-tuxedo-ite8291.c
 
-As well as the brightness-levels property, also the default-brightness-leve=
-l is in common
-between led-backlight.yaml and pwm-backlight.yaml.
-What do you think about removing it from both led-backlight.yaml and pwm-ba=
-cklight.yaml, and
-moving it into backlight/common.yaml?
+diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+index 183bccc06cf3..c263ae94c137 100644
+--- a/drivers/leds/rgb/Kconfig
++++ b/drivers/leds/rgb/Kconfig
+@@ -51,4 +51,13 @@ config LEDS_MT6370_RGB
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called "leds-mt6370-rgb".
+ 
++config LEDS_TUXEDO_ITE8291
++	tristate "KBL Support for TUXEDO devices using ite8291"
++	help
++	  Say Y here to enable keyboard backlight support for TUXEDO devices
++	  using ite8291.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called "leds-tuxedo-ite8291".
++
+ endif # LEDS_CLASS_MULTICOLOR
+diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+index c11cc56384e7..5a7447609732 100644
+--- a/drivers/leds/rgb/Makefile
++++ b/drivers/leds/rgb/Makefile
+@@ -4,3 +4,4 @@ obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
+ obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+ obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+ obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
++obj-$(CONFIG_LEDS_TUXEDO_ITE8291)	+= leds-tuxedo-ite8291.o
+diff --git a/drivers/leds/rgb/leds-tuxedo-ite8291.c b/drivers/leds/rgb/leds-tuxedo-ite8291.c
+new file mode 100644
+index 000000000000..b77d45804cd0
+--- /dev/null
++++ b/drivers/leds/rgb/leds-tuxedo-ite8291.c
+@@ -0,0 +1,451 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2020-2022 TUXEDO Computers GmbH <tux@tuxedocomputers.com>
++ */
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/device.h>
++#include <linux/usb.h>
++#include <linux/hid.h>
++#include <linux/dmi.h>
++#include <linux/led-class-multicolor.h>
++#include <linux/of.h>
++
++#define LEDS_TUXEDO_ITE8291_GLOBAL_BRIGHTNESS_MAX	0x32
++#define LEDS_TUXEDO_ITE8291_GLOBAL_BRIGHTNESS_DEFAULT	0x32
++
++#define LEDS_TUXEDO_ITE8291_BRIGHTNESS_MAX		0xff
++#define LEDS_TUXEDO_ITE8291_BRIGHTNESS_DEFAULT		0x00
++
++#define LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_RED		0xff
++#define LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_GREEN		0xff
++#define LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_BLUE		0xff
++
++#define LEDS_TUXEDO_ITE8291_ROWS			6
++#define LEDS_TUXEDO_ITE8291_COLUMNS			21
++
++// Data length needs one byte (0x00) initial padding for the sending function and one byte (also
++// seemingly 0x00) before the color data starts
++#define LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING		(1 + 1)
++#define LEDS_TUXEDO_ITE8291_ROW_DATA_LENGTH		(LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + \
++							(LEDS_TUXEDO_ITE8291_COLUMNS * 3))
++
++#define LEDS_TUXEDO_ITE8291_PARAM_MODE_USER		0x33
++
++typedef u8 row_data_t[LEDS_TUXEDO_ITE8291_ROWS][LEDS_TUXEDO_ITE8291_ROW_DATA_LENGTH];
++
++struct leds_tuxedo_ite8291_driver_data_t {
++	row_data_t row_data;
++	struct led_classdev_mc mcled_cdevs[LEDS_TUXEDO_ITE8291_ROWS][LEDS_TUXEDO_ITE8291_COLUMNS];
++	struct mc_subled mcled_cdevs_subleds[LEDS_TUXEDO_ITE8291_ROWS][LEDS_TUXEDO_ITE8291_COLUMNS][3];
++};
++
++/**
++ * Set color for specified [row, column] in row based data structure
++ *
++ * @param row_data Data structure to fill
++ * @param row Row number 0 - 5
++ * @param column Column number 0 - 20
++ * @param red Red brightness 0x00 - 0xff
++ * @param green Green brightness 0x00 - 0xff
++ * @param blue Blue brightness 0x00 - 0xff
++ *
++ * @returns 0 on success, otherwise error
++ */
++static int leds_tuxedo_ite8291_set_row_data(row_data_t row_data, int row, int column,
++					    u8 red, u8 green, u8 blue)
++{
++	int column_index_red, column_index_green, column_index_blue;
++
++	if (row < 0 || row >= LEDS_TUXEDO_ITE8291_ROWS ||
++	    column < 0 || column >= LEDS_TUXEDO_ITE8291_COLUMNS)
++		return -EINVAL;
++
++	column_index_red =
++		LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (2 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
++	column_index_green =
++		LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (1 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
++	column_index_blue =
++		LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (0 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
++
++	row_data[row][column_index_red] = red;
++	row_data[row][column_index_green] = green;
++	row_data[row][column_index_blue] = blue;
++
++	return 0;
++}
++
++/**
++ * Just a generic helper function to reduce boilerplate code
++ */
++static int leds_tuxedo_ite8291_hid_feature_report_set(struct hid_device *hdev, u8 *data, size_t len)
++{
++	int result;
++	u8 *buf;
++
++	buf = kmemdup(data, len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++	result = hid_hw_raw_request(hdev, buf[0], buf, len, HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
++	kfree(buf);
++
++	return result;
++}
++
++/**
++ * Update brightness of the whole keyboard. Only used for initialization as this doesn't allow per
++ * key brightness control. That is implemented with RGB value scaling.
++ */
++static int leds_tuxedo_ite8291_write_brightness(struct hid_device *hdev, u8 brightness)
++{
++	int result;
++	u8 brightness_capped = brightness > LEDS_TUXEDO_ITE8291_GLOBAL_BRIGHTNESS_MAX ?
++			       LEDS_TUXEDO_ITE8291_GLOBAL_BRIGHTNESS_MAX : brightness;
++	u8 ctrl_set_brightness[8] = {0x08, 0x02, LEDS_TUXEDO_ITE8291_PARAM_MODE_USER, 0x00,
++				     brightness_capped, 0x00, 0x00, 0x00};
++
++	result = leds_tuxedo_ite8291_hid_feature_report_set(hdev, ctrl_set_brightness,
++							    sizeof(ctrl_set_brightness));
++	if (result < 0)
++		return result;
++
++	return 0;
++}
++
++/**
++ * Update color of a singular row from row_data. This is the smallest unit this device allows to
++ * write. Changes are applied when the last row (row_index == 5) is written.
++ */
++static int leds_tuxedo_ite8291_write_row(struct hid_device *hdev, row_data_t row_data,
++					 int row_index)
++{
++	int result;
++	u8 ctrl_announce_row_data[8] = {0x16, 0x00, row_index, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++	result = leds_tuxedo_ite8291_hid_feature_report_set(hdev, ctrl_announce_row_data,
++							    sizeof(ctrl_announce_row_data));
++	if (result < 0)
++		return result;
++
++	result = hid_hw_output_report(hdev, row_data[row_index], sizeof(row_data[row_index]));
++	if (result < 0)
++		return result;
++
++	return 0;
++}
++
++/**
++ * Write color and brightness to the whole keyboard from row data. Note that per key brightness is
++ * encoded in the RGB values of the row_data and the gobal brightness is a fixed value.
++ */
++static int leds_tuxedo_ite8291_write_all(struct hid_device *hdev, row_data_t row_data)
++{
++	int result, row_index;
++
++	if (hdev == NULL)
++		return -ENODEV;
++
++	result = leds_tuxedo_ite8291_write_brightness(hdev,
++						      LEDS_TUXEDO_ITE8291_GLOBAL_BRIGHTNESS_DEFAULT);
++	if (result < 0)
++		return result;
++
++	for (row_index = 0; row_index < LEDS_TUXEDO_ITE8291_ROWS; ++row_index) {
++		result = leds_tuxedo_ite8291_write_row(hdev, row_data, row_index);
++		if (result < 0)
++			return result;
++	}
++
++	return 0;
++}
++
++static int leds_tuxedo_ite8291_write_state(struct hid_device *hdev)
++{
++	struct leds_tuxedo_ite8291_driver_data_t *driver_data = hid_get_drvdata(hdev);
++
++	return leds_tuxedo_ite8291_write_all(hdev, driver_data->row_data);
++}
++
++static int leds_tuxedo_ite8291_write_off(struct hid_device *hdev)
++{
++	int result;
++	u8 ctrl_write_off[8] = {0x08, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++	result = leds_tuxedo_ite8291_hid_feature_report_set(hdev, ctrl_write_off,
++							    sizeof(ctrl_write_off));
++	if (result < 0)
++		return result;
++
++	return 0;
++}
++
++static int leds_tuxedo_ite8291_start_hw(struct hid_device *hdev)
++{
++	int result;
++
++	result = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (result < 0)
++		goto err_start;
++
++	result = hid_hw_power(hdev, PM_HINT_FULLON);
++	if (result < 0)
++		goto err_power;
++
++	result = hid_hw_open(hdev);
++	if (result)
++		goto err_open;
++
++	return 0;
++
++err_open:
++	hid_hw_power(hdev, PM_HINT_NORMAL);
++err_power:
++	hid_hw_stop(hdev);
++err_start:
++	return result;
++}
++
++static void leds_tuxedo_ite8291_stop_hw(struct hid_device *hdev)
++{
++	hid_hw_close(hdev);
++	hid_hw_power(hdev, PM_HINT_NORMAL);
++	hid_hw_stop(hdev);
++}
++
++static void leds_tuxedo_ite8291_leds_set_brightness_mc(struct led_classdev *led_cdev,
++						       enum led_brightness brightness)
++{
++	int result, row, column;
++	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
++	struct device *dev = led_cdev->dev->parent;
++	struct hid_device *hdev = to_hid_device(dev);
++	struct leds_tuxedo_ite8291_driver_data_t *driver_data = hid_get_drvdata(hdev);
++
++	led_mc_calc_color_components(mcled_cdev, brightness);
++
++	row = mcled_cdev->subled_info[0].channel / LEDS_TUXEDO_ITE8291_COLUMNS;
++	column = mcled_cdev->subled_info[0].channel % LEDS_TUXEDO_ITE8291_COLUMNS;
++
++	result = leds_tuxedo_ite8291_set_row_data(driver_data->row_data, row, column,
++						  mcled_cdev->subled_info[0].brightness,
++						  mcled_cdev->subled_info[1].brightness,
++						  mcled_cdev->subled_info[2].brightness);
++	if (result < 0)
++		return;
++
++	// As a performance optimization, try to write the smallest required unit
++	result = leds_tuxedo_ite8291_write_row(hdev, driver_data->row_data, row);
++	if (result < 0)
++		return;
++
++	// Changes are applied on every write of the last row. So, if a different row was written,
++	// also write the last row.
++	if (row != LEDS_TUXEDO_ITE8291_ROWS - 1) {
++		result = leds_tuxedo_ite8291_write_row(hdev, driver_data->row_data,
++						       LEDS_TUXEDO_ITE8291_ROWS - 1);
++		if (result < 0)
++			return;
++	}
++
++	led_cdev->brightness = brightness;
++}
++
++static int leds_tuxedo_ite8291_register_leds(struct hid_device *hdev)
++{
++	int result, i, j, k, l;
++	struct leds_tuxedo_ite8291_driver_data_t *driver_data = hid_get_drvdata(hdev);
++
++	for (i = 0; i < LEDS_TUXEDO_ITE8291_ROWS; ++i) {
++		for (j = 0; j < LEDS_TUXEDO_ITE8291_COLUMNS; ++j) {
++			driver_data->mcled_cdevs[i][j].led_cdev.name =
++				"rgb:" LED_FUNCTION_KBD_BACKLIGHT;
++			driver_data->mcled_cdevs[i][j].led_cdev.max_brightness =
++				LEDS_TUXEDO_ITE8291_BRIGHTNESS_MAX;
++			driver_data->mcled_cdevs[i][j].led_cdev.brightness_set =
++				&leds_tuxedo_ite8291_leds_set_brightness_mc;
++			driver_data->mcled_cdevs[i][j].led_cdev.brightness =
++				LEDS_TUXEDO_ITE8291_BRIGHTNESS_DEFAULT;
++			driver_data->mcled_cdevs[i][j].num_colors =
++				3;
++			driver_data->mcled_cdevs[i][j].subled_info =
++				driver_data->mcled_cdevs_subleds[i][j];
++			driver_data->mcled_cdevs[i][j].subled_info[0].color_index =
++				LED_COLOR_ID_RED;
++			driver_data->mcled_cdevs[i][j].subled_info[0].intensity =
++				LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_RED;
++			driver_data->mcled_cdevs[i][j].subled_info[0].channel =
++				LEDS_TUXEDO_ITE8291_COLUMNS * i + j;
++			driver_data->mcled_cdevs[i][j].subled_info[1].color_index =
++				LED_COLOR_ID_GREEN;
++			driver_data->mcled_cdevs[i][j].subled_info[1].intensity =
++				LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_GREEN;
++			driver_data->mcled_cdevs[i][j].subled_info[1].channel =
++				LEDS_TUXEDO_ITE8291_COLUMNS * i + j;
++			driver_data->mcled_cdevs[i][j].subled_info[2].color_index =
++				LED_COLOR_ID_BLUE;
++			driver_data->mcled_cdevs[i][j].subled_info[2].intensity =
++				LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_BLUE;
++			driver_data->mcled_cdevs[i][j].subled_info[2].channel =
++				LEDS_TUXEDO_ITE8291_COLUMNS * i + j;
++
++			result = devm_led_classdev_multicolor_register(&hdev->dev,
++								       &driver_data->mcled_cdevs[i][j]);
++			if (result < 0) {
++				for (k = 0; k <= i; ++k) {
++					for (l = 0; l <= j; ++l) {
++						devm_led_classdev_multicolor_unregister(&hdev->dev,
++											&driver_data->mcled_cdevs[i][j]);
++					}
++				}
++				return result;
++			}
++		}
++	}
++
++	return 0;
++}
++
++static void leds_tuxedo_ite8291_unregister_leds(struct hid_device *hdev)
++{
++	int i, j;
++	struct leds_tuxedo_ite8291_driver_data_t *driver_data = hid_get_drvdata(hdev);
++
++	for (i = 0; i < LEDS_TUXEDO_ITE8291_ROWS; ++i) {
++		for (j = 0; j < LEDS_TUXEDO_ITE8291_COLUMNS; ++j) {
++			devm_led_classdev_multicolor_unregister(&hdev->dev,
++								&driver_data->mcled_cdevs[i][j]);
++		}
++	}
++}
++
++static int leds_tuxedo_ite8291_device_add(struct hid_device *hdev)
++{
++	int result, i, j;
++	u8 default_brightness_red, default_brightness_green, default_brightness_blue;
++	struct leds_tuxedo_ite8291_driver_data_t *driver_data;
++
++	driver_data = devm_kzalloc(&hdev->dev, sizeof(*driver_data), GFP_KERNEL);
++	if (!driver_data)
++		return -ENOMEM;
++	hid_set_drvdata(hdev, driver_data);
++
++	default_brightness_red = LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_RED *
++				 LEDS_TUXEDO_ITE8291_BRIGHTNESS_DEFAULT /
++				 LEDS_TUXEDO_ITE8291_BRIGHTNESS_MAX;
++	default_brightness_green = LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_GREEN *
++				   LEDS_TUXEDO_ITE8291_BRIGHTNESS_DEFAULT /
++				   LEDS_TUXEDO_ITE8291_BRIGHTNESS_MAX;
++	default_brightness_blue = LEDS_TUXEDO_ITE8291_COLOR_DEFAULT_BLUE *
++				  LEDS_TUXEDO_ITE8291_BRIGHTNESS_DEFAULT /
++				  LEDS_TUXEDO_ITE8291_BRIGHTNESS_MAX;
++	for (i = 0; i < LEDS_TUXEDO_ITE8291_ROWS; ++i) {
++		for (j = 0; j < LEDS_TUXEDO_ITE8291_COLUMNS; ++j) {
++			leds_tuxedo_ite8291_set_row_data(driver_data->row_data, i, j,
++							 default_brightness_red,
++							 default_brightness_green,
++							 default_brightness_blue);
++		}
++	}
++
++	result = leds_tuxedo_ite8291_write_state(hdev);
++	if (result < 0)
++		return result;
++
++	result = leds_tuxedo_ite8291_register_leds(hdev);
++	if (result < 0)
++		return result;
++
++	return 0;
++}
++
++static int leds_tuxedo_ite8291_device_remove(struct hid_device *hdev)
++{
++	leds_tuxedo_ite8291_unregister_leds(hdev);
++	leds_tuxedo_ite8291_write_off(hdev);
++
++	return 0;
++}
++
++static const struct dmi_system_id leds_tuxedo_ite8291_whitelist[] = {
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "TUXEDO"),
++		},
++	},
++	{ }
++};
++
++static int leds_tuxedo_ite8291_probe(struct hid_device *hdev,
++				     const struct hid_device_id *id __always_unused)
++{
++	int result;
++
++	// The ite8291 can be used quite differently. To ensure that this driver doesn't do bogus
++	// things, limit it to tested devices. Done via DMI matching as for the time being this
++	// driver is for internal keyboard backlights only.
++	if (!dmi_check_system(leds_tuxedo_ite8291_whitelist))
++		return -ENODEV;
++
++	result = hid_parse(hdev);
++	if (result < 0)
++		return result;
++
++	result = leds_tuxedo_ite8291_start_hw(hdev);
++	if (result < 0)
++		return result;
++
++	result = leds_tuxedo_ite8291_device_add(hdev);
++	if (result != 0)
++		return result;
++
++	return 0;
++}
++
++static void leds_tuxedo_ite8291_remove(struct hid_device *hdev)
++{
++	leds_tuxedo_ite8291_device_remove(hdev);
++	leds_tuxedo_ite8291_stop_hw(hdev);
++}
++
++#ifdef CONFIG_PM
++static int leds_tuxedo_ite8291_suspend(struct hid_device *hdev,
++				       pm_message_t message __always_unused)
++{
++	return leds_tuxedo_ite8291_write_off(hdev);
++}
++
++static int leds_tuxedo_ite8291_resume(struct hid_device *hdev)
++{
++	return leds_tuxedo_ite8291_write_state(hdev);
++}
++
++static int leds_tuxedo_ite8291_reset_resume(struct hid_device *hdev)
++{
++	return leds_tuxedo_ite8291_write_state(hdev);
++}
++#endif
++
++static const struct hid_device_id leds_tuxedo_ite8291_id_table[] = {
++	// Tongfang internal keyboard backlights
++	{ HID_USB_DEVICE(0x048d, 0x6004) },
++	{ HID_USB_DEVICE(0x048d, 0x600a) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, leds_tuxedo_ite8291_id_table);
++
++static struct hid_driver leds_tuxedo_ite8291 = {
++	.name = "leds-tuxedo-ite8291",
++	.id_table = leds_tuxedo_ite8291_id_table,
++	.probe = leds_tuxedo_ite8291_probe,
++	.remove = leds_tuxedo_ite8291_remove,
++#ifdef CONFIG_PM
++	.suspend = leds_tuxedo_ite8291_suspend,
++	.resume = leds_tuxedo_ite8291_resume,
++	.reset_resume = leds_tuxedo_ite8291_reset_resume
++#endif
++};
++module_hid_driver(leds_tuxedo_ite8291);
++
++MODULE_AUTHOR("TUXEDO Computers GmbH <tux@tuxedocomputers.com>");
++MODULE_DESCRIPTION("Driver for ITE Device(8291) RGB LED keyboard backlight.");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
->=20
-> You say 0-255 here, but your example is 0-10. One of those seems wrong.
-> Anyways, don't define constraints in prose, use a schema:
->=20
-> items:
->   maximum: 10 (or 255?)
->=20
-> > +
-> > +  default-brightness:
-> > +    description:
-> > +      The default brightness (index into the levels array).
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
->=20
-> Already has a type. You need to reference backlight/common.yaml.
->=20
-> > +
-> > +  mps,overvoltage-protection-microvolt:
-> > +    description: Overvoltage protection (13.5V, 24V or 35.5V).
-> > +    enum: [ 13500000, 24000000, 35500000 ]
-> > +    default: 35500000
-> > +
-> > +  mps,no-sync-mode:
-> > +    description: disable synchronous rectification mode
-> > +    type: boolean
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        /* Backlight with PWM control */
-> > +        backlight_pwm: backlight@17 {
-> > +            compatible =3D "mps,mp3309c";
-> > +            reg =3D <0x17>;
-> > +            pwms =3D <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9=
- */
-> > +            brightness-levels =3D <0 1 2 3 4 5 6 7 8 9 10>;
-> > +            default-brightness =3D <8>;
-> > +            mps,overvoltage-protection-microvolt =3D <24000000>;
-> > +        };
-> > +    };
-> > --
-> > 2.34.1
-> >
-
-Regards,
-Flavio
