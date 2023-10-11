@@ -2,97 +2,262 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DAEE7C4B0C
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 08:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B3297C5282
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 13:52:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344531AbjJKG67 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Oct 2023 02:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38130 "EHLO
+        id S232079AbjJKLwZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Oct 2023 07:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344499AbjJKG66 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 02:58:58 -0400
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DCD90;
-        Tue, 10 Oct 2023 23:58:56 -0700 (PDT)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=96621b7d4a=fe@dev.tdt.de>)
-        id 1qqTB4-00AC05-8G; Wed, 11 Oct 2023 08:58:42 +0200
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1qqTB3-009Qf4-63; Wed, 11 Oct 2023 08:58:41 +0200
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id CBC472400B1;
-        Wed, 11 Oct 2023 08:58:40 +0200 (CEST)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 271D1240082;
-        Wed, 11 Oct 2023 08:58:40 +0200 (CEST)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 7E37B334C9;
-        Wed, 11 Oct 2023 08:58:39 +0200 (CEST)
+        with ESMTP id S232017AbjJKLwZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 07:52:25 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2047.outbound.protection.outlook.com [40.107.20.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE77C9E;
+        Wed, 11 Oct 2023 04:52:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BajABAhS1wddLHiX78ZokBp1lzG7Ac5SuKvKu7YtNfQ/bNx5LqYv2OT3Gi/0Fhwj3KR9Fd8KfFB5mN6/uu35H6leWpwc4QBsHRiF8ACsYixx+lNKdDo9wBc5A44uzVO4OEfhr2XCM57SF8kcd+QKnU61vlQxqGybxaHMY8lx5Q1bZYrqlWCRl3txuH8/zGE8ufW/gmfaW92DlBQGDq8Nm2zZobtTHNLsaECsSHjjDzukCLIQ+FJXFZvxpX9qqyWFBTTVg3wFlsoTnvHvOi7ek6eNiT9eTAy8ag3cmBYDAWieQSQjw1VZfJq+btu4MjUKKBjZyoJcnhlrCN6zS08vGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MgtU1r1mLL/v1/xFLjZhbGM7Sdi5HA0hwxv2NrW+7ew=;
+ b=Wr4dH3abHAXrhyQC1dGzf1d0QPn09kxb2vmbX8Dje4yDQLOqsbxUCNzNUT6Rix3a8OaoXBT5SzY0VC4nVFWYRnDiJxUJzY8r0uyfnvNP3OpfTt+RYGyJjRkfRzSTmYKT5+phxujertHGFPh8PY9HnpRdhBVBf3Ktuu4z5rYSPPdW7gZwHl+CaKss88jTrS6gOpfwTzDadjaGoRFr7P2nOtgFwJ9sN8SC+H6KuFQYzUX4MPkkmaL7UW0OKNLZmTlfqDOSb9to6XVyf0RSXuF/cRtqTk1zlUiFThW00oC2jmMtQsZG/BZLhterk1Gw6SDatYzPmv3ThDgM+ROA5v15cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
+ header.d=asem.it; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MgtU1r1mLL/v1/xFLjZhbGM7Sdi5HA0hwxv2NrW+7ew=;
+ b=fGX3+U0NnRmQYyylM+fDUFtQD1pBN41j9DQ3Hua2mueH6aUcVV0jQeUfTPmD9gWIuv2DcB1dZcvYFCZKKIne/BSxFgvbGa4Zx5Psrc7js2nx5L185BxHyfnazt2XhRFWh5OPXmURAqoJHmw1YtVZMFoDSJdP37DauFy6UFywfWk=
+Received: from AM8PR01MB8045.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:320::8) by AS1PR01MB9180.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:4d4::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 11 Oct
+ 2023 11:52:14 +0000
+Received: from AM8PR01MB8045.eurprd01.prod.exchangelabs.com
+ ([fe80::e0b4:579f:9463:f4cc]) by AM8PR01MB8045.eurprd01.prod.exchangelabs.com
+ ([fe80::e0b4:579f:9463:f4cc%5]) with mapi id 15.20.6886.016; Wed, 11 Oct 2023
+ 11:52:14 +0000
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Rob Herring <robh@kernel.org>
+CC:     Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Topic: [PATCH v4 1/2] dt-bindings: backlight: Add MPS MP3309C
+Thread-Index: AQHZ+3Oa23Umjg05nUq8U4rLHzRJ47BDMv0AgAFHCjA=
+Date:   Wed, 11 Oct 2023 11:52:14 +0000
+Message-ID: <AM8PR01MB8045ADD01F342CCCAB6FA4A1F9CCA@AM8PR01MB8045.eurprd01.prod.exchangelabs.com>
+References: <20231010121621.3009154-1-f.suligoi@asem.it>
+ <20231010161512.GA944015-robh@kernel.org>
+In-Reply-To: <20231010161512.GA944015-robh@kernel.org>
+Accept-Language: it-IT, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=asem.it;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM8PR01MB8045:EE_|AS1PR01MB9180:EE_
+x-ms-office365-filtering-correlation-id: 07a56bdb-e1b3-4946-316f-08dbca5082ce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yf+pFfvISQ2bEVe3DCbC6bf0a8mP+lYx2PTGTPENI6HUjgujuD+nmzymvmoYGe+58s9YUwkcvHlq2mFYPwv6SnBH/mzrMYButJWHvAroQwjLWnYK20lNV1nGeU00YnqvIRdxWGJG91brHqW9FloRG3wRkO21A1D7DyL4jf5a+PTX0qfrFb5neLkO5Gu0gw6uCrRkLwLmcyfmVIfTR/+d+aLqzmCKxGdCNcMKWBu+MC3n8DbeOiv1JE2Y2AbELqijePMa5V7oD5ThctisftGXgat+N1a0vXgm6GoYe2OOblwJPQ0gh6Yt2kqV5wfp1DhrdjuYBSexXjlEVt7f+05K6CV9eOIWWs7CapNGli3Gd6pr/IOwO3Bkxe3VSkHyaWAQIGyO37XIqFrO6b7FiF3Mhrmk/H+btjqXjjx4j2hce6ENRRCR0lBFUcUWxdY7YfTJcudaYLQi43AWHC/Sn6PpnUDXXRAyqtEpJZ8//XeW0xC8glCSTBRKq5cAFq4JR9vMdxGgRvgCigHQx2+tMyVi08k7HMuqS4kgGKRd8hYYmvu48XPVSi7IXLKLuDF3wgK/BY90TqVY35lZZWXUGr/rhT8ARaKU/kBhv0ESbEr0YaI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR01MB8045.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(136003)(346002)(396003)(376002)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(52536014)(8676002)(8936002)(5660300002)(41300700001)(4326008)(316002)(66946007)(66476007)(6916009)(76116006)(66556008)(54906003)(66446008)(64756008)(2906002)(7416002)(7696005)(26005)(6506007)(966005)(9686003)(38100700002)(38070700005)(33656002)(478600001)(86362001)(122000001)(55016003)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rXU0wCSznBjMSrQi0XILzyWvk0jg4wTAy2kSvAti6Dc26mLFYJI/aCfBQPx/?=
+ =?us-ascii?Q?b2DXXQtABAXUIa/GMzRyNj9W8Q/zYgy1nrkNFOSP278chOKBxF/tHEgS0LwC?=
+ =?us-ascii?Q?Y5bc5Cj+/D0L5WT4YQF2+4RgwSWZRyTq1JcoGoIAVGeAY7H0Ymj2tz3zTkLh?=
+ =?us-ascii?Q?NOb0lBDhLRw9/Wmn6Dz5GncG9jBR6ADvr6uOhDkLRssU2CYaoJmqlHEMdVne?=
+ =?us-ascii?Q?o0R0SvNp6pE/BLYdWhvIOfPto0B6gZ5zMeGS31EiJrFTHQ+TJUwzag+9Ogwd?=
+ =?us-ascii?Q?NQb6jmlzY99TPYkp0fAGUtyO96ius3KtFnOUK2E8NRUqF/gH7P3Zub7sWVYj?=
+ =?us-ascii?Q?1dAs84dII9sLG3+CDhY8qKKgYrB/qq6ZSEKZ5NOamJxjlb+nzyBLNfOu1E00?=
+ =?us-ascii?Q?3psEMDBXho0ASrZ72bAoSico+2HUPZsNYAcKtksaghOZTubltK81OqmSCENS?=
+ =?us-ascii?Q?Y+8VI3GJUo5w6Agjzx8PJ9oVCtwUUaZHBMt0cGoswGGCqbqOT8QpbWW11DYP?=
+ =?us-ascii?Q?V9sVdl1tPuUB2apRQnYoNuLHqKovk5bIc5ZspVgjRyVnWTWXc8+Ocp1TRAJ7?=
+ =?us-ascii?Q?3xqRMYwluMpTMMfZvSxssKr+Cg0qQLGwKvuszCXzk9mRB75LEKq0oYBGXLft?=
+ =?us-ascii?Q?x/9guyf+LPGjNqNqosDyKK/WrQmsR0ou4Tw0aTAKLu2s9lqmWecs96G2Wj35?=
+ =?us-ascii?Q?GTnHb2hOUfVeLk+CIGK46k2aPtybMPKDeOh6MPRqSYrBHK0j6TURu0WufKAv?=
+ =?us-ascii?Q?zUdSdjzegmEe3wlJvRZENWOD85rICr14t6U5AFzCFhvEqY+RqwOwbIfvolU2?=
+ =?us-ascii?Q?OT4f41sIR/Lljf0x+a9UKAUberaeQVEfYNDkVwdg/syr8RXiV+eh4l9dDrF8?=
+ =?us-ascii?Q?rvk8jNMMau4j18fkDWm4tBfX2gPp3tCEHA+EevixuFXeGsHcTZ4vCgzj4v0c?=
+ =?us-ascii?Q?Hi4Kqiq8MGWm3/KT84mmOoycgu8nykE1YNNAqofQyGGZfT+yCx8mvObbFF2/?=
+ =?us-ascii?Q?84lAj37vDfof8oLJk8ToL5NfiQH9UxNHv6rYmj7jZJ9nxnPjVDXptDKwDhnj?=
+ =?us-ascii?Q?M3iQFwCSnervD+JgvPC6JhcWQ2JaR9yiVGvlWY/gbyR1DxTrqwXIg+UBJdZL?=
+ =?us-ascii?Q?7Gk5f9VyM5kM/9n/xi9ML9uev9THStCboDEAYtbFZyGbMNZD8XyTkRkf5SA4?=
+ =?us-ascii?Q?1ARlylRW9u6LIlYsaZgBBKdV1GPLUDeJanFjOiMBcKJOIsOod2bb747V9/Pk?=
+ =?us-ascii?Q?07z0Ew3yH/Qz3F8m0EMwO8Qb7DAgXoXQh8m9j6BmbjSIx9/0iD8kf8LoBwLr?=
+ =?us-ascii?Q?jCQ9SwO23Vs+3XlYwavyaenIipTeoNb/oxyiBhcjygrGo7COvQqLd2JzAKNx?=
+ =?us-ascii?Q?nK8olfpbijLAOCXEnzURMdZKvNdNEVAy0cwGuI2PaVrJxr8IFnvgOzyalG+S?=
+ =?us-ascii?Q?kk/a6Qz0t1cRXqlGlpg6pYsBV7PNFFz2gdGlNGrc5f/Y+Uk3qIQThHMYG4j6?=
+ =?us-ascii?Q?5MU6ZUFSdAp4MmW6XXnb9vaYJ0Fi3uaVcgaEYVlwXqnBGzs5WMGRbueLyzDw?=
+ =?us-ascii?Q?UFQlofJTnl3AHX/KhIQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 11 Oct 2023 08:58:39 +0200
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
-        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
- the top
-In-Reply-To: <20231002140559.GB8453@google.com>
-References: <20230928132632.200263-1-fe@dev.tdt.de>
- <20230928132632.200263-4-fe@dev.tdt.de> <20231002140559.GB8453@google.com>
-Message-ID: <66ca9e2231629a72e098e1b17736ca34@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR01MB8045.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07a56bdb-e1b3-4946-316f-08dbca5082ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2023 11:52:14.3477
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DVRVL4xQGGuNR9effRnvXyySCYU71xz4nCs7sZk/+5HcKGw1B67pEsB6Er7JysbG55/62M/q5TymCX2b4iti6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR01MB9180
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-ID: 151534::1697007521-520A685C-E874BB0D/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Lee,
+Hi Rob,
 
-I only got reviews for the fixes and preparations for commits that 
-change the
-tty subsystem, but no reaction from the maintainer of the feature I want 
-to
-add to ledtrig-tty for v1 and v2 patchset.
+...=20
+> >  .../bindings/leds/backlight/mps,mp3309c.yaml  | 82
+> > +++++++++++++++++++
+> >  1 file changed, 82 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> > b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
+> > new file mode 100644
+> > index 000000000000..e2f9ae2b3fb4
+> > --- /dev/null
+> > +++
+> b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yam
+> > +++ l
+> > @@ -0,0 +1,82 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/backlight/mps,mp3309c.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MPS MP3309C backlight
+> > +
+> > +maintainers:
+> > +  - Flavio Suligoi <f.suligoi@asem.it>
+> > +
+> > +description: |
+> > +  The Monolithic Power (MPS) MP3309C is a WLED step-up converter,
+> > +featuring a
+> > +  programmable switching frequency to optimize efficiency.
+> > +  It supports two different dimming modes:
+> > +
+> > +  - analog mode, via I2C commands, as default mode (32 dimming
+> > + levels)
+> > +  - PWM controlled mode (optional)
+> > +
+> > +  The datasheet is available at:
+> > +  https://www.monolithicpower.com/en/mp3309c.html
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mps,mp3309c
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  pwms:
+> > +    description: if present, the backlight is controlled in PWM mode.
+> > +    maxItems: 1
+> > +
+> > +  enable-gpios:
+> > +    description: GPIO used to enable the backlight in "analog-i2c" dim=
+ming
+> mode.
+> > +    maxItems: 1
+> > +
+> > +  brightness-levels:
+> > +    description:
+> > +      Array of distinct brightness levels, in PWM dimming mode.
+> > +      Typically these are in the range from 0 to 255, but any range st=
+arting
+> > +      at 0 will do.
+> > +      The 0 value means a 0% duty cycle (darkest/off), while the last =
+value in
+> > +      the array represents a 100% duty cycle (brightest).
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>=20
+> This already has a type defined. Please add it to backlight/common.yaml a=
+nd
+> remove from led-backlight.yaml and pwm-backlight.yaml.
 
-How should I proceed? Send a v3 with the the requested changes.
+Ok, I'll add common.yaml and I'll prepare two other separate patches for th=
+ese.
 
-[Patch v2 1/4]: 
-https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m913d3822465f35b54dfa24b1dfe4d50e61352980
-Change got a 'Reviewed-by: Jiri Slaby <jirislaby@kernel.org>'.
-Will add this to an upcoming v3 again.
+>=20
+> You say 0-255 here, but your example is 0-10. One of those seems wrong.
+> Anyways, don't define constraints in prose, use a schema:
+>=20
+> items:
+>   maximum: 10 (or 255?)
 
-[Patch v2 2/4] : 
-https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m7ee7618894a66fd3c89bed488a2394265a3f8df1
-I missed to add the robot error message to the commit message and also 
-missed
-to add the the following 'Reported-by: kernel test robot 
-<lkp@intel.com>' and
-'Closes: 
-https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/'
-to the commit message. Will add this to an upcoming v3.
+Ok, I'll add maximum, and I'll change the example, using 0..255
 
-And do not wait for the review of the following patches.
-https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mc0ecb912fa0e59015ad0a9b4cb491ae9f18c1ea9
-https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mba36217323c386ecd900e188bbdf6276c3c96c91
+>=20
+> > +
+> > +  default-brightness:
+> > +    description:
+> > +      The default brightness (index into the levels array).
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+>=20
+> Already has a type. You need to reference backlight/common.yaml.
 
----
+Ok
 
-Florian
+>=20
+> > +
+> > +  mps,overvoltage-protection-microvolt:
+> > +    description: Overvoltage protection (13.5V, 24V or 35.5V).
+> > +    enum: [ 13500000, 24000000, 35500000 ]
+> > +    default: 35500000
+> > +
+> > +  mps,no-sync-mode:
+> > +    description: disable synchronous rectification mode
+> > +    type: boolean
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        /* Backlight with PWM control */
+> > +        backlight_pwm: backlight@17 {
+> > +            compatible =3D "mps,mp3309c";
+> > +            reg =3D <0x17>;
+> > +            pwms =3D <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9=
+ */
+> > +            brightness-levels =3D <0 1 2 3 4 5 6 7 8 9 10>;
+> > +            default-brightness =3D <8>;
+> > +            mps,overvoltage-protection-microvolt =3D <24000000>;
+> > +        };
+> > +    };
+> > --
+> > 2.34.1
+> >
+
+Thanks,
+Flavio
