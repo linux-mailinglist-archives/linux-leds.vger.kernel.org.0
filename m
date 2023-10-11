@@ -2,139 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A37627C026E
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Oct 2023 19:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DAEE7C4B0C
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 08:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233895AbjJJRUs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Oct 2023 13:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57616 "EHLO
+        id S1344531AbjJKG67 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Oct 2023 02:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233936AbjJJRUq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Oct 2023 13:20:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0F7B0;
-        Tue, 10 Oct 2023 10:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696958445; x=1728494445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/+Mfrapl/++Abw7OhBV5GXIN1QFhxGHIvpLOCgh9mrk=;
-  b=VX2sjkWI9OmSh3Mbci2CDdxFl49hz3LvkL2tG92sRjsQdQ3ZOUl4rprR
-   a6fqCSKBRuoDkBQHzxyulCvrJv60/JVg1YentdSbkwbLjUlqH+XQ1qCe2
-   cyN3vlbk6R1EJ6jDXCOTMemeFP8j/Hr66f+Zf+h1QgL19MBdCvYe3xmaS
-   xgfp/SZQq+C/9/6SzXXUuNCCdQlArRIHEVZfhRtuzPX3/yasQqxs+89ab
-   Q+LOcYs7dt4BwKj5pDRvTQwVkMqtvaUP3NNcwVAe9vuBwzFEvS5ThfdOQ
-   NSX/z5ysjZa2Sy++QLyFfou1/jcA0E1zj5ckwGlMQEoeRKblRnICVtdwo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="363810609"
-X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="363810609"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 10:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="823857872"
-X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
-   d="scan'208";a="823857872"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Oct 2023 10:20:40 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qqGPM-0000ou-2Y;
-        Tue, 10 Oct 2023 17:20:37 +0000
-Date:   Wed, 11 Oct 2023 01:20:12 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     oe-kbuild-all@lists.linux.dev, Karel Balej <balejk@matfyz.cz>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: Re: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
-Message-ID: <202310110122.Syu9oJQI-lkp@intel.com>
-References: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
+        with ESMTP id S1344499AbjJKG66 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 02:58:58 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DCD90;
+        Tue, 10 Oct 2023 23:58:56 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=96621b7d4a=fe@dev.tdt.de>)
+        id 1qqTB4-00AC05-8G; Wed, 11 Oct 2023 08:58:42 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qqTB3-009Qf4-63; Wed, 11 Oct 2023 08:58:41 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id CBC472400B1;
+        Wed, 11 Oct 2023 08:58:40 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 271D1240082;
+        Wed, 11 Oct 2023 08:58:40 +0200 (CEST)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id 7E37B334C9;
+        Wed, 11 Oct 2023 08:58:39 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231005-ktd2801-v1-2-43cd85b0629a@skole.hr>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 11 Oct 2023 08:58:39 +0200
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
+        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
+ the top
+In-Reply-To: <20231002140559.GB8453@google.com>
+References: <20230928132632.200263-1-fe@dev.tdt.de>
+ <20230928132632.200263-4-fe@dev.tdt.de> <20231002140559.GB8453@google.com>
+Message-ID: <66ca9e2231629a72e098e1b17736ca34@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-ID: 151534::1697007521-520A685C-E874BB0D/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Duje,
+Hello Lee,
 
-kernel test robot noticed the following build warnings:
+I only got reviews for the fixes and preparations for commits that 
+change the
+tty subsystem, but no reaction from the maintainer of the feature I want 
+to
+add to ledtrig-tty for v1 and v2 patchset.
 
-[auto build test WARNING on 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa]
+How should I proceed? Send a v3 with the the requested changes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/dt-bindings-backlight-add-Kinetic-KTD2801-binding/20231006-025106
-base:   8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-patch link:    https://lore.kernel.org/r/20231005-ktd2801-v1-2-43cd85b0629a%40skole.hr
-patch subject: [PATCH 2/2] backlight: Add Kinetic KTD2801 driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310110122.Syu9oJQI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310110122.Syu9oJQI-lkp@intel.com/reproduce)
+[Patch v2 1/4]: 
+https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m913d3822465f35b54dfa24b1dfe4d50e61352980
+Change got a 'Reviewed-by: Jiri Slaby <jirislaby@kernel.org>'.
+Will add this to an upcoming v3 again.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310110122.Syu9oJQI-lkp@intel.com/
+[Patch v2 2/4] : 
+https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m7ee7618894a66fd3c89bed488a2394265a3f8df1
+I missed to add the robot error message to the commit message and also 
+missed
+to add the the following 'Reported-by: kernel test robot 
+<lkp@intel.com>' and
+'Closes: 
+https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/'
+to the commit message. Will add this to an upcoming v3.
 
-All warnings (new ones prefixed by >>):
+And do not wait for the review of the following patches.
+https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mc0ecb912fa0e59015ad0a9b4cb491ae9f18c1ea9
+https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mba36217323c386ecd900e188bbdf6276c3c96c91
 
->> drivers/video/backlight/ktd2801-backlight.c:15: warning: "DS" redefined
-      15 | #define DS              5
-         | 
-   In file included from arch/x86/include/uapi/asm/ptrace.h:6,
-                    from arch/x86/include/asm/ptrace.h:7,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/backlight.h:12,
-                    from drivers/video/backlight/ktd2801-backlight.c:2:
-   arch/x86/include/uapi/asm/ptrace-abi.h:14: note: this is the location of the previous definition
-      14 | #define DS 7
-         | 
+---
 
-
-vim +/DS +15 drivers/video/backlight/ktd2801-backlight.c
-
-     8	
-     9	#define EW_DELAY	150
-    10	#define EW_DET		270
-    11	#define LOW_BIT_HIGH	5
-    12	#define LOW_BIT_LOW	(4 * HIGH_BIT_LOW)
-    13	#define HIGH_BIT_LOW	5
-    14	#define HIGH_BIT_HIGH	(4 * HIGH_BIT_LOW)
-  > 15	#define DS		5
-    16	#define EOD_L		10
-    17	#define EOD_H		350
-    18	#define PWR_DOWN_DELAY	2600
-    19	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Florian
