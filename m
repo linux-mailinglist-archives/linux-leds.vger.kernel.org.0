@@ -2,182 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9897C731E
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 18:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA0B77C78CF
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 23:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347190AbjJLQfK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 12:35:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56040 "EHLO
+        id S1442946AbjJLVvY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 17:51:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343912AbjJLQfJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 12:35:09 -0400
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E40C0;
-        Thu, 12 Oct 2023 09:35:07 -0700 (PDT)
-Received: from [192.168.42.20] (p5b164245.dip0.t-ipconnect.de [91.22.66.69])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 8286B2FC0048;
-        Thu, 12 Oct 2023 18:35:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-        s=default; t=1697128505;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dxjtNY2PIhe33mFCTAMP/mdiKX7jay1tXWg+m/RQ7IU=;
-        b=XiRoS6AAOtjavcoJqrTrF8V2iKReRcxJt8pSRcI5uQVVX1HGXsBdSdWQXezQLzP6RMvwz9
-        BUEky7D1jCK50DWjqIwZcBX+hee7RRXdZey7QHk95Pdk9M4V3r/kihDHaQuTcXC8OH+Ba/
-        NFFERt4RPad9atk4Tm77AuJaM8aaIqs=
-Authentication-Results: mail.tuxedocomputers.com;
-        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
-Date:   Thu, 12 Oct 2023 18:35:05 +0200
+        with ESMTP id S1442945AbjJLVvW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 17:51:22 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F09CBB;
+        Thu, 12 Oct 2023 14:51:20 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39CLbjch027956;
+        Thu, 12 Oct 2023 21:51:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=voUltIrLrhXdVJp9/yCwFFwFBu2KkCyxDDIWBrI4Xog=;
+ b=HjSHOCagbHCB6bOReW+vqK+Dfm07myfSFl8yPtmClixpKCcx4C5UnnqZmJp4EkkrDlGk
+ sDingmngYmPHq+uM3HBBqPVeQGzhUBBMSXXi3SA5X0kNnLJQP6XLfqhUZ1vUA3G+umcu
+ gEnsitEU8Llg9JgShMHxB3a5DvlmHMEYr5M5u84mB7GEvxhxzAQTFiqgJF+aWHmqIvr2
+ 9/U+wcedGEb8KGNxTmqgyc7htL3M+bz8iq1TCdvyJkUU1ehqhGC3hPkWpIqnJq0Xm8vL
+ 1+bDS61NU97RlA6x7NV16IlgORC6blhN3ETupnnFsJrRxkKbilBOeheB+98R4nhkHEJx pQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tnsmq4h32-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 Oct 2023 21:51:03 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39CLp1Wo011405
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 Oct 2023 21:51:01 GMT
+Received: from [10.110.43.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
+ 2023 14:50:59 -0700
+Message-ID: <a2781978-2081-f4cb-dfe3-0489860dab8e@quicinc.com>
+Date:   Thu, 12 Oct 2023 14:50:42 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
- several TUXEDO devices
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 0/7] Add support for LUT PPG
 Content-Language: en-US
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZSf9QneKO/8IzWhd@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Luca Weiss <luca.weiss@fairphone.com>, <pavel@ucw.cz>,
+        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+CC:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+        <quic_subbaram@quicinc.com>, <quic_gurus@quicinc.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <kernel@quicinc.com>
+References: <20230929003901.15086-1-quic_amelende@quicinc.com>
+ <CVX5ZUGU9BVE.2TA819U1AI6BZ@otso>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <CVX5ZUGU9BVE.2TA819U1AI6BZ@otso>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: PeOLq1QMggphqx9nLudVIdQ5iZgaUs-J
+X-Proofpoint-ORIG-GUID: PeOLq1QMggphqx9nLudVIdQ5iZgaUs-J
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_14,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 bulkscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310120183
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
 
-Am 12.10.23 um 16:05 schrieb Pavel Machek:
-> Hi!
->
->>>> There are however some known short comings:
->>>> - The sysfs leds interface does only allow to write one key at a time. The
->>>> controller however can only update row wise or the whole keyboard at once
->>>> (whole keyboard update is currently not implemented). This means that even
->>>> when you want to updated a whole row, the whole row is actually updated
->>>> once for each key. So you actually write up to 18x as much as would be
->>>> required.
->>>> - When you want to update the brightness of the whole keyboard you have to
->>>> write 126 sysfs entries, which inherently is somewhat slow, especially when
->>>> using a slider that is live updating the brightness.
->>>> - While the controller manages up to 126 leds, not all are actually
->>>> populated. However the unused are not grouped at the end but also in
->>>> between. To not have dead sysfs entries, this would require manual testing
->>>> for each implemented device to see which leds are used and some kind of
->>>> bitmap in the driver to sort out the unconnected ones.
->>>> - It is not communicated to userspace which led entry controls which key
->>>> exactly
->>> Sooner or later, we'll need to support these keyboards.
->>>
->>> But this has way too many shortcomings (and we'd be stuck with the
->>> interface forever).
->> I had some thoughts on how the current userspace api could be expanded to
->> better reflect the capabilities of RGB keyboards. What would be required for
->> such an expansion to be considered?
-> You submit a proposal.
 
-My quick writeup:
-
-New sysfs entires:
-- mode: single_zone_static, multi_zone_static, single_zone_breathing, 
-multi_zone_breathing, single_zone_color_cycle, multi_zone_color_cycle, etc.
-     - single_zone_static is mandatory, all other modes are optional (maybe even 
-freely definable by the driver)
-     - single_zone_static is the default and does not add any new sysfs entries 
-that aren't already present on multicolor leds aka brightness, max_brightness, 
-multi_index, mulit_intensity
-     - multi_zone_static adds a new entry zones_count. mulit_intensity has now 
-colors count * zones_count entries. aka a rgb keyboard with 126 leds would take 
-378 values for mulit_intensity
-     - other modes are more device specific e.g.
-         - multi_zone_breathing could have optional breathing_speed and 
-max_breathing speed entries depending on whether or not the hardware supports it.
-         - multi_zone_color_cycle could have a color_count and max_color_count 
-entry. e.g. with color_count 2 you would then write 756 values to multi 
-intensity, describing 2 states the driver should alternate between
-
-Every multi_zone_* mode could also output a zones_image. That is a greyscale 
-bitmap or even a svg containing the information where each zone is located and 
-which outline it has. For the bitmap the information would be encoded in the 
-grey value, aka 0 = zone 0 etc with 0xff = no zone (i.e. space between the 
-keys). For the svg, the name of the paths would indicate the zone they are 
-describing. Svg would have the advantage that it could be more easily used to 
-also describe non square devices like mice or headsets that also might have 
-complex RGB controllers.
-
-This might already be doable with triggers? I'm unsure of triggers allow to 
-change the length of multi_intensity however.
-
->   
->> I'm in contact with the KDE folks. Plasma already has a keyboard brightness
->> slider, that soon
->> https://gitlab.freedesktop.org/upower/upower/-/merge_requests/203 will work
->> with multiple kbd_backlight. However the slowness of 126 sysfs entries makes
->> it a little bit janky still.
+On 10/1/2023 7:15 AM, Luca Weiss wrote:
+> On Fri Sep 29, 2023 at 2:38 AM CEST, Anjelique Melendez wrote:
+>> In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
+>> modules instead of LUT peripheral. This feature is called PPG.
 >>
->> They are also thinking about expanding desktop accent colors to the keyboard
->> backlight when it supports RGB.
+>> This change series adds support for PPG. Thanks!
+[..]
 >>
->> I have not reached out to the OpenRGB project yet, but is it alive and well
->> and under constant development: https://gitlab.com/CalcProgrammer1/OpenRGB.
->> Afaik it is currently a userspace only driver interacting directly with
->> hidraw mostly and has not yet implemented the sysfs leds interface.
->>
->> Just listing this to show that there is definitely interest in this.
-> Yep, there's definitely interest.
->
->>> These days, displays with weird shapes are common. Like rounded
->>> corners and holes in them. Perhaps this should be better modelled as a
->>> weird display?
->> I'm not sure if I can follow you here. Where would this be implemented? Also
->> I asume displays asume equal distance between pixels and that columns are
->> straight lines perpendicular to rows, which the key backlights have and are
->> not.
-> Yes, I know displays are a bit different from RGB LEDs. Gamma is
-> another issue. Yes, it is quite weird display. But 6x22 display may be
-> better approximation of keyboard than ... 126 unrelated files.
->
-> Or you could do 6x66 sparse display, I guess, to express the
-> shifts. But I believe 6x22 would be better.
->
-> It would go to drivers/auxdisplay, most probably.
+>> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pmi632)
+> 
+> Hi Anjelique,
+> 
+> Actually I've retested this now on PMI632 (and also realized that my
+> previous tests weren't correct and wasn't actually using hw_pattern).
+> 
+> Using the following commands (after boot) I'm expecting to get a
+> 500ms on 500ms off blinking pattern between white (255 255 255) and off
+> (0 0 0).
+> 
+>   echo pattern > /sys/class/leds/rgb:status/trigger
+>   echo -1 > /sys/class/leds/rgb:status/repeat
+> 
+>   echo "255 255 255" > /sys/class/leds/rgb:status/multi_intensity
+>   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_pattern
+> 
+> What I actually see is it blinking between cyan (0 255 255) and red (255
+> 0 0).
+> At some point after playing with many patterns I got it to actually
+> cycle between white and off, but I couldn't reproduce this again (or I
+> didn't try hard enough).
+> 
+> 
+> But with this example it correctly blinks red on-off.
+> 
+>   echo "255 0 0" > /sys/class/leds/rgb:status/multi_intensity
+>   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_pattern
+> 
+> With "0 255 0" and "0 0 255" the other colors also work fine, it's just
+> the combinations that seem somewhat broken.
+> 
+> Regards
+> Luca
+> 
+> 
+Hi Luca,
 
-Looking into it, thanks for the direction. But this would come with the downside 
-that upowers kbd_brightness no longer controls the keyboard.
+Thanks for testing again and the feedback!
+Looks like for multicolor devices there is a small concurrency issue with
+enabling pattern at the same time for all the led channels. This could be
+why you observed your device blinking between red (255 0 0) and cyan (0 255 255),
+instead of seeing all channels (255 255 255) blink.
+The fix I'm planing to include in the next series is is to disable the multicolor led
+channels first, then configure all channels, and finally re-enable channels
+so that pattern is triggered at the same time for each all of the channels.
 
-Another approach could be that i implement what i described under 
-multi_zone_static above without the zones_count entry. Then there wouldn't be 
-126 unrelated files, but a multi_intensity that is describing multiple 3 subled 
-leds. This would at least solve the performance problem and allow the shared 
-brightness adjust the hardware supports to be implemented.
+I am currently testing with pm8350c device so if you are able to test next series
+on pmi632 it would be very appreciated!
 
->
-> I checked
-> https://www.tuxedocomputers.com/en/Linux-Hardware/Zubehoer-USB-Co./USB-Zubehoer.tuxedo
-> , but you don't seem to have stand-alone keyboard with such RGB capability...?
-
-No, it's for the integrated keyboards in some of our devices, this driver 
-specifically is for the Stellaris line with optomechanical keyboards. The ite 
-controller is internally connected, but is using the usb protocol.
-
-https://www.tuxedocomputers.com/en/Linux-Hardware/Notebooks/15-16-inch/TUXEDO-Stellaris-15-Gen4.tuxedo
-
-Kind regards,
-
-Werner
-
->
-> Best regards,
-> 								Pavel
+Thanks,
+Anjelique
