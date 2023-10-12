@@ -2,41 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7249D7C69C0
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 11:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FC787C6A05
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 11:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235567AbjJLJef (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 05:34:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36288 "EHLO
+        id S234030AbjJLJxM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 05:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235507AbjJLJef (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 05:34:35 -0400
+        with ESMTP id S229757AbjJLJxL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 05:53:11 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514FCBA;
-        Thu, 12 Oct 2023 02:34:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5178C433C7;
-        Thu, 12 Oct 2023 09:34:32 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7EF9D;
+        Thu, 12 Oct 2023 02:53:10 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455B5C433C7;
+        Thu, 12 Oct 2023 09:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697103274;
-        bh=t6RQ+9sFHC3DagLE5Z/fys5Xd0OLHPhwljd2TyKmTtk=;
+        s=k20201202; t=1697104390;
+        bh=2yIx2lIzsN9KVNtfRWhz/dqFHghzum03EvXvSQIZLp8=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=iSc2RD480jpmCIYt1o2dOFJTp0CLw4ZyIy4dYmcJO5wRoj1t2ei9JMnUB7hK/M+Yr
-         pohGYlOmhYS+VNJUvnglgR009iXPKtOgeJddMMekcuF9FOFbpbJFzcRITqbns7ifeK
-         OHuR5MeqV5jX8uaS7b+j5pA71Z8jgRBhghRPrZcSKNnwSyxKz8ix7DfWThnduO+U1k
-         N9LiarGn7Kc/cE9yc6zVMBM+NCeoqYpywhjTcxAbXXWh83KbRi5TB6tHQf3BFkRcx3
-         ce6WMCXBNMNL/3U1YUUKarVbVohE8ykuKUxzUGCrPYLZkPDqR0oTjpBmCogiezBgNa
-         krOYV/CZW2wfQ==
+        b=KufQl9Ylq84E+AU6DXd0qZndLGrynIAPzig/FOau/ir7/bJZo3x+qy1qdqm1ZaLl8
+         1r4trW9SyYtYk3mHdsMMROkrAirusqvTWcFf2lSb8lTbdx+vtHClBvbqLH2ZtUy2jl
+         rsoKTe0w7NJlcENwVLWlkrnJDPlQBNGpzPNxDr7oLsO8Ab8dHmR4IBNdylQzfe7hUl
+         uHldbySw8F2/1QZI8fc2VeeaNNfriWRV3ocZGu0oAFo3+K8Zvi+zkRk5+EriNj4cOv
+         PZ3J6jhsqiwgU64fIoD6HyUT/iIgS4SIm56bYHDRCwxQUPxOKFez5Q90+FyzAJcVSs
+         QS3KAMlgjA6hg==
 From:   Lee Jones <lee@kernel.org>
-To:     linux-kernel@vger.kernel.org,
-        =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        linux-leds@vger.kernel.org
-In-Reply-To: <20231008144014.1180334-1-megi@xff.cz>
-References: <20231008144014.1180334-1-megi@xff.cz>
-Subject: Re: [PATCH] leds: core: Add more colors from DT bindings to
- led_colors
-Message-Id: <169710327259.1153136.5768257174962455662.b4-ty@kernel.org>
-Date:   Thu, 12 Oct 2023 10:34:32 +0100
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231002-ktd202x-v6-0-26be8eefeb88@apitzsch.eu>
+References: <20231002-ktd202x-v6-0-26be8eefeb88@apitzsch.eu>
+Subject: Re: [PATCH v6 0/2] leds: Add a driver for KTD202x
+Message-Id: <169710438698.1160556.12482476260979824145.b4-ty@kernel.org>
+Date:   Thu, 12 Oct 2023 10:53:06 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -51,16 +57,18 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 08 Oct 2023 16:40:13 +0200, Ondřej Jirman wrote:
-> The colors are already part of DT bindings. Make sure the kernel is
-> able to convert them to strings.
+On Mon, 02 Oct 2023 18:48:26 +0200, André Apitzsch wrote:
+> Add the binding description and the corresponding driver for
+> the Kinetic KTD2026 and KTD2027.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] leds: core: Add more colors from DT bindings to led_colors
-      commit: e2d508c7abbf0f8ff0d6467de07abf08c8fb5041
+[1/2] dt-bindings: leds: Add Kinetic KTD2026/2027 LED
+      commit: 25766993d24a623c4ddcbd34a78fdc76026d9b40
+[2/2] leds: add ktd202x driver
+      commit: 4239b17b5de0dcd5900727be5597ba061acd00b8
 
 --
 Lee Jones [李琼斯]
