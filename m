@@ -2,111 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C227C5D95
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Oct 2023 21:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8F127C6363
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 05:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233342AbjJKTVr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Oct 2023 15:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54996 "EHLO
+        id S1343511AbjJLDsd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Oct 2023 23:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235171AbjJKTVq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 15:21:46 -0400
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B885B7;
-        Wed, 11 Oct 2023 12:21:43 -0700 (PDT)
-Received: from [192.168.42.20] (p5b164245.dip0.t-ipconnect.de [91.22.66.69])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 372672FC004D;
-        Wed, 11 Oct 2023 21:21:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-        s=default; t=1697052102;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+HzLD8pPukh5eiY+IQZbApyMi2NuuYDOnW3cApZb8tE=;
-        b=ZeQmIBq+hZAxfSMcsP+0c6IcXR0mRX2Gg3XeSS5uZTJpH6S8OH1Qqm/HhkWklpsUlT19JP
-        MASxjW5obIvxXo0cfphln6Laa7wiDmVBCPoPsYWm7H71l4EY7trYaLwDhhDkaKx6CZz6qp
-        HpThsZHqqHf0xQbWJs+C0QYXKS3617g=
-Authentication-Results: mail.tuxedocomputers.com;
-        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <79c27c71-a86b-4b30-aa1a-96b2f7bf26b4@tuxedocomputers.com>
-Date:   Wed, 11 Oct 2023 21:21:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
- several TUXEDO devices
-Content-Language: en-US
+        with ESMTP id S234050AbjJLDsd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Oct 2023 23:48:33 -0400
+Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 464B0A9;
+        Wed, 11 Oct 2023 20:48:30 -0700 (PDT)
+Received: from dlp.unisoc.com ([10.29.3.86])
+        by SHSQR01.spreadtrum.com with ESMTP id 39C3liej099147;
+        Thu, 12 Oct 2023 11:47:44 +0800 (+08)
+        (envelope-from Chunyan.Zhang@unisoc.com)
+Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
+        by dlp.unisoc.com (SkyGuard) with ESMTPS id 4S5b8b13nPz2KNwVN;
+        Thu, 12 Oct 2023 11:43:43 +0800 (CST)
+Received: from ubt.spreadtrum.com (10.0.73.88) by BJMBX02.spreadtrum.com
+ (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.23; Thu, 12 Oct
+ 2023 11:47:42 +0800
+From:   Chunyan Zhang <chunyan.zhang@unisoc.com>
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20231011190017.1230898-1-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+CC:     <linux-leds@vger.kernel.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chunyan Zhang <chunyan.zhang@unisoc.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [RESEND PATCH V2] leds: sc27xx: Move mutex_init() to the end of probe
+Date:   Thu, 12 Oct 2023 11:47:35 +0800
+Message-ID: <20231012034735.804157-1-chunyan.zhang@unisoc.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.0.73.88]
+X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
+ BJMBX02.spreadtrum.com (10.0.64.8)
+X-MAIL: SHSQR01.spreadtrum.com 39C3liej099147
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Move the mutex_init() to avoid redundant mutex_destroy() calls after
+that for each time the probe fails.
 
-Am 11.10.23 um 21:00 schrieb Werner Sembach:
-> From: Christoffer Sandberg <cs@tuxedo.de>
->
-> Implement per-key keyboard backlight in the leds sysfs interface for
-> several TUXEDO devices using the ite8291 controller.
->
-> There are however some known short comings:
-> - The sysfs leds interface does only allow to write one key at a time. The
-> controller however can only update row wise or the whole keyboard at once
-> (whole keyboard update is currently not implemented). This means that even
-> when you want to updated a whole row, the whole row is actually updated
-> once for each key. So you actually write up to 18x as much as would be
-> required.
-> - When you want to update the brightness of the whole keyboard you have to
-> write 126 sysfs entries, which inherently is somewhat slow, especially when
-> using a slider that is live updating the brightness.
-> - While the controller manages up to 126 leds, not all are actually
-> populated. However the unused are not grouped at the end but also in
-> between. To not have dead sysfs entries, this would require manual testing
-> for each implemented device to see which leds are used and some kind of
-> bitmap in the driver to sort out the unconnected ones.
-> - It is not communicated to userspace which led entry controls which key
-> exactly
->
-> Co-developed-by: Werner Sembach <wse@tuxedocomputers.com>
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
+---
+Rebased onto linux-next.
 
-The first time I submit a whole module, so please let me know if it made any 
-mistakes e.g. I'm unsure if I need add myself explicitly as a maintainer, if 
-MODULE_AUTHOR has to be a human, or if i have to split this up into smaller junks.
+V2:
+- Move the mutex_init() to the end of .probe() instead of adding
+mutex_destroy() according to Lee's comments.
+---
+ drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Also please let me know if i somehow misinterpreted the current API and the 
-shortcomings can actually be avoided.
-
-I have not yet looked deeply into triggers, but one idea i had is to only have 
-one kbd_backlight by default that just makes the whole keyboard the same color 
-and brightness. In addition to that a trigger per_key_control, that, when set, 
-adds 125*3 subleds to write the whole keyboard in rainbow colors with a single 
-echo to multi_intensity.
-
-The keyboard also supports hardware color effects like color cycle, which 
-continuously and smoothly cycles through up to 7 colors. Could this also be 
-implemented with a trigger? That trigger would need to add a new entry nr_colors 
-and also respectively additional subleds or additional multi_intensity_* entries.
-
-An additional though I had was that it would be nice if the driver could somehow 
-communicate the physical location of the key to the userspace for UIs to 
-automatically generate a keyboard view to graphically set individual colors.
-
-Kind regards,
-
-Werner Sembach
+diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
+index af1f00a2f328..ef57e57ecf07 100644
+--- a/drivers/leds/leds-sc27xx-bltc.c
++++ b/drivers/leds/leds-sc27xx-bltc.c
+@@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	platform_set_drvdata(pdev, priv);
+-	mutex_init(&priv->lock);
+ 	priv->base = base;
+ 	priv->regmap = dev_get_regmap(dev->parent, NULL);
+ 	if (!priv->regmap) {
+@@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		err = of_property_read_u32(child, "reg", &reg);
+ 		if (err) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return err;
+ 		}
+ 
+ 		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 
+ 	err = sc27xx_led_register(dev, priv);
+ 	if (err)
+-		mutex_destroy(&priv->lock);
++		return err;
+ 
+-	return err;
++	mutex_init(&priv->lock);
++
++	return 0;
+ }
+ 
+ static void sc27xx_led_remove(struct platform_device *pdev)
+-- 
+2.41.0
 
