@@ -2,114 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B613B7C6C98
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 13:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4807C6EAF
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 15:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233662AbjJLLnr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 07:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
+        id S1343680AbjJLNBI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 09:01:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232490AbjJLLnr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 07:43:47 -0400
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 558EF94;
-        Thu, 12 Oct 2023 04:43:44 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0Vu-jJbI_1697111019;
-Received: from 30.97.48.41(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Vu-jJbI_1697111019)
-          by smtp.aliyun-inc.com;
-          Thu, 12 Oct 2023 19:43:40 +0800
-Message-ID: <59ab760c-de22-5f62-5532-9a94427e143c@linux.alibaba.com>
-Date:   Thu, 12 Oct 2023 19:43:54 +0800
+        with ESMTP id S1343711AbjJLNBH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 09:01:07 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA70BA;
+        Thu, 12 Oct 2023 06:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697115665; x=1728651665;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HlI9nRmiOWzTgfw2KPSLAj7uKfHlFCqpVjECnsGmXrU=;
+  b=L3YnvTmbfnVx36DoAxC0eSVewynV8xdpVH3zCzmby74M4eNvzOKvVbS8
+   5mI8Je0cJ9HJCOVJivsJVaEifLyM/78qHdJwkU9HNiFgI47YlFTc4u4By
+   l76makyHB6z9DyCKulU694t6IcizzgXNNLsWt03Y/HOocF57LQmYCaSMT
+   1WGKjNIyUb4p9FY9v6ViGw/q4FSGdtulNKo4Khp1j0A945K4jKnNMo0L/
+   bXb0IEWpYh8ac4XoA/Js5sGcLePYBdubb6UBzOmvdYK1d0jpbmx2fmvjF
+   YFPcfYd0o8y8ShZzTsq4SZc1bMGTdUf1hsbvXg2VecviqZ7cxvLgLHDUf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="369977417"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="369977417"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 06:01:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="704150482"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="704150482"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 12 Oct 2023 06:01:02 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qqvJE-0003SR-0c;
+        Thu, 12 Oct 2023 13:01:00 +0000
+Date:   Thu, 12 Oct 2023 21:00:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Werner Sembach <wse@tuxedocomputers.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
+ several TUXEDO devices
+Message-ID: <202310122012.C2mSREZ7-lkp@intel.com>
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RESEND PATCH V2] leds: sc27xx: Move mutex_init() to the end of
- probe
-To:     Lee Jones <lee@kernel.org>
-Cc:     Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20231012034735.804157-1-chunyan.zhang@unisoc.com>
- <6110db84-546d-fc5c-f241-7923d673bbd5@linux.alibaba.com>
- <20231012091602.GD8314@google.com>
-From:   Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20231012091602.GD8314@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-13.2 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Werner,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.6-rc5 next-20231012]
+[cannot apply to pavel-leds/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Werner-Sembach/leds-rgb-Implement-per-key-keyboard-backlight-for-several-TUXEDO-devices/20231012-030206
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20231011190017.1230898-1-wse%40tuxedocomputers.com
+patch subject: [PATCH] leds: rgb: Implement per-key keyboard backlight for several TUXEDO devices
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231012/202310122012.C2mSREZ7-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231012/202310122012.C2mSREZ7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310122012.C2mSREZ7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/leds/rgb/leds-tuxedo-ite8291.c:44: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Set color for specified [row, column] in row based data structure
+   drivers/leds/rgb/leds-tuxedo-ite8291.c:79: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Just a generic helper function to reduce boilerplate code
+   drivers/leds/rgb/leds-tuxedo-ite8291.c:96: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Update brightness of the whole keyboard. Only used for initialization as this doesn't allow per
+   drivers/leds/rgb/leds-tuxedo-ite8291.c:116: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Update color of a singular row from row_data. This is the smallest unit this device allows to
+   drivers/leds/rgb/leds-tuxedo-ite8291.c:138: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Write color and brightness to the whole keyboard from row data. Note that per key brightness is
 
 
-On 10/12/2023 5:16 PM, Lee Jones wrote:
-> On Thu, 12 Oct 2023, Baolin Wang wrote:
-> 
->>
->>
->> On 10/12/2023 11:47 AM, Chunyan Zhang wrote:
->>> Move the mutex_init() to avoid redundant mutex_destroy() calls after
->>> that for each time the probe fails.
->>>
->>> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
->>> ---
->>> Rebased onto linux-next.
->>>
->>> V2:
->>> - Move the mutex_init() to the end of .probe() instead of adding
->>> mutex_destroy() according to Lee's comments.
->>> ---
->>>    drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
->>>    1 file changed, 4 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
->>> index af1f00a2f328..ef57e57ecf07 100644
->>> --- a/drivers/leds/leds-sc27xx-bltc.c
->>> +++ b/drivers/leds/leds-sc27xx-bltc.c
->>> @@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->>>    		return -ENOMEM;
->>>    	platform_set_drvdata(pdev, priv);
->>> -	mutex_init(&priv->lock);
->>>    	priv->base = base;
->>>    	priv->regmap = dev_get_regmap(dev->parent, NULL);
->>>    	if (!priv->regmap) {
->>> @@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->>>    		err = of_property_read_u32(child, "reg", &reg);
->>>    		if (err) {
->>>    			of_node_put(child);
->>> -			mutex_destroy(&priv->lock);
->>>    			return err;
->>>    		}
->>>    		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
->>>    			of_node_put(child);
->>> -			mutex_destroy(&priv->lock);
->>>    			return -EINVAL;
->>>    		}
->>> @@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->>>    	err = sc27xx_led_register(dev, priv);
->>>    	if (err)
->>> -		mutex_destroy(&priv->lock);
->>> +		return err;
->>> -	return err;
->>> +	mutex_init(&priv->lock);
->>
->> I think it is better to prepare all the required resources before
->> registering the led device, what I mean is moving mutex_init() before
->> calling sc27xx_led_register().
-> 
-> Is the mutex used before this point?
-> 
-> If not, I don't see any reason to initialise it sooner.
+vim +44 drivers/leds/rgb/leds-tuxedo-ite8291.c
 
-When inserting the led module, after registering the led device, users 
-can set the led brightness or pattern trigger before initializing the 
-mutex, which will crash the system. I know this may not be an actual 
-scenario, but this patch opens a small race window, that's what I concerned.
+    42	
+    43	/**
+  > 44	 * Set color for specified [row, column] in row based data structure
+    45	 *
+    46	 * @param row_data Data structure to fill
+    47	 * @param row Row number 0 - 5
+    48	 * @param column Column number 0 - 20
+    49	 * @param red Red brightness 0x00 - 0xff
+    50	 * @param green Green brightness 0x00 - 0xff
+    51	 * @param blue Blue brightness 0x00 - 0xff
+    52	 *
+    53	 * @returns 0 on success, otherwise error
+    54	 */
+    55	static int leds_tuxedo_ite8291_set_row_data(row_data_t row_data, int row, int column,
+    56						    u8 red, u8 green, u8 blue)
+    57	{
+    58		int column_index_red, column_index_green, column_index_blue;
+    59	
+    60		if (row < 0 || row >= LEDS_TUXEDO_ITE8291_ROWS ||
+    61		    column < 0 || column >= LEDS_TUXEDO_ITE8291_COLUMNS)
+    62			return -EINVAL;
+    63	
+    64		column_index_red =
+    65			LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (2 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
+    66		column_index_green =
+    67			LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (1 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
+    68		column_index_blue =
+    69			LEDS_TUXEDO_ITE8291_ROW_DATA_PADDING + (0 * LEDS_TUXEDO_ITE8291_COLUMNS) + column;
+    70	
+    71		row_data[row][column_index_red] = red;
+    72		row_data[row][column_index_green] = green;
+    73		row_data[row][column_index_blue] = blue;
+    74	
+    75		return 0;
+    76	}
+    77	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
