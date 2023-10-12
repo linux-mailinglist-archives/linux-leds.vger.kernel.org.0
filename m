@@ -2,48 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C677C7C6941
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 11:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 152C57C6955
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 11:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235511AbjJLJQ3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 05:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
+        id S235367AbjJLJVP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 05:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235460AbjJLJQJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 05:16:09 -0400
+        with ESMTP id S229884AbjJLJVP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 05:21:15 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A247C6;
-        Thu, 12 Oct 2023 02:16:07 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83B6CC433C8;
-        Thu, 12 Oct 2023 09:16:05 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C32E791;
+        Thu, 12 Oct 2023 02:21:13 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07BACC433C8;
+        Thu, 12 Oct 2023 09:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697102167;
-        bh=rDqxFRbS36X3wzsamcQt8JNV0Zh3cEeJ9KK8OwPwL34=;
+        s=k20201202; t=1697102473;
+        bh=SbH4FF+AoysrqBe5kKWS7My653sdFw0g+bfWwXIpZZk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rNjZKIc5WgmZe4aHX0ioCqxU8rNxJtEyXsV/NZV4DN1RQmMfka5uyhlwEN23tcH++
-         DvtKsUTvf7WeFX3gNM1jbai6tEHBjnC5WSe2vcOXwRPCOr/b3FDfIqkksap9giSoRE
-         s8ZzFR5TYZlPEuO1PVfS7muBmugpP9L/kNepxckOC+FZKkDaQYAX7KH91EBMeTI6/s
-         cOt0rlsvEc2dWib0IjTUpxU5qDN83i+LfJoPcELEhqTUqqP8em/P6cOZzwjZysp72F
-         Mt43kC/Rt6W2p/tbfJTbbQItBjW7uSYSQrZQVQgzrbmBZfgEjZfdQY7p/p90selCLE
-         8WvC5QG/YiH4w==
-Date:   Thu, 12 Oct 2023 10:16:02 +0100
+        b=iKwC4DIp81mBmf/nnA1FLjrVqbEsPK970YamzftlRJTsIi9bcrkBdYbyQqu/j8Jwi
+         MrqeGKEaSacHFGr3ZlV+8qz8+gEND1xEpj4+GGkOwjQ/nQ69sMzqSMaVFRe4fYIRvj
+         H41/C6eJ6rrxh6ieRFuKsNQ0a1Tb9BD5wBiFDH80HfJZXd9ibWbbzSFlQ3rmYoG7Cl
+         taQ3Zur00X1d7RWY/h1U+CtWA25Z2b9NWwwzKtDObQQu3hwo+0Zsj+jLl7JXYZHQvx
+         7dkBHX9aFWiD87o0fFkXdSfFCm4mV/S63lpG2BiRxvhBBbTb8yiLQF3l4qIPLAjlTq
+         UxSJSBiItIsYg==
+Date:   Thu, 12 Oct 2023 10:21:07 +0100
 From:   Lee Jones <lee@kernel.org>
-To:     Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc:     Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RESEND PATCH V2] leds: sc27xx: Move mutex_init() to the end of
- probe
-Message-ID: <20231012091602.GD8314@google.com>
-References: <20231012034735.804157-1-chunyan.zhang@unisoc.com>
- <6110db84-546d-fc5c-f241-7923d673bbd5@linux.alibaba.com>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
+        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 3/4] trigger: ledtrig-tty: move variable definition to
+ the top
+Message-ID: <20231012092107.GE8314@google.com>
+References: <20230928132632.200263-1-fe@dev.tdt.de>
+ <20230928132632.200263-4-fe@dev.tdt.de>
+ <20231002140559.GB8453@google.com>
+ <66ca9e2231629a72e098e1b17736ca34@dev.tdt.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6110db84-546d-fc5c-f241-7923d673bbd5@linux.alibaba.com>
+In-Reply-To: <66ca9e2231629a72e098e1b17736ca34@dev.tdt.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -54,63 +56,37 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 12 Oct 2023, Baolin Wang wrote:
+On Wed, 11 Oct 2023, Florian Eckert wrote:
 
+> Hello Lee,
 > 
+> I only got reviews for the fixes and preparations for commits that change
+> the
+> tty subsystem, but no reaction from the maintainer of the feature I want to
+> add to ledtrig-tty for v1 and v2 patchset.
 > 
-> On 10/12/2023 11:47 AM, Chunyan Zhang wrote:
-> > Move the mutex_init() to avoid redundant mutex_destroy() calls after
-> > that for each time the probe fails.
-> > 
-> > Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> > ---
-> > Rebased onto linux-next.
-> > 
-> > V2:
-> > - Move the mutex_init() to the end of .probe() instead of adding
-> > mutex_destroy() according to Lee's comments.
-> > ---
-> >   drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
-> >   1 file changed, 4 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
-> > index af1f00a2f328..ef57e57ecf07 100644
-> > --- a/drivers/leds/leds-sc27xx-bltc.c
-> > +++ b/drivers/leds/leds-sc27xx-bltc.c
-> > @@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
-> >   		return -ENOMEM;
-> >   	platform_set_drvdata(pdev, priv);
-> > -	mutex_init(&priv->lock);
-> >   	priv->base = base;
-> >   	priv->regmap = dev_get_regmap(dev->parent, NULL);
-> >   	if (!priv->regmap) {
-> > @@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
-> >   		err = of_property_read_u32(child, "reg", &reg);
-> >   		if (err) {
-> >   			of_node_put(child);
-> > -			mutex_destroy(&priv->lock);
-> >   			return err;
-> >   		}
-> >   		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
-> >   			of_node_put(child);
-> > -			mutex_destroy(&priv->lock);
-> >   			return -EINVAL;
-> >   		}
-> > @@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
-> >   	err = sc27xx_led_register(dev, priv);
-> >   	if (err)
-> > -		mutex_destroy(&priv->lock);
-> > +		return err;
-> > -	return err;
-> > +	mutex_init(&priv->lock);
+> How should I proceed? Send a v3 with the the requested changes.
 > 
-> I think it is better to prepare all the required resources before
-> registering the led device, what I mean is moving mutex_init() before
-> calling sc27xx_led_register().
+> [Patch v2 1/4]: https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m913d3822465f35b54dfa24b1dfe4d50e61352980
+> Change got a 'Reviewed-by: Jiri Slaby <jirislaby@kernel.org>'.
+> Will add this to an upcoming v3 again.
+> 
+> [Patch v2 2/4] : https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#m7ee7618894a66fd3c89bed488a2394265a3f8df1
+> I missed to add the robot error message to the commit message and also
+> missed
+> to add the the following 'Reported-by: kernel test robot <lkp@intel.com>'
+> and
+> 'Closes:
+> https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/'
+> to the commit message. Will add this to an upcoming v3.
+> 
+> And do not wait for the review of the following patches.
+> https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mc0ecb912fa0e59015ad0a9b4cb491ae9f18c1ea9
+> https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/T/#mba36217323c386ecd900e188bbdf6276c3c96c91
 
-Is the mutex used before this point?
+Yes.  I've removed this from my queue.
 
-If not, I don't see any reason to initialise it sooner.
+Better to resend it with the fixes.
 
 -- 
 Lee Jones [李琼斯]
