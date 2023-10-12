@@ -2,124 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B47A07C6A57
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 12:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52B367C6AE3
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 12:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235625AbjJLKDJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 06:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34480 "EHLO
+        id S1343665AbjJLKWw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 06:22:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235654AbjJLKDH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 06:03:07 -0400
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E93C9;
-        Thu, 12 Oct 2023 03:02:57 -0700 (PDT)
-Received: from [192.168.42.20] (p5b164245.dip0.t-ipconnect.de [91.22.66.69])
-        (Authenticated sender: wse@tuxedocomputers.com)
-        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 25D0B2FC0048;
-        Thu, 12 Oct 2023 12:02:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-        s=default; t=1697104976;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tKwmlTlHRKLmKTIlMWUJwMtc2osuoYdOh412C/2t6iQ=;
-        b=emvbv3gQGIGGlIjZqrO6KJpSevP2m5GZ1j/mOoMNdgl0Ii0JPJjMKTLiUQtGETG7ftbc8s
-        4KaYUjuIhNGnqVtihtoiibwvYHkpN5TWNoOtY5R6T0WXxcARr9m7vNnT68dgUUSTPT5AGv
-        K/Ua8wtBNYwUvrM886H3LJjjXnN8dzA=
-Authentication-Results: mail.tuxedocomputers.com;
-        auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
-Date:   Thu, 12 Oct 2023 12:02:55 +0200
+        with ESMTP id S234185AbjJLKWv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 06:22:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9136BA;
+        Thu, 12 Oct 2023 03:22:48 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3F0C433C7;
+        Thu, 12 Oct 2023 10:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697106168;
+        bh=jkOf6zlY3dtr1U4Md02h/jP/g3KZE/yyKcHPQfjlK0s=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=PK339P2K3E9NTHi9ntN7LB8zDL2x6BFpQ1YBKfS8tf3ZHOXhUbhgIZGcM2oH4BUIc
+         /WdG8pTlVKjRSppRGO4qtheNOjjUxHW5zfagcn6GZfqZIi+RCjyEmO/Kq6ilca7Y8E
+         AaFRljZJsQ3GTN9T1AG8lpSvOh6QNKb0qpZJGqzxy7o/O6dSx5uqGCkneqopWt26J5
+         idsRi3Zj+kD1MgoVDVZ7ya3CcnkOxUzbV9a8DzuYKMvBoBQXozZaUG3a5db/errAv6
+         AKj9HxBJkmGwU4L5MBh4xq01NvQuoHygWU2nkEeTLMXPU+3A6m1AON6/dfEBQbQqqW
+         TiCmpkyaNcfdw==
+From:   Lee Jones <lee@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Li Zetao <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Christian Marangi <ansuelsmth@gmail.com>
+Cc:     stable@vger.kernel.org, kernel test robot <lkp@intel.com>
+In-Reply-To: <20231007131042.15032-1-ansuelsmth@gmail.com>
+References: <20231007131042.15032-1-ansuelsmth@gmail.com>
+Subject: Re: (subset) [net PATCH] leds: trigger: netdev: move size check in
+ set_device_name
+Message-Id: <169710616600.1174986.4498192566234857598.b4-ty@kernel.org>
+Date:   Thu, 12 Oct 2023 11:22:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
- several TUXEDO devices
-Content-Language: en-US
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
-From:   Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZSe1GYLplZo5fsAe@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Sat, 07 Oct 2023 15:10:42 +0200, Christian Marangi wrote:
+> GCC 13.2 complains about array subscript 17 is above array bounds of
+> 'char[16]' with IFNAMSIZ set to 16.
+> 
+> The warning is correct but this scenario is impossible.
+> set_device_name is called by device_name_store (store sysfs entry) and
+> netdev_trig_activate.
+> 
+> [...]
 
-Am 12.10.23 um 10:58 schrieb Pavel Machek:
-> Hi!
->
->> From: Christoffer Sandberg <cs@tuxedo.de>
->>
->> Implement per-key keyboard backlight in the leds sysfs interface for
->> several TUXEDO devices using the ite8291 controller.
->>
->> There are however some known short comings:
->> - The sysfs leds interface does only allow to write one key at a time. The
->> controller however can only update row wise or the whole keyboard at once
->> (whole keyboard update is currently not implemented). This means that even
->> when you want to updated a whole row, the whole row is actually updated
->> once for each key. So you actually write up to 18x as much as would be
->> required.
->> - When you want to update the brightness of the whole keyboard you have to
->> write 126 sysfs entries, which inherently is somewhat slow, especially when
->> using a slider that is live updating the brightness.
->> - While the controller manages up to 126 leds, not all are actually
->> populated. However the unused are not grouped at the end but also in
->> between. To not have dead sysfs entries, this would require manual testing
->> for each implemented device to see which leds are used and some kind of
->> bitmap in the driver to sort out the unconnected ones.
->> - It is not communicated to userspace which led entry controls which key
->> exactly
-> Sooner or later, we'll need to support these keyboards.
->
-> But this has way too many shortcomings (and we'd be stuck with the
-> interface forever).
+Applied, thanks!
 
-I had some thoughts on how the current userspace api could be expanded to better 
-reflect the capabilities of RGB keyboards. What would be required for such an 
-expansion to be considered?
+[1/1] leds: trigger: netdev: move size check in set_device_name
+      commit: e0e29e434cdca9705eb420b3f26928444fa559f6
 
-I'm in contact with the KDE folks. Plasma already has a keyboard brightness 
-slider, that soon 
-https://gitlab.freedesktop.org/upower/upower/-/merge_requests/203 will work with 
-multiple kbd_backlight. However the slowness of 126 sysfs entries makes it a 
-little bit janky still.
+--
+Lee Jones [李琼斯]
 
-They are also thinking about expanding desktop accent colors to the keyboard 
-backlight when it supports RGB.
-
-I have not reached out to the OpenRGB project yet, but is it alive and well and 
-under constant development: https://gitlab.com/CalcProgrammer1/OpenRGB. Afaik it 
-is currently a userspace only driver interacting directly with hidraw mostly and 
-has not yet implemented the sysfs leds interface.
-
-Just listing this to show that there is definitely interest in this.
-
->
-> These days, displays with weird shapes are common. Like rounded
-> corners and holes in them. Perhaps this should be better modelled as a
-> weird display?
-
-I'm not sure if I can follow you here. Where would this be implemented? Also I 
-asume displays asume equal distance between pixels and that columns are straight 
-lines perpendicular to rows, which the key backlights have and are not.
-
-Kind regards,
-
-Werner
-
->
-> Best regards,
-> 									Pavel
