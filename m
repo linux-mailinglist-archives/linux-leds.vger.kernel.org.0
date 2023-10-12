@@ -2,43 +2,46 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 673DC7C6709
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 09:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084387C68B1
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 10:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235313AbjJLH3g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 03:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
+        id S235326AbjJLI6G (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 04:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234125AbjJLH3g (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 03:29:36 -0400
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE72F90;
-        Thu, 12 Oct 2023 00:29:32 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VtzY4pG_1697095769;
-Received: from 30.97.48.41(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0VtzY4pG_1697095769)
-          by smtp.aliyun-inc.com;
-          Thu, 12 Oct 2023 15:29:30 +0800
-Message-ID: <6110db84-546d-fc5c-f241-7923d673bbd5@linux.alibaba.com>
-Date:   Thu, 12 Oct 2023 15:29:44 +0800
+        with ESMTP id S235318AbjJLI6G (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 04:58:06 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08FFB91;
+        Thu, 12 Oct 2023 01:58:03 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 5C2B01C0050; Thu, 12 Oct 2023 10:58:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1697101082;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=stIMuFGSGT3Yz1fYEWDo5wEHiIttSpIcz9uPDVqTXX4=;
+        b=GOGfnOC9apeRfgMYelDNmaCvcGWcURzVkjm4l4S6nVTcKTfyF5EiWU6yaaaTMBoQwTrYVj
+        8E+2UKHCL+H85SktX/4GRrKz0gJbpqZE5PTrwJOdsmHNQvmxwMH8E0ML7ii2JUutk3Skm6
+        coPGet32YPDoW8td7Jk3kVUbNM31iTk=
+Date:   Thu, 12 Oct 2023 10:58:01 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Werner Sembach <wse@tuxedocomputers.com>
+Cc:     Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
+ several TUXEDO devices
+Message-ID: <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RESEND PATCH V2] leds: sc27xx: Move mutex_init() to the end of
- probe
-To:     Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20231012034735.804157-1-chunyan.zhang@unisoc.com>
-From:   Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20231012034735.804157-1-chunyan.zhang@unisoc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-13.2 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="V6zkJUxOqwHngDD1"
+Content-Disposition: inline
+In-Reply-To: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -46,58 +49,59 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
+--V6zkJUxOqwHngDD1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/12/2023 11:47 AM, Chunyan Zhang wrote:
-> Move the mutex_init() to avoid redundant mutex_destroy() calls after
-> that for each time the probe fails.
-> 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
-> Rebased onto linux-next.
-> 
-> V2:
-> - Move the mutex_init() to the end of .probe() instead of adding
-> mutex_destroy() according to Lee's comments.
-> ---
->   drivers/leds/leds-sc27xx-bltc.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
-> index af1f00a2f328..ef57e57ecf07 100644
-> --- a/drivers/leds/leds-sc27xx-bltc.c
-> +++ b/drivers/leds/leds-sc27xx-bltc.c
-> @@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   		return -ENOMEM;
->   
->   	platform_set_drvdata(pdev, priv);
-> -	mutex_init(&priv->lock);
->   	priv->base = base;
->   	priv->regmap = dev_get_regmap(dev->parent, NULL);
->   	if (!priv->regmap) {
-> @@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   		err = of_property_read_u32(child, "reg", &reg);
->   		if (err) {
->   			of_node_put(child);
-> -			mutex_destroy(&priv->lock);
->   			return err;
->   		}
->   
->   		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
->   			of_node_put(child);
-> -			mutex_destroy(&priv->lock);
->   			return -EINVAL;
->   		}
->   
-> @@ -325,9 +322,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   
->   	err = sc27xx_led_register(dev, priv);
->   	if (err)
-> -		mutex_destroy(&priv->lock);
-> +		return err;
->   
-> -	return err;
-> +	mutex_init(&priv->lock);
+Hi!
 
-I think it is better to prepare all the required resources before 
-registering the led device, what I mean is moving mutex_init() before 
-calling sc27xx_led_register().
+> From: Christoffer Sandberg <cs@tuxedo.de>
+>=20
+> Implement per-key keyboard backlight in the leds sysfs interface for
+> several TUXEDO devices using the ite8291 controller.
+>=20
+> There are however some known short comings:
+> - The sysfs leds interface does only allow to write one key at a time. The
+> controller however can only update row wise or the whole keyboard at once
+> (whole keyboard update is currently not implemented). This means that even
+> when you want to updated a whole row, the whole row is actually updated
+> once for each key. So you actually write up to 18x as much as would be
+> required.
+> - When you want to update the brightness of the whole keyboard you have to
+> write 126 sysfs entries, which inherently is somewhat slow, especially wh=
+en
+> using a slider that is live updating the brightness.
+> - While the controller manages up to 126 leds, not all are actually
+> populated. However the unused are not grouped at the end but also in
+> between. To not have dead sysfs entries, this would require manual testing
+> for each implemented device to see which leds are used and some kind of
+> bitmap in the driver to sort out the unconnected ones.
+> - It is not communicated to userspace which led entry controls which key
+> exactly
+
+Sooner or later, we'll need to support these keyboards.
+
+But this has way too many shortcomings (and we'd be stuck with the
+interface forever).
+
+These days, displays with weird shapes are common. Like rounded
+corners and holes in them. Perhaps this should be better modelled as a
+weird display?
+
+Best regards,
+									Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--V6zkJUxOqwHngDD1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZSe1GQAKCRAw5/Bqldv6
+8iNMAJ9m3A5f5EFMcFNJM5Bnpc+qVPGnAwCgiIGFr63rqP803FMGSrhyOtznJ+E=
+=o063
+-----END PGP SIGNATURE-----
+
+--V6zkJUxOqwHngDD1--
