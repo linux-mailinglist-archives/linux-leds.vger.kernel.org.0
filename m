@@ -2,44 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 096397C87F7
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Oct 2023 16:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD4A97C8818
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Oct 2023 16:54:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232180AbjJMOjA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Oct 2023 10:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44560 "EHLO
+        id S229879AbjJMOyp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Oct 2023 10:54:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbjJMOi7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Oct 2023 10:38:59 -0400
+        with ESMTP id S229937AbjJMOyo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Oct 2023 10:54:44 -0400
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF22595;
-        Fri, 13 Oct 2023 07:38:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B88ABE;
+        Fri, 13 Oct 2023 07:54:42 -0700 (PDT)
 Received: from [10.6.0.9] (host-88-217-226-44.customer.m-online.net [88.217.226.44])
         (Authenticated sender: wse@tuxedocomputers.com)
-        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 1957C2FC0052;
-        Fri, 13 Oct 2023 16:38:55 +0200 (CEST)
+        by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 2E6502FC0052;
+        Fri, 13 Oct 2023 16:54:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-        s=default; t=1697207935;
+        s=default; t=1697208880;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8ChgUT0Eqw/nIEIvwaS0dwvVVK4YCEQmQRVbYoYtxio=;
-        b=sXHGk4et/tA5wCWNxD4VLMKj4osg9aEUTEczCyB6GXLERYz5UaMpKIX2EhZWw/XovNgYzE
-        g46pc7/dLOaBxW8GpUvM+lck1oeKuiKeEZWCw+fkfX7n4BBmxllWJbKgwMV/b/fQEFBIel
-        oZYHG6NpTjDbP/z80hYIdjE8aq/KwVg=
+        bh=YUgetVycmc11Sy23hS1geccFjAg3uLc1PoJalbYEo1A=;
+        b=J8AgwRiWLaST6rVU1SVH02DPcyjEHDLQmnv1X7wYEohahPt5H29XeiEg3p1zW4epN/5lA8
+        38a2KpVUTqkiQTDFKHGdAXklNOvFXvojESrGFHqYNsqVMyrHokFyjBYqNsvqnsY9gBUm0j
+        jJVGg9wR/zr874sLYF/SRnmHAmoTv9g=
 Authentication-Results: mail.tuxedocomputers.com;
         auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <28af2d0a-191d-4496-95de-b4243adc9112@tuxedocomputers.com>
-Date:   Fri, 13 Oct 2023 16:38:54 +0200
+Message-ID: <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+Date:   Fri, 13 Oct 2023 16:54:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: rgb: Implement per-key keyboard backlight for
- several TUXEDO devices
+Subject: Implement per-key keyboard backlight as auxdisplay?
 Content-Language: en-US
-To:     Pavel Machek <pavel@ucw.cz>
+To:     Pavel Machek <pavel@ucw.cz>, ojeda@kernel.org
 Cc:     Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
+        linux-leds@vger.kernel.org, linux-input@vger.kernel.org,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
  <ZSe1GYLplZo5fsAe@duo.ucw.cz>
  <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
@@ -61,31 +61,18 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi,
 
-Am 13.10.23 um 14:19 schrieb Pavel Machek:
-> Hi!
->
->> Every multi_zone_* mode could also output a zones_image. That is a greyscale
->> bitmap or even a svg containing the information where each zone is located
->> and which outline it has. For the bitmap the information would be encoded in
->> the grey value, aka 0 = zone 0 etc with 0xff = no zone (i.e. space between
->> the keys). For the svg, the name of the paths would indicate the
->> zone they
-> This is not really suitable for kernel.
-Yeah thought as much
->
->>> It would go to drivers/auxdisplay, most probably.
->> Looking into it, thanks for the direction. But this would come with the
->> downside that upowers kbd_brightness no longer controls the keyboard.
-> Yep. We could add some kind of kludge to fix that.
->
-> Perhaps first question is to ask auxdisplay people if treating
-> keyboard as a weird display is okay? cc: lkml, leds, drm, input at
-> least.
+coming from the leds mailing list I'm writing with Pavel how to best handle 
+per-key RGB keyboards.
 
-On it
+His suggestion was that it could be implemented as an aux display, but he also 
+suggested that I ask first if this fits.
 
-But i don't know how to implement the different hardware effect modes then.
+The specific keyboard RGB controller I want to implement takes 6*21 rgb values. 
+However not every one is actually mapped to a physical key. e.g. the bottom row 
+needs less entries because of the space bar. Additionally the keys are ofc not 
+in a straight line from top to bottom.
 
->
-> Best regards,
-> 								Pavel
+Best regards,
+
+Werner
+
