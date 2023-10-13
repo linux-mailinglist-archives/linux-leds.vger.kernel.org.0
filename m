@@ -2,102 +2,162 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C19B7C7C35
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Oct 2023 05:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C0267C7DC2
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Oct 2023 08:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbjJMDfo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 23:35:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60316 "EHLO
+        id S229697AbjJMGfk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Oct 2023 02:35:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjJMDfn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 23:35:43 -0400
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D473B7;
-        Thu, 12 Oct 2023 20:35:41 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0Vu0mA1C_1697168137;
-Received: from 30.97.48.67(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Vu0mA1C_1697168137)
-          by smtp.aliyun-inc.com;
-          Fri, 13 Oct 2023 11:35:38 +0800
-Message-ID: <e1d3f57c-774a-840d-f811-1b91cc40079a@linux.alibaba.com>
-Date:   Fri, 13 Oct 2023 11:35:52 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH V3] leds: sc27xx: Move mutex_init() down
-To:     Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20231013022010.854367-1-chunyan.zhang@unisoc.com>
-From:   Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20231013022010.854367-1-chunyan.zhang@unisoc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-13.2 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229676AbjJMGfi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Oct 2023 02:35:38 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5CCBE
+        for <linux-leds@vger.kernel.org>; Thu, 12 Oct 2023 23:35:33 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-53dfc28a2afso2988362a12.1
+        for <linux-leds@vger.kernel.org>; Thu, 12 Oct 2023 23:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1697178932; x=1697783732; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mw7d2rWqkx84mECPA0MX5FELEn+q0S5ND1l7U6MlW1M=;
+        b=fm4Dbls/0njpq32LVctJfLhPqWi0yJ2J3EF7WOVckfgZlax20krmmVv5gg2VZIZt8H
+         NhlzC3+gxZ2F6XK/5uapNx04onfXTOVBbcfWS0WW+lINoVpDBp+TI3u7ug5XFIKcbB+a
+         UKvJinKavIL30e8Os1gt2Bav1/RsUt6iMBb6p1zUx+w5bEYJmBu/LsSgW7HzEQBceEpp
+         odky8UsJHB1frVNKCUg8W9NBNp55gWD6j/JsaZt8dHP/qzvK6CqzdyeiGZk0D3cBBYPq
+         h5vwJWeCb/PR/u0o9aRa2ZQZ0Yqg68m774t9QkukPBLVRqBv8mRQ2v6HLJA2YRmUOfvW
+         4nkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697178932; x=1697783732;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mw7d2rWqkx84mECPA0MX5FELEn+q0S5ND1l7U6MlW1M=;
+        b=kTBE53GuyZ+ke7wKjJytVHebxh5SUNKJEGM/D818JTQDWJj6Rbe3O9RfxR4YldfEEu
+         7HYTTb+lwU9luZA0SZyeNqaNfS21CpPr9eu7DlHSY1Qy0JVg5eReWPFy7ixXkLXYtpck
+         umHyYN3HQCZqfdhPao5k+KJ49PPvefFU1Zyt9NZn1e64Pfcswy1h5qMbvp3/UuSLj2Wt
+         QKz2ViQVlV/3FU+ntP0b+PqPk9Q38FIl1Gh9R7ODeIpONdv4WxaeS/rNH5rZo8YWDbYg
+         l6vhunMdfT45ji4M/Sui2PlL2iW9NSLhZ/uBhxIxED/QV1D72evf/JvqKuIw38qBtR5+
+         +GFA==
+X-Gm-Message-State: AOJu0Ywiqd3z4D4nFpYWAOl96IXjFDZ6AYe5RIQsUsuasTJUd3cu/kBg
+        WXaGs6THtB1HhkPk1MfxItjhQQ==
+X-Google-Smtp-Source: AGHT+IGbjKov6XXZ6PjO42kk5Nimru0P7r6dHP1nYYD+Mxr/9oWhoDfATrLUq4GyB5DEQmuF+pYfpw==
+X-Received: by 2002:a17:906:20d8:b0:9b9:f990:c701 with SMTP id c24-20020a17090620d800b009b9f990c701mr17557436ejc.52.1697178932152;
+        Thu, 12 Oct 2023 23:35:32 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id u13-20020a1709060b0d00b009ad87d1be17sm11920164ejg.22.2023.10.12.23.35.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 23:35:31 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Fri, 13 Oct 2023 08:35:31 +0200
+Message-Id: <CW73PXH7OBDG.22PGA47PJR8T2@fairphone.com>
+Subject: Re: [PATCH v5 0/7] Add support for LUT PPG
+From:   "Luca Weiss" <luca.weiss@fairphone.com>
+To:     "Anjelique Melendez" <quic_amelende@quicinc.com>, <pavel@ucw.cz>,
+        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+Cc:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+        <quic_subbaram@quicinc.com>, <quic_gurus@quicinc.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <kernel@quicinc.com>
+X-Mailer: aerc 0.15.2
+References: <20230929003901.15086-1-quic_amelende@quicinc.com>
+ <CVX5ZUGU9BVE.2TA819U1AI6BZ@otso>
+ <a2781978-2081-f4cb-dfe3-0489860dab8e@quicinc.com>
+In-Reply-To: <a2781978-2081-f4cb-dfe3-0489860dab8e@quicinc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu Oct 12, 2023 at 11:50 PM CEST, Anjelique Melendez wrote:
+>
+>
+> On 10/1/2023 7:15 AM, Luca Weiss wrote:
+> > On Fri Sep 29, 2023 at 2:38 AM CEST, Anjelique Melendez wrote:
+> >> In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
+> >> modules instead of LUT peripheral. This feature is called PPG.
+> >>
+> >> This change series adds support for PPG. Thanks!
+> [..]
+> >>
+> >> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp=
+3 (pmi632)
+> >=20
+> > Hi Anjelique,
+> >=20
+> > Actually I've retested this now on PMI632 (and also realized that my
+> > previous tests weren't correct and wasn't actually using hw_pattern).
+> >=20
+> > Using the following commands (after boot) I'm expecting to get a
+> > 500ms on 500ms off blinking pattern between white (255 255 255) and off
+> > (0 0 0).
+> >=20
+> >   echo pattern > /sys/class/leds/rgb:status/trigger
+> >   echo -1 > /sys/class/leds/rgb:status/repeat
+> >=20
+> >   echo "255 255 255" > /sys/class/leds/rgb:status/multi_intensity
+> >   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_patter=
+n
+> >=20
+> > What I actually see is it blinking between cyan (0 255 255) and red (25=
+5
+> > 0 0).
+> > At some point after playing with many patterns I got it to actually
+> > cycle between white and off, but I couldn't reproduce this again (or I
+> > didn't try hard enough).
+> >=20
+> >=20
+> > But with this example it correctly blinks red on-off.
+> >=20
+> >   echo "255 0 0" > /sys/class/leds/rgb:status/multi_intensity
+> >   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_patter=
+n
+> >=20
+> > With "0 255 0" and "0 0 255" the other colors also work fine, it's just
+> > the combinations that seem somewhat broken.
+> >=20
+> > Regards
+> > Luca
+> >=20
+> >=20
+> Hi Luca,
+>
+> Thanks for testing again and the feedback!
+> Looks like for multicolor devices there is a small concurrency issue with
+> enabling pattern at the same time for all the led channels. This could be
+> why you observed your device blinking between red (255 0 0) and cyan (0 2=
+55 255),
+> instead of seeing all channels (255 255 255) blink.
+> The fix I'm planing to include in the next series is is to disable the mu=
+lticolor led
+> channels first, then configure all channels, and finally re-enable channe=
+ls
+> so that pattern is triggered at the same time for each all of the channel=
+s.
 
+Sounds reasonable I think!
 
-On 10/13/2023 10:20 AM, Chunyan Zhang wrote:
-> Move the mutex_init() to avoid redundant mutex_destroy() calls after
-> that for each time the probe fails.
-> 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
+>
+> I am currently testing with pm8350c device so if you are able to test nex=
+t series
+> on pmi632 it would be very appreciated!
 
-LGTM. Thanks.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Will do, thanks for fixing it up!
 
-> ---
-> Rebased onto linux-next.
-> 
-> V3: Move the mutex_init() before sc27xx_led_register(), in case it maybe
-> used right after led registerd.
-> 
-> V2: Move the mutex_init() to the end of .probe() instead of adding mutex_destroy().
-> ---
->   drivers/leds/leds-sc27xx-bltc.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
-> index af1f00a2f328..f04db793e8d6 100644
-> --- a/drivers/leds/leds-sc27xx-bltc.c
-> +++ b/drivers/leds/leds-sc27xx-bltc.c
-> @@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   		return -ENOMEM;
->   
->   	platform_set_drvdata(pdev, priv);
-> -	mutex_init(&priv->lock);
->   	priv->base = base;
->   	priv->regmap = dev_get_regmap(dev->parent, NULL);
->   	if (!priv->regmap) {
-> @@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   		err = of_property_read_u32(child, "reg", &reg);
->   		if (err) {
->   			of_node_put(child);
-> -			mutex_destroy(&priv->lock);
->   			return err;
->   		}
->   
->   		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
->   			of_node_put(child);
-> -			mutex_destroy(&priv->lock);
->   			return -EINVAL;
->   		}
->   
-> @@ -323,6 +320,8 @@ static int sc27xx_led_probe(struct platform_device *pdev)
->   		priv->leds[reg].active = true;
->   	}
->   
-> +	mutex_init(&priv->lock);
-> +
->   	err = sc27xx_led_register(dev, priv);
->   	if (err)
->   		mutex_destroy(&priv->lock);
+Regards
+Luca
+
+>
+> Thanks,
+> Anjelique
+
