@@ -2,81 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0B77C78CF
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Oct 2023 23:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E17997C7B8E
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Oct 2023 04:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442946AbjJLVvY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Oct 2023 17:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43906 "EHLO
+        id S229495AbjJMCVb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Oct 2023 22:21:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442945AbjJLVvW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 17:51:22 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F09CBB;
-        Thu, 12 Oct 2023 14:51:20 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39CLbjch027956;
-        Thu, 12 Oct 2023 21:51:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=voUltIrLrhXdVJp9/yCwFFwFBu2KkCyxDDIWBrI4Xog=;
- b=HjSHOCagbHCB6bOReW+vqK+Dfm07myfSFl8yPtmClixpKCcx4C5UnnqZmJp4EkkrDlGk
- sDingmngYmPHq+uM3HBBqPVeQGzhUBBMSXXi3SA5X0kNnLJQP6XLfqhUZ1vUA3G+umcu
- gEnsitEU8Llg9JgShMHxB3a5DvlmHMEYr5M5u84mB7GEvxhxzAQTFiqgJF+aWHmqIvr2
- 9/U+wcedGEb8KGNxTmqgyc7htL3M+bz8iq1TCdvyJkUU1ehqhGC3hPkWpIqnJq0Xm8vL
- 1+bDS61NU97RlA6x7NV16IlgORC6blhN3ETupnnFsJrRxkKbilBOeheB+98R4nhkHEJx pQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tnsmq4h32-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 12 Oct 2023 21:51:03 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39CLp1Wo011405
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 12 Oct 2023 21:51:01 GMT
-Received: from [10.110.43.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Thu, 12 Oct
- 2023 14:50:59 -0700
-Message-ID: <a2781978-2081-f4cb-dfe3-0489860dab8e@quicinc.com>
-Date:   Thu, 12 Oct 2023 14:50:42 -0700
+        with ESMTP id S229487AbjJMCVa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Oct 2023 22:21:30 -0400
+Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com [222.66.158.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253FF95;
+        Thu, 12 Oct 2023 19:21:25 -0700 (PDT)
+Received: from dlp.unisoc.com ([10.29.3.86])
+        by SHSQR01.spreadtrum.com with ESMTP id 39D2KavT049391;
+        Fri, 13 Oct 2023 10:20:36 +0800 (+08)
+        (envelope-from Chunyan.Zhang@unisoc.com)
+Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
+        by dlp.unisoc.com (SkyGuard) with ESMTPS id 4S699Y2KqQz2KG27m;
+        Fri, 13 Oct 2023 10:16:33 +0800 (CST)
+Received: from ubt.spreadtrum.com (10.0.73.88) by BJMBX02.spreadtrum.com
+ (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.23; Fri, 13 Oct
+ 2023 10:20:34 +0800
+From:   Chunyan Zhang <chunyan.zhang@unisoc.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+CC:     <linux-leds@vger.kernel.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chunyan Zhang <chunyan.zhang@unisoc.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH V3] leds: sc27xx: Move mutex_init() down
+Date:   Fri, 13 Oct 2023 10:20:10 +0800
+Message-ID: <20231013022010.854367-1-chunyan.zhang@unisoc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 0/7] Add support for LUT PPG
-Content-Language: en-US
-To:     Luca Weiss <luca.weiss@fairphone.com>, <pavel@ucw.cz>,
-        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <agross@kernel.org>, <andersson@kernel.org>
-CC:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
-        <quic_subbaram@quicinc.com>, <quic_gurus@quicinc.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <kernel@quicinc.com>
-References: <20230929003901.15086-1-quic_amelende@quicinc.com>
- <CVX5ZUGU9BVE.2TA819U1AI6BZ@otso>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <CVX5ZUGU9BVE.2TA819U1AI6BZ@otso>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PeOLq1QMggphqx9nLudVIdQ5iZgaUs-J
-X-Proofpoint-ORIG-GUID: PeOLq1QMggphqx9nLudVIdQ5iZgaUs-J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-12_14,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 bulkscore=0 clxscore=1011 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310120183
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.0.73.88]
+X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
+ BJMBX02.spreadtrum.com (10.0.64.8)
+X-MAIL: SHSQR01.spreadtrum.com 39D2KavT049391
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,65 +51,56 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Move the mutex_init() to avoid redundant mutex_destroy() calls after
+that for each time the probe fails.
 
+Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
+---
+Rebased onto linux-next.
 
-On 10/1/2023 7:15 AM, Luca Weiss wrote:
-> On Fri Sep 29, 2023 at 2:38 AM CEST, Anjelique Melendez wrote:
->> In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
->> modules instead of LUT peripheral. This feature is called PPG.
->>
->> This change series adds support for PPG. Thanks!
-[..]
->>
->> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sdm632-fairphone-fp3 (pmi632)
-> 
-> Hi Anjelique,
-> 
-> Actually I've retested this now on PMI632 (and also realized that my
-> previous tests weren't correct and wasn't actually using hw_pattern).
-> 
-> Using the following commands (after boot) I'm expecting to get a
-> 500ms on 500ms off blinking pattern between white (255 255 255) and off
-> (0 0 0).
-> 
->   echo pattern > /sys/class/leds/rgb:status/trigger
->   echo -1 > /sys/class/leds/rgb:status/repeat
-> 
->   echo "255 255 255" > /sys/class/leds/rgb:status/multi_intensity
->   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_pattern
-> 
-> What I actually see is it blinking between cyan (0 255 255) and red (255
-> 0 0).
-> At some point after playing with many patterns I got it to actually
-> cycle between white and off, but I couldn't reproduce this again (or I
-> didn't try hard enough).
-> 
-> 
-> But with this example it correctly blinks red on-off.
-> 
->   echo "255 0 0" > /sys/class/leds/rgb:status/multi_intensity
->   echo "255 500 255 0 0 500 0 0" > /sys/class/leds/rgb:status/hw_pattern
-> 
-> With "0 255 0" and "0 0 255" the other colors also work fine, it's just
-> the combinations that seem somewhat broken.
-> 
-> Regards
-> Luca
-> 
-> 
-Hi Luca,
+V3: Move the mutex_init() before sc27xx_led_register(), in case it maybe
+used right after led registerd.
 
-Thanks for testing again and the feedback!
-Looks like for multicolor devices there is a small concurrency issue with
-enabling pattern at the same time for all the led channels. This could be
-why you observed your device blinking between red (255 0 0) and cyan (0 255 255),
-instead of seeing all channels (255 255 255) blink.
-The fix I'm planing to include in the next series is is to disable the multicolor led
-channels first, then configure all channels, and finally re-enable channels
-so that pattern is triggered at the same time for each all of the channels.
+V2: Move the mutex_init() to the end of .probe() instead of adding mutex_destroy().
+---
+ drivers/leds/leds-sc27xx-bltc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I am currently testing with pm8350c device so if you are able to test next series
-on pmi632 it would be very appreciated!
+diff --git a/drivers/leds/leds-sc27xx-bltc.c b/drivers/leds/leds-sc27xx-bltc.c
+index af1f00a2f328..f04db793e8d6 100644
+--- a/drivers/leds/leds-sc27xx-bltc.c
++++ b/drivers/leds/leds-sc27xx-bltc.c
+@@ -296,7 +296,6 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	platform_set_drvdata(pdev, priv);
+-	mutex_init(&priv->lock);
+ 	priv->base = base;
+ 	priv->regmap = dev_get_regmap(dev->parent, NULL);
+ 	if (!priv->regmap) {
+@@ -309,13 +308,11 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		err = of_property_read_u32(child, "reg", &reg);
+ 		if (err) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return err;
+ 		}
+ 
+ 		if (reg >= SC27XX_LEDS_MAX || priv->leds[reg].active) {
+ 			of_node_put(child);
+-			mutex_destroy(&priv->lock);
+ 			return -EINVAL;
+ 		}
+ 
+@@ -323,6 +320,8 @@ static int sc27xx_led_probe(struct platform_device *pdev)
+ 		priv->leds[reg].active = true;
+ 	}
+ 
++	mutex_init(&priv->lock);
++
+ 	err = sc27xx_led_register(dev, priv);
+ 	if (err)
+ 		mutex_destroy(&priv->lock);
+-- 
+2.41.0
 
-Thanks,
-Anjelique
