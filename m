@@ -2,208 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BF917C944F
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Oct 2023 13:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49BF17CA038
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 09:14:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233113AbjJNLDW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 14 Oct 2023 07:03:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54326 "EHLO
+        id S232192AbjJPHOF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Mon, 16 Oct 2023 03:14:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233043AbjJNLDV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 14 Oct 2023 07:03:21 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A6FAD
-        for <linux-leds@vger.kernel.org>; Sat, 14 Oct 2023 04:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697281400; x=1728817400;
-  h=date:from:to:cc:subject:message-id;
-  bh=PA3ckrHFVoIZez28Fci/KehtlM+DAzKMzxM+ilVHi/4=;
-  b=SmcqZ/vS+knBEv2CAYKdIaS4JLHFIWpYWEUQ8fjSyTzA87WYDlhyUchY
-   OAMThI3+rIQqYBL5F4+wlRiy9eczlP1qpAsJcBy0RwsOMBKartLfxdMGC
-   Qbl/KpIiq5lHKH22HzQE9tYRMg/b2xJ8nR5v5WRXhteABKtL3/AE2QY3+
-   dbQL5r6Ysu8BqwbQr3YPdqwU6ElctpNQcYzeC1aexIGHgdrQcdNQevp6o
-   FHhI0GrzasTmZr29mOwK80iyOXTiPciIoFCSHR03BjIzSAGH/hEZKfag6
-   j4a+GOWhUI5J04oZTHniDsuNwXXuXYeSZRIHN2PiAqOrAVZpkByYEzm7g
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="389177655"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="389177655"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 04:03:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="784451228"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="784451228"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Oct 2023 04:03:16 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qrcQM-00065R-1w;
-        Sat, 14 Oct 2023 11:03:14 +0000
-Date:   Sat, 14 Oct 2023 19:02:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lee Jones <lee@kernel.org>
-Cc:     linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next] BUILD SUCCESS
- e0e29e434cdca9705eb420b3f26928444fa559f6
-Message-ID: <202310141955.mZBn9Cp2-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        with ESMTP id S231853AbjJPHNz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 03:13:55 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D66BFF;
+        Mon, 16 Oct 2023 00:13:52 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=966793e2c5=fe@dev.tdt.de>)
+        id 1qsHnH-002Nhz-Aj; Mon, 16 Oct 2023 09:13:39 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qsHnG-00ADhL-9f; Mon, 16 Oct 2023 09:13:38 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id DB2B424004D;
+        Mon, 16 Oct 2023 09:13:37 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 38533240049;
+        Mon, 16 Oct 2023 09:13:37 +0200 (CEST)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id D30732BD62;
+        Mon, 16 Oct 2023 09:13:36 +0200 (CEST)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v3 0/4] ledtrig-tty: add additional tty state evaluation
+Date:   Mon, 16 Oct 2023 09:13:28 +0200
+Message-ID: <20231016071332.597654-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+X-purgate-type: clean
+X-purgate-ID: 151534::1697440419-4E731C7C-B86B7ACA/0/0
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-branch HEAD: e0e29e434cdca9705eb420b3f26928444fa559f6  leds: trigger: netdev: Move size check in set_device_name
+Changes in v3:
+- Add missing 'kernel test robot' information to the commit message.
+- Additional information added to the commit message
 
-elapsed time: 1461m
+Changes in v2:
+- rename new function from tty_get_mget() to tty_get_tiocm() as
+  requested by 'Jiri Slaby'.
+- As suggested by 'Jiri Slaby', fixed tabs in function documentation
+  throughout the file '/drivers/tty/tty_io.c' in a separate commit.
+- Move the variable definition to the top in function
+  'ledtrig_tty_work()'.
+  This was reported by the 'kernel test robot' after my change in v1.
+- Also set the 'max_brightness' to 'blink_brightness' if no
+  'blink_brightness' was set. This fixes a problem at startup when the
+  brightness is still set to 0 and only 'line_*' is evaluated. I looked
+in
+  the netdev trigger and that's exactly how it's done there.
 
-configs tested: 132
-configs skipped: 2
+v1:
+This is a follow-up patchset, based on the mailing list discussion from
+March 2023 based on the old patchset v7 [1]. I have changed, the LED
+trigger
+handling via the sysfs interfaces as suggested by Uwe Kleine-König.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Florian Eckert (4):
+  tty: whitespaces in descriptions corrected by replacing tabs with
+    spaces.
+  tty: add new helper function tty_get_tiocm
+  trigger: ledtrig-tty: move variable definition to the top
+  trigger: ledtrig-tty: add new line mode to triggers
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231013   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   clang
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231014   gcc  
-arm                         socfpga_defconfig   clang
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231014   gcc  
-i386                  randconfig-002-20231014   gcc  
-i386                  randconfig-003-20231014   gcc  
-i386                  randconfig-004-20231014   gcc  
-i386                  randconfig-005-20231014   gcc  
-i386                  randconfig-006-20231014   gcc  
-loongarch                        alldefconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231013   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                           ip27_defconfig   clang
-mips                        maltaup_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                    sam440ep_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231013   gcc  
-riscv                 randconfig-001-20231014   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231013   gcc  
-s390                  randconfig-001-20231014   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231014   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20231013   gcc  
-x86_64                randconfig-001-20231014   gcc  
-x86_64                randconfig-002-20231013   gcc  
-x86_64                randconfig-002-20231014   gcc  
-x86_64                randconfig-003-20231013   gcc  
-x86_64                randconfig-003-20231014   gcc  
-x86_64                randconfig-004-20231013   gcc  
-x86_64                randconfig-004-20231014   gcc  
-x86_64                randconfig-005-20231013   gcc  
-x86_64                randconfig-005-20231014   gcc  
-x86_64                randconfig-006-20231013   gcc  
-x86_64                randconfig-006-20231014   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  53 ++++
+ drivers/leds/trigger/ledtrig-tty.c            | 280 +++++++++++++++++-
+ drivers/tty/tty_io.c                          | 130 ++++----
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 396 insertions(+), 68 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.30.2
+
