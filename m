@@ -2,122 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F13C57CA3A8
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 11:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45DEB7CA626
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 12:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbjJPJMY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Oct 2023 05:12:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
+        id S233007AbjJPK56 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Oct 2023 06:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbjJPJMX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 05:12:23 -0400
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1164595;
-        Mon, 16 Oct 2023 02:12:21 -0700 (PDT)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=966793e2c5=fe@dev.tdt.de>)
-        id 1qsJe7-00BNkA-81; Mon, 16 Oct 2023 11:12:19 +0200
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1qsJe6-007pp2-Rf; Mon, 16 Oct 2023 11:12:18 +0200
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id 804A324004D;
-        Mon, 16 Oct 2023 11:12:18 +0200 (CEST)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 300BB240049;
-        Mon, 16 Oct 2023 11:12:18 +0200 (CEST)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 0603A2BD22;
-        Mon, 16 Oct 2023 11:12:16 +0200 (CEST)
+        with ESMTP id S232986AbjJPK5x (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 06:57:53 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA01B4;
+        Mon, 16 Oct 2023 03:57:48 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-5a7ab31fb8bso51807187b3.1;
+        Mon, 16 Oct 2023 03:57:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697453868; x=1698058668; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MLo6lm8DCOrQa7cpbQxRmZ4AW2SzeQU7OJCzMZY1x2g=;
+        b=aDSw4pIKJC98rWNixSFAUkUY4AhA5ORPJMY3vs/jWbxM8ysxoDT/y73tkxLCB8hvGW
+         Q9yMMUFqvL6ADygXXnhWUQiVlQgfFLgWF1CMrMdH6svoin6ME+OqPA5dmr5aTK80ceBa
+         QGk9365gojojInRY4k7V2G87iOz82CDhb6WNKPyvylvJRaVG4Kdr4PP15VE6jj/rhxb2
+         +80/g3jsaK3S4HDB1N/dqdn/RIs7M5nz9873oymhW2QMPIppR9uoiIeT80TJiLtxjol9
+         BvzTj98+YBZJko9PFeLoE4JnMK1hGnshVP0mbuuwoKLDBgTbhbpYiKQfB7HCiRRf7oPM
+         n6Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697453868; x=1698058668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MLo6lm8DCOrQa7cpbQxRmZ4AW2SzeQU7OJCzMZY1x2g=;
+        b=srSYM9E/JDmpBhyUZhWSGbfFHxup/TLdS7ioZW1ymqlhK0GhE7PJLPmuZtYh0UyBWy
+         PKqBOYDhrkp5tWAAkk74vYEAKhqY/T20JT5du2Rx0DqJaMNQNT86Acuuc/VdrQpMBb2F
+         7grR8TijQn4TlSwIoQkElgaJlB+tqyxdhYx8TBIqfaGqDy7/NxiH5H9n9e7MErY6ozH0
+         gVtHia65X5v38WfFPXZ7Hhsf68BVF6RB0hQmPoxGvxSKrIT8bQCi0oVo+V34DsvBkUmk
+         Xhg280IRdggcwbIE9qh/+mE1eD5Z3q0HX9VNV+NWfASJcN4s/P0nYCFHMWXrwTEpNWAq
+         jW3A==
+X-Gm-Message-State: AOJu0YwHAoNpDF5HRZigi/7xL2FLNVDc+y7zpRKtj/Z4pJmKFSGn8Dbk
+        Bk4IZLdQgRngo2PZ5/ifSY4scQGOZ277TAXiCf4=
+X-Google-Smtp-Source: AGHT+IHc7UWoEBo9CKelVYa69UU9KXXFr9P5dhwxdsEhcMwW8dLuDYlvP5XHBxrpFdYeirrlCzCr7lCvaT/m0X/J7YM=
+X-Received: by 2002:a81:8441:0:b0:5a7:c8fa:c620 with SMTP id
+ u62-20020a818441000000b005a7c8fac620mr18397132ywf.0.1697453868093; Mon, 16
+ Oct 2023 03:57:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 16 Oct 2023 11:12:15 +0200
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     m.brock@vanmierlo.com
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 3/4] trigger: ledtrig-tty: move variable definition to
- the top
-In-Reply-To: <93dcb9f6f218593084f834ba6b450999@vanmierlo.com>
-References: <20231016071332.597654-1-fe@dev.tdt.de>
- <20231016071332.597654-4-fe@dev.tdt.de>
- <93dcb9f6f218593084f834ba6b450999@vanmierlo.com>
-Message-ID: <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz> <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz> <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz> <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+In-Reply-To: <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 16 Oct 2023 12:57:36 +0200
+Message-ID: <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Werner Sembach <wse@tuxedocomputers.com>, ojeda@kernel.org,
+        Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-input@vger.kernel.org,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-purgate: clean
-X-purgate-type: clean
-X-purgate-ID: 151534::1697447539-9E3497EA-C04EA6BA/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Fri, Oct 13, 2023 at 9:56=E2=80=AFPM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> So... a bit of rationale. The keyboard does not really fit into the
+> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+> a matrix of them.
 
+Makes sense.
 
-On 2023-10-16 10:46, m.brock@vanmierlo.com wrote:
-> Florian Eckert wrote on 2023-10-16 09:13:
->> Has complained about the following construct:
-> 
-> Who is "Has" or who/what has complained?
+> We do see various strange displays these days -- they commonly have
+> rounded corners and holes in them. I'm not sure how that's currently
+> supported, but I believe it is reasonable to view keyboard as a
+> display with slightly weird placing of pixels.
+>
+> Plus, I'd really like to play tetris on one of those :-).
+>
+> So, would presenting them as auxdisplay be acceptable? Or are there
+> better options?
 
-The test robot who does not agree with my change in the v1 patchset.
+It sounds like a fair use case -- auxdisplay are typically simple
+character-based or small graphical displays, e.g. 128x64, that may not
+be a "main" / usual screen as typically understood, but the concept is
+a bit fuzzy and we are a bit of a catch-all.
 
->> drivers/leds/trigger/ledtrig-tty.c:362:3: error: a label can only be
->> part of a statement and a declaration is not a statement
->> 
->> Hence move the variable definition to the beginning of the function.
->> 
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes:
->> https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/
->> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
->> ---
->> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct 
->> *work)
->> 
->>  	if (icount.rx != trigger_data->rx ||
->>  	    icount.tx != trigger_data->tx) {
->> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
->> -
-> 
-> Is this kernel test robot broken?
+And "keyboard backlight display with a pixel/color per-key" does not
+sound like a "main" screen, and having some cute effects displayed
+there are the kind of thing that one could do in the usual small
+graphical ones too. :)
 
-The test robot does nothing wrong.
+But if somebody prefers to create new categories (or subcategories
+within auxdisplay) to hold these, that could be nice too (in the
+latter case, I would perhaps suggest reorganizing all of the existing
+ones while at it).
 
-> I see no label definition here.
-> And this variable declaration is at the start of a new block which does 
-> not
-> even require C99 support.
-
-I made change in patch set v1, that moves the definition of the variable
-`interval` into the switch case statement.
-https://lore.kernel.org/linux-leds/20230926093607.59536-3-fe@dev.tdt.de/
-The robot complained about this.
-
-So I decided to move the definition of the variable 'interval' to 
-function
-head to make the test robot happy in the commit. So this commit prepares
-the code for my change.
-
-If it is more common, I can merge this patch [1] into the next patch [2]
-of this set.
-
-[1] 
-https://lore.kernel.org/linux-leds/20231016071332.597654-4-fe@dev.tdt.de/
-[2] 
-https://lore.kernel.org/linux-leds/20231016071332.597654-5-fe@dev.tdt.de/
-
-
-Florian
+Cheers,
+Miguel
