@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D137CA802
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 14:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B82D7CA822
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 14:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232059AbjJPMca (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Oct 2023 08:32:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42680 "EHLO
+        id S232155AbjJPMje (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Oct 2023 08:39:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjJPMc3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 08:32:29 -0400
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAC79F;
-        Mon, 16 Oct 2023 05:32:28 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32dbbf3c782so287938f8f.1;
-        Mon, 16 Oct 2023 05:32:28 -0700 (PDT)
+        with ESMTP id S229501AbjJPMjd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 08:39:33 -0400
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A0B9B;
+        Mon, 16 Oct 2023 05:39:31 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4066241289bso45974305e9.0;
+        Mon, 16 Oct 2023 05:39:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697459547; x=1698064347;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=22zVa8H4Y755TLRazfCwuS35ZwmKNMgsy1aXe82/u74=;
-        b=Sf0Zc3YDegg0+AkAkTPhnf60Y5Y1OBU4jXqYEjcqnYYvcyNafLO49710fYM3XaZkOV
-         OqIHpcnQ1R76X1CzE+B4xO3XvdOUbnDO9Tn+rQZOvIqo2g7B1gGGF3YQh3e4Y8icxLFg
-         yVeC/o9jFCGnKFrZwbT1/df5aFseHbs3HeyRGAaFrilyLUJzwvzDsnn2umIuxfK/jMdI
-         kElfx4FBCplbLefHXk52EY6GxfL1c46uLXn1Opdh6z68cIsiJ2vTqz1/zIJaJLXxVql6
-         ixgEKmqcIFF59XpYpYGF0NXiGnB8rHHAD2iZYYL/Tkc6fj1IfEQ7bLIKk84MjDrrwo9D
-         wdWg==
-X-Gm-Message-State: AOJu0YxHXIH/Mw0Ti92RI+5LpDUtIH3yWhLDfxddQrTATOdHXhoyULUv
-        KTkZj7pctGQ8fZVGz/GWOx3AqwTHRkI=
-X-Google-Smtp-Source: AGHT+IGi9tfYC5drDMejHCVP67HFz1j4vf9yIvr8LuI54Ag9FZJAnV+uglid7Vqi3XsH1hRNr3fDWw==
-X-Received: by 2002:adf:f249:0:b0:324:8353:5247 with SMTP id b9-20020adff249000000b0032483535247mr5112392wrp.16.1697459546722;
-        Mon, 16 Oct 2023 05:32:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697459970; x=1698064770;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fWn8OKKmgH1SLqX3IBNKtZAxHwSFanLzmHjQ4o8BFLI=;
+        b=kfrEQVDGXKbM0nezsHfuSwwffQqbR8cvh65MvElsnYrEoIDoZ3HkO5p7OTXlnL7QO7
+         vlnwV37E07UsQhldzwTdqveylwZ25mZHvy7UjM9VK3oMhDo7LN9qVsFcQAEpi6nHngVg
+         XRMD5S8Lvn2PLVRdyIaGTaPu+lwWHmjP5rUB4D9HlHSWUfeoFvv7i7YGxUO3gzhxjVfi
+         U4+l7yxiD6sfDD0pUb7hmPUH7neExpQMC6VjeZEdMppVycFg1divkdSF6nhqATD2clKz
+         j7Ejjx4W6p79RZS1GIWIDJFoVI/8RV6azBWhEQ5Cj3r1K2AGd3dvvsIzGr7+/DSyvi5S
+         fKnw==
+X-Gm-Message-State: AOJu0YyTbHpAZQ+kmY8yrNVlojvNDpVBHJeFkuaLj1c2Kj2/xy6D8XNv
+        /aU0HOnzs/8ujaxmr3ac0lJIDVVU0jFeiA==
+X-Google-Smtp-Source: AGHT+IFXjdSjOK6JR2Ain6tAFdG0oAEw3Sl7ExLj4KHQXnDZh4Js4y3DUPj0hTlMTEHBKwY5v+tMsA==
+X-Received: by 2002:a05:600c:230d:b0:407:5b54:bb13 with SMTP id 13-20020a05600c230d00b004075b54bb13mr14407628wmo.37.1697459969365;
+        Mon, 16 Oct 2023 05:39:29 -0700 (PDT)
 Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id n18-20020a5d4c52000000b003197869bcd7sm3046657wrt.13.2023.10.16.05.32.25
+        by smtp.gmail.com with ESMTPSA id o3-20020a05600c510300b004065d67c3c9sm7196660wms.8.2023.10.16.05.39.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Oct 2023 05:32:26 -0700 (PDT)
-Message-ID: <31ec59fb-4bcf-4c70-996a-ea67b4bfcd2b@kernel.org>
-Date:   Mon, 16 Oct 2023 14:32:25 +0200
+        Mon, 16 Oct 2023 05:39:29 -0700 (PDT)
+Message-ID: <af95fcfc-0fb4-4915-9001-3ff6439e5384@kernel.org>
+Date:   Mon, 16 Oct 2023 14:39:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] tty: whitespaces in descriptions corrected by
- replacing tabs with spaces.
-To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
-        gregkh@linuxfoundation.org, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, u.kleine-koenig@pengutronix.de
-Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org
-References: <20231016071332.597654-1-fe@dev.tdt.de>
- <20231016071332.597654-2-fe@dev.tdt.de>
+Subject: Re: [PATCH v3 3/4] trigger: ledtrig-tty: move variable definition to
+ the top
 Content-Language: en-US
+To:     Florian Eckert <fe@dev.tdt.de>, m.brock@vanmierlo.com
+Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        pavel@ucw.cz, lee@kernel.org, kabel@kernel.org,
+        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+References: <20231016071332.597654-1-fe@dev.tdt.de>
+ <20231016071332.597654-4-fe@dev.tdt.de>
+ <93dcb9f6f218593084f834ba6b450999@vanmierlo.com>
+ <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
 From:   Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
  xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
@@ -95,9 +97,9 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <20231016071332.597654-2-fe@dev.tdt.de>
+In-Reply-To: <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
@@ -108,28 +110,67 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 16. 10. 23, 9:13, Florian Eckert wrote:
-> Tabs were used in the function description, to make this look more
-> uniform, the tabs were replaced by spaces where necessary.
+On 16. 10. 23, 11:12, Florian Eckert wrote:
 > 
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> 
+> On 2023-10-16 10:46, m.brock@vanmierlo.com wrote:
+>> Florian Eckert wrote on 2023-10-16 09:13:
+>>> Has complained about the following construct:
+>>
+>> Who is "Has" or who/what has complained?
+> 
+> The test robot who does not agree with my change in the v1 patchset.
 
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+Well, you should have put subject to that sentence, so that we can 
+understand. And not to parse "Has" as a tool/person name ;).
 
+>>> drivers/leds/trigger/ledtrig-tty.c:362:3: error: a label can only be
+>>> part of a statement and a declaration is not a statement
+>>>
+>>> Hence move the variable definition to the beginning of the function.
+>>>
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Closes:
+>>> https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/
+>>> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+>>> ---
+>>> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct 
+>>> *work)
+>>>
+>>>      if (icount.rx != trigger_data->rx ||
+>>>          icount.tx != trigger_data->tx) {
+>>> -        unsigned long interval = LEDTRIG_TTY_INTERVAL;
+>>> -
+>>
+>> Is this kernel test robot broken?
+> 
+> The test robot does nothing wrong.
+> 
+>> I see no label definition here.
 
-LGTM (spihnx prefers spaces), except:
+case is a label.
 
-> @@ -3470,7 +3470,7 @@ int tty_register_driver(struct tty_driver *driver)
->   EXPORT_SYMBOL(tty_register_driver);
->   
->   /**
-> - * tty_unregister_driver -- unregister a tty driver
-> + * tty_unregister_driver - unregister a tty driver
+>> And this variable declaration is at the start of a new block which 
+>> does not
+>> even require C99 support.
 
-you should have noted you changed ndashes to dashes too. (As only the 
-latter is supported by sphinx.)
+Nah. The block begins after the switch.
+So
+"""
+switch (X) {
+type var;
+case X:
+}
+would work. Moving the def after case is no longer at the block beginning.
 
-thanks,
+So just wrap put the case code in a block like we are used to:
+"""
+case X: {
+   type var;
+}
+""".
+
+regards,
 -- 
 js
 suse labs
