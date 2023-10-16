@@ -2,176 +2,212 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B82D7CA822
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 14:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557A37CAB2F
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 16:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbjJPMje (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Oct 2023 08:39:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
+        id S233736AbjJPOPu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Oct 2023 10:15:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjJPMjd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 08:39:33 -0400
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A0B9B;
-        Mon, 16 Oct 2023 05:39:31 -0700 (PDT)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4066241289bso45974305e9.0;
-        Mon, 16 Oct 2023 05:39:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697459970; x=1698064770;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWn8OKKmgH1SLqX3IBNKtZAxHwSFanLzmHjQ4o8BFLI=;
-        b=kfrEQVDGXKbM0nezsHfuSwwffQqbR8cvh65MvElsnYrEoIDoZ3HkO5p7OTXlnL7QO7
-         vlnwV37E07UsQhldzwTdqveylwZ25mZHvy7UjM9VK3oMhDo7LN9qVsFcQAEpi6nHngVg
-         XRMD5S8Lvn2PLVRdyIaGTaPu+lwWHmjP5rUB4D9HlHSWUfeoFvv7i7YGxUO3gzhxjVfi
-         U4+l7yxiD6sfDD0pUb7hmPUH7neExpQMC6VjeZEdMppVycFg1divkdSF6nhqATD2clKz
-         j7Ejjx4W6p79RZS1GIWIDJFoVI/8RV6azBWhEQ5Cj3r1K2AGd3dvvsIzGr7+/DSyvi5S
-         fKnw==
-X-Gm-Message-State: AOJu0YyTbHpAZQ+kmY8yrNVlojvNDpVBHJeFkuaLj1c2Kj2/xy6D8XNv
-        /aU0HOnzs/8ujaxmr3ac0lJIDVVU0jFeiA==
-X-Google-Smtp-Source: AGHT+IFXjdSjOK6JR2Ain6tAFdG0oAEw3Sl7ExLj4KHQXnDZh4Js4y3DUPj0hTlMTEHBKwY5v+tMsA==
-X-Received: by 2002:a05:600c:230d:b0:407:5b54:bb13 with SMTP id 13-20020a05600c230d00b004075b54bb13mr14407628wmo.37.1697459969365;
-        Mon, 16 Oct 2023 05:39:29 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id o3-20020a05600c510300b004065d67c3c9sm7196660wms.8.2023.10.16.05.39.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Oct 2023 05:39:29 -0700 (PDT)
-Message-ID: <af95fcfc-0fb4-4915-9001-3ff6439e5384@kernel.org>
-Date:   Mon, 16 Oct 2023 14:39:28 +0200
+        with ESMTP id S233771AbjJPOPs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 10:15:48 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7186BF2
+        for <linux-leds@vger.kernel.org>; Mon, 16 Oct 2023 07:15:43 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC842C433C9;
+        Mon, 16 Oct 2023 14:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697465742;
+        bh=T7K/xUClRmaiiX8KPEQwbk3iB8YEASft/Eyn8+mdoOU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PJJXRt7fGxffmuJaJrpCbZhZnSZ7woQUwXadLnDAeopSYkV+LN8xk8vMsGqG/hKSl
+         L8ULWKAFc/pSrwPNK4THsG0JcktJjas1a1oWYNqNH45yrxHD3b3HAw/QvoLD7a5w/o
+         C9QP7QF9pSyby7uySb3QIZ1z0sFcQPHog5RkQdkdqIkqauWzQ/ymQku+WnaMKWHQ30
+         Ql1+lh0SHf1p9ko+DKF7LIJSwR4Ja9YORe+1AgDBAXJo3aNPO+c/udbz3dQNWEi05J
+         5+41RtLV6tloCMeAndDwwobwkeX9XAw6xYnVWsh1CJCuK2IDuhfSNqMx13Z04LPvtv
+         6hb6bASnbS/sg==
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-leds@vger.kernel.org,
+        =?UTF-8?q?Marek=20Moj=C3=ADk?= <marek.mojik@nic.cz>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH] leds: turris-omnia: Fix brightness setting and trigger activating
+Date:   Mon, 16 Oct 2023 16:15:38 +0200
+Message-ID: <20231016141538.30037-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] trigger: ledtrig-tty: move variable definition to
- the top
-Content-Language: en-US
-To:     Florian Eckert <fe@dev.tdt.de>, m.brock@vanmierlo.com
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        pavel@ucw.cz, lee@kernel.org, kabel@kernel.org,
-        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-References: <20231016071332.597654-1-fe@dev.tdt.de>
- <20231016071332.597654-4-fe@dev.tdt.de>
- <93dcb9f6f218593084f834ba6b450999@vanmierlo.com>
- <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 16. 10. 23, 11:12, Florian Eckert wrote:
-> 
-> 
-> On 2023-10-16 10:46, m.brock@vanmierlo.com wrote:
->> Florian Eckert wrote on 2023-10-16 09:13:
->>> Has complained about the following construct:
->>
->> Who is "Has" or who/what has complained?
-> 
-> The test robot who does not agree with my change in the v1 patchset.
+I have improperly refactored commits
+  4d5ed2621c24 ("leds: turris-omnia: Make set_brightness() more efficient")
+and
+  aaf38273cf76 ("leds: turris-omnia: Support HW controlled mode via private trigger")
+after Lee requested a change in API semantics of the new functions I
+introduced in commit
+  28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls").
 
-Well, you should have put subject to that sentence, so that we can 
-understand. And not to parse "Has" as a tool/person name ;).
+Before the change, the function omnia_cmd_write_u8() returned 0 on
+success, and afterwards it returned a positive value (number of bytes
+written). The latter version was applied, but the following commits did
+not properly account for this change.
 
->>> drivers/leds/trigger/ledtrig-tty.c:362:3: error: a label can only be
->>> part of a statement and a declaration is not a statement
->>>
->>> Hence move the variable definition to the beginning of the function.
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes:
->>> https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/
->>> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
->>> ---
->>> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct 
->>> *work)
->>>
->>>      if (icount.rx != trigger_data->rx ||
->>>          icount.tx != trigger_data->tx) {
->>> -        unsigned long interval = LEDTRIG_TTY_INTERVAL;
->>> -
->>
->> Is this kernel test robot broken?
-> 
-> The test robot does nothing wrong.
-> 
->> I see no label definition here.
+This results in non-functional LED's .brightness_set_blocking() and
+trigger's .activate() methods.
 
-case is a label.
+The main reasoning behind the semantics change was that read/write
+methods should return the number of read/written bytes on success.
+It was pointed to me [1] that this is not always true (for example the
+regmap API does not do so), and since the driver never uses this number
+of read/written bytes information, I decided to fix this issue by
+changing the functions to the original semantics (return 0 on success).
 
->> And this variable declaration is at the start of a new block which 
->> does not
->> even require C99 support.
+[1] https://lore.kernel.org/linux-gpio/ZQnn+Gi0xVlsGCYA@smile.fi.intel.com/
 
-Nah. The block begins after the switch.
-So
-"""
-switch (X) {
-type var;
-case X:
-}
-would work. Moving the def after case is no longer at the block beginning.
+Fixes: 28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls")
+Signed-off-by: Marek Behún <kabel@kernel.org>
+---
+ drivers/leds/leds-turris-omnia.c | 37 +++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
-So just wrap put the case code in a block like we are used to:
-"""
-case X: {
-   type var;
-}
-""".
-
-regards,
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+index f27241896970..b443f8c989fa 100644
+--- a/drivers/leds/leds-turris-omnia.c
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -60,8 +60,11 @@ struct omnia_leds {
+ static int omnia_cmd_write_u8(const struct i2c_client *client, u8 cmd, u8 val)
+ {
+ 	u8 buf[2] = { cmd, val };
++	int ret;
++
++	ret = i2c_master_send(client, buf, sizeof(buf));
+ 
+-	return i2c_master_send(client, buf, sizeof(buf));
++	return ret < 0 ? ret : 0;
+ }
+ 
+ static int omnia_cmd_read_raw(struct i2c_adapter *adapter, u8 addr, u8 cmd,
+@@ -81,7 +84,7 @@ static int omnia_cmd_read_raw(struct i2c_adapter *adapter, u8 addr, u8 cmd,
+ 
+ 	ret = i2c_transfer(adapter, msgs, ARRAY_SIZE(msgs));
+ 	if (likely(ret == ARRAY_SIZE(msgs)))
+-		return len;
++		return 0;
+ 	else if (ret < 0)
+ 		return ret;
+ 	else
+@@ -91,11 +94,11 @@ static int omnia_cmd_read_raw(struct i2c_adapter *adapter, u8 addr, u8 cmd,
+ static int omnia_cmd_read_u8(const struct i2c_client *client, u8 cmd)
+ {
+ 	u8 reply;
+-	int ret;
++	int err;
+ 
+-	ret = omnia_cmd_read_raw(client->adapter, client->addr, cmd, &reply, 1);
+-	if (ret < 0)
+-		return ret;
++	err = omnia_cmd_read_raw(client->adapter, client->addr, cmd, &reply, 1);
++	if (err)
++		return err;
+ 
+ 	return reply;
+ }
+@@ -236,7 +239,7 @@ static void omnia_hwtrig_deactivate(struct led_classdev *cdev)
+ 
+ 	mutex_unlock(&leds->lock);
+ 
+-	if (err < 0)
++	if (err)
+ 		dev_err(cdev->dev, "Cannot put LED to software mode: %i\n",
+ 			err);
+ }
+@@ -302,7 +305,7 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
+ 	ret = omnia_cmd_write_u8(client, CMD_LED_MODE,
+ 				 CMD_LED_MODE_LED(led->reg) |
+ 				 CMD_LED_MODE_USER);
+-	if (ret < 0) {
++	if (ret) {
+ 		dev_err(dev, "Cannot set LED %pOF to software mode: %i\n", np,
+ 			ret);
+ 		return ret;
+@@ -311,7 +314,7 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
+ 	/* disable the LED */
+ 	ret = omnia_cmd_write_u8(client, CMD_LED_STATE,
+ 				 CMD_LED_STATE_LED(led->reg));
+-	if (ret < 0) {
++	if (ret) {
+ 		dev_err(dev, "Cannot set LED %pOF brightness: %i\n", np, ret);
+ 		return ret;
+ 	}
+@@ -364,7 +367,7 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *a,
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	unsigned long brightness;
+-	int ret;
++	int err;
+ 
+ 	if (kstrtoul(buf, 10, &brightness))
+ 		return -EINVAL;
+@@ -372,9 +375,9 @@ static ssize_t brightness_store(struct device *dev, struct device_attribute *a,
+ 	if (brightness > 100)
+ 		return -EINVAL;
+ 
+-	ret = omnia_cmd_write_u8(client, CMD_LED_SET_BRIGHTNESS, brightness);
++	err = omnia_cmd_write_u8(client, CMD_LED_SET_BRIGHTNESS, brightness);
+ 
+-	return ret < 0 ? ret : count;
++	return err ?: count;
+ }
+ static DEVICE_ATTR_RW(brightness);
+ 
+@@ -403,7 +406,7 @@ static ssize_t gamma_correction_store(struct device *dev,
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct omnia_leds *leds = i2c_get_clientdata(client);
+ 	bool val;
+-	int ret;
++	int err;
+ 
+ 	if (!leds->has_gamma_correction)
+ 		return -EOPNOTSUPP;
+@@ -411,9 +414,9 @@ static ssize_t gamma_correction_store(struct device *dev,
+ 	if (kstrtobool(buf, &val) < 0)
+ 		return -EINVAL;
+ 
+-	ret = omnia_cmd_write_u8(client, CMD_SET_GAMMA_CORRECTION, val);
++	err = omnia_cmd_write_u8(client, CMD_SET_GAMMA_CORRECTION, val);
+ 
+-	return ret < 0 ? ret : count;
++	return err ?: count;
+ }
+ static DEVICE_ATTR_RW(gamma_correction);
+ 
+@@ -431,7 +434,7 @@ static int omnia_mcu_get_features(const struct i2c_client *client)
+ 
+ 	err = omnia_cmd_read_raw(client->adapter, OMNIA_MCU_I2C_ADDR,
+ 				 CMD_GET_STATUS_WORD, &reply, sizeof(reply));
+-	if (err < 0)
++	if (err)
+ 		return err;
+ 
+ 	/* Check whether MCU firmware supports the CMD_GET_FEAUTRES command */
+@@ -440,7 +443,7 @@ static int omnia_mcu_get_features(const struct i2c_client *client)
+ 
+ 	err = omnia_cmd_read_raw(client->adapter, OMNIA_MCU_I2C_ADDR,
+ 				 CMD_GET_FEATURES, &reply, sizeof(reply));
+-	if (err < 0)
++	if (err)
+ 		return err;
+ 
+ 	return le16_to_cpu(reply);
 -- 
-js
-suse labs
+2.41.0
 
