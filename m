@@ -2,142 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCE047CB35A
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 21:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D147CB53A
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Oct 2023 23:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232473AbjJPTfI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Oct 2023 15:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
+        id S233657AbjJPVWj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Oct 2023 17:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231478AbjJPTfH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 15:35:07 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F55AB
-        for <linux-leds@vger.kernel.org>; Mon, 16 Oct 2023 12:35:05 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-405361bba99so45244115e9.2
-        for <linux-leds@vger.kernel.org>; Mon, 16 Oct 2023 12:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697484903; x=1698089703; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U+kmiga0tT1i9xoWjbyweWD1GIJ3rpub+k90ab63b1c=;
-        b=x90sK1ymUHqXAMdSyaw3UQoAdYnl1/9ppvdYSDQkVx15IruSh/b8SUwIZhk0ML1C2q
-         GNanFJcroWVWp/4rJAJI5ZkdAY500ZEF6/smSVSKa40JkyNP+IxEigpND6lR9lcmGG+A
-         4BeDKkF1RiOFf9iR+PQpKu2y9stR794Uay3r1JTSrgiogcudw1pQpZ08zeHSPXVvogTy
-         NIx+o1AubyYu748UX2Uym5j1wFhGpHQvKfPDLIdLGl0DDh4vQ29c6vEtwRzRwTD9BGBL
-         0Lkab0Uc5PdGfvfgmI2eySs2C8aWWguv3D8QWAevKoKIZMNDEwUVzasyl9y62p1CQ5Gt
-         My4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697484903; x=1698089703;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+kmiga0tT1i9xoWjbyweWD1GIJ3rpub+k90ab63b1c=;
-        b=R43vDhCK57oHLgkblAirwY0o+A5QytxdwzOHK+lAGjPjawjYdHAb7wymw6F+p4mfGY
-         hYvBwdt2/UrLmb39zZiX5tpAGaV7mVQbdvmhwj3W+qJngqDGS3czM7TtfGe+tV0wYjdR
-         y0u8LtnkGgKZw+SLtJhC9xCNGjSzq6+6cIdpu9yUxQIUQkQfK+7ygre8p1kWThZMXdVo
-         cv+AwwEZX5dFnhlnjnQbprxBR53EmtcCF6tiIdT5ok8JZzV2no6bVHVf0KNUJwfZb+9E
-         /Gp09dv0FK2tW3ZIQpIrmWGS1qmK6B+qioFLyotVtdss9dA7cByO5UgSGCUovnHuhS7O
-         Wsog==
-X-Gm-Message-State: AOJu0YxpsgI9HB5tf/JFjAifNfC8vp2MajNhkOpWKM19xVthvLuV0KpW
-        PqHzgwfJR+xoJ0bM4RGEOe3jkhaB/N+1ZpXnjGo=
-X-Google-Smtp-Source: AGHT+IF4eiWmvP0mMbbVhk+ML1JWZtdjqU4MttL+DZD0PaSc9YiGb/6e1HsJFlU401j6dHE6zuQXzg==
-X-Received: by 2002:a05:600c:1ca3:b0:407:7ea1:e9a4 with SMTP id k35-20020a05600c1ca300b004077ea1e9a4mr75492wms.5.1697484903512;
-        Mon, 16 Oct 2023 12:35:03 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.154])
-        by smtp.gmail.com with ESMTPSA id bd10-20020a05600c1f0a00b004077219aed5sm7890733wmb.6.2023.10.16.12.35.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Oct 2023 12:35:03 -0700 (PDT)
-Message-ID: <47400503-c6c3-46d4-ab44-71cbe9366f46@linaro.org>
-Date:   Mon, 16 Oct 2023 21:35:00 +0200
+        with ESMTP id S233570AbjJPVWi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Oct 2023 17:22:38 -0400
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4583AB;
+        Mon, 16 Oct 2023 14:22:34 -0700 (PDT)
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+        by mx1.sberdevices.ru (Postfix) with ESMTP id A569D100002;
+        Tue, 17 Oct 2023 00:22:30 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru A569D100002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+        s=mail; t=1697491350;
+        bh=tE5YoBnt+11PUnXEmb2Dc+agDamwbenbeeGvKIFi5A4=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+        b=a4PBneFVUNr4GSufpFhR9VLKkcuA+Qd49KGJBxmmsLvzRBVyFjFJnnZr4N7z1AmgX
+         glGrFBHF95BAk563w3x7sv+w7CowE0vxneqq0v3M2ISOKgmFjjD1w9a26lmbWx0djb
+         P+MtN60OEmr4cvPDn47Aox3TjSi/GNEsSSAeLmqfCuYdKgJFRzPtqNujCkXS1czQpN
+         rsKClAh+XTv/8a7iIJXY2L63qP7vVJR2viJt3nVJHi/v3HG4tB5WLLkfn3DWZBxsiV
+         H6EqOOrpqEtIGfGpbTH3ZKAiaMumekIjparEqVrgqewxBWf2TjhI64vU4J6ERBIFpT
+         CheH9ZAcD9hYA==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.sberdevices.ru (Postfix) with ESMTPS;
+        Tue, 17 Oct 2023 00:22:30 +0300 (MSK)
+Received: from [192.168.1.127] (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Tue, 17 Oct 2023 00:22:30 +0300
+Message-ID: <49b1d68c-2f16-2efd-ae24-2e2bd95a094b@salutedevices.com>
+Date:   Tue, 17 Oct 2023 00:22:51 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] dt-bindings: backlight: add brightness-levels related
- common properties
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v1 09/11] leds: aw200xx: improve autodim calculation
+ method
 Content-Language: en-US
-To:     Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231016150554.27144-1-f.suligoi@asem.it>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231016150554.27144-1-f.suligoi@asem.it>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+To:     Dmitry Rokosov <ddrokosov@salutedevices.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>
+References: <20231006160437.15627-1-ddrokosov@salutedevices.com>
+ <20231006160437.15627-10-ddrokosov@salutedevices.com>
+ <CAHp75VcntHXe31H8C9GcGhc+HRA-gZjtD=uibMMYN-FS254RJw@mail.gmail.com>
+ <20231009131808.lzri7z2nvcmkfuu3@CAB-WSD-L081021>
+ <20231009140225.gj7vkmmio5xfvtnk@CAB-WSD-L081021>
+From:   George Stark <gnstark@salutedevices.com>
+In-Reply-To: <20231009140225.gj7vkmmio5xfvtnk@CAB-WSD-L081021>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [100.64.160.123]
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 180654 [Oct 16 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 540 540 2509a3fe0f7fdc802e7154a32be7c2dd394ab987, p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/10/16 20:05:00 #22203970
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 16/10/2023 17:05, Flavio Suligoi wrote:
-> Both files pwm-backlight.yaml and led-backlight.yaml contain properties
-> in common with each other, regarding the brightness levels:
-> 
-> - brightness-levels
-> - default-brightness-level
-> 
-> These properties can then be moved to backlight/common.yaml.
-> 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
+On 10/9/23 17:02, Dmitry Rokosov wrote:
+> On Mon, Oct 09, 2023 at 04:18:08PM +0300, Dmitry Rokosov wrote:
+>> On Fri, Oct 06, 2023 at 09:03:47PM +0300, Andy Shevchenko wrote:
+>>> On Fri, Oct 6, 2023 at 7:05 PM Dmitry Rokosov
+>>> <ddrokosov@salutedevices.com> wrote:
+>>>>
+>>>> From: George Stark <gnstark@salutedevices.com>
+>>>>
+>>>> use DIV_ROUND_UP instead of coarse div
+>>>
+>>> Please, respect English grammar and punctuation.
+>>> Refer to macros and functions as func() (note the parentheses).
+>>>
+>>> ...
+>>>
+>>>>   #define AW200XX_REG_DIM2FADE(x) ((x) + 1)
+>>>> +#define AW200XX_REG_FADE2DIM(fade) \
+>>>> +       DIV_ROUND_UP((fade) * AW200XX_DIM_MAX, AW200XX_FADE_MAX)
+>>>
+>>> Have you checked if the overflow is _now_ possible (compiling on
+>>> 32-bit platforms as well)?
+>>
+>> I suppose we shouldn't carry on about overflow here because the value of
+>> fade cannot exceed 255, and DIM_MAX is set at 63
+>>
+>> You can find maximum values of fade and dim in the aw200xx driver
+>> header:
+>>
+>> #define AW200XX_DIM_MAX                  (BIT(6) - 1)
+>> #define AW200XX_FADE_MAX                 (BIT(8) - 1)
+> 
+> I agree that checking if the fade is not greater than FADE_MAX will not
+> be excessive. The LED subsystem is capable of sending brightness levels
+> higher than 255
+> 
 
+Probably we should set max_brightness to AW200XX_FADE_MAX in 
+led_classdev when adding leds.
+
+-- 
+Best regards
+George
