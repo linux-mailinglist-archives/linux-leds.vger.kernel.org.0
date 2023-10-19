@@ -2,58 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D79F7CF36F
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 11:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CCC27CF379
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 11:04:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232935AbjJSJC2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 05:02:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45426 "EHLO
+        id S232506AbjJSJEh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 05:04:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232876AbjJSJC0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 05:02:26 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B84312A;
-        Thu, 19 Oct 2023 02:02:25 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-777719639adso180183885a.3;
-        Thu, 19 Oct 2023 02:02:25 -0700 (PDT)
+        with ESMTP id S229998AbjJSJEh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 05:04:37 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF88129;
+        Thu, 19 Oct 2023 02:04:35 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d264e67d8so34161256d6.1;
+        Thu, 19 Oct 2023 02:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697706144; x=1698310944; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697706274; x=1698311074; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sk9NQQyJeBXT6Ol7GG+VsgF3Sb2L3l2NxoYE0zAyB7Y=;
-        b=XBmsi3ugdFmtjgaaaqxGewgMvjah8ALh+ojOFpIpgujGYnwMav513m7o7p1j1riTJf
-         Bw7B1FRlJGSwXuejzIuhNj8JRGD8HlIj3bJ45HSq3qAJjCh6U0fK+UVVPC5EVHiEhchx
-         6720Nhjq8GFZ4AgJtp6TXsYs7aoZMYw/Xaj0uXlRVgp0vsRA9GnZXaBAq2f9G+gyTRGx
-         c3sNX1hu1WJug192PCemjYGA+wXBXyEByyzs6wS21p6CZw26Bg+4EdFGtYqULeMze3yh
-         XMYwcHrvLTxpjHR52QTx2K3My3FNEHD+4bzF27OXbGcO7fM5UekanZbxWT8TmQYkK+6s
-         +ZIw==
+        bh=tV/rPK/2j1VojJvVOgd9kGFZP0ncz1ZVYvpMG5KlT7E=;
+        b=mdTMMTOImnqPzZ6xzERxgHzoffE3dOF2Z8XzDriyy4OCXW3WrZzRIDuvOuSjduOYLq
+         xAuZaAaQ2cq7rpbOn5Lm354mEGi6bCJaQXGPHGUtOwqcHqTjdEEE3CKjKYZmNsIhV/Qk
+         VVAxa8N82ITDz/jQUYqdArcDaTyHMGndHAqYRygadS2NE7/XDkB1WxSCHjdmPidiYDyH
+         5Bvf01LI/MEhVx53sulsa3nhzwdMo37EFuTk7fj+n6/a1PB9DOntqbaIOKv18LVDuh5N
+         cYpfPPj2Xs21yPcl+2zjcj9QxTNJiYFY7j+HQMd1o83y3K6rh4M9w0IzQ0JtXrgh9q4e
+         +Nng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697706144; x=1698310944;
+        d=1e100.net; s=20230601; t=1697706274; x=1698311074;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sk9NQQyJeBXT6Ol7GG+VsgF3Sb2L3l2NxoYE0zAyB7Y=;
-        b=hlr65v3HO8/4Zy5EKcHeQ363sCMtwCAdmtEhMOHngfsZ1Li1Msu6MJRjaupRcwixzI
-         LjpVqzk3lAaOnVG7mirhuAPfUGbBYIE3zWgRtmKNa6GPs/73Ss62fOQk/Eldy83k4Uw+
-         W4ITATQCYkJbI90vlRyTrelpWyV0L/hz8FOgm53W1T/lFF4IBS84/F4o1hcReND6tPhZ
-         gPiSOLKkKS48AQYz6pyjdh2n3hT9mOCf6j4rurAeDLY5GfrkCDFG6w5umnyTL9xKiWsc
-         x8VHn0vpFyXgBnzyjxSiNfmJCgPxs43V/DtQTAIsz+r7EvyK9xk8jo8Yom8Ja7Ut9WbA
-         QhqQ==
-X-Gm-Message-State: AOJu0YyhPKxQnwJxrojdRhJAXvHt8HdeDZ9OuuL9NYbu/5MyiT+uPM4k
-        uvZqgFEqjd1Vc/K9stauTiVI5VrbVWWY7kUXTrU=
-X-Google-Smtp-Source: AGHT+IEkwz3nH9dOruaO1NEUCt0OBItrJ53vHuOwtCxwOfN7piQjEzoeY6VF8XfRjIQJmiAe07nLOHfOuR5PVr4GjRU=
-X-Received: by 2002:a05:6214:2421:b0:66d:10fd:4abb with SMTP id
- gy1-20020a056214242100b0066d10fd4abbmr1782016qvb.16.1697706144215; Thu, 19
- Oct 2023 02:02:24 -0700 (PDT)
+        bh=tV/rPK/2j1VojJvVOgd9kGFZP0ncz1ZVYvpMG5KlT7E=;
+        b=tfTSrtu/QAl7RfiugvkpojGaVi7pdV4MeSuA9jQIIBVDwVtLw+VfYXMOOZhBmKNX/+
+         GUcDDKAwEbG1PPrggrTxfHb69cUCFE3K2Nj33hBFjTlhcubGj3oKUq3tL/Gsvbh8VgQR
+         iAws/thutC671NqzGkSyS7CYWG5CCAvfxarSaMeMalNe2W/+fr4kptJInTUVLWzn8rEx
+         gmYhRHU3AbrCeeqd+lM7FokDugJgb/kIor/P1LwdszxfX1FwvStYbAXWusLoYYhaSl5r
+         gtEE70CYcPQ2sSMnoB5eYynVM4iCE/7kGCZ/XFjUAM1VUR/lcP0cnv6aHfwZV7UsI77Y
+         taOQ==
+X-Gm-Message-State: AOJu0YxSPNVPdR5usBI92G6sVaNLnQACysyJ98Lif5OZEGAVDsFxspOd
+        VDS129aHq+x8IfjxPmK6OqOiKwzGGs22a8+c9tM=
+X-Google-Smtp-Source: AGHT+IHcJ/TYSvI0wciw9VT9ALAlFtcBPxuIxXqSgO4iRmfrBKAfVfBXgWN1LRy3xiFqrabr/G/GZI9zrN2zZpiDYfo=
+X-Received: by 2002:a05:6214:21ea:b0:66d:6845:ea2d with SMTP id
+ p10-20020a05621421ea00b0066d6845ea2dmr1871765qvj.53.1697706274596; Thu, 19
+ Oct 2023 02:04:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231018182943.18700-1-ddrokosov@salutedevices.com> <20231018182943.18700-5-ddrokosov@salutedevices.com>
-In-Reply-To: <20231018182943.18700-5-ddrokosov@salutedevices.com>
+References: <20231018182943.18700-1-ddrokosov@salutedevices.com> <20231018182943.18700-7-ddrokosov@salutedevices.com>
+In-Reply-To: <20231018182943.18700-7-ddrokosov@salutedevices.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 19 Oct 2023 12:01:48 +0300
-Message-ID: <CAHp75VeTVU-1mSzAX4j7s9bbDGxDR_FwgFL7dnC4_6OhsN8kpw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] leds: aw200xx: calculate dts property
- display_rows in driver
+Date:   Thu, 19 Oct 2023 12:03:58 +0300
+Message-ID: <CAHp75VcysFpaGyhy0Yr3vEFTsLqd-sJfrMp4ces3ga7uAq40_A@mail.gmail.com>
+Subject: Re: [PATCH v2 06/11] leds: aw200xx: add delay after software reset
 To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -78,52 +77,16 @@ On Wed, Oct 18, 2023 at 9:30=E2=80=AFPM Dmitry Rokosov
 >
 > From: George Stark <gnstark@salutedevices.com>
 >
-> Get rid of device tree property "awinic,display-rows" and calculate it
-> in driver using led definition nodes. display-row actually means number
-> of current switches and depends on how leds are connected to the device.
+> According to datasheets of aw200xx devices software reset takes at
+> least 1 ms so add delay after reset before issuing commands to device.
 
-Still the commit message does not answer the question why it's safe
-for the users that have this property enabled in their DTBs (note B
-letter).
+For the "us" unit you chose "XXXus" style, why is "ms" different?
 
 ...
 
-> +       device_for_each_child_node(dev, child) {
-> +               u32 source;
-> +               int ret;
-> +
-> +               ret =3D fwnode_property_read_u32(child, "reg", &source);
-> +               if (ret || source >=3D chip->cdef->channels)
+> +       /* according to datasheet software reset takes at least 1 ms */
 
-Perhaps a warning?
-
-    dev_warn(dev, "Unable to read from %pfw or apply a source channel
-number\n", child);
-
-> +                       continue;
-> +
-> +               max_source =3D max(max_source, source);
-> +       }
-
-...
-
-> +       chip->display_rows =3D max_source / chip->cdef->display_size_colu=
-mns + 1;
-> +       if (!chip->display_rows) {
-> +               dev_err(dev, "No valid led definitions found\n");
-> +               return -EINVAL;
-
-So, this part is in ->probe() flow only, correct? If so,
-  return dev_err_probe(...);
-
-> +       }
-
-...
-
-> +       if (aw200xx_probe_get_display_rows(dev, chip))
-> +               return -EINVAL;
-
-Why is the error code shadowed?
+Ditto.
 
 --=20
 With Best Regards,
