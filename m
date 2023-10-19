@@ -2,41 +2,42 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 526777CF86C
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 14:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 645B37CF89E
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 14:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235422AbjJSMKx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 08:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40074 "EHLO
+        id S233195AbjJSMVA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 08:21:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235429AbjJSMKe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 08:10:34 -0400
+        with ESMTP id S233294AbjJSMU6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 08:20:58 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998291AD
-        for <linux-leds@vger.kernel.org>; Thu, 19 Oct 2023 05:08:23 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D46C433C7;
-        Thu, 19 Oct 2023 12:08:20 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627CBB6;
+        Thu, 19 Oct 2023 05:20:57 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8027C433C8;
+        Thu, 19 Oct 2023 12:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697717301;
-        bh=9t4TnbZH/9CvYW2RzAU3HCGkxn3r+Xji/RU72i1dw00=;
+        s=k20201202; t=1697718057;
+        bh=XFuvtHIa7r/OH39BIUY2Rg3BlL4Ej+ED/kG0o9vR93Y=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=UEnuHApVSok8GuQhlWGp3z57zt5sZJqKAWh+bqAdl414ED7L+jR1uNcCBzCl3PdRa
-         OHsQmEzSTAF0GdUdIIlOHuJfvASxtPccVubWFDe0/K5ON+PW5Qzk2QCfMFRG7d8YDk
-         +Ebh1myZHxloUOaVBiMvD0LTWq5Fp7meu1wAE/7qgkN3r/qbrkLQGxy37T6XrhLMO2
-         Rcv3FkIDE+zGYelT+vUI+r1J21rKP3aQdjl/ZOuEJql2HGHnF3ZY4qe2/MbW96UsJJ
-         fJJCHt2FSIvww8Yf+6P2ojwv0KdztFlqpGwnbjMaN8QEBWDUn6tNrrigXrWfO5CI/K
-         1WohRV8e/BJRA==
+        b=lL4GTEtH8PL5mUD4nerM8N3hrP2HgEf9TtWzriEIHLO3yBdd2r2F6bAKPz/5sMJYF
+         3WCw0BOPLH2CCqD3VYNPsuqDm+lSI7p8C6TYvJSFsqk+d8AOyi57JqO+DVSTxWjcwK
+         Bns62ClLB7ar2dsTvBWRtA7IfsyO1AtDSCt8A+lKIp9v7DL7Fw5czjPK5OFr5SGwkP
+         bIMQ1n/g6TqdfFWApd/I2YaJ76vJUVdGHdNSpRFf8ai+XXZNa5BptaBF33Qa+VfSB3
+         FUOua3sHRCbCgHj9B+LySXq82BuMiVqaPAO9pFSXJ21HHNye1BOL0dYB1Df77mJFjH
+         nc9b67gWxzvtg==
 From:   Lee Jones <lee@kernel.org>
-To:     Lee Jones <lee@kernel.org>,
-        =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Cc:     linux-leds@vger.kernel.org,
-        =?utf-8?q?Marek_Moj=C3=ADk?= <marek.mojik@nic.cz>
-In-Reply-To: <20231016141538.30037-1-kabel@kernel.org>
-References: <20231016141538.30037-1-kabel@kernel.org>
-Subject: Re: (subset) [PATCH] leds: turris-omnia: Fix brightness setting
- and trigger activating
-Message-Id: <169771730067.2462718.13976120509366125466.b4-ty@kernel.org>
-Date:   Thu, 19 Oct 2023 13:08:20 +0100
+To:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Denis Osterland-Heim <denis.osterland@diehl.com>
+In-Reply-To: <20231016153051.1409074-1-andriy.shevchenko@linux.intel.com>
+References: <20231016153051.1409074-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v2 1/1] leds: core: Refactor
+ led_update_brightness() to use standard pattern
+Message-Id: <169771805542.2469471.17417276812343058652.b4-ty@kernel.org>
+Date:   Thu, 19 Oct 2023 13:20:55 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -50,21 +51,20 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 16 Oct 2023 16:15:38 +0200, Marek Behún wrote:
-> I have improperly refactored commits
->   4d5ed2621c24 ("leds: turris-omnia: Make set_brightness() more efficient")
-> and
->   aaf38273cf76 ("leds: turris-omnia: Support HW controlled mode via private trigger")
-> after Lee requested a change in API semantics of the new functions I
-> introduced in commit
->   28350bc0ac77 ("leds: turris-omnia: Do not use SMBUS calls").
+On Mon, 16 Oct 2023 18:30:51 +0300, Andy Shevchenko wrote:
+> The standard conditional pattern is to check for errors first and
+> bail out if any. Refactor led_update_brightness() accordingly.
+> 
+> While at it, drop unneeded assignment and return 0 unconditionally
+> on success.
+> 
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: turris-omnia: Fix brightness setting and trigger activating
-      commit: a775c69e55c92da187c6286a04088acc3827a73e
+[1/1] leds: core: Refactor led_update_brightness() to use standard pattern
+      commit: 0e5bb700df6a6fe36d9487a4e0a82a4c7b1f7b4e
 
 --
 Lee Jones [李琼斯]
