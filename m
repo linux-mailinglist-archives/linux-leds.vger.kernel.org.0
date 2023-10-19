@@ -2,67 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A85A97CF5FE
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 13:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B6EA7CF6BA
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 13:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233086AbjJSLAp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 07:00:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
+        id S1345324AbjJSL2U convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Thu, 19 Oct 2023 07:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233119AbjJSLAo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 07:00:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46350137;
-        Thu, 19 Oct 2023 04:00:41 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DDF9C433C7;
-        Thu, 19 Oct 2023 11:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697713240;
-        bh=oQXN+1e6ytcbcU5S2Em6a6f7FxQLS6ypfbh3127dMZo=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=XJjcdxrTY0rX8fsKwkO+xIVHPukzTmuGhyEEGex73HX1iWLZX+Hz1bcGfIcbVeK1Y
-         3o+YVbllb3RYrrPHTqEQngjEcGWKaljBBe0HAQp/DDc9IyL6VXO61QcZvfOo53oZRr
-         KoIqSHfkQ69AQxUF5+fi1DVYiKncHmdQiyGX+37fHNzu+YLdmckj/0tsiMV1lN5nUj
-         6krdqFw/d+Mr0lx5xLZYUI5g8uJQFz/amxijFTaMwJM+tVeL4Le0CgszP5aakT6XoK
-         DDLYV7ZbWs/F2+tNagoSmJjsutYs3etVwnsvXHRdyLMlDmIu9LZiyN9tMDiDrwubZV
-         vZdUF/6mGBONA==
-From:   Lee Jones <lee@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Chunyan Zhang <chunyan.zhang@unisoc.com>
-Cc:     linux-leds@vger.kernel.org,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <20231013022010.854367-1-chunyan.zhang@unisoc.com>
-References: <20231013022010.854367-1-chunyan.zhang@unisoc.com>
-Subject: Re: (subset) [PATCH V3] leds: sc27xx: Move mutex_init() down
-Message-Id: <169771323911.2438345.5584954485789045031.b4-ty@kernel.org>
-Date:   Thu, 19 Oct 2023 12:00:39 +0100
+        with ESMTP id S233152AbjJSL2T (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 07:28:19 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B5FBBE;
+        Thu, 19 Oct 2023 04:28:17 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9670043017=fe@dev.tdt.de>)
+        id 1qtRCI-0022g3-ST; Thu, 19 Oct 2023 13:28:14 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qtRCI-001boV-FI; Thu, 19 Oct 2023 13:28:14 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 207DD240049;
+        Thu, 19 Oct 2023 13:28:14 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id C3699240040;
+        Thu, 19 Oct 2023 13:28:13 +0200 (CEST)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id 1CB822062B;
+        Thu, 19 Oct 2023 13:28:13 +0200 (CEST)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        ansuelsmth@gmail.com, m.brock@vanmierlo.com
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v4 0/3] ledtrig-tty: add additional tty state evaluation
+Date:   Thu, 19 Oct 2023 13:28:06 +0200
+Message-ID: <20231019112809.881730-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+X-purgate: clean
+X-purgate-type: clean
+X-purgate-ID: 151534::1697714894-056076AA-1C963A01/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 13 Oct 2023 10:20:10 +0800, Chunyan Zhang wrote:
-> Move the mutex_init() to avoid redundant mutex_destroy() calls after
-> that for each time the probe fails.
-> 
-> 
+Changes in v4:
+- Merging patch 3/4 into patch number 4/4 from previous series, because
+  it fixes a problem that does not exist upstream. This was a note from
+  the build robot regarding my change that I added with previous series.
+  This change was never upstream and therefore this is not relevant.
+- Update the commit message of patch 1/3 of this series, that this commit
+  also changes the 'ndashes' to simple dashes. There were no changes, so
+  I add the 'Reviewed-by' that the commit received before.
+- With this patchset version I have reworked my implementation for the
+  evaluation of the additional line state, so that this changes becomes
+  smaller. As basis I have used the staged commits from Christian Marangi
+  that makes this changes to the netdev trigger. This has already been
+  applied to 'for-leds-next-next' by Lee Jones. I adapted this to the
+  tty trigger.
+  Convert device attr to macro:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=509412749002f4bac4c29f2012fff90c08d8afca
+  Unify sysfs and state handling:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=0fd93ac8582627bee9a3c824489f302dff722881
 
-Applied, thanks!
+Changes in v3:
+- Add missing 'kernel test robot' information to the commit message.
+- Additional information added to the commit message
 
-[1/1] leds: sc27xx: Move mutex_init() down
-      commit: 8f3a620c7830d7b50d32614d48c4b7df7205309a
+Changes in v2:
+- rename new function from tty_get_mget() to tty_get_tiocm() as
+  requested by 'Jiri Slaby'.
+- As suggested by 'Jiri Slaby', fixed tabs in function documentation
+  throughout the file '/drivers/tty/tty_io.c' in a separate commit.
+- Move the variable definition to the top in function
+  'ledtrig_tty_work()'.
+  This was reported by the 'kernel test robot' after my change in v1.
+- Also set the 'max_brightness' to 'blink_brightness' if no
+  'blink_brightness' was set. This fixes a problem at startup when the
+  brightness is still set to 0 and only 'line_*' is evaluated. I looked
+  in the netdev trigger and that's exactly how it's done there.
 
---
-Lee Jones [李琼斯]
+v1:
+This is a follow-up patchset, based on the mailing list discussion from
+March 2023 based on the old patchset v8 [1]. I have changed, the LED
+trigger handling via the sysfs interfaces as suggested by Uwe Kleine-König.
+[1] https://lore.kernel.org/linux-leds/20230306094113.273988-1-fe@dev.tdt.de/
+
+Florian Eckert (3):
+  tty: whitespaces in descriptions corrected by replacing tabs with
+    spaces
+  tty: add new helper function tty_get_tiocm
+  leds: ledtrig-tty: add new line mode evaluation
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  54 +++++
+ drivers/leds/trigger/ledtrig-tty.c            | 192 +++++++++++++++++-
+ drivers/tty/tty_io.c                          | 130 ++++++------
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 309 insertions(+), 68 deletions(-)
+
+-- 
+2.30.2
 
