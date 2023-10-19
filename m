@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CCC27CF379
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 11:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F7F77CF3A1
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 11:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232506AbjJSJEh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 05:04:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
+        id S229830AbjJSJLk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 05:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbjJSJEh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 05:04:37 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF88129;
-        Thu, 19 Oct 2023 02:04:35 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d264e67d8so34161256d6.1;
-        Thu, 19 Oct 2023 02:04:35 -0700 (PDT)
+        with ESMTP id S232788AbjJSJLj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 05:11:39 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60564129;
+        Thu, 19 Oct 2023 02:11:37 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-66d122f6294so49991396d6.0;
+        Thu, 19 Oct 2023 02:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697706274; x=1698311074; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697706696; x=1698311496; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tV/rPK/2j1VojJvVOgd9kGFZP0ncz1ZVYvpMG5KlT7E=;
-        b=mdTMMTOImnqPzZ6xzERxgHzoffE3dOF2Z8XzDriyy4OCXW3WrZzRIDuvOuSjduOYLq
-         xAuZaAaQ2cq7rpbOn5Lm354mEGi6bCJaQXGPHGUtOwqcHqTjdEEE3CKjKYZmNsIhV/Qk
-         VVAxa8N82ITDz/jQUYqdArcDaTyHMGndHAqYRygadS2NE7/XDkB1WxSCHjdmPidiYDyH
-         5Bvf01LI/MEhVx53sulsa3nhzwdMo37EFuTk7fj+n6/a1PB9DOntqbaIOKv18LVDuh5N
-         cYpfPPj2Xs21yPcl+2zjcj9QxTNJiYFY7j+HQMd1o83y3K6rh4M9w0IzQ0JtXrgh9q4e
-         +Nng==
+        bh=o4MfVkjTMc7fccstJOqrfKSItoKmWfmNa1V33PWbhoI=;
+        b=g1Je7CJ5nzWVJOKZsw91Qnx08YffthyF7LTB3hbWFSGTSwsv6ydCj5+JPEtctISe4b
+         oKdvarGe5JHgsdcERk0ZieBHykD0tRgmSjkCU5NKHSbrEV785Y2gPyr/mbUcPYWbkG5B
+         TCGmsP/hRDKf7JgoHOdWf1rk94h6a7AgWv+EeUoC/fjFgviQpUo0hEG+OS/mRXqdfJB6
+         UAnUcwZl7F+fqGyJBMBOasuHnfXmw7rbqYVnTbQSQF98c7P3LdXWPUBMe++VoK+XqsAg
+         hrUEUNQt8wubOdZO8+SfDnaa/vg3WmxRHtjb0UcuY/wGoBee99ITByqQGf4dHFhVKZDd
+         d7fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697706274; x=1698311074;
+        d=1e100.net; s=20230601; t=1697706696; x=1698311496;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tV/rPK/2j1VojJvVOgd9kGFZP0ncz1ZVYvpMG5KlT7E=;
-        b=tfTSrtu/QAl7RfiugvkpojGaVi7pdV4MeSuA9jQIIBVDwVtLw+VfYXMOOZhBmKNX/+
-         GUcDDKAwEbG1PPrggrTxfHb69cUCFE3K2Nj33hBFjTlhcubGj3oKUq3tL/Gsvbh8VgQR
-         iAws/thutC671NqzGkSyS7CYWG5CCAvfxarSaMeMalNe2W/+fr4kptJInTUVLWzn8rEx
-         gmYhRHU3AbrCeeqd+lM7FokDugJgb/kIor/P1LwdszxfX1FwvStYbAXWusLoYYhaSl5r
-         gtEE70CYcPQ2sSMnoB5eYynVM4iCE/7kGCZ/XFjUAM1VUR/lcP0cnv6aHfwZV7UsI77Y
-         taOQ==
-X-Gm-Message-State: AOJu0YxSPNVPdR5usBI92G6sVaNLnQACysyJ98Lif5OZEGAVDsFxspOd
-        VDS129aHq+x8IfjxPmK6OqOiKwzGGs22a8+c9tM=
-X-Google-Smtp-Source: AGHT+IHcJ/TYSvI0wciw9VT9ALAlFtcBPxuIxXqSgO4iRmfrBKAfVfBXgWN1LRy3xiFqrabr/G/GZI9zrN2zZpiDYfo=
-X-Received: by 2002:a05:6214:21ea:b0:66d:6845:ea2d with SMTP id
- p10-20020a05621421ea00b0066d6845ea2dmr1871765qvj.53.1697706274596; Thu, 19
- Oct 2023 02:04:34 -0700 (PDT)
+        bh=o4MfVkjTMc7fccstJOqrfKSItoKmWfmNa1V33PWbhoI=;
+        b=lVEYsJmNm3nM4abPAvUaYLE05fw5rdZQyK2LaSo/Hf2ukUfcfcHWGNayA8FKS8sHl8
+         /b05m44jmevjNRpEV8iTnAJaVFztn33oqfyHzqemsf6PKU0/6/MvUwHXTsNUJtv8nxsZ
+         BZwB2rMS6W6u5QyijCSY8rYggN237O2pqIiMPCAHH77KHQFtVYJALmO/biVz1n4AE8hV
+         Ng3yKs0A0lahfHNXeMIihkhH20ENlY3lDBgz/OFhhBSd4FJ2jnNZaG1dBivlmcPXaDMT
+         Hv/Yn6W5F0d/tiFY1bIVrBaWqMvvLXzI0NcrZeNgoSDRWz8TRuCEGTZ3DWSHDRdFRjFm
+         tddw==
+X-Gm-Message-State: AOJu0YxUsHEMKfFaSMJR4V/V0+miiosGKtVFa8oHgtd3kO3y4aXpW2R9
+        4Oe8dgoGRYZfVCeevzF5WaQ8lzLz4v8PkxcIqXk=
+X-Google-Smtp-Source: AGHT+IFKvUJzMKNIFZwmj6Nh/2FY9BLhZkBq2xT09jrp42+mrBBAqOadAUpwagi6FNtEWCpUc1GOKlB37G/7HlW7iC4=
+X-Received: by 2002:ad4:5b8b:0:b0:66d:4a22:d7cd with SMTP id
+ 11-20020ad45b8b000000b0066d4a22d7cdmr1776970qvp.60.1697706696428; Thu, 19 Oct
+ 2023 02:11:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231018182943.18700-1-ddrokosov@salutedevices.com> <20231018182943.18700-7-ddrokosov@salutedevices.com>
-In-Reply-To: <20231018182943.18700-7-ddrokosov@salutedevices.com>
+References: <20231018182943.18700-1-ddrokosov@salutedevices.com> <20231018182943.18700-10-ddrokosov@salutedevices.com>
+In-Reply-To: <20231018182943.18700-10-ddrokosov@salutedevices.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 19 Oct 2023 12:03:58 +0300
-Message-ID: <CAHp75VcysFpaGyhy0Yr3vEFTsLqd-sJfrMp4ces3ga7uAq40_A@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] leds: aw200xx: add delay after software reset
+Date:   Thu, 19 Oct 2023 12:10:50 +0300
+Message-ID: <CAHp75Ve+1j26UAqcipHX7JAOFDAEUMHBTv1aq2XPhUCGyW90nA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/11] leds: aw200xx: add support for aw20108 device
 To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -77,17 +77,39 @@ On Wed, Oct 18, 2023 at 9:30=E2=80=AFPM Dmitry Rokosov
 >
 > From: George Stark <gnstark@salutedevices.com>
 >
-> According to datasheets of aw200xx devices software reset takes at
-> least 1 ms so add delay after reset before issuing commands to device.
+> Add support for Awinic aw20108 device from the same LED drivers famliy.
 
-For the "us" unit you chose "XXXus" style, why is "ms" different?
+family
+
+> New device supports 108 leds using matrix of 12x9 outputs.
+
+LEDs
+a matrix
 
 ...
 
-> +       /* according to datasheet software reset takes at least 1 ms */
+> -         This option enables support for the AW20036/AW20054/AW20072 LED=
+ driver.
+> -         It is a 3x12/6x9/6x12 matrix LED driver programmed via
+> -         an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
+> +         This option enables support for the AW20036/AW20054/AW20072/AW2=
+0108
+> +         LED driver. It is a 3x12/6x9/6x12/9x12 matrix LED driver progra=
+mmed via
+> +         an I2C interface, up to 36/54/72/108 LEDs or 12/18/24/36 RGBs,
+>           3 pattern controllers for auto breathing or group dimming contr=
+ol.
 
-Ditto.
+For better maintenance I always suggest in the cases like this to
+convert help to provide a list of the supported devices, like:
 
---=20
+  This option enables support for the following Awinic LED drivers:
+    - AW20036 (3x12)
+    - ...
+   ...
+
+And if any new comes to this, it will be just a one liner change.
+
+--
 With Best Regards,
 Andy Shevchenko
