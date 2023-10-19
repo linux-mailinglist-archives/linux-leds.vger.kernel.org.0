@@ -2,42 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 645B37CF89E
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 14:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D39A67CF8AA
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 14:26:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233195AbjJSMVA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 08:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52324 "EHLO
+        id S235296AbjJSM0V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 08:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233294AbjJSMU6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 08:20:58 -0400
+        with ESMTP id S233195AbjJSM0V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 08:26:21 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627CBB6;
-        Thu, 19 Oct 2023 05:20:57 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8027C433C8;
-        Thu, 19 Oct 2023 12:20:55 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7EFBE;
+        Thu, 19 Oct 2023 05:26:19 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5E2C433C7;
+        Thu, 19 Oct 2023 12:26:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697718057;
-        bh=XFuvtHIa7r/OH39BIUY2Rg3BlL4Ej+ED/kG0o9vR93Y=;
+        s=k20201202; t=1697718379;
+        bh=NJeZagcb+M769VUrarpouaRWXr3bAXeFnWHPC5/oozQ=;
         h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=lL4GTEtH8PL5mUD4nerM8N3hrP2HgEf9TtWzriEIHLO3yBdd2r2F6bAKPz/5sMJYF
-         3WCw0BOPLH2CCqD3VYNPsuqDm+lSI7p8C6TYvJSFsqk+d8AOyi57JqO+DVSTxWjcwK
-         Bns62ClLB7ar2dsTvBWRtA7IfsyO1AtDSCt8A+lKIp9v7DL7Fw5czjPK5OFr5SGwkP
-         bIMQ1n/g6TqdfFWApd/I2YaJ76vJUVdGHdNSpRFf8ai+XXZNa5BptaBF33Qa+VfSB3
-         FUOua3sHRCbCgHj9B+LySXq82BuMiVqaPAO9pFSXJ21HHNye1BOL0dYB1Df77mJFjH
-         nc9b67gWxzvtg==
+        b=G1zT++TYgnLvoW5DalEc/anydR3UGgZGl63e3fsD23bkTlbymDZd6sPN9Pn0xM9k7
+         CcD/sYSpOmcFcT1FxSsxWONAznHLivKHcxD+E0OAxlCE5HPYQ4E2hxZywCkZ+Hp1Sb
+         +9VPAzjRe7EwmtVOvSy4tXFvHKq/WdzdkpQocPRegEJSNxeO56txBosPAsWHk9MZ8l
+         vGqASBsj1VVfYAk3O6ixovvaD5vVdRq9MzI8p3d9e5VkUSlmySDYUtizt/Te45pMZ/
+         hNUFWCUXHq+G7X3OR1QZrUcMT5srBF+7BaMToF1Bggia6SrnvHmPLIoD0r57sas8RQ
+         ENJklHkPS9VdQ==
 From:   Lee Jones <lee@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Denis Osterland-Heim <denis.osterland@diehl.com>
-In-Reply-To: <20231016153051.1409074-1-andriy.shevchenko@linux.intel.com>
-References: <20231016153051.1409074-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: (subset) [PATCH v2 1/1] leds: core: Refactor
- led_update_brightness() to use standard pattern
-Message-Id: <169771805542.2469471.17417276812343058652.b4-ty@kernel.org>
-Date:   Thu, 19 Oct 2023 13:20:55 +0100
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+In-Reply-To: <20231016161005.1471768-1-andriy.shevchenko@linux.intel.com>
+References: <20231016161005.1471768-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/6] leds: gpio: Keep driver firmware interface
+ agnostic
+Message-Id: <169771837822.2472592.6103041614974900310.b4-ty@kernel.org>
+Date:   Thu, 19 Oct 2023 13:26:18 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -51,20 +49,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 16 Oct 2023 18:30:51 +0300, Andy Shevchenko wrote:
-> The standard conditional pattern is to check for errors first and
-> bail out if any. Refactor led_update_brightness() accordingly.
+On Mon, 16 Oct 2023 19:10:00 +0300, Andy Shevchenko wrote:
+> The of.h is used as a proxy to mod_devicetable, replace former by
+> latter.
 > 
-> While at it, drop unneeded assignment and return 0 unconditionally
-> on success.
+> The commit 2d6180147e92 ("leds: gpio: Configure per-LED pin control")
+> added yet another unneeded OF APIs. Replace with direct use of fwnode.
 > 
+> Altogether this makes driver agnostic to the firmware interface in use.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] leds: core: Refactor led_update_brightness() to use standard pattern
-      commit: 0e5bb700df6a6fe36d9487a4e0a82a4c7b1f7b4e
+[1/6] leds: gpio: Keep driver firmware interface agnostic
+      commit: 04262082e2c203e6834bf65c7a46e2eadf212c66
+[2/6] leds: gpio: Utilise PTR_ERR_OR_ZERO()
+      commit: 36d270892d4733439d3fd5b713ef07029aae1bf4
+[3/6] leds: gpio: Refactor code to use devm_gpiod_get_index_optional()
+      commit: 4c5f908c04fda867c8130087a628a1bccec3fb05
+[4/6] leds: gpio: Move temporary variable for struct device to gpio_led_probe()
+      commit: 087da384361247adeb894dcb38fbbec8d4d53790
+[5/6] leds: gpio: Remove unneeded assignment
+      commit: cdae3873bb328fbc690722b76b67f00213c92ade
+[6/6] leds: gpio: Update headers
+      commit: 1f313de42c4ff9b590f00d747bab25adc0cb011c
 
 --
 Lee Jones [李琼斯]
