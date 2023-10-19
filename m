@@ -2,120 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 334157CFC28
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 16:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE64C7D0268
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 21:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345569AbjJSOLN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 10:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36564 "EHLO
+        id S1346282AbjJSTYt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 15:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345531AbjJSOLN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 10:11:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91830B0;
-        Thu, 19 Oct 2023 07:11:11 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4400C433C8;
-        Thu, 19 Oct 2023 14:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697724671;
-        bh=Af47nTwfZd2bDGsJz4b/vMDbS1rOoweEYjo4Y5vxWM8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Oem3h5yIua/fbgYH7Sp2vg5+IJJx4NKUhYcSMY+peTOSA+UTBY1eNtE/X1KipSsWu
-         qGGms8b+3La4hOgxZnDUxdE7UNUfu8zdsfsVMx/oZm9oGGQK7Lh0JR0hKnY+olFqQH
-         avAg+0t76a7kiQ8EuX0RtuhkmRTG9SWy+D7i4GttBYLalv404XNtNCj8qHxDeGudcU
-         kLtRBiAHpamRqkzAubSpJUk+tH+Emz7cOsEBQX+i6pJD/1kVEzC46hJwjYeoWcOt6r
-         XtLwKOyCWSgTY5f3ugliQX7nSyEOfnWqqVmnxAJagnlV3IJTC7nQaqmZpeyql9unJB
-         DDZxnmN8wTtDw==
-Date:   Thu, 19 Oct 2023 15:11:06 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        andy.shevchenko@gmail.com, kernel@sberdevices.ru,
-        rockosov@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] dt-bindings: leds: aw200xx: introduce optional
- hwen-gpios property
-Message-ID: <20231019-affection-mountain-7bd5b7eb0ca2@spud>
-References: <20231018182943.18700-1-ddrokosov@salutedevices.com>
- <20231018182943.18700-4-ddrokosov@salutedevices.com>
+        with ESMTP id S1345878AbjJSTYs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 15:24:48 -0400
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB86DFA;
+        Thu, 19 Oct 2023 12:24:43 -0700 (PDT)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+        by mx1.sberdevices.ru (Postfix) with ESMTP id BE787120010;
+        Thu, 19 Oct 2023 22:24:40 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru BE787120010
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+        s=mail; t=1697743480;
+        bh=Be562JGzGP+YllgBYA33JVdRpjxpxaXZ55LIwLAl360=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+        b=irFZvzH6HXUa4cY+msgQFg/kkD1srYMLIg5ybWJT94PFOf7i7evlioUluKkGEurty
+         VGoVYyUXfYmG887hV9ijni6+PFHiSTOuMOuwJx31h0VWIuGlylS/YZiihvYQOGU8Sz
+         FCqY6cxKLNLjgkSgGCRwnMv/M1fm6vuD41Odf31tqVeh+bqI+u5TNdtMnS0R/Us4xe
+         OIhlrbGPS3E2ez26MpLozRmSENxB/nzWkPZ9hxqrpz34LB7XwehXcs17/mc1ZhI7il
+         +bkaJf/5BC+sef+J+J4TbI8upnoGxcXvL5T4qh6JKuRt13qXL/2c/XoO17E21A3X0H
+         tkPZ18Q4gTBTA==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.sberdevices.ru (Postfix) with ESMTPS;
+        Thu, 19 Oct 2023 22:24:40 +0300 (MSK)
+Received: from [192.168.1.127] (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Thu, 19 Oct 2023 22:24:40 +0300
+Message-ID: <24ab7656-4358-9cca-0c3e-8f47a3468ef5@salutedevices.com>
+Date:   Thu, 19 Oct 2023 22:25:01 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="RTnMTg2ozgWALe2C"
-Content-Disposition: inline
-In-Reply-To: <20231018182943.18700-4-ddrokosov@salutedevices.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 04/11] leds: aw200xx: calculate dts property
+ display_rows in driver
+Content-Language: en-US
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dmitry Rokosov <ddrokosov@salutedevices.com>
+CC:     <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <kernel@sberdevices.ru>, <rockosov@gmail.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>
+References: <20231018182943.18700-1-ddrokosov@salutedevices.com>
+ <20231018182943.18700-5-ddrokosov@salutedevices.com>
+ <CAHp75VeTVU-1mSzAX4j7s9bbDGxDR_FwgFL7dnC4_6OhsN8kpw@mail.gmail.com>
+From:   George Stark <gnstark@salutedevices.com>
+In-Reply-To: <CAHp75VeTVU-1mSzAX4j7s9bbDGxDR_FwgFL7dnC4_6OhsN8kpw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [100.64.160.123]
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 180745 [Oct 19 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 542 542 3d23828e213bab96daa5e52f9cef518f74e40214, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/10/19 17:46:00 #22233982
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello Andy
 
---RTnMTg2ozgWALe2C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/19/23 12:01, Andy Shevchenko wrote:
+> On Wed, Oct 18, 2023 at 9:30 PM Dmitry Rokosov
+> <ddrokosov@salutedevices.com> wrote:
+>>
+>> From: George Stark <gnstark@salutedevices.com>
+>>
+>> Get rid of device tree property "awinic,display-rows" and calculate it
+>> in driver using led definition nodes. display-row actually means number
+>> of current switches and depends on how leds are connected to the device.
+> 
+> Still the commit message does not answer the question why it's safe
+> for the users that have this property enabled in their DTBs (note B
+> letter).
+> 
 
-On Wed, Oct 18, 2023 at 09:29:35PM +0300, Dmitry Rokosov wrote:
-> Property 'hwen-gpios' is optional, it can be used by the board
-> developer to connect AW200XX LED controller with appropriate poweron
-> GPIO pad.
 
-If the pad is called "poweron", why is the property called "hwen"?
+> ...
+> 
+>> +       device_for_each_child_node(dev, child) {
+>> +               u32 source;
+>> +               int ret;
+>> +
+>> +               ret = fwnode_property_read_u32(child, "reg", &source);
+>> +               if (ret || source >= chip->cdef->channels)
+> 
+> Perhaps a warning?
+> 
+>      dev_warn(dev, "Unable to read from %pfw or apply a source channel
+> number\n", child);
 
->=20
-> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> ---
->  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b=
-/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> index feb5febaf361..255eb0563737 100644
-> --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> @@ -41,6 +41,9 @@ properties:
->      description:
->        Leds matrix size
-> =20
-> +  hwen-gpios:
-> +    maxItems: 1
-> +
->  patternProperties:
->    "^led@[0-9a-f]$":
->      type: object
-> @@ -90,6 +93,7 @@ additionalProperties: false
-> =20
->  examples:
->    - |
-> +    #include <dt-bindings/gpio/gpio.h>
->      #include <dt-bindings/leds/common.h>
-> =20
->      i2c {
-> @@ -102,6 +106,7 @@ examples:
->              #address-cells =3D <1>;
->              #size-cells =3D <0>;
->              awinic,display-rows =3D <3>;
-> +            hwen-gpios =3D <&gpio 3 GPIO_ACTIVE_HIGH>;
-> =20
->              led@0 {
->                  reg =3D <0x0>;
-> --=20
-> 2.36.0
->=20
+I skipped the warning intentionally because we have just the same loop 
+several steps below and with the same check. There we have all proper 
+warnings and aw200xx_probe_get_display_rows was intended to be short and 
+lightweight. I'll redesign it to be even more simple.
 
---RTnMTg2ozgWALe2C
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>> +                       continue;
+>> +
+>> +               max_source = max(max_source, source);
+>> +       }
+> 
+> ...
+> 
+>> +       chip->display_rows = max_source / chip->cdef->display_size_columns + 1;
+>> +       if (!chip->display_rows) {
+>> +               dev_err(dev, "No valid led definitions found\n");
+>> +               return -EINVAL;
+> 
+> So, this part is in ->probe() flow only, correct? If so,
+>    return dev_err_probe(...);
+> 
+>> +       }
+> 
+> ...
+> 
+>> +       if (aw200xx_probe_get_display_rows(dev, chip))
+>> +               return -EINVAL;
+> 
+> Why is the error code shadowed?
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTE4+gAKCRB4tDGHoIJi
-0pQTAP9Chq5x5fWNiAxRiksgdtEXDq4ttwPLAmWmpFXaAj/gGwD/VcSVwsKPd5di
-SS96SOBfT8Bg47Vpg0rlle9gWq59mQ0=
-=TpKR
------END PGP SIGNATURE-----
-
---RTnMTg2ozgWALe2C--
+-- 
+Best regards
+George
