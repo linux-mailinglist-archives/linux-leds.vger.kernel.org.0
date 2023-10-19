@@ -2,31 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A04BA7CFC19
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 16:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 334157CFC28
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 16:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345912AbjJSOIp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 10:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
+        id S1345569AbjJSOLN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 10:11:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345723AbjJSOIo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 10:08:44 -0400
+        with ESMTP id S1345531AbjJSOLN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 10:11:13 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFF6131;
-        Thu, 19 Oct 2023 07:08:43 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92D62C433C7;
-        Thu, 19 Oct 2023 14:08:40 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91830B0;
+        Thu, 19 Oct 2023 07:11:11 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4400C433C8;
+        Thu, 19 Oct 2023 14:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697724523;
-        bh=lhJF9TO9qDHVZeczKmduBiUarXg9CHGv9aAPKmSdQ6c=;
+        s=k20201202; t=1697724671;
+        bh=Af47nTwfZd2bDGsJz4b/vMDbS1rOoweEYjo4Y5vxWM8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QhQVvKe+lXrjNK7ePC/gXDPrdG3kPTYXMjuEAqKdYUOV4fiTPEQuxTfT75OKdP6OF
-         nBDPC2sDE6D2AjjKu6FXtrSWRIGa8S/pUSFzzxvkz21Q0Uzpr+b3ZDRWp5rzqYbyLu
-         9lPxQrg7COBuzoyyEPfMs3X4oRXx5aeUmRC5r/oyxvlbpiTLI19gL30tE1+jof7mK5
-         7FSwVDXVj2TZZVelKsPa/KsJ7oQmi1lSLu5Zp1yPHxv6+yT8k8z/QjljZdEKkpHae/
-         jkFUaXelPQurfONpAp4IdUIMSKPS+XymSCnYa0DsA2vnIKXhC+GT4wZP13ypmsmJTV
-         aJqqOd8zUyL4A==
-Date:   Thu, 19 Oct 2023 15:08:38 +0100
+        b=Oem3h5yIua/fbgYH7Sp2vg5+IJJx4NKUhYcSMY+peTOSA+UTBY1eNtE/X1KipSsWu
+         qGGms8b+3La4hOgxZnDUxdE7UNUfu8zdsfsVMx/oZm9oGGQK7Lh0JR0hKnY+olFqQH
+         avAg+0t76a7kiQ8EuX0RtuhkmRTG9SWy+D7i4GttBYLalv404XNtNCj8qHxDeGudcU
+         kLtRBiAHpamRqkzAubSpJUk+tH+Emz7cOsEBQX+i6pJD/1kVEzC46hJwjYeoWcOt6r
+         XtLwKOyCWSgTY5f3ugliQX7nSyEOfnWqqVmnxAJagnlV3IJTC7nQaqmZpeyql9unJB
+         DDZxnmN8wTtDw==
+Date:   Thu, 19 Oct 2023 15:11:06 +0100
 From:   Conor Dooley <conor@kernel.org>
 To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
@@ -34,16 +34,16 @@ Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
         andy.shevchenko@gmail.com, kernel@sberdevices.ru,
         rockosov@gmail.com, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 11/11] dt-bindings: leds: aw200xx: fix led pattern and
- add reg constraints
-Message-ID: <20231019-clarify-unstopped-71fe018b6a8b@spud>
+Subject: Re: [PATCH v2 03/11] dt-bindings: leds: aw200xx: introduce optional
+ hwen-gpios property
+Message-ID: <20231019-affection-mountain-7bd5b7eb0ca2@spud>
 References: <20231018182943.18700-1-ddrokosov@salutedevices.com>
- <20231018182943.18700-12-ddrokosov@salutedevices.com>
+ <20231018182943.18700-4-ddrokosov@salutedevices.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="583YNsUVrmxxvyQI"
+        protocol="application/pgp-signature"; boundary="RTnMTg2ozgWALe2C"
 Content-Disposition: inline
-In-Reply-To: <20231018182943.18700-12-ddrokosov@salutedevices.com>
+In-Reply-To: <20231018182943.18700-4-ddrokosov@salutedevices.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,73 +54,68 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---583YNsUVrmxxvyQI
+--RTnMTg2ozgWALe2C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 18, 2023 at 09:29:43PM +0300, Dmitry Rokosov wrote:
-> AW200XX controllers have the capability to declare more than 0xf LEDs,
-> therefore, it is necessary to accept LED names using an appropriate
-> regex pattern.
->=20
-> The register offsets can be adjusted within the specified range, with
-> the maximum value corresponding to the highest number of LEDs that can
-> be connected to the controller.
+On Wed, Oct 18, 2023 at 09:29:35PM +0300, Dmitry Rokosov wrote:
+> Property 'hwen-gpios' is optional, it can be used by the board
+> developer to connect AW200XX LED controller with appropriate poweron
+> GPIO pad.
 
-Do all of these controllers have identical max numbers of LEDs?
-
-Cheers,
-Conor.
+If the pad is called "poweron", why is the property called "hwen"?
 
 >=20
-> Fixes: e338a05e76ca ("dt-bindings: leds: Add binding for AW200xx")
 > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
 > ---
->  .../devicetree/bindings/leds/awinic,aw200xx.yaml       | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
 > diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b=
 /Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> index efb18ddce383..677c73aa6232 100644
+> index feb5febaf361..255eb0563737 100644
 > --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
 > +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> @@ -42,16 +42,18 @@ properties:
->      maxItems: 1
+> @@ -41,6 +41,9 @@ properties:
+>      description:
+>        Leds matrix size
 > =20
+> +  hwen-gpios:
+> +    maxItems: 1
+> +
 >  patternProperties:
-> -  "^led@[0-9a-f]$":
-> +  "^led@[0-9a-f]+$":
+>    "^led@[0-9a-f]$":
 >      type: object
->      $ref: common.yaml#
->      unevaluatedProperties: false
+> @@ -90,6 +93,7 @@ additionalProperties: false
 > =20
->      properties:
->        reg:
-> -        description:
-> -          LED number
-> -        maxItems: 1
-> +        items:
-> +          description:
-> +            LED number
-> +          minimum: 0
-> +          maximum: 108
+>  examples:
+>    - |
+> +    #include <dt-bindings/gpio/gpio.h>
+>      #include <dt-bindings/leds/common.h>
 > =20
->        led-max-microamp:
->          default: 9780
+>      i2c {
+> @@ -102,6 +106,7 @@ examples:
+>              #address-cells =3D <1>;
+>              #size-cells =3D <0>;
+>              awinic,display-rows =3D <3>;
+> +            hwen-gpios =3D <&gpio 3 GPIO_ACTIVE_HIGH>;
+> =20
+>              led@0 {
+>                  reg =3D <0x0>;
 > --=20
 > 2.36.0
 >=20
 
---583YNsUVrmxxvyQI
+--RTnMTg2ozgWALe2C
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTE4ZgAKCRB4tDGHoIJi
-0iZpAQDHMFTIGQM98jN9qRcYxmQFMSfULTdz7fFQwWy8EkVwDQEA9IP7oOx+D2LZ
-DY30ZjJVn3jbDrBPalja65VIPiUAWww=
-=Aktz
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTE4+gAKCRB4tDGHoIJi
+0pQTAP9Chq5x5fWNiAxRiksgdtEXDq4ttwPLAmWmpFXaAj/gGwD/VcSVwsKPd5di
+SS96SOBfT8Bg47Vpg0rlle9gWq59mQ0=
+=TpKR
 -----END PGP SIGNATURE-----
 
---583YNsUVrmxxvyQI--
+--RTnMTg2ozgWALe2C--
