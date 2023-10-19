@@ -2,118 +2,175 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A5A47CF3B4
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 11:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBEC17CF5DF
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 12:52:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345132AbjJSJNR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 05:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54106 "EHLO
+        id S235109AbjJSKw0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 06:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345016AbjJSJNG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 05:13:06 -0400
-Received: from connect.vanmierlo.com (fieber.vanmierlo.com [84.243.197.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0976218C;
-        Thu, 19 Oct 2023 02:12:57 -0700 (PDT)
-X-Footer: dmFubWllcmxvLmNvbQ==
-Received: from roundcube.vanmierlo.com ([192.168.37.37])
-        (authenticated user m.brock@vanmierlo.com)
-        by connect.vanmierlo.com (Kerio Connect 9.4.2) with ESMTPA;
-        Thu, 19 Oct 2023 11:12:53 +0200
+        with ESMTP id S232678AbjJSKwY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 06:52:24 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8797DB6
+        for <linux-leds@vger.kernel.org>; Thu, 19 Oct 2023 03:52:22 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qtQcb-0002Wd-GE; Thu, 19 Oct 2023 12:51:21 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qtQcZ-002lnZ-81; Thu, 19 Oct 2023 12:51:19 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qtQcY-001W9b-T9; Thu, 19 Oct 2023 12:51:18 +0200
+Date:   Thu, 19 Oct 2023 12:51:18 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
 MIME-Version: 1.0
-Date:   Thu, 19 Oct 2023 11:12:53 +0200
-From:   m.brock@vanmierlo.com
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 3/4] trigger: ledtrig-tty: move variable definition to
- the top
-In-Reply-To: <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
-References: <20231016071332.597654-1-fe@dev.tdt.de>
- <20231016071332.597654-4-fe@dev.tdt.de>
- <93dcb9f6f218593084f834ba6b450999@vanmierlo.com>
- <34e8fcd94b4a959fe2336485e4722c3b@dev.tdt.de>
-Message-ID: <9cecf21f8691d474441f8ff30a9dcb23@vanmierlo.com>
-X-Sender: m.brock@vanmierlo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yn2iyczv5acooknv"
+Content-Disposition: inline
+In-Reply-To: <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Florian Eckert wrote on 2023-10-16 11:12:
-> On 2023-10-16 10:46, m.brock@vanmierlo.com wrote:
->> Florian Eckert wrote on 2023-10-16 09:13:
->>> Has complained about the following construct:
->> 
->> Who is "Has" or who/what has complained?
-> 
-> The test robot who does not agree with my change in the v1 patchset.
 
-You don't have to explain to me, just fix the comment.
+--yn2iyczv5acooknv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->>> drivers/leds/trigger/ledtrig-tty.c:362:3: error: a label can only be
->>> part of a statement and a declaration is not a statement
->>> 
->>> Hence move the variable definition to the beginning of the function.
->>> 
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes:
->>> https://lore.kernel.org/oe-kbuild-all/202309270440.IJB24Xap-lkp@intel.com/
->>> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
->>> ---
->>> @@ -124,8 +125,6 @@ static void ledtrig_tty_work(struct work_struct 
->>> *work)
->>> 
->>>  	if (icount.rx != trigger_data->rx ||
->>>  	    icount.tx != trigger_data->tx) {
->>> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
->>> -
->> 
->> Is this kernel test robot broken?
-> 
-> The test robot does nothing wrong.
-> 
->> I see no label definition here.
->> And this variable declaration is at the start of a new block which 
->> does
->> not even require C99 support.
-> 
-> I made change in patch set v1, that moves the definition of the 
-> variable
-> `interval` into the switch case statement.
-> https://lore.kernel.org/linux-leds/20230926093607.59536-3-fe@dev.tdt.de/
-> The robot complained about this.
-> 
-> So I decided to move the definition of the variable 'interval' to 
-> function
-> head to make the test robot happy in the commit. So this commit 
-> prepares
-> the code for my change.
-> 
-> If it is more common, I can merge this patch [1] into the next patch 
-> [2]
-> of this set.
+On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> Hi Sean,
+>=20
+> On 10/17/23 11:17, Sean Young wrote:
+> > Some drivers require sleeping, for example if the pwm device is connect=
+ed
+> > over i2c. The pwm-ir-tx requires precise timing, and sleeping causes ha=
+voc
+> > with the generated IR signal when sleeping occurs.
+> >=20
+> > This patch makes it possible to use pwm when the driver does not sleep,
+> > by introducing the pwm_can_sleep() function.
+> >=20
+> > Signed-off-by: Sean Young <sean@mess.org>
+>=20
+> I have no objection to this patch by itself, but it seems a bit
+> of unnecessary churn to change all current callers of pwm_apply_state()
+> to a new API.
 
-Yes, please. You're fixing a problem that does not exist yet (and never
-will), because the patch that introduces it is not yet applied. So fix
-the proposed patch instead of patching the patch.
+The idea is to improve the semantic of the function name, see
+https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutron=
+ix.de
+for more context. I think it's very subjective if you consider this
+churn or not. While it's nice to have every caller converted in a single
+step, I'd go for
 
-> [1] 
-> https://lore.kernel.org/linux-leds/20231016071332.597654-4-fe@dev.tdt.de/
-> [2] 
-> https://lore.kernel.org/linux-leds/20231016071332.597654-5-fe@dev.tdt.de/
-> 
-> 
-> Florian
+	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
 
-Maarten
+, keep that macro for a while and convert all users step by step. This
+way we don't needlessly break oot code and the changes to convert to the
+new API can go via their usual trees without time pressure.
 
+> Why not just keep pwm_apply_state() as is and introduce a new
+> pwm_apply_state_atomic() for callers which want to apply state
+> in a case where sleeping is not allowed ?
+
+There is a big spontaneous growth of function name patterns. I didn't
+claim having done a complete research, but not using a suffix for the
+fast variant and _cansleep for the sleeping one at least aligns to how
+the gpio subsystem names things.
+
+Grepping a bit more:
+
+ - regmap has: regmap_might_sleep() and struct regmap::can_sleep
+   The actual API doesn't have different functions to differentiate
+   sleeping and non-sleeping calls. (Though there is
+   regmap_read_poll_timeout_atomic().)
+
+ - kmap() + kmap_atomic()
+ - set_pte() + set_pte_atomic()
+
+ - There is scmi_is_transport_atomic() and scmi_handle::is_transport_atomic=
+()
+   (Is this also about sleeping?)
+
+ - There are quite a lot more symbols ending in _atomic and in
+   _cansleep, but several of them don't exists to differentiate a slow
+   and a fast procedure.  (e.g. drm_mode_atomic)
+
+Not entirely sure what to read out of that.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--yn2iyczv5acooknv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUxCiUACgkQj4D7WH0S
+/k4jlwgAgQS/Vm8QPoZFBjT4W6JQXxJRPwUsXBOa7whQZfAYqlzZZ35+WjXKug70
+1nq/INcUz96H0aYtK2aHLUeOEQH+cDau32nAM9dYk0S4qWXOEgC1gFbPwGTrF1SE
+gEPMEkOMezwBlon9ik8cPddAGP5rDSXD8YKeiGy5O6gbXi/iKChFxnamOn5K7B+j
+mgPy/pP0tTP79r0tsVIKta7hnJ1uGfv8cWRQqvPTyT9YuEiBfKRzgi7rxXq9gH2X
+DS+SMO7jtBXFEl5kzKsw1oKpR5VqInvebeBJHSnsH3T/sXAuyJj379046bjbKq7c
+rp0jBis0JVqrfUguEpnfRBuxuTilXQ==
+=OvnQ
+-----END PGP SIGNATURE-----
+
+--yn2iyczv5acooknv--
