@@ -2,76 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCA147CF8B8
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 14:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5240C7CFC0F
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Oct 2023 16:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345451AbjJSM15 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Oct 2023 08:27:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60918 "EHLO
+        id S1345531AbjJSOHe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Oct 2023 10:07:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345504AbjJSM1z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 08:27:55 -0400
+        with ESMTP id S235321AbjJSOHd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Oct 2023 10:07:33 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4B5136;
-        Thu, 19 Oct 2023 05:27:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E85C433C8;
-        Thu, 19 Oct 2023 12:27:51 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EA5B0;
+        Thu, 19 Oct 2023 07:07:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA4EC433C8;
+        Thu, 19 Oct 2023 14:07:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697718473;
-        bh=o+SLMHbM3b4KJWGJ8NBC4IKXQx11TH3ol/WMx76KbuQ=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=OvzoOirf4oKfeLwF55oxfPT5FX6xkwQtXMIrat5FQNhVM212k4MBKanCDegSO/Qou
-         wt3BitFJy6SfkKoL94TgboTUGjKcIHyuvCa7dCL/OA369MClGpyUpzjsO8qSkV6oFi
-         kSDzXYMncbyrqmZJKHm4GTLLxp/555nPdF1j3JqIxhHf5AnUp8LBOVmYDkdxJ0Dq5i
-         4ih2JTZNi13rutnOJ+dF/baOmRQLIq+xso3ng7kYWuh1KVrCzSAGxpD6RwoUcWwc8B
-         +xyjAIhmWyniy/DDoUTXlWNovYtQSArMN2gFu1SgMo4XO3EyXzanhlLCjWj4FPQmVu
-         vyu3594toMJFg==
-From:   Lee Jones <lee@kernel.org>
-To:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Flavio Suligoi <f.suligoi@asem.it>
-Cc:     dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231016150554.27144-1-f.suligoi@asem.it>
-References: <20231016150554.27144-1-f.suligoi@asem.it>
-Subject: Re: (subset) [PATCH v1] dt-bindings: backlight: add
- brightness-levels related common properties
-Message-Id: <169771847099.2473402.8532120354222006296.b4-ty@kernel.org>
-Date:   Thu, 19 Oct 2023 13:27:50 +0100
+        s=k20201202; t=1697724451;
+        bh=NQnMTo4gBloKEhDr5l90XulgIfvK7m0vwuYrC+Nvl1Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q9KWOarV2VoknsUXWkEgd+i6FlARz8FGvhdRBObmNgR6f76TB4RbhtWoN1F6nZGkZ
+         864CKmYnJhl7PKV3a/xe8fpBhr55nxtliALOQSvsbJCG63enwySG1otQYoUH2jO7HO
+         FvTacIEi0q9ppSklhF5Vq+nH2cfFnVfyZkwZNYUhmVp8WAhjUN0yPNgh+6Zv2UFW2M
+         NZ1OIF+Ug5EFpp5Lcm+AQWTbL3xVE/o2d0Nj2vpW9/rLUh+P1HVKsTB0pjlTEN1CyI
+         wuNdCPxQg2rv1+eOraih+5eM8+2FCFYs9KdChUZCWwwciMnsyBXYFoX1qwD1dgrvsp
+         3JoNMTfJeaX/g==
+Date:   Thu, 19 Oct 2023 15:07:26 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc:     lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        andy.shevchenko@gmail.com, kernel@sberdevices.ru,
+        rockosov@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        George Stark <gnstark@salutedevices.com>
+Subject: Re: [PATCH v2 10/11] dt-bindings: leds: awinic,aw200xx: add AW20108
+ device
+Message-ID: <20231019-marbles-resample-1619cef50e07@spud>
+References: <20231018182943.18700-1-ddrokosov@salutedevices.com>
+ <20231018182943.18700-11-ddrokosov@salutedevices.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="83e25rSk0iUnOhmA"
+Content-Disposition: inline
+In-Reply-To: <20231018182943.18700-11-ddrokosov@salutedevices.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 16 Oct 2023 17:05:54 +0200, Flavio Suligoi wrote:
-> Both files pwm-backlight.yaml and led-backlight.yaml contain properties
-> in common with each other, regarding the brightness levels:
-> 
-> - brightness-levels
-> - default-brightness-level
-> 
-> These properties can then be moved to backlight/common.yaml.
-> 
-> [...]
 
-Applied, thanks!
+--83e25rSk0iUnOhmA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1/1] dt-bindings: backlight: add brightness-levels related common properties
-      commit: d5272d39995f4150062a67e6f2cef556edece740
+On Wed, Oct 18, 2023 at 09:29:42PM +0300, Dmitry Rokosov wrote:
+> From: George Stark <gnstark@salutedevices.com>
+>=20
+> Add aw20108 compatible for Awinic AW20108 led controller.
+>=20
+> Signed-off-by: George Stark <gnstark@salutedevices.com>
+> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
 
---
-Lee Jones [李琼斯]
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Cheers,
+Conor.
+
+> ---
+>  .../devicetree/bindings/leds/awinic,aw200xx.yaml          | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b=
+/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> index ee849ef3236a..efb18ddce383 100644
+> --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> @@ -10,15 +10,16 @@ maintainers:
+>    - Martin Kurbanov <mmkurbanov@sberdevices.ru>
+> =20
+>  description: |
+> -  This controller is present on AW20036/AW20054/AW20072.
+> -  It is a 3x12/6x9/6x12 matrix LED programmed via
+> -  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
+> +  This controller is present on AW20036/AW20054/AW20072/AW20108.
+> +  It is a 3x12/6x9/6x12/9x12 matrix LED programmed via
+> +  an I2C interface, up to 36/54/72/108 LEDs or 12/18/24/36 RGBs,
+>    3 pattern controllers for auto breathing or group dimming control.
+> =20
+>    For more product information please see the link below:
+>    aw20036 - https://www.awinic.com/en/productDetail/AW20036QNR#tech-docs
+>    aw20054 - https://www.awinic.com/en/productDetail/AW20054QNR#tech-docs
+>    aw20072 - https://www.awinic.com/en/productDetail/AW20072QNR#tech-docs
+> +  aw20108 - https://www.awinic.com/en/productDetail/AW20108QNR#tech-docs
+> =20
+>  properties:
+>    compatible:
+> @@ -26,6 +27,7 @@ properties:
+>        - awinic,aw20036
+>        - awinic,aw20054
+>        - awinic,aw20072
+> +      - awinic,aw20108
+> =20
+>    reg:
+>      maxItems: 1
+> --=20
+> 2.36.0
+>=20
+>=20
+
+--83e25rSk0iUnOhmA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTE4HgAKCRB4tDGHoIJi
+0rVoAPwKZ5Haug7t186n1PU3KYbLww6y1HXyfwQM7rgDp2p2NAEAtZyp5p7E2gIA
+QHDRHMUeU9+1OU+DOIoSghTAgoSNEgw=
+=enfi
+-----END PGP SIGNATURE-----
+
+--83e25rSk0iUnOhmA--
