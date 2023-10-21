@@ -2,28 +2,28 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A4C17D1E2A
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Oct 2023 18:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59AA37D1E3E
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Oct 2023 18:28:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbjJUQPc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Oct 2023 12:15:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56552 "EHLO
+        id S231484AbjJUQ2z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Oct 2023 12:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231777AbjJUQPb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Oct 2023 12:15:31 -0400
+        with ESMTP id S231594AbjJUQ2y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Oct 2023 12:28:54 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9FFB1A8;
-        Sat, 21 Oct 2023 09:15:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6404C433C8;
-        Sat, 21 Oct 2023 16:15:25 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D754F106;
+        Sat, 21 Oct 2023 09:28:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775D7C433C8;
+        Sat, 21 Oct 2023 16:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1697904926;
-        bh=SHOy2rMtReYiFTxDJT1AME1BMS7WvUye36eUPs7PVdE=;
+        s=korg; t=1697905727;
+        bh=VjbjoB+vbGx+egXMLwVw1EQb/Pg3ogPkAciDz+i5XVU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mlg+wTlhHgYcLmcjz6kx2/83Mrg84TXk9muSAlCjmS1G6Ip8FPzdTVIRQQB/O9cRI
-         iTDSJ4Ws8RW/Pvx0qzZeHX3BP10NqnPV4KsIYKW0EKK1cQhQOfcym1ZLAKMxseud88
-         OgcKhARRp6EtWP8Zx0u8BP7rj9IjOqeflF1Pl308=
-Date:   Sat, 21 Oct 2023 18:15:23 +0200
+        b=M0MHZcsifQNktVBDmc/wfsq+a0/EqXJZNzmLlCYjisqQpiN6qlsgIkOoeRTnH5MVC
+         dIuCD4gwl2jnbLpt4VeZ65Otj3aODBJ3ArRRDWWeKqUSn/Y6VjXO2xFaw8rPyZyqoH
+         TUc+MGyL5YBCns5DvVgvjm+goiPKovaez8ut0Tik=
+Date:   Sat, 21 Oct 2023 18:28:44 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Florian Eckert <fe@dev.tdt.de>
 Cc:     Eckert.Florian@googlemail.com, jirislaby@kernel.org, pavel@ucw.cz,
@@ -31,14 +31,15 @@ Cc:     Eckert.Florian@googlemail.com, jirislaby@kernel.org, pavel@ucw.cz,
         ansuelsmth@gmail.com, m.brock@vanmierlo.com,
         linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] tty: add new helper function tty_get_tiocm
-Message-ID: <2023102115-stock-scrambled-f7d5@gregkh>
+Subject: Re: [PATCH v4 1/3] tty: whitespaces in descriptions corrected by
+ replacing tabs with spaces
+Message-ID: <2023102110-starlight-wispy-1f28@gregkh>
 References: <20231019112809.881730-1-fe@dev.tdt.de>
- <20231019112809.881730-3-fe@dev.tdt.de>
+ <20231019112809.881730-2-fe@dev.tdt.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019112809.881730-3-fe@dev.tdt.de>
+In-Reply-To: <20231019112809.881730-2-fe@dev.tdt.de>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -48,34 +49,24 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 01:28:08PM +0200, Florian Eckert wrote:
-> The struct 'tty_struct' has a callback to read the status flags of the tty
-> if the tty driver provides them. So fare, the data is transferred directly
-> to userspace with the function 'tty_tiocmget'. This function cannot be
-> used to evaluate the status line of the tty interface in the ledtrig-tty
-> trigger. To make this possible, a new function must be added that does
-> not immediately pass the data on to userspace.
+On Thu, Oct 19, 2023 at 01:28:07PM +0200, Florian Eckert wrote:
+> Tabs were used in the function description, to make this look more
+> uniform, the tabs were replaced by spaces where necessary.
 > 
-> The new function 'tty_get_tiocm' only returns the status register.
-> This information can then be processed further in the ledtrig-tty
-> trigger.
+> While we're at it, I also replaced the 'ndashes' with simple dashes, since
+> only those are supported by sphinx.
+> 
+> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>  drivers/tty/tty_io.c | 102 +++++++++++++++++++++----------------------
+>  1 file changed, 51 insertions(+), 51 deletions(-)
 
-Writing changelogs are hard.  You are including a lot of information in
-here that really doesn't need to be, as you are focusing on your
-specific use case, which is fine, but you are creating a generic
-function.
+This didn't apply cleanly as portions of this patch were already in my
+tree, what did tree did you make it against?
 
-This can be simpler, how about something like this:
+Anyway, I've fixed it up and taken it now.
 
-	There is no in-kernel function to get the status register of a
-	tty device like the TIOCMGET ioctl returns to userspace.  Create
-	a new function, tty_get_tiocm(), to obtain the status register
-	that other portions of the kernel can call if they need this
-	information, and move the existing internal tty_tiocmget()
-	function to use this interface.
-
-Sound good?
-
-The code portion looks fine to me, thanks for doing this.
+thanks,
 
 greg k-h
