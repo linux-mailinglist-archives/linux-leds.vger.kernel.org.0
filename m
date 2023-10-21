@@ -2,189 +2,272 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6A3B7D1BFB
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Oct 2023 11:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CF677D1E20
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Oct 2023 18:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbjJUJJz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Oct 2023 05:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52876 "EHLO
+        id S231701AbjJUQHS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Oct 2023 12:07:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjJUJJy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Oct 2023 05:09:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856C9D6E
-        for <linux-leds@vger.kernel.org>; Sat, 21 Oct 2023 02:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1697879308;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
-        b=Sut9WGxKNnUJeWOehrgyL4Wpp9vd/ak9PMxuqIkCYU69qMjC/pzUhzvXtPzDx/12qbSQAq
-        V1H0mcoubQE9AMbYSIwhou1VBPfZ4Pws8ZeKDigT2VnXf8N5pOqn7MO/dZj+mlAJ6duJiw
-        QyP+HvVWpVVDRIm8NT89vuqUuXVArDQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-3Vh4qIqeNguQhzN5y-mz4w-1; Sat, 21 Oct 2023 05:08:26 -0400
-X-MC-Unique: 3Vh4qIqeNguQhzN5y-mz4w-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9ba247e03aeso102348366b.1
-        for <linux-leds@vger.kernel.org>; Sat, 21 Oct 2023 02:08:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697879305; x=1698484105;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Duv/vRzaqiVheQFpKN6BpeiI42/H7vnpG0VOqBtei/A=;
-        b=MxDW0peRRutgjmf8WV/6+Ax5Sx42ymu6W2jX4+y4kP4dBHiaYjeRw1F4GY9K3mhzOg
-         gotyizUzLzEhlEVHMyV5HdRHo9FliDtp9P0IS4t/V0GcRY9pyEcLs3JAsEVM1U484dxv
-         fsgievBM2pmpb6YGFi4c3ZKr1AWTe2/Y2Dhz9axiETlYOUyVeskgV7pIbfXKwvHVefIX
-         wwqZcmi0xZ5D8SYaSSAnraJDwnXVtGtM8PMY+zspCIxLyylX98JMc3DUGBpQBZ+IoVBI
-         U50tKQh0f4FK6Fn+2e4qj1jO7+iouU+ILbFLbAU23Bx1aG9cqiu3rgqDW6UnBarTWzEa
-         cJgw==
-X-Gm-Message-State: AOJu0YxQK6EX9xiHv189ie8JiotZ7ZwXVG2/qJR7y3St+yEpoOaKaePI
-        rNKp7A8dRxEiJh9vTr3zrk6FpjSoLZSu2n/r3rNDx5NPwEnpD9W/+YMXEwvsLEEGWGHaEScx3TE
-        ZR/JXrDZRETmheiHD/WjjKA==
-X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id hg4-20020a1709072cc400b009c3d356ad0cmr3284641ejc.24.1697879305125;
-        Sat, 21 Oct 2023 02:08:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNqtW+MndTr+TWmmj2VbzRQsCnDbztAGvz9JDMu9I4Oq15U8bQsUZjmiRgthR6bMx8lB0Nzg==
-X-Received: by 2002:a17:907:2cc4:b0:9c3:d356:ad0c with SMTP id hg4-20020a1709072cc400b009c3d356ad0cmr3284603ejc.24.1697879304753;
-        Sat, 21 Oct 2023 02:08:24 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id k9-20020a1709061c0900b0099ce025f8ccsm3201413ejg.186.2023.10.21.02.08.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Oct 2023 02:08:23 -0700 (PDT)
-Message-ID: <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
-Date:   Sat, 21 Oct 2023 11:08:22 +0200
+        with ESMTP id S231372AbjJUQHS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Oct 2023 12:07:18 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EAA91A4;
+        Sat, 21 Oct 2023 09:07:13 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D10C433C8;
+        Sat, 21 Oct 2023 16:07:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1697904432;
+        bh=ZD4gnNZ4sd1nQ6aNB8FAQiCnaG/10E18+QxR7q3dmZY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EEXT7xVWscHDKwBRbWZ6RY4BLI0cAnkl7Y4DaZ5t/cMA876i5KndYfNIWQTZRy/hr
+         FWKS7hk8a7WlrUdPgbAOaGjEfRzlYV+Z0Gq3k6KceJ+GjPNG28sOgimtmkjYT50/aV
+         3ZouC08j9Fim5gosmDAuMLrcWmaMSLDVoQwEjrlI=
+Date:   Sat, 21 Oct 2023 18:07:09 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org, kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        ansuelsmth@gmail.com, m.brock@vanmierlo.com,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] leds: ledtrig-tty: add new line mode evaluation
+Message-ID: <2023102136-reenact-cash-7295@gregkh>
+References: <20231019112809.881730-1-fe@dev.tdt.de>
+ <20231019112809.881730-4-fe@dev.tdt.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-References: <cover.1697534024.git.sean@mess.org>
- <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
- <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
- <20231019105118.64gdzzixwqrztjir@pengutronix.de>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231019105118.64gdzzixwqrztjir@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231019112809.881730-4-fe@dev.tdt.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Uwe,
-
-On 10/19/23 12:51, Uwe Kleine-König wrote:
-> On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
->> Hi Sean,
->>
->> On 10/17/23 11:17, Sean Young wrote:
->>> Some drivers require sleeping, for example if the pwm device is connected
->>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
->>> with the generated IR signal when sleeping occurs.
->>>
->>> This patch makes it possible to use pwm when the driver does not sleep,
->>> by introducing the pwm_can_sleep() function.
->>>
->>> Signed-off-by: Sean Young <sean@mess.org>
->>
->> I have no objection to this patch by itself, but it seems a bit
->> of unnecessary churn to change all current callers of pwm_apply_state()
->> to a new API.
+On Thu, Oct 19, 2023 at 01:28:09PM +0200, Florian Eckert wrote:
+> Until now, the LED blinks when data is sent via the tty (rx/tx).
+> The serial tty interface also supports additional input signals, that can
+> also be evaluated within this trigger. This change is adding the following
+> additional input sources, which could be controlled
+> via the '/sys/class/<leds>/' sysfs interface.
 > 
-> The idea is to improve the semantic of the function name, see
-> https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
-> for more context.
-
-Hmm, so the argument here is that the GPIO API has this, but GPIOs
-generally speaking can be set atomically, so there not being able
-to set it atomically is special.
-
-OTOH we have many many many other kernel functions which may sleep
-and we don't all postfix them with _can_sleep.
-
-And for PWM controllers pwm_apply_state is IMHO sorta expected to
-sleep. Many of these are attached over I2C so things will sleep,
-others have a handshake to wait for the current dutycycle to
-end before you can apply a second change on top of an earlier
-change during the current dutycycle which often also involves
-sleeping.
-
-So the natural/expeected thing for pwm_apply_state() is to sleep
-and thus it does not need a postfix for this IMHO.
-
-> I think it's very subjective if you consider this
-> churn or not.
-
-I consider it churn because I don't think adding a postfix
-for what is the default/expected behavior is a good idea
-(with GPIOs not sleeping is the expected behavior).
-
-I agree that this is very subjective and very much goes
-into the territory of bikeshedding. So please consider
-the above my 2 cents on this and lets leave it at that.
-
-> While it's nice to have every caller converted in a single
-> step, I'd go for
+> - line_cts:
+>   DCE is ready to accept data from the DTE (CTS = Clear To  Send). If the
+>   line state is detected, the LED is switched on.
+>   If set to 0 (default), the LED will not evaluate CTS.
+>   If set to 1, the LED will evaluate CTS.
 > 
-> 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
+> - line_dsr:
+>   DCE is ready to receive and send data (DSR = Data Set Ready). If the line
+>   state is detected, the LED is switched on.
+>   If set to 0 (default), the LED will not evaluate DSR.
+>   If set to 1, the LED will evaluate DSR.
 > 
-> , keep that macro for a while and convert all users step by step. This
-> way we don't needlessly break oot code and the changes to convert to the
-> new API can go via their usual trees without time pressure.
+> - line_car:
+>   DTE is receiving a carrier from the DCE (DCD = Data Carrier Detect). If
+>   the line state is detected, the LED is switched on.
+>   If set to 0 (default), the LED will not evaluate CAR (DCD).
+>   If set to 1, the LED will evaluate CAR (DCD).
+> 
+> - line_rng:
+>   DCE has detected an incoming ring signal on the telephone line
+>   (RI = Ring Indicator). If the line state is detected, the LED is
+>   switched on.
+>   If set to 0 (default), the LED will not evaluate RNG (RI).
+>   If set to 1, the LED will evaluate RNG (RI).
+> 
+> Explanation:
+> DCE = Data Communication Equipment (Modem)
+> DTE = Data Terminal Equipment (Computer)
+> 
+> In addition to the new line_* entries in sysfs, the indication for the
+> direction of the transmitted data is independently controllable via the
+> new rx and tx sysfs entrie now too. These are on by default. Thus the
+> trigger behaves as before this change.
+> 
+> - rx:
+>   Signal reception (rx) of data on the named tty device.
+>   If set to 0, the LED will not blink on reception.
+>   If set to 1 (default), the LED will blink on reception.
+> 
+> - tx:
+>   Signal transmission (tx) of data on the named tty device.
+>   If set to 0, the LED will not blink on transmission.
+>   If set to 1 (default), the LED will blink on transmission.
+> 
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> ---
+>  .../ABI/testing/sysfs-class-led-trigger-tty   |  54 +++++
+>  drivers/leds/trigger/ledtrig-tty.c            | 192 +++++++++++++++++-
+>  2 files changed, 235 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> index 2bf6b24e781b..08127b1a4602 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> @@ -4,3 +4,57 @@ KernelVersion:	5.10
+>  Contact:	linux-leds@vger.kernel.org
+>  Description:
+>  		Specifies the tty device name of the triggering tty
+> +
+> +What:		/sys/class/leds/<led>/rx
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		Signal reception (rx) of data on the named tty device.
+> +		If set to 0, the LED will not blink on reception.
+> +		If set to 1 (default), the LED will blink on reception.
+> +
+> +What:		/sys/class/leds/<led>/tx
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		Signal transmission (tx) of data on the named tty device.
+> +		If set to 0, the LED will not blink on transmission.
+> +		If set to 1 (default), the LED will blink on transmission.
+> +
+> +car rng
+> +What:		/sys/class/leds/<led>/line_cts
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		DCE is ready to accept data from the DTE (Clear To Send). If
+> +		the line state is detected, the LED is switched on.
+> +		If set to 0 (default), the LED will not evaluate CTS.
+> +		If set to 1, the LED will evaluate CTS.
+> +
+> +What:		/sys/class/leds/<led>/line_dsr
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		DCE is ready to receive and send data (Data Set Ready). If
+> +		the line state is detected, the LED is switched on.
+> +		If set to 0 (default), the LED will not evaluate DSR.
+> +		If set to 1, the LED will evaluate DSR.
+> +
+> +What:		/sys/class/leds/<led>/line_car
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		DTE is receiving a carrier from the DCE (Data Carrier Detect).
+> +		If the line state is detected, the LED is switched on.
+> +		If set to 0 (default), the LED will not evaluate CAR (DCD).
+> +		If set to 1, the LED will evaluate CAR (DCD).
+> +
+> +What:		/sys/class/leds/<led>/line_cts
+> +Date:		October 2023
+> +KernelVersion:	6.7
+> +Description:
+> +		DCE has detected an incoming ring signal on the telephone
+> +		line (Ring Indicator). If the line state is detected, the
+> +		LED is switched on.
+> +		If set to 0 (default), the LED will not evaluate RNG (RI).
+> +		If set to 1, the LED will evaluate RNG (RI).
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> index 8ae0d2d284af..6a96439a7e55 100644
+> --- a/drivers/leds/trigger/ledtrig-tty.c
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -16,6 +16,24 @@ struct ledtrig_tty_data {
+>  	const char *ttyname;
+>  	struct tty_struct *tty;
+>  	int rx, tx;
+> +	unsigned long mode;
 
-I don't think there are enough users of pwm_apply_state() to warrant
-such an exercise.
+Why is mode "unsigned long" when the tty layer treats it as an int?  And
+really, this should be set to an explit size, u32 perhaps?  Or am I
+confused as to exactly what this is?
 
-So if people want to move ahead with the _can_sleep postfix addition
-(still not a fan) here is my acked-by for the drivers/platform/x86
-changes, for merging this through the PWM tree in a single commit:
+> +};
+> +
+> +enum led_trigger_tty_state {
+> +	TTY_LED_BLINK,
+> +	TTY_LED_ENABLE,
+> +	TTY_LED_DISABLE,
+> +};
+> +
+> +enum led_trigger_tty_modes {
+> +	TRIGGER_TTY_RX = 0,
+> +	TRIGGER_TTY_TX,
+> +	TRIGGER_TTY_CTS,
+> +	TRIGGER_TTY_DSR,
+> +	TRIGGER_TTY_CAR,
+> +	TRIGGER_TTY_RNG,
+> +	/* Keep last */
+> +	__TRIGGER_TTY_MAX,
+>  };
+>
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
+Oh wait, is "mode" this?  If so, why not define it as an enum?  Or if
+not, I'm totally confused as to what is going on here, sorry.
 
 
+>  static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
+> @@ -78,13 +96,106 @@ static ssize_t ttyname_store(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RW(ttyname);
+>  
+> +static ssize_t ledtrig_tty_attr_show(struct device *dev, char *buf,
+> +	enum led_trigger_tty_modes attr)
+> +{
+> +	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
+> +	int bit;
+> +
+> +	switch (attr) {
+> +	case TRIGGER_TTY_RX:
+> +	case TRIGGER_TTY_TX:
+> +	case TRIGGER_TTY_CTS:
+> +	case TRIGGER_TTY_DSR:
+> +	case TRIGGER_TTY_CAR:
+> +	case TRIGGER_TTY_RNG:
+> +		bit = attr;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return sprintf(buf, "%u\n", test_bit(bit, &trigger_data->mode));
+
+sysfs_emit() for all new sysfs attributes please.
+
+> +}
+> +
+> +static ssize_t ledtrig_tty_attr_store(struct device *dev, const char *buf,
+> +	size_t size, enum led_trigger_tty_modes attr)
+> +{
+> +	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
+> +	unsigned long state;
+> +	int ret;
+> +	int bit;
+> +
+> +	ret = kstrtoul(buf, 0, &state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (attr) {
+> +	case TRIGGER_TTY_RX:
+> +	case TRIGGER_TTY_TX:
+> +	case TRIGGER_TTY_CTS:
+> +	case TRIGGER_TTY_DSR:
+> +	case TRIGGER_TTY_CAR:
+> +	case TRIGGER_TTY_RNG:
+> +		bit = attr;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (state)
+> +		set_bit(bit, &trigger_data->mode);
+> +	else
+> +		clear_bit(bit, &trigger_data->mode);
+
+I think your test of "state" here is wrong, if you write in "40000" you
+are treating it as "1", which I don't think you want, right?
+
+thanks,
+
+greg k-h
