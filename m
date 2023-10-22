@@ -2,78 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C207D22B2
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Oct 2023 12:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E73317D22DC
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Oct 2023 13:20:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbjJVKq3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 22 Oct 2023 06:46:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
+        id S231585AbjJVLUD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 22 Oct 2023 07:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjJVKq1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 22 Oct 2023 06:46:27 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971B0A7;
-        Sun, 22 Oct 2023 03:46:25 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id D8A1B1000C2; Sun, 22 Oct 2023 11:46:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1697971582; bh=M7VN2YhQWSJtc+cSbcBrFFqz4ksGBErewDtODBR+VmQ=;
+        with ESMTP id S231537AbjJVLUC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 22 Oct 2023 07:20:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30864E8;
+        Sun, 22 Oct 2023 04:20:01 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725A7C433C8;
+        Sun, 22 Oct 2023 11:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1697973600;
+        bh=Mg6hajx48C9/LEuN7kgioSJmku4tU+Nwv0q9EXNVnhQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PnkeoM8N5hx3qaBdVrilN+IynCjwmnKapSBqWSB45BWsAOSWpe9KHkQL7YRUItROr
-         uFFPdvWk5lPhVQZxkVPRIaXgmqXs5imsVOrfbNzr5SBcKWaRO5NjsdhW+dKKt0doQr
-         3DAVaG99NhZHD/hnZrszsAFvfJtR67PqtTFmJoYnWTftElP9OkThhD2tWRha7fvs8a
-         uxartmlQT+FrRCB22IFFzoAVGTPJxSFN0LoAu+pErhIX/fOe4iEuwaiS1+SInLIjX5
-         FNm6tT+kFdl8LjG7e2h3VQmVvNxQ5cWMhDZanSX1IXvB61OLWDZ1uWOfUk78WcLfaV
-         kudis//kekD/A==
-Date:   Sun, 22 Oct 2023 11:46:22 +0100
-From:   Sean Young <sean@mess.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
-References: <cover.1697534024.git.sean@mess.org>
- <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
- <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
- <20231019105118.64gdzzixwqrztjir@pengutronix.de>
- <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+        b=DJokRb4zg1kGdS4g4ZwE2OoW/4JO3yuM+DlXJJ7fDJro0DW8x4dmNr2SxtHHUbavX
+         vOVEEIwOp/lwnw1nt5jqyfQCRqvCXdcMSQXv+A6BJH5i1OyOl28Erxv4w8MF8SdXyi
+         jexDbOd8oBij9LHwxLm2EmyAaOTmustSb2dAPZpQ=
+Date:   Sun, 22 Oct 2023 13:19:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, jirislaby@kernel.org, pavel@ucw.cz,
+        lee@kernel.org, kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        ansuelsmth@gmail.com, m.brock@vanmierlo.com,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] tty: whitespaces in descriptions corrected by
+ replacing tabs with spaces
+Message-ID: <2023102251-playoff-utensil-0457@gregkh>
+References: <20231019112809.881730-1-fe@dev.tdt.de>
+ <20231019112809.881730-2-fe@dev.tdt.de>
+ <2023102110-starlight-wispy-1f28@gregkh>
+ <dce966de5bec159dae67d958653aaa42@dev.tdt.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+In-Reply-To: <dce966de5bec159dae67d958653aaa42@dev.tdt.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,95 +51,40 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Hans,
-
-On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
-> On 10/19/23 12:51, Uwe Kleine-König wrote:
-> > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
-> >> On 10/17/23 11:17, Sean Young wrote:
-> >>> Some drivers require sleeping, for example if the pwm device is connected
-> >>> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
-> >>> with the generated IR signal when sleeping occurs.
-> >>>
-> >>> This patch makes it possible to use pwm when the driver does not sleep,
-> >>> by introducing the pwm_can_sleep() function.
-> >>>
-> >>> Signed-off-by: Sean Young <sean@mess.org>
-> >>
-> >> I have no objection to this patch by itself, but it seems a bit
-> >> of unnecessary churn to change all current callers of pwm_apply_state()
-> >> to a new API.
+On Sun, Oct 22, 2023 at 12:24:55PM +0200, Florian Eckert wrote:
+> On 2023-10-21 18:28, Greg KH wrote:
+> > On Thu, Oct 19, 2023 at 01:28:07PM +0200, Florian Eckert wrote:
+> > > Tabs were used in the function description, to make this look more
+> > > uniform, the tabs were replaced by spaces where necessary.
+> > > 
+> > > While we're at it, I also replaced the 'ndashes' with simple dashes,
+> > > since
+> > > only those are supported by sphinx.
+> > > 
+> > > Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> > > Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> > > ---
+> > >  drivers/tty/tty_io.c | 102
+> > > +++++++++++++++++++++----------------------
+> > >  1 file changed, 51 insertions(+), 51 deletions(-)
 > > 
-> > The idea is to improve the semantic of the function name, see
-> > https://lore.kernel.org/linux-pwm/20231013180449.mcdmklbsz2rlymzz@pengutronix.de
-> > for more context.
+> > This didn't apply cleanly as portions of this patch were already in my
+> > tree, what did tree did you make it against?
 > 
-> Hmm, so the argument here is that the GPIO API has this, but GPIOs
-> generally speaking can be set atomically, so there not being able
-> to set it atomically is special.
+> I have already seen that I should add a base commit next time.
+> So I made it against the master from last week.
 > 
-> OTOH we have many many many other kernel functions which may sleep
-> and we don't all postfix them with _can_sleep.
+> However, I was not sure which tree to use as I am changing
+> something in the tty and led subsystem-
 > 
-> And for PWM controllers pwm_apply_state is IMHO sorta expected to
-> sleep. Many of these are attached over I2C so things will sleep,
-> others have a handshake to wait for the current dutycycle to
-> end before you can apply a second change on top of an earlier
-> change during the current dutycycle which often also involves
-> sleeping.
+> > Anyway, I've fixed it up and taken it now.
 > 
-> So the natural/expeected thing for pwm_apply_state() is to sleep
-> and thus it does not need a postfix for this IMHO.
+> Thank you for adopting my change and correcting my commit so that
+> it can be applied cleanly.
+> 
+> I will not add this patch in the next series, as it is already in the
+> tty-testing branch [1] from you?
 
-Most pwm drivers look like they can be made to work in atomic context,
-I think. Like you say this is not the case for all of them. Whatever
-we choose to be the default for pwm_apply_state(), we should have a
-clear function name for the alternative. This is essentially why
-pam_apply_cansleep() was picked.
+That is correct, thanks!
 
-The alternative to pwm_apply_cansleep() is to have a function name
-which implies it can be used from atomic context. However, 
-pwm_apply_atomic() is not great because the "atomic" could be
-confused with the PWM atomic API, not the kernel process/atomic
-context.
-
-So what should the non-sleeping function be called then? 
- - pwm_apply_cannotsleep() 
- - pwm_apply_nosleep()
- - pwm_apply_nonsleeping()
- - pwm_apply_atomic_context()
-
-> > I think it's very subjective if you consider this
-> > churn or not.
-> 
-> I consider it churn because I don't think adding a postfix
-> for what is the default/expected behavior is a good idea
-> (with GPIOs not sleeping is the expected behavior).
-> 
-> I agree that this is very subjective and very much goes
-> into the territory of bikeshedding. So please consider
-> the above my 2 cents on this and lets leave it at that.
-
-You have a valid point. Let's focus on having descriptive function names.
-
-> > While it's nice to have every caller converted in a single
-> > step, I'd go for
-> > 
-> > 	#define pwm_apply_state(pwm, state) pwm_apply_cansleep(pwm, state)
-> > 
-> > , keep that macro for a while and convert all users step by step. This
-> > way we don't needlessly break oot code and the changes to convert to the
-> > new API can go via their usual trees without time pressure.
-> 
-> I don't think there are enough users of pwm_apply_state() to warrant
-> such an exercise.
-> 
-> So if people want to move ahead with the _can_sleep postfix addition
-> (still not a fan) here is my acked-by for the drivers/platform/x86
-> changes, for merging this through the PWM tree in a single commit:
-> 
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Thanks,
-
-Sean
+greg k-h
