@@ -2,211 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1303F7D22E3
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Oct 2023 13:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 614E47D2B20
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Oct 2023 09:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231537AbjJVLYs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 22 Oct 2023 07:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49464 "EHLO
+        id S229450AbjJWHVY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Oct 2023 03:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjJVLYr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 22 Oct 2023 07:24:47 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE11E5;
-        Sun, 22 Oct 2023 04:24:45 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06992C433C7;
-        Sun, 22 Oct 2023 11:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1697973884;
-        bh=wl7IrqiQxUg4zaYRUzrv146WVifzpKecnQb2nxtkafo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RNQYQqkWoSlwGNlRb3nIpsJtH+17ZTXd2PyYqGRJsGLGj5VA/ch29t7fYgxmNn6/W
-         aV7UpfbtAVKgoh5Pv8aBasu3lAsi0NBIBSrOrJ7BZKCLd/1TSUrkserZUcsA8UbT4p
-         +qW3WWVFRWL59ZjmZGHMtLSpr8VPw14TXAhehE0I=
-Date:   Sun, 22 Oct 2023 13:24:40 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, jirislaby@kernel.org, pavel@ucw.cz,
-        lee@kernel.org, kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        ansuelsmth@gmail.com, m.brock@vanmierlo.com,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] leds: ledtrig-tty: add new line mode evaluation
-Message-ID: <2023102235-wafer-plethora-ac3c@gregkh>
-References: <20231019112809.881730-1-fe@dev.tdt.de>
- <20231019112809.881730-4-fe@dev.tdt.de>
- <2023102136-reenact-cash-7295@gregkh>
- <72be6923ff6dd03a5d02d04ee1c5796f@dev.tdt.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <72be6923ff6dd03a5d02d04ee1c5796f@dev.tdt.de>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233449AbjJWHVW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Oct 2023 03:21:22 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFE1D7A
+        for <linux-leds@vger.kernel.org>; Mon, 23 Oct 2023 00:21:19 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-540105dea92so2169974a12.2
+        for <linux-leds@vger.kernel.org>; Mon, 23 Oct 2023 00:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1698045678; x=1698650478; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kXFEIIjXJDnknqYDecq1Ocr2lT28f1gIUh/Ja5PDVhY=;
+        b=Dm2RcdW3HJJTS8XNSsuRt8EjrCMxPlOMn1KGe6ePNgVOvwgqw6WwAPv2w/CBT0Jt3l
+         t9iJpjbMftIA2EWTgRpkpisevKtUJZ/1aaHfTM6rg3/7GRJOhBtkXlhPzVTUBqizcTiR
+         xf3ZJVtg14yuhYsrIZmxiQkIdpPuba4fU66EeXaOXjgtD3824p5wVo1ZcTOheewtSsHR
+         JQUPlJV2g1r+3Xfw2riWU76W8sjb0L/y5Bv0cWu0vdTehrIvS8GIklPFSYJgHiaEsB2H
+         N1bsZmv2doi/Omv62Ii91rwE+AgW0XCDrmMfR8GxekV43I88czzczWCIOHWllKtyk5mM
+         meIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698045678; x=1698650478;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kXFEIIjXJDnknqYDecq1Ocr2lT28f1gIUh/Ja5PDVhY=;
+        b=StTGSNPLYdHCBd2f7kjNxoz+GNrDztxZvn3bhuGBHjUtkW3V8XFXpQtdb44+Jun4KE
+         0IYo5o7C6kibkkCJ8fCaMQxmzhOHUlcZXpuqkNGLvhUr04UzfYd3DcZhNMP0Gn4p3EUU
+         J8OUa1VeK9StbMldcnthzeEZBnPHaTHCFJPv8DJiV7B0gESCKXviU9RdzxrntMDRYLfj
+         JjVZthFFNxqbOpTbuZW0QfQ7yV2D9jpr7DSPHkIg69VBRjZMPhGT7mQyJeL31ezb7tIU
+         py+auI9ozT5TfQtGxo050JuZH+TAEZxH8M+7dLoC0NLldPMsQeebmI1SQ8Ne4cfsWfwm
+         ZOsA==
+X-Gm-Message-State: AOJu0Yxr/NLLHUmOil2sSc0bMvFIYXrdbKkjufTBAKgMV/LJKAgeWnGC
+        bqCZ5hs5kbPMJaSvjCAISXNtqRCXC4bmptoETE4YJQ==
+X-Google-Smtp-Source: AGHT+IFqe/CmfqfzzIPPiPtZyuMLgmVsNA7lgokJECBM3fv3IMpRzoeLdxIXslrX9gPjd48rEIC4Cw==
+X-Received: by 2002:a05:6402:350b:b0:53e:782f:cfa6 with SMTP id b11-20020a056402350b00b0053e782fcfa6mr5958551edd.37.1698045677996;
+        Mon, 23 Oct 2023 00:21:17 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id m9-20020aa7d349000000b0053dff5568acsm5829153edr.58.2023.10.23.00.21.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Oct 2023 00:21:17 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 23 Oct 2023 09:21:17 +0200
+Message-Id: <CWFMYF24IN3Z.17JCGT64AHQW5@fairphone.com>
+Cc:     <konrad.dybcio@linaro.org>, <u.kleine-koenig@pengutronix.de>,
+        <quic_subbaram@quicinc.com>, <quic_gurus@quicinc.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v6 5/7] leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data
+ to support PPG
+From:   "Luca Weiss" <luca.weiss@fairphone.com>
+To:     "Anjelique Melendez" <quic_amelende@quicinc.com>, <pavel@ucw.cz>,
+        <lee@kernel.org>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>
+X-Mailer: aerc 0.15.2
+References: <20231020182218.22217-1-quic_amelende@quicinc.com>
+ <20231020182218.22217-6-quic_amelende@quicinc.com>
+In-Reply-To: <20231020182218.22217-6-quic_amelende@quicinc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Oct 22, 2023 at 12:24:27PM +0200, Florian Eckert wrote:
-> On 2023-10-21 18:07, Greg KH wrote:
-> > > diff --git a/drivers/leds/trigger/ledtrig-tty.c
-> > > b/drivers/leds/trigger/ledtrig-tty.c
-> > > index 8ae0d2d284af..6a96439a7e55 100644
-> > > --- a/drivers/leds/trigger/ledtrig-tty.c
-> > > +++ b/drivers/leds/trigger/ledtrig-tty.c
-> > > @@ -16,6 +16,24 @@ struct ledtrig_tty_data {
-> > >  	const char *ttyname;
-> > >  	struct tty_struct *tty;
-> > >  	int rx, tx;
-> > > +	unsigned long mode;
-> > 
-> > Why is mode "unsigned long" when the tty layer treats it as an int?  And
-> > really, this should be set to an explit size, u32 perhaps?  Or am I
-> > confused as to exactly what this is?
-> 
-> This is about the line state that the LED should show "altogether".
-> All states that the LED is to display are stored here.
-> 
-> For example:
-> Via the sysfs of the LED I can set the flags rx, tx and line_cts to
-> a "not" zero value. That means that the led is enable if the CTS of the
-> tty ist set, and the LED flashes if rx/tx data are transmitted via
-> this tty.
-> 
-> Therefore, the bits 0 (TRIGGER_TTY_RX), 1 (TRIGGER_TTY_TX) and
-> 2 (TRIGGER_TTY_CTS) are set in the variable. As defined in the
-> enum led_trigger_tty_modes
+On Fri Oct 20, 2023 at 8:22 PM CEST, Anjelique Melendez wrote:
+> Update the pmi632 lpg_data struct so that pmi632 devices use PPG
+> for LUT pattern.
 
-So the enum is a bitfield value?  That's not obvious either, a comment
-for the enum might be good to help describe that.
+Hi Anjelique,
 
-> I think I have not chosen the correct name for the variable there.
-> Maybe line_state, would be a better choice?
+The hw_pattern now works as expected on PMI632, with the commands
+written in [0]! Thanks!
 
-Or "trigger_modes"?  "mode" feels odd, these are values, so maybe just
-"triggers"?
+Tested-by: Luca Weiss <luca.weiss@fairphone.com>
 
-Naming is hard :(
+[0] https://lore.kernel.org/linux-arm-msm/CVX5ZUGU9BVE.2TA819U1AI6BZ@otso/
 
-> > > +};
-> > > +
-> > > +enum led_trigger_tty_state {
-> > > +	TTY_LED_BLINK,
-> > > +	TTY_LED_ENABLE,
-> > > +	TTY_LED_DISABLE,
-> > > +};
-> > > +
-> > > +enum led_trigger_tty_modes {
-> > > +	TRIGGER_TTY_RX = 0,
-> > > +	TRIGGER_TTY_TX,
-> > > +	TRIGGER_TTY_CTS,
-> > > +	TRIGGER_TTY_DSR,
-> > > +	TRIGGER_TTY_CAR,
-> > > +	TRIGGER_TTY_RNG,
-> > > +	/* Keep last */
-> > > +	__TRIGGER_TTY_MAX,
-> > >  };
-> > > 
-> > 
-> > Oh wait, is "mode" this?  If so, why not define it as an enum?  Or if
-> > not, I'm totally confused as to what is going on here, sorry.
-> 
-> See explanation above. I can not set this to an enum because I could
-> set more then one Flag via the sysfs.
+>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> Reviewed-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/leds/rgb/leds-qcom-lpg.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qco=
+m-lpg.c
+> index 0c6d0e593c06..92fee512d965 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -1640,11 +1640,13 @@ static const struct lpg_data pm8994_lpg_data =3D =
+{
+>  static const struct lpg_data pmi632_lpg_data =3D {
+>  	.triled_base =3D 0xd000,
+> =20
+> +	.lut_size =3D 64,
+> +
+>  	.num_channels =3D 5,
+>  	.channels =3D (const struct lpg_channel_data[]) {
+> -		{ .base =3D 0xb300, .triled_mask =3D BIT(7) },
+> -		{ .base =3D 0xb400, .triled_mask =3D BIT(6) },
+> -		{ .base =3D 0xb500, .triled_mask =3D BIT(5) },
+> +		{ .base =3D 0xb300, .triled_mask =3D BIT(7), .sdam_offset =3D 0x48 },
+> +		{ .base =3D 0xb400, .triled_mask =3D BIT(6), .sdam_offset =3D 0x56 },
+> +		{ .base =3D 0xb500, .triled_mask =3D BIT(5), .sdam_offset =3D 0x64 },
+>  		{ .base =3D 0xb600 },
+>  		{ .base =3D 0xb700 },
+>  	},
 
-Ah, then say they are bits, enums are usually not used for that, or if
-they are, they are documented better :)
-
-> > >  static void ledtrig_tty_restart(struct ledtrig_tty_data
-> > > *trigger_data)
-> > > @@ -78,13 +96,106 @@ static ssize_t ttyname_store(struct device *dev,
-> > >  }
-> > >  static DEVICE_ATTR_RW(ttyname);
-> > > 
-> > > +static ssize_t ledtrig_tty_attr_show(struct device *dev, char *buf,
-> > > +	enum led_trigger_tty_modes attr)
-> > > +{
-> > > +	struct ledtrig_tty_data *trigger_data =
-> > > led_trigger_get_drvdata(dev);
-> > > +	int bit;
-> > > +
-> > > +	switch (attr) {
-> > > +	case TRIGGER_TTY_RX:
-> > > +	case TRIGGER_TTY_TX:
-> > > +	case TRIGGER_TTY_CTS:
-> > > +	case TRIGGER_TTY_DSR:
-> > > +	case TRIGGER_TTY_CAR:
-> > > +	case TRIGGER_TTY_RNG:
-> > > +		bit = attr;
-> > > +		break;
-> > > +	default:
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	return sprintf(buf, "%u\n", test_bit(bit, &trigger_data->mode));
-> > 
-> > sysfs_emit() for all new sysfs attributes please.
-> 
-> Correct. Thanks for the hint will use sysf_emit() function in the next
-> patchset round.
-> 
-> > 
-> > > +}
-> > > +
-> > > +static ssize_t ledtrig_tty_attr_store(struct device *dev, const
-> > > char *buf,
-> > > +	size_t size, enum led_trigger_tty_modes attr)
-> > > +{
-> > > +	struct ledtrig_tty_data *trigger_data =
-> > > led_trigger_get_drvdata(dev);
-> > > +	unsigned long state;
-> > > +	int ret;
-> > > +	int bit;
-> > > +
-> > > +	ret = kstrtoul(buf, 0, &state);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	switch (attr) {
-> > > +	case TRIGGER_TTY_RX:
-> > > +	case TRIGGER_TTY_TX:
-> > > +	case TRIGGER_TTY_CTS:
-> > > +	case TRIGGER_TTY_DSR:
-> > > +	case TRIGGER_TTY_CAR:
-> > > +	case TRIGGER_TTY_RNG:
-> > > +		bit = attr;
-> > > +		break;
-> > > +	default:
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	if (state)
-> > > +		set_bit(bit, &trigger_data->mode);
-> > > +	else
-> > > +		clear_bit(bit, &trigger_data->mode);
-> > 
-> > I think your test of "state" here is wrong, if you write in "40000" you
-> > are treating it as "1", which I don't think you want, right?
-> 
-> If I have understood your question correctly, then I would say that your
-> assumption is not correct. I just want to check here whether it is a number
-> greater than zero or not. If the number is greater than zero then the bit
-> should be set in the 'mode' variable of the struct and if it is zero then
-> it should be cleared.
-
-"greater than 0" can be any number, that's not a good api.  Use the
-sysfs api that can handle a boolean, it will deal with "y/N" and 0/1 and
-all sorts of other options that way for you automatically.
-
-> The LED could indicate more then one state there. As described above.
-> This was requested by Uwe Kleine-König in the old v7 patch series [1].
-
-That's fine, but you need to fix up the userspace api a bit here.
-
-thanks,
-
-greg k-h
