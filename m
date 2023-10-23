@@ -2,235 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A38F7D2E35
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Oct 2023 11:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 579FA7D2EB2
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Oct 2023 11:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbjJWJ2L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Oct 2023 05:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35646 "EHLO
+        id S230022AbjJWJmg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Mon, 23 Oct 2023 05:42:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbjJWJ2K (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Oct 2023 05:28:10 -0400
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2043.outbound.protection.outlook.com [40.107.20.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C588897;
-        Mon, 23 Oct 2023 02:28:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c3dmJt1zBrhQZb4f6b/PELRQIbU0TioEevlCp88sdYfQ4X1ZQBah938rSH1NeewLdgwEgZqWYaZ2Jj9zCw7dNxWLMVmcMB+cQ54K5LX+OakzBcNYZONqJg7QIr3lh3DA5ODohLzQuT8sgoAb3zL9NVtOWilcWOkksT1EzJxT0uiPdDiyhAtQlGVR7hsC6okkSvrAUcyP2RZYXQ8HFSl8HV9zqAs7bi0Y3uugACPePSqtWbZAJFc0DFrVn/idUpwDB6mWJzQHvixHD4gXMAAE5qQ8qjRsWHwSh8pnHwds3BMi5ygN765jTL87r6hu+u1zpmhsX8vXtNY7QefYpM9LUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MIIeTQCFPpQtVJcL0dcK8tvcoMmRPwh+pvHrOHOwcQw=;
- b=mbT2+JqaGBy3WqBq/jkCypfd815uFZex8qZJbYcfje3jONul5VFhT7sm9r8dNbUpbyruZz+XRYnJLJ4u4k4AnHxlSLgvjMhrpZfPm2FRioTOamQUDGvunX5Y9lvCEgzaAlz0N7MHNw5//B+pDzjVNYVPiwbMAQrCwOyOxreyMuBU1opwEmN4IzzpEXGM5UaD7YQV7K+kMIT1rB+Krt6Qk3zteD7qGlzzNI2ehDGq1uKFbQRHPr0L6K3JFCnRVCwxNiFuoWKoJ5UB4lPHehGmApD+E/4jPDY3HVafD/wiMxtI0HgaTbj5skbHSpC3IyZU3d46xU4RN5gvsFAKarcsag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=asem.it; dmarc=pass action=none header.from=asem.it; dkim=pass
- header.d=asem.it; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MIIeTQCFPpQtVJcL0dcK8tvcoMmRPwh+pvHrOHOwcQw=;
- b=hYPjWcfBEMCvXfLPSI++rMpnSuPFYtPDFqCDKxbetgKlYp2pNJDudVGtG8AVG7Or4OF7OKHonpcrS7Fg3axTW+Is6jiTPhENr4vZymvnkrlG2d3JrhXrCkGqt1GFiHby99edpelNh1ziifZJK7Sgw+N43ayV6bf/dgIggikBTwQ=
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:273::14) by PA4PR01MB8993.eurprd01.prod.exchangelabs.com
- (2603:10a6:102:2a5::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Mon, 23 Oct
- 2023 09:28:03 +0000
-Received: from DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::ad2b:a1e7:8828:ba2f]) by DU2PR01MB8034.eurprd01.prod.exchangelabs.com
- ([fe80::ad2b:a1e7:8828:ba2f%7]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
- 09:28:03 +0000
-From:   Flavio Suligoi <f.suligoi@asem.it>
-To:     Conor Dooley <conor@kernel.org>
-CC:     Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/1] dt-bindings: backlight: mp3309c: remove two required
- properties
-Thread-Topic: [PATCH 1/1] dt-bindings: backlight: mp3309c: remove two required
- properties
-Thread-Index: AQHaA10IhwE5ZkDArkS4RoPMFlMBm7BS1g+AgARFCAA=
-Date:   Mon, 23 Oct 2023 09:28:03 +0000
-Message-ID: <DU2PR01MB803498DFD93E82DD3947D72DF9D8A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
-References: <20231020135434.2598578-1-f.suligoi@asem.it>
- <20231020135434.2598578-2-f.suligoi@asem.it>
- <20231020-moonrise-senate-86d0edb2d404@spud>
-In-Reply-To: <20231020-moonrise-senate-86d0edb2d404@spud>
-Accept-Language: it-IT, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=asem.it;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PR01MB8034:EE_|PA4PR01MB8993:EE_
-x-ms-office365-filtering-correlation-id: eb3e2b97-e52a-4bfa-5409-08dbd3aa5b73
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DZ8r1WpLSXZIAIAl4E/XHyDixUhJD8TIsbJX118j1P9WBT/9Aod6K/Jvbexe51AQhjyJ2TsF0ahczSDlCROag7v8VnTmdRT0/zj1Hx1m+RkYUGklgHN7KX6zF89WfzydCLzig2bk66DYqSbMAOyoXfGJNlJOPF6yDInSn/nzOvNKNJRrnkUfel4UpSEb1a8XD7OYKTkYbzNCf3Rqn4ag/WA1VWTYfjmxUvSjMqp1sNU6X36GDbyWr7oT0oH6y3MPDjnkdb+gf4k81oTsS2C1cKu638jPAFK6fHvXYP1Tjt6KTv9+gkEkyVCSjIckSl/eEZRnUsiBhaEmJ2EgSABg2iw77b19L220v9lAGwcKSd0XO/D2VGPfmuvepGrk2tVdXghtUIoicschaDUeeJlSdoRtMlmuNKgYstKZ48/N3yXeUVVF0wqENOqReooblMEcObX5D3SeLzJyLbqCI2E2hHrI+2s6JPd7EcObelX6WSHM02iUZJaVoNRcMEnJ+XrP9n4Pq2T4eRlFEixyqZnfeNuZL01TWteY/DdprK7MD9hrm/rfbFg3C1U1h2ObwJXBc0JQRCyx0C8yv26tzuhDwMB96HFVBWStOJGfeU7qsAE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8034.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(39840400004)(396003)(366004)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(38070700009)(38100700002)(2906002)(55016003)(41300700001)(86362001)(52536014)(5660300002)(7416002)(8676002)(8936002)(33656002)(4326008)(7696005)(6506007)(71200400001)(478600001)(122000001)(66476007)(6916009)(66946007)(316002)(76116006)(54906003)(64756008)(66446008)(66556008)(83380400001)(966005)(9686003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?H+vv07Mkm505hq2oxnZ7TOJWr6dZDquYHE5F4lV62nLkIdu8OxnprXExdjEX?=
- =?us-ascii?Q?H3SjQjWtJV52NirpycnNKqv/xhdpp26bsijNSuPRvRicsi0bfr80UQMvfHx5?=
- =?us-ascii?Q?l/h2WMgyiaG9z9vks3eXzHvaF9ygbAEGf0SwOrQdmDtU0xCCgWAs1WYzWAaN?=
- =?us-ascii?Q?q47omqkufj59PoYUNRlEAWDIebPjWxw15GlpLW4nckUS3CrueLyYXwR7A4Em?=
- =?us-ascii?Q?ybo4bTN5pSA9NpQcwWMuLBteMune1wK8kP+9NMVl/jZ4jyz9Omi7B0U+hmnn?=
- =?us-ascii?Q?uvUEpHMDO1cKaqyEULuAuWUFVAiAe1lI8qQpzE39ydh4g4P9Sra1h9+VLlkp?=
- =?us-ascii?Q?7rQX/iNx+10wy4rXJsqileRJrJJpeA6HmXB/NAVUzv8CBVAzidj4Bf2xuig6?=
- =?us-ascii?Q?z5F05YnnSeWZjHg78JHCXjyuWTQf8mU/GxKLSl64DkFBBplOIofVfx0V3gkZ?=
- =?us-ascii?Q?8FqE2WF4JSC2/wCwc5MZi1vk5i+t/r4t/gzHP3APDVHCtObWikQhCk+WSenB?=
- =?us-ascii?Q?y0HWsbCNSd2El+WqYgC+NigDkZg12tyifSedJ6/k9OfARhbmQyDYeBeumAXP?=
- =?us-ascii?Q?eVOSiaRJruTgJix6MeBrYtg6vJsb1FGImVJ9CijZ7dPZbSCdaXYUqpDRDOr8?=
- =?us-ascii?Q?KUEqnlykqLAhpS7uHTSiVviLO7N4W4HUVn9r96AGBTgaFuvZXlMw7uKasGjq?=
- =?us-ascii?Q?9sM/p6U1GCmLLRUc8Jwkch5hlWAQrTS8cDzaagGfFN3JuuoTkPOaw2hQX0yP?=
- =?us-ascii?Q?8bknV3KH8eci2bpals/CCIXhjgedvwMOhraauVgfuRkt8WwSzLMX/68flw/q?=
- =?us-ascii?Q?ulTrdYc/ZTajt9HCB3O3hbOFt0f3thamyVHJ4c4E6Ak8lui3Sy33ip62evQb?=
- =?us-ascii?Q?dw74HYN0wmnbl+W1kDhpyUebj1eJfK8eLOo1mqhcrNLo3nnSSmQjUa5lA8gn?=
- =?us-ascii?Q?JCYl/YZqFcrVPGo1foRogcZSklZS5HtiMTB6p6Pm8tj70jF//tWiiPZbYVgN?=
- =?us-ascii?Q?NyaG6GufbsDzjVLOqxyf+D0v3gR4vl1h/XghE0vsQ0wV0GrG5snd3ICUjaZ0?=
- =?us-ascii?Q?6Unua821q8HF1qCQ9KBOkXEifK5Nd8E+SOp/TX4tIlEEfm46rASLI1U5lmMr?=
- =?us-ascii?Q?B3JmLyT6k9v+qVrhtYas8/XgZyMizS46Wj6ZUMd//V2L3UkBdv0U0gYUhRe3?=
- =?us-ascii?Q?mGCIM6oRu2ES6sckUEve4qMQlGQ9ekSCkaDT/EV40MxHp6aywpBaZnfCoCqN?=
- =?us-ascii?Q?4zNRRRSejrOeJkaUOEc7SyFuDgz6XydL/bK4MJvgI/obA+qA8xsBX2cpNl6X?=
- =?us-ascii?Q?n2zhCXhvFuGTWUzlK+G+p94lVOnxgovRJHjCXXphos653qGu2cNwkXtun2Xa?=
- =?us-ascii?Q?jqbBnPAdn7b8NunPQAwEsyEPK3yOgGw1Ujded3p+r9q7oADM5L4htDjrPppM?=
- =?us-ascii?Q?OY85OfAouMOhbo59hyXtztkwP0jjVAe/nnJolg8GU6Q/Y7gqGgXQiPHSPEVb?=
- =?us-ascii?Q?s938FLYN62liAvttghoOf2766BfKqMVm5YDWUcxY1oQmMf3bT7/k+VvMaRp0?=
- =?us-ascii?Q?TFu2OvLGpbfh6hI2Wmk=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229927AbjJWJm0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Oct 2023 05:42:26 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D8CAF5;
+        Mon, 23 Oct 2023 02:42:22 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9674b5d38b=fe@dev.tdt.de>)
+        id 1qurRv-003GsW-2T; Mon, 23 Oct 2023 11:42:15 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qurRu-003GsG-5m; Mon, 23 Oct 2023 11:42:14 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id BA66C24004B;
+        Mon, 23 Oct 2023 11:42:13 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 18EC8240040;
+        Mon, 23 Oct 2023 11:42:13 +0200 (CEST)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id 8C6AC216D6;
+        Mon, 23 Oct 2023 11:42:12 +0200 (CEST)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        m.brock@vanmierlo.com
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v5 0/2] ledtrig-tty: add additional tty state evaluation
+Date:   Mon, 23 Oct 2023 11:42:03 +0200
+Message-ID: <20231023094205.2706812-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8034.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb3e2b97-e52a-4bfa-5409-08dbd3aa5b73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2023 09:28:03.4908
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +5l3ihTdy+/skH0RcsuEZgNS1LVUDCboabDMJs2aGVy4BgWsD0HQ+7C/otgkGK/diVE4bXm+KCpH6b6Ug1yEbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB8993
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+X-purgate: clean
+X-purgate-type: clean
+X-purgate-ID: 151534::1698054134-FA0CB49D-5E1EB346/0/0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Conor,
+Changes in v5:
+==============
+- Update commit message as request by greg k-h, to make the commit message
+  more generic and not focusing on my use case [1]. Thanks for that.
+- Removing PATCH v4 1/3 from previous set. This has been already applied to
+  tty-testing [2] by greg k-h.
+- As requested by greq k-h. I have also made the following changes to
+  PATCH v4 3/3 [3].
+  * Add a comment to the enum that this is already used for bit evaluation and
+    sysfs read and write.
+  * Renaming the variable 'unsigned long mode' to 'unsigned long ttytrigger'
+    in the ledtrig_tty_data structure to make it clearer that the selected
+    triggers are stored there.
+  * Using sysfs_emit() function to dump the requestd ttytrigger to userland.
+  * Also using the kstrtobool() function to write the selected ttytrigger
+    via the sysfs. This values are booleans.
+- I also removed the function ledtrig_tty_evaluate() from my last patchset.
+  PATCH v4 3/3 [3]. The new API tty_get_tiocm() function is only called once
+  now and checked for each ttytrigger bit. Previously this function was
+  called for each bit, which is not necessary.
 
-...
+Links:
+[1] https://lore.kernel.org/linux-leds/2023102115-stock-scrambled-f7d5@gregkh/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git/commit/?h=tty-testing&id=838eb763c3e939a8de8d4c55a17ddcce737685c1
+[3] https://lore.kernel.org/linux-leds/20231019112809.881730-4-fe@dev.tdt.de/
 
-> On Fri, Oct 20, 2023 at 03:54:33PM +0200, Flavio Suligoi wrote:
-> > The two properties:
-> >
-> > - max-brightness
-> > - default brightness
-> >
-> > are not really required, so they can be removed from the "required"
-> > section.
->=20
-> Why are they not required? You need to provide an explanation.
+Changes in v4:
+==============
+v4: https://lore.kernel.org/linux-leds/20231019112809.881730-1-fe@dev.tdt.de/
+- Merging patch 3/4 into patch number 4/4 from previous series, because
+  it fixes a problem that does not exist upstream. This was a note from
+  the build robot regarding my change that I added with previous series.
+  This change was never upstream and therefore this is not relevant.
+- Update the commit message of patch 1/3 of this series, that this commit
+  also changes the 'ndashes' to simple dashes. There were no changes, so
+  I add the 'Reviewed-by' that the commit received before.
+- With this patchset version I have reworked my implementation for the
+  evaluation of the additional line state, so that this changes becomes
+  smaller. As basis I have used the staged commits from Christian Marangi
+  that makes this changes to the netdev trigger. This has already been
+  applied to 'for-leds-next-next' by Lee Jones. I adapted this to the
+  tty trigger.
+  Convert device attr to macro:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=509412749002f4bac4c29f2012fff90c08d8afca
+  Unify sysfs and state handling:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=0fd93ac8582627bee9a3c824489f302dff722881
 
-The "max-brightness" is not more used now in the driver (I used it in the f=
-irst version
-of the driver).
-The "default-brightness", if omitted in the DT, is managed by the device dr=
-iver,
-using a default value. This depends on the dimming mode used:
+Changes in v3:
+==============
+v3: https://lore.kernel.org/linux-leds/20231016071332.597654-1-fe@dev.tdt.de/
+- Add missing 'kernel test robot' information to the commit message.
+- Additional information added to the commit message
 
-- for the "analog mode", via I2C commands, this value is fixed by hardware =
-(=3D31)
-- while in case of pwm mode the default used is the last value of the=20
-  brightness-levels array.
+Changes in v2:
+==============
+v2: https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/
+- rename new function from tty_get_mget() to tty_get_tiocm() as
+  requested by 'Jiri Slaby'.
+- As suggested by 'Jiri Slaby', fixed tabs in function documentation
+  throughout the file '/drivers/tty/tty_io.c' in a separate commit.
+- Move the variable definition to the top in function
+  'ledtrig_tty_work()'.
+  This was reported by the 'kernel test robot' after my change in v1.
+- Also set the 'max_brightness' to 'blink_brightness' if no
+  'blink_brightness' was set. This fixes a problem at startup when the
+  brightness is still set to 0 and only 'line_*' is evaluated. I looked
+  in the netdev trigger and that's exactly how it's done there.
 
-Also the brightness-levels array is not required; if it is omitted, the dri=
-ver uses=20
-a default array of 0..255 and the "default-brightness" is the last one, whi=
-ch is "255".
+Changes in v1:
+==============
+v1: https://lore.kernel.org/linux-leds/20230926093607.59536-1-fe@dev.tdt.de/
+This is a follow-up patchset, based on the mailing list discussion from
+March 2023 based on the old patchset v8 [1]. I have changed, the LED
+trigger handling via the sysfs interfaces as suggested by Uwe Kleine-König.
+Links:
+[1] https://lore.kernel.org/linux-leds/20230306094113.273988-1-fe@dev.tdt.de/
 
-> > Other changes:
-> >
-> > - improve the backlight working mode description, in the "description"
-> >   section
->=20
-> > - update the example, removing the "max-brightness" and introducing the
-> >   "brightess-levels" property
->=20
-> Why is this more useful?
+Florian Eckert (2):
+  tty: add new helper function tty_get_tiocm
+  leds: ledtrig-tty: add new line mode evaluation
 
-I introduced the "brightness-levels" instead of "max-brightness" for homoge=
-neity,
-since the "analog mode" dimming has a brightness-levels array fixed by hard=
-ware (0..31).
-In this way also the "pwm" mode can use the same concepts of array of level=
-s.
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  54 +++++
+ drivers/leds/trigger/ledtrig-tty.c            | 187 ++++++++++++++++--
+ drivers/tty/tty_io.c                          |  28 ++-
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 253 insertions(+), 17 deletions(-)
 
->=20
-> Cheers,
-> Conor.
+-- 
+2.30.2
 
-Thanks for your help.
-Flavio.
-
->=20
-> >
-> > Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> > ---
-> >  .../bindings/leds/backlight/mps,mp3309c.yaml           | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> >
-> > diff --git
-> a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> > index 4191e33626f5..527a37368ed7 100644
-> > ---
-> a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> > +++
-> b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-> > @@ -14,8 +14,8 @@ description: |
-> >    programmable switching frequency to optimize efficiency.
-> >    It supports two different dimming modes:
-> >
-> > -  - analog mode, via I2C commands (default)
-> > -  - PWM controlled mode.
-> > +  - analog mode, via I2C commands, as default mode (32 dimming levels)
-> > +  - PWM controlled mode (optional)
-> >
-> >    The datasheet is available at:
-> >    https://www.monolithicpower.com/en/mp3309c.html
-> > @@ -50,8 +50,6 @@ properties:
-> >  required:
-> >    - compatible
-> >    - reg
-> > -  - max-brightness
-> > -  - default-brightness
-> >
-> >  unevaluatedProperties: false
-> >
-> > @@ -66,8 +64,8 @@ examples:
-> >              compatible =3D "mps,mp3309c";
-> >              reg =3D <0x17>;
-> >              pwms =3D <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9=
- */
-> > -            max-brightness =3D <100>;
-> > -            default-brightness =3D <80>;
-> > +            brightness-levels =3D <0 4 8 16 32 64 128 255>;
-> > +            default-brightness =3D <6>;
-> >              mps,overvoltage-protection-microvolt =3D <24000000>;
-> >          };
-> >      };
-> > --
-> > 2.34.1
-> >
