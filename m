@@ -2,135 +2,191 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01FD77DADB3
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Oct 2023 19:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E9EC7DAE86
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Oct 2023 22:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbjJ2Shf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Oct 2023 14:37:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41912 "EHLO
+        id S230338AbjJ2V1u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 29 Oct 2023 17:27:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjJ2She (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Oct 2023 14:37:34 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A08DBA;
-        Sun, 29 Oct 2023 11:37:32 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 0E5CA3200926;
-        Sun, 29 Oct 2023 14:37:27 -0400 (EDT)
+        with ESMTP id S229533AbjJ2V1t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Oct 2023 17:27:49 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792BD97;
+        Sun, 29 Oct 2023 14:27:44 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 167795C00E7;
+        Sun, 29 Oct 2023 17:27:42 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sun, 29 Oct 2023 14:37:28 -0400
+  by compute6.internal (MEProxy); Sun, 29 Oct 2023 17:27:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1698604647; x=1698691047; bh=g+C4anPIqrq6/eg620vtM+R75wvlyb5iHu6
-        nAfe1o+0=; b=TL2AUyoRk3GGGIdODDHwnW5feSjKYugvEZmitWHFH0QiZAmvyOx
-        6oMwTma8snXx9blQtNRzaZ7GxzRCyr9NZEB9NDhxp4Kb4S08iUV1hKFfcvh86xgV
-        iV1WCOFek8MRZVavOemgi8yAhcMJQ5gM49c/wOnBXCZvf+V1K3MMAFLextBwsTzb
-        bj36c/0AT3flbfaqtmhhbCjcKG2W7uWDINwmGwXO1cx1Hjl+rPWsqxfGY8mErMxu
-        0lDlm3EDEz+KAeOhgF5uDAi+dvRpAjSkjkfp+1pZo1B47aU23XVG/Yay+WWua0T/
-        OcS22Kx6HV8vvjU9MZxYsmf7zfboWqIpqNg==
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1698614862; x=1698701262; bh=MiMFrY0ycv
+        /v9l0tkVb+XyEailSufLSk/OdS3dctGAk=; b=c3iRw+Pmsqwf7u+J/yJEiWwead
+        cQlCIuPoU35W/2lyt8MOcnGbsZWW7144iApXMlWGzMy5JhC0DLcicR4nPl2QPfUo
+        TPWY7W+zAoDNCTG2BZXJRpOzN0y4l6OJ4pwi2683ujmyQDX+0BJwbvWIIVT2gVPp
+        jc/ZWUU84X1kDWbh48fYVP7Jz9R3WmF0gv1kBJvsLt+elUJUVm0ce3wSdvZlV8OA
+        cmxQtIztCISHCRzu42ZBNzSv4dsEJGhKWR3w/lKrYToThcAShBnUJdpoZftdq93z
+        blrAoyIHzeuzWfLVyltQqWjRRazLsR5bBBES9rtKeUYKysL4ZjbJTfAV/JYA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1698604647; x=1698691047; bh=g+C4anPIqrq6/eg620vtM+R75wvlyb5iHu6
-        nAfe1o+0=; b=Kk/ld9HHMSnYytItJfmWFYIUTboLDA5D/mupL99RBMkhLQO2Yph
-        TaQCf8bs7nN+hke1J7mZ8MxRmCYdzHJNUd/TYIyk2cOZ4DeKwBZVktaNmXwJSgaL
-        k5kNFPMYV4M5cEoT9CDqq03+7LXCuFKYXGCsefM6pBf9CkBeZgaF6+nIEBKd2x1J
-        p0HfRBmn4SN0Iq2BCdYIe9IWE/eZ2PbxfgeVO1kjBDl1Jd4VJb19EjbePXcwhj5f
-        /9ajsJo8OIADzM9LnxUOA7O+EyuWUlWU3qthIdAkfqPfk1pCHqq8V+h8iAkjTvFw
-        cZkkBR6jcGMelW5LavSSOLE4t8kdBI60GXQ==
-X-ME-Sender: <xms:ZqY-ZTt6Y0Qgib5w5UQJ6KQCVgDMb6OcuQJTQRh4Q9ofPyz7g_N56w>
-    <xme:ZqY-ZUcphp6kG1MSZp3dhp6-Hr252Q3MAci9FXWdH_N1F8eLATBk-Oad9QB0nZPBV
-    7AawWsfz7EGYmzZKQ>
-X-ME-Received: <xmr:ZqY-ZWy1CZ9nQBT3V6ACftl7CgSoPEKJ47JYkEH83iPWQ8iwYEQor5M4USMtZ253n13qKNhP0-ae-osQjM1Wg_5MRHu6DvvT5VCOeqcmGvyMnNPi_ouVWj7-LQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleekgdduudefucetufdoteggodetrfdotf
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:message-id:mime-version:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1698614862; x=1698701262; bh=MiMFrY0ycv/v9
+        l0tkVb+XyEailSufLSk/OdS3dctGAk=; b=b0xoGx7LEl9exW66x82K8ONJK/XrK
+        vATlpAvHRg+sG598kRHa1ThK792mWrchqg8I+csuI+DomRCSC21+5/7xZZXZ55Dh
+        34t6u19IiEzqzc6pktDmc4wSLlm3+g854hCDFEaZZT2facXH8ZHHK39bp4f0/ZNP
+        1u2n3y3mwgSRsYQFeih7Gy/eCyhb80NkLnB5NRrWb4jFQsKO1cL5X1YsFHcAfqya
+        X/hu5lYw3moHBSAt5cDajVbfnDTi0CmQzhUfbRUKLf09sN6I4Txoeyr9vKttGXbg
+        c1NwKNlAuZg7qx7wtqp99ZuhwbNOhpdNKRz/0jEhJThymEFbm7HSFaFgQ==
+X-ME-Sender: <xms:TM4-ZRS9kAzQTuQFDk0FfjngHteVb8qjxh8e792340ZVKgDcSjNkUw>
+    <xme:TM4-ZayV5lHghBSOtyOpivZIAVEDu7poySdxhJ-qwoz5oYcIaSSBo9hn7oE0ArGS9
+    nF_LIKGNN1h1XGGRw>
+X-ME-Received: <xmr:TM4-ZW2aliP3tUGffKD84_idaH2OmyqUvazET3SXQyGbsQEEIiN-0jIhUA17BJHF8tq7oLfIx_Zlb15d7sQz0CIg75eKIcpC4XsbrwguqprzK0rKOfSY8Kc-6-ahUt_EG3RNuQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleekgddugeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfhffvvehfufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefhhfeggeduheeihedtkedutdegleduudelhfekheekvdetudev
-    ieejudfhveejffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ZqY-ZSOzlJzTSm2hv6dyWoq41JQY5nro6ApbStqiqfYjYrBdhvmXAQ>
-    <xmx:ZqY-ZT98yf6awAfBJ8tzN6xK_ia5iuvoNppViOBkjtQlOeZ22yXEkw>
-    <xmx:ZqY-ZSUdZS4F1n0E4-RlQ29vwM-fUmCwdllXo_Zgkj71KbjtopiJ5Q>
-    <xmx:Z6Y-ZekqQpvr7MHWEMkg5lmz9MBv-sPrNk-hNBGfpovwT8OEQUVvXg>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:TM4-ZZAaPZ2nXvvUk2R0WLf0JM7EfyP30BeIBF33qq7Lfa5_Wu8WzA>
+    <xmx:TM4-Zahz5XGEfezpXiD70llcrva3fYXmN3Fd9gjhczAiOAqn-EBRxg>
+    <xmx:TM4-ZdrKYXT-FayaYVLMOaytY-1LjLbK-DLzR5waqGTL__jZzGltdA>
+    <xmx:Ts4-ZVTxLQM37ajUJ4r4AeLOoUHGC-VPVAun1yK3HbzI4GJJnT4SOw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 29 Oct 2023 14:37:26 -0400 (EDT)
-Message-ID: <f5468eac-96ec-e8c9-bcc1-9ec219bf3352@sholland.org>
-Date:   Sun, 29 Oct 2023 13:37:25 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Content-Language: en-US
+ 29 Oct 2023 17:27:39 -0400 (EDT)
 From:   Samuel Holland <samuel@sholland.org>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20221231235541.13568-1-samuel@sholland.org>
- <20221231235541.13568-3-samuel@sholland.org>
- <20230316133422.GM9667@google.com>
- <a1adbe50-3400-fd10-1856-8c1d0ed82276@sholland.org>
-Subject: Re: [RESEND PATCH v7 2/5] leds: sun50i-a100: New driver for the A100
- LED controller
-In-Reply-To: <a1adbe50-3400-fd10-1856-8c1d0ed82276@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     Samuel Holland <samuel@sholland.org>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        John Watts <contact@jookia.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maksim Kiselev <bigunclemax@gmail.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Trevor Woerner <twoerner@gmail.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: [PATCH v8 0/5] leds: Allwinner A100 LED controller support
+Date:   Sun, 29 Oct 2023 16:26:54 -0500
+Message-ID: <20231029212738.7871-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee,
+This series adds bindings and a driver for the RGB LED controller found
+in some Allwinner SoCs, starting with A100. The hardware in the R329 and
+D1 SoCs appears to be identical.
 
-On 10/17/23 19:38, Samuel Holland wrote:
-> On 3/16/23 08:34, Lee Jones wrote:
->> On Sat, 31 Dec 2022, Samuel Holland wrote:
->>> +	for_each_available_child_of_node(np, child) {
->>> +		struct sun50i_a100_ledc_led *led;
->>> +		struct led_classdev *cdev;
->>> +		u32 addr, color;
->>> +
->>> +		ret = of_property_read_u32(child, "reg", &addr);
->>> +		if (ret || addr >= count) {
->>> +			dev_err(dev, "LED 'reg' values must be from 0 to %d\n",
->>
->> Doesn't sounds like an address.
-> 
-> The one-wire protocol involves the first LED responding to the first 24
-> bits of the transfer, then forwarding the rest to the next LED. The
-> address is the ordinal position in the chain. So I don't think there is
-> any reason to have gaps in the addresses--the LEDs would still have to
-> physically be there, but you would not be able to control them. That
-> said, the driver doesn't need to enforce this, so I can remove the check.
+This series was tested on the Nezha board (one onboard LED) and the
+Dongshan Nezha STU board (with an external strip of 16/32/48 LEDs, also
+with gaps in the LED addresses).
 
-There's actually a reason for the driver enforcing that LED addresses
-are contiguous. Removing this check decouples the largest address from
-the number of LED class devices. Unfortunately, there's a register field
-(LEDC_RESET_TIMING_CTRL_REG_LED_NUM) that must be set to the largest
-address for transfers to work correctly.
+Changes in v8:
+ - Remove redundant "Bindings" from the binding document title
+ - Make the DMA channel optional; the driver now works without DMA
+ - Fix spelling in the Kconfig description
+ - Fix the file header comment style
+ - Wrap to 100 columns instead of 80
+ - Use GENMASK for register bit fields
+ - Use FIELD_PREP for setting all multiple-bit register fields
+ - Add and use the LEDC_CHANNELS_PER_LED macro
+ - Make length and offset variables unsigned to avoid mixed signedness
+ - Add __counted_by for sun50i_a100_ledc::leds
+ - Move the new/existing xfer logic out of sun50i_a100_ledc_pio_xfer()
+ - Get the FIFO usage from INT_STS instead of assuming it is half full
+ - Make the DMA channel optional; always use PIO if it is unavailable
+ - Set up DMA before triggering the LEDC transfer to avoid underrun
+ - Correctly enable/disable the DRQ for each transfer
+ - Use more descriptive names for variables containing register values
+ - Add blank lines and comments to improve readability
+ - Add a comment explaining the write to the status register
+ - Remove unnecessary debugging prints
+ - Use the more-idiomatic post-increment operator in for loops
+ - Allow gaps in child node 'reg' values (separate max_addr/num_leds)
+ - Use device-managed allocation for the DMA buffer
+ - Unregister LEDs before shutting down the controller to correctly
+   respect LED_RETAIN_AT_SHUTDOWN (or lack thereof)
+ - Use the .remove_new platform driver hook
+ - Collected tags, except Tested-by for the driver due to large changes
 
-This means the driver would need to iterate through the child nodes in
-two passes inside the probe function: first to find the largest reg
-value, and second to actually register the LED class devices.
+Changes in v7:
+ - Use DEFINE_SIMPLE_DEV_PM_OPS
 
-Since I don't think having gaps in the addresses is a realistic use
-case, I'd like to keep this restriction for now (with a comment). We
-could always pay the complexity cost later if someone really does want
-to relax this check.
+Changes in v6:
+ - Drop the A100 DMA controller DT node patch, which was merged via a
+   different series
 
-Regards,
-Samuel
+Changes in v5:
+ - A100 contains the original implementation, so use that as the base
+   compatible string, and rename the binding to match
+ - Add "unevaluatedProperties: false" to the child multi-led binding
+ - Rename the driver R329 -> A100, since that is the actual original
+   implementation
+
+Changes in v4:
+ - Use "default" instead of "maxItems" for timing properties
+ - Depend on LEDS_CLASS_MULTICOLOR
+
+Changes in v3:
+ - Removed quotes from enumeration values
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Added vendor prefix to timing/format properties
+ - Renamed "format" property to "pixel-format" for clarity
+ - Dropped "vled-supply" as it is unrelated to the controller hardware
+ - Changed "writesl" to "iowrite32_rep" so the driver builds on hppa
+
+Changes in v2:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
+ - Renamed from sunxi-ledc to sun50i-r329-ledc
+ - Added missing "static" to functions/globals as reported by 0day bot
+
+Samuel Holland (5):
+  dt-bindings: leds: Add Allwinner A100 LED controller
+  leds: sun50i-a100: New driver for the A100 LED controller
+  arm64: dts: allwinner: a100: Add LED controller node
+  riscv: dts: allwinner: d1: Add LED controller node
+  riscv: dts: allwinner: d1: Add RGB LEDs to boards
+
+ .../leds/allwinner,sun50i-a100-ledc.yaml      | 137 +++++
+ .../arm64/boot/dts/allwinner/sun50i-a100.dtsi |  14 +
+ .../allwinner/sun20i-d1-lichee-rv-dock.dts    |  12 +
+ .../boot/dts/allwinner/sun20i-d1-nezha.dts    |  13 +
+ arch/riscv/boot/dts/allwinner/sun20i-d1.dtsi  |   6 +
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    |  15 +
+ drivers/leds/Kconfig                          |   9 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-sun50i-a100.c               | 580 ++++++++++++++++++
+ 9 files changed, 787 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+ create mode 100644 drivers/leds/leds-sun50i-a100.c
+
+-- 
+2.41.0
 
