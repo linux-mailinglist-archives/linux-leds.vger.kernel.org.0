@@ -2,234 +2,206 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 985307DB57D
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Oct 2023 09:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76AE57DB7C6
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Oct 2023 11:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232297AbjJ3Iwu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 30 Oct 2023 04:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
+        id S232696AbjJ3KSi convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Mon, 30 Oct 2023 06:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232287AbjJ3Iwt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 04:52:49 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3984E9D
-        for <linux-leds@vger.kernel.org>; Mon, 30 Oct 2023 01:52:47 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3b2b1af964dso2794984b6e.1
-        for <linux-leds@vger.kernel.org>; Mon, 30 Oct 2023 01:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1698655966; x=1699260766; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0gGEIDhDBnU4aFsLJZ/wB4B4cvrIyCziYnLzBrIhyCw=;
-        b=gXSErqR56A9c04DfaXIff9X5zWSeLtJKh9GuhiQ8TGt4is8ZI06IExJ3TvlP0oLDaP
-         IJx4Kozqefw4Q445EUqVCillLqRs+n4gFcvQ0DGZtQeVlDKo8zl0yQi6BcWjkfpRMNWJ
-         LLylGhyzutTGacK2VcRC+f5f8jwYOxibKp/RlVLdQ4KWo+iblWpy3ZPoasOAfVBd6J+a
-         QzSUmgLgwL9peoDVXytGC55u9C9XULeXMRoU5MuB2/qBjZC4HkCiCyCvAkpldfLYmrZ0
-         4NBl20n5u1L5+ZHYJm+fP9F+ntNotYWJCKoTo4IVv9BjxECQPL8yK357lMArJvsIw4q/
-         dOew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698655966; x=1699260766;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0gGEIDhDBnU4aFsLJZ/wB4B4cvrIyCziYnLzBrIhyCw=;
-        b=t3CNkbSp+mpTxYvEI96GZHehFfrnbm0YSB2fcQ5LbQ4qOMN31xxBStsLyzW+FCC0gi
-         2LAp/IwPYG6GpxkmtfZJgGGlUeV9+EuVZ8l7MOprcq4cZxn3KepTgnpdWtTGhdVOgMbj
-         Zl4MgZu3J8iVdj7L6n2NYWUDQWyqcdfwDxB+XCahuqOG/YK6H4QxAKkuvHcvkIZILmL0
-         GMlTU31CB+172CCfzBQU29GWSX6S6DdbEQndj9QBz+rM4R+Mav7PaK/dSbAG8N6rMp/d
-         E8xFq4vMyuggxTIi0pQwqQQLgaxI3Wo2gjIBvjl3KVc/1ZhHkLa1DPmFJ8swFlmqV5jO
-         9h4g==
-X-Gm-Message-State: AOJu0YwbrHOpyETHmK16F3pruCDhBTOPEc9deQzDmBxUlmU9JAJzqPDx
-        paoHEQ37mA3oPvxJ6ry6pKTdnfxlrsRfiRAttPBcuhMb4qR/6Wze
-X-Google-Smtp-Source: AGHT+IHkR2THCj1FlipypbHdlgpkGFKhoiGmQpUIe9vWSJhv+2mHRfkz1ZHtE/ji28hfpcYLDEBXn8gv7HQRPYtb3Xg=
-X-Received: by 2002:a05:6808:1907:b0:3ad:c5f2:2792 with SMTP id
- bf7-20020a056808190700b003adc5f22792mr15368637oib.46.1698655966526; Mon, 30
- Oct 2023 01:52:46 -0700 (PDT)
+        with ESMTP id S232637AbjJ3KSB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 06:18:01 -0400
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40897D83;
+        Mon, 30 Oct 2023 03:05:01 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=9681cd3a30=fe@dev.tdt.de>)
+        id 1qxP8g-00HZAG-DY; Mon, 30 Oct 2023 11:04:54 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1qxP8f-00G2Us-Fh; Mon, 30 Oct 2023 11:04:53 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 12DEB240049;
+        Mon, 30 Oct 2023 11:04:53 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 64F0A240040;
+        Mon, 30 Oct 2023 11:04:52 +0100 (CET)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id D8160215D4;
+        Mon, 30 Oct 2023 11:04:51 +0100 (CET)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        m.brock@vanmierlo.com
+Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [Patch v6 0/8] ledtrig-tty: add additional tty state evaluation
+Date:   Mon, 30 Oct 2023 11:04:40 +0100
+Message-ID: <20231030100447.63477-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230914114521.1491390-1-naresh.solanki@9elements.com>
- <20230920130528.GG13143@google.com> <CABqG17j_gCr8xw65qjn4Kh7ChdraZbLsyGOsCmFEEWG3txjE4A@mail.gmail.com>
- <20230921103156.GB3449785@google.com>
-In-Reply-To: <20230921103156.GB3449785@google.com>
-From:   Naresh Solanki <naresh.solanki@9elements.com>
-Date:   Mon, 30 Oct 2023 14:22:35 +0530
-Message-ID: <CABqG17ibzHiYmzCZ6ZpAa8BZhj5N+0dQ0aa1yebtCk0YYVdsFQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3] leds: max5970: Add support for max5970
-To:     Lee Jones <lee@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: 8BIT
+X-purgate: clean
+X-purgate-ID: 151534::1698660294-DD48F3D8-594CF955/0/0
+X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Changes in v6:
+==============
+This is a paritial rewrite of the changes to make the function for
+setting the tty evaluation configurable. This change was requested and
+comment by Greg K-H at the last review [1]. The main changes are.
+- Split the changes into smaller commits to make reviewing easier.
+- Use a completion to sync the sysfs and the delay scheduler work on
+  shared variables.
+- Adding the base-commit to this overview, that reviewer know which base
+  commit I am using.
+  Base branch is:
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+Patch [1/7]:
+  This patch is already included in the tty branch [2], but it is still
+  included in this patchsset, so that the following patches of the
+  base-commit branch could be applied correctly.
+Patch [2/7]:
+  Add a new helper function tty_get_tiocm(). This got already a
+  'Acked-by: Greg Kroah-Hartman' [3] and is not changed.
+Patch [3/7]:
+  Add missing of freeing an allocated ttyname buffer on trigger
+  deactivation. This is a memory leak fix patch and should also be
+  backported to the 'stable' branches.
+Patch [4/7]:
+  As requested by greg k-h this is more a 'dev_warn' instead of a
+  'dev_info'. This could also be backported to the 'stable' branches if
+  needed.
+Patch [5/7]:
+  Use a completion to sync for sysfs read/write and the delay scheduler
+  work. I hope I am using the completion correctly. I wasn't sure if I
+  should secure the sysfs read and write access at the same time via a
+  mutex. With this change, the work is also not stopped as it was before
+  when no ttyname was set via sysfs. A tty should always be set when this
+  trigger is used. And is therefore not a problem from my point of view.
+Patch [6/7]:
+  Make rx tx activitate configurable. In the previous implementation,
+  there was still the ttytrigger flag variable. This flag variable was
+  replaced by individual variables in the data struct. Now these variables
+  can be accessed without masking. The commit was rebased and cleaned up
+  to use the completion implementation.
+Patch [7/7]:
+  Adding additional trigger line state sources. The commit was also
+  rebased and cleaned up to use the completion implementation.
 
-On Thu, 21 Sept 2023 at 16:02, Lee Jones <lee@kernel.org> wrote:
->
-> On Thu, 21 Sep 2023, Naresh Solanki wrote:
->
-> > Hi
-> >
-> >
-> > On Wed, 20 Sept 2023 at 18:35, Lee Jones <lee@kernel.org> wrote:
-> > >
-> > > On Thu, 14 Sep 2023, Naresh Solanki wrote:
-> > >
-> > > > From: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > >
-> > > > The MAX5970 is hot swap controller and has 4 indication LED.
-> > > >
-> > > > Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > > Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
-> > > > ---
-> > > > Changes in V3:
-> > > > - Drop array for ddata variable.
-> > > > Changes in V2:
-> > > > - Add of_node_put before return.
-> > > > - Code cleanup
-> > > > - Refactor code & remove max5970_setup_led function.
-> > > > ---
-> > > >  drivers/leds/Kconfig        |  11 ++++
-> > > >  drivers/leds/Makefile       |   1 +
-> > > >  drivers/leds/leds-max5970.c | 110 ++++++++++++++++++++++++++++++++=
-++++
-> > > >  3 files changed, 122 insertions(+)
-> > > >  create mode 100644 drivers/leds/leds-max5970.c
-> > >
-> > > Couple of nits and you're good to go.
-> > >
-> > > Once fixed please resubmit with my:
-> > >
-> > >   Reviewed-by: Lee Jones <lee@kernel.org>
-> > >
-> > > > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> > > > index b92208eccdea..03ef527cc545 100644
-> > > > --- a/drivers/leds/Kconfig
-> > > > +++ b/drivers/leds/Kconfig
-> > > > @@ -637,6 +637,17 @@ config LEDS_ADP5520
-> > > >         To compile this driver as a module, choose M here: the modu=
-le will
-> > > >         be called leds-adp5520.
-> > > >
-> > > > +config LEDS_MAX5970
-> > > > +     tristate "LED Support for Maxim 5970"
-> > > > +     depends on LEDS_CLASS
-> > > > +     depends on MFD_MAX5970
-> > > > +     help
-> > > > +       This option enables support for the Maxim MAX5970 & MAX5978=
- smart
-> > > > +       switch indication LEDs via the I2C bus.
-> > > > +
-> > > > +       To compile this driver as a module, choose M here: the modu=
-le will
-> > > > +       be called leds-max5970.
-> > > > +
-> > > >  config LEDS_MC13783
-> > > >       tristate "LED Support for MC13XXX PMIC"
-> > > >       depends on LEDS_CLASS
-> > > > diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> > > > index d7348e8bc019..6eaee0a753c6 100644
-> > > > --- a/drivers/leds/Makefile
-> > > > +++ b/drivers/leds/Makefile
-> > > > @@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)           +=3D leds-lp8=
-501.o
-> > > >  obj-$(CONFIG_LEDS_LP8788)            +=3D leds-lp8788.o
-> > > >  obj-$(CONFIG_LEDS_LP8860)            +=3D leds-lp8860.o
-> > > >  obj-$(CONFIG_LEDS_LT3593)            +=3D leds-lt3593.o
-> > > > +obj-$(CONFIG_LEDS_MAX5970)           +=3D leds-max5970.o
-> > > >  obj-$(CONFIG_LEDS_MAX77650)          +=3D leds-max77650.o
-> > > >  obj-$(CONFIG_LEDS_MAX8997)           +=3D leds-max8997.o
-> > > >  obj-$(CONFIG_LEDS_MC13783)           +=3D leds-mc13783.o
-> > > > diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max597=
-0.c
-> > > > new file mode 100644
-> > > > index 000000000000..c9685990e26e
-> > > > --- /dev/null
-> > > > +++ b/drivers/leds/leds-max5970.c
-> > > > @@ -0,0 +1,110 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +/*
-> > > > + * Device driver for leds in MAX5970 and MAX5978 IC
-> > > > + *
-> > > > + * Copyright (c) 2022 9elements GmbH
-> > > > + *
-> > > > + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
-> > > > + */
-> > > > +
-> > > > +#include <linux/leds.h>
-> > > > +#include <linux/mfd/max5970.h>
-> > > > +#include <linux/of.h>
-> > > > +#include <linux/platform_device.h>
-> > > > +#include <linux/regmap.h>
-> > > > +
-> > > > +#define ldev_to_maxled(c)       container_of(c, struct max5970_led=
-, cdev)
-> > > > +
-> > > > +struct max5970_led {
-> > > > +     struct device *dev;
-> > > > +     struct regmap *regmap;
-> > > > +     struct led_classdev cdev;
-> > > > +     unsigned int index;
-> > > > +};
-> > > > +
-> > > > +static int max5970_led_set_brightness(struct led_classdev *cdev,
-> > > > +                                   enum led_brightness brightness)
-> > > > +{
-> > > > +     struct max5970_led *ddata =3D ldev_to_maxled(cdev);
-> > > > +     int ret, val;
-> > > > +
-> > > > +     /* Set/clear corresponding bit for given led index */
-> > > > +     val =3D !brightness ? BIT(ddata->index) : 0;
-> > > > +
-> > > > +     ret =3D regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLA=
-SH, BIT(ddata->index), val);
-> > > > +     if (ret < 0)
-> > > > +             dev_err(cdev->dev, "failed to set brightness %d", ret=
-);
-> > > > +
-> > > > +     return ret;
-> > > > +}
-> > > > +
-> > > > +static int max5970_led_probe(struct platform_device *pdev)
-> > > > +{
-> > > > +     struct device *dev =3D &pdev->dev;
-> > > > +     struct device_node *np =3D dev_of_node(dev->parent);
-> > > > +     struct regmap *regmap;
-> > > > +     struct device_node *led_node;
-> > > > +     struct device_node *child;
-> > >
-> > > Nit: You can place these on the same line.
-> > Ack
-> > >
-> > > > +     struct max5970_led *ddata;
-> > > > +     int ret =3D -ENODEV, num_leds =3D 0;
-> > > > +
-> > > > +     regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
-> > > > +     if (!regmap)
-> > > > +             return -EPROBE_DEFER;
-> > >
-> > > Why are you deferring here?
-> > This is a Leaf driver. Making sure the parent driver has initialized re=
-gmap.
->
-> How can this driver initialise before the parent driver?
-The parent driver in this case is simple_i2c_mfd.
-Based on reference from other similar implementations, the regmap
-check was adapted.
-As you mentioned, your right that leaf driver will not start before parent
-driver is loaded successfully so probably the DEFER might not be needed
-here.
+Changes in v5:
+==============
+v5: https://lore.kernel.org/linux-leds/20231023094205.2706812-1-fe@dev.tdt.de/
+- Update commit message as request by greg k-h, to make the commit
+  message more generic and not focusing on my use case [1].
+- Removing PATCH v4 1/3 from previous set. This has been already applied
+  to tty-testing [2] by greg k-h.
+- As requested by greq k-h. I have also made the following changes to
+  PATCH v4 3/3 [3].
+  * Add a comment to the enum that this is already used for bit
+    evaluation and sysfs read and write.
+  * Renaming the variable 'unsigned long mode' to
+    'unsigned long ttytrigger' in the ledtrig_tty_data structure to make
+    it clearer that the selected triggers are stored there.
+  * Using sysfs_emit() function to dump the requestd ttytrigger to
+    userland.
+  * Also using the kstrtobool() function to write the selected
+    ttytrigger via the sysfs. This values are booleans.
+- I also removed the function ledtrig_tty_evaluate() from my last
+  patchses PATCH v4 3/3 [3]. The new API tty_get_tiocm() function
+  is only called once now and checked for each ttytrigger bit.
+  Previously this function was called for each bit, which is not
+  necessary.
 
-Thanks,
-Naresh
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+Links:
+[1] https://lore.kernel.org/linux-leds/2023102115-stock-scrambled-f7d5@gregkh/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git/commit/?h=tty-testing&id=838eb763c3e939a8de8d4c55a17ddcce737685c1
+[3] https://lore.kernel.org/linux-leds/20231019112809.881730-4-fe@dev.tdt.de/
+
+Changes in v4:
+==============
+v4: https://lore.kernel.org/linux-leds/20231019112809.881730-1-fe@dev.tdt.de/
+- Merging patch 3/4 into patch number 4/4 from previous series, because
+  it fixes a problem that does not exist upstream. This was a note from
+  the build robot regarding my change that I added with previous series.
+  This change was never upstream and therefore this is not relevant.
+- Update the commit message of patch 1/3 of this series, that this
+  commit
+  also changes the 'ndashes' to simple dashes. There were no changes, so
+  I add the 'Reviewed-by' that the commit received before.
+- With this patchset version I have reworked my implementation for the
+  evaluation of the additional line state, so that this changes becomes
+  smaller. As basis I have used the staged commits from Christian Marangi
+  that makes this changes to the netdev trigger. This has already been
+  applied to 'for-leds-next-next' by Lee Jones. I adapted this to the
+  tty trigger.
+  Convert device attr to macro:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=509412749002f4bac4c29f2012fff90c08d8afca
+  Unify sysfs and state handling:
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/commit/drivers/leds/trigger?h=for-leds-next-next&id=0fd93ac8582627bee9a3c824489f302dff722881
+
+Changes in v3:
+==============
+v3: https://lore.kernel.org/linux-leds/20231016071332.597654-1-fe@dev.tdt.de/
+- Add missing 'kernel test robot' information to the commit message.
+- Additional information added to the commit message
+
+Changes in v2:
+==============
+v2: https://lore.kernel.org/linux-leds/20230928132632.200263-1-fe@dev.tdt.de/
+- rename new function from tty_get_mget() to tty_get_tiocm() as
+  requested by 'Jiri Slaby'.
+- As suggested by 'Jiri Slaby', fixed tabs in function documentation
+  throughout the file '/drivers/tty/tty_io.c' in a separate commit.
+- Move the variable definition to the top in function
+  'ledtrig_tty_work()'.
+  This was reported by the 'kernel test robot' after my change in v1.
+- Also set the 'max_brightness' to 'blink_brightness' if no
+  'blink_brightness' was set. This fixes a problem at startup when the
+  brightness is still set to 0 and only 'line_*' is evaluated. I looked
+  in the netdev trigger and that's exactly how it's done there.
+
+Changes in v1:
+==============
+v1: https://lore.kernel.org/linux-leds/20230926093607.59536-1-fe@dev.tdt.de/
+This is a follow-up patchset, based on the mailing list discussion from
+March 2023 based on the old patchset v8 [1]. I have changed, the LED
+trigger handling via the sysfs interfaces as suggested by Uwe
+Kleine-König.
+Links:
+[1] https://lore.kernel.org/linux-leds/20230306094113.273988-1-fe@dev.tdt.de/
+
+Florian Eckert (7):
+  tty: whitespaces in descriptions corrected by replacing tabs with
+    spaces
+  tty: add new helper function tty_get_tiocm
+  leds: ledtrig-tty: free allocated ttyname buffer on deactivate
+  leds: ledtrig-tty: change logging if get icount failed
+  leds: ledtrig-tty: replace mutex with completion
+  leds: ledtrig-tty: make rx tx activitate configurable
+  leds: ledtrig-tty: add additional line state evaluation
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |  56 ++++
+ drivers/leds/trigger/ledtrig-tty.c            | 256 +++++++++++++++---
+ drivers/tty/tty_io.c                          | 130 +++++----
+ include/linux/tty.h                           |   1 +
+ 4 files changed, 349 insertions(+), 94 deletions(-)
+
+
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+-- 
+2.30.2
+
