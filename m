@@ -2,256 +2,234 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7CBA7DB4F1
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Oct 2023 09:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 985307DB57D
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Oct 2023 09:52:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232032AbjJ3IPt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 30 Oct 2023 04:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40052 "EHLO
+        id S232297AbjJ3Iwu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 30 Oct 2023 04:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231970AbjJ3IPs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 04:15:48 -0400
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974E4BD;
-        Mon, 30 Oct 2023 01:15:45 -0700 (PDT)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=9681cd3a30=fe@dev.tdt.de>)
-        id 1qxNQq-00GSKG-5Q; Mon, 30 Oct 2023 09:15:32 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1qxNQp-000Zs3-1p; Mon, 30 Oct 2023 09:15:31 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id A3726240049;
-        Mon, 30 Oct 2023 09:15:30 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 01A4E240040;
-        Mon, 30 Oct 2023 09:15:29 +0100 (CET)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 2BE07215D4;
-        Mon, 30 Oct 2023 09:15:28 +0100 (CET)
+        with ESMTP id S232287AbjJ3Iwt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 04:52:49 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3984E9D
+        for <linux-leds@vger.kernel.org>; Mon, 30 Oct 2023 01:52:47 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3b2b1af964dso2794984b6e.1
+        for <linux-leds@vger.kernel.org>; Mon, 30 Oct 2023 01:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1698655966; x=1699260766; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0gGEIDhDBnU4aFsLJZ/wB4B4cvrIyCziYnLzBrIhyCw=;
+        b=gXSErqR56A9c04DfaXIff9X5zWSeLtJKh9GuhiQ8TGt4is8ZI06IExJ3TvlP0oLDaP
+         IJx4Kozqefw4Q445EUqVCillLqRs+n4gFcvQ0DGZtQeVlDKo8zl0yQi6BcWjkfpRMNWJ
+         LLylGhyzutTGacK2VcRC+f5f8jwYOxibKp/RlVLdQ4KWo+iblWpy3ZPoasOAfVBd6J+a
+         QzSUmgLgwL9peoDVXytGC55u9C9XULeXMRoU5MuB2/qBjZC4HkCiCyCvAkpldfLYmrZ0
+         4NBl20n5u1L5+ZHYJm+fP9F+ntNotYWJCKoTo4IVv9BjxECQPL8yK357lMArJvsIw4q/
+         dOew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698655966; x=1699260766;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0gGEIDhDBnU4aFsLJZ/wB4B4cvrIyCziYnLzBrIhyCw=;
+        b=t3CNkbSp+mpTxYvEI96GZHehFfrnbm0YSB2fcQ5LbQ4qOMN31xxBStsLyzW+FCC0gi
+         2LAp/IwPYG6GpxkmtfZJgGGlUeV9+EuVZ8l7MOprcq4cZxn3KepTgnpdWtTGhdVOgMbj
+         Zl4MgZu3J8iVdj7L6n2NYWUDQWyqcdfwDxB+XCahuqOG/YK6H4QxAKkuvHcvkIZILmL0
+         GMlTU31CB+172CCfzBQU29GWSX6S6DdbEQndj9QBz+rM4R+Mav7PaK/dSbAG8N6rMp/d
+         E8xFq4vMyuggxTIi0pQwqQQLgaxI3Wo2gjIBvjl3KVc/1ZhHkLa1DPmFJ8swFlmqV5jO
+         9h4g==
+X-Gm-Message-State: AOJu0YwbrHOpyETHmK16F3pruCDhBTOPEc9deQzDmBxUlmU9JAJzqPDx
+        paoHEQ37mA3oPvxJ6ry6pKTdnfxlrsRfiRAttPBcuhMb4qR/6Wze
+X-Google-Smtp-Source: AGHT+IHkR2THCj1FlipypbHdlgpkGFKhoiGmQpUIe9vWSJhv+2mHRfkz1ZHtE/ji28hfpcYLDEBXn8gv7HQRPYtb3Xg=
+X-Received: by 2002:a05:6808:1907:b0:3ad:c5f2:2792 with SMTP id
+ bf7-20020a056808190700b003adc5f22792mr15368637oib.46.1698655966526; Mon, 30
+ Oct 2023 01:52:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 30 Oct 2023 09:15:28 +0100
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     m.brock@vanmierlo.com
-Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] leds: ledtrig-tty: add new line mode evaluation
-In-Reply-To: <ddf9439a092576cd18c6e025d0b61602@vanmierlo.com>
-References: <20231023094205.2706812-1-fe@dev.tdt.de>
- <20231023094205.2706812-3-fe@dev.tdt.de>
- <ddf9439a092576cd18c6e025d0b61602@vanmierlo.com>
-Message-ID: <2951fd563fc6a364d8cddfb7ec17808b@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230914114521.1491390-1-naresh.solanki@9elements.com>
+ <20230920130528.GG13143@google.com> <CABqG17j_gCr8xw65qjn4Kh7ChdraZbLsyGOsCmFEEWG3txjE4A@mail.gmail.com>
+ <20230921103156.GB3449785@google.com>
+In-Reply-To: <20230921103156.GB3449785@google.com>
+From:   Naresh Solanki <naresh.solanki@9elements.com>
+Date:   Mon, 30 Oct 2023 14:22:35 +0530
+Message-ID: <CABqG17ibzHiYmzCZ6ZpAa8BZhj5N+0dQ0aa1yebtCk0YYVdsFQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3] leds: max5970: Add support for max5970
+To:     Lee Jones <lee@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-purgate-ID: 151534::1698653731-DCC6A3D8-37093731/0/0
-X-purgate: clean
-X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi,
 
+On Thu, 21 Sept 2023 at 16:02, Lee Jones <lee@kernel.org> wrote:
+>
+> On Thu, 21 Sep 2023, Naresh Solanki wrote:
+>
+> > Hi
+> >
+> >
+> > On Wed, 20 Sept 2023 at 18:35, Lee Jones <lee@kernel.org> wrote:
+> > >
+> > > On Thu, 14 Sep 2023, Naresh Solanki wrote:
+> > >
+> > > > From: Patrick Rudolph <patrick.rudolph@9elements.com>
+> > > >
+> > > > The MAX5970 is hot swap controller and has 4 indication LED.
+> > > >
+> > > > Signed-off-by: Patrick Rudolph <patrick.rudolph@9elements.com>
+> > > > Signed-off-by: Naresh Solanki <Naresh.Solanki@9elements.com>
+> > > > ---
+> > > > Changes in V3:
+> > > > - Drop array for ddata variable.
+> > > > Changes in V2:
+> > > > - Add of_node_put before return.
+> > > > - Code cleanup
+> > > > - Refactor code & remove max5970_setup_led function.
+> > > > ---
+> > > >  drivers/leds/Kconfig        |  11 ++++
+> > > >  drivers/leds/Makefile       |   1 +
+> > > >  drivers/leds/leds-max5970.c | 110 ++++++++++++++++++++++++++++++++=
+++++
+> > > >  3 files changed, 122 insertions(+)
+> > > >  create mode 100644 drivers/leds/leds-max5970.c
+> > >
+> > > Couple of nits and you're good to go.
+> > >
+> > > Once fixed please resubmit with my:
+> > >
+> > >   Reviewed-by: Lee Jones <lee@kernel.org>
+> > >
+> > > > diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> > > > index b92208eccdea..03ef527cc545 100644
+> > > > --- a/drivers/leds/Kconfig
+> > > > +++ b/drivers/leds/Kconfig
+> > > > @@ -637,6 +637,17 @@ config LEDS_ADP5520
+> > > >         To compile this driver as a module, choose M here: the modu=
+le will
+> > > >         be called leds-adp5520.
+> > > >
+> > > > +config LEDS_MAX5970
+> > > > +     tristate "LED Support for Maxim 5970"
+> > > > +     depends on LEDS_CLASS
+> > > > +     depends on MFD_MAX5970
+> > > > +     help
+> > > > +       This option enables support for the Maxim MAX5970 & MAX5978=
+ smart
+> > > > +       switch indication LEDs via the I2C bus.
+> > > > +
+> > > > +       To compile this driver as a module, choose M here: the modu=
+le will
+> > > > +       be called leds-max5970.
+> > > > +
+> > > >  config LEDS_MC13783
+> > > >       tristate "LED Support for MC13XXX PMIC"
+> > > >       depends on LEDS_CLASS
+> > > > diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> > > > index d7348e8bc019..6eaee0a753c6 100644
+> > > > --- a/drivers/leds/Makefile
+> > > > +++ b/drivers/leds/Makefile
+> > > > @@ -56,6 +56,7 @@ obj-$(CONFIG_LEDS_LP8501)           +=3D leds-lp8=
+501.o
+> > > >  obj-$(CONFIG_LEDS_LP8788)            +=3D leds-lp8788.o
+> > > >  obj-$(CONFIG_LEDS_LP8860)            +=3D leds-lp8860.o
+> > > >  obj-$(CONFIG_LEDS_LT3593)            +=3D leds-lt3593.o
+> > > > +obj-$(CONFIG_LEDS_MAX5970)           +=3D leds-max5970.o
+> > > >  obj-$(CONFIG_LEDS_MAX77650)          +=3D leds-max77650.o
+> > > >  obj-$(CONFIG_LEDS_MAX8997)           +=3D leds-max8997.o
+> > > >  obj-$(CONFIG_LEDS_MC13783)           +=3D leds-mc13783.o
+> > > > diff --git a/drivers/leds/leds-max5970.c b/drivers/leds/leds-max597=
+0.c
+> > > > new file mode 100644
+> > > > index 000000000000..c9685990e26e
+> > > > --- /dev/null
+> > > > +++ b/drivers/leds/leds-max5970.c
+> > > > @@ -0,0 +1,110 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * Device driver for leds in MAX5970 and MAX5978 IC
+> > > > + *
+> > > > + * Copyright (c) 2022 9elements GmbH
+> > > > + *
+> > > > + * Author: Patrick Rudolph <patrick.rudolph@9elements.com>
+> > > > + */
+> > > > +
+> > > > +#include <linux/leds.h>
+> > > > +#include <linux/mfd/max5970.h>
+> > > > +#include <linux/of.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/regmap.h>
+> > > > +
+> > > > +#define ldev_to_maxled(c)       container_of(c, struct max5970_led=
+, cdev)
+> > > > +
+> > > > +struct max5970_led {
+> > > > +     struct device *dev;
+> > > > +     struct regmap *regmap;
+> > > > +     struct led_classdev cdev;
+> > > > +     unsigned int index;
+> > > > +};
+> > > > +
+> > > > +static int max5970_led_set_brightness(struct led_classdev *cdev,
+> > > > +                                   enum led_brightness brightness)
+> > > > +{
+> > > > +     struct max5970_led *ddata =3D ldev_to_maxled(cdev);
+> > > > +     int ret, val;
+> > > > +
+> > > > +     /* Set/clear corresponding bit for given led index */
+> > > > +     val =3D !brightness ? BIT(ddata->index) : 0;
+> > > > +
+> > > > +     ret =3D regmap_update_bits(ddata->regmap, MAX5970_REG_LED_FLA=
+SH, BIT(ddata->index), val);
+> > > > +     if (ret < 0)
+> > > > +             dev_err(cdev->dev, "failed to set brightness %d", ret=
+);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static int max5970_led_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +     struct device *dev =3D &pdev->dev;
+> > > > +     struct device_node *np =3D dev_of_node(dev->parent);
+> > > > +     struct regmap *regmap;
+> > > > +     struct device_node *led_node;
+> > > > +     struct device_node *child;
+> > >
+> > > Nit: You can place these on the same line.
+> > Ack
+> > >
+> > > > +     struct max5970_led *ddata;
+> > > > +     int ret =3D -ENODEV, num_leds =3D 0;
+> > > > +
+> > > > +     regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
+> > > > +     if (!regmap)
+> > > > +             return -EPROBE_DEFER;
+> > >
+> > > Why are you deferring here?
+> > This is a Leaf driver. Making sure the parent driver has initialized re=
+gmap.
+>
+> How can this driver initialise before the parent driver?
+The parent driver in this case is simple_i2c_mfd.
+Based on reference from other similar implementations, the regmap
+check was adapted.
+As you mentioned, your right that leaf driver will not start before parent
+driver is loaded successfully so probably the DEFER might not be needed
+here.
 
-On 2023-10-28 12:43, m.brock@vanmierlo.com wrote:
-> Florian Eckert wrote on 2023-10-23 11:42:
-> 
->> @@ -16,6 +16,28 @@ struct ledtrig_tty_data {
->>      const char *ttyname;
->>      struct tty_struct *tty;
->>      int rx, tx;
->> +     unsigned long ttytrigger;
->> +};
-> 
-> ttytriggers ?
-
-Yes that would be nicer name. thanks
-
-> [...]
-> 
->>  static void ledtrig_tty_work(struct work_struct *work)
->>  {
->>  	struct ledtrig_tty_data *trigger_data =
->>  		container_of(work, struct ledtrig_tty_data, dwork.work);
->> +	struct led_classdev *led_cdev = trigger_data->led_cdev;
->> +	unsigned long interval = LEDTRIG_TTY_INTERVAL;
->>  	struct serial_icounter_struct icount;
->> +	enum led_trigger_tty_state state;
->> +	int current_brightness;
->> +	int status;
->>  	int ret;
->> 
->> +	state = TTY_LED_DISABLE;
->>  	mutex_lock(&trigger_data->mutex);
->> 
->>  	if (!trigger_data->ttyname) {
->> @@ -115,22 +218,74 @@ static void ledtrig_tty_work(struct work_struct 
->> *work)
->>  		trigger_data->tty = tty;
->>  	}
->> 
->> -	ret = tty_get_icount(trigger_data->tty, &icount);
->> -	if (ret) {
->> -		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped 
->> polling\n");
->> -		mutex_unlock(&trigger_data->mutex);
->> -		return;
->> +	status = tty_get_tiocm(trigger_data->tty);
->> +	if (status > 0) {
->> +		if (test_bit(TRIGGER_TTY_CTS, &trigger_data->ttytrigger)) {
->> +			if (status & TIOCM_CTS)
->> +				state = TTY_LED_ENABLE;
->> +		}
->> +
->> +		if (test_bit(TRIGGER_TTY_DSR, &trigger_data->ttytrigger)) {
->> +			if (status & TIOCM_DSR)
->> +				state = TTY_LED_ENABLE;
->> +		}
->> +
->> +		if (test_bit(TRIGGER_TTY_CAR, &trigger_data->ttytrigger)) {
->> +			if (status & TIOCM_CAR)
->> +				state = TTY_LED_ENABLE;
->> +		}
->> +
->> +		if (test_bit(TRIGGER_TTY_RNG, &trigger_data->ttytrigger)) {
->> +			if (status & TIOCM_RNG)
->> +				state = TTY_LED_ENABLE;
->> +		}
->> +	}
->> +
->> +	/* The rx/tx handling must come after the evaluation of TIOCM_*,
->> +	 * since the display for rx/tx has priority
->> +	 */
->> +	if (test_bit(TRIGGER_TTY_RX, &trigger_data->ttytrigger) ||
->> +	    test_bit(TRIGGER_TTY_TX, &trigger_data->ttytrigger)) {
->> +		ret = tty_get_icount(trigger_data->tty, &icount);
->> +		if (ret) {
->> +			dev_info(trigger_data->tty->dev, "Failed to get icount, stopped 
->> polling\n");
->> +			mutex_unlock(&trigger_data->mutex);
->> +			return;
->> +		}
->> +
->> +		if (test_bit(TRIGGER_TTY_RX, &trigger_data->ttytrigger) &&
->> +		    (icount.tx != trigger_data->tx)) {
-> 
-> You check for TRIGGER_TTY_RX and then compare icount.tx, is that 
-> correct?
-
-I would say this is correct. At first I check if the tx path should be 
-evaluated
-and if this is correct I check if there was a tx transmission during the 
-last run.
-
->> +			trigger_data->tx = icount.tx;
->> +			state = TTY_LED_BLINK;
->> +		}
->> +
->> +		if (test_bit(TRIGGER_TTY_TX, &trigger_data->ttytrigger) &&
->> +		    (icount.rx != trigger_data->rx)) {
-> 
-> You check for TRIGGER_TTY_TX and then compare icount.rx, is that 
-> correct?
-
-I would say this is correct. At first I check if the rx path should be 
-evaluated
-and if this is correct I check if there was a rx transmission during the 
-last run.
-
->> +			trigger_data->rx = icount.rx;
->> +			state = TTY_LED_BLINK;
->> +		}
->>  	}
->> 
->> -	if (icount.rx != trigger_data->rx ||
->> -	    icount.tx != trigger_data->tx) {
->> -		unsigned long interval = LEDTRIG_TTY_INTERVAL;
->> +	current_brightness = led_cdev->brightness;
->> +	if (current_brightness)
->> +		led_cdev->blink_brightness = current_brightness;
->> 
->> +	if (!led_cdev->blink_brightness)
->> +		led_cdev->blink_brightness = led_cdev->max_brightness;
-> 
-> Is it OK to override the chosen brightness here?
-
-In my setup my brightness in the sysfs path of the LED ist set to '0'.
-Even though the tty trigger was configured correctly the LED was not
-turned on. If I set max_brightness in this path the LED works correctly.
-I would check this a gain if this is still needed.
-
->> +
->> +	switch (state) {
->> +	case TTY_LED_BLINK:
->>  		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
->>  				      &interval, 0);
-> 
-> Change trigger_data->led_cdev to simply led_cdev
-
-Thanks for the hint. I will change this.
-
-> Shouldn't the led return to the line controlled steady state?
-
-Sorry I do not understand your question.
-
-> Set an invert variable to true if state was TTY_LED_ENABLE before it 
-> got set
-> to TTY_LED_BLINK
-
-No matter whether the LED is on or off beforehand. I understand that the
-LED is always on for the first half of the period and off for the rest 
-of
-the period. I think that is correct and I don't need to make a 
-distinction
-via invert here. I hope I have understood your comment correctly here.
-
-> How do interval and the frequency of ledtrig_tty_work() relate?
-
-The work is twice as long as of the interval. So the variable
-LEDTRIG_TTY_INTERVAL = 50 and the work is scheduled LEDTRIG_TTY_INTERVAL 
-* 2.
-But that was also before my change.
-
->> -
->> -		trigger_data->rx = icount.rx;
->> -		trigger_data->tx = icount.tx;
->> +		break;
->> +	case TTY_LED_ENABLE:
->> +		led_set_brightness(led_cdev, led_cdev->blink_brightness);
->> +		break;
->> +	case TTY_LED_DISABLE:
->> +		fallthrough;
->> +	default:
->> +		led_set_brightness(led_cdev, LED_OFF);
->> +		break;
->>  	}
-> 
-> Maarten
-
-Thank you for your feedback. I must say, however, that I am currently in
-the process of preparing v6, which will implement the comments and
-change requests from 'greg k-h' [1]. The big change here in v6 is, that 
-I have
-switched to completion and split the change in more reviewable commits.
-I will see if your comments can also be incorporated into the new 
-approach.
-
----
-
-Florian
-
-[1] 
-https://lore.kernel.org/linux-leds/2023102341-jogger-matching-dded@gregkh/
+Thanks,
+Naresh
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
