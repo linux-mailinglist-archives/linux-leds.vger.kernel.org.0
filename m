@@ -2,152 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 265757DCD65
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 13:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A90607DCDE1
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 14:30:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbjJaM5L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Oct 2023 08:57:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56252 "EHLO
+        id S1344539AbjJaN3e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 Oct 2023 09:29:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjJaM5K (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 08:57:10 -0400
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA182BD;
-        Tue, 31 Oct 2023 05:57:07 -0700 (PDT)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6cd0a8bc6dcso3763144a34.2;
-        Tue, 31 Oct 2023 05:57:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698757027; x=1699361827;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FtG9QhzR7J+O+f8JayPYsLnoKybZwF7lAbt6Ys0d80s=;
-        b=Fij7LAdLyV6JR7HDfkTGoGhzGIprx6uaCjQglcF/G25OSy12PMAeod1spQa9zoe2Mq
-         0cuupnnmOhM70vh9vtxkjjGaVVWqd0WPwkhu+D8aYxjwUA5MkQU4WQhZ9ojQtpKKGtZP
-         rkJCm0185FRskSrY85r9BYV8LWpBtH2uV8pd4FzH1q2B3rPn3TSxpmJcaQgAyMMgqHBc
-         pWQsnhoSFBMRr6ZJrDHVwEX9RDezmf09kdFF8l5o0Gj9HRZxWAWFXpywmcD544j7yw3I
-         g3+eCqjWeSF8IMxX7EvRzMpCtycRMKKM2p8w3jlUjlr0qrIBsAh8V5uhbmIS6xQ9ROA7
-         T0Ow==
-X-Gm-Message-State: AOJu0YxyW64h0Db5sWGwXDrk+O5UFju6DzKdRXveNxw2q9LpzS6eaLYA
-        vbMO8g2jkPc2CZs80/nKLA==
-X-Google-Smtp-Source: AGHT+IF3pfx/dun0ty4hvZSHtDRvIH6ofJEzghjkTJbFoMU8eC+a+vIrPaBJx5So39dUszTj/6Y5og==
-X-Received: by 2002:a05:6830:4117:b0:6ce:2985:a8c1 with SMTP id w23-20020a056830411700b006ce2985a8c1mr16529459ott.2.1698757027094;
-        Tue, 31 Oct 2023 05:57:07 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q19-20020a9d6553000000b006ce2e6eb5bfsm210956otl.0.2023.10.31.05.57.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 05:57:06 -0700 (PDT)
-Received: (nullmailer pid 1364958 invoked by uid 1000);
-        Tue, 31 Oct 2023 12:57:05 -0000
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S1344492AbjJaN3d (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 09:29:33 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2026.outbound.protection.outlook.com [40.92.98.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670A6DF;
+        Tue, 31 Oct 2023 06:29:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=anwf2q8KIHxZBDCjw/JOOLj6ybMz0C9T+ktwN1becOQO1ZLgZI+e4lNv0tB6LFZI7fpRUMy+tcw1ksCJEQGHz3TNh4HGIhxyasrj+axMSNI9y+qYJJmIqlZ49UCTxgz4eWA7Rc/wRVrW1XG1QJwlaKL5xAdyLh/UFuL2m1xQYEGTHOH3DTDmq0DpdwkUMTGgeOA7CzUcmHV5RmBAZn90h+axBoOk9Cp47QNgAWce/86CaubX5Efhg08BZZYrZBFs2k8nViaokWUj6QNcaJLwrCsI6Xtf/HaoiQW6ZD0faVyudu2Alnr6Wvi4Xu3ElwOXGF4BtflXYsg4TEZ/Y7Mk7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gCHyy08YXwWgNjNmbSUARLQu52+baGLYFiddQdm3xxE=;
+ b=Cm6wXFHHO77jEPEXPEiab6RsWZqrfeZMbwx7rWjzjOGScZu6CUoTb1XigtjaaLHN0LpZB0TGDMra3AcT+1VkxNYCyu2tICYcdWdeUxWn7bTR17vOCXlXhXGjKQw4m3QyA2044ETjr+ri+jXdXs7LruBfYUPXqW16DIcjr5hvjzuqRxC2oSTItZx70xURYVfb9w3tSCrCTiAZtIP5l7hLwsFkwAC+7085mMrwj74HnifvNS+q081L8YwpDXTONxQMMa7GLaHLUeMzNUYeN/0AxOJW9n9g8PNtptb8kV1m4b9hIMAOGjm7cu43BotH7YTPGWWegvVI8zSMqs+/Sx8pZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gCHyy08YXwWgNjNmbSUARLQu52+baGLYFiddQdm3xxE=;
+ b=G7fbNGTjXIbIElotZ6XAyI6WTfThKdQqHhXykm5I97bdj3Be5MR+IaXv49Q5RvIEibqP3uZIaLP4yxTDOKWxPnSVcVsUyKalWD9+YGGi5jregNNTdChH50taAv5j9mNClnH1e4trBblYGAmCW56F0/j3E2u3ibNXdpRSuiCuPkeKq01sT+tc9+qw3Bu2LhTfHXUz4XrihF4nxnFgLsNAWi9S3HkVOoX1j/lL+v4zgyxcj9Uv7bnKJEqA+ibXPwfijXvXM76jA2mj9pLLjOAbUvSXSOIYU7iB4TqLPX2/IrpHErfpEYbU4oA7f+sfAoo9q9Sy/ZQxc9MQ0nThnfkRdw==
+Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:8041::8)
+ by TYYP286MB1668.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:fc::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Tue, 31 Oct
+ 2023 13:29:27 +0000
+Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::465a:2534:4d99:a25b]) by TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::465a:2534:4d99:a25b%6]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 13:29:27 +0000
+From:   Shiji Yang <yangshiji66@outlook.com>
+To:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Olliver Schinagl <oliver@schinagl.nl>,
+        Shiji Yang <yangshiji66@outlook.com>
+Subject: [PATCH v2 0/2] leds: add more LED color and function definitions
+Date:   Tue, 31 Oct 2023 21:28:59 +0800
+Message-ID: <TYAP286MB0315D3014B329FE6B5873F76BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [UEev8ijVLm5nUeXN64f8mo06QF+dRwVm36dFCE90XXw=]
+X-ClientProxiedBy: TYCPR01CA0068.jpnprd01.prod.outlook.com
+ (2603:1096:405:2::32) To TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:8041::8)
+X-Microsoft-Original-Message-ID: <20231031132901.11732-1-yangshiji66@outlook.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>
-Cc:     conor+dt@kernel.org, pavel@ucw.cz,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        lee@kernel.org, linux-leds@vger.kernel.org, wyx137120466@gmail.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <c8bbeb3c3d9b44049d790e90d9738a83@monolithicpower.com>
-References: <c8bbeb3c3d9b44049d790e90d9738a83@monolithicpower.com>
-Message-Id: <169875521165.1325395.12809005225623147568.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: leds: add mps mp3326 LED
-Date:   Tue, 31 Oct 2023 07:57:05 -0500
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYAP286MB0315:EE_|TYYP286MB1668:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa17beed-2fa6-49b9-c75f-08dbda156782
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: krgxuJvCS5a8/a4AWvOi8KVv3l8uazuzQytnyQcHjJdunXYzKjZBVaZEvFMU6/NgINRGqP++yCIra5H5ZGJ8HUT6UfYCtciYnouv66ga4d53abtQ5AKwM2C8mkaH/2ZGAHnlboftgK14otLDVpp0jeSePDth6exX8u2Zw69o/RouOoNTGodwL2xFehiVQAb3ftRUjn4lu0TIiXa0lHALFJ51jof1dNy6C5ClLcyEOYAJouO7V/uqbNr+8s0KIP2EsbOjynWKgIusMCfq0YSremncJjM/sNgBoWMDn+qX5jLg7c3F9bVVVpAJK7RtHVoGwdShSQPTQzhsFhor9j0kKAg7iVwM1J3R50RdaSXfHhxdSrRsfoGpukBDOoZi5l0aI0se7JOaAkJVxTXyr6TSbOJBqRusZ6vt2cRp1UAT0xyrsSCzQhfv0/L04JtkQJHY8aHNF9G7xFP1Qf7gnZaaiuN53zMR+JNc8GG6tzr6B7LCcmxP7G84Ox0+WtrhbMBApsZRbNA0vP9mQTD1Kd3uyTlWHsc//QWp0rZSq4ECvRJPJPl/o1I5levFJfqSqn3fXe7n35t/yftQwZYWhQPpEsT+hNEtOnIIusiEcD4YtKB2oJdTFrfzBHYTYlIRro4c
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5UGcbpCltnxlDnEHaKARlSEKAj5xg3clgDPb3Q4WfXO9mxxsz87krtAHWW1t?=
+ =?us-ascii?Q?C9/tKtA6vXpEAwP7aYfPWBt82htjC8h45clTlr5F9xeHVsxiInnYBVY2dVmA?=
+ =?us-ascii?Q?BYInhQ4OzYX4ZcZ1xOM2WRFe+LMsArkpWaPYetWu3vjUYwpFi7zwGEZz+lxv?=
+ =?us-ascii?Q?soOdqVMeVeuZ06po95Qxdgb82btXVxddEkeP785KL0llzZT3nWh8GDgMSkgs?=
+ =?us-ascii?Q?nVMyQXYuFnoOmTTYTwC+8AEgn7qFy2FuPhtECp1rdxSsr28bjoxoo3nIY4Gx?=
+ =?us-ascii?Q?CA9+modcW4S7F1wKUnNlp9kkTD1Wag12svXWtXW37O/zjg3mBzdWbJBnjE2w?=
+ =?us-ascii?Q?miB65FzR/818O3osNDwHBgq5nCTurPRUoFB9R+GjxtJOrNoXjejOHl3HCCHj?=
+ =?us-ascii?Q?2E8e9DOKcZsN4/B2MX5QpUQr9ZBlzBofFIyFtiqIPwlv1g5EOqn1AzX7Mo/N?=
+ =?us-ascii?Q?pZm/R9fZgm3TbYjAuWiWejbMeK6JbF8ntgYsobbtVrlDuuxfFpNP0sNhV+Nl?=
+ =?us-ascii?Q?goL8p92YcN6MEszEjBZRih0dk+puRU3T3Aam14SbbCN8EJPLrTxq57A7sA5e?=
+ =?us-ascii?Q?0of44dBPHPKpuDHaaMUXJ+H2D5G5mS0WN9ZELDbB8mHiPoGeq9jl3W0m4NVq?=
+ =?us-ascii?Q?PS0uXe5WBBPkKjAWabcjvWTNFWR7EgVhD3j8//F8X3+HIVQo10bogwTl6FaF?=
+ =?us-ascii?Q?7jHIS272SFDOMrLPbZnJk6MDuSn6oLtr8eRbN6VyanPKVQija8713hJ77qbL?=
+ =?us-ascii?Q?DIV1z07x+Auw+bwwmTvPT6JNYYRe+08kWQ66FyteACba5KFkgXsQ+z/5Bz1n?=
+ =?us-ascii?Q?BjlkQ7NMxWWACij7svuMFnHBNsnTtfzNPtLv5jtxbdeiwQVVQ2lWCL52gNNs?=
+ =?us-ascii?Q?MyKhAQfWPZxWdpv6S3jyBatqiY1xL3lwTv+oFs/YTyR8s8U/l9MGdAje/ekG?=
+ =?us-ascii?Q?+cDiYoGyLQlzGMR6nA8Ae4nOAGjzWa4JvP6/FAOWFeK937TOub8UfKEQpax2?=
+ =?us-ascii?Q?3c3C63vVA95zv8y0o3oSffmJZ4Xh4ly/IEbIDD2xc55q2Q/vZIaOeL7EQpvA?=
+ =?us-ascii?Q?q/KUcLWhwD9DQDOLs8raPLtTF/4LZVUe0GABnQB1JvgrYyvH8OHJhHWtnTei?=
+ =?us-ascii?Q?BTnGO/OD6hKBHOGDCX75+ZH4xulZi8HoJ1xR3KuM5/i0uQx93OSgwjojpYNB?=
+ =?us-ascii?Q?hsZzlHlCemah28FGF7EV17+JSqcbGp0t1QoR5fVSGBkVijIE0vTNJWEnBrs?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa17beed-2fa6-49b9-c75f-08dbda156782
+X-MS-Exchange-CrossTenant-AuthSource: TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 13:29:27.2769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYP286MB1668
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi!
 
-On Tue, 31 Oct 2023 06:59:50 +0000, Yuxi (Yuxi) Wang wrote:
-> 
-> Document mps mp3326 LED driver devicetree bindings.
-> 
-> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-> ---
->  .../devicetree/bindings/leds/leds-mp3326.yaml | 184 ++++++++++++++++++
->  1 file changed, 184 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-mp3326.yaml
-> 
+This series patches add the missing LED color definitions and
+introduces two widely used LED functions "internet" and "rssi".
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Regards,
+Shiji Yang
 
-yamllint warnings/errors:
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:compatible: [{'const': 'mps,mp3326'}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties:required: ['reg', 'color'] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties: 'patternProperties' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
-	hint: A json-schema keyword was found instead of a DT property name.
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:patternProperties: 'anyOf' conditional failed, one must be fixed:
-	'^led@[0-3]$' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:compatible: [{'const': 'mps,mp3326'}] is not of type 'object', 'boolean'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'anyOf' conditional failed, one must be fixed:
-	'reg' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'anyOf' conditional failed, one must be fixed:
-	'color' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'anyOf' conditional failed, one must be fixed:
-	'reg' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'anyOf' conditional failed, one must be fixed:
-	'color' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties: 'required' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
-	hint: A json-schema keyword was found instead of a DT property name.
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties:required: ['reg', 'color'] is not of type 'object', 'boolean'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: 'oneOf' conditional failed, one must be fixed:
-	'unevaluatedProperties' is a required property
-	'additionalProperties' is a required property
-	hint: Either unevaluatedProperties or additionalProperties must be present
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'reg' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'color' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'reg' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'color' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: mps,led-protect: missing type definition
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: patternProperties: missing type definition
-Documentation/devicetree/bindings/leds/leds-mp3326.example.dtb: /example-0/i2c/mp3326@30: failed to match any schema with compatible: ['mps,mp3326']
-Documentation/devicetree/bindings/leds/leds-mp3326.example.dtb: /example-1/i2c/mp3326@30: failed to match any schema with compatible: ['mps,mp3326']
+Changes in v2:
+* Remove the LED name sorting patch as it changes the ABI
 
-doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/c8bbeb3c3d9b44049d790e90d9738a83@monolithicpower.com
+Shiji Yang (2):
+  leds: core: add missing LED color strings
+  dt-bindings: leds: add "internet" and "rssi" function definitions
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+ drivers/leds/led-core.c           | 5 +++++
+ include/dt-bindings/leds/common.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.39.2
 
