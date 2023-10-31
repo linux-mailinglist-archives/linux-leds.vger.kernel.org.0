@@ -2,503 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3B67DC7FE
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 09:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 560AE7DCB95
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 12:16:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232529AbjJaIQQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Oct 2023 04:16:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35064 "EHLO
+        id S230184AbjJaLQ1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 Oct 2023 07:16:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbjJaIQQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 04:16:16 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F807BD
-        for <linux-leds@vger.kernel.org>; Tue, 31 Oct 2023 01:16:12 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-9c5b313b3ffso795827266b.0
-        for <linux-leds@vger.kernel.org>; Tue, 31 Oct 2023 01:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698740170; x=1699344970; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=goof15RNeU0KLHtGHQUeg5uXRfnDboIB8cpBpI1bxBs=;
-        b=X51vj4IgtJlDylKdzk/D2cw31TexiCzaOPxPFLD0Xji1B6eo28Fbs9qRVGMmTdbodl
-         0w3BPnAqx0hpcsc3WPBpfd8B66etK7U1GlGHD2X3w+BXK06b/SKUlIBQ4QUwDxtEOtPU
-         WdrlkP7DEYGJ4tUVaomTngSPQNUKF50MWM4kMBc2ILZlKTlq/tvqEHaMrjmc5spRBFqv
-         ubdPGtGo2l93D98wGqc0TDZlP3bhIKHlwv6hFPPIGzkUko5l8Q0ZSis+nTUCLjk7Ucyz
-         wmPCbZFUA3wyhX/AAbfTcXutKtRdSQw74TJ765hKrptuYDOIAng7XV++Ux+c2wwfTe8S
-         LN4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698740170; x=1699344970;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=goof15RNeU0KLHtGHQUeg5uXRfnDboIB8cpBpI1bxBs=;
-        b=KWVzfiKWdAAV/0RVbtix1nOxSEqrea74Lwb0gA+DHQi8oFGsjxmGnx1vhzs7zHwYWC
-         O0hDnuavdeqhOHkzojVlaN8+dU3VyaBHYkljBhEfWthuT40mgNDUMTHuCg1hpmjDA3rY
-         7tIbVppgFoYALhg7buS3VX/ss8plfik9hL5MEleXi7ZFZtDnCs9CCwth3jo2veR0rezJ
-         s9KPsb61Ia2qap6VYi7nqll+iWkFLWFTP91/P/s6nYjS0TC+EVfkIhykbHz1p0IZTaY7
-         xos0IVgq1lPM0RQbeL28WjMW899O9gC0V3q2tIglMef5k/r2vB6u/l6itbnp/JItD7ut
-         YmmA==
-X-Gm-Message-State: AOJu0YwZaD8F7g2gEAWWtrIg+bLf8NtGnFOZyIpazPwihOK3x/ebdHj8
-        7ZwTGkXXR3t5thAeW7aryOXf8g==
-X-Google-Smtp-Source: AGHT+IHcFLwPmducaku0lltVCh0Y5JO215+TBhxgO/K0NuBXPhXcsRPvx0/+IcuLhYSi3M25webhFw==
-X-Received: by 2002:a17:907:6015:b0:9d1:a628:3e3f with SMTP id fs21-20020a170907601500b009d1a6283e3fmr4997256ejc.45.1698740170539;
-        Tue, 31 Oct 2023 01:16:10 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id z7-20020a50cd07000000b0053e5a1bf77dsm704672edi.88.2023.10.31.01.16.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 01:16:09 -0700 (PDT)
-Message-ID: <d10dfd28-0116-47cc-8ee7-52261495698f@linaro.org>
-Date:   Tue, 31 Oct 2023 09:16:06 +0100
+        with ESMTP id S230029AbjJaLQZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 07:16:25 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2023.outbound.protection.outlook.com [40.92.99.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEEFC1
+        for <linux-leds@vger.kernel.org>; Tue, 31 Oct 2023 04:16:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ifUFhkycu7xybABYEtOCaemA5Scodevv22pMLHeEmQrlbuw2LsntbZp0omcSwIzH9lKbF9BM2G/f9MZHHaypbKpmBPsmlyDKAeRIbD2XC1fCvhHih+n+NTrxAsUJAQ5zwBUOmAJdMYHAPwa8HKlg06IfZkuCkdtnyYOAms9bA19Ak6llcpPchbyCpbEAo4vpWXati4FWoVPW5WPmAjfvbUdAPkr0/AvAtyeZ7WGgG7wNsJVZd/ePjCz0ccIskCqrG+g7DKFIBYjjcbCtXCEfgnRn8mUmnGC3Ged+i6rV+rQmeoU5OziPiLTyVi5dolJUy8Vwz8tSVKOtKTw1DirlbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e4otzMMMQZbtyK297yeTof2dq6ZFegRLMNV+L2Mtb4o=;
+ b=PWqmUYbRyOpGg/51K4lLzkyZuTn64J11xcEeuOZw+2ML7VeMtVi2kydb9pVfjhS5CUlglJQGP6cmbTPSTjJ+zApxwgWq0pUogq11CrI7f7OhQ1w4kXegp0VCm0GgajW0HZvEYW7GPdrod4kZA0/9gWvf/qZSuiQt0Rhqp5QsPNv+ij4D1jYoqEzlxh1dNM9eIEdt/YENnHC2cJhl5IZa5j3ReNzfuJ8re24H5GcfHle58CY8AXT1yUM/a43JPIFjgxLQb83L9dhQYtPZYWpBKQaHRl6Fxo1p2s+F1vWvJUckxMg7oUMN0TcVkYwf/oyHCcjbVYmHazsSPP2pLgOFIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e4otzMMMQZbtyK297yeTof2dq6ZFegRLMNV+L2Mtb4o=;
+ b=SBwz+MZAHZZ0aovdzhAsjuniPfs9O2THKErfLvJwEIWIK8tgUDyt8eu99LrSbpVe6ek8OQckhDvvgc3QKFK1Q3QwXLzS3a4WFxfCbyOKGRh7EDblZeuiwqX6j+JWhbMuXsMixwRK6PCoR2hwVhL+BmQUc6ksbOrampdEGYjH+X0k0buYOBNt4OyEqpZJkbbF/deE0UWiygS+Sfg0NUodVZW4cLeZaLlFWfmaxDMdLlq9hWePENFDQrXuPjvaX3ttx8ZrewevfYZVE7tITpr2WAceLxsl7ihdCnVBeoVEm9OJQCtX0NKzNLB99eVkHMp4OHMsRwjUr83aUNhfrUQ0Cg==
+Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:8041::8)
+ by TYCP286MB3638.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3c3::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Tue, 31 Oct
+ 2023 11:16:18 +0000
+Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::465a:2534:4d99:a25b]) by TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::465a:2534:4d99:a25b%6]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 11:16:18 +0000
+From:   Shiji Yang <yangshiji66@outlook.com>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Olliver Schinagl <oliver@schinagl.nl>,
+        Shiji Yang <yangshiji66@outlook.com>
+Subject: [PATCH 0/3] add more LED color and function definitions
+Date:   Tue, 31 Oct 2023 19:15:56 +0800
+Message-ID: <TYAP286MB0315CC8749E3E40FC4B3DBA6BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [C97drVvtKVwH3xaAx8JAHW66woUHtpeChiRLkzl1uxI=]
+X-ClientProxiedBy: SG2PR03CA0123.apcprd03.prod.outlook.com
+ (2603:1096:4:91::27) To TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:8041::8)
+X-Microsoft-Original-Message-ID: <20231031111559.12199-1-yangshiji66@outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] leds: add mp3326 driver
-Content-Language: en-US
-To:     "Yuxi (Yuxi) Wang" <Yuxi.Wang@monolithicpower.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>
-Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "wyx137120466@gmail.com" <wyx137120466@gmail.com>
-References: <ab9663a6b41e4bd7b347f51f72f5c4a1@monolithicpower.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ab9663a6b41e4bd7b347f51f72f5c4a1@monolithicpower.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYAP286MB0315:EE_|TYCP286MB3638:EE_
+X-MS-Office365-Filtering-Correlation-Id: 886730a8-63be-4a1c-25db-08dbda02cdad
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ml2LcKIxmOXlw5o6YR8+DSXAwH0jRRkJa0PQJqwjbngp9RugBT1JHsQbqkJftcC1l71nhgZirEbdIu6eOawTpII6RM8QznrjDuhYAechR0PwE3n/IJ9sLqEWjKN7QrnE2RLEY0/DXiBXt0ynrJF6LjQDi5G7/ah2JeJAxyc8lUbiblzbAXJsq7dHC0Wuwb58hTNOJpOsLQrTsm23RIzC6wv1jClyffo4rEU3yPpNHETwCCYEA4Pi3X0LzPCFSD7GzwStm8X+SnN4qbmsstPh2FeUtOzgQX4xHc/dJYdSrolCXQ/WNN6WO02A9w9AAXO4E/SqBonvIVpwl+C+/Oi7WTLAXkmZ1x85AqTsn2vmAf0f7LNwnCMRXIvlQIH1ocRpIpK1DCEpbNBFD+wQbc95+/dRtqrfhVmyCsmdYX0Y4k5c2gmNelzO4TWtOO6Rk0ZS01eKV23bybHO3st/UKQHwVjbqOm0JUVo6N5Lj24YyrSAm5qxIoHOSwNSjjc0PCBgYfSKYyML41KjtVjDgwLaZA34kobMACpRD+jntEvqquRgm6R7QCkGgW7tlSTlYBggQjM8SefRKmeEI6IrIrBgPk6qevkPJA0v+ZBSelCmDfZuaVTw/UHeAB8yu0wJbmnI
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gTqMAW2zueV+54hI3/1A5o5WLH9E0NrAcRTpQSUpGaZTxyhjUb5moNqsn3BQ?=
+ =?us-ascii?Q?MBw9TTBN4DSwCWKH8GlQqAfFf6ESYSHiD/e13HZIoOFNkeyBUh1/tbdkypPJ?=
+ =?us-ascii?Q?aXyM9SbUB0h2ToIEfJ5hBd8M3n7rtCRmMfSuQ+HoshFAHCSKWTQUZXlPMNAH?=
+ =?us-ascii?Q?c/RZSc/+IwdHvCOjT7w3xJ2FVSi9AAJIulycVJNQu6ffZI7Ip3+pyvU9sYID?=
+ =?us-ascii?Q?nyFpu8Ri4indabGJzBm7TXLhf38HoVaDN0jz60l66iSI+2C5O6RSywUHlT9W?=
+ =?us-ascii?Q?cq7E5PBk/0smhcUmH1mdoP4WPadz4jbBoYSrkLZQ/qNlWXgpv8HnRpjOUAnz?=
+ =?us-ascii?Q?0lPn4tWfscMLG/3taGhjwEiVUi5xPtsh2GeC+ZFfexaZ6eXMWD9y9yt2HpXC?=
+ =?us-ascii?Q?XKznwhCz/86JMV3+ymsZEwm3lt8gYg6QP0rfhtmUWW/bTdJoBcFGgyf+fB/s?=
+ =?us-ascii?Q?TdWsJN+UTVX247tIWQWDKHv6e2lFsVksQ2J2MFt78tHc6+8fBAHBU2h4wpjV?=
+ =?us-ascii?Q?TQfcqDNPMe/7DVvlsggQYyJsQLRJuuLv6RCBIb1U4B3IssKjYztJY6xWvye3?=
+ =?us-ascii?Q?zR6P2YaTt3MXoiQKSuA8yVyVwVCcCWeP8sgp38p6C30z/ZE0Br7pNeyThn6d?=
+ =?us-ascii?Q?MhkyhIL3HMgcSBe028gtTP2awnVc7WO8/AoAHqyvSxTrYPtmOrnpqaN+4PBS?=
+ =?us-ascii?Q?am7xehr9QNNqQ6i9I65+ERVnB9bcd++FH4Ply7vDEx1WZFotmZ2R5AiMJu37?=
+ =?us-ascii?Q?g3Ym+GzGmuHnIFkkcT5iYjxCz9F3pzuEeqJzSPjgCAlPly/5AMXRLYZ+cOGW?=
+ =?us-ascii?Q?OU+vAxo3Qcubp45Gi/O2O+JpFjRD1PPdNzcNB7YLYnUXzZjA8GN70NNcJxg4?=
+ =?us-ascii?Q?PWE2BJozSDyAyAd9OWAfqckE75SvVNm3bFVnev5r0mQnk1SL0U5BDlrYECbc?=
+ =?us-ascii?Q?l5cUPOXCqoq9LM+qVx6FKGUgp261lp3m2PO+ZFK9hnEox3g5WzJQCN1LnJor?=
+ =?us-ascii?Q?bGioCTtG2EoK9Z/GzIj++DHtdY4B+/CWq4mdR1QT26kfZ0DU6TOnNNFui0Ad?=
+ =?us-ascii?Q?hDAKvvTsxHoc6KDE+ftgVX3+SPTEpDLDL0xUhearOldPx6dCmB4TCz4wrnDw?=
+ =?us-ascii?Q?U/l7HnYEWdvdMU1BdKspQ0KlQtb3POxp20vV2wvRrRxf7WyexIrOEomLSa8O?=
+ =?us-ascii?Q?cL6m6ca5LRkaoByGFYP43erYj9l/r4C4gzs96LBhSCGtyFg5JiBkZ7VVAxE?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 886730a8-63be-4a1c-25db-08dbda02cdad
+X-MS-Exchange-CrossTenant-AuthSource: TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 11:16:18.7021
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB3638
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 31/10/2023 08:01, Yuxi (Yuxi) Wang wrote:
-> 
-> This patch adds mp3326 led driver.
-> 
-> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-> ---
->  drivers/leds/Kconfig       |   7 +
->  drivers/leds/Makefile      |   1 +
->  drivers/leds/leds-mp3326.c | 632 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 640 insertions(+)
->  create mode 100644 drivers/leds/leds-mp3326.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index b92208eccdea..ac8115bffc2e 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -260,6 +260,13 @@ config LEDS_MIKROTIK_RB532
->  	  This option enables support for the so called "User LED" of
->  	  Mikrotik's Routerboard 532.
->  
-> +config LEDS_MP3326
-> +	tristate "LED Support for MPS MP3326"
-> +	depends on LEDS_CLASS
-> +	help
-> +	  This option enables support for on-chip LED drivers found on
-> +	  MPS MP3326.
-> +
->  config LEDS_MT6323
->  	tristate "LED Support for Mediatek MT6323 PMIC"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d7348e8bc019..196befb56278 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -63,6 +63,7 @@ obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
->  obj-$(CONFIG_LEDS_MIKROTIK_RB532)	+= leds-rb532.o
->  obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
->  obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
-> +obj-$(CONFIG_LEDS_MP3326)		+= leds-mp3326.o
->  obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
->  obj-$(CONFIG_LEDS_NET48XX)		+= leds-net48xx.o
->  obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
-> diff --git a/drivers/leds/leds-mp3326.c b/drivers/leds/leds-mp3326.c
-> new file mode 100644
-> index 000000000000..140c71b334f7
-> --- /dev/null
-> +++ b/drivers/leds/leds-mp3326.c
-> @@ -0,0 +1,632 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * MP3326 Led driver
-> + *
-> + * Copyright 2023 Monolithic Power Systems, Inc
-> + *
-> + * Author: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-> + */
-> +#include <linux/bits.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/i2c.h>
-> +#include <linux/of.h>
-> +#include <linux/slab.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mutex.h>
-> +#include <linux/leds.h>
-> +#include <linux/device.h>
-> +#include <linux/led-class-multicolor.h>
-> +
-> +#define MP3326_PWM_DIM_FREQUENCY_CONFIG			0x00
-> +#define MP3326_PWM_CTRL							0x01
-> +#define MP3326_PWM_DIM_FREQUENCY_CONFIG			0x00
-> +#define MP3326_PWM_CTRL_CHANNEL_9_16			0x04
-> +#define MP3326_PWM_CTRL_CHANNEL_1_8				0x05
-> +#define MP3326_PWM_OPEN_FAULT_CHANNEL_9_16		0x06
-> +#define MP3326_PWM_OPEN_FAULT_CHANNEL_1_8		0x07
-> +#define MP3326_PWM_SHORT_FAULT_CHANNEL_9_16		0x08
-> +#define MP3326_PWM_SHORT_FAULT_CHANNEL_1_8		0x09
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL1			0x0A
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL1		0x0B
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL1		0x0C
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL2			0x0D
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL2		0x0E
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL2		0x0F
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL3			0x10
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL3		0x11
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL3		0x12
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL4			0x13
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL4		0x14
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL4		0x15
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL5			0x16
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL5		0x17
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL5		0x18
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL6			0x19
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL6		0x1A
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL6		0x1B
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL7			0x1C
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL7		0x1D
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL7		0x1E
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL8			0x1F
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL8		0x20
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL8		0x21
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL9			0x22
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL9		0x23
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL9		0x24
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL10		0x25
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL10		0x26
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL10		0x27
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL11		0x28
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL11		0x29
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL11		0x2A
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL12		0x2B
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL12		0x2C
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL12		0x2D
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL13		0x2E
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL13		0x2F
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL13		0x30
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL14		0x31
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL14		0x32
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL14		0x33
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL15		0x34
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL15		0x35
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL15		0x36
-> +#define MP3326_PWM_CURRENT_SET_CHANNEL16		0x37
-> +#define MP3326_PWM_DUTY_LSB_SET_CHANNEL16		0x38
-> +#define MP3326_PWM_DUTY_MSB_SET_CHANNEL16		0x39
-> +#define MAX_BRIGHTNESS	63
-> +
-> +enum led_ctrl {
-> +	ENABLE = 0,
-> +	BRIGHTNESS,
-> +	COLOR_L4,
-> +	COLOR_H8,
-> +	OPEN_FAULT,
-> +	SHORT_FAULT,
-> +	Max_CTRL,
+Hi!
 
-Dpn't use CamelCase
+This series patches sort/re-add the missing LED color definitions.
+And two widely used LED functions "internet" and "rssi" have also
+been introduced here.
 
-> +};
-> +
-> +enum mp3326_channel {
-> +	Channel1,
-> +	Channel2,
-> +	Channel3,
-> +	Channel4,
-> +	Channel5,
-> +	Channel6,
-> +	Channel7,
-> +	Channel8,
-> +	Channel9,
-> +	Channel10,
-> +	Channel11,
-> +	Channel12,
-> +	Channel13,
-> +	Channel14,
-> +	Channel15,
-> +	Channel16,
-
-Ditto
+Regards,
+Shiji Yang
 
 
-> +	Max_Channel,> +};
-> +
-> +#define MP3326_Reg_Connect_Inner(prefix, range)	prefix##range
-> +#define MP3326_Reg_Connect(prefix, range)		MP3326_Reg_Connect_Inner(prefix, range)
-> +#define MP3326_Reg_Field(reg, minbit, maxbit)	REG_FIELD(reg, minbit, maxbit)
-> +#define Range1(a, b) MP3326_Reg_Connect_Inner(a, b)
-> +#define Range2(a, b) MP3326_Reg_Connect_Inner(a, b)
+Shiji Yang (3):
+  dt-bindings: leds: sort LED color definitions by alphabet
+  leds: core: add missing LED color strings
+  dt-bindings: leds: Add "internet" and "rssi" function definitions
 
-OK, so this driver was copied from some out-of-tree, poor quality old
-code not even using Linux coding style. Please rewrite everything to
-match Linux coding style.
+ drivers/leds/led-core.c           | 13 ++++++++----
+ include/dt-bindings/leds/common.h | 33 +++++++++++++++++--------------
+ 2 files changed, 27 insertions(+), 19 deletions(-)
 
-> +
-> +#define MP3326_Channel_FIELD(bit, num, range) { \
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_CTRL_CHANNEL_, range), bit, bit),	\
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_CURRENT_SET_CHANNEL, num), 0, 5),	\
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_DUTY_LSB_SET_CHANNEL, num), 0, 3),	\
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_DUTY_MSB_SET_CHANNEL, num), 0, 7),	\
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_OPEN_FAULT_CHANNEL_, range), bit, bit),	\
-> +	MP3326_Reg_Field(MP3326_Reg_Connect(MP3326_PWM_SHORT_FAULT_CHANNEL_, range), bit, bit), \
-> +	}
-> +struct mp3326_led {
-> +	struct mp3326 *private_data;
-> +	struct led_classdev cdev;
-> +	struct mc_subled *subled_info;
-> +	int num_colors;
-> +};
-
-...
-
-> +
-> +		for_each_available_child_of_node(np, child) {
-> +			ret = of_property_read_u32(child, "reg", &reg);
-> +			if (ret || reg > Max_Channel) {
-> +				dev_err(&chip->client->dev,
-> +				"reg must less or equal than %d\n", Max_Channel);
-> +				return -EINVAL;
-> +			}
-> +
-> +			ret = of_property_read_u32(child, "color", &color);
-> +			if (ret) {
-> +				dev_err(&chip->client->dev, "color must have value\n");
-> +				return ret;
-> +			}
-> +
-> +			if (color > 3 || !color) {
-> +				dev_err(&chip->client->dev,
-> +				"color must be Red, Green and Blue. The color is %d\n", color);
-
-Broken indentation. Everywhere. Be sure that checkpatch --strict does
-not print any (any!) warnings.
-
-> +				return ret;
-> +			}
-> +			info[i].color_index = color;
-> +			info[i].channel = reg - 1;
-> +			info[i].brightness = 0;
-> +			i++;
-> +		}
-> +
-> +		led->subled_info = info;
-> +		led->num_colors = 3;
-> +		cdev = &led->cdev;
-> +		cdev->max_brightness = MAX_BRIGHTNESS;
-> +		cdev->brightness_set_blocking = led_brightness_set;
-> +		cdev->groups = led_sysfs_groups;
-> +		init_data.fwnode = &np->fwnode;
-> +
-> +		ret = devm_led_classdev_register_ext(&chip->client->dev, &led->cdev, &init_data);
-> +
-> +		if (ret) {
-> +			dev_err(&chip->client->dev, "Unable register multicolor:%s\n", cdev->name);
-> +			return ret;
-> +		}
-> +	} else {
-> +		ret = of_property_read_u32(np, "reg", &reg);
-> +		if (ret || reg > Max_Channel) {
-> +			dev_err(&chip->client->dev,
-> +			"reg must less or equal than %d\n", Max_Channel);
-> +			return -EINVAL;
-> +		}
-> +		info = devm_kcalloc(&chip->client->dev, 1, sizeof(*info), GFP_KERNEL);
-> +		led->num_colors = 1;
-> +		info[i].color_index = LED_COLOR_ID_WHITE;
-> +		info[i].channel = reg - 1;
-> +		info[i].brightness = 0;
-> +		led->subled_info = info;
-> +		cdev = &led->cdev;
-> +		cdev->max_brightness = MAX_BRIGHTNESS;
-> +		cdev->brightness_set_blocking = led_brightness_set;
-> +		cdev->groups = led_sysfs_groups;
-> +		init_data.fwnode = &np->fwnode;
-> +		ret = devm_led_classdev_register_ext(&chip->client->dev, &led->cdev, &init_data);
-> +		if (ret) {
-> +			dev_err(&chip->client->dev, "Unable register led:%s\n", cdev->name);
-> +			return ret;
-> +		}
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int mp3326_parse_dt(struct mp3326 *chip)
-> +{
-> +	struct device_node *np = dev_of_node(&chip->client->dev);
-> +	struct device_node *child;
-> +	int ret;
-> +	int index;
-
-iteration variables have name 'i'. Not index.
-
-> +	int val;
-> +
-> +	for_each_available_child_of_node(np, child) {
-> +		ret = mp3326_add_led(chip, child, index);
-> +		if (ret)
-> +			return ret;
-> +		index++;
-> +	}
-> +	ret = of_property_read_u32(np, "led-protect", &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_update_bits(chip->regmap, 0x01, BIT(4) | BIT(5), val << 4);
-> +
-> +	ret = regmap_write(chip->regmap, MP3326_PWM_CTRL_CHANNEL_9_16, 0);
-> +	if (ret)
-> +		return ret;
-> +	ret = regmap_write(chip->regmap, MP3326_PWM_CTRL_CHANNEL_1_8, 0);
-> +	if (ret)
-> +		return ret;
-> +	return 0;
-> +}
-> +
-> +static int mp3326_leds_probe(struct i2c_client *client)
-> +{
-> +	struct mp3326 *chip;
-> +	const struct reg_field *reg_fields;
-> +	int count, i, j;
-> +
-> +	count = device_get_child_node_count(&client->dev);
-> +	if (!count) {
-> +		return dev_err_probe(&client->dev, -EINVAL,
-> +				"Incorrect number of leds (%d)", count);
-> +	}
-> +	chip = devm_kzalloc(&client->dev, struct_size(chip, leds, count), GFP_KERNEL);
-> +	if (!chip)
-> +		return -ENOMEM;
-> +
-> +	chip->client = client;
-> +	chip->num_of_leds = count;
-> +	i2c_set_clientdata(client, chip);
-> +	chip->regmap = devm_regmap_init_i2c(client, &MP3326_regmap_config);
-> +	if (IS_ERR(chip->regmap))
-> +		return PTR_ERR(chip->regmap);
-> +
-> +	for (i = 0; i < Max_Channel; i++) {
-> +		reg_fields = channels_reg_fields[i];
-> +		for (j = 0; j < Max_CTRL; j++) {
-> +			chip->regmap_fields[i][j] = devm_regmap_field_alloc(&client->dev,
-> +			chip->regmap, reg_fields[j]);
-> +			if (IS_ERR(chip->regmap_fields[i][j])) {
-> +				dev_err(&client->dev,
-> +				"regmap field alloc fail, channel:%d, item: %d\n", i, j);
-> +				return PTR_ERR(chip->regmap_fields[i][j]);
-
-Messed indentation. Anyway, memory allocation errors are not usually
-printed. Why should they be printed here?
-
-
-> +			}
-> +		}
-> +	}
-> +	if (mp3326_parse_dt(chip))
-> +		return 1;
-> +	else
-> +		return 0;
-> +}
-> +
-> +static const struct i2c_device_id mp3326_id[] = {
-> +	{"mp3326", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, mp3326_id);
-> +
-> +static const struct of_device_id mp3326_of_match[] = {
-> +	{ .compatible = "mps,mp3326" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mp3326_of_match);
-> +
-> +static struct i2c_driver mp3326_driver = {
-> +	.probe_new = mp3326_leds_probe,
-> +	.driver = {
-> +			.owner = THIS_MODULE,
-
-Drop. Kernel does not have it since few years.
-
-
-> +			.name = "MP3326_led",
-
-One less indent.
-
-> +			.of_match_table = mp3326_of_match,
-> +		   },
-> +	.id_table = mp3326_id,
-> +};
-> +
-> +module_i2c_driver(mp3326_driver);
-> +MODULE_AUTHOR("Yuxi Wang <Yuxi.Wang@monolithicpower.com>");
-> +MODULE_DESCRIPTION("MPS MP3326 LED driver");
-> +MODULE_LICENSE("GPL");
-
-Best regards,
-Krzysztof
+-- 
+2.39.2
 
