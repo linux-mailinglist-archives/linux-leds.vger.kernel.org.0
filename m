@@ -2,302 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E59A7DB799
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Oct 2023 11:15:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FEF7DC3F9
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 02:51:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232787AbjJ3KPT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 30 Oct 2023 06:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42314 "EHLO
+        id S230251AbjJaBvs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 30 Oct 2023 21:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232856AbjJ3KO4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 06:14:56 -0400
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA537D8B;
-        Mon, 30 Oct 2023 03:05:01 -0700 (PDT)
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <prvs=9681cd3a30=fe@dev.tdt.de>)
-        id 1qxP8j-0076ng-7s; Mon, 30 Oct 2023 11:04:57 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <fe@dev.tdt.de>)
-        id 1qxP8i-004YdU-7S; Mon, 30 Oct 2023 11:04:56 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id BFDCF240049;
-        Mon, 30 Oct 2023 11:04:55 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 1DBAE24004B;
-        Mon, 30 Oct 2023 11:04:55 +0100 (CET)
-Received: from localhost.localdomain (unknown [10.2.3.40])
-        by mail.dev.tdt.de (Postfix) with ESMTPSA id A1177223E0;
-        Mon, 30 Oct 2023 11:04:54 +0100 (CET)
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
-        m.brock@vanmierlo.com
-Cc:     linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: [Patch v6 7/7] leds: ledtrig-tty: add additional line state evaluation
-Date:   Mon, 30 Oct 2023 11:04:47 +0100
-Message-ID: <20231030100447.63477-8-fe@dev.tdt.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231030100447.63477-1-fe@dev.tdt.de>
-References: <20231030100447.63477-1-fe@dev.tdt.de>
+        with ESMTP id S229561AbjJaBvq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Oct 2023 21:51:46 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2111.outbound.protection.outlook.com [40.107.255.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882A6E4;
+        Mon, 30 Oct 2023 18:51:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T/e99W/LDwxW/uXi6HbdE50W7QqtVu5UoWK+D2ybD8Wn3TRlltvTmbiDEBAQwsotuMNr2YdMux8H78q0HuBDgz+VJ6V1Xb8MRdeXl0bxEms4+/mzJtKGU8hq0JhX/EYKjVaQeWJWkjFrqGoNhKmfxUikA0k0AV0q9DpMv6/kBsIOdldrdEIbqHlOAJMfGNRHREO1IDJDFOWt5jBjEHv9IMbxCMY2CpuvbE5pL1tMVNACdfF3Ni0yjHWaZqx5Sychq3oXtVnA4uUqkKX5ZXARI0bnTxaxuOJj1Q9u2stCtigHG7kilb/HYRQhrANrFrGxOCtFbqM8v7My4qqZzL7Lkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wAlTIPzO9BqIIxEqZ0DyG9bdEusaNGjvXeo+5JDoi8o=;
+ b=dHnvQZ96Cv8vf4mqjc9X0lN6DNEB/38bPsrGtymMqvooS5ZR2oF3ryY3zyWaY9suhBe4YjCgHnTydA7gvHjNN7DHBs4gAp5+3CdxGBPBk7j4Ml9pzoL9rFXxt2a86dk6eRnksRYQxg9UqorsDgQv8U3felPK+IWUfped6o0M5vVY7vMcpRzSMVHfA8VckjPPo7fvO4QEA0oXMkHNbaRckF7B0aBo9IqQKPiKQP3pN3R8H3YHsk8hemwKJCSpx8iLgouWFBEE/uVUn1vkH23zFiyigclA12rp1shMeLyiVlGfqeNs64eBg6X/LbrGA8pqMZU1xIYC5g2exIBJQHKiCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=yunjingtech.com; dmarc=pass action=none
+ header.from=yunjingtech.com; dkim=pass header.d=yunjingtech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yunjingtech.com;
+Received: from SEYPR06MB6507.apcprd06.prod.outlook.com (2603:1096:101:177::9)
+ by SEZPR06MB6926.apcprd06.prod.outlook.com (2603:1096:101:1e9::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Tue, 31 Oct
+ 2023 01:51:38 +0000
+Received: from SEYPR06MB6507.apcprd06.prod.outlook.com
+ ([fe80::605a:d113:7ca9:8572]) by SEYPR06MB6507.apcprd06.prod.outlook.com
+ ([fe80::605a:d113:7ca9:8572%4]) with mapi id 15.20.6933.027; Tue, 31 Oct 2023
+ 01:51:37 +0000
+From:   "larry.lai" <larry.lai@yunjingtech.com>
+To:     lee@kernel.org, andriy.shevchenko@linux.intel.com,
+        linus.walleij@linaro.org, pavel@ucw.cz
+Cc:     linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
+        musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
+        noah.hung@yunjingtech.com, "larry.lai" <larry.lai@yunjingtech.com>
+Subject: [PATCH V7 0/3] Add support control UP board CPLD/FPGA pin control
+Date:   Tue, 31 Oct 2023 09:51:16 +0800
+Message-Id: <20231031015119.29756-1-larry.lai@yunjingtech.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: TYXPR01CA0060.jpnprd01.prod.outlook.com
+ (2603:1096:403:a::30) To SEYPR06MB6507.apcprd06.prod.outlook.com
+ (2603:1096:101:177::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEYPR06MB6507:EE_|SEZPR06MB6926:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3616a9ae-82da-4e2d-b852-08dbd9b3eb14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aqQlIhrFTqKJEXjX40HyQz9cSXfJPgckyvjFFZ6yomwPNqVuNnlkuU6lC0uWafVDygH//uPbFWQcGnRb7TFJGBx/J4EqlunIOLKLFy62s6sY2xKcMLk6wi8w/BmmAEFYYTJsdE/fHO6NtWOkdQz9zqNJGtyKGzwJzSA/jy89ZHlCmfgez1lcSmoCVJ0PgAgxWmC9g2kUzPa7SMpAsYNzrxjgjB31/zgN0WwFp+OCpqBXGmSL0CiU1x7rfDRvjWzlHOjBZKP4bnqbHAEQasHdRDdaGmmTDFDG0lwB7i3dUgSBzwpdslczwzWcksfDFbopI9c73PpLFZA4oG2Me4MNOvF5ci/Wog0zgMHsvA5yImYBEQEvTmfgJ0CQIpBuSVE1wlnF3Ld53eVQ8hVl0iv8rkbgkb3kHSD9Wa46+BZg4sAmG3+PlhihvPSwPcNivDGa1HXmYODpaQBlWmJ6bhjVXOxcyI3WLud2f3e8bSKkc4dQo2aK/xyC4vIq+zo65qOZyEMf85jPT75MWTFpTAKRyO7tRaFrJD0/AOcdsd+qdFdIkFwPuIxYdHTGjwF5PNVPKyQltN5sShsB7e1ErIXsMmRXLIhRCV/Fpv2tHtqqtGWUh23p6X+J5+LdQ2SWpbPsSMU/5ootxZVz8CemXJyTpQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6507.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(376002)(346002)(39830400003)(230922051799003)(230173577357003)(230273577357003)(186009)(64100799003)(1800799009)(451199024)(2906002)(38100700002)(86362001)(8676002)(8936002)(38350700005)(5660300002)(36756003)(41300700001)(4326008)(66946007)(478600001)(6512007)(6666004)(6506007)(52116002)(6486002)(66556008)(66476007)(316002)(107886003)(2616005)(83380400001)(1076003)(26005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Wy+0Ep1ROCA5EyVJ45+rg8c61LgQwGJEBDJGg/6Zw1GV3OIuM4i+i4nJsKq?=
+ =?us-ascii?Q?8xmsOpycGv59mjOX1eIdshq0o3KhjjLhPo/enYxGzNeYsasYbQqgjegrkMJD?=
+ =?us-ascii?Q?jmvy/O74GePjPvtixLfmVTTyOkESMFp7LuDMmkt1o1rfnxT5RKSVKX3ioOcs?=
+ =?us-ascii?Q?07/RRC/aZtL3vW45LwaIwhExexj17Tfari8oEjsPV4Emwin0wN/wjdUZ0SCT?=
+ =?us-ascii?Q?SFJoLgdkIFbzjTuXy9gn6JrQ4t5KCms+idHfp/knvE2OaWP2ji4deI5HplJd?=
+ =?us-ascii?Q?JeC8EwRVOBG700uB7WFau3qzIgu35j/GEIJp9NK6zejQaM/rLefm7tDsinp3?=
+ =?us-ascii?Q?vGnd9XfiIdS6GrlPfxiUSH9ZG7UMKMTo7yLuU38xOGm2PtzuFZtadzrjQs1b?=
+ =?us-ascii?Q?++zm2HarcdEOj4YK/NCNMeoO4jMpbJ6zlX57IKGTEh9MDqM1zbTMhTgvzNd8?=
+ =?us-ascii?Q?sRFAhvpcYW3jbN8CnZKLGaa9Ps0a+LpED0tDUpv71u1QU2ohrRcEbeke8k7m?=
+ =?us-ascii?Q?7DUle6FZ0zdu0OJyJHaB75CSsg542CY6c2z1iirx9VGcfS+vQUQ/YTIR6WEW?=
+ =?us-ascii?Q?WXRF+q2TrIj7vZxWaD9iXGOwXhm0fGQAx0rrArJXfBj3W67Hzg5/mcUnk1EA?=
+ =?us-ascii?Q?yqIDniW5NpDyKDwhWlkWvACTPV28ohFszbgnFfzm42KR483YOOEuD4M4r5gx?=
+ =?us-ascii?Q?mgCZAyXQ390UgAH6rC/glWtHZfM57smrSg4mTViybI2IgrsJh9o77zn4NK7n?=
+ =?us-ascii?Q?e90Lraytmu1Ec5QoKx1bTj2eNohkuepfCa6iqcxgePwK5fJyUH6Wc7j0y1R9?=
+ =?us-ascii?Q?2MUhs18HaArGJlbsq1R15ACjhsMKH57dcxL+qG9d1sAawU0VMOwg6CvchXOy?=
+ =?us-ascii?Q?QT4hR8PQHa9DvkYSSJAeIZ82mVOk5M1AdelYqzc+uq0ZgAfVD//Bokk4NuWK?=
+ =?us-ascii?Q?ctdj/j5Sm5Ps3+UYkSfEkJ0/BS6d8qYGDpwiGK231WXbKmHwqAwAZx+MeXv+?=
+ =?us-ascii?Q?gi1W/uXJgegKXaQTzqoJpdi+Kxo3OFpZEFo4RiOe6+r7yJgze5XHhLajAEkV?=
+ =?us-ascii?Q?/9V12Uom11mI/7pgF8hp1wso8T3ZjmmxluaXZLD0TlpbWHc7QKsi4tpBclwD?=
+ =?us-ascii?Q?7s/hwCDhehkZ7pNpWMc5JpYpf0nUucMn/9pfX80EmOFVeqC4FDK4mcEwDBOE?=
+ =?us-ascii?Q?8P9wrfQUNPjXzJXXLjR2XaRC266cvEVCBMH2dLsYSNsWAXfET88GOSqf93Wd?=
+ =?us-ascii?Q?rdAVKg8aEHmQl+93uVnmZlXyCYCPfZaXG/QZ1PfpvpMn4wJc4hdkQdACm3zI?=
+ =?us-ascii?Q?+lENrdid5b8PwV8q5TGjB7f1dMfKlOVcEhJ80MgjsHXktYOnj4FkmqTPkYuR?=
+ =?us-ascii?Q?GQZ1W2R/97HNagtqwgGvJ/EkedVwx5iLjFcBl7yHUPGm6qpkkm/nkl5KD3kX?=
+ =?us-ascii?Q?puaDcQuy7rAHwCxaWCBH0foIQQGGLLfigEJvhh502qrXrMdK1TWIdYN+0NFr?=
+ =?us-ascii?Q?R500gjXBSomi4tIMKiPxdw64DKSYvucGw+ALyaCxl4/IiPngZR3McvD8pTiM?=
+ =?us-ascii?Q?fLCPuAQ0yUITq/j5AsqGAAAYmgynwO/htwTcPl6HjBWGvFuBw4F9SjnIddAx?=
+ =?us-ascii?Q?ag=3D=3D?=
+X-OriginatorOrg: yunjingtech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3616a9ae-82da-4e2d-b852-08dbd9b3eb14
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6507.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2023 01:51:37.2910
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: be2d5505-f7e6-4600-bbe2-b3201c91b344
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CgM39mna2imRbmsNNQK0pPkjywl0k3Xztg5flXkv1n0vaF6HRaGSbHMUq5xmpJxpyUo529g9FlX17sNg9Qsh1FXrJ9V2RoYfs3rfwtMrJIc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6926
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-Content-Transfer-Encoding: quoted-printable
-X-purgate: clean
-X-purgate-ID: 151534::1698660296-DD37C1F7-B5F81EFC/0/0
-X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The serial tty interface also supports additional input signals,that
-can also be evaluated within this trigger. This change is adding the
-following additional input sources, which could be controlled
-via the '/sys/class/<leds>/' sysfs interface.
+The UP board <https://up-board.org/> is the computer board for 
+Professional Makers and Industrial Applications. We want to upstream 
+the UP board 40-pin GP-bus Kernel driver for giving the users better 
+experience on the software release. (not just download from UP board 
+github)
 
-Explanation:
-DCE =3D Data Communication Equipment (Modem)
-DTE =3D Data Terminal Equipment (Computer)
+These patches are generated from the Linux kernel mainline tag v6.0.
 
-- cts:
-  DCE is ready to accept data from the DTE (CTS =3D Clear To Send). If
-  the line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate CTS.
-  If set to 1, the LED will evaluate CTS.
+This is the PATCH V7 and fixed kernel test robot compiler warning and 
+addressed Lee Jones review comments.
 
-- dsr:
-  DCE is ready to receive and send data (DSR =3D Data Set Ready). If the
-  line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate DSR.
-  If set to 1, the LED will evaluate DSR.
+larry.lai (3):
+  mfd: Add support for UP board CPLD/FPGA
+  pinctrl: Add support pin control for UP board CPLD/FPGA
+  leds: Add support for UP board CPLD onboard LEDS
 
-- dcd:
-  DTE is receiving a carrier from the DCE (DCD =3D Data Carrier Detect).
-  If the line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate DCD.
-  If set to 1, the LED will evaluate DCD.
+ drivers/leds/Kconfig              |   10 +
+ drivers/leds/Makefile             |    1 +
+ drivers/leds/leds-upboard.c       |  154 ++++
+ drivers/mfd/Kconfig               |   12 +
+ drivers/mfd/Makefile              |    1 +
+ drivers/mfd/upboard-fpga.c        |  404 +++++++++
+ drivers/pinctrl/Kconfig           |   14 +
+ drivers/pinctrl/Makefile          |    1 +
+ drivers/pinctrl/pinctrl-upboard.c | 1390 +++++++++++++++++++++++++++++
+ include/linux/mfd/upboard-fpga.h  |   62 ++
+ 10 files changed, 2049 insertions(+)
+ create mode 100644 drivers/leds/leds-upboard.c
+ create mode 100644 drivers/mfd/upboard-fpga.c
+ create mode 100644 drivers/pinctrl/pinctrl-upboard.c
+ create mode 100644 include/linux/mfd/upboard-fpga.h
 
-- rng:
-  DCE has detected an incoming ring signal on the telephone line
-  (RNG =3D Ring Indicator). If the line state is detected, the LED is
-  switched on.
-  If set to 0 (default), the LED will not evaluate RNG.
-  If set to 1, the LED will evaluate RNG.
 
-Signed-off-by: Florian Eckert <fe@dev.tdt.de>
----
- .../ABI/testing/sysfs-class-led-trigger-tty   | 40 +++++++++++
- drivers/leds/trigger/ledtrig-tty.c            | 72 +++++++++++++++++++
- 2 files changed, 112 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Docu=
-mentation/ABI/testing/sysfs-class-led-trigger-tty
-index 504dece151b8..30cef9ac0f49 100644
---- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-@@ -20,3 +20,43 @@ Description:
- 		Signal transmission (tx) of data on the named tty device.
- 		If set to 0, the LED will not blink on transmission.
- 		If set to 1 (default), the LED will blink on transmission.
-+
-+What:		/sys/class/leds/<led>/cts
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		CTS =3D Clear To Send
-+		DCE is ready to accept data from the DTE.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate CTS.
-+		If set to 1, the LED will evaluate CTS.
-+
-+What:		/sys/class/leds/<led>/dsr
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		DSR =3D Data Set Ready
-+		DCE is ready to receive and send data.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate DSR.
-+		If set to 1, the LED will evaluate DSR.
-+
-+What:		/sys/class/leds/<led>/dcd
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		DCD =3D Data Carrier Detect
-+		DTE is receiving a carrier from the DCE.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate CAR (DCD).
-+		If set to 1, the LED will evaluate CAR (DCD).
-+
-+What:		/sys/class/leds/<led>/rng
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		RNG =3D Ring Indicator
-+		DCE has detected an incoming ring signal on the telephone
-+		line. If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate RNG.
-+		If set to 1, the LED will evaluate RNG.
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/le=
-dtrig-tty.c
-index 1a40a78bf1ee..a364b7ca38c8 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -19,17 +19,26 @@ struct ledtrig_tty_data {
- 	int rx, tx;
- 	bool mode_rx;
- 	bool mode_tx;
-+	bool mode_cts;
-+	bool mode_dsr;
-+	bool mode_dcd;
-+	bool mode_rng;
- };
-=20
- /* Indicates which state the LED should now display */
- enum led_trigger_tty_state {
- 	TTY_LED_BLINK,
-+	TTY_LED_ENABLE,
- 	TTY_LED_DISABLE,
- };
-=20
- enum led_trigger_tty_modes {
- 	TRIGGER_TTY_RX =3D 0,
- 	TRIGGER_TTY_TX,
-+	TRIGGER_TTY_CTS,
-+	TRIGGER_TTY_DSR,
-+	TRIGGER_TTY_DCD,
-+	TRIGGER_TTY_RNG,
- };
-=20
- static int ledtrig_tty_waitforcompletion(struct device *dev)
-@@ -118,6 +127,18 @@ static ssize_t ledtrig_tty_attr_show(struct device *=
-dev, char *buf,
- 	case TRIGGER_TTY_TX:
- 		state =3D trigger_data->mode_tx;
- 		break;
-+	case TRIGGER_TTY_CTS:
-+		state =3D trigger_data->mode_cts;
-+		break;
-+	case TRIGGER_TTY_DSR:
-+		state =3D trigger_data->mode_dsr;
-+		break;
-+	case TRIGGER_TTY_DCD:
-+		state =3D trigger_data->mode_dcd;
-+		break;
-+	case TRIGGER_TTY_RNG:
-+		state =3D trigger_data->mode_rng;
-+		break;
- 	}
-=20
- 	return sysfs_emit(buf, "%u\n", state);
-@@ -147,6 +168,18 @@ static ssize_t ledtrig_tty_attr_store(struct device =
-*dev, const char *buf,
- 	case TRIGGER_TTY_TX:
- 		trigger_data->mode_tx =3D state;
- 		break;
-+	case TRIGGER_TTY_CTS:
-+		trigger_data->mode_cts =3D state;
-+		break;
-+	case TRIGGER_TTY_DSR:
-+		trigger_data->mode_dsr =3D state;
-+		break;
-+	case TRIGGER_TTY_DCD:
-+		trigger_data->mode_dcd =3D state;
-+		break;
-+	case TRIGGER_TTY_RNG:
-+		trigger_data->mode_rng =3D state;
-+		break;
- 	}
-=20
- 	return size;
-@@ -167,6 +200,10 @@ static ssize_t ledtrig_tty_attr_store(struct device =
-*dev, const char *buf,
-=20
- DEFINE_TTY_TRIGGER(rx, TRIGGER_TTY_RX);
- DEFINE_TTY_TRIGGER(tx, TRIGGER_TTY_TX);
-+DEFINE_TTY_TRIGGER(cts, TRIGGER_TTY_CTS);
-+DEFINE_TTY_TRIGGER(dsr, TRIGGER_TTY_DSR);
-+DEFINE_TTY_TRIGGER(dcd, TRIGGER_TTY_DCD);
-+DEFINE_TTY_TRIGGER(rng, TRIGGER_TTY_RNG);
-=20
- static void ledtrig_tty_work(struct work_struct *work)
- {
-@@ -175,6 +212,7 @@ static void ledtrig_tty_work(struct work_struct *work=
-)
- 	struct led_classdev *led_cdev =3D trigger_data->led_cdev;
- 	enum led_trigger_tty_state state =3D TTY_LED_DISABLE;
- 	unsigned long interval =3D LEDTRIG_TTY_INTERVAL;
-+	int status;
- 	int ret;
-=20
- 	if (!trigger_data->ttyname)
-@@ -202,6 +240,33 @@ static void ledtrig_tty_work(struct work_struct *wor=
-k)
- 		trigger_data->tty =3D tty;
- 	}
-=20
-+	status =3D tty_get_tiocm(trigger_data->tty);
-+	if (status > 0) {
-+		if (trigger_data->mode_cts) {
-+			if (status & TIOCM_CTS)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_dsr) {
-+			if (status & TIOCM_DSR)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_dcd) {
-+			if (status & TIOCM_CAR)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_rng) {
-+			if (status & TIOCM_RNG)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+	}
-+
-+	/*
-+	 * The evaluation of rx/tx must be done after the evaluation
-+	 * of TIOCM_*, because rx/tx has priority.
-+	 */
- 	if (trigger_data->mode_rx || trigger_data->mode_tx) {
- 		struct serial_icounter_struct icount;
-=20
-@@ -225,6 +290,9 @@ static void ledtrig_tty_work(struct work_struct *work=
-)
- 	case TTY_LED_BLINK:
- 		led_blink_set_oneshot(led_cdev, &interval, &interval, 0);
- 		break;
-+	case TTY_LED_ENABLE:
-+		led_set_brightness(led_cdev, led_cdev->blink_brightness);
-+		break;
- 	case TTY_LED_DISABLE:
- 		fallthrough;
- 	default:
-@@ -241,6 +309,10 @@ static struct attribute *ledtrig_tty_attrs[] =3D {
- 	&dev_attr_ttyname.attr,
- 	&dev_attr_rx.attr,
- 	&dev_attr_tx.attr,
-+	&dev_attr_cts.attr,
-+	&dev_attr_dsr.attr,
-+	&dev_attr_dcd.attr,
-+	&dev_attr_rng.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(ledtrig_tty);
---=20
-2.30.2
+base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+-- 
+2.17.1
 
