@@ -2,110 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E66CE7DD5BA
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 19:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7A427DD823
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Oct 2023 23:19:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231195AbjJaSDK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Oct 2023 14:03:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58412 "EHLO
+        id S1346423AbjJaWTZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 Oct 2023 18:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjJaSDJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 14:03:09 -0400
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788F792;
-        Tue, 31 Oct 2023 11:03:07 -0700 (PDT)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6ce2cf67be2so3752692a34.2;
-        Tue, 31 Oct 2023 11:03:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698775387; x=1699380187;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JBWbi7Y3InN0amfRzl58wtob2sEve30Z46Ww/SB9XT4=;
-        b=PUCzUqXeEw9DUaJJe1hcXtjnkXpMbHkNcLV3hd2sbEiWD8ZxNQ/owISVzb1IN9kfxo
-         jy/AmIWmb6w8LpzUhgScdMK2UbId0mkwT0c/X8mnJXghjLTuCSzxUO+QhoGv97cgWJPW
-         fLifm0s4TU5YtMP0zweu8A2Xr7A5qEDAqeiQNidRxsDMVMf1Ixb1PMPP9tllNi07YNWZ
-         FkZqeWnaT3G1R0WRBZHrkZltdLxHT080LvEBSEBq8GSENOZ7VSzVgOnczKaWDeulWj4v
-         trvQZ9U/BmqjzmZY+jwQOLKptvy+wj8v5mUIMwuRNWYYYsEbnJipxCWtj4tF335JOqjf
-         8K5Q==
-X-Gm-Message-State: AOJu0YzaeiW40OuEagHBTlD1S1gh4OKWIxT1fspOsQ6cUojP/O9bUhLc
-        Or4bvQ6YFV+lcpXL1+JsdQ==
-X-Google-Smtp-Source: AGHT+IFDmYyfKEScG+IjynXcRP20bxlv/OFOAsa8+QIiCzBhwpfmGNXYpoE8KH5Q0d2rdGE8CuRIww==
-X-Received: by 2002:a05:6870:1004:b0:1d0:d78b:982e with SMTP id 4-20020a056870100400b001d0d78b982emr12693903oai.35.1698775386709;
-        Tue, 31 Oct 2023 11:03:06 -0700 (PDT)
-Received: from herring.priv ([4.31.143.193])
-        by smtp.gmail.com with ESMTPSA id ds48-20020a0568705b3000b001efce0658e6sm367856oab.39.2023.10.31.11.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 11:03:06 -0700 (PDT)
-Received: (nullmailer pid 1823980 invoked by uid 1000);
-        Tue, 31 Oct 2023 18:03:05 -0000
-Date:   Tue, 31 Oct 2023 13:03:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Shiji Yang <yangshiji66@outlook.com>
-Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Olliver Schinagl <oliver@schinagl.nl>
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: add "internet" and "rssi"
- function definitions
-Message-ID: <20231031180305.GA1813504-robh@kernel.org>
-References: <20231031132901.11732-1-yangshiji66@outlook.com>
- <TYAP286MB0315235C51DAC7905DE4573EBCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+        with ESMTP id S1344925AbjJaWTY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 18:19:24 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792CCFE;
+        Tue, 31 Oct 2023 15:19:21 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39VJOBuL029799;
+        Tue, 31 Oct 2023 22:19:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Aphlc6s8NtUMz0AnqPtvlfqApJgy5j7VA/4sgYsahRU=;
+ b=a+TcgrrRXjpCN5SqROM/bvVf8A6ELksisLPxyrzPnKzvxS5+/JmhvJmvNvEXcXrdcJ87
+ O7zUFbzID42C88I7t5x5Ci6H20sTRkMhmvgY5kpy4pnaQuAcviHKWf1fG8E6Ul8V2O16
+ SquzGStAoaq5vWx6Mm1yZAxvMv/TKH3UANC8NINeUwAbYe7vDV0zPTRb7cke/jG9o6d/
+ hbmsLITZJQ2/NYldQmEsVdgJBls1qkSanPpq7ZeKRbv5QpLS1U4eLkE61e4VfwR+pm75
+ wMe/CNyCCGv3UkY/2wZDht21WkwoFA/JBMdS/he6p9a14VkhHLeb47fjdQMc2SIKSnbM IQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u34sc0v4c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 31 Oct 2023 22:19:09 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39VMJ8dP020242
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 31 Oct 2023 22:19:08 GMT
+Received: from [10.110.20.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Tue, 31 Oct
+ 2023 15:19:07 -0700
+Message-ID: <7b074eaf-ab65-c03b-dcb6-92a0848c2291@quicinc.com>
+Date:   Tue, 31 Oct 2023 15:18:59 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYAP286MB0315235C51DAC7905DE4573EBCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 3/7] soc: qcom: add QCOM PBS driver
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+CC:     <pavel@ucw.cz>, <thierry.reding@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
+        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
+        <quic_gurus@quicinc.com>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+References: <20231020182218.22217-1-quic_amelende@quicinc.com>
+ <20231020182218.22217-4-quic_amelende@quicinc.com>
+ <20231025121255.GM8909@google.com>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <20231025121255.GM8909@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 6iHWD_z0aisOaV3YVZEc3yd2VvNJ9BrR
+X-Proofpoint-GUID: 6iHWD_z0aisOaV3YVZEc3yd2VvNJ9BrR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-31_09,2023-10-31_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=749 bulkscore=0 phishscore=0 priorityscore=1501
+ mlxscore=0 spamscore=0 clxscore=1011 adultscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2310310184
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 09:29:01PM +0800, Shiji Yang wrote:
-> These two types of LEDs are widely used in routers and NICs. The
-> RSSI (Received Signal Strength Indicator) LED is used to display
-> the Wi-Fi signal strength, and the Internet LED can indicate
-> whether the device can access a specific server.
+
+
+On 10/25/2023 5:12 AM, Lee Jones wrote:
+> On Fri, 20 Oct 2023, Anjelique Melendez wrote:
 > 
-> Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
-> ---
->  include/dt-bindings/leds/common.h | 2 ++
->  1 file changed, 2 insertions(+)
+>> Add the Qualcomm PBS (Programmable Boot Sequencer) driver. The QCOM PBS
+>> driver supports configuring software PBS trigger events through PBS RAM
+>> on Qualcomm Technologies, Inc (QTI) PMICs.
+>>
+>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>> ---
+>>  drivers/soc/qcom/Kconfig          |   9 ++
+>>  drivers/soc/qcom/Makefile         |   1 +
+>>  drivers/soc/qcom/qcom-pbs.c       | 243 ++++++++++++++++++++++++++++++
+>>  include/linux/soc/qcom/qcom-pbs.h |  30 ++++
+>>  4 files changed, 283 insertions(+)
+>>  create mode 100644 drivers/soc/qcom/qcom-pbs.c
+>>  create mode 100644 include/linux/soc/qcom/qcom-pbs.h
 > 
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 9a0d33d02..55a426e39 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -88,11 +88,13 @@
->  #define LED_FUNCTION_FLASH "flash"
->  #define LED_FUNCTION_HEARTBEAT "heartbeat"
->  #define LED_FUNCTION_INDICATOR "indicator"
-> +#define LED_FUNCTION_INTERNET "internet"
-
-Duplicate of 'wan'.
-
->  #define LED_FUNCTION_LAN "lan"
->  #define LED_FUNCTION_MAIL "mail"
->  #define LED_FUNCTION_MTD "mtd"
->  #define LED_FUNCTION_PANIC "panic"
->  #define LED_FUNCTION_PROGRAMMING "programming"
-> +#define LED_FUNCTION_RSSI "rssi"
-
-'rx' or 'wlan'?
-
-Wouldn't you need multiple LEDs to indicate signal strength? Maybe 
-'signal' or something would be more generic?
-
->  #define LED_FUNCTION_RX "rx"
->  #define LED_FUNCTION_SD "sd"
->  #define LED_FUNCTION_STANDBY "standby"
-> -- 
-> 2.39.2
+> The LED patches look good to go.
 > 
+> What's the plan for the SoC driver?
+> 
+>   * Who will review it?
+>   * Shall I take it via LED with an Ack?
+> 
+QCOM PBS driver should be reviewed by linux-arm-msm maintainers/reviewers.
+Will give them another week or so to take a look at this series before I
+resend to them.
