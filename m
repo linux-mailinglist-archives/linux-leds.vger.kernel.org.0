@@ -2,110 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A85507DDAB7
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Nov 2023 02:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B4337DDF94
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Nov 2023 11:39:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377236AbjKABrz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Oct 2023 21:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
+        id S229557AbjKAKj1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Nov 2023 06:39:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377053AbjKABry (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Oct 2023 21:47:54 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2012.outbound.protection.outlook.com [40.92.99.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9C5E4;
-        Tue, 31 Oct 2023 18:47:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DwXwOXR7qYMxUPr/4tXVwbU0aQSX1SKzE8j2qVlMRrAAxJ5ewLGtqacKrHABY0C1kmVTSqWHjkzTQ6hdp2Y/DNx6GCAuEIzrBuUYLIJrZb55rir/fqf5affk0Qgwn7jJO7dr6gYSxdYuf5j+NzlO/jqG20dUVjvtPKOYlOEmitLZ4F874bQw1Lnj33WMpNBYH6QOiek3008WzE1BzKSwhbcHRawPIkDvIpzlDRWaV9SqWqhgEeUOQdCQLdoTSDVMBgfgZY/6Q98/rkQVII3QAfPZpHvWUIBl+MyOYMEtrZcRJDukIaUr9dNAogV20F56eBp4t48Sx2Z7hQ+UNrQljw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oekaFV/H6G7/kTQrVCsZZH6TZkqMHF9EilX+awNCAGY=;
- b=Iq/YXLsUqmhhy+v8Nq0ww7Vluf31n/+hhxdcOfoT0wO0nUrnvag4/sGJgiso+c7QcdT1V0YEzhNgxRHqCzwh0ywH3CzbSRmWybmk5ZwrpZ19vZPQ9KK876/88lVUe+G0YnuE3ArU3/LJpiZw45wTFsZ47BqLtTl/4jMdGI9ZsT926/OSRavrOsRCvRs56WRDLCQRZq+Adrj2xvoPildPqC2Tm2gti/5hIHzg6KYo19kZHyDxSTvnzQQyRIuSRPQwkF9VEQpOt8zhiUnb8kEyzMD0Hth/D3L6Pd4ltEs365Fznu6ZXZ2TJjdQJVp70mrAqE3cVVTho8Pk2/m5TnAyGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oekaFV/H6G7/kTQrVCsZZH6TZkqMHF9EilX+awNCAGY=;
- b=Q6A30MLnKNBkxyBVDzj6f3VjnGWMXDyV76GR1ce5M9dGyQWb/4b9jMp0iuxB2Yx4yMFlXpSLIGWN+0Q9qdsAKzzATLc3cI+9DoIhcd/59nqcoml3JX1NFiHJcNa6l+txss7n9+r6KQB1xj+4uYYt1KVU8juwHFbLOmc2XtUpjjVO+6I9Z2dNtZYnLVK2uy3Lhkt19YUuQs1eYNcpZOrV7vtbk0MJcZe8BDujXUKcLeOGuJbaeC/k0qbPJxzMR16zU8RM47nnlw5te530QWsl5/ckJ1s6u1bjFGkXYiJNYcicx42oSzcQXErEocm8Sa14CCP0eYfnfQyjm8sCF6/EFw==
-Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:8041::8)
- by TY3P286MB3795.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:406::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Wed, 1 Nov
- 2023 01:47:43 +0000
-Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- ([fe80::465a:2534:4d99:a25b]) by TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- ([fe80::465a:2534:4d99:a25b%6]) with mapi id 15.20.6954.019; Wed, 1 Nov 2023
- 01:47:43 +0000
-From:   Shiji Yang <yangshiji66@outlook.com>
-To:     robh@kernel.org
-Cc:     conor+dt@kernel.org, devicetree@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        oliver@schinagl.nl, pavel@ucw.cz
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: add "internet" and "rssi" function definitions
-Date:   Wed,  1 Nov 2023 09:47:31 +0800
-Message-ID: <TYAP286MB0315C0414CC9420993D18DAABCA7A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231031180305.GA1813504-robh@kernel.org>
-References: <20231031180305.GA1813504-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TMN:  [MX3eettV9n7PyP5EVhlpK+u/QOEr4qNB0/T1RBQXxek=]
-X-ClientProxiedBy: TY2PR02CA0023.apcprd02.prod.outlook.com
- (2603:1096:404:56::35) To TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:8041::8)
-X-Microsoft-Original-Message-ID: <20231101014731.9270-1-yangshiji66@outlook.com>
+        with ESMTP id S229537AbjKAKj0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Nov 2023 06:39:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC4FDA
+        for <linux-leds@vger.kernel.org>; Wed,  1 Nov 2023 03:39:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7096C433C9;
+        Wed,  1 Nov 2023 10:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698835164;
+        bh=KogSAedxs6MlOHTx8CBBprjFtnojp4vM622bLLuN0eE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=vOSVuoqOIGNTe8ZvVTHaspRCp3SaFeIb0VbgMEanT/fd/Ea3njjlHyFLk1T1Fbqaf
+         h94IOuqvl8jElyPIXk8awI+v6IAf1k3w2y3ut0j224U4O+/Lg/fIBGlLAJgh8YZZhg
+         Qn9pTv/kbjJaKEunFe2SBvt3O7+l0A+Z4BhyAHtpaw+OitQvkvO5ucyd6bcLl7ZX4f
+         ZATT9RXppyQRxllkWvkR1Q3/0/ykgJW57gQ0xeN5iB5TaxAbUl457sC5agflP8oK19
+         SI/qFGDQM9P9yXLxgMAPwyQw8x2Pne5gslK3sUtZE2oPyfa45wEQszH4toY+k+e6x7
+         S1iCOJb59jErQ==
+Message-ID: <f11986a9-c4d1-49ac-9822-ada385dfcd2d@kernel.org>
+Date:   Wed, 1 Nov 2023 11:39:17 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYAP286MB0315:EE_|TY3P286MB3795:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00b37e9d-3abc-4af0-ce81-08dbda7c89ca
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0dZJJIHSikN1RWV+JS0Dq5hUme1cVgTlHWGHIyNkoCrze3hNjP03clPtIPWfaWYfc4R3MNsjUttKOfn9YIB43PG5PipgQT3sg0m2gRaCnD1NNkCfzs4JPWIZCUkfKfHrDpJ874o8rPWD3PlkzuxdTysKwuspkdvOqN14gSO0buLbOAHmTfcjfa9CyFERS/F5CDbK2VEjR+OD0EwtcPzH1XtTG9UtHsdM0o4iBDv+bLZtGlCgeUvvl4u1MW5Pamnxo5fnKAyvfpjF7cWL7vnY9tbDXe7iNBTSQfvkBaBYPy1Q7XVYhcc+LoZlBqQHaWqW2uhrHQt7+cB2szOVLi7RWKZ/XnlVY9ZPpHt2giZjl7tUuLRkCocasv+YG+TKZNmsy+dwIpwmxhrfh9yfA2MlerK7LhVnOmDLZ8mAszzKtMlE4OZwNFlFJojR33S0/hTLIbQIBC4OUTgkMZfaunI1AOw7RhMGA4TEiLJLY3MboTBP+HSXNyzpc9q9Z4KMWpYGM0IVjMyVR71QHxXf1ZsS/hrQZ/BsjbKLaFAG9W802wvuuNB11fK8jguvJCOCtKjQxxpQmH5DV7eLR90YZspm/dPFkxWbx+heFSnKxLQd+CM=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1huRzVRcWk2SWFJSFRrQm9mU2E3OHV6U3djTlJPTExwNy82bmpDL1FwdDdS?=
- =?utf-8?B?YmdIYTZpeURoUXVGcWxhNEV1ZHU1QkN6dEJhQUxZSkFQSnY0ZFNlSkxleWo4?=
- =?utf-8?B?aFdBZ0VpWnFabVlVTnFXQ2tYUnhDUXJzSmJFZ0prUVVXRGNObElzWSsvMXVl?=
- =?utf-8?B?Wk9lOWd5NVdFUmFMZnVzS0swTVZZUXBsR2xaOXdvZXBkUGxSUncvQ05PTTZ3?=
- =?utf-8?B?UjZseUpMWHl0Y2IvNXRWdmFWTVZsTWg0OG4zcXR6Q0dLeVZCc3E4RytmcnFl?=
- =?utf-8?B?QlZtQ1JpYjRrZWVGU0hmRXVNdGM3Ym52ZGhpcWs2dERTODZSY2tUa24zaGpz?=
- =?utf-8?B?S2tKdnJjNGpOa0VjenhUTkU2WFBWTEhjY1d3UkV5SVJTTWI5cnVkQjdvN0ZS?=
- =?utf-8?B?SnZVMGM5Y0d2a0lOU3JOcndZUDk2c0hNK040dVlIck1ER25BMHhnaVA0L09Y?=
- =?utf-8?B?aHNUTXBaZGVma2lkYVZsMTh3aEVPaVdyYWZNZy8zS2dOM1ZQVUVEQUd3OWY2?=
- =?utf-8?B?LzhldjliTEJUS2V0WGM2R2s4RTNMNXNHUlJ2Y0k1TE1EckZ2RXVESWtvS2Rs?=
- =?utf-8?B?YTg1MFY0NnlJb1N0RHdKOEZwQ3FsZ2cxbVRGU2V1YUpBYzhkTjdjSURIRlpW?=
- =?utf-8?B?VFloTmJyMWF1d0JiODQ2dmZmTjlVSERWTStsTHlZUjhqeWlJc3JNeFVscWk3?=
- =?utf-8?B?NVl5REp4YmFCaythaldQcXIrZ1JqSys4eGFUREI3VFZmQk9LQmlwc0UyejlV?=
- =?utf-8?B?ZDd0M2R0NGd4QnRta1lFWGJTb3Foa1hyOG5OOFB3NnRQWjZvSGduZEs0MDM3?=
- =?utf-8?B?NGZRQ1QxMlBWODE0Wm9XTEpjK3g5em9RUm00KzFaT01teEpIS01CdXZ5clZa?=
- =?utf-8?B?Z29DQm9VNVZYRGpVSG9hNE1EWUwwdFVWKzNDWEVyZm9rTGY3UTlPMGpkS09N?=
- =?utf-8?B?ZTByZVVrSUJZUkduelFzTklnQnU3UEp5NW5lRXZNclpmVEF3cnpkRFN3ZFg1?=
- =?utf-8?B?NW14Z3haM05ESVRlbGhnQWkydlVJdmpkb21FVEZ5YStMZzlZZ1BERXVHbkxR?=
- =?utf-8?B?UXhQQnpIeGdpdFQvOS9nQVRxbFdwRU5RczBvNVZFSW9RZ3J4N20wREtTai91?=
- =?utf-8?B?citWcFl5WEc5RVlvY0pTUkxvK3RyUVFPMGRHU3F4L2RRZGhmbSswbzVaRjdj?=
- =?utf-8?B?cTNzdTliYUIyVjNvQ1g0aEV3bkdvRkYyeXBJY3FzNjIzcWJ6TVYxM3NoZjAv?=
- =?utf-8?B?Y1VhWElURzZGTmpQL0RaMElsSEt3M0FVODNqQzljSGxJaDlnd1ZlZXlZRGdu?=
- =?utf-8?B?ZElzbkV4dll5ZDVGMmd6QjdHa1NkeCt2clVuWmo1WUpuV1RuZ0dpc1poMWpw?=
- =?utf-8?B?eWZhZy9vWHo3YU15S3VDMktkSU0yQUt1b1J3N25UbjIxZVkwUnpxaFFIcHYy?=
- =?utf-8?B?Z0pxcmwyVTJTSkp1R0kzM1dBcHJwcFh4ZFhTcWJLc2wyY1VUMkxyMUpIN0FO?=
- =?utf-8?B?MFl6TUdwN2lhNzhwUFliZktDb2RnUmFJdW5talZOYisvaGtTb20yeC9WZU5N?=
- =?utf-8?B?dGxhdHY3aURlQmhKWXpGRm9wS0ppZnd2ZERvK1VDY0kzaTNaNnFuWXJvK3pz?=
- =?utf-8?Q?o/d9mJ22Ogjw6o+wedn5J4ImAN2GIUHcGzD23H5LQ3f4=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00b37e9d-3abc-4af0-ce81-08dbda7c89ca
-X-MS-Exchange-CrossTenant-AuthSource: TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2023 01:47:43.3719
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3P286MB3795
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: leds: sort LED color definitions by
+ alphabet
+Content-Language: en-US
+To:     Shiji Yang <yangshiji66@outlook.com>, linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Olliver Schinagl <oliver@schinagl.nl>
+References: <20231031111559.12199-1-yangshiji66@outlook.com>
+ <TYAP286MB0315FE921FF113BF76F7B700BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <TYAP286MB0315FE921FF113BF76F7B700BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -113,79 +98,25 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 31 Oct 2023 13:03:05 -0500, Rob Herring wrote:
+On 31/10/2023 12:15, Shiji Yang wrote:
+> Sorting LEDs by alphabet can help developers quickly find the colors
+> they want. Infrared and multicolor LEDs are special so they should
+> be left at the end of the list.
+> 
+> Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
 
->On Tue, Oct 31, 2023 at 09:29:01PM +0800, Shiji Yang wrote:
->> These two types of LEDs are widely used in routers and NICs. The
->> RSSI (Received Signal Strength Indicator) LED is used to display
->> the Wi-Fi signal strength, and the Internet LED can indicate
->> whether the device can access a specific server.
->> 
->> Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
->> ---
->>  include/dt-bindings/leds/common.h | 2 ++
->>  1 file changed, 2 insertions(+)
->> 
->> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
->> index 9a0d33d02..55a426e39 100644
->> --- a/include/dt-bindings/leds/common.h
->> +++ b/include/dt-bindings/leds/common.h
->> @@ -88,11 +88,13 @@
->>  #define LED_FUNCTION_FLASH "flash"
->>  #define LED_FUNCTION_HEARTBEAT "heartbeat"
->>  #define LED_FUNCTION_INDICATOR "indicator"
->> +#define LED_FUNCTION_INTERNET "internet"
->
->Duplicate of 'wan'.
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time, thus I will skip this patch entirely till you follow
+the process allowing the patch to be tested.
 
-It's different from 'wan'. 'wan' usually indicates whether the WAN
-port is connected to the modem (internet services may still
-unavailable). But the 'internet' shows if the device can successfully
-ping servers like 8.8.8.8 to detected the internet connection status.
-When the router operates in AP only mode, we can even connect LAN port
-to the AC/modem to connect to the internet. In this case, 'internet'
-LED should still be on. On some routers, both 'internet' and 'wan'
-are available and be controled separately.
+Please kindly resend and include all necessary To/Cc entries.
 
-Ref: OpenWrt has a lot of devices that require the 'internet' LED：
-https://git.openwrt.org/?p=openwrt%2Fopenwrt.git&a=search&h=HEAD&st=grep&s=label+%3D+.*net&sr=1
+Best regards,
+Krzysztof
 
-Anyway, if it is still unacceptable, please let me know and I will
-remove it in v3.
-
-
->
->>  #define LED_FUNCTION_LAN "lan"
->>  #define LED_FUNCTION_MAIL "mail"
->>  #define LED_FUNCTION_MTD "mtd"
->>  #define LED_FUNCTION_PANIC "panic"
->>  #define LED_FUNCTION_PROGRAMMING "programming"
->> +#define LED_FUNCTION_RSSI "rssi"
->
->'rx' or 'wlan'?
-
-
-'rx' and 'wlan' only shows the data transfer speed and on/off status, this
-one indicates the signal strength.
-
->
->Wouldn't you need multiple LEDs to indicate signal strength? Maybe 
->'signal' or something would be more generic?
-
-
-Yes, usually there are 3~4 LEDs to indicate the signal strength, just like
-the signal icon on the mobile phone. We can use `function-enumerator` led
-property to mark the different leds in the signal group. I'll rename it to
-'signal' in v3.
-
->
->>  #define LED_FUNCTION_RX "rx"
->>  #define LED_FUNCTION_SD "sd"
->>  #define LED_FUNCTION_STANDBY "standby"
->> -- 
->> 2.39.2
->> 
-
-Regards,
-Shiji Yang
