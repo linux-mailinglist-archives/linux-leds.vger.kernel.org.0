@@ -2,82 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A367DE598
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Nov 2023 18:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC86C7DE93C
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Nov 2023 01:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344627AbjKARsp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Nov 2023 13:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
+        id S231948AbjKBARY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Nov 2023 20:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344421AbjKARso (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Nov 2023 13:48:44 -0400
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3EDA2;
-        Wed,  1 Nov 2023 10:48:38 -0700 (PDT)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-        by mx1.sberdevices.ru (Postfix) with ESMTP id 1101F120020;
-        Wed,  1 Nov 2023 20:48:37 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 1101F120020
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-        s=mail; t=1698860917;
-        bh=EddFr7lOGf4NXOMM9jH9Co+otzGhI8EbkMU/xHevNXE=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-        b=F07PzInd2aLutm3Xd9pZoDISSjegh06GAkp3cdqDW4Lx5dLB9WXbsgoFpvw7aEB+n
-         kZ7/Yi0H+KQpjsyxGCqYJtfIi7mJXC6TRODY3mS2ZeumRl/GhqFWtI3lN9wC0yrQAw
-         9bbnGqmGaekNiFh0K5/e+uI3u3FWG2BEExgEq09hnB1n6IPdh5X2BWc8rvxZhTQeuh
-         RB3CIJnLtAOBkYvHgN9RkpIXfcTY1CB3OFpWGg08uy+/rlKM+x3nj2HIQuPRt2x6/H
-         n2ZJc3YVzF137t7PWQr+Y08s8CKB5D/3nXAg6s3M7wYdaCLqoeALEpj+7GCZvwQq0i
-         5ULJWT87MKiLQ==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.sberdevices.ru (Postfix) with ESMTPS;
-        Wed,  1 Nov 2023 20:48:36 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.37; Wed, 1 Nov
- 2023 20:48:36 +0300
-Date:   Wed, 1 Nov 2023 20:48:36 +0300
-From:   Dmitry Rokosov <ddrokosov@salutedevices.com>
-To:     Conor Dooley <conor@kernel.org>
-CC:     <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
-        <rockosov@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+        with ESMTP id S230285AbjKBARY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Nov 2023 20:17:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F38109;
+        Wed,  1 Nov 2023 17:17:16 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C268C433C7;
+        Thu,  2 Nov 2023 00:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698884235;
+        bh=TOJiriu7zo/tOZp6wt6uoQqF/K8RoG8GBogF+O+OlHg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Fjz3k9HJotc18Y2AY4yosYabz+yl+n9B5E2DMxuLA98Igdoc8atWUGT0w+Potdj6A
+         vwaXd+5HCxLsFFXkHLjfI2gvOJCxDD4B39nauPuyv3sEEoJDz1HkBFHu37FoJErQ/L
+         te5TuHlyVDtNK6u6J2UM/8xVrR9NnT70JwKk2XKUcws4GzIRlHV9Qqacaodm+VE7YA
+         lWBAms4Kg4g33Uqcu4iLejvPxtJmK4y84z9URimUl4UZ4ArqtGty5L4+6b3BZJa5sc
+         rdN7ZED6BS2xdswu9HFD3YCyfp5gV1Dxg8wlObHLVTXRMjzkgN+Q+XTR8+CpzamRHS
+         Uw/8gSJq2YEJg==
+Date:   Thu, 2 Nov 2023 00:17:11 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc:     Rob Herring <robh@kernel.org>, linux-leds@vger.kernel.org,
+        lee@kernel.org, linux-kernel@vger.kernel.org,
+        kernel@sberdevices.ru, andy.shevchenko@gmail.com,
+        conor+dt@kernel.org, pavel@ucw.cz,
+        krzysztof.kozlowski+dt@linaro.org, rockosov@gmail.com,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
 Subject: Re: [PATCH v3 11/11] dt-bindings: leds: aw200xx: fix led pattern and
  add reg constraints
-Message-ID: <20231101174836.2qlhkgao6pxjjs2e@CAB-WSD-L081021>
+Message-ID: <20231102-concave-untapped-804a5956faab@spud>
 References: <20231101142445.8753-1-ddrokosov@salutedevices.com>
  <20231101142445.8753-12-ddrokosov@salutedevices.com>
- <20231101-subzero-grimace-52a10da6a445@spud>
+ <169885374980.409399.3653628333009308100.robh@kernel.org>
+ <20231101-bolster-anaerobic-244cd1a8c205@spud>
+ <20231101174422.zs5er6tqethm46ur@CAB-WSD-L081021>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="1KMrlXhM842v/S70"
 Content-Disposition: inline
-In-Reply-To: <20231101-subzero-grimace-52a10da6a445@spud>
-User-Agent: NeoMutt/20220415
-X-Originating-IP: [100.64.160.123]
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181058 [Nov 01 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/01 15:56:00 #22380151
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+In-Reply-To: <20231101174422.zs5er6tqethm46ur@CAB-WSD-L081021>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,55 +58,72 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Conor,
 
-On Wed, Nov 01, 2023 at 03:31:28PM +0000, Conor Dooley wrote:
-> On Wed, Nov 01, 2023 at 05:24:45PM +0300, Dmitry Rokosov wrote:
-> > AW200XX controllers have the capability to declare more than 0xf LEDs,
-> > therefore, it is necessary to accept LED names using an appropriate
-> > regex pattern.
-> > 
-> > The register offsets can be adjusted within the specified range, with
-> > the maximum value corresponding to the highest number of LEDs that can
-> > be connected to the controller.
-> > 
-> > Fixes: e338a05e76ca ("dt-bindings: leds: Add binding for AW200xx")
-> > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> 
-> You did correctly guess what I was getting at on the previous version.
-> Apologies for not replying - I got sick and things probably fell a bit
-> through the cracks.
+--1KMrlXhM842v/S70
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Don't worry! Take care and get well soon!
-
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-
-Should I include this tag in the next version with a fix for the 'reg'
-maxItems, or would you review this patch again?
-
-> Cheers,
-> Conor.
-> 
-> > ---
-> >  .../bindings/leds/awinic,aw200xx.yaml         | 64 +++++++++++++++++--
-> >  1 file changed, 58 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> > index 67c1d960db1d..ba4511664fb8 100644
-> > --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+On Wed, Nov 01, 2023 at 08:44:22PM +0300, Dmitry Rokosov wrote:
+> Hello Conor,
+>=20
+> On Wed, Nov 01, 2023 at 04:17:14PM +0000, Conor Dooley wrote:
+> > On Wed, Nov 01, 2023 at 11:04:16AM -0500, Rob Herring wrote:
+> > >=20
+> > > On Wed, 01 Nov 2023 17:24:45 +0300, Dmitry Rokosov wrote:
+> > > > AW200XX controllers have the capability to declare more than 0xf LE=
+Ds,
+> > > > therefore, it is necessary to accept LED names using an appropriate
+> > > > regex pattern.
+> > > >=20
+> > > > The register offsets can be adjusted within the specified range, wi=
+th
+> > > > the maximum value corresponding to the highest number of LEDs that =
+can
+> > > > be connected to the controller.
+> > > >=20
+> > > > Fixes: e338a05e76ca ("dt-bindings: leds: Add binding for AW200xx")
+> > > > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> > > > ---
+> > > >  .../bindings/leds/awinic,aw200xx.yaml         | 64 +++++++++++++++=
+++--
+> > > >  1 file changed, 58 insertions(+), 6 deletions(-)
+> > > >=20
+> > >=20
+> > > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_ch=
+eck'
+> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > >=20
+> > > yamllint warnings/errors:
+> > >=20
+> > > dtschema/dtc warnings/errors:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/leds/awinic,aw200xx.example.dtb: led-controller@3a: led@0: Unevaluated p=
+roperties are not allowed ('reg' was unexpected)
+> > > 	from schema $id: http://devicetree.org/schemas/leds/awinic,aw200xx.y=
+aml#
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/leds/awinic,aw200xx.example.dtb: led-controller@3a: led@1: Unevaluated p=
+roperties are not allowed ('reg' was unexpected)
+> > > 	from schema $id: http://devicetree.org/schemas/leds/awinic,aw200xx.y=
+aml#
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/leds/awinic,aw200xx.example.dtb: led-controller@3a: led@2: Unevaluated p=
+roperties are not allowed ('reg' was unexpected)
+> > > 	from schema $id: http://devicetree.org/schemas/leds/awinic,aw200xx.y=
+aml#
+> >=20
+> > Looks like you need to drop the second part of this hunk from the patch.
 > > @@ -45,17 +45,12 @@ properties:
 > >      maxItems: 1
-> >  
+> > =20
 > >  patternProperties:
 > > -  "^led@[0-9a-f]$":
 > > +  "^led@[0-9a-f]+$":
 > >      type: object
 > >      $ref: common.yaml#
 > >      unevaluatedProperties: false
-> >  
+> > =20
 > >      properties:
 > > -      reg:
 > > -        description:
@@ -143,76 +133,28 @@ maxItems, or would you review this patch again?
 > >        led-max-microamp:
 > >          default: 9780
 > >          description: |
-> > @@ -69,6 +64,63 @@ patternProperties:
-> >            where max-current-switch-number is determinated by led configuration
-> >            and depends on how leds are physically connected to the led driver.
-> >  
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: awinic,aw20036
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@[0-9a-f]+$":
-> > +          properties:
-> > +            reg:
-> > +              items:
-> > +                minimum: 0
-> > +                maximum: 36
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: awinic,aw20054
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@[0-9a-f]+$":
-> > +          properties:
-> > +            reg:
-> > +              items:
-> > +                minimum: 0
-> > +                maximum: 54
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: awinic,aw20072
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@[0-9a-f]+$":
-> > +          properties:
-> > +            reg:
-> > +              items:
-> > +                minimum: 0
-> > +                maximum: 72
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: awinic,aw20108
-> > +    then:
-> > +      patternProperties:
-> > +        "^led@[0-9a-f]+$":
-> > +          properties:
-> > +            reg:
-> > +              items:
-> > +                minimum: 0
-> > +                maximum: 108
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > -- 
-> > 2.36.0
-> > 
+> >=20
+> > Each LED still only has one reg entry, right?
+>=20
+> You're right... the maxItems for 'reg' is still needed. I'll back it in
+> the next version.
+> But I don't understand, why my dt_binding_check run doesn't show me this
+> problem... I don't specify DT_CHECKER_FLAGS, maybe this is a root cause.
 
+I dunno! I do `make dt_binding_check W=3D1 DT_SCHEMA_FILES=3D"$filename"` to
+test stuff.
 
+Also, you can keep the tag.
 
--- 
-Thank you,
-Dmitry
+--1KMrlXhM842v/S70
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZULqhgAKCRB4tDGHoIJi
+0q4BAQC5YTzHsZRRP1WxLFh3vu211rMVno+IX+YO5RazUkgsMAEArUlNxt0UhTjw
+Nq+4zijW6+jINWj/Jd91+bh5kDWepgk=
+=fKHp
+-----END PGP SIGNATURE-----
+
+--1KMrlXhM842v/S70--
