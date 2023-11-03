@@ -2,78 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D12CE7E0250
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Nov 2023 12:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB257E0271
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Nov 2023 12:59:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjKCLnI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Nov 2023 07:43:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50470 "EHLO
+        id S233103AbjKCL7h (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Nov 2023 07:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229965AbjKCLnI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Nov 2023 07:43:08 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79CC1BF;
-        Fri,  3 Nov 2023 04:43:02 -0700 (PDT)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S233216AbjKCL7g (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Nov 2023 07:59:36 -0400
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D946D44;
+        Fri,  3 Nov 2023 04:59:30 -0700 (PDT)
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.riseup.net (Postfix) with ESMTPS id 4SMJlF69LZzDqL8;
-        Fri,  3 Nov 2023 11:42:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1699011781; bh=COzeTtt/oT3cTy/i7MUnUtz64XgOpYTzoGtZWhIvRJQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GTWq6IRj6R8KgCWDxsuPaTHD+t0yLYfPLT/MdVPyQIZG7lE5TQa/alopSdJFNlN/k
-         PNAwbfiyjHBU7vwdLqhu+I0y+w/chac0BAYHN1vsD7t3dC0wL6moWtte8YTEEg0YDO
-         +UdYDzBIskw52OCud6TasNvmCocYW0DcapjxYgL0=
-X-Riseup-User-ID: E2464CBEDD2201B50682C719F6E9A98C05FC08E352D2C0FB6703F80CE7B93AEA
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4SMJl10w64zFpsR;
-        Fri,  3 Nov 2023 11:42:36 +0000 (UTC)
-From:   Dang Huynh <danct12@riseup.net>
-To:     Dang Huynh <danct12@riseup.net>
-Cc:     Nikita Travkin <nikitos.tr@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: aw2013: Select REGMAP_I2C
-Date:   Fri,  3 Nov 2023 18:42:03 +0700
-Message-ID: <20231103114203.1108922-1-danct12@riseup.net>
+        by box.trvn.ru (Postfix) with ESMTPSA id 0A2364013B;
+        Fri,  3 Nov 2023 16:59:25 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+        t=1699012767; bh=uMjAgjVBxkvh0peanEjS5u9IYU4ZbctslGY3EYuqRo0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Vf9hK65dE0vtxY6qaMfpoQQ06se3aL/x+GhvDjf6fXOAqugyUefgSZSv59YN6VU57
+         0k+cipJCbKJrO47iAKm7GGsGrdfhuIA3bLJLUf9ozC5aYl2wH6f+zPF9lr6qp8Cc96
+         aPsHl8rTJPGzfteeUDpLN0adv9zP7AVTzKDKQsjWc6r5yMAdW6h4MZquNctdcIDphv
+         s9GZxRoImuSa5vT5uZZ8hkPjRc063aYJEax/jUNjAVMoWiWIoznrBDHWUfnXBxstDd
+         guDhoiIYlegu4URg9+4Ud2pX3513G239fE2WunKu64BUownCgCUelR4yaMbKoshl+g
+         n8lzqcpIayfbw==
 MIME-Version: 1.0
+Date:   Fri, 03 Nov 2023 16:59:24 +0500
+From:   Nikita Travkin <nikita@trvn.ru>
+To:     Dang Huynh <danct12@riseup.net>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: aw2013: Select REGMAP_I2C
+In-Reply-To: <20231103114203.1108922-1-danct12@riseup.net>
+References: <20231103114203.1108922-1-danct12@riseup.net>
+Message-ID: <89a873f8f9156221faee9fa3ecb3e3e5@trvn.ru>
+X-Sender: nikita@trvn.ru
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The AW2013 driver uses devm_regmap_init_i2c, so REGMAP_I2C needs to
-be selected.
+Dang Huynh писал(а) 03.11.2023 16:42:
+> The AW2013 driver uses devm_regmap_init_i2c, so REGMAP_I2C needs to
+> be selected.
+> 
+> Otherwise build process may fail with:
+> ld: drivers/leds/leds-aw2013.o: in function `aw2013_probe':
+> leds-aw2013.c:345: undefined reference to `__devm_regmap_init_i2c'
+> 
+> Signed-off-by: Dang Huynh <danct12@riseup.net>
 
-Otherwise build process may fail with:
-ld: drivers/leds/leds-aw2013.o: in function `aw2013_probe':
-leds-aw2013.c:345: undefined reference to `__devm_regmap_init_i2c'
+Oh, thanks for noticing that!
 
-Signed-off-by: Dang Huynh <danct12@riseup.net>
----
- drivers/leds/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Acked-by: Nikita Travkin <nikita@trvn.ru>
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b92208eccdea..3132439f99e0 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -110,6 +110,7 @@ config LEDS_AW200XX
- config LEDS_AW2013
- 	tristate "LED support for Awinic AW2013"
- 	depends on LEDS_CLASS && I2C && OF
-+	select REGMAP_I2C
- 	help
- 	  This option enables support for the AW2013 3-channel
- 	  LED driver.
--- 
-2.42.0
+Btw for fixes like this it's customary to add a Fixes tag
+to let stable team know they might want to backport it:
 
+Fixes: 59ea3c9faf32 ("leds: add aw2013 driver")
+
+> ---
+>  drivers/leds/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index b92208eccdea..3132439f99e0 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -110,6 +110,7 @@ config LEDS_AW200XX
+>  config LEDS_AW2013
+>  	tristate "LED support for Awinic AW2013"
+>  	depends on LEDS_CLASS && I2C && OF
+> +	select REGMAP_I2C
+>  	help
+>  	  This option enables support for the AW2013 3-channel
+>  	  LED driver.
