@@ -2,71 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EA617E0F84
-	for <lists+linux-leds@lfdr.de>; Sat,  4 Nov 2023 14:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F0157E0FB7
+	for <lists+linux-leds@lfdr.de>; Sat,  4 Nov 2023 14:54:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbjKDM7l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 4 Nov 2023 08:59:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
+        id S231348AbjKDN0C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 4 Nov 2023 09:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjKDM7k (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Nov 2023 08:59:40 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB9DD194;
-        Sat,  4 Nov 2023 05:59:37 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50943ccbbaeso4211018e87.2;
-        Sat, 04 Nov 2023 05:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699102776; x=1699707576; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ObsqG9+10NLUeAHOgwfeMmWgkHs3rhcD4ztf3mot19o=;
-        b=PZ8Om298AfkI3IiDU1vDX57PE9d+pz4nVDZGp2kDYEamHTPbI3WiIGkHkQbr+htb97
-         H+F4wvZL5EnxV1wBbBRjvS+cWZeRTWGmFEhBgTic97Xury4x//waV9qddedyCsXOtK2Y
-         +MJezsYQYmGaDoZzh9dxq/1k2+eVsfUE17wBUbQKasAsye3H9HLX7UU1kluU6/po4vdi
-         JZYfup3Ofo1ezX7GZ30J6WE5o8O+F0cV9t9YnmrpO/uNGJICvcPA+iFUyllO+PxMVupM
-         9nQi5W968d/oXSCORbIlGhrPu0nrEW8IVeLa/Nsn22FRCBRpUc+d6J8gK35NOY4AQdNv
-         iQbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699102776; x=1699707576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ObsqG9+10NLUeAHOgwfeMmWgkHs3rhcD4ztf3mot19o=;
-        b=B0+4vF6LzkRBbmlISe6UkzHSP6Fka0og2+eNbSYMD8EGqeoPspW3jnQeqxZDvXXQv7
-         Lk/YLUq6ssYj9NfGuwNdsXzP2b1r5mbFUJc/tZ2EsIpRUL6ghcVP7KPSritbmnRa2zws
-         D1eBwVkAEFYd35rpWO9FyL505q3ULHIjxCozD4o4Ss5HacOGGz6uOxl4vZEDuKTQIeQw
-         uK/9rNIPDVNVzI6Kiy4xyL+LaObb7kKnoyUvnTyIZcwgMV48axmQEyZXKAmxIjyB26p1
-         3ks9YR73m/pVwYPrWCwH6wqV8y2qJm2F6o9jVDywQZE9CDS8gXF15U6nfkh9F1CRiUHa
-         EGsw==
-X-Gm-Message-State: AOJu0YybOTBt9+g49KTN4sUyxD3ju8sh0+TBrpzBzwHVF19DAUmhUvNE
-        whhRBsn7Q/Sj5D65Dy2SkNo=
-X-Google-Smtp-Source: AGHT+IEINvmjUC0yxKeihtigOl7Q+sI8Uo7L+xFjgOv/kbuT95k+JW09e4wnXO/ZBYThDOpyLnAHLw==
-X-Received: by 2002:a05:6512:202a:b0:509:4980:7bf0 with SMTP id s10-20020a056512202a00b0050949807bf0mr6170428lfs.38.1699102775647;
-        Sat, 04 Nov 2023 05:59:35 -0700 (PDT)
-Received: from mars.. ([2a02:168:6806:0:e018:7b08:28f0:78c5])
-        by smtp.gmail.com with ESMTPSA id r13-20020a05600c458d00b00406443c8b4fsm5707383wmo.19.2023.11.04.05.59.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 05:59:35 -0700 (PDT)
-From:   Klaus Kudielka <klaus.kudielka@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Li Zetao <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Klaus Kudielka <klaus.kudielka@gmail.com>
-Subject: [PATCH] leds: triggers: netdev: add a check, whether device is up
-Date:   Sat,  4 Nov 2023 13:58:40 +0100
-Message-ID: <20231104125840.27914-1-klaus.kudielka@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        with ESMTP id S230151AbjKDN0B (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Nov 2023 09:26:01 -0400
+Received: from connect.vanmierlo.com (fieber.vanmierlo.com [84.243.197.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBACE3;
+        Sat,  4 Nov 2023 06:25:55 -0700 (PDT)
+X-Footer: dmFubWllcmxvLmNvbQ==
+Received: from roundcube.vanmierlo.com ([192.168.37.37])
+        (authenticated user m.brock@vanmierlo.com)
+        by connect.vanmierlo.com (Kerio Connect 10.0.2 patch 1) with ESMTPA;
+        Sat, 4 Nov 2023 14:25:51 +0100
 MIME-Version: 1.0
+Date:   Sat, 04 Nov 2023 14:25:51 +0100
+From:   m.brock@vanmierlo.com
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pavel@ucw.cz, lee@kernel.org,
+        kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [Patch v6 3/7] leds: ledtrig-tty: free allocated ttyname buffer
+ on deactivate
+In-Reply-To: <20231030100447.63477-4-fe@dev.tdt.de>
+References: <20231030100447.63477-1-fe@dev.tdt.de>
+ <20231030100447.63477-4-fe@dev.tdt.de>
+Message-ID: <6be2d8101fb8da3455974ead01721e7e@vanmierlo.com>
+X-Sender: m.brock@vanmierlo.com
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,29 +47,14 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Some net devices do not report NO-CARRIER, if they haven't been brought
-up. In that case, the netdev trigger results in a wrong link state being
-displayed. Fix this, by adding a check, whether the device is up.
+Florian Eckert wrote on 2023-10-30 11:04:
+> The ttyname buffer for the ledtrig_tty_data struct is allocated in the
+> sysfs ttyname_store() function. This buffer must be released on trigger
+> deactivation. This was missing and is thus a memory leak.
 
-Signed-off-by: Klaus Kudielka <klaus.kudielka@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Shouldn´t there be a Fixes tag here?
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index e358e77e4b..bd5e21d0f0 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -195,7 +195,8 @@ static void get_device_state(struct led_netdev_data *trigger_data)
- {
- 	struct ethtool_link_ksettings cmd;
- 
--	trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
-+	trigger_data->carrier_link_up = netif_running(trigger_data->net_dev) &&
-+		netif_carrier_ok(trigger_data->net_dev);
- 	if (!trigger_data->carrier_link_up)
- 		return;
- 
--- 
-2.42.0
+And as a side note: you have patches 1..7/7 and a cover letter 0/8 ?
+
+Maarten
 
