@@ -2,82 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEEA7E27B7
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Nov 2023 15:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DCEB7E3180
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Nov 2023 00:34:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231699AbjKFOxo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Nov 2023 09:53:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51838 "EHLO
+        id S233460AbjKFXei (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Nov 2023 18:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230405AbjKFOxn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Nov 2023 09:53:43 -0500
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338F9F3;
-        Mon,  6 Nov 2023 06:53:39 -0800 (PST)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1f03db0a410so2860527fac.1;
-        Mon, 06 Nov 2023 06:53:39 -0800 (PST)
+        with ESMTP id S233228AbjKFXeh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Nov 2023 18:34:37 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C4A10FB;
+        Mon,  6 Nov 2023 15:34:30 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-41e1921da84so31854531cf.1;
+        Mon, 06 Nov 2023 15:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699313669; x=1699918469; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=b+/MoxP2Xl3kPb8t5U8uMRuNrhyDRJQ0FvpXcM+0XLY=;
+        b=cacUSlw/uUsbdiJIGNpSTTa3Pclv3Pkdr3zATixVBcCL6Qyo1fJokJ4vXYuZ2M/QTc
+         hhpldK3s1OpaR/BZzKoIAYFxn3zOV3u4yhp3LGS7IxlrJxrZwSD5PIfYo5HAiJr+LIxe
+         GUnHTi7rv+98fA0gb3NRurBECg31IpapVb8aiywBNdF9Pp6ca51wwMxOrL1zgbcQiEOR
+         PP5b8rpBf4QZfipMA9EuqEurXUNO3tAnz90/uB9ZEf3sOhhFKcd8sYfUMvH285b8luPZ
+         0/UJRnggCM4dlxd/sh/0Z4R3ixl8i5uxUe47MZVuoMIxNLd6DlxmLi7nq1vuPtFMuq+E
+         aTlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699282418; x=1699887218;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j2V1ZiN+zs3QIzCVMS+3WcPL2sPUpKN5a1KBpkJaxZw=;
-        b=Pwa1+cP0XWaajldyILfg4UIjrmuuEJlSp/0rOxIk0bbG190u764q0q2WIKziPnFFpA
-         zekO2wrFWydtz+mf5JOgziie1iFjNqTkqDW3w81IG2N030KDCMMbjazAs1+GNewQ7XQZ
-         CYedwW/RDNG82nmegBkaB9SPc3npCHDh8Nvtv++j9zLFIePCmKwh/HFNb7vEJ72YshLV
-         e7SQhQ295KzPYJgUUaYy6e+igrIO0fd0ev6UXtanU2wQTyHzkuAccCh6tITA8N+RQTB/
-         18RU1QwLFp22SX3C1CASAeeasX054wvC5/VgBplT/SFbMEwbbqgCPi2PzyYh5B/baWH4
-         NHEg==
-X-Gm-Message-State: AOJu0YzF9E9iD34vGizYo+b8CyWN/8+PC5L9zQniMGkAomxwN3wL0OnK
-        2OD/6jk33Qd0G0memXxDxTkrZP2Ceg==
-X-Google-Smtp-Source: AGHT+IH/P6qGnMzXlfn4Jsuc4Ld6M5FeFXQOO2rlV9PprvtLYOMEsmWcaAqL5pqImcL42+rILxFNZA==
-X-Received: by 2002:a05:6871:7515:b0:1ea:406:4dff with SMTP id ny21-20020a056871751500b001ea04064dffmr35930559oac.50.1699282418437;
-        Mon, 06 Nov 2023 06:53:38 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id jq8-20020a05687c30c800b001ead209f185sm1400642oac.20.2023.11.06.06.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 06:53:37 -0800 (PST)
-Received: (nullmailer pid 327400 invoked by uid 1000);
-        Mon, 06 Nov 2023 14:53:36 -0000
-Date:   Mon, 6 Nov 2023 08:53:36 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc:     lee@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@sberdevices.ru, rockosov@gmail.com, conor+dt@kernel.org,
-        linux-leds@vger.kernel.org, andy.shevchenko@gmail.com,
-        pavel@ucw.cz, robh+dt@kernel.org
-Subject: Re: [PATCH v3 03/11] dt-bindings: leds: aw200xx: introduce optional
- enable-gpios property
-Message-ID: <169928241636.327345.6928355613329474540.robh@kernel.org>
-References: <20231101142445.8753-1-ddrokosov@salutedevices.com>
- <20231101142445.8753-4-ddrokosov@salutedevices.com>
+        d=1e100.net; s=20230601; t=1699313669; x=1699918469;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b+/MoxP2Xl3kPb8t5U8uMRuNrhyDRJQ0FvpXcM+0XLY=;
+        b=nOYhSjbce3611FIqOz+0ilvV71Mq8tfk3hl4Hy1tfw2XzzCzQTT2j8lyuBkXvgYXUi
+         F+i9cBxfg3OIYFgAkSEnOyYumwGemxAogTT/pbBfRZJ9vKJyZtejbgX9qb7ZjVIYSKmB
+         i2Sxsb7h/qze6rWfEj7SLQDggDkyS6vnu34eDKCvDiKDKfuHgjMqJLPGxTlA8wXCqPgD
+         Tl6h+1l0IxAqLpVgfPcrnVeXW+hhS/k4+9KSEeiJnHzzH2zbdXypEtPrtbbBAPE+ahBj
+         oE7pu8SzAhiTpG2eiDnRShGTtaOO1vXNdEUJAKLjBU7knrltYL1ZxeQRWPROdu1ca2/d
+         EE1Q==
+X-Gm-Message-State: AOJu0YyQuiVoyqtHFDRw04HRtA00dk3Y7hdOzAT8PygogZaV9DhTW2vT
+        G8GAkMvxrElxOHJ63y29aVVkGFv5HX4shKjxu17GwQE2yAQ=
+X-Google-Smtp-Source: AGHT+IEuJx38f9AfK2nfNYw6omo2opuv+TtWLwt4yCZcsClAXV9J9sN0YqQlMeJS+t5pr7xXqNglIk7XVKRgP/sK11A=
+X-Received: by 2002:ac8:5987:0:b0:41c:bac1:6d0 with SMTP id
+ e7-20020ac85987000000b0041cbac106d0mr36688325qte.36.1699313668926; Mon, 06
+ Nov 2023 15:34:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231101142445.8753-4-ddrokosov@salutedevices.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+From:   Rani Hod <rani.hod@gmail.com>
+Date:   Tue, 7 Nov 2023 01:34:00 +0200
+Message-ID: <CAJD4rqFKYrvg4oFOffCAUss1bmEXDFsTedwLZK3jX3QWTF8VXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: leds: add "internet" and "rssi"
+ function definitions
+To:     robh@kernel.org
+Cc:     conor+dt@kernel.org, devicetree@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        oliver@schinagl.nl, pavel@ucw.cz, yangshiji66@outlook.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, Oct 31, 2023 at 09:29:01PM +0800, Shiji Yang wrote:
+> These two types of LEDs are widely used in routers and NICs. The
+> RSSI (Received Signal Strength Indicator) LED is used to display
+> the Wi-Fi signal strength, and the Internet LED can indicate
+> whether the device can access a specific server.
 
-On Wed, 01 Nov 2023 17:24:37 +0300, Dmitry Rokosov wrote:
-> Property 'enable-gpios' is optional, it can be used by the board
-> developer to connect AW200XX LED controller with appropriate 'enable'
-> GPIO pad.
-> 
-> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> ---
->  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+Two more LED functions somewhat common to wireless APs that should be
+considered here IMHO are
 
-Acked-by: Rob Herring <robh@kernel.org>
+(i) a function for cellular (3g/4g/5g/...) connectivity or activity.
+LED_FUNCTION_LTE might age poorly, but LED_FUNCTION_WWAN [1] could fit
+in with existing network functions.
+Alternatively, LED_FUNCTION_MODEM seems both more inclusive and more specific.
 
+(ii) a function for signaling mesh (= wireless inter-AP) connectivity
+or activity.
+LED_FUNCTION_MESH jumps to mind first, but perhaps there's a better
+name that could fit wireless repeaters as well.
+This function is close to, but does not fall IMHO under the suggested
+LED_FUNCTION_SIGNAL, as this one serves to indicate activity on a
+wireless connection between wireless APs (e.g. 802.11s) regardless of
+signal quality.
+
+Thanks and best,
+R.
+
+P.S.
+Sorry if it looks like trying to steal the focus from OP, but I
+believe it makes sense to discuss these additions here rather than
+restart the discussion wrt a separate patch.
+
+[1] name suggested here:
+https://www.mail-archive.com/openwrt-devel@lists.openwrt.org/msg61810.html
