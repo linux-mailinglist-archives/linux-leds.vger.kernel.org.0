@@ -2,54 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93CED7E279A
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Nov 2023 15:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFEEA7E27B7
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Nov 2023 15:53:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232184AbjKFOtl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Nov 2023 09:49:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43518 "EHLO
+        id S231699AbjKFOxo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Nov 2023 09:53:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232200AbjKFOtc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Nov 2023 09:49:32 -0500
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D163F10D2
-        for <linux-leds@vger.kernel.org>; Mon,  6 Nov 2023 06:49:24 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1r00uj-0006Dr-Tw; Mon, 06 Nov 2023 15:49:17 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1r00uj-00749e-6d; Mon, 06 Nov 2023 15:49:17 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1r00ui-00DkAu-TY; Mon, 06 Nov 2023 15:49:16 +0100
-Date:   Mon, 6 Nov 2023 15:49:14 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, pavel@ucw.cz, lee@kernel.org,
-        kabel@kernel.org, gregkh@linuxfoundation.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [Patch v2] leds: ledtrig-tty: free allocated ttyname buffer on
- deactivate
-Message-ID: <20231106144914.bflq2jxejdxs6zjb@pengutronix.de>
-References: <20231106141205.3376954-1-fe@dev.tdt.de>
+        with ESMTP id S230405AbjKFOxn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Nov 2023 09:53:43 -0500
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338F9F3;
+        Mon,  6 Nov 2023 06:53:39 -0800 (PST)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1f03db0a410so2860527fac.1;
+        Mon, 06 Nov 2023 06:53:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699282418; x=1699887218;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j2V1ZiN+zs3QIzCVMS+3WcPL2sPUpKN5a1KBpkJaxZw=;
+        b=Pwa1+cP0XWaajldyILfg4UIjrmuuEJlSp/0rOxIk0bbG190u764q0q2WIKziPnFFpA
+         zekO2wrFWydtz+mf5JOgziie1iFjNqTkqDW3w81IG2N030KDCMMbjazAs1+GNewQ7XQZ
+         CYedwW/RDNG82nmegBkaB9SPc3npCHDh8Nvtv++j9zLFIePCmKwh/HFNb7vEJ72YshLV
+         e7SQhQ295KzPYJgUUaYy6e+igrIO0fd0ev6UXtanU2wQTyHzkuAccCh6tITA8N+RQTB/
+         18RU1QwLFp22SX3C1CASAeeasX054wvC5/VgBplT/SFbMEwbbqgCPi2PzyYh5B/baWH4
+         NHEg==
+X-Gm-Message-State: AOJu0YzF9E9iD34vGizYo+b8CyWN/8+PC5L9zQniMGkAomxwN3wL0OnK
+        2OD/6jk33Qd0G0memXxDxTkrZP2Ceg==
+X-Google-Smtp-Source: AGHT+IH/P6qGnMzXlfn4Jsuc4Ld6M5FeFXQOO2rlV9PprvtLYOMEsmWcaAqL5pqImcL42+rILxFNZA==
+X-Received: by 2002:a05:6871:7515:b0:1ea:406:4dff with SMTP id ny21-20020a056871751500b001ea04064dffmr35930559oac.50.1699282418437;
+        Mon, 06 Nov 2023 06:53:38 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id jq8-20020a05687c30c800b001ead209f185sm1400642oac.20.2023.11.06.06.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 06:53:37 -0800 (PST)
+Received: (nullmailer pid 327400 invoked by uid 1000);
+        Mon, 06 Nov 2023 14:53:36 -0000
+Date:   Mon, 6 Nov 2023 08:53:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc:     lee@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@sberdevices.ru, rockosov@gmail.com, conor+dt@kernel.org,
+        linux-leds@vger.kernel.org, andy.shevchenko@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org
+Subject: Re: [PATCH v3 03/11] dt-bindings: leds: aw200xx: introduce optional
+ enable-gpios property
+Message-ID: <169928241636.327345.6928355613329474540.robh@kernel.org>
+References: <20231101142445.8753-1-ddrokosov@salutedevices.com>
+ <20231101142445.8753-4-ddrokosov@salutedevices.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cuxqxbsy7asbpnbl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231106141205.3376954-1-fe@dev.tdt.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231101142445.8753-4-ddrokosov@salutedevices.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,48 +68,16 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---cuxqxbsy7asbpnbl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 01 Nov 2023 17:24:37 +0300, Dmitry Rokosov wrote:
+> Property 'enable-gpios' is optional, it can be used by the board
+> developer to connect AW200XX LED controller with appropriate 'enable'
+> GPIO pad.
+> 
+> Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> ---
+>  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-On Mon, Nov 06, 2023 at 03:12:05PM +0100, Florian Eckert wrote:
-> The ttyname buffer for the ledtrig_tty_data struct is allocated in the
-> sysfs ttyname_store() function. This buffer must be released on trigger
-> deactivation. This was missing and is thus a memory leak.
->=20
-> While we are at it, the tty handler in the ledtrig_tty_data struct should
-> also be returned in case of the trigger deactivation call.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: fd4a641ac88f ("leds: trigger: implement a tty trigger")
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+Acked-by: Rob Herring <robh@kernel.org>
 
-I already provided that to v1, but my reply and the v2 crossed, so I'm
-forwarding my tag to this v2:
-
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---cuxqxbsy7asbpnbl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVI/OkACgkQj4D7WH0S
-/k4dugf/d+mVIkYj3WhRH5DuFSBGNO7Oni01gKNpAmSw1/lhYmVAd5l39RU1n6qR
-L4AKALqT+nNBFdeZcSGfPcNMMxZKNE56Np45S/4KwBk71D6l/CsYqqgk/wJhMfhP
-Tfu3gBrTlSjyWvtWO8llhJHRuEZf1LpfCNA1hMjtzyZuv4LHlugp3C4/fb3QvE6j
-MqyK4LudbsPFaqod7+IhW9S0+mKHwDTwCgPHsTc8IUUFSpq/XR0sAe5Jp16BXm7g
-V4JSyz5MzddPiPRVjFFlTb9NfmNVfaAcBJ8l1Lx45dQpmkqrOUedd+68luvewdYY
-Y/8+E4Ilcqp6JfHbi00jO9jsH95paQ==
-=Oo3i
------END PGP SIGNATURE-----
-
---cuxqxbsy7asbpnbl--
