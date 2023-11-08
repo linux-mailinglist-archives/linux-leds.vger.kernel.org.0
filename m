@@ -2,744 +2,148 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5CB7E4F7B
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Nov 2023 04:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56BE07E4FAB
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Nov 2023 05:16:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343982AbjKHDaG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Nov 2023 22:30:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54768 "EHLO
+        id S229581AbjKHEQE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Nov 2023 23:16:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343997AbjKHDaF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Nov 2023 22:30:05 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FED518C;
-        Tue,  7 Nov 2023 19:30:03 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-1cc3c51f830so49288765ad.1;
-        Tue, 07 Nov 2023 19:30:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699414203; x=1700019003; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CYqUdI5rzRnSrUaIGt2bwdu6BD89bQLHImnO8wMrByw=;
-        b=MGBIlxboTyIycX8QzW/rpwK5fRjZb8MeR7Ff7Ikxz1Sk/G0xhLXFbZCO5edL8OVVgQ
-         oSjrZkMEk17ZsQn4yx0QLcy87nq+FgpsQ84yGbQTyvjtcutBkI5ovecMoVjASbSH92+G
-         DeCD5CzJe/urtEvXGfmJb8/pQz6uhq1iwa1kZluxStUsLFV2ccsh3TH8QT8CTRBrpY6d
-         XRzju5El6EV1KqN7aUIFIT08+VrJEDnQeoXKqiRgPgkl46XeNiKVQA9aKamAQAGsFsgB
-         SHA0Rgq60PfcAGTgYgiWese6TLfFiNmP2bUIhfxhXTpXw4JaBoqnpYn63wGAtN1ZtiTg
-         k+rQ==
+        with ESMTP id S229574AbjKHEQD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Nov 2023 23:16:03 -0500
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3171C1B8;
+        Tue,  7 Nov 2023 20:16:01 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ce353df504so3675595a34.3;
+        Tue, 07 Nov 2023 20:16:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699414203; x=1700019003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CYqUdI5rzRnSrUaIGt2bwdu6BD89bQLHImnO8wMrByw=;
-        b=Rg1Ewsj4UYdJc1KymNSOnPgu+bpA/CXMi6cUFrtjmiUaVsiuvjNE0uE+KXmjy+kp04
-         EFQVpqDv+r82IIYWDeMF3gWjlalnc7bURAPGm8n2UjHYg3eO/wX90XhsuouHK5XXZJef
-         tiBeCeP2k2E/9irBI3ukC01+RPWCFmuaocrlTzuLhxIdn+uO3hKMP7ePBypcHXTAY8s6
-         pRljZ6kiQW2eSg3U3e+tMStlGzNE5goblmQPGzGXPRKVg1Pk1tSWOJWxVFnnCOwy2Jug
-         Rl6eDiZL4uDWpHDWOwOSsJA6tNEad4yQ0dEtm3plEFlmJYd848aEVT+30ZLsqDERpqNj
-         aUSQ==
-X-Gm-Message-State: AOJu0YyZ5fcKKYB4SZbKqQc/defDBuJPAGi+gbMYDdBT6ag4caPp9IA1
-        ydfldGKl5pQHDkMJzkYbzws=
-X-Google-Smtp-Source: AGHT+IFZAwHP8x1XmwBHPS16STe/tN99XrgOAIGzw2/t4e5hkHduEObaGcfF76um/yjWPRZzxJuYJg==
-X-Received: by 2002:a17:903:24c:b0:1cc:9781:4782 with SMTP id j12-20020a170903024c00b001cc97814782mr997425plh.62.1699414202633;
-        Tue, 07 Nov 2023 19:30:02 -0800 (PST)
-Received: from localhost ([115.192.116.120])
-        by smtp.gmail.com with ESMTPSA id h1-20020a170902f7c100b001cc2a6196b3sm551842plw.197.2023.11.07.19.30.01
+        d=1e100.net; s=20230601; t=1699416960; x=1700021760;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nKgsZ+Eseabfl1OWusfWxjl7x3m5wmowJcnJqg8xyXY=;
+        b=j88bj+iZn/enUEL/sv6OOq5vR+1g22UK4gGnmntzWdxRLW2VVtZlhJO5isb+XsROBw
+         Qh502MydrWbGrBjPgFfxH8GLx+G/Zq7MUl42+FVsqJMCZCVztZ4ev8PWtckGJVcmR9vb
+         YTYrRoGBVlWHyHG2iWiOFih0ubNudB9ia6tkeVhH7xUtiLArgh9J3M+fkkw+hThPCc92
+         J67N/i9Pn/FSycdiNsKKGal5AD5LMKr4Iw6cQXpFsW6pOFQxVWabSiWwY89Ym4gQ5G7e
+         fCT4VWhzMxarR+1IAhUfRRc/4hQF6Wd/amyv1D4E53zyoVmYJ5rs8W/OxVCUTyNSCxpi
+         PLDw==
+X-Gm-Message-State: AOJu0Ywee3x9YQQgfVOc+oFiLO0TuzAcPhsTmnJqrmdhbDO9FLRLPBU4
+        Ub/dSq/S2PYtHlA+9Q5PqQ==
+X-Google-Smtp-Source: AGHT+IGOhnYnbqats/IQfTcB3RV+0w4aVKCUmapLobVvEWF3InX51kLKZoglMoj9/S5nLNbBdv/kTA==
+X-Received: by 2002:a05:6830:1683:b0:6d3:1a0e:a7aa with SMTP id k3-20020a056830168300b006d31a0ea7aamr974997otr.3.1699416960241;
+        Tue, 07 Nov 2023 20:16:00 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id j9-20020a9d7389000000b006cd0a847138sm1799271otk.2.2023.11.07.20.15.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 19:30:02 -0800 (PST)
-From:   Yuxi Wang <wyx137120466@gmail.com>
-To:     pavel@ucw.cz, lee@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        wyx137120466@gmail.com, Yuxi.Wang@monolithicpower.com
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] leds: add mp3326 driver
-Date:   Wed,  8 Nov 2023 11:29:21 +0800
-Message-Id: <20231108032921.3134115-3-wyx137120466@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231108032921.3134115-1-wyx137120466@gmail.com>
-References: <20231108032921.3134115-1-wyx137120466@gmail.com>
-MIME-Version: 1.0
+        Tue, 07 Nov 2023 20:15:59 -0800 (PST)
+Received: (nullmailer pid 118424 invoked by uid 1000);
+        Wed, 08 Nov 2023 04:15:58 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Yuxi Wang <wyx137120466@gmail.com>
+Cc:     linux-leds@vger.kernel.org, Yuxi.Wang@monolithicpower.com,
+        krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
+        conor+dt@kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org, pavel@ucw.cz
+In-Reply-To: <20231108032921.3134115-2-wyx137120466@gmail.com>
+References: <20231108032921.3134115-1-wyx137120466@gmail.com>
+ <20231108032921.3134115-2-wyx137120466@gmail.com>
+Message-Id: <169941695839.118408.11939642206111290913.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: add mps mp3326 LED
+Date:   Tue, 07 Nov 2023 22:15:58 -0600
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch adds mp3326 led driver.
 
-Signed-off-by: Yuxi Wang <wyx137120466@gmail.com>
----
- drivers/leds/Kconfig       |   7 +
- drivers/leds/Makefile      |   1 +
- drivers/leds/leds-mp3326.c | 627 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 635 insertions(+)
- create mode 100644 drivers/leds/leds-mp3326.c
+On Wed, 08 Nov 2023 11:29:20 +0800, Yuxi Wang wrote:
+> Document mps mp3326 LED driver devicetree bindings.
+> 
+> Signed-off-by: Yuxi Wang <wyx137120466@gmail.com>
+> ---
+>  .../devicetree/bindings/leds/leds-mp3326.yaml | 184 ++++++++++++++++++
+>  1 file changed, 184 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-mp3326.yaml
+> 
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b92208eccdea..ac8115bffc2e 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -260,6 +260,13 @@ config LEDS_MIKROTIK_RB532
- 	  This option enables support for the so called "User LED" of
- 	  Mikrotik's Routerboard 532.
- 
-+config LEDS_MP3326
-+	tristate "LED Support for MPS MP3326"
-+	depends on LEDS_CLASS
-+	help
-+	  This option enables support for on-chip LED drivers found on
-+	  MPS MP3326.
-+
- config LEDS_MT6323
- 	tristate "LED Support for Mediatek MT6323 PMIC"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index d7348e8bc019..196befb56278 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -63,6 +63,7 @@ obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
- obj-$(CONFIG_LEDS_MIKROTIK_RB532)	+= leds-rb532.o
- obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
- obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
-+obj-$(CONFIG_LEDS_MP3326)		+= leds-mp3326.o
- obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
- obj-$(CONFIG_LEDS_NET48XX)		+= leds-net48xx.o
- obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
-diff --git a/drivers/leds/leds-mp3326.c b/drivers/leds/leds-mp3326.c
-new file mode 100644
-index 000000000000..c6b6398d9dc1
---- /dev/null
-+++ b/drivers/leds/leds-mp3326.c
-@@ -0,0 +1,627 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * MP3326 Led driver
-+ *
-+ * Copyright 2023 Monolithic Power Systems, Inc
-+ *
-+ * Author: Yuxi Wang <wyx137120466@gmail.com>
-+ */
-+#include <linux/bits.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/i2c.h>
-+#include <linux/of.h>
-+#include <linux/slab.h>
-+#include <linux/interrupt.h>
-+#include <linux/mutex.h>
-+#include <linux/leds.h>
-+#include <linux/device.h>
-+#include <linux/led-class-multicolor.h>
-+
-+#define MP3326_PWM_DIM_FREQUENCY_CONFIG			0x00
-+#define MP3326_PWM_CTRL							0x01
-+#define MP3326_PWM_DIM_FREQUENCY_CONFIG			0x00
-+#define MP3326_PWM_CTRL_CHANNEL_9_16			0x04
-+#define MP3326_PWM_CTRL_CHANNEL_1_8				0x05
-+#define MP3326_PWM_OPEN_FAULT_CHANNEL_9_16		0x06
-+#define MP3326_PWM_OPEN_FAULT_CHANNEL_1_8		0x07
-+#define MP3326_PWM_SHORT_FAULT_CHANNEL_9_16		0x08
-+#define MP3326_PWM_SHORT_FAULT_CHANNEL_1_8		0x09
-+#define MP3326_PWM_CURRENT_SET_CHANNEL1			0x0A
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL1		0x0B
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL1		0x0C
-+#define MP3326_PWM_CURRENT_SET_CHANNEL2			0x0D
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL2		0x0E
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL2		0x0F
-+#define MP3326_PWM_CURRENT_SET_CHANNEL3			0x10
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL3		0x11
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL3		0x12
-+#define MP3326_PWM_CURRENT_SET_CHANNEL4			0x13
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL4		0x14
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL4		0x15
-+#define MP3326_PWM_CURRENT_SET_CHANNEL5			0x16
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL5		0x17
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL5		0x18
-+#define MP3326_PWM_CURRENT_SET_CHANNEL6			0x19
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL6		0x1A
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL6		0x1B
-+#define MP3326_PWM_CURRENT_SET_CHANNEL7			0x1C
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL7		0x1D
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL7		0x1E
-+#define MP3326_PWM_CURRENT_SET_CHANNEL8			0x1F
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL8		0x20
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL8		0x21
-+#define MP3326_PWM_CURRENT_SET_CHANNEL9			0x22
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL9		0x23
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL9		0x24
-+#define MP3326_PWM_CURRENT_SET_CHANNEL10		0x25
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL10		0x26
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL10		0x27
-+#define MP3326_PWM_CURRENT_SET_CHANNEL11		0x28
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL11		0x29
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL11		0x2A
-+#define MP3326_PWM_CURRENT_SET_CHANNEL12		0x2B
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL12		0x2C
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL12		0x2D
-+#define MP3326_PWM_CURRENT_SET_CHANNEL13		0x2E
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL13		0x2F
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL13		0x30
-+#define MP3326_PWM_CURRENT_SET_CHANNEL14		0x31
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL14		0x32
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL14		0x33
-+#define MP3326_PWM_CURRENT_SET_CHANNEL15		0x34
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL15		0x35
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL15		0x36
-+#define MP3326_PWM_CURRENT_SET_CHANNEL16		0x37
-+#define MP3326_PWM_DUTY_LSB_SET_CHANNEL16		0x38
-+#define MP3326_PWM_DUTY_MSB_SET_CHANNEL16		0x39
-+#define MAX_BRIGHTNESS	63
-+
-+enum led_ctrl {
-+	ENABLE = 0,
-+	BRIGHTNESS,
-+	COLOR_L4,
-+	COLOR_H8,
-+	OPEN_FAULT,
-+	SHORT_FAULT,
-+	MAX_CTRL,
-+};
-+
-+enum mp3326_channel {
-+	CHANNEL1,
-+	CHANNEL2,
-+	CHANNEL3,
-+	CHANNEL4,
-+	CHANNEL5,
-+	CHANNEL6,
-+	CHANNEL7,
-+	CHANNEL8,
-+	CHANNEL9,
-+	CHANNEL10,
-+	CHANNEL11,
-+	CHANNEL12,
-+	CHANNEL13,
-+	CHANNEL14,
-+	CHANNEL15,
-+	CHANNEL16,
-+	MAX_CHANNEL,
-+};
-+
-+#define MP3326_REG_CONNECT_INNER(prefix, range)	prefix##range
-+#define MP3326_REG_CONNECT(prefix, range)		MP3326_REG_CONNECT_INNER(prefix, range)
-+#define MP3326_REG_FIELD(reg, minbit, maxbit)	REG_FIELD(reg, minbit, maxbit)
-+#define RANGE(a, b) MP3326_REG_CONNECT_INNER(a, b)
-+
-+#define MP3326_CHANNEL_FIELD(bit, num, range) { \
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_CTRL_CHANNEL, range), bit, bit),	\
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_CURRENT_SET_CHANNEL, num), 0, 5),	\
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_DUTY_LSB_SET_CHANNEL, num), 0, 3),	\
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_DUTY_MSB_SET_CHANNEL, num), 0, 7),	\
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_OPEN_FAULT_CHANNEL, range), bit, bit),	\
-+	MP3326_REG_FIELD(MP3326_REG_CONNECT(MP3326_PWM_SHORT_FAULT_CHANNEL, range), bit, bit), \
-+	}
-+struct mp3326_led {
-+	struct mp3326 *private_data;
-+	struct led_classdev cdev;
-+	struct mc_subled *subled_info;
-+	int num_colors;
-+};
-+
-+struct mp3326 {
-+	struct i2c_client *client;
-+	struct regmap *regmap;
-+	struct regmap_field *regmap_fields[MAX_CHANNEL][MAX_CTRL];
-+	int num_of_leds;
-+	struct mp3326_led leds[];
-+};
-+
-+static const struct regmap_config MP3326_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static const struct reg_field channels_reg_fields[MAX_CHANNEL][MAX_CTRL] = {
-+	[CHANNEL1] = MP3326_CHANNEL_FIELD(0, 1, RANGE(_1, _8)),
-+	[CHANNEL2] = MP3326_CHANNEL_FIELD(1, 2, RANGE(_1, _8)),
-+	[CHANNEL3] = MP3326_CHANNEL_FIELD(2, 3, RANGE(_1, _8)),
-+	[CHANNEL4] = MP3326_CHANNEL_FIELD(3, 4, RANGE(_1, _8)),
-+	[CHANNEL5] = MP3326_CHANNEL_FIELD(4, 5, RANGE(_1, _8)),
-+	[CHANNEL6] = MP3326_CHANNEL_FIELD(5, 6, RANGE(_1, _8)),
-+	[CHANNEL7] = MP3326_CHANNEL_FIELD(6, 7, RANGE(_1, _8)),
-+	[CHANNEL8] = MP3326_CHANNEL_FIELD(7, 8, RANGE(_1, _8)),
-+	[CHANNEL9] = MP3326_CHANNEL_FIELD(0, 9, RANGE(_9, _16)),
-+	[CHANNEL10] = MP3326_CHANNEL_FIELD(1, 10, RANGE(_9, _16)),
-+	[CHANNEL11] = MP3326_CHANNEL_FIELD(2, 11, RANGE(_9, _16)),
-+	[CHANNEL12] = MP3326_CHANNEL_FIELD(3, 12, RANGE(_9, _16)),
-+	[CHANNEL13] = MP3326_CHANNEL_FIELD(4, 13, RANGE(_9, _16)),
-+	[CHANNEL14] = MP3326_CHANNEL_FIELD(5, 14, RANGE(_9, _16)),
-+	[CHANNEL15] = MP3326_CHANNEL_FIELD(6, 15, RANGE(_9, _16)),
-+	[CHANNEL16] = MP3326_CHANNEL_FIELD(7, 16, RANGE(_9, _16)),
-+};
-+
-+static int led_brightness_set(struct led_classdev *led_cdev, enum led_brightness brightness)
-+{
-+	struct mp3326_led *led = container_of(led_cdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	int ret;
-+	int i;
-+
-+	if (brightness > led_cdev->max_brightness)
-+		brightness = led_cdev->max_brightness;
-+	if (brightness < 0)
-+		brightness = 0;
-+	for (i = 0; i < led->num_colors; i++) {
-+		ret = regmap_field_write(
-+			chip->regmap_fields[led->subled_info[i].channel][BRIGHTNESS],
-+			brightness);
-+		if (ret)
-+			return ret;
-+		led->subled_info[i].brightness = brightness;
-+	}
-+	led_cdev->brightness = brightness;
-+	return 0;
-+}
-+
-+static ssize_t led_pwm_store(struct device *dev, struct device_attribute *attr,
-+			 const char *buf, size_t count)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	ssize_t ret;
-+	int r_val, g_val, b_val;
-+	int i;
-+
-+	ret = sscanf(buf, "%i %i %i", &r_val, &g_val, &b_val);
-+	if (ret != 3 && ret != 1)
-+		return ret;
-+	r_val = r_val * 4095 / 255 + (r_val * 4095 % 255) / (255 / 2);
-+	g_val = g_val * 4095 / 255 + (g_val * 4095 % 255) / (255 / 2);
-+	b_val = b_val * 4095 / 255 + (b_val * 4095 % 255) / (255 / 2);
-+	for (i = 0; i < led->num_colors; i++) {
-+		switch (led->subled_info[i].color_index) {
-+		case LED_COLOR_ID_RED:
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4],
-+				r_val & 0x0f);
-+			if (ret)
-+				return ret;
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8],
-+				r_val >> 4);
-+			if (ret)
-+				return ret;
-+			break;
-+		case LED_COLOR_ID_GREEN:
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4],
-+				g_val & 0x0f);
-+			if (ret)
-+				return ret;
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8],
-+				g_val >> 4);
-+			if (ret)
-+				return ret;
-+			break;
-+		case LED_COLOR_ID_BLUE:
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4],
-+				b_val & 0x0f);
-+			if (ret)
-+				return ret;
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8],
-+				b_val >> 4);
-+			if (ret)
-+				return ret;
-+			break;
-+		default:
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4],
-+				r_val & 0x0f);
-+			if (ret)
-+				return ret;
-+			ret = regmap_field_write(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8],
-+				r_val >> 4);
-+			if (ret)
-+				return ret;
-+			break;
-+		}
-+	}
-+	return count;
-+}
-+
-+static ssize_t led_pwm_show(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	ssize_t ret;
-+	int r_val = 0, g_val = 0, b_val = 0, val;
-+	int i;
-+
-+	for (i = 0; i < led->num_colors; i++) {
-+		switch (led->subled_info[i].color_index) {
-+		case LED_COLOR_ID_RED:
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4], &val);
-+			if (ret)
-+				return ret;
-+			r_val |= val;
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8], &val);
-+			if (ret)
-+				return ret;
-+			r_val |= val << 4;
-+			break;
-+		case LED_COLOR_ID_GREEN:
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4], &val);
-+			if (ret)
-+				return ret;
-+			g_val |= val;
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8], &val);
-+			if (ret)
-+				return ret;
-+			g_val |= val << 4;
-+			break;
-+		case LED_COLOR_ID_BLUE:
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4], &val);
-+			if (ret)
-+				return ret;
-+			b_val |= val;
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8], &val);
-+			if (ret)
-+				return ret;
-+			b_val |= val << 4;
-+			break;
-+		default:
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_L4], &val);
-+			if (ret)
-+				return ret;
-+			r_val |= val;
-+			ret = regmap_field_read(
-+				chip->regmap_fields[led->subled_info[i].channel][COLOR_H8], &val);
-+			if (ret)
-+				return ret;
-+			r_val |= val << 4;
-+			break;
-+		}
-+	}
-+	r_val = r_val * 255 / 4095 + (r_val * 255 % 4095) / (4095 / 2);
-+	g_val = g_val * 255 / 4095 + (g_val * 255 % 4095) / (4095 / 2);
-+	b_val = b_val * 255 / 4095 + (b_val * 255 % 4095) / (4095 / 2);
-+	if (led->num_colors == 1)
-+		return sysfs_emit(buf, "0x%x\n", r_val);
-+	else
-+		return sysfs_emit(buf, "0x%x 0x%x 0x%x\n", r_val, g_val, b_val);
-+}
-+
-+static ssize_t led_enable_store(struct device *dev, struct device_attribute *attr,
-+			 const char *buf, size_t count)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	ssize_t ret;
-+	uint val, i;
-+
-+	ret = kstrtouint(buf, 0, &val);
-+	if (ret)
-+		return ret;
-+	for (i = 0; i < led->num_colors; i++) {
-+		ret = regmap_field_write(
-+			chip->regmap_fields[led->subled_info[i].channel][BRIGHTNESS],
-+			led->subled_info[i].brightness);
-+		if (ret)
-+			return ret;
-+		ret = regmap_field_write(
-+			chip->regmap_fields[led->subled_info[i].channel][ENABLE], !!val);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return count;
-+}
-+
-+static ssize_t led_enable_show(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	uint val, rval = 0;
-+	int i, ret;
-+
-+	for (i = 0; i < led->num_colors; i++) {
-+		ret = regmap_field_read(
-+			chip->regmap_fields[led->subled_info[i].channel][ENABLE], &val);
-+
-+		rval |= val << i;
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (rval)
-+		return sysfs_emit(buf, "%s\n", "True");
-+	else
-+		return sysfs_emit(buf, "%s\n", "False");
-+}
-+
-+static ssize_t led_short_fault_show(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	uint val, rval = 0, i;
-+	int ret;
-+
-+	for (i = 0; i < led->num_colors; i++) {
-+		ret = regmap_field_read(
-+			chip->regmap_fields[led->subled_info[i].channel][SHORT_FAULT], &val);
-+		rval |= val << i;
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (rval)
-+		return sysfs_emit(buf, "%s\n", "Occur");
-+	else
-+		return sysfs_emit(buf, "%s\n", "None");
-+}
-+
-+static ssize_t led_open_fault_show(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct led_classdev *lcdev = dev_get_drvdata(dev);
-+	struct mp3326_led *led = container_of(lcdev, struct mp3326_led, cdev);
-+	struct mp3326 *chip = led->private_data;
-+	uint val, rval = 0, i;
-+	int ret;
-+
-+	for (i = 0; i < led->num_colors; i++) {
-+		ret = regmap_field_read(
-+			chip->regmap_fields[led->subled_info[i].channel][OPEN_FAULT], &val);
-+		rval |= val << i;
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (rval)
-+		return sysfs_emit(buf, "%s\n", "Occur");
-+	else
-+		return sysfs_emit(buf, "%s\n", "None");
-+}
-+
-+static DEVICE_ATTR_RW(led_pwm);
-+static DEVICE_ATTR_RW(led_enable);
-+static DEVICE_ATTR_RO(led_short_fault);
-+static DEVICE_ATTR_RO(led_open_fault);
-+
-+static struct attribute *led_sysfs_attrs[] = {
-+	&dev_attr_led_pwm.attr,
-+	&dev_attr_led_enable.attr,
-+	&dev_attr_led_short_fault.attr,
-+	&dev_attr_led_open_fault.attr,
-+	NULL,
-+};
-+
-+ATTRIBUTE_GROUPS(led_sysfs);
-+
-+static int mp3326_add_led(struct mp3326 *chip, struct device_node *np, int index)
-+{
-+	struct mp3326_led *led = &chip->leds[index];
-+	struct mc_subled *info;
-+	struct device_node *child;
-+	struct led_classdev *cdev;
-+	struct led_init_data init_data = {};
-+	int ret;
-+	int i;
-+	int count;
-+	u32 color = 0;
-+	u32 reg = 0;
-+
-+	ret = of_property_read_u32(np, "color", &color);
-+	if (ret) {
-+		dev_err(&chip->client->dev, "Miss color in the node\n");
-+		return ret;
-+	}
-+	led->private_data = chip;
-+	if (color == LED_COLOR_ID_RGB) {
-+		count = of_get_child_count(np);
-+		if (count != 3) {
-+			dev_err(&chip->client->dev, "RGB must have three node.\n");
-+			return -EINVAL;
-+		}
-+
-+		info = devm_kcalloc(&chip->client->dev, 3, sizeof(*info), GFP_KERNEL);
-+		if (!info)
-+			return -ENOMEM;
-+
-+		for_each_available_child_of_node(np, child) {
-+			ret = of_property_read_u32(child, "reg", &reg);
-+			if (ret || reg > MAX_CHANNEL) {
-+				dev_err(&chip->client->dev,
-+				"reg must less or equal than %d\n", MAX_CHANNEL);
-+				return -EINVAL;
-+			}
-+
-+			ret = of_property_read_u32(child, "color", &color);
-+			if (ret) {
-+				dev_err(&chip->client->dev, "color must have value\n");
-+				return ret;
-+			}
-+
-+			if (color > 3 || !color) {
-+				dev_err(&chip->client->dev,
-+				"color must be Red, Green and Blue. The color is %d\n", color);
-+				return ret;
-+			}
-+			info[i].color_index = color;
-+			info[i].channel = reg - 1;
-+			info[i].brightness = 0;
-+			i++;
-+		}
-+
-+		led->subled_info = info;
-+		led->num_colors = 3;
-+		cdev = &led->cdev;
-+		cdev->max_brightness = MAX_BRIGHTNESS;
-+		cdev->brightness_set_blocking = led_brightness_set;
-+		cdev->groups = led_sysfs_groups;
-+		init_data.fwnode = &np->fwnode;
-+
-+		ret = devm_led_classdev_register_ext(&chip->client->dev, &led->cdev, &init_data);
-+
-+		if (ret) {
-+			dev_err(&chip->client->dev, "Unable register multicolor:%s\n", cdev->name);
-+			return ret;
-+		}
-+	} else {
-+		ret = of_property_read_u32(np, "reg", &reg);
-+		if (ret || reg > MAX_CHANNEL) {
-+			dev_err(&chip->client->dev,
-+			"reg must less or equal than %d\n", MAX_CHANNEL);
-+			return -EINVAL;
-+		}
-+		info = devm_kcalloc(&chip->client->dev, 1, sizeof(*info), GFP_KERNEL);
-+		led->num_colors = 1;
-+		info[i].color_index = LED_COLOR_ID_WHITE;
-+		info[i].channel = reg - 1;
-+		info[i].brightness = 0;
-+		led->subled_info = info;
-+		cdev = &led->cdev;
-+		cdev->max_brightness = MAX_BRIGHTNESS;
-+		cdev->brightness_set_blocking = led_brightness_set;
-+		cdev->groups = led_sysfs_groups;
-+		init_data.fwnode = &np->fwnode;
-+		ret = devm_led_classdev_register_ext(&chip->client->dev, &led->cdev, &init_data);
-+		if (ret) {
-+			dev_err(&chip->client->dev, "Unable register led:%s\n", cdev->name);
-+			return ret;
-+		}
-+	}
-+	return ret;
-+}
-+
-+static int mp3326_parse_dt(struct mp3326 *chip)
-+{
-+	struct device_node *np = dev_of_node(&chip->client->dev);
-+	struct device_node *child;
-+	int ret;
-+	int i;
-+	int val;
-+
-+	for_each_available_child_of_node(np, child) {
-+		ret = mp3326_add_led(chip, child, i);
-+		if (ret)
-+			return ret;
-+		i++;
-+	}
-+	ret = of_property_read_u32(np, "led-protect", &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_update_bits(chip->regmap, 0x01, BIT(4) | BIT(5), val << 4);
-+
-+	ret = regmap_write(chip->regmap, MP3326_PWM_CTRL_CHANNEL_9_16, 0);
-+	if (ret)
-+		return ret;
-+	ret = regmap_write(chip->regmap, MP3326_PWM_CTRL_CHANNEL_1_8, 0);
-+	if (ret)
-+		return ret;
-+	return 0;
-+}
-+
-+static int mp3326_leds_probe(struct i2c_client *client)
-+{
-+	struct mp3326 *chip;
-+	const struct reg_field *reg_fields;
-+	int count, i, j;
-+
-+	count = device_get_child_node_count(&client->dev);
-+	if (!count) {
-+		return dev_err_probe(&client->dev, -EINVAL,
-+				"Incorrect number of leds (%d)", count);
-+	}
-+	chip = devm_kzalloc(&client->dev, struct_size(chip, leds, count), GFP_KERNEL);
-+	if (!chip)
-+		return -ENOMEM;
-+
-+	chip->client = client;
-+	chip->num_of_leds = count;
-+	i2c_set_clientdata(client, chip);
-+	chip->regmap = devm_regmap_init_i2c(client, &MP3326_regmap_config);
-+	if (IS_ERR(chip->regmap))
-+		return PTR_ERR(chip->regmap);
-+
-+	for (i = 0; i < MAX_CHANNEL; i++) {
-+		reg_fields = channels_reg_fields[i];
-+		for (j = 0; j < MAX_CTRL; j++) {
-+			chip->regmap_fields[i][j] = devm_regmap_field_alloc(&client->dev,
-+			chip->regmap, reg_fields[j]);
-+			if (IS_ERR(chip->regmap_fields[i][j]))
-+				return PTR_ERR(chip->regmap_fields[i][j]);
-+		}
-+	}
-+	if (mp3326_parse_dt(chip))
-+		return 1;
-+	else
-+		return 0;
-+}
-+
-+static const struct i2c_device_id mp3326_id[] = {
-+	{"mp3326", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, mp3326_id);
-+
-+static const struct of_device_id mp3326_of_match[] = {
-+	{ .compatible = "mps,mp3326" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mp3326_of_match);
-+
-+static struct i2c_driver mp3326_driver = {
-+	.probe_new = mp3326_leds_probe,
-+	.driver = {
-+			.name = "mp3326_led",
-+			.of_match_table = mp3326_of_match,
-+		   },
-+	.id_table = mp3326_id,
-+};
-+
-+module_i2c_driver(mp3326_driver);
-+MODULE_AUTHOR("Yuxi Wang <wyx137120466@gmail.com>");
-+MODULE_DESCRIPTION("MPS MP3326 LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.25.1
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties:required: ['reg', 'color'] is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:compatible: [{'const': 'mps,mp3326'}] is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties: 'patternProperties' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
+	hint: A json-schema keyword was found instead of a DT property name.
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties: 'required' should not be valid under {'$ref': '#/definitions/json-schema-prop-names'}
+	hint: A json-schema keyword was found instead of a DT property name.
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_r:properties:required: ['reg', 'color'] is not of type 'object', 'boolean'
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'anyOf' conditional failed, one must be fixed:
+	'reg' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'anyOf' conditional failed, one must be fixed:
+	'color' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'anyOf' conditional failed, one must be fixed:
+	'reg' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'anyOf' conditional failed, one must be fixed:
+	'color' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:compatible: [{'const': 'mps,mp3326'}] is not of type 'object', 'boolean'
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:patternProperties: 'anyOf' conditional failed, one must be fixed:
+	'^led@[0-3]$' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: 'oneOf' conditional failed, one must be fixed:
+	'unevaluatedProperties' is a required property
+	'additionalProperties' is a required property
+	hint: Either unevaluatedProperties or additionalProperties must be present
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'reg' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_g: 'color' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'reg' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: properties:multi-led:properties:led_b: 'color' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/nodes.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/mps,mp3326.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: mps,led-protect: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-mp3326.yaml: patternProperties: missing type definition
+Documentation/devicetree/bindings/leds/leds-mp3326.example.dtb: /example-0/i2c/mp3326@30: failed to match any schema with compatible: ['mps,mp3326']
+Documentation/devicetree/bindings/leds/leds-mp3326.example.dtb: /example-1/i2c/mp3326@30: failed to match any schema with compatible: ['mps,mp3326']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231108032921.3134115-2-wyx137120466@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
