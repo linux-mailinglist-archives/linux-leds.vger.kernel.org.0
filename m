@@ -1,147 +1,68 @@
-Return-Path: <linux-leds-owner@vger.kernel.org>
+Return-Path: <linux-leds+bounces-1-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8B77E751C
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Nov 2023 00:28:18 +0100 (CET)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbjKIX2T (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Nov 2023 18:28:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjKIX2S (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Nov 2023 18:28:18 -0500
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E32449A;
-        Thu,  9 Nov 2023 15:28:15 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-        by mx1.sberdevices.ru (Postfix) with ESMTP id 4BC0E10004D;
-        Fri, 10 Nov 2023 02:28:13 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 4BC0E10004D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-        s=mail; t=1699572493;
-        bh=hBV4Kz/pkzP2ImJmSP5L6G2sBvOO6GVXQ7O0hvmEr94=;
-        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-        b=LaFmDnyre+AUarFmgL90jZYQZO+Y+FtAOwa6unAgVvyl/QYoCuiZ7wiMBwFWkYtxu
-         x3GnmkPgkz/o/MROXHKU595iUx6rNm2bvW4NInnW3j+/y3pFPWAT1MaQuMWng0nbIt
-         Y0fUlmDXwTBkfjGcEV8kwMcE9Rl/mC2mQqKQgdEz86iWW229/X+Tq6FfauRLU8SVwh
-         8xiuo+jYX3j0hSS3PmSOPxawWwezxUNDwHiHHZPFxrktmjJil0Ln5TvfFJ7sMm6/Qk
-         3wWVrTWImlZR15+9xevXHfOZhhm9uBeIIf7896jZkt5ihfvaRuh2t7GoejsjSRUWb3
-         VzhHdQmvFI20w==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.sberdevices.ru (Postfix) with ESMTPS;
-        Fri, 10 Nov 2023 02:28:13 +0300 (MSK)
-Received: from [192.168.1.127] (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.37; Fri, 10 Nov 2023 02:28:12 +0300
-Message-ID: <d5fab619-046a-484d-9d51-3a7fcc9e0a81@salutedevices.com>
-Date:   Fri, 10 Nov 2023 02:28:23 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] leds: nic78bx: explicitly unregister LEDs at module's
- shutdown
-Content-Language: en-US
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "kernel@sberdevices.ru" <kernel@sberdevices.ru>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "vadimp@nvidia.com" <vadimp@nvidia.com>,
-        "lee@kernel.org" <lee@kernel.org>
-References: <20231025130737.2015468-1-gnstark@salutedevices.com>
- <20231025130737.2015468-3-gnstark@salutedevices.com>
- <810346b6-c8a4-8c40-8fe3-242332428313@csgroup.eu>
-From:   George Stark <gnstark@salutedevices.com>
-In-Reply-To: <810346b6-c8a4-8c40-8fe3-242332428313@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [100.64.160.123]
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181258 [Nov 09 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;salutedevices.com:7.1.1;100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/09 21:19:00 #22426256
-X-KSMG-AntiVirus-Status: Clean, skipped
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 252547E8202
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Nov 2023 19:52:03 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3A9B2813B2
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Nov 2023 18:52:01 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B4BD3AC21;
+	Fri, 10 Nov 2023 18:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mq8O9/RS"
+X-Original-To: linux-leds@vger.kernel.org
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AC239878;
+	Fri, 10 Nov 2023 18:51:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF051199F;
+	Fri, 10 Nov 2023 10:51:46 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70210C433C9;
+	Fri, 10 Nov 2023 18:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699642305;
+	bh=5EsdFpo+n5trUWFX0VrZzBijTcaJAiV+yar8oOtb48I=;
+	h=Date:From:To:Subject:From;
+	b=Mq8O9/RS2b9oSO2hvUh7dQH1MEn7Wc4xSuWopL0Bpg7JIjs4oe3HCDBcDn6hOGfzk
+	 laEnQ92cnxQaPYuCgwG6EJLP2chjZodN/036lEwFAtclH+623CZzYNA8PH94yCR5Dn
+	 nRg0hH+cDfrSz9O9DgeYKIR7/4XCTMBCH8rAKWaI=
+Date: Fri, 10 Nov 2023 13:51:44 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: linux-embedded@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-fpga@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-gcc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, linux-hotplug@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-ia64@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-m68k@vger.kernel.org, linux-man@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-msdos@vger.kernel.org
+Subject: PSA: This list is being migrated (no action required)
+Message-ID: <cfriwrxovqzcrptf74ccq52lcqj2nsergucufsz6wlh45fdnz3@z5e5y2lowbq2>
 Precedence: bulk
-List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
+List-Id: <linux-leds.vger.kernel.org>
+List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Spam-Level: ***
 
-Hello Christophe.
+Hello, all:
 
-Thanks for the review.
+This list is being migrated to new vger infrastructure. No action is required
+on your part and there will be no change in how you interact with this list
+after the migration is completed.
 
+There will be a short 30-minute delay to the list archives on lore.kernel.org.
+Once the backend work is done, I will follow up with another message.
 
-On 11/6/23 11:13, Christophe Leroy wrote:
- >
- >
- > Le 25/10/2023 à 15:07, George Stark a écrit :
- >> LEDs are registered using devm_led_classdev_register() and automatically
- >> unregistered after module's remove(). led_classdev_unregister() calls
- >> led_set_brightness() to turn off the LEDs and module's appropriate 
-callback
- >> uses resources those were destroyed already in module's remove().
- >> So explicitly unregister LEDs at module shutdown.
- >>
- >> Signed-off-by: George Stark <gnstark@salutedevices.com>
- >> ---
- >>    drivers/leds/leds-nic78bx.c | 4 ++++
- >>    1 file changed, 4 insertions(+)
- >>
- >> diff --git a/drivers/leds/leds-nic78bx.c b/drivers/leds/leds-nic78bx.c
- >> index f196f52eec1e..12b70fcad37f 100644
- >> --- a/drivers/leds/leds-nic78bx.c
- >> +++ b/drivers/leds/leds-nic78bx.c
- >> @@ -170,6 +170,10 @@ static int nic78bx_probe(struct platform_device 
-*pdev)
- >>    static int nic78bx_remove(struct platform_device *pdev)
- >>    {
- >>    	struct nic78bx_led_data *led_data = platform_get_drvdata(pdev);
- >> +	int i;
- >> +
- >> +	for (i = 0; i < ARRAY_SIZE(nic78bx_leds); i++)
- >> +		devm_led_classdev_unregister(&pdev->dev, &nic78bx_leds[i].cdev);
- >
- > The whole purpose of devm_ functions is that you don't need to call
- > unregister when removing the driver as the dev core will do it for you.
- > I understand your problem but I think this is not the solution.
+-K
 
-I agree my solution is questionable although 
-devm_led_classdev_unregister() is exists for some reason.
-
-Probably it's not the best solution to remove led_set_brightness() from 
-led_classdev_unregister() either.
-Or we'll have to patch a lot of drivers which use led subsystem to call 
-led_set_brightness() manually to keep leds' previous behavior.
-
-Well if we can't easily unregister leds before module's remove() 
-callback is completed may be we can get rid of remove() itself and 
-manage all resources using devm API. In that case by the time 
-led_set_brightness() is called from led_classdev_unregister() all 
-dependent resources will be alive.
-I'll try it in the next patch series.
-
- >
- >>
- >>    	/* Lock LED register */
- >>    	outb(NIC78BX_LOCK_VALUE,
--- 
-Best regards
-George
