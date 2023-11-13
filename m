@@ -1,99 +1,102 @@
-Return-Path: <linux-leds+bounces-6-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-7-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4F27E9E61
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Nov 2023 15:16:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0167E9EFF
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Nov 2023 15:44:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD4251C20441
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Nov 2023 14:16:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92ED7B20A4F
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Nov 2023 14:43:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 154571CF82;
-	Mon, 13 Nov 2023 14:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA23C20B3B;
+	Mon, 13 Nov 2023 14:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WpKDgd+u"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yxQftqbA"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B82A20B0B
-	for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 14:16:13 +0000 (UTC)
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBCA10E5
-	for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 06:16:10 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5bf812041a6so47988277b3.3
-        for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 06:16:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB0720B35
+	for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 14:43:49 +0000 (UTC)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7A2172A
+	for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 06:43:47 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4083740f92dso36674615e9.3
+        for <linux-leds@vger.kernel.org>; Mon, 13 Nov 2023 06:43:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699884970; x=1700489770; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VsObpwiNRRoDaNBTqnKKwKCtx88JHZeh51II3/PGBnI=;
-        b=WpKDgd+uVI58OVzn3e8kkvCc2MG0lGpmQSwcahu7Eyf3MnRjB+FPG9MYSg5xLXU26a
-         FT/fjGlunh0ABlb0pd6vjuXUgQm53kPl9/5xlW824g+WPAdMe30vajXMbbvuCXI1/59h
-         M4fADNOddQFkhn3THqo+4YyJTN8pCtiuhRXgrQYjFKEDeIl2PwHStx8M6L0td5kvpRhv
-         AoQvb13Nqpapq2ZFvm97ERRlm2KcekWL3tgIupr4x9t4qe5XNV0T1q1XO58VjL1EAfBX
-         w76PEUCZWtESIJRrlIX7EL9GURRhxbA2PfMK8HRFZLnZUOK8Y+2Jqi912yvtH7qAXqoV
-         lE4Q==
+        d=linaro.org; s=google; t=1699886626; x=1700491426; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNnR04yCNnmtJJPXHpBhPgt3OU1li3/fE3RG16gZ0bU=;
+        b=yxQftqbAw6f0QHBpxR9ncZPjYcUuB/yZ0qjBNAWI9dd7SAW0WjjHlKB9t8sgxQIzPC
+         qKXmxyfhluWP7e7mb02V56lj7K5eYUggNq/yyJO5Pydb5cj8TLPY1nlcklgy5/Z1Uyxg
+         3nVsWaZ5KdvgN5ddXnMXNJ5AwJglb8s6hMuPFA7Xmxqyc+vWU0huwNiLDMAfCdrVcSgp
+         Ax6RlOabzW3O+zdhvEGeajQ9yAnkpnvEY6Ji7E2GUug0Rr10kSk8JKAM+BTFeSUaK5k4
+         xN239d8M8v6Roh4oDIEoUr07M0/MJywrGW/zkNWJhAuwelkUn4I18IwqoXeRHTT1gjb5
+         Xclw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699884970; x=1700489770;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VsObpwiNRRoDaNBTqnKKwKCtx88JHZeh51II3/PGBnI=;
-        b=a7AkSrWVh5iLgfb/9ayVYXhbRGoMTqDOF/d8e5EAYzstCkrYf38TFc7sr9WFy59UoC
-         9R3EbhrMP6Ye2sFvps2e7Vs44I8m3ZRthtBeVhhUS5HKRfFYZR18JXYdawipJo53tm2n
-         MIGIro7Is95nM8vRVCL8oRfgdWxS90PwTnsXiNnZBYu6pbSsx136JvepZOp4QPluiNVA
-         7gRj1YpYr1l9oi3023lw0hnPy/62xTzZ8i3XdvPbsOChqLpHzAsCPlAeJnPZWvkDqx9u
-         i+vsidHr+fxTltOThrFuULTQE2S7MXZMFBfjt/pQhobmN2coLEEMl5YBx9NMO+lnex+C
-         Z+Rw==
-X-Gm-Message-State: AOJu0YxzHkfIllg3YAGuU0c48Judem1iMqeE+Ow9o04U576MP+e3PpgL
-	fNnj/98mqt6P1nWryIW9lk7K63qM2omZRQXYPKKSqwvu3JyOnB1S
-X-Google-Smtp-Source: AGHT+IEfo3yjlThVT/1VbEzaAtk/giSVbUC9q6aHRoszCrkPGNGtNlWOQLaQkv5lYlgVl+3GIUdM37qvyenBOQnoLpA=
-X-Received: by 2002:a81:8085:0:b0:5a7:e4fe:ea3 with SMTP id
- q127-20020a818085000000b005a7e4fe0ea3mr6865035ywf.22.1699884969990; Mon, 13
- Nov 2023 06:16:09 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699886626; x=1700491426;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vNnR04yCNnmtJJPXHpBhPgt3OU1li3/fE3RG16gZ0bU=;
+        b=Du6ZYwtly25Ic0CQbzhApzEFqbkZzGePqFVG8VQxiS7HpsjhzcACW4455cCpkhp7sV
+         ZuIT/eFpn0Px5/kB2cKRGhAUAFZvXR8g/W/h94ASr97IvsPcweoFTCr8/hygyEbXpii/
+         PuAdVisABfOjTVKI1+sdmOrg2T6LUSVwperHvXbexjJ4fL3fLiMRGhhNN1dJSr4hsubO
+         n1H0Uu++ICuyVnY379olEwQPMzQGmJm6ga0BvNhveSio9l9P5+G8BaiIfYKJ9g2QjLgH
+         v+SAlh6mMfObSXhlEMvtfpvKdX9UTKkMFK9v31+qeXF8g/5XPwMJDw8lxv7ewhPMkmw8
+         DcTQ==
+X-Gm-Message-State: AOJu0YwHLTciM1raYZg7PFqf2i8kYO1b9+1P6RPFFCXLRw6YioSa++/R
+	DDLfMhNzbviqP1iSuXk4JghTOQ==
+X-Google-Smtp-Source: AGHT+IFyl4KKFJvEAx90PJK12JnmMzqY/5jHnJCgMk1zVzPkN1C68bLXevTx5IpixEgyODWdzc7+bg==
+X-Received: by 2002:adf:a3da:0:b0:32f:7db1:22fb with SMTP id m26-20020adfa3da000000b0032f7db122fbmr4253284wrb.28.1699886625790;
+        Mon, 13 Nov 2023 06:43:45 -0800 (PST)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id b11-20020a05600010cb00b0032f9688ea48sm5574339wrx.10.2023.11.13.06.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 06:43:45 -0800 (PST)
+Date: Mon, 13 Nov 2023 14:43:43 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Flavio Suligoi <f.suligoi@asem.it>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>, Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] dt-bindings: backlight: mp3309c: remove two
+ required properties
+Message-ID: <20231113144343.GA264383@aspen.lan>
+References: <20231025155057.886823-1-f.suligoi@asem.it>
+ <20231025155057.886823-2-f.suligoi@asem.it>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231031015119.29756-1-larry.lai@yunjingtech.com> <20231031015119.29756-3-larry.lai@yunjingtech.com>
-In-Reply-To: <20231031015119.29756-3-larry.lai@yunjingtech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 Nov 2023 15:15:58 +0100
-Message-ID: <CACRpkdbPWxQMz_1gG1He5QN65BActhyea_KBv2cyQ_VQxc6Feg@mail.gmail.com>
-Subject: Re: [PATCH V7 2/3] pinctrl: Add support pin control for UP board CPLD/FPGA
-To: "larry.lai" <larry.lai@yunjingtech.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: lee@kernel.org, pavel@ucw.cz, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw, 
-	musa.lin@yunjingtech.com, jack.chang@yunjingtech.com, 
-	noah.hung@yunjingtech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231025155057.886823-2-f.suligoi@asem.it>
 
-Hi Larry, Andy,
+On Wed, Oct 25, 2023 at 05:50:57PM +0200, Flavio Suligoi wrote:
+> NOTE: there are no compatibility problems with the previous version,
+>       since the device driver has not yet been included in any kernel.
+>       Only this dt-binding yaml file is already included in the
+>       "for-backlight-next" branch of the "backlight" kernel repository.
+>       No developer may have used it.
 
-On Tue, Oct 31, 2023 at 2:51=E2=80=AFAM larry.lai <larry.lai@yunjingtech.co=
-m> wrote:
+I'm afraid I got confused by the fragmented MP3309C patches from all the
+different patchsets.
 
-> The UP Squared board <http://www.upboard.com> implements certain
-> features (pin control) through an on-board FPGA.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Gary Wang <garywang@aaeon.com.tw>
-> Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
-(...)
-> +#include "core.h"
-> +#include "intel/pinctrl-intel.h"
+Please can you rebase whatever is left on v6.7-rc1 and send a single
+patchset with all pending changes as a single patch set.
 
-As mentioned this is using the intel core pin control driver infrastructure
-so I want Andy's ACK on this before I merge it.
 
-Yours,
-Linus Walleij
+Thanks
+
+Daniel.
 
