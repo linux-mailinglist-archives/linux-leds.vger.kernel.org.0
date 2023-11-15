@@ -1,99 +1,141 @@
-Return-Path: <linux-leds+bounces-12-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-13-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FCC7EB200
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Nov 2023 15:20:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6877EC737
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Nov 2023 16:29:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE6ADB20A12
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Nov 2023 14:20:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4B3D281249
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Nov 2023 15:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 397E841212;
-	Tue, 14 Nov 2023 14:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C3E39FCE;
+	Wed, 15 Nov 2023 15:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8gtv/Qb"
+	dkim=pass (1024-bit key) header.d=asem.it header.i=@asem.it header.b="kXXoLe9C"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C52405CC;
-	Tue, 14 Nov 2023 14:20:26 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C724418A;
-	Tue, 14 Nov 2023 06:20:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699971624; x=1731507624;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N8HloDum7I1cC4eEg1gfAFdHU8xz4cl4PXvQCbmBgMA=;
-  b=j8gtv/QbIyR8BNnZ1tw5Zn7VTQRPd0t8B0Y7EhKKjkjZYoKAyVVodfQn
-   7YDJyUziMmgWSLeU8U1nwqKcQR8AOACs2IIfe0IrJsd+BN1JYo1gZV2H9
-   Z+JjCeW4MttdHOfxVgqyrjQH8BUyFow0Ar+ydE0imJuQ/fkoIhG/yilrx
-   gYCyVXeDshUJkeV+hIT45wgrSojI2McMBwA2DQkIRHUBUg6FfbamJxb1m
-   yYsdzrdbiBQmyw1huPbIKbygeOpflp92f1SLYuq/yyfLyxdQSNLAvRgNe
-   N4M7Y3sOux2EYOLA7HqpaTv7MHfuQaqkGRXJoxBNKbrdCLEtQHn7mEb0f
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393519409"
-X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="393519409"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 06:20:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="830608183"
-X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="830608183"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 06:20:21 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r2uH4-0000000DpnY-1fIi;
-	Tue, 14 Nov 2023 16:20:18 +0200
-Date: Tue, 14 Nov 2023 16:20:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "larry.lai" <larry.lai@yunjingtech.com>
-Cc: lee@kernel.org, linus.walleij@linaro.org, pavel@ucw.cz,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw,
-	musa.lin@yunjingtech.com, jack.chang@yunjingtech.com,
-	noah.hung@yunjingtech.com
-Subject: Re: [PATCH V7 0/3] Add support control UP board CPLD/FPGA pin control
-Message-ID: <ZVOCIj1oPoEcKe7L@smile.fi.intel.com>
-References: <20231031015119.29756-1-larry.lai@yunjingtech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C52539FC6;
+	Wed, 15 Nov 2023 15:29:15 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2069.outbound.protection.outlook.com [40.107.21.69])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4D41A1;
+	Wed, 15 Nov 2023 07:29:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mT9gE34oZIVNnWJ26hVPICiyEPjUgZH5qyeDOqiU+3HvcP03aqsoFT1dn1b7OI2t5KrDiHQjHNucYNDUBp3gLQz7iMtojZOUnjCzq3klsdLuZb8HfAk08M0Rt3GMZsTw02OWUMDQxh5m60Tfu2Q79AT3XALN2gzgshs0oEgd4iUmJ8OhtpRc+gZsuxDoEnu4liQVGC6mcp5JbLHA3+keKeklexo9hVHf3DCFBCSPU8yVT8tEh+tNlG4Ocgq98O2IwkW+RumJgNFibGl8VQ/5L9JSkyFDzgOSuLQaTJvCY3YDAowm4b7n+lpRMDJdAF6ZQaYH3gn6B1wTBiqiaoXqcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bo+ViQCVwP4zn25XTOp+1bolcZ0vuCqNmJ/hK0s8FhQ=;
+ b=FJEj6cq6M3C5XUB118chP+sAXGXGG5wK4y+mwuVubuf0pw1QMcr+WI35+5bOrQXwx/F4cyE+NdFj78oJ23H9JL7AdgFI2O4Kj2OZ4B33IXlgqZNYWFFYwtwnfvgp04tq0xA4/v9sYTj4aC1FmYRWQy0icjX74aIlcLkuZRVC0fCquEFtTikdLx1+CW0bT4T/KMN4yALjC0zFnkq1I+4pzllazLMGWk6qMhk4fAHjKxaFgfieFlOvFM+/RAt+2u0H8e3K646lImht0PJflEr4GaDCLHdj8eppOtDnfoDM2XH1XzftUwnsTn5lZfikJRpRSZY9P+PV3rs0n9JIGdbeuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 151.1.184.193) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=asem.it;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=asem.it;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bo+ViQCVwP4zn25XTOp+1bolcZ0vuCqNmJ/hK0s8FhQ=;
+ b=kXXoLe9Cvwayg/d7xfzXAP7RLXQdfEKQldMBxEc4N++S9BH8BjVMPE4ZGssixa4shtiS4fOeJVIBxWBpft1XqJjZVodeb/7onFnVF0E7vddppQV/bMofxQo7J9KA5HwDiW5YjpvBB02IAvQ0vw05nPXAiAv+nAnXsSbI/3YJ1lM=
+Received: from AM6P193CA0100.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:88::41)
+ by DB8PR01MB6520.eurprd01.prod.exchangelabs.com (2603:10a6:10:15d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 15:29:07 +0000
+Received: from AMS0EPF000001A6.eurprd05.prod.outlook.com
+ (2603:10a6:209:88:cafe::8d) by AM6P193CA0100.outlook.office365.com
+ (2603:10a6:209:88::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.19 via Frontend
+ Transport; Wed, 15 Nov 2023 15:29:07 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 151.1.184.193) smtp.mailfrom=asem.it; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=asem.it;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ asem.it discourages use of 151.1.184.193 as permitted sender)
+Received: from asas054.asem.intra (151.1.184.193) by
+ AMS0EPF000001A6.mail.protection.outlook.com (10.167.16.233) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7002.20 via Frontend Transport; Wed, 15 Nov 2023 15:29:07 +0000
+Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with Microsoft SMTPSVC(10.0.14393.4169);
+	 Wed, 15 Nov 2023 16:29:06 +0100
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Lee Jones <lee@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Pavel Machek <pavel@ucw.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v6 0/2] backlight: mp3309c: Add support for MPS MP3309C
+Date: Wed, 15 Nov 2023 16:29:00 +0100
+Message-Id: <20231115152902.851715-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031015119.29756-1-larry.lai@yunjingtech.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 15 Nov 2023 15:29:06.0631 (UTC) FILETIME=[78B45570:01DA17D8]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001A6:EE_|DB8PR01MB6520:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: a9e77758-64e6-480f-1266-08dbe5ef9ba6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Ac6GwUEcAOeStTqHP1Av5+JmUlJqqipuRZgWTlKhbzmlOm+VhS8juuIpCZ/JItnlt73mROuoNj/hhuhoqfSAx6zYhOJHJqS671XzMjUruZIJRNgG1z/V1i89wY2xunDFhAS2ebAiK4Lx4gkDSQGvbnCT9Y/Xtb/oypl/R5Acz3bpAv3B9L7z72TV+fDx8YMBUzMRrX1xGcCPh6Q+5aDdrzw74jjcI5gsi43wtvA7EPjtBPn8x1SFG14C49FTV7c40xA7J/jwrpoBHAzVU4a2oVDVyYmhrolUD2cxqxQqOiECZuUK5eYG7hkevHD7hQ9dW3SJfCiEkOljmWI5oDM8vp96S6g4TEOveoMIuw5fsmG5yC2OmKFnBX+ssL/mBs0zFhPNpUSuQxS45L0rg3pCQxRHqxmBToFHfW0MABpziLjF5izKPEkbYZxv7dzuHwgdGkZoxYJ87SO05N9HZ98dozIEpBIYz9L4E5agf7AHqZsvj9qBOV8JeRUZ7Rzj2TGvJs6/lMdrlFC8RJdZh6tGBmY/vTcY5NqMUoNA4VfNQx13tIgxA7BKXUo4tolfErofhpxtQwbcNv6FNpr34EK/JWcGk2nE3h2p+VVj6Ev5v7FGoNfGiEgCp1zPN70OUu7XchJxUu+b0xnSCgrmrNebUg06pip6XXFQVQRve/mxahCT2H7zjWcmj+3aRgrbibIE2sEVCNPO4vvFEJP4FPga+jZPE4dxE5dmgPqJgsZfpodn6dm/rJFQd4Fv5MDrFgGk
+X-Forefront-Antispam-Report:
+	CIP:151.1.184.193;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:asas054.asem.intra;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376002)(346002)(39850400004)(396003)(136003)(230922051799003)(82310400011)(64100799003)(451199024)(1800799009)(186009)(46966006)(36840700001)(107886003)(2616005)(1076003)(336012)(70586007)(110136005)(70206006)(26005)(82740400003)(478600001)(6666004)(83380400001)(36860700001)(86362001)(81166007)(5660300002)(47076005)(41300700001)(2906002)(316002)(356005)(450100002)(36756003)(8936002)(40480700001)(8676002)(4326008)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: asem.it
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 15:29:07.2635
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9e77758-64e6-480f-1266-08dbe5ef9ba6
+X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2;Ip=[151.1.184.193];Helo=[asas054.asem.intra]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001A6.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR01MB6520
 
-On Tue, Oct 31, 2023 at 09:51:16AM +0800, larry.lai wrote:
-> The UP board <https://up-board.org/> is the computer board for 
-> Professional Makers and Industrial Applications. We want to upstream 
-> the UP board 40-pin GP-bus Kernel driver for giving the users better 
-> experience on the software release. (not just download from UP board 
-> github)
-> 
-> These patches are generated from the Linux kernel mainline tag v6.0.
-> 
-> This is the PATCH V7 and fixed kernel test robot compiler warning and 
-> addressed Lee Jones review comments.
+This patchset (rebased on v6.7-rc1 kernel version):
 
-(You have trailing white spaces in the above multi-line paragraphs.)
+- updates the mps,mp3309c.yaml dt bindings file:
+    - Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
 
-Sorry for the delay, but this series needs much more work before being
-considered for the inclusion. I just finished commenting each patch
-individually.
+- adds the related device driver to support the MPS MP3309C backlight chip.
+
+Note: about the first point, the mps,mp3309c.yaml file updating, there are
+      no compatibility problems with the previous version, since the
+      related device driver has not yet been included in any kernel.
+      Only this dt-binding yaml file is already included in the current
+      v6.7-rc1 kernel version.
+      No developer may have used it.
+
+Flavio Suligoi (2):
+  dt-bindings: backlight: mp3309c: remove two required properties
+  backlight: mp3309c: Add support for MPS MP3309C
+
+ .../bindings/leds/backlight/mps,mp3309c.yaml  |  10 +-
+ MAINTAINERS                                   |   7 +
+ drivers/video/backlight/Kconfig               |  11 +
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/mp3309c.c             | 443 ++++++++++++++++++
+ 5 files changed, 466 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/video/backlight/mp3309c.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+2.34.1
 
