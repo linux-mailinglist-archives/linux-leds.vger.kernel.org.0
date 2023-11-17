@@ -1,49 +1,61 @@
-Return-Path: <linux-leds+bounces-26-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-27-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F009B7EF30B
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Nov 2023 13:52:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBDA7EF30F
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Nov 2023 13:54:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98C891F28A17
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Nov 2023 12:52:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21CCB280F66
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Nov 2023 12:54:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9C130349;
-	Fri, 17 Nov 2023 12:52:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E89F33034C;
+	Fri, 17 Nov 2023 12:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XcSp1QDd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mg7fSaYX"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8AF30329;
-	Fri, 17 Nov 2023 12:52:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E6DC433C8;
-	Fri, 17 Nov 2023 12:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF074FC08;
+	Fri, 17 Nov 2023 12:54:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7672C433C7;
+	Fri, 17 Nov 2023 12:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700225544;
-	bh=kTLXCm1xShjyUDmWE4xeZjNHPRrRIIppOueUV0RDT2I=;
+	s=k20201202; t=1700225689;
+	bh=jgQc5Itelpk92zM45YpqFlo1y4VJI+dnHxsnMdw3FZY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XcSp1QDdxC/MQvr9Ne5zh/HBYwMHao3rWw7w5iZ/62Osy6Yq6N3WmoLOGpl3pmZNH
-	 ke/c7KKx4raoaT3Vf39v8PsqOAMc5y8vA1sNj/Fpe9tYUSPuWwS94/i02dj37+dK6E
-	 +n9QP9deZBDRotRAQ+N7pB5QMjqV3LocVqBnf5290nlHxXSW2VHsgNIUEdOzJFJ8XI
-	 eh04+VdZY6aytWKw8VrCWlXTUV6tkSJca9G8Ol3G0QxEhxAE7R5rmH7nQ/N5PGXOKg
-	 Mu/H4xZHOM8Qkhq1tx5e8IGTEggnSV7zvOq3YnIEWBeFFaENHiSSi8kjRzpH7CmFNx
-	 Z98hqHkgAs2wA==
-Date: Fri, 17 Nov 2023 12:52:19 +0000
+	b=Mg7fSaYXjkW0T93Lpe/n79IhrWlBC15Gxd2bhh9VEEQTsdCNzpOFxXBHZ9Mid9MJW
+	 uaZTpS/4fSrgMvOFG23qHmqv9SJ/UfOHoIu4EaC4U8esmvFCFcsH0fzhhjVPXehKcG
+	 PpW5zmsMlu9aSPBUhrg+7bhG7dt2wEjy1zCa7Hlt8Rh2G4rPy+m1Oy8+qgoXKrEb8j
+	 xr+0tpSZ4D7FYlBUygvGx0OKU8ccQKLVhTg7Cse9Yn7G9aaLpq8zhRBNHWMv9Xa1gk
+	 hKtgr78XHjGXL2+BQDh2uKxmRtxlIwf7WttNVWLMy03Mu/e2nmSIrcbafGiDjz/clC
+	 VWZTNDXKG4aSw==
+Date: Fri, 17 Nov 2023 12:54:41 +0000
 From: Lee Jones <lee@kernel.org>
-To: Shiji Yang <yangshiji66@outlook.com>
-Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh+dt@kernel.org>,
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: Samuel Holland <samuel@sholland.org>, Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Guo Ren <guoren@kernel.org>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jisheng Zhang <jszhang@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olliver Schinagl <oliver@schinagl.nl>
-Subject: Re: [PATCH v2 0/2] leds: add more LED color and function definitions
-Message-ID: <20231117125219.GB153049@google.com>
-References: <TYAP286MB0315D3014B329FE6B5873F76BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v7 2/5] leds: sun50i-a100: New driver for the A100
+ LED controller
+Message-ID: <20231117125441.GC153049@google.com>
+References: <20221231235541.13568-1-samuel@sholland.org>
+ <20221231235541.13568-3-samuel@sholland.org>
+ <c3ae7d79ab81621c66e939d804ca41e97eab79fb.camel@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -53,30 +65,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYAP286MB0315D3014B329FE6B5873F76BCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
+In-Reply-To: <c3ae7d79ab81621c66e939d804ca41e97eab79fb.camel@apitzsch.eu>
 
-On Tue, 31 Oct 2023, Shiji Yang wrote:
+On Thu, 19 Oct 2023, André Apitzsch wrote:
 
-> Hi!
+> Hi Samuel,
 > 
-> This series patches add the missing LED color definitions and
-> introduces two widely used LED functions "internet" and "rssi".
-> 
+> there are two more things to change, which came up recently. See below.
+
+Please remember to snip your replies.
+
 > Regards,
-> Shiji Yang
-> 
-> 
-> Changes in v2:
-> * Remove the LED name sorting patch as it changes the ABI
-> 
-> 
-> Shiji Yang (2):
->   leds: core: add missing LED color strings
->   dt-bindings: leds: add "internet" and "rssi" function definitions
+> André
 
-I don't see these patches attached to this cover letter.
-
-Did you send them all threaded? 
+[snipped 600+ lines]
 
 -- 
 Lee Jones [李琼斯]
