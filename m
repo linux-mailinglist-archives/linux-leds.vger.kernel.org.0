@@ -1,108 +1,97 @@
-Return-Path: <linux-leds+bounces-30-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-31-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EE37EFF82
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 13:32:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D23F87EFFAE
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 13:43:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC8BE1C20323
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 12:32:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A31C1F23095
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 12:43:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0CDF17C1;
-	Sat, 18 Nov 2023 12:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0DBA111B2;
+	Sat, 18 Nov 2023 12:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="k1NekQyW"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="QuEWURhh"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4FED61;
-	Sat, 18 Nov 2023 04:31:56 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150F4A2;
+	Sat, 18 Nov 2023 04:43:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700310696; x=1700915496; i=wahrenst@gmx.net;
-	bh=Z1OND/AiiDHMqRaOoZ7TJNhdG8OOj1E5sq3ErQeKSO0=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=k1NekQyWizA2ODr1KtmjCAGKbbLs1V4ug/lMHooAmxgUuOpEUAsrjekXYmKb21wC
-	 C8EAxesi36ldpP1OYOGBLZCrwwLvxn2t/X7cG1kEGLxTQWFQQWSFlcQtS2z9k2khl
-	 jSJ0oajxCaWYnQ80KZrtoadCxWsAZetmxcGlC/9YAJgewxmDAmwOvTo7gcBCDv6+x
-	 mnCsphtWhLscMhr41uThDeksq/gaY+f31TGjonCMuleN/1RCluUMVtn3GIaxPqCEx
-	 HBQc7P4rWjRCIiZqcT0FnalYqWYHeamE5FptGM0NhHmP7BPpSo69RFskl3d61oFTp
-	 BkhnPCpKohAzSrFi6w==
+	s=s31663417; t=1700311390; x=1700916190; i=wahrenst@gmx.net;
+	bh=eoy17ezwHzirLCmlfoGhUFFjmsZQ3ZrtrTWw+ETLhKM=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=QuEWURhh1fDeMaeUtp5TglP2UHp0Q50+J7MbVgliBYld9kBBYmEsxoCWo76piNL7
+	 7QAwHb0JYdsOtW1W3575+XhPmZVcM7Rh71H+IOq+av1A0c+tmmkcRsviDMmAQmhJL
+	 MjumaslBmPxuHgegeL6Pn4C2ndmH3wh0iwZ8TuI3xviHjNycupAiOCzCtLlYwo7Ks
+	 CfWDDI1M+IYt16imtbbHE6a734lQFgqiH2CKGJFXPIS4qu02hllkxeotxfP50QqzS
+	 cRHRry0zZZNXIMw9WTg5PIMADZ2CNewTpLrsrPek/ztjUBoNGx2j4qTIvEAmsm/mH
+	 hd2Gq+vWxQaowvLf0Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MdNY8-1rdOBc2fey-00ZMYB; Sat, 18
- Nov 2023 13:31:36 +0100
-Message-ID: <4233bd69-e5e4-49e9-96d9-b52492061ef8@gmx.net>
-Date: Sat, 18 Nov 2023 13:31:34 +0100
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTiPv-1quknz02QP-00U2XV; Sat, 18
+ Nov 2023 13:43:10 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 0/2] ARM: dts: bcm2711-rpi-400: Fix delete-node of led_act
+Date: Sat, 18 Nov 2023 13:42:50 +0100
+Message-Id: <20231118124252.14838-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] leds: gpio: Add kernel log if devm_fwnode_gpiod_get
- fails
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek
- <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
-References: <20231105154940.97688-1-wahrenst@gmx.net>
- <20231105154940.97688-2-wahrenst@gmx.net>
- <ZUjLuTPppvI9xlOD@smile.fi.intel.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <ZUjLuTPppvI9xlOD@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tj8WAVX5BKrSoeM5bVyEFlq5A0r+sg6RDDr6WZMNUQrbmFaAFZ0
- Km3Og5Z/Y3OSr/nJ/xsP/euHSlOhbVpAl2ln2rcxSCVaSm6dI9ZL5d+SyFj4hSCBNOb7dC7
- SlclEfIB9EVcjxo8VFKd7iu0otjtDV8DgdkbY/oS5hRS3bnSzb+5iJT43ViMbY9Yp7eUDj7
- Lhnhwv50aQp/Pgn2/cLhw==
-UI-OutboundReport: notjunk:1;M01:P0:Fm6udvCQFgU=;b2G1j5SlSd9ehNQWxfvbL+M+Dtb
- advx1UZUjtjRfxW90WZK/TYEg7OOqjUarYQ9WjNI3lVK62s6QvJ9zGQdwioRhY/K8WhrRyCrW
- WgRAbHH/IQX+/Q9O4/xu0Q9bnKy83/kQAHsWZch7fjc5PeRJsKIVwZlwr1UE/kMcW6p88idiA
- 3LORtsYrL24jbwgyMLQOzoE2AYVDx+IsXRgIYS7Gde4HClMUHn6PHMSOWuf0XIg8kudVnSUV5
- dUYzMt8ssQYcHQq1BWw0uqM4zBweeCk+MfmXvBblApu8G5LzXD6FSnyPalsais/hcXTvnf9Gn
- HDXfrzBPGR+T2l1mixPBoZqH++m/kcIiRrXRdI+clyIC4w0V8z6iLumfID6TgJWDizuUalowe
- /luYD9nE3Yp/d9PNw4TZGQSiwmfCi1ffUS4TmOZj85GUs27jProqYVBNhNkI2tbGL87CQ+lCk
- V4bn+3c5OQyTRL67vc3zC1e3eQF9LJFYe7h0NixBBGSQrhTLgOn6Q6SleP88fKWbj7BgEhgVc
- krQgnfL6JrgBJAUuyHUIg6ySbD8r3YoGiHGVv74uvGVhFuVTeWr7pKYO1Nk7lSddl6bV+/9zM
- ib3gHyK3i53lYlYPh95dr5rx09ykrfN7nX8aZ035OPX0QZqrkjJJ3rT3ZiUsZCK7jsfQMqM9l
- rysdIRZB1AY/ZwZmHcszMuq6320Ad/1ifwV6HoVhdeG7XWcrahAq1Nm7yADgLgvNEvX3J0/25
- 3T1JYzlCsUO4aBu1XXQRxmVjA8URY4Dh7i2ILkEOlruZwLqDLaXjUv4n6O4aX2RoS04/1HMlp
- K+h0KziDusgH7Vpm0X8cWiiMPaKz0pxSEq6vR0qp8dGbfw43+UX5P7QPz3uZX8z9t9j8TleYH
- B5GyTiTPb3WEp2klMwoPEdUUN1yu7MUqQoivcusBpQS9d2PtbmdX7vd2fJDGT4VRqR1gw6XEK
- bWdaM5t5hmBcwjndfsPy3dM4Pao=
+X-Provags-ID: V03:K1:iFKgKJtus0q2PlxYmUiMpiHp3Aa6enwSlfpEim+lkvAhOoGmPCD
+ LoKJKupqhuzNjxut1Sbv8TnCuiscie3SmrvZBXtYCrMO/d8yzOJHopyKKVuoXuZfFp+tPVR
+ qb3ANwvSOQOiPpHlkq558YD9L17HjfixjGImeVZ7BUyMxf7EIxLvoccaX4AdbS37bQNKEaY
+ isxH3oAJeisx2B3xGQVwA==
+UI-OutboundReport: notjunk:1;M01:P0:fQNLhEMCBKw=;6Ehkxg0MhHeZisto8EljTxQywS9
+ AITD2+hOZWigIFPQsHtZdUTIPPtAt3ou3STbtpDtUSicumHGZfV/ggOY/EuaJmczPt2SM4xX1
+ LhnmiabTQnMIaeaXAvV8yvzD8vrh9kR7gxS62PXx9tO4UnSoQRZyqzNjVera5pF7QWiF3eLp8
+ dsyBEBDsh1/gNHp8FeQySo1UZmLzRSdPohE0G4a5Nr7C+an4JUDiaLbdQS0GXpkoSMmcBYpY+
+ L14u+Ohl7G5GP3m/LbJfU0lbiy8Jx1fbkOAN38WVJ5npWAQKnbEsfNp936t9d+MYvZwJ8I0mI
+ nM48dUdNzvKU8pfP+4CffJAWHeJPynJgaviFoMvoSpBs1XUPDCm6x8vXr+QomCVsItgTh7MJ9
+ TQjrATzxe8fXxfGRBiIrKA+L8qA/3vfFkGdypKBbvzHKwpRF2JeYMxqgFeJxRQoYfU0TKN6JV
+ 6J2o+DxlenlYQ950Tlj524O3Jwz/CGBCmbKd26uUzNfQ9Eg0MDVSCAETwi8gibMa3CkhFpgS0
+ 37U9jhGJlkypY90warjlkNO0pdCcMuk+EaeIe+kXnGCUyq8qiamsT52HXjjPFxwh3jOD4HWfA
+ pw1q1R8LAMiPqj+D5BlfRUjHsqUhzJOweVBN4jVOKPEuGNf5b1HsxPFoCaVZkj+9zL3OxWKME
+ 1y2/YWGSAN35dCS00s5PnE/SdM0lKsbM2Pxpo9k1lTa0T3BAjyww5fy0XPT/L+klhB4GNOvGm
+ e+yPI3sf0EjKDyRCKvQoGfOa/4gKgSNP0G3h4mZBQqRRbZELpj9vnaf4ExaitATj8gh/inUcj
+ 4TaNHbGTGULhfvTV1+A+yIPYp4tXc/oPkVlvdKc4i0XgX6e+/YRfvaGVnbGYgNXxjlVsACqHM
+ NtnEj3jWl6obLb3LV28AqNwfhjaG9NVzNFIdQtxtWXJ4Oug0fQxwgXui7R87UES+xjYNoWzjQ
+ d7Q8gA==
 
-Hi Andy,
+This series fixes the probing of leds-gpio on the Raspberry Pi 400.
+Also try to improve the error logging of leds-gpio.
 
-Am 06.11.23 um 12:19 schrieb Andy Shevchenko:
-> On Sun, Nov 05, 2023 at 04:49:39PM +0100, Stefan Wahren wrote:
->> In case leds-gpio fails to get the GPIO from the DT (e.g. the GPIO is
->> already requested) the driver doesn't provide any helpful error log:
->>
->>      leds-gpio: probe of leds failed with error -16
->>
->> So add a new error log in case devm_fwnode_gpiod_get() fails.
-> ...
->
->>   		led.gpiod =3D devm_fwnode_gpiod_get(dev, child, NULL, GPIOD_ASIS,
->>   						  NULL);
->>   		if (IS_ERR(led.gpiod)) {
->> +			dev_err(dev, "Failed to get gpio '%pfw': %ld\n",
->> +				child, PTR_ERR(led.gpiod));
-> Perhaps %pe ?
-i notice that i need to use dev_err_probe because of EPROBE_DEFER
-anyway. So i will drop the second parameter in the next version.
->
->>   			fwnode_handle_put(child);
->>   			return ERR_CAST(led.gpiod);
->>   		}
+Changes in V2:
+- replace dev_err with dev_err_probe in patch 1 to handle EPROBE_DEFER
+  properly
+
+Stefan Wahren (2):
+  leds: gpio: Add kernel log if devm_fwnode_gpiod_get fails
+  ARM: dts: bcm2711-rpi-400: Fix delete-node of led_act
+
+ arch/arm/boot/dts/broadcom/bcm2711-rpi-400.dts | 4 +---
+ drivers/leds/leds-gpio.c                       | 2 ++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+=2D-
+2.34.1
 
 
