@@ -1,163 +1,108 @@
-Return-Path: <linux-leds+bounces-29-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-30-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A847EFD74
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 04:36:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EE37EFF82
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 13:32:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 038F41C208FA
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 03:36:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC8BE1C20323
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 12:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1FF1C32;
-	Sat, 18 Nov 2023 03:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0CDF17C1;
+	Sat, 18 Nov 2023 12:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="uvlFMF+J"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="k1NekQyW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2055.outbound.protection.outlook.com [40.92.99.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E49E0;
-	Fri, 17 Nov 2023 19:36:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TBVyy7FK0waDOmE0QnmtwG7Rx9UXkOp17f9/a/OEX+arH0lFJ0nPe0ciFF7l/1sazA9+wAjYANlK+9jtOpt6J9lqHHr9CRtEeiqAzTSnMKj1nBmzmAoY/rr5xluxZ4otz/QGBLl5qTw17Cn6eSPp2Qkb617zUnsrXfRP1YWtI5eIu62BTobNxjjNQOtxaF88W4XrmRWoSTzYU+8EPkr1WJAAlzO8gW1h2g0fxgQIJcvjCKh3rmGJND2eZYh3obdILfm2gejALdQp+m5t7gT4hzT2S7Q2xAihUSSItTQWTi7uqk01gGTFihIQib8Qltsq5w5EYFHnjLaO17INxInJLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xbTJTqeR4IQH8jOE/fboA9WsMoMQ1UdKMiKkprcx+Vw=;
- b=fhgLCZrQJHX7vUiDTM8xb4iy34Uic12CZxciAN5JCgBFnjXbo+T4/XDO926sskEH099Gy7LAjCwzyMa36wt2vcPyA9wpggMJPcVCmsrXD7TXkyjSd5cwTMSxn1xYV9p6Ia5VujfmtcFYy7d9SOuxsu1FTowhokrY6qGgzZn3yAIYPGkLn/B7oUxy5sdcvrc5Fq7W6JqvsuZiJv9NcU1ya5tgq/L7a8ujwSrJKX6qiJnm+hJiwPadFU1BrvxxR1LN702jUtrpcaVsQ/pWP96hwgROH+0KghrUDwsqhcX4Y8sZIhEzizAIK75Z6G/wePvnXboSLs2GzNk/gc1N9MrOaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xbTJTqeR4IQH8jOE/fboA9WsMoMQ1UdKMiKkprcx+Vw=;
- b=uvlFMF+J8vkqV2uRO2BSeU1Tn49qwNnQuiCwNRd0nSZeuVPDvwnv2/GSotZ0EJqK4EkHTf2f4HhKpw3AzATT+kyloo55X9TbAVVI6nBpI4AfonuRvERpyzpiPD9SbzBjuBE0CI6o+TFGlNsBqylBfKqJdNJFVmMZZNo94fzSWwPQ/qKOoof+TPONlefsZTe235ZX1xipIsnHkRgz0y/Y72pkUmAD/nmBYsig8eGBSpDFZ6ftz8/ARCFzrH2WwpRxKIXQrw7zrie6xzvGLw79j2w5bUoyTnXyr4sjb9Uvp+q8YqSP/woCKDCGKnU61NMMAk6aeZ9qFi1cuGAB/vD6NA==
-Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:8041::8)
- by TY3P286MB2499.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:228::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.25; Sat, 18 Nov
- 2023 03:36:04 +0000
-Received: from TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- ([fe80::b840:5197:9b15:ea2d]) by TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- ([fe80::b840:5197:9b15:ea2d%6]) with mapi id 15.20.7002.025; Sat, 18 Nov 2023
- 03:36:04 +0000
-From: Shiji Yang <yangshiji66@outlook.com>
-To: lee@kernel.org
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	oliver@schinagl.nl,
-	pavel@ucw.cz,
-	robh+dt@kernel.org
-Subject: Re: [PATCH v2 0/2] leds: add more LED color and function definitions
-Date: Sat, 18 Nov 2023 11:35:50 +0800
-Message-ID:
- <TYAP286MB03150903EBA3D5C4CE570952BCB6A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231117125219.GB153049@google.com>
-References: <20231117125219.GB153049@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TMN: [OF0diryouMZ8k2scxnIgjzv3OkdWVlqc]
-X-ClientProxiedBy: TYCP301CA0060.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:384::9) To TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:8041::8)
-X-Microsoft-Original-Message-ID:
- <20231118033550.1064-1-yangshiji66@outlook.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4FED61;
+	Sat, 18 Nov 2023 04:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700310696; x=1700915496; i=wahrenst@gmx.net;
+	bh=Z1OND/AiiDHMqRaOoZ7TJNhdG8OOj1E5sq3ErQeKSO0=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=k1NekQyWizA2ODr1KtmjCAGKbbLs1V4ug/lMHooAmxgUuOpEUAsrjekXYmKb21wC
+	 C8EAxesi36ldpP1OYOGBLZCrwwLvxn2t/X7cG1kEGLxTQWFQQWSFlcQtS2z9k2khl
+	 jSJ0oajxCaWYnQ80KZrtoadCxWsAZetmxcGlC/9YAJgewxmDAmwOvTo7gcBCDv6+x
+	 mnCsphtWhLscMhr41uThDeksq/gaY+f31TGjonCMuleN/1RCluUMVtn3GIaxPqCEx
+	 HBQc7P4rWjRCIiZqcT0FnalYqWYHeamE5FptGM0NhHmP7BPpSo69RFskl3d61oFTp
+	 BkhnPCpKohAzSrFi6w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MdNY8-1rdOBc2fey-00ZMYB; Sat, 18
+ Nov 2023 13:31:36 +0100
+Message-ID: <4233bd69-e5e4-49e9-96d9-b52492061ef8@gmx.net>
+Date: Sat, 18 Nov 2023 13:31:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYAP286MB0315:EE_|TY3P286MB2499:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3359615-52c7-4e0d-9600-08dbe7e77dd6
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	w7k8+ybFieIRYEVzj4TxJ80h7AKTTXYa5bPBpWHVCQQQAFSdEjrcFBQ364cIFt8M6EI2hGiPUDQg0RaPS5mZqxPXMML91BHURALOyOgWgE5wEe5vtYaDy/n2Yyz9MPXZZayj0VBPGc+yQ495XJCRvWfzbGcEP3z9CUg+/PFcZY5VfF5gRqaDGtJ1e6ZiKvBloVDicPawu63tTeTElETkb0En2nMxS1lNY5GtnhEKVbRz/dPw89rSuGSU04LvYJI9HT6eR5bDOvG/L/2/i/7AnPqyZoDhWSRCoWaf/omK1IxvA0PzskMaXONxDQOe3In+9yzHOin1xqS++SqC7qzIIajydfRk39S8U88ZK3C/tY0yy4pDUib5e1ww4lUKm1aC77cXyj72GZNuTpyt0KaQDL0XdriaPM3dHK0ytx1RvGcb149l5FNSGo4G+lMB92NsX7u9dD+Lwp6qoR/i9amF55HzL8eTXGUESuvBzNrqEbQXt0bBUXW3cVG7LQjkMbzgv4rhe04kV7ze+c6OxPPF898Lyk40jcUjVrBQinFPUh1JOLOO1llz6Z3k/CR7XmIB6PEaqVjt0QXHdFD9HUx4WA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YXFsYXA3R2RpL3cvQlRCbWhoTGo0c3lENFlWcWNpcDVVdnBYSFRrUzFpQmN2?=
- =?utf-8?B?Vk5QSkIxL2MvMXBjcnR0UlA4Q1ZyTW40dUVQcmV2Z1ZMS1ZHa0JNWU1GOFNj?=
- =?utf-8?B?ampEeWJCU2lHd3F5cTdtZ2w5Yk14NklBRlVQS3p1Si9UVm1lNjhtbktpWXNl?=
- =?utf-8?B?OWdEMVJ3ZndYMVpqSlF3U3F4enl0OWZKa2tzUGtYZ3c3UUc4c2xtZ3MzNXdL?=
- =?utf-8?B?clhTeHFXVE15UmYzQnA2azVXTGVPcjh4eXpURDdDUHdabm9GRTE1RjZvY1c5?=
- =?utf-8?B?djdGQ1I4bWNSc0JMRmEzVkFUaElFRUE0d1gySHNUWXVmYk1CRXhBVTJ5UHlV?=
- =?utf-8?B?UFVhWXlPOCt6MnV2S2tmUUM3dEtLMmdtUHJ1dzM2aytzcno5V1hSTGp2Z2ha?=
- =?utf-8?B?SnpOVzZaMFZzYzVvMDBWclRFbHQremYrSC95eVdENXZSS3BvZTlDckRQUkpU?=
- =?utf-8?B?VGlTVkg2ek01U2ZOTldXMUkyZXgrMDFwSnJtbTcvbHgvTks1cnUrRWFNcnJE?=
- =?utf-8?B?anBmaU4yWnJ2MjFuOTF2V0twMm8rNCtLRjBsd3RKWWxKVWxYMDZaVVlhT0ln?=
- =?utf-8?B?ckhhNEVzR2VQdk5wT05MY1VWa2J2SUF4Z0g1QkdtR2wralkxV0VWb1NXWVJ1?=
- =?utf-8?B?UUpjbkZjL0w0bW5nWDExVGRTUU01WUNQcnF1eFczODBTcnVsRWZYRzNRYUN6?=
- =?utf-8?B?Rkk5S2NhcFpRMjRucTI5aHNqQ0xlcjJpY0VleDZoWHNPN3NpMVRaQ0pBR3JC?=
- =?utf-8?B?TkVMQVI2bnRnOGRHVkVOTXZYTURtbTBVTWpjbWFWb1lTV0Uxem00ME5XdnBv?=
- =?utf-8?B?U3pJWXFWR3ZWSHlXL2hYVy9VWXQ3dmt5cHhNeVkwbjJIN29neFJENzdLUFRr?=
- =?utf-8?B?bTNmQU5zVkpjclZGL0Rvam1BRnd1KzZjUHhlVVlYVFRrN2IyNVZqbU5WUXV1?=
- =?utf-8?B?WjFPRnE0dWdSNFpodVh5YndsVytmVDhBc2V4cFRSYUt5b3ByWDN2TnVlVE5F?=
- =?utf-8?B?R1dEc0RCOURaQzdiRGo1QU10dHpIckZHVTYxN1RUZTR1UlN3aThlSVpiYVI0?=
- =?utf-8?B?QTYvdldLeXg3YkZFSW5aWERTWTRuWVNsbXNrbEdGTE8xUFduNkNDMlZIYUdj?=
- =?utf-8?B?T2tWb05lSVhsTzhtbHdRM0JPRGYya0NCYmZ5Ulp1SjlSTEM1THYyMnRaTi9Z?=
- =?utf-8?B?d0tLT2d5VFZPUW9VSVFsdmJUTmNxK29XbEFOQkVrMXpiVExNdWRwYTZ1VHRF?=
- =?utf-8?B?MmROckk2R3RZOXR5Q2dMbEZoNmVGeDJaRW9KOHlRb0ZrODFCVHZjNlFtdDk3?=
- =?utf-8?B?b0c2Z3BmK25jQWhvVEc2ZzZFeno3S2tCVWFUV01SUGdkckNUcFZUNmpBeGNj?=
- =?utf-8?B?T2RrYjdCYjFkdnNwR1U2UnJVQ0tGMXBJcUhWbmNLUE5uUGxpRWVtRit3UDB3?=
- =?utf-8?B?elptRkw0bWhNR3BRKzhLaW5zaE15S29ZT2MrVXFTVi9VMlQxSTM2a0h6YXRs?=
- =?utf-8?B?UHNLTlUzYXJEVFZBRThGWTFkcW5LL3Z0SUpFQ29iOUMwTHlxemZ2ZjZmTjRi?=
- =?utf-8?B?OG5rMnNrejBzMFA4WHhhMlA1VEN1Q21LcXJWc1JMSkF0TlN0cU00K2JwNWxM?=
- =?utf-8?Q?x8O0Yg/CCnnthQtYGI6hnJyOcJJs75p57TR5jbpL5JMw=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3359615-52c7-4e0d-9600-08dbe7e77dd6
-X-MS-Exchange-CrossTenant-AuthSource: TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2023 03:36:04.4312
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3P286MB2499
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] leds: gpio: Add kernel log if devm_fwnode_gpiod_get
+ fails
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek
+ <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+References: <20231105154940.97688-1-wahrenst@gmx.net>
+ <20231105154940.97688-2-wahrenst@gmx.net>
+ <ZUjLuTPppvI9xlOD@smile.fi.intel.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <ZUjLuTPppvI9xlOD@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tj8WAVX5BKrSoeM5bVyEFlq5A0r+sg6RDDr6WZMNUQrbmFaAFZ0
+ Km3Og5Z/Y3OSr/nJ/xsP/euHSlOhbVpAl2ln2rcxSCVaSm6dI9ZL5d+SyFj4hSCBNOb7dC7
+ SlclEfIB9EVcjxo8VFKd7iu0otjtDV8DgdkbY/oS5hRS3bnSzb+5iJT43ViMbY9Yp7eUDj7
+ Lhnhwv50aQp/Pgn2/cLhw==
+UI-OutboundReport: notjunk:1;M01:P0:Fm6udvCQFgU=;b2G1j5SlSd9ehNQWxfvbL+M+Dtb
+ advx1UZUjtjRfxW90WZK/TYEg7OOqjUarYQ9WjNI3lVK62s6QvJ9zGQdwioRhY/K8WhrRyCrW
+ WgRAbHH/IQX+/Q9O4/xu0Q9bnKy83/kQAHsWZch7fjc5PeRJsKIVwZlwr1UE/kMcW6p88idiA
+ 3LORtsYrL24jbwgyMLQOzoE2AYVDx+IsXRgIYS7Gde4HClMUHn6PHMSOWuf0XIg8kudVnSUV5
+ dUYzMt8ssQYcHQq1BWw0uqM4zBweeCk+MfmXvBblApu8G5LzXD6FSnyPalsais/hcXTvnf9Gn
+ HDXfrzBPGR+T2l1mixPBoZqH++m/kcIiRrXRdI+clyIC4w0V8z6iLumfID6TgJWDizuUalowe
+ /luYD9nE3Yp/d9PNw4TZGQSiwmfCi1ffUS4TmOZj85GUs27jProqYVBNhNkI2tbGL87CQ+lCk
+ V4bn+3c5OQyTRL67vc3zC1e3eQF9LJFYe7h0NixBBGSQrhTLgOn6Q6SleP88fKWbj7BgEhgVc
+ krQgnfL6JrgBJAUuyHUIg6ySbD8r3YoGiHGVv74uvGVhFuVTeWr7pKYO1Nk7lSddl6bV+/9zM
+ ib3gHyK3i53lYlYPh95dr5rx09ykrfN7nX8aZ035OPX0QZqrkjJJ3rT3ZiUsZCK7jsfQMqM9l
+ rysdIRZB1AY/ZwZmHcszMuq6320Ad/1ifwV6HoVhdeG7XWcrahAq1Nm7yADgLgvNEvX3J0/25
+ 3T1JYzlCsUO4aBu1XXQRxmVjA8URY4Dh7i2ILkEOlruZwLqDLaXjUv4n6O4aX2RoS04/1HMlp
+ K+h0KziDusgH7Vpm0X8cWiiMPaKz0pxSEq6vR0qp8dGbfw43+UX5P7QPz3uZX8z9t9j8TleYH
+ B5GyTiTPb3WEp2klMwoPEdUUN1yu7MUqQoivcusBpQS9d2PtbmdX7vd2fJDGT4VRqR1gw6XEK
+ bWdaM5t5hmBcwjndfsPy3dM4Pao=
 
-On Fri, 17 Nov 2023 12:52:19 +0000, Lee Jones wrote:
+Hi Andy,
 
->On Tue, 31 Oct 2023, Shiji Yang wrote:
+Am 06.11.23 um 12:19 schrieb Andy Shevchenko:
+> On Sun, Nov 05, 2023 at 04:49:39PM +0100, Stefan Wahren wrote:
+>> In case leds-gpio fails to get the GPIO from the DT (e.g. the GPIO is
+>> already requested) the driver doesn't provide any helpful error log:
+>>
+>>      leds-gpio: probe of leds failed with error -16
+>>
+>> So add a new error log in case devm_fwnode_gpiod_get() fails.
+> ...
 >
->> Hi!
->> 
->> This series patches add the missing LED color definitions and
->> introduces two widely used LED functions "internet" and "rssi".
->> 
->> Regards,
->> Shiji Yang
->> 
->> 
->> Changes in v2:
->> * Remove the LED name sorting patch as it changes the ABI
->> 
->> 
->> Shiji Yang (2):
->>   leds: core: add missing LED color strings
->>   dt-bindings: leds: add "internet" and "rssi" function definitions
+>>   		led.gpiod =3D devm_fwnode_gpiod_get(dev, child, NULL, GPIOD_ASIS,
+>>   						  NULL);
+>>   		if (IS_ERR(led.gpiod)) {
+>> +			dev_err(dev, "Failed to get gpio '%pfw': %ld\n",
+>> +				child, PTR_ERR(led.gpiod));
+> Perhaps %pe ?
+i notice that i need to use dev_err_probe because of EPROBE_DEFER
+anyway. So i will drop the second parameter in the next version.
 >
->I don't see these patches attached to this cover letter.
->
->Did you send them all threaded? 
->
->-- 
->Lee Jones [李琼斯]
+>>   			fwnode_handle_put(child);
+>>   			return ERR_CAST(led.gpiod);
+>>   		}
 
-Hi!
-Thanks for your review. Please ignore this patch. My git-email
-tool has some issues, so they have been separated[1]. The final
-v4 patch[2] has been sent some days ago.
-
-[1] https://lore.kernel.org/all/TYAP286MB03159A83A77E6FD59F271D9BBCA0A@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM/
-
-[2] https://lore.kernel.org/all/TYAP286MB0315F4D71698370875F58F6EBCAAA@TYAP286MB0315.JPNP286.PROD.OUTLOOK.COM/
-
-Regards,
-Shiji Yang
 
