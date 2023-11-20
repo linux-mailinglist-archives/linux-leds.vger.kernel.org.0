@@ -1,47 +1,60 @@
-Return-Path: <linux-leds+bounces-38-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-39-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5437F0CC3
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 08:21:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6FB7F0F7E
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 10:54:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 804DF1F20172
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 07:21:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC5D2B20E82
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 09:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18B556D19;
-	Mon, 20 Nov 2023 07:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4185125A3;
+	Mon, 20 Nov 2023 09:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DCJJT29/"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58277AF;
-	Sun, 19 Nov 2023 23:21:49 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso11722215e9.0;
-        Sun, 19 Nov 2023 23:21:49 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5210E8F;
+	Mon, 20 Nov 2023 01:54:23 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5437d60fb7aso6035033a12.3;
+        Mon, 20 Nov 2023 01:54:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700474062; x=1701078862; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jnKZPVZkihbfdrjYZZkQUUXQViuJYGgLH4ey0uofMfs=;
+        b=DCJJT29/fTSYe6ukRFjhEZVxuRmTKOGtAYbTAIJGzK2QXBZ79tl1YF5Hwl55ZiMAdZ
+         N0oHzGGYM62T5mkVHnc/aAzJEH0KcLyQgkwF2PDuHxenFQbU4XQWTHlS6h/tamhVHZ5S
+         jZj6r6rVOoTnb82FBJqribsaEVerTnbfAgs+H8SF5bnfRJHm24Q00hzhJNxLiDrfTL+T
+         exhI10gdSxZkyYBg/6QlSnSoaI840OajI5fHhorzoIEIthw0mt0K98GyGv41lvZABEm7
+         UpRZcZNFZ9rabC3ncyIletasUIbAsOjFcTADXU1GehKSwOgfWMV8Jv3Q7z8yJAD/9OXu
+         cAIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700464908; x=1701069708;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JRoAuF0BEEns2f3l7pX09rmBkVI9L6aai29xONWHIFI=;
-        b=jfdzDZthrv6HEB9sCLLFG3EUAp/yBQ1fd+kJqQRJiyGY9ftVmzKbHvUVsDyk44zerN
-         rPwSo4bKnTqKULSDomQqegpSMaci+0htb4+2XVD7ARS/xg5qrqzVMiBXps3LJHCz6wAS
-         pgNT4vJHCAO5tqHZOh3BTyPU4N8+vFvnbPnDRXt+lWIk0W7Vj6N9qd2SJTirmizKiywX
-         HEpCSsqly2En3TCBbhgBH/RzvIpa77ykOwUYHa1gFqfDF+04N04QI3Kg7OiYBlhST7bi
-         oKeEU3IIgnlbxrmjDcf1GVn1/rAERDm01cX+ABs8WgpYwGWSuRWP7rFn6qi8aLQtSR/B
-         QZPw==
-X-Gm-Message-State: AOJu0YzNmOcYUpGYYtimG3wM7Hjs8/PqIRpRL/A8tQYqBXgXAC6qYkix
-	yS4oBkY8Xo5dVMQCRJo7QDw=
-X-Google-Smtp-Source: AGHT+IF/J4ak+jkNv9ANmitPbaWRMtr8DnBvjQgaAzm7VLrlD5GiSLgCL4r/m46eTLBTV9kEDHaivA==
-X-Received: by 2002:a05:600c:444d:b0:409:79cb:81a3 with SMTP id v13-20020a05600c444d00b0040979cb81a3mr4721127wmn.30.1700464907661;
-        Sun, 19 Nov 2023 23:21:47 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id f6-20020a7bcd06000000b0040a463cf09dsm16531151wmj.33.2023.11.19.23.21.46
+        d=1e100.net; s=20230601; t=1700474062; x=1701078862;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jnKZPVZkihbfdrjYZZkQUUXQViuJYGgLH4ey0uofMfs=;
+        b=WEJEANTnsnG4cwtXmSpa4Ey8NTY7qjHPqGS9Sk4Uptsb/Tf4n+GIOcyppGfzjFVwwS
+         HafbVB2wQGfSgRFXVEN7kz2YOdbt7o0R/YcHOq7+MPfcQsMSkRd0AxLFs3v5Mvx6nQcL
+         lGLLDbbN/plOeg9vXNYSz/wdN0TZwMo+31P3E+AElOcg8Y74LEWP3ksoaHH1tr+pSmM5
+         xoKsX8V/vikhEdGCIMhu0QMfAxKfIxOadf1xyoaRYfz0Nl6cqRPGnsQYL+11zv/CrSun
+         dwX5NGTaCt5XqOQ0nq8jFB855+Ole6Rqc0d4jBPdQnIiwEyB2pU4IgcY45hloURTQwla
+         hXYA==
+X-Gm-Message-State: AOJu0Yx1++GV3fQIDK5ZwlkOYDhYpduHwSVFO4QrugNEpQ8XNPA1v1r4
+	6nmQJ92dmySIDz9oHvPeB8ZR9xQgnVo=
+X-Google-Smtp-Source: AGHT+IGw02Iq9CEHeeW39wXYFzPVHOLvpJrRVA9VxXKbm9YiceFQvoV7g4qdsoyG3n5moEiXuNySaA==
+X-Received: by 2002:a05:6402:1650:b0:544:57c8:ccc3 with SMTP id s16-20020a056402165000b0054457c8ccc3mr6203584edx.1.1700474061571;
+        Mon, 20 Nov 2023 01:54:21 -0800 (PST)
+Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.googlemail.com with ESMTPSA id w14-20020aa7dcce000000b0053e2a64b5f8sm3402136edu.14.2023.11.20.01.54.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Nov 2023 23:21:47 -0800 (PST)
-Message-ID: <1b89d7df-2511-4b3e-ab35-071734fb413c@kernel.org>
-Date: Mon, 20 Nov 2023 08:21:46 +0100
+        Mon, 20 Nov 2023 01:54:20 -0800 (PST)
+Message-ID: <ee912a89-4fd7-43c3-a79b-16659a035fe1@gmail.com>
+Date: Mon, 20 Nov 2023 10:54:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -49,112 +62,57 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v8 1/6] tty: add new helper function tty_get_tiocm
 Content-Language: en-US
-To: Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
- gregkh@linuxfoundation.org, pavel@ucw.cz, lee@kernel.org, kabel@kernel.org,
- u.kleine-koenig@pengutronix.de, m.brock@vanmierlo.com
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20231109085038.371977-1-fe@dev.tdt.de>
- <20231109085038.371977-2-fe@dev.tdt.de>
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20231109085038.371977-2-fe@dev.tdt.de>
+To: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Cc: "openwrt-devel@lists.openwrt.org" <openwrt-devel@lists.openwrt.org>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Subject: Describing LEDs roles in device tree?
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 09. 11. 23, 9:50, Florian Eckert wrote:
-> There is no in-kernel function to get the status register of a tty device
-> like the TIOCMGET ioctl returns to userspace. Create a new function,
-> tty_get_tiocm(), to obtain the status register that other portions of the
-> kernel can call if they need this information, and move the existing
-> internal tty_tiocmget() function to use this interface.
-> 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> ---
->   drivers/tty/tty_io.c | 28 ++++++++++++++++++++++------
->   include/linux/tty.h  |  1 +
->   2 files changed, 23 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-> index 06414e43e0b5..e2e93404133e 100644
-> --- a/drivers/tty/tty_io.c
-> +++ b/drivers/tty/tty_io.c
-> @@ -2498,6 +2498,24 @@ static int send_break(struct tty_struct *tty, unsigned int duration)
->   	return retval;
->   }
->   
-> +/**
-> + * tty_get_tiocm - get tiocm status register
-> + * @tty: tty device
-> + *
-> + * Obtain the modem status bits from the tty driver if the feature
-> + * is supported.
-> + */
-> +int tty_get_tiocm(struct tty_struct *tty)
-> +{
-> +	int retval = -ENOTTY;
-> +
-> +	if (tty->ops->tiocmget)
-> +		retval = tty->ops->tiocmget(tty);
-> +
-> +	return retval;
+Hi!
 
-Why not simply:
-{
-  if (tty->ops->tiocmget)
-     return tty->ops->tiocmget(tty);
+Our current binding Documentation/devicetree/bindings/leds/common.yaml
+allows describing some generic LED parameters. Most common are color and
+function.
 
-  return -ENOTTY;
-}
-?
+Now, many systems will want further & more specialized description of
+LEDs. Most common roles I can think of:
+1. System is booting
+2. System is running
+3. System's failure
 
-thanks,
+For kernel usage role we actually have a "panic-indicator" property.
+
+Are those extra roles something we could put in DT?
+
+Please note that "function" on its own is not sufficient as multiple
+LEDs my share the same function name but its meaning may vary depending
+on color.
+
+OpenWrt developers started (ab?)using aliases in downstream/modified DT
+files for such purposes. Example:
+
+aliases {
+	led-boot = &led_status_blue;
+	led-running = &led_status_green;
+	led-failsafe = &led_status_red;
+};
+
+Above could work with some adjustments but I'm not sure if it's
+acceptable for upstream binding. Also what if OpenWrt wants to define
+different roles than another project? Prefixes?
+
+With Linux a problem is also a lack of mapping between
+/proc/device-tree/leds/*
+and
+/sys/class/leds/*
+With "label" present its simple but some guessing logic is needed for
+function + color properties (it's actually missing in OpenWrt right now)
+
+Any suggestions for DT-based solution?
+
 -- 
-js
-suse labs
-
+Rafał Miłecki
 
