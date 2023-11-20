@@ -1,96 +1,133 @@
-Return-Path: <linux-leds+bounces-36-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-37-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526307F0140
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 17:58:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595927F0CC1
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 08:21:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0517B209D3
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Nov 2023 16:58:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A8001C20BEB
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 07:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13BD5168AA;
-	Sat, 18 Nov 2023 16:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyHHTfN8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F7B6D18;
+	Mon, 20 Nov 2023 07:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E904E5;
-	Sat, 18 Nov 2023 08:58:32 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-d9ca471cf3aso2890272276.2;
-        Sat, 18 Nov 2023 08:58:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700326711; x=1700931511; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s+puumHBwG15d9J6rc0y92l94G1vv6CAlOkN6zqMuV0=;
-        b=OyHHTfN8OWCfVHTs3YJzi+i1odxmjrMdY+RIhzxNdrJwC2V2/qFaYl7GJ2MRXM8w+R
-         8UoUivcBOhVLsG26KadiRR9OF1SRRfJXrLBiIvCR1TnrxD503gRJhVR6BzsA7gl73sLa
-         jCpwYuqT6rjkJuw9wMaE5POFJ/UptMjwxJcGqQzlwGKNAAEZUQQhCZlCVgf4pv1fkJ8o
-         SXQntDUx4t5wOcTCKwHeQqoe3n7+s/m/SZgRcvG3+/9MMb/HHlHUZ1+ObBBWtB5P0vcA
-         /dWEj4vIgQp4crj7nU9N0eViRgLoGz7wPC+j+AYsjUfb65dNLPClcuZ6GBKAtXZTXKZ0
-         7IgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700326711; x=1700931511;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s+puumHBwG15d9J6rc0y92l94G1vv6CAlOkN6zqMuV0=;
-        b=T7pODJQ0eDykD25pVybO8Y23TFgijDqvTHgDTg3Wxyp5anr5LAN6xBLSz/RF9Y7aJT
-         kwIXaMQDR6hoJJ7xeZNVLytWVdaj+PoAjwraM0nJHVEJ51VRoWdR1eaIGzwApGgAxIAQ
-         bSIY+ylZa2kvFwNsTaXOoVrJHjQZKfujExSye20KxgFFcKP56NW5Iqsikisg+32WwmbP
-         loxQOLGeW0Is8p1RYOncThLJbaoaeLAxLZ6tJPsFq9LBMlA72BVF2OgJMj4gLIODsPK9
-         RQOfteANGgaSdhJplMP9s3XASTbEsDC8FEQqaEhrCFsFDLBkeX8Qf3zNoXBOmC46oJ/L
-         vhMQ==
-X-Gm-Message-State: AOJu0YwOU4Y7BqzMhipM/oF7SVHCJHcNjfUPyYxUCfKpGxaQRbIsjMwr
-	nJVeFILekce/HE53IAxgM5VVjU1BcQ/8wrRFFek=
-X-Google-Smtp-Source: AGHT+IEiHHassuObi4T4IbCqGNK6bxkEISXFCSXcgm/rvOZinGs4+1EcvnBaloGDhAB8ee7sFndHInenrYwiqxcNN2M=
-X-Received: by 2002:a25:dbc5:0:b0:db0:2f97:8757 with SMTP id
- g188-20020a25dbc5000000b00db02f978757mr2705194ybf.38.1700326711409; Sat, 18
- Nov 2023 08:58:31 -0800 (PST)
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0AAEB7;
+	Sun, 19 Nov 2023 23:21:47 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+	by relay.expurgate.net with smtp (Exim 4.92)
+	(envelope-from <prvs=07029f9a86=fe@dev.tdt.de>)
+	id 1r4yb6-001fYR-Uf; Mon, 20 Nov 2023 08:21:33 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+	by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <fe@dev.tdt.de>)
+	id 1r4yb2-00BiJA-Sa; Mon, 20 Nov 2023 08:21:28 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+	by securemail.tdt.de (Postfix) with ESMTP id 7E926240049;
+	Mon, 20 Nov 2023 08:21:28 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+	by securemail.tdt.de (Postfix) with ESMTP id CED55240040;
+	Mon, 20 Nov 2023 08:21:27 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+	by mail.dev.tdt.de (Postfix) with ESMTP id 45E06224A7;
+	Mon, 20 Nov 2023 08:21:27 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231101142445.8753-1-ddrokosov@salutedevices.com>
-In-Reply-To: <20231101142445.8753-1-ddrokosov@salutedevices.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 18 Nov 2023 18:57:55 +0200
-Message-ID: <CAHp75Vffji=WH8_vTwrvhmPqwD=NjqHB2B83dSk0axSWM9vTnA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/11] leds: aw200xx: several driver updates
-To: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc: lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, kernel@sberdevices.ru, 
-	rockosov@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 20 Nov 2023 08:21:27 +0100
+From: Florian Eckert <fe@dev.tdt.de>
+To: Lee Jones <lee@kernel.org>
+Cc: m.brock@vanmierlo.com, Eckert.Florian@googlemail.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+ kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [Patch v8 6/6] leds: ledtrig-tty: add additional line state
+ evaluation
+In-Reply-To: <20231117121253.GB137434@google.com>
+References: <20231109085038.371977-1-fe@dev.tdt.de>
+ <20231109085038.371977-7-fe@dev.tdt.de>
+ <39e7c892299c74821b1105a0967063ca@vanmierlo.com>
+ <20231117121253.GB137434@google.com>
+Message-ID: <bc369f8759778c2c3b8be3a5d755064a@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+X-purgate: clean
+X-purgate-ID: 151534::1700464889-65B24C7C-62AFF1E2/0/0
+X-purgate-type: clean
 
-On Wed, Nov 1, 2023 at 4:24=E2=80=AFPM Dmitry Rokosov
-<ddrokosov@salutedevices.com> wrote:
->
-> The following patch series includes several updates for the AW200XX LED
-> driver:
->     - some small fixes and optimizations to the driver implementation:
->       delays, autodimming calculation, disable_locking regmap flag,
->       display_rows calculation in runtime;
->     - fix LED device tree node pattern to accept LED names counting not
->       only from 0 to f;
->     - add missing reg constraints;
->     - support HWEN hardware control, which allows enabling or disabling
->       AW200XX RTL logic from the main SoC using a GPIO pin;
->     - introduce the new AW20108 LED controller, the datasheet for this
->       controller can be found at [1].
 
-For non device tree binding patches
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-One nit I commented on the individual patch.
 
---=20
-With Best Regards,
-Andy Shevchenko
+On 2023-11-17 13:12, Lee Jones wrote:
+> On Thu, 09 Nov 2023, m.brock@vanmierlo.com wrote:
+> 
+>> Florian Eckert schreef op 2023-11-09 09:50:
+>> > The serial tty interface also supports additional input signals, that
+>> > can also be evaluated within this trigger. This change is adding the
+>> > following additional input sources, which could be controlled
+>> > via the '/sys/class/<leds>/' sysfs interface.
+>> >
+>> > Explanation:
+>> > DCE = Data Communication Equipment (Modem)
+>> > DTE = Data Terminal Equipment (Computer)
+>> >
+>> > - cts:
+>> >   DCE is ready to accept data from the DTE (CTS = Clear To Send). If
+>> >   the line state is detected, the LED is switched on.
+>> >   If set to 0 (default), the LED will not evaluate CTS.
+>> >   If set to 1, the LED will evaluate CTS.
+>> >
+>> > - dsr:
+>> >   DCE is ready to receive and send data (DSR = Data Set Ready). If the
+>> >   line state is detected, the LED is switched on.
+>> >   If set to 0 (default), the LED will not evaluate DSR.
+>> >   If set to 1, the LED will evaluate DSR.
+>> >
+>> > - dcd:
+>> >   DTE is receiving a carrier from the DCE (DCD = Data Carrier Detect).
+>> >   If the line state is detected, the LED is switched on.
+>> >   If set to 0 (default), the LED will not evaluate DCD.
+>> >   If set to 1, the LED will evaluate DCD.
+>> >
+>> > - rng:
+>> >   DCE has detected an incoming ring signal on the telephone line
+>> >   (RNG = Ring Indicator). If the line state is detected, the LED is
+>> >   switched on.
+>> >   If set to 0 (default), the LED will not evaluate RNG.
+>> >   If set to 1, the LED will evaluate RNG.
+>> >
+>> > Also add an invert flag on LED blink, so that the LED blinks in the
+>> > correct order.
+>> >
+>> > * If one off the new enabled input signals are evaluatet as 'enabled',
+>> >   and data are transmitted, then the LED should first blink 'off' and
+>> >   then 'on' (invert).
+>> > * If all the new enabled input signals are evaluatet as 'disabled',
+>> >   and data are transmitted, then the LED should first blink 'on' and
+>> >   then 'off'.
+>> >
+>> > Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+>> > ---
+>> >  .../ABI/testing/sysfs-class-led-trigger-tty   | 40 ++++++++++
+>> >  drivers/leds/trigger/ledtrig-tty.c            | 77 ++++++++++++++++++-
+>> >  2 files changed, 116 insertions(+), 1 deletion(-)
+> 
+> [...]
+> 
+>> Reviewed-by: Maarten Brock <m.brock@vanmierlo.com>
+> 
+> Please snip your replies.
+
+Is there anything I can do? Or do I have to do something? Please give me 
+more detailed instructions
 
