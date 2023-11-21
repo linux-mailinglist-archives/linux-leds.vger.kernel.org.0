@@ -1,173 +1,424 @@
-Return-Path: <linux-leds+bounces-57-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-58-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E987F2E50
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 14:29:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC157F2F76
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 14:52:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4C5128196A
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 13:29:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D4C7B208C9
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 13:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ACBE51C24;
-	Tue, 21 Nov 2023 13:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Yt0RXSrB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BABC53805;
+	Tue, 21 Nov 2023 13:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA204D4C;
-	Tue, 21 Nov 2023 05:29:35 -0800 (PST)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B65852FC01F9;
-	Tue, 21 Nov 2023 14:29:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1700573374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oJvMBifarv+hJKntJue/VPuBCrrPqYvgBBAEq0tUgBQ=;
-	b=Yt0RXSrB8OTBqGx5lC1udvYoRk+uLncyJ6HykBuza5D5QHxSph0sgH15Zb4V4Uq6Yl7GiT
-	17ChoLECQ+17MS3IN080yzOB8bageGcjIq5h8MWDWwWqA1L50jEY/SZPn/qkuzCEPKGcbQ
-	YGEgcmRpYLyQLZ1VbogozQIxsgZ3gOg=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
-Date: Tue, 21 Nov 2023 14:29:33 +0100
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E8510C4
+	for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 05:51:50 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAH-0004u5-76; Tue, 21 Nov 2023 14:51:45 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAG-00AawN-Qk; Tue, 21 Nov 2023 14:51:44 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5RAG-004xaX-GV; Tue, 21 Nov 2023 14:51:44 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	James Clark <james.clark@arm.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Michael Walle <michael@walle.cc>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Rob Herring <robh@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	linux-pwm@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	kernel@pengutronix.de,
+	linux-arm-kernel@lists.infradead.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-gpio@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v3 000/108] pwm: Fix lifetime issues for pwm_chips
+Date: Tue, 21 Nov 2023 14:49:02 +0100
+Message-ID: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
- <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13692; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=AIujFYbryhkUb49yce8rTc1TVq+JXWaKz1hYnMJpS2Q=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLVNx9CeAdbyattprQ2g7vu4gcu2r04V0SP/U 2mpBpB8zZKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1TQAKCRCPgPtYfRL+ TrlxB/43N0wckzLJJSX+e3ENMERxHIAW2gwyDpqNf2TyBlvH/cbOZ3L4H1wLgtzFn9LX1OEXK2K L6G9v7/uhHZBHiDnWhuZDh1TigSTpxKj8vSkl6ijyGdMj06TsvS8YwnSFmGlGgJABBBKIlzC8Zr H9HmhsUcXka5iM+pJfrdi1U42gmnMLEhF1UyyHBPkvVg9UM4esblTsVXivpIilLWO4tLknAAq3O GjQ1PC6pq/2rq9UQe+0IkUBlF7MObIR2JEzS5mBf6aWHnSqaupMNvoTP9T5I/0L8HXc7j0jtccz 3VSJ4xVUNsj+BFW021bQau27D5yMhDAF1KfN/vmrMfpQmWLt
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
+Hello,
 
-Am 21.11.23 um 13:20 schrieb Hans de Goede:
-> Hi Werner,
->
-> On 11/21/23 12:33, Werner Sembach wrote:
->> Hi,
->>
->> Am 20.11.23 um 21:52 schrieb Pavel Machek:
->>> Hi!
->>>
->>>>>> So... a bit of rationale. The keyboard does not really fit into the
->>>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>>>> a matrix of them.
->>>>> Makes sense.
->>>>>
->>>>>> We do see various strange displays these days -- they commonly have
->>>>>> rounded corners and holes in them. I'm not sure how that's currently
->>>>>> supported, but I believe it is reasonable to view keyboard as a
->>>>>> display with slightly weird placing of pixels.
->>>>>>
->>>>>> Plus, I'd really like to play tetris on one of those :-).
->>>>>>
->>>>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>>>> better options?
->>>>> It sounds like a fair use case -- auxdisplay are typically simple
->>>>> character-based or small graphical displays, e.g. 128x64, that may not
->>>>> be a "main" / usual screen as typically understood, but the concept is
->>>>> a bit fuzzy and we are a bit of a catch-all.
->>>>>
->>>>> And "keyboard backlight display with a pixel/color per-key" does not
->>>>> sound like a "main" screen, and having some cute effects displayed
->>>>> there are the kind of thing that one could do in the usual small
->>>>> graphical ones too. :)
->>>>>
->>>>> But if somebody prefers to create new categories (or subcategories
->>>>> within auxdisplay) to hold these, that could be nice too (in the
->>>>> latter case, I would perhaps suggest reorganizing all of the existing
->>>>> ones while at it).
->>>> One could also reasonably make the argument that controlling the
->>>> individual keyboard key backlights should be part of the input
->>>> subsystem. It's not a display per se. (Unless you actually have small
->>>> displays on the keycaps, and I think that's a thing too.)
->>> While it would not be completely crazy to do that... I believe the
->>> backlight is more of a display and less of a keyboard. Plus input
->>> subystem is very far away from supporting this, and we had no input
->>> from input people here.
->>>
->>> I don't think LED subsystem is right place for this, and I believe
->>> auxdisplay makes slightly more sense than input.
->>>
->>> Unless someone steps up, I'd suggest Werner tries to implement this as
->>> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
->>> different from RGB on display. But there are other LED displays, so
->>> auxdisplay should handle this. Plus pixels are really funnily
->>> shaped. But displays with missing pixels -- aka holes for camera --
->>> are common in phones, and I believe we'll get variable pixel densities
->>> -- less dense over camera -- too. So displays will have to deal with
->>> these in the end.]
->> Another idea I want to throw in the mix:
->>
->> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
->>
->> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
-> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
->
-> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
+this is v3 of the series improving life-time tracking for PWM chips. The
+urgency is gone as device links now work as expected and so all
+in-kernel users are fine since commit 2e84dc379200 ("driver core:
+Release all resources during unbind before updating device links").
 
-I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel 
-driver no longer does anything.
+However proper lifetime tracking is a precondition to have robust
+character device support, as we cannot kill a userspace process if the
+used pwm driver goes away.
 
-Questions:
+Changes since v2:
 
-- Should the driver try to reset the settings to boot default? Or just leave the 
-device in the current state? With the former I could see issues that they 
-keyboard is flashing when changing from kernelspace control to userspace 
-control. With the later the burden on bringing the device to a know state lies 
-with the userspace driver.
+ - Cc: the relevant maintainers for wider testing/review audience
+ - Rebase to v6.7-rc1 + https://lore.kernel.org/linux-pwm/20231121112029.gyv3gqirlycysyr4@pengutronix.de
+ - Improvements for things pointed out during review and my own
+   findings here and there.
+ - Implementation for a few more ioctls in the WIP commit that adds
+   character support
 
-- Should this be a optional entry that only shows up on drivers supporting it, 
-or could this implemented in a generic way affecting all current led entries?
+To go forward I'd like to get in patches up to #103 (i.e. adding
+pwmchip_parent() (#2), devm_pwmchip_alloc() (#37) and the conversions of
+the drivers to make use of these additions).
 
-- I guess UPower integration for the userspace driver could be archived with 
-https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to 
-brightness atm, so when accent colors actually come to UPower this would also 
-need some expansion to be able to pass a preferred color to the userspace driver 
-(regardless of what that driver is then doing with that information).
+The few commits that touch drivers not living in drivers/pwm (i.e. #36,
+#100-#103) can go in either via the pwm tree with the rest, or later
+---when the used functions are in---via their trees.
 
-On a different note: This approach does currently not cover the older EC 
-controlled 3 zone keyboards from clevo. Here only the kernel has access access 
-to the device so the kernel driver has to expose all functionality somehow. 
-Should this be done by an arbitrarily designed platform device?
+After all in-tree drivers are prepared with the patches up to #103, we
+can think about when and how we go on with the remaining bits.
 
-Kind regards,
+Note that patch #104 breaks all drivers that don't use
+devm_pwmchip_alloc(), so this is the commit that needs coordination with the
+maintainers of
 
-Werner
+ drivers/gpio/gpio-mvebu.c
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c
+ drivers/leds/rgb/leds-qcom-lpg.c
+ drivers/staging/greybus/pwm.c
 
->
-> Regards,
->
-> Hans
->
->
+The motivation for this series is the last patch. It allows to control a
+pwm device via ioctl. Compared to the sysfs API this already now has
+some advantages:
+
+- It changes all parameters in a single call.
+  This simplifies things similar to the introduction of
+  pwm_apply_state(). With sysfs it can happen that you want to
+  switch polarity but that's refused because 
+
+	pwm_get_state(mypwm, &state);
+	state.polarity = new_value;
+
+  sometimes yield an invalid state, e.g. because state.period is
+  in some cases 0 after bootup. Theoretically it can even happen that you have
+  to change two parameters before reaching an applicable state, then you're
+  stuck with sysfs.
+
+- It's faster than sysfs. In my measurements with stm32 about a factor
+  4.
+
+A userspace lib to make use of this can be found at
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/libpwm.git/ .
+It makes use of the character devices if available and falls back to
+sysfs. So it's somewhat useful already now.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (108):
+  pwm: cros-ec: Change prototype of helper to prepare further changes
+  pwm: Provide a macro to get the parent device of a given chip
+  pwm: ab8500: Make use of pwmchip_parent() macro
+  pwm: atmel: Make use of pwmchip_parent() macro
+  pwm: atmel-tcb: Make use of pwmchip_parent() macro
+  pwm: bcm-kona: Make use of pwmchip_parent() macro
+  pwm: crc: Make use of pwmchip_parent() macro
+  pwm: cros-ec: Make use of pwmchip_parent() macro
+  pwm: dwc: Make use of pwmchip_parent() macro
+  pwm: ep93xx: Make use of pwmchip_parent() macro
+  pwm: fsl-ftm: Make use of pwmchip_parent() macro
+  pwm: img: Make use of parent device pointer in driver data
+  pwm: imx27: Make use of pwmchip_parent() macro
+  pwm: jz4740: Make use of pwmchip_parent() macro
+  pwm: lpc18xx-sct: Make use of parent device pointer in driver data
+  pwm: lpss: Make use of pwmchip_parent() macro
+  pwm: mediatek: Make use of pwmchip_parent() macro
+  pwm: meson: Make use of pwmchip_parent() macro
+  pwm: mtk-disp: Make use of pwmchip_parent() macro
+  pwm: omap: Make use of pwmchip_parent() macro
+  pwm: pca9685: Store parent device in driver data
+  pwm: raspberrypi-poe: Make use of pwmchip_parent() macro
+  pwm: rcar: Make use of pwmchip_parent() macro
+  pwm: rz-mtu3: Make use of pwmchip_parent() macro
+  pwm: samsung: Make use of pwmchip_parent() macro
+  pwm: sifive: Make use of pwmchip_parent() macro
+  pwm: stm32-lp: Make use of pwmchip_parent() macro
+  pwm: stm32: Make use of pwmchip_parent() macro
+  pwm: stmpe: Make use of pwmchip_parent() macro
+  pwm: sun4i: Make use of pwmchip_parent() macro
+  pwm: tiecap: Make use of pwmchip_parent() macro
+  pwm: tiehrpwm: Make use of pwmchip_parent() macro
+  pwm: twl-led: Make use of pwmchip_parent() macro
+  pwm: twl: Make use of pwmchip_parent() macro
+  pwm: vt8500: Make use of pwmchip_parent() macro
+  staging: greybus: pwm: Make use of pwmchip_parent() macro
+  pwm: Provide devm_pwmchip_alloc() function
+  pwm: ab8500: Make use of devm_pwmchip_alloc() function
+  pwm: apple: Make use of devm_pwmchip_alloc() function
+  pwm: atmel-hlcdc: Make use of devm_pwmchip_alloc() function
+  pwm: atmel: Make use of devm_pwmchip_alloc() function
+  pwm: atmel-tcb: Make use of devm_pwmchip_alloc() function
+  pwm: bcm2835: Make use of devm_pwmchip_alloc() function
+  pwm: bcm-iproc: Make use of devm_pwmchip_alloc() function
+  pwm: bcm-kona: Make use of devm_pwmchip_alloc() function
+  pwm: berlin: Make use of devm_pwmchip_alloc() function
+  pwm: brcmstb: Make use of devm_pwmchip_alloc() function
+  pwm: clk: Make use of devm_pwmchip_alloc() function
+  pwm: clps711x: Make use of devm_pwmchip_alloc() function
+  pwm: crc: Make use of devm_pwmchip_alloc() function
+  pwm: cros-ec: Make use of devm_pwmchip_alloc() function
+  pwm: dwc: Make use of devm_pwmchip_alloc() function
+  pwm: ep93xx: Make use of devm_pwmchip_alloc() function
+  pwm: fsl-ftm: Make use of devm_pwmchip_alloc() function
+  pwm: hibvt: Make use of devm_pwmchip_alloc() function
+  pwm: img: Make use of devm_pwmchip_alloc() function
+  pwm: imx1: Make use of devm_pwmchip_alloc() function
+  pwm: imx27: Make use of devm_pwmchip_alloc() function
+  pwm: imx-tpm: Make use of devm_pwmchip_alloc() function
+  pwm: intel-lgm: Make use of devm_pwmchip_alloc() function
+  pwm: iqs620a: Make use of devm_pwmchip_alloc() function
+  pwm: jz4740: Make use of devm_pwmchip_alloc() function
+  pwm: keembay: Make use of devm_pwmchip_alloc() function
+  pwm: lp3943: Make use of devm_pwmchip_alloc() function
+  pwm: lpc18xx-sct: Make use of devm_pwmchip_alloc() function
+  pwm: lpc32xx: Make use of devm_pwmchip_alloc() function
+  pwm: lpss-*: Make use of devm_pwmchip_alloc() function
+  pwm: mediatek: Make use of devm_pwmchip_alloc() function
+  pwm: meson: Make use of devm_pwmchip_alloc() function
+  pwm: microchip-core: Make use of devm_pwmchip_alloc() function
+  pwm: mtk-disp: Make use of devm_pwmchip_alloc() function
+  pwm: mxs: Make use of devm_pwmchip_alloc() function
+  pwm: ntxec: Make use of devm_pwmchip_alloc() function
+  pwm: omap-dmtimer: Make use of devm_pwmchip_alloc() function
+  pwm: pca9685: Make use of devm_pwmchip_alloc() function
+  pwm: pxa: Make use of devm_pwmchip_alloc() function
+  pwm: raspberrypi-poe: Make use of devm_pwmchip_alloc() function
+  pwm: rcar: Make use of devm_pwmchip_alloc() function
+  pwm: renesas-tpu: Make use of devm_pwmchip_alloc() function
+  pwm: rockchip: Make use of devm_pwmchip_alloc() function
+  pwm: rz-mtu3: Make use of devm_pwmchip_alloc() function
+  pwm: samsung: Make use of devm_pwmchip_alloc() function
+  pwm: sifive: Make use of devm_pwmchip_alloc() function
+  pwm: sl28cpld: Make use of devm_pwmchip_alloc() function
+  pwm: spear: Make use of devm_pwmchip_alloc() function
+  pwm: sprd: Make use of devm_pwmchip_alloc() function
+  pwm: sti: Make use of devm_pwmchip_alloc() function
+  pwm: stm32-lp: Make use of devm_pwmchip_alloc() function
+  pwm: stm32: Make use of devm_pwmchip_alloc() function
+  pwm: stmpe: Make use of devm_pwmchip_alloc() function
+  pwm: sun4i: Make use of devm_pwmchip_alloc() function
+  pwm: sunplus: Make use of devm_pwmchip_alloc() function
+  pwm: tegra: Make use of devm_pwmchip_alloc() function
+  pwm: tiecap: Make use of devm_pwmchip_alloc() function
+  pwm: twl-led: Make use of devm_pwmchip_alloc() function
+  pwm: twl: Make use of devm_pwmchip_alloc() function
+  pwm: visconti: Make use of devm_pwmchip_alloc() function
+  pwm: vt8500: Make use of devm_pwmchip_alloc() function
+  pwm: xilinx: Make use of devm_pwmchip_alloc() function
+  gpio: mvebu: Make use of devm_pwmchip_alloc() function
+  drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+  leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+  staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+  pwm: Ensure that pwm_chips are allocated using pwmchip_alloc()
+  pwm: Ensure a struct pwm has the same lifetime as its pwm_chip
+  pwm: Ensure the memory backing a PWM chip isn't freed while used
+  pwm: Add more locking
+  WIP: pwm: Add support for pwmchip devices for faster and easier
+    userspace access
+
+ .../driver-api/driver-model/devres.rst        |   1 +
+ Documentation/driver-api/pwm.rst              |  10 +-
+ drivers/gpio/gpio-mvebu.c                     |  18 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  25 +-
+ drivers/leds/rgb/leds-qcom-lpg.c              |  30 +-
+ drivers/pwm/Kconfig                           |   4 -
+ drivers/pwm/Makefile                          |   3 +-
+ drivers/pwm/core.c                            | 480 +++++++++++++++---
+ drivers/pwm/pwm-ab8500.c                      |  36 +-
+ drivers/pwm/pwm-apple.c                       |  18 +-
+ drivers/pwm/pwm-atmel-hlcdc.c                 |  35 +-
+ drivers/pwm/pwm-atmel-tcb.c                   |  26 +-
+ drivers/pwm/pwm-atmel.c                       |  37 +-
+ drivers/pwm/pwm-bcm-iproc.c                   |  19 +-
+ drivers/pwm/pwm-bcm-kona.c                    |  21 +-
+ drivers/pwm/pwm-bcm2835.c                     |  17 +-
+ drivers/pwm/pwm-berlin.c                      |  29 +-
+ drivers/pwm/pwm-brcmstb.c                     |  17 +-
+ drivers/pwm/pwm-clk.c                         |  27 +-
+ drivers/pwm/pwm-clps711x.c                    |  21 +-
+ drivers/pwm/pwm-crc.c                         |  26 +-
+ drivers/pwm/pwm-cros-ec.c                     |  51 +-
+ drivers/pwm/pwm-dwc-core.c                    |  25 +-
+ drivers/pwm/pwm-dwc.c                         |  18 +-
+ drivers/pwm/pwm-dwc.h                         |   9 +-
+ drivers/pwm/pwm-ep93xx.c                      |  21 +-
+ drivers/pwm/pwm-fsl-ftm.c                     |  48 +-
+ drivers/pwm/pwm-hibvt.c                       |  25 +-
+ drivers/pwm/pwm-img.c                         |  51 +-
+ drivers/pwm/pwm-imx-tpm.c                     |  34 +-
+ drivers/pwm/pwm-imx1.c                        |  17 +-
+ drivers/pwm/pwm-imx27.c                       |  26 +-
+ drivers/pwm/pwm-intel-lgm.c                   |  17 +-
+ drivers/pwm/pwm-iqs620a.c                     |  37 +-
+ drivers/pwm/pwm-jz4740.c                      |  35 +-
+ drivers/pwm/pwm-keembay.c                     |  17 +-
+ drivers/pwm/pwm-lp3943.c                      |  17 +-
+ drivers/pwm/pwm-lpc18xx-sct.c                 |  35 +-
+ drivers/pwm/pwm-lpc32xx.c                     |  19 +-
+ drivers/pwm/pwm-lpss-pci.c                    |  10 +-
+ drivers/pwm/pwm-lpss-platform.c               |  10 +-
+ drivers/pwm/pwm-lpss.c                        |  34 +-
+ drivers/pwm/pwm-lpss.h                        |   1 -
+ drivers/pwm/pwm-mediatek.c                    |  28 +-
+ drivers/pwm/pwm-meson.c                       |  57 ++-
+ drivers/pwm/pwm-microchip-core.c              |  17 +-
+ drivers/pwm/pwm-mtk-disp.c                    |  25 +-
+ drivers/pwm/pwm-mxs.c                         |  32 +-
+ drivers/pwm/pwm-ntxec.c                       |  30 +-
+ drivers/pwm/pwm-omap-dmtimer.c                |  46 +-
+ drivers/pwm/pwm-pca9685.c                     |  98 ++--
+ drivers/pwm/pwm-pxa.c                         |  21 +-
+ drivers/pwm/pwm-raspberrypi-poe.c             |  20 +-
+ drivers/pwm/pwm-rcar.c                        |  25 +-
+ drivers/pwm/pwm-renesas-tpu.c                 |  18 +-
+ drivers/pwm/pwm-rockchip.c                    |  24 +-
+ drivers/pwm/pwm-rz-mtu3.c                     |  38 +-
+ drivers/pwm/pwm-samsung.c                     |  56 +-
+ drivers/pwm/pwm-sifive.c                      |  30 +-
+ drivers/pwm/pwm-sl28cpld.c                    |  13 +-
+ drivers/pwm/pwm-spear.c                       |  17 +-
+ drivers/pwm/pwm-sprd.c                        |  50 +-
+ drivers/pwm/pwm-sti.c                         |  34 +-
+ drivers/pwm/pwm-stm32-lp.c                    |  29 +-
+ drivers/pwm/pwm-stm32.c                       |  53 +-
+ drivers/pwm/pwm-stmpe.c                       |  58 ++-
+ drivers/pwm/pwm-sun4i.c                       |  38 +-
+ drivers/pwm/pwm-sunplus.c                     |  17 +-
+ drivers/pwm/pwm-tegra.c                       |  27 +-
+ drivers/pwm/pwm-tiecap.c                      |  55 +-
+ drivers/pwm/pwm-tiehrpwm.c                    |  72 +--
+ drivers/pwm/pwm-twl-led.c                     |  58 ++-
+ drivers/pwm/pwm-twl.c                         |  50 +-
+ drivers/pwm/pwm-visconti.c                    |  17 +-
+ drivers/pwm/pwm-vt8500.c                      |  41 +-
+ drivers/pwm/pwm-xilinx.c                      |  34 +-
+ drivers/pwm/sysfs.c                           |  64 +--
+ drivers/staging/greybus/pwm.c                 | 130 ++---
+ include/linux/platform_data/x86/pwm-lpss.h    |   4 +-
+ include/linux/pwm.h                           |  36 +-
+ include/uapi/linux/pwm.h                      |  23 +
+ 81 files changed, 1651 insertions(+), 1291 deletions(-)
+ create mode 100644 include/uapi/linux/pwm.h
+
+base-commit: 869de350ff3834145273a6d39faedea878c6715a
+-- 
+2.42.0
+
 
