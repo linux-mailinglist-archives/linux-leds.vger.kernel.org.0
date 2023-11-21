@@ -1,120 +1,132 @@
-Return-Path: <linux-leds+bounces-67-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-68-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD057F32F1
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 16:58:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A777F330D
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 17:01:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A58FB282E09
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 15:58:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65FADB21E6A
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 16:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184CF54F8D;
-	Tue, 21 Nov 2023 15:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CFC359149;
+	Tue, 21 Nov 2023 16:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="F3kLBalV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4BC139
-	for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 07:58:52 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5T99-0000HI-0r; Tue, 21 Nov 2023 16:58:43 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5T97-00AcFw-JQ; Tue, 21 Nov 2023 16:58:41 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5T97-0052rI-A0; Tue, 21 Nov 2023 16:58:41 +0100
-Date: Tue, 21 Nov 2023 16:58:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Kees Cook <keescook@chromium.org>, linux-pwm@vger.kernel.org,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	kernel@pengutronix.de,
-	Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH v3 102/108] leds: qcom-lpg: Make use of
- devm_pwmchip_alloc() function
-Message-ID: <20231121155841.hxqujogmm62hidec@pengutronix.de>
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
- <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
- <20231121151640.GB173820@google.com>
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1775197
+	for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 08:01:48 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so48334385ad.0
+        for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 08:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1700582508; x=1701187308; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=94uiKCc8mVHzfD5hMHo+ipsMG0R6MKAPs1S03wUwkTY=;
+        b=F3kLBalVg0ZTxwyzHv2jZBM3n0dBSB+bkjtFCFupnk+2GBG8uvUvZV38H+Z0lbA9P4
+         VW04jdNhDTtd2P8J9U87vB8841OxMNv+PUYed2oOfItJqQ2yUWZWmH3yLyY984YvsUZ4
+         rCdzFc/4CoI6ZdhUjJBQPoVJWtJb2JRcog57MhdSUgAeiK+dsXUUWju7cG/F/1uXUz6s
+         d7CKHHjb+fCbBDmcAqnK/uy/d/rYNGKDhLzzvD+davd/PiJC27rzAbnT2NwRzWR94i6h
+         /v6lUOscYWVzWG5HYYNcgNlAB/6nEKcWSP5NVnf0pwa8U48Op3AsYJPdyal+F+GNSphm
+         CLCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700582508; x=1701187308;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=94uiKCc8mVHzfD5hMHo+ipsMG0R6MKAPs1S03wUwkTY=;
+        b=fbFgJf7YBjXKqiU21RaajUFx4mmSTUaDHMJRqbTvAK8XjNGDURpfETiPZENG3nbzwa
+         SVhVVWPku3O6xE8w5sCpDsr9nBxlGUiXW4KFMGZXRWo8tL3O+eghSGI/hcjLtkdJVOb/
+         jARlO7Ms4CSP8eRsIfBaDmZMQn8OYbk8vJQGb6llZIDMG00ZnEKREMrAxZ6ojqAxKcQN
+         NJU6r+mo5/ZE36o8AR5eRhDaASOqE2YhHdhQiV6/9tUXy08xq76bmJe1cozQOa/ANjoW
+         yTVxVt5oJm/m339zz+/0oLGwJhJs/98H2BuM3hHhWi/Tt2w024yQ8opv3ac/Zt2CkcFZ
+         ClVQ==
+X-Gm-Message-State: AOJu0YwuBHWoX/w82VCkJhWQtHQpx5hG3mYKDFFzAKb3Lisg1V4Uw4DL
+	o4Dw78dubu78Jn/tKsxMw0cU1BpdEsA+tmElBBBBcq1x9PFaXrem7uSOFA==
+X-Google-Smtp-Source: AGHT+IFr6SofnB98KDklqVgcIdirU+mIhOxh+1ZfP/9TavcPxVQ3b7d+I75tL/HOikpoDFRayVr+Lz2I1ZPSTX8a/Bs=
+X-Received: by 2002:a17:902:e5ca:b0:1cf:6373:b8a5 with SMTP id
+ u10-20020a170902e5ca00b001cf6373b8a5mr6074879plf.25.1700582508194; Tue, 21
+ Nov 2023 08:01:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rwhmmmnud4nrgahc"
-Content-Disposition: inline
-In-Reply-To: <20231121151640.GB173820@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
-
-
---rwhmmmnud4nrgahc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20230914114521.1491390-1-naresh.solanki@9elements.com>
+ <20230920130528.GG13143@google.com> <CABqG17j_gCr8xw65qjn4Kh7ChdraZbLsyGOsCmFEEWG3txjE4A@mail.gmail.com>
+ <20230921103156.GB3449785@google.com> <CABqG17ibzHiYmzCZ6ZpAa8BZhj5N+0dQ0aa1yebtCk0YYVdsFQ@mail.gmail.com>
+ <CABqG17h8hxgmMA=G5hitzgjNSX_BZ2utFsMZni9evn0Nogu0GA@mail.gmail.com>
+ <20231117121531.GC137434@google.com> <CABqG17hPnx465dRKdMdSd2s38_T6DQFn5hsx1SL0RtA+r4JFZQ@mail.gmail.com>
+ <20231121153302.GD173820@google.com>
+In-Reply-To: <20231121153302.GD173820@google.com>
+From: Naresh Solanki <naresh.solanki@9elements.com>
+Date: Tue, 21 Nov 2023 21:31:37 +0530
+Message-ID: <CABqG17hufcNS5-wLEEpZniSE2MAfEeN9Ljhs5MPGeu-2xZP+HQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3] leds: max5970: Add support for max5970
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Patrick Rudolph <patrick.rudolph@9elements.com>, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 21, 2023 at 03:16:40PM +0000, Lee Jones wrote:
-> On Tue, 21 Nov 2023, Uwe Kleine-K=F6nig wrote:
->=20
-> > This prepares the pwm sub-driver to further changes of the pwm core
-> > outlined in the commit introducing devm_pwmchip_alloc(). There is no
-> > intended semantical change and the driver should behave as before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> >  drivers/leds/rgb/leds-qcom-lpg.c | 30 +++++++++++++++++++++---------
-> >  1 file changed, 21 insertions(+), 9 deletions(-)
->=20
-> Does this need to be taken in with the other 107 patches?
+Hi Lee,
 
-Not necessarily. The dependencies are:
+Thank you for your insights. I appreciate your guidance on the matter.
+Yes will rewrite the change as below:
 
-	- This patch depends on #37 which provides devm_pwmchip_alloc
-	- Patches #104 and later depend on this one to be applied.
+        regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
+        if (!regmap)
+                return -ENODEV;
 
-I didn't talk with Thierry yet about how this should be merged. If all
-affected maintainers agree to let this all go via PWM this would be
-good, but I can also live with going a bit slower and getting the pwm
-bits in during the next merge window and the changes to the PWM drivers
-not living in drivers/pwm adapted after that.
+I believe this modification aligns with your suggestion. Please let me
+know if this meets the requirements or if you have any further
+suggestions or adjustments
 
-Best regards
-Uwe
+Regards,
+Naresh
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---rwhmmmnud4nrgahc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVc07AACgkQj4D7WH0S
-/k5Z4Af7Bt9eKtnp4iO1shXcMIFiz6Uy9wyfxBX2Jk1V8eknyckYgVnI6FemukI1
-acsKwnlrd/XXyist1clJs89VYKcJo5qB3zFXFbd5rxWvkMIthaxZxJckUYuQNJFl
-R9mGvXP/B3ESKp6m50Y8R/+2S3CiOPM+c38X3yQEyBc5GIazGweTe+CzTD7XAZjD
-GSEC/O9RtoQgkTUg4LNj0ynMs5zbaCR90+r7sZ5vBtlBOZCijOIDXuU7H2m0bDMP
-5+vcN9FSfsIL53GzFy539YxHhvt0uEZo0uSre3ig94WYGw0EpaMbO7lyqvNp2BIV
-oZy4cD6KW9rg7qM5i4qFk5KfV0yaLw==
-=xjyA
------END PGP SIGNATURE-----
-
---rwhmmmnud4nrgahc--
+On Tue, 21 Nov 2023 at 21:03, Lee Jones <lee@kernel.org> wrote:
+>
+> On Mon, 20 Nov 2023, Naresh Solanki wrote:
+>
+> > Hi
+> >
+> > On Fri, 17 Nov 2023 at 17:45, Lee Jones <lee@kernel.org> wrote:
+> > >
+> > > On Thu, 09 Nov 2023, Naresh Solanki wrote:
+> > >
+> > > > Hey Lee,
+> > > >
+> > > > Is there anything specific you'd suggest changing in the current
+> > > > patchset, or are we good to proceed?
+> > >
+> > > What do you mean by proceed?
+> > >
+> > > You are good to make changes and submit a subsequent version.
+> > >
+> > > Not entirely sure what you're asking.
+> >
+> > As a follow up on previous discussion regarding use of DEFER on probe
+> > if regmap isn't initialized, the implementation was based on other simi=
+lar
+> > drivers & hence it was retained although its not needed due to dependen=
+cies.
+> >
+> > I'm not entirely sure to keep the regmap check or make another
+> > patch revision with regmap check removed ?
+>
+> You tell me.
+>
+> You should understand the device you're attempting to support along with
+> the code you're authoring and its subsequent implications.  If you don't
+> know what a section of code does or whether/why it's required, why did
+> you write it?
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
