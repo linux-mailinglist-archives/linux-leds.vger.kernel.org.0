@@ -1,179 +1,151 @@
-Return-Path: <linux-leds+bounces-71-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-75-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593337F34FE
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 18:34:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B577F374B
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 21:29:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDC18B2120E
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 17:34:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF7C01C20D1C
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 20:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0619D54F84;
-	Tue, 21 Nov 2023 17:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA2B5467E;
+	Tue, 21 Nov 2023 20:29:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AgYch6cU"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="OOK5L/8p"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D56AA4
-	for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 09:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700588083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ByVZEV/reknZ3Zg3wcfs0e7TZbUblroVpHLSlR/l4z4=;
-	b=AgYch6cUGguWhrnwfC0XMFcj+o7DHnmzsu+LV/cl3ZXoyakI47OcTxSNH2y7zUPHWQk4pc
-	DS1abEz5vcQgrEcgk+pDLOs3g8+neI06gv3iNCroBHUhGG3FzteFlt2/5PyHoZu933nCTh
-	+SSkc/GfjqqEhRrqvk/mym4dUhrr4Z0=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-rGKosZ6wMEupPquXWHSzAQ-1; Tue, 21 Nov 2023 12:34:38 -0500
-X-MC-Unique: rGKosZ6wMEupPquXWHSzAQ-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9fffa4c4f28so148336266b.3
-        for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 09:34:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700588077; x=1701192877;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ByVZEV/reknZ3Zg3wcfs0e7TZbUblroVpHLSlR/l4z4=;
-        b=n4PyxBgRohTzFLvyBD30LGkRoHJkR1JvZWH3GJCz5CRXuvtDL6foELFxeCmS7kw6u+
-         dG4MMQgQbo9WfzRoTiZvFXWTwbkYIRrCRdgLYeA98MmH9eQ8Hf/dQApjBKf5DlSewRx8
-         VHEBKu8Z5sWg6q1VBnLAy2Kj+4yJqlCjVeswthyMgWnFhHq7fRlvbngar2HfmdSfxadM
-         rvBKDAafGxbIb+WgCxeZ01SARdzZkrUokGU8q7QewPOIp8DG0eDpwUzt0Ke4dBny9XvZ
-         qtZceEXWvABJjf8z/4PMBhyk/RRNUwsVrRmqwUEBBMTe70aQFHg9vqkc9OKtBHb8sd+H
-         uFQw==
-X-Gm-Message-State: AOJu0Yx+qvrzR69UYuKilE7qMNL18nBslufdRS8YEX620wnuCZbDlyuv
-	H7+IyuYgC3xjPBOTD6kxMlMqEfz206YhOVgJlLMXnR0Xh4777DUlI0SVLmMo9H4HglQvV78/9Ra
-	iUfD2H6tc1Q381jJ5rt4G0Q==
-X-Received: by 2002:a05:6402:b39:b0:543:5789:4d6c with SMTP id bo25-20020a0564020b3900b0054357894d6cmr36675edb.2.1700588077103;
-        Tue, 21 Nov 2023 09:34:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEKy8N59BGr+oQU2hwAvNDbYNuGAordRcRchCTrTK1v3eBt/CRoZoAT1IrqLNq4wWxfcNcfxA==
-X-Received: by 2002:a05:6402:b39:b0:543:5789:4d6c with SMTP id bo25-20020a0564020b3900b0054357894d6cmr36656edb.2.1700588076759;
-        Tue, 21 Nov 2023 09:34:36 -0800 (PST)
-Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029? (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
-        by smtp.gmail.com with ESMTPSA id k26-20020a056402049a00b0054855988fedsm4544787edv.37.2023.11.21.09.34.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 09:34:36 -0800 (PST)
-Message-ID: <6a4134f1-4075-43d6-b238-56a31197f7fc@redhat.com>
-Date: Tue, 21 Nov 2023 18:34:35 +0100
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40871A3;
+	Tue, 21 Nov 2023 12:28:51 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id DE1C912005B;
+	Tue, 21 Nov 2023 23:28:48 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru DE1C912005B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1700598528;
+	bh=tXkfiDo5nH25tN3BRa0nuqNWCwi/ObmvTMsqxKwhc0w=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=OOK5L/8pgZNMxL3Eh03iMcpLcOm6iPHZLu/+qBxNd90v1Id9W0OCgnbdkCQGR+9tA
+	 w5JQiSGKsxcsi/S22602evQidM8Q0iTXmC2QsMEDGW/VVx+SXKPnqQLtIBLSEnF5o7
+	 J0iuHf/7sF2wEdF81UKKozuT1gLsFconNr7w0VMKbUvOAeOoIl8C/G45zRpqwNS3+L
+	 Lcr3EA2ib41M4/6UgNDGEbIooy4dlHx5ymfGVuO754oJBYjSinwtREVcuwndm62nOp
+	 8mMPFOwvM2qwUu1jKdHvW+x30yP/4xOQ9+1KpqW7vxFyrZTr73rOMDUs5Cn+o/xe7K
+	 hlVjcxnTbP5og==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Tue, 21 Nov 2023 23:28:47 +0300 (MSK)
+Received: from localhost.localdomain (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 21 Nov 2023 23:28:47 +0300
+From: Dmitry Rokosov <ddrokosov@salutedevices.com>
+To: <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<andy.shevchenko@gmail.com>
+CC: <kernel@sberdevices.ru>, <rockosov@gmail.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-leds@vger.kernel.org>, Dmitry Rokosov <ddrokosov@salutedevices.com>
+Subject: [PATCH v4 00/11] leds: aw200xx: several driver updates
+Date: Tue, 21 Nov 2023 23:28:24 +0300
+Message-ID: <20231121202835.28152-1-ddrokosov@salutedevices.com>
+X-Mailer: git-send-email 2.36.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: class: Don't expose color sysfs entry
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- =?UTF-8?Q?Johannes_Pen=C3=9Fel?= <johannes.penssel@gmail.com>,
- Jeremy Soller <jeremy@system76.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20231121162359.9332-1-tiwai@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231121162359.9332-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 181514 [Nov 21 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, lore.kernel.org:7.1.1;100.64.160.123:7.1.2;127.0.0.199:7.1.2;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;doc.awinic.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2023/11/21 19:45:00
+X-KSMG-LinksScanning: Clean, bases: 2023/11/21 19:46:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/21 17:47:00 #22495004
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hi,
+The following patch series includes several updates for the AW200XX LED
+driver:
+    - some small fixes and optimizations to the driver implementation:
+      delays, autodimming calculation, disable_locking regmap flag,
+      display_rows calculation in runtime;
+    - fix LED device tree node pattern to accept LED names counting not
+      only from 0 to f;
+    - add missing reg constraints;
+    - support HWEN hardware control, which allows enabling or disabling
+      AW200XX RTL logic from the main SoC using a GPIO pin;
+    - introduce the new AW20108 LED controller, the datasheet for this
+      controller can be found at [1].
 
-On 11/21/23 17:23, Takashi Iwai wrote:
-> The commit c7d80059b086 ("leds: class: Store the color index in struct
-> led_classdev") introduced a new sysfs entry "color" that is commonly
-> created for the led classdev.  Unfortunately, this conflicts with the
-> "color" sysfs entry of already existing drivers such as Logitech HID
-> or System76 ACPI drivers.  The driver probe fails due to the conflict,
-> hence it leads to a severe regression with the missing keyboard, for
-> example.
-> 
-> This patch reverts partially the change in the commit above for
-> removing the led class color sysfs entries again for addressing the
-> regressions.  The newly introduced led_classdev.color field is kept as
-> it's already used by other driver.
-> 
-> Fixes: c7d80059b086 ("leds: class: Store the color index in struct led_classdev")
-> Reported-by: Johannes Penßel <johannes.penssel@gmail.com>
-> Closes: https://lore.kernel.org/r/b5646db3-acff-45aa-baef-df3f660486fb@gmail.com
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218045
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=218155
-> Link: https://bugzilla.suse.com/show_bug.cgi?id=1217172
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Changes v4 since v3 at [4]
+    - properly handle max_source = 0 situations
+    - fix Rob's dt_binding_check alerts
 
-Thank you for taking care of this, patch looks good to me:
+Changes v3 since v2 at [3]:
+    - handle all cases during hwen gpio get routine execution
+    - rename 'hwen-gpios' to standard 'enable-gpios'
+    - properly handle aw200xx_probe_get_display_rows() ret values
+    - fix timestamp format in the comments and commit messages
+    - expand LEDS_AW200XX config and dt-bindings description
+    - describe reg constraints for all compatible variants
+    - add Conor's Acked-by tag
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Changes v2 since v1 at [2]:
+    - rebase on the latest aw200xx changes from lee/leds git repo
+    - some commit messages rewording
+    - replace legacy gpio_* API with gpiod_* and devm_gpiod_* API
+    - rename dt property awinic,hwen-gpio to hwen-gpios according to
+      gpiod API
+    - use fsleep() instead of usleep_range() per Andy's suggestion
+    - add max_brightness parameter to led cdev to restrict
+      set_brightness() overflow
+    - provide reg constraints as Rob suggested
+    - move hwen-gpios to proper dt node in the bindings example
 
-Regards,
+Links:
+    [1] https://doc.awinic.com/doc/20230609wm/8a9a9ac8-1d8f-4e75-bf7a-67a04465c153.pdf
+    [2] https://lore.kernel.org/all/20231006160437.15627-1-ddrokosov@salutedevices.com/
+    [3] https://lore.kernel.org/all/20231018182943.18700-1-ddrokosov@salutedevices.com/
+    [4] https://lore.kernel.org/all/20231101142445.8753-1-ddrokosov@salutedevices.com/
 
-Hans
+Dmitry Rokosov (3):
+  leds: aw200xx: support HWEN hardware control
+  dt-bindings: leds: aw200xx: introduce optional enable-gpios property
+  dt-bindings: leds: aw200xx: fix led pattern and add reg constraints
 
-> ---
-> 
-> This is a sort of v2 patch, as it turned out that the full revert
-> leads to a build error.
-> 
->  Documentation/ABI/testing/sysfs-class-led |  9 ---------
->  drivers/leds/led-class.c                  | 14 --------------
->  2 files changed, 23 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
-> index b2ff0012c0f2..2e24ac3bd7ef 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led
-> +++ b/Documentation/ABI/testing/sysfs-class-led
-> @@ -59,15 +59,6 @@ Description:
->  		brightness. Reading this file when no hw brightness change
->  		event has happened will return an ENODATA error.
->  
-> -What:		/sys/class/leds/<led>/color
-> -Date:		June 2023
-> -KernelVersion:	6.5
-> -Description:
-> -		Color of the LED.
-> -
-> -		This is a read-only file. Reading this file returns the color
-> -		of the LED as a string (e.g: "red", "green", "multicolor").
-> -
->  What:		/sys/class/leds/<led>/trigger
->  Date:		March 2006
->  KernelVersion:	2.6.17
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 974b84f6bd6a..ba1be15cfd8e 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -75,19 +75,6 @@ static ssize_t max_brightness_show(struct device *dev,
->  }
->  static DEVICE_ATTR_RO(max_brightness);
->  
-> -static ssize_t color_show(struct device *dev,
-> -		struct device_attribute *attr, char *buf)
-> -{
-> -	const char *color_text = "invalid";
-> -	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> -
-> -	if (led_cdev->color < LED_COLOR_ID_MAX)
-> -		color_text = led_colors[led_cdev->color];
-> -
-> -	return sysfs_emit(buf, "%s\n", color_text);
-> -}
-> -static DEVICE_ATTR_RO(color);
-> -
->  #ifdef CONFIG_LEDS_TRIGGERS
->  static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
->  static struct bin_attribute *led_trigger_bin_attrs[] = {
-> @@ -102,7 +89,6 @@ static const struct attribute_group led_trigger_group = {
->  static struct attribute *led_class_attrs[] = {
->  	&dev_attr_brightness.attr,
->  	&dev_attr_max_brightness.attr,
-> -	&dev_attr_color.attr,
->  	NULL,
->  };
->  
+George Stark (7):
+  leds: aw200xx: calculate dts property display_rows in the driver
+  dt-bindings: leds: aw200xx: remove property "awinic,display-rows"
+  leds: aw200xx: add delay after software reset
+  leds: aw200xx: enable disable_locking flag in regmap config
+  leds: aw200xx: improve autodim calculation method
+  leds: aw200xx: add support for aw20108 device
+  dt-bindings: leds: awinic,aw200xx: add AW20108 device
+
+Martin Kurbanov (1):
+  leds: aw200xx: fix write to DIM parameter
+
+ .../bindings/leds/awinic,aw200xx.yaml         |  95 ++++++++++++-----
+ drivers/leds/Kconfig                          |  14 ++-
+ drivers/leds/leds-aw200xx.c                   | 100 +++++++++++++++---
+ 3 files changed, 163 insertions(+), 46 deletions(-)
+
+-- 
+2.36.0
 
 
