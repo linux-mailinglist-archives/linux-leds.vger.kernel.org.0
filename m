@@ -1,111 +1,132 @@
-Return-Path: <linux-leds+bounces-46-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-47-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A957F1E3C
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 21:54:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4D17F2670
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 08:35:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 317F01C2113D
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Nov 2023 20:54:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8113281782
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 07:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B665F225CD;
-	Mon, 20 Nov 2023 20:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="eLNR+Dfu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DDFC2232D;
+	Tue, 21 Nov 2023 07:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-leds@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7982D2;
-	Mon, 20 Nov 2023 12:53:53 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 7E54A1C0050; Mon, 20 Nov 2023 21:53:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1700513632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T6LfoMY/Fvp0UXzBZ+W7X81hPAVnp3D1vcRIVa9CydA=;
-	b=eLNR+DfutupDoKP3c+C0DbY1+lXsFmpXNqcRY2eGyyJiC+LFIxjZecUl6vD1nvFUkbTnB2
-	YmqpbfQNE0HH5kFd/oyl997swsjsEr5veurdUfW7I5FcrEMyOV3zJH200Dv6srV1ymkYhb
-	YI7sDEE4i1X6oCwkGwaPtFw5K209GFU=
-Date: Mon, 20 Nov 2023 21:53:52 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, jikos@kernel.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Lee Jones <lee@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linux-input@vger.kernel.org, ojeda@kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZVvHYAsM1p8O7J8r@duo.ucw.cz>
-References: <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com>
- <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDCDB9;
+	Mon, 20 Nov 2023 23:35:28 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+	by relay.expurgate.net with smtp (Exim 4.92)
+	(envelope-from <prvs=0703440f32=fe@dev.tdt.de>)
+	id 1r5LHu-00EQkE-6R; Tue, 21 Nov 2023 08:35:14 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+	by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <fe@dev.tdt.de>)
+	id 1r5LHt-00GH9Z-4o; Tue, 21 Nov 2023 08:35:13 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+	by securemail.tdt.de (Postfix) with ESMTP id BC857240049;
+	Tue, 21 Nov 2023 08:35:12 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+	by securemail.tdt.de (Postfix) with ESMTP id 18521240040;
+	Tue, 21 Nov 2023 08:35:12 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+	by mail.dev.tdt.de (Postfix) with ESMTP id 9BDCA33A3D;
+	Tue, 21 Nov 2023 08:35:11 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9jeVF7q2cF6LMKnm"
-Content-Disposition: inline
-In-Reply-To: <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 21 Nov 2023 08:35:11 +0100
+From: Florian Eckert <fe@dev.tdt.de>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org, pavel@ucw.cz,
+ lee@kernel.org, kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+ m.brock@vanmierlo.com, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [Patch v8 1/6] tty: add new helper function tty_get_tiocm
+In-Reply-To: <1b89d7df-2511-4b3e-ab35-071734fb413c@kernel.org>
+References: <20231109085038.371977-1-fe@dev.tdt.de>
+ <20231109085038.371977-2-fe@dev.tdt.de>
+ <1b89d7df-2511-4b3e-ab35-071734fb413c@kernel.org>
+Message-ID: <ac57ff244b252df3c70387c61d34884d@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+X-purgate-ID: 151534::1700552113-D1E98639-88650825/0/0
+X-purgate: clean
+X-purgate-type: clean
 
 
---9jeVF7q2cF6LMKnm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon 2023-10-23 13:44:46, Miguel Ojeda wrote:
-> On Mon, Oct 23, 2023 at 1:40=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
-> >
-> > One could also reasonably make the argument that controlling the
-> > individual keyboard key backlights should be part of the input
-> > subsystem. It's not a display per se. (Unless you actually have small
-> > displays on the keycaps, and I think that's a thing too.)
-> >
-> > There's force feedback, there could be light feedback? There's also
-> > drivers/input/input-leds.c for the keycaps that have leds, like caps
-> > lock, num lock, etc.
-> >
-> > Anyway, just throwing ideas around, no strong opinions, really.
->=20
-> Yeah, sounds quite reasonable too, in fact it may make more sense
-> there given the LEDs are associated per-key rather than being an
-> uniform matrix in a rectangle if I understand correctly. If the input
-> subsystem wants to take it, that would be great.
+On 2023-11-20 08:21, Jiri Slaby wrote:
+> On 09. 11. 23, 9:50, Florian Eckert wrote:
+>> There is no in-kernel function to get the status register of a tty 
+>> device
+>> like the TIOCMGET ioctl returns to userspace. Create a new function,
+>> tty_get_tiocm(), to obtain the status register that other portions of 
+>> the
+>> kernel can call if they need this information, and move the existing
+>> internal tty_tiocmget() function to use this interface.
+>> 
+>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+>> ---
+>>   drivers/tty/tty_io.c | 28 ++++++++++++++++++++++------
+>>   include/linux/tty.h  |  1 +
+>>   2 files changed, 23 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+>> index 06414e43e0b5..e2e93404133e 100644
+>> --- a/drivers/tty/tty_io.c
+>> +++ b/drivers/tty/tty_io.c
+>> @@ -2498,6 +2498,24 @@ static int send_break(struct tty_struct *tty, 
+>> unsigned int duration)
+>>   	return retval;
+>>   }
+>>   +/**
+>> + * tty_get_tiocm - get tiocm status register
+>> + * @tty: tty device
+>> + *
+>> + * Obtain the modem status bits from the tty driver if the feature
+>> + * is supported.
+>> + */
+>> +int tty_get_tiocm(struct tty_struct *tty)
+>> +{
+>> +	int retval = -ENOTTY;
+>> +
+>> +	if (tty->ops->tiocmget)
+>> +		retval = tty->ops->tiocmget(tty);
+>> +
+>> +	return retval;
+> 
+> Why not simply:
 
-Unfortunately we are getting no input from input subsystem. Question
-seems to be more of "is auxdisplay willing to take it if it is done
-properly"?
+I just did it this way because it is also done this way in other 
+functions
+in this file.
 
-Best regards,
-								Pavel
+> {
+>  if (tty->ops->tiocmget)
+>     return tty->ops->tiocmget(tty);
+> 
+>  return -ENOTTY;
+> }
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Of course, we could also do it this way. If this is the C style for the 
+kernel,
+then I will change it. Please give me a short feedback whether I should 
+change it
+and send a v9, or whether it is just a comment from you.
 
---9jeVF7q2cF6LMKnm
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards
 
------BEGIN PGP SIGNATURE-----
+Florian
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZVvHYAAKCRAw5/Bqldv6
-8tamAJ9ay6bqjz3WKWY0hzcjA1oaf0rrFACghHK4/NlmCVR1KurSm8xzJvVcKSs=
-=1Jqp
------END PGP SIGNATURE-----
-
---9jeVF7q2cF6LMKnm--
 
