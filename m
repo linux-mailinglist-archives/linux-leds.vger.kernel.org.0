@@ -1,160 +1,204 @@
-Return-Path: <linux-leds+bounces-59-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-60-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2897F2FC7
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 14:52:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA5A7F30AF
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 15:26:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E193B21477
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 13:52:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD2451C219AB
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 14:26:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE3953800;
-	Tue, 21 Nov 2023 13:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC0B354FAF;
+	Tue, 21 Nov 2023 14:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ow3glYIt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D1An8Eju"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44664D6A
-	for <linux-leds@vger.kernel.org>; Tue, 21 Nov 2023 05:52:20 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAe-0006eH-Je; Tue, 21 Nov 2023 14:52:08 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAc-00Ab2v-T8; Tue, 21 Nov 2023 14:52:06 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5RAc-004xhl-Jn; Tue, 21 Nov 2023 14:52:06 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Rob Herring <robh@kernel.org>,
-	Kees Cook <keescook@chromium.org>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: linux-leds@vger.kernel.org,
-	kernel@pengutronix.de,
-	linux-pwm@vger.kernel.org
-Subject: [PATCH v3 102/108] leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
-Date: Tue, 21 Nov 2023 14:50:44 +0100
-Message-ID: <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
-In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9A2B1A3;
+	Tue, 21 Nov 2023 06:26:23 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0D1AF1F8BF;
+	Tue, 21 Nov 2023 14:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700576782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rEuossM4JQY9JZ11rmGjFmuYHEzbTy8cDDjv1mfs8ps=;
+	b=Ow3glYItRxjzgdERrVcWs2t1URa3x43jhS++pNSWgBQj8Qki8lxkgIRw1tg43fqiz0hFCM
+	WMDmBBqE9WoqMddg0GOcY92geB10jOzP32k9+NW2qgvT3cY0T4qT6IjJEEyVLPhY7bGQQa
+	WtWGAPDisyzCpfNpPj0ChJHE7uEruMc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700576782;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rEuossM4JQY9JZ11rmGjFmuYHEzbTy8cDDjv1mfs8ps=;
+	b=D1An8EjuY83yk7KfZIv+/C3MztaF9sHChe2a+wLweUqwV5R2lcYDWQ7mlL4vpzlvy2z/mO
+	LwsvEZv0i1szmNBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BABCC138E3;
+	Tue, 21 Nov 2023 14:26:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 9J+4LA2+XGUXUgAAMHmgww
+	(envelope-from <tiwai@suse.de>); Tue, 21 Nov 2023 14:26:21 +0000
+Date: Tue, 21 Nov 2023 15:26:21 +0100
+Message-ID: <87fs0zmbci.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Thorsten Leemhuis
+ <regressions@leemhuis.info>,	Jean-Jacques Hiblot
+ <jjhiblot@traphandler.com>,	Bagas Sanjaya <bagasdotme@gmail.com>,	Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>,	Linux Regressions
+ <regressions@lists.linux.dev>,	Linux LEDs <linux-leds@vger.kernel.org>,	Tim
+ Crawford <tcrawford@system76.com>,	Jeremy Soller <jeremy@system76.com>,
+	System76 Product Development <productdev@system76.com>,	Lee Jones
+ <lee@kernel.org>,	Pavel Machek <pavel@ucw.cz>,	Johannes =?ISO-8859-1?Q?Pe?=
+ =?ISO-8859-1?Q?n=DFel?= <johannes.penssel@gmail.com>
+Subject: Re: Fwd: sysfs: cannot create duplicate filename .../system76_acpi::kbd_backlight/color
+In-Reply-To: <37f6aa8e-8cab-4194-8493-8e39819ed608@redhat.com>
+References: <b5646db3-acff-45aa-baef-df3f660486fb@gmail.com>
+	<ZT25-gUmLl8MPk93@debian.me>
+	<dc6264c4-d551-4913-a51b-72c22217f15a@traphandler.com>
+	<ZUjnzB2RL2iLzIQG@debian.me>
+	<87sf50pm34.wl-tiwai@suse.de>
+	<b9d4ab02-fe49-48ab-bf74-0c7a578e891a@leemhuis.info>
+	<87edgjo2kr.wl-tiwai@suse.de>
+	<ae77198c-ae7b-4988-8b5b-824260b28e84@redhat.com>
+	<874jhfo0oc.wl-tiwai@suse.de>
+	<37f6aa8e-8cab-4194-8493-8e39819ed608@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3001; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=eAbaYjwwA0OCRDz5SvWK/v3AsL31VL6v2iCjmT5Ike4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLW8sLmi1+n87lDEoRDBM90YgeTHdjiVYe2De zbidZFqFL2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1vAAKCRCPgPtYfRL+ TigcB/9L1xCZTZZjdkxEICYJTnI13LgdX9pW8OdKlmv7l6967Dpa4c9olmexvixRQScFfvXffEX rd8ByZsH44fXxJzbS5mvmoHD/pr+Fz6FUhxb4eH4Fmi8P1VAdo+B6sgD9Qug6F3gXNUDmy+L+Yy ioig77q1JXU0XUuGcPaWY6mfFoAPwO+dqQMYujKaAs35GYkB/J/7gx8ABX3BgqR06BbQRvUQFmH 6f06MRgp24ks9RJVPrYvrxqAzZFmVKokcQ7SHaFjAcX97kyNFChjGYqboc11obhvx0GmO9zBwDM zS37ALEJTrQMo6COiGjUtdRPhXXLN50XLxHOlhwW0CP7SQkJ
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -5.80
+X-Spamd-Result: default: False [-5.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 TO_DN_ALL(0.00)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[14];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[suse.de,leemhuis.info,traphandler.com,gmail.com,vger.kernel.org,lists.linux.dev,system76.com,kernel.org,ucw.cz];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-This prepares the pwm sub-driver to further changes of the pwm core
-outlined in the commit introducing devm_pwmchip_alloc(). There is no
-intended semantical change and the driver should behave as before.
+On Tue, 21 Nov 2023 13:23:20 +0100,
+Hans de Goede wrote:
+> 
+> Hi,
+> 
+> On 11/21/23 11:33, Takashi Iwai wrote:
+> > On Tue, 21 Nov 2023 11:21:53 +0100,
+> > Hans de Goede wrote:
+> >>
+> >> Hi,
+> >>
+> >> On 11/21/23 10:52, Takashi Iwai wrote:
+> >>> On Tue, 21 Nov 2023 10:19:03 +0100,
+> >>> Thorsten Leemhuis wrote:
+> >>>>
+> >>>> Takashi, Jean-Jacques Hiblot, Lee,
+> >>>>
+> >>>> On 20.11.23 14:53, Takashi Iwai wrote:
+> >>>>> On Mon, 06 Nov 2023 14:19:08 +0100,
+> >>>>> Bagas Sanjaya wrote:
+> >>>>>> On Sat, Nov 04, 2023 at 01:01:56PM +0100, Jean-Jacques Hiblot wrote:
+> >>>>>>> On 29/10/2023 02:48, Bagas Sanjaya wrote:
+> >>>>>>>> On Thu, Oct 26, 2023 at 02:55:06PM +0700, Bagas Sanjaya wrote:
+> >>>>>>>>> The culprit seems to be commit c7d80059b086c4986cd994a1973ec7a5d75f8eea, which introduces a new 'color' attribute for led sysfs class devices. The problem is that the system76-acpi platform driver tries to create the exact same sysfs attribute itself for the system76_acpi::kbd_backlight device, leading to the conflict. For testing purposes, I've just rebuilt the kernel with the system76-apci color attribute renamed to kb_color, and that fixes the issue.
+> >>>>>>>>
+> >>>>>>>> Jean-Jacques Hiblot, would you like to take a look on this regression,
+> >>>>>>>> since you authored the culprit?
+> >>>>>
+> >>>>>>> The offending commit stores the color in struct led_classdev and exposes it
+> >>>>>>> via sysfs. It was part of a series that create a RGB leds from multiple
+> >>>>>>> single-color LEDs. for this series, we need the color information but we
+> >>>>>>> don't really need to expose it it via sysfs. In order to fix the issue, we
+> >>>>>>> can remove the 'color' attribute from the sysfs.
+> >>>>>>
+> >>>>>> OK, see you in the patch!
+> >>>>>
+> >>>>> Is there a patch available?
+> >>>>
+> >>>> Not that I know of. Could not find anything on lore either.
+> >>>>
+> >>>>> This bug hits for a few Logitech keyboard models, too, and it makes
+> >>>>> 6.6 kernel unsable for them, as hid-lg-g15 driver probe fails due to
+> >>>>> this bug:
+> >>>>>   https://bugzilla.kernel.org/show_bug.cgi?id=218155
+> >>>>>
+> >>>>> We need a quick fix for 6.6.x.
+> >>>>
+> >>>> Given that Jean-Jacques Hiblot (the author of the culprit) and Lee (who
+> >>>> committed it and sent it to Linus) know about this for a while already
+> >>>> without doing anything about it, I wonder if someone should just send a
+> >>>> revert to Linus (unless of course that is likely to introduce a
+> >>>> regression on its own).
+> >>>>
+> >>>> Takashi, could you maybe do this, unless a fix shows up real soon?
+> >>>
+> >>> I can, but we need to decide which way to go.
+> >>> There are several options:
+> >>>
+> >>> 1. Revert the commit c7d80059b086;
+> >>>    this drops led class color sysfs entries.  Also the store of
+> >>>    led_cdev->color from fwnode is dropped, too.
+> >>>
+> >>> 2. Drop only led class color sysfs entries;
+> >>>    a partial revert of c7d80059b086 above
+> >>
+> >> AFAIK further up in the thread (or a related thread) there
+> >> already was consensus to do this. Someone just needs to
+> >> write the patch.
+> > 
+> > Well, is there any user of this new led_classdev.color field?
+> > The value read from fwnode is stored there, but as far as I see, there
+> > seems no real user, so far.  If it's still unused, we can do the whole
+> > revert -- which is cleaner.
+> 
+> I honestly don't know. I've mostly just been reading along. I think
+> there may be some future in kernel use planned (not sure at all though).
+> 
+> If there are no current in kernel users then I agree we should just
+> go with a full revert now to fix the regression. If some later
+> in kernel users do come along then they can always re-introduce
+> the change minus the sysfs attr addition.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/rgb/leds-qcom-lpg.c | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+Sounds reasonable.
+OK, let me pitch the revert patch.
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 68d82a682bf6..283227e02df6 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -77,7 +77,7 @@ struct lpg {
- 
- 	struct mutex lock;
- 
--	struct pwm_chip pwm;
-+	struct pwm_chip *pwm;
- 
- 	const struct lpg_data *data;
- 
-@@ -977,9 +977,15 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
- 	return lpg_pattern_clear(led);
- }
- 
-+static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
-+{
-+	struct lpg **lpg = pwmchip_priv(chip);
-+	return *lpg;
-+}
-+
- static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
- {
--	struct lpg *lpg = container_of(chip, struct lpg, pwm);
-+	struct lpg *lpg = lpg_pwm_from_chip(chip);
- 	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
- 
- 	return chan->in_use ? -EBUSY : 0;
-@@ -995,7 +1001,7 @@ static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
- static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 			 const struct pwm_state *state)
- {
--	struct lpg *lpg = container_of(chip, struct lpg, pwm);
-+	struct lpg *lpg = lpg_pwm_from_chip(chip);
- 	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
- 	int ret = 0;
- 
-@@ -1026,7 +1032,7 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
- 			     struct pwm_state *state)
- {
--	struct lpg *lpg = container_of(chip, struct lpg, pwm);
-+	struct lpg *lpg = lpg_pwm_from_chip(chip);
- 	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
- 	unsigned int resolution;
- 	unsigned int pre_div;
-@@ -1089,13 +1095,19 @@ static const struct pwm_ops lpg_pwm_ops = {
- 
- static int lpg_add_pwm(struct lpg *lpg)
- {
-+	struct pwm_chip *chip;
- 	int ret;
- 
--	lpg->pwm.dev = lpg->dev;
--	lpg->pwm.npwm = lpg->num_channels;
--	lpg->pwm.ops = &lpg_pwm_ops;
-+	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels,
-+					     sizeof(&lpg));
-+	if (IS_ERR(chip))
-+		return PTR_ERR(chip);
- 
--	ret = pwmchip_add(&lpg->pwm);
-+	*(struct lpg **)pwmchip_priv(chip) = lpg;
-+
-+	chip->ops = &lpg_pwm_ops;
-+
-+	ret = pwmchip_add(chip);
- 	if (ret)
- 		dev_err(lpg->dev, "failed to add PWM chip: ret %d\n", ret);
- 
-@@ -1367,7 +1379,7 @@ static void lpg_remove(struct platform_device *pdev)
- {
- 	struct lpg *lpg = platform_get_drvdata(pdev);
- 
--	pwmchip_remove(&lpg->pwm);
-+	pwmchip_remove(lpg->pwm);
- }
- 
- static const struct lpg_data pm8916_pwm_data = {
--- 
-2.42.0
 
+thanks,
+
+Takashi
 
