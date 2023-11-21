@@ -1,146 +1,203 @@
-Return-Path: <linux-leds+bounces-53-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-54-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8312F7F2BED
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 12:41:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E090B7F2BFD
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 12:45:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BABD282231
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 11:41:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EFB41C21561
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 11:45:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D05D3487A5;
-	Tue, 21 Nov 2023 11:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46708F4EC;
+	Tue, 21 Nov 2023 11:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="thbtr9T8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M2wTXvVP"
 X-Original-To: linux-leds@vger.kernel.org
-X-Greylist: delayed 476 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Nov 2023 03:41:13 PST
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28CA9C;
-	Tue, 21 Nov 2023 03:41:13 -0800 (PST)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 10D352FC01F8;
-	Tue, 21 Nov 2023 12:33:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1700566395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bE/DZ6jSuHVY0GZUKmeiKrvkfUErx6XZ/rLhfW6+yWE=;
-	b=thbtr9T8Yuz+G62q4lI97f1h/EewjqDXX3f+f386nsC9W23YpT9QO1b1CmGW1avIKk10yr
-	LgJU9QZ5xf26OisbyPn4UmNLt2Z5KKKtMWgIGoP8MPCoaIXc8tabtrq8knuJKvq1vET/yD
-	G1Ssnz+cJoo5/oSznGQ/eBl7Oc2uqb4=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
-Date: Tue, 21 Nov 2023 12:33:13 +0100
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E57110;
+	Tue, 21 Nov 2023 03:45:29 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id e9e14a558f8ab-35b03e9c08eso6686725ab.1;
+        Tue, 21 Nov 2023 03:45:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700567128; x=1701171928; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5TsncJnkHHhH5aFZnD34nAuzJ0Am/ijvmcDHG7xzyko=;
+        b=M2wTXvVP+PBdSD+xHMocJLk6Ez8tcK5oRdgKqROBzIl9RTu5+6hQBVfAiI1BCh1TKY
+         0vkgd/0ygrqZXap1vtPeIkJE04Apj8qAUVKWUN5TGJP+dbDAwuboIfCX8U9cikdqh/M1
+         +6kF+6Z3hlQiqyTVlkosK8y17FZUWgldh4zRx32TkWxLZXrCRfSy/KzBbjCZrIMvedeA
+         BdI/St4pbiNmAJbSqlddnLvoq5D6VnY4xcXgOrBSfeoXM0QX/ZAl4qG4vV7eMFxAENNb
+         4pWkXJzkQrmPDaaSfKuIScq8bo0hzcnqjd9SCehavhTGgtbPGpM3QlIW3MlbLR5cHCjf
+         tUKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700567128; x=1701171928;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5TsncJnkHHhH5aFZnD34nAuzJ0Am/ijvmcDHG7xzyko=;
+        b=RTV4ULRTQkQ9AqMKAtMRO8J01jbDfkUBWPfk7mnBTdqL4hQX9U6I7wbXOASr3BjjTC
+         7LE9DakQXg1Wxg0L1+1MyXm7CpmcZr5IBECh7ySO23DPjPpRlttfRwjJWzyjllMYo3Nw
+         k1BqmLc+E9BFQSVIwsMt66+/hqSI+7tfmPHCfQKsfXod0zWPzTta9QPAI+BZWaGZ8nTv
+         7qhlYOa4YfGzMRJCGbiZJcjLMH/91WJCkQRniWmB1S33x7tT8wxe7iVFdG8Sv2GLg5Tn
+         awbKZPMCKxNKga67goYO4SAzjtx/UcHnS0duhs4p+Ifuc+k8iJerWWZXK6hmlijVftc4
+         gdyQ==
+X-Gm-Message-State: AOJu0Yx5Y8CjjXq5sFTe6VselNIvYCDkJB8AyAzHnjd3nVR9UEJ+frWc
+	ulRZEi1wrtn78ceT9ogy9jM=
+X-Google-Smtp-Source: AGHT+IHh6WF5sUIVPSxYQng6yUeCz/frSIZ9ZH+napgzf9fV7M9fughcq0JwTN6BGi9YZaXbzZco0g==
+X-Received: by 2002:a05:6e02:13ee:b0:35b:2f7:514f with SMTP id w14-20020a056e0213ee00b0035b02f7514fmr5981800ilj.32.1700567128408;
+        Tue, 21 Nov 2023 03:45:28 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id h7-20020a056a00170700b006cb574445efsm5722770pfc.88.2023.11.21.03.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 03:45:27 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0CE3F102106CB; Tue, 21 Nov 2023 18:45:20 +0700 (WIB)
+Date: Tue, 21 Nov 2023 18:45:20 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>, Hans de Goede <hdegoede@redhat.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>,
+	Linux LEDs <linux-leds@vger.kernel.org>,
+	Tim Crawford <tcrawford@system76.com>,
+	Jeremy Soller <jeremy@system76.com>,
+	System76 Product Development <productdev@system76.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Johannes =?utf-8?Q?Pen=C3=9Fel?= <johannes.penssel@gmail.com>
+Subject: Re: Fwd: sysfs: cannot create duplicate filename
+ .../system76_acpi::kbd_backlight/color
+Message-ID: <ZVyYUPei6_YP-g94@archie.me>
+References: <b5646db3-acff-45aa-baef-df3f660486fb@gmail.com>
+ <ZT25-gUmLl8MPk93@debian.me>
+ <dc6264c4-d551-4913-a51b-72c22217f15a@traphandler.com>
+ <ZUjnzB2RL2iLzIQG@debian.me>
+ <87sf50pm34.wl-tiwai@suse.de>
+ <b9d4ab02-fe49-48ab-bf74-0c7a578e891a@leemhuis.info>
+ <87edgjo2kr.wl-tiwai@suse.de>
+ <ae77198c-ae7b-4988-8b5b-824260b28e84@redhat.com>
+ <874jhfo0oc.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Pavel Machek <pavel@ucw.cz>, Jani Nikula <jani.nikula@linux.intel.com>,
- hdegoede@redhat.com, jikos@kernel.org
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Lee Jones
- <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linux-input@vger.kernel.org, ojeda@kernel.org, linux-leds@vger.kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="avoRCUQPSyjgJdcP"
+Content-Disposition: inline
+In-Reply-To: <874jhfo0oc.wl-tiwai@suse.de>
 
-Hi,
 
-Am 20.11.23 um 21:52 schrieb Pavel Machek:
-> Hi!
->
->>>> So... a bit of rationale. The keyboard does not really fit into the
->>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>> a matrix of them.
->>> Makes sense.
->>>
->>>> We do see various strange displays these days -- they commonly have
->>>> rounded corners and holes in them. I'm not sure how that's currently
->>>> supported, but I believe it is reasonable to view keyboard as a
->>>> display with slightly weird placing of pixels.
->>>>
->>>> Plus, I'd really like to play tetris on one of those :-).
->>>>
->>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>> better options?
->>> It sounds like a fair use case -- auxdisplay are typically simple
->>> character-based or small graphical displays, e.g. 128x64, that may not
->>> be a "main" / usual screen as typically understood, but the concept is
->>> a bit fuzzy and we are a bit of a catch-all.
->>>
->>> And "keyboard backlight display with a pixel/color per-key" does not
->>> sound like a "main" screen, and having some cute effects displayed
->>> there are the kind of thing that one could do in the usual small
->>> graphical ones too. :)
->>>
->>> But if somebody prefers to create new categories (or subcategories
->>> within auxdisplay) to hold these, that could be nice too (in the
->>> latter case, I would perhaps suggest reorganizing all of the existing
->>> ones while at it).
->> One could also reasonably make the argument that controlling the
->> individual keyboard key backlights should be part of the input
->> subsystem. It's not a display per se. (Unless you actually have small
->> displays on the keycaps, and I think that's a thing too.)
-> While it would not be completely crazy to do that... I believe the
-> backlight is more of a display and less of a keyboard. Plus input
-> subystem is very far away from supporting this, and we had no input
-> from input people here.
->
-> I don't think LED subsystem is right place for this, and I believe
-> auxdisplay makes slightly more sense than input.
->
-> Unless someone steps up, I'd suggest Werner tries to implement this as
-> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
-> different from RGB on display. But there are other LED displays, so
-> auxdisplay should handle this. Plus pixels are really funnily
-> shaped. But displays with missing pixels -- aka holes for camera --
-> are common in phones, and I believe we'll get variable pixel densities
-> -- less dense over camera -- too. So displays will have to deal with
-> these in the end.]
+--avoRCUQPSyjgJdcP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Another idea I want to throw in the mix:
+On Tue, Nov 21, 2023 at 11:33:55AM +0100, Takashi Iwai wrote:
+> On Tue, 21 Nov 2023 11:21:53 +0100,
+> Hans de Goede wrote:
+> >=20
+> > Hi,
+> >=20
+> > On 11/21/23 10:52, Takashi Iwai wrote:
+> > > On Tue, 21 Nov 2023 10:19:03 +0100,
+> > > Thorsten Leemhuis wrote:
+> > >>
+> > >> Takashi, Jean-Jacques Hiblot, Lee,
+> > >>
+> > >> On 20.11.23 14:53, Takashi Iwai wrote:
+> > >>> On Mon, 06 Nov 2023 14:19:08 +0100,
+> > >>> Bagas Sanjaya wrote:
+> > >>>> On Sat, Nov 04, 2023 at 01:01:56PM +0100, Jean-Jacques Hiblot wrot=
+e:
+> > >>>>> On 29/10/2023 02:48, Bagas Sanjaya wrote:
+> > >>>>>> On Thu, Oct 26, 2023 at 02:55:06PM +0700, Bagas Sanjaya wrote:
+> > >>>>>>> The culprit seems to be commit c7d80059b086c4986cd994a1973ec7a5=
+d75f8eea, which introduces a new 'color' attribute for led sysfs class devi=
+ces. The problem is that the system76-acpi platform driver tries to create =
+the exact same sysfs attribute itself for the system76_acpi::kbd_backlight =
+device, leading to the conflict. For testing purposes, I've just rebuilt th=
+e kernel with the system76-apci color attribute renamed to kb_color, and th=
+at fixes the issue.
+> > >>>>>>
+> > >>>>>> Jean-Jacques Hiblot, would you like to take a look on this regre=
+ssion,
+> > >>>>>> since you authored the culprit?
+> > >>>
+> > >>>>> The offending commit stores the color in struct led_classdev and =
+exposes it
+> > >>>>> via sysfs. It was part of a series that create a RGB leds from mu=
+ltiple
+> > >>>>> single-color LEDs. for this series, we need the color information=
+ but we
+> > >>>>> don't really need to expose it it via sysfs. In order to fix the =
+issue, we
+> > >>>>> can remove the 'color' attribute from the sysfs.
+> > >>>>
+> > >>>> OK, see you in the patch!
+> > >>>
+> > >>> Is there a patch available?
+> > >>
+> > >> Not that I know of. Could not find anything on lore either.
+> > >>
+> > >>> This bug hits for a few Logitech keyboard models, too, and it makes
+> > >>> 6.6 kernel unsable for them, as hid-lg-g15 driver probe fails due to
+> > >>> this bug:
+> > >>>   https://bugzilla.kernel.org/show_bug.cgi?id=3D218155
+> > >>>
+> > >>> We need a quick fix for 6.6.x.
+> > >>
+> > >> Given that Jean-Jacques Hiblot (the author of the culprit) and Lee (=
+who
+> > >> committed it and sent it to Linus) know about this for a while alrea=
+dy
+> > >> without doing anything about it, I wonder if someone should just sen=
+d a
+> > >> revert to Linus (unless of course that is likely to introduce a
+> > >> regression on its own).
+> > >>
+> > >> Takashi, could you maybe do this, unless a fix shows up real soon?
+> > >=20
+> > > I can, but we need to decide which way to go.
+> > > There are several options:
+> > >=20
+> > > 1. Revert the commit c7d80059b086;
+> > >    this drops led class color sysfs entries.  Also the store of
+> > >    led_cdev->color from fwnode is dropped, too.
+> > >=20
+> > > 2. Drop only led class color sysfs entries;
+> > >    a partial revert of c7d80059b086 above
+> >=20
+> > AFAIK further up in the thread (or a related thread) there
+> > already was consensus to do this. Someone just needs to
+> > write the patch.
+>=20
+> Well, is there any user of this new led_classdev.color field?
+> The value read from fwnode is stored there, but as far as I see, there
+> seems no real user, so far.  If it's still unused, we can do the whole
+> revert -- which is cleaner.
 
-Maybe the kernel is not the right place to implement this at all. RGB stuff is 
-not at all standardized and every vendor is doing completely different 
-interfaces, which does not fit the kernel userpsace apis desire to be uniformal 
-and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does 
-not fit the snake-effect mode, or the raindrops mode, or the 
-4-different-colors-in-the-edges-breathing-and-color-cycling mode.
+ACK for the revert. The original commit should have been designed to
+not have sysfs conflict like this, though.
 
-So my current idea: Implement these keyboards as a single zone RGB kbd_backlight 
-in the leds interface to have something functional out of the box, but make it 
-runtime disable-able if something like 
-https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular 
-control from userspace via hidraw.
+Thanks.
 
-Kind regards,
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Werner
+--avoRCUQPSyjgJdcP
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> Best regards,
-> 								Pavel
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVyYUAAKCRD2uYlJVVFO
+o5mNAP4u3Wc1/hr5E+vWPaq6O28ZmZ+BHGpDfTiZ4BWEye6Q4AD9G0LmUN2jwGtd
+k30vUK6fk2DQWsvCfuimjR905DD7GQo=
+=sj55
+-----END PGP SIGNATURE-----
+
+--avoRCUQPSyjgJdcP--
 
