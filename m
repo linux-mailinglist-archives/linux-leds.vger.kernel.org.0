@@ -1,55 +1,53 @@
-Return-Path: <linux-leds+bounces-89-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-90-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C527F451D
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 12:50:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EECF7F4536
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 12:56:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CB0EB208C6
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 11:50:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 805F41C2088D
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 11:56:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 747D51642F;
-	Wed, 22 Nov 2023 11:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B505524D6;
+	Wed, 22 Nov 2023 11:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oe7OloYo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gs4ZTWRA"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5612C2574C
-	for <linux-leds@vger.kernel.org>; Wed, 22 Nov 2023 11:50:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8798CC433C7;
-	Wed, 22 Nov 2023 11:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6C54B5AE;
+	Wed, 22 Nov 2023 11:56:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FADC433C8;
+	Wed, 22 Nov 2023 11:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700653802;
-	bh=w3kG8h1VvYc97hgX3wwWf94uIjyQmpKJij2r7xobzXY=;
+	s=k20201202; t=1700654186;
+	bh=7FpwYJTnM8Sy35jSkWBC0FWDgkpbT2czkdSgJPRxWPs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oe7OloYoY6sfPuiQkjbrcOgApJs1ZDbJur8aDY1z/AW72mN5HB6EsdzkmOIfFv7zQ
-	 SuzmSVjhkU6bz58zDeWPVIgBzQsCAusaFrxB14pdzy+hMzenMr6Vewc7hxhn4lJVvE
-	 kgI32ynUoz3AEObKOCmkdkspDROCpXEdfan1f2+rhQNvFUFz1tyGZ2bq/k2bZd1fAo
-	 OONhbWz2z7E7+wvNMv1lVWUTvPFJITmcEZGVgu2LFcVqkp0NqjMIo9ruYmBJYBEDlL
-	 eVSevIxSzaWn0EAOJ2GtvCsFNDZEiMfr3/3gEA9DjH3KInqi4FwiA6tHfTke3YA+1v
-	 GzGDBTn8jBUEQ==
-Date: Wed, 22 Nov 2023 11:49:58 +0000
+	b=gs4ZTWRApFZS9ttCpySF1aqua3iT0HL2HNL5YjdrMkIgNUNDVUD/sQHo1d/YmIZ7Y
+	 EoUypfwAIJdv0D529TfvuG83FvJ+vWI8xOcrJfvtRXzY/NRmz+ioXywL7fmIHQP19g
+	 paeGSFD2pWrl01YMVq18ArJrAdX7H9BGa6NpJTzbW2bvNjdb65EZG82IOql4WSPjD5
+	 Q7cXJiLM7wijfbgNjL0Jrr4xQqsipLe5zx0cJr8BRUmS31J6IiV0xySUpXV/y9LUFQ
+	 PIBwCRwsax/7LA7RXhFrVMcIPpwDVXQX/SUyc8CtVwU1mx9PFsydAVrHsRhEpwK7vG
+	 2TTyubatL4gQQ==
+Date: Wed, 22 Nov 2023 11:56:21 +0000
 From: Lee Jones <lee@kernel.org>
-To: Naresh Solanki <naresh.solanki@9elements.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RESEND PATCH v3] leds: max5970: Add support for max5970
-Message-ID: <20231122114958.GJ173820@google.com>
-References: <20230914114521.1491390-1-naresh.solanki@9elements.com>
- <20230920130528.GG13143@google.com>
- <CABqG17j_gCr8xw65qjn4Kh7ChdraZbLsyGOsCmFEEWG3txjE4A@mail.gmail.com>
- <20230921103156.GB3449785@google.com>
- <CABqG17ibzHiYmzCZ6ZpAa8BZhj5N+0dQ0aa1yebtCk0YYVdsFQ@mail.gmail.com>
- <CABqG17h8hxgmMA=G5hitzgjNSX_BZ2utFsMZni9evn0Nogu0GA@mail.gmail.com>
- <20231117121531.GC137434@google.com>
- <CABqG17hPnx465dRKdMdSd2s38_T6DQFn5hsx1SL0RtA+r4JFZQ@mail.gmail.com>
- <20231121153302.GD173820@google.com>
- <CABqG17hufcNS5-wLEEpZniSE2MAfEeN9Ljhs5MPGeu-2xZP+HQ@mail.gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Pavel Machek <pavel@ucw.cz>, Thierry Reding <thierry.reding@gmail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Rob Herring <robh@kernel.org>, Kees Cook <keescook@chromium.org>,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	linux-leds@vger.kernel.org, kernel@pengutronix.de,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 102/108] leds: qcom-lpg: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231122115621.GK173820@google.com>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -59,66 +57,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABqG17hufcNS5-wLEEpZniSE2MAfEeN9Ljhs5MPGeu-2xZP+HQ@mail.gmail.com>
+In-Reply-To: <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
 
-Please read this:
+On Tue, 21 Nov 2023, Uwe Kleine-König wrote:
 
-  https://subspace.kernel.org/etiquette.html#do-not-top-post-when-replying
-
-On Tue, 21 Nov 2023, Naresh Solanki wrote:
-
-> Hi Lee,
+> This prepares the pwm sub-driver to further changes of the pwm core
+> outlined in the commit introducing devm_pwmchip_alloc(). There is no
+> intended semantical change and the driver should behave as before.
 > 
-> Thank you for your insights. I appreciate your guidance on the matter.
-> Yes will rewrite the change as below:
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/leds/rgb/leds-qcom-lpg.c | 30 +++++++++++++++++++++---------
+>  1 file changed, 21 insertions(+), 9 deletions(-)
 > 
->         regmap = dev_get_regmap(pdev->dev.parent, NULL);
->         if (!regmap)
->                 return -ENODEV;
-> 
-> I believe this modification aligns with your suggestion. Please let me
-> know if this meets the requirements or if you have any further
-> suggestions or adjustments
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index 68d82a682bf6..283227e02df6 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -77,7 +77,7 @@ struct lpg {
+>  
+>  	struct mutex lock;
+>  
+> -	struct pwm_chip pwm;
+> +	struct pwm_chip *pwm;
+>  
+>  	const struct lpg_data *data;
+>  
+> @@ -977,9 +977,15 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
+>  	return lpg_pattern_clear(led);
+>  }
+>  
+> +static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
+> +{
+> +	struct lpg **lpg = pwmchip_priv(chip);
+> +	return *lpg;
+> +}
 
-Please submit the next revision.
+I don't have easy-vis into the other patches, but if this is a common
+pattern, perhaps add a generic helper in <linux/pwm.h>?
 
-> On Tue, 21 Nov 2023 at 21:03, Lee Jones <lee@kernel.org> wrote:
-> >
-> > On Mon, 20 Nov 2023, Naresh Solanki wrote:
-> >
-> > > Hi
-> > >
-> > > On Fri, 17 Nov 2023 at 17:45, Lee Jones <lee@kernel.org> wrote:
-> > > >
-> > > > On Thu, 09 Nov 2023, Naresh Solanki wrote:
-> > > >
-> > > > > Hey Lee,
-> > > > >
-> > > > > Is there anything specific you'd suggest changing in the current
-> > > > > patchset, or are we good to proceed?
-> > > >
-> > > > What do you mean by proceed?
-> > > >
-> > > > You are good to make changes and submit a subsequent version.
-> > > >
-> > > > Not entirely sure what you're asking.
-> > >
-> > > As a follow up on previous discussion regarding use of DEFER on probe
-> > > if regmap isn't initialized, the implementation was based on other similar
-> > > drivers & hence it was retained although its not needed due to dependencies.
-> > >
-> > > I'm not entirely sure to keep the regmap check or make another
-> > > patch revision with regmap check removed ?
-> >
-> > You tell me.
-> >
-> > You should understand the device you're attempting to support along with
-> > the code you're authoring and its subsequent implications.  If you don't
-> > know what a section of code does or whether/why it's required, why did
-> > you write it?
-> >
-> > --
-> > Lee Jones [李琼斯]
+>  static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+>  {
+> -	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> +	struct lpg *lpg = lpg_pwm_from_chip(chip);
+>  	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+>  
+>  	return chan->in_use ? -EBUSY : 0;
+> @@ -995,7 +1001,7 @@ static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+>  static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  			 const struct pwm_state *state)
+>  {
+> -	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> +	struct lpg *lpg = lpg_pwm_from_chip(chip);
+>  	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+>  	int ret = 0;
+>  
+> @@ -1026,7 +1032,7 @@ static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  static int lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+>  			     struct pwm_state *state)
+>  {
+> -	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> +	struct lpg *lpg = lpg_pwm_from_chip(chip);
+>  	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+>  	unsigned int resolution;
+>  	unsigned int pre_div;
+> @@ -1089,13 +1095,19 @@ static const struct pwm_ops lpg_pwm_ops = {
+>  
+>  static int lpg_add_pwm(struct lpg *lpg)
+>  {
+> +	struct pwm_chip *chip;
+>  	int ret;
+>  
+> -	lpg->pwm.dev = lpg->dev;
+> -	lpg->pwm.npwm = lpg->num_channels;
+> -	lpg->pwm.ops = &lpg_pwm_ops;
+> +	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels,
+> +					     sizeof(&lpg));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+>  
+> -	ret = pwmchip_add(&lpg->pwm);
+> +	*(struct lpg **)pwmchip_priv(chip) = lpg;
+
+This is vile!
 
 -- 
 Lee Jones [李琼斯]
