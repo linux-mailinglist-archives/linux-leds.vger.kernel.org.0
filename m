@@ -1,180 +1,222 @@
-Return-Path: <linux-leds+bounces-79-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-84-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EEB7F3755
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 21:29:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A977F42CB
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 10:50:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 105ABB21A21
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Nov 2023 20:29:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D59CB1C2086B
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Nov 2023 09:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B734455768;
-	Tue, 21 Nov 2023 20:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="egfdggIo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E7D5647E;
+	Wed, 22 Nov 2023 09:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5917FD49;
-	Tue, 21 Nov 2023 12:28:57 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id DFC94100071;
-	Tue, 21 Nov 2023 23:28:55 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru DFC94100071
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1700598535;
-	bh=YEPAVovAT7fOQhJBeFq/4sGvowJqoh7IRxQv9siAkaY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=egfdggIoxtLmc2adnt4Mj3XJh8mp39esubzJDPpJ0i9gKVrMXVLBhtTReKVqJxiGJ
-	 pFzNz770d+ksoMuMoBu2BeesmSQuwSU1kcNgxGTRtM/6+BLvni9peP0kdcoN2LX3jR
-	 atNt3AaMirmNX8IcEc4e8esX27/6jtVCuUFxQHa6YDebI6sihKhPKkjOE05wMCodTQ
-	 phQBdwout94O0NvOomzOMpJSDKBVXZVmvON6otjF66ukhwhvzx2tF5Z8u26zv2UAnO
-	 6nKsnsou4FE4qFjNA5vh59Aj78VGExxCTQu3ph8sNEkLWiPRfzkslhUy0xotXL9OYY
-	 52S//8BKrd7KA==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Tue, 21 Nov 2023 23:28:55 +0300 (MSK)
-Received: from localhost.localdomain (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 21 Nov 2023 23:28:55 +0300
-From: Dmitry Rokosov <ddrokosov@salutedevices.com>
-To: <lee@kernel.org>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<andy.shevchenko@gmail.com>
-CC: <kernel@sberdevices.ru>, <rockosov@gmail.com>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-leds@vger.kernel.org>, Dmitry Rokosov <ddrokosov@salutedevices.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v4 11/11] dt-bindings: leds: aw200xx: fix led pattern and add reg constraints
-Date: Tue, 21 Nov 2023 23:28:35 +0300
-Message-ID: <20231121202835.28152-12-ddrokosov@salutedevices.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20231121202835.28152-1-ddrokosov@salutedevices.com>
-References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9C83874;
+	Wed, 22 Nov 2023 01:50:31 -0800 (PST)
+Received: from [127.0.0.1] (helo=localhost)
+	by relay.expurgate.net with smtp (Exim 4.92)
+	(envelope-from <prvs=07040f78fa=fe@dev.tdt.de>)
+	id 1r5jsB-00ABvW-6E; Wed, 22 Nov 2023 10:50:19 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+	by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <fe@dev.tdt.de>)
+	id 1r5jsA-00Ffx0-8r; Wed, 22 Nov 2023 10:50:18 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+	by securemail.tdt.de (Postfix) with ESMTP id DCBCB240049;
+	Wed, 22 Nov 2023 10:50:17 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+	by securemail.tdt.de (Postfix) with ESMTP id 390C9240040;
+	Wed, 22 Nov 2023 10:50:17 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+	by mail.dev.tdt.de (Postfix) with ESMTP id 9CA4133A3D;
+	Wed, 22 Nov 2023 10:50:16 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181514 [Nov 21 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/21 17:47:00 #22495004
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date: Wed, 22 Nov 2023 10:50:16 +0100
+From: Florian Eckert <fe@dev.tdt.de>
+To: Lee Jones <lee@kernel.org>
+Cc: m.brock@vanmierlo.com, Eckert.Florian@googlemail.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, pavel@ucw.cz,
+ kabel@kernel.org, u.kleine-koenig@pengutronix.de,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [Patch v8 6/6] leds: ledtrig-tty: add additional line state
+ evaluation
+In-Reply-To: <20231121152336.GC173820@google.com>
+References: <20231109085038.371977-1-fe@dev.tdt.de>
+ <20231109085038.371977-7-fe@dev.tdt.de>
+ <39e7c892299c74821b1105a0967063ca@vanmierlo.com>
+ <20231117121253.GB137434@google.com>
+ <bc369f8759778c2c3b8be3a5d755064a@dev.tdt.de>
+ <20231121152336.GC173820@google.com>
+Message-ID: <c8635ad8fd369283f33e1f9b7e4ee66d@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.17
+Content-Transfer-Encoding: quoted-printable
+X-purgate-type: clean
+X-purgate-ID: 151534::1700646619-6487AC7C-A443B82E/0/0
+X-purgate: clean
 
-AW200XX controllers have the capability to declare more than 0xf LEDs,
-therefore, it is necessary to accept LED names using an appropriate
-regex pattern.
 
-The register offsets can be adjusted within the specified range, with
-the maximum value corresponding to the highest number of LEDs that can
-be connected to the controller.
 
-Fixes: e338a05e76ca ("dt-bindings: leds: Add binding for AW200xx")
-Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
----
- .../bindings/leds/awinic,aw200xx.yaml         | 59 ++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+On 2023-11-21 16:23, Lee Jones wrote:
+> On Mon, 20 Nov 2023, Florian Eckert wrote:
+>=20
+>>=20
+>>=20
+>> On 2023-11-17 13:12, Lee Jones wrote:
+>> > On Thu, 09 Nov 2023, m.brock@vanmierlo.com wrote:
+>> >
+>> > > Florian Eckert schreef op 2023-11-09 09:50:
+>> > > > The serial tty interface also supports additional input signals,=
+ that
+>> > > > can also be evaluated within this trigger. This change is adding=
+ the
+>> > > > following additional input sources, which could be controlled
+>> > > > via the '/sys/class/<leds>/' sysfs interface.
+>> > > >
+>> > > > Explanation:
+>> > > > DCE =3D Data Communication Equipment (Modem)
+>> > > > DTE =3D Data Terminal Equipment (Computer)
+>> > > >
+>> > > > - cts:
+>> > > >   DCE is ready to accept data from the DTE (CTS =3D Clear To Sen=
+d). If
+>> > > >   the line state is detected, the LED is switched on.
+>> > > >   If set to 0 (default), the LED will not evaluate CTS.
+>> > > >   If set to 1, the LED will evaluate CTS.
+>> > > >
+>> > > > - dsr:
+>> > > >   DCE is ready to receive and send data (DSR =3D Data Set Ready)=
+. If the
+>> > > >   line state is detected, the LED is switched on.
+>> > > >   If set to 0 (default), the LED will not evaluate DSR.
+>> > > >   If set to 1, the LED will evaluate DSR.
+>> > > >
+>> > > > - dcd:
+>> > > >   DTE is receiving a carrier from the DCE (DCD =3D Data Carrier =
+Detect).
+>> > > >   If the line state is detected, the LED is switched on.
+>> > > >   If set to 0 (default), the LED will not evaluate DCD.
+>> > > >   If set to 1, the LED will evaluate DCD.
+>> > > >
+>> > > > - rng:
+>> > > >   DCE has detected an incoming ring signal on the telephone line
+>> > > >   (RNG =3D Ring Indicator). If the line state is detected, the L=
+ED is
+>> > > >   switched on.
+>> > > >   If set to 0 (default), the LED will not evaluate RNG.
+>> > > >   If set to 1, the LED will evaluate RNG.
+>> > > >
+>> > > > Also add an invert flag on LED blink, so that the LED blinks in =
+the
+>> > > > correct order.
+>> > > >
+>> > > > * If one off the new enabled input signals are evaluatet as 'ena=
+bled',
+>> > > >   and data are transmitted, then the LED should first blink 'off=
+' and
+>> > > >   then 'on' (invert).
+>> > > > * If all the new enabled input signals are evaluatet as 'disable=
+d',
+>> > > >   and data are transmitted, then the LED should first blink 'on'=
+ and
+>> > > >   then 'off'.
+>> > > >
+>> > > > Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+>> > > > ---
+>> > > >  .../ABI/testing/sysfs-class-led-trigger-tty   | 40 ++++++++++
+>> > > >  drivers/leds/trigger/ledtrig-tty.c            | 77 ++++++++++++=
+++++++-
+>> > > >  2 files changed, 116 insertions(+), 1 deletion(-)
+>> >
+>> > [...]
+>> >
+>> > > Reviewed-by: Maarten Brock <m.brock@vanmierlo.com>
+>> >
+>> > Please snip your replies.
+>>=20
+>> Is there anything I can do? Or do I have to do something? Please give=20
+>> me
+>> more detailed instructions
+>=20
+> That instruction wasn't for you.
+>=20
+> This patch is still on my INCOMING list.
+>=20
+> Do you have Greg's blessing yet?
 
-diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-index 67c1d960db1d..54d6d1f08e24 100644
---- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-+++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-@@ -45,7 +45,7 @@ properties:
-     maxItems: 1
- 
- patternProperties:
--  "^led@[0-9a-f]$":
-+  "^led@[0-9a-f]+$":
-     type: object
-     $ref: common.yaml#
-     unevaluatedProperties: false
-@@ -69,6 +69,63 @@ patternProperties:
-           where max-current-switch-number is determinated by led configuration
-           and depends on how leds are physically connected to the led driver.
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: awinic,aw20036
-+    then:
-+      patternProperties:
-+        "^led@[0-9a-f]+$":
-+          properties:
-+            reg:
-+              items:
-+                minimum: 0
-+                maximum: 36
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: awinic,aw20054
-+    then:
-+      patternProperties:
-+        "^led@[0-9a-f]+$":
-+          properties:
-+            reg:
-+              items:
-+                minimum: 0
-+                maximum: 54
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: awinic,aw20072
-+    then:
-+      patternProperties:
-+        "^led@[0-9a-f]+$":
-+          properties:
-+            reg:
-+              items:
-+                minimum: 0
-+                maximum: 72
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: awinic,aw20108
-+    then:
-+      patternProperties:
-+        "^led@[0-9a-f]+$":
-+          properties:
-+            reg:
-+              items:
-+                minimum: 0
-+                maximum: 108
-+
- required:
-   - compatible
-   - reg
--- 
-2.36.0
+The summary of my v8:
 
+The changes for the tty layer on v5 in 'drivers/tty/tty_io.c' got an
+'Acked-by: Greg Kroah-Hartman' [1].
+I have always added his 'Acked-by' to the following patch series.
+And I did not made changes to this. So I think I have his blessing
+for this changes in his maintained tty layer.
+
+The Memory leak patch I send during v7 [2] got a comment
+from Greg, that I have to send this also to=20
+'linux-kernel@vger-kernel.org'
+So this should go into the stable branch [3]. This got an
+'Reviewed-by: Uwe Kleine-K=C3=B6nig' [4]. I add this to v8 [5].
+So far I don't know if this has already been merged into
+the master and then backported into the stable branches?.
+
+For the changes in the ledtrig-tty driver I am still waiting for an
+complete 'ACK' or 'NOK' whether I should change something.
+I have added all of Greg's requested changes in v5 [6]:
+* split this series
+* Add the requested change
+* Switch the driver to use completion for 'sysfs'
+
+As I understand it, he handed over the review to the LED subsystem team=20
+[7].
+
+I then added a few more changes that came from Maarten in v7 [8].
+I got his 'Reviewed-by: Maarten Brock' for v8 on patch 6/6.
+
+The patches 4/6 and 5/6 of the v8 still waiting for review?
+
+Best regards
+
+Florian
+
+[1]=20
+https://lore.kernel.org/linux-leds/2023102327-rename-kosher-bf03@gregkh/#=
+t
+[2]=20
+https://lore.kernel.org/linux-leds/2023110629-scenic-rounding-905f@gregkh=
+/
+[3]=20
+https://lore.kernel.org/linux-leds/20231106141205.3376954-1-fe@dev.tdt.de=
+/
+[4]=20
+https://lore.kernel.org/linux-leds/20231106144914.bflq2jxejdxs6zjb@pengut=
+ronix.de/
+[5]=20
+https://lore.kernel.org/linux-leds/20231109085038.371977-1-fe@dev.tdt.de/=
+T/#m1f0c4680749812f1a933667128f73995efe66bca
+[6]=20
+https://lore.kernel.org/linux-leds/2023102341-jogger-matching-dded@gregkh=
+/
+[7]=20
+https://lore.kernel.org/linux-leds/2023102333-skewer-reclining-8d04@gregk=
+h/
+[8]=20
+https://lore.kernel.org/linux-leds/bc94f31e965be6f640c286f8c8a2cf38@vanmi=
+erlo.com/
+[9]=20
+https://lore.kernel.org/linux-leds/39e7c892299c74821b1105a0967063ca@vanmi=
+erlo.com/
 
