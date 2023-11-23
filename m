@@ -1,47 +1,51 @@
-Return-Path: <linux-leds+bounces-98-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-99-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368277F5AAD
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 09:58:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFE17F5AD6
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:09:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7E78B20D75
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 08:58:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA19128184B
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 09:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6422E1C6A8;
-	Thu, 23 Nov 2023 08:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986F8208B3;
+	Thu, 23 Nov 2023 09:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvd7A4hF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvNHvLuf"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4736116421
-	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 08:58:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13566C433C7;
-	Thu, 23 Nov 2023 08:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CAF2032F;
+	Thu, 23 Nov 2023 09:09:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716E2C433CC;
+	Thu, 23 Nov 2023 09:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700729926;
-	bh=q2nqQ+Ft1eQOUW2X9fgHDH+zIoCWzHvJ+cSPKg6Yw3M=;
+	s=k20201202; t=1700730551;
+	bh=MGeralf9ybdkNXfCDd+XvD4Agot2pAJ6J1WgdjYYR0c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=lvd7A4hFcdMNj5XSeCqeJ2MhP6sCi+JAPE3Xhxl5xsJ5vZnefKU5jnWSo/B3Xe8V+
-	 uWPkaJ6XQ/o9btVX9i4Dv2zfn60ZZidA5YNG5xr3d8XO49SqUC6J0IJ8in69iX2wYt
-	 GXDZaMGXROxvNAczsR3bFcpl2HDwyUZZB2HZkhsZIGZdaZiAs4tTn8iH/rn96iRxU7
-	 BfOVuhhbwq3lg/3UMpIV3diMOnoX6y0j4CGlgqOtbtawy1lE/gh2Wme89SgInv+oaX
-	 QbJvWHnkoBN20G1LIMalkM4M5wEw9ZSr/dRFUILoqDBT7qnLDOqpers90nl40WHxcC
-	 R2ZZtQS/EIeoQ==
+	b=FvNHvLufpD6/CN1Pxbx/u3k5XSOf0hl4FzfIf/3QU34ZsnkRQ2hK6CGpFcA3IUcH8
+	 jhH7JVV44zg2eQ7EiVJlDIenWEg9yBGJO5i+SqyxddFnZ5NMvLvmK9DWxCqg2zJIhi
+	 KQzVay/4GXNGtNF8NTYDUS7As483rJhClEXFKljhohWNqycpH3Xg6wfHzX63jaNWs0
+	 2VDh1tUZK2bJDMsEhtjHc2E2v5UZmzochMCOdAx4TTp72ufg+c9VNgQYz+b+t0PeH+
+	 xEF3fFgxF8GpoK7bl6gI65a22nOc0GeaD+docy+HZ4/Tq4Z7kqcuia8iyh+aj+ejBW
+	 z9sYNShM8A4Lw==
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-leds@vger.kernel.org, 
+To: Pavel Machek <pavel@ucw.cz>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+ Rob Herring <robh@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20231025190619.881090-2-robh@kernel.org>
-References: <20231025190619.881090-2-robh@kernel.org>
-Subject: Re: (subset) [RESEND PATCH v2] leds: syscon: Support 'reg' in
- addition to 'offset' for register address
-Message-Id: <170072992481.1182056.5764147055955802436.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 08:58:44 +0000
+In-Reply-To: <20231122205418.2482076-1-robh@kernel.org>
+References: <20231122205418.2482076-1-robh@kernel.org>
+Subject: Re: (subset) [PATCH] dt-bindings: leds: Fix JSON pointer in
+ max-brightness
+Message-Id: <170073054914.1187160.15361411561980210800.b4-ty@kernel.org>
+Date: Thu, 23 Nov 2023 09:09:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -52,17 +56,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.3
 
-On Wed, 25 Oct 2023 14:06:19 -0500, Rob Herring wrote:
-> The register-bit-led binding now also supports 'reg' in addition to
-> 'offset' for the register address. Add support to the driver to get the
-> address from 'reg'.
+On Wed, 22 Nov 2023 13:54:17 -0700, Rob Herring wrote:
+> A valid JSON pointer should begin with a '/'. The json-schema package is
+> lax on this allowing either form, but that's changing in new versions.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] leds: syscon: Support 'reg' in addition to 'offset' for register address
-      commit: 9add14f2aa3b7b456098819fb5e5750712db9cc5
+[1/1] dt-bindings: leds: Fix JSON pointer in max-brightness
+      commit: 2dc0a14846ecf85fb4de29be186581f008d197dd
 
 --
 Lee Jones [李琼斯]
