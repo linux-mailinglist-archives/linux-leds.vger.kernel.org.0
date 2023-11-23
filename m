@@ -1,70 +1,137 @@
-Return-Path: <linux-leds+bounces-115-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-116-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB6B7F6258
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:10:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0ED7F627E
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:16:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 505901C20A79
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 15:10:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C87C282059
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 15:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3485133CE4;
-	Thu, 23 Nov 2023 15:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9EFD35EF3;
+	Thu, 23 Nov 2023 15:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBZCK6JD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHqy9roY"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1705E2E843
-	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 15:10:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CB3C433C8;
-	Thu, 23 Nov 2023 15:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962F635EE8;
+	Thu, 23 Nov 2023 15:16:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0C6C433C9;
+	Thu, 23 Nov 2023 15:15:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700752239;
-	bh=GrCfOdky6KNJjNJ8E6fqLtWu4tum/bJIEaA+gGu5VLw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WBZCK6JDKty6AftLqkLykG1Umyj3B/rM3ito0gNW3a5LedbPUkkEwT0aBtWDQ27nh
-	 loDcAF5kt/0aFE4ADmtkojEyRn8AN8et83fmoANl73lCL+EOaooqkPhta1TYh3LVz1
-	 PKog3Q+I0x+WQhFPnWoHFo/2hd6tWoIL5umhlQUdr0s4AyEI22FB9eIqhR4oALSjs9
-	 NgLDD6vV0N7nDqi1+xZ7OKyAYVFOYNWk45l+w0iv80iZYzY6YJFamh4xshT0lf4Toh
-	 soPMM2Oc36GpPnatU+U6Xlf5DcOxVqvzw68yDKtOYdebiIdo1xoMBM5dfIzGMikkWY
-	 kat5oSK0qcRdg==
+	s=k20201202; t=1700752567;
+	bh=lzVZxJXSuVlg5TJP4dPDommHt63YQoouP8CMSO2x+6s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aHqy9roYY5/JVAeimPivoDsCudYKtwdFnGpoLH3m76OeL8P0BDyL5Sc/3miQr2PmL
+	 hRZDRRGAm1Uye0c+yqVpFAK/beZ5hDj70CfWngjrStrTzTvXtSc8NSYhr3ldpsQfaY
+	 r0YfI3xAzbQ5IZOXus3baO9WeGtvVe+D4X7QQ1qjU3B6uwub042jUFn6y80DWhT82k
+	 MTX1bTMLehElqjnjKV5oO01PHxy/Uz+zYAXPf8w7C1cEIoT3gWUSjO5jdkHK4u5/SP
+	 VhJvtTHQuu7E5vz/fTds/fpgnXUPXA1bUvRWNF23KUPZaqQcD2SqRGBwVcGpofXsbE
+	 B/Co9nS6vBIOA==
+Date: Thu, 23 Nov 2023 15:15:56 +0000
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
- Andrew Davis <afd@ti.com>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231116224121.302150-1-afd@ti.com>
-References: <20231116224121.302150-1-afd@ti.com>
-Subject: Re: [PATCH 1/2] leds: tca6507: Use devm_gpiochip_add_data() to
- simplify remove path
-Message-Id: <170075223827.1377245.12365647707765746523.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 15:10:38 +0000
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
+ pwm_apply_cansleep()
+Message-ID: <20231123151556.GC1354538@google.com>
+References: <cover.1700323916.git.sean@mess.org>
+ <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
 
-On Thu, 16 Nov 2023 16:41:20 -0600, Andrew Davis wrote:
-> Use devm version of gpiochip add function to handle removal for us.
+On Sat, 18 Nov 2023, Sean Young wrote:
+
+> In order to introduce a pwm api which can be used from atomic context,
+> we will need two functions for applying pwm changes:
 > 
+> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
+> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
 > 
+> This commit just deals with renaming pwm_apply_state(), a following
+> commit will introduce the pwm_apply_atomic() function.
+> 
+> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>  Documentation/driver-api/pwm.rst              |  8 +++---
+>  .../gpu/drm/i915/display/intel_backlight.c    |  6 ++--
+>  drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+>  drivers/hwmon/pwm-fan.c                       |  8 +++---
+>  drivers/input/misc/da7280.c                   |  4 +--
+>  drivers/input/misc/pwm-beeper.c               |  4 +--
+>  drivers/input/misc/pwm-vibra.c                |  8 +++---
 
-Applied, thanks!
+>  drivers/leds/leds-pwm.c                       |  2 +-
+>  drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +--
 
-[1/2] leds: tca6507: Use devm_gpiochip_add_data() to simplify remove path
-      commit: 50b683a8b9884f032c3d268b8a68df799219e91b
-[2/2] leds: tca6507: Use devm_led_classdev_register() to simplify remove path
-      commit: 612af3a44921f21c361a369899fec61698aa08e1
+Acked-by: Lee Jones <lee@kernel.org>
 
---
+>  drivers/media/rc/pwm-ir-tx.c                  |  4 +--
+>  drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+>  drivers/pwm/core.c                            | 18 ++++++------
+>  drivers/pwm/pwm-twl-led.c                     |  2 +-
+>  drivers/pwm/pwm-vt8500.c                      |  2 +-
+>  drivers/pwm/sysfs.c                           | 10 +++----
+>  drivers/regulator/pwm-regulator.c             |  4 +--
+
+>  drivers/video/backlight/lm3630a_bl.c          |  2 +-
+>  drivers/video/backlight/lp855x_bl.c           |  2 +-
+>  drivers/video/backlight/pwm_bl.c              | 12 ++++----
+
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  drivers/video/fbdev/ssd1307fb.c               |  2 +-
+>  include/linux/pwm.h                           | 28 +++++++++----------
+>  21 files changed, 67 insertions(+), 67 deletions(-)
+
+[...]
+
+-- 
 Lee Jones [李琼斯]
-
 
