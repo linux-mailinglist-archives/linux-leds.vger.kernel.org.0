@@ -1,46 +1,56 @@
-Return-Path: <linux-leds+bounces-100-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-101-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C18C7F5ADF
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:13:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F00DF7F5C2C
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 11:21:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC8A1281418
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 09:13:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5BC0EB20C49
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123F0208A3;
-	Thu, 23 Nov 2023 09:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D64C6224E3;
+	Thu, 23 Nov 2023 10:21:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1oopqca"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YcUCA1OJ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB767208A1
-	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 09:12:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C1DBC433C7;
-	Thu, 23 Nov 2023 09:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC71224C2;
+	Thu, 23 Nov 2023 10:21:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78CEC433C7;
+	Thu, 23 Nov 2023 10:21:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700730778;
-	bh=zgvtUYdjLY8nf9Pvnu1e7wuBnq+SLxZIBLNnSHDbb4s=;
+	s=k20201202; t=1700734877;
+	bh=Mx8OxIizhyT66AtyfB908usr8wqSONtkBJqHyFIRXX8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e1oopqca9BSADEWi9Y5SCPdbFj6iQ+IWsop1aLr0I3M6Fn9/QoXoYat5apwnJbdHK
-	 mY0bvimaK/HKGsW5XqkOUpyOS/Hh6fFzJKT2enH/uCoVGOZ1nit1jsl1UrfLR61ct4
-	 zBYrEgJhOyavR/C+8bNGY+c93fM9pxR3DLRwbFBjlJaPR1eNdMszII+QJ8IT6J9BCS
-	 8zpacQqMc8Aw56X7/tU/hzJ48KjKzWEKpag0cyrHHVmDjNPqyMEUzvYUlwmO6Vtdkz
-	 hUdrpnbcdSw3KSeXs6Pk8dsZBAGl7oAvE/Cr6tjW8H7PGsWZWVtaa5WZzmx406uO4b
-	 V38DrcvI84AgQ==
-Date: Thu, 23 Nov 2023 09:12:54 +0000
+	b=YcUCA1OJWB1cgWnPzkxoWJEKEqF5KRwQsg4Zm/s2mNgzzORb4a7Kx43uUb53rudrd
+	 SNf06WO/iMQHO9U/wxb7Dazh6gW8vgeihSPnvpeaJauN8UgQfIYursZm19eO4okNVt
+	 SOGfnwDUSPtpGANoNVP2dj0Vkap3nOuAc15vNSQqe482pAHUkBdtcL3DHgCKx+//7a
+	 iy3MA5h6iTBxnJPeF1wNXo6/rObT2i5gAYXw8EXaJTFSE4rtZmRYvVtv6rHogrFN4i
+	 LXuQR0EmdyyOBWrLHOyraXFtsXyk5HywnC78OMrpj5GJbD4wB3dDeS89V3B/rwHzj/
+	 VCgouCmVNXvSw==
+Date: Thu, 23 Nov 2023 10:21:11 +0000
 From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Linus Walleij <linus.walleij@linaro.org>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v2] leds: syscon: Support 'reg' in addition to
- 'offset' for register address
-Message-ID: <20231123091254.GA1184245@google.com>
-References: <20231122230754.2844665-2-robh@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Kees Cook <keescook@chromium.org>, linux-pwm@vger.kernel.org,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	kernel@pengutronix.de,
+	Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: Re: [PATCH v3 102/108] leds: qcom-lpg: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231123102111.GB1184245@google.com>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
+ <20231122115621.GK173820@google.com>
+ <20231122175413.5yxsdveausehkbgm@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,28 +60,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231122230754.2844665-2-robh@kernel.org>
+In-Reply-To: <20231122175413.5yxsdveausehkbgm@pengutronix.de>
 
-On Wed, 22 Nov 2023, Rob Herring wrote:
+On Wed, 22 Nov 2023, Uwe Kleine-König wrote:
 
-> The register-bit-led binding now also supports 'reg' in addition to
-> 'offset' for the register address. Add support to the driver to get the
-> address from 'reg'.
+> Hello Lee,
 > 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> The binding change landed, but v2[1] was never applied. The last 
-> resend[2] may have missed kernel.org addresses.
+> On Wed, Nov 22, 2023 at 11:56:21AM +0000, Lee Jones wrote:
+> > On Tue, 21 Nov 2023, Uwe Kleine-König wrote:
+> > 
+> > > This prepares the pwm sub-driver to further changes of the pwm core
+> > > outlined in the commit introducing devm_pwmchip_alloc(). There is no
+> > > intended semantical change and the driver should behave as before.
+> > > 
+> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > >  drivers/leds/rgb/leds-qcom-lpg.c | 30 +++++++++++++++++++++---------
+> > >  1 file changed, 21 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> > > index 68d82a682bf6..283227e02df6 100644
+> > > --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> > > +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> > > @@ -77,7 +77,7 @@ struct lpg {
+> > >  
+> > >  	struct mutex lock;
+> > >  
+> > > -	struct pwm_chip pwm;
+> > > +	struct pwm_chip *pwm;
+> > >  
+> > >  	const struct lpg_data *data;
+> > >  
+> > > @@ -977,9 +977,15 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
+> > >  	return lpg_pattern_clear(led);
+> > >  }
+> > >  
+> > > +static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
+> > > +{
+> > > +	struct lpg **lpg = pwmchip_priv(chip);
+> > > +	return *lpg;
+> > > +}
+> > 
+> > I don't have easy-vis into the other patches, but if this is a common
+> > pattern, perhaps add a generic helper in <linux/pwm.h>?
+> > 
+> > >  static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> > >  {
+> > > -	struct lpg *lpg = container_of(chip, struct lpg, pwm);
+> > > +	struct lpg *lpg = lpg_pwm_from_chip(chip);
+> > >  	struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
+> > >  
+> > >  	return chan->in_use ? -EBUSY : 0;
+> > > [...]
+> > > @@ -1089,13 +1095,19 @@ static const struct pwm_ops lpg_pwm_ops = {
+> > >  
+> > >  static int lpg_add_pwm(struct lpg *lpg)
+> > >  {
+> > > +	struct pwm_chip *chip;
+> > >  	int ret;
+> > >  
+> > > -	lpg->pwm.dev = lpg->dev;
+> > > -	lpg->pwm.npwm = lpg->num_channels;
+> > > -	lpg->pwm.ops = &lpg_pwm_ops;
+> > > +	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels,
+> > > +					     sizeof(&lpg));
+> > > +	if (IS_ERR(chip))
+> > > +		return PTR_ERR(chip);
+> > >  
+> > > -	ret = pwmchip_add(&lpg->pwm);
+> > > +	*(struct lpg **)pwmchip_priv(chip) = lpg;
+> > 
+> > This is vile!
 > 
-> [1] https://lore.kernel.org/all/20210913192816.1225025-3-robh@kernel.org/
-> [2] https://lore.kernel.org/all/20231025190619.881090-2-robh@kernel.org/
+> This is indeed one of the uglier conversions. It gets a bit prettier
+> with the following addon patch:
 > 
->  drivers/leds/leds-syscon.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index 283227e02df6..e09eba823057 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -206,6 +206,10 @@ struct lpg_data {
+>  	const struct lpg_channel_data *channels;
+>  };
+>  
+> +struct lpg_pwm_data {
+> +	struct lpg *lpg;
+> +};
+> +
+>  static int triled_set(struct lpg *lpg, unsigned int mask, unsigned int enable)
+>  {
+>  	/* Skip if we don't have a triled block */
+> @@ -979,8 +983,9 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
+>  
+>  static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
+>  {
+> -	struct lpg **lpg = pwmchip_priv(chip);
+> -	return *lpg;
+> +	struct lpg_pwm_data *lpg_pwm_data = pwmchip_priv(chip);
+> +
+> +	return lpg_pwm_data->lpg;
+>  }
+>  
+>  static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> @@ -1096,14 +1101,16 @@ static const struct pwm_ops lpg_pwm_ops = {
+>  static int lpg_add_pwm(struct lpg *lpg)
+>  {
+>  	struct pwm_chip *chip;
+> +	struct lpg_pwm_data *lpg_pwm_data;
+>  	int ret;
+>  
+>  	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels,
+> -					     sizeof(&lpg));
+> +					     sizeof(*lpg_pwm_data));
+>  	if (IS_ERR(chip))
+>  		return PTR_ERR(chip);
+>  
+> -	*(struct lpg **)pwmchip_priv(chip) = lpg;
+> +	lpg_pwm_data = pwmchip_priv(chip);
+> +	lpg_pwm_data->lpg = lpg;
+>  
+>  	chip->ops = &lpg_pwm_ops;
+>  
+> Would you like it better then?
 
-Looks like I just applied the last one.  I'm assuming no additional
-changes, but please let me know if that's not the case.
+It's definitely nicer to read and more in-line with the style I expect,
+but the additional wrapper/abstraction layer is still bothersome.
 
 -- 
 Lee Jones [李琼斯]
