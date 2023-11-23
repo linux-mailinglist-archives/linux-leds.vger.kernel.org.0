@@ -1,38 +1,38 @@
-Return-Path: <linux-leds+bounces-120-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-121-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFF47F640B
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 17:38:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 025D37F6451
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 17:44:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 197EFB20F23
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:38:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC51E281ACB
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D7E25546;
-	Thu, 23 Nov 2023 16:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E5683E480;
+	Thu, 23 Nov 2023 16:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsbgZ+8f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBV3OZST"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE683FB1E;
-	Thu, 23 Nov 2023 16:38:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B668C433CC;
-	Thu, 23 Nov 2023 16:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1B02231F;
+	Thu, 23 Nov 2023 16:44:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08106C433CA;
+	Thu, 23 Nov 2023 16:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700757501;
-	bh=tDedXJ4tnaGMs3ZTX/pYA5ErQwaoQ9VfB/MU8vDEhKA=;
+	s=k20201202; t=1700757856;
+	bh=ImzGxZz1+Yd4REFJZFfP68zE0RJ1ASyKw9Dfn46Maeo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WsbgZ+8fTYYujkEj1M5p0m4erPLW64Ku483nH050cih4Iup/Le+FsNJuo8wxh39qj
-	 idzstqs32DolW3/mZzmDCIDKu21a/KkaNvSxzxk9KumL/2jHwtiJs5BuxsbI//gwxJ
-	 fT+09/3nDeb3YiNjHmLwJDzVzAUzGYuyVdHLw0v5E5L3AU/mAOFSUsuMS0xsF/zKQ9
-	 tzgoSXZVyVVLM6iPRiIPG2BH0qZNQSeHeLWUXPd/Fuc1Z02m92nbeDPwMMqCtMqXi4
-	 IO2PmgTCbs2ThLftcJjdJg7V5PhL9ypqCcygHhkl1UQU8L0qay4rp5VhY3PLkQp79r
-	 xJvnJ0BeW0rgQ==
-Date: Thu, 23 Nov 2023 16:38:16 +0000
+	b=SBV3OZSTJqqlNvEf9jzb2k5QPIVDS9Cs8eEQptrt7GUDdhm55g4HJVfxT3jAyRD7/
+	 onfX3wRrayYUJ/LabVoFD9KpSr+05r3BmB3cqZRUV5BGozw9spXtwOJcWp5x9E7ADt
+	 /+f9XCSsnWzNVJbRAhRXruo4S442qNLuNt3HW1fxOZAL+lb47k7UPD6tj9cSBd99aa
+	 A3aqRCFO2b4sSxV5Dn7zMwe82l3IvcyCaAbLiqAu1aOrDZPwgMxOhdfU1LfkFUqvCC
+	 55u84UNwDsFH2qCqo/fqrV1GLruPpdcyt0mtVPu9wiC2Pv+1TLj34cdv8H/iweCk+3
+	 zvNAfAIRc5WCg==
+Date: Thu, 23 Nov 2023 16:44:10 +0000
 From: Lee Jones <lee@kernel.org>
 To: Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc: pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -41,10 +41,10 @@ Cc: pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	George Stark <gnstark@salutedevices.com>
-Subject: Re: [PATCH v4 06/11] leds: aw200xx: add delay after software reset
-Message-ID: <20231123163816.GG1354538@google.com>
+Subject: Re: [PATCH v4 09/11] leds: aw200xx: add support for aw20108 device
+Message-ID: <20231123164410.GH1354538@google.com>
 References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
- <20231121202835.28152-7-ddrokosov@salutedevices.com>
+ <20231121202835.28152-10-ddrokosov@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -54,44 +54,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231121202835.28152-7-ddrokosov@salutedevices.com>
+In-Reply-To: <20231121202835.28152-10-ddrokosov@salutedevices.com>
 
 On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
 
 > From: George Stark <gnstark@salutedevices.com>
 > 
-> According to datasheets of aw200xx devices software reset takes at
-> least 1ms so add delay after reset before issuing commands to device.
-
-Are you able to use an auto-correct tool to sharpen the grammar a little?
-
+> Add support for Awinic aw20108 device from the same LED drivers family.
+> New device supports 108 LEDs using a matrix of 12x9 outputs.
+> 
 > Signed-off-by: George Stark <gnstark@salutedevices.com>
 > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
 > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 > ---
->  drivers/leds/leds-aw200xx.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/leds/Kconfig        | 14 +++++++++-----
+>  drivers/leds/leds-aw200xx.c | 10 +++++++++-
+>  2 files changed, 18 insertions(+), 6 deletions(-)
 > 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 6046dfeca16f..a879628e985c 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -95,14 +95,18 @@ config LEDS_ARIEL
+>  	  Say Y to if your machine is a Dell Wyse 3020 thin client.
+>  
+>  config LEDS_AW200XX
+> -	tristate "LED support for Awinic AW20036/AW20054/AW20072"
+> +	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
+>  	depends on LEDS_CLASS
+>  	depends on I2C
+>  	help
+> -	  This option enables support for the AW20036/AW20054/AW20072 LED driver.
+> -	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
+> -	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
+> -	  3 pattern controllers for auto breathing or group dimming control.
+> +	  This option enables support for Awinic AW200XX LED controller.
+
+"for ..." THE or AN.
+
+Or put an 's' at the end of "controller".
+
+> +	  It is a matrix LED driver programmed via an I2C interface. Devices have
+> +	  a set of individually controlled leds and support 3 pattern controllers
+
+LEDs
+
+> +	  for auto breathing or group dimming control. Supported devices:
+> +	    - AW20036 (3x12) 36 LEDs
+> +	    - AW20054 (6x9)  54 LEDs
+> +	    - AW20072 (6x12) 72 LEDs
+> +	    - AW20108 (9x12) 108 LEDs
+>  
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called leds-aw200xx.
 > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-> index 4bce5e7381c0..bb17e48b3e2a 100644
+> index c48aa11fd411..4b5036360887 100644
 > --- a/drivers/leds/leds-aw200xx.c
 > +++ b/drivers/leds/leds-aw200xx.c
-> @@ -321,6 +321,9 @@ static int aw200xx_chip_reset(const struct aw200xx *const chip)
->  	if (ret)
->  		return ret;
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Awinic AW20036/AW20054/AW20072 LED driver
+> + * Awinic AW20036/AW20054/AW20072/AW20108 LED driver
+>   *
+>   * Copyright (c) 2023, SberDevices. All Rights Reserved.
+>   *
+> @@ -620,10 +620,17 @@ static const struct aw200xx_chipdef aw20072_cdef = {
+>  	.display_size_columns = 12,
+>  };
 >  
-> +	/* according to datasheet software reset takes at least 1ms */
-
-Please start sentences with an uppercase char.
-
-"According to the datasheet, software resets take at least 1ms"
-              ^                            ^     ^
-
-> +	fsleep(1000);
+> +static const struct aw200xx_chipdef aw20108_cdef = {
+> +	.channels = 108,
+> +	.display_size_rows_max = 9,
+> +	.display_size_columns = 12,
+> +};
 > +
->  	regcache_mark_dirty(chip->regmap);
->  	return regmap_write(chip->regmap, AW200XX_REG_FCD, AW200XX_FCD_CLEAR);
->  }
+>  static const struct i2c_device_id aw200xx_id[] = {
+>  	{ "aw20036" },
+>  	{ "aw20054" },
+>  	{ "aw20072" },
+> +	{ "aw20108" },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(i2c, aw200xx_id);
+> @@ -632,6 +639,7 @@ static const struct of_device_id aw200xx_match_table[] = {
+>  	{ .compatible = "awinic,aw20036", .data = &aw20036_cdef, },
+>  	{ .compatible = "awinic,aw20054", .data = &aw20054_cdef, },
+>  	{ .compatible = "awinic,aw20072", .data = &aw20072_cdef, },
+> +	{ .compatible = "awinic,aw20108", .data = &aw20108_cdef, },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, aw200xx_match_table);
 > -- 
 > 2.36.0
 > 
