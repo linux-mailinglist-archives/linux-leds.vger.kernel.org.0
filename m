@@ -1,72 +1,97 @@
-Return-Path: <linux-leds+bounces-106-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-107-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684ED7F5D20
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 11:59:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AF47F5D51
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 12:05:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A2341C20D5F
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:59:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 797F51C20E7A
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 11:05:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB27224FB;
-	Thu, 23 Nov 2023 10:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC91A22F04;
+	Thu, 23 Nov 2023 11:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzTpA21f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WLVP+wUG"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8AA200CD
-	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 10:59:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F4CC433C8;
-	Thu, 23 Nov 2023 10:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA4E22F02
+	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 11:05:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E19CC433C8;
+	Thu, 23 Nov 2023 11:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700737149;
-	bh=90AhqRMEb1URW49+jHELClQUBz+rpek7dQfPYTTBU3s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pzTpA21fS4E7VIIiK2AXpbARKJ2zwaJ85J26OuY9iHMSe9nF9HGOzknVg89sSfG/p
-	 8rhPDqVk66jHZnUtBl3nhNJBoDQwPn5/2Yqcwn+LXhSIuO8EMDCn8CuH6va9vfvKUY
-	 n1vT3pHE4w1bgae+55qFsbP0qIETsPqODGgnoEfPwrESC8tke2xn8/i9rYtTIi85gF
-	 +jMfVWiDr97CdQOj9XegXFDPiuW0kFQTLprTCm+8sA/vOtWWbsGFSdA1KVdPl/2ybB
-	 9HC3oHPyBC+qUHawUi4cs+MI0tTvhi4KOwCnmk2j6clJmnQ8aFGYhEhhjOsd9eQW9r
-	 4tzxVGQ3drLoA==
+	s=k20201202; t=1700737542;
+	bh=yqetw7zosrQdLVs1wXRaQ09UgUlARXEo96Fo2p9Et0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WLVP+wUGQg/KxAZFdxBrNZT5f8T7HhXpezp0CWAGFwL50Y5dvr2mz9b+x4oiB5oDu
+	 4XPPiMay8e8kIOFCWpwEukgKOfjFhGpuhZObam4eMbAWXgcHw8tknT6FOsVzwVaQIe
+	 11RcPm1vthHATIY/h5oI8d4CeaGEgc4WcRVRJ+8XNHWXe2P94KYktC3G4kCF6KD8D0
+	 /OZ6wy/ulEXVI5sSh/tPegkqsVcGcQ0QBS/T9Llf5zLp3oW+Z92xpYKC9CRZQtRnTn
+	 OGPgsRlZFDfUPtcQvC0gUuf1/e+5JuFyw4eKMGdY4XJaqLpm6aVE3yBAYndEInJVZC
+	 jnoQ4Od1T9o9g==
+Date: Thu, 23 Nov 2023 11:05:38 +0000
 From: Lee Jones <lee@kernel.org>
-To: Dang Huynh <danct12@riseup.net>
-Cc: Nikita Travkin <nikitos.tr@gmail.com>, Pavel Machek <pavel@ucw.cz>, 
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20231103114203.1108922-1-danct12@riseup.net>
-References: <20231103114203.1108922-1-danct12@riseup.net>
-Subject: Re: (subset) [PATCH] leds: aw2013: Select REGMAP_I2C
-Message-Id: <170073714794.1242990.14043054450989948510.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 10:59:07 +0000
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v1 2/4] leds: trigger: gpio: Convert to use kstrtox()
+Message-ID: <20231123110538.GA1243364@google.com>
+References: <20231103195310.948327-1-andriy.shevchenko@linux.intel.com>
+ <20231103195310.948327-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+In-Reply-To: <20231103195310.948327-2-andriy.shevchenko@linux.intel.com>
 
-On Fri, 03 Nov 2023 18:42:03 +0700, Dang Huynh wrote:
-> The AW2013 driver uses devm_regmap_init_i2c, so REGMAP_I2C needs to
-> be selected.
+On Fri, 03 Nov 2023, Andy Shevchenko wrote:
+
+> sscanf() is a heavy one and moreover requires additional boundary checks.
+> Convert driver to use kstrtou8() in gpio_trig_inverted_store().
 > 
-> Otherwise build process may fail with:
-> ld: drivers/leds/leds-aw2013.o: in function `aw2013_probe':
-> leds-aw2013.c:345: undefined reference to `__devm_regmap_init_i2c'
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/leds/trigger/ledtrig-gpio.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+> index d91ae7fde3cf..8a30f9228186 100644
+> --- a/drivers/leds/trigger/ledtrig-gpio.c
+> +++ b/drivers/leds/trigger/ledtrig-gpio.c
+> @@ -53,14 +53,12 @@ static ssize_t gpio_trig_brightness_store(struct device *dev,
+>  		struct device_attribute *attr, const char *buf, size_t n)
+>  {
+>  	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+> -	unsigned desired_brightness;
+> +	u8 desired_brightness;
+>  	int ret;
+>  
+> -	ret = sscanf(buf, "%u", &desired_brightness);
+> -	if (ret < 1 || desired_brightness > 255) {
+> -		dev_err(dev, "invalid value\n");
+> -		return -EINVAL;
+> -	}
+> +	ret = kstrtou8(buf, 10, &desired_brightness);
 
-Applied, thanks!
+Where does 10 come from?
 
-[1/1] leds: aw2013: Select REGMAP_I2C
-      commit: 5de5423bb5f7c1a20f00a0f45ca38e533714fcfd
+> +	if (ret)
+> +		return ret;
+>  
+>  	gpio_data->desired_brightness = desired_brightness;
+>  
+> -- 
+> 2.40.0.1.gaa8946217a0b
+> 
 
---
+-- 
 Lee Jones [李琼斯]
-
 
