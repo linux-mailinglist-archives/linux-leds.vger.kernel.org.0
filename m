@@ -1,73 +1,78 @@
-Return-Path: <linux-leds+bounces-99-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-100-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFE17F5AD6
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:09:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C18C7F5ADF
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 10:13:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA19128184B
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 09:09:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC8A1281418
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 09:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986F8208B3;
-	Thu, 23 Nov 2023 09:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123F0208A3;
+	Thu, 23 Nov 2023 09:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvNHvLuf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1oopqca"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CAF2032F;
-	Thu, 23 Nov 2023 09:09:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716E2C433CC;
-	Thu, 23 Nov 2023 09:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB767208A1
+	for <linux-leds@vger.kernel.org>; Thu, 23 Nov 2023 09:12:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C1DBC433C7;
+	Thu, 23 Nov 2023 09:12:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700730551;
-	bh=MGeralf9ybdkNXfCDd+XvD4Agot2pAJ6J1WgdjYYR0c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FvNHvLufpD6/CN1Pxbx/u3k5XSOf0hl4FzfIf/3QU34ZsnkRQ2hK6CGpFcA3IUcH8
-	 jhH7JVV44zg2eQ7EiVJlDIenWEg9yBGJO5i+SqyxddFnZ5NMvLvmK9DWxCqg2zJIhi
-	 KQzVay/4GXNGtNF8NTYDUS7As483rJhClEXFKljhohWNqycpH3Xg6wfHzX63jaNWs0
-	 2VDh1tUZK2bJDMsEhtjHc2E2v5UZmzochMCOdAx4TTp72ufg+c9VNgQYz+b+t0PeH+
-	 xEF3fFgxF8GpoK7bl6gI65a22nOc0GeaD+docy+HZ4/Tq4Z7kqcuia8iyh+aj+ejBW
-	 z9sYNShM8A4Lw==
+	s=k20201202; t=1700730778;
+	bh=zgvtUYdjLY8nf9Pvnu1e7wuBnq+SLxZIBLNnSHDbb4s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e1oopqca9BSADEWi9Y5SCPdbFj6iQ+IWsop1aLr0I3M6Fn9/QoXoYat5apwnJbdHK
+	 mY0bvimaK/HKGsW5XqkOUpyOS/Hh6fFzJKT2enH/uCoVGOZ1nit1jsl1UrfLR61ct4
+	 zBYrEgJhOyavR/C+8bNGY+c93fM9pxR3DLRwbFBjlJaPR1eNdMszII+QJ8IT6J9BCS
+	 8zpacQqMc8Aw56X7/tU/hzJ48KjKzWEKpag0cyrHHVmDjNPqyMEUzvYUlwmO6Vtdkz
+	 hUdrpnbcdSw3KSeXs6Pk8dsZBAGl7oAvE/Cr6tjW8H7PGsWZWVtaa5WZzmx406uO4b
+	 V38DrcvI84AgQ==
+Date: Thu, 23 Nov 2023 09:12:54 +0000
 From: Lee Jones <lee@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
- Rob Herring <robh@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231122205418.2482076-1-robh@kernel.org>
-References: <20231122205418.2482076-1-robh@kernel.org>
-Subject: Re: (subset) [PATCH] dt-bindings: leds: Fix JSON pointer in
- max-brightness
-Message-Id: <170073054914.1187160.15361411561980210800.b4-ty@kernel.org>
-Date: Thu, 23 Nov 2023 09:09:09 +0000
+To: Rob Herring <robh@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Linus Walleij <linus.walleij@linaro.org>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH v2] leds: syscon: Support 'reg' in addition to
+ 'offset' for register address
+Message-ID: <20231123091254.GA1184245@google.com>
+References: <20231122230754.2844665-2-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+In-Reply-To: <20231122230754.2844665-2-robh@kernel.org>
 
-On Wed, 22 Nov 2023 13:54:17 -0700, Rob Herring wrote:
-> A valid JSON pointer should begin with a '/'. The json-schema package is
-> lax on this allowing either form, but that's changing in new versions.
+On Wed, 22 Nov 2023, Rob Herring wrote:
+
+> The register-bit-led binding now also supports 'reg' in addition to
+> 'offset' for the register address. Add support to the driver to get the
+> address from 'reg'.
 > 
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> The binding change landed, but v2[1] was never applied. The last 
+> resend[2] may have missed kernel.org addresses.
 > 
+> [1] https://lore.kernel.org/all/20210913192816.1225025-3-robh@kernel.org/
+> [2] https://lore.kernel.org/all/20231025190619.881090-2-robh@kernel.org/
+> 
+>  drivers/leds/leds-syscon.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Applied, thanks!
+Looks like I just applied the last one.  I'm assuming no additional
+changes, but please let me know if that's not the case.
 
-[1/1] dt-bindings: leds: Fix JSON pointer in max-brightness
-      commit: 2dc0a14846ecf85fb4de29be186581f008d197dd
-
---
+-- 
 Lee Jones [李琼斯]
-
 
