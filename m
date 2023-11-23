@@ -1,49 +1,51 @@
-Return-Path: <linux-leds+bounces-118-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-119-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C2B7F636E
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:57:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6C77F63F8
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 17:33:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42E33281904
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 15:57:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C82C281958
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Nov 2023 16:32:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964E73D99B;
-	Thu, 23 Nov 2023 15:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8F573B2B0;
+	Thu, 23 Nov 2023 16:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBqS0UYj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hp8HVRI2"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761694421;
-	Thu, 23 Nov 2023 15:57:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4EFC433C8;
-	Thu, 23 Nov 2023 15:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8595B3FB09;
+	Thu, 23 Nov 2023 16:32:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE75C433CA;
+	Thu, 23 Nov 2023 16:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700755070;
-	bh=eG+RrbQFNYApofZ3Dfp5pt4gOAt+nrl6EHgb2YJxdrU=;
+	s=k20201202; t=1700757178;
+	bh=zPsWJqwWfxO0CDcsvsukWva+BtzQ1ZCrq2r/akLCBZ4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OBqS0UYjbrW4w7H2l0g2mkGHCx71WwN2p9tQjbNCQKf9eTnyrj/d12RzblQGjOWz0
-	 /VKtkI7XjGkI+LEkBvkXOjh7muXuQxtbqdPAYgG/bLn1D+OgXIptn89LIfxG3RRxTX
-	 YB3llOi0/VvVkXR9AVRbyTko4j75/5hrnS9K2Z9YZC0NEIp/YgljH4gLYT+i0AFcKX
-	 cEV+Na7fe82TeUhX5E2FVTNs5wGPbTmr7UwfmZC6zIbluVTx2BsGeABGym7gM1v5Nw
-	 mXHTwvqBbgitR7ISk31u3GxZvy7r4i0Mp/UiIkxZPDf5LwAjCzYCMlZgj6pKSdEa7i
-	 WLXxIV8R/MWGg==
-Date: Thu, 23 Nov 2023 15:57:44 +0000
+	b=Hp8HVRI2nXh8VRvYSc8w+8dzmeXhxL4Tbf+eBzAD3HEbXSqqs98sOGZu7Z/z2pg2L
+	 B5e28h98kmeR/vEiT3h6sXQrbEYvV11yv7m3QzetjHAYwBxgLSJ4B+R2rQBUQI31NL
+	 Pm5jGYRsV0HCRWbEqSlC39nFo+Ucmvi4wipFETCueJnGlUGmkZ22lCimBzAkAO/vFR
+	 YFU6yQ+VNld+zrcOw+ncnMYnZTCnRyzERR6IOKJ6j99PAj1Bw0vGWRZU5IzSIfPosv
+	 s/gvX9Qd3PalXHIHPOW9e/Fn1m6JmSFWvYrfjt6blIFmaYyRo0gou1YZXonCvNkzC5
+	 1BVpsaTatdjMw==
+Date: Thu, 23 Nov 2023 16:32:52 +0000
 From: Lee Jones <lee@kernel.org>
 To: Dmitry Rokosov <ddrokosov@salutedevices.com>
 Cc: pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
 	conor+dt@kernel.org, andy.shevchenko@gmail.com,
 	kernel@sberdevices.ru, rockosov@gmail.com,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 02/11] leds: aw200xx: support HWEN hardware control
-Message-ID: <20231123155744.GE1354538@google.com>
+	linux-leds@vger.kernel.org,
+	George Stark <gnstark@salutedevices.com>
+Subject: Re: [PATCH v4 04/11] leds: aw200xx: calculate dts property
+ display_rows in the driver
+Message-ID: <20231123163252.GF1354538@google.com>
 References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
- <20231121202835.28152-3-ddrokosov@salutedevices.com>
+ <20231121202835.28152-5-ddrokosov@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -53,107 +55,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231121202835.28152-3-ddrokosov@salutedevices.com>
+In-Reply-To: <20231121202835.28152-5-ddrokosov@salutedevices.com>
 
 On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
 
-> HWEN is hardware control, which is used for enable/disable aw200xx chip.
-> It's high active, internally pulled down to GND.
+> From: George Stark <gnstark@salutedevices.com>
 > 
-> After HWEN pin set high the chip begins to load the OTP information,
-> which takes 200us to complete. About 200us wait time is needed for
-> internal oscillator startup and display SRAM initialization. After
-> display SRAM initialization, the registers in page 1 to page 5 can be
-> configured via i2c interface.
+> Get rid of device tree property "awinic,display-rows". The property
+> value actually means number of current switches and depends on how leds
+
+Nit: LEDs
+
+> are connected to the device. It should be calculated manually by max
+> used led number. In the same way it is computed automatically now.
+
+As above - I won't mention this again.
+
+> Max used led is taken from led definition subnodes.
 > 
+> Signed-off-by: George Stark <gnstark@salutedevices.com>
 > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 > ---
->  drivers/leds/leds-aw200xx.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  drivers/leds/leds-aw200xx.c | 39 +++++++++++++++++++++++++------------
+>  1 file changed, 27 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-> index 842a22087b16..7762b3a132ac 100644
+> index 7762b3a132ac..4bce5e7381c0 100644
 > --- a/drivers/leds/leds-aw200xx.c
 > +++ b/drivers/leds/leds-aw200xx.c
-> @@ -10,6 +10,7 @@
->  #include <linux/bitfield.h>
->  #include <linux/bits.h>
->  #include <linux/container_of.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/leds.h>
->  #include <linux/mod_devicetable.h>
-> @@ -116,6 +117,7 @@ struct aw200xx {
->  	struct mutex mutex;
->  	u32 num_leds;
->  	u32 display_rows;
-> +	struct gpio_desc *hwen;
->  	struct aw200xx_led leds[] __counted_by(num_leds);
->  };
->  
-> @@ -358,6 +360,25 @@ static int aw200xx_chip_check(const struct aw200xx *const chip)
->  	return 0;
+> @@ -379,6 +379,30 @@ static void aw200xx_disable(const struct aw200xx *const chip)
+>  	return gpiod_set_value_cansleep(chip->hwen, 0);
 >  }
 >  
-> +static void aw200xx_enable(const struct aw200xx *const chip)
+> +static bool aw200xx_probe_get_display_rows(struct device *dev, struct aw200xx *chip)
 > +{
-> +	gpiod_set_value_cansleep(chip->hwen, 1);
+> +	struct fwnode_handle *child;
+> +	u32 max_source = 0;
 > +
-> +	/*
-> +	 * After HWEN pin set high the chip begins to load the OTP information,
-> +	 * which takes 200us to complete. About 200us wait time is needed for
-> +	 * internal oscillator startup and display SRAM initialization. After
-> +	 * display SRAM initialization, the registers in page1 to page5 can be
-> +	 * configured via i2c interface.
-> +	 */
-> +	fsleep(400);
-> +}
+> +	device_for_each_child_node(dev, child) {
+> +		u32 source;
+> +		int ret;
 > +
-> +static void aw200xx_disable(const struct aw200xx *const chip)
-> +{
-> +	return gpiod_set_value_cansleep(chip->hwen, 0);
+> +		ret = fwnode_property_read_u32(child, "reg", &source);
+> +		if (ret || source >= chip->cdef->channels)
+
+Shouldn't the second clause fail instantly?
+
+> +			continue;
+> +
+> +		max_source = max(max_source, source);
+> +	}
+> +
+> +	if (!max_source)
+
+Since max_source is an integer, please use an '== 0' comparison.
+
+> +		return false;
+> +
+> +	chip->display_rows = max_source / chip->cdef->display_size_columns + 1;
+> +
+> +	return true;
 > +}
 > +
 >  static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
 >  {
 >  	struct fwnode_handle *child;
-> @@ -517,6 +538,14 @@ static int aw200xx_probe(struct i2c_client *client)
->  	if (IS_ERR(chip->regmap))
->  		return PTR_ERR(chip->regmap);
+> @@ -386,18 +410,9 @@ static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
+>  	int ret;
+>  	int i;
 >  
-> +	chip->hwen = devm_gpiod_get_optional(&client->dev, "enable",
-> +					     GPIOD_OUT_HIGH);
-> +	if (IS_ERR(chip->hwen))
-> +		return dev_err_probe(&client->dev, PTR_ERR(chip->hwen),
-> +				     "Cannot get enable gpio");
+> -	ret = device_property_read_u32(dev, "awinic,display-rows",
+> -				       &chip->display_rows);
+> -	if (ret)
+> -		return dev_err_probe(dev, ret,
+> -				     "Failed to read 'display-rows' property\n");
+> -
+> -	if (!chip->display_rows ||
+> -	    chip->display_rows > chip->cdef->display_size_rows_max) {
+> -		return dev_err_probe(dev, ret,
+> -				     "Invalid leds display size %u\n",
+> -				     chip->display_rows);
+> -	}
+> +	if (!aw200xx_probe_get_display_rows(dev, chip))
 
-Nit: "GPIO"
+Function calls in side if() statements in general is rough.
 
-> +
-> +	aw200xx_enable(chip);
-> +
->  	ret = aw200xx_chip_check(chip);
->  	if (ret)
->  		return ret;
-> @@ -537,6 +566,9 @@ static int aw200xx_probe(struct i2c_client *client)
->  	ret = aw200xx_chip_init(chip);
+Please break it out and use 'ret' as we usually do.
+
+> +		return dev_err_probe(dev, -EINVAL,
+
+Make this the return value from aw200xx_probe_get_display_rows() and use
+'ret' instead.
+
+> +				     "No valid led definitions found\n");
 >  
->  out_unlock:
-> +	if (ret)
-> +		aw200xx_disable(chip);
-> +
->  	mutex_unlock(&chip->mutex);
->  	return ret;
->  }
-> @@ -546,6 +578,7 @@ static void aw200xx_remove(struct i2c_client *client)
->  	struct aw200xx *chip = i2c_get_clientdata(client);
->  
->  	aw200xx_chip_reset(chip);
-> +	aw200xx_disable(chip);
->  	mutex_destroy(&chip->mutex);
->  }
->  
+>  	current_max = aw200xx_imax_from_global(chip, AW200XX_IMAX_MAX_uA);
+>  	current_min = aw200xx_imax_from_global(chip, AW200XX_IMAX_MIN_uA);
 > -- 
 > 2.36.0
 > 
