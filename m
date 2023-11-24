@@ -1,152 +1,140 @@
-Return-Path: <linux-leds+bounces-135-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-136-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFC87F751C
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 14:31:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD35C7F77CC
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 16:29:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 073901C20D88
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 13:31:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60EE91F20CEA
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 15:29:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABE928DDA;
-	Fri, 24 Nov 2023 13:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C94E2E85B;
+	Fri, 24 Nov 2023 15:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jc7pzhnd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3dYIM/E"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6032B1721;
-	Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a00f67f120aso263956766b.2;
-        Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700832682; x=1701437482; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=jc7pzhndHV74TrW5Y6euP8yk3htKIp8W3o1J4svRrdUUZjIdDRWgvExoS9S0QJD/zU
-         rBFEIT2MxFeZ/RzClYiIL0/02BNJdUr2xcGIsYQ77LaRf35g73whiGnOOChNAdVWSOrI
-         3hoq8vKd69rpowWA013qKYH7Bo61cWyy4QgiMXLsdISIwruZm2QyMOky9gdvpigFT2kh
-         1fDO4jvhAIcvXHr6BSmtl7uTFXktnDXDFMVWUS4DaHBnHSBtYtswpMLFp79/pPk1yWRG
-         hmZEhc/S29RsphTAt0pf2F0NPDGxYOfd/0JNu3TNk7MPkdFYp/43uE6PvHkLxFHbM6ee
-         ZfYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700832682; x=1701437482;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=C0nGbEllQd0ZR9UGYNYIabEcZU4JD8C4NYjDZNpA7s+0dg2NqPP62OPWLMLz/5M+78
-         tmpXg8oVR1r1kZlVcj8bEdUHzE3TPASfVNWVYIHvrhKOQoQYzN0wuRoyMRLPPE/+6Ovy
-         ZADRjidfCaGRO9R8L+NVGSt9DfoHfPWXnLMvxpTMKbojBG56AvwWtji0wwC1jWKR/131
-         /BKk4Zi6MGdDyIz9IRP9E/sQDEELpVn1H/Ist3FnTBsPOM0reHjQ0Xr+OaRIPGOobYge
-         XINBminf+wxL25fA4hoDhLRwrTKsXxPIaP0D1X5uq7tFW57KBgHdj36ParxPaVNgGetL
-         ah2g==
-X-Gm-Message-State: AOJu0Yxm62nmPBvJXSHKOOIkD7oKbpAsw8xRU5Yr17p55DoW6b0eC3DF
-	kyWzyWAWzcpI3hUuINPbNBs=
-X-Google-Smtp-Source: AGHT+IF2CMWqW6QgTEUE8dPizHd4yGlrN9Vk/VgdOvaxxbdjXw50mDYgNNx7FjDnvVExXduvtyJWvw==
-X-Received: by 2002:a17:906:5da:b0:a03:a857:c6e0 with SMTP id t26-20020a17090605da00b00a03a857c6e0mr1663923ejt.77.1700832681495;
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id c24-20020a170906529800b009fe2f96ee9bsm2064075ejm.8.2023.11.24.05.31.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Date: Fri, 24 Nov 2023 14:31:18 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_cansleep()
-Message-ID: <ZWClpnMRg_vjuI_R@orome.fritz.box>
-References: <cover.1700323916.git.sean@mess.org>
- <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5C1110FB;
+	Fri, 24 Nov 2023 07:29:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700839744; x=1732375744;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4wTXc2+Rb7ZmdlIioZQrrzZMpLjREbdeuncO3pZy9no=;
+  b=d3dYIM/EsNYXFZChdxOOmqe1d2lC+6zS39PogVlVDqdpj/G9BbFqQ3eH
+   isEanfYEnxyxFaNlrV6mztVfaH4tpnx/8NodnjJLaD2/TgVHqopzafZDi
+   lsqvaS04nVK93s5iJ/AEf83vodxXa83Mxu1d9J/66v4vNVJp3rXkmdr0k
+   C0Rx94FW4QSa6a0iJt/69wEFQiMCGaVFqvRZpuqlKeo7m9/WwxZsvx0sM
+   sEhctlir7g5xn1ODmWoN2WFu1aI/i0mFzYZSEUGY34frr/rwl4GDv/0+8
+   9XMAk9ZqPgviV164FcbwfZHSy9ejY5b2EDb2BarcRigs9UrQUtSUA7tYD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5593274"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="5593274"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:29:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="885299714"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="885299714"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:29:00 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1r6Y6z-0000000Gkp5-1wGf;
+	Fri, 24 Nov 2023 17:28:57 +0200
+Date: Fri, 24 Nov 2023 17:28:57 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, kernel@sberdevices.ru
+Subject: Re: [PATCH 0/8] devm_led_classdev_register() usage problem
+Message-ID: <ZWDBOfpsC5AVT8bX@smile.fi.intel.com>
+References: <20231025130737.2015468-1-gnstark@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mURPCj0PduVIws0V"
-Content-Disposition: inline
-In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-
-
---mURPCj0PduVIws0V
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231025130737.2015468-1-gnstark@salutedevices.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, Nov 18, 2023 at 04:16:17PM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
+On Wed, Oct 25, 2023 at 04:07:29PM +0300, George Stark wrote:
+> Lots of drivers use devm_led_classdev_register() to register their led objects
+> and let the kernel free those leds at the driver's remove stage.
+> It can lead to a problem due to led_classdev_unregister()
+> implementation calls led_set_brightness() to turn off the led.
+> led_set_brightness() may call one of the module's brightness_set callbacks.
+> If that callback uses module's resources allocated without using devm funcs()
+> then those resources will be already freed at module's remove() callback and
+> we may have use-after-free situation.
+> 
+> Here is an example:
+> 
+> module_probe()
+> {
+>     devm_led_classdev_register(module_brightness_set_cb);
+>     mutex_init(&mutex);
+> }
+> 
+> module_brightness_set_cb()
+> {
+>     mutex_lock(&mutex);
+>     do_set_brightness();
+>     mutex_unlock(&mutex);
+> }
+> 
+> module_remove()
+> {
+>     mutex_destroy(&mutex);
+> }
+> 
+> at rmmod:
+> module_remove()
+>     ->mutex_destroy(&mutex);
+> devres_release_all()
+>     ->led_classdev_unregister();
+>         ->led_set_brightness();
+>             ->module_brightness_set_cb();
+>                  ->mutex_lock(&mutex);  /* use-after-free */
+> 
+> I think it's an architectural issue and should be discussed thoroughly.
+> Some thoughts about fixing it as a start:
+> 1) drivers can use devm_led_classdev_unregister() to explicitly free leds before
+> dependend resources are freed. devm_led_classdev_register() remains being useful
+> to simplify probe implementation.
+> As a proof of concept I examined all drivers from drivers/leds and prepared
+> patches where it's needed. Sometimes it was not as clean as just calling
+> devm_led_classdev_unregister() because several drivers do not track
+> their leds object at all - they can call devm_led_classdev_register() and drop the
+> returned pointer. In that case I used devres group API.
+> 
+> Drivers outside drivers/leds should be checked too after discussion.
+> 
+> 2) remove led_set_brightness from led_classdev_unregister() and force the drivers
+> to turn leds off at shutdown. May be add check that led's brightness is 0
+> at led_classdev_unregister() and put a warning to dmesg if it's not.
+> Actually in many cases it doesn't really need to turn off the leds manually one-by-one
+> if driver shutdowns whole led controller. For the last case to disable the warning
+> new flag can be brought in e.g LED_AUTO_OFF_AT_SHUTDOWN (similar to LED_RETAIN_AT_SHUTDOWN).
 
-Sorry, I still don't agree with that _cansleep suffix. I think it's the
-wrong terminology. Just because something can sleep doesn't mean that it
-ever will. "Might sleep" is much more accurate because it says exactly
-what might happen and indicates what we're guarding against.
+NAK.
 
-Thierry
+Just fix the drivers by wrapping mutex_destroy() into devm, There are many
+doing so. You may be brave enough to introduce devm_mutex_init() somewhere
+in include/linux/device*
 
---mURPCj0PduVIws0V
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+With Best Regards,
+Andy Shevchenko
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVgpaQACgkQ3SOs138+
-s6HS8A/7BjtLlUH5CMfFlBTprZQsDfOXKtQTFT7vSIrS5EOAuemIkCNWaesc5juC
-gFpHk93q2Y8+pTg499tii+Ztr7m6Z00sAA8fpGEFwUn03iU9qrrC6/7gwVu8Dsjv
-m326JeQsUo8SL3s5JqH7vKQDUU0agG/rMAFwo5nIzD5xRGmtg1VB+Vg57/T0K4a4
-W99vEqpxwYAZLNQeId2ZTCZHREypDELrwcq0l0JYOOXdsvYa4r34dPep1KDfTvxK
-p6fGafsCc1qJ8S9ygxlTGPv/5+56JXyOEB75XXxBK2QaqEz9iHPxgfJsHz7K3DFx
-cpZtcEd899PpMbAiW5fag0BJcnUNffFf4CoZU34H8MPsp4DzKs7UvJlbQ79KNz6N
-VIjXUsk876G5NuLjwomvkmaxx1cQPbom4YknTav6Zm5dloV36kppnYuZ9+PV8NlW
-uudn06BsR8Yp7d2hpCHK6Vou1zbJtQHxQosq3e4e11mnMXxpnftSCuWZCeUedAhG
-zufpjdOkX1q24J9odZWGWz8rhGWgJUwtIpF8SOkPromrYAxZK+yJAb7AvepYNQNh
-i3X0j8HUnYCWUx7ty20NjF5rVY/GJh5DXncoB5cQqVlLCr8YUvFsOQ9YaUuFa/J5
-M/YrTcS9Bi0p3ps9qE3ec5+WY2E85s4+KeG0Z0/GD1ifS+r4fls=
-=1cUS
------END PGP SIGNATURE-----
-
---mURPCj0PduVIws0V--
 
