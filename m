@@ -1,206 +1,199 @@
-Return-Path: <linux-leds+bounces-133-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-134-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288107F702F
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 10:41:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AADCA7F73C3
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 13:27:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4AD6281A07
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 09:41:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3282F281C1E
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 12:27:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A90015E9B;
-	Fri, 24 Nov 2023 09:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B37924B46;
+	Fri, 24 Nov 2023 12:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="UhUTZuL+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvfrOh48"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F8810F8;
-	Fri, 24 Nov 2023 01:41:48 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 99F5112000C;
-	Fri, 24 Nov 2023 12:41:46 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 99F5112000C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1700818906;
-	bh=ZjjszLeVnBPwoAj6f6uQYU1y6GX4z6DbNr2+xOZZZGo=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=UhUTZuL+2i7sGTzkhnmT9eCZmSAravoRcnQYqakh1ENk5N4Tb8EeQ/AQEQGdSznS9
-	 F/pTPIVdNYdZY7zYTwdDd5n9jGOhKNdYVpx+8AQurqsvvvbaWwckaSIH3Ys+tqBoap
-	 EXDmoQl0uty8aT9u4EPSlf6x21aTWiZLxhrIyLkWOzSDhEHV6PtJdGG2sehiV0yXy/
-	 VpF7QTGgiGt9nWu81PJc6Jr68W35Gn8ib7r+26wQPLA0i19Mh+Gl8qHZ8rUx0wo3Cd
-	 ITql7ePcZD+lhSjQ9F5N9FWbmCxggPwcpcmSaYF2fm7CAbOOw5w2kMtCJnjqnFvkT0
-	 jpM3wBawvCoHQ==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Fri, 24 Nov 2023 12:41:46 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 24 Nov
- 2023 12:41:46 +0300
-Date: Fri, 24 Nov 2023 12:41:46 +0300
-From: Dmitry Rokosov <ddrokosov@salutedevices.com>
-To: Lee Jones <lee@kernel.org>
-CC: <pavel@ucw.cz>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
-	<rockosov@gmail.com>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>, George Stark
-	<gnstark@salutedevices.com>
-Subject: Re: [PATCH v4 04/11] leds: aw200xx: calculate dts property
- display_rows in the driver
-Message-ID: <20231124094146.qsgmmbwulemjikpg@CAB-WSD-L081021>
-References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
- <20231121202835.28152-5-ddrokosov@salutedevices.com>
- <20231123163252.GF1354538@google.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E9DFD69;
+	Fri, 24 Nov 2023 04:27:25 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-a00f67f120aso254346666b.2;
+        Fri, 24 Nov 2023 04:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700828844; x=1701433644; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AEAN7h4gkKwfL2N1+cj+nO9OHcjJsJmUARGotQEJSfA=;
+        b=bvfrOh488rADRKA4pyS4OFAnCUb2youZTlFInp17HhyFtpmZTu3Fdo0HHbka4gNjfw
+         J5fniLJp1B+su2EiBqLmzhQKOPENTrnAhTXqy0ueJaDSQrtWf/Evz6H4udm3jpbUmYOW
+         VtLHarvIN+IZYp4wd54Wy++aBqCf85fY27RDDJ11A9FazWf4KS9xXklt1rK9Tl+hJL+z
+         yz6hFEiOk9gHm3jwQkJ0kP+2/VBs1p2HVeUhfVQVCRxKb8dxWjppbIhl81k1zKLM+29f
+         f1P2ruh5nJMzSZS3hj7waGrax4PQO7BBnM3dg5voVBk+Dxsuh6fwR+CcwBPiEwErj7Ii
+         j6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700828844; x=1701433644;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AEAN7h4gkKwfL2N1+cj+nO9OHcjJsJmUARGotQEJSfA=;
+        b=Q7JpetMwgJjPZCBku971TyPgxUTc5Noa/cZmQS1Md3oYHPRmPZPK3ox0Hh7vzBlEeR
+         R2q8W7kO5XoRg91hp8FpxlJOAq+7haOe+5eQ6KMz6S16JbNNbvKAWvuqu+F3aqWe9j4Q
+         q2TT4MJz/K0LLfE0KgKRmX6mIm/txYj/VGRbhMchRIA8Jpi1GMrFqxtyLxx5Y3AA0GtZ
+         V5RARGkn/5wOg5prj/2PbQrE9aPK3s3/taiM3nUTym+Mhkqxaueu/ioF/A3gpF7/mtzS
+         9d+tLBi14o13EhyxJ85bYIFJ/FT7ucRTG2MmbpAAvhVs/sjLkHSPFM37aPb1vFZJk0tW
+         8Kdg==
+X-Gm-Message-State: AOJu0YyVRCAoerpoPPzPv445moO+Dyzpbq6YgZhA9hLqnOnPIgQC/Xa2
+	0GO1uneRotXLlR0xAHFOpWE=
+X-Google-Smtp-Source: AGHT+IGpjJrs4HuzE4aqjsxS+stk1d8YoQarbthwjz6s91fjqv1yMQV+r35OJ/jUZ825Xskew9BDMw==
+X-Received: by 2002:a17:906:10d:b0:a00:8706:c82b with SMTP id 13-20020a170906010d00b00a008706c82bmr1659158eje.47.1700828843637;
+        Fri, 24 Nov 2023 04:27:23 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id mm25-20020a170906cc5900b009fdaab907fbsm1999547ejb.188.2023.11.24.04.27.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 04:27:23 -0800 (PST)
+Date: Fri, 24 Nov 2023 13:27:21 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Kees Cook <keescook@chromium.org>, linux-pwm@vger.kernel.org,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	kernel@pengutronix.de,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v3 102/108] leds: qcom-lpg: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <ZWCWqcxbAtmNPY85@orome.fritz.box>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
+ <20231122115621.GK173820@google.com>
+ <ZV43NHr1QN79lsaJ@orome.fritz.box>
+ <20231123104458.2pfaowqylmpnynhx@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TN2hYkUOhq+Fy2y+"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231123163252.GF1354538@google.com>
-User-Agent: NeoMutt/20220415
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181570 [Nov 24 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2, FromAlignment: s, {Track_Chinese_Simplified, text}, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/24 06:01:00 #22520095
-X-KSMG-AntiVirus-Status: Clean, skipped
+In-Reply-To: <20231123104458.2pfaowqylmpnynhx@pengutronix.de>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Thu, Nov 23, 2023 at 04:32:52PM +0000, Lee Jones wrote:
-> On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
-> 
-> > From: George Stark <gnstark@salutedevices.com>
-> > 
-> > Get rid of device tree property "awinic,display-rows". The property
-> > value actually means number of current switches and depends on how leds
-> 
-> Nit: LEDs
-> 
-> > are connected to the device. It should be calculated manually by max
-> > used led number. In the same way it is computed automatically now.
-> 
-> As above - I won't mention this again.
-> 
-> > Max used led is taken from led definition subnodes.
-> > 
-> > Signed-off-by: George Stark <gnstark@salutedevices.com>
-> > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> > ---
-> >  drivers/leds/leds-aw200xx.c | 39 +++++++++++++++++++++++++------------
-> >  1 file changed, 27 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-> > index 7762b3a132ac..4bce5e7381c0 100644
-> > --- a/drivers/leds/leds-aw200xx.c
-> > +++ b/drivers/leds/leds-aw200xx.c
-> > @@ -379,6 +379,30 @@ static void aw200xx_disable(const struct aw200xx *const chip)
-> >  	return gpiod_set_value_cansleep(chip->hwen, 0);
-> >  }
-> >  
-> > +static bool aw200xx_probe_get_display_rows(struct device *dev, struct aw200xx *chip)
-> > +{
-> > +	struct fwnode_handle *child;
-> > +	u32 max_source = 0;
-> > +
-> > +	device_for_each_child_node(dev, child) {
-> > +		u32 source;
-> > +		int ret;
-> > +
-> > +		ret = fwnode_property_read_u32(child, "reg", &source);
-> > +		if (ret || source >= chip->cdef->channels)
-> 
-> Shouldn't the second clause fail instantly?
-> 
 
-We already have such logic in the aw200xx_probe_fw() function, which
-skips the LED node with the wrong reg value too. Furthermore, we have
-strict reg constraints in the dt-bindings parts (in the current patch
-series), so we assume that the DT developer will not create an LED with
-the wrong reg value.
+--TN2hYkUOhq+Fy2y+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +			continue;
-> > +
-> > +		max_source = max(max_source, source);
-> > +	}
-> > +
-> > +	if (!max_source)
-> 
-> Since max_source is an integer, please use an '== 0' comparison.
-> 
+On Thu, Nov 23, 2023 at 11:44:58AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> Hello Thierry,
+>=20
+> [adding Bartosz to Cc]
+>=20
+> On Wed, Nov 22, 2023 at 06:15:32PM +0100, Thierry Reding wrote:
+> > On Wed, Nov 22, 2023 at 11:56:21AM +0000, Lee Jones wrote:
+> > > On Tue, 21 Nov 2023, Uwe Kleine-K=C3=B6nig wrote:
+> > > > +	*(struct lpg **)pwmchip_priv(chip) =3D lpg;
+> > >=20
+> > > This is vile!
+> >=20
+> > Indeed. This highlights one of the weaker parts of this whole design and
+> > I really don't like it. The whole chip_alloc() construct works fine if
+> > you have everything isolated nicely in a single driver and subsystem
+> > (like you usually have in network land), but for cases like this where
+> > things are spread throughout and a device is actually more than just a
+> > PWM controller, it looks like we now have to work around this design
+> > because it doesn't fit.
+>=20
+> With the patch I suggested in reply to Lee's mail this is IMHO much
+> nicer and with that squashed into the patch under discussion I'd not
+> call this a work around.
+>=20
+> Note that the thing you consider ugly here (I think) is that for
+> handling a combined "PWM + something else" device a separate allocation
+> is needed for stuff that embedded a struct pwm_chip before. With
+> Bartosz's approach you have that second allocation for all PWM devices
+> ---and so the downsides hurt all PWM implementations and not only those
+> combined devices.
+>=20
+> Also note that among the four external PWM drivers (i.e.
+>=20
+> 	drivers/staging/greybus/pwm.c
+> 	drivers/leds/rgb/leds-qcom-lpg.c
+> 	drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> 	drivers/gpio/gpio-mvebu.c
+>=20
+> ) only two suffer from this complication, because the other two use a
+> pwm specific private data structure already which seems natural to me.
 
-Okay
+That's true for now, but new drivers get added all the time, so anything
+we do here should be as future proof as we can make it.
 
-> > +		return false;
-> > +
-> > +	chip->display_rows = max_source / chip->cdef->display_size_columns + 1;
-> > +
-> > +	return true;
-> > +}
-> > +
-> >  static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
-> >  {
-> >  	struct fwnode_handle *child;
-> > @@ -386,18 +410,9 @@ static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
-> >  	int ret;
-> >  	int i;
-> >  
-> > -	ret = device_property_read_u32(dev, "awinic,display-rows",
-> > -				       &chip->display_rows);
-> > -	if (ret)
-> > -		return dev_err_probe(dev, ret,
-> > -				     "Failed to read 'display-rows' property\n");
-> > -
-> > -	if (!chip->display_rows ||
-> > -	    chip->display_rows > chip->cdef->display_size_rows_max) {
-> > -		return dev_err_probe(dev, ret,
-> > -				     "Invalid leds display size %u\n",
-> > -				     chip->display_rows);
-> > -	}
-> > +	if (!aw200xx_probe_get_display_rows(dev, chip))
-> 
-> Function calls in side if() statements in general is rough.
-> 
-> Please break it out and use 'ret' as we usually do.
-> 
-> > +		return dev_err_probe(dev, -EINVAL,
-> 
-> Make this the return value from aw200xx_probe_get_display_rows() and use
-> 'ret' instead.
-> 
+> > In fact, this reminds me about the "midlayer mistake" in many ways and
+> > combined with what Bartosz said, I'm not sure this is going to hold up
+> > very well the more special cases we get.
+>=20
+> Where do you see a midlayer and how would that be better with what
+> Bartosz suggests?
 
-No problem, I'll prepare a new version.
+I wasn't saying that this was a midlayer but rather that it reminds me
+of one and the restrictions that it comes with.
 
-> > +				     "No valid led definitions found\n");
-> >  
-> >  	current_max = aw200xx_imax_from_global(chip, AW200XX_IMAX_MAX_uA);
-> >  	current_min = aw200xx_imax_from_global(chip, AW200XX_IMAX_MIN_uA);
-> > -- 
-> > 2.36.0
-> > 
-> 
-> -- 
-> Lee Jones [李琼斯]
+Right now all of these drivers work just fine and we don't need any of
+these weird assignments due to the single allocation. They all neatly
+plug into whatever other drivers or subsystems do.
 
--- 
-Thank you,
-Dmitry
+> The relevant difference between my approach and Bartosz's is that I put
+> the driver specific private data in the same allocation as the struct
+> pwm_chip and thus reducing the number of allocations and pointer
+> traversals. This difference IMHO doesn't qualify my approach as a
+> midlayer without Bartosz's qualifying, too.
+
+The solution that Bartosz proposed in his talk has two big advantages:
+it can potentially be generalized to a number of subsystems, which means
+that eventually we may get an actual library that would allow this stuff
+to be unified across subsystems without everyone having to invent their
+own and fix the same bugs. Secondly it also puts the lifetime management
+where it belongs: in the subsystem. Drivers don't really have to care
+about lifetime management of whatever they expose. When they are
+unloaded, they should only need to let the subsystem know that they're
+gone and then the subsystem can take appropriate action.
+
+There are other advantages as well, mostly derived from the above: the
+patch series to implement this can probably be something like 5 patches,
+so we don't actually need to touch every driver, because the drivers
+themselves are not the issue. It's how the subsystem will expose them
+via chardev (or already exposes them via sysfs) that's really the
+problem. The only place where it makes sense to fix this is in the
+subsystem. Drivers don't need to be concerned about this.
+
+Thierry
+
+--TN2hYkUOhq+Fy2y+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVglqYACgkQ3SOs138+
+s6GQug/9GGjghNKsu8++GNrt0kQkr7WO5463KH9B/3Ab1PTlvBScL4Ey0iOTCDvt
+tldWRFxQKbu4Zr6DDFgqPP4obQlF0bxnxuuowLSsdRqnr6pTB0QMlL1HlvPZTIoY
+24HDXfai/VH6v7UQaxYCrwC/0w47mKncxzDBaW/SVI1P18qGOjKevDcL/co9ZAXd
+5a4r21hYKLtPl67xArCWIhSLWUeuLyyD6xM4KyxM/V9XSXs0wAOH4jneAbGEm4Ha
+34JzUJY1bkUuCm/LmPXPFT2k4blaTXvspT8v9GPnEt+OdXE+xzkUqWTrOQMDSaqR
+Mxfgg6jLoHnUonmLlq84gDO/4YEJdZGfh/NCfQB5kgYnriiFnZDdpmhDhG6crz3F
+Fey3/2PBZQvs8Wr/9lftHHVXilxUSkcgkDPB/sp003hs1FgtKmXMuPvaiKxCodec
+E0a9hWVNvYQC9dzd+O+MIhbx2B7Uc9ymSDTitOVHdZWnkNziTAAzuLzbalxzF67E
+d8Ce5THrm99Lp6Xl3USzHRzpawkUhpIUa6oIpUVavmChfIe4KAB/+Bz2dueuLT+z
+OiE0UK8n5NjT6HXklvHd/u/vVjLkPclT+D0GkUUvG+cK1KajhODsnNGVCqQ2w1QK
+5B3u7tn4VfVSvizphilFsrC5rRjSQO5Ekp0xEB43zimCFg6E+yY=
+=vskI
+-----END PGP SIGNATURE-----
+
+--TN2hYkUOhq+Fy2y+--
 
