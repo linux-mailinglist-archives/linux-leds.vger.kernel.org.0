@@ -1,42 +1,42 @@
-Return-Path: <linux-leds+bounces-153-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-156-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3127F8E60
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 21:05:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5697F8E65
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 21:05:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE00A1F20D3A
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 20:05:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF6C41C20BAC
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 20:05:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0E330D05;
-	Sat, 25 Nov 2023 20:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697E330F82;
+	Sat, 25 Nov 2023 20:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="lQTIvF8Q"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="aIIu02lY"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2996718C;
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A726318E;
 	Sat, 25 Nov 2023 12:05:33 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id C16DE12001D;
-	Sat, 25 Nov 2023 23:05:31 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru C16DE12001D
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 47348100025;
+	Sat, 25 Nov 2023 23:05:32 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 47348100025
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1700942731;
-	bh=Nz6KMI06TAaOZ9MntU69qR3R1MQfjHcEyVZW5vm7XRg=;
+	s=mail; t=1700942732;
+	bh=XZaUtJIinZsFjG7oW4EmSM0d0XTPrP4/k2a7efLvsns=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=lQTIvF8QnLV5wyaSvYRsggp9VWwurc4dhac7y3yQt28HL6ZXQCDPShRFmqCBTFSd+
-	 7ovtRVrSe0NiEzcYC4GG1PS96N+ekfA+drualE/farafqN37EvTDQ8DxbxEDzjmLXG
-	 CyHESYRwN4d64YNOOpdWPoxr+6ndfVfEEnHWCs0BVVM7z9XWFP4LzoB0aWbimbq1Ez
-	 h2i2wwUJDMtpGVeWfOo9inU2k4M1vNOZfrly6FAB59ol/0FjuAiOKksRgYMBvrq+XF
-	 i8NLMpD+J7ofDUBZwD7U5oqwAfreeh2BpquCQSCB3EE3Lwyar6g5AK8fK9KwtnYdSZ
-	 ER3QALOd28nIA==
+	b=aIIu02lYdQoypBa3oIs4n5XP/m9sSl6fDFToka7rWIvDq+UpqMjeM06et9IoRIXtG
+	 de+EnBcgtYJ7YnA9y0bFjaI5U3hiojfrbeUQpmA/O/sKOT07qFxmD2aBUH9WE8s4OJ
+	 S3AxACLsu4/uMzhErtAE8mnJvTzgzy1gBfNykH8FAmTARL2bc1LMie1TlxEqdvmKsg
+	 Q2ZBSKZi9xz4W9miGSbFHEgHr5piDXKBnIbjANLFXOtgV4CKsJlzU0LFJxNVVCNceD
+	 H7G8t1r2XGNSWH+E1Ppo4DkrYdGj8hVrrF1/nZ2yAqTArSk34Eb+5fcBzMH1rosF9B
+	 4nl14chOKN9dg==
 Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Sat, 25 Nov 2023 23:05:31 +0300 (MSK)
+	Sat, 25 Nov 2023 23:05:32 +0300 (MSK)
 Received: from localhost.localdomain (100.64.160.123) by
  p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -49,9 +49,9 @@ CC: <kernel@sberdevices.ru>, <rockosov@gmail.com>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-leds@vger.kernel.org>, George Stark <gnstark@salutedevices.com>,
 	Dmitry Rokosov <ddrokosov@salutedevices.com>
-Subject: [PATCH v5 08/11] leds: aw200xx: improve autodim calculation method
-Date: Sat, 25 Nov 2023 23:05:16 +0300
-Message-ID: <20231125200519.1750-9-ddrokosov@salutedevices.com>
+Subject: [PATCH v5 09/11] leds: aw200xx: add support for aw20108 device
+Date: Sat, 25 Nov 2023 23:05:17 +0300
+Message-ID: <20231125200519.1750-10-ddrokosov@salutedevices.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20231125200519.1750-1-ddrokosov@salutedevices.com>
 References: <20231125200519.1750-1-ddrokosov@salutedevices.com>
@@ -74,7 +74,7 @@ X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;salutedevices.com:7.1.1;100.64.160.123:7.1.2;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;100.64.160.123:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
 X-KSMG-AntiPhishing: Clean
@@ -84,49 +84,83 @@ X-KSMG-AntiVirus-Status: Clean, skipped
 
 From: George Stark <gnstark@salutedevices.com>
 
-It is highly recommended to leverage the DIV_ROUND_UP() function as a
-more refined and mathematically precise alternative to employing a
-coarse division method.
+Add support for the Awinic aw20108 device, which belongs to the same LED
+drivers family. The new device supports 108 LEDs using a matrix of 12x9
+outputs."
 
 Signed-off-by: George Stark <gnstark@salutedevices.com>
 Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/leds/leds-aw200xx.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/leds/Kconfig        | 14 +++++++++-----
+ drivers/leds/leds-aw200xx.c | 10 +++++++++-
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 6046dfeca16f..a898a8679334 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -95,14 +95,18 @@ config LEDS_ARIEL
+ 	  Say Y to if your machine is a Dell Wyse 3020 thin client.
+ 
+ config LEDS_AW200XX
+-	tristate "LED support for Awinic AW20036/AW20054/AW20072"
++	tristate "LED support for Awinic AW20036/AW20054/AW20072/AW20108"
+ 	depends on LEDS_CLASS
+ 	depends on I2C
+ 	help
+-	  This option enables support for the AW20036/AW20054/AW20072 LED driver.
+-	  It is a 3x12/6x9/6x12 matrix LED driver programmed via
+-	  an I2C interface, up to 36/54/72 LEDs or 12/18/24 RGBs,
+-	  3 pattern controllers for auto breathing or group dimming control.
++	  This option enables support for the Awinic AW200XX LED controllers.
++	  It is a matrix LED driver programmed via an I2C interface. Devices have
++	  a set of individually controlled LEDs and support 3 pattern controllers
++	  for auto breathing or group dimming control. Supported devices:
++	    - AW20036 (3x12) 36 LEDs
++	    - AW20054 (6x9)  54 LEDs
++	    - AW20072 (6x12) 72 LEDs
++	    - AW20108 (9x12) 108 LEDs
+ 
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called leds-aw200xx.
 diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-index c6a51152a494..e125b6c68c23 100644
+index e125b6c68c23..1d3943f86f7f 100644
 --- a/drivers/leds/leds-aw200xx.c
 +++ b/drivers/leds/leds-aw200xx.c
-@@ -87,6 +87,8 @@
- #define AW200XX_REG_DIM(x, columns) \
- 	AW200XX_REG(AW200XX_PAGE4, AW200XX_LED2REG(x, columns) * 2)
- #define AW200XX_REG_DIM2FADE(x) ((x) + 1)
-+#define AW200XX_REG_FADE2DIM(fade) \
-+	DIV_ROUND_UP((fade) * AW200XX_DIM_MAX, AW200XX_FADE_MAX)
- 
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
  /*
-  * Duty ratio of display scan (see p.15 of datasheet for formula):
-@@ -195,9 +197,7 @@ static int aw200xx_brightness_set(struct led_classdev *cdev,
+- * Awinic AW20036/AW20054/AW20072 LED driver
++ * Awinic AW20036/AW20054/AW20072/AW20108 LED driver
+  *
+  * Copyright (c) 2023, SberDevices. All Rights Reserved.
+  *
+@@ -622,10 +622,17 @@ static const struct aw200xx_chipdef aw20072_cdef = {
+ 	.display_size_columns = 12,
+ };
  
- 	dim = led->dim;
- 	if (dim < 0)
--		dim = max_t(int,
--			    brightness / (AW200XX_FADE_MAX / AW200XX_DIM_MAX),
--			    1);
-+		dim = AW200XX_REG_FADE2DIM(brightness);
- 
- 	ret = regmap_write(chip->regmap, reg, dim);
- 	if (ret)
-@@ -462,6 +462,7 @@ static int aw200xx_probe_fw(struct device *dev, struct aw200xx *chip)
- 		led->num = source;
- 		led->chip = chip;
- 		led->cdev.brightness_set_blocking = aw200xx_brightness_set;
-+		led->cdev.max_brightness = AW200XX_FADE_MAX;
- 		led->cdev.groups = dim_groups;
- 		init_data.fwnode = child;
- 
++static const struct aw200xx_chipdef aw20108_cdef = {
++	.channels = 108,
++	.display_size_rows_max = 9,
++	.display_size_columns = 12,
++};
++
+ static const struct i2c_device_id aw200xx_id[] = {
+ 	{ "aw20036" },
+ 	{ "aw20054" },
+ 	{ "aw20072" },
++	{ "aw20108" },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, aw200xx_id);
+@@ -634,6 +641,7 @@ static const struct of_device_id aw200xx_match_table[] = {
+ 	{ .compatible = "awinic,aw20036", .data = &aw20036_cdef, },
+ 	{ .compatible = "awinic,aw20054", .data = &aw20054_cdef, },
+ 	{ .compatible = "awinic,aw20072", .data = &aw20072_cdef, },
++	{ .compatible = "awinic,aw20108", .data = &aw20108_cdef, },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, aw200xx_match_table);
 -- 
 2.36.0
 
