@@ -1,104 +1,168 @@
-Return-Path: <linux-leds+bounces-141-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-142-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28667F8569
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 22:21:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4017F875D
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 01:47:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CC3CB219BF
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Nov 2023 21:21:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87E112815BC
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 00:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39ED83A8FF;
-	Fri, 24 Nov 2023 21:21:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FE7B391;
+	Sat, 25 Nov 2023 00:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="qnBC/031"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="jOBTP6vm"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A23F199A
-	for <linux-leds@vger.kernel.org>; Fri, 24 Nov 2023 13:21:22 -0800 (PST)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3b52360cdf0so1220169b6e.2
-        for <linux-leds@vger.kernel.org>; Fri, 24 Nov 2023 13:21:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1700860881; x=1701465681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nnKHeU25e3GbyNJri6YXYszp+5TU6nTPAt9UQPE5y8A=;
-        b=qnBC/031fY/LzYHmOVguRsSYpZ0w8X98YZy066LXudbHct9hJSo8eX8lFBL8kzLQ33
-         JRKq9dZDiehezIIcOSuRi6/j/r7eMLXj/fD/BCFjcEJT7W8GaDhQA8C4LCsk2D/WnXIY
-         RQGwVnXeIHu11uWi2JUsj1vLNcZoGjSzlxixlGadNePsMgpu+3E1XyhP9D/Fb/KHF3jC
-         BHESqrWpSStIA5ecnWkjrEGtqA4tJaxRWINmwQJvhXcgLM0sUj206jpFAin3nRhXAbOJ
-         dpInHLUMy+SIBCq76cWjjN7DgDyfdoYvci5aw1fQprmYTtiVp2cxqph+9cf0aftEkOED
-         P/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700860881; x=1701465681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nnKHeU25e3GbyNJri6YXYszp+5TU6nTPAt9UQPE5y8A=;
-        b=cf88FfvTLmcifhO2cfVsRjSCZU84XaGl9xf/YIuaaE5okcbnDkKbvledjeKp8Zgq1t
-         20ec8v/VEBrb5npIA1JGmtGkI/eFf64cJyThU0Hi8IY5BHXEOv2GxUVQTj5LDncyooeS
-         CHYojRCDM89UpNYXpmR+HumSxQE1K9HWapGiWkh0yPbhe7ZdDDEokpfkOcuPzYQrD1XX
-         1OG34aXyleaIQloitzBczGj1do+tk/Rc0y8SjX0wEg5yMq3dyCqKqleSsQ3S0esHoYE+
-         cDD7s0AlxKg5v+jLFIJX10npVbsH4vRkPC8vFuW8N8KebOUdOylHP+RPUYSlU3sdYY+k
-         O94g==
-X-Gm-Message-State: AOJu0YxTMTcxYnJ8RISBYDFyuyEG9Sh8R2PthuFx5L0l8VuhY2FhVJ5A
-	5nhcnXgvTGa+sSXUBRIeRmkl3ezl8FgtCRuTZKR7OQ==
-X-Google-Smtp-Source: AGHT+IGKKBbw94VykJk9hcfCpD0tqOqjcIPyxhffqa24so6+G+3kcZKo+3FBtWc4bXyIfOk1pLb9VDXMsNjAME0otLY=
-X-Received: by 2002:a05:6358:6f87:b0:169:9859:ccc3 with SMTP id
- s7-20020a0563586f8700b001699859ccc3mr3049189rwn.12.1700860881296; Fri, 24 Nov
- 2023 13:21:21 -0800 (PST)
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031E91985;
+	Fri, 24 Nov 2023 16:47:22 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id D87C112000E;
+	Sat, 25 Nov 2023 03:47:19 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru D87C112000E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1700873239;
+	bh=6bJkF32oXGL6h3vT0VPcxbn5F6XkTkolj869Hwu9IAo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=jOBTP6vm7jq/vrbXFxR3SRfgRRD1LEOadhXqTcaXjIcFSfeT3xYmXzbTjbaIU9RJP
+	 +pf//YUApXyKgZfCXSyH5YPUvukjcCqvGR+7jusQgXM/gaJooMadj9SMZX3K4Uwsx0
+	 j6L4lJMBjaDjh5T3I3G58nfC5nVKBDyAfA2pP1AaNVRwabq/Dt/wXbDN7RrDyxY7Yt
+	 750g9ll/Lr0yRA3Yciv7W+AQYKhRS1OaAwrS+fhsfOOiqZLMrtF0BATi0IV/LZ3gAM
+	 wEIttU13X4X0IxeLXHcIjWjwpW1LXxU2wbNScuqewB+NNdxK8/a+bMXAo/TXisH1ME
+	 +3awVh4GErP3w==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Sat, 25 Nov 2023 03:47:18 +0300 (MSK)
+Received: from [192.168.1.127] (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sat, 25 Nov 2023 03:47:18 +0300
+Message-ID: <13cd5524-0d40-4f07-b542-002b79b37533@salutedevices.com>
+Date: Sat, 25 Nov 2023 03:47:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
- <20231121134901.208535-103-u.kleine-koenig@pengutronix.de>
- <20231122115621.GK173820@google.com> <ZV43NHr1QN79lsaJ@orome.fritz.box>
- <20231123104458.2pfaowqylmpnynhx@pengutronix.de> <ZWCWqcxbAtmNPY85@orome.fritz.box>
- <20231124182252.r7br2vgr5ralwoua@pengutronix.de>
-In-Reply-To: <20231124182252.r7br2vgr5ralwoua@pengutronix.de>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 24 Nov 2023 22:21:10 +0100
-Message-ID: <CAMRc=Mf_xndugSqoY+uLHxsE+c2ztDfZ=eSh4xCGVCAbA4hjSg@mail.gmail.com>
-Subject: Re: [PATCH v3 102/108] leds: qcom-lpg: Make use of
- devm_pwmchip_alloc() function
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Andersson <quic_bjorande@quicinc.com>, Kees Cook <keescook@chromium.org>, 
-	linux-pwm@vger.kernel.org, Lee Jones <lee@kernel.org>, Luca Weiss <luca@z3ntu.xyz>, 
-	Conor Dooley <conor.dooley@microchip.com>, Anjelique Melendez <quic_amelende@quicinc.com>, 
-	Pavel Machek <pavel@ucw.cz>, kernel@pengutronix.de, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] devm_led_classdev_register() usage problem
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: <pavel@ucw.cz>, <lee@kernel.org>, <vadimp@nvidia.com>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <christophe.leroy@csgroup.eu>,
+	<linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, "jic23@kernel.org" <jic23@kernel.org>,
+	<kernel@salutedevices.com>
+References: <20231025130737.2015468-1-gnstark@salutedevices.com>
+ <ZWDBOfpsC5AVT8bX@smile.fi.intel.com>
+From: George Stark <gnstark@salutedevices.com>
+In-Reply-To: <ZWDBOfpsC5AVT8bX@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 181590 [Nov 24 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;www.spinics.net:7.1.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2023/11/24 23:41:00
+X-KSMG-LinksScanning: Clean, bases: 2023/11/24 23:41:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/24 22:14:00 #22527410
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Fri, Nov 24, 2023 at 7:22=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
+Hello Andy
 
-[snip]
+Thanks for the review.
 
->   - gpio: See how both gpio_chip and gpio_device have base, ngpio, a
->     parent pointer (gpio_device has it in .dev), an owner and a label.
->     Do they all have the same semantic? Yes? -> that's bad. No? ->
->     that's IMHO even worse.
+On 11/24/23 18:28, Andy Shevchenko wrote:
+> On Wed, Oct 25, 2023 at 04:07:29PM +0300, George Stark wrote:
+>> Lots of drivers use devm_led_classdev_register() to register their led objects
+>> and let the kernel free those leds at the driver's remove stage.
+>> It can lead to a problem due to led_classdev_unregister()
+>> implementation calls led_set_brightness() to turn off the led.
+>> led_set_brightness() may call one of the module's brightness_set callbacks.
+>> If that callback uses module's resources allocated without using devm funcs()
+>> then those resources will be already freed at module's remove() callback and
+>> we may have use-after-free situation.
+>>
+>> Here is an example:
+>>
+>> module_probe()
+>> {
+>>      devm_led_classdev_register(module_brightness_set_cb);
+>>      mutex_init(&mutex);
+>> }
+>>
+>> module_brightness_set_cb()
+>> {
+>>      mutex_lock(&mutex);
+>>      do_set_brightness();
+>>      mutex_unlock(&mutex);
+>> }
+>>
+>> module_remove()
+>> {
+>>      mutex_destroy(&mutex);
+>> }
+>>
+>> at rmmod:
+>> module_remove()
+>>      ->mutex_destroy(&mutex);
+>> devres_release_all()
+>>      ->led_classdev_unregister();
+>>          ->led_set_brightness();
+>>              ->module_brightness_set_cb();
+>>                   ->mutex_lock(&mutex);  /* use-after-free */
+>>
+>> I think it's an architectural issue and should be discussed thoroughly.
+>> Some thoughts about fixing it as a start:
+>> 1) drivers can use devm_led_classdev_unregister() to explicitly free leds before
+>> dependend resources are freed. devm_led_classdev_register() remains being useful
+>> to simplify probe implementation.
+>> As a proof of concept I examined all drivers from drivers/leds and prepared
+>> patches where it's needed. Sometimes it was not as clean as just calling
+>> devm_led_classdev_unregister() because several drivers do not track
+>> their leds object at all - they can call devm_led_classdev_register() and drop the
+>> returned pointer. In that case I used devres group API.
+>>
+>> Drivers outside drivers/leds should be checked too after discussion.
+>>
+>> 2) remove led_set_brightness from led_classdev_unregister() and force the drivers
+>> to turn leds off at shutdown. May be add check that led's brightness is 0
+>> at led_classdev_unregister() and put a warning to dmesg if it's not.
+>> Actually in many cases it doesn't really need to turn off the leds manually one-by-one
+>> if driver shutdowns whole led controller. For the last case to disable the warning
+>> new flag can be brought in e.g LED_AUTO_OFF_AT_SHUTDOWN (similar to LED_RETAIN_AT_SHUTDOWN).
+> 
+> NAK.
+> 
+> Just fix the drivers by wrapping mutex_destroy() into devm, There are many
+> doing so. You may be brave enough to introduce devm_mutex_init() somewhere
+> in include/linux/device*
+> 
 
-For the record: I am very well aware there are a lot of things wrong
-with GPIO at the moment. It's years of technical debt biting back.
-I've racked up ~100 patches last release cycle alone fixing various
-cases of abuse of GPIOLIB in the wildest places (OMAP1?!). I'm slowly
-doing cleanups all around the place but since GPIO is so ubiquitous
-across the kernel tree, it's going quite slow. I'm going to get to the
-duplication between gpio_chip and gpio_device but we still have users
-in the kernel who shamelessly access gpio_chip directly without being
-GPIO providers.
+Just one thing about mutex_destroy(). It seems like there's no single 
+opinion on should it be called in 100% cases e.g. in remove() paths.
+For example in iio subsystem Jonathan suggests it can be dropped in 
+simple cases: https://www.spinics.net/lists/linux-iio/msg73423.html
 
-This is not an argument against the general approach I presented -
-it's an argument against stacking up years' worth of cruft.
+So the question is can we just drop mutex_destroy() in module's remove() 
+callback here if that mutex is needed for devm subsequent callbacks?
 
-Bart
+-- 
+Best regards
+George
 
