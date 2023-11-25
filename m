@@ -1,37 +1,37 @@
-Return-Path: <linux-leds+bounces-150-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-151-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834C27F8E59
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 21:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20FB7F8E5D
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 21:05:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30F952813D3
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 20:05:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B579281504
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Nov 2023 20:05:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B293067B;
-	Sat, 25 Nov 2023 20:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 460FE30CF2;
+	Sat, 25 Nov 2023 20:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="vy201Caa"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="at97Wer4"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59ED189;
-	Sat, 25 Nov 2023 12:05:31 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 90D8812001A;
-	Sat, 25 Nov 2023 23:05:30 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 90D8812001A
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D7E18B;
+	Sat, 25 Nov 2023 12:05:32 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 30C17100024;
+	Sat, 25 Nov 2023 23:05:31 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 30C17100024
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1700942730;
-	bh=6zspnyJz+nDF9opMh33IY/7Y1KILTXZl33bwU29eAWw=;
+	s=mail; t=1700942731;
+	bh=/hGJSPwkR7hPPiegnAMGayQn6U63idcPPJ0I8jrG6lo=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=vy201CaaHAYi3gUgMXp356kXhFKCRay3pa1y43j4CET8B/6q4koeBvvt2Z+CI8P5r
-	 UFWFWB02fbPGfJ5qTFF3KXNgklnScMgI5QYEqNxIzzvzVgf4qg3hYXVTpvfFYw5QPV
-	 by+qyr8mwng6FrMEH9jixOo7/sQluH3/IqP3OlFX2BfiCfI3Qa35cvcYe4JrBiV3Ns
-	 PMjd8WWqGG1r4//nunROYxbwiNURbiMKse8SgV78NRuwxUT2+rMPyG5xLDzmArOxQz
-	 f8/7rmS3qViHN0RgJDG/8k9tDdA3+Es7DencD9aNp8dG4jXKsVnBaBEpM7frlajVbH
-	 iCA70q77gT/Ow==
+	b=at97Wer4jEixhZFytKdemUJxSa/5lZrb6Lpsd2zdFJKMNdUcZ4wNMKTOmJnAttGS3
+	 J8cm6nGWzTN/E9MYAq6OzacXcSrYfqZRR4RSWblX5d0HwEUtcxObxqAWVuxcZbA0+R
+	 PPFtx5KhzCJUW+7rRLIY1JubynbfzEsyMhN20MKH+UObjhRBGU6OiCAB14l2Wozhv5
+	 g3v4L9lJ+9MoMjDbtLCyiHhF3LEVvXtTVoB5PxE5Wzn4+dR2toYWyMkZ+Nq507Pkjn
+	 W05MO5pjufVdo7DdcM42FG2y98EyKD5w+MYxS7IhypKjUUHllfW0q9nN4uSCDIxBL7
+	 Q57MlmR95CyxQ==
 Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
@@ -49,9 +49,9 @@ CC: <kernel@sberdevices.ru>, <rockosov@gmail.com>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-leds@vger.kernel.org>, George Stark <gnstark@salutedevices.com>,
 	Dmitry Rokosov <ddrokosov@salutedevices.com>
-Subject: [PATCH v5 06/11] leds: aw200xx: add delay after software reset
-Date: Sat, 25 Nov 2023 23:05:14 +0300
-Message-ID: <20231125200519.1750-7-ddrokosov@salutedevices.com>
+Subject: [PATCH v5 07/11] leds: aw200xx: enable disable_locking flag in regmap config
+Date: Sat, 25 Nov 2023 23:05:15 +0300
+Message-ID: <20231125200519.1750-8-ddrokosov@salutedevices.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20231125200519.1750-1-ddrokosov@salutedevices.com>
 References: <20231125200519.1750-1-ddrokosov@salutedevices.com>
@@ -74,7 +74,7 @@ X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;salutedevices.com:7.1.1;100.64.160.123:7.1.2;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;100.64.160.123:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
 X-KSMG-AntiPhishing: Clean
@@ -84,30 +84,28 @@ X-KSMG-AntiVirus-Status: Clean, skipped
 
 From: George Stark <gnstark@salutedevices.com>
 
-According to the datasheets of AW200xx devices, the software reset takes
-at least 1ms. Therefore, it is required to add a delay after the
-reset before issuing commands to the device.
+In the driver regmap is always used under mutex so regmap's inner lock
+can be disabled.
 
 Signed-off-by: George Stark <gnstark@salutedevices.com>
 Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/leds/leds-aw200xx.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/leds/leds-aw200xx.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-index 91ba580edf87..12c4251211dd 100644
+index 12c4251211dd..c6a51152a494 100644
 --- a/drivers/leds/leds-aw200xx.c
 +++ b/drivers/leds/leds-aw200xx.c
-@@ -321,6 +321,9 @@ static int aw200xx_chip_reset(const struct aw200xx *const chip)
- 	if (ret)
- 		return ret;
+@@ -526,6 +526,7 @@ static const struct regmap_config aw200xx_regmap_config = {
+ 	.rd_table = &aw200xx_readable_table,
+ 	.wr_table = &aw200xx_writeable_table,
+ 	.cache_type = REGCACHE_MAPLE,
++	.disable_locking = true,
+ };
  
-+	/* According to the datasheet software reset takes at least 1ms */
-+	fsleep(1000);
-+
- 	regcache_mark_dirty(chip->regmap);
- 	return regmap_write(chip->regmap, AW200XX_REG_FCD, AW200XX_FCD_CLEAR);
- }
+ static int aw200xx_probe(struct i2c_client *client)
 -- 
 2.36.0
 
