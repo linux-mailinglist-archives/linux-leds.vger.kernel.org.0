@@ -1,40 +1,45 @@
-Return-Path: <linux-leds+bounces-163-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-164-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C377F9543
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Nov 2023 21:17:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F38CA7F9562
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Nov 2023 22:04:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCB051C208B8
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Nov 2023 20:17:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE6D0280CA3
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Nov 2023 21:04:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8AAB10A2F;
-	Sun, 26 Nov 2023 20:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DFFDDB3;
+	Sun, 26 Nov 2023 21:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1YG5PQog"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD124E5;
-	Sun, 26 Nov 2023 12:17:22 -0800 (PST)
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.96.2)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1r7LYw-0001n7-1a;
-	Sun, 26 Nov 2023 20:17:07 +0000
-Date: Sun, 26 Nov 2023 20:17:03 +0000
-From: Daniel Golle <daniel@makrotopia.org>
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38C3FB;
+	Sun, 26 Nov 2023 13:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=2Q5gstFNRlEEzWGzwLA8thOYmzjFADoIAcEoQZvU8YM=; b=1YG5PQogv1zRwXuePA2idU9Le/
+	30M3s+T13yKZlnItm6mFjAwctlv0VdDnoD5f6ThykPkJq94btp99oCfsH8H7hJitLJwi9KIu1PATO
+	zXGGoRnoh3XCZWDaZIQKfI8lcBtAl2nGmG7YJDpg82l36WVnKPYwGsrxzvLWuftGNnwU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r7MIg-001GvN-Se; Sun, 26 Nov 2023 22:04:22 +0100
+Date: Sun, 26 Nov 2023 22:04:22 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
 	Christian Marangi <ansuelsmth@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Li Zetao <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: trigger: netdev: extend speeds up to 10G
-Message-ID: <3655d56c08b60f0ce562ceab3a627fef046a7617.1701029732.git.daniel@makrotopia.org>
+	Jakub Kicinski <kuba@kernel.org>, Li Zetao <lizetao1@huawei.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: netdev: extend speeds up to 10G
+Message-ID: <4bade634-f2f7-4bfc-b882-67cfe9e47b8f@lunn.ch>
+References: <3655d56c08b60f0ce562ceab3a627fef046a7617.1701029732.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -43,104 +48,25 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3655d56c08b60f0ce562ceab3a627fef046a7617.1701029732.git.daniel@makrotopia.org>
 
-Add 2.5G, 5G and 10G as available speeds to the netdev LED trigger.
+On Sun, Nov 26, 2023 at 08:17:03PM +0000, Daniel Golle wrote:
+> Add 2.5G, 5G and 10G as available speeds to the netdev LED trigger.
+> 
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
----
- drivers/leds/trigger/ledtrig-netdev.c | 29 ++++++++++++++++++++++++++-
- include/linux/leds.h                  |  3 +++
- 2 files changed, 31 insertions(+), 1 deletion(-)
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index e358e77e4b38f..612f214cd4f3c 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -99,6 +99,18 @@ static void set_baseline_state(struct led_netdev_data *trigger_data)
- 		    trigger_data->link_speed == SPEED_1000)
- 			blink_on = true;
- 
-+		if (test_bit(TRIGGER_NETDEV_LINK_2500, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_2500)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_LINK_5000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_5000)
-+			blink_on = true;
-+
-+		if (test_bit(TRIGGER_NETDEV_LINK_10000, &trigger_data->mode) &&
-+		    trigger_data->link_speed == SPEED_10000)
-+			blink_on = true;
-+
- 		if (test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) &&
- 		    trigger_data->duplex == DUPLEX_HALF)
- 			blink_on = true;
-@@ -286,6 +298,9 @@ static ssize_t netdev_led_attr_show(struct device *dev, char *buf,
- 	case TRIGGER_NETDEV_LINK_10:
- 	case TRIGGER_NETDEV_LINK_100:
- 	case TRIGGER_NETDEV_LINK_1000:
-+	case TRIGGER_NETDEV_LINK_2500:
-+	case TRIGGER_NETDEV_LINK_5000:
-+	case TRIGGER_NETDEV_LINK_10000:
- 	case TRIGGER_NETDEV_HALF_DUPLEX:
- 	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
-@@ -316,6 +331,9 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	case TRIGGER_NETDEV_LINK_10:
- 	case TRIGGER_NETDEV_LINK_100:
- 	case TRIGGER_NETDEV_LINK_1000:
-+	case TRIGGER_NETDEV_LINK_2500:
-+	case TRIGGER_NETDEV_LINK_5000:
-+	case TRIGGER_NETDEV_LINK_10000:
- 	case TRIGGER_NETDEV_HALF_DUPLEX:
- 	case TRIGGER_NETDEV_FULL_DUPLEX:
- 	case TRIGGER_NETDEV_TX:
-@@ -334,7 +352,10 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	if (test_bit(TRIGGER_NETDEV_LINK, &mode) &&
- 	    (test_bit(TRIGGER_NETDEV_LINK_10, &mode) ||
- 	     test_bit(TRIGGER_NETDEV_LINK_100, &mode) ||
--	     test_bit(TRIGGER_NETDEV_LINK_1000, &mode)))
-+	     test_bit(TRIGGER_NETDEV_LINK_1000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_2500, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_5000, &mode) ||
-+	     test_bit(TRIGGER_NETDEV_LINK_10000, &mode)))
- 		return -EINVAL;
- 
- 	cancel_delayed_work_sync(&trigger_data->work);
-@@ -364,6 +385,9 @@ DEFINE_NETDEV_TRIGGER(link, TRIGGER_NETDEV_LINK);
- DEFINE_NETDEV_TRIGGER(link_10, TRIGGER_NETDEV_LINK_10);
- DEFINE_NETDEV_TRIGGER(link_100, TRIGGER_NETDEV_LINK_100);
- DEFINE_NETDEV_TRIGGER(link_1000, TRIGGER_NETDEV_LINK_1000);
-+DEFINE_NETDEV_TRIGGER(link_2500, TRIGGER_NETDEV_LINK_2500);
-+DEFINE_NETDEV_TRIGGER(link_5000, TRIGGER_NETDEV_LINK_5000);
-+DEFINE_NETDEV_TRIGGER(link_10000, TRIGGER_NETDEV_LINK_10000);
- DEFINE_NETDEV_TRIGGER(half_duplex, TRIGGER_NETDEV_HALF_DUPLEX);
- DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
- DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
-@@ -519,6 +543,9 @@ static void netdev_trig_work(struct work_struct *work)
- 			 test_bit(TRIGGER_NETDEV_LINK_10, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_100, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_LINK_1000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_2500, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_5000, &trigger_data->mode) ||
-+			 test_bit(TRIGGER_NETDEV_LINK_10000, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_HALF_DUPLEX, &trigger_data->mode) ||
- 			 test_bit(TRIGGER_NETDEV_FULL_DUPLEX, &trigger_data->mode);
- 		interval = jiffies_to_msecs(
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index aa16dc2a8230f..1bdf7f5a0d7c0 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -588,6 +588,9 @@ enum led_trigger_netdev_modes {
- 	TRIGGER_NETDEV_LINK_10,
- 	TRIGGER_NETDEV_LINK_100,
- 	TRIGGER_NETDEV_LINK_1000,
-+	TRIGGER_NETDEV_LINK_2500,
-+	TRIGGER_NETDEV_LINK_5000,
-+	TRIGGER_NETDEV_LINK_10000,
- 	TRIGGER_NETDEV_HALF_DUPLEX,
- 	TRIGGER_NETDEV_FULL_DUPLEX,
- 	TRIGGER_NETDEV_TX,
--- 
-2.43.0
+One thing to consider is how this get merged. I assume you will have a
+PHY driver patch soon making use of this? We can either:
+
+1) Get Lee to merge it into the LED tree and then create a stable
+branch which gets pulled into netdev.
+
+2) Merge into netdev, with Lees Acked-by: 
+
+It seems unlikely there will be any merge conflicts. So netdev does
+seem like an O.K. way to go.
+
+    Andrew
 
