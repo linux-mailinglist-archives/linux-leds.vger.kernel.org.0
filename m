@@ -1,158 +1,156 @@
-Return-Path: <linux-leds+bounces-183-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-184-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777937F9ED1
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 12:41:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC807F9FCC
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 13:41:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A93E51C2093B
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 11:41:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0326B280A12
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 12:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F7C31A705;
-	Mon, 27 Nov 2023 11:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A35532D7A7;
+	Mon, 27 Nov 2023 12:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="o4emJLIu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQLoey2Q"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5916AB8;
-	Mon, 27 Nov 2023 03:41:40 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id E182012001E;
-	Mon, 27 Nov 2023 14:41:38 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru E182012001E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1701085298;
-	bh=k9sXRlxKX0Gfpxy2Hej1U/l4OVoqNKeGfoA0hcSApV0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=o4emJLIuoBD4DcoBOF1FevkO4JyAUmJdgCkNStovRPC4hJQHgVkm6PcFvnx6B1PkE
-	 FUz78b6Amq886+YsRXk5TDUqk4/bXIJI/MkUarSusMOkRVEzQp5egtE0Q2qzgSnpvI
-	 YVzs8Yq1bpdvrI2Ug7TjRZ4cqE2KxUP1o7Dj7wj5pOMrdBbIVWPB33RRB2er8Lh76o
-	 BIJcVtVewxxEMPAhqSY9ZEnLqUUeFcS3Ev4pNTDzxuvg4Eeta3PRs4mwpUPqcYXwgT
-	 GGnlY3lOQ7DeocAro1InW0zOp9CZz8A647XTKACdks/FN0uVZ5/CLcmvXfv31mN8ts
-	 uSyBR/TxeCrgw==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Mon, 27 Nov 2023 14:41:38 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 27 Nov
- 2023 14:41:38 +0300
-Date: Mon, 27 Nov 2023 14:41:38 +0300
-From: Dmitry Rokosov <ddrokosov@salutedevices.com>
-To: Lee Jones <lee@kernel.org>
-CC: <pavel@ucw.cz>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
-	<rockosov@gmail.com>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>, George Stark
-	<gnstark@salutedevices.com>
-Subject: Re: [PATCH v4 04/11] leds: aw200xx: calculate dts property
- display_rows in the driver
-Message-ID: <20231127114138.27reupes7w47txfk@CAB-WSD-L081021>
-References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
- <20231121202835.28152-5-ddrokosov@salutedevices.com>
- <20231123163252.GF1354538@google.com>
- <20231124094146.qsgmmbwulemjikpg@CAB-WSD-L081021>
- <20231127085755.GE1470173@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF14183;
+	Mon, 27 Nov 2023 04:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701088904; x=1732624904;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v3n/pRVGJN+BSoahXNcOeH95ditBSNEnKGtGNzh0jZc=;
+  b=PQLoey2QR1ek9PLv/aSSIVIyHyI3HgitEcZfwBcGGSGxU4Ly50Pckrnh
+   myZ+IhQ+MEZiA/lR6XrF05Jg4kEFfTqD2CD1AEDguOoRqTA84e7D/W3TD
+   i2KO1lhdNAJWLk00YllDHROHqk/a9zMqfjjHIqq95c+olPFf00U7eJbCa
+   fjKav0AJ2ohYy/s6T6lzSnTiM5Nf7NH3KGDFXqF+qRWXUWIZEcrLR3mL1
+   HiY7fSzjQPYqWwCrvsfTLiq/bdYRJOm8QP47a8/FXZKdk8dfNCBjw3nJW
+   Mq9dGS2G5+g2FJjhKIVmNtsExUMumKZJWko2ywy1losnTPv2PDqX0Ke6s
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5883172"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="5883172"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:41:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="802625987"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="802625987"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 04:41:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1r7avg-0000000HTOL-0Mob;
+	Mon, 27 Nov 2023 14:41:36 +0200
+Date: Mon, 27 Nov 2023 14:41:35 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	"jic23@kernel.org" <jic23@kernel.org>, kernel@salutedevices.com
+Subject: Re: [PATCH 0/8] devm_led_classdev_register() usage problem
+Message-ID: <ZWSOfya16XoCfy5H@smile.fi.intel.com>
+References: <20231025130737.2015468-1-gnstark@salutedevices.com>
+ <ZWDBOfpsC5AVT8bX@smile.fi.intel.com>
+ <13cd5524-0d40-4f07-b542-002b79b37533@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231127085755.GE1470173@google.com>
-User-Agent: NeoMutt/20220415
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181606 [Nov 27 2023]
-X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, salutedevices.com:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/27 09:57:00 #22553179
-X-KSMG-AntiVirus-Status: Clean, skipped
+In-Reply-To: <13cd5524-0d40-4f07-b542-002b79b37533@salutedevices.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Lee,
-
-Thank you for the quick reply!
-
-On Mon, Nov 27, 2023 at 08:57:55AM +0000, Lee Jones wrote:
-> On Fri, 24 Nov 2023, Dmitry Rokosov wrote:
-> 
-> > On Thu, Nov 23, 2023 at 04:32:52PM +0000, Lee Jones wrote:
-> > > On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
+On Sat, Nov 25, 2023 at 03:47:41AM +0300, George Stark wrote:
+> On 11/24/23 18:28, Andy Shevchenko wrote:
+> > On Wed, Oct 25, 2023 at 04:07:29PM +0300, George Stark wrote:
+> > > Lots of drivers use devm_led_classdev_register() to register their led objects
+> > > and let the kernel free those leds at the driver's remove stage.
+> > > It can lead to a problem due to led_classdev_unregister()
+> > > implementation calls led_set_brightness() to turn off the led.
+> > > led_set_brightness() may call one of the module's brightness_set callbacks.
+> > > If that callback uses module's resources allocated without using devm funcs()
+> > > then those resources will be already freed at module's remove() callback and
+> > > we may have use-after-free situation.
 > > > 
-> > > > From: George Stark <gnstark@salutedevices.com>
-> > > > 
-> > > > Get rid of device tree property "awinic,display-rows". The property
-> > > > value actually means number of current switches and depends on how leds
+> > > Here is an example:
 > > > 
-> > > Nit: LEDs
+> > > module_probe()
+> > > {
+> > >      devm_led_classdev_register(module_brightness_set_cb);
+> > >      mutex_init(&mutex);
+> > > }
 > > > 
-> > > > are connected to the device. It should be calculated manually by max
-> > > > used led number. In the same way it is computed automatically now.
+> > > module_brightness_set_cb()
+> > > {
+> > >      mutex_lock(&mutex);
+> > >      do_set_brightness();
+> > >      mutex_unlock(&mutex);
+> > > }
 > > > 
-> > > As above - I won't mention this again.
+> > > module_remove()
+> > > {
+> > >      mutex_destroy(&mutex);
+> > > }
 > > > 
-> > > > Max used led is taken from led definition subnodes.
-> > > > 
-> > > > Signed-off-by: George Stark <gnstark@salutedevices.com>
-> > > > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
-> > > > ---
-> > > >  drivers/leds/leds-aw200xx.c | 39 +++++++++++++++++++++++++------------
-> > > >  1 file changed, 27 insertions(+), 12 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
-> > > > index 7762b3a132ac..4bce5e7381c0 100644
-> > > > --- a/drivers/leds/leds-aw200xx.c
-> > > > +++ b/drivers/leds/leds-aw200xx.c
-> > > > @@ -379,6 +379,30 @@ static void aw200xx_disable(const struct aw200xx *const chip)
-> > > >  	return gpiod_set_value_cansleep(chip->hwen, 0);
-> > > >  }
-> > > >  
-> > > > +static bool aw200xx_probe_get_display_rows(struct device *dev, struct aw200xx *chip)
-> > > > +{
-> > > > +	struct fwnode_handle *child;
-> > > > +	u32 max_source = 0;
-> > > > +
-> > > > +	device_for_each_child_node(dev, child) {
-> > > > +		u32 source;
-> > > > +		int ret;
-> > > > +
-> > > > +		ret = fwnode_property_read_u32(child, "reg", &source);
-> > > > +		if (ret || source >= chip->cdef->channels)
+> > > at rmmod:
+> > > module_remove()
+> > >      ->mutex_destroy(&mutex);
+> > > devres_release_all()
+> > >      ->led_classdev_unregister();
+> > >          ->led_set_brightness();
+> > >              ->module_brightness_set_cb();
+> > >                   ->mutex_lock(&mutex);  /* use-after-free */
 > > > 
-> > > Shouldn't the second clause fail instantly?
+> > > I think it's an architectural issue and should be discussed thoroughly.
+> > > Some thoughts about fixing it as a start:
+> > > 1) drivers can use devm_led_classdev_unregister() to explicitly free leds before
+> > > dependend resources are freed. devm_led_classdev_register() remains being useful
+> > > to simplify probe implementation.
+> > > As a proof of concept I examined all drivers from drivers/leds and prepared
+> > > patches where it's needed. Sometimes it was not as clean as just calling
+> > > devm_led_classdev_unregister() because several drivers do not track
+> > > their leds object at all - they can call devm_led_classdev_register() and drop the
+> > > returned pointer. In that case I used devres group API.
 > > > 
+> > > Drivers outside drivers/leds should be checked too after discussion.
+> > > 
+> > > 2) remove led_set_brightness from led_classdev_unregister() and force the drivers
+> > > to turn leds off at shutdown. May be add check that led's brightness is 0
+> > > at led_classdev_unregister() and put a warning to dmesg if it's not.
+> > > Actually in many cases it doesn't really need to turn off the leds manually one-by-one
+> > > if driver shutdowns whole led controller. For the last case to disable the warning
+> > > new flag can be brought in e.g LED_AUTO_OFF_AT_SHUTDOWN (similar to LED_RETAIN_AT_SHUTDOWN).
 > > 
-> > We already have such logic in the aw200xx_probe_fw() function, which
-> > skips the LED node with the wrong reg value too. Furthermore, we have
-> > strict reg constraints in the dt-bindings parts (in the current patch
-> > series), so we assume that the DT developer will not create an LED with
-> > the wrong reg value.
+> > NAK.
+> > 
+> > Just fix the drivers by wrapping mutex_destroy() into devm, There are many
+> > doing so. You may be brave enough to introduce devm_mutex_init() somewhere
+> > in include/linux/device*
 > 
-> Why is it being checked again then?
+> Just one thing about mutex_destroy(). It seems like there's no single
+> opinion on should it be called in 100% cases e.g. in remove() paths.
+> For example in iio subsystem Jonathan suggests it can be dropped in simple
+> cases: https://www.spinics.net/lists/linux-iio/msg73423.html
+> 
+> So the question is can we just drop mutex_destroy() in module's remove()
+> callback here if that mutex is needed for devm subsequent callbacks?
 
-Hmmm, aw200xx_probe_get_display_rows() executes before the old
-implementation... So we need to check it again. Do you think it should
-be reworked? I've already sent a new patchset. Could you please take a
-look at the other fixes?
+mutex_destroy() makes sense when debugging mutexes. It's harmless to drop,
+but will make life harder to one who is trying to debug something there...
 
 -- 
-Thank you,
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
 
