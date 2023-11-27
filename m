@@ -1,143 +1,120 @@
-Return-Path: <linux-leds+bounces-171-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-172-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCDB7F9B8E
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 09:19:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC1D7F9C27
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 09:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C4D8B20A6A
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 08:19:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87B8F280CF4
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 08:58:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9831911717;
-	Mon, 27 Nov 2023 08:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E296710A24;
+	Mon, 27 Nov 2023 08:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uk9vjKJH"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C29418C;
-	Mon, 27 Nov 2023 00:19:10 -0800 (PST)
-Received: from [127.0.0.1] (helo=localhost)
-	by relay.expurgate.net with smtp (Exim 4.92)
-	(envelope-from <prvs=1709d64187=fe@dev.tdt.de>)
-	id 1r7Wpb-004jzT-9Q; Mon, 27 Nov 2023 09:19:03 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-	by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <fe@dev.tdt.de>)
-	id 1r7Wpa-00GWX1-Fy; Mon, 27 Nov 2023 09:19:02 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-	by securemail.tdt.de (Postfix) with ESMTP id 17211240049;
-	Mon, 27 Nov 2023 09:19:02 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-	by securemail.tdt.de (Postfix) with ESMTP id 6C427240040;
-	Mon, 27 Nov 2023 09:19:01 +0100 (CET)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-	by mail.dev.tdt.de (Postfix) with ESMTP id DCF7E33D23;
-	Mon, 27 Nov 2023 09:19:00 +0100 (CET)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB5810952;
+	Mon, 27 Nov 2023 08:58:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8762CC433C9;
+	Mon, 27 Nov 2023 08:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701075481;
+	bh=vlkRKPap0wgeSnSlCOGOwGwxoaA4L0nJ8YvdUXJ/oeg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uk9vjKJHr7sPMTPnALarecQpDW7LAKnT4LzjIEtlya1P5X9r6ERMVISFOopfB6v4h
+	 LOcELYHn2GcLnJW0rQF7EVRkBczbEiIelJtBSP0f75l31jxyugBEnozPcftGGBKhMO
+	 h1F/m5pP4Bj0zKE8KWLhL/EkS+EjMxRXzUNi4VXAwsxKvtYh0c5eDtYfLEnIYhB14M
+	 2IBldoTCvQdKUs6fetJXUobrYghWn2iO+wsKoSibvhBDcAPwvyKB6P2KZZZ0e4KVIY
+	 H32nAcxfn0HJOv1ZCzS/jvfkgCTRR0xXvgigSDl4XefjL85MCyIPCwJw0/c3Rn+KvF
+	 lDgVnLqpRt4RA==
+Date: Mon, 27 Nov 2023 08:57:55 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc: pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, andy.shevchenko@gmail.com,
+	kernel@sberdevices.ru, rockosov@gmail.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	George Stark <gnstark@salutedevices.com>
+Subject: Re: [PATCH v4 04/11] leds: aw200xx: calculate dts property
+ display_rows in the driver
+Message-ID: <20231127085755.GE1470173@google.com>
+References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
+ <20231121202835.28152-5-ddrokosov@salutedevices.com>
+ <20231123163252.GF1354538@google.com>
+ <20231124094146.qsgmmbwulemjikpg@CAB-WSD-L081021>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date: Mon, 27 Nov 2023 09:19:00 +0100
-From: Florian Eckert <fe@dev.tdt.de>
-To: Lee Jones <lee@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Eckert.Florian@googlemail.com,
- jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
- u.kleine-koenig@pengutronix.de, m.brock@vanmierlo.com,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-leds@vger.kernel.org
-Subject: Re: [Patch v8 2/6] leds: ledtrig-tty: free allocated ttyname buffer
- on deactivate
-In-Reply-To: <20231127080436.GA1470173@google.com>
-References: <20231109085038.371977-1-fe@dev.tdt.de>
- <20231109085038.371977-3-fe@dev.tdt.de>
- <2023112356-amount-undertook-cdb2@gregkh>
- <71eeb0fad7c6d2c4a407df34facee232@dev.tdt.de>
- <20231127080436.GA1470173@google.com>
-Message-ID: <65443ec1eef4251a0b68a9314408e4a8@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.17
-Content-Transfer-Encoding: quoted-printable
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-ID: 151534::1701073143-E0F2E49D-F91FDBC9/0/0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231124094146.qsgmmbwulemjikpg@CAB-WSD-L081021>
 
+On Fri, 24 Nov 2023, Dmitry Rokosov wrote:
 
+> On Thu, Nov 23, 2023 at 04:32:52PM +0000, Lee Jones wrote:
+> > On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
+> > 
+> > > From: George Stark <gnstark@salutedevices.com>
+> > > 
+> > > Get rid of device tree property "awinic,display-rows". The property
+> > > value actually means number of current switches and depends on how leds
+> > 
+> > Nit: LEDs
+> > 
+> > > are connected to the device. It should be calculated manually by max
+> > > used led number. In the same way it is computed automatically now.
+> > 
+> > As above - I won't mention this again.
+> > 
+> > > Max used led is taken from led definition subnodes.
+> > > 
+> > > Signed-off-by: George Stark <gnstark@salutedevices.com>
+> > > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> > > ---
+> > >  drivers/leds/leds-aw200xx.c | 39 +++++++++++++++++++++++++------------
+> > >  1 file changed, 27 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
+> > > index 7762b3a132ac..4bce5e7381c0 100644
+> > > --- a/drivers/leds/leds-aw200xx.c
+> > > +++ b/drivers/leds/leds-aw200xx.c
+> > > @@ -379,6 +379,30 @@ static void aw200xx_disable(const struct aw200xx *const chip)
+> > >  	return gpiod_set_value_cansleep(chip->hwen, 0);
+> > >  }
+> > >  
+> > > +static bool aw200xx_probe_get_display_rows(struct device *dev, struct aw200xx *chip)
+> > > +{
+> > > +	struct fwnode_handle *child;
+> > > +	u32 max_source = 0;
+> > > +
+> > > +	device_for_each_child_node(dev, child) {
+> > > +		u32 source;
+> > > +		int ret;
+> > > +
+> > > +		ret = fwnode_property_read_u32(child, "reg", &source);
+> > > +		if (ret || source >= chip->cdef->channels)
+> > 
+> > Shouldn't the second clause fail instantly?
+> > 
+> 
+> We already have such logic in the aw200xx_probe_fw() function, which
+> skips the LED node with the wrong reg value too. Furthermore, we have
+> strict reg constraints in the dt-bindings parts (in the current patch
+> series), so we assume that the DT developer will not create an LED with
+> the wrong reg value.
 
-On 2023-11-27 09:04, Lee Jones wrote:
-> On Mon, 27 Nov 2023, Florian Eckert wrote:
->=20
->>=20
->>=20
->> On 2023-11-23 15:06, Greg KH wrote:
->> > On Thu, Nov 09, 2023 at 09:50:34AM +0100, Florian Eckert wrote:
->> > > The ttyname buffer for the ledtrig_tty_data struct is allocated in=
- the
->> > > sysfs ttyname_store() function. This buffer must be released on
->> > > trigger
->> > > deactivation. This was missing and is thus a memory leak.
->> > >
->> > > While we are at it, the tty handler in the ledtrig_tty_data struct
->> > > should
->> > > also be returned in case of the trigger deactivation call.
->> > >
->> > > Fixes: fd4a641ac88f ("leds: trigger: implement a tty trigger")
->> > > Reviewed-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de=
->
->> > > Signed-off-by: Florian Eckert <fe@dev.tdt.de>
->> > > ---
->> > >  drivers/leds/trigger/ledtrig-tty.c | 4 ++++
->> > >  1 file changed, 4 insertions(+)
->> > >
->> > > diff --git a/drivers/leds/trigger/ledtrig-tty.c
->> > > b/drivers/leds/trigger/ledtrig-tty.c
->> > > index 8ae0d2d284af..3e69a7bde928 100644
->> > > --- a/drivers/leds/trigger/ledtrig-tty.c
->> > > +++ b/drivers/leds/trigger/ledtrig-tty.c
->> > > @@ -168,6 +168,10 @@ static void ledtrig_tty_deactivate(struct
->> > > led_classdev *led_cdev)
->> > >
->> > >  	cancel_delayed_work_sync(&trigger_data->dwork);
->> > >
->> > > +	kfree(trigger_data->ttyname);
->> > > +	tty_kref_put(trigger_data->tty);
->> > > +	trigger_data->tty =3D NULL;
->> > > +
->> >
->> > This should be a stand-alone patch with a proper cc: stable tag adde=
-d as
->> > well so that it can be accepted now, as it is independent of this ne=
-w
->> > feature you are adding.
->>=20
->> I already send this to stable@vger.kernel.org [1].
->> The patch already got an 'Reviewed-by:' from Uwe [2].
->=20
-> But then you posted this submission which superseded it in my inbox.
->=20
-> Only the latest patch will be processed when this happens.
+Why is it being checked again then?
 
-Thanks for the clarification, I wasn't aware of that.
-
->=20
->> I hope I did everything right and it only slipped through?
->>=20
->> I will omit the patch from the v9 patchset of 'ledtrig-tty'.
->> This patch set will come later today with your requested changes.
->>=20
->> Links;
->> [1]=20
->> https://lore.kernel.org/stable/20231106141205.3376954-1-fe@dev.tdt.de/
->> [2]=20
->> https://lore.kernel.org/stable/20231106144914.bflq2jxejdxs6zjb@pengutr=
-onix.de/
->>=20
->> Best regards
->>=20
->> Florian
+-- 
+Lee Jones [李琼斯]
 
