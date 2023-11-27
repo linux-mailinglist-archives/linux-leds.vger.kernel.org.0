@@ -1,337 +1,158 @@
-Return-Path: <linux-leds+bounces-182-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-183-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4F97F9E1A
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 12:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777937F9ED1
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 12:41:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35D6A1C20BC8
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 11:03:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A93E51C2093B
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Nov 2023 11:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AE6718C24;
-	Mon, 27 Nov 2023 11:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F7C31A705;
+	Mon, 27 Nov 2023 11:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="o4emJLIu"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mxout70.expurgate.net (mxout70.expurgate.net [194.37.255.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B7F136;
-	Mon, 27 Nov 2023 03:03:25 -0800 (PST)
-Received: from [127.0.0.1] (helo=localhost)
-	by relay.expurgate.net with smtp (Exim 4.92)
-	(envelope-from <prvs=1709d64187=fe@dev.tdt.de>)
-	id 1r7ZOa-002deE-CO; Mon, 27 Nov 2023 12:03:20 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-	by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <fe@dev.tdt.de>)
-	id 1r7ZOZ-000aHz-Ie; Mon, 27 Nov 2023 12:03:19 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-	by securemail.tdt.de (Postfix) with ESMTP id 1F502240040;
-	Mon, 27 Nov 2023 12:03:19 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-	by securemail.tdt.de (Postfix) with ESMTP id 7F7A8240049;
-	Mon, 27 Nov 2023 12:03:18 +0100 (CET)
-Received: from localhost.localdomain (unknown [10.2.3.40])
-	by mail.dev.tdt.de (Postfix) with ESMTPSA id CD3AC33D90;
-	Mon, 27 Nov 2023 12:03:17 +0100 (CET)
-From: Florian Eckert <fe@dev.tdt.de>
-To: Eckert.Florian@googlemail.com,
-	pavel@ucw.cz,
-	lee@kernel.org,
-	kabel@kernel.org,
-	gregkh@linuxfoundation.org,
-	u.kleine-koenig@pengutronix.de
-Cc: linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Maarten Brock <m.brock@vanmierlo.com>
-Subject: [Patch v9 4/4] leds: ledtrig-tty: add additional line state evaluation
-Date: Mon, 27 Nov 2023 12:03:11 +0100
-Message-ID: <20231127110311.3583957-5-fe@dev.tdt.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231127110311.3583957-1-fe@dev.tdt.de>
-References: <20231127110311.3583957-1-fe@dev.tdt.de>
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5916AB8;
+	Mon, 27 Nov 2023 03:41:40 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id E182012001E;
+	Mon, 27 Nov 2023 14:41:38 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru E182012001E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1701085298;
+	bh=k9sXRlxKX0Gfpxy2Hej1U/l4OVoqNKeGfoA0hcSApV0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=o4emJLIuoBD4DcoBOF1FevkO4JyAUmJdgCkNStovRPC4hJQHgVkm6PcFvnx6B1PkE
+	 FUz78b6Amq886+YsRXk5TDUqk4/bXIJI/MkUarSusMOkRVEzQp5egtE0Q2qzgSnpvI
+	 YVzs8Yq1bpdvrI2Ug7TjRZ4cqE2KxUP1o7Dj7wj5pOMrdBbIVWPB33RRB2er8Lh76o
+	 BIJcVtVewxxEMPAhqSY9ZEnLqUUeFcS3Ev4pNTDzxuvg4Eeta3PRs4mwpUPqcYXwgT
+	 GGnlY3lOQ7DeocAro1InW0zOp9CZz8A647XTKACdks/FN0uVZ5/CLcmvXfv31mN8ts
+	 uSyBR/TxeCrgw==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Mon, 27 Nov 2023 14:41:38 +0300 (MSK)
+Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
+ (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 27 Nov
+ 2023 14:41:38 +0300
+Date: Mon, 27 Nov 2023 14:41:38 +0300
+From: Dmitry Rokosov <ddrokosov@salutedevices.com>
+To: Lee Jones <lee@kernel.org>
+CC: <pavel@ucw.cz>, <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <andy.shevchenko@gmail.com>, <kernel@sberdevices.ru>,
+	<rockosov@gmail.com>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>, George Stark
+	<gnstark@salutedevices.com>
+Subject: Re: [PATCH v4 04/11] leds: aw200xx: calculate dts property
+ display_rows in the driver
+Message-ID: <20231127114138.27reupes7w47txfk@CAB-WSD-L081021>
+References: <20231121202835.28152-1-ddrokosov@salutedevices.com>
+ <20231121202835.28152-5-ddrokosov@salutedevices.com>
+ <20231123163252.GF1354538@google.com>
+ <20231124094146.qsgmmbwulemjikpg@CAB-WSD-L081021>
+ <20231127085755.GE1470173@google.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-purgate: clean
-X-purgate-ID: 151534::1701083000-57E4C018-8A688704/0/0
-X-purgate-type: clean
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231127085755.GE1470173@google.com>
+User-Agent: NeoMutt/20220415
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 181606 [Nov 27 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 4 0.3.4 720d3c21819df9b72e78f051e300e232316d302a, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, salutedevices.com:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/11/27 09:57:00 #22553179
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-The serial tty interface also supports additional input signals, that
-can also be evaluated within this trigger. This change is adding the
-following additional input sources, which could be controlled
-via the '/sys/class/<leds>/' sysfs interface.
+Lee,
 
-Explanation:
-DCE =3D Data Communication Equipment (Modem)
-DTE =3D Data Terminal Equipment (Computer)
+Thank you for the quick reply!
 
-- cts:
-  DCE is ready to accept data from the DTE (CTS =3D Clear To Send). If
-  the line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate CTS.
-  If set to 1, the LED will evaluate CTS.
+On Mon, Nov 27, 2023 at 08:57:55AM +0000, Lee Jones wrote:
+> On Fri, 24 Nov 2023, Dmitry Rokosov wrote:
+> 
+> > On Thu, Nov 23, 2023 at 04:32:52PM +0000, Lee Jones wrote:
+> > > On Tue, 21 Nov 2023, Dmitry Rokosov wrote:
+> > > 
+> > > > From: George Stark <gnstark@salutedevices.com>
+> > > > 
+> > > > Get rid of device tree property "awinic,display-rows". The property
+> > > > value actually means number of current switches and depends on how leds
+> > > 
+> > > Nit: LEDs
+> > > 
+> > > > are connected to the device. It should be calculated manually by max
+> > > > used led number. In the same way it is computed automatically now.
+> > > 
+> > > As above - I won't mention this again.
+> > > 
+> > > > Max used led is taken from led definition subnodes.
+> > > > 
+> > > > Signed-off-by: George Stark <gnstark@salutedevices.com>
+> > > > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> > > > ---
+> > > >  drivers/leds/leds-aw200xx.c | 39 +++++++++++++++++++++++++------------
+> > > >  1 file changed, 27 insertions(+), 12 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/leds/leds-aw200xx.c b/drivers/leds/leds-aw200xx.c
+> > > > index 7762b3a132ac..4bce5e7381c0 100644
+> > > > --- a/drivers/leds/leds-aw200xx.c
+> > > > +++ b/drivers/leds/leds-aw200xx.c
+> > > > @@ -379,6 +379,30 @@ static void aw200xx_disable(const struct aw200xx *const chip)
+> > > >  	return gpiod_set_value_cansleep(chip->hwen, 0);
+> > > >  }
+> > > >  
+> > > > +static bool aw200xx_probe_get_display_rows(struct device *dev, struct aw200xx *chip)
+> > > > +{
+> > > > +	struct fwnode_handle *child;
+> > > > +	u32 max_source = 0;
+> > > > +
+> > > > +	device_for_each_child_node(dev, child) {
+> > > > +		u32 source;
+> > > > +		int ret;
+> > > > +
+> > > > +		ret = fwnode_property_read_u32(child, "reg", &source);
+> > > > +		if (ret || source >= chip->cdef->channels)
+> > > 
+> > > Shouldn't the second clause fail instantly?
+> > > 
+> > 
+> > We already have such logic in the aw200xx_probe_fw() function, which
+> > skips the LED node with the wrong reg value too. Furthermore, we have
+> > strict reg constraints in the dt-bindings parts (in the current patch
+> > series), so we assume that the DT developer will not create an LED with
+> > the wrong reg value.
+> 
+> Why is it being checked again then?
 
-- dsr:
-  DCE is ready to receive and send data (DSR =3D Data Set Ready). If the
-  line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate DSR.
-  If set to 1, the LED will evaluate DSR.
+Hmmm, aw200xx_probe_get_display_rows() executes before the old
+implementation... So we need to check it again. Do you think it should
+be reworked? I've already sent a new patchset. Could you please take a
+look at the other fixes?
 
-- dcd:
-  DTE is receiving a carrier from the DCE (DCD =3D Data Carrier Detect).
-  If the line state is detected, the LED is switched on.
-  If set to 0 (default), the LED will not evaluate DCD.
-  If set to 1, the LED will evaluate DCD.
-
-- rng:
-  DCE has detected an incoming ring signal on the telephone line
-  (RNG =3D Ring Indicator). If the line state is detected, the LED is
-  switched on.
-  If set to 0 (default), the LED will not evaluate RNG.
-  If set to 1, the LED will evaluate RNG.
-
-Also add an invert flag on LED blink, so that the LED blinks in the
-correct order.
-
-* If one off the new enabled input signals are evaluatet as 'enabled',
-  and data are transmitted, then the LED should first blink 'off' and
-  then 'on' (invert).
-* If all the new enabled input signals are evaluatet as 'disabled',
-  and data are transmitted, then the LED should first blink 'on' and
-  then 'off'.
-
-Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-Reviewed-by: Maarten Brock <m.brock@vanmierlo.com>
----
- .../ABI/testing/sysfs-class-led-trigger-tty   | 40 ++++++++++
- drivers/leds/trigger/ledtrig-tty.c            | 78 ++++++++++++++++++-
- 2 files changed, 117 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Docu=
-mentation/ABI/testing/sysfs-class-led-trigger-tty
-index 504dece151b8..30cef9ac0f49 100644
---- a/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-@@ -20,3 +20,43 @@ Description:
- 		Signal transmission (tx) of data on the named tty device.
- 		If set to 0, the LED will not blink on transmission.
- 		If set to 1 (default), the LED will blink on transmission.
-+
-+What:		/sys/class/leds/<led>/cts
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		CTS =3D Clear To Send
-+		DCE is ready to accept data from the DTE.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate CTS.
-+		If set to 1, the LED will evaluate CTS.
-+
-+What:		/sys/class/leds/<led>/dsr
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		DSR =3D Data Set Ready
-+		DCE is ready to receive and send data.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate DSR.
-+		If set to 1, the LED will evaluate DSR.
-+
-+What:		/sys/class/leds/<led>/dcd
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		DCD =3D Data Carrier Detect
-+		DTE is receiving a carrier from the DCE.
-+		If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate CAR (DCD).
-+		If set to 1, the LED will evaluate CAR (DCD).
-+
-+What:		/sys/class/leds/<led>/rng
-+Date:		February 2024
-+KernelVersion:	6.8
-+Description:
-+		RNG =3D Ring Indicator
-+		DCE has detected an incoming ring signal on the telephone
-+		line. If the line state is detected, the LED is switched on.
-+		If set to 0 (default), the LED will not evaluate RNG.
-+		If set to 1, the LED will evaluate RNG.
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/le=
-dtrig-tty.c
-index ee6d01ecb309..e30926424c48 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -19,17 +19,26 @@ struct ledtrig_tty_data {
- 	int rx, tx;
- 	bool mode_rx;
- 	bool mode_tx;
-+	bool mode_cts;
-+	bool mode_dsr;
-+	bool mode_dcd;
-+	bool mode_rng;
- };
-=20
- /* Indicates which state the LED should now display */
- enum led_trigger_tty_state {
- 	TTY_LED_BLINK,
-+	TTY_LED_ENABLE,
- 	TTY_LED_DISABLE,
- };
-=20
- enum led_trigger_tty_modes {
- 	TRIGGER_TTY_RX =3D 0,
- 	TRIGGER_TTY_TX,
-+	TRIGGER_TTY_CTS,
-+	TRIGGER_TTY_DSR,
-+	TRIGGER_TTY_DCD,
-+	TRIGGER_TTY_RNG,
- };
-=20
- static int ledtrig_tty_wait_for_completion(struct device *dev)
-@@ -111,6 +120,18 @@ static ssize_t ledtrig_tty_attr_show(struct device *=
-dev, char *buf,
- 	case TRIGGER_TTY_TX:
- 		state =3D trigger_data->mode_tx;
- 		break;
-+	case TRIGGER_TTY_CTS:
-+		state =3D trigger_data->mode_cts;
-+		break;
-+	case TRIGGER_TTY_DSR:
-+		state =3D trigger_data->mode_dsr;
-+		break;
-+	case TRIGGER_TTY_DCD:
-+		state =3D trigger_data->mode_dcd;
-+		break;
-+	case TRIGGER_TTY_RNG:
-+		state =3D trigger_data->mode_rng;
-+		break;
- 	}
-=20
- 	return sysfs_emit(buf, "%u\n", state);
-@@ -134,6 +155,18 @@ static ssize_t ledtrig_tty_attr_store(struct device =
-*dev, const char *buf,
- 	case TRIGGER_TTY_TX:
- 		trigger_data->mode_tx =3D state;
- 		break;
-+	case TRIGGER_TTY_CTS:
-+		trigger_data->mode_cts =3D state;
-+		break;
-+	case TRIGGER_TTY_DSR:
-+		trigger_data->mode_dsr =3D state;
-+		break;
-+	case TRIGGER_TTY_DCD:
-+		trigger_data->mode_dcd =3D state;
-+		break;
-+	case TRIGGER_TTY_RNG:
-+		trigger_data->mode_rng =3D state;
-+		break;
- 	}
-=20
- 	return size;
-@@ -154,6 +187,10 @@ static ssize_t ledtrig_tty_attr_store(struct device =
-*dev, const char *buf,
-=20
- DEFINE_TTY_TRIGGER(rx, TRIGGER_TTY_RX);
- DEFINE_TTY_TRIGGER(tx, TRIGGER_TTY_TX);
-+DEFINE_TTY_TRIGGER(cts, TRIGGER_TTY_CTS);
-+DEFINE_TTY_TRIGGER(dsr, TRIGGER_TTY_DSR);
-+DEFINE_TTY_TRIGGER(dcd, TRIGGER_TTY_DCD);
-+DEFINE_TTY_TRIGGER(rng, TRIGGER_TTY_RNG);
-=20
- static void ledtrig_tty_work(struct work_struct *work)
- {
-@@ -161,6 +198,8 @@ static void ledtrig_tty_work(struct work_struct *work=
-)
- 		container_of(work, struct ledtrig_tty_data, dwork.work);
- 	enum led_trigger_tty_state state =3D TTY_LED_DISABLE;
- 	unsigned long interval =3D LEDTRIG_TTY_INTERVAL;
-+	bool invert =3D false;
-+	int status;
- 	int ret;
-=20
- 	if (!trigger_data->ttyname)
-@@ -188,6 +227,33 @@ static void ledtrig_tty_work(struct work_struct *wor=
-k)
- 		trigger_data->tty =3D tty;
- 	}
-=20
-+	status =3D tty_get_tiocm(trigger_data->tty);
-+	if (status > 0) {
-+		if (trigger_data->mode_cts) {
-+			if (status & TIOCM_CTS)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_dsr) {
-+			if (status & TIOCM_DSR)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_dcd) {
-+			if (status & TIOCM_CAR)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+
-+		if (trigger_data->mode_rng) {
-+			if (status & TIOCM_RNG)
-+				state =3D TTY_LED_ENABLE;
-+		}
-+	}
-+
-+	/*
-+	 * The evaluation of rx/tx must be done after the evaluation
-+	 * of TIOCM_*, because rx/tx has priority.
-+	 */
- 	if (trigger_data->mode_rx || trigger_data->mode_tx) {
- 		struct serial_icounter_struct icount;
-=20
-@@ -197,11 +263,13 @@ static void ledtrig_tty_work(struct work_struct *wo=
-rk)
-=20
- 		if (trigger_data->mode_tx && (icount.tx !=3D trigger_data->tx)) {
- 			trigger_data->tx =3D icount.tx;
-+			invert =3D state =3D=3D TTY_LED_ENABLE;
- 			state =3D TTY_LED_BLINK;
- 		}
-=20
- 		if (trigger_data->mode_rx && (icount.rx !=3D trigger_data->rx)) {
- 			trigger_data->rx =3D icount.rx;
-+			invert =3D state =3D=3D TTY_LED_ENABLE;
- 			state =3D TTY_LED_BLINK;
- 		}
- 	}
-@@ -210,7 +278,11 @@ static void ledtrig_tty_work(struct work_struct *wor=
-k)
- 	switch (state) {
- 	case TTY_LED_BLINK:
- 		led_blink_set_oneshot(trigger_data->led_cdev, &interval,
--				&interval, 0);
-+				&interval, invert);
-+		break;
-+	case TTY_LED_ENABLE:
-+		led_set_brightness(trigger_data->led_cdev,
-+				trigger_data->led_cdev->blink_brightness);
- 		break;
- 	case TTY_LED_DISABLE:
- 		fallthrough;
-@@ -228,6 +300,10 @@ static struct attribute *ledtrig_tty_attrs[] =3D {
- 	&dev_attr_ttyname.attr,
- 	&dev_attr_rx.attr,
- 	&dev_attr_tx.attr,
-+	&dev_attr_cts.attr,
-+	&dev_attr_dsr.attr,
-+	&dev_attr_dcd.attr,
-+	&dev_attr_rng.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(ledtrig_tty);
---=20
-2.30.2
-
+-- 
+Thank you,
+Dmitry
 
