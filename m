@@ -1,91 +1,151 @@
-Return-Path: <linux-leds+bounces-191-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-192-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CEB7FBE70
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Nov 2023 16:48:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A55047FC019
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Nov 2023 18:16:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49E6E281C98
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Nov 2023 15:48:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D64CB1C20C57
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Nov 2023 17:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E43081E4AC;
-	Tue, 28 Nov 2023 15:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C695B5B3;
+	Tue, 28 Nov 2023 17:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKI/gTL+"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="JO6moXBa"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2560D10CB;
-	Tue, 28 Nov 2023 07:48:10 -0800 (PST)
-Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-67a0d865738so28351846d6.1;
-        Tue, 28 Nov 2023 07:48:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701186489; x=1701791289; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0TYvaPLaWqylO8fpxwWZAfUUL/mjgHuianw8ggEn4cg=;
-        b=LKI/gTL+NQzIErI0zdc9SZtDUvuA7raKu855/tQZdfAO+il52wLB3nnKjy8wBYamD7
-         GC8zD5CApqkVS/8fjFTuVkVu3g1zO+uq0Gd6+cF0QnNyeu6435EFaNWwkfO75Xzx7AFy
-         ckpP49b7Wat5ILQFCAJj6RABf8Vw4DmZGyiobNzIvg7Zara4VmK+9x7VRPD3nN8k9yzn
-         8FbX7JVo2geDSat95ZPY3rioXoTQiE5MeDnok2j5X+EFDMUZ0zx1+Di2VQ/cGksffc/U
-         9xyxq/mKTPz7RmQ/uw1xG/xKf65U48fRIlLocv6prkl/LdXDE/HysP4o1ARIMs32S2l4
-         1b6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701186489; x=1701791289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0TYvaPLaWqylO8fpxwWZAfUUL/mjgHuianw8ggEn4cg=;
-        b=iPsLPLhI0mOK1E+jqy2EYhinFnnZCzCf96ZU072ebr8pr9yh+G9td775ejBcdE1pwp
-         W5nhsB5erUQPzMVik1EjI4ee/34kQEiXcYVxQec+HKST2u8iU9U3dxAHxrro7e/j+0s4
-         U+vz12RAidkZnkTfSTW8SY/N+D9MLGnNF2QImDlaKUA8HeR7YwhxMbHTV4pEd8KadmLv
-         LptLQI6YndabOkP5YpURNn3ny5L7/d31MjJ/bgdkbUUcrzme9Wr2s2myprEhhK8lpEMk
-         BfOmB8bcXWbeJ+z6F6kqGKlBHxPw2PW0D/Wc1Kvn0CitfFzcVDItPLTteyRACEzsUP2U
-         IX+A==
-X-Gm-Message-State: AOJu0YzPmmagq327t+KXlnhbIgXp/5sO09UVpLaP2eEXZ/Ao8YnBnufH
-	pb4P4gFaqQWafQzm7gX05+XZbj4wONX6/LshcOlsEvW0Las=
-X-Google-Smtp-Source: AGHT+IHEJH63BKC4POAhzC7PIHCiwfBPYGvoug2zT2Pk25E3Rg25NT3ad/wnNliAgaqPBPz5UNNH8zNYNOp9URa56DA=
-X-Received: by 2002:ad4:5ca7:0:b0:67a:3a68:91dc with SMTP id
- q7-20020ad45ca7000000b0067a3a6891dcmr12571448qvh.28.1701186489278; Tue, 28
- Nov 2023 07:48:09 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D2E10EC;
+	Tue, 28 Nov 2023 09:16:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701191747; x=1701796547; i=wahrenst@gmx.net;
+	bh=maOiArq4lqAX4+xV7TPj1wR2WBNTVksblNESsIfRoYs=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=JO6moXBaS6SH9G3V9DptSvR4tGJvqUlOZFkmVOOgTN4rOUI741S0JWm/VPjwt0Tb
+	 gSCexjhgxnDc8It8asyJlyLWWXMdekdvW22Gkhnw3D5wK7rRb6Ud5Kpu9/DlNi4VI
+	 PqxQQj5bICaEtvfBPmQOGQIY4S+9lmX8c+HDla1TmEz7tDXkE57pVSx6wtbGzWOuy
+	 qYKE5yo7SqQR/s1klYs+3thVmalx8ynzXGkG8ABWVTCWI98jvNHCSYMW2jhiHzqrq
+	 zRGrpS9hkdQtgHGg4ysLVSzmf3eIja+f8KKkUP70IgtqrdefKmKaV/XLmSL5cg5Bj
+	 KOfStFd24h3mfIJrPQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6KYl-1rNtpC3Sm1-016bwg; Tue, 28
+ Nov 2023 18:15:47 +0100
+Message-ID: <ea5cd81f-2488-49ad-96fe-732bdb75bcb7@gmx.net>
+Date: Tue, 28 Nov 2023 18:15:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231125200519.1750-1-ddrokosov@salutedevices.com> <20231125200519.1750-5-ddrokosov@salutedevices.com>
-In-Reply-To: <20231125200519.1750-5-ddrokosov@salutedevices.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 28 Nov 2023 17:47:33 +0200
-Message-ID: <CAHp75VciKCGcaRvask-q4pCMY3iuRf71qiVCNVqybGuN--kqPw@mail.gmail.com>
-Subject: Re: [PATCH v5 04/11] leds: aw200xx: calculate dts property
- display_rows in the driver
-To: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc: lee@kernel.org, pavel@ucw.cz, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, kernel@sberdevices.ru, 
-	rockosov@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-leds@vger.kernel.org, George Stark <gnstark@salutedevices.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] leds: gpio: Add kernel log if
+ devm_fwnode_gpiod_get fails
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek
+ <pavel@ucw.cz>, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Lee Jones <lee@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
+References: <20231118124252.14838-1-wahrenst@gmx.net>
+ <20231118124252.14838-2-wahrenst@gmx.net>
+ <ZVtHZWYl2skpn1Bg@smile.fi.intel.com>
+ <9a9486bb-e737-4384-a581-76880b709758@gmx.net>
+ <ZVtS4phUMmDD9ztz@smile.fi.intel.com>
+ <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:4m4QEg+I8vyFzRjFrJ62aPz6bOgv4kPcQxcJ7XjhW+1Ptj1Yi/2
+ 2HtKVcCUKOmjBhQOjnhiV7J75ioDY3YL0bYk3cJfNcuRhwrG4gMaD6/dWO8MAgvsMSp6bu0
+ UYStDiCogEzJ7gjugb+enlpsrDmCNq8H8LKytEwAXzKEIZrM9bcZ7yDPmUI6DYRFj51isH+
+ yNxyEv4KDJd7uA0J4sDEg==
+UI-OutboundReport: notjunk:1;M01:P0:TKb5+phzamk=;BBTxx7m7CQdViNihSrf/HaX1Bs5
+ 6EuigWbKXvlYF/sUbpdYbaa9/hxk6HgFwewb0PxFxX4jU76loPoNnCCbf1sh34FA6MUZAKE0J
+ 5C50707VTbvNQS+KjYwkgcHHZGevsvxyEaIi6Xc/hI0IZGuc9ZiMqhFe+Lu0xbLnUsnEt22Wt
+ ejzxUPQvqoecVcst012iOEO1H8VztjvgnxywMUtJi+TnOS1/m8HKCTBBnKqW/qshNydG9A2eL
+ eCDvoU1WqY4eiCCP3wJDDqIt/3JQLV6YI8o3aQbr9Yj5NQ3LJBBxa5IBBh995nP7Kwi6vV3Ws
+ m5LzrmvdCWK26Zgo45w3iR+PUOq+OJE+HdEuc8GAQDj3SeXD+v6Gn2UlhNXaIqPekxExghSeV
+ Ct+xR1SoF5wj6owEmKSilUJqHLR5wBlI67RSXGPs7UFWinl/BghUA4JU485FNS0UEAR1RLmmZ
+ exAwFVfQ3+t2wUsO0R2jBKpnUeRB7FZs/0MlwR4TSZabD1CF1GZ5bwDmFTjH3FS6JozuPSm5c
+ CSp5IwBZCtZcur2S1NxQncZOyj4PX7NMbWUSgy0fOYFxlAomdcwo+mjcmKPciClfj9ca3QEtM
+ +cybXr/Bm6Ojhrf3g5y4+NMyX8sN3Vg1Ic3cO02MyoLOpVSmbGQWoiK71NKF0gu64D7uVS+4d
+ G+DW5vN5AhCZQOnlgCYYM6FA1LW+d8KxQkRXNp2ENRYlrC5PQy3H4AShPRAkAgiuSFPGRr9Bq
+ UtGyCVFaRDGFOQUgoIdQsVHoFcekPjQ8Rhzggk52agmoqGnom93u5FkhbX8wlll4a4Lovg+AI
+ JPVu8b638rb28SY1E5RsBIM5q0jGeFS1yi3xOmrfXidGWDjp0iTZaTm+W2h9rYpAww5Ugeqz+
+ IrSjtAAM7VSSwWndJCNCiBehJMOygPyvrL7OXpx44F9JKDAqidI/Q1v8sERL6EryUtCAoN4GH
+ yEayVMXnAdngDfqAnPdGI1BmhVQ=
 
-On Sat, Nov 25, 2023 at 10:05=E2=80=AFPM Dmitry Rokosov
-<ddrokosov@salutedevices.com> wrote:
+Am 22.11.23 um 11:52 schrieb Bartosz Golaszewski:
+> On Mon, Nov 20, 2023 at 1:36=E2=80=AFPM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+>> On Mon, Nov 20, 2023 at 01:02:55PM +0100, Stefan Wahren wrote:
+>>> Am 20.11.23 um 12:47 schrieb Andy Shevchenko:
+>>>> On Sat, Nov 18, 2023 at 01:42:51PM +0100, Stefan Wahren wrote:
+>>>>> In case leds-gpio fails to get the GPIO from the DT (e.g. the GPIO i=
+s
+>>>>> already requested) the driver doesn't provide any helpful error log:
+>>>>>
+>>>>>       leds-gpio: probe of leds failed with error -16
+>>>>>
+>>>>> So add a new error log in case devm_fwnode_gpiod_get() fails.
+>> ...
+>>
+>>>>>                    led.gpiod =3D devm_fwnode_gpiod_get(dev, child, N=
+ULL, GPIOD_ASIS,
+>>>>>                                                      NULL);
+>>>>>                    if (IS_ERR(led.gpiod)) {
+>>>>> +                 dev_err_probe(dev, PTR_ERR(led.gpiod), "Failed to =
+get gpio '%pfw'\n",
+>>>>> +                               child);
+>>>>>                            fwnode_handle_put(child);
+>>>>>                            return ERR_CAST(led.gpiod);
+>>>>>                    }
+>>>> Thinking more about it. GPIO library already issues bunch of messages=
+.
+>>>>
+>>>>      "using DT ... for ... GPIO lookup"
+>>>>      "using lookup tables for GPIO lookup"
+>>>>      "No GPIO consumer ... found"
+>>> are these errors or debug messages?
+>> Indeed they are on debug level.
+>>
+>>> I cannot remember that i saw any of them on info level in my case of a=
+n
+>>> already allocated pin (see patch 2).
+>>>
+>>> I'm open to place the log within gpiolib, if this a better place.
+>> I'm not sure, let's hear GPIO maintainers for that.
+>>
+> Hard to tell which method is preferred among all the subsystems.
+> Personally I'm more inclined towards letting drivers decide whether to
+> emit an error message and only emit our own when an error cannot be
+> propagated down the stack.
 >
-> From: George Stark <gnstark@salutedevices.com>
+> Linus: Any thoughts?
+gentle ping ...
 >
-> Get rid of device tree property "awinic,display-rows". The property
-> value actually means number of current switches and depends on how LEDs
-> are connected to the device. It should be calculated manually by max
-> used LED number. In the same way it is computed automatically now.
-> Max used LED is taken from LED definition subnodes.
+> Bart
+>
+>>>> Isn't it enough?
+>> --
+>> With Best Regards,
+>> Andy Shevchenko
+>>
+>>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
---=20
-With Best Regards,
-Andy Shevchenko
 
