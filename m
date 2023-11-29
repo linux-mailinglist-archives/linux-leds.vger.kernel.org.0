@@ -1,167 +1,106 @@
-Return-Path: <linux-leds+bounces-197-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-198-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40C17FD485
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 11:41:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF567FD8DF
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 15:03:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8893128342C
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 10:41:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BA021C20E4F
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 14:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 153DA15EA1;
-	Wed, 29 Nov 2023 10:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D67EE208AB;
+	Wed, 29 Nov 2023 14:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LINjY8N4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ioc1jism"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A1BD54;
-	Wed, 29 Nov 2023 02:41:53 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-332e56363adso4098469f8f.3;
-        Wed, 29 Nov 2023 02:41:53 -0800 (PST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1B6DD
+	for <linux-leds@vger.kernel.org>; Wed, 29 Nov 2023 06:03:16 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-daf26d84100so6313103276.3
+        for <linux-leds@vger.kernel.org>; Wed, 29 Nov 2023 06:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701254512; x=1701859312; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:autocrypt:subject:from
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7H4B/924HyaoRAFkIk6lK/E+N1uo+pxAmQC4iccDwXA=;
-        b=LINjY8N4Suva11owmw4ZDE0lxU+0ggW7NT+HvCxr+oUIEO5G8bLf2mXHN0ysflKjFl
-         V89goo4lhy0iPIZxlc7TckwXSu2EMSPwqKSHg7QlSfg/vqCCkUFZjpHGJCJtNjfvONqo
-         GzOGMTmtNPzktGnRFmxXgFmgzctp4eYiYfV+4SuknkmSLmZDCMkIWNKqA52JxcPz3KnG
-         +gjd+nY5QFnIT5K+v6a/iJZhSlzamgQ9AwTk69cjZsIr7982TKEoOEqywEvoy5xkT8BC
-         Wnh/SHGx0Y0Ya6s696anUhvnJ+sEg/ga/s/uOMXGSzHJGX1ujttJ+kwpJ7JhTo2L9net
-         fkpQ==
+        d=linaro.org; s=google; t=1701266596; x=1701871396; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JLtZ8mDkPpZWh0qK6LF9/jlbCd5x7abg6/bo62M9z7s=;
+        b=ioc1jismhBUIJuMLSqwqtPTlgYsvKaKpYRuM9ggYY2rFQ5p304IPvkI2FVeG6IW+dM
+         uQR4iKC/eRi9G8XRzlI8K94EzuyPtdLopDmO8FnxNqdwQCYJpp9bxqJc3RROwO7d41pM
+         mVdudxA99Lat82c7QuBD/fd/jT1GJVEm5mwWItwDcnccIfbLmz1irxLTGl1pRiuf+TUm
+         l2h11xHos3eudS3Q8Q21WKcFzqqi3i0cdoFTvxM6R65I19+Boeblvs/ipLWbrrkczFoI
+         LFTSnsW4PwVy9saffsqaOPGxUPEkpW0NOukbTcS8oYohW6OvbYCcn0WNGvc6gD6R6SR5
+         nm9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701254512; x=1701859312;
-        h=content-transfer-encoding:cc:to:autocrypt:subject:from
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7H4B/924HyaoRAFkIk6lK/E+N1uo+pxAmQC4iccDwXA=;
-        b=VnijzAo8fuSFr7eT9Xeag7tGf/gR9zBbnMzki8spIdbbdbQhMEegbFlg8mrLJlo/zI
-         UCIqiJev77RpiBjM3QssLj7YNm4I8Q4KZOBlYotSusZQ2emj2sNv2KH5iT8brtW5JdE0
-         fJLT+FT/QlYoJImoqUns9wBUdUbxk1FGNB9/ii/q6lrrB232sRVKm6fg+A4ib6Vcgbhk
-         NxNfV9G4Pd6qurTkXKBxdmHEb9/07JNlPLc+y6ZHqiSl9YE1ifKLk2yM2IdZDbV1VDhg
-         6XnDTFkALPB0dNlSnBXp4Mh5D3ypktgBey0JsUr5R3oZtQC7x5ng/pLteu+YaNCfVnNs
-         5nPQ==
-X-Gm-Message-State: AOJu0YyVoyVduea++hPqgEhbfleuNpRK8FwkA2LG6IXemDlCS8N+lqug
-	5ImtyRRBEteS+QhzXNXv1BE=
-X-Google-Smtp-Source: AGHT+IGncGGAwBxF9KtE8pI1EFG5C0hP4V62tWSOJygxtujlh83Qi7ncVbU5KOFYUXN/NiJnwS2rgg==
-X-Received: by 2002:a05:6000:1544:b0:333:156:bf00 with SMTP id 4-20020a056000154400b003330156bf00mr6485520wry.30.1701254512184;
-        Wed, 29 Nov 2023 02:41:52 -0800 (PST)
-Received: from ?IPV6:2a01:c22:7b29:900:d9e3:6657:95d9:170f? (dynamic-2a01-0c22-7b29-0900-d9e3-6657-95d9-170f.c22.pool.telefonica.de. [2a01:c22:7b29:900:d9e3:6657:95d9:170f])
-        by smtp.googlemail.com with ESMTPSA id o16-20020a056000011000b0032196c508e3sm3953839wrx.53.2023.11.29.02.41.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 02:41:51 -0800 (PST)
-Message-ID: <49f1b91e-a637-4062-83c6-f851f7c80628@gmail.com>
-Date: Wed, 29 Nov 2023 11:41:51 +0100
+        d=1e100.net; s=20230601; t=1701266596; x=1701871396;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JLtZ8mDkPpZWh0qK6LF9/jlbCd5x7abg6/bo62M9z7s=;
+        b=F2NaawENamumTUka/Wv5CSdaDAETo2HfO5UbEn4cjAjiZHJhjtzlCHHR+B1Pxzuosm
+         /iuyVuVefsvzi9ESXYz+iizBWNDYWteT0AYnl+HzsYwR66S1Nlu1Q6gu/weC7kwWg/j7
+         N9j3dlzC3ROJhbOhW3BS9h5OReMVMBfN0a0KjcGFfWUP5yPNboqM1pv2SMBMpen6gkuz
+         jUE/X8XVr9oc6uOArM1YWew59LekOmO8z0u3h3X2pH+KMTp9qu0YfIaWqm2L7nz4NfzZ
+         MJK5ht/9X7UY+hZMuQ4ReVPs9jehLEeoP0k5KINwEbdxMlBMnpGzw4h5X1UXr0sRv8oU
+         eZJA==
+X-Gm-Message-State: AOJu0YxJtFeA+YvhT+yHkByebzk74/MBi37wYe5m+9HTzs1ndNaMa3ZJ
+	Kip66nNd6RIIiB3+IRHWD2nGJdB1ktEfBUuDNcm87A==
+X-Google-Smtp-Source: AGHT+IF5qE0fSj5Cwf0MS+VLGouEXtLuBiPmt4xWTUyyWc7dhVJnanam1W6YNEoqWJAfYgNYIvTzT+8RJsy8rZC6o0E=
+X-Received: by 2002:a25:947:0:b0:d9a:c61e:4466 with SMTP id
+ u7-20020a250947000000b00d9ac61e4466mr17163062ybm.61.1701266595673; Wed, 29
+ Nov 2023 06:03:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: trigger: netdev: skip setting baseline state in
- activate if hw-controlled
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231118124252.14838-1-wahrenst@gmx.net> <20231118124252.14838-2-wahrenst@gmx.net>
+ <ZVtHZWYl2skpn1Bg@smile.fi.intel.com> <9a9486bb-e737-4384-a581-76880b709758@gmx.net>
+ <ZVtS4phUMmDD9ztz@smile.fi.intel.com> <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
+In-Reply-To: <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Nov 2023 15:03:04 +0100
+Message-ID: <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] leds: gpio: Add kernel log if devm_fwnode_gpiod_get
+ fails
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Stefan Wahren <wahrenst@gmx.net>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek <pavel@ucw.cz>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Lee Jones <lee@kernel.org>, 
+	bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The current codes uses the sw_control path in set_baseline_state() when
-called from netdev_trig_activate() even if we're hw-controlled. This
-may result in errors when led_set_brightness() is called because we may
-not have set_brightness led ops (if hw doesn't support setting a LED
-to ON).
+On Wed, Nov 22, 2023 at 11:53=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
+> wrote:
 
-Therefore set trigger_data->hw_control = true before calling
-set_device_name() from netdev_trig_activate(). In this call chain we
-have to prevent set_baseline_state() from being called, because this
-would call hw_control_set(). Use led_cdev->trigger_data == NULL as
-indicator for being called from netdev_trig_activate().
+> > > I cannot remember that i saw any of them on info level in my case of =
+an
+> > > already allocated pin (see patch 2).
+> > >
+> > > I'm open to place the log within gpiolib, if this a better place.
+> >
+> > I'm not sure, let's hear GPIO maintainers for that.
+>
+> Hard to tell which method is preferred among all the subsystems.
+> Personally I'm more inclined towards letting drivers decide whether to
+> emit an error message and only emit our own when an error cannot be
+> propagated down the stack.
+>
+> Linus: Any thoughts?
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I never managed to get it right so I can't give any good advice.
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 7ed2d0b64..b58396600 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -251,7 +251,11 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 
- 	trigger_data->last_activity = 0;
- 
--	set_baseline_state(trigger_data);
-+	/* skip if we're called from netdev_trig_activate() and hw_control is true */
-+	if (!trigger_data->hw_control ||
-+	    led_get_trigger_data(trigger_data->led_cdev))
-+		set_baseline_state(trigger_data);
-+
- 	mutex_unlock(&trigger_data->lock);
- 	rtnl_unlock();
- 
-@@ -568,8 +572,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
- 		if (dev) {
- 			const char *name = dev_name(dev);
- 
--			set_device_name(trigger_data, name, strlen(name));
- 			trigger_data->hw_control = true;
-+			set_device_name(trigger_data, name, strlen(name));
- 
- 			rc = led_cdev->hw_control_get(led_cdev, &mode);
- 			if (!rc)
--- 
-2.43.0
+Usually I tend to think better one more error message than one too little.
 
+Then again I'm a dmesg maximalist who just want it to scroll on forever
+also with positive messages...
+
+Yours,
+Linus Walleij
 
