@@ -1,106 +1,123 @@
-Return-Path: <linux-leds+bounces-198-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-199-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF567FD8DF
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 15:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A387FDAC4
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 16:07:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BA021C20E4F
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 14:03:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 147591C20834
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 15:07:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D67EE208AB;
-	Wed, 29 Nov 2023 14:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5DC3715B;
+	Wed, 29 Nov 2023 15:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ioc1jism"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="b7dpdCNs"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1B6DD
-	for <linux-leds@vger.kernel.org>; Wed, 29 Nov 2023 06:03:16 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-daf26d84100so6313103276.3
-        for <linux-leds@vger.kernel.org>; Wed, 29 Nov 2023 06:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701266596; x=1701871396; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JLtZ8mDkPpZWh0qK6LF9/jlbCd5x7abg6/bo62M9z7s=;
-        b=ioc1jismhBUIJuMLSqwqtPTlgYsvKaKpYRuM9ggYY2rFQ5p304IPvkI2FVeG6IW+dM
-         uQR4iKC/eRi9G8XRzlI8K94EzuyPtdLopDmO8FnxNqdwQCYJpp9bxqJc3RROwO7d41pM
-         mVdudxA99Lat82c7QuBD/fd/jT1GJVEm5mwWItwDcnccIfbLmz1irxLTGl1pRiuf+TUm
-         l2h11xHos3eudS3Q8Q21WKcFzqqi3i0cdoFTvxM6R65I19+Boeblvs/ipLWbrrkczFoI
-         LFTSnsW4PwVy9saffsqaOPGxUPEkpW0NOukbTcS8oYohW6OvbYCcn0WNGvc6gD6R6SR5
-         nm9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701266596; x=1701871396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JLtZ8mDkPpZWh0qK6LF9/jlbCd5x7abg6/bo62M9z7s=;
-        b=F2NaawENamumTUka/Wv5CSdaDAETo2HfO5UbEn4cjAjiZHJhjtzlCHHR+B1Pxzuosm
-         /iuyVuVefsvzi9ESXYz+iizBWNDYWteT0AYnl+HzsYwR66S1Nlu1Q6gu/weC7kwWg/j7
-         N9j3dlzC3ROJhbOhW3BS9h5OReMVMBfN0a0KjcGFfWUP5yPNboqM1pv2SMBMpen6gkuz
-         jUE/X8XVr9oc6uOArM1YWew59LekOmO8z0u3h3X2pH+KMTp9qu0YfIaWqm2L7nz4NfzZ
-         MJK5ht/9X7UY+hZMuQ4ReVPs9jehLEeoP0k5KINwEbdxMlBMnpGzw4h5X1UXr0sRv8oU
-         eZJA==
-X-Gm-Message-State: AOJu0YxJtFeA+YvhT+yHkByebzk74/MBi37wYe5m+9HTzs1ndNaMa3ZJ
-	Kip66nNd6RIIiB3+IRHWD2nGJdB1ktEfBUuDNcm87A==
-X-Google-Smtp-Source: AGHT+IF5qE0fSj5Cwf0MS+VLGouEXtLuBiPmt4xWTUyyWc7dhVJnanam1W6YNEoqWJAfYgNYIvTzT+8RJsy8rZC6o0E=
-X-Received: by 2002:a25:947:0:b0:d9a:c61e:4466 with SMTP id
- u7-20020a250947000000b00d9ac61e4466mr17163062ybm.61.1701266595673; Wed, 29
- Nov 2023 06:03:15 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5D7A3;
+	Wed, 29 Nov 2023 07:07:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701270447; x=1701875247; i=wahrenst@gmx.net;
+	bh=irMeSr38zXyjdA5mMhu/UGsBpjsTP9fUQyrG/iSRAto=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=b7dpdCNsQzKaVyiyPfAS3rS7V8X3Rsrj1duz0+rrIsVysitcM/4eIFg+HHslZfVg
+	 XSSpLJS8KyPUWnUn6O+GkSuqZv1Cvopp7LAGu41iEkBLGsSuAMaFQ1izEzloR+xzv
+	 cFimLk3qxP72RVO6d2dRXxrkC9JJ7eJxj6ekRJHAmIJmNBkWcsUWINk/ivNJJHQtz
+	 8S3HPNIvwwICjsJGPZ44HNxqVc2npaXNIVSc3zjSGg2rSTJ2ydkEAD4RyW6dlV0f5
+	 hnevmpwwsGn6iSiIqw5GJ6D4sXpw1/gx3nMbPl2LYiZMHN6Dq74XVGWfU6Z7hixui
+	 wv1tdS0FqhpwqxyZKQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5mGB-1rN1O82iDr-017E2F; Wed, 29
+ Nov 2023 16:07:27 +0100
+Message-ID: <e1b03c55-da80-4e8d-a445-e14b57b1966e@gmx.net>
+Date: Wed, 29 Nov 2023 16:07:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231118124252.14838-1-wahrenst@gmx.net> <20231118124252.14838-2-wahrenst@gmx.net>
- <ZVtHZWYl2skpn1Bg@smile.fi.intel.com> <9a9486bb-e737-4384-a581-76880b709758@gmx.net>
- <ZVtS4phUMmDD9ztz@smile.fi.intel.com> <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
-In-Reply-To: <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 15:03:04 +0100
-Message-ID: <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] leds: gpio: Add kernel log if devm_fwnode_gpiod_get
- fails
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Stefan Wahren <wahrenst@gmx.net>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek <pavel@ucw.cz>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Lee Jones <lee@kernel.org>, 
-	bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] leds: gpio: Add kernel log if
+ devm_fwnode_gpiod_get fails
+Content-Language: en-US
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek
+ <pavel@ucw.cz>, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Lee Jones <lee@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
+References: <20231118124252.14838-1-wahrenst@gmx.net>
+ <20231118124252.14838-2-wahrenst@gmx.net>
+ <ZVtHZWYl2skpn1Bg@smile.fi.intel.com>
+ <9a9486bb-e737-4384-a581-76880b709758@gmx.net>
+ <ZVtS4phUMmDD9ztz@smile.fi.intel.com>
+ <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
+ <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:exGeobytONeHW0P2JL6SSVsZgrK/4FUUgTaFAigkq8T1pjWKkTk
+ 4Z8xuNGWujs2jJkU9pRIrZ/IYtALhuHujgI2U27zvCXzpGsq8ex25EQ9ZShaXNFdrNZURAd
+ lds67Q6WBmNBDkVkl5UDxYdjhLr1xEDOIPEYCPE/Qrw+DUQ/hU9SpRqO3LGYktjH9ku2Eah
+ b3eqQPFWdzqxt5BuZYrcA==
+UI-OutboundReport: notjunk:1;M01:P0:BS05bT28Qaw=;M+GoIurTPvBzq6QT2gNrdtTIl2o
+ D8owlI9dlFmOr0xmOfss021yG7eX+rhRG+OD5Ox+VwF21NnXygVMQyOJF39NMUcs50CSodjqd
+ +D6zGezSY7kdWoalIvn3Uw1HMMWgB+qPbhiDT+gIdgdQrDZP0Q0adO/3i8GVXcVQm6NjPBtdd
+ Bh7u3WnJqgpoWlO9JXabF9zInkCcfjaLAXvcUvhyba/ZdsMEKTwnVd4fYrGdrEoKzneuaI0sQ
+ pVSAZ4sc60n/TuOW1ZK8qxE1n+A0ENeg9yCS++sPoPLJaPHk7lgT1o35RsljExyDuAuxdN3FJ
+ 8XY0MRFfd/xXMcWtN/d5woLB9L8OX3dyAPks5OtQ6pccEUwym+l2lLpuPGq5ERUhOLuktfOyL
+ qtl0sYtCK1Cg5jG5CbcyLDntyGgxJtAzYIgNAUcsdzEUt/MtQ9MDBEnHaCOId4PbjjSYyzFOL
+ ZgMehAfrMonRm55VudkhJrVTCfqVBjc88RGRanYpYxHF9aDKToHnbD0SmRnVKh0dY8jwqAOXN
+ OP7Ec4RtMe4tPyu8IgZ8XNZpDcRKHIjZ+s0PTUqmN/jfLDPU8/HcqVQ8NQkMToz2AoYraMP8/
+ Q/ncAJ9xLg7bb6t+OY0nhVLrn3qBDt+pQ7lZot8KVJ9fImgwjdSa6K7kC1zhSB0vSXQS/S4kR
+ h71hRVmXZaeQwIDV6B9293/fmuFV7VxQhmwZWsCGtLimtlQF6qurnXIziXF1NtWkP4D43kf51
+ +IOq+KdHwGiFSou0fB8Ixhiw9JQtxasHFIppVhrbSKX2zCaD64CEk4m4F5gTmtMmrJbJnqqRF
+ A+7Q/nb11ggBji4beePZqG/57kcVJXsKaFaIHlXCO0ftBg90fwLqIXH9atKaxc5kZ56/U4GG5
+ 5gwJZ4Jwy/Njfe28pRoQL0Tip1ROwQSpMTmDZMnXW/QSafY4P3chCSyA7Nk9MVM7DHW4YM+0V
+ vh4DUearCBOzL+UyiUWzMzZ1R58=
 
-On Wed, Nov 22, 2023 at 11:53=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
-> wrote:
-
-> > > I cannot remember that i saw any of them on info level in my case of =
+Am 29.11.23 um 15:03 schrieb Linus Walleij:
+> On Wed, Nov 22, 2023 at 11:53=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev=
+.pl> wrote:
+>
+>>>> I cannot remember that i saw any of them on info level in my case of =
 an
-> > > already allocated pin (see patch 2).
-> > >
-> > > I'm open to place the log within gpiolib, if this a better place.
-> >
-> > I'm not sure, let's hear GPIO maintainers for that.
+>>>> already allocated pin (see patch 2).
+>>>>
+>>>> I'm open to place the log within gpiolib, if this a better place.
+>>> I'm not sure, let's hear GPIO maintainers for that.
+>> Hard to tell which method is preferred among all the subsystems.
+>> Personally I'm more inclined towards letting drivers decide whether to
+>> emit an error message and only emit our own when an error cannot be
+>> propagated down the stack.
+>>
+>> Linus: Any thoughts?
+> I never managed to get it right so I can't give any good advice.
 >
-> Hard to tell which method is preferred among all the subsystems.
-> Personally I'm more inclined towards letting drivers decide whether to
-> emit an error message and only emit our own when an error cannot be
-> propagated down the stack.
+> Usually I tend to think better one more error message than one too littl=
+e.
 >
-> Linus: Any thoughts?
+> Then again I'm a dmesg maximalist who just want it to scroll on forever
+> also with positive messages...
+Okay, based on the feedback this sounds like nobody is against this patch?
+>
+> Yours,
+> Linus Walleij
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-I never managed to get it right so I can't give any good advice.
-
-Usually I tend to think better one more error message than one too little.
-
-Then again I'm a dmesg maximalist who just want it to scroll on forever
-also with positive messages...
-
-Yours,
-Linus Walleij
 
