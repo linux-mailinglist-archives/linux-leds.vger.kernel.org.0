@@ -1,123 +1,74 @@
-Return-Path: <linux-leds+bounces-199-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-200-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A387FDAC4
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 16:07:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DCE7FDD36
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 17:36:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 147591C20834
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 15:07:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2D491C209C5
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 16:36:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5DC3715B;
-	Wed, 29 Nov 2023 15:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F277A1DA24;
+	Wed, 29 Nov 2023 16:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="b7dpdCNs"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="SHwLc83A"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5D7A3;
-	Wed, 29 Nov 2023 07:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701270447; x=1701875247; i=wahrenst@gmx.net;
-	bh=irMeSr38zXyjdA5mMhu/UGsBpjsTP9fUQyrG/iSRAto=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=b7dpdCNsQzKaVyiyPfAS3rS7V8X3Rsrj1duz0+rrIsVysitcM/4eIFg+HHslZfVg
-	 XSSpLJS8KyPUWnUn6O+GkSuqZv1Cvopp7LAGu41iEkBLGsSuAMaFQ1izEzloR+xzv
-	 cFimLk3qxP72RVO6d2dRXxrkC9JJ7eJxj6ekRJHAmIJmNBkWcsUWINk/ivNJJHQtz
-	 8S3HPNIvwwICjsJGPZ44HNxqVc2npaXNIVSc3zjSGg2rSTJ2ydkEAD4RyW6dlV0f5
-	 hnevmpwwsGn6iSiIqw5GJ6D4sXpw1/gx3nMbPl2LYiZMHN6Dq74XVGWfU6Z7hixui
-	 wv1tdS0FqhpwqxyZKQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5mGB-1rN1O82iDr-017E2F; Wed, 29
- Nov 2023 16:07:27 +0100
-Message-ID: <e1b03c55-da80-4e8d-a445-e14b57b1966e@gmx.net>
-Date: Wed, 29 Nov 2023 16:07:26 +0100
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF5E10A;
+	Wed, 29 Nov 2023 08:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=/uA+miTA801VQdKq+GBxddcU5PJHZsukphpTgK8YoY4=; b=SHwLc83AK8f9IfCTZ36S5HrTsG
+	uqXoGnzas3y9+cCSqbs161QB4oCl58vd5OqjDuCor9mOJpHUgkWIgra4Fdhvl89tNlp/IDC+NV/Ws
+	uYiyszlEgjOFZRn+Gt0/1d6B9U3epFrUd4XMcB7rdsKRgbJHBCgDxixjBgCYhHxqd0/w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1r8NYI-001adv-7A; Wed, 29 Nov 2023 17:36:42 +0100
+Date: Wed, 29 Nov 2023 17:36:42 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH] leds: trigger: netdev: skip setting baseline state in
+ activate if hw-controlled
+Message-ID: <a69ebe41-3f37-4988-a0bc-e53f79df27f2@lunn.ch>
+References: <49f1b91e-a637-4062-83c6-f851f7c80628@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] leds: gpio: Add kernel log if
- devm_fwnode_gpiod_get fails
-Content-Language: en-US
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Pavel Machek
- <pavel@ucw.cz>, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Lee Jones <lee@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-leds@vger.kernel.org
-References: <20231118124252.14838-1-wahrenst@gmx.net>
- <20231118124252.14838-2-wahrenst@gmx.net>
- <ZVtHZWYl2skpn1Bg@smile.fi.intel.com>
- <9a9486bb-e737-4384-a581-76880b709758@gmx.net>
- <ZVtS4phUMmDD9ztz@smile.fi.intel.com>
- <CAMRc=MdpegfNrjWkeGSh8NhT_Go+q5MxueASxrLo18XBJaBsjA@mail.gmail.com>
- <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <CACRpkdZuJqEA06NDneNFwjgj=u0Nm+yKCEd3VyJkMyZ1mLxQsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:exGeobytONeHW0P2JL6SSVsZgrK/4FUUgTaFAigkq8T1pjWKkTk
- 4Z8xuNGWujs2jJkU9pRIrZ/IYtALhuHujgI2U27zvCXzpGsq8ex25EQ9ZShaXNFdrNZURAd
- lds67Q6WBmNBDkVkl5UDxYdjhLr1xEDOIPEYCPE/Qrw+DUQ/hU9SpRqO3LGYktjH9ku2Eah
- b3eqQPFWdzqxt5BuZYrcA==
-UI-OutboundReport: notjunk:1;M01:P0:BS05bT28Qaw=;M+GoIurTPvBzq6QT2gNrdtTIl2o
- D8owlI9dlFmOr0xmOfss021yG7eX+rhRG+OD5Ox+VwF21NnXygVMQyOJF39NMUcs50CSodjqd
- +D6zGezSY7kdWoalIvn3Uw1HMMWgB+qPbhiDT+gIdgdQrDZP0Q0adO/3i8GVXcVQm6NjPBtdd
- Bh7u3WnJqgpoWlO9JXabF9zInkCcfjaLAXvcUvhyba/ZdsMEKTwnVd4fYrGdrEoKzneuaI0sQ
- pVSAZ4sc60n/TuOW1ZK8qxE1n+A0ENeg9yCS++sPoPLJaPHk7lgT1o35RsljExyDuAuxdN3FJ
- 8XY0MRFfd/xXMcWtN/d5woLB9L8OX3dyAPks5OtQ6pccEUwym+l2lLpuPGq5ERUhOLuktfOyL
- qtl0sYtCK1Cg5jG5CbcyLDntyGgxJtAzYIgNAUcsdzEUt/MtQ9MDBEnHaCOId4PbjjSYyzFOL
- ZgMehAfrMonRm55VudkhJrVTCfqVBjc88RGRanYpYxHF9aDKToHnbD0SmRnVKh0dY8jwqAOXN
- OP7Ec4RtMe4tPyu8IgZ8XNZpDcRKHIjZ+s0PTUqmN/jfLDPU8/HcqVQ8NQkMToz2AoYraMP8/
- Q/ncAJ9xLg7bb6t+OY0nhVLrn3qBDt+pQ7lZot8KVJ9fImgwjdSa6K7kC1zhSB0vSXQS/S4kR
- h71hRVmXZaeQwIDV6B9293/fmuFV7VxQhmwZWsCGtLimtlQF6qurnXIziXF1NtWkP4D43kf51
- +IOq+KdHwGiFSou0fB8Ixhiw9JQtxasHFIppVhrbSKX2zCaD64CEk4m4F5gTmtMmrJbJnqqRF
- A+7Q/nb11ggBji4beePZqG/57kcVJXsKaFaIHlXCO0ftBg90fwLqIXH9atKaxc5kZ56/U4GG5
- 5gwJZ4Jwy/Njfe28pRoQL0Tip1ROwQSpMTmDZMnXW/QSafY4P3chCSyA7Nk9MVM7DHW4YM+0V
- vh4DUearCBOzL+UyiUWzMzZ1R58=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49f1b91e-a637-4062-83c6-f851f7c80628@gmail.com>
 
-Am 29.11.23 um 15:03 schrieb Linus Walleij:
-> On Wed, Nov 22, 2023 at 11:53=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev=
-.pl> wrote:
->
->>>> I cannot remember that i saw any of them on info level in my case of =
-an
->>>> already allocated pin (see patch 2).
->>>>
->>>> I'm open to place the log within gpiolib, if this a better place.
->>> I'm not sure, let's hear GPIO maintainers for that.
->> Hard to tell which method is preferred among all the subsystems.
->> Personally I'm more inclined towards letting drivers decide whether to
->> emit an error message and only emit our own when an error cannot be
->> propagated down the stack.
->>
->> Linus: Any thoughts?
-> I never managed to get it right so I can't give any good advice.
->
-> Usually I tend to think better one more error message than one too littl=
-e.
->
-> Then again I'm a dmesg maximalist who just want it to scroll on forever
-> also with positive messages...
-Okay, based on the feedback this sounds like nobody is against this patch?
->
-> Yours,
-> Linus Walleij
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+On Wed, Nov 29, 2023 at 11:41:51AM +0100, Heiner Kallweit wrote:
+> The current codes uses the sw_control path in set_baseline_state() when
+> called from netdev_trig_activate() even if we're hw-controlled. This
+> may result in errors when led_set_brightness() is called because we may
+> not have set_brightness led ops (if hw doesn't support setting a LED
+> to ON).
 
+Not having software on/off control of the LED is a problem. It breaks
+the whole concept of offloading/accelerating. If we cannot control the
+LED, there is nothing to accelerate. What do we do when the user
+selects a configuration which is not supported by the hardware? The
+API is not atomic, you cannot set multiple things at once. So the user
+might be trying to get from one offloadable configuration to another
+offloadable configuration, but needs to go via an configuration which
+is not offloadable. Do we return -EOPNOTSUPP?
+
+Before we accept patches like this, we need to discuss the concept of
+how we support LEDs which cannot be controlled in software.
+
+    Andrew
 
