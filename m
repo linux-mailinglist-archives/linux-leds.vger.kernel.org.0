@@ -1,84 +1,177 @@
-Return-Path: <linux-leds+bounces-202-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-203-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418937FE294
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 23:03:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB887FE61B
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 02:36:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F17812812FF
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Nov 2023 22:03:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB23C285432
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 01:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25CE54CB43;
-	Wed, 29 Nov 2023 22:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3C7163C0;
+	Thu, 30 Nov 2023 01:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dWci2Z9z"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kWk/XYvQ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE0F1704;
-	Wed, 29 Nov 2023 14:02:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=t1K9aR5+s9N93bh3ebk4fNP1kEYrrDkBqchQHHkXkVo=; b=dWci2Z9zlsYbFbErmkfY4xX9Od
-	JCYOO/ICReV3YkLR9hPqk88PeY46qb4kGATaJMRb7XMUsiTTyephLmoeSF3spPoV9DJheDL3OU8sS
-	zEG9L3KdSh3f6d0svBrbmNkQeJnxTQTfnur3psN1/kUyB7fijS2VakQkfjym7nhITL/w=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1r8Sdu-001cKh-Ar; Wed, 29 Nov 2023 23:02:50 +0100
-Date: Wed, 29 Nov 2023 23:02:50 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] leds: trigger: netdev: skip setting baseline state in
- activate if hw-controlled
-Message-ID: <7535cb07-31ab-407d-9226-7b3f65050a65@lunn.ch>
-References: <49f1b91e-a637-4062-83c6-f851f7c80628@gmail.com>
- <a69ebe41-3f37-4988-a0bc-e53f79df27f2@lunn.ch>
- <CAFSsGVvBfvkotAd+p++bzca4Km8pHVzNJEGV6CAjYULVOWuD2Q@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB1F10D4;
+	Wed, 29 Nov 2023 17:36:49 -0800 (PST)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AU18KA1003803;
+	Thu, 30 Nov 2023 01:36:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=wBdEQakk/60SrjX7AyCoDPhJVBiEEQTy8BRow6iQdgs=;
+ b=kWk/XYvQBsoyY8KirPqyeYccXglymjkK/02NAOUPpZZWC5QW5cv9rz3N5g2XMsn/CYKV
+ rLKCDOtqVzsq9rAbOCrNBPCEM3/aG8Z3AQKxaTZoVnUpHPr98GoU3Cj6JRaH7yM7XvxZ
+ d0Hjc8M0fC4WOoi1NtG3oYj0QJOYXd+4IjCAKnNg4PlczEzwMpek1sEbJs26maY6P6Z1
+ 8IMbnaDHEc74TWhfWTrUT10eBkV8cNKE4j/YE5Ew7gjCzmVLQeVwnzDdB0e/fTe0z6jw
+ K8uCshJSdP/2/mrgukq2/5Ui7tUeCpGjQ/Wt6BoFxbQ81zNLmW7gpRbJFbW/y+L9bHTe Zw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3upgfd01pw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Nov 2023 01:36:38 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AU1abA9015657
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Nov 2023 01:36:37 GMT
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 29 Nov 2023 17:36:36 -0800
+From: Anjelique Melendez <quic_amelende@quicinc.com>
+To: <pavel@ucw.cz>, <lee@kernel.org>, <thierry.reding@gmail.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>
+CC: <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
+        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
+        <quic_gurus@quicinc.com>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        "Anjelique
+ Melendez" <quic_amelende@quicinc.com>
+Subject: [PATCH v7 0/7] Add support for LUT PPG
+Date: Wed, 29 Nov 2023 17:36:08 -0800
+Message-ID: <20231130013615.14287-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFSsGVvBfvkotAd+p++bzca4Km8pHVzNJEGV6CAjYULVOWuD2Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Wtl2IfxYZ9S7gVuRCuTWLgysjQtfteV1
+X-Proofpoint-GUID: Wtl2IfxYZ9S7gVuRCuTWLgysjQtfteV1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_21,2023-11-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1011 mlxscore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311300010
 
-> RTL8168 LED control allows to switch between different hw triggers. I
-> was under the
-> assumption that this is not uncommon.
+In certain PMICs, LUT pattern and LPG configuration is stored in SDAM
+modules instead of LUT peripheral. This feature is called PPG.
 
-I did take a look around various datasheets, and i did find a couple
-like this, but the majority have the ability to do software control.
+This change series adds support for PPG. Thanks!
+Changes since v6:
+  - Patch 2/7
+    - Removed required by constraint on PPG dt properties
+Changes since v5:
+  - Patch 4/7
+    - Update logic so that multicolor led device triggers pattern
+      on all LEDs at the same time
+    - Update nitpicks from Lee
+  - Patch 5/7
+    - Update nitpicks from Lee
+Changes since v4:
+  - Patch 3/7
+    - Get rid of r/w helpers
+    - Use regmap_read_poll_timeout() in qcom_pbs_wait_for_ack()
+    - Update error path in qcom_pbs_trigger_event()
+    - Fix reverse christmas tree
+  - Patch 4/7
+    - Get rid of r/w helpers
+    - Update variables to use "sdam" instead of "nvmem"
+    - Fix comments
+    - Fix reverse christmas tree
+    - Update lpg_pattern_set() logic
+  - Patch 5/7
+    - Removed sdam_lut_base from lpg_data
+Changes since v3:
+  - Patch 4/7
+    - Fix function returns
+    - Move register definition to top of file
+    - Revert max_brightness and probe accidental changes
+    - Combine init_sdam() and parse_sdam()
+    - Change error prints in probe to use dev_err_probe
+    - Remove ppg_en variable
+    - Update when pbs triggers are set/cleared
+  - Patch 6/7
+    - Remove use of nvmem_count
+    - Move register definition to top of file
+    - Remove lpg_get_sdam_lut_idx()
+Changes since v2:
+  - Patch 1/7
+    - Fix dt_binding_check error
+    - Rename binding file to match compatible
+    - Iclude SoC specific comptaibles
+  - Patch 2/7
+    - Update nvmem-names list
+  - Patch 3/7
+    - Update EXPORT_SYMBOL to EXPORT_SYMBOL_GPL
+    - Fix return/break logic in qcom_pbs_wait_for_ack()
+    - Update iterators to be int
+    - Add constants
+    - Fix function calls in qcom_pbs_trigger_event()
+    - Remove unnessary comments
+    - Return -EPROBE_DEFER from get_pbs_client_device()
+Changes since v1:
+  - Patch 1/7
+    - Fix dt_binding_check errors
+    - Update binding description
+  - Path 2/7
+    - Fix dt_binding_check errors
+    - Update per variant constraints
+    - Update nvmem description
+  - Patch 3/7
+    - Update get_pbs_client_device()
+    - Drop use of printk
+    - Remove unused function
 
-> In order to deal with the non-atomic issue we have to set
-> trigger_data->mode to the
-> resulting new mode, based on what the user set. Question is what we show to the
-> user. If we show nothing, then he will expect the new mode to be active.
-> If we show an error, then he may assume that his input had no effect.
-> So we may have to show technically an OK, plus a message that his input has been
-> stored, but is not supported by hw.
+Anjelique Melendez (7):
+  dt-bindings: soc: qcom: Add qcom,pbs bindings
+  dt-bindings: leds: leds-qcom-lpg: Add support for LPG PPG
+  soc: qcom: add QCOM PBS driver
+  leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
+  leds: rgb: leds-qcom-lpg: Update PMI632 lpg_data to support PPG
+  leds: rgb: leds-qcom-lpg: Include support for PPG with dedicated LUT
+    SDAM
+  leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
 
-It is hard to show anything to the user. We are just doing
+ .../bindings/leds/leds-qcom-lpg.yaml          |  82 ++++-
+ .../bindings/soc/qcom/qcom,pbs.yaml           |  46 +++
+ drivers/leds/rgb/leds-qcom-lpg.c              | 344 ++++++++++++++++--
+ drivers/soc/qcom/Kconfig                      |   9 +
+ drivers/soc/qcom/Makefile                     |   1 +
+ drivers/soc/qcom/qcom-pbs.c                   | 243 +++++++++++++
+ include/linux/soc/qcom/qcom-pbs.h             |  30 ++
+ 7 files changed, 726 insertions(+), 29 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,pbs.yaml
+ create mode 100644 drivers/soc/qcom/qcom-pbs.c
+ create mode 100644 include/linux/soc/qcom/qcom-pbs.h
 
-echo 1 > file.
+-- 
+2.41.0
 
-There is no channel to the user other than an error code.
-
-There is also the question about what the LED should show. Ideally it
-should indicate some sort of state to indicate there is an
-error. Either constantly blink, turn off, etc. Maybe that is the
-solution. You implement a set_brightness function which just indicates
-an error on the LED, but otherwise return O.K?
-
-   Andrew
 
