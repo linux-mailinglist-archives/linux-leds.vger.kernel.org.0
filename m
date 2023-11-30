@@ -1,139 +1,123 @@
-Return-Path: <linux-leds+bounces-213-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-214-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92517FEA96
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 09:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D1B7FEDAD
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 12:21:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A40D028262B
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 08:30:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 035B8281BEF
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Nov 2023 11:21:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987023034F;
-	Thu, 30 Nov 2023 08:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EDE93C09C;
+	Thu, 30 Nov 2023 11:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l7I1ZGpH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0yL/cRS"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2835A10E4
-	for <linux-leds@vger.kernel.org>; Thu, 30 Nov 2023 00:30:09 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9fa2714e828so85848966b.1
-        for <linux-leds@vger.kernel.org>; Thu, 30 Nov 2023 00:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701333007; x=1701937807; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lkPUpQlLMmBIBFWbcp8hBUQgZv9g0OjS+svvP1BjvBQ=;
-        b=l7I1ZGpHrdhrHeFTt4k5qpayYX79FluNAwzcs0Wu8VMJE2vsCC3mftNLXWOpNOIL6p
-         rZDN1V6wl+pl46lSR7gaRa2oXZVF0K9CDVGAaNAUKqUJPq+mW2DMTOgY9d8mVdPs2yTF
-         nKkgOBRR82nOCSs1FWz+hGiXszv/jPL+vvRzJ43p2UTMJaNA+ZwDNi9QelffktKZfY83
-         E7GQHQEzULpYRLuLgND83+vI7PirpgCl9dJE8FCq60a3dGiQIL07DY5mts/ekwt4vIln
-         ApOI98mVIBbKtnzEOOWvJ3w3jErJfngGSOIrwKGVbhDs/mH1jFc8PmKzd8GcWKMA7OwY
-         JDkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701333007; x=1701937807;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lkPUpQlLMmBIBFWbcp8hBUQgZv9g0OjS+svvP1BjvBQ=;
-        b=MrJXYju3RFvKxwzlptjUu4JlEoP8Au7QJ9HJrf4YqQ180lcdwS9e68anxmjQhtqn5m
-         Q5UlPjnyHMAj5//165MD1wycg3j+C6O2mLrnfH/zstITGMGZv0MLtF8OKuBRhsTxGKve
-         KuDHSWE6qHaB3N2z5YYGsVKT67etrWY76sNLiQOWA65xF17ccsToztkRgTEUCWlhnUbi
-         mhsUupZeBQotBlpiQViImNc7OiDkghTLf/VABkJLmC8qKV1x6jaVfWu29tGabEs1bdYs
-         SqW6WdWpz4kdZvE8rYake+ktm7RCnpKrrHrPoZI/zbEoXFFeHzMYgXunL9aufNrWzHkl
-         uqew==
-X-Gm-Message-State: AOJu0YwPwAQWKxRwxtzpG9adzWI2ncMojdy9+Dp3PVW7fyl93E4ciGWJ
-	v1CxZ5mAH7LwIQ4RqoU9gwMZyQ==
-X-Google-Smtp-Source: AGHT+IFkzN0cKvGI75ysYJ3G16THN9pXthqovU/JmcvY5N+gUcUQjk+4973qTh8tP6dIBf76jt4xeg==
-X-Received: by 2002:a17:907:1b8e:b0:a02:27d9:9f05 with SMTP id mz14-20020a1709071b8e00b00a0227d99f05mr12493302ejc.42.1701333007562;
-        Thu, 30 Nov 2023 00:30:07 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id n23-20020a170906089700b0099297782aa9sm416962eje.49.2023.11.30.00.30.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 00:30:07 -0800 (PST)
-Message-ID: <8d9b28e8-22b3-4002-a225-3f53f7cbb9c1@linaro.org>
-Date: Thu, 30 Nov 2023 09:30:05 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCE318E01;
+	Thu, 30 Nov 2023 11:21:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F20EC433C7;
+	Thu, 30 Nov 2023 11:21:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701343295;
+	bh=NAX56mGLpXw5uJMlSh9lqnmNXCJ2hfJhtUZAindNF3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N0yL/cRSIVQpcl6fVvr8mxdMcZW+E5Dg42fs2g3tr5ZHCOCAtKiZpDjEtAg9oHw5L
+	 f8Viz58ff9taLyf8Rv0ZYqCv3mESK/dKzlp9mfD0xy9dG7P4TEf/q4usMU8oTYXYhf
+	 Ta0yKvmySjPyZfhHRbRGm2PQpklbO+AJ26Q36vmeqhYBPhct8+iBd+Qw3Sis6bhaGS
+	 eEsiiVSce8IY1DjQHft76URmCCw49tPdAMzr0BTweoaaKAcKvgrqSiNqQJTYsxs7Ko
+	 jC7nS8GxJRV3jRb1n1eF4lND8W5cNzDH/4510btFuu7w5KRxiSvXbn3dpoe4pgukwG
+	 SY3BvtCjonAyg==
+Date: Thu, 30 Nov 2023 11:21:30 +0000
+From: Lee Jones <lee@kernel.org>
+To: GaryWang =?utf-8?B?5rGq5LmL6YC4?= <GaryWang@aaeon.com.tw>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"larry.lai" <larry.lai@yunjingtech.com>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"pavel@ucw.cz" <pavel@ucw.cz>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"musa.lin@yunjingtech.com" <musa.lin@yunjingtech.com>,
+	"jack.chang@yunjingtech.com" <jack.chang@yunjingtech.com>,
+	"noah.hung@yunjingtech.com" <noah.hung@yunjingtech.com>
+Subject: Re: [PATCH V7 2/3] pinctrl: Add support pin control for UP board
+ CPLD/FPGA
+Message-ID: <20231130112130.GH1470173@google.com>
+References: <20231031015119.29756-1-larry.lai@yunjingtech.com>
+ <20231031015119.29756-3-larry.lai@yunjingtech.com>
+ <ZVOBz8-tahhrVmO-@smile.fi.intel.com>
+ <SI2PR02MB568243153C4D4D7B636D2754EE82A@SI2PR02MB5682.apcprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/7] dt-bindings: leds: leds-qcom-lpg: Add support for
- LPG PPG
-Content-Language: en-US
-To: Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
- lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, agross@kernel.org,
- andersson@kernel.org
-Cc: luca.weiss@fairphone.com, konrad.dybcio@linaro.org,
- u.kleine-koenig@pengutronix.de, quic_subbaram@quicinc.com,
- quic_gurus@quicinc.com, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20231130013615.14287-1-quic_amelende@quicinc.com>
- <20231130013615.14287-3-quic_amelende@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231130013615.14287-3-quic_amelende@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SI2PR02MB568243153C4D4D7B636D2754EE82A@SI2PR02MB5682.apcprd02.prod.outlook.com>
 
-On 30/11/2023 02:36, Anjelique Melendez wrote:
-> Update leds-qcom-lpg binding to support LPG PPG.
+On Thu, 30 Nov 2023, GaryWang 汪之逸 wrote:
+
+> All,
+>         Reply again to plain text format & line-warp and trim agree part as Jones's suggestion,
+>         please let me know if there are still having format issue.
+>         please kindly to check our comments with ">>" beginning.
+
+This is still incorrect.
+
+Please fix your mail client, or use a different one.
+
+> -----Original Message-----
+> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Sent: Tuesday, November 14, 2023 10:19 PM
+> To: larry.lai <larry.lai@yunjingtech.com>
+> Cc: lee@kernel.org; linus.walleij@linaro.org; pavel@ucw.cz; linux-kernel@vger.kernel.org; linux-gpio@vger.kernel.org; linux-leds@vger.kernel.org; GaryWang 汪之逸 <GaryWang@aaeon.com.tw>; musa.lin@yunjingtech.com; jack.chang@yunjingtech.com; noah.hung@yunjingtech.com
+> Subject: Re: [PATCH V7 2/3] pinctrl: Add support pin control for UP board CPLD/FPGA
+
+Why is your client putting headers in the body?
+
+> On Tue, Oct 31, 2023 at 09:51:18AM +0800, larry.lai wrote:
+> > The UP Squared board
+> > <http://www.upboard.com/> implements certain features (pin control) through an on-board FPGA.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Gary Wang <garywang@aaeon.com.tw>
+> > Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
 > 
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
+> 
+> 
+> > +#include "intel/pinctrl-intel.h"
+> 
+> I do not think it's correct use of the header.
+> >> see below
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+No, this should look like this:
 
-Best regards,
-Krzysztof
+>  <Thing you're replying to here>
 
+[Your response here]
+
+Please fix the client to quote properly and drop the confusing ">>" stuff.
+
+> ...
+
+Make snips clearer please, either:
+
+  [...]
+
+Or:
+
+  [SNIP]
+
+[...]
+
+-- 
+Lee Jones [李琼斯]
 
