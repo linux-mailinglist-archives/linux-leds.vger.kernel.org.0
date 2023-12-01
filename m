@@ -1,58 +1,49 @@
-Return-Path: <linux-leds+bounces-221-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-222-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39848800739
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 10:38:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4906800798
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 10:55:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 733291C20A8B
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 09:38:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6ABEB20F92
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 09:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85D871DA2D;
-	Fri,  1 Dec 2023 09:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53F061E524;
+	Fri,  1 Dec 2023 09:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jN+EBoBw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OM2qwCtq"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673421D6AA;
-	Fri,  1 Dec 2023 09:38:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3238C433C8;
-	Fri,  1 Dec 2023 09:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E541DDE9;
+	Fri,  1 Dec 2023 09:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B088C433C9;
+	Fri,  1 Dec 2023 09:54:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701423491;
-	bh=1sFqvuT/UoI9Gn2AZFl8jIGRwWG68Rvg+NmKuILk70I=;
+	s=k20201202; t=1701424501;
+	bh=bfdACYLcpe5G5L0M6AML9A5cua2JX5r67pEzdtiedpg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jN+EBoBwdHQdiTvQDMX0gerZBPBH50mhnEQwVe2XJ77WHzpLpMcn5P9BdKJ332EH4
-	 Z385f7rliDEUxgEctLD7+DTSHcsKTSvKMSPUavE0QnNTklojJR4LReKTm1OKY5cF/N
-	 MGPWeQyYo65+sCUA4MwoO5meq9WONi4G1UV1HjNkYUMS0amEGp3U+GEzPDEIJgcHdz
-	 FThp/tXh0g7KwK4SKICT4hntJzSqLVxD/XabCLghTl3GTvQq3f+ZjykcJCdJ8a90An
-	 2CbM6jPQVZU+FLr/QWNJ3dHuAlmj8K4BfZt0c4bEM2065ioI+UI/RIHyu7qTdC5fKs
-	 a3avuVVtqVXwA==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1r8zyx-0003Hq-0d;
-	Fri, 01 Dec 2023 10:38:47 +0100
-Date: Fri, 1 Dec 2023 10:38:47 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, inux-arm-msm@vger.kernel.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: qcom,spmi-flash-led: fix example node
- name
-Message-ID: <ZWmpp4Va5Xn1iC6J@hovoldconsulting.com>
-References: <20231130171940.12391-1-johan+linaro@kernel.org>
- <eddf541d-e505-457f-9363-f5e96885ee25@linaro.org>
+	b=OM2qwCtqmy0HGBIU7FzC2dum9gSWAJTUBmZo7ezgnnkLNhs37nOT2dDuUK/FIF8I4
+	 mGkwd/lGcEwDQJPrb/3K3t4VMPda5s5WglnPeMQy3gLu8Qg6ubXqxYx7edDZ/J0Rec
+	 RK51Ff/+rCzMzqdb5M0TIPaw6PBQX5d1jlRtBmTCjFjJG73cT79e3kMZS87MCUCko2
+	 QZOBWEz1+Ljk7A58EKLpWxdsddEUcmP9lOfi3xkEnFOUExR32PYsp05NkJQlgVqQ16
+	 nc2WlDcYLxMo84mmFUkY7nFFFIjNTY/8m90CzhE2AjWXv6WObo8MBsNyXJy+ZqIkBo
+	 eTJl13jJZgSAw==
+Date: Fri, 1 Dec 2023 09:54:55 +0000
+From: Simon Horman <horms@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: Re: [PATCH] leds: trigger: netdev: fix RTNL handling to prevent
+ potential deadlock
+Message-ID: <20231201095455.GS32077@kernel.org>
+References: <7cfd7a10-53d4-45a8-908c-39459b1f8b1a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -61,22 +52,140 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eddf541d-e505-457f-9363-f5e96885ee25@linaro.org>
+In-Reply-To: <7cfd7a10-53d4-45a8-908c-39459b1f8b1a@gmail.com>
 
-On Fri, Dec 01, 2023 at 09:42:02AM +0100, Krzysztof Kozlowski wrote:
-> On 30/11/2023 18:19, Johan Hovold wrote:
-> > The led controller is a child of an SPMI PMIC, which in turn sits on an
-> > SPMI bus.
-> > 
-> > While at it, add some newline separators to improve readability.
-> > 
-> > Fixes: 1aeff6216891 ("dt-bindings: leds: Add QCOM flash LED controller")
+On Wed, Nov 29, 2023 at 09:03:56AM +0100, Heiner Kallweit wrote:
+> When working on LED support for r8169 I got the following lockdep
+> warning. Easiest way to prevent this scenario seems to be to take
+> the RTNL lock before the trigger_data lock in set_device_name().
 > 
-> Nothing to fix here, just an example code.
+> ======================================================
+> WARNING: possible circular locking dependency detected
+> 6.7.0-rc2-next-20231124+ #2 Not tainted
+> ------------------------------------------------------
+> bash/383 is trying to acquire lock:
+> ffff888103aa1c68 (&trigger_data->lock){+.+.}-{3:3}, at: netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+> 
+> but task is already holding lock:
+> ffffffff8cddf808 (rtnl_mutex){+.+.}-{3:3}, at: rtnl_lock+0x12/0x20
+> 
+> which lock already depends on the new lock.
+> 
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #1 (rtnl_mutex){+.+.}-{3:3}:
+>        __mutex_lock+0x9b/0xb50
+>        mutex_lock_nested+0x16/0x20
+>        rtnl_lock+0x12/0x20
+>        set_device_name+0xa9/0x120 [ledtrig_netdev]
+>        netdev_trig_activate+0x1a1/0x230 [ledtrig_netdev]
+>        led_trigger_set+0x172/0x2c0
+>        led_trigger_write+0xf1/0x140
+>        sysfs_kf_bin_write+0x5d/0x80
+>        kernfs_fop_write_iter+0x15d/0x210
+>        vfs_write+0x1f0/0x510
+>        ksys_write+0x6c/0xf0
+>        __x64_sys_write+0x14/0x20
+>        do_syscall_64+0x3f/0xf0
+>        entry_SYSCALL_64_after_hwframe+0x6c/0x74
+> 
+> -> #0 (&trigger_data->lock){+.+.}-{3:3}:
+>        __lock_acquire+0x1459/0x25a0
+>        lock_acquire+0xc8/0x2d0
+>        __mutex_lock+0x9b/0xb50
+>        mutex_lock_nested+0x16/0x20
+>        netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+>        call_netdevice_register_net_notifiers+0x5a/0x100
+>        register_netdevice_notifier+0x85/0x120
+>        netdev_trig_activate+0x1d4/0x230 [ledtrig_netdev]
+>        led_trigger_set+0x172/0x2c0
+>        led_trigger_write+0xf1/0x140
+>        sysfs_kf_bin_write+0x5d/0x80
+>        kernfs_fop_write_iter+0x15d/0x210
+>        vfs_write+0x1f0/0x510
+>        ksys_write+0x6c/0xf0
+>        __x64_sys_write+0x14/0x20
+>        do_syscall_64+0x3f/0xf0
+>        entry_SYSCALL_64_after_hwframe+0x6c/0x74
+> 
+> other info that might help us debug this:
+> 
+>  Possible unsafe locking scenario:
+> 
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(rtnl_mutex);
+>                                lock(&trigger_data->lock);
+>                                lock(rtnl_mutex);
+>   lock(&trigger_data->lock);
+> 
+>  *** DEADLOCK ***
+> 
+> 8 locks held by bash/383:
+>  #0: ffff888103ff33f0 (sb_writers#3){.+.+}-{0:0}, at: ksys_write+0x6c/0xf0
+>  #1: ffff888103aa1e88 (&of->mutex){+.+.}-{3:3}, at: kernfs_fop_write_iter+0x114/0x210
+>  #2: ffff8881036f1890 (kn->active#82){.+.+}-{0:0}, at: kernfs_fop_write_iter+0x11d/0x210
+>  #3: ffff888108e2c358 (&led_cdev->led_access){+.+.}-{3:3}, at: led_trigger_write+0x30/0x140
+>  #4: ffffffff8cdd9e10 (triggers_list_lock){++++}-{3:3}, at: led_trigger_write+0x75/0x140
+>  #5: ffff888108e2c270 (&led_cdev->trigger_lock){++++}-{3:3}, at: led_trigger_write+0xe3/0x140
+>  #6: ffffffff8cdde3d0 (pernet_ops_rwsem){++++}-{3:3}, at: register_netdevice_notifier+0x1c/0x120
+>  #7: ffffffff8cddf808 (rtnl_mutex){+.+.}-{3:3}, at: rtnl_lock+0x12/0x20
+> 
+> stack backtrace:
+> CPU: 0 PID: 383 Comm: bash Not tainted 6.7.0-rc2-next-20231124+ #2
+> Hardware name: Default string Default string/Default string, BIOS ADLN.M6.SODIMM.ZB.CY.015 08/08/2023
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x5c/0xd0
+>  dump_stack+0x10/0x20
+>  print_circular_bug+0x2dd/0x410
+>  check_noncircular+0x131/0x150
+>  __lock_acquire+0x1459/0x25a0
+>  lock_acquire+0xc8/0x2d0
+>  ? netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+>  __mutex_lock+0x9b/0xb50
+>  ? netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+>  ? __this_cpu_preempt_check+0x13/0x20
+>  ? netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+>  ? __cancel_work_timer+0x11c/0x1b0
+>  ? __mutex_lock+0x123/0xb50
+>  mutex_lock_nested+0x16/0x20
+>  ? mutex_lock_nested+0x16/0x20
+>  netdev_trig_notify+0xec/0x190 [ledtrig_netdev]
+>  call_netdevice_register_net_notifiers+0x5a/0x100
+>  register_netdevice_notifier+0x85/0x120
+>  netdev_trig_activate+0x1d4/0x230 [ledtrig_netdev]
+>  led_trigger_set+0x172/0x2c0
+>  ? preempt_count_add+0x49/0xc0
+>  led_trigger_write+0xf1/0x140
+>  sysfs_kf_bin_write+0x5d/0x80
+>  kernfs_fop_write_iter+0x15d/0x210
+>  vfs_write+0x1f0/0x510
+>  ksys_write+0x6c/0xf0
+>  __x64_sys_write+0x14/0x20
+>  do_syscall_64+0x3f/0xf0
+>  entry_SYSCALL_64_after_hwframe+0x6c/0x74
+> RIP: 0033:0x7f269055d034
+> Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d 35 c3 0d 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 48 83 ec 28 48 89 54 24 18 48
+> RSP: 002b:00007ffddb7ef748 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+> RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 00007f269055d034
+> RDX: 0000000000000007 RSI: 000055bf5f4af3c0 RDI: 0000000000000001
+> RBP: 000055bf5f4af3c0 R08: 0000000000000073 R09: 0000000000000001
+> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000007
+> R13: 00007f26906325c0 R14: 00007f269062ff20 R15: 0000000000000000
+>  </TASK>
+> 
+> Fixes: f42c437acc55 ("leds: trigger: netdev: add additional specific link speed mode")
 
-I'll just refer to my reply here for completeness:
+Hi Heiner,
 
-	https://lore.kernel.org/all/ZWmn6uicNIqqSwoE@hovoldconsulting.com/
+The hash above doesn't seem to match what is upstream.
+Perhaps it should be:
 
-Johan
+Fixes: d5e01266e7f5 ("leds: trigger: netdev: add additional specific link speed mode")
+
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+
+...
 
