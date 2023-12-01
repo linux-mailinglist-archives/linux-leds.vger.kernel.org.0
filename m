@@ -1,292 +1,141 @@
-Return-Path: <linux-leds+bounces-219-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-220-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0031E8005FE
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 09:41:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64D080060C
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 09:42:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 311CC1C20F26
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 08:41:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 239761C20B96
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Dec 2023 08:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B331B269;
-	Fri,  1 Dec 2023 08:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EA2E1FDD;
+	Fri,  1 Dec 2023 08:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zbDVDPB6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2091.outbound.protection.outlook.com [40.107.215.91])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81F710D7;
-	Fri,  1 Dec 2023 00:41:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M1xpC1otytEVjta4RwrvYY/qje+gmHyPIeeiDhh5UVrOb4w2LDySmkJ7I9VQzdhyl86pwVZ5uuRyatqbIPhaEBU5nnCIqB38a0pWw/cD06MYbnhG8xOrWroNMK5dBs5UxqCxNzzzVFOfkMCkn1Fb/2j2cjTEQSs6yDXU46b1w3dKmkcVHIimlqfzn5l8cbe6S2rfwipAE0iHhO13YitGnOPHUxE+z5sIEL0fSdRzBF+XcCw143OynSd/qmqkTBzzv9AfWJzSDfxx6hlV2nQmTq5C8naCWtRmK/qjIF10SE3a4qNEHK55IKpGV9vrIFKSaVA8lf/JRktm6ZUbNTzTeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1xSt/vzukGAa7hvpbl7bJlDhgHdOU7un7BfiSScPBhw=;
- b=CrKm4LYchOgDNidWR0vyo9gX/Y10mOi8qryZJg8shSCpcINqRMxMbJxxeebP2xWxpMZErYBr7tWjIian+2WyvGxQsAwVMgWKZ3QoNHfNumVf1Pf3V+FpzMYkBV7jJuBg2mV8TWx67SWjCUetrhqVSHFNwO7MRIDv+bKQ2Ki5ybonuDhMepcpHfUEgGOupxk5GkxXpjP9rIowLKhWVTNDj6uyDCtG4G3+pysCDB5IMMFNQKj9hDWJ0RFj09o1yn3UxenX0wMORGl038eRtPRs9BB1wma7wKqRvozcDIHOVaOngEObL1o7v1pkgwq9qXNY/wILyGBoncJtRR5sDs7Suw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=yunjingtech.com; dmarc=pass action=none
- header.from=yunjingtech.com; dkim=pass header.d=yunjingtech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=yunjingtech.com;
-Received: from SEYPR06MB6507.apcprd06.prod.outlook.com (2603:1096:101:177::9)
- by PSAPR06MB4517.apcprd06.prod.outlook.com (2603:1096:301:8f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
- 2023 08:41:01 +0000
-Received: from SEYPR06MB6507.apcprd06.prod.outlook.com
- ([fe80::605a:d113:7ca9:8572]) by SEYPR06MB6507.apcprd06.prod.outlook.com
- ([fe80::605a:d113:7ca9:8572%4]) with mapi id 15.20.7046.024; Fri, 1 Dec 2023
- 08:41:01 +0000
-Message-ID: <e21cbadf-84a9-93b0-ea07-924c17df8eb4@yunjingtech.com>
-Date: Fri, 1 Dec 2023 16:40:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V7 2/3] pinctrl: Add support pin control for UP board
- CPLD/FPGA
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: lee@kernel.org, linus.walleij@linaro.org, pavel@ucw.cz,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-leds@vger.kernel.org, GaryWang@aaeon.com.tw, musa.lin@yunjingtech.com,
- jack.chang@yunjingtech.com, noah.hung@yunjingtech.com
-References: <20231031015119.29756-1-larry.lai@yunjingtech.com>
- <20231031015119.29756-3-larry.lai@yunjingtech.com>
- <ZVOBz8-tahhrVmO-@smile.fi.intel.com>
-From: larry <larry.lai@yunjingtech.com>
-In-Reply-To: <ZVOBz8-tahhrVmO-@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TY2PR06CA0018.apcprd06.prod.outlook.com
- (2603:1096:404:42::30) To SEYPR06MB6507.apcprd06.prod.outlook.com
- (2603:1096:101:177::9)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A11D172B
+	for <linux-leds@vger.kernel.org>; Fri,  1 Dec 2023 00:42:05 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54c67b0da54so54019a12.0
+        for <linux-leds@vger.kernel.org>; Fri, 01 Dec 2023 00:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701420124; x=1702024924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZSVSswBws5NQad4BeP725JivGBHJoVk2+TaOzDtUIxE=;
+        b=zbDVDPB6rjpZu93zGHBqBlkaKhwoEiaK9j5kck7vZyB9nO9dCTBMAWJOy3jdLEG8Tx
+         73hTzkhZpZ69PXKZZAK+ZE1RUWzjsYrryXzpwNkcK9pBQsz9oTDCbHOfqoAVwD0ROu5B
+         zN5pFYiw1Sfto1dqgVRqghNy/XkHhiVRoDRzTkBZCTT8eLl8A2QSjrqlk02CMLWSjH8S
+         wZpP79DgMvITiu/SYKhL0McZxKECjeRSoQBVBhMdXOgAJ5dY3v1wOezpzkJaIq+Rdr4K
+         saV+QZq7kYVJBbVOSJroERT3Ae/PTlggO8YOiC1HXsyYF9rxFVeLfxMvxMr2Sg8ZHoHx
+         /cMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701420124; x=1702024924;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZSVSswBws5NQad4BeP725JivGBHJoVk2+TaOzDtUIxE=;
+        b=m8iBwfTtZGzzWfL5bb8LJRUn3oneOcTVckbX1aT3PeMJsIX5Ozq+sQ8APRXBxXew94
+         D+Dr1igJQFYnIYcFQP9Ph6wZ3bAf7NUV7mb31fy9mvBb3JpVsng1mSRgAtxe2xG/xbYd
+         7sDeDHG8DN9/EJM8CID6P4IHZpWV6D+JbUZSquhnoDPyrPDNKAV3UzojEtenvCoBr806
+         S556nMb1icyxJ6dR9XbD4I1/Sc55MhhwfJ8HpG+b6O0gCcbAAGDsmkwMNUGyMkAnwXfD
+         GyPMNlDpM8WIE3N7W7XVbifJhyQNQSP1vgj1yuagWtkTTyVvQce3lgCZyoI1r42L1Sdq
+         Ymtw==
+X-Gm-Message-State: AOJu0Yws3QRQBEvakNvYyyDS1l0v9nNPvSAd+IS6rzYipUa5v+pV53B7
+	bC0jcpcVXV0MKYov3Kc0c9+qiA==
+X-Google-Smtp-Source: AGHT+IHsVFVjEUItxY5a0wWHwI6SFm/Kb03zk+UJLdgAjrDStIojCO75VJ2d+5/3NfA+bSS3aSZlAg==
+X-Received: by 2002:a50:9547:0:b0:54b:3a0:279f with SMTP id v7-20020a509547000000b0054b03a0279fmr429718eda.13.1701420124038;
+        Fri, 01 Dec 2023 00:42:04 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id bt15-20020a0564020a4f00b0054c63ebfa15sm135663edb.83.2023.12.01.00.42.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Dec 2023 00:42:03 -0800 (PST)
+Message-ID: <eddf541d-e505-457f-9363-f5e96885ee25@linaro.org>
+Date: Fri, 1 Dec 2023 09:42:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEYPR06MB6507:EE_|PSAPR06MB4517:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39ef334a-586b-47f8-522e-08dbf2493f24
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Nh+s/PFcARtG9IX/R3ZHVeVudOLpd9PqUiDMEfxGCOlH6F6itugE9M+O7yrE8e7Np0UgFi6WCj3GPzJjegopJTLw3DUsF4Y756z3WHl12IVrdyTEaFVShWEYLywNUQfyjMjLZZHzuaSgUFpwycqsbAcYOu309hxTStus+9gbDWl0h6b9/h99ORbmT0AwKGf4T43OGOyyvsqLWXO75UvSIFOAhP8sv3e1UmnHDsyOrhIESmCsBBhtsLNiJwZBMp14/NZiXnWFdjVDWwxW7sZf4SppzRMZksSOnsALaYcLqIRH9dJBVS/8qnOR2XwXlGjDFf862f7OuXAjZBY1D68dNY5aDVrTv6EyMBp/1UyNrcBQJpecCup5bKwPbQsDt4wIjAVKluB71Mc6Cs4mIFHD85sVWuHHQF6LE8cPmtvBItq0oIpIaaKJqOoERGkHAVsBjR14rmlKEtJZHx9XZv2PeZ3sPtCPm/NqntLH0NPa63oPBQA7q8l6DuAjTuYKHw4naa/fEQiM7jLetlkuLfG9aLpgVkjJLK2lN+Nc0f7+TDc1o0ziSV7762shopOtYh4xqCGefsLbI30zVmG+KyTWfKdZcQQjzKmBtlO3qxcquw9vBbFCSxpwZsh/GeiR+Obwj4KNqKAujdaGlVe0JOkK1A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6507.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39830400003)(396003)(376002)(136003)(346002)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(31686004)(5660300002)(86362001)(2906002)(6512007)(53546011)(83380400001)(38100700002)(6506007)(107886003)(6666004)(2616005)(26005)(478600001)(6486002)(36756003)(41300700001)(66476007)(66556008)(66946007)(4326008)(316002)(8676002)(6916009)(8936002)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eUZUajFzSk1HMEJCL2tKV3RtWHorZExFOTVMM0dUSGlqVjRNVGovdHFGbTZM?=
- =?utf-8?B?bXZ0QzA1QmpUREt6VXd1VmhMSnVrUXR2ckZYZXdQd3hCY2NybEVVbDFKZWJl?=
- =?utf-8?B?aDBVRmVzMCtqRS9adk9Fcys4ZFJaMVJuRGluZ0pma3llbnNKcGZIa3ZKb3Vk?=
- =?utf-8?B?SC9kWFZFSmxwQlNkTzdtWk92TkpydXRFd1Rra09zcVJCZ2RFanJISTdCc1BM?=
- =?utf-8?B?VkpGdDhXbjQ2RG5MM1RSdzRPeUE5OHg2Z1ZqMkNvM25UYXFSUDFsZkZ5VFVi?=
- =?utf-8?B?OUtlN1RnaGZJODljU1ZzeVROckJTMm95b3FoOEtnYTBVblpUUWtxNXRqaDQw?=
- =?utf-8?B?VmpyaVFucFNuemZ5UWZLNGllT09mVklyLzdOQ05tS08yaDBVWDV5UXNSaHEr?=
- =?utf-8?B?THk2NFVCOFUvcFB1d0lrZGN3Z1h2RjJIYTBaaHhLd2gvS05HbXZNUUFuRStq?=
- =?utf-8?B?NWZsSTQ5M3pEMW5MVWpYc2NuWjhvemVjTklSRDFFMzc0T0J0QzFVTGtUbUJH?=
- =?utf-8?B?STZkUWFsZHpTQ1Q5VDkvdUJTSGluUktlbkpud01jZzREQk5WK1ZnUkZSbXBo?=
- =?utf-8?B?OFlZUlBka3ROaGhBWlB2bU4wTFM2WUtic1FKZG9LTWtnekJEWXIxQWk0bDRU?=
- =?utf-8?B?QzZpR2JBUUx4d2JjcUlrOFVYTDdKalFrblFZMXpFVWJod1kyRlg5ZzVXNW16?=
- =?utf-8?B?b3EzQVB0ZTlJSlhoL3JoWEZqL3JWOEdWTU1tcytkMU5GbWRzcFgzNzlGMlln?=
- =?utf-8?B?UTYyTDJBYzN3REtLOWJYMDFqdTZTK2NiNlFQNjUzbGc0ZlZ3VE5DVm9kSFhr?=
- =?utf-8?B?S2FvNm1icHVSNFdGUGNDK1hUcHdJdEdJdE5Lc2ZwUmcrekxsV2d2TnhkWC9h?=
- =?utf-8?B?OEdEdGJGNFBJMkh3cFNWS0Zxdk5OMWVFZTE3LzZnZXM3VHJaNW1UYzhCcHNa?=
- =?utf-8?B?UG1jUUduaTlxOHFCcjI2S2VzK2VXYjFjWEd2YWhCTEw0OVpUeGlESW1WT2NV?=
- =?utf-8?B?MVlYMWxpUjNBMk9VTDN3c1F5V3M4T25UbVF2bVd1ckpxVjExWkpQQjJ0ZHo3?=
- =?utf-8?B?VTlMdmJ0bDBUTmhVbHE1dWJSemRtU2pWQVVEZ20zQWNCTTZaUDdGSHlLZzdQ?=
- =?utf-8?B?eXlpK0Q1cC9QY1VwQXlHdmQ0VUxUVDBscENLdzBHR0JGNlRjdmFnOTZXU1FJ?=
- =?utf-8?B?czFYeXZFUFVMV3h4WWlaRDI0VVZBdkRHaHdadlBlWFVsVy9qZ3RWUU1YWTZ4?=
- =?utf-8?B?eDZCM1NiOXZWaWV5dllDZXB1cTgzaVNtME1tQ1dSQTMycmxmTzNuUmVjVkl3?=
- =?utf-8?B?dW5SQ2FGcC8rb3ZxbHZKTWwyQXR4RjdNL2JUbDk2dmJVZHZ3alZXQUVycmZH?=
- =?utf-8?B?Y1h3dU1ncCtScVJzeFZIMEkyOUlPcjgxVktMeTMzTWFKVDk0TmpuNVFVd1lM?=
- =?utf-8?B?QllLM2tKMklucFVoVTgwenFiQm5xMEVKa09pUllVeXpHYmxPRm5ReEx6ZUVL?=
- =?utf-8?B?T05rQmpFWUFnOGkvWDlEcjAvOFUzeFpwcUxma2ZodTJobFZ5WVVIaGtpMGMr?=
- =?utf-8?B?Q3lYdHJvbXcyRWx1MUpmazV0SmVoYVd4dnE1M08wTnU4b1d3Q0pWNkpBZUtY?=
- =?utf-8?B?OE5pQlFmbnV1dzhWUkl1b1gwbGhkckpvUlJMZjc4REI3WGpOSkhlWjU5OVZ4?=
- =?utf-8?B?aHVhOFc4VU5BR0dSd0RHS2k4bWxHVnhxWWIxbFpiNmtsdHpSNHZlU3pnSHpr?=
- =?utf-8?B?QUtvL3AxeDVvckwrYkk1OFB2cmZIeWllQnBEbThJRkE3R3R0K3dyc2dITzBp?=
- =?utf-8?B?TUtWRVdSMzdXWFNweHo3aGNaYk9WUXluWUM2NXBVVmNYWmZndTQzbVFydWZB?=
- =?utf-8?B?WXBpQ3RoL0dPQ2FYdUtGSi9TOXV5d1ZHeDQrU0NNSkQxTjRvZkt3SjhyNU56?=
- =?utf-8?B?QnF6SnkxTXlQTVkzSXlpVnpNc1NMVkJNWDUvTEp4NmRJdVpDTzN5VzZ2RDRG?=
- =?utf-8?B?SmhmY09ieDkzSVFnN1Btdy9RNFpiUzNua04xQ09jbTJkcitPSG1MMTIwTWZH?=
- =?utf-8?B?VnViRWxiQTZQYzNRZEFqSS9Va0VVNzVGOE5YSmZxMW1QSDQrMFJ2a2Q2MCto?=
- =?utf-8?B?S3RUdzI2dWRBSEFWeGRzdmtiVllRaHA2V2NuSEMzSk9yOEFsMmJZN01xS1dU?=
- =?utf-8?B?U0E9PQ==?=
-X-OriginatorOrg: yunjingtech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39ef334a-586b-47f8-522e-08dbf2493f24
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6507.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 08:41:01.0385
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: be2d5505-f7e6-4600-bbe2-b3201c91b344
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zBsi9UUAJoXFqVJWasxS2EkszlFLswdKK03I7X3WKdAostyqdLyuGhfrvi1PKQ/CZyx/1wIzeq64yrY3jTKgPdVBupmookACc/QC6RwlM94=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4517
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: leds: qcom,spmi-flash-led: fix example node
+ name
+Content-Language: en-US
+To: Johan Hovold <johan+linaro@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>
+Cc: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, inux-arm-msm@vger.kernel.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231130171940.12391-1-johan+linaro@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231130171940.12391-1-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Andy,
-   Sorry, replied Gary's mail again for plain text format & mail client
-as Jones's suggestion.
+On 30/11/2023 18:19, Johan Hovold wrote:
+> The led controller is a child of an SPMI PMIC, which in turn sits on an
+> SPMI bus.
+> 
+> While at it, add some newline separators to improve readability.
+> 
+> Fixes: 1aeff6216891 ("dt-bindings: leds: Add QCOM flash LED controller")
 
-On 14/11/2023 22:18, Andy Shevchenko wrote:
-> On Tue, Oct 31, 2023 at 09:51:18AM +0800, larry.lai wrote:
->> The UP Squared board <http://www.upboard.com> implements certain
->> features (pin control) through an on-board FPGA.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Gary Wang <garywang@aaeon.com.tw>
->> Signed-off-by: larry.lai <larry.lai@yunjingtech.com>
-> 
-> Same comments as per previous patch.
-> 
-> ...
-> 
->> +	help
->> +	  Pin controller for the FPGA GPIO lines on UP boards. Due to the
->> +	  hardware layout, these are meant to be controlled in tandem with their
->> +	  corresponding Intel SoC GPIOs.
-> 
-> + blank line here.
-> 
->> +	  To compile this driver as a module, choose M here: the module
->> +	  will be called pinctrl-upboard.
-> 
-> ...
-> 
->> + * UP Board HAT pin controller driver
->> + * remapping native pin to RPI pin and set CPLD pin dir
-> 
-> Same comment to all the comments as per previous patch.
-> 
-> ...
-> 
-> + Missing bits.h, types.h and maybe others.
-> 
->> +#include <linux/dmi.h>
->> +#include <linux/gpio/consumer.h>
->> +#include <linux/gpio/driver.h>
-> 
->> +#include <linux/kernel.h>
-> 
-> array_size.h ?
+Nothing to fix here, just an example code.
 
-will remove.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> 
->> +#include <linux/mfd/upboard-fpga.h>
->> +#include <linux/module.h>
-> 
->> +#include <linux/pinctrl/pinctrl.h>
->> +#include <linux/pinctrl/pinmux.h>
-> 
-> Move this...
-> 
->> +#include <linux/platform_device.h>
->> +#include <linux/regmap.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/seq_file.h>
->> +#include <linux/string.h>
-> 
-> ...here to be a group of pinctrl headers.
-
-will do.
-
-> 
-> 
->> +#include "core.h"
-> 
-> ...
-> 
-> 
->> +#include "intel/pinctrl-intel.h"
-> 
-> I do not think it's correct use of the header.
-
-see below with pad regs define.
-
-> 
-> ...
-> 
->> +/* for older kernel lost DIRECTION_IN/OUT definition */
->> +#ifndef GPIO_LINE_DIRECTION_IN
->> +#define GPIO_LINE_DIRECTION_IN		1
->> +#define GPIO_LINE_DIRECTION_OUT		0
->> +#endif
-> 
-> Are you submitting this to older kernel here? No. Then why this?
-
-used in our dkms driver, will remove for upstream.
-
-> 
-> ...
-> 
->> +/* Offset from regs */
->> +#define REVID						0x000
->> +#define REVID_SHIFT					16
->> +#define REVID_MASK					GENMASK(31, 16)
->> +#define PADBAR						0x00c
->> +
->> +/* Offset from pad_regs */
->> +#define PADCFG0						0x000
->> +#define PADCFG0_RXEVCFG_SHIFT		25
->> +#define PADCFG0_RXEVCFG_MASK		GENMASK(26, 25)
->> +#define PADCFG0_RXEVCFG_LEVEL		0
->> +#define PADCFG0_RXEVCFG_EDGE		1
->> +#define PADCFG0_RXEVCFG_DISABLED	2
->> +#define PADCFG0_RXEVCFG_EDGE_BOTH	3
->> +#define PADCFG0_PREGFRXSEL			BIT(24)
->> +#define PADCFG0_RXINV				BIT(23)
->> +#define PADCFG0_GPIROUTIOXAPIC		BIT(20)
->> +#define PADCFG0_GPIROUTSCI			BIT(19)
->> +#define PADCFG0_GPIROUTSMI			BIT(18)
->> +#define PADCFG0_GPIROUTNMI			BIT(17)
->> +#define PADCFG0_PMODE_SHIFT			10
->> +#define PADCFG0_PMODE_MASK			GENMASK(13, 10)
->> +#define PADCFG0_PMODE_GPIO			0
->> +#define PADCFG0_GPIORXDIS			BIT(9)
->> +#define PADCFG0_GPIOTXDIS			BIT(8)
->> +#define PADCFG0_GPIORXSTATE			BIT(1)
->> +#define PADCFG0_GPIOTXSTATE			BIT(0)
->> +
->> +#define PADCFG1						0x004
->> +#define PADCFG1_TERM_UP				BIT(13)
->> +#define PADCFG1_TERM_SHIFT			10
->> +#define PADCFG1_TERM_MASK			GENMASK(12, 10)
->> +#define PADCFG1_TERM_20K			BIT(2)
->> +#define PADCFG1_TERM_5K				BIT(1)
->> +#define PADCFG1_TERM_1K				BIT(0)
->> +#define PADCFG1_TERM_833			(BIT(1) | BIT(0))
->> +
->> +#define PADCFG2						0x008
->> +#define PADCFG2_DEBEN				BIT(0)
->> +#define PADCFG2_DEBOUNCE_SHIFT		1
->> +#define PADCFG2_DEBOUNCE_MASK		GENMASK(4, 1)
->> +
->> +#define DEBOUNCE_PERIOD_NSEC		31250
->> +
->> +/* Additional features supported by the hardware */
->> +#define PINCTRL_FEATURE_DEBOUNCE	BIT(0)
->> +#define PINCTRL_FEATURE_1K_PD		BIT(1)
-> 
-> Huh?! No way it should be here in _any_ form!
-
-will remove, but we need set pad mode at runtime for HAP pins GPIO,
-it's not a good way but get register offset from intel_pinctrl structure
-can reduce data for each boards.
-
-> 
-> ...
-> 
-> I'm done with review as design wise this one is broken. Please, redesign and
-> reimplement. Also split this per platform addition (as suggested for MFD),
-> it will be easier to review.
-
-will try to modify as your suggestion.
-
->
-Best Regards,
-Larry
+Best regards,
+Krzysztof
 
 
