@@ -1,61 +1,61 @@
-Return-Path: <linux-leds+bounces-258-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-259-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2201A8054F5
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Dec 2023 13:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0AF805548
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Dec 2023 13:57:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 96BEF1F21589
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Dec 2023 12:42:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 643701F21446
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Dec 2023 12:57:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E824E5D90A;
-	Tue,  5 Dec 2023 12:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8725F5646F;
+	Tue,  5 Dec 2023 12:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1JUQybU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jme37nru"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF977D44;
-	Tue,  5 Dec 2023 04:40:35 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54c70c70952so4412276a12.3;
-        Tue, 05 Dec 2023 04:40:35 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF4CA0;
+	Tue,  5 Dec 2023 04:57:04 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a1a5772b8a5so447150466b.1;
+        Tue, 05 Dec 2023 04:57:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701780034; x=1702384834; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tBBRrMxXL4RD5AvxhRNeCwBU/hZq5fHcJUWfl6hJdPk=;
-        b=k1JUQybUpbRrMa8s9dgMI+eUIT2tCaQ0+Vthz/ymc6DtekrbqyN1QhvcpNQYuBqZdx
-         +H8jbSoHTHmRGyw89yRJoEmn4PA3jGWtIyILZu4L5yfYQYAcrNhnM7qBhW8ycz87l8Wn
-         B4xUmPf2dfX5yk1AH2/cE1QztfA3XFBjEN/WHRJzlM8nW+Q9eiV9Pdni4fAVBP4gj+Ca
-         Jk9/jZUfPVf+GPtSX37S/y3AkxoWvq0n1nVT1OZIN2Ti5N/ouAEL+MoxhteXtnj9RtXH
-         pm9Zo2cDixVDvVLZeGceSWmMB3Eepet78EniGFJZ+HT0n71jW+FPQ4i+x+XoqnU8qm2i
-         38Xg==
+        d=gmail.com; s=20230601; t=1701781023; x=1702385823; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=NaeA7VGskKYNAqgx+Ra1ez8twayn4+H5WNQTw6wh1Eo=;
+        b=jme37nrunDraO3yEwIBtO8m/+eA+FTQRUWpwaEpe6jwfEfFi68YezDEAvPVVDuLT44
+         2K+MNh5ibDF5I6V0lnujmFJ0x+v2RgAkQrsTzo6pynKLXKqDQbv/kwkF6RnxQEs6kZVl
+         TVwkadzl8I3mfOQf8cKFi6JwUvS6Bc4rVNk/xbkVaS451wVXPmGfaZwP1jUZYwHV4pIn
+         acEdlh7AFxV7kJZAKuExm8Ainw6AyZLIgTi4PoQm4DEZPUpT2A/51sYHvX/6jliYsI4c
+         f3GWnr4QgWVx04qJKTwAkfUzNChK+FbbvR6q7Uk4ObLYeWC9GTs6zhBVZPQ4fcBz1V+P
+         Vyog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701780034; x=1702384834;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tBBRrMxXL4RD5AvxhRNeCwBU/hZq5fHcJUWfl6hJdPk=;
-        b=W8RedNKv2k75xpDNu05jWGjocrYnKVv1MQgWBR8tX/RkfTQ9ubd0L7PVksTnrG1w8O
-         6emxegL5C6LgQ6U94FkPx1fwZZhFS9lEd8tH8Wbk8hr1XpO7JbofRLZTHfQU71exGNGs
-         b6xcBm60EHxd+6zaF8NoMy0/b5uhusTauC2jropPOiAajEj5csj28oaMNABkRsFBaxUm
-         x2DzH5MuRm782TmR+c/DtSht3MLNoPFnWnGugzsSLheOlnNCV1L1z6tKDqZYNolldzJM
-         hxGuc1sk/3+CtsTW9XemayjbSEXxdq6wjAs7bpNLOfPMhh6hOdT/TGiGexDAaN9GiQKv
-         +QTA==
-X-Gm-Message-State: AOJu0Yz2DSNLESarR9vBUOHUO0pF74BnHchw+ozLhhW4e27kLuJPDn4b
-	ObG/4yTncjEBskSEEuVxRMw=
-X-Google-Smtp-Source: AGHT+IGVBX689/WjI8S07OgaA+dpONjZ32KMHYNZoiIA0I6S6FQim8AbdObisuN1MTPRAJYRkXGFuw==
-X-Received: by 2002:a17:906:4:b0:a19:9b79:8b4b with SMTP id 4-20020a170906000400b00a199b798b4bmr277733eja.92.1701780034121;
-        Tue, 05 Dec 2023 04:40:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701781023; x=1702385823;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NaeA7VGskKYNAqgx+Ra1ez8twayn4+H5WNQTw6wh1Eo=;
+        b=oReQd8mgxE5v0E1Or31Mfe+BPrJtgEXlG2JN8pJnpnM3mzO0yMsIDx2hCqQKtcxCAI
+         w3YaaLHZ9dU7rmj3+mpsd3Eghq4tc/QClo2BI7nfEXK/cLETK+RAgzO1cu2bTMRqdwdB
+         RSp7rzjtj7Naz7M6q6rdYa9RtZQ72g+VhZk0ZgcK2dgR9hlXYB26obLYAM2ytIoHUi26
+         1TREQB7auO16E90d5Zy31joK6R7I1QMT/RVVCGuUDQWrB4mkyJS7aASzlKAx2Dbfludk
+         S00tBstlkLLwNzhsevzTuaeeDz+DOb3fACm5NA1ESmk12ZT7B4h8GtmzJvPb4SHZoKQ6
+         ijGA==
+X-Gm-Message-State: AOJu0YxeMnsDH84euAaAET0EceGB/B0+hmEA1LgNZAjUNtYmlKGTyqSc
+	X6E06mcKQsjM5E41iEHzJYk=
+X-Google-Smtp-Source: AGHT+IFzVFbtAQ7Nd/yS4iQtdd1OFimHypCRQHnKyqtQ7zX7f4adAeu1FTOs2INWNSBkBCOSto0Xow==
+X-Received: by 2002:a17:906:4c50:b0:a04:5464:f0bf with SMTP id d16-20020a1709064c5000b00a045464f0bfmr407252ejw.63.1701781022655;
+        Tue, 05 Dec 2023 04:57:02 -0800 (PST)
 Received: from ?IPV6:2a01:c22:72b7:c900:542f:a611:a8f5:339c? (dynamic-2a01-0c22-72b7-c900-542f-a611-a8f5-339c.c22.pool.telefonica.de. [2a01:c22:72b7:c900:542f:a611:a8f5:339c])
-        by smtp.googlemail.com with ESMTPSA id lo9-20020a170906fa0900b009fd0102f71asm6702420ejb.176.2023.12.05.04.40.33
+        by smtp.googlemail.com with ESMTPSA id a24-20020a1709064a5800b00a1ce98016besm298080ejv.224.2023.12.05.04.57.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 04:40:33 -0800 (PST)
-Message-ID: <9a8373c6-e916-4a98-858a-294e7bed9f24@gmail.com>
-Date: Tue, 5 Dec 2023 13:40:32 +0100
+        Tue, 05 Dec 2023 04:57:02 -0800 (PST)
+Message-ID: <d42dd05d-fc76-4040-aa15-8bbc4aa535f3@gmail.com>
+Date: Tue, 5 Dec 2023 13:57:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -65,6 +65,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] leds: trigger: netdev: skip setting baseline state in
  activate if hw-controlled
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
  Christian Marangi <ansuelsmth@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
@@ -76,8 +78,7 @@ References: <49f1b91e-a637-4062-83c6-f851f7c80628@gmail.com>
  <7535cb07-31ab-407d-9226-7b3f65050a65@lunn.ch>
  <c57558a4-9f3a-48fa-acb7-e3eb2349c666@gmail.com>
  <4c9396eb-f255-4277-8151-caa28c8ea0d3@lunn.ch>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
+ <9a8373c6-e916-4a98-858a-294e7bed9f24@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -121,64 +122,95 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <4c9396eb-f255-4277-8151-caa28c8ea0d3@lunn.ch>
+In-Reply-To: <9a8373c6-e916-4a98-858a-294e7bed9f24@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 05.12.2023 04:00, Andrew Lunn wrote:
->> Let's take a very simple use case: We have a one bit configuration to
->> switch a LED between link_100 and link_1000 hw trigger mode.
+On 05.12.2023 13:40, Heiner Kallweit wrote:
+> On 05.12.2023 04:00, Andrew Lunn wrote:
+>>> Let's take a very simple use case: We have a one bit configuration to
+>>> switch a LED between link_100 and link_1000 hw trigger mode.
+>>>
+>>> Then we have the atomicity issue you described: We can't go directly
+>>> from one hw-controlled mode to the other, we have to go via both
+>>> modes active or no mode active.
+>>>
+>>> And unfortunately we don't have the option to indicate this by some
+>>> optical LED activity like blinking, especially if the link is down
+>>> at the moment.
+>>>
+>>> Would be a pity if our nice framework can't support such a simple
+>>> use case. So, what I could imagine, we react based on the return code
+>>> from hw_control_is_supported():
+>>>
+>>> - 0: use hw control
+>>> - -EOPNOTSUPP: fall back to LED software control, no error returned to use
+>>> - -ENOTSUPP (another idea: ENOEXEC): store new mode in trigger_data->mode and return error to the user
+>>> - other errors: don't store new mode and return error to user
+>>>
+>>> Not fully intuitive and the subtle difference between EOPNOTSUPP and
+>>> ENOTSUPP may confuse driver authors adding device LED support.
 >>
->> Then we have the atomicity issue you described: We can't go directly
->> from one hw-controlled mode to the other, we have to go via both
->> modes active or no mode active.
+>> Using an NFS error code for LEDs will definitely confuse
+>> developers. This is not a network file system, where it is valid to
+>> use ENOTSUPP.
 >>
->> And unfortunately we don't have the option to indicate this by some
->> optical LED activity like blinking, especially if the link is down
->> at the moment.
+>> I actually think we need to define some best practices, ordered on
+>> what the hardware can do.
 >>
->> Would be a pity if our nice framework can't support such a simple
->> use case. So, what I could imagine, we react based on the return code
->> from hw_control_is_supported():
+>> 1) With software control, set_brightness should do what you expect,
+>> not return an error.
 >>
->> - 0: use hw control
->> - -EOPNOTSUPP: fall back to LED software control, no error returned to use
->> - -ENOTSUPP (another idea: ENOEXEC): store new mode in trigger_data->mode and return error to the user
->> - other errors: don't store new mode and return error to user
+>> 2) Without full software control, but there is a mechanism to report a
+>> problem, like constant blinking, or off, do that, and return
+>> -EOPNOTSUPP.
 >>
->> Not fully intuitive and the subtle difference between EOPNOTSUPP and
->> ENOTSUPP may confuse driver authors adding device LED support.
+>> 3) Really dumb hardware like this, set_brightness should be a NULL
+>> pointer. The core returns -EOPNOTSUPP.
+>>
+>> The core should return this -EOPNOTSUPP to user space, but it should
+>> accept the configuration change. So the user can put it into an
+>> invalid state, in order to get to a valid state with further
+>> configuration.
+>>
+> Sounds good to me. Let me come up with a RFC patch.
 > 
-> Using an NFS error code for LEDs will definitely confuse
-> developers. This is not a network file system, where it is valid to
-> use ENOTSUPP.
+>> I don't see an easy way to let the user know what the valid states
+>> are. We currently have a 10bit state. I don't think we can put all the
+>> valid ones in a /sysfs file, especially when QCA8K pretty much
+>> supports everything.
+>>
+>> 	 Andrew
 > 
-> I actually think we need to define some best practices, ordered on
-> what the hardware can do.
-> 
-> 1) With software control, set_brightness should do what you expect,
-> not return an error.
-> 
-> 2) Without full software control, but there is a mechanism to report a
-> problem, like constant blinking, or off, do that, and return
-> -EOPNOTSUPP.
-> 
-> 3) Really dumb hardware like this, set_brightness should be a NULL
-> pointer. The core returns -EOPNOTSUPP.
-> 
-> The core should return this -EOPNOTSUPP to user space, but it should
-> accept the configuration change. So the user can put it into an
-> invalid state, in order to get to a valid state with further
-> configuration.
-> 
-Sounds good to me. Let me come up with a RFC patch.
+> Heiner
 
-> I don't see an easy way to let the user know what the valid states
-> are. We currently have a 10bit state. I don't think we can put all the
-> valid ones in a /sysfs file, especially when QCA8K pretty much
-> supports everything.
-> 
-> 	 Andrew
+Patch is so simple that I send it this way. What do you think?
 
-Heiner
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index ec0395a6b..a24f3aade 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -310,6 +310,7 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
+ 				     size_t size, enum led_trigger_netdev_modes attr)
+ {
+ 	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
++	struct led_classdev *led_cdev = trigger_data->led_cdev;
+ 	unsigned long state, mode = trigger_data->mode;
+ 	int ret;
+ 	int bit;
+@@ -349,6 +350,10 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
+ 	trigger_data->mode = mode;
+ 	trigger_data->hw_control = can_hw_control(trigger_data);
+ 
++	if (!led_cdev->brightness_set && !led_cdev->brightness_set_blocking &&
++	    !trigger_data->hw_control)
++		return -EOPNOTSUPP;
++
+ 	set_baseline_state(trigger_data);
+ 
+ 	return size;
+-- 
+2.43.0
+
+
 
