@@ -1,51 +1,50 @@
-Return-Path: <linux-leds+bounces-271-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-272-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363EA8070F3
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 14:32:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2F4807122
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 14:47:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 687171C20AB4
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 13:32:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 491C8B20DC8
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 13:47:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81F239FDC;
-	Wed,  6 Dec 2023 13:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16D9C3A8D9;
+	Wed,  6 Dec 2023 13:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PP2wvEtX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jd4z+QBc"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8683118AFB;
-	Wed,  6 Dec 2023 13:32:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24687C433C7;
-	Wed,  6 Dec 2023 13:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F713A8C9;
+	Wed,  6 Dec 2023 13:47:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48689C433C7;
+	Wed,  6 Dec 2023 13:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701869559;
-	bh=87DeOzN+H+/ZblXZmRyco22+Ti8CYuCGBYv8nG8F4lE=;
+	s=k20201202; t=1701870444;
+	bh=pN7ek/mF4Oc2DQGrSxYppSDy2KSxkWe9q08aNujDOf0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PP2wvEtXRXqJcfTNN6HC/ncsZItCFqmirJK+fJzyVs3Dt6dh04Mu9BXTcnPNtUApH
-	 nfiq+ZgRFWZxx5jlZYEjNR6VzHdUs/iO3tfhY/fJ3XYyGX6NpVmAtNMtXwcWXJoTnx
-	 F/vyenqT4k80NZsqAbtCU1SZJgO3/lzvZkVrEYLi9X7KahVWZc5uxmBvEHoOF3AzYp
-	 Cg60xXENRqgEYNuZXqBTLokDFp05tNEZgvMZYOoeaFZju2ep3EU4CzCr2ZDhtV2hXS
-	 KYUHNQT1j4NUNO+0xMfAU+LR1Rn+ABAhUNrgL5UGz/oVO9Z+wGmFLPVBE2L1x29iKw
-	 ItEpA9y9aoKBA==
-Date: Wed, 6 Dec 2023 13:32:34 +0000
+	b=Jd4z+QBc8VWOIMuZ7yOWg1WhiF/HO0ejs5m34x9xAZGHeqT9sds1JobDii52CWUNF
+	 K/Uv1RajgOejBlAW/B/n4/jO8ubSb5yP4v8tvLWGiXWX/4FCw40OtqtWKOmEbs8m5m
+	 Ynzs+yYj2LMtjNmlgg64T7JL7rwhkh13fA1b3W5QASdTvD+biyWdLtpehhZJwMywxT
+	 oSpr5j2d/PdYOG2WYdYCJ5x/pD97Ox0/qGeeIsoOBGQ3yN3npZRL+VZbGJ5VfFC1q2
+	 TwdXoVgukkE1CRGIKVEraeXTg/zOpeuq58A/zW0R5K43QHbENJbH9JASGFzZ0crlx9
+	 bLUwMEcTwMd7g==
+Date: Wed, 6 Dec 2023 13:47:19 +0000
 From: Lee Jones <lee@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Heiner Kallweit <hkallweit1@gmail.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH v2] leds: trigger: netdev: fix RTNL handling to prevent
- potential deadlock
-Message-ID: <20231206133234.GD3375667@google.com>
-References: <fb5c8294-2a10-4bf5-8f10-3d2b77d2757e@gmail.com>
- <20231204144808.26083e8a@kernel.org>
+To: Florian Eckert <fe@dev.tdt.de>
+Cc: Eckert.Florian@googlemail.com, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, pavel@ucw.cz, kabel@kernel.org,
+	u.kleine-koenig@pengutronix.de, m.brock@vanmierlo.com,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [Patch v8 0/6] ledtrig-tty: add additional tty state evaluation
+Message-ID: <20231206134719.GF3375667@google.com>
+References: <20231109085038.371977-1-fe@dev.tdt.de>
+ <170142723852.3350831.6373465907279189004.b4-ty@kernel.org>
+ <8acd2694429af4f7205db7d7bb39eab6@dev.tdt.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -55,21 +54,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231204144808.26083e8a@kernel.org>
+In-Reply-To: <8acd2694429af4f7205db7d7bb39eab6@dev.tdt.de>
 
-On Mon, 04 Dec 2023, Jakub Kicinski wrote:
+On Fri, 01 Dec 2023, Florian Eckert wrote:
 
-> On Fri, 1 Dec 2023 11:23:22 +0100 Heiner Kallweit wrote:
-> > When working on LED support for r8169 I got the following lockdep
-> > warning. Easiest way to prevent this scenario seems to be to take
-> > the RTNL lock before the trigger_data lock in set_device_name().
 > 
-> Pavel/Lee, would you like to handle this patch?
-> Or should we ship it to Linus on Thu?
+> 
+> On 2023-12-01 11:40, Lee Jones wrote:
+> > On Thu, 09 Nov 2023 09:50:32 +0100, Florian Eckert wrote:
+> > > Changes in v8:
+> > > ==============
+> > > - As requested by greg k-h [6], I have send the patch 2/7 of this
+> > > series
+> > >   about the memory leak also to stable.vger.kernel.org [7]. This has
+> > >   already received a 'Reviewed-by' from Uwe [8].
+> > > - As requested by Maarten, I have adopted his suggestion to invert
+> > > the LED
+> > >   blink, so that I do not have to save the 'state' in the tty data
+> > >   struct [9].
+> > > 
+> > > [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [1/6] tty: add new helper function tty_get_tiocm
+> >       commit: 5d11a4709f552fa139c2439fead05daeb064a6f4
+> > [2/6] leds: ledtrig-tty: free allocated ttyname buffer on deactivate
+> >       (no commit info)
+> > [3/6] leds: ledtrig-tty: change logging if get icount failed
+> >       (no commit info)
+> > [4/6] leds: ledtrig-tty: replace mutex with completion
+> >       (no commit info)
+> > [5/6] leds: ledtrig-tty: make rx tx activitate configurable
+> >       (no commit info)
+> > [6/6] leds: ledtrig-tty: add additional line state evaluation
+> >       (no commit info)
+> 
+> I think that was a mistake? Patchset v9 is the correct patchset [1]?
+> 
+> Thanks for applying v9 [1]
 
-Go for it.
+It's automated.  Not sure what happened now.
 
-Acked-by: Lee Jones <lee@kernel.org>
+Please check to ensure the correct set was applied.
 
 -- 
 Lee Jones [李琼斯]
