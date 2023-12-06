@@ -1,224 +1,234 @@
-Return-Path: <linux-leds+bounces-285-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-286-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115D3807B66
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 23:37:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 932D3807C44
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 00:23:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3232E1C20C2A
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 22:37:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D72F281CF7
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 23:23:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 726971C29;
-	Wed,  6 Dec 2023 22:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5744A2E408;
+	Wed,  6 Dec 2023 23:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=csgroup.eu header.i=@csgroup.eu header.b="m+tJO8R8"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="gRFtb60t"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-pr2fra01on2054.outbound.protection.outlook.com [40.107.12.54])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 138F9D5F;
-	Wed,  6 Dec 2023 14:37:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LIogG91daGdOLCK1KJswdQCSfBgCyyCijQ0O1heej+wCI1WwGA7Ccj5oH1uHgjGB8Ko5O4IJw5DhSwEWKc28+VrPGdFDrnffG4a2LaGUVtKycpZm8QoizTNzNNcuKA0/ZZjNOiK8WLcFwViDvZD9PT2nhfOhtfSep1Tn+/0zWtWLenzuf5jY1QZNxyJ8NSx6CcQwE0Ru0ijBMPq+HDw6ck6/3WywcgU94/dbqjy7vaqB8GsaKBlC0lUJt6fJpD4O1WZrDX4ouOVVw8a+ItONPx0kGiNzuubTMqAjGKJWdvMgd9fqOlBKgwr2+zC833ipePrHhLTzfvKPAQ/7zkuTpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DEWXgPpd6uTN6DbRVMhsRVToCMM/WmoLaliNeI9OGBQ=;
- b=I+/G0dPc33yJKOfhAfU5WzXLJSn8sBZ11jj5tsdgEYzegM09R8lNf6YPWtWY/MY6aGZb71Nhd4qlTDSGi9eZtWP22T38zmywzsoe4JEo06VBQfbd0dTwRw7C7itslSAClqbSAyn9bf09noxXbpmvGdk9xYk16gqO2IRYNCFzabmidL/AwWqc1XDh1iFTIcj87bE0r39tWPfsNv6rBag01CUMNtMhqfRFNptSkFRokfe/qVcmpKsBDvoAD8jhFl2JfN6U3j9bAw38jnyinVa6Zp/kqUh6Cftn20rTpoawMw/gB8jgR7WS0uR4sNbQZfmbcrmqi1xpkf60w6+LaYXlqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
- dkim=pass header.d=csgroup.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEWXgPpd6uTN6DbRVMhsRVToCMM/WmoLaliNeI9OGBQ=;
- b=m+tJO8R8tvGXKoyi3y4lg6chWTIZ2/FKCKW3GEaYwtGDrvr3otLjGt6X5hkKIz9TuqKs64AAOGLur413bbGykBQMDU1v30ufWNidV8DOB19+u8JXLq+kpjbrXAJiHbSPp0eivCzG+YzIpMrUneyZ8JKlaKXnlC4nAYk5TSZrHn7iBxt4s45dND+Zsutzqkbdi6/Fgz/IrA3AhDOx7YRTPnfuyPenh9SL4+HHTQaygeP/GrZDdNA06wUS/9ZUMPkK26CZ23fu/8RBN/uTJWJVKDo44AVYNaNWXyIljdeDixiuW+Pe0XRPSrAMDqzofQh2KGmkx2jKcTHqyowEfvr4Iw==
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
- by PR0P264MB2186.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:16f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Wed, 6 Dec
- 2023 22:37:12 +0000
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::5bfe:e2f2:6d89:8d97]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::5bfe:e2f2:6d89:8d97%3]) with mapi id 15.20.7068.026; Wed, 6 Dec 2023
- 22:37:12 +0000
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: George Stark <gnstark@salutedevices.com>, Hans de Goede
-	<hdegoede@redhat.com>, "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org"
-	<lee@kernel.org>, "vadimp@nvidia.com" <vadimp@nvidia.com>,
-	"mpe@ellerman.id.au" <mpe@ellerman.id.au>, "npiggin@gmail.com"
-	<npiggin@gmail.com>, "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>, "jic23@kernel.org"
-	<jic23@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>, Waiman
- Long <longman@redhat.com>
-CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"kernel@salutedevices.com" <kernel@salutedevices.com>
-Subject: Re: [PATCH v2 01/10] devm-helpers: introduce devm_mutex_init
-Thread-Topic: [PATCH v2 01/10] devm-helpers: introduce devm_mutex_init
-Thread-Index: AQHaJty3lcbSNrP0Vk6nW4+1IjDYxbCcXFOAgABCTACAADawAIAABniA
-Date: Wed, 6 Dec 2023 22:37:11 +0000
-Message-ID: <be693688-2e82-4e1a-9ead-cf1513ee637b@csgroup.eu>
-References: <20231204180603.470421-1-gnstark@salutedevices.com>
- <20231204180603.470421-2-gnstark@salutedevices.com>
- <81798fe5-f89e-482f-b0d0-674ccbfc3666@redhat.com>
- <29584eb6-fa10-4ce0-9fa3-0c409a582445@salutedevices.com>
- <17a9fede-30e8-4cd5-ae02-fe34e11f5c20@csgroup.eu>
-In-Reply-To: <17a9fede-30e8-4cd5-ae02-fe34e11f5c20@csgroup.eu>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=csgroup.eu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MRZP264MB2988:EE_|PR0P264MB2186:EE_
-x-ms-office365-filtering-correlation-id: 8f19e864-4da7-4d84-92d2-08dbf6abe364
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- LpX5+0YF18xi2EFmPruFUKqBw4fEZ1fqVEo/hZGJuzdS33xHGgYZ4rJKVyjHxZnloTrvZEFUNcB8qKGSMhUS2UUm2l8JalMX8EOGsZKDsbFox8wnNak2TjHekk7S/LbBZQNQ6bn60Lr7D3UKYsy+BF56weagv0ge6FSurbKDEK3l5mawYkcy4RaszECsXUJ8gcU/+nshArnUMXXD4g8sGKBxvxQ7jxMgKS0hWz65E58P/hEpmLrBnDbDOfhMyuEPF/g/VoFF0jNktIHSbg9UWJxev+D9a0Zc9zd1BZZOtKEzJajI0xWovEtrWOFKJFTBjdGwpPirQwyl4/j82VjuwFAmYHdZzVrCPeOubRmJ8BWO2n+5A+ybiIZK773nXgtCbracegJ3F4jPbmHTRaJ6vHBWoEmguACsT9ZUXBDW3YgOI4WNl8XJifNRbw7saM0NWrIH+j4OKNGxAQZGocb9/Y0gKGQyIDZA98WBG6PaEmyAKsIrzdMUeYUJKltYJbdG3rK7KX25SgNAMiPgRQa7LeEwdIrjo/005YqsilkOOCmfiKiJ+kr8mGgRBABAPn4O3JpC+iT1l8aEL3ZdAwVviAN+qzIYE1M34CI/MPO0E0M36waWQ786jVlMN7kClz9vE/prx1oAeboYNhVwnCsd6RG3kUB9TFvncb4Mqu2xbFMigOcmhdqhfyVG1CQGLJpGLUSCy5fGT12g/Hk3jMbVyQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(396003)(366004)(136003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(316002)(66446008)(66556008)(64756008)(91956017)(76116006)(66476007)(66946007)(54906003)(110136005)(6506007)(53546011)(36756003)(6512007)(966005)(71200400001)(41300700001)(26005)(83380400001)(2616005)(6486002)(38070700009)(478600001)(921008)(86362001)(31696002)(122000001)(38100700002)(66574015)(44832011)(5660300002)(7416002)(31686004)(2906002)(8936002)(8676002)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?eW84NkZOckJzREZvRkpLbU1kNlZjYjVBRDFuc1I2eDVTQUlYclZLMWlIRVBm?=
- =?utf-8?B?WlFZVGQza0kvZDRVNW5TVW9GN1ovUWFERTVVeHZpWmE0ZUw5eHgrRUY5Q1cw?=
- =?utf-8?B?dGNSVnFiQ0VoOVZVdmkzZ1YvUnhPZC9jc2FBaWhMMzQrOGcvekdCUHZwbjlC?=
- =?utf-8?B?T1VGYTUxc0RqV0xIN1ZrQkRDbGcxSVNobDMyQi83RkNnYmp4Wnl5cG96djF6?=
- =?utf-8?B?WEpzWmhzUFBsU29zcmdhYk12dURaWlJjN3ZSTVdMdTVVYjU2bDlPa0ZCRkFo?=
- =?utf-8?B?elB0VHIxSGFoMXlOVUxOYzNYWkg3Y0hJcFphR0RaYlJYZDI2akQwVnRUZmtI?=
- =?utf-8?B?SWFPWVFOMzhOajRrM2c5Z1hBbk1CbksvUUI2TW40TjdQT0Q0VGJmdUZBbmQ3?=
- =?utf-8?B?am9NYlk2Z09YbUdQNHFyNnhmMGMyRUtWYWpyVU1CMFd1UG1jQXZRRnRzbXhn?=
- =?utf-8?B?UFFrSjExTVIvYkpGandtNitBTEV5bktmMzYwdzJzQ09zUkNONG5ZcXo3eFBX?=
- =?utf-8?B?UVBBek9RU2RYS3E0NDhib2cvVDNaL3V4QzBBZnJ5N1dKTWVFaEtyLzhuMkdL?=
- =?utf-8?B?RklMVDN3eC9EMm1rdFZENzdBNjljWURhTFBNa0VLMGJKbTd2V0NaaldoWFZX?=
- =?utf-8?B?aFZ2UFJ1ODY0aS9URThPZFpoMUxrYXZ4S0NsWko0b1c0YTdyd2FVaXBlVUFW?=
- =?utf-8?B?NHdPem84blljcStxREtNb1FCa1VNOXZFakczR085ZFNtcUdHci9WNm5ZOUVN?=
- =?utf-8?B?RUZ4b3Zlcnc3NURVU2JGUXd0aHllK2JSTnBWdnp4cld4UTV4NjY2TFRKTEYr?=
- =?utf-8?B?Q1ZWTDY5TklvVmNLV3I1K3NZa0p5Q1hlRkVhd1piZStiR2VRZVhENmJjQ3Bq?=
- =?utf-8?B?SGo4cDYrOFJiSjgzdFdyVm13SXoxUFRvcVJEdlo1V0FPd1VwamRzZnFuaDF3?=
- =?utf-8?B?d3lHbi9jTi9PazZBQjh5TzdsYVJCY1BQOEpRd0o0V0tzemo4aVhML2JRZzhJ?=
- =?utf-8?B?UVZld2NSNFI2SXlDVGJ1UjhzM1A3NC9uRFBLZnhrbksxbkFBVTZlY2RLL29i?=
- =?utf-8?B?RnFSVlBTTHhZOHpIVkt0dnRCVE1RK09SVHhCRHZuNHM0TVJjQUVTTnFxVzVN?=
- =?utf-8?B?UmZYWU5zRFA2U1JSdXAyek1yZFZrUjBzR3ZqakNiRVp0RDhDMVhLV1pMemVN?=
- =?utf-8?B?K3NqbUNaTlNremlDWTRUVGppUmtBZ0dudE9veVhKenV5WDhieFpRa3lUMVRz?=
- =?utf-8?B?WVBUc3JrNm9NUGVISGF2a2ZwbVlnNTVRaUpQOXUrOTQ3eTZpc0ZWZUoyZkN2?=
- =?utf-8?B?NjRBWVVSUWRTVlQ1UUo4dThZLyt5ejBvVmQ0bUd5TnBmaC9wQ1doQ1AzL3ly?=
- =?utf-8?B?Zkc4SmY2S1ZXV3habmJtK3NXSmJTdVora24xZ3pEZzJLMjFLd1R5YWc4M1VO?=
- =?utf-8?B?TERvdGlyMCt3SmVqVDc3R0o4ZVdZcFlWREw4UjN3RFV0N1AzZ21teTljSjls?=
- =?utf-8?B?dnNaakhHdFMxWFMycFVZWHowQjFka3JpOTlFSElLaUF5cm04YnRYSnpISUdM?=
- =?utf-8?B?clllWXVuMXpIUVlzdnEwUHZJRjkxeXZPR0hSRTBYSEY2ZVBHQjFWOUMvaUhG?=
- =?utf-8?B?SjRsaVlldVJPREx3ZFhnTjJrUk1lTnhCNUJXSldJZkRqUENqZ2xabVZVYmMx?=
- =?utf-8?B?bTNPN0NtSVQvSlJjWkZKMFI5L3dwd1dLcU4xazY4RTZnanBzUkdXSE02bWVy?=
- =?utf-8?B?ZmdqUW5QUDc1bXE2Y0ZNUEd6NTBmblI0UkNuYkZha01XeGlxOHhwSDBQYzl2?=
- =?utf-8?B?Z2dvQUFjQnRSNmE5MHFrdGYrSmEvUjZWMTFOakdiem9ZVzB1Q3A2UmFGdmgx?=
- =?utf-8?B?Q2laOUdzcFZXMC9FT0ZkT0ZnUUtHeWcvT1J1b0g4ejZ6WWxRSFVteFVVbWU4?=
- =?utf-8?B?c0haem4wb2dxcmp4VXc5L3ZlaDFsSU1rQVpuZDNscWpTM3RyQXZXclIyeS9k?=
- =?utf-8?B?TUd0b3ppdDNBOE1ZZXRtRzlhcHpPdUpuNm5Lck9TN0l2MTRoaU0wWEdMaGhj?=
- =?utf-8?B?UHRja1JZanpid0x0ZEx6ejRaa2hVKzdTVkU2RkJJVjQxSDYyTmFvQlVxcTNj?=
- =?utf-8?Q?EEcS2d1q0mf1/O2kHojPMDtS9?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <232627A4D1036D48B5FFC21658A93919@FRAP264.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CAACA5;
+	Wed,  6 Dec 2023 15:23:40 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id DAF13120066;
+	Thu,  7 Dec 2023 02:23:38 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru DAF13120066
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1701905018;
+	bh=yvF2SZwmurJWRx5PI01s22bdGazI+Cl9Ods81mAJ+cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=gRFtb60t5bsL5nvUky8BoCH+URQtFtrtYW/Wx1T80+tkZhCOdJ4PWWiFk8Ja7ZMDv
+	 wGdCVbSxfAL8Qoem68bGTgMOQLZWB8QF0QXwozT3TddTC96o/itKlSQxN4hk0/YcoW
+	 pkX9yN1JZt1ci7HdPZvLELlacccYz9I9R2BotZmyJmsWQdOC+YCt0gOyk+HepuZNu6
+	 VQh42UrK0kncteKF48yFVl5UFHcjM4zF7hERW9Xdylfk0gKWHaqGinKpuNoNKKaty9
+	 FChNOsslIfmvTTW5k8LJE3OpDXYx3/H47PpScKMg+Wg+Yo6eCI6dmQ3Pues281iJj3
+	 lH+Xtg4rCUFcQ==
+Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Thu,  7 Dec 2023 02:23:38 +0300 (MSK)
+Received: from [192.168.1.127] (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 7 Dec 2023 02:23:38 +0300
+Message-ID: <2a68534b-9e64-4d6e-8a49-eeab0889841b@salutedevices.com>
+Date: Thu, 7 Dec 2023 02:24:03 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: csgroup.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f19e864-4da7-4d84-92d2-08dbf6abe364
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2023 22:37:11.7767
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C4IH5rPX1LSGGY8xF78KsaERCv30gwc8oceAvKhyNDj1ybFRezRs2mE3BdRhkxVVv+c4X9ikCT+hwOO6XIL5mBfGXwI0w86Zuoj/SDiAgS0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR0P264MB2186
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/10] devm-helpers: introduce devm_mutex_init
+Content-Language: en-US
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, Hans de Goede
+	<hdegoede@redhat.com>, "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org"
+	<lee@kernel.org>, "vadimp@nvidia.com" <vadimp@nvidia.com>,
+	"mpe@ellerman.id.au" <mpe@ellerman.id.au>, "npiggin@gmail.com"
+	<npiggin@gmail.com>, "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>, "jic23@kernel.org"
+	<jic23@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>, Waiman
+ Long <longman@redhat.com>, <mingo@redhat.com>, <will@kernel.org>,
+	<boqun.feng@gmail.com>
+CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"kernel@salutedevices.com" <kernel@salutedevices.com>
+References: <20231204180603.470421-1-gnstark@salutedevices.com>
+ <20231204180603.470421-2-gnstark@salutedevices.com>
+ <81798fe5-f89e-482f-b0d0-674ccbfc3666@redhat.com>
+ <29584eb6-fa10-4ce0-9fa3-0c409a582445@salutedevices.com>
+ <17a9fede-30e8-4cd5-ae02-fe34e11f5c20@csgroup.eu>
+ <be693688-2e82-4e1a-9ead-cf1513ee637b@csgroup.eu>
+From: George Stark <gnstark@salutedevices.com>
+In-Reply-To: <be693688-2e82-4e1a-9ead-cf1513ee637b@csgroup.eu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 181917 [Dec 06 2023]
+X-KSMG-AntiSpam-Version: 6.0.0.2
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, aka.ms:7.1.1;lore.kernel.org:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2023/12/06 22:45:00
+X-KSMG-LinksScanning: Clean, bases: 2023/12/06 22:45:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/12/06 20:57:00 #22623256
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-DQoNCkxlIDA2LzEyLzIwMjMgw6AgMjM6MTQsIENocmlzdG9waGUgTGVyb3kgYSDDqWNyaXTCoDoN
-Cj4gDQo+IA0KPiBMZSAwNi8xMi8yMDIzIMOgIDE5OjU4LCBHZW9yZ2UgU3RhcmsgYSDDqWNyaXTC
-oDoNCj4+IFtWb3VzIG5lIHJlY2V2ZXogcGFzIHNvdXZlbnQgZGUgY291cnJpZXJzIGRlIA0KPj4g
-Z25zdGFya0BzYWx1dGVkZXZpY2VzLmNvbS4gRMOpY291dnJleiBwb3VycXVvaSBjZWNpIGVzdCBp
-bXBvcnRhbnQgw6AgDQo+PiBodHRwczovL2FrYS5tcy9MZWFybkFib3V0U2VuZGVySWRlbnRpZmlj
-YXRpb24gXQ0KPj4NCj4+IEhlbGxvIEhhbnMNCj4+DQo+PiBUaGFua3MgZm9yIHRoZSByZXZpZXcu
-DQo+Pg0KPj4gT24gMTIvNi8yMyAxODowMSwgSGFucyBkZSBHb2VkZSB3cm90ZToNCj4+PiBIaSBH
-ZW9yZ2UsDQo+Pj4NCj4+PiBPbiAxMi80LzIzIDE5OjA1LCBHZW9yZ2UgU3Rhcmsgd3JvdGU6DQo+
-Pj4+IFVzaW5nIG9mIGRldm0gQVBJIGxlYWRzIHRvIGNlcnRhaW4gb3JkZXIgb2YgcmVsZWFzaW5n
-IHJlc291cmNlcy4NCj4+Pj4gU28gYWxsIGRlcGVuZGVudCByZXNvdXJjZXMgd2hpY2ggYXJlIG5v
-dCBkZXZtLXdyYXBwZWQgc2hvdWxkIGJlIGRlbGV0ZWQNCj4+Pj4gd2l0aCByZXNwZWN0IHRvIGRl
-dm0tcmVsZWFzZSBvcmRlci4gTXV0ZXggaXMgb25lIG9mIHN1Y2ggb2JqZWN0cyB0aGF0DQo+Pj4+
-IG9mdGVuIGlzIGJvdW5kIHRvIG90aGVyIHJlc291cmNlcyBhbmQgaGFzIG5vIG93biBkZXZtIHdy
-YXBwaW5nLg0KPj4+PiBTaW5jZSBtdXRleF9kZXN0cm95KCkgYWN0dWFsbHkgZG9lcyBub3RoaW5n
-IGluIG5vbi1kZWJ1ZyBidWlsZHMNCj4+Pj4gZnJlcXVlbnRseSBjYWxsaW5nIG11dGV4X2Rlc3Ry
-b3koKSBpcyBqdXN0IGlnbm9yZWQgd2hpY2ggaXMgc2FmZSBmb3IgDQo+Pj4+IG5vdw0KPj4+PiBi
-dXQgd3JvbmcgZm9ybWFsbHkgYW5kIGNhbiBsZWFkIHRvIGEgcHJvYmxlbSBpZiBtdXRleF9kZXN0
-cm95KCkgaXMNCj4+Pj4gZXh0ZW5kZWQgc28gaW50cm9kdWNlIGRldm1fbXV0ZXhfaW5pdCgpLg0K
-Pj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBHZW9yZ2UgU3RhcmsgPGduc3RhcmtAc2FsdXRlZGV2
-aWNlcy5jb20+DQo+Pj4+IC0tLQ0KPj4+PiDCoCBpbmNsdWRlL2xpbnV4L2Rldm0taGVscGVycy5o
-IHwgMTggKysrKysrKysrKysrKysrKysrDQo+Pj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNl
-cnRpb25zKCspDQo+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2Rldm0taGVs
-cGVycy5oIA0KPj4+PiBiL2luY2x1ZGUvbGludXgvZGV2bS1oZWxwZXJzLmgNCj4+Pj4gaW5kZXgg
-NzQ4OTE4MDIyMDBkLi4yZjU2ZTQ3Njc3NmYgMTAwNjQ0DQo+Pj4+IC0tLSBhL2luY2x1ZGUvbGlu
-dXgvZGV2bS1oZWxwZXJzLmgNCj4+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9kZXZtLWhlbHBlcnMu
-aA0KPj4+PiBAQCAtNzYsNCArNzYsMjIgQEAgc3RhdGljIGlubGluZSBpbnQgZGV2bV93b3JrX2F1
-dG9jYW5jZWwoc3RydWN0IA0KPj4+PiBkZXZpY2UgKmRldiwNCj4+Pj4gwqDCoMKgwqAgcmV0dXJu
-IGRldm1fYWRkX2FjdGlvbihkZXYsIGRldm1fd29ya19kcm9wLCB3KTsNCj4+Pj4gwqAgfQ0KPj4+
-Pg0KPj4+PiArc3RhdGljIGlubGluZSB2b2lkIGRldm1fbXV0ZXhfcmVsZWFzZSh2b2lkICpyZXMp
-DQo+Pj4+ICt7DQo+Pj4+ICvCoMKgwqAgbXV0ZXhfZGVzdHJveShyZXMpOw0KPj4+PiArfQ0KPj4+
-PiArDQo+Pj4+ICsvKioNCj4+Pj4gKyAqIGRldm1fbXV0ZXhfaW5pdCAtIFJlc291cmNlLW1hbmFn
-ZWQgbXV0ZXggaW5pdGlhbGl6YXRpb24NCj4+Pj4gKyAqIEBkZXY6wqDCoMKgIERldmljZSB3aGlj
-aCBsaWZldGltZSB3b3JrIGlzIGJvdW5kIHRvDQo+Pj4+ICsgKiBAbG9jazrCoMKgIFBvaW50ZXIg
-dG8gYSBtdXRleA0KPj4+PiArICoNCj4+Pj4gKyAqIEluaXRpYWxpemUgbXV0ZXggd2hpY2ggaXMg
-YXV0b21hdGljYWxseSBkZXN0cm95ZWQgd2hlbiBkcml2ZXIgaXMgDQo+Pj4+IGRldGFjaGVkLg0K
-Pj4+PiArICovDQo+Pj4+ICtzdGF0aWMgaW5saW5lIGludCBkZXZtX211dGV4X2luaXQoc3RydWN0
-IGRldmljZSAqZGV2LCBzdHJ1Y3QgbXV0ZXggDQo+Pj4+ICpsb2NrKQ0KPj4+PiArew0KPj4+PiAr
-wqDCoMKgIG11dGV4X2luaXQobG9jayk7DQo+Pj4+ICvCoMKgwqAgcmV0dXJuIGRldm1fYWRkX2Fj
-dGlvbl9vcl9yZXNldChkZXYsIGRldm1fbXV0ZXhfcmVsZWFzZSwgbG9jayk7DQo+Pj4+ICt9DQo+
-Pj4+ICsNCj4+Pj4gwqAgI2VuZGlmDQo+Pj4NCj4+PiBtdXRleF9kZXN0cm95KCkgb25seSBhY3R1
-YWxseSBkb2VzIGFueXRoaW5nIGlmIENPTkZJR19ERUJVR19NVVRFWEVTDQo+Pj4gaXMgc2V0LCBv
-dGhlcndpc2UgaXQgaXMgYW4gZW1wdHkgaW5saW5lLXN0dWIuDQo+Pj4NCj4+PiBBZGRpbmcgYSBk
-ZXZyZXMgcmVzb3VyY2UgdG8gdGhlIGRldmljZSBqdXN0IHRvIGNhbGwgYW4gZW1wdHkgaW5saW5l
-DQo+Pj4gc3R1YiB3aGljaCBpcyBhIG5vLW9wIHNlZW1zIGxpa2UgYSB3YXN0ZSBvZiByZXNvdXJj
-ZXMuIElNSE8gaXQNCj4+PiB3b3VsZCBiZSBiZXR0ZXIgdG8gY2hhbmdlIHRoaXMgdG86DQo+Pj4N
-Cj4+PiBzdGF0aWMgaW5saW5lIGludCBkZXZtX211dGV4X2luaXQoc3RydWN0IGRldmljZSAqZGV2
-LCBzdHJ1Y3QgbXV0ZXggDQo+Pj4gKmxvY2spDQo+Pj4gew0KPj4+IMKgwqDCoMKgwqAgbXV0ZXhf
-aW5pdChsb2NrKTsNCj4+PiAjaWZkZWYgQ09ORklHX0RFQlVHX01VVEVYRVMNCj4+PiDCoMKgwqDC
-oMKgIHJldHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBkZXZtX211dGV4X3JlbGVh
-c2UsIGxvY2spOw0KPj4+ICNlbHNlDQo+Pj4gwqDCoMKgwqDCoCByZXR1cm4gMDsNCj4+PiAjZW5k
-aWYNCj4+PiB9DQo+Pj4NCj4+PiBUbyBhdm9pZCB0aGUgdW5uZWNlc3NhcnkgZGV2cmVzIGFsbG9j
-YXRpb24gd2hlbg0KPj4+IENPTkZJR19ERUJVR19NVVRFWEVTIGlzIG5vdCBzZXQuDQo+Pg0KPj4g
-SG9uZXN0bHkgc2F5aW5nIEkgZG9uJ3QgbGlrZSB1bm5lY2Vzc2FyeSBkZXZyZXMgYWxsb2NhdGlv
-biBlaXRoZXIgYnV0DQo+PiB0aGUgcHJvcG9zZWQgYXBwcm9hY2ggaGFzIGl0cyBvd24gcHJpY2U6
-DQo+Pg0KPj4gMSkgd2UnbGwgaGF2ZSBtb3JlIHRoYW4gb25lIHBsYWNlIHdpdGggYnJhbmNoaW5n
-IGlmIG11dGV4X2Rlc3Ryb3kgaXMNCj4+IGVtcHR5IG9yIG5vdCB1c2luZ8KgIGluZGlyZWN0IGNv
-bmRpdGlvbi4gSWYgc3VkZGVubHkgbXV0ZXhfZGVzdHJveSBpcw0KPj4gZXh0ZW5kZWQgZm9yIG5v
-bi1kZWJ1ZyBjb2RlIChpbiB1cHN0cmVhbSBicmFuY2ggb3IgZS5nLiBieSBzb21lb25lIGZvcg0K
-Pj4gbG9jYWwgZGVidWcpIHRoYW4gdGhlcmUnbGwgYmUgYSBwcm9ibGVtLg0KPj4NCj4+IDIpIElm
-IG11dGV4X2Rlc3Ryb3kgaXMgZW1wdHkgb3Igbm90IGRlcGVuZHMgb24gQ09ORklHX1BSRUVNUFRf
-UlQgb3B0aW9uDQo+PiB0b28uIFdoZW4gQ09ORklHX1BSRUVNUFRfUlQgaXMgb24gbXV0ZXhfZGVz
-dHJveSBpcyBhbHdheXMgZW1wdHkuDQo+Pg0KPj4gQXMgSSBzZWUgaXQgb25seSB0aGUgbXV0ZXgg
-aW50ZXJmYWNlIChtdXRleC5oKSBoYXMgdG8gc2F5IGRlZmluaXRlbHkgaWYNCj4+IG11dGV4X2Rl
-c3Ryb3kgbXVzdCBiZSBjYWxsZWQuIFByb2JhYmx5IHdlIGNvdWxkIGFkZCBzb21lIGRlZmluZSB0
-bw0KPj4gaW5jbHVkZS9saW51eC9tdXRleC5oLGxpa2UgSVNfTVVURVhfREVTVFJPWV9SRVFVSVJF
-RCBhbmQgZGVjbGFyZSBpdCBuZWFyDQo+PiBtdXRleF9kZXN0cm95IGRlZmluaXRpb24gaXRzZWxm
-Lg0KPj4NCj4+IEkgdHJpZWQgdG8gcHV0IGRldm1fbXV0ZXhfaW5pdCBpdHNlbGYgaW4gbXV0ZXgu
-aCBhbmQgaXQgY291bGQndmUgaGVscGVkDQo+PiB0b28gYnV0IGl0J3Mgbm90IHRoZSBwbGFjZSBm
-b3IgZGV2bSBBUEkuDQo+Pg0KPiANCj4gV2hhdCBkbyB5b3UgbWVhbiBieSAiaXQncyBub3QgdGhl
-IHBsYWNlIGZvciBkZXZtIEFQSSIgPw0KPiANCj4gSWYgeW91IGRvIGEgJ2dyZXAgZGV2bV8gaW5j
-bHVkZS9saW51eC8nIHlvdSdsbCBmaW5kIGRldm1fIGZ1bmN0aW9ucyBpbiANCj4gYWxtb3N0IDEw
-MCAuaCBmaWxlcy4gV2h5IHdvdWxkbid0IG11dGV4LmggYmUgdGhlIHBsYWNlIGZvciANCj4gZGV2
-bV9tdXRleF9pbml0KCkgPw0KDQpMb29raW5nIGF0IGl0IGNsb3NlciwgSSBoYXZlIHRoZSBmZWVs
-aW5nIHRoYXQgeW91IHdhbnQgdG8gZG8gc2ltaWxhciB0byANCmRldm1fZ3Bpb19yZXF1ZXN0KCkg
-aW4gbGludXgvZ3Bpby5oIDoNCg0KSW4gbGludXgvbXV0ZXguaCwgYWRkIGEgcHJvdG90eXBlIGZv
-ciBkZXZtX211dGV4X2luaXQoKSB3aGVuIA0KQ09ORklHX0RFQlVHX01VVEVYRVMgaXMgZGVmaW5l
-ZCBhbmQgYW4gZW1wdHkgc3RhdGljIGlubGluZSBvdGhlcndpc2UuDQpUaGVuIGRlZmluZSBkZXZt
-X211dGV4X2luaXQoKSBpbiBrZXJuZWwvbG9ja2luZy9tdXRleC1kZWJ1Zy5jDQoNCldvdWxkbid0
-IHRoYXQgd29yayA/DQoNCkNocmlzdG9waGUNCg==
+Hello Christophe
+
+On 12/7/23 01:37, Christophe Leroy wrote:
+> 
+> 
+> Le 06/12/2023 à 23:14, Christophe Leroy a écrit :
+>>
+>>
+>> Le 06/12/2023 à 19:58, George Stark a écrit :
+>>> [Vous ne recevez pas souvent de courriers de
+>>> gnstark@salutedevices.com. Découvrez pourquoi ceci est important à
+>>> https://aka.ms/LearnAboutSenderIdentification ]
+>>>
+>>> Hello Hans
+>>>
+>>> Thanks for the review.
+>>>
+>>> On 12/6/23 18:01, Hans de Goede wrote:
+>>>> Hi George,
+>>>>
+>>>> On 12/4/23 19:05, George Stark wrote:
+>>>>> Using of devm API leads to certain order of releasing resources.
+>>>>> So all dependent resources which are not devm-wrapped should be deleted
+>>>>> with respect to devm-release order. Mutex is one of such objects that
+>>>>> often is bound to other resources and has no own devm wrapping.
+>>>>> Since mutex_destroy() actually does nothing in non-debug builds
+>>>>> frequently calling mutex_destroy() is just ignored which is safe for
+>>>>> now
+>>>>> but wrong formally and can lead to a problem if mutex_destroy() is
+>>>>> extended so introduce devm_mutex_init().
+>>>>>
+>>>>> Signed-off-by: George Stark <gnstark@salutedevices.com>
+>>>>> ---
+>>>>>    include/linux/devm-helpers.h | 18 ++++++++++++++++++
+>>>>>    1 file changed, 18 insertions(+)
+>>>>>
+>>>>> diff --git a/include/linux/devm-helpers.h
+>>>>> b/include/linux/devm-helpers.h
+>>>>> index 74891802200d..2f56e476776f 100644
+>>>>> --- a/include/linux/devm-helpers.h
+>>>>> +++ b/include/linux/devm-helpers.h
+>>>>> @@ -76,4 +76,22 @@ static inline int devm_work_autocancel(struct
+>>>>> device *dev,
+>>>>>       return devm_add_action(dev, devm_work_drop, w);
+>>>>>    }
+>>>>>
+>>>>> +static inline void devm_mutex_release(void *res)
+>>>>> +{
+>>>>> +    mutex_destroy(res);
+>>>>> +}
+>>>>> +
+>>>>> +/**
+>>>>> + * devm_mutex_init - Resource-managed mutex initialization
+>>>>> + * @dev:    Device which lifetime work is bound to
+>>>>> + * @lock:   Pointer to a mutex
+>>>>> + *
+>>>>> + * Initialize mutex which is automatically destroyed when driver is
+>>>>> detached.
+>>>>> + */
+>>>>> +static inline int devm_mutex_init(struct device *dev, struct mutex
+>>>>> *lock)
+>>>>> +{
+>>>>> +    mutex_init(lock);
+>>>>> +    return devm_add_action_or_reset(dev, devm_mutex_release, lock);
+>>>>> +}
+>>>>> +
+>>>>>    #endif
+>>>>
+>>>> mutex_destroy() only actually does anything if CONFIG_DEBUG_MUTEXES
+>>>> is set, otherwise it is an empty inline-stub.
+>>>>
+>>>> Adding a devres resource to the device just to call an empty inline
+>>>> stub which is a no-op seems like a waste of resources. IMHO it
+>>>> would be better to change this to:
+>>>>
+>>>> static inline int devm_mutex_init(struct device *dev, struct mutex
+>>>> *lock)
+>>>> {
+>>>>        mutex_init(lock);
+>>>> #ifdef CONFIG_DEBUG_MUTEXES
+>>>>        return devm_add_action_or_reset(dev, devm_mutex_release, lock);
+>>>> #else
+>>>>        return 0;
+>>>> #endif
+>>>> }
+>>>>
+>>>> To avoid the unnecessary devres allocation when
+>>>> CONFIG_DEBUG_MUTEXES is not set.
+>>>
+>>> Honestly saying I don't like unnecessary devres allocation either but
+>>> the proposed approach has its own price:
+>>>
+>>> 1) we'll have more than one place with branching if mutex_destroy is
+>>> empty or not using  indirect condition. If suddenly mutex_destroy is
+>>> extended for non-debug code (in upstream branch or e.g. by someone for
+>>> local debug) than there'll be a problem.
+>>>
+>>> 2) If mutex_destroy is empty or not depends on CONFIG_PREEMPT_RT option
+>>> too. When CONFIG_PREEMPT_RT is on mutex_destroy is always empty.
+>>>
+>>> As I see it only the mutex interface (mutex.h) has to say definitely if
+>>> mutex_destroy must be called. Probably we could add some define to
+>>> include/linux/mutex.h,like IS_MUTEX_DESTROY_REQUIRED and declare it near
+>>> mutex_destroy definition itself.
+>>>
+>>> I tried to put devm_mutex_init itself in mutex.h and it could've helped
+>>> too but it's not the place for devm API.
+>>>
+>>
+>> What do you mean by "it's not the place for devm API" ?
+>>
+>> If you do a 'grep devm_ include/linux/' you'll find devm_ functions in
+>> almost 100 .h files. Why wouldn't mutex.h be the place for
+>> devm_mutex_init() ?
+mutex.h's maintainers believe so.
+
+https://lore.kernel.org/lkml/070c174c-057a-46de-ae8e-836e9e20eceb@salutedevices.com/T/#mb42e1d7760816b0cedd3130e08f29690496b5ac2
+> 
+> Looking at it closer, I have the feeling that you want to do similar to
+> devm_gpio_request() in linux/gpio.h :
+> 
+> In linux/mutex.h, add a prototype for devm_mutex_init() when
+> CONFIG_DEBUG_MUTEXES is defined and an empty static inline otherwise.
+> Then define devm_mutex_init() in kernel/locking/mutex-debug.c
+
+Yes, this would be almost perfect decision. BTW just as in linux/gpio.h
+we wouldn't have to include whole "linux/device.h" into mutex.h, only 
+add forward declaration of struct device;
+
+> 
+> Wouldn't that work ?
+> 
+> Christophe
+
+-- 
+Best regards
+George
 
