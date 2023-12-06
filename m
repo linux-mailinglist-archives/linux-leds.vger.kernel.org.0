@@ -1,122 +1,119 @@
-Return-Path: <linux-leds+bounces-268-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-270-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC993806EDD
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 12:49:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4940480709F
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 14:11:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D2ACB20E79
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 11:49:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71F061C20A06
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Dec 2023 13:11:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40CF3589F;
-	Wed,  6 Dec 2023 11:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22AF374D2;
+	Wed,  6 Dec 2023 13:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlRop1en"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBAFD45
-	for <linux-leds@vger.kernel.org>; Wed,  6 Dec 2023 03:48:51 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rAqOP-0007j6-NI; Wed, 06 Dec 2023 12:48:41 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rAqON-00DwyB-QH; Wed, 06 Dec 2023 12:48:39 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rAqON-00FR3e-Gt; Wed, 06 Dec 2023 12:48:39 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: kernel@pengutronix.de,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Kees Cook <keescook@chromium.org>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	linux-leds@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: [PATCH v4 108/115] leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
-Date: Wed,  6 Dec 2023 12:45:02 +0100
-Message-ID:  <60605623e9e41d6f4b25e9c0eaf09d99bbc825f2.1701860672.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827AD36B13;
+	Wed,  6 Dec 2023 13:11:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7663C433C8;
+	Wed,  6 Dec 2023 13:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701868300;
+	bh=oKRQwjQGrRuXRGCinFYih9JQNoNZM1Tw5h7ae1B3fyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OlRop1enKtnGbB71sEGXYrmdNaumfmLuJD4K+tNdE99DMFqt6E3yZS+WzdqPCua/d
+	 OV7jfse4o/PGxOwE+z6QPXXA2JBPAv9LOdEdyEeV/sTliV0wu3bJcVszTojoicoodt
+	 ak1jK4+8SsabBz1TcrNQwgEk/VYFEpNIUYtWUZXP2iRH19c39CPMU/UhUCRkuQEaZq
+	 J8BK7SUb2yP2Ay/Sc2+jJsjO4I0WuYBvuWeviW2f7Jz601mjNRiXM8k7VIYrz7vzBk
+	 0LNZgFUrFrnotZQFBZAvknm0HjCEEPdM/8JbdM7ynsWmxOwqkhghJgudl9s5KIyHXd
+	 xmqjZoKmbTybQ==
+Date: Wed, 6 Dec 2023 13:11:34 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc: pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, andy.shevchenko@gmail.com,
+	kernel@sberdevices.ru, rockosov@gmail.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v5 00/11] leds: aw200xx: several driver updates
+Message-ID: <20231206131134.GA3375667@google.com>
+References: <20231125200519.1750-1-ddrokosov@salutedevices.com>
+ <170142898612.3365188.2222761548333694548.b4-ty@kernel.org>
+ <20231206112958.xlzrzorkzzexwpwe@CAB-WSD-L081021>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1692; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=pvhY4Y0JLdiqVhBwOjMIbLiR5NL0oEVp+2u1SCdBGyk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlcF9X2vmR/YE9bA6uWt931rHgfeSo8ftDHS2tD 7l9+gb7i9OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXBfVwAKCRCPgPtYfRL+ TrqiB/45axpfyNtYf+7C1G/VIJWVX/ii239LT4Fp4h0AhOHiWH0JfGRchNca4IVSz6ykrreNp7q x3ZBzmIguPHrXbLIB2nEVhmTsHk2020lq8gfm7ztUtDoFVzsRK5E9kyf+TEemf5shzdLiU3n8YN 0pkRP3FmQq9XYn7RU8nyuC2gv+vhZu438vqJ0X7h7CiUXmOrU9guhYVPSB/rRLyuRXLRfsePW7Y 66gCrvTa34U9LNE/E8axYBqv6XWSZVe4JfahnuZ0rU7Ota1Z2aVy6sPgvvrINubhVnXMH9LMMHd dM9UbNF+GYD79neO6yszxU9Rv0TnvLBObXXliwxgRSFtGAMW
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+In-Reply-To: <20231206112958.xlzrzorkzzexwpwe@CAB-WSD-L081021>
 
-This prepares the pwm sub-driver to further changes of the pwm core
-outlined in the commit introducing devm_pwmchip_alloc(). There is no
-intended semantical change and the driver should behave as before.
+On Wed, 06 Dec 2023, Dmitry Rokosov wrote:
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/rgb/leds-qcom-lpg.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+> Hello Lee,
+> 
+> On Fri, Dec 01, 2023 at 11:09:46AM +0000, Lee Jones wrote:
+> > On Sat, 25 Nov 2023 23:05:08 +0300, Dmitry Rokosov wrote:
+> > > The following patch series includes several updates for the AW200XX LED
+> > > driver:
+> > >     - some small fixes and optimizations to the driver implementation:
+> > >       delays, autodimming calculation, disable_locking regmap flag,
+> > >       display_rows calculation in runtime;
+> > >     - fix LED device tree node pattern to accept LED names counting not
+> > >       only from 0 to f;
+> > >     - add missing reg constraints;
+> > >     - support HWEN hardware control, which allows enabling or disabling
+> > >       AW200XX RTL logic from the main SoC using a GPIO pin;
+> > >     - introduce the new AW20108 LED controller, the datasheet for this
+> > >       controller can be found at [1].
+> > > 
+> > > [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [01/11] leds: aw200xx: fix write to DIM parameter
+> >         commit: 785fec3a8daff2957fd55e49cbdfe0a50866fdb7
+> > [02/11] leds: aw200xx: support HWEN hardware control
+> >         commit: eabe8239022cf3c75b90d9ee07dcfbbe4e50bcac
+> > [03/11] dt-bindings: leds: aw200xx: introduce optional enable-gpios property
+> >         commit: e91899ea3759d04e185721153a036e1a25e315b7
+> > [04/11] leds: aw200xx: calculate dts property display_rows in the driver
+> >         commit: 4ccd392c3ea7ceefbee58622e634d4997ef46acc
+> > [05/11] dt-bindings: leds: aw200xx: remove property "awinic,display-rows"
+> >         commit: 66d078f105837670c52bb31da29e26ad13bc2923
+> > [06/11] leds: aw200xx: add delay after software reset
+> >         commit: aac13e5630d6e081a9f6c5a57e5e6fc1152acca8
+> > [07/11] leds: aw200xx: enable disable_locking flag in regmap config
+> >         commit: 851fa70b9b162bbf5b5f5f92fc450633e6b21a3a
+> > [08/11] leds: aw200xx: improve autodim calculation method
+> >         commit: 5fcc24b92b43f012cbf430244f0698ff588ec9fc
+> > [09/11] leds: aw200xx: add support for aw20108 device
+> >         commit: abc74724d5e714bb3359124f3576d5318828a83e
+> > [10/11] dt-bindings: leds: awinic,aw200xx: add AW20108 device
+> >         commit: d6bbe677add2c560ae4aa2f9dab7a19c287e2193
+> > [11/11] dt-bindings: leds: aw200xx: fix led pattern and add reg constraints
+> >         commit: 5707a06e5391a4eeaf0c2705f973336537a41c79
+> 
+> Thank you for applying the patch series!
+> 
+> Could you please advise where I can find the above commits? I've tried
+> looking in the 'lee/leds' branch, but I couldn't find anything. I want
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index 156b73d1f4a2..0a7acf59a420 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -77,7 +77,7 @@ struct lpg {
- 
- 	struct mutex lock;
- 
--	struct pwm_chip pwm;
-+	struct pwm_chip *pwm;
- 
- 	const struct lpg_data *data;
- 
-@@ -978,7 +978,7 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
- 
- static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
- {
--	return container_of(chip, struct lpg, pwm);
-+	return pwmchip_get_drvdata(chip);
- }
- 
- static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-@@ -1093,13 +1093,17 @@ static const struct pwm_ops lpg_pwm_ops = {
- 
- static int lpg_add_pwm(struct lpg *lpg)
- {
-+	struct pwm_chip *chip;
- 	int ret;
- 
--	lpg->pwm.dev = lpg->dev;
--	lpg->pwm.npwm = lpg->num_channels;
--	lpg->pwm.ops = &lpg_pwm_ops;
-+	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels, 0);
-+	if (IS_ERR(chip))
-+		return PTR_ERR(chip);
- 
--	ret = devm_pwmchip_add(lpg->dev, &lpg->pwm);
-+	chip->ops = &lpg_pwm_ops;
-+	pwmchip_set_drvdata(chip, lpg);
-+
-+	ret = devm_pwmchip_add(lpg->dev, chip);
- 	if (ret)
- 		dev_err_probe(lpg->dev, ret, "failed to add PWM chip\n");
- 
+They there now and should be in -next by tomorrow.
+
+> to cherry-pick the commits that you applied to my internal branch, which
+> I sync with the upstream periodically.
+
+I suggest that a rebase might be a better approach.
+
 -- 
-2.42.0
-
+Lee Jones [李琼斯]
 
