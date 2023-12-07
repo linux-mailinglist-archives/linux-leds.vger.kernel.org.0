@@ -1,96 +1,78 @@
-Return-Path: <linux-leds+bounces-295-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-296-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A27480886F
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 13:51:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1055B8088AC
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 14:00:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B4B11C20A06
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 12:51:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E5BF1F2139C
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 13:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A4D3D0AC;
-	Thu,  7 Dec 2023 12:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3573D0DF;
+	Thu,  7 Dec 2023 13:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="N9/bCE5o"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="hAeLIl3z"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFCF0D5C;
-	Thu,  7 Dec 2023 04:51:23 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65FC10B;
+	Thu,  7 Dec 2023 05:00:00 -0800 (PST)
 Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 2ADA5100008;
-	Thu,  7 Dec 2023 15:51:21 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 2ADA5100008
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 563E8100004;
+	Thu,  7 Dec 2023 15:59:59 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 563E8100004
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1701953481;
-	bh=fI5OzawEGCVVfRbMhXE1Of2XRpyVwMZSfxOH5EOrJ1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=N9/bCE5o94pPixmQ6rwVigYyQ8ZL1iWdN3H/ufJbuG/fJmBzC9B70M7Eoay6t7FDw
-	 oxcblJ1d8+s2ljK8OVXEcoVQI0pi2Ww+RV0dyc3kaxNPhfplP3APYPDoq6XQbpmUSp
-	 XWj+PmNtWEeYkfMolrzH9LqSq7r2ZoD5owypj4jX75gVfw8eJ/83lwbvcwuRGFMpA2
-	 gw63RsmrnvH+sw02s6qyY6+kJPO4n4dy4zOGip7BPd9b4HZsC8ZtbFQjt5arC0e7YX
-	 QTbKG3wnO5+fev8HWiFVzM9VhppNYGUu44S+HSbQAbsoT8g50AQlSsQQc1v5nNxf0/
-	 mMxVTg0ZXWriA==
+	s=mail; t=1701953999;
+	bh=GY597t9bNMfE8L/JYxzrDZ2BNTho7Ti4uvnl1pJPCxw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=hAeLIl3z2B4Tpd8uu8PnB3cbBWLcoKZkSgLZNY6+sVAJZz4Que39EvpVWLwAa6BCI
+	 Tyj61ixQfHbJzidhY+JFbM2RKsIej9lcFEH0DuySFzB7grF8G+gz7kd6tCbJbnb2XS
+	 Zv71ZrHlGK0F/eAphkzY9kkboNcJaPJABup5w3s4VCLTwsF2+gOx7e9zqpEHRDcYUa
+	 oMEAY3g25ttPdB5iYkrtqKxXiFrzIzf/9gT9aOSz7skLnumQ8lKW9Q0O1IQrodO26P
+	 jHBZb/+xefr0HRHmEhZJrHjEqvt23uiV9w7HZoBcWgoTxnQ0EoElqudWuG9MtWEngI
+	 tTkEIHF+xSZeQ==
 Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Thu,  7 Dec 2023 15:51:20 +0300 (MSK)
-Received: from [192.168.1.127] (100.64.160.123) by
+	Thu,  7 Dec 2023 15:59:59 +0300 (MSK)
+Received: from CAB-WSD-0004828.sigma.sbrf.ru (100.64.160.123) by
  p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 7 Dec 2023 15:51:19 +0300
-Message-ID: <57ea099a-8b88-4b16-9b54-b81e5b28bcb6@salutedevices.com>
-Date: Thu, 7 Dec 2023 15:51:44 +0300
+ 15.2.1118.40; Thu, 7 Dec 2023 15:59:58 +0300
+From: Martin Kurbanov <mmkurbanov@salutedevices.com>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<kernel@salutedevices.com>, Martin Kurbanov <mmkurbanov@salutedevices.com>
+Subject: [PATCH v1 0/2] leds: aw200xx: support for hw pattern controllers
+Date: Thu, 7 Dec 2023 15:59:36 +0300
+Message-ID: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/10] devm-helpers: introduce devm_mutex_init
-Content-Language: en-US
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Andy Shevchenko
-	<andy.shevchenko@gmail.com>
-CC: Hans de Goede <hdegoede@redhat.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-	"lee@kernel.org" <lee@kernel.org>, "vadimp@nvidia.com" <vadimp@nvidia.com>,
-	"mpe@ellerman.id.au" <mpe@ellerman.id.au>, "npiggin@gmail.com"
-	<npiggin@gmail.com>, "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-	"jic23@kernel.org" <jic23@kernel.org>, "peterz@infradead.org"
-	<peterz@infradead.org>, Waiman Long <longman@redhat.com>, "mingo@redhat.com"
-	<mingo@redhat.com>, "will@kernel.org" <will@kernel.org>,
-	"boqun.feng@gmail.com" <boqun.feng@gmail.com>, "linux-leds@vger.kernel.org"
-	<linux-leds@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linuxppc-dev@lists.ozlabs.org"
-	<linuxppc-dev@lists.ozlabs.org>, "kernel@salutedevices.com"
-	<kernel@salutedevices.com>
-References: <20231204180603.470421-1-gnstark@salutedevices.com>
- <20231204180603.470421-2-gnstark@salutedevices.com>
- <81798fe5-f89e-482f-b0d0-674ccbfc3666@redhat.com>
- <29584eb6-fa10-4ce0-9fa3-0c409a582445@salutedevices.com>
- <17a9fede-30e8-4cd5-ae02-fe34e11f5c20@csgroup.eu>
- <be693688-2e82-4e1a-9ead-cf1513ee637b@csgroup.eu>
- <2a68534b-9e64-4d6e-8a49-eeab0889841b@salutedevices.com>
- <CAHp75Veyz-hMYPDEiCC1WJASGZ8N9pVef0foYJ0vBcW2VpfR+w@mail.gmail.com>
- <34060476-86e5-42fb-a139-6790487c1568@csgroup.eu>
-From: George Stark <gnstark@salutedevices.com>
-In-Reply-To: <34060476-86e5-42fb-a139-6790487c1568@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
  p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
 X-KSMG-Rule-ID: 10
 X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 181936 [Dec 07 2023]
+X-KSMG-AntiSpam-Lua-Profiles: 181937 [Dec 07 2023]
 X-KSMG-AntiSpam-Version: 6.0.0.2
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Envelope-From: mmkurbanov@salutedevices.com
 X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b, {Tracking_from_domain_doesnt_match_to}, p-i-exch-sc-m01.sberdevices.ru:7.1.1,5.0.1;100.64.160.123:7.1.2;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-KSMG-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2;salutedevices.com:7.1.1;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
 X-KSMG-AntiPhishing: Clean
@@ -98,134 +80,24 @@ X-KSMG-LinksScanning: Clean
 X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/12/07 02:56:00 #22627289
 X-KSMG-AntiVirus-Status: Clean, skipped
 
+This led-controller supports 3 pattern controllers for auto breathing or
+group dimming control. Each pattern controller can work in auto
+breathing or manual control mode. All breathing parameters including
+rising/falling slope, on/off time, repeat times, min/max brightness
+and so on are configurable.
 
+Martin Kurbanov (2):
+  leds: aw200xx: support for hw pattern controllers
+  dt-bindings: leds: aw200xx: add 'interrupts' property
 
-On 12/7/23 15:28, Christophe Leroy wrote:
-> 
-> 
-> Le 07/12/2023 à 13:02, Andy Shevchenko a écrit :
->> On Thu, Dec 7, 2023 at 1:23 AM George Stark <gnstark@salutedevices.com> wrote:
->>> On 12/7/23 01:37, Christophe Leroy wrote:
->>>> Le 06/12/2023 à 23:14, Christophe Leroy a écrit :
->>
->> ...
->>
->>>> Looking at it closer, I have the feeling that you want to do similar to
->>>> devm_gpio_request() in linux/gpio.h :
->>>>
->>>> In linux/mutex.h, add a prototype for devm_mutex_init() when
->>>> CONFIG_DEBUG_MUTEXES is defined and an empty static inline otherwise.
->>>> Then define devm_mutex_init() in kernel/locking/mutex-debug.c
->>>
->>> Yes, this would be almost perfect decision. BTW just as in linux/gpio.h
->>> we wouldn't have to include whole "linux/device.h" into mutex.h, only
->>> add forward declaration of struct device;
->>
->> In case you place it into a C-file. Otherwise you need a header for
->> the API and that is not acceptable for mutex.h.
->>
-> 
-> Right, that's the reason why I'm suggesting to define devm_mutex_init()
-> in kernel/locking/mutex-debug.c.
-> 
-> In linux/mutex.h, you define a stub for when CONFIG_DEBUG_MUTEXES is not
-> set, and the prototype of devm_mutex_init() when CONFIG_DEBUG_MUTEXES is
-> set.
+ .../testing/sysfs-class-led-driver-aw200xx    | 108 +++
+ .../bindings/leds/awinic,aw200xx.yaml         |   6 +
+ Documentation/leds/leds-aw200xx.rst           | 274 ++++++++
+ drivers/leds/leds-aw200xx.c                   | 649 ++++++++++++++++++
+ 4 files changed, 1037 insertions(+)
+ create mode 100644 Documentation/leds/leds-aw200xx.rst
 
-Something like this:
+--
+2.40.0
 
-diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-index a33aa9eb9fc3..4a6041a7fd44 100644
---- a/include/linux/mutex.h
-+++ b/include/linux/mutex.h
-@@ -21,6 +21,8 @@
-  #include <linux/debug_locks.h>
-  #include <linux/cleanup.h>
-
-+struct device;
-+
-  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-  # define __DEP_MAP_MUTEX_INITIALIZER(lockname)			\
-  		, .dep_map = {					\
-@@ -127,6 +129,20 @@ extern void __mutex_init(struct mutex *lock, const 
-char *name,
-   */
-  extern bool mutex_is_locked(struct mutex *lock);
-
-+#ifdef CONFIG_DEBUG_MUTEXES
-+
-+extern int devm_mutex_init(struct device *dev, struct mutex *lock);
-+
-+#else
-+
-+static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
-+{
-+	mutex_init(lock);
-+	return 0;
-+}
-+
-+#endif
-+
-  #else /* !CONFIG_PREEMPT_RT */
-  /*
-   * Preempt-RT variant based on rtmutexes.
-@@ -169,6 +185,13 @@ do {							\
-  							\
-  	__mutex_init((mutex), #mutex, &__key);		\
-  } while (0)
-+
-+static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
-+{
-+	mutex_init(lock);
-+	return 0;
-+}
-+
-  #endif /* CONFIG_PREEMPT_RT */
-
-  /*
-diff --git a/kernel/locking/mutex-debug.c b/kernel/locking/mutex-debug.c
-index bc8abb8549d2..d50dfa06e82c 100644
---- a/kernel/locking/mutex-debug.c
-+++ b/kernel/locking/mutex-debug.c
-@@ -19,6 +19,7 @@
-  #include <linux/kallsyms.h>
-  #include <linux/interrupt.h>
-  #include <linux/debug_locks.h>
-+#include <linux/device.h>
-
-  #include "mutex.h"
-
-@@ -104,3 +105,25 @@ void mutex_destroy(struct mutex *lock)
-  }
-
-  EXPORT_SYMBOL_GPL(mutex_destroy);
-+
-+static void devm_mutex_release(void *res)
-+{
-+	mutex_destroy(res);
-+}
-+
-+/**
-+ * devm_mutex_init - Resource-managed mutex initialization
-+ * @dev:	Device which lifetime mutex is bound to
-+ * @lock:	Pointer to a mutex
-+ *
-+ * Initialize mutex which is automatically destroyed when the driver is 
-detached.
-+ *
-+ * Returns: 0 on success or a negative error code on failure.
-+ */
-+int devm_mutex_init(struct device *dev, struct mutex *lock)
-+{
-+	mutex_init(lock);
-+	return devm_add_action_or_reset(dev, devm_mutex_release, lock);
-+}
-+
-+EXPORT_SYMBOL_GPL(devm_mutex_init);
-\ No newline at end of file
-
-
--- 
-Best regards
-George
 
