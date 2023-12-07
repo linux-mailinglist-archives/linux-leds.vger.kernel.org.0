@@ -1,95 +1,76 @@
-Return-Path: <linux-leds+bounces-302-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-303-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664DD808A73
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 15:26:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7EC808BBE
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 16:26:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 259081F21227
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 14:26:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F438281BA6
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 15:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5680041C94;
-	Thu,  7 Dec 2023 14:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB2BE44C81;
+	Thu,  7 Dec 2023 15:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m6mSC/cj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLNIWoTM"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2240239AC5;
-	Thu,  7 Dec 2023 14:25:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D73C433C7;
-	Thu,  7 Dec 2023 14:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898D53AC2D;
+	Thu,  7 Dec 2023 15:25:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33CFC433C7;
+	Thu,  7 Dec 2023 15:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701959158;
-	bh=BB8B5e3lcX0yXeV5twd8WMzv2yRfLB0d40M15sMzN1U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m6mSC/cjKDFaqugND65JRTmW92mbljTgTTmg6CGaAWNF0WL82rxgt67mmfiMxerqK
-	 rJ4P489cZCnC7C3g2l5oP7kQ2XzO/AXyIRNsDzFY/Sj44qg6AfCgNI8qMpNpWvkdho
-	 rqqiksxl7IPdOkeJKAnFsIKaBo5BPRYalNd6/B6/N3Wd+oZM40WlVLf1S4+8eXvq4T
-	 pbJzP4yk44WEsLM8O6Kx2S123xf+VKdn9YNvZDyA89Rsa+d9MKgQmX9RazBaFt6HNp
-	 suPFRquwASN0RSww3bbJSYv1LpBkuG+objnLfTJWlYzwIGw7esFaBIx4YcQB4x9d7a
-	 7uEGlhVRRzmDg==
-Date: Thu, 7 Dec 2023 14:25:50 +0000
+	s=k20201202; t=1701962756;
+	bh=QSRLw7yztCghjyxb/KELP29iYZGlYvVKvP/F2T64Jww=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jLNIWoTMMlZNrMRCUjmXid2FCoRKOegMarVWk3xLK4aTFV6FBlgv5y9ie8gZ3gbjf
+	 HVy1/YRb6I6hDXuOKp/2fMWHBZKzcwJZzNkVUiXibUjyVLsXfjZaOp0/uPsLciony/
+	 bPDSlMOC4YH6hhKUJ0YA54GWz29VI+hQKM339jK2I8ACK55mC2wtoIv/CAiBg0wesQ
+	 IjgWPLDNFODIZUsAlrxz91CR4kOzWxn4SfQFXsbJ6YeCvaZ/Gc1rsHDl87NCLtDxLa
+	 Hyww8vRbvCLV66RcyTFs6hRxZws4Kh4tjak3En96dfuEfX5vKidCiRhJjyE24K2iP1
+	 hcqEppM2IsqTA==
 From: Lee Jones <lee@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, andersson@kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, quic_gurus@quicinc.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG
- through single SDAM
-Message-ID: <20231207142550.GD8867@google.com>
-References: <20231130013615.14287-5-quic_amelende@quicinc.com>
- <17a8a637-3477-41fe-959f-7784cf6d6b2e@suswa.mountain>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Johan Hovold <johan+linaro@kernel.org>
+Cc: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, inux-arm-msm@vger.kernel.org, 
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20231130171940.12391-1-johan+linaro@kernel.org>
+References: <20231130171940.12391-1-johan+linaro@kernel.org>
+Subject: Re: (subset) [PATCH] dt-bindings: leds: qcom,spmi-flash-led: fix
+ example node name
+Message-Id: <170196275366.99959.4254922896810354041.b4-ty@kernel.org>
+Date: Thu, 07 Dec 2023 15:25:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <17a8a637-3477-41fe-959f-7784cf6d6b2e@suswa.mountain>
+X-Mailer: b4 0.12.3
 
-On Thu, 30 Nov 2023, Dan Carpenter wrote:
+On Thu, 30 Nov 2023 18:19:40 +0100, Johan Hovold wrote:
+> The led controller is a child of an SPMI PMIC, which in turn sits on an
+> SPMI bus.
+> 
+> While at it, add some newline separators to improve readability.
+> 
+> 
 
-> Hi Anjelique,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/dt-bindings-soc-qcom-Add-qcom-pbs-bindings/20231130-094701
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20231130013615.14287-5-quic_amelende%40quicinc.com
-> patch subject: [PATCH v7 4/7] leds: rgb: leds-qcom-lpg: Add support for PPG through single SDAM
-> config: csky-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302200.RcTP9m0Y-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202311302200.RcTP9m0Y-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/leds/rgb/leds-qcom-lpg.c:1055 lpg_pattern_set() error: uninitialized symbol 'lo_pause'.
-> drivers/leds/rgb/leds-qcom-lpg.c:1056 lpg_pattern_set() error: uninitialized symbol 'hi_pause'.
+Applied, thanks!
 
-FYI, I'll not review this set until these are fixed.
+[1/1] dt-bindings: leds: qcom,spmi-flash-led: fix example node name
+      commit: e9a3374e5c545e5eade4623098b958d2f4073455
 
--- 
+--
 Lee Jones [李琼斯]
+
 
