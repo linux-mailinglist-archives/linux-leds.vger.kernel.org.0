@@ -1,95 +1,125 @@
-Return-Path: <linux-leds+bounces-306-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-307-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66100808D64
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 17:30:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD13D808E2D
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 18:05:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F4B1280F86
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 16:30:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CC9AB2095B
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 17:05:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9C7346BB9;
-	Thu,  7 Dec 2023 16:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10753481CD;
+	Thu,  7 Dec 2023 17:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQ3seVR2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObpWpnH8"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEC046BB6
-	for <linux-leds@vger.kernel.org>; Thu,  7 Dec 2023 16:30:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B75C433C7;
-	Thu,  7 Dec 2023 16:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E062D481C0;
+	Thu,  7 Dec 2023 17:05:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3479C433C7;
+	Thu,  7 Dec 2023 17:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701966649;
-	bh=lQQtU4tYIZ245AplOqW4Zvwsb+ueZMLoO44f/yIejSk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MQ3seVR2dDL05UbmXkM8yxg6e/AANgmppkO7hfPNFLUIdFsiYjzsCeI65h+EvTxLj
-	 Om4vuRDd/nQ/f6aLxNLSTfjwWYSS2d49NsLLenTvKxmNk5jxCHM/NUlwTHeTtyMnSI
-	 KD5sYHsw+MhiJy0A3SoYvqTc3ozluoevgqeE5fJ4JjLaex8eDlQDrKiI7QcmJ6FsB6
-	 hRpvkwM09R8KczL+U6lOwyVG3sKl+zJqNURvGVlaU05ZR2yBZWyJtvWyJNYJQUElcD
-	 Z8o4PWSZ+Ll2b9hUWYZaO1Nfx8FKbU1vY46+FLH+jFE4VlRNAj9rv5xVOZfeSwn/40
-	 XL2eSZRLbwpJQ==
-Date: Thu, 7 Dec 2023 17:30:44 +0100
-From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Andrew Lunn
- <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, Christian Marangi
- <ansuelsmth@gmail.com>, "David S. Miller" <davem@davemloft.net>, Li Zetao
- <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] docs: ABI: sysfs-class-led-trigger-netdev: add
- new modes and entry
-Message-ID: <20231207173044.67ec3c9d@dellmb>
-In-Reply-To: <e72a6794639cf3881d698e1d34b456e747da1b95.1701143925.git.daniel@makrotopia.org>
-References: <99e7d3304c6bba7f4863a4a80764a869855f2085.1701143925.git.daniel@makrotopia.org>
-	<e72a6794639cf3881d698e1d34b456e747da1b95.1701143925.git.daniel@makrotopia.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=k20201202; t=1701968715;
+	bh=h9KGISYyOVGefe6SYKaxV+4376SmODof03fEQ1b9yf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ObpWpnH8PPrbTJaoI12FrYVVQXYwD74oa0wbAhDG8gdHDp4J26njEEKUmWVo/Bz5d
+	 Mn5DjY/agVAEMjTk42o6q1nujhIRdhD9xLFfH0iEfcFJVLhRthd0dpwrXlUA+2sotv
+	 dcyWDr3FPSRcxp3lMHjGV5N9ojJrfbhIsTahP2TzkFHaSG4fH3xvXqdqgr6M1mW2sx
+	 lizCbEca7Oei3p6p4ERtxr4cJWoo9c7FxgQBzMFmiJxSibOPOlD9d0Q//lIvXoXDVY
+	 BUW8BuJBfH1B19mziVTqSTI+CSkudX7NxVTA64gxUoDuzBTTjeahcD9Y9VbBq4d5G5
+	 3e1Gjh9cYQcyw==
+Date: Thu, 7 Dec 2023 17:05:09 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
+	Pavel Machek <pavel@ucw.cz>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Kees Cook <keescook@chromium.org>, Luca Weiss <luca@z3ntu.xyz>,
+	linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4 108/115] leds: qcom-lpg: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231207170509.GC111411@google.com>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+ <60605623e9e41d6f4b25e9c0eaf09d99bbc825f2.1701860672.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <60605623e9e41d6f4b25e9c0eaf09d99bbc825f2.1701860672.git.u.kleine-koenig@pengutronix.de>
 
-On Tue, 28 Nov 2023 04:00:39 +0000
-Daniel Golle <daniel@makrotopia.org> wrote:
+On Wed, 06 Dec 2023, Uwe Kleine-König wrote:
 
-> Document newly introduced modes for the LED netdev trigger.
+> This prepares the pwm sub-driver to further changes of the pwm core
+> outlined in the commit introducing devm_pwmchip_alloc(). There is no
+> intended semantical change and the driver should behave as before.
 > 
-> Add documentation for new modes:
-> - link_2500
-> - link_5000
-> - link_10000
-> 
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
-> v3: include this documentation patch as well
-> 
->  .../testing/sysfs-class-led-trigger-netdev    | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> index f6d9d72ce77b7..a6c307c4befa0 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> @@ -114,6 +114,45 @@ Description:
->  		speed of 1000Mbps of the named network device.
->  		Setting this value also immediately changes the LED state.
+>  drivers/leds/rgb/leds-qcom-lpg.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+
+Acked-by: Lee Jones <lee@kernel.org>
+
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index 156b73d1f4a2..0a7acf59a420 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -77,7 +77,7 @@ struct lpg {
 >  
-> +What:		/sys/class/leds/<led>/link_2500
-> +Date:		Nov 2023
-> +KernelVersion:	6.8
-> +Contact:	linux-leds@vger.kernel.org
-> +Description:
-> +		Signal the link speed state of 2500Mbps of the named network device.
+>  	struct mutex lock;
+>  
+> -	struct pwm_chip pwm;
+> +	struct pwm_chip *pwm;
+>  
+>  	const struct lpg_data *data;
+>  
+> @@ -978,7 +978,7 @@ static int lpg_pattern_mc_clear(struct led_classdev *cdev)
+>  
+>  static inline struct lpg *lpg_pwm_from_chip(struct pwm_chip *chip)
+>  {
+> -	return container_of(chip, struct lpg, pwm);
+> +	return pwmchip_get_drvdata(chip);
+>  }
+>  
+>  static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> @@ -1093,13 +1093,17 @@ static const struct pwm_ops lpg_pwm_ops = {
+>  
+>  static int lpg_add_pwm(struct lpg *lpg)
+>  {
+> +	struct pwm_chip *chip;
+>  	int ret;
+>  
+> -	lpg->pwm.dev = lpg->dev;
+> -	lpg->pwm.npwm = lpg->num_channels;
+> -	lpg->pwm.ops = &lpg_pwm_ops;
+> +	lpg->pwm = chip = devm_pwmchip_alloc(lpg->dev, lpg->num_channels, 0);
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+>  
+> -	ret = devm_pwmchip_add(lpg->dev, &lpg->pwm);
+> +	chip->ops = &lpg_pwm_ops;
+> +	pwmchip_set_drvdata(chip, lpg);
+> +
+> +	ret = devm_pwmchip_add(lpg->dev, chip);
+>  	if (ret)
+>  		dev_err_probe(lpg->dev, ret, "failed to add PWM chip\n");
+>  
+> -- 
+> 2.42.0
+> 
 
-Should this file be present even if the network device does not support
-that speed?
-
-Marek
+-- 
+Lee Jones [李琼斯]
 
