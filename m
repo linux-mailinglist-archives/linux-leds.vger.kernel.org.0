@@ -1,88 +1,132 @@
-Return-Path: <linux-leds+bounces-311-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-312-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3678808E43
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 18:11:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B86808E76
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 18:18:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C3A21F210A7
-	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 17:11:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4F1B1C203BC
+	for <lists+linux-leds@lfdr.de>; Thu,  7 Dec 2023 17:18:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8928481A2;
-	Thu,  7 Dec 2023 17:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F047248CDD;
+	Thu,  7 Dec 2023 17:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="To9TIVrz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbTTwS+L"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80CB110EB;
-	Thu,  7 Dec 2023 09:11:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=/UFjD58fhtoLAst150cniGCGsb0qSuthtkjBFrtzgWQ=; b=To
-	9TIVrzpz8t2dkPVK0anb4qxU9D9czgjdViR0/5xmzbyUMZRjVvyo5P2lmhcNuJERkM8VokSq7XMJO
-	qSd67bYlbk5ZKI8vAgFda7Et3yyidIceUOXxFK59lTr19DOWiJ+lATtOEru/23HUrjkkZ+WprR+dT
-	AFMDiUn+EUptw/Y=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rBHuL-002Kqt-1h; Thu, 07 Dec 2023 18:11:29 +0100
-Date: Thu, 7 Dec 2023 18:11:29 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: Daniel Golle <daniel@makrotopia.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Jakub Kicinski <kuba@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] leds: trigger: netdev: extend speeds up to 10G
-Message-ID: <cdcab57e-ef73-436d-8dac-f92219e4cbf9@lunn.ch>
-References: <99e7d3304c6bba7f4863a4a80764a869855f2085.1701143925.git.daniel@makrotopia.org>
- <20231207172923.62ce530e@dellmb>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD361433B9;
+	Thu,  7 Dec 2023 17:18:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AD3C433C8;
+	Thu,  7 Dec 2023 17:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701969513;
+	bh=66JMbMuX4AYxelynC3Ne6j5CsaJjJ0MIOrMHqrN63I8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RbTTwS+LIkADPVMWjvU2TmMwhavexszXtfiV6JPJg3bClqH9I3jcs7kAOnvAhJcjZ
+	 aSoS0T/3+qHcMUammD4rGONcLFRIy/ykrxdDq77zyZjRPm+EUuKYHjcxNvjMz8yQuI
+	 efbdW3BBa5oWDzu7wUury7Ya4Zv3882sgjt4BA/2cirTYh+qnbKMuVuK5M/CdI07BN
+	 Rdl9L8nweP7fYGK2OQq1PhyaqG9AQzbDE2WVg7WWFqgw/q2cobAnf6P16yAeabUva4
+	 69rXnzBrgkxp+Hm7ziHzGHKxMQ3j7z0AnmhV85k5aCNhbl8cljwIgKapVGJo1kOkfL
+	 AXlHgjMZt0GXA==
+Date: Thu, 7 Dec 2023 17:18:28 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Martin Kurbanov <mmkurbanov@salutedevices.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH v1 2/2] dt-bindings: leds: aw200xx: add 'interrupts'
+ property
+Message-ID: <20231207-purple-mulled-776447ea26f3@spud>
+References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
+ <20231207125938.175119-3-mmkurbanov@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oVyXoo7fHC9IKh7M"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231207172923.62ce530e@dellmb>
+In-Reply-To: <20231207125938.175119-3-mmkurbanov@salutedevices.com>
 
-On Thu, Dec 07, 2023 at 05:29:23PM +0100, Marek Behún wrote:
-> On Tue, 28 Nov 2023 04:00:10 +0000
-> Daniel Golle <daniel@makrotopia.org> wrote:
-> 
-> > Add 2.5G, 5G and 10G as available speeds to the netdev LED trigger.
-> > 
-> > Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-> > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> 
-> So what will happen when there are more speeds? Will we create a
-> separate file for each speed?
-> 
-> Will we have a separate sysfs file for 10, 100, 1000, 2500, 5000,
-> 10000, 20000, 25000, 40000, 50000, 56000, 100000, 200000, 400000,
-> 800000 ?
-> 
-> These are all speeds from include/uapi/linux/ethtool.h.
-> 
-> Maybe we should have reused ethtool link mode bits, or something...
 
-That gets pretty ugly. The bits are not in any logical order, since
-they just get appended onto the end as needed.
+--oVyXoo7fHC9IKh7M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Also, the files should only be present if the requested speed is
-> supported by the net device. So if 2500 mbps is not supported, there
-> should no be link_2500.
+On Thu, Dec 07, 2023 at 03:59:38PM +0300, Martin Kurbanov wrote:
+> Added support for interrupt to the LED controller driver, which
+> indicates the finished of the auto-breath pattern.
+>=20
+> Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
 
-Yes, this would be nice. We have the information in the phy_setting
-settings[] table in phy-core.c.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-	 Andrew
+Cheers,
+Conor.
+
+> ---
+>  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b=
+/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> index 54d6d1f08e24..7ab35b7a3fe6 100644
+> --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
+> @@ -44,6 +44,9 @@ properties:
+>    enable-gpios:
+>      maxItems: 1
+> =20
+> +  interrupts:
+> +    maxItems: 1
+> +
+>  patternProperties:
+>    "^led@[0-9a-f]+$":
+>      type: object
+> @@ -137,6 +140,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+>      #include <dt-bindings/leds/common.h>
+> =20
+>      i2c {
+> @@ -149,6 +153,8 @@ examples:
+>              #address-cells =3D <1>;
+>              #size-cells =3D <0>;
+>              enable-gpios =3D <&gpio 3 GPIO_ACTIVE_HIGH>;
+> +            interrupt-parent =3D <&gpio_intc>;
+> +            interrupts =3D <13 IRQ_TYPE_LEVEL_LOW>;
+> =20
+>              led@0 {
+>                  reg =3D <0x0>;
+> --=20
+> 2.40.0
+>=20
+
+--oVyXoo7fHC9IKh7M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXH+ZAAKCRB4tDGHoIJi
+0qhtAP47F/B1cUNLeC+Zw8DZQCsevoFvAnB3JIN089SDrE8Q+QD/ZPUbAwPkUDer
+6ezZuuXwJuzVYZ/dwLRWpbJpm2jsmQM=
+=seS0
+-----END PGP SIGNATURE-----
+
+--oVyXoo7fHC9IKh7M--
 
