@@ -1,60 +1,60 @@
-Return-Path: <linux-leds+bounces-321-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-322-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960FF80AFFF
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Dec 2023 23:56:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4E280B060
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 00:07:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A5481F2120F
-	for <lists+linux-leds@lfdr.de>; Fri,  8 Dec 2023 22:56:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F4A2B20ACA
+	for <lists+linux-leds@lfdr.de>; Fri,  8 Dec 2023 23:07:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B06041840;
-	Fri,  8 Dec 2023 22:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B769259B50;
+	Fri,  8 Dec 2023 23:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dQc0kFOm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TgmBVojr"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649051985
-	for <linux-leds@vger.kernel.org>; Fri,  8 Dec 2023 14:56:43 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a1db6816177so341347966b.0
-        for <linux-leds@vger.kernel.org>; Fri, 08 Dec 2023 14:56:43 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080F010D2
+	for <linux-leds@vger.kernel.org>; Fri,  8 Dec 2023 15:07:40 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-332d5c852a0so2740392f8f.3
+        for <linux-leds@vger.kernel.org>; Fri, 08 Dec 2023 15:07:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702076202; x=1702681002; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702076858; x=1702681658; darn=vger.kernel.org;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DO9cVGgMhKbQV4yvktSm/6sQKmx5ZehySM2xGZjeXmY=;
-        b=dQc0kFOm4Q7Af0oOAimMqYmePu4/L3MmgeJMIeQg8r4GLYGDAyIeyOWMamct0qoC+w
-         oSARaCGZI8NbxKEfR7TSgNQ5MgsMNAhAAneWClHiTFenifci41q4+K1lO6e57mcTMAcA
-         CJHVFhcR9Hf2KtQBtbUDuIs062RU6Rmvz27AVmQT9wqJuWUVeDTKrmfXseAD8Z1Qvlw1
-         RcmEpyr72q5tl0YRilS+tz9a8ReOq3aapHaQHiH2LL10BIH/mvWzDtrqou8o2JW8bbHI
-         E9gBJj5Yoo70p7ltAj4nhcg49myCuBKtu2EDGcABE4uRV/As3bDZz+HglT2nmwklW9F7
-         BZcw==
+        bh=spP9X66hM5rGTM8qKMkdHu/Sc5PXIhd2gwQI4iKeCWA=;
+        b=TgmBVojr3ylKxMHfcRblrklreO8HWnHEc+T3ZFKZagLe4XZgIpUpNjYPvNNgAGutps
+         +HgHC678VDEt1xA0cys75AiAIH5lTEykpMsLj/eaJxOHUSEC1CjXPOr/cOC5fKkh6J71
+         3bZCdDg7hGvPgpfLe2not1AFss4AVyhz5XGRAY5TMpQwWBearZQQ8YgyCmINq1R0+iyz
+         9MRgrapePTjp2HypBXZbcW04/BCIpe1jDu9rxXGigEGFw89UWJUfhOy+Rj5rn7sHWG7H
+         VC4qwKwGUr2F9qHZt8iuccAsgt+FB+sjLHfP8uGysDfWQ42gPwAZH2UnKM3quq0IMboB
+         jbCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702076202; x=1702681002;
+        d=1e100.net; s=20230601; t=1702076858; x=1702681658;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DO9cVGgMhKbQV4yvktSm/6sQKmx5ZehySM2xGZjeXmY=;
-        b=hCW/X8eKTbZTwUezU39DKZ/wTo+ioLEGbKofp/fa+Rq8SqFAfq1ZyXibjnBr/WKgFF
-         Vr+QpV+cgzOgKRCZhRD1APKAoKtFboaf3F+vwa+oLy+kY1ed03/9nBem9IlrfHUDjpTa
-         IiGjN6Ia+5JJnfPV7k5GWgPxm3vZRmPNZFAN0clWU/EZQLjow6NbZlXML2E2S+062vdi
-         Daq+3gasjwcCXY0+2yJsfIWs1U4uSOO2aws0aUm0QDuoNWGo23wrVGxCDoHQnu4rzi2f
-         nDQXKEzoPcK3zui8XaPkKh2y35nefDqrSXhlpYLHK1vJEPzpL37aoFrTy1DIK/1OKkPe
-         yrpg==
-X-Gm-Message-State: AOJu0YwOqdDFCkbMDS3V8eFtMVh14fFFIM+/fQrgMtFFLUuuy5VVg605
-	XM2Ac72a2GvpbtmZdOu1Y90=
-X-Google-Smtp-Source: AGHT+IEwBZrGLVG3XLmwyq4xQ3zxaoLje/ixDuKmzdB2llnFGcl5LMjFL7/ZNfRf51dMoEJkVEXI+Q==
-X-Received: by 2002:a17:906:245:b0:a08:1224:abd6 with SMTP id 5-20020a170906024500b00a081224abd6mr248220ejl.3.1702076201557;
-        Fri, 08 Dec 2023 14:56:41 -0800 (PST)
+        bh=spP9X66hM5rGTM8qKMkdHu/Sc5PXIhd2gwQI4iKeCWA=;
+        b=DTr6OtgywYKmV7zCX9BXtM29BC/h5BcUsp4dz7n+PgltGa8lOjG5kNlhWgTNO4zeRd
+         a3YdiMtXoBUF4nZuralG+B7nG6O5HMX/qDrRlN/t9yPVTjcfAn5Ccl2x73X35OINFuY9
+         gPjSRrkAmjoUmbOYdu25lAhpCkAgZLEucnFDSMD+sl9+b09vRoPq9FAIXkV7oQsioKjy
+         bZQqGT0oz8YXuEehVkubuXK1us8l6iOYl+T103RC1WUX9TZGloNg85U5zsrHuMjYQZJk
+         Vfw/pl869JTP/nUqmtebpCIpvPfOAuG+F5+30ajwsLYVyznhkz3RGmH57PZUz8IYS8cZ
+         /Hkw==
+X-Gm-Message-State: AOJu0YzHgnTJ+q3LKp0ULT4py5HgdfV6fW1heGa6YAjeNS8IY2qm1gLc
+	iD9vF84diPPEwH72Wsc2HKV4NODrlqI=
+X-Google-Smtp-Source: AGHT+IFfkBaRf9knnGO4jKeEcZYxQGIgfA3i2XR3+mPKRgHKO6kbiXuJ6YC5BfJrluEh3BfGD8yz2Q==
+X-Received: by 2002:a5d:678e:0:b0:333:4462:4145 with SMTP id v14-20020a5d678e000000b0033344624145mr378300wru.85.1702076858298;
+        Fri, 08 Dec 2023 15:07:38 -0800 (PST)
 Received: from ?IPV6:2a02:3100:901a:3400:1483:699:fdf8:5536? (dynamic-2a02-3100-901a-3400-1483-0699-fdf8-5536.310.pool.telefonica.de. [2a02:3100:901a:3400:1483:699:fdf8:5536])
-        by smtp.googlemail.com with ESMTPSA id ld4-20020a1709079c0400b00a1df88cc7c0sm1476683ejc.182.2023.12.08.14.56.40
+        by smtp.googlemail.com with ESMTPSA id tm6-20020a170907c38600b00a1db955c809sm1502357ejc.73.2023.12.08.15.07.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 14:56:41 -0800 (PST)
-Message-ID: <d90f30be-f661-4db7-b0b5-d09d07a78a68@gmail.com>
-Date: Fri, 8 Dec 2023 23:56:41 +0100
+        Fri, 08 Dec 2023 15:07:37 -0800 (PST)
+Message-ID: <b74a17c5-0158-4da8-8830-9eb6ee26fcdd@gmail.com>
+Date: Sat, 9 Dec 2023 00:07:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,8 +66,8 @@ Content-Language: en-US
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
 Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: trigger: remove unused function
- led_trigger_rename_static
+Subject: [PATCH RFC] leds: trigger: load trigger modules on-demand if used as
+ default trigger
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -114,67 +114,59 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-This function was added with a8df7b1ab70b ("leds: add led_trigger_rename
-function") 11 yrs ago, but it has no users. So remove it.
+Even if a trigger is set as default trigger for a LED device,
+the respective trigger module (if built as module) isn't automatically
+loaded by the kernel if the LED device is registered. I think we can
+do better. The following works for me, however there are open points
+regarding the module name/alias.
+
+- Is it ok to assume that module name starts with "ledtrig-",
+  or better add a "ledtrig:xxx" scheme for trigger module aliases?
+  This would require MODULE_ALIAS'es for the existing triggers.
+
+- Is it ok to assume that trigger name doesn't include whitespaces?
+  Or better remove potential whitespaces when assembling the
+  module/alias name?
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/leds/led-triggers.c | 13 -------------
- include/linux/leds.h        | 17 -----------------
- 2 files changed, 30 deletions(-)
+ drivers/leds/led-triggers.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 6a5e1f41f..bd59a14a4 100644
+index bd59a14a4..ab79b2c71 100644
 --- a/drivers/leds/led-triggers.c
 +++ b/drivers/leds/led-triggers.c
-@@ -269,19 +269,6 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+@@ -250,6 +250,7 @@ EXPORT_SYMBOL_GPL(led_trigger_remove);
+ void led_trigger_set_default(struct led_classdev *led_cdev)
+ {
+ 	struct led_trigger *trig;
++	bool found = false;
+ 
+ 	if (!led_cdev->default_trigger)
+ 		return;
+@@ -259,6 +260,7 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+ 	list_for_each_entry(trig, &trigger_list, next_trig) {
+ 		if (!strcmp(led_cdev->default_trigger, trig->name) &&
+ 		    trigger_relevant(led_cdev, trig)) {
++			found = true;
+ 			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+ 			led_trigger_set(led_cdev, trig);
+ 			break;
+@@ -266,6 +268,13 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+ 	}
+ 	up_write(&led_cdev->trigger_lock);
+ 	up_read(&triggers_list_lock);
++
++	/*
++	 * If default trigger wasn't found, maybe trigger module isn't loaded yet.
++	 * Once loaded it will re-probe with all led_cdev's.
++	 */
++	if (!found)
++		request_module_nowait("ledtrig-%s", led_cdev->default_trigger);
  }
  EXPORT_SYMBOL_GPL(led_trigger_set_default);
  
--void led_trigger_rename_static(const char *name, struct led_trigger *trig)
--{
--	/* new name must be on a temporary string to prevent races */
--	BUG_ON(name == trig->name);
--
--	down_write(&triggers_list_lock);
--	/* this assumes that trig->name was originaly allocated to
--	 * non constant storage */
--	strcpy((char *)trig->name, name);
--	up_write(&triggers_list_lock);
--}
--EXPORT_SYMBOL_GPL(led_trigger_rename_static);
--
- /* LED Trigger Interface */
- 
- int led_trigger_register(struct led_trigger *trig)
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 1bdf7f5a0..4754b02d3 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -527,23 +527,6 @@ static inline void *led_get_trigger_data(struct led_classdev *led_cdev)
- 	return led_cdev->trigger_data;
- }
- 
--/**
-- * led_trigger_rename_static - rename a trigger
-- * @name: the new trigger name
-- * @trig: the LED trigger to rename
-- *
-- * Change a LED trigger name by copying the string passed in
-- * name into current trigger name, which MUST be large
-- * enough for the new string.
-- *
-- * Note that name must NOT point to the same string used
-- * during LED registration, as that could lead to races.
-- *
-- * This is meant to be used on triggers with statically
-- * allocated name.
-- */
--void led_trigger_rename_static(const char *name, struct led_trigger *trig);
--
- #define module_led_trigger(__led_trigger) \
- 	module_driver(__led_trigger, led_trigger_register, \
- 		      led_trigger_unregister)
 -- 
 2.43.0
 
