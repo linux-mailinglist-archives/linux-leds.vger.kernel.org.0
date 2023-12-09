@@ -1,137 +1,191 @@
-Return-Path: <linux-leds+bounces-324-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-325-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9239F80B4AA
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 14:58:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A095E80B4FF
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 16:07:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A9362810A8
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 13:58:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27DD1281041
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 15:07:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EAC14F7C;
-	Sat,  9 Dec 2023 13:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C90156EA;
+	Sat,  9 Dec 2023 15:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="laJELOAy"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D67F10C4
-	for <linux-leds@vger.kernel.org>; Sat,  9 Dec 2023 05:58:36 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpy-0001ft-6E; Sat, 09 Dec 2023 14:57:46 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpu-00Eecd-U0; Sat, 09 Dec 2023 14:57:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpu-00H5EP-JG; Sat, 09 Dec 2023 14:57:42 +0100
-Date: Sat, 9 Dec 2023 14:57:42 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v6 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <20231209135742.3ieusuq3h3xlvjfn@pengutronix.de>
-References: <cover.1701248996.git.sean@mess.org>
- <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E77610D0;
+	Sat,  9 Dec 2023 07:07:45 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3333a3a599fso2158515f8f.0;
+        Sat, 09 Dec 2023 07:07:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702134463; x=1702739263; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xbOPxAZwngZ5oda3DzjX+vKKVhzs5jrjqmvI2kfRVGo=;
+        b=laJELOAy77pEJn4dp+OUgPotHPgXF06xlaLdaI2ErDnSlYCEx1MLs9BWAPLLtmXH0b
+         nVPUfypXFFJ+m4IUhecYrYE9i6FlkIcRTOGYFOYjr3I+NSGwWxY1OY+dta9lbypwpFJX
+         nC5Kmpu60a8U5iUzilwNqn5A77yJXQJJx2Wm8eidCwLxd/+kAIYN3BaPZQZ7PzmqWkXJ
+         hRPpKYXke83ZdjL2O62xiQwjjvjGzE2xaMYCmwLqjHzJ70HOiWDw06HsJF0K5/FpeamF
+         /fsn1Ig1mvdlsfuuNxdg/eGFCTpyw8ckz0FgU/ieUFAigE8hojO4LVixoxIsve3DezQR
+         A3sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702134463; x=1702739263;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xbOPxAZwngZ5oda3DzjX+vKKVhzs5jrjqmvI2kfRVGo=;
+        b=dXFkOspWlzBn0iKzuhTAZmmOJLMRcrsXgof5k3ThrdbaHv0ipuVenz/RNo0yMhvPs6
+         p6K/4zNf87KLgM62ZQV+A/k04GMO7WLO6PY2RJbjuv0MCr3zGUK4HR7/L2p9GPTkUgXF
+         6WKF7wDCVBE5XRxGrX2kbNzsgK7JvBpvqGw3uXWcG8EXZnc13mGzRZ0PhACPFJ26soAW
+         eiimye09yRDFoN6536Q13SBBc4iUNYiaq/rZrFQm9VfVA1zMu5Leq1D++4ewpPI1NW7k
+         VIqdAT2SolXtsIqUDWN3PqGR5eYt7IKw7eNiDOSjptC/UWuG+lkmfcsHdz9jXwTk0lEE
+         bKPg==
+X-Gm-Message-State: AOJu0YxQZY+JPBlGzCy4nDGFvP/T4XnykfNTu193NTHTQYbP6pjORsfV
+	/gBYg86+YkQvxynvaHIv6ZA=
+X-Google-Smtp-Source: AGHT+IFomuPDTazEVop3tripjpKqhYu6EV2i+iW/3nbiD2fy4xIShBqGHYZfUNUHGtlyUxyxXkuR5Q==
+X-Received: by 2002:a7b:c40c:0:b0:40c:25ed:9be2 with SMTP id k12-20020a7bc40c000000b0040c25ed9be2mr862379wmi.75.1702134463061;
+        Sat, 09 Dec 2023 07:07:43 -0800 (PST)
+Received: from localhost.localdomain (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
+        by smtp.googlemail.com with ESMTPSA id p14-20020a05600c358e00b0040c37c4c229sm4367548wmq.14.2023.12.09.07.07.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Dec 2023 07:07:42 -0800 (PST)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Li Zetao <lizetao1@huawei.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH] leds: trigger: netdev: display only supported link speed attribute
+Date: Sat,  9 Dec 2023 16:07:24 +0100
+Message-Id: <20231209150724.25565-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6j77aatd2k4sm7sp"
-Content-Disposition: inline
-In-Reply-To: <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+With the addition of more link speed mode to the netdev trigger, it was
+pointed out that there may be a problem with bloating the attribute list
+with modes that won't ever be supported by the trigger as the attached
+device name doesn't support them.
 
---6j77aatd2k4sm7sp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+To clear and address this problem, change the logic where these
+additional trigger modes are added.
 
-On Wed, Nov 29, 2023 at 09:13:34AM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
->=20
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Signed-off-by: Sean Young <sean@mess.org>
+Since the netdev trigger REQUIRE a device name to be set, attach to the
+device name change function additional logic to parse the supported link
+speed modes using ethtool APIs and add only the supported link speed
+modes attribute.
 
-Not a in-detail-review, but I just noticed again, that we have
+This only apply to the link speed modes and every other mode is still
+provided by default.
 
-	K:      pwm_(config|apply_state|ops)
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+---
+ drivers/leds/trigger/ledtrig-netdev.c | 56 +++++++++++++++++++++++----
+ 1 file changed, 49 insertions(+), 7 deletions(-)
 
-in MAINTAINERS. That one needs adaption, too.
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 09e75fd9f2bc..ce84808e231c 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -61,6 +61,8 @@ struct led_netdev_data {
+ 	bool hw_control;
+ };
+ 
++static int add_link_speed_attr(struct led_netdev_data *trigger_data);
++
+ static void set_baseline_state(struct led_netdev_data *trigger_data)
+ {
+ 	int current_brightness;
+@@ -262,8 +264,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+ 	trigger_data->carrier_link_up = false;
+ 	trigger_data->link_speed = SPEED_UNKNOWN;
+ 	trigger_data->duplex = DUPLEX_UNKNOWN;
+-	if (trigger_data->net_dev)
++	if (trigger_data->net_dev) {
+ 		get_device_state(trigger_data);
++		add_link_speed_attr(trigger_data);
++	}
+ 
+ 	trigger_data->last_activity = 0;
+ 
+@@ -396,6 +400,50 @@ DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
+ DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
+ DEFINE_NETDEV_TRIGGER(rx, TRIGGER_NETDEV_RX);
+ 
++static int add_link_speed_attr(struct led_netdev_data *trigger_data)
++{
++	struct led_classdev *led_cdev = trigger_data->led_cdev;
++	struct device *dev = led_cdev->dev;
++	struct ethtool_link_ksettings cmd;
++	int ret;
++
++	/* First remove any entry previously added */
++	device_remove_file(dev, &dev_attr_link_10);
++	device_remove_file(dev, &dev_attr_link_100);
++	device_remove_file(dev, &dev_attr_link_1000);
++	device_remove_file(dev, &dev_attr_link_2500);
++	device_remove_file(dev, &dev_attr_link_5000);
++	device_remove_file(dev, &dev_attr_link_10000);
++
++	ret = __ethtool_get_link_ksettings(trigger_data->net_dev, &cmd);
++	if (ret)
++		return ret;
++
++	/* Add only supported entry */
++	if (test_bit(ETHTOOL_LINK_MODE_10baseT_Half_BIT, cmd.link_modes.supported) ||
++	    test_bit(ETHTOOL_LINK_MODE_10baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_10);
++
++	if (test_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, cmd.link_modes.supported) ||
++	    test_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_100);
++
++	if (test_bit(ETHTOOL_LINK_MODE_1000baseT_Half_BIT, cmd.link_modes.supported) ||
++	    test_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_1000);
++
++	if (test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_2500);
++
++	if (test_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_5000);
++
++	if (test_bit(ETHTOOL_LINK_MODE_10000baseT_Full_BIT, cmd.link_modes.supported))
++		device_create_file(dev, &dev_attr_link_10000);
++
++	return 0;
++}
++
+ static ssize_t interval_show(struct device *dev,
+ 			     struct device_attribute *attr, char *buf)
+ {
+@@ -446,12 +494,6 @@ static DEVICE_ATTR_RO(offloaded);
+ static struct attribute *netdev_trig_attrs[] = {
+ 	&dev_attr_device_name.attr,
+ 	&dev_attr_link.attr,
+-	&dev_attr_link_10.attr,
+-	&dev_attr_link_100.attr,
+-	&dev_attr_link_1000.attr,
+-	&dev_attr_link_2500.attr,
+-	&dev_attr_link_5000.attr,
+-	&dev_attr_link_10000.attr,
+ 	&dev_attr_full_duplex.attr,
+ 	&dev_attr_half_duplex.attr,
+ 	&dev_attr_rx.attr,
+-- 
+2.40.1
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6j77aatd2k4sm7sp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV0clUACgkQj4D7WH0S
-/k4sEAgArnTQxpu4ZXIskkdh9oxeabDQRo0TziQM0oZ+wnyobvwrkERaAWwUdg1V
-BTu5gKnbpp4QbALgpLCjFiCxxODMDE0zFXfZYpvHhZINc9zUPmHu3VvJmAh36php
-d+svsxVry/mTbk8WqHHdXLWRsgfuMTup2IcSecthS4EheqiiIB1/3J6zlV0hBEvt
-6MR1GepDyknFpPqf5O01Ya8gFZ2lcjJhXLINaH6vtZe+SF9f2ENGsiwPScjzPhY7
-Nkojtd82SQdG1VgWLyGe/JHV9MoZQh60GN3/DIsdSRdcDdAVKOvl9ATY87+CM4Le
-/qSreDunw+R0VYm9mVeyI7sETi446w==
-=Wzva
------END PGP SIGNATURE-----
-
---6j77aatd2k4sm7sp--
 
