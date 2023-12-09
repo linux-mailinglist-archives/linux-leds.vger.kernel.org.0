@@ -1,60 +1,60 @@
-Return-Path: <linux-leds+bounces-326-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-327-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1828780B6EF
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 23:51:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BAA80B6F6
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 23:55:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 174701C2042D
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 22:51:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BACF81F20F5B
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 22:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987F31A72F;
-	Sat,  9 Dec 2023 22:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E66A61B277;
+	Sat,  9 Dec 2023 22:54:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kukz0fcf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ObX8zToo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D8E115
-	for <linux-leds@vger.kernel.org>; Sat,  9 Dec 2023 14:51:33 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a1e35c2807fso437759266b.3
-        for <linux-leds@vger.kernel.org>; Sat, 09 Dec 2023 14:51:33 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331EBC1
+	for <linux-leds@vger.kernel.org>; Sat,  9 Dec 2023 14:54:53 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54c70c70952so4587122a12.3
+        for <linux-leds@vger.kernel.org>; Sat, 09 Dec 2023 14:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702162292; x=1702767092; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702162491; x=1702767291; darn=vger.kernel.org;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gDfMItrwUoSAwUO1KwAE9f7psNd5O8vy+NAM6SG9OkA=;
-        b=kukz0fcf4ZnQijyNqVCJ5hgZiHZAJTMQeyuPIvvjFQLTyvoRvIZAGox5kZPMxtb57U
-         O5TSTbQcPvHTIi8oxCfhWiICstWIHw1FXwGlFqj8rijC4Bp0203+1q4Ca95rFtCYENhB
-         LaAbaVolZv3PsaEA3dE4dJTHWZlzZukF/jlVWkQXAvoNMm7SZ9jJlXLwr2ErJBoEG6tS
-         gAn+osHPKGhxzp72VLow1gBMS6mbhX1FeZsNOC8EDgLfppKXog3u+lHF3bjHa5m+MDKK
-         cy6dRwTs/pvkXyDtmSNJwXetKqlw/Rgsb4OhkqSFB1uKlJJ3D6gwdXYbVyPlXo+/j2vP
-         MGvw==
+        bh=S3UgeLVASaTzqbQAZ7qi6lQglLBmMj1s7RI0m2iUmhQ=;
+        b=ObX8zToo9Xrq7Jn3mEsR+yM4WDApCGqn7NBSSKapsrXE1AdC+IAIhprrW997bdAkuJ
+         HLOXvrYEt7dg54fSkYi5hQwEa4TtiUkP3dT9Y5B3obKXL5/j4NN3O/jL0F9Xur/eXvFt
+         +QwYTFdC3w5mTLUT+heUGKpzuuLhx5iSo2zBRkzru9Tm7457t2B+LD/wvQqEiMwAHdSd
+         a3U0EFkSWeESzL0EgMcKe9hs1jzOwz3MJar1GY+pvNShCgQJhfsf6cbUsGVDpICZTa6q
+         iUxn6NSzlNEOG1JQ4J73XTISGH3JxEDm1i+XGAhSL6ZfkyLs21jVhxY6J3j8sDdrX97y
+         KeXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702162292; x=1702767092;
+        d=1e100.net; s=20230601; t=1702162491; x=1702767291;
         h=content-transfer-encoding:autocrypt:subject:from:cc:to
          :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gDfMItrwUoSAwUO1KwAE9f7psNd5O8vy+NAM6SG9OkA=;
-        b=IW0aZTAz7k3gS5Vo9N6UZbfTi0w7Ohfx0btGv+mwWMkMjDUNlRprwS2QLnAPIhObA9
-         BUalTBBte4XiMXobTgRadw/BvtyWhmbU52H8u+1yEKPOpgyh8TgLnFr+EZzyNEcb/MpK
-         BTAbal5VoTkZ8ti9DpKbQlg6TRMcVUejbjle95oGQTLkogixY4T+U9Sx7OaeCrV6IuNN
-         lch3nMH2bSpMA15CesXA765u2iiGUi3vnyIupWPG0bAbt7dtu0ogZ3/3fZLlBTg8DiC2
-         ygi2feaBEdeC6cHVJnN03doeF5yxC8CoV/ZSgkK6lMOAiFoeKqjGYDVnOan4vGefbOYq
-         /6Og==
-X-Gm-Message-State: AOJu0YxnGjjkT9mvZSDh6eG98vMq0eAqOytjz+eYtzDmxKzqjmWcv6HW
-	r78W2RBQBptv/opn/JjXLUo=
-X-Google-Smtp-Source: AGHT+IEraR1xR1QlduN/uYCa0N4zfKaph8ASPV4oWVyHO/iSqsZmT3+yzBxR124vSI29IajgAhFEmw==
-X-Received: by 2002:a17:906:2246:b0:a1c:7242:4d8c with SMTP id 6-20020a170906224600b00a1c72424d8cmr929414ejr.81.1702162292035;
-        Sat, 09 Dec 2023 14:51:32 -0800 (PST)
+        bh=S3UgeLVASaTzqbQAZ7qi6lQglLBmMj1s7RI0m2iUmhQ=;
+        b=bGOo44c6v9sdpdY1ezy46BE6Su7uzWoN6SplZk64sIpvMlVNOiLSLR9v5xyJXcKfu4
+         Llsnx5joDJz4LFdkw6wP3q9dyNUwwmLvyBxbL/DhNgNLBJnbL17prtEmEK78KehNGNbW
+         vO4plmja8lBoyncnXVFM0MaerZ37MQQlPBXeriVIXLSt/pT/J2USXw3kQgU0AUrbrcbz
+         Y/txBsZK4Blb679EZ6DGEbfeD/UDxsNzH1I0+2ngaaHyWAq+F3peVzfY04vF/NJX33ot
+         Z5o6D+oCPN7LkvrWoQaXuk09o+EIQUVU31PVi5rumlWQmdVaKVlwpqWNOvwzJo4n4amF
+         WpPA==
+X-Gm-Message-State: AOJu0Yywcad73tku/yGoFRLcLXRoTLzrI6qb0LuWD0K+RiNiJD3HEdS3
+	HPrG3PGN3MNpOGCOd6zhlOc=
+X-Google-Smtp-Source: AGHT+IEgMsQYf2gYOb+hDQEfE5jWvpD1nFl2yX46VDCI9syj7lAy/Vzo2Mqb2xTyFNgdcGDx2dn2GA==
+X-Received: by 2002:a17:906:f852:b0:a1c:7a18:b506 with SMTP id ks18-20020a170906f85200b00a1c7a18b506mr531695ejb.121.1702162491082;
+        Sat, 09 Dec 2023 14:54:51 -0800 (PST)
 Received: from ?IPV6:2a01:c22:6f10:8000:d512:8b24:38b6:5405? (dynamic-2a01-0c22-6f10-8000-d512-8b24-38b6-5405.c22.pool.telefonica.de. [2a01:c22:6f10:8000:d512:8b24:38b6:5405])
-        by smtp.googlemail.com with ESMTPSA id cb6-20020a170906a44600b00a1e2aa3d093sm2659030ejb.202.2023.12.09.14.51.31
+        by smtp.googlemail.com with ESMTPSA id tz9-20020a170907c78900b00a19afc16d23sm2718450ejc.104.2023.12.09.14.54.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 14:51:31 -0800 (PST)
-Message-ID: <c8aa079f-acf7-4cb8-b198-d16fcc5778c3@gmail.com>
-Date: Sat, 9 Dec 2023 23:51:32 +0100
+        Sat, 09 Dec 2023 14:54:50 -0800 (PST)
+Message-ID: <84c0fa67-2f03-4474-aa75-914d65d88dd0@gmail.com>
+Date: Sat, 9 Dec 2023 23:54:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,8 +66,7 @@ Content-Language: en-US
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
 Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: trigger: panic: don't register panic notifier if
- creating the trigger failed
+Subject: [PATCH] leds: trigger: panic: simplify led_trigger_set_panic
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -114,33 +113,52 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-It doesn't make sense to register the panic notifier if creating the
-panic trigger failed.
+I don't see why we iterate over all triggers to find the panic trigger.
+We *are* the panic trigger. Therefore we also know that the panic
+trigger doesn't have an activate() hook. So we can simplify the code
+significantly.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-panic.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/leds/trigger/ledtrig-panic.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
-index 64abf2e91..72297a845 100644
+index 72297a845..c646a3cbc 100644
 --- a/drivers/leds/trigger/ledtrig-panic.c
 +++ b/drivers/leds/trigger/ledtrig-panic.c
-@@ -64,10 +64,13 @@ static long led_panic_blink(int state)
- 
- static int __init ledtrig_panic_init(void)
+@@ -21,24 +21,15 @@ static struct led_trigger *trigger;
+  */
+ static void led_trigger_set_panic(struct led_classdev *led_cdev)
  {
-+	led_trigger_register_simple("panic", &trigger);
-+	if (!trigger)
-+		return 0;
-+
- 	atomic_notifier_chain_register(&panic_notifier_list,
- 				       &led_trigger_panic_nb);
+-	struct led_trigger *trig;
++	if (led_cdev->trigger)
++		list_del(&led_cdev->trig_list);
++	list_add_tail(&led_cdev->trig_list, &trigger->led_cdevs);
  
--	led_trigger_register_simple("panic", &trigger);
- 	panic_blink = led_panic_blink;
- 	return 0;
+-	list_for_each_entry(trig, &trigger_list, next_trig) {
+-		if (strcmp("panic", trig->name))
+-			continue;
+-		if (led_cdev->trigger)
+-			list_del(&led_cdev->trig_list);
+-		list_add_tail(&led_cdev->trig_list, &trig->led_cdevs);
++	/* Avoid the delayed blink path */
++	led_cdev->blink_delay_on = 0;
++	led_cdev->blink_delay_off = 0;
+ 
+-		/* Avoid the delayed blink path */
+-		led_cdev->blink_delay_on = 0;
+-		led_cdev->blink_delay_off = 0;
+-
+-		led_cdev->trigger = trig;
+-		if (trig->activate)
+-			trig->activate(led_cdev);
+-		break;
+-	}
++	led_cdev->trigger = trigger;
  }
+ 
+ static int led_trigger_panic_notifier(struct notifier_block *nb,
 -- 
 2.43.0
 
