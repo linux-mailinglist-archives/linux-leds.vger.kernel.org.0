@@ -1,191 +1,147 @@
-Return-Path: <linux-leds+bounces-325-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-326-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A095E80B4FF
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 16:07:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1828780B6EF
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 23:51:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27DD1281041
-	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 15:07:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 174701C2042D
+	for <lists+linux-leds@lfdr.de>; Sat,  9 Dec 2023 22:51:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C90156EA;
-	Sat,  9 Dec 2023 15:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987F31A72F;
+	Sat,  9 Dec 2023 22:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="laJELOAy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kukz0fcf"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E77610D0;
-	Sat,  9 Dec 2023 07:07:45 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3333a3a599fso2158515f8f.0;
-        Sat, 09 Dec 2023 07:07:45 -0800 (PST)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D8E115
+	for <linux-leds@vger.kernel.org>; Sat,  9 Dec 2023 14:51:33 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a1e35c2807fso437759266b.3
+        for <linux-leds@vger.kernel.org>; Sat, 09 Dec 2023 14:51:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702134463; x=1702739263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xbOPxAZwngZ5oda3DzjX+vKKVhzs5jrjqmvI2kfRVGo=;
-        b=laJELOAy77pEJn4dp+OUgPotHPgXF06xlaLdaI2ErDnSlYCEx1MLs9BWAPLLtmXH0b
-         nVPUfypXFFJ+m4IUhecYrYE9i6FlkIcRTOGYFOYjr3I+NSGwWxY1OY+dta9lbypwpFJX
-         nC5Kmpu60a8U5iUzilwNqn5A77yJXQJJx2Wm8eidCwLxd/+kAIYN3BaPZQZ7PzmqWkXJ
-         hRPpKYXke83ZdjL2O62xiQwjjvjGzE2xaMYCmwLqjHzJ70HOiWDw06HsJF0K5/FpeamF
-         /fsn1Ig1mvdlsfuuNxdg/eGFCTpyw8ckz0FgU/ieUFAigE8hojO4LVixoxIsve3DezQR
-         A3sw==
+        d=gmail.com; s=20230601; t=1702162292; x=1702767092; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gDfMItrwUoSAwUO1KwAE9f7psNd5O8vy+NAM6SG9OkA=;
+        b=kukz0fcf4ZnQijyNqVCJ5hgZiHZAJTMQeyuPIvvjFQLTyvoRvIZAGox5kZPMxtb57U
+         O5TSTbQcPvHTIi8oxCfhWiICstWIHw1FXwGlFqj8rijC4Bp0203+1q4Ca95rFtCYENhB
+         LaAbaVolZv3PsaEA3dE4dJTHWZlzZukF/jlVWkQXAvoNMm7SZ9jJlXLwr2ErJBoEG6tS
+         gAn+osHPKGhxzp72VLow1gBMS6mbhX1FeZsNOC8EDgLfppKXog3u+lHF3bjHa5m+MDKK
+         cy6dRwTs/pvkXyDtmSNJwXetKqlw/Rgsb4OhkqSFB1uKlJJ3D6gwdXYbVyPlXo+/j2vP
+         MGvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702134463; x=1702739263;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xbOPxAZwngZ5oda3DzjX+vKKVhzs5jrjqmvI2kfRVGo=;
-        b=dXFkOspWlzBn0iKzuhTAZmmOJLMRcrsXgof5k3ThrdbaHv0ipuVenz/RNo0yMhvPs6
-         p6K/4zNf87KLgM62ZQV+A/k04GMO7WLO6PY2RJbjuv0MCr3zGUK4HR7/L2p9GPTkUgXF
-         6WKF7wDCVBE5XRxGrX2kbNzsgK7JvBpvqGw3uXWcG8EXZnc13mGzRZ0PhACPFJ26soAW
-         eiimye09yRDFoN6536Q13SBBc4iUNYiaq/rZrFQm9VfVA1zMu5Leq1D++4ewpPI1NW7k
-         VIqdAT2SolXtsIqUDWN3PqGR5eYt7IKw7eNiDOSjptC/UWuG+lkmfcsHdz9jXwTk0lEE
-         bKPg==
-X-Gm-Message-State: AOJu0YxQZY+JPBlGzCy4nDGFvP/T4XnykfNTu193NTHTQYbP6pjORsfV
-	/gBYg86+YkQvxynvaHIv6ZA=
-X-Google-Smtp-Source: AGHT+IFomuPDTazEVop3tripjpKqhYu6EV2i+iW/3nbiD2fy4xIShBqGHYZfUNUHGtlyUxyxXkuR5Q==
-X-Received: by 2002:a7b:c40c:0:b0:40c:25ed:9be2 with SMTP id k12-20020a7bc40c000000b0040c25ed9be2mr862379wmi.75.1702134463061;
-        Sat, 09 Dec 2023 07:07:43 -0800 (PST)
-Received: from localhost.localdomain (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.googlemail.com with ESMTPSA id p14-20020a05600c358e00b0040c37c4c229sm4367548wmq.14.2023.12.09.07.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 07:07:42 -0800 (PST)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Li Zetao <lizetao1@huawei.com>,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH] leds: trigger: netdev: display only supported link speed attribute
-Date: Sat,  9 Dec 2023 16:07:24 +0100
-Message-Id: <20231209150724.25565-1-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20230601; t=1702162292; x=1702767092;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gDfMItrwUoSAwUO1KwAE9f7psNd5O8vy+NAM6SG9OkA=;
+        b=IW0aZTAz7k3gS5Vo9N6UZbfTi0w7Ohfx0btGv+mwWMkMjDUNlRprwS2QLnAPIhObA9
+         BUalTBBte4XiMXobTgRadw/BvtyWhmbU52H8u+1yEKPOpgyh8TgLnFr+EZzyNEcb/MpK
+         BTAbal5VoTkZ8ti9DpKbQlg6TRMcVUejbjle95oGQTLkogixY4T+U9Sx7OaeCrV6IuNN
+         lch3nMH2bSpMA15CesXA765u2iiGUi3vnyIupWPG0bAbt7dtu0ogZ3/3fZLlBTg8DiC2
+         ygi2feaBEdeC6cHVJnN03doeF5yxC8CoV/ZSgkK6lMOAiFoeKqjGYDVnOan4vGefbOYq
+         /6Og==
+X-Gm-Message-State: AOJu0YxnGjjkT9mvZSDh6eG98vMq0eAqOytjz+eYtzDmxKzqjmWcv6HW
+	r78W2RBQBptv/opn/JjXLUo=
+X-Google-Smtp-Source: AGHT+IEraR1xR1QlduN/uYCa0N4zfKaph8ASPV4oWVyHO/iSqsZmT3+yzBxR124vSI29IajgAhFEmw==
+X-Received: by 2002:a17:906:2246:b0:a1c:7242:4d8c with SMTP id 6-20020a170906224600b00a1c72424d8cmr929414ejr.81.1702162292035;
+        Sat, 09 Dec 2023 14:51:32 -0800 (PST)
+Received: from ?IPV6:2a01:c22:6f10:8000:d512:8b24:38b6:5405? (dynamic-2a01-0c22-6f10-8000-d512-8b24-38b6-5405.c22.pool.telefonica.de. [2a01:c22:6f10:8000:d512:8b24:38b6:5405])
+        by smtp.googlemail.com with ESMTPSA id cb6-20020a170906a44600b00a1e2aa3d093sm2659030ejb.202.2023.12.09.14.51.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Dec 2023 14:51:31 -0800 (PST)
+Message-ID: <c8aa079f-acf7-4cb8-b198-d16fcc5778c3@gmail.com>
+Date: Sat, 9 Dec 2023 23:51:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] leds: trigger: panic: don't register panic notifier if
+ creating the trigger failed
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-With the addition of more link speed mode to the netdev trigger, it was
-pointed out that there may be a problem with bloating the attribute list
-with modes that won't ever be supported by the trigger as the attached
-device name doesn't support them.
+It doesn't make sense to register the panic notifier if creating the
+panic trigger failed.
 
-To clear and address this problem, change the logic where these
-additional trigger modes are added.
-
-Since the netdev trigger REQUIRE a device name to be set, attach to the
-device name change function additional logic to parse the supported link
-speed modes using ethtool APIs and add only the supported link speed
-modes attribute.
-
-This only apply to the link speed modes and every other mode is still
-provided by default.
-
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-netdev.c | 56 +++++++++++++++++++++++----
- 1 file changed, 49 insertions(+), 7 deletions(-)
+ drivers/leds/trigger/ledtrig-panic.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index 09e75fd9f2bc..ce84808e231c 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -61,6 +61,8 @@ struct led_netdev_data {
- 	bool hw_control;
- };
+diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
+index 64abf2e91..72297a845 100644
+--- a/drivers/leds/trigger/ledtrig-panic.c
++++ b/drivers/leds/trigger/ledtrig-panic.c
+@@ -64,10 +64,13 @@ static long led_panic_blink(int state)
  
-+static int add_link_speed_attr(struct led_netdev_data *trigger_data);
-+
- static void set_baseline_state(struct led_netdev_data *trigger_data)
+ static int __init ledtrig_panic_init(void)
  {
- 	int current_brightness;
-@@ -262,8 +264,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
- 	trigger_data->carrier_link_up = false;
- 	trigger_data->link_speed = SPEED_UNKNOWN;
- 	trigger_data->duplex = DUPLEX_UNKNOWN;
--	if (trigger_data->net_dev)
-+	if (trigger_data->net_dev) {
- 		get_device_state(trigger_data);
-+		add_link_speed_attr(trigger_data);
-+	}
++	led_trigger_register_simple("panic", &trigger);
++	if (!trigger)
++		return 0;
++
+ 	atomic_notifier_chain_register(&panic_notifier_list,
+ 				       &led_trigger_panic_nb);
  
- 	trigger_data->last_activity = 0;
- 
-@@ -396,6 +400,50 @@ DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
- DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
- DEFINE_NETDEV_TRIGGER(rx, TRIGGER_NETDEV_RX);
- 
-+static int add_link_speed_attr(struct led_netdev_data *trigger_data)
-+{
-+	struct led_classdev *led_cdev = trigger_data->led_cdev;
-+	struct device *dev = led_cdev->dev;
-+	struct ethtool_link_ksettings cmd;
-+	int ret;
-+
-+	/* First remove any entry previously added */
-+	device_remove_file(dev, &dev_attr_link_10);
-+	device_remove_file(dev, &dev_attr_link_100);
-+	device_remove_file(dev, &dev_attr_link_1000);
-+	device_remove_file(dev, &dev_attr_link_2500);
-+	device_remove_file(dev, &dev_attr_link_5000);
-+	device_remove_file(dev, &dev_attr_link_10000);
-+
-+	ret = __ethtool_get_link_ksettings(trigger_data->net_dev, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	/* Add only supported entry */
-+	if (test_bit(ETHTOOL_LINK_MODE_10baseT_Half_BIT, cmd.link_modes.supported) ||
-+	    test_bit(ETHTOOL_LINK_MODE_10baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_10);
-+
-+	if (test_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, cmd.link_modes.supported) ||
-+	    test_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_100);
-+
-+	if (test_bit(ETHTOOL_LINK_MODE_1000baseT_Half_BIT, cmd.link_modes.supported) ||
-+	    test_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_1000);
-+
-+	if (test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_2500);
-+
-+	if (test_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_5000);
-+
-+	if (test_bit(ETHTOOL_LINK_MODE_10000baseT_Full_BIT, cmd.link_modes.supported))
-+		device_create_file(dev, &dev_attr_link_10000);
-+
-+	return 0;
-+}
-+
- static ssize_t interval_show(struct device *dev,
- 			     struct device_attribute *attr, char *buf)
- {
-@@ -446,12 +494,6 @@ static DEVICE_ATTR_RO(offloaded);
- static struct attribute *netdev_trig_attrs[] = {
- 	&dev_attr_device_name.attr,
- 	&dev_attr_link.attr,
--	&dev_attr_link_10.attr,
--	&dev_attr_link_100.attr,
--	&dev_attr_link_1000.attr,
--	&dev_attr_link_2500.attr,
--	&dev_attr_link_5000.attr,
--	&dev_attr_link_10000.attr,
- 	&dev_attr_full_duplex.attr,
- 	&dev_attr_half_duplex.attr,
- 	&dev_attr_rx.attr,
+-	led_trigger_register_simple("panic", &trigger);
+ 	panic_blink = led_panic_blink;
+ 	return 0;
+ }
 -- 
-2.40.1
+2.43.0
 
 
