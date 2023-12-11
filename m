@@ -1,133 +1,105 @@
-Return-Path: <linux-leds+bounces-336-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-337-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C111680CE6B
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Dec 2023 15:32:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EF880D02A
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Dec 2023 16:57:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 502A9B21004
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Dec 2023 14:32:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72FE6B208F6
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Dec 2023 15:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990E43B7AB;
-	Mon, 11 Dec 2023 14:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB1C4BAB9;
+	Mon, 11 Dec 2023 15:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2HZArik"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEE5C5
-	for <linux-leds@vger.kernel.org>; Mon, 11 Dec 2023 06:32:02 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJL-00005m-1a; Mon, 11 Dec 2023 15:31:07 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJG-00F7ct-Pw; Mon, 11 Dec 2023 15:31:02 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJG-000z2u-FK; Mon, 11 Dec 2023 15:31:02 +0100
-Date: Mon, 11 Dec 2023 15:30:59 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v7 1/4] pwm: Rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <20231211143059.dggelgdwjnntx7kf@pengutronix.de>
-References: <cover.1702282806.git.sean@mess.org>
- <f2762a5abc13be9ec05a45927bbd84e9da5bb41c.1702282807.git.sean@mess.org>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0FFDC;
+	Mon, 11 Dec 2023 07:57:20 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40c29f7b068so43836715e9.0;
+        Mon, 11 Dec 2023 07:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702310239; x=1702915039; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=I3eqhGtTOHL63O+C3jkv4nmquOhc8pni4ZLLJlVFIo8=;
+        b=c2HZArikJBv4JzO7htW+VDjjur0h0SmCzHM7ok6zSjxUXxhWC31eVa+uviuu3FRahC
+         EDWgy9P+3LwumlYrgjIOeTDBsBEJdP8BwkeBzRGpjMtZ04/mr120wk34TGKNVtU2fQT3
+         4Jt7EInxN5MupZIMWcpsM0+6fafbSHHuITQGLcOLolxoA0Lkqtm6ffMri/S30WcpkWIl
+         pvAadt7HLifodojsettn6QjhMaQXkACOpW+jIGiMQiAYu7MZfyLevoEHhk6y9jDpqBfN
+         0oJLmiZ/QXqrD/t/jdDPCyVBm4/AvTHZZ0Nye7bMumoCZWHoygxgweNxh8SNgk0TohV8
+         Z12A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702310239; x=1702915039;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I3eqhGtTOHL63O+C3jkv4nmquOhc8pni4ZLLJlVFIo8=;
+        b=GUOTh10R7OK1fP7utN+KcrTRvYhCk0LIShUlX4I9V0U/FjVhPPytltRiE+/VEl06Zd
+         83o0syFQzQoUvjrJSTpR03vlR7uuBPI9ZVX7ZijH3mcp37Hy7pvg8arz99Z5KBrpxqem
+         GKiV38cVzD5ecPCYg70Q+Zu73GN9hSY6cg0n+b0GdNhy/IX0xGo1B5IQNEw7aBnUnCG1
+         axT6c34mEWd632Ur4EQwbQFw+eRgA7kLsn2bgxUAg+xj0joozHP2XN0ESVwR70ZSWTcY
+         dsFqrk4Fl+YIHl82DQrTwWQf3KLuOrBpCMXXjCWj/VUNAX7AVNorxZS2lmQCeA7UWCjc
+         3izA==
+X-Gm-Message-State: AOJu0Yz1lO+9ytobV1EpNjjxfQ3X+0LyqJQ02X3rhXRLHbwOGPOmz1lo
+	1waujhosl0AWr9Qc8lJuYZc=
+X-Google-Smtp-Source: AGHT+IF2KuUpho9nXjniuWZ9w3PAw54PSGrOL3zgIMkmIZ6uxAoqLISUUsrpGxrGzT8ff+M6aoZqTA==
+X-Received: by 2002:a05:600c:4285:b0:40c:1df2:c9a2 with SMTP id v5-20020a05600c428500b0040c1df2c9a2mr2379876wmc.126.1702310238557;
+        Mon, 11 Dec 2023 07:57:18 -0800 (PST)
+Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
+        by smtp.gmail.com with ESMTPSA id z14-20020a05600c0a0e00b0040b3867a297sm13563402wmp.36.2023.12.11.07.57.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 07:57:18 -0800 (PST)
+Message-ID: <6577315e.050a0220.50f30.0122@mx.google.com>
+X-Google-Original-Message-ID: <ZXcxW3OVWklKtJ5A@Ansuel-xps.>
+Date: Mon, 11 Dec 2023 16:57:15 +0100
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Daniel Golle <daniel@makrotopia.org>
+Subject: Re: [PATCH v3 1/2] leds: trigger: netdev: extend speeds up to 10G
+References: <99e7d3304c6bba7f4863a4a80764a869855f2085.1701143925.git.daniel@makrotopia.org>
+ <170142826116.3357002.9561246405642038358.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kkbvgfm75p6j7s2z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2762a5abc13be9ec05a45927bbd84e9da5bb41c.1702282807.git.sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+In-Reply-To: <170142826116.3357002.9561246405642038358.b4-ty@kernel.org>
 
+On Fri, Dec 01, 2023 at 10:57:41AM +0000, Lee Jones wrote:
+> On Tue, 28 Nov 2023 04:00:10 +0000, Daniel Golle wrote:
+> > Add 2.5G, 5G and 10G as available speeds to the netdev LED trigger.
+> > 
+> > 
+> 
+> Applied, thanks!
+> 
+> [1/2] leds: trigger: netdev: extend speeds up to 10G
+>       commit: bc8e1da69a68d9871773b657d18400a7941cbdef
+> [2/2] docs: ABI: sysfs-class-led-trigger-netdev: add new modes and entry
+>       commit: f07894d3b384344c43be1bcf61ef8e2fded0efe5
+>
 
---kkbvgfm75p6j7s2z
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, Lee
 
-On Mon, Dec 11, 2023 at 08:24:52AM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Signed-off-by: Sean Young <sean@mess.org>
+I'm working on adding LEDs support for qca8081 PHY. This PHY supports
+2500 link speed.
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Is it possible to have an immutable branch for this series so we can
+have this in net-next? 
 
-Best regards
-Uwe
+Jakub can you also help with this?
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kkbvgfm75p6j7s2z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV3HSIACgkQj4D7WH0S
-/k7bnAf/cRTO22nABcFvyIQZ3V56at9Cfad/B9139ZFHLXIV2KYhrRI/65AlFTP2
-nO0TxvG6yhZVS24t9na92aLNJYXlpQpvKScNCEXaZgKg5IOxBn3FEkChVdv0OeQh
-X5nEqz71490AGYDzpQwXckFxMGo8wFhMRU98Htb8tJcn6NNIcfS8kWRy6bmSly9y
-enHFBwqZ+liARBITVl3+y5Qqr1RErOtO1SZl4wxJjDduSbJfvl0ZVjGhI646k6+G
-+qBYmGe9YrWshP/Foo1PClhXj1dTQUucAnB0gc9fnczRvLOTy11dbHZ66NJLcfB+
-wRvN6iZVO/dLcWu5WihPzL4de3xwLg==
-=C1pU
------END PGP SIGNATURE-----
-
---kkbvgfm75p6j7s2z--
+-- 
+	Ansuel
 
