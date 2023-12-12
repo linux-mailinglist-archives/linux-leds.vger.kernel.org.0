@@ -1,78 +1,57 @@
-Return-Path: <linux-leds+bounces-345-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-346-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10DF80F0DF
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 16:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B693E80F8DF
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 22:05:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1A9D1F2165F
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 15:30:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 627A71F21832
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 21:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A78678E8B;
-	Tue, 12 Dec 2023 15:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZE/1j13"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 776C665A8B;
+	Tue, 12 Dec 2023 21:05:30 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008BD76DDF;
-	Tue, 12 Dec 2023 15:27:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6CDC433CB;
-	Tue, 12 Dec 2023 15:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702394866;
-	bh=DWg3sQ9qxo14q4VzdIjndy7b2Wyci4KHHq5fC3tFwHw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XZE/1j13EWy8z8pFkXqNRn6HYJzjFYN/10G8iu8cAoafoyKUIycSHgfsSyvCG2Teo
-	 WIYd8P+3bQWl5nIbbFYJJT9TxFvKa61BuG3l1DafVw0ekfJDR8qSKIxXKDzCInlZYV
-	 raUWL9oNnYA4SBKtgOH4ful8G+RZ+T/71QpgbHLJGeR0sVbnohOUMP3PCXgg3SfKK2
-	 I9ufZ93he66i2gRzet1ebLl1wH5amInfBW6CfiulcjcH7V2WDx4RmZaQ5GFC1P65zR
-	 XRdJhdv/ySQONhdGuJFe03izK1d+T/JtjpbEhiwAqjmZ4pejzLDtj95C/Gi2y5/LVG
-	 RVsC/UmRz27YA==
-Date: Tue, 12 Dec 2023 15:27:35 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Sean Young <sean@mess.org>, Jean Delvare <jdelvare@suse.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Helge Deller <deller@gmx.de>,
-	linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329ADB4
+	for <linux-leds@vger.kernel.org>; Tue, 12 Dec 2023 13:05:27 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
+Date: Tue, 12 Dec 2023 22:05:09 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <7594ea09-a6f3-4dac-acb3-d5f899f9cf84@sirena.org.uk>
-References: <cover.1702369869.git.sean@mess.org>
- <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
- <20231212114100.sn7nzntousql2ays@pengutronix.de>
- <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
+	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	asahi@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
+Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+ <ZXM4CdJxg-XrYhkn@orome.fritz.box>
+ <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
+ <ZXbzcFTnDTKoZAta@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -80,62 +59,85 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iRFgPhdLTHQFhazT"
+	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
 Content-Disposition: inline
-In-Reply-To: <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
-X-Cookie: If rash develops, discontinue use.
+In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 
 
---iRFgPhdLTHQFhazT
+--gyt34nc3mm25zmmf
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 07:22:18AM -0800, Guenter Roeck wrote:
-> On 12/12/23 03:41, Uwe Kleine-K=F6nig wrote:
+Hello Thierry,
 
-> > Several affected maintainers already acked, so I guess it's fine to take
-> > this via the pwm tree. An Ack from the remaining maintainers would be
-> > very welcome, an alternative would be to split the patch.
+On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
+> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
+> > You don't need to touch all drivers because you didn't change struct
+> > pwm_chip::dev yet. (If you really want, you don't need to change that,
+> > but then you have some duplication as chip->dev holds the same value as
+> > priv->dev.parent in the end.)
+>=20
+> I don't think that's a problem. These are for two logically separate
+> things, after all.
 
-> > Missing Acks so far:
+How are they different? I'd say one is the initializer for the other and
+(ideally) unused after that. With that interpretation they are indeed
+different, but then it's ugly that the initializer keeps staying around.
 
-> >   - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
-> >   - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
-> >   - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
-> >   - Helge Deller for drivers/video/fbdev/ssd1307fb.c
+> Duplication can also sometimes be useful to simplify
+> things. There are plently of cases where we use local variables for the
+> same reason.
 
-> Personally I find the change unnecessary and pointless, which is why I
-> didn't ack it. Even if function names were deemed important enough, keepi=
-ng
-> pwm_apply_state() for the time being and just adding pwm_apply_might_slee=
-p()
-> as duplicate would have done it, all the changes could have gone in long
-> ago, and per-subsystem cleanup could have been orthogonal.
+local variables go away though after the respective function is left.
+chip->dev and its copy priv->dev.parent stay around for the full
+lifetime of the chip.
 
-> I refrained from commenting because it might be considered bike shedding,
-> but I don't want to ack something I deem unnecessary and pointless without
-> comment. But then don't want to keep arguing either, so
+> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
+t char *name)
+> > > =20
+> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
+bel)
+> > >  {
+> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
+> >=20
+> > With my approach getting the chip of a struct pwm_device is only one
+> > pointer dereference away. You need two.
+>=20
+> None of the functions here are called very often, so even if this isn't
+> optimized away it would hardly matter.
 
-I haven't been reading this series because I couldn't tell why I was
-copied on it, it's only chance that made me open Guenter's mail here...
+I'd say pwm_apply_state() at least matters. Also I think that making a
+slow path quicker is a good thing.=20
 
-Acked-by: Mark Brown <broonie@kernel.org>
+I wonder how we'll converge to an approach that can go into the
+mainline given that we both have our strong opinions.
 
---iRFgPhdLTHQFhazT
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--gyt34nc3mm25zmmf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV4e+YACgkQJNaLcl1U
-h9Aqewf/UALlUMgqzHC9oYZI+Kcf9eGgd7QO/+pxhbI5hMnT5tFRH9lkihV8NhkZ
-moY0GH6PcO8YFj0y+Hs89vmJCd3MRAJ7tZ3eEg5/Q7BJejmk7kB24R5TlqUHUcg7
-DcHugsUrGAmvt3afuF03VqA53HlJ6D43J0cIv5j5X8x18v9Z4s0/4z+/zuMEJ8qi
-05gpioqCsqqPxlKMuWv9qPxn6PDVO3JMk7OUodLi1Tdzfio/b7/81nRQX6DgpHm4
-odCEdmvJwIAukE1TlXxfpb7GZuHEe0z04rKSLfvDj6s90hRM9uHdJb3L7kp1Xf0n
-nsm4Twh4PnRdMJRKACafo9HyC8RvJw==
-=Wkx1
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
+/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
+27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
+e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
+hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
+gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
+6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
+=APXJ
 -----END PGP SIGNATURE-----
 
---iRFgPhdLTHQFhazT--
+--gyt34nc3mm25zmmf--
 
