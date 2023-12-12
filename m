@@ -1,143 +1,105 @@
-Return-Path: <linux-leds+bounces-346-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-347-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B693E80F8DF
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 22:05:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1500C80F9A4
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 22:45:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 627A71F21832
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 21:05:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B06E01F2170B
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Dec 2023 21:45:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 776C665A8B;
-	Tue, 12 Dec 2023 21:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A64764145;
+	Tue, 12 Dec 2023 21:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3TKEoD2"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329ADB4
-	for <linux-leds@vger.kernel.org>; Tue, 12 Dec 2023 13:05:27 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
-Date: Tue, 12 Dec 2023 22:05:09 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
-Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <ZXM4CdJxg-XrYhkn@orome.fritz.box>
- <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
- <ZXbzcFTnDTKoZAta@orome.fritz.box>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DF864157;
+	Tue, 12 Dec 2023 21:45:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFDE0C433C7;
+	Tue, 12 Dec 2023 21:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702417543;
+	bh=61xu+OcPj5V/1U8yttDpwKsOSr89T9ROKbwgf4LauZA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T3TKEoD2DFoTDRZykH5hmLSR6hlqT0AnBgKiI3oIuSwoqnWxisE4jV/vsLrsRXeEK
+	 0WZtTjZAjZYgIYHeFiTT6MIU2qeh0t8gVZ0/oco5JFhrqOFVIjTSoeQNoQVqzFKqbk
+	 elZeBAu284TS6ifRfnpUQjTqccQO9uuxZM4P0IJ+QVYDnm2MYgYYU/QZ3etN4oPOVY
+	 NLgzc8OcdUVl3a+jVOD2dXqNTDKTZLDSfwS3V7zvb8dnY6bAboBZ8Tu3wcUnHnRYz+
+	 1vo7iRWVaKZ6M/VqexWF3wTR8ah4R0yZZ0lg45/S2pFBrVNkSpLF2TQDTqEElGPxPM
+	 rTZwO2qzO3u/w==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Guo Ren <guoren@kernel.org>,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] leds: sun50i-a100: avoid division-by-zero warning
+Date: Tue, 12 Dec 2023 22:45:22 +0100
+Message-Id: <20231212214536.175327-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
-Content-Disposition: inline
-In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---gyt34nc3mm25zmmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When CONFIG_COMMON_CLK is disabled, e.g. on an x86 randconfig compile test,
+clang reports a field overflow from propagating the result of a division by
+zero:
 
-Hello Thierry,
+drivers/leds/leds-sun50i-a100.c:309:12: error: call to '__compiletime_assert_265' declared with 'error' attribute: FIELD_PREP: value too large for the field
+        control = FIELD_PREP(LEDC_T01_TIMING_CTRL_REG_T1H, timing->t1h_ns / cycle_ns) |
 
-On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
-> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
-> > You don't need to touch all drivers because you didn't change struct
-> > pwm_chip::dev yet. (If you really want, you don't need to change that,
-> > but then you have some duplication as chip->dev holds the same value as
-> > priv->dev.parent in the end.)
->=20
-> I don't think that's a problem. These are for two logically separate
-> things, after all.
+Avoid the problem by adding an explicit check for the zero value here. Alternatively
+the assertion could be avoided with a Kconfig dependency on COMMON_CLK.
 
-How are they different? I'd say one is the initializer for the other and
-(ideally) unused after that. With that interpretation they are indeed
-different, but then it's ugly that the initializer keeps staying around.
+Fixes: 090a25ad9798 ("leds: sun50i-a100: New driver for the A100 LED controller")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/leds/leds-sun50i-a100.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> Duplication can also sometimes be useful to simplify
-> things. There are plently of cases where we use local variables for the
-> same reason.
+diff --git a/drivers/leds/leds-sun50i-a100.c b/drivers/leds/leds-sun50i-a100.c
+index e4a7e692a908..171cefd1ea0d 100644
+--- a/drivers/leds/leds-sun50i-a100.c
++++ b/drivers/leds/leds-sun50i-a100.c
+@@ -303,9 +303,13 @@ static void sun50i_a100_ledc_set_timing(struct sun50i_a100_ledc *priv)
+ {
+ 	const struct sun50i_a100_ledc_timing *timing = &priv->timing;
+ 	unsigned long mod_freq = clk_get_rate(priv->mod_clk);
+-	u32 cycle_ns = NSEC_PER_SEC / mod_freq;
++	u32 cycle_ns;
+ 	u32 control;
+ 
++	if (!mod_freq)
++		return;
++
++	cycle_ns = NSEC_PER_SEC / mod_freq;
+ 	control = FIELD_PREP(LEDC_T01_TIMING_CTRL_REG_T1H, timing->t1h_ns / cycle_ns) |
+ 		  FIELD_PREP(LEDC_T01_TIMING_CTRL_REG_T1L, timing->t1l_ns / cycle_ns) |
+ 		  FIELD_PREP(LEDC_T01_TIMING_CTRL_REG_T0H, timing->t0h_ns / cycle_ns) |
+-- 
+2.39.2
 
-local variables go away though after the respective function is left.
-chip->dev and its copy priv->dev.parent stay around for the full
-lifetime of the chip.
-
-> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
-t char *name)
-> > > =20
-> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
-bel)
-> > >  {
-> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
-> >=20
-> > With my approach getting the chip of a struct pwm_device is only one
-> > pointer dereference away. You need two.
->=20
-> None of the functions here are called very often, so even if this isn't
-> optimized away it would hardly matter.
-
-I'd say pwm_apply_state() at least matters. Also I think that making a
-slow path quicker is a good thing.=20
-
-I wonder how we'll converge to an approach that can go into the
-mainline given that we both have our strong opinions.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gyt34nc3mm25zmmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
-/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
-27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
-e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
-hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
-gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
-6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
-=APXJ
------END PGP SIGNATURE-----
-
---gyt34nc3mm25zmmf--
 
