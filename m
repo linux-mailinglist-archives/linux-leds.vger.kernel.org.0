@@ -1,85 +1,130 @@
-Return-Path: <linux-leds+bounces-353-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-354-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFB9810DE1
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 11:06:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A40C810FE0
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 12:27:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3DCFDB20C0C
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 10:06:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC03C1C208EE
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 11:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 755B022314;
-	Wed, 13 Dec 2023 10:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AA7A23773;
+	Wed, 13 Dec 2023 11:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="OPwMqNJt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OC9cKVkV"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC9E883;
-	Wed, 13 Dec 2023 02:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=DU16zi8C8rSb8wBiZF7N3q5YkCOaje3ALTOIqa12Rls=; b=OPwMqNJtYxJY74GOJZ4kO51X7g
-	CRxANP+hAK0KpzshNF07PUR0Z48SMf9MSWT/vxNbOjCzx/Wtrf3q/8vW5QSwBhIQJfx/rfvBb2cR7
-	UyOFgxfKlcbSqKAeHanauqtRS+Z0qgc/GTsF6IwSrtXinvZQYH7XCS9lSvPYYpeNkLgM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rDM8Y-002nvF-5G; Wed, 13 Dec 2023 11:06:42 +0100
-Date: Wed, 13 Dec 2023 11:06:42 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9E5224C9
+	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 11:27:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A67C433C8;
+	Wed, 13 Dec 2023 11:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702466830;
+	bh=uIKdDJmnkUDlqqMHVML0moikRxt70qnwcQT97kZOri8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OC9cKVkVDywW6xaGaXoi8zCcpo6w8f4SSLtROXV2o2QlFza6tYh2C+a6RiQ1UXN0C
+	 D1hNOd02ZFswKVi4+H2gEutM1zX3AHH5fe/mOtC22aSBNqskXa3ag8aJCa3JgzlmWB
+	 EVdDgAMStBGs3r0Pd4ysYDff3Ql2B/ygoCzTZ0p5l+5cs1OGJRWZoeJiJTlmEJsMDD
+	 N3QUV7hS1ukReKrBvsjKnXNMd7agAhqnwXqSY1XPRIVoOJyzyuuUMPDTRn96J+4we1
+	 Z3M01LFDJo79kylZzx4v1uhK6fEr2s/KUmAm0OJaY4/pXWJh+YIu+HIfw4XvsAQ/EK
+	 /X4TWXBj3uIag==
+Date: Wed, 13 Dec 2023 11:27:05 +0000
+From: Lee Jones <lee@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Li Zetao <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH] leds: trigger: netdev: display only supported link speed
- attribute
-Message-ID: <8cb5f20f-f9da-4d26-af2d-f63771990fd3@lunn.ch>
-References: <20231209150724.25565-1-ansuelsmth@gmail.com>
+	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Daniel Golle <daniel@makrotopia.org>
+Subject: [GIT PULL] Immutable branch between LEDs and NetDev due for the v6.8
+ merge window:wq
+Message-ID: <20231213112705.GI111411@google.com>
+References: <99e7d3304c6bba7f4863a4a80764a869855f2085.1701143925.git.daniel@makrotopia.org>
+ <170142826116.3357002.9561246405642038358.b4-ty@kernel.org>
+ <6577315e.050a0220.50f30.0122@mx.google.com>
+ <20231211084656.26578d89@kernel.org>
+ <657784f6.5d0a0220.617b5.20ee@mx.google.com>
+ <20231211140546.5c39b819@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231209150724.25565-1-ansuelsmth@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231211140546.5c39b819@kernel.org>
 
-On Sat, Dec 09, 2023 at 04:07:24PM +0100, Christian Marangi wrote:
-> With the addition of more link speed mode to the netdev trigger, it was
-> pointed out that there may be a problem with bloating the attribute list
-> with modes that won't ever be supported by the trigger as the attached
-> device name doesn't support them.
+On Mon, 11 Dec 2023, Jakub Kicinski wrote:
+
+> On Mon, 11 Dec 2023 22:53:55 +0100 Christian Marangi wrote:
+> > Soo that it's problematic to also have on net-next? (Sorry for the
+> > stupid question)
 > 
-> To clear and address this problem, change the logic where these
-> additional trigger modes are added.
+> Unless I pull from Lee the patch would be duplicated, we'd have two
+> commits with different hashes and the same diff. And if I pull we'd
+> get a lot of netdev-unrelated stuff into net-next:
 > 
-> Since the netdev trigger REQUIRE a device name to be set, attach to the
-> device name change function additional logic to parse the supported link
-> speed modes using ethtool APIs and add only the supported link speed
-> modes attribute.
-> 
-> This only apply to the link speed modes and every other mode is still
-> provided by default.
+> $ git merge f07894d3b384344c43be1bcf61ef8e2fded0efe5
+> Auto-merging drivers/leds/trigger/ledtrig-netdev.c
+> Merge made by the 'ort' strategy.
+>  .../ABI/testing/sysfs-class-led-trigger-netdev     |  39 ++
+>  .../ABI/testing/sysfs-class-led-trigger-tty        |  56 ++
+>  .../bindings/leds/allwinner,sun50i-a100-ledc.yaml  | 137 +++++
+>  Documentation/devicetree/bindings/leds/common.yaml |   2 +-
+>  drivers/leds/Kconfig                               |  21 +
+>  drivers/leds/Makefile                              |   2 +
+>  drivers/leds/leds-max5970.c                        | 109 ++++
+>  drivers/leds/leds-sun50i-a100.c                    | 580 +++++++++++++++++++++
+>  drivers/leds/leds-syscon.c                         |   3 +-
+>  drivers/leds/leds-tca6507.c                        |  30 +-
+>  drivers/leds/rgb/leds-qcom-lpg.c                   |  52 +-
+>  drivers/leds/trigger/ledtrig-gpio.c                |  26 +-
+>  drivers/leds/trigger/ledtrig-netdev.c              |  32 +-
+>  drivers/leds/trigger/ledtrig-tty.c                 | 247 +++++++--
+>  drivers/tty/tty_io.c                               |  28 +-
+>  include/linux/leds.h                               |   3 +
+>  include/linux/tty.h                                |   1 +
+>  17 files changed, 1247 insertions(+), 121 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-a100-ledc.yaml
+>  create mode 100644 drivers/leds/leds-max5970.c
+>  create mode 100644 drivers/leds/leds-sun50i-a100.c
 
-Deleting the file and then re-creating it is not so nice when handling
-user space. Have you tried this while holding the file open?
+No, please don't do that.  None of the branches I maintain are stable.
 
-Please take a look at the is_visible() method of a sysfs group. If it
-returns 0, the file is simply not visible in sysfs, but it still
-exists. It is not a problem if a process holds it open when it becomes
-invisible.
+It allows me to do things like this:
 
-    Andrew
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
----
-pw-bot: cr
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-netdev-v6.8
+
+for you to fetch changes up to ee8bfb47222a5cc59dee345b7369c5f2068e78cd:
+
+  docs: ABI: sysfs-class-led-trigger-netdev: Add new modes and entry (2023-12-13 11:24:55 +0000)
+
+----------------------------------------------------------------
+Immutable branch between LEDs and NetDev due for the v6.8 merge window
+
+----------------------------------------------------------------
+Daniel Golle (2):
+      leds: trigger: netdev: Extend speeds up to 10G
+      docs: ABI: sysfs-class-led-trigger-netdev: Add new modes and entry
+
+ .../ABI/testing/sysfs-class-led-trigger-netdev     | 39 ++++++++++++++++++++++
+ drivers/leds/trigger/ledtrig-netdev.c              | 32 +++++++++++++++++-
+ include/linux/leds.h                               |  3 ++
+ 3 files changed, 73 insertions(+), 1 deletion(-)
+
+-- 
+Lee Jones [李琼斯]
 
