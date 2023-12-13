@@ -1,159 +1,163 @@
-Return-Path: <linux-leds+bounces-355-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-356-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A399D81107B
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 12:47:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FB88110BA
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 13:05:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4FD4FB20BE8
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 11:47:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BEA91C209CE
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 12:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADCD2554F;
-	Wed, 13 Dec 2023 11:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B2128DBE;
+	Wed, 13 Dec 2023 12:05:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r7rMuQG8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWPgbClH"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B034125540
-	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 11:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7FAC433C8;
-	Wed, 13 Dec 2023 11:47:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4812286B6
+	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 12:05:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E06C433C8;
+	Wed, 13 Dec 2023 12:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702468068;
-	bh=JyyObBeV7lx+piW0vGHGGe7J7czaHg1baDvRFTL1YFw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r7rMuQG8++rxezs7n/Y9sURdpr7XIY9fEftxwfu1W5eXx4Y+9uZ3CtJyrCwuP9xWJ
-	 aE/wcDKQULl2X4+3Kc/UN5ORX+LcVFbaN3Qo10IiJRgrOAODQRfyvKH7St5lgHiOs6
-	 ojTwBd9rDcqql2hJSZrhFgKnp5q72PJFJ+Z/Mlb3z08YwvtNXlcKOU2NP811pDxw66
-	 PkqMFn+ihwCmUdHaazAMubK69lhReNpD6dT8mWZzRQYdWqFRI+EgDLaTwm6erXOz/e
-	 u9JfzsxmjIuNqS6jbqz+tIh3oDPhyjsB1nIb4l+WISuj9zjqGqU5VLzwrrVGan7Jm0
-	 EHsZFsoRPpImQ==
-Date: Wed, 13 Dec 2023 11:47:44 +0000
-From: Lee Jones <lee@kernel.org>
-To: Amitesh Singh <singh.amitesh@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] feat(kernel/pca963x): implement power management
-Message-ID: <20231213114744.GK111411@google.com>
-References: <881c6ba1-1701-41be-a4ac-81cdca5f0eea@gmail.com>
+	s=k20201202; t=1702469129;
+	bh=x3oRn837VPa7bmsGIuv/KDiEKRYzL03PVgV7p67+CHQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fWPgbClHGcESgcgFfFV+nPKAvUcJrVYgQMbLkRIDX0gfSxTIDFSGWlL8xs4t5oKtA
+	 X/3ua3ilSEnI4z88sykJ8WIfvy5Pwe/R4a8bNdOLqDgdyNekuNnN2nAE1F74HC1mx5
+	 sRlUS3AJu/vhcNQmOgVKZ69M4RDN3K4Klr5bSFAUNTpjJrHS8RTmgernGm57gBNAB5
+	 11s9TcnXYquMdLUYnr74m0Fwgo8Qc6icP/3t6rCZu8MPR3FNLkw5CUG4xYlWzGc0Rh
+	 DvRqB4Mf81N9VMBM8mKb8LCucLwnOwze1rgp4Sfy3P3FyWGLivKdHWM/NKbiGGwyad
+	 1zZU9O9iA0pWQ==
+Date: Wed, 13 Dec 2023 13:05:21 +0100
+From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Andrew Lunn
+ <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
+ <kuba@kernel.org>, Daniel Golle <daniel@makrotopia.org>, Li Zetao
+ <lizetao1@huawei.com>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: netdev: display only supported link
+ speed attribute
+Message-ID: <20231213130521.11513e0a@dellmb>
+In-Reply-To: <20231209150724.25565-1-ansuelsmth@gmail.com>
+References: <20231209150724.25565-1-ansuelsmth@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <881c6ba1-1701-41be-a4ac-81cdca5f0eea@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, 10 Dec 2023, Amitesh Singh wrote:
+On Sat,  9 Dec 2023 16:07:24 +0100
+Christian Marangi <ansuelsmth@gmail.com> wrote:
 
-> From a22dbd7390ce875e81d67f14f05f593d7f03d5c1 Mon Sep 17 00:00:00 2001
-> From: Amitesh Singh <singh.amitesh@gmail.com>
-> Date: Fri, 8 Dec 2023 15:08:33 +0530
-> Subject: [PATCH] feat(kernel/pca963x): implement power management
-
-What are you using to send this patch?
-
-Please use the Git tools provided:
-
-  git format-patch
-  git send-email
-
-The subject line is also totally incorrect.  Again Git can help:
-
-  git log --oneline -- <subsystem>
-
-Please fix the bot's complaints before re-submitting.
-
-Thank you.
-
-> This implements power management in upstream driver
-> for pca9633 which enables device sleep and resume
-> on system-wide sleep/hibernation
+> With the addition of more link speed mode to the netdev trigger, it was
+> pointed out that there may be a problem with bloating the attribute list
+> with modes that won't ever be supported by the trigger as the attached
+> device name doesn't support them.
 > 
-> Signed-off-by: Amitesh Singh <singh.amitesh@gmail.com>
+> To clear and address this problem, change the logic where these
+> additional trigger modes are added.
+> 
+> Since the netdev trigger REQUIRE a device name to be set, attach to the
+> device name change function additional logic to parse the supported link
+> speed modes using ethtool APIs and add only the supported link speed
+> modes attribute.
+> 
+> This only apply to the link speed modes and every other mode is still
+> provided by default.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 > ---
->  drivers/leds/leds-pca963x.c | 41 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
+>  drivers/leds/trigger/ledtrig-netdev.c | 56 +++++++++++++++++++++++----
+>  1 file changed, 49 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
-> index 47223c850e4b..462f917dc986 100644
-> --- a/drivers/leds/leds-pca963x.c
-> +++ b/drivers/leds/leds-pca963x.c
-> @@ -39,6 +39,7 @@
->  #define PCA963X_LED_PWM		0x2	/* Controlled through PWM */
->  #define PCA963X_LED_GRP_PWM	0x3	/* Controlled through PWM/GRPPWM */
-> 
-> +#define PCA963X_MODE1_SLEEP     0x04    /* Normal mode or Low Power mode,
-> oscillator off */
->  #define PCA963X_MODE2_OUTDRV	0x04	/* Open-drain or totem pole */
->  #define PCA963X_MODE2_INVRT	0x10	/* Normal or inverted direction */
->  #define PCA963X_MODE2_DMBLNK	0x20	/* Enable blinking */
-> @@ -380,6 +381,45 @@ static int pca963x_register_leds(struct i2c_client
-> *client,
->  	return ret;
->  }
-> 
-> +#ifdef CONFIG_PM
-> +static int pca963x_suspend(struct device *dev)
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 09e75fd9f2bc..ce84808e231c 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -61,6 +61,8 @@ struct led_netdev_data {
+>  	bool hw_control;
+>  };
+>  
+> +static int add_link_speed_attr(struct led_netdev_data *trigger_data);
+> +
+>  static void set_baseline_state(struct led_netdev_data *trigger_data)
+>  {
+>  	int current_brightness;
+> @@ -262,8 +264,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+>  	trigger_data->carrier_link_up = false;
+>  	trigger_data->link_speed = SPEED_UNKNOWN;
+>  	trigger_data->duplex = DUPLEX_UNKNOWN;
+> -	if (trigger_data->net_dev)
+> +	if (trigger_data->net_dev) {
+>  		get_device_state(trigger_data);
+> +		add_link_speed_attr(trigger_data);
+> +	}
+>  
+>  	trigger_data->last_activity = 0;
+>  
+> @@ -396,6 +400,50 @@ DEFINE_NETDEV_TRIGGER(full_duplex, TRIGGER_NETDEV_FULL_DUPLEX);
+>  DEFINE_NETDEV_TRIGGER(tx, TRIGGER_NETDEV_TX);
+>  DEFINE_NETDEV_TRIGGER(rx, TRIGGER_NETDEV_RX);
+>  
+> +static int add_link_speed_attr(struct led_netdev_data *trigger_data)
 > +{
-> +	struct pca963x *chip;
-> +	u8 reg;
+> +	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> +	struct device *dev = led_cdev->dev;
+> +	struct ethtool_link_ksettings cmd;
+> +	int ret;
 > +
-> +	chip = dev_get_drvdata(dev);
-> +
-> +	reg = i2c_smbus_read_byte_data(chip->client, PCA963X_MODE1);
-> +	reg = reg | (1 << PCA963X_MODE1_SLEEP);
-> +	i2c_smbus_write_byte_data(chip->client, PCA963X_MODE1, reg);
-> +
-> +	return 0;
-> +}
-> +
-> +static int pca963x_resume(struct device *dev)
-> +{
-> +	struct pca963x *chip;
-> +	u8 reg;
-> +
-> +	chip = dev_get_drvdata(dev);
-> +
-> +	reg = i2c_smbus_read_byte_data(chip->client, PCA963X_MODE1);
-> +	reg = reg & ~(1 << PCA963X_MODE1_SLEEP);
-> +	i2c_smbus_write_byte_data(chip->client, PCA963X_MODE1, reg);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops pca963x_pmops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(pca963x_suspend, pca963x_resume)
-> +};
-> +
-> +#define PCA963X_SMBUS_PMOPS (&pca963x_pmops)
-> +
-> +#else
-> +#define PCA963X_SMBUS_PMOPS NULL
-> +#endif
-> +
->  static const struct of_device_id of_pca963x_match[] = {
->  	{ .compatible = "nxp,pca9632", },
->  	{ .compatible = "nxp,pca9633", },
-> @@ -430,6 +470,7 @@ static struct i2c_driver pca963x_driver = {
->  	.driver = {
->  		.name	= "leds-pca963x",
->  		.of_match_table = of_pca963x_match,
-> +		.pm = PCA963X_SMBUS_PMOPS
->  	},
->  	.probe = pca963x_probe,
->  	.id_table = pca963x_id,
-> -- 
-> 2.43.0
-> 
+> +	/* First remove any entry previously added */
+> +	device_remove_file(dev, &dev_attr_link_10);
+> +	device_remove_file(dev, &dev_attr_link_100);
+> +	device_remove_file(dev, &dev_attr_link_1000);
+> +	device_remove_file(dev, &dev_attr_link_2500);
+> +	device_remove_file(dev, &dev_attr_link_5000);
+> +	device_remove_file(dev, &dev_attr_link_10000);
 
--- 
-Lee Jones [李琼斯]
+Noooooo!
+
+> +	ret = __ethtool_get_link_ksettings(trigger_data->net_dev, &cmd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Add only supported entry */
+> +	if (test_bit(ETHTOOL_LINK_MODE_10baseT_Half_BIT, cmd.link_modes.supported) ||
+> +	    test_bit(ETHTOOL_LINK_MODE_10baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_10);
+> +
+> +	if (test_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, cmd.link_modes.supported) ||
+> +	    test_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_100);
+> +
+> +	if (test_bit(ETHTOOL_LINK_MODE_1000baseT_Half_BIT, cmd.link_modes.supported) ||
+> +	    test_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_1000);
+> +
+> +	if (test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_2500);
+> +
+> +	if (test_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_5000);
+> +
+> +	if (test_bit(ETHTOOL_LINK_MODE_10000baseT_Full_BIT, cmd.link_modes.supported))
+> +		device_create_file(dev, &dev_attr_link_10000);
+> +
+> +	return 0;
+> +}
+
+This should be done via the is_visible sysfs attribute_group method.
+
+Also documentation for the link_* files should be changed so that it
+says that the files are present only if those speeds are available.
+
+Marek
 
