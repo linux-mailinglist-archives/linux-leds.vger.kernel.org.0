@@ -1,93 +1,81 @@
-Return-Path: <linux-leds+bounces-370-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-371-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90944811882
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 17:00:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DA78118F6
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 17:16:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28C911F20F13
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 16:00:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA396B21090
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 16:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73D5A85374;
-	Wed, 13 Dec 2023 16:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 531E33309A;
+	Wed, 13 Dec 2023 16:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="peo/LKRZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YEnh6kWZ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5622E85358
-	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 16:00:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00225C433C8;
-	Wed, 13 Dec 2023 16:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C54321B1;
+	Wed, 13 Dec 2023 16:16:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCE7C433C9;
+	Wed, 13 Dec 2023 16:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702483204;
-	bh=pbkegfu2dBZkDSd/RwHKVhWJqC8nKtCUMEQIF77YPBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=peo/LKRZ4369vA8pMdI6CsvI0Lf8y45a3RZ/d/HXNmarTD5OUNa7ywLuffO9aAR2k
-	 1MBsACMdW8iep8Xw6HsaQ9rGZUJrm4Bux6LU6XO0N3QfEl7Z3E69k+vybIcNDz8C+g
-	 DUy3rTemzdgnLS+2JHZcIvOzBarriH2Ii057htV77q3oR10Gtu7YwLt9obm9x3acBZ
-	 7dcs1GG3k5FlRmPHoUD6aQHiU0W0NstlVexVVIOztU2kRhxTL3fENPyAjMzOtzw9u9
-	 E1UdFn6qwCBFQfsgG5heCi+RyPUP5SNv9f5UI3jqqp8fgOOmE47lnN+ePFnimSVT2P
-	 xPrkIfNSaIw6A==
-Date: Wed, 13 Dec 2023 16:00:01 +0000
+	s=k20201202; t=1702484187;
+	bh=nO/Afdb1MQKBEbsD0Fg8t6VLdNzw0l4HZRWVO9Xe1jk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YEnh6kWZVMSxojQd7SFu7l2lTpqmRjiQF4Vge6kQ1wOxYB1ku/1bP3LytqpqAFLbz
+	 h743XU7UCLaUZ5W2RdDjD/ipVd7Z48mrFjqRXiuFqwBnQDgCss5JVtHUmDSQ4swxsE
+	 2ms+RHTAK1VwmRKb2oCnQLTSck1WALJLXwpQsHjzJPB7Zilv+EwJKwz4D2aGzk1wE9
+	 7SVKz2DM9ZcjsqpqN29xr3EVXb9nFlK/tzRwDa6glGzhJI0gfNsu8HCow4Omo0a1f8
+	 ajKBfOtMzhqwUr+O3Gqu43gmM3CU74zDpNdUY2OPvl2W9dPkiMSer5JZuBTwMfeS13
+	 XmAv5+SHJsP8Q==
 From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH] leds: trigger: panic: don't register panic notifier if
- creating the trigger failed
-Message-ID: <20231213160001.GP111411@google.com>
-References: <c8aa079f-acf7-4cb8-b198-d16fcc5778c3@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Guo Ren <guoren@kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev
+In-Reply-To: <20231212214536.175327-1-arnd@kernel.org>
+References: <20231212214536.175327-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH] leds: sun50i-a100: avoid division-by-zero
+ warning
+Message-Id: <170248418423.1005780.5339514949375553684.b4-ty@kernel.org>
+Date: Wed, 13 Dec 2023 16:16:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c8aa079f-acf7-4cb8-b198-d16fcc5778c3@gmail.com>
+X-Mailer: b4 0.12.3
 
-On Sat, 09 Dec 2023, Heiner Kallweit wrote:
-
-> It doesn't make sense to register the panic notifier if creating the
-> panic trigger failed.
+On Tue, 12 Dec 2023 22:45:22 +0100, Arnd Bergmann wrote:
+> When CONFIG_COMMON_CLK is disabled, e.g. on an x86 randconfig compile test,
+> clang reports a field overflow from propagating the result of a division by
+> zero:
 > 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> ---
->  drivers/leds/trigger/ledtrig-panic.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> drivers/leds/leds-sun50i-a100.c:309:12: error: call to '__compiletime_assert_265' declared with 'error' attribute: FIELD_PREP: value too large for the field
+>         control = FIELD_PREP(LEDC_T01_TIMING_CTRL_REG_T1H, timing->t1h_ns / cycle_ns) |
 > 
-> diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
-> index 64abf2e91..72297a845 100644
-> --- a/drivers/leds/trigger/ledtrig-panic.c
-> +++ b/drivers/leds/trigger/ledtrig-panic.c
-> @@ -64,10 +64,13 @@ static long led_panic_blink(int state)
->  
->  static int __init ledtrig_panic_init(void)
->  {
-> +	led_trigger_register_simple("panic", &trigger);
-> +	if (!trigger)
-> +		return 0;
+> [...]
 
-It doesn't seem correct to return 0 on a known failure.
+Applied, thanks!
 
-> +
->  	atomic_notifier_chain_register(&panic_notifier_list,
->  				       &led_trigger_panic_nb);
->  
-> -	led_trigger_register_simple("panic", &trigger);
->  	panic_blink = led_panic_blink;
->  	return 0;
->  }
-> -- 
-> 2.43.0
-> 
+[1/1] leds: sun50i-a100: avoid division-by-zero warning
+      commit: f969d75a0218da32c40dd4940bd430b0530433cf
 
--- 
+--
 Lee Jones [李琼斯]
+
 
