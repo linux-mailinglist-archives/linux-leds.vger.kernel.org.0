@@ -1,176 +1,129 @@
-Return-Path: <linux-leds+bounces-378-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-379-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9445F812179
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 23:30:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5584B812191
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 23:37:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 259202827E8
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 22:30:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6679F1C20FA6
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 22:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357668182C;
-	Wed, 13 Dec 2023 22:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E844224E8;
+	Wed, 13 Dec 2023 22:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="G0eUOFci"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/udJqYg"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E31100;
-	Wed, 13 Dec 2023 14:30:30 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 5DA1A10000F;
-	Thu, 14 Dec 2023 01:30:28 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 5DA1A10000F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1702506628;
-	bh=+lmmdIoH0rAig1Taqra6EznxKH0XzwvvS9jwX4KXfVg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=G0eUOFciMHcQd32X1QxMykiR+hbQthJ5Gg3yhiRITkuLJ8kaLc5QjsoBm/DgU06f/
-	 iLe+TsJPevkyMCkJ+WwPxuxjBghqa5MY9tCIylKY9rp+e3j7o9DygXwswddCFF0WRk
-	 axoXYZvcb6trBgtuxzs27sSKUKvOMMudMA+NDHYr1sfMSwU4eIJXZJ3kFW275hMSbc
-	 AsOXt/jdCb6npcKxT98ql/Rj1QW7d6RIBZzH3SG82SEPGrq5lf6VjnZlJPI8OTMbl5
-	 Jf4926WySDDeaxcXY/iCHK6RaaB7HLPX51MmCjG6C2/dR0ukrOmweu+TMac8udnTNt
-	 DVsnkd6A3HnXw==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Thu, 14 Dec 2023 01:30:28 +0300 (MSK)
-Received: from localhost.localdomain (100.64.160.123) by
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Dec 2023 01:30:27 +0300
-From: George Stark <gnstark@salutedevices.com>
-To: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
-	<vadimp@nvidia.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
-	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
-	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
-	<nikitos.tr@gmail.com>
-CC: <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <kernel@salutedevices.com>, George Stark
-	<gnstark@salutedevices.com>
-Subject: [PATCH v3 04/11] leds: aw2013: use devm API to cleanup module's resources
-Date: Thu, 14 Dec 2023 01:30:13 +0300
-Message-ID: <20231213223020.2713164-5-gnstark@salutedevices.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231213223020.2713164-1-gnstark@salutedevices.com>
-References: <20231213223020.2713164-1-gnstark@salutedevices.com>
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1ABB7;
+	Wed, 13 Dec 2023 14:37:08 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-67ef9c6745eso6598076d6.1;
+        Wed, 13 Dec 2023 14:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702507028; x=1703111828; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YhslwT3u/DM8BEIb5CNvkmOQPz2c8s+oUi5ecuMmZqY=;
+        b=F/udJqYgCzCXgAh7y9VkrRAG7uVjrykp9ycw4BvTN+czBVk6BflLx8Wz5lhs7bGouT
+         4Wz3bZf0RTNzAKZYaSaH5lgc+gASML2Bk3V3nmL/q43AJMpzPueIVCVxRyyg8xvT98EK
+         tuZtEYz5/oeppXauyXGbptwLcjVezrssAbeVbLs2UUMe/0c4Z6l10bdAC36hDH0rqYXd
+         kOp4/uzpscZmDonlmLQn0blPJ9GLdq2zWkkAkbNpSh9RRpPFptOlhoB4/gVz6T/jhEQb
+         ZmpPxUACIypLkhrmi+NeBeJaB8a3SZ3wgilRkmywVELG44pdUCwMLsZ8kyROZKfqprio
+         8Pow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702507028; x=1703111828;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YhslwT3u/DM8BEIb5CNvkmOQPz2c8s+oUi5ecuMmZqY=;
+        b=EjWWNR37MYZc0M3nk4ioTCU0EaItlBRKGtA5WHthghyht3tDpd+U95I/si/nR0gQbf
+         o++jMIoWDrChj60Ofxk73vQimAiloL5stmnhTb9q2d2uHpiyYl5cVqFVIAvN6mf7BUwp
+         gD1FRSHPQpC/DaccPHOwbjMmXzuOQ+OQDVbNHYVujaKww/DxeXbB60xENl2rYOi2TPuY
+         mRLY3F0ECLpl2hFxFwCq69tycRL4Dl1shz8Kft9rXaT/qSZQKw62y9PARaY71DZCQGXl
+         csumcV0zHTReJS6b+ngbWBbb0YAvL7czd+szuOgoXZC81EP0bYnAtWIANSB/OscFUhDE
+         7ZGg==
+X-Gm-Message-State: AOJu0Yzu9TVLem/Ooh9ulqJdX9NVd9NZneLGBqIWDON54tCzqyIDUGMo
+	sgBB4iNjKlOHc1w52RuoM8OfT9+N3QbRbR4HGRpTJGAtg+N5uw==
+X-Google-Smtp-Source: AGHT+IE/pf8cFq4+dbNNQjWRVssYU1BLZNUl2mjooowkoBVqDRSq1PjFThd80lRcIrnMdTuMrs0MuDyWQH3O1ow44WU=
+X-Received: by 2002:a0c:c48b:0:b0:67a:a721:82f1 with SMTP id
+ u11-20020a0cc48b000000b0067aa72182f1mr8302603qvi.75.1702507027837; Wed, 13
+ Dec 2023 14:37:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 182098 [Dec 13 2023]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;127.0.0.199:7.1.2;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;smtp.sberdevices.ru:5.0.1,7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/12/13 21:35:00 #22672360
-X-KSMG-AntiVirus-Status: Clean, skipped
+References: <20231213223020.2713164-1-gnstark@salutedevices.com> <20231213223020.2713164-4-gnstark@salutedevices.com>
+In-Reply-To: <20231213223020.2713164-4-gnstark@salutedevices.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 14 Dec 2023 00:36:31 +0200
+Message-ID: <CAHp75Vc1zZFWB8PPrg8oeAKz9aHnQrrSjdGyGd8mWcmeZdJ9qA@mail.gmail.com>
+Subject: Re: [PATCH v3 03/11] devm-helpers: introduce devm_mutex_init
+To: George Stark <gnstark@salutedevices.com>
+Cc: pavel@ucw.cz, lee@kernel.org, vadimp@nvidia.com, mpe@ellerman.id.au, 
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, hdegoede@redhat.com, 
+	mazziesaccount@gmail.com, peterz@infradead.org, mingo@redhat.com, 
+	will@kernel.org, longman@redhat.com, boqun.feng@gmail.com, 
+	nikitos.tr@gmail.com, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	kernel@salutedevices.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In this driver LEDs are registered using devm_led_classdev_register()
-so they are automatically unregistered after module's remove() is done.
-led_classdev_unregister() calls module's led_set_brightness() to turn off
-the LEDs and that callback uses resources which were destroyed already
-in module's remove() so use devm API instead of remove().
+On Thu, Dec 14, 2023 at 12:30=E2=80=AFAM George Stark <gnstark@salutedevice=
+s.com> wrote:
+>
+> Using of devm API leads to a certain order of releasing resources.
+> So all dependent resources which are not devm-wrapped should be deleted
+> with respect to devm-release order. Mutex is one of such objects that
+> often is bound to other resources and has no own devm wrapper.
+> Since mutex_destroy() actually does nothing in non-debug builds
+> frequently calling mutex_destroy() is just ignored which is safe for now
+> but wrong formally and can lead to a problem if mutex_destroy() is
+> extended so introduce devm_mutex_init().
 
-Signed-off-by: George Stark <gnstark@salutedevices.com>
----
- drivers/leds/leds-aw2013.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+...
 
-diff --git a/drivers/leds/leds-aw2013.c b/drivers/leds/leds-aw2013.c
-index c2bc0782c0cd..863aeb02f278 100644
---- a/drivers/leds/leds-aw2013.c
-+++ b/drivers/leds/leds-aw2013.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- // Driver for Awinic AW2013 3-channel LED driver
- 
-+#include <linux/devm-helpers.h>
- #include <linux/i2c.h>
- #include <linux/leds.h>
- #include <linux/module.h>
-@@ -318,6 +319,11 @@ static int aw2013_probe_dt(struct aw2013 *chip)
- 	return 0;
- }
- 
-+static void aw2013_chip_disable_action(void *data)
-+{
-+	aw2013_chip_disable(data);
-+}
-+
- static const struct regmap_config aw2013_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 8,
-@@ -334,7 +340,10 @@ static int aw2013_probe(struct i2c_client *client)
- 	if (!chip)
- 		return -ENOMEM;
- 
--	mutex_init(&chip->mutex);
-+	ret = devm_mutex_init(&client->dev, &chip->mutex);
-+	if (ret)
-+		return ret;
-+
- 	mutex_lock(&chip->mutex);
- 
- 	chip->client = client;
-@@ -378,6 +387,10 @@ static int aw2013_probe(struct i2c_client *client)
- 		goto error_reg;
- 	}
- 
-+	ret = devm_add_action(&client->dev, aw2013_chip_disable_action, chip);
-+	if (ret)
-+		goto error_reg;
-+
- 	ret = aw2013_probe_dt(chip);
- 	if (ret < 0)
- 		goto error_reg;
-@@ -398,19 +411,9 @@ static int aw2013_probe(struct i2c_client *client)
- 
- error:
- 	mutex_unlock(&chip->mutex);
--	mutex_destroy(&chip->mutex);
- 	return ret;
- }
- 
--static void aw2013_remove(struct i2c_client *client)
--{
--	struct aw2013 *chip = i2c_get_clientdata(client);
--
--	aw2013_chip_disable(chip);
--
--	mutex_destroy(&chip->mutex);
--}
--
- static const struct of_device_id aw2013_match_table[] = {
- 	{ .compatible = "awinic,aw2013", },
- 	{ /* sentinel */ },
-@@ -424,7 +427,6 @@ static struct i2c_driver aw2013_driver = {
- 		.of_match_table = of_match_ptr(aw2013_match_table),
- 	},
- 	.probe = aw2013_probe,
--	.remove = aw2013_remove,
- };
- 
- module_i2c_driver(aw2013_driver);
--- 
-2.25.1
+> +#ifdef mutex_destroy
+> +static inline void devm_mutex_release(void *res)
+> +{
+> +       mutex_destroy(res);
+> +}
+> +#endif
+> +
+> +/**
+> + * devm_mutex_init - Resource-managed mutex initialization
+> + * @dev:       Device which lifetime mutex is bound to
+> + * @lock:      Pointer to a mutex
+> + *
+> + * Initialize mutex which is automatically destroyed when the driver is =
+detached.
+> + *
+> + * Returns: 0 on success or a negative error code on failure.
+> + */
+> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock=
+)
+> +{
+> +       mutex_init(lock);
+> +#ifdef mutex_destroy
+> +       return devm_add_action_or_reset(dev, devm_mutex_release, lock);
+> +#else
+> +       return 0;
+> +#endif
+> +}
 
+If this is going to be accepted, you may decrease the amount of ifdeffery.
+
+#ifdef ...
+#else
+#define devm_mutex_init(dev, lock)  mutex_init(lock)
+#endif
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
