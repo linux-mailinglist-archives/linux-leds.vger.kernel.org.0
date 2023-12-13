@@ -1,74 +1,80 @@
-Return-Path: <linux-leds+bounces-364-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-365-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0843C8117C1
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 16:43:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D869581184B
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 16:50:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5FCB1C20BDA
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 15:43:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 015492813CC
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 15:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC0D85346;
-	Wed, 13 Dec 2023 15:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51ECC33CFA;
+	Wed, 13 Dec 2023 15:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1PYCxW5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHMS347L"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2B885340
-	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 15:39:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64BDC433C7;
-	Wed, 13 Dec 2023 15:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3385133CF9
+	for <linux-leds@vger.kernel.org>; Wed, 13 Dec 2023 15:48:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E75EC433C7;
+	Wed, 13 Dec 2023 15:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702481993;
-	bh=6AM6HzmzlNePc9eLi1v9b1TYKvgnhVKKi53VuhnmrQg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k1PYCxW566zHq45yqBcmJpHK212X1cSreNhbOYZ7R/p2dAfWpatw3XDxiXEHxMxrk
-	 p2Dw1/2VTcgD9t1r6HgmUIdI8JKO3as8oUBdDAvr2jvz+bxL1QzrV4jZDIWaV9mjZW
-	 y6TSUygRnEh+5hsOCOLbF2dC1Rhzx3NlDY8XkJ+zRWM56MRmaVCcJUbHrPToRGByZ+
-	 VpLBXhx0oO9iOrBYidh0a+uKmyAdWIM4QBU9WuOSIS/fd1UCc2TQRbe9hxBcDDKU9C
-	 GCll0BOAZKtPqOa0whMH+6JUykPC3z7y6uSZ4RzOz3ExAwB2Gj+F6o317uEwP64djV
-	 NUgnogJ2lYjHw==
-Date: Wed, 13 Dec 2023 07:39:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Christian Marangi <ansuelsmth@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Andrew Lunn <andrew@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Li Zetao <lizetao1@huawei.com>,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, Daniel Golle
- <daniel@makrotopia.org>
-Subject: Re: [GIT PULL] Immutable branch between LEDs and NetDev due for the
- v6.8 merge window:wq
-Message-ID: <20231213073951.4293c0c7@kernel.org>
-In-Reply-To: <20231213130555.406aa2ef@dellmb>
-References: <99e7d3304c6bba7f4863a4a80764a869855f2085.1701143925.git.daniel@makrotopia.org>
-	<170142826116.3357002.9561246405642038358.b4-ty@kernel.org>
-	<6577315e.050a0220.50f30.0122@mx.google.com>
-	<20231211084656.26578d89@kernel.org>
-	<657784f6.5d0a0220.617b5.20ee@mx.google.com>
-	<20231211140546.5c39b819@kernel.org>
-	<20231213112705.GI111411@google.com>
-	<20231213130555.406aa2ef@dellmb>
+	s=k20201202; t=1702482525;
+	bh=Nl9nFnDHapzZqypu+xQ58UZjEI97nL3gd1POrXSYFcg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gHMS347Lligc2Z5r3Cn9BPqQ6z44W2Gv93mPibmyXc1WnmjfKB8liyEoz82SytqD0
+	 Rup4B64dl6bnwzbuHbP7XyQD9t9INfJDhTRPRNU7Zv5mP4LRJOiPNaxH5SHYjrNchz
+	 37odbDbYwpazJVeU4BAOv/o1dpQHtDnkHhvNkYbAipuhF70/gSxharq9P/n1FDvwOt
+	 WeQrBkXiV5nIIIyLKNO9k2mgLLMj++BlbeKx6hneqJ9OTQ8H7W5kAhWD+D3C2Q+AID
+	 F3V0B7H1Rb6WpQD4ayr2CSyrac8/8MZbGzBiHK3WuEglQrmYnjTTf1uHqIVhSu863k
+	 y9jxiIaukTemA==
+Date: Wed, 13 Dec 2023 15:48:40 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de,
+	Pavel Machek <pavel@ucw.cz>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Lu Hongfei <luhongfei@vivo.com>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Luca Weiss <luca@z3ntu.xyz>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 003/115] leds: qcom-lpg: Use devm_pwmchip_add()
+ simplifying driver removal
+Message-ID: <20231213154840.GN111411@google.com>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+ <631d24f0edaa7ac8ebeb22bb66260db8d8823aff.1701860672.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <631d24f0edaa7ac8ebeb22bb66260db8d8823aff.1701860672.git.u.kleine-koenig@pengutronix.de>
 
-On Wed, 13 Dec 2023 13:05:55 +0100 Marek Beh=C3=BAn wrote:
-> > No, please don't do that.  None of the branches I maintain are stable.
+On Wed, 06 Dec 2023, Uwe Kleine-König wrote:
 
-Nice, /me adds that to the notes.
+> With pwmchip_remove() being automatically called after switching to
+> devm_pwmchip_add() the remove function can be dropped completely. Yay!
+> With lpg_remove() gone there is no user of the platform device's drvdata
+> left, so platform_set_drvdata() can be dropped from .probe(), too.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+> Note this patch was already sent out individually, find it at
+> https://lore.kernel.org/linux-leds/20231126095230.683204-2-u.kleine-koenig@pengutronix.de/
+> 
+>  drivers/leds/rgb/leds-qcom-lpg.c | 12 +-----------
+>  1 file changed, 1 insertion(+), 11 deletions(-)
 
-> Please don't pull this. The sysfs documentation for the link_* files
-> does not specify that they are available only if the underlying speeds
-> are supported.
+I already applied this on the 1st December.
 
-Roger that.
+-- 
+Lee Jones [李琼斯]
 
