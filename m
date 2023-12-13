@@ -1,160 +1,176 @@
-Return-Path: <linux-leds+bounces-372-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-373-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E929E811A2C
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 17:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484A9811F88
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 20:55:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EEFF282927
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 16:57:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E013B281EDF
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Dec 2023 19:55:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9A32208A;
-	Wed, 13 Dec 2023 16:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9C66829E;
+	Wed, 13 Dec 2023 19:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SeB6goGa"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EYBXgPCW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xF9Avnod";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EYBXgPCW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xF9Avnod"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE95D0;
-	Wed, 13 Dec 2023 08:57:02 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c3984f0cdso57653635e9.1;
-        Wed, 13 Dec 2023 08:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702486621; x=1703091421; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JLUeO8RasjjEv0mzXbeiiGvfn5uMCTD81cey6FspQio=;
-        b=SeB6goGaYshBeIVl2OO8F+KEGa+l5az9DO2xGaIFiaClHoRg8K1GjxnrRks5tj5xU/
-         PRe9JSZw3wf6U2ZOYM4UiOET3q0HOM8prZhzKKsONfyCizY/cdlv8UD4725zwxI+/q54
-         U382luIFyNz4gINu5myxDHQW+ZYq7f5V60lh/PlpfjmevmNx0Ko6mu8MmQDlXuFnoFmo
-         vzpHQiPcVzwaQ+6PFVECFv/UL3U2rLweJ7N9afhQfDbHgKR0tQzowEZ153qvUITt3ULO
-         tSRb4yM4V4yyufUoPXoqr+czJjP3X98oP6KOYt0EFwxHsg9R855hUxaBS90L/nSF3uLt
-         JkSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702486621; x=1703091421;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JLUeO8RasjjEv0mzXbeiiGvfn5uMCTD81cey6FspQio=;
-        b=VtdoOvIPDpZB9n+EyoYVYGNz8n3FwGeDqfZyzj5G0Nil3ZCLClq6S145XkcMXeG/n9
-         n4nVJlHO+MqpyQZmCSEFXZgoeP+tP7qxxzmDTRkVunkM3y730e7TDEqIsf9RS+VmjMSk
-         ZwNXBHOH4WOhm9WNuOaui+wcdC+euGrL5y3iGKiiy6fZmVyTgQLrbVHKFrC/yh7sA6Kx
-         UyKY4TOmOCqm03R5iqMgvYd9OLdy3k3iz95TM3FTDcwljIDR9rdN4Rs3fbPJ/qdlPF4O
-         CCmD1Gr0UvmlPoK1+O5qizyNSd3+87Y5SXFIuwWqLb49rEPOvDZGUQITf9vvhBj0FZKt
-         ztlQ==
-X-Gm-Message-State: AOJu0Yxvd3k9Ez1HCd0OYAYYwWivHImh0S+VmAFP3/KghZjukKnvBxu3
-	T1gLrJHcqqFdSckmO/quuwE=
-X-Google-Smtp-Source: AGHT+IGcmtUxAmDjpv4DrWiw5VjQKFXpMVncbj6W1AUjwFQUFIst586FioVsSJE8DsZlGB9wTikZug==
-X-Received: by 2002:a05:600c:3d91:b0:40b:5e1d:83a7 with SMTP id bi17-20020a05600c3d9100b0040b5e1d83a7mr4675660wmb.59.1702486620642;
-        Wed, 13 Dec 2023 08:57:00 -0800 (PST)
-Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.gmail.com with ESMTPSA id p13-20020a5d48cd000000b0033609750752sm13426614wrs.8.2023.12.13.08.56.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 08:56:59 -0800 (PST)
-Message-ID: <6579e25b.5d0a0220.2445e.1753@mx.google.com>
-X-Google-Original-Message-ID: <ZXniWQmi_NOKmZ2n@Ansuel-xps.>
-Date: Wed, 13 Dec 2023 17:56:57 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Daniel Golle <daniel@makrotopia.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] leds: trigger: netdev: display only supported
- link speed attribute
-References: <20231213150033.17057-1-ansuelsmth@gmail.com>
- <20231213163757.1d576bb7@dellmb>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCC8D4C;
+	Wed, 13 Dec 2023 11:55:42 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8EEB521E1B;
+	Wed, 13 Dec 2023 19:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702497340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2qsN/iaV0CRX41UUJSJKQP49f05Rmy6AEHOYxqrZGc=;
+	b=EYBXgPCWZ6kgC/R7FPhFermGCT/ximCUoEFI1bE6It6L8PnCl1jZK3oN6qtuo/MqRbufPe
+	2PaDPzPoWXpnIAlSBYTgK5Vcjzuanl1fB7tfrEafwUSgJql8DsgnlGZE/o0Jlr7t1mLSVJ
+	Ij3Tq9JCqhzPs2oc2xgNt2nD2+BVuog=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702497340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2qsN/iaV0CRX41UUJSJKQP49f05Rmy6AEHOYxqrZGc=;
+	b=xF9AvnodfKvDMza4v3ik8xo3JYR1nGfWrozkG5r2n+iZDomzBBd1c6UuJr6UJ+pdy27urr
+	2tpHyA5B412NOzBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702497340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2qsN/iaV0CRX41UUJSJKQP49f05Rmy6AEHOYxqrZGc=;
+	b=EYBXgPCWZ6kgC/R7FPhFermGCT/ximCUoEFI1bE6It6L8PnCl1jZK3oN6qtuo/MqRbufPe
+	2PaDPzPoWXpnIAlSBYTgK5Vcjzuanl1fB7tfrEafwUSgJql8DsgnlGZE/o0Jlr7t1mLSVJ
+	Ij3Tq9JCqhzPs2oc2xgNt2nD2+BVuog=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702497340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2qsN/iaV0CRX41UUJSJKQP49f05Rmy6AEHOYxqrZGc=;
+	b=xF9AvnodfKvDMza4v3ik8xo3JYR1nGfWrozkG5r2n+iZDomzBBd1c6UuJr6UJ+pdy27urr
+	2tpHyA5B412NOzBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD8641377F;
+	Wed, 13 Dec 2023 19:55:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GtZIKzsMemWiBAAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Wed, 13 Dec 2023 19:55:39 +0000
+Date: Wed, 13 Dec 2023 20:55:34 +0100
+From: Jean Delvare <jdelvare@suse.de>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, LKML
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] leds: rgb: Drop obsolete dependency on COMPILE_TEST
+Message-ID: <20231213205534.0101fd56@endymion.delvare>
+In-Reply-To: <20231213153838.GM111411@google.com>
+References: <20231202214353.7c02f23c@endymion.delvare>
+	<20231213153838.GM111411@google.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231213163757.1d576bb7@dellmb>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Score: -3.30
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 HAS_ORG_HEADER(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.989];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-On Wed, Dec 13, 2023 at 04:37:57PM +0100, Marek Behún wrote:
-> > +	/* Display only supported entry */
-> > +	if (attr == &dev_attr_link_10.attr &&
-> > +	    (test_bit(ETHTOOL_LINK_MODE_10baseT_Half_BIT, supported_link_speed) ||
-> > +	     test_bit(ETHTOOL_LINK_MODE_10baseT_Full_BIT, supported_link_speed)))
-> > +		return attr->mode;
-> > +
-> > +	if (attr == &dev_attr_link_100.attr &&
-> > +	    (test_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, supported_link_speed) ||
-> > +	     test_bit(ETHTOOL_LINK_MODE_100baseT_Full_BIT, supported_link_speed)))
-> > +		return attr->mode;
-> > +
-> > +	if (attr == &dev_attr_link_1000.attr &&
-> > +	    (test_bit(ETHTOOL_LINK_MODE_1000baseT_Half_BIT, supported_link_speed) ||
-> > +	     test_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, supported_link_speed)))
-> > +		return attr->mode;
-> > +
-> > +	if (attr == &dev_attr_link_2500.attr &&
-> > +	    test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, supported_link_speed))
-> > +		return attr->mode;
-> > +
-> > +	if (attr == &dev_attr_link_5000.attr &&
-> > +	    test_bit(ETHTOOL_LINK_MODE_5000baseT_Full_BIT, supported_link_speed))
-> > +		return attr->mode;
-> > +
-> > +	if (attr == &dev_attr_link_10000.attr &&
-> > +	    test_bit(ETHTOOL_LINK_MODE_10000baseT_Full_BIT, supported_link_speed))
-> > +		return attr->mode;
+Hi Lee,
+
+On Wed, 13 Dec 2023 15:38:38 +0000, Lee Jones wrote:
+> On Sat, 02 Dec 2023, Jean Delvare wrote:
 > 
-> Why only the T modes? There are much more ethtool modes for these
-> speeds, for example at least 5 modes for 1000 mbps speed:
->   1000baseT_Half
->   1000baseT_Full
->   1000baseKX_Full
->   1000baseX_Full
->   1000baseT1_Full
+> > Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+> > is possible to test-build any driver which depends on OF on any
+> > architecture by explicitly selecting OF. Therefore depending on
+> > COMPILE_TEST as an alternative is no longer needed.
+> > 
+> > Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Lee Jones <lee@kernel.org>
+> > ---
+> >  drivers/leds/rgb/Kconfig |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)  
 > 
-> There are also 2 possible modes for 2500 mbps
->   2500baseT
->   2500baseX
-> 
-> Ditto for 10 mbps and 100 mbps.
-> 
-> So if you're doing this, why not do it properly?
+> It's not clear to me what this patch improves.
 
-My concern was filling the thing with all kind of modes and have an if
-hell.
+The patch description supposedly explains that, I'm not sure how to
+word it better, especially considering that 24 similar patches have
+already been accepted by various subsystem maintainers over the past 18
+months with the same explanation.
 
-> 
-> There is an aarray
->   static const struct phy_setting settings[]
-> in
->   drivers/net/phy/phy-core.c
-> and a function phy_speeds() which will tell you which speeds are
-> supported for a given ethtool mode bitmap.
-> 
-> Or you can add another function there,
->   bool phy_speed_supported(unsigned long mask, unsigned int speed)
-> and use that one.
-> 
+The purpose of COMPILE_TEST is to increase the build test coverage by
+letting developers enable drivers which would otherwise not be available
+on their architecture or platform. Given that OF can now be enabled on
+all architectures and platforms, using COMPILE_TEST as an alternative
+is simply no longer needed, and there is no reason to keep dead code.
 
-Ok this is very handy and just perfect for the task. Problem is that
-adding a function makes this again a cross subsystem patch and
-problematic to merge...
+Cleaning this up has many benefits:
+* Makes Kconfig easier to read.
+* Makes it clear to the reader that OF is no longer architecture or
+  platform dependent.
+* Less work for the dependency solver, so faster make *config.
+* Avoids copy-and-paste of an obsolete construct to new Kconfig entries.
 
-And having phy_speed_supported would make the function very heavy as the
-settings struct needs to be parsed multiple times...
+Lastly, I can quote an explanation which was part of my earlier
+submissions but was dropped after someone suggested that it was too
+verbose for such a simple clean up. Maybe you will find it meaningful:
 
-Still I see the settings struct doesn't provide a way to comunicate the
-sum of all the modes. I already have a patch in mind for that (usual
-enum define hell) but that is again cross subsystem thing...
+    It is actually better to always build such drivers with OF enabled,
+    so that the test builds are closer to how each driver will actually be
+    built on its intended target. Building them without OF may not test
+    much as the compiler will optimize out potentially large parts of the
+    code. In the worst case, this could even pop false positive warnings.
+    Dropping COMPILE_TEST here improves the quality of our testing and
+    avoids wasting time on non-existent issues.
 
-I see phy declare a array of 50 element to have enough space for all the
-link speed modes. Think I will have to do the same here and update
-later to a better implementation.
-
+Hope that helps,
 -- 
-	Ansuel
+Jean Delvare
+SUSE L3 Support
 
