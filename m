@@ -1,48 +1,48 @@
-Return-Path: <linux-leds+bounces-397-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-398-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EC1813082
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 13:48:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCA68130AE
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 13:59:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05CBF1C20B61
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:48:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8295AB20CAF
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30754D131;
-	Thu, 14 Dec 2023 12:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1164E1C7;
+	Thu, 14 Dec 2023 12:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="EjoAk9t3"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="Ek9YRb2a"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DD0118;
-	Thu, 14 Dec 2023 04:48:21 -0800 (PST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 2BE86120006;
-	Thu, 14 Dec 2023 15:48:19 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 2BE86120006
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0696C115;
+	Thu, 14 Dec 2023 04:58:59 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 800CC100003;
+	Thu, 14 Dec 2023 15:58:57 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 800CC100003
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1702558099;
-	bh=u+Z5N++7kSFY5F/c2vJ7dRETDl74LEfCFys2YGreP0U=;
+	s=mail; t=1702558737;
+	bh=qT3NzId9fi7gmTS3Fcf9+Cs1PZA1K9YzCqSJ9uxx38Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=EjoAk9t3ili75t5nFo1YFyObpi37mVffM2APXHrDL7UCttExpyNB7Q79fDnLYD8K9
-	 g6gvOsiXawD2nktGF7NhcGA1xfX8GcszTJWfHYYeGz2v2QBMz1JvPqrU18bY0hJ8M3
-	 CC11DtjBWbEdbczxzUtpBugN0iEE98f+al793cKa7EaCzSoXt9Ck1lIjZ3yTmqMo84
-	 4e6ec79vYEtt412a62fqqvhGIIZ/lUeN5wue8GxK7p5LwGZxJGMqHt/+Cd/sGoszx+
-	 rK2lRlUlxlf+GRbzgNCJ2dUNAbg5CviwmAtq2dUPz0MeXuL+5O+J+egZCQN2qFH6Qx
-	 AZIJQx/FS38Qg==
+	b=Ek9YRb2aOBKfbyNT8dPviIM17sArXdb//XeAW4uWF/jbQerBn0Hrn015WcZkbPLk4
+	 Z64taz/9B/4eLYvqH+gX7EoAOJbiASIjrbfZstXDcZCMkAHRBi5G5g3eWuCyfr5SUi
+	 EqO0XvfBeOnOVrE9PvxyeSol2ZZEsBRYZTWPlQ63r1sFXTcLe6TWytHZY2boAc7DNu
+	 Uf3KaaEyhp05NzMFcbev0aQnYC4HWk5KRTSt13YZ8ctfa42ZvXMRK4+WnygGmSKA6Y
+	 76mZixR8TmA3SGQ6q19FnjY7Ot2SBlDbry5jwAQgHnBwRaWx1qW5IfZ2Ao/iXTiR0U
+	 uDNX/8cgwNUrA==
 Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Thu, 14 Dec 2023 15:48:18 +0300 (MSK)
+	Thu, 14 Dec 2023 15:58:57 +0300 (MSK)
 Received: from [192.168.1.143] (100.64.160.123) by
  p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Dec 2023 15:48:18 +0300
-Message-ID: <99882775-af52-49ea-b17d-f3d1f23f8bbe@salutedevices.com>
-Date: Thu, 14 Dec 2023 15:48:18 +0300
+ 15.2.1118.40; Thu, 14 Dec 2023 15:58:57 +0300
+Message-ID: <fa048fec-86f2-42b5-ad36-7776c569a349@salutedevices.com>
+Date: Thu, 14 Dec 2023 15:58:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -50,29 +50,25 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/11] devm-helpers: introduce devm_mutex_init
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>, "pavel@ucw.cz"
-	<pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>, "vadimp@nvidia.com"
-	<vadimp@nvidia.com>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-	"npiggin@gmail.com" <npiggin@gmail.com>, "hdegoede@redhat.com"
-	<hdegoede@redhat.com>, "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "mingo@redhat.com"
-	<mingo@redhat.com>, "will@kernel.org" <will@kernel.org>, "longman@redhat.com"
-	<longman@redhat.com>, "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
-	"nikitos.tr@gmail.com" <nikitos.tr@gmail.com>
-CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"kernel@salutedevices.com" <kernel@salutedevices.com>
-References: <20231213223020.2713164-1-gnstark@salutedevices.com>
- <20231213223020.2713164-4-gnstark@salutedevices.com>
- <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
+Subject: Re: [PATCH v3 04/11] leds: aw2013: use devm API to cleanup module's
+ resources
 Content-Language: en-US
+To: Nikita Travkin <nikita@trvn.ru>
+CC: <andy.shevchenko@gmail.com>, <pavel@ucw.cz>, <lee@kernel.org>,
+	<vadimp@nvidia.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<christophe.leroy@csgroup.eu>, <hdegoede@redhat.com>,
+	<mazziesaccount@gmail.com>, <peterz@infradead.org>, <mingo@redhat.com>,
+	<will@kernel.org>, <longman@redhat.com>, <boqun.feng@gmail.com>,
+	<nikitos.tr@gmail.com>, <linux-leds@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<kernel@salutedevices.com>
+References: <20231213223020.2713164-1-gnstark@salutedevices.com>
+ <20231213223020.2713164-5-gnstark@salutedevices.com>
+ <c709e0f33da06db40127f3a0adcbebbd@trvn.ru>
 From: George Stark <gnstark@salutedevices.com>
-In-Reply-To: <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
+In-Reply-To: <c709e0f33da06db40127f3a0adcbebbd@trvn.ru>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
  p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
 X-KSMG-Rule-ID: 10
@@ -84,106 +80,46 @@ X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, lore.kernel.org:7.1.1;100.64.160.123:7.1.2;smtp.sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;100.64.160.123:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2023/12/14 09:55:00
-X-KSMG-LinksScanning: Clean, bases: 2023/12/14 09:55:00
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
 X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/12/14 10:50:00 #22693095
 X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hello Christophe
+Hello Nikita
 
-On 12/14/23 13:06, Christophe Leroy wrote:
-> 
-> 
-...
-> 
-> So you abandonned the idea of using mutex.h ?
+Thanks for the review and testing.
 
-I'm not the one who make a choice here. The patch [1] you're talking 
-about was seen by everyone but it seems like no one had shown interest.
-For me personally approach with #define mutex_destroy is not very usual
-but if even slight mixing device with mutex.h is unacceptable what else
-can we do? Avoiding the need to allocate devm slot for empty 
-mutex_destroy is more important.
-
-Should I make series #4 with the patch [1] to give it a last chance?
-
-[1] 
-https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m3f6df30ffccaccb1df4669a327f349164f572931
-
-
-> I can't see the point to spread mutex functions into devm-helpers.h
-> 
-> Adding a mutex_destroy macro for this purpose looks odd. And if someone
-> defines a new version of mutex_destroy() and forget the macro, it will
-> go undetected.
-> 
-> Usually macros of that type serve the purpose of defining a fallback
-> when the macro is not defined. In that case, when someone adds a new
-> version without defining the macro, it gets detected because if
-> conflicts with the fallback.
-> But in your case it works the other way round, so I will just go undetected.
-> 
-> For me the best solution remains to use mutex.h and have
-> devm_mutex_init() defined or declared at the same place as mutex_destroy().
-> 
-
-
-> 
+On 12/14/23 08:42, Nikita Travkin wrote:
+> George Stark писал(а) 14.12.2023 03:30:
+>> In this driver LEDs are registered using devm_led_classdev_register()
+>> so they are automatically unregistered after module's remove() is done.
+>> led_classdev_unregister() calls module's led_set_brightness() to turn off
+>> the LEDs and that callback uses resources which were destroyed already
+>> in module's remove() so use devm API instead of remove().
 >>
 >> Signed-off-by: George Stark <gnstark@salutedevices.com>
+> 
+> Thanks for noticing and fixing this!
+> Perhaps this patch needs a Fixes tag too, like 1/11?
+
+This patch and the rest of the series depend on new feature 
+devm_mutex_init and if I add Fixes tag this feature will need to be 
+backported too along with fixes. I'm not sure it's desirable.
+
+> 
+> Tested-by: Nikita Travkin <nikita@trvn.ru>
+> 
+> Btw, seems like (5..11)/11 never arrived to the lists...
+
+Yeah there was a delay, but now all patches from series #3 are online.
+> 
+> Nikita
+> 
 >> ---
->>    include/linux/devm-helpers.h | 27 +++++++++++++++++++++++++++
->>    1 file changed, 27 insertions(+)
->>
->> diff --git a/include/linux/devm-helpers.h b/include/linux/devm-helpers.h
->> index 74891802200d..4043c3481d2e 100644
->> --- a/include/linux/devm-helpers.h
->> +++ b/include/linux/devm-helpers.h
->> @@ -24,6 +24,7 @@
->>     */
->>
->>    #include <linux/device.h>
->> +#include <linux/mutex.h>
->>    #include <linux/workqueue.h>
->>
->>    static inline void devm_delayed_work_drop(void *res)
->> @@ -76,4 +77,30 @@ static inline int devm_work_autocancel(struct device *dev,
->>           return devm_add_action(dev, devm_work_drop, w);
->>    }
->>
->> +#ifdef mutex_destroy
->> +static inline void devm_mutex_release(void *res)
->> +{
->> +       mutex_destroy(res);
->> +}
->> +#endif
->> +
->> +/**
->> + * devm_mutex_init - Resource-managed mutex initialization
->> + * @dev:       Device which lifetime mutex is bound to
->> + * @lock:      Pointer to a mutex
->> + *
->> + * Initialize mutex which is automatically destroyed when the driver is detached.
->> + *
->> + * Returns: 0 on success or a negative error code on failure.
->> + */
->> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
->> +{
->> +       mutex_init(lock);
->> +#ifdef mutex_destroy
->> +       return devm_add_action_or_reset(dev, devm_mutex_release, lock);
->> +#else
->> +       return 0;
->> +#endif
->> +}
->> +
->>    #endif
->> --
->> 2.25.1
->>
+...
 
 -- 
 Best regards
