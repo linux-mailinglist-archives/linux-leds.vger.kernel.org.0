@@ -1,202 +1,304 @@
-Return-Path: <linux-leds+bounces-393-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-394-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4552D812F72
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:52:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B6F812FEA
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 13:21:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFE0D1F21925
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 11:52:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BC5E1C208CD
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464253F8EE;
-	Thu, 14 Dec 2023 11:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC344176A;
+	Thu, 14 Dec 2023 12:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KPVCy4Jo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZyYLXhTC"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8154C183
-	for <linux-leds@vger.kernel.org>; Thu, 14 Dec 2023 03:51:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702554718;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aS/6XnBRIdVtrYOp4wLHjvS6oz2atR3YP9ICgOB3iGg=;
-	b=KPVCy4JoG5Zi1WZBbThBmgzcPQP47UmD0HsBh8Zw2DvPE6uG4/xs7xsl7dqZFNk5jhDT82
-	VABqJBLUkJ/+IfkcrnTPMMzSi4OF0r5m3kewmYedQPYPLPTQWxB2F7sB2GB0ICJ4FX+tzP
-	FPhWCy8+gLVhKkZaPapN01EcI3pVxq0=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-140-Y6PcQ8c7PNGMTre1_WsKrQ-1; Thu, 14 Dec 2023 06:51:56 -0500
-X-MC-Unique: Y6PcQ8c7PNGMTre1_WsKrQ-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a1f9ab28654so219957166b.0
-        for <linux-leds@vger.kernel.org>; Thu, 14 Dec 2023 03:51:56 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D9B112;
+	Thu, 14 Dec 2023 04:20:59 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-33621d443a7so4323087f8f.3;
+        Thu, 14 Dec 2023 04:20:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702556458; x=1703161258; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTkiSP+MxKrMId9/OvL1ZupidnFboSQTL72KpVM+M+Q=;
+        b=ZyYLXhTCZJ20za5v8OZUf+gyif6hW9ysh1EVGUeRDIxnTYKgIxayk8ifMxc6DktRCq
+         ofquPuFMl4uER6Js6HGPfVF8xJTDfqvVGyOWp5S3W5taCoKFeLu3NQyzvPvYym5oVhgM
+         wpyX3dlhIx+i4llShr9NkIHMxeB2nuMWEn4n5I9pfiHO76DzJdBHJETHV9ymQH5md5hP
+         PODLMVi45Lg4zio3GMQEK2bCEhrnmO4TOtXva3FNTKHbPTuVYZj3IWFfvY52XZsRIRX7
+         H8kj4UHdk/7Dh+CHgb9R17LAtpxgP7lWuWU5wfl5Gfw7UgidBSPLzF8o5H+3Minp0Pn+
+         01wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702554715; x=1703159515;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aS/6XnBRIdVtrYOp4wLHjvS6oz2atR3YP9ICgOB3iGg=;
-        b=tPraCyktea3M2o/4KGlAZ/CDhRzRjZDKDFJCNGtUcNDH/iWsxT8CrYbm0aEeClWx+N
-         G2NU2trI0itVLx/pdAUF8fN9Cv7P0CIzmD7RYINRbnPg32sJERRhqITxTrqpx1xGixQ4
-         J7S6lsxa2zWq+FFhWniRgpuIDUPV1Ey5pj979ftETQzDoWHxQ/5Oo8uGkmWRZL7Koldt
-         zCEsu9TTho+kRvcZhOsCcGx7ryWOacwljSKqH+1+ZF2hJ9L3dqFOIMDUfLTb2swfump/
-         tbKqL4HFxlJgLRPeXoslaNemQHimQDYuaN07q3zn9zKY8QUvbqs90xw5GvNQCWug52ii
-         w1oA==
-X-Gm-Message-State: AOJu0Yxi8W0pg+eO//1VH7bS6oGuPxLEAcCNjtuXVNHw9c01d8Br4xAV
-	rzzLLR7fE6O5QUG3xsdTkn/1wJPXnOsvYnRAhnKk7paUkx0Wnid+Arm+odpsLsOTRxTwSL3RkGT
-	Pl1abgrjRhHTyYyrU/WELJw==
-X-Received: by 2002:a17:906:10c7:b0:a1c:e980:3c3 with SMTP id v7-20020a17090610c700b00a1ce98003c3mr4066592ejv.28.1702554715593;
-        Thu, 14 Dec 2023 03:51:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFL7HyiSYut4T02F873+WBU/5sTp49/HyQIdZ0Go18ospT2UlJqi27N9WVGJWziHpX9DdSow==
-X-Received: by 2002:a17:906:10c7:b0:a1c:e980:3c3 with SMTP id v7-20020a17090610c700b00a1ce98003c3mr4066575ejv.28.1702554715217;
-        Thu, 14 Dec 2023 03:51:55 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id se13-20020a170907a38d00b00a1f78048f08sm8487004ejc.146.2023.12.14.03.51.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Dec 2023 03:51:54 -0800 (PST)
-Message-ID: <c8950992-9b3e-4740-8ad6-f22d5a043fb1@redhat.com>
-Date: Thu, 14 Dec 2023 12:51:53 +0100
+        d=1e100.net; s=20230601; t=1702556458; x=1703161258;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTkiSP+MxKrMId9/OvL1ZupidnFboSQTL72KpVM+M+Q=;
+        b=Pqg/XtvGlVKC73Yn9Cr2wTS9K4W52VqpjgoAT31uJYXIfQnHwhMkRVz94Z/raG0mmt
+         gyGnsMfFpmw9xC/swf1oJirAGFXPIVXZn84GA3I8+3RGON5qvSo2JR1Vt2/TQqz37iWw
+         BMW7Tb7V/mf5GiGfUNCXM7UU8hfPmA28rFUJ6l1TJ1RhEMzhqtJHzY2jGs6cYCUMpFvz
+         3XmImcJoE8+V8jeX4lsxR2fhbf30jzHhBlWC2ppgs4OV8mXPucRSm53TgfMPrX+k/g/r
+         Eqm8xCQjbQ3Kl4XgplQ8On6LDp6eUMUteysoa441BZYAatBkmlrJx5z1wzgZ8Cvq5sOx
+         Kjrw==
+X-Gm-Message-State: AOJu0Yxvk6RDGQYp0KOXfxpaoDPVm59NX2XAQJBGlE2Ji8KVtEWhw23N
+	4iiQlZmqVgl1RAffXwwUrnQ=
+X-Google-Smtp-Source: AGHT+IHUx8uByEjYu0UiXRRWXssAP3UeLQtNDVDRl0YkNW+5n7cjkUTQ7hurZ5sk2Rc6YFxeYebErA==
+X-Received: by 2002:adf:ea44:0:b0:336:4704:d288 with SMTP id j4-20020adfea44000000b003364704d288mr457691wrn.83.1702556457498;
+        Thu, 14 Dec 2023 04:20:57 -0800 (PST)
+Received: from localhost.localdomain (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
+        by smtp.googlemail.com with ESMTPSA id s18-20020a5d5112000000b0033330ace23asm15988494wrt.73.2023.12.14.04.20.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 04:20:56 -0800 (PST)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	=?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Li Zetao <lizetao1@huawei.com>,
+	linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: [PATCH v3 1/2] leds: trigger: netdev: display only supported link speed attribute
+Date: Thu, 14 Dec 2023 13:20:40 +0100
+Message-Id: <20231214122041.17439-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/11] devm-helpers: introduce devm_mutex_init
-Content-Language: en-US, nl
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- George Stark <gnstark@salutedevices.com>,
- "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
- "pavel@ucw.cz" <pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>,
- "vadimp@nvidia.com" <vadimp@nvidia.com>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "npiggin@gmail.com" <npiggin@gmail.com>,
- "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "mingo@redhat.com" <mingo@redhat.com>, "will@kernel.org" <will@kernel.org>,
- "longman@redhat.com" <longman@redhat.com>,
- "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
- "nikitos.tr@gmail.com" <nikitos.tr@gmail.com>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "kernel@salutedevices.com" <kernel@salutedevices.com>
-References: <20231213223020.2713164-1-gnstark@salutedevices.com>
- <20231213223020.2713164-4-gnstark@salutedevices.com>
- <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+With the addition of more link speed mode to the netdev trigger, it was
+pointed out that there may be a problem with bloating the attribute list
+with modes that won't ever be supported by the trigger as the attached
+device name doesn't support them.
 
-On 12/14/23 11:06, Christophe Leroy wrote:
-> 
-> 
-> Le 13/12/2023 à 23:30, George Stark a écrit :
->> [Vous ne recevez pas souvent de courriers de gnstark@salutedevices.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
->>
->> Using of devm API leads to a certain order of releasing resources.
->> So all dependent resources which are not devm-wrapped should be deleted
->> with respect to devm-release order. Mutex is one of such objects that
->> often is bound to other resources and has no own devm wrapper.
->> Since mutex_destroy() actually does nothing in non-debug builds
->> frequently calling mutex_destroy() is just ignored which is safe for now
->> but wrong formally and can lead to a problem if mutex_destroy() is
->> extended so introduce devm_mutex_init().
-> 
-> So you abandonned the idea of using mutex.h ?
-> 
-> I can't see the point to spread mutex functions into devm-helpers.h
-> 
-> Adding a mutex_destroy macro for this purpose looks odd. And if someone 
-> defines a new version of mutex_destroy() and forget the macro, it will 
-> go undetected.
-> 
-> Usually macros of that type serve the purpose of defining a fallback 
-> when the macro is not defined. In that case, when someone adds a new 
-> version without defining the macro, it gets detected because if 
-> conflicts with the fallback.
-> But in your case it works the other way round, so I will just go undetected.
-> 
-> For me the best solution remains to use mutex.h and have 
-> devm_mutex_init() defined or declared at the same place as mutex_destroy().
+To clear and address this problem, change the logic where these
+additional trigger modes are listed.
 
-FWIW defining devm_mutex_init() in mutex.h is fine
-with me and makes sense to me. I also agree that putting
-it there would be better if that is acceptable for
-the mutex maintainers.
+Since the netdev trigger REQUIRE a device name to be set, attach to the
+device name change function additional logic to parse the supported link
+speed modes using ethtool APIs and show only the supported link speed
+modes attribute.
 
-devm-helpers.h is there for helpers which don't fit
-in another place.
+Link speed attribute are refreshed on device_name set and on
+NETDEV_CHANGE events.
 
-Regards,
+This only apply to the link speed modes and every other mode is still
+provided by default.
 
-Hans
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+---
+Changes v3:
+- Use phy_speeds API to parse the ethtool mask
+Changes v2:
+- Use is_visibile instead of removing/adding attr
 
+ drivers/leds/trigger/ledtrig-netdev.c | 104 ++++++++++++++++++++++++--
+ 1 file changed, 98 insertions(+), 6 deletions(-)
 
-
-
-> 
-> 
->>
->> Signed-off-by: George Stark <gnstark@salutedevices.com>
->> ---
->>   include/linux/devm-helpers.h | 27 +++++++++++++++++++++++++++
->>   1 file changed, 27 insertions(+)
->>
->> diff --git a/include/linux/devm-helpers.h b/include/linux/devm-helpers.h
->> index 74891802200d..4043c3481d2e 100644
->> --- a/include/linux/devm-helpers.h
->> +++ b/include/linux/devm-helpers.h
->> @@ -24,6 +24,7 @@
->>    */
->>
->>   #include <linux/device.h>
->> +#include <linux/mutex.h>
->>   #include <linux/workqueue.h>
->>
->>   static inline void devm_delayed_work_drop(void *res)
->> @@ -76,4 +77,30 @@ static inline int devm_work_autocancel(struct device *dev,
->>          return devm_add_action(dev, devm_work_drop, w);
->>   }
->>
->> +#ifdef mutex_destroy
->> +static inline void devm_mutex_release(void *res)
->> +{
->> +       mutex_destroy(res);
->> +}
->> +#endif
->> +
->> +/**
->> + * devm_mutex_init - Resource-managed mutex initialization
->> + * @dev:       Device which lifetime mutex is bound to
->> + * @lock:      Pointer to a mutex
->> + *
->> + * Initialize mutex which is automatically destroyed when the driver is detached.
->> + *
->> + * Returns: 0 on success or a negative error code on failure.
->> + */
->> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
->> +{
->> +       mutex_init(lock);
->> +#ifdef mutex_destroy
->> +       return devm_add_action_or_reset(dev, devm_mutex_release, lock);
->> +#else
->> +       return 0;
->> +#endif
->> +}
->> +
->>   #endif
->> --
->> 2.25.1
->>
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index bd68da15c723..345e522bc44a 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -18,10 +18,12 @@
+ #include <linux/jiffies.h>
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
++#include <linux/linkmode.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
+ #include <linux/mutex.h>
++#include <linux/phy.h>
+ #include <linux/rtnetlink.h>
+ #include <linux/timer.h>
+ #include "../leds.h"
+@@ -55,12 +57,16 @@ struct led_netdev_data {
+ 
+ 	unsigned long mode;
+ 	int link_speed;
++	unsigned int supported_link_speeds[20];
++	int supported_link_speeds_num;
+ 	u8 duplex;
+ 
+ 	bool carrier_link_up;
+ 	bool hw_control;
+ };
+ 
++static const struct attribute_group netdev_trig_link_speed_attrs_group;
++
+ static void set_baseline_state(struct led_netdev_data *trigger_data)
+ {
+ 	int current_brightness;
+@@ -206,15 +212,25 @@ static bool can_hw_control(struct led_netdev_data *trigger_data)
+ static void get_device_state(struct led_netdev_data *trigger_data)
+ {
+ 	struct ethtool_link_ksettings cmd;
++	int speeds_num;
+ 
+ 	trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
+-	if (!trigger_data->carrier_link_up)
++
++	if (__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd))
+ 		return;
+ 
+-	if (!__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd)) {
++	if (trigger_data->carrier_link_up) {
+ 		trigger_data->link_speed = cmd.base.speed;
+ 		trigger_data->duplex = cmd.base.duplex;
+ 	}
++
++	/* Have a local copy of the link speed supported to not rtnl lock every time
++	 * Modes are refreshed on any change event to handle mode changes
++	 */
++	speeds_num = phy_speeds(trigger_data->supported_link_speeds,
++				ARRAY_SIZE(trigger_data->supported_link_speeds),
++				cmd.link_modes.supported);
++	trigger_data->supported_link_speeds_num = speeds_num;
+ }
+ 
+ static ssize_t device_name_show(struct device *dev,
+@@ -257,6 +273,7 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+ 	trigger_data->carrier_link_up = false;
+ 	trigger_data->link_speed = SPEED_UNKNOWN;
+ 	trigger_data->duplex = DUPLEX_UNKNOWN;
++	trigger_data->supported_link_speeds_num = 0;
+ 	if (trigger_data->net_dev != NULL) {
+ 		rtnl_lock();
+ 		get_device_state(trigger_data);
+@@ -282,6 +299,10 @@ static ssize_t device_name_store(struct device *dev,
+ 
+ 	if (ret < 0)
+ 		return ret;
++
++	/* Refresh link_speed visibility */
++	sysfs_update_group(&dev->kobj, &netdev_trig_link_speed_attrs_group);
++
+ 	return size;
+ }
+ 
+@@ -440,15 +461,72 @@ static ssize_t offloaded_show(struct device *dev,
+ 
+ static DEVICE_ATTR_RO(offloaded);
+ 
+-static struct attribute *netdev_trig_attrs[] = {
+-	&dev_attr_device_name.attr,
+-	&dev_attr_link.attr,
++static umode_t netdev_trig_link_speed_visible(struct kobject *kobj,
++					      struct attribute *attr, int n)
++{
++	struct device *dev = kobj_to_dev(kobj);
++	struct led_netdev_data *trigger_data;
++	unsigned int *supported_link_speeds;
++	int speeds_num, i;
++
++	trigger_data = led_trigger_get_drvdata(dev);
++	supported_link_speeds = trigger_data->supported_link_speeds;
++	speeds_num = trigger_data->supported_link_speeds_num;
++
++	for (i = 0; i < speeds_num; i++) {
++		int speed = supported_link_speeds[i];
++
++		switch (speed) {
++		case SPEED_10:
++			if (attr == &dev_attr_link_10.attr)
++				return attr->mode;
++			break;
++		case SPEED_100:
++			if (attr == &dev_attr_link_100.attr)
++				return attr->mode;
++			break;
++		case SPEED_1000:
++			if (attr == &dev_attr_link_1000.attr)
++				return attr->mode;
++			break;
++		case SPEED_2500:
++			if (attr == &dev_attr_link_2500.attr)
++				return attr->mode;
++			break;
++		case SPEED_5000:
++			if (attr == &dev_attr_link_5000.attr)
++				return attr->mode;
++			break;
++		case SPEED_10000:
++			if (attr == &dev_attr_link_10000.attr)
++				return attr->mode;
++			break;
++		default:
++			return 0;
++		}
++	}
++
++	return 0;
++}
++
++static struct attribute *netdev_trig_link_speed_attrs[] = {
+ 	&dev_attr_link_10.attr,
+ 	&dev_attr_link_100.attr,
+ 	&dev_attr_link_1000.attr,
+ 	&dev_attr_link_2500.attr,
+ 	&dev_attr_link_5000.attr,
+ 	&dev_attr_link_10000.attr,
++	NULL
++};
++
++static const struct attribute_group netdev_trig_link_speed_attrs_group = {
++	.attrs = netdev_trig_link_speed_attrs,
++	.is_visible = netdev_trig_link_speed_visible,
++};
++
++static struct attribute *netdev_trig_attrs[] = {
++	&dev_attr_device_name.attr,
++	&dev_attr_link.attr,
+ 	&dev_attr_full_duplex.attr,
+ 	&dev_attr_half_duplex.attr,
+ 	&dev_attr_rx.attr,
+@@ -457,7 +535,16 @@ static struct attribute *netdev_trig_attrs[] = {
+ 	&dev_attr_offloaded.attr,
+ 	NULL
+ };
+-ATTRIBUTE_GROUPS(netdev_trig);
++
++static const struct attribute_group netdev_trig_attrs_group = {
++	.attrs = netdev_trig_attrs,
++};
++
++static const struct attribute_group *netdev_trig_groups[] = {
++	&netdev_trig_attrs_group,
++	&netdev_trig_link_speed_attrs_group,
++	NULL,
++};
+ 
+ static int netdev_trig_notify(struct notifier_block *nb,
+ 			      unsigned long evt, void *dv)
+@@ -466,6 +553,7 @@ static int netdev_trig_notify(struct notifier_block *nb,
+ 		netdev_notifier_info_to_dev((struct netdev_notifier_info *)dv);
+ 	struct led_netdev_data *trigger_data =
+ 		container_of(nb, struct led_netdev_data, notifier);
++	struct led_classdev *led_cdev = trigger_data->led_cdev;
+ 
+ 	if (evt != NETDEV_UP && evt != NETDEV_DOWN && evt != NETDEV_CHANGE
+ 	    && evt != NETDEV_REGISTER && evt != NETDEV_UNREGISTER
+@@ -500,6 +588,10 @@ static int netdev_trig_notify(struct notifier_block *nb,
+ 	case NETDEV_UP:
+ 	case NETDEV_CHANGE:
+ 		get_device_state(trigger_data);
++		/* Refresh link_speed visibility */
++		if (evt == NETDEV_CHANGE)
++			sysfs_update_group(&led_cdev->dev->kobj,
++					   &netdev_trig_link_speed_attrs_group);
+ 		break;
+ 	}
+ 
+-- 
+2.40.1
 
 
