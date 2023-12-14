@@ -1,280 +1,191 @@
-Return-Path: <linux-leds+bounces-396-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-397-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E87A81306E
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 13:43:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EC1813082
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 13:48:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74034B210F4
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:43:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05CBF1C20B61
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Dec 2023 12:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00DF94E1AB;
-	Thu, 14 Dec 2023 12:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30754D131;
+	Thu, 14 Dec 2023 12:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6isgCXk"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="EjoAk9t3"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213A1A3
-	for <linux-leds@vger.kernel.org>; Thu, 14 Dec 2023 04:43:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702557784; x=1734093784;
-  h=date:from:to:cc:subject:message-id;
-  bh=yLiLDt1V9osWrSwdezrBIUhdwoI61C9u1i6y2qmxXXY=;
-  b=P6isgCXkQa11p+fi6T6Hs4huP5QatMpHTHQ71YBVa5ywfe2PkTwRSsVL
-   Kt7HKF/pNZTQAcX50D0mV7f4A+wszv+vMjucAKxG91LdF/hJex3Yf/DuZ
-   y7hWcJabnqiD0qV5oOWxrC1bY8kLCMHcUHw952dDjOyPND2QKIggtRza+
-   rLms5sEZlMMfUHJ/Nu4dWemIbEC/9TE1F9ZtLXruPmS1e7w+nws5HvFcG
-   ws0pIob/EKctK0p7zkXMfaNCTra08EB8+NTQWPkDWcqCmQaIJ/HxkbveK
-   gU1guUt8QrQ6wXDAuPIsjF9QadGO6R6UF+7beJVOwAtVKzjIMO5FrHO1S
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459435093"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="459435093"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 04:43:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="947561735"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="947561735"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2023 04:43:02 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDl3L-000M4W-1a;
-	Thu, 14 Dec 2023 12:42:59 +0000
-Date: Thu, 14 Dec 2023 20:42:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: linux-leds@vger.kernel.org
-Subject: [lee-leds:ib-leds-netdev-6.8] BUILD SUCCESS
- ee8bfb47222a5cc59dee345b7369c5f2068e78cd
-Message-ID: <202312142059.1MKFZXQ7-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DD0118;
+	Thu, 14 Dec 2023 04:48:21 -0800 (PST)
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 2BE86120006;
+	Thu, 14 Dec 2023 15:48:19 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 2BE86120006
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1702558099;
+	bh=u+Z5N++7kSFY5F/c2vJ7dRETDl74LEfCFys2YGreP0U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=EjoAk9t3ili75t5nFo1YFyObpi37mVffM2APXHrDL7UCttExpyNB7Q79fDnLYD8K9
+	 g6gvOsiXawD2nktGF7NhcGA1xfX8GcszTJWfHYYeGz2v2QBMz1JvPqrU18bY0hJ8M3
+	 CC11DtjBWbEdbczxzUtpBugN0iEE98f+al793cKa7EaCzSoXt9Ck1lIjZ3yTmqMo84
+	 4e6ec79vYEtt412a62fqqvhGIIZ/lUeN5wue8GxK7p5LwGZxJGMqHt/+Cd/sGoszx+
+	 rK2lRlUlxlf+GRbzgNCJ2dUNAbg5CviwmAtq2dUPz0MeXuL+5O+J+egZCQN2qFH6Qx
+	 AZIJQx/FS38Qg==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Thu, 14 Dec 2023 15:48:18 +0300 (MSK)
+Received: from [192.168.1.143] (100.64.160.123) by
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 14 Dec 2023 15:48:18 +0300
+Message-ID: <99882775-af52-49ea-b17d-f3d1f23f8bbe@salutedevices.com>
+Date: Thu, 14 Dec 2023 15:48:18 +0300
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/11] devm-helpers: introduce devm_mutex_init
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>, "pavel@ucw.cz"
+	<pavel@ucw.cz>, "lee@kernel.org" <lee@kernel.org>, "vadimp@nvidia.com"
+	<vadimp@nvidia.com>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+	"npiggin@gmail.com" <npiggin@gmail.com>, "hdegoede@redhat.com"
+	<hdegoede@redhat.com>, "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, "mingo@redhat.com"
+	<mingo@redhat.com>, "will@kernel.org" <will@kernel.org>, "longman@redhat.com"
+	<longman@redhat.com>, "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+	"nikitos.tr@gmail.com" <nikitos.tr@gmail.com>
+CC: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"kernel@salutedevices.com" <kernel@salutedevices.com>
+References: <20231213223020.2713164-1-gnstark@salutedevices.com>
+ <20231213223020.2713164-4-gnstark@salutedevices.com>
+ <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
+Content-Language: en-US
+From: George Stark <gnstark@salutedevices.com>
+In-Reply-To: <80881d5d-3ae9-4580-84c1-f25b421cc518@csgroup.eu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
+ p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 182110 [Dec 14 2023]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: gnstark@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, lore.kernel.org:7.1.1;100.64.160.123:7.1.2;smtp.sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2023/12/14 09:55:00
+X-KSMG-LinksScanning: Clean, bases: 2023/12/14 09:55:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/12/14 10:50:00 #22693095
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-netdev-6.8
-branch HEAD: ee8bfb47222a5cc59dee345b7369c5f2068e78cd  docs: ABI: sysfs-class-led-trigger-netdev: Add new modes and entry
+Hello Christophe
 
-elapsed time: 1469m
+On 12/14/23 13:06, Christophe Leroy wrote:
+> 
+> 
+...
+> 
+> So you abandonned the idea of using mutex.h ?
 
-configs tested: 202
-configs skipped: 2
+I'm not the one who make a choice here. The patch [1] you're talking 
+about was seen by everyone but it seems like no one had shown interest.
+For me personally approach with #define mutex_destroy is not very usual
+but if even slight mixing device with mutex.h is unacceptable what else
+can we do? Avoiding the need to allocate devm slot for empty 
+mutex_destroy is more important.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Should I make series #4 with the patch [1] to give it a last chance?
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     haps_hs_smp_defconfig   gcc  
-arc                   randconfig-001-20231214   gcc  
-arc                   randconfig-002-20231214   gcc  
-arc                        vdk_hs38_defconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                                 defconfig   clang
-arm                          gemini_defconfig   gcc  
-arm                           imxrt_defconfig   gcc  
-arm                      integrator_defconfig   gcc  
-arm                   randconfig-001-20231214   gcc  
-arm                   randconfig-002-20231214   gcc  
-arm                   randconfig-003-20231214   gcc  
-arm                   randconfig-004-20231214   gcc  
-arm                           stm32_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231214   gcc  
-arm64                 randconfig-002-20231214   gcc  
-arm64                 randconfig-003-20231214   gcc  
-arm64                 randconfig-004-20231214   gcc  
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231214   gcc  
-csky                  randconfig-002-20231214   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231214   clang
-hexagon               randconfig-002-20231214   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231213   clang
-i386         buildonly-randconfig-002-20231213   clang
-i386         buildonly-randconfig-003-20231213   clang
-i386         buildonly-randconfig-004-20231213   clang
-i386         buildonly-randconfig-005-20231213   clang
-i386         buildonly-randconfig-006-20231213   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231213   clang
-i386                  randconfig-002-20231213   clang
-i386                  randconfig-003-20231213   clang
-i386                  randconfig-004-20231213   clang
-i386                  randconfig-005-20231213   clang
-i386                  randconfig-006-20231213   clang
-i386                  randconfig-011-20231213   gcc  
-i386                  randconfig-011-20231214   clang
-i386                  randconfig-012-20231213   gcc  
-i386                  randconfig-012-20231214   clang
-i386                  randconfig-013-20231213   gcc  
-i386                  randconfig-013-20231214   clang
-i386                  randconfig-014-20231213   gcc  
-i386                  randconfig-014-20231214   clang
-i386                  randconfig-015-20231213   gcc  
-i386                  randconfig-015-20231214   clang
-i386                  randconfig-016-20231213   gcc  
-i386                  randconfig-016-20231214   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231214   gcc  
-loongarch             randconfig-002-20231214   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-m68k                        stmark2_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         cobalt_defconfig   gcc  
-mips                    maltaup_xpa_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231214   gcc  
-nios2                 randconfig-002-20231214   gcc  
-openrisc                         alldefconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20231214   gcc  
-parisc                randconfig-002-20231214   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     asp8347_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                       holly_defconfig   gcc  
-powerpc                      makalu_defconfig   gcc  
-powerpc                 mpc834x_itx_defconfig   gcc  
-powerpc                      pasemi_defconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc                       ppc64_defconfig   gcc  
-powerpc               randconfig-001-20231214   gcc  
-powerpc               randconfig-002-20231214   gcc  
-powerpc               randconfig-003-20231214   gcc  
-powerpc                  storcenter_defconfig   gcc  
-powerpc                        warp_defconfig   gcc  
-powerpc64             randconfig-001-20231214   gcc  
-powerpc64             randconfig-002-20231214   gcc  
-powerpc64             randconfig-003-20231214   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                 randconfig-001-20231214   gcc  
-riscv                 randconfig-002-20231214   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231214   clang
-s390                  randconfig-002-20231214   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                    randconfig-001-20231214   gcc  
-sh                    randconfig-002-20231214   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                           se7780_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                     sh7710voipgw_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sh                             shx3_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          alldefconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231214   gcc  
-sparc64               randconfig-002-20231214   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231214   gcc  
-um                    randconfig-002-20231214   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231214   gcc  
-x86_64       buildonly-randconfig-002-20231214   gcc  
-x86_64       buildonly-randconfig-003-20231214   gcc  
-x86_64       buildonly-randconfig-004-20231214   gcc  
-x86_64       buildonly-randconfig-005-20231214   gcc  
-x86_64       buildonly-randconfig-006-20231214   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-011-20231214   gcc  
-x86_64                randconfig-012-20231214   gcc  
-x86_64                randconfig-013-20231214   gcc  
-x86_64                randconfig-014-20231214   gcc  
-x86_64                randconfig-015-20231214   gcc  
-x86_64                randconfig-016-20231214   gcc  
-x86_64                randconfig-071-20231214   gcc  
-x86_64                randconfig-072-20231214   gcc  
-x86_64                randconfig-073-20231214   gcc  
-x86_64                randconfig-074-20231214   gcc  
-x86_64                randconfig-075-20231214   gcc  
-x86_64                randconfig-076-20231214   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20231214   gcc  
-xtensa                randconfig-002-20231214   gcc  
-xtensa                         virt_defconfig   gcc  
+[1] 
+https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m3f6df30ffccaccb1df4669a327f349164f572931
+
+
+> I can't see the point to spread mutex functions into devm-helpers.h
+> 
+> Adding a mutex_destroy macro for this purpose looks odd. And if someone
+> defines a new version of mutex_destroy() and forget the macro, it will
+> go undetected.
+> 
+> Usually macros of that type serve the purpose of defining a fallback
+> when the macro is not defined. In that case, when someone adds a new
+> version without defining the macro, it gets detected because if
+> conflicts with the fallback.
+> But in your case it works the other way round, so I will just go undetected.
+> 
+> For me the best solution remains to use mutex.h and have
+> devm_mutex_init() defined or declared at the same place as mutex_destroy().
+> 
+
+
+> 
+>>
+>> Signed-off-by: George Stark <gnstark@salutedevices.com>
+>> ---
+>>    include/linux/devm-helpers.h | 27 +++++++++++++++++++++++++++
+>>    1 file changed, 27 insertions(+)
+>>
+>> diff --git a/include/linux/devm-helpers.h b/include/linux/devm-helpers.h
+>> index 74891802200d..4043c3481d2e 100644
+>> --- a/include/linux/devm-helpers.h
+>> +++ b/include/linux/devm-helpers.h
+>> @@ -24,6 +24,7 @@
+>>     */
+>>
+>>    #include <linux/device.h>
+>> +#include <linux/mutex.h>
+>>    #include <linux/workqueue.h>
+>>
+>>    static inline void devm_delayed_work_drop(void *res)
+>> @@ -76,4 +77,30 @@ static inline int devm_work_autocancel(struct device *dev,
+>>           return devm_add_action(dev, devm_work_drop, w);
+>>    }
+>>
+>> +#ifdef mutex_destroy
+>> +static inline void devm_mutex_release(void *res)
+>> +{
+>> +       mutex_destroy(res);
+>> +}
+>> +#endif
+>> +
+>> +/**
+>> + * devm_mutex_init - Resource-managed mutex initialization
+>> + * @dev:       Device which lifetime mutex is bound to
+>> + * @lock:      Pointer to a mutex
+>> + *
+>> + * Initialize mutex which is automatically destroyed when the driver is detached.
+>> + *
+>> + * Returns: 0 on success or a negative error code on failure.
+>> + */
+>> +static inline int devm_mutex_init(struct device *dev, struct mutex *lock)
+>> +{
+>> +       mutex_init(lock);
+>> +#ifdef mutex_destroy
+>> +       return devm_add_action_or_reset(dev, devm_mutex_release, lock);
+>> +#else
+>> +       return 0;
+>> +#endif
+>> +}
+>> +
+>>    #endif
+>> --
+>> 2.25.1
+>>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+George
 
