@@ -1,64 +1,65 @@
-Return-Path: <linux-leds+bounces-437-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-438-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C868161A1
-	for <lists+linux-leds@lfdr.de>; Sun, 17 Dec 2023 19:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6098161BB
+	for <lists+linux-leds@lfdr.de>; Sun, 17 Dec 2023 20:16:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52F99B21F25
-	for <lists+linux-leds@lfdr.de>; Sun, 17 Dec 2023 18:46:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1DABB20ADE
+	for <lists+linux-leds@lfdr.de>; Sun, 17 Dec 2023 19:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B99391E480;
-	Sun, 17 Dec 2023 18:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC7FF47F63;
+	Sun, 17 Dec 2023 19:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4pElLP7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ta3r/nvd"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EED47A63;
-	Sun, 17 Dec 2023 18:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCC6481A0;
+	Sun, 17 Dec 2023 19:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a2335397e64so82286766b.2;
-        Sun, 17 Dec 2023 10:46:45 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cc4029dc6eso27073831fa.1;
+        Sun, 17 Dec 2023 11:16:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702838804; x=1703443604; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OtiQVOsiziZolbXqEGsWppzN9yGgcFtqpuEfznXju8E=;
-        b=h4pElLP7wleP5PqkUlNN2XyY5H/GFemCZmjUWeXzMt9S42AKs5prgZAoRn8U8Nd0qY
-         vLBFALgQtLnei7fg8mHH81oR/NvDodLxmGRCZxez294Dfb5HQTFntsjNsW0By38FZRIf
-         6IsuhyuF2hGu4ZTnDZoXlEjRc9AQzdbfAGwo1kFeTxE8DScWQWh0CbQO8sUJCD5PHUih
-         oji2PnoIdBcodgAbAscll85CL6/4TGOYX0+BR/Z1WyKLC/9yovfpWO8ZDXxcInQGHwzA
-         F1kGguzvaIfnvDqpvabuCi7MaWKInkmgJm0LIHtMEJEfnCfWF03C3zFhQGR7eeDXEtVq
-         1uhA==
+        d=gmail.com; s=20230601; t=1702840574; x=1703445374; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=yEgP8jIJVAEUyj5VeqhD7WNWwleYce7HTymoGIdGF9o=;
+        b=Ta3r/nvdVrb7sSJQTrJxs5zkOT1CsNUmjgX4SFqYIW/BRvppaDBQSE4Wj6mSArjc8c
+         8EuNquaEXNuhGzzm/nNLg1YIOwFbi4iildarbgi1ljuJhfh1yW9wCy1vfgtkGSDgNo/s
+         PjK0aD9RJjnRP1Y4ysAMRCaAeARtbZXzivpIR+1RLrdxeBh1ket2nN9jNQWs7RBmaidy
+         Xe0xIOWY/gCozLnACnRnqz6zPwLDRUWQPowGoBiVxLUH6TMbCia6E1AmZ51MyvLO7+FE
+         xif95+9wgIxLNnvBqm1GNXteO7v//S9dwR8C2dkv8y5uhAZQ3SqWuOx7oDZwvNkiuKkb
+         jdfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702838804; x=1703443604;
-        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OtiQVOsiziZolbXqEGsWppzN9yGgcFtqpuEfznXju8E=;
-        b=NWch2jvptQGKzq6x/l9OoanW44YFPHPmAAA2sZjI+OTjGCAhnp0rFOmJ4dsBVKRAdk
-         i+bixeqMya2ECj5JX9Plc5tMi6UGCVeebduboYT+qQgJuf2tsMs0Nijiqyq0KgtBqQgC
-         U8HXVzGD1gKAEZuNjBI7X8m6fokkxFhfb1GhCvc3Up8q1ba7BXubZL0D6ujquZicyz90
-         mXoPevc72ktNF+z13ZmTYwxMi8k7GctcKtIUKBuEhhvU99SnTp3rFEPIXYoRQL0VcCwP
-         5QE8ilYfHVvTqdOtZ0Vqwj5KV3OGi6RdGZUnfPWwhDQZFuLpuLsCpzaWwMcFOSuAmPei
-         znoA==
-X-Gm-Message-State: AOJu0YxM84qbnKkNpsnYA5zp+/lWJRiV3M07O9Bw0KJpXi3mktKyezzW
-	uP5UcDmw6NcplVB44TtVLL1yuU5psnk=
-X-Google-Smtp-Source: AGHT+IH3MQX+U+JW9QkzvkcAXzqJOjuD9ufE8hcOsXh8BBfQTFadQKi/1H92NOxEWqbqT8JtVOjkdg==
-X-Received: by 2002:a17:906:20de:b0:a1f:a0ed:6ba with SMTP id c30-20020a17090620de00b00a1fa0ed06bamr6858816ejc.81.1702838803953;
-        Sun, 17 Dec 2023 10:46:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702840574; x=1703445374;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yEgP8jIJVAEUyj5VeqhD7WNWwleYce7HTymoGIdGF9o=;
+        b=Tz9o7tOJCIdss6BJ1XEcCMsUb7TJtqLWqcdUMQR4Dp6MMDApXh7zMPq9YH5EPkJZpk
+         NgrpFrJjork7FkfMUEpQ80+WoreKxrykMJZ+qWWyfewHsR75OyFSkIFl6mFkM/rs89Pb
+         RvuNkuO/rc7cgBxuCnr/lIguOhOuFkXwnS5DaSNzGIRWDql5y4d1w1u0FVcmc3JhxCFM
+         qxaA0mHLfhHBQuXkJphbsVAXaV91AKPz7EYgGJPfZ8PTw59L9Y0GQXnWLgCJDf6FzMib
+         Mr8/JlOeLzeI3YU+XnEzsdxvvx/srMJ/meyyVbbUIo2nEWLqXJEskw0Zyf7wacJquxWo
+         mR5Q==
+X-Gm-Message-State: AOJu0YzqrI2eUziPw962St8g1sU/R8RQBa2M6YPMzhpfKS4+DrRvC+Ns
+	j6aNq3CJap2Wpb9kwt3IlXnOhTe7zdw=
+X-Google-Smtp-Source: AGHT+IF2/mE2xKWlzjaf5tcwQmmdUPdf5ylsE16VTN8t7vCGCYf9Cuk2C+7Edzfg0frx8Qv/UlUgDg==
+X-Received: by 2002:a2e:9787:0:b0:2ca:d14:96cf with SMTP id y7-20020a2e9787000000b002ca0d1496cfmr6452714lji.48.1702840573999;
+        Sun, 17 Dec 2023 11:16:13 -0800 (PST)
 Received: from ?IPV6:2a01:c22:6e42:9000:b4eb:1338:e451:9de3? (dynamic-2a01-0c22-6e42-9000-b4eb-1338-e451-9de3.c22.pool.telefonica.de. [2a01:c22:6e42:9000:b4eb:1338:e451:9de3])
-        by smtp.googlemail.com with ESMTPSA id rf19-20020a1709076a1300b00a1f75d21bf3sm12520534ejc.6.2023.12.17.10.46.42
+        by smtp.googlemail.com with ESMTPSA id ds12-20020a0564021ccc00b00552a6a19ed0sm2779409edb.9.2023.12.17.11.16.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Dec 2023 10:46:43 -0800 (PST)
-Message-ID: <3fd5184c-3641-4b0b-b59a-f489ec69a6cd@gmail.com>
-Date: Sun, 17 Dec 2023 19:46:42 +0100
+        Sun, 17 Dec 2023 11:16:12 -0800 (PST)
+Message-ID: <7b6cf0fb-4c77-4088-b87b-5649cfaa697e@gmail.com>
+Date: Sun, 17 Dec 2023 20:16:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,14 +67,15 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESUBMIT] leds: trigger: netdev: add core support for hw
+ not supporting fallback to LED sw control
+Content-Language: en-US
 From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH RESUBMIT] leds: trigger: netdev: add core support for hw not
- supporting fallback to LED sw control
 To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
 Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
  "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
  Andrew Lunn <andrew@lunn.ch>
-Content-Language: en-US
+References: <3fd5184c-3641-4b0b-b59a-f489ec69a6cd@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -117,65 +119,25 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
+In-Reply-To: <3fd5184c-3641-4b0b-b59a-f489ec69a6cd@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-If hw doesn't support sw control of the LED and we switch to a mode
-not supported by hw, currently we get lots of errors because neither
-brigthness_set() nor brithness_set_blocking() is set.
-Deal with this by not falling back to sw control, and return
--EOPNOTSUPP to the user. Note that we still store the new mode.
-This is needed in case an intermediate unsupported mode is necessary
-to switch from one supported mode to another.
+On 17.12.2023 19:46, Heiner Kallweit wrote:
+> If hw doesn't support sw control of the LED and we switch to a mode
+> not supported by hw, currently we get lots of errors because neither
+> brigthness_set() nor brithness_set_blocking() is set.
+> Deal with this by not falling back to sw control, and return
+> -EOPNOTSUPP to the user. Note that we still store the new mode.
+> This is needed in case an intermediate unsupported mode is necessary
+> to switch from one supported mode to another.
+> 
+> Add a comment explaining how a driver for such hw is supposed to behave.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
 
-Add a comment explaining how a driver for such hw is supposed to behave.
-
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/leds/trigger/ledtrig-netdev.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
-index d76214fa9..27f090bc8 100644
---- a/drivers/leds/trigger/ledtrig-netdev.c
-+++ b/drivers/leds/trigger/ledtrig-netdev.c
-@@ -38,6 +38,16 @@
-  * tx -  LED blinks on transmitted data
-  * rx -  LED blinks on receive data
-  *
-+ * Note: If the user selects a mode that is not supported by hw, default
-+ * behavior is to fall back to software control of the LED. However not every
-+ * hw supports software control. LED callbacks brightness_set() and
-+ * brightness_set_blocking() are NULL in this case. hw_control_is_supported()
-+ * should use available means supported by hw to inform the user that selected
-+ * mode isn't supported by hw. This could be switching off the LED or any
-+ * hw blink mode. If software control fallback isn't possible, we return
-+ * -EOPNOTSUPP to the user, but still store the selected mode. This is needed
-+ * in case an intermediate unsupported mode is necessary to switch from one
-+ * supported mode to another.
-  */
- 
- struct led_netdev_data {
-@@ -306,6 +316,7 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 				     size_t size, enum led_trigger_netdev_modes attr)
- {
- 	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
-+	struct led_classdev *led_cdev = trigger_data->led_cdev;
- 	unsigned long state, mode = trigger_data->mode;
- 	int ret;
- 	int bit;
-@@ -345,6 +356,10 @@ static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
- 	trigger_data->mode = mode;
- 	trigger_data->hw_control = can_hw_control(trigger_data);
- 
-+	if (!led_cdev->brightness_set && !led_cdev->brightness_set_blocking &&
-+	    !trigger_data->hw_control)
-+		return -EOPNOTSUPP;
-+
- 	set_baseline_state(trigger_data);
- 
- 	return size;
--- 
-2.43.0
+For whatever reason this patch (original version and resubmit) doesn't
+show up on linux-leds patchwork. In netdev patchwork it's visible.
 
 
