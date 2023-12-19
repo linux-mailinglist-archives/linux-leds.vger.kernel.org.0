@@ -1,49 +1,67 @@
-Return-Path: <linux-leds+bounces-445-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-444-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4474F8184A1
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 10:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5737818481
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 10:33:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9A8B281AEC
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 09:36:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63AC8284EB5
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 09:33:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C90F413AFB;
-	Tue, 19 Dec 2023 09:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740FD13AD1;
+	Tue, 19 Dec 2023 09:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="diJ/hkN6"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B7013AE2;
-	Tue, 19 Dec 2023 09:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=somainline.org
-Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl [82.72.63.87])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 7089820058;
-	Tue, 19 Dec 2023 10:17:18 +0100 (CET)
-Date: Tue, 19 Dec 2023 10:17:16 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, phone-devel@vger.kernel.org, 
-	Pavel Machek <pavel@ucw.cz>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
-	~postmarketos/upstreaming@lists.sr.ht, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
-	Martin Botka <martin.botka@somainline.org>, Jami Kettunen <jami.kettunen@somainline.org>, 
-	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stephen Boyd <swboyd@chromium.org>, Satya Priya <quic_c_skakit@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9C715483;
+	Tue, 19 Dec 2023 09:33:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF84AC433C7;
+	Tue, 19 Dec 2023 09:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702978408;
+	bh=U0si4BVeCSiJQq+SvPLzBPq/0rnWVdMAwb6silgvIMw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=diJ/hkN62P4qdzRr/wU5FdQDJepCKZeR/rHZf26elSqu+g0nrWZ5YpW68h7meJo11
+	 wsqkwkACqD5U16QYQY2hhduaS85Z2Yj+IUHM9G4AOjFmoHjHEXnuyY3Gd/AxttsRAK
+	 b42v5Rg4GXubUUtAERAlGUVMk3YNuXzq30zK5sHptf4rZS+CWI4Lnc0QFeHZr7go3E
+	 MVfUYGEbhWI8mITjdn4pYxpKT6AtwP0TuZ58quqAwK/cLgoUnLvGPdaOaGMpdiFddT
+	 tvcA6h1w+8W2X8NNJ4RcgpdBKGxMbZ3xefiK8ujYs1ACHCBWhQC0ayCBYS8y3JKk6p
+	 8fOyIUXPGayAg==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rFWTd-0007F4-1l;
+	Tue, 19 Dec 2023 10:33:25 +0100
+Date: Tue, 19 Dec 2023 10:33:25 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Lee Jones <lee@kernel.org>, phone-devel@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	~postmarketos/upstreaming@lists.sr.ht,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Martin Botka <martin.botka@somainline.org>,
+	Jami Kettunen <jami.kettunen@somainline.org>,
+	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	Satya Priya <quic_c_skakit@quicinc.com>
 Subject: Re: [PATCH v4 2/2] leds: qcom-lpg: Add PM660L configuration and
  compatible
-Message-ID: <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
+Message-ID: <ZYFjZefdJej_vgwD@hovoldconsulting.com>
 References: <20220719211848.1653920-1-marijn.suijten@somainline.org>
  <20220719211848.1653920-2-marijn.suijten@somainline.org>
  <ZYFS04cznE5bhOeV@hovoldconsulting.com>
+ <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -52,92 +70,18 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZYFS04cznE5bhOeV@hovoldconsulting.com>
+In-Reply-To: <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
 
-Hi Johan and Lee,
+On Tue, Dec 19, 2023 at 10:17:16AM +0100, Marijn Suijten wrote:
 
-On 2023-12-19 09:22:43, Johan Hovold wrote:
-> Hi Marijn and Lee,
+> Note that I have one more unmerged leds patch around, that hasn't been looked
+> at either.  Would it help to send this once again, perhaps with more reviewers/
+> testing (Johan, would you mind taking a look too)?
 > 
-> On Tue, Jul 19, 2022 at 11:18:48PM +0200, Marijn Suijten wrote:
-> > Inherit PM660L PMIC LPG/triled block configuration from downstream
-> > drivers and DT sources, consisting of a triled block with automatic
-> > trickle charge control and source selection, three colored led channels
-> > belonging to the synchronized triled block and one loose PWM channel.
-> > 
-> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> > 
-> > Changes since v3:
-> > - Rebased on -next;
-> > - (series) dropped DTS patches that have been applied through the
-> >   Qualcomm DTS tree, leaving only leds changes (driver and
-> >   accompanying dt-bindings).
-> 
-> > diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> > index 02f51cc61837..102ab0c33887 100644
-> > --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> > +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> > @@ -1304,6 +1304,23 @@ static int lpg_remove(struct platform_device *pdev)
-> >  	return 0;
-> >  }
-> >  
-> > +static const struct lpg_data pm660l_lpg_data = {
-> > +	.lut_base = 0xb000,
-> > +	.lut_size = 49,
-> > +
-> > +	.triled_base = 0xd000,
-> > +	.triled_has_atc_ctl = true,
-> > +	.triled_has_src_sel = true,
-> > +
-> > +	.num_channels = 4,
-> > +	.channels = (const struct lpg_channel_data[]) {
-> > +		{ .base = 0xb100, .triled_mask = BIT(5) },
-> > +		{ .base = 0xb200, .triled_mask = BIT(6) },
-> > +		{ .base = 0xb300, .triled_mask = BIT(7) },
-> > +		{ .base = 0xb400 },
-> > +	},
-> > +};
-> > +
-> >  static const struct lpg_data pm8916_pwm_data = {
-> >  	.num_channels = 1,
-> >  	.channels = (const struct lpg_channel_data[]) {
-> > @@ -1424,6 +1441,7 @@ static const struct lpg_data pm8350c_pwm_data = {
-> >  };
-> >  
-> >  static const struct of_device_id lpg_of_table[] = {
-> > +	{ .compatible = "qcom,pm660l-lpg", .data = &pm660l_lpg_data },
-> >  	{ .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
-> >  	{ .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
-> >  	{ .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
-> 
-> When reviewing the Qualcomm SPMI PMIC bindings I noticed that this patch
-> was never picked up by the LEDs maintainer, while the binding and dtsi
-> changes made it in:
-> 
-> 	https://lore.kernel.org/r/20220719211848.1653920-2-marijn.suijten@somainline.org
-> 
-> Looks like it may still apply cleanly, but otherwise, would you mind
-> rebasing and resending so that Lee can pick this one up?
-> 
-> Johan
+> https://lore.kernel.org/linux-leds/20220719213034.1664056-1-marijn.suijten@somainline.org/
 
-Coincidentally I haven't touched this device/platform for months... until last
-weekend where I noticed the same.  It does not apply cleanly and I had to solve
-some conflicts:
+Yes, I suggest you resend that one too so that it ends up in Lee's
+inbox.
 
-https://github.com/SoMainline/linux/commit/8ec5d02eaffcec24fcab6a989ab117a5b72b96b6
-
-I'll gladly resend this!
-
-Note that I have one more unmerged leds patch around, that hasn't been looked
-at either.  Would it help to send this once again, perhaps with more reviewers/
-testing (Johan, would you mind taking a look too)?
-
-https://lore.kernel.org/linux-leds/20220719213034.1664056-1-marijn.suijten@somainline.org/
-
-Thanks!
-
-- Marijn
+Johan
 
