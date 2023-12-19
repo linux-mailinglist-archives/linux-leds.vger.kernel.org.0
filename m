@@ -1,67 +1,51 @@
-Return-Path: <linux-leds+bounces-444-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-446-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5737818481
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 10:33:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B26EB8184FC
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 11:06:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63AC8284EB5
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 09:33:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A80291C2170D
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Dec 2023 10:06:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740FD13AD1;
-	Tue, 19 Dec 2023 09:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="diJ/hkN6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69E6814276;
+	Tue, 19 Dec 2023 10:06:15 +0000 (UTC)
 X-Original-To: linux-leds@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9C715483;
-	Tue, 19 Dec 2023 09:33:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF84AC433C7;
-	Tue, 19 Dec 2023 09:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702978408;
-	bh=U0si4BVeCSiJQq+SvPLzBPq/0rnWVdMAwb6silgvIMw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=diJ/hkN62P4qdzRr/wU5FdQDJepCKZeR/rHZf26elSqu+g0nrWZ5YpW68h7meJo11
-	 wsqkwkACqD5U16QYQY2hhduaS85Z2Yj+IUHM9G4AOjFmoHjHEXnuyY3Gd/AxttsRAK
-	 b42v5Rg4GXubUUtAERAlGUVMk3YNuXzq30zK5sHptf4rZS+CWI4Lnc0QFeHZr7go3E
-	 MVfUYGEbhWI8mITjdn4pYxpKT6AtwP0TuZ58quqAwK/cLgoUnLvGPdaOaGMpdiFddT
-	 tvcA6h1w+8W2X8NNJ4RcgpdBKGxMbZ3xefiK8ujYs1ACHCBWhQC0ayCBYS8y3JKk6p
-	 8fOyIUXPGayAg==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rFWTd-0007F4-1l;
-	Tue, 19 Dec 2023 10:33:25 +0100
-Date: Tue, 19 Dec 2023 10:33:25 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Lee Jones <lee@kernel.org>, phone-devel@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	Jami Kettunen <jami.kettunen@somainline.org>,
-	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Stephen Boyd <swboyd@chromium.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EB91426E;
+	Tue, 19 Dec 2023 10:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=somainline.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=somainline.org
+Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl [82.72.63.87])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6D30420091;
+	Tue, 19 Dec 2023 11:06:10 +0100 (CET)
+Date: Tue, 19 Dec 2023 11:06:08 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, phone-devel@vger.kernel.org, 
+	Pavel Machek <pavel@ucw.cz>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
+	~postmarketos/upstreaming@lists.sr.ht, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
+	Martin Botka <martin.botka@somainline.org>, Jami Kettunen <jami.kettunen@somainline.org>, 
+	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>, 
 	Satya Priya <quic_c_skakit@quicinc.com>
 Subject: Re: [PATCH v4 2/2] leds: qcom-lpg: Add PM660L configuration and
  compatible
-Message-ID: <ZYFjZefdJej_vgwD@hovoldconsulting.com>
+Message-ID: <xkmmbgbg2japfunuure2kktbxdkotteawwgzsjq6giafmwuosz@3no7qov5nzei>
 References: <20220719211848.1653920-1-marijn.suijten@somainline.org>
  <20220719211848.1653920-2-marijn.suijten@somainline.org>
  <ZYFS04cznE5bhOeV@hovoldconsulting.com>
  <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
+ <ZYFjZefdJej_vgwD@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -70,18 +54,23 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3lsapoxlqijes5m4nqcbhdfhhs4chq3mcq3jaty7v2zihsqnwu@nn67a4h6425k>
+In-Reply-To: <ZYFjZefdJej_vgwD@hovoldconsulting.com>
 
-On Tue, Dec 19, 2023 at 10:17:16AM +0100, Marijn Suijten wrote:
-
-> Note that I have one more unmerged leds patch around, that hasn't been looked
-> at either.  Would it help to send this once again, perhaps with more reviewers/
-> testing (Johan, would you mind taking a look too)?
+On 2023-12-19 10:33:25, Johan Hovold wrote:
+> On Tue, Dec 19, 2023 at 10:17:16AM +0100, Marijn Suijten wrote:
 > 
-> https://lore.kernel.org/linux-leds/20220719213034.1664056-1-marijn.suijten@somainline.org/
+> > Note that I have one more unmerged leds patch around, that hasn't been looked
+> > at either.  Would it help to send this once again, perhaps with more reviewers/
+> > testing (Johan, would you mind taking a look too)?
+> > 
+> > https://lore.kernel.org/linux-leds/20220719213034.1664056-1-marijn.suijten@somainline.org/
+> 
+> Yes, I suggest you resend that one too so that it ends up in Lee's
+> inbox.
 
-Yes, I suggest you resend that one too so that it ends up in Lee's
-inbox.
+I will rebase, test and resend it too.  Just asking if you notice any glaring
+issues with this patch, as it won't be the first time it has been resent after
+not being looked at for some time.
 
-Johan
+- Marijn
 
