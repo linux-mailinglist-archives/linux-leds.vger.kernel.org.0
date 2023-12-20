@@ -1,84 +1,95 @@
-Return-Path: <linux-leds+bounces-452-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-453-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A275E819A33
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Dec 2023 09:12:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D8781A4DB
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Dec 2023 17:24:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42ADA1F232EF
-	for <lists+linux-leds@lfdr.de>; Wed, 20 Dec 2023 08:12:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8181B249FB
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Dec 2023 16:24:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1FB18647;
-	Wed, 20 Dec 2023 08:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A35248784;
+	Wed, 20 Dec 2023 16:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="unId8uUO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NlffhOCJ"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159661CA8E;
-	Wed, 20 Dec 2023 08:12:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A21BC433C7;
-	Wed, 20 Dec 2023 08:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C264482F7;
+	Wed, 20 Dec 2023 16:20:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBC9C433C8;
+	Wed, 20 Dec 2023 16:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703059962;
-	bh=BHRiKQEvoPIgw/Ei788HQtUg9h30YDWszt+pYb2kLqk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=unId8uUOjR9Qvz0tGmgTzCv8tRcQNsP1sTPJ6jq8l85UCjPAkC59QC1JqJNyf5xEr
-	 FWoJceorXNGzjFDeGhSoMdJEFoL9YddSutqAMNTobs7zH7Q/RR9aE2fhCQQL+rl/ag
-	 IUMvq7dO7VLLHLXoE0568+k3Uc/1XW8BLmNpMK2j9c7VR3EM/WJEuyK4XiFht0O7d+
-	 yDGLhwoeBhinZG+5c6IWIBW44YPfVFp9bP8VwlKkXq3VnB9SgvVr5KuBIiap02Sicy
-	 egd36i3OHruOWZlTK3bBgSVKFf8IU1Ew0kLrq9LDCnCTvWPyXiO7dK2Eix9juwvYVD
-	 nn+xTYZKR/cig==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rFrh2-0000pH-1C;
-	Wed, 20 Dec 2023 09:12:40 +0100
-Date: Wed, 20 Dec 2023 09:12:40 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: phone-devel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	Jami Kettunen <jami.kettunen@somainline.org>,
-	linux-arm-msm@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] leds: ledtrig-pattern: Use last_repeat when
- applying hw pattern
-Message-ID: <ZYKh-F-1psKpm1JA@hovoldconsulting.com>
-References: <20220719213034.1664056-1-marijn.suijten@somainline.org>
+	s=k20201202; t=1703089232;
+	bh=XVgd7pqYNT+knJLpFJ5VDLSw1dPBnwpebcm4HpkJ8yQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NlffhOCJ1UyfI+WZlEScRu+W0FpBZpCOJutilYVtmDMnQM1SUCDQWrom7mdcLTN2C
+	 xzavSclOmhmxZGL4IWQ8ZF9qjqBsAsJBj7Y6fdMEBqFF7HH7ITrhwei88JIFCIf4X5
+	 vWzFZ6NJm8blBrsml3RNc6tpZfCqhk0wa0Jhhac//IgP7apWRYSVJ1Bpk6BXpVQUiL
+	 eY2i9NXO494PrP21ejfBr7KYvLeCuQRenGVx2zr4IByU/k9Fx5Oo42PUOhmkgHMkQH
+	 XGuorGu0QbKOuaJTAJAATGEVDqNUuAl85YwL27w1Vs9OxDPP5oIDAt4ytA796XcyNP
+	 2v3e/q9WJ0epQ==
+Date: Wed, 20 Dec 2023 17:20:25 +0100
+From: Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Andrew Lunn
+ <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, Daniel Golle
+ <daniel@makrotopia.org>, "David S. Miller" <davem@davemloft.net>, Li Zetao
+ <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] leds: trigger: netdev: display only supported
+ link speed attribute
+Message-ID: <20231220172025.3b9c452b@dellmb>
+In-Reply-To: <20231219165353.23233-1-ansuelsmth@gmail.com>
+References: <20231219165353.23233-1-ansuelsmth@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220719213034.1664056-1-marijn.suijten@somainline.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 19, 2022 at 11:30:33PM +0200, Marijn Suijten wrote:
-> `last_repeat` holds the actual value requested by the user whereas
-> `repeat` is a software iteration variable that is unused in hardware
-> patterns.
-> 
-> Furthermore `last_repeat` is the field returned to the user when reading
-> the `repeat` sysfs property.  This field is initialized to `-1` which is
-> - together with `1` - the only valid value in the upcoming Qualcomm LPG
-> driver.  It is thus unexpected when `repeat` with an initialization
-> value of `0` is passed into the the driver, when the sysfs property
-> clearly presents a value of `-1`.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Tested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+On Tue, 19 Dec 2023 17:53:52 +0100
+Christian Marangi <ansuelsmth@gmail.com> wrote:
 
-Looks correct to me:
+> +	for_each_set_bit(mode, supported_link_modes, __ETHTOOL_LINK_MODE_MASK_NBITS) {
+> +		struct ethtool_link_ksettings link_ksettings;
+> +
+> +		ethtool_params_from_link_mode(&link_ksettings, mode);
+> +
+> +		if (attr == &dev_attr_link_10.attr &&
+> +		    link_ksettings.base.speed == SPEED_10)
+> +			return attr->mode;
+> +
+> +		if (attr == &dev_attr_link_100.attr &&
+> +		    link_ksettings.base.speed == SPEED_100)
+> +			return attr->mode;
+> +
+> +		if (attr == &dev_attr_link_1000.attr &&
+> +		    link_ksettings.base.speed == SPEED_1000)
+> +			return attr->mode;
+> +
+> +		if (attr == &dev_attr_link_2500.attr &&
+> +		    link_ksettings.base.speed == SPEED_2500)
+> +			return attr->mode;
+> +
+> +		if (attr == &dev_attr_link_5000.attr &&
+> +		    link_ksettings.base.speed == SPEED_5000)
+> +			return attr->mode;
+> +
+> +		if (attr == &dev_attr_link_10000.attr &&
+> +		    link_ksettings.base.speed == SPEED_10000)
+> +			return attr->mode;
 
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Hi Christian,
+
+ugly code repetition. Use a macro or a switch or something.
+
+Marek
 
