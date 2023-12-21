@@ -1,64 +1,64 @@
-Return-Path: <linux-leds+bounces-470-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-471-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AA681BD31
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 18:27:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C8F81BD46
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 18:31:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CB741C24086
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 17:27:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 738C11C21092
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 17:31:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B7D6634E0;
-	Thu, 21 Dec 2023 17:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4C15991D;
+	Thu, 21 Dec 2023 17:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+toe9DZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZk/6WCi"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CFA6281B
-	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 17:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7142A62803
+	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 17:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50e239c49d0so1345495e87.2
-        for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 09:26:54 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-54c7744a93fso1250616a12.2
+        for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 09:31:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703179612; x=1703784412; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1RBwFM6XciV/sQb+7pliqUMDrbhrJO9jUPbcv12er2Y=;
-        b=G+toe9DZGGwt9oYkWtA6aGDeDkUOXTg6Nm/Ule2LsfomXrwaD/lRHfounl4PP6TwzQ
-         P53VXQSHBKZ4p89Db4xxx+WcgGU+S+0r/IlfizSUzzyzSfubLfTChK+eUF/3kw+8NV9W
-         5ajt/nTlebjkE/EvxavHFVPoSgc4zX+IcWKJNQYrLnEXu9fdHD1cNrNPcG5Db9i14H9b
-         tuZ/8cp8Sr38hf3jBr6JDl8pFwm0uthqaYqLotkgKTnEZkAdPvViQrBx0c6+UcN1Ni6d
-         0qoy99bFXReGwCuydpZJRkaa40NfeAp6SEZ/dje48OjOR8s/3xeEPGNdsppMjTf2gZJ0
-         9dHw==
+        d=gmail.com; s=20230601; t=1703179909; x=1703784709; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sl4xWaa/YanOYUDyLRwIulVIaM5N2PZrG0JXFZvNw0w=;
+        b=QZk/6WCi7oZZRW/kavwtnX6ns6o5i0RjGYr+FrSoWb/UKwJNwHEN+f6SFiRVR4mf54
+         2UBX3jYvnkihFN+fvK4VG676xnvliomALl6FbaP7NhpTxJACG5fXZzNFkuxdRBdwxQAK
+         yOWjrjkAdvm7dBClbFEfmmA2ko7VZ55m26YyINOEbr7cd9FcvQpM1H3vsu9AeTP8gBlp
+         U90HB8ro111mLguyzoPRbMyS5jOI4qiD2055LTPC1yqjqUxfAT/6GCauRrpHD+8cfFOA
+         IMONGaAMrHyPhQobIp+1VHFZYoOe1FZ0IV7zngpN2TCxvZ1ITNbv1G05f/tL353NzEyi
+         QVRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703179612; x=1703784412;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1703179909; x=1703784709;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1RBwFM6XciV/sQb+7pliqUMDrbhrJO9jUPbcv12er2Y=;
-        b=lwtf3oKa/7KyMcORM/AqPYe5tT/KOJyWRztR70nR/p3/kwUalQiyiS2fRdbJC/sg8X
-         c9XvApPZdVpFhkxYIMc5lFhb0+Ge8GWRHIonNnXh5Iv6GBAKoEFRmH8mw/bJkH+UL6Te
-         80cRfdhOZV6EfICVZYEL9kja9qSPXd8OtaIN1LPHDUbvpWbmOizMdF27m4uf1etYwe38
-         wdH4mXyJ7R131CY4+mu0bbbT3ljNc5GZtIPbTm/0vwoOG75N6aVmXHCP/gHYNphtm4Qy
-         eR060mszG2urdwKheIdD2IxorM91m0pmBYCT0duauVQbQU3XNLwQu07idb3R5fG7x1l+
-         Jxhw==
-X-Gm-Message-State: AOJu0Yzch7BYwke7GgIn13VbcmDD2FuunpxGLaTryvrST45Eptrd2iLk
-	MhV3nMhrs+dOL/DNdbi0arg=
-X-Google-Smtp-Source: AGHT+IHWcdenOJ6tVF5qsiLIxU+doR7OL6QCGfys/cEtOnW49fBUFQV7bwYSCIOAsE/mxfW4EqSv1g==
-X-Received: by 2002:ac2:596a:0:b0:50e:3a19:7a8e with SMTP id h10-20020ac2596a000000b0050e3a197a8emr3256905lfp.108.1703179611989;
-        Thu, 21 Dec 2023 09:26:51 -0800 (PST)
+        bh=sl4xWaa/YanOYUDyLRwIulVIaM5N2PZrG0JXFZvNw0w=;
+        b=Wjh9iei1x3lscEdnc4WmGXu4er3E09PN6oZaXyEzleCdRGS9LSBiQfFoTerj2EAQyY
+         uUxKgGqUCgrUK+5XK+HMEEH3EQfRduBY6eI08xMTegHp4ubURMes1fv8r2PehXrTX9eZ
+         2gGHEq881K4VPkx3LvKtbVXD7hQTAeIQgqu7NllzGcmVuWzIticvLmw9Eb7AAd+uuuU9
+         oAQEVIAVPpfpYTCoG4nLNgugo+UxJlKkAvmOYpbfgUzdnNlzHG5wiNbSWQHi112gTwEQ
+         l6zu2dYLHuzTITUQtmoWapTEB/xs/5il+Lw9MsI3aQb9SuFEFFn3Pj+WibhwAiw0OXCH
+         AWWQ==
+X-Gm-Message-State: AOJu0YwN8f9E8TGzCm7I1JMtJFy22MlXLKARuA5NkhG5yHzEjQsHW4yV
+	B6aRqEmPwBuLFZX9YeoOmt4=
+X-Google-Smtp-Source: AGHT+IHT+EKXmB8NSq2LESn1Z0rHQuklZWKA6IyL2qnJOnxdzZ7xctOuzZXKpSRWy5ZVR/j+PSEAFQ==
+X-Received: by 2002:a50:d70a:0:b0:552:e9d1:5dc6 with SMTP id t10-20020a50d70a000000b00552e9d15dc6mr5201597edi.14.1703179909345;
+        Thu, 21 Dec 2023 09:31:49 -0800 (PST)
 Received: from ?IPV6:2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870? (dynamic-2a01-0c23-b8a5-3600-c010-4b2f-ccc7-a870.c23.pool.telefonica.de. [2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870])
-        by smtp.googlemail.com with ESMTPSA id xo3-20020a170907bb8300b00a2534aebc21sm1165214ejc.40.2023.12.21.09.26.49
+        by smtp.googlemail.com with ESMTPSA id f19-20020a056402069300b0054c9b0bd576sm1415575edy.26.2023.12.21.09.31.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 09:26:50 -0800 (PST)
-Message-ID: <ec4b2852-9b76-4f0a-b296-cc5577ca4647@gmail.com>
-Date: Thu, 21 Dec 2023 18:26:47 +0100
+        Thu, 21 Dec 2023 09:31:48 -0800 (PST)
+Message-ID: <d3f2859c-2673-401c-a4f7-fcaef2167991@gmail.com>
+Date: Thu, 21 Dec 2023 18:31:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,16 +66,13 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] leds: trigger: netdev: skip setting baseline state in
- activate if hw-controlled
 Content-Language: en-US
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
  Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>
-References: <4be46f91-f8b9-4c5f-8434-c7cae83eec93@gmail.com>
- <20231221162731.GQ10102@google.com>
 From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH v4] leds: trigger: netdev: skip setting baseline state in
+ activate if hw-controlled
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -119,72 +116,60 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-In-Reply-To: <20231221162731.GQ10102@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21.12.2023 17:27, Lee Jones wrote:
-> On Thu, 21 Dec 2023, Heiner Kallweit wrote:
-> 
->> The current codes uses the sw_control path in set_baseline_state() when
->> called from netdev_trig_activate() even if we're hw-controlled. This
->> may result in errors when led_set_brightness() is called because we may
->> not have set_brightness led ops (if hw doesn't support setting a "LED"
->> to ON). In addition this path may schedule trigger_data->work which
->> doesn't make sense when being hw-controlled.
->>
->> Therefore set trigger_data->hw_control = true before calling
->> set_device_name() from netdev_trig_activate(). In this call chain we
->> have to prevent set_baseline_state() from being called, because this
->> would call hw_control_set(). Use led_cdev->trigger_data == NULL as
->> indicator for being called from netdev_trig_activate().
->>
->> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
->> ---
->> v2:
->> - improve commit message
->> v3:
->> - spelling and style fixes
->> ---
->>  drivers/leds/trigger/ledtrig-netdev.c | 7 +++++--
->>  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> Doesn't apply.  Please rebase it on top of the LEDs repo.
-> 
-It's because fe2b1226656a ("leds: trigger: netdev: fix RTNL handling to
-prevent potential deadlock") was applied via the netdev tree.
-I'll rebase on top of for-leds-next.
+The current codes uses the sw_control path in set_baseline_state() when
+called from netdev_trig_activate() even if we're hw-controlled. This
+may result in errors when led_set_brightness() is called because we may
+not have set_brightness led ops (if hw doesn't support setting a "LED"
+to ON). In addition this path may schedule trigger_data->work which
+doesn't make sense when being hw-controlled.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/
-> 
->> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
->> index 09e75fd9f..6cbba44dd 100644
->> --- a/drivers/leds/trigger/ledtrig-netdev.c
->> +++ b/drivers/leds/trigger/ledtrig-netdev.c
->> @@ -267,7 +267,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
->>  
->>  	trigger_data->last_activity = 0;
->>  
->> -	set_baseline_state(trigger_data);
->> +	/* Skip if we're called from netdev_trig_activate() and hw_control is true */
->> +	if (!trigger_data->hw_control || led_get_trigger_data(trigger_data->led_cdev))
->> +		set_baseline_state(trigger_data);
->> +
->>  	mutex_unlock(&trigger_data->lock);
->>  	rtnl_unlock();
->>  
->> @@ -602,8 +605,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
->>  		if (dev) {
->>  			const char *name = dev_name(dev);
->>  
->> -			set_device_name(trigger_data, name, strlen(name));
->>  			trigger_data->hw_control = true;
->> +			set_device_name(trigger_data, name, strlen(name));
->>  
->>  			rc = led_cdev->hw_control_get(led_cdev, &mode);
->>  			if (!rc)
->> -- 
->> 2.43.0
-> 
+Therefore set trigger_data->hw_control = true before calling
+set_device_name() from netdev_trig_activate(). In this call chain we
+have to prevent set_baseline_state() from being called, because this
+would call hw_control_set(). Use led_cdev->trigger_data == NULL as
+indicator for being called from netdev_trig_activate().
 
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+v2:
+- improve commit message
+v3:
+- spelling and style fixes
+v4:
+- rebased on top of for-leds-next
+---
+ drivers/leds/trigger/ledtrig-netdev.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 836610292..192662e05 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -275,7 +275,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+ 
+ 	trigger_data->last_activity = 0;
+ 
+-	set_baseline_state(trigger_data);
++	/* Skip if we're called from netdev_trig_activate() and hw_control is true */
++	if (!trigger_data->hw_control || led_get_trigger_data(trigger_data->led_cdev))
++		set_baseline_state(trigger_data);
++
+ 	mutex_unlock(&trigger_data->lock);
+ 
+ 	return 0;
+@@ -614,8 +617,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+ 		if (dev) {
+ 			const char *name = dev_name(dev);
+ 
+-			set_device_name(trigger_data, name, strlen(name));
+ 			trigger_data->hw_control = true;
++			set_device_name(trigger_data, name, strlen(name));
+ 
+ 			rc = led_cdev->hw_control_get(led_cdev, &mode);
+ 			if (!rc)
+-- 
+2.43.0
 
