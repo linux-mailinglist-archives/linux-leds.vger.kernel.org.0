@@ -1,53 +1,48 @@
-Return-Path: <linux-leds+bounces-466-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-467-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35A381BB9D
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 17:14:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C9081BBEC
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 17:27:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8358AB22C62
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 16:14:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 339951F26077
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 16:27:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9FB76DAB;
-	Thu, 21 Dec 2023 16:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD4C555E71;
+	Thu, 21 Dec 2023 16:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqHxzRBq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzSPob8j"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069C476DA7;
-	Thu, 21 Dec 2023 16:10:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C21C433C9;
-	Thu, 21 Dec 2023 16:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EAD55E63
+	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 16:27:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D410BC433C7;
+	Thu, 21 Dec 2023 16:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703175016;
-	bh=XsGNm0AxLUX5TyAOH4kb3dbYCONd1jCjNAPoAGbgUWg=;
+	s=k20201202; t=1703176056;
+	bh=nd6qVnGn9zj6Ej90gDHzwzDlRIOWZbeM7rH3rmy/otU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XqHxzRBqprviCEjX4TSX525TtrRC+DrWK5vfRRRPInYxRq3M4FtPoKPCiMwcva6pp
-	 rabxccGeq586WlCdJzFh+m90tDMhvAqrQhSCDesoz1Y443g5Hoj9xhJnC92dcGitut
-	 spf8qIgNQWfVtgrvwrm4/+C9PhbwTPxIF+hKgcEW2aTfRpI9tFSe30F5alXlT2E3mp
-	 QplsFJ+WsKMvjo+2QlMUheOlhUbjz8cbD810DsdKolrq7qmsiEfiwhA5ST6GAEcb/U
-	 IT0TWPkMXI9XG6bBx5Rm75223yKnK2I4vLPPFU25CpukFt7cHolFIPoMVpC672u+IW
-	 AX8p3wNd3of/g==
-Date: Thu, 21 Dec 2023 16:10:11 +0000
+	b=AzSPob8jkeXC50uJ/WXdHQcyc/p9fl7zlrXYBV0qdOjQZuYaVs60fGE915cVZtJCZ
+	 +OPOZB1jkJx9ftdQ4Lrc4ZaTcWmwvZpDebFo3laAqauuaVDhqZix8VPNlp2pZrQAW5
+	 NTkMtQpUG7EhqtbtrfB0a+/5S2M3nr9pn8JUNcKA39YKViPj3rUkLSCrlIBXZ8E1xa
+	 6Kjz4iJ93E9CDu+HPO9yLQ0R91tP9u7hE4S41oT8q7rNYsXi0y26uQliB9/h61ap57
+	 uS6WxZozXrLkIUjr2tSwxkcaJG4JPwKv/071yXN+9DSiHiXVBvdMX4yUKUnPMow3lK
+	 HdiT8k1hgQ4CA==
+Date: Thu, 21 Dec 2023 16:27:31 +0000
 From: Lee Jones <lee@kernel.org>
-To: Martin Kurbanov <mmkurbanov@salutedevices.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel@salutedevices.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/2] leds: aw200xx: support for hw pattern controllers
-Message-ID: <20231221161011.GO10102@google.com>
-References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
- <20231207125938.175119-2-mmkurbanov@salutedevices.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH v3] leds: trigger: netdev: skip setting baseline state in
+ activate if hw-controlled
+Message-ID: <20231221162731.GQ10102@google.com>
+References: <4be46f91-f8b9-4c5f-8434-c7cae83eec93@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -57,35 +52,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231207125938.175119-2-mmkurbanov@salutedevices.com>
+In-Reply-To: <4be46f91-f8b9-4c5f-8434-c7cae83eec93@gmail.com>
 
-On Thu, 07 Dec 2023, Martin Kurbanov wrote:
+On Thu, 21 Dec 2023, Heiner Kallweit wrote:
 
-> This led-controller supports 3 pattern controllers for auto breathing or
-> group dimming control. Each pattern controller can work in auto
-> breathing or manual control mode. All breathing parameters including
-> rising/falling slope, on/off time, repeat times, min/max brightness
-> and so on are configurable.
+> The current codes uses the sw_control path in set_baseline_state() when
+> called from netdev_trig_activate() even if we're hw-controlled. This
+> may result in errors when led_set_brightness() is called because we may
+> not have set_brightness led ops (if hw doesn't support setting a "LED"
+> to ON). In addition this path may schedule trigger_data->work which
+> doesn't make sense when being hw-controlled.
 > 
-> Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
+> Therefore set trigger_data->hw_control = true before calling
+> set_device_name() from netdev_trig_activate(). In this call chain we
+> have to prevent set_baseline_state() from being called, because this
+> would call hw_control_set(). Use led_cdev->trigger_data == NULL as
+> indicator for being called from netdev_trig_activate().
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 > ---
->  .../testing/sysfs-class-led-driver-aw200xx    | 108 +++
->  Documentation/leds/leds-aw200xx.rst           | 274 ++++++++
->  drivers/leds/leds-aw200xx.c                   | 649 ++++++++++++++++++
->  3 files changed, 1031 insertions(+)
->  create mode 100644 Documentation/leds/leds-aw200xx.rst
+> v2:
+> - improve commit message
+> v3:
+> - spelling and style fixes
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-This interface is bananas.  Exposing an entire register interface to
-sysfs does not sit will with me at all.  When we add support to a sysfs
-class, we usually require it to be generic and work across all devices.
-Adding device specific interfaces is generally decried and to be
-avoided.  Don't forget, once we commit something to sysfs, it becomes
-ABI and we have to support it forever.
+Doesn't apply.  Please rebase it on top of the LEDs repo.
 
-A far better approach would be to add support for this in userspace
-instead  You can use the standard I2C character device API to achieve
-the same result.  That way we don't have the same level of commitment
-and is generally a much more flexible/future-proof.
+https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/
+
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 09e75fd9f..6cbba44dd 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -267,7 +267,10 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+>  
+>  	trigger_data->last_activity = 0;
+>  
+> -	set_baseline_state(trigger_data);
+> +	/* Skip if we're called from netdev_trig_activate() and hw_control is true */
+> +	if (!trigger_data->hw_control || led_get_trigger_data(trigger_data->led_cdev))
+> +		set_baseline_state(trigger_data);
+> +
+>  	mutex_unlock(&trigger_data->lock);
+>  	rtnl_unlock();
+>  
+> @@ -602,8 +605,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+>  		if (dev) {
+>  			const char *name = dev_name(dev);
+>  
+> -			set_device_name(trigger_data, name, strlen(name));
+>  			trigger_data->hw_control = true;
+> +			set_device_name(trigger_data, name, strlen(name));
+>  
+>  			rc = led_cdev->hw_control_get(led_cdev, &mode);
+>  			if (!rc)
+> -- 
+> 2.43.0
 
 -- 
 Lee Jones [李琼斯]
