@@ -1,47 +1,50 @@
-Return-Path: <linux-leds+bounces-459-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-460-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9632C81B9C4
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 15:44:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB55F81B9D5
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 15:49:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 536A62864FB
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 14:44:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDACC1C214FA
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 14:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9074C6D6D3;
-	Thu, 21 Dec 2023 14:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF5C1DFEE;
+	Thu, 21 Dec 2023 14:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oropyjTP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuhtVTuf"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A4A6D6EE;
-	Thu, 21 Dec 2023 14:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CA1C433C7;
-	Thu, 21 Dec 2023 14:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CB636086;
+	Thu, 21 Dec 2023 14:49:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE77C433C7;
+	Thu, 21 Dec 2023 14:49:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703169842;
-	bh=wbDZJ6O5IZQROliTzl4IOXJ9tEt9UoMOKZMf4TpnVAk=;
+	s=k20201202; t=1703170167;
+	bh=QvZmkfa9nsJ9c9WaTXKTbbvlPgztD+xmTVTQXhhNdEQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oropyjTPdVPF5cgG/rXhRAGIr6tUxiDZHUHPKf3gr9N1y+1M4cLFPlL5nHBy1kpxu
-	 Z4DUAYj5WthcRO48rPT5XxPtlGejnY9daS24K7qbhQd0wtuF/Z9cLftSxF72p1c/mC
-	 MMu8dEhJnVYKsXGYp5Dtoquma0GK9TeeTbiN9sBxKqOjElI9jd+EwYqi6lQ/tN5MqZ
-	 1MemhhsvJcw4ljC2V+WZ1th8ePgtXqe5NX+HeuIhbIHSXQPw49qcaSVTfNeaCAvLGY
-	 SrRd/StHhncxxcHLfcywPrczvZpz94ezPsBcGXQb3hIkBQIwJJAcfTikW9Tu2vqnhy
-	 sZE4m+QRGiZJQ==
+	b=RuhtVTufr3KEtyr76LDmOKS8yAi6mSVaJeyaf6qXGI1OYOsZFYt+pLkz2WUfI5V0H
+	 k390fzO5fJKBKxm1D3qt7aXUkobObjp36zmrVuCILJ5SKnaILuLvaCrTcxOzidL5Am
+	 acArugkYbOHB8AHnON64KZHL0eSqh79niKC3nPvsALgIoZKluRzZqUJJn+0y8kKFC0
+	 E4Jl1ldveLROmAKXDI4hSdrBa/eNZKgv4nnbwyv4DbzvG4oHunrwYEHAh9f3k9rA90
+	 lRrZAK7YEw+LSk9MqimXxAzdwJC+SiyHG1bss1OaMVs0BZjDGpxbfSWNmwI0VNWRN7
+	 l5pg1XWr8b5bQ==
 From: Lee Jones <lee@kernel.org>
-To: Patrick Rudolph <patrick.rudolph@9elements.com>, 
+To: Lee Jones <lee@kernel.org>, Samuel Holland <samuel@sholland.org>, 
  linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-In-Reply-To: <20231214184050.1272848-1-andriy.shevchenko@linux.intel.com>
-References: <20231214184050.1272848-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 0/4] leds: max5970: Allow to use on non-OF platforms
-Message-Id: <170316984054.602239.8396148878635955139.b4-ty@kernel.org>
-Date: Thu, 21 Dec 2023 14:44:00 +0000
+Cc: Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+In-Reply-To: <20231214192131.1309912-1-andriy.shevchenko@linux.intel.com>
+References: <20231214192131.1309912-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v1 1/1] leds: sun50i-a100: Convert to be
+ agnostic to property provider
+Message-Id: <170317016487.605235.6036458810231529969.b4-ty@kernel.org>
+Date: Thu, 21 Dec 2023 14:49:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -52,27 +55,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.12.3
 
-On Thu, 14 Dec 2023 20:40:07 +0200, Andy Shevchenko wrote:
-> Allow to use driver on non-OF platforms and other cleanups.
+On Thu, 14 Dec 2023 21:21:31 +0200, Andy Shevchenko wrote:
+> Convert the driver to be agnostic to the property provider.
+> LEDS subsytem is not dependent on OF, so no need to make drivers
+> be a such.
 > 
-> Andy Shevchenko (4):
->   leds: max5970: Remove unused variable
->   leds: max5970: Make use of device properties
->   leds: max5970: Make use of dev_err_probe()
->   leds: max5970: Add missing headers
 > 
-> [...]
 
 Applied, thanks!
 
-[1/4] leds: max5970: Remove unused variable
-      commit: d3578b4982e6ebccbd898806ac86b2db4b2bcc5e
-[2/4] leds: max5970: Make use of device properties
-      commit: 6d63d05e26f8d5e22308efc25793660101fd7602
-[3/4] leds: max5970: Make use of dev_err_probe()
-      commit: e7baa5b437a782308b86c1517ae252fd1353eb0b
-[4/4] leds: max5970: Add missing headers
-      commit: 808c7881876756dfcd8c4d0c3efc27c9262da822
+[1/1] leds: sun50i-a100: Convert to be agnostic to property provider
+      commit: 06c5206ccdb459de95bb8d558602d2a722dd4bbc
 
 --
 Lee Jones [李琼斯]
