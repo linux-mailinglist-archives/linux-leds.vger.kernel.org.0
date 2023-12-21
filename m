@@ -1,50 +1,48 @@
-Return-Path: <linux-leds+bounces-463-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-464-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B725881BA48
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 16:11:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D66E81BA66
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 16:17:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E95E81C22CA8
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 15:11:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71E7F1C24CBD
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 15:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB6B3539E5;
-	Thu, 21 Dec 2023 15:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75F044AF75;
+	Thu, 21 Dec 2023 15:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwGUel50"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyhQoWuG"
 X-Original-To: linux-leds@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C460539E3;
-	Thu, 21 Dec 2023 15:11:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15165C433C8;
-	Thu, 21 Dec 2023 15:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2F9360BC
+	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 15:16:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98919C433C7;
+	Thu, 21 Dec 2023 15:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703171478;
-	bh=W1V9iuz27C48mcTlqdM84d1TvizSzj69f6WQ4WY/wVQ=;
+	s=k20201202; t=1703171817;
+	bh=6r4TjLwKwlHy+PVEM6OXVk5sI/e2f0dVPkCqbwZxlDA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TwGUel50uL+FDdnJI4Nx7w8bbZ1gLxQiTAPJkXHQ7oQ9ckAb/J5ZNNvA8XSm/A1CM
-	 1CqjVjgnR0WeQKhjKbY74jVKh3SvK6MQqlczBeAjY3D5oABn92wBdsOm6JJkniezlf
-	 uvnX8vMWTNj7e+qCelDRXDDe69MGKkgK7y0zzWHvRSw5tZiPvVtPiO3pAFXd+R3G0g
-	 yoEVPuqFhRkkq/DuHaHI+ObRKSHZZmG301GPzanBE8tBEC71m4rGnM2O0ucHiI6tyq
-	 ugfIApkUhglx5DJ9uINOc4q4igWuKfzcyOWhQpWno/jH+klKRX4FPPDfUdc5XlARj/
-	 H3pBTlqkQDGzA==
-Date: Thu, 21 Dec 2023 15:11:11 +0000
+	b=HyhQoWuG0WnWFOD7q56+/y5EezIlwMiK38KLewYl+iyHZ+pLeshiuWM9VAwlYtc76
+	 Fmk1h5bm95jKD9dVu3xV+T5jXPnYE8af6/QTio5ubZmJ4ioz8cNikEMSHccijQhJBn
+	 CrdXWD2Any5KNY5H3TCI0RfuinvuU0oGbp+K2D6myfO/ePlzlwSPee4qEN5H4RxIFu
+	 y3IWm8jbvlH+9rHUCVOIxycNDEune3JblGPMpShMYZy8YFHIH4x1UyP2RkOKCKvhtk
+	 BUn1m2U9LPeWw0UeyF2C3l2My/zwhcDirB5SLeeYeWenBkpZxiNxDCJaeKCySahQBt
+	 ekNK0g5j4skJA==
+Date: Thu, 21 Dec 2023 15:16:53 +0000
 From: Lee Jones <lee@kernel.org>
-To: George Stark <gnstark@salutedevices.com>
-Cc: andy.shevchenko@gmail.com, pavel@ucw.cz, vadimp@nvidia.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	hdegoede@redhat.com, mazziesaccount@gmail.com, peterz@infradead.org,
-	mingo@redhat.com, will@kernel.org, longman@redhat.com,
-	boqun.feng@gmail.com, nikitos.tr@gmail.com,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, kernel@salutedevices.com
-Subject: Re: [PATCH v4 00/10] devm_led_classdev_register() usage problem
-Message-ID: <20231221151111.GJ10102@google.com>
-References: <20231214173614.2820929-1-gnstark@salutedevices.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH v2] leds: trigger: netdev: skip setting baseline state in
+ activate if hw-controlled
+Message-ID: <20231221151653.GK10102@google.com>
+References: <91f7f2aa-b666-450a-b970-967b1b06fe9a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -54,118 +52,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231214173614.2820929-1-gnstark@salutedevices.com>
+In-Reply-To: <91f7f2aa-b666-450a-b970-967b1b06fe9a@gmail.com>
 
-On Thu, 14 Dec 2023, George Stark wrote:
+On Mon, 18 Dec 2023, Heiner Kallweit wrote:
 
-> This patch series fixes the problem of devm_led_classdev_register misusing.
-> 
-> The basic problem is described in [1]. Shortly when devm_led_classdev_register()
-> is used then led_classdev_unregister() called after driver's remove() callback.
-> led_classdev_unregister() calls driver's brightness_set callback and that callback
-> may use resources which were destroyed already in driver's remove().
-> 
-> After discussion with maintainers [2] [3] we decided:
-> 1) don't touch led subsytem core code and don't remove led_set_brightness() from it
-> but fix drivers
-> 2) don't use devm_led_classdev_unregister
-> 
-> So the solution is to use devm wrappers for all resources
-> driver's brightness_set() depends on. And introduce dedicated devm wrapper
-> for mutex as it's often used resource.
-> 
-> [1] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/
-> [2] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mc132b9b350fa51931b4fcfe14705d9f06e91421f
-> [3] https://lore.kernel.org/lkml/8704539b-ed3b-44e6-aa82-586e2f895e2b@salutedevices.com/T/#mdbf572a85c33f869a553caf986b6228bb65c8383
-> 
-> Changelog:
-> v1->v2:
-> 	revise patch series completely
-> 
-> v2->v3:
-> locking: add define if mutex_destroy() is not an empty function
-> 	new patch, discussed here [8]
-> 
-> devm-helpers: introduce devm_mutex_init
-> 	previous version [4]
-> 	- revise code based on mutex_destroy define
-> 	- update commit message
-> 	- update devm_mutex_init()'s description
-> 
-> leds: aw2013: unlock mutex before destroying it
-> 	previous version [5]
-> 	- make this patch first in the series
-> 	- add tags Fixes and RvB by Andy 
-> 
-> leds: aw2013: use devm API to cleanup module's resources
-> 	previous version [6]
-> 	- make aw2013_chip_disable_action()'s body oneline
-> 	- don't shadow devm_mutex_init() return code
-> 
-> leds: aw200xx: use devm API to cleanup module's resources
-> 	previous version [7]
-> 	- make aw200xx_*_action()'s bodies oneline
-> 	- don't shadow devm_mutex_init() return code
-> 
-> leds: lm3532: use devm API to cleanup module's resources
-> leds: nic78bx: use devm API to cleanup module's resources
-> leds: mlxreg: use devm_mutex_init for mutex initializtion
-> leds: an30259a: use devm_mutext_init for mutext initialization
-> leds: powernv: add LED_RETAIN_AT_SHUTDOWN flag for leds
-> 	- those pathes were planned but not sent in the series #2 due to mail server
-> 	problem on my side. I revised them according to the comments.
-> 
-> v3->v4:
-> locking: introduce devm_mutex_init
-> 	new patch
-> 	- move devm_mutex_init implementation completely from devm-helpers.h to mutex.h
-> 
-> locking: add define if mutex_destroy() is not an empty function
-> 	drop the patch [9]
-> 
-> devm-helpers: introduce devm_mutex_init
-> 	drop the patch [10]
-> 
-> leds: aw2013: use devm API to cleanup module's resources
-> 	- add tag Tested-by: Nikita Travkin <nikita@trvn.ru>
-> 
-> [4] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mf500af0eda2a9ffc95594607dbe4cb64f2e3c9a8
-> [5] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#mc92df4fb4f7d4187fb01cc1144acfa5fb5230dd2
-> [6] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m300df89710c43cc2ab598baa16c68dd0a0d7d681
-> [7] https://lore.kernel.org/lkml/20231204180603.470421-1-gnstark@salutedevices.com/T/#m8e5c65e0c6b137c91fa00bb9320ad581164d1d0b
-> [8] https://lore.kernel.org/lkml/377e4437-7051-4d88-ae68-1460bcd692e1@redhat.com/T/#m5f84a4a2f387d49678783e652b9e658e02c27450
-> [9] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m19ad1fc04c560012c1e27418e3156d0c9306dd84
-> [10] https://lore.kernel.org/lkml/20231213223020.2713164-1-gnstark@salutedevices.com/T/#m63126025f5d1bdcef69bcad50f2e58274d42e2d7
-> 
-> George Stark (10):
->   leds: aw2013: unlock mutex before destroying it
->   locking: introduce devm_mutex_init
->   leds: aw2013: use devm API to cleanup module's resources
->   leds: aw200xx: use devm API to cleanup module's resources
->   leds: lp3952: use devm API to cleanup module's resources
->   leds: lm3532: use devm API to cleanup module's resources
->   leds: nic78bx: use devm API to cleanup module's resources
->   leds: mlxreg: use devm_mutex_init for mutex initializtion
->   leds: an30259a: use devm_mutext_init for mutext initialization
->   leds: powernv: use LED_RETAIN_AT_SHUTDOWN flag for leds
-> 
->  drivers/leds/leds-an30259a.c | 15 +++++----------
->  drivers/leds/leds-aw200xx.c  | 33 ++++++++++++++++++++++-----------
->  drivers/leds/leds-aw2013.c   | 27 +++++++++++++++------------
->  drivers/leds/leds-lm3532.c   | 30 ++++++++++++++++++------------
->  drivers/leds/leds-lp3952.c   | 21 +++++++++++----------
->  drivers/leds/leds-mlxreg.c   | 17 ++++++-----------
->  drivers/leds/leds-nic78bx.c  | 25 +++++++++++++------------
->  drivers/leds/leds-powernv.c  | 23 ++++++++---------------
+> The current codes uses the sw_control path in set_baseline_state() when
+> called from netdev_trig_activate() even if we're hw-controlled. This
+> may result in errors when led_set_brightness() is called because we may
+> not have set_brightness led ops (if hw doesn't support setting a LED
 
-FYI: I'll conduct my review once the locking side is settled.
+"LED"
 
->  include/linux/mutex.h        | 23 +++++++++++++++++++++++
->  kernel/locking/mutex-debug.c | 22 ++++++++++++++++++++++
->  10 files changed, 143 insertions(+), 93 deletions(-)
+> to ON). In addition this path may schedule trigger_data->work what
+
+s/what/which/
+
+> doesn't make sense when being hw-controlled.
 > 
+> Therefore set trigger_data->hw_control = true before calling
+> set_device_name() from netdev_trig_activate(). In this call chain we
+> have to prevent set_baseline_state() from being called, because this
+> would call hw_control_set(). Use led_cdev->trigger_data == NULL as
+> indicator for being called from netdev_trig_activate().
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+> v2:
+> - improve commit message
+> ---
+>  drivers/leds/trigger/ledtrig-netdev.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index 7ed2d0b64..b58396600 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -251,7 +251,11 @@ static int set_device_name(struct led_netdev_data *trigger_data,
+>  
+>  	trigger_data->last_activity = 0;
+>  
+> -	set_baseline_state(trigger_data);
+> +	/* skip if we're called from netdev_trig_activate() and hw_control is true */
+
+Nit: Sentences start with an uppercase char.
+
+> +	if (!trigger_data->hw_control ||
+> +	    led_get_trigger_data(trigger_data->led_cdev))
+
+Nit: Place this all on a single line.
+
+> +		set_baseline_state(trigger_data);
+> +
+>  	mutex_unlock(&trigger_data->lock);
+>  	rtnl_unlock();
+>  
+> @@ -568,8 +572,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+>  		if (dev) {
+>  			const char *name = dev_name(dev);
+>  
+> -			set_device_name(trigger_data, name, strlen(name));
+>  			trigger_data->hw_control = true;
+> +			set_device_name(trigger_data, name, strlen(name));
+>  
+>  			rc = led_cdev->hw_control_get(led_cdev, &mode);
+>  			if (!rc)
 > -- 
-> 2.25.1
+> 2.43.0
 > 
 > 
 
