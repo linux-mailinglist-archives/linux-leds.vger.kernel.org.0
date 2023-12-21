@@ -1,123 +1,143 @@
-Return-Path: <linux-leds+bounces-479-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-480-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B90281BEBB
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 20:00:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B04E81C0E0
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 23:18:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFA091F2670E
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 19:00:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69227B216CE
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 22:18:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5ED77659;
-	Thu, 21 Dec 2023 18:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C883577635;
+	Thu, 21 Dec 2023 22:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fc9rJilt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iettXVdk"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5796C76DBC;
-	Thu, 21 Dec 2023 18:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BLDROhK014686;
-	Thu, 21 Dec 2023 18:59:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=vI4fOUwFK0VcXmgY7qzLx++zI2cGUEqjilCQmaxzv+M=; b=fc
-	9rJiltheFyDySJSL3STt65DjWXI4NA3rt/CeSHuhCrSnDLQ8aBzt+y+qIsDbglxC
-	tydq+EeZp64nt1BjKJBabdjpdLUgsJ95ZYbWXvXYLzCiD7mbJ+dDQGcTltv4TG3b
-	6i1vl58xPjUuoqq5VBJH4og2XJ1H3jo1u6FF4zXYNTw/qkSNH1+up/tzHSjwz4rV
-	+P6fJkBZ6aGQyuH3IpG1Ry8dudPAHfCSo47LB2rU2m2BsYqHm6WvCnUZ4KqoNDDT
-	+ec2r9UVsayTlcmaSeW1S+jNx/sSiRk95kve86cQ36G3nkT50IWjhl17ni5qHoDs
-	VWlzvyHpJOf11LZNbTXA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v4g8ej9y8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 18:59:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BLIx5IZ006465
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 18:59:05 GMT
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 21 Dec 2023 10:59:05 -0800
-From: Anjelique Melendez <quic_amelende@quicinc.com>
-To: <pavel@ucw.cz>, <lee@kernel.org>, <thierry.reding@gmail.com>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <agross@kernel.org>, <andersson@kernel.org>
-CC: <luca.weiss@fairphone.com>, <konrad.dybcio@linaro.org>,
-        <u.kleine-koenig@pengutronix.de>, <quic_subbaram@quicinc.com>,
-        <quic_gurus@quicinc.com>, <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        "Anjelique
- Melendez" <quic_amelende@quicinc.com>
-Subject: [PATCH v8 7/7] leds: rgb: Update PM8350C lpg_data to support two-nvmem PPG Scheme
-Date: Thu, 21 Dec 2023 10:58:37 -0800
-Message-ID: <20231221185838.28440-8-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231221185838.28440-1-quic_amelende@quicinc.com>
-References: <20231221185838.28440-1-quic_amelende@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466CA77B5A
+	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 22:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2330a92ae6so163210166b.0
+        for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 14:18:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703197094; x=1703801894; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6+HmNsa9++S8Ide5uEHjFOJEQkXr7Onogm6DQgSUy/E=;
+        b=iettXVdkwAg6AUuYhKDqX3AAE7z78e388rTGLOLZfJcz+bukXgxe+ay11vma6BMiVj
+         O4pua9INIPlkBCurRUfOef7atE2UECxbvrwvA0FKP+i2myyiByjwCpw0b7UiaL2oysha
+         bI/Wss8wYaCNVRSAB2RbnGe7Rn1oGzgJrfqBAsMGfUaI/fJYh0DilvW98Oxt+Qa64SPh
+         ikvZ72L6c3+UNyzqGvyCKpPNmdLmslaxPvNBUJ6G0wzqqWmZPV7pScRsSV4beDbsciNl
+         4MWw+FKjSWPfxab+pZCb3tr3wguhXztK+QeThFtC4FIevFUhYdoooIj0Fzx+fKwN9WPE
+         nP7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703197094; x=1703801894;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6+HmNsa9++S8Ide5uEHjFOJEQkXr7Onogm6DQgSUy/E=;
+        b=aGfbA9q3qWNl+ubFxEWYmiT0ItKi08yadGj4u3VNJOfQfXcSkuVoOrf6ZMK8Op33GS
+         bYJhA3ZD7UZO2IkKYUw3TOTMLaMTs8h5CiSvM+kEQwX8mB7zawYXcvTmntsdZgNpyTSC
+         t3rgCK7gkpU3B1pbu68Bp85EoQts+Y4h09gXgX4rjbugKtXti3ZjouoWS+TaYmLpvBby
+         8Bh5KG7sfE4GKRvNt27Lq1NX+Z5eY+haTN+J50nt+5f0T8KLu5ogw6/aDNEs58vXOYhu
+         Sd/xk+Uh4ZigpV/aNIZy/imXD9tzsfm9oSKooA6Iwt1p2mH8CRPWg2zUsItZDrRX1a6x
+         ydNQ==
+X-Gm-Message-State: AOJu0YxXu1NW7KTj2r5G+zWVFdLvfSkXtF4TSZYa9J2cCYBvKqbrT7p/
+	QXDt7MxOXNMuSyQvqmhDydo5jIMw9gk=
+X-Google-Smtp-Source: AGHT+IEXIyVJFjC+DknQbyfwFgNQGmVRJcdRNQtlwSzr3gpzGFpXDLw1ocAzGU52SgNHOYSVAbVy5g==
+X-Received: by 2002:a17:906:a38e:b0:a25:f5dc:cb24 with SMTP id k14-20020a170906a38e00b00a25f5dccb24mr239291ejz.145.1703197094295;
+        Thu, 21 Dec 2023 14:18:14 -0800 (PST)
+Received: from ?IPV6:2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870? (dynamic-2a01-0c23-b8a5-3600-c010-4b2f-ccc7-a870.c23.pool.telefonica.de. [2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870])
+        by smtp.googlemail.com with ESMTPSA id ka24-20020a170907921800b00a26a80a58fcsm1014528ejb.196.2023.12.21.14.18.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Dec 2023 14:18:13 -0800 (PST)
+Message-ID: <72c8b297-72a9-493e-a8fa-cc37ee460cf1@gmail.com>
+Date: Thu, 21 Dec 2023 23:18:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: m1WRqX9o65bP2RfPKYT0YyxFOAaEsp36
-X-Proofpoint-ORIG-GUID: m1WRqX9o65bP2RfPKYT0YyxFOAaEsp36
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 malwarescore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312210144
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH 0/2] leds: trigger: load trigger modules on-demand if used as
+ default trigger
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Update the pm8350c lpg_data struct so that pm8350c devices are treated as
-PWM devices that support two-nvmem PPG scheme.
+Even if a trigger is set as default trigger for a LED device,
+the respective trigger module (if built as module) isn't automatically
+loaded by the kernel if the LED device is registered. I think we can
+do better. Try to load the module asynchronously by alias
+ledtrig:<trigger name>. This requires that such an alias is added to
+relevant triggers. At first do this for the netdev trigger.
 
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-Reviewed-by: Lee Jones <lee@kernel.org>
----
- drivers/leds/rgb/leds-qcom-lpg.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Tested with the recently added r8169 LED support using the netdev
+trigger.
 
-diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-index eec49027ccf1..b11412af860e 100644
---- a/drivers/leds/rgb/leds-qcom-lpg.c
-+++ b/drivers/leds/rgb/leds-qcom-lpg.c
-@@ -1780,11 +1780,13 @@ static const struct lpg_data pm8150l_lpg_data = {
- static const struct lpg_data pm8350c_pwm_data = {
- 	.triled_base = 0xef00,
- 
-+	.lut_size = 122,
-+
- 	.num_channels = 4,
- 	.channels = (const struct lpg_channel_data[]) {
--		{ .base = 0xe800, .triled_mask = BIT(7) },
--		{ .base = 0xe900, .triled_mask = BIT(6) },
--		{ .base = 0xea00, .triled_mask = BIT(5) },
-+		{ .base = 0xe800, .triled_mask = BIT(7), .sdam_offset = 0x48 },
-+		{ .base = 0xe900, .triled_mask = BIT(6), .sdam_offset = 0x56 },
-+		{ .base = 0xea00, .triled_mask = BIT(5), .sdam_offset = 0x64 },
- 		{ .base = 0xeb00 },
- 	},
- };
+Heiner Kallweit (2):
+  leds: trigger: load trigger modules on-demand if used as default
+    trigger
+  leds: trigger: netdev: Add module alias ledtrig:netdev
+
+ drivers/leds/led-triggers.c           | 9 +++++++++
+ drivers/leds/trigger/ledtrig-netdev.c | 1 +
+ 2 files changed, 10 insertions(+)
+
 -- 
-2.41.0
+2.43.0
 
 
