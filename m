@@ -1,64 +1,65 @@
-Return-Path: <linux-leds+bounces-480-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-481-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B04E81C0E0
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 23:18:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF5C81C0E6
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 23:19:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69227B216CE
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 22:18:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F7531C2313F
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Dec 2023 22:19:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C883577635;
-	Thu, 21 Dec 2023 22:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB6877F18;
+	Thu, 21 Dec 2023 22:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iettXVdk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esKtZbNW"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466CA77B5A
-	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 22:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B01B77F16
+	for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 22:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2330a92ae6so163210166b.0
-        for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 14:18:16 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2345aaeb05so150146666b.0
+        for <linux-leds@vger.kernel.org>; Thu, 21 Dec 2023 14:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703197094; x=1703801894; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6+HmNsa9++S8Ide5uEHjFOJEQkXr7Onogm6DQgSUy/E=;
-        b=iettXVdkwAg6AUuYhKDqX3AAE7z78e388rTGLOLZfJcz+bukXgxe+ay11vma6BMiVj
-         O4pua9INIPlkBCurRUfOef7atE2UECxbvrwvA0FKP+i2myyiByjwCpw0b7UiaL2oysha
-         bI/Wss8wYaCNVRSAB2RbnGe7Rn1oGzgJrfqBAsMGfUaI/fJYh0DilvW98Oxt+Qa64SPh
-         ikvZ72L6c3+UNyzqGvyCKpPNmdLmslaxPvNBUJ6G0wzqqWmZPV7pScRsSV4beDbsciNl
-         4MWw+FKjSWPfxab+pZCb3tr3wguhXztK+QeThFtC4FIevFUhYdoooIj0Fzx+fKwN9WPE
-         nP7A==
+        d=gmail.com; s=20230601; t=1703197157; x=1703801957; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=6f5RR57fd+rVIkWUHnyOwy0C3qohp7kmcKzK4zmzKuw=;
+        b=esKtZbNWxl/mZDqM/BhYj4YHpsUYms9rcqtgwkdQJo9/lNR0zNDipenDIgBCPJZFUW
+         F8PAPBOjvCUU//AXjFcGw+pZeZSfm36ai60Y1pHSfn0adfHRNKW+pDakqDLudGP5wv7b
+         exb9b2HW6trjrM1P38DIpc/mTCpaqNJRZgusTjSfwjOy5mTFKMRt9Zp2lXozQC7k0S2Z
+         UZVCDaRYAc8RC0/29SlKKO3/vnc1VL1MuX48fLe3UZBxOSq4ihfaMJshJtx6+DJ0na1u
+         vztL+ZnYkjHdWtQNAdekJhfP16ASblPz0LaxIdNpNkkJdGnhs7ko5rxNyYmU5R9UkgnW
+         aF5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703197094; x=1703801894;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+HmNsa9++S8Ide5uEHjFOJEQkXr7Onogm6DQgSUy/E=;
-        b=aGfbA9q3qWNl+ubFxEWYmiT0ItKi08yadGj4u3VNJOfQfXcSkuVoOrf6ZMK8Op33GS
-         bYJhA3ZD7UZO2IkKYUw3TOTMLaMTs8h5CiSvM+kEQwX8mB7zawYXcvTmntsdZgNpyTSC
-         t3rgCK7gkpU3B1pbu68Bp85EoQts+Y4h09gXgX4rjbugKtXti3ZjouoWS+TaYmLpvBby
-         8Bh5KG7sfE4GKRvNt27Lq1NX+Z5eY+haTN+J50nt+5f0T8KLu5ogw6/aDNEs58vXOYhu
-         Sd/xk+Uh4ZigpV/aNIZy/imXD9tzsfm9oSKooA6Iwt1p2mH8CRPWg2zUsItZDrRX1a6x
-         ydNQ==
-X-Gm-Message-State: AOJu0YxXu1NW7KTj2r5G+zWVFdLvfSkXtF4TSZYa9J2cCYBvKqbrT7p/
-	QXDt7MxOXNMuSyQvqmhDydo5jIMw9gk=
-X-Google-Smtp-Source: AGHT+IEXIyVJFjC+DknQbyfwFgNQGmVRJcdRNQtlwSzr3gpzGFpXDLw1ocAzGU52SgNHOYSVAbVy5g==
-X-Received: by 2002:a17:906:a38e:b0:a25:f5dc:cb24 with SMTP id k14-20020a170906a38e00b00a25f5dccb24mr239291ejz.145.1703197094295;
-        Thu, 21 Dec 2023 14:18:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703197157; x=1703801957;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6f5RR57fd+rVIkWUHnyOwy0C3qohp7kmcKzK4zmzKuw=;
+        b=DWdfgWtqdXOPnCiX4iOGMCcbmn+pmVwF57pnnuo/vaFylx1W6oNPYsn7yN1LfR+Wup
+         EYL2vCQ+APSijrPnNqLQeBy7gD+epk9VQVsneokbuypfsvtkzmuLVIGptyrjpXQPmsJk
+         ibNHk/tKszg/5hlPcyS+dA5sIBrzRBKWVsBoCOXBLE4TekE/M5wWm9EZDRR2dM+3oIUE
+         h+CKHBE8Gf9F6CBThmahYqBCiljUi7i+TWsyEC+lWy27yXNTVNCdf0n3OD8PZrgIFcjE
+         krx+QH7DJXblbrqSu8nu6G0jKkrrA3O+YZO7sDHNod/DoLvXTe/zjyiPDZ7KRHY2EebI
+         Jlmg==
+X-Gm-Message-State: AOJu0Yw1x9ffCT+ZtV39Wscb5HJD6mBb7e3KHbN+r4mYQ6SUXxBkj5G/
+	0nKhWYL+DFDYG4N2y1uOFjWXjeBzJVg=
+X-Google-Smtp-Source: AGHT+IGcWkV5/pSf7LPYL0hxdv4OKfTPka2DCx+RKbV6EEiAncE1tnKH994/WcL05UTlHcBAHHZBhA==
+X-Received: by 2002:a17:906:da:b0:a26:9b41:3f8b with SMTP id 26-20020a17090600da00b00a269b413f8bmr247173eji.101.1703197157508;
+        Thu, 21 Dec 2023 14:19:17 -0800 (PST)
 Received: from ?IPV6:2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870? (dynamic-2a01-0c23-b8a5-3600-c010-4b2f-ccc7-a870.c23.pool.telefonica.de. [2a01:c23:b8a5:3600:c010:4b2f:ccc7:a870])
-        by smtp.googlemail.com with ESMTPSA id ka24-20020a170907921800b00a26a80a58fcsm1014528ejb.196.2023.12.21.14.18.13
+        by smtp.googlemail.com with ESMTPSA id ka24-20020a170907921800b00a26a80a58fcsm1014528ejb.196.2023.12.21.14.19.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 14:18:13 -0800 (PST)
-Message-ID: <72c8b297-72a9-493e-a8fa-cc37ee460cf1@gmail.com>
-Date: Thu, 21 Dec 2023 23:18:13 +0100
+        Thu, 21 Dec 2023 14:19:17 -0800 (PST)
+Message-ID: <79adb260-06ad-443a-a68e-abe4498c3298@gmail.com>
+Date: Thu, 21 Dec 2023 23:19:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
@@ -66,12 +67,13 @@ List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: [PATCH 1/2] leds: trigger: load trigger modules on-demand if used as
+ default trigger
 Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@ucw.cz>
 Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH 0/2] leds: trigger: load trigger modules on-demand if used as
- default trigger
+References: <72c8b297-72a9-493e-a8fa-cc37ee460cf1@gmail.com>
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -115,6 +117,7 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
+In-Reply-To: <72c8b297-72a9-493e-a8fa-cc37ee460cf1@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -123,21 +126,49 @@ the respective trigger module (if built as module) isn't automatically
 loaded by the kernel if the LED device is registered. I think we can
 do better. Try to load the module asynchronously by alias
 ledtrig:<trigger name>. This requires that such an alias is added to
-relevant triggers. At first do this for the netdev trigger.
+relevant triggers.
 
-Tested with the recently added r8169 LED support using the netdev
-trigger.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/leds/led-triggers.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Heiner Kallweit (2):
-  leds: trigger: load trigger modules on-demand if used as default
-    trigger
-  leds: trigger: netdev: Add module alias ledtrig:netdev
-
- drivers/leds/led-triggers.c           | 9 +++++++++
- drivers/leds/trigger/ledtrig-netdev.c | 1 +
- 2 files changed, 10 insertions(+)
-
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index bd59a14a4..71cb0aee5 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -250,6 +250,7 @@ EXPORT_SYMBOL_GPL(led_trigger_remove);
+ void led_trigger_set_default(struct led_classdev *led_cdev)
+ {
+ 	struct led_trigger *trig;
++	bool found = false;
+ 
+ 	if (!led_cdev->default_trigger)
+ 		return;
+@@ -259,6 +260,7 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+ 	list_for_each_entry(trig, &trigger_list, next_trig) {
+ 		if (!strcmp(led_cdev->default_trigger, trig->name) &&
+ 		    trigger_relevant(led_cdev, trig)) {
++			found = true;
+ 			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+ 			led_trigger_set(led_cdev, trig);
+ 			break;
+@@ -266,6 +268,13 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+ 	}
+ 	up_write(&led_cdev->trigger_lock);
+ 	up_read(&triggers_list_lock);
++
++	/*
++	 * If default trigger wasn't found, maybe trigger module isn't loaded yet.
++	 * Once loaded it will re-probe with all led_cdev's.
++	 */
++	if (!found)
++		request_module_nowait("ledtrig:%s", led_cdev->default_trigger);
+ }
+ EXPORT_SYMBOL_GPL(led_trigger_set_default);
+ 
 -- 
 2.43.0
+
 
 
