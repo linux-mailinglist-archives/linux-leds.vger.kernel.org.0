@@ -1,150 +1,172 @@
-Return-Path: <linux-leds+bounces-484-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-485-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9B281CF7E
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Dec 2023 22:32:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA9A81D417
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Dec 2023 13:55:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D129E1F23D3E
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Dec 2023 21:32:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2A815B2196B
+	for <lists+linux-leds@lfdr.de>; Sat, 23 Dec 2023 12:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9131E2E84F;
-	Fri, 22 Dec 2023 21:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A302FD293;
+	Sat, 23 Dec 2023 12:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VfOSuhs3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8N0YKAJ"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10ED2E844
-	for <linux-leds@vger.kernel.org>; Fri, 22 Dec 2023 21:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cca9a9362aso12221211fa.3
-        for <linux-leds@vger.kernel.org>; Fri, 22 Dec 2023 13:32:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703280750; x=1703885550; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YmfPk0JG6Y0PYnNk5FXcJulwSj+MKmmi4CzVlgxbhbI=;
-        b=VfOSuhs3rDtv5REv2LFyaD8SUJuIaBnxq+vzYe1Yke8d98qt5BPbYp1MaEdT2IrJNG
-         MEVsDaspSNS/hG2LsQkvNErM6Qai4vIEQg4kNJSP617zKYFTE6gC0IRkh/8Tr/1ni/YB
-         603Dik064rl+Oz5jyjpBAz2qEnjLw04eaVMFrAG8d85RAbRfcxPJkVFUTIlOWSH6Ifez
-         SxRLWGsSv19qVwXd2zzF4TpU59t8I8h+7LxOy2S0i2QQ3vB+zPRZ5ar6+412QZueju2V
-         YqSWSJ2z2QfKMsEgtaJ+eOwZouQ2C+FKub5sgQ0ptloIAagjytb5gFt+VcqTJwLE6kRs
-         ajiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703280750; x=1703885550;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmfPk0JG6Y0PYnNk5FXcJulwSj+MKmmi4CzVlgxbhbI=;
-        b=MDRe3DsN2w7O7T04xKIZp/Lwpzxcr0GvmaaV9MQjH83zb84Z1u5COf8eKWGEgOMO3d
-         VYpgd2LkuRbyzIKpRFjebcA8Q+q8ypdb+uE2k+qQugKBZGeVLl+nfT6tvRGf41xvSypj
-         V404kvLxD7zjBF53DNGfBQGZI/PxnoWSpwcHQ03wL1bTCq+Y7xHlqTLPLFsz64aJEMrQ
-         YNrBcxUyLsgVlPFOu+X+UoQM9T/QXy+viXSrLI9t/dIRHTY2Vej+siQ0tMtrlDyf/N4A
-         WYYSilhtOaWW7MPQ7mVZNLiAXW5RMcaiv0jO9iuMDVOoT0GeYBqIlOnZpfrR+LuIUWtY
-         6XbQ==
-X-Gm-Message-State: AOJu0YxgnllRuL3JNF2K1KwN5b0D7YwnT0UO1zPGFMAvbIPLe+lNm6Rm
-	KktMN5waP8GNcXUz6MZSoXf/y2CT/e8=
-X-Google-Smtp-Source: AGHT+IE0TlA1eF03aKYzGr5xRfSTaQsMlmdwjgGQqrIunS0kJVwOpN8aEo5k+qEkVi83xWxeaDCpkA==
-X-Received: by 2002:a05:6512:2185:b0:50e:3082:1afe with SMTP id b5-20020a056512218500b0050e30821afemr443748lft.22.1703280749437;
-        Fri, 22 Dec 2023 13:32:29 -0800 (PST)
-Received: from ?IPV6:2a01:c22:76fe:e700:90c7:5d23:5f70:b2c6? (dynamic-2a01-0c22-76fe-e700-90c7-5d23-5f70-b2c6.c22.pool.telefonica.de. [2a01:c22:76fe:e700:90c7:5d23:5f70:b2c6])
-        by smtp.googlemail.com with ESMTPSA id x11-20020a056402414b00b0054b53aacd86sm3050911eda.65.2023.12.22.13.32.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Dec 2023 13:32:28 -0800 (PST)
-Message-ID: <f33543de-3800-488f-a779-1fa282614462@gmail.com>
-Date: Fri, 22 Dec 2023 22:32:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AA3D264
+	for <linux-leds@vger.kernel.org>; Sat, 23 Dec 2023 12:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703336100; x=1734872100;
+  h=date:from:to:cc:subject:message-id;
+  bh=vY6wt2Pgxpo1OokxIQLHMcip+wmcEyBHhq7xCyM9hwA=;
+  b=m8N0YKAJbTjl3wYjjeoDQxpRNqolbDwjuX47lttXYf9ZKaryWX98OEb1
+   2eCFkzRb1PmIl07I7msjl1PHTbIhuj4z/6yhQDtkRfvf/V7AuPOjxmpX2
+   q1lJm+M2RRfqDiYWj7ccPLGw6MlGHQ/QwqKrd4Mcl19K4h4dc72JuhC6n
+   EuW1T85fF61mux7qffmokP0bBmhuJ3/vvpMPP9Kahhng0d5VvEPyN8IeI
+   ZosIGr565pykM4n2nZI7UYVbix9i/JbwF9k6OJqO5Mr/9M1tS1nbGD2nA
+   a5gSuVUb8E6e+EbgFhsQdt78ws9ZVpCSsGOtnHmlcL1N6WiG1wqz9WrIk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="462633138"
+X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
+   d="scan'208";a="462633138"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 04:54:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="727122752"
+X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
+   d="scan'208";a="727122752"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 23 Dec 2023 04:54:58 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rH1Wq-000B2S-06;
+	Sat, 23 Dec 2023 12:54:56 +0000
+Date: Sat, 23 Dec 2023 20:52:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next] BUILD SUCCESS
+ 4289e434c46c8cbd32cf8b67fa7689b3d2ca4361
+Message-ID: <202312232054.Y6pyLrQ2-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-leds@vger.kernel.org
 List-Id: <linux-leds.vger.kernel.org>
 List-Subscribe: <mailto:linux-leds+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] leds: class: If no default trigger is given, make hw_control
- trigger the default trigger
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-If a hw_control_trigger is defined, it's usually desirable to make it
-the default trigger. Therefore make it the default trigger, except
-the driver explicitly set a default trigger.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+branch HEAD: 4289e434c46c8cbd32cf8b67fa7689b3d2ca4361  leds: trigger: netdev: Add core support for hw not supporting fallback to LED sw control
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/leds/led-class.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+elapsed time: 2661m
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index ba1be15cf..24fcff682 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -552,6 +552,12 @@ int led_classdev_register_ext(struct device *parent,
- 	led_init_core(led_cdev);
- 
- #ifdef CONFIG_LEDS_TRIGGERS
-+	/*
-+	 * If no default trigger was given and hw_control_trigger is set,
-+	 * make it the default trigger.
-+	 */
-+	if (!led_cdev->default_trigger && led_cdev->hw_control_trigger)
-+		led_cdev->default_trigger = led_cdev->hw_control_trigger;
- 	led_trigger_set_default(led_cdev);
- #endif
- 
+configs tested: 90
+configs skipped: 0
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231223   gcc  
+arc                   randconfig-002-20231223   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20231223   clang
+arm                   randconfig-002-20231223   clang
+arm                   randconfig-003-20231223   clang
+arm                   randconfig-004-20231223   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231223   clang
+arm64                 randconfig-002-20231223   clang
+arm64                 randconfig-003-20231223   clang
+arm64                 randconfig-004-20231223   clang
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231223   gcc  
+csky                  randconfig-002-20231223   gcc  
+hexagon                           allnoconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231223   clang
+hexagon               randconfig-002-20231223   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231223   clang
+i386         buildonly-randconfig-002-20231223   clang
+i386         buildonly-randconfig-003-20231223   clang
+i386         buildonly-randconfig-004-20231223   clang
+i386         buildonly-randconfig-005-20231223   clang
+i386         buildonly-randconfig-006-20231223   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231223   clang
+i386                  randconfig-002-20231223   clang
+i386                  randconfig-003-20231223   clang
+i386                  randconfig-004-20231223   clang
+i386                  randconfig-005-20231223   clang
+i386                  randconfig-006-20231223   clang
+i386                  randconfig-011-20231223   gcc  
+i386                  randconfig-012-20231223   gcc  
+i386                  randconfig-013-20231223   gcc  
+i386                  randconfig-014-20231223   gcc  
+i386                  randconfig-015-20231223   gcc  
+i386                  randconfig-016-20231223   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch             randconfig-001-20231223   gcc  
+loongarch             randconfig-002-20231223   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+microblaze                       allmodconfig   gcc  
+nios2                 randconfig-001-20231223   gcc  
+nios2                 randconfig-002-20231223   gcc  
+parisc                randconfig-001-20231223   gcc  
+parisc                randconfig-002-20231223   gcc  
+powerpc               randconfig-001-20231223   clang
+powerpc               randconfig-002-20231223   clang
+powerpc               randconfig-003-20231223   clang
+powerpc64             randconfig-001-20231223   clang
+powerpc64             randconfig-002-20231223   clang
+powerpc64             randconfig-003-20231223   clang
+riscv                 randconfig-001-20231223   clang
+riscv                 randconfig-002-20231223   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                  randconfig-001-20231223   gcc  
+s390                  randconfig-002-20231223   gcc  
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                    randconfig-001-20231223   gcc  
+sh                    randconfig-002-20231223   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20231223   gcc  
+sparc64               randconfig-002-20231223   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20231223   clang
+um                    randconfig-002-20231223   clang
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231223   gcc  
+xtensa                randconfig-002-20231223   gcc  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
