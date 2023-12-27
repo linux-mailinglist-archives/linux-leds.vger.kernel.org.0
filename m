@@ -1,62 +1,62 @@
-Return-Path: <linux-leds+bounces-489-lists+linux-leds=lfdr.de@vger.kernel.org>
+Return-Path: <linux-leds+bounces-490-lists+linux-leds=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F41181ED84
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Dec 2023 10:03:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E468881ED89
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Dec 2023 10:04:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 241EE283421
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Dec 2023 09:03:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5999B1F22D2D
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Dec 2023 09:04:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F34B24B2A;
-	Wed, 27 Dec 2023 09:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813DBF9C6;
+	Wed, 27 Dec 2023 09:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YjH+9fVK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSKj3xPo"
 X-Original-To: linux-leds@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCEC2CCDC;
-	Wed, 27 Dec 2023 09:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BE22DF65;
+	Wed, 27 Dec 2023 09:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33666fb9318so4831092f8f.2;
-        Wed, 27 Dec 2023 01:03:10 -0800 (PST)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3369ccb539aso3152890f8f.3;
+        Wed, 27 Dec 2023 01:03:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703667789; x=1704272589; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1703667791; x=1704272591; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Cmsj+MoZd6CCP0Gk1jswJO8zXGhPor2mMopnaqDXKNM=;
-        b=YjH+9fVKdUOukVscAmESs9ja0wqCtPBjpXJse2CT8r61btQoKu6/bmz6ByqplB42OQ
-         VSj9VFBIvk0Bhlq449m3mVgJwP5NRGgVZ3TzlANwQB0WgVOe+bimVlunvRdHF6AILQCV
-         utk0u6KXEVV76BNG3eYfZkndp/mEQ0OIWt2FBVx2ZTTayt69pxi50r6mA7/dsroKHAV/
-         nQWz/kpChQZunOquMXoC+ebt3SadI4XEhjz2zOfdqPve3Ivy6/B6dYzvuRF80+ZaugsW
-         RacyWiwtAgK9igbM62tN+yBvLnlhBr9TXp7zbOtC+ghhpo5Syrs0mF9QiRxZ3UTUBnHB
-         U3HA==
+        bh=RraVKdn/3CtUzdc/GUkx4wIWX/WntChO7vtqlU3szKo=;
+        b=CSKj3xPoe0b81auFzX5J5r8+gHDtSQ8bTLHyuTSByN5ubgk4ShJnW0WabScu/PWsoO
+         GIk3e8M6h8tqtSwzHT5DkMWLqb7v9GuGAluLL5l2PNxuaGDmeqil1mJ00JKwRJCbBIGZ
+         OR+5SXX+NRoES0dpjTKeUehHdrMTAKHvC0KK3Qq9DOnbVTEwuSaA+J1Ftj14XiW80b0A
+         tgCb1bz++/sdlFb5Av23VYzsyDTElaOP8wFcaHZWfW7iQYlSe5cxgfGVjgM9aWlHNTFT
+         4TIkzUJaThEh2f1ZQ8ZdX3FbltMnUH6fdmgyxiNiYguE0XU6YkyCOHcrHXnELhBBZp/C
+         sdwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703667789; x=1704272589;
+        d=1e100.net; s=20230601; t=1703667791; x=1704272591;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cmsj+MoZd6CCP0Gk1jswJO8zXGhPor2mMopnaqDXKNM=;
-        b=BIEzq5dRv8rPhaaT/LfU8MijsbbHMt6Ny/Umnc8XskzzK9U+pgyspW5tQjPoSzAvpt
-         jc8sngV9LJIwUR+OIbOPWVGJQ9dpQ0ft92W6dJZRldFwnQ0TafmUCtzt3Ktj17AbLj2w
-         YKp2SIbI0HO1eaxcR4PxS2dUlX57/of4MkYe/5PpaHBBhbwt5qvBCHekgKJOM3Bof48U
-         vsHR0DkIfJuvl9Wy3OtxkybprUnT6+Ju9cv/bwcUNM1dWN78bSV5HUkg/GbVTKaUz/ZH
-         B8e0pLIm3xlusb0S1d5AeN76HpN/yTusbkx+yscglNc0m79OpkQDy416/83cGhjByBrZ
-         l0iw==
-X-Gm-Message-State: AOJu0YwlqPK/CvnoHuBa5LXIB6ee7vIRgAQ72SKe+PBxtGrOyetyXuP9
-	lqpmvXnNZzbMin0AKQE+d/k=
-X-Google-Smtp-Source: AGHT+IHHsaIuTdzyY6EGsQXG120Hnd9I7mUH54bEZwAsYXgidJXrJL92gmVnfimcwq3PRJHagcE36A==
-X-Received: by 2002:a5d:65cc:0:b0:336:7bf2:89da with SMTP id e12-20020a5d65cc000000b003367bf289damr4865220wrw.95.1703667788502;
-        Wed, 27 Dec 2023 01:03:08 -0800 (PST)
+        bh=RraVKdn/3CtUzdc/GUkx4wIWX/WntChO7vtqlU3szKo=;
+        b=Utekqe3RvOZRy4FiOZ021MFtCa8PqQavCkRm0r6I0K9mFt0Ss1697CKj59sVA6UR3R
+         bFsxF3EIHuf083Bb0oinvkQxTndhtqyHqqthoOj0h5bwTOzBqIu4+3uCqVMhDeHD+ntr
+         FpK8w1r95gF9jjtfzmvQPCaoPJ8Pmx1WCw/krOCeJh4MSTENJbAPRoyhLQ7Isy/cLTa6
+         lK+0v3GcXlB1/rzakB2ZWO00GW+XpSctFmV4PoBUwHA3L18KbYZacMIDa4sRG8fTF3Wq
+         s/Fi9iK6GhjzuEMVJ3UAUoqSJgEe0RtcVutl3eboY0nct1teXH0jom81X5rItjWXxfkL
+         auug==
+X-Gm-Message-State: AOJu0Yxgtqs1jrnvd57Y/+0b+O8ZeUJ0kYDUCyby5lHURF8bzwkTNA4Z
+	UsNg0pmlma1uzwoUzIgQb48=
+X-Google-Smtp-Source: AGHT+IHzsOs4p8HP8d1yYaPv2Nuxy0oYAJxlZLFgEmeJWBl/k5eA1TsyrGHT0l7hkmB3olgSIFB2wA==
+X-Received: by 2002:a05:6000:1042:b0:336:73d6:b42b with SMTP id c2-20020a056000104200b0033673d6b42bmr4549978wrx.117.1703667791035;
+        Wed, 27 Dec 2023 01:03:11 -0800 (PST)
 Received: from localhost.localdomain (host-95-250-248-68.retail.telecomitalia.it. [95.250.248.68])
-        by smtp.googlemail.com with ESMTPSA id c9-20020a056000104900b003368849129dsm13616525wrx.15.2023.12.27.01.03.06
+        by smtp.googlemail.com with ESMTPSA id c9-20020a056000104900b003368849129dsm13616525wrx.15.2023.12.27.01.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 01:03:08 -0800 (PST)
+        Wed, 27 Dec 2023 01:03:10 -0800 (PST)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Pavel Machek <pavel@ucw.cz>,
 	Lee Jones <lee@kernel.org>,
@@ -85,9 +85,9 @@ To: Pavel Machek <pavel@ucw.cz>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	netdev@vger.kernel.org
-Subject: [net-next PATCH v5 2/5] dt-bindings: net: phy: Document LED inactive high impedance mode
-Date: Wed, 27 Dec 2023 10:02:28 +0100
-Message-Id: <20231227090231.4246-3-ansuelsmth@gmail.com>
+Subject: [net-next PATCH v5 3/5] net: phy: add support for PHY LEDs polarity modes
+Date: Wed, 27 Dec 2023 10:02:29 +0100
+Message-Id: <20231227090231.4246-4-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231227090231.4246-1-ansuelsmth@gmail.com>
 References: <20231227090231.4246-1-ansuelsmth@gmail.com>
@@ -99,34 +99,106 @@ List-Unsubscribe: <mailto:linux-leds+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document LED inactive high impedance mode to set the LED to require high
-impedance configuration to be turned OFF.
+Add support for PHY LEDs polarity modes. Some PHY require LED to be set
+to active low to be turned ON. Adds support for this by declaring
+active-low property in DT.
+
+PHY driver needs to declare .led_polarity_set() to configure LED
+polarity modes. Function will pass the index with the LED index and a
+bitmap with all the required modes to set.
+
+Current supported modes are:
+- active-low with the flag PHY_LED_ACTIVE_LOW. LED is set to active-low
+  to turn it ON.
+- inactive-high-impedance with the flag PHY_LED_INACTIVE_HIGH_IMPEDANCE.
+  LED is set to high impedance to turn it OFF.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
 Changes v5:
+- Rework to LED modes bitmap
+Changes v4:
+- Drop for global active-low
+- Rework to polarity option (for marvell10g series support)
+Changes v3:
+- Out of RFC
+Changes v2:
 - Add this patch
 
- Documentation/devicetree/bindings/leds/common.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/net/phy/phy_device.c | 12 ++++++++++++
+ include/linux/phy.h          | 22 ++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index f5b40df6b421..9e7b4aabe0bb 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -206,6 +206,12 @@ properties:
-       Makes LED active low. To turn the LED ON, line needs to be
-       set to low voltage instead of high.
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 3611ea64875e..b99c7579d9c4 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -3097,6 +3097,7 @@ static int of_phy_led(struct phy_device *phydev,
+ 	struct device *dev = &phydev->mdio.dev;
+ 	struct led_init_data init_data = {};
+ 	struct led_classdev *cdev;
++	unsigned long modes = 0;
+ 	struct phy_led *phyled;
+ 	u32 index;
+ 	int err;
+@@ -3114,6 +3115,17 @@ static int of_phy_led(struct phy_device *phydev,
+ 	if (index > U8_MAX)
+ 		return -EINVAL;
  
-+  inactive-high-impedance:
-+    type: boolean
-+    description:
-+      Set LED to high-impedance mode to turn the LED OFF. LED might also
-+      describe this mode as tristate.
++	if (phydev->drv->led_polarity_set) {
++		if (of_property_read_bool(led, "active-low"))
++			set_bit(PHY_LED_ACTIVE_LOW, &modes);
++		if (of_property_read_bool(led, "inactive-high-impedance"))
++			set_bit(PHY_LED_INACTIVE_HIGH_IMPEDANCE, &modes);
 +
-   # Required properties for flash LED child nodes:
-   flash-max-microamp:
-     description:
++		err = phydev->drv->led_polarity_set(phydev, index, modes);
++		if (err)
++			return err;
++	}
++
+ 	phyled->index = index;
+ 	if (phydev->drv->led_brightness_set)
+ 		cdev->brightness_set_blocking = phy_led_set_brightness;
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index e9e85d347587..5ac54f9eee82 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -853,6 +853,15 @@ struct phy_plca_status {
+ 	bool pst;
+ };
+ 
++/* Modes for PHY LED configuration */
++enum phy_led_modes {
++	PHY_LED_ACTIVE_LOW = 0,
++	PHY_LED_INACTIVE_HIGH_IMPEDANCE = 1,
++
++	/* keep it last */
++	__PHY_LED_MODES_NUM,
++};
++
+ /**
+  * struct phy_led: An LED driven by the PHY
+  *
+@@ -1146,6 +1155,19 @@ struct phy_driver {
+ 	int (*led_hw_control_get)(struct phy_device *dev, u8 index,
+ 				  unsigned long *rules);
+ 
++	/**
++	 * @led_polarity_set: Set the LED polarity if active low
++	 * @dev: PHY device which has the LED
++	 * @index: Which LED of the PHY device or -1
++	 * @modes: bitmap of LED polarity modes
++	 *
++	 * Configure LED with all the required polarity modes in @modes
++	 * to make it correctly turn ON or OFF.
++	 *
++	 * Returns 0, or an error code.
++	 */
++	int (*led_polarity_set)(struct phy_device *dev, int index,
++				unsigned long modes);
+ };
+ #define to_phy_driver(d) container_of(to_mdio_common_driver(d),		\
+ 				      struct phy_driver, mdiodrv)
 -- 
 2.40.1
 
